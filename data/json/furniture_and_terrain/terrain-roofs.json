@@ -401,6 +401,6 @@
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
     "color": "white",
     "move_cost": 2,
-    "bash": { "str_min": 28, "str_max": 120, "sound": "crunch!", "sound_fail": "whump!", "ter_set": "t_null", "bash_below": false }
+    "bash": { "str_min": 24, "str_max": 120, "sound": "crunch!", "sound_fail": "whump!", "ter_set": "t_null", "bash_below": false }
   }
 ]
