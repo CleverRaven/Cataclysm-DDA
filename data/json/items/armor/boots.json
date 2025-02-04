@@ -2860,6 +2860,7 @@
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 60 }
     ],
+    "//": "Variants ordered by color, and then pattern of striped, polka dot, floral, checkered",
     "variant_type": "generic",
     "variants": [
       {
@@ -2879,10 +2880,34 @@
         "append": true
       },
       {
+        "id": "stockings_white_striped",
+        "name": { "str": "pair of striped stockings", "str_pl": "pairs of striped stockings" },
+        "description": "This one is black, with white stripes.  Or is it white with black stripes?",
+        "weight": 45,
+        "color": "light_gray",
+        "append": true
+      },
+      {
         "id": "stockings_red",
         "name": { "str": "pair of red stockings", "str_pl": "pairs of red stockings" },
         "description": "This one is colored red.",
         "weight": 30,
+        "color": "red",
+        "append": true
+      },
+      {
+        "id": "stockings_red_polka_dot",
+        "name": { "str": "pair of red polka dot stockings", "str_pl": "pairs of red polka dot stockings" },
+        "description": "This one is colored red with a polka dot pattern.",
+        "weight": 45,
+        "color": "light_red",
+        "append": true
+      },
+      {
+        "id": "stockings_red_floral",
+        "name": { "str": "pair of red floral stockings", "str_pl": "pairs of red floral stockings" },
+        "description": "This one is colored in various shades of red with a floral pattern.",
+        "weight": 40,
         "color": "red",
         "append": true
       },
@@ -2911,10 +2936,58 @@
         "append": true
       },
       {
+        "id": "stockings_blue_striped",
+        "name": { "str": "pair of blue striped stockings", "str_pl": "pairs of blue striped stockings" },
+        "description": "This one is colored blue and white with a striped pattern.",
+        "weight": 20,
+        "color": "blue",
+        "append": true
+      },
+      {
+        "id": "stockings_blue_floral",
+        "name": { "str": "pair of blue floral stockings", "str_pl": "pairs of blue floral stockings" },
+        "description": "This one is colored blue with a floral pattern.",
+        "weight": 40,
+        "color": "blue",
+        "append": true
+      },
+      {
+        "id": "stockings_blue_checkered",
+        "name": { "str": "pair of blue checkered stockings", "str_pl": "pairs of blue checkered stockings" },
+        "description": "This one is colored blue with a checkered pattern.",
+        "weight": 20,
+        "color": "blue",
+        "append": true
+      },
+      {
         "id": "stockings_purple",
         "name": { "str": "pair of purple stockings", "str_pl": "pairs of purple stockings" },
         "description": "This one is colored purple.",
         "weight": 50,
+        "color": "magenta",
+        "append": true
+      },
+      {
+        "id": "stockings_purple_striped",
+        "name": { "str": "pair of purple striped stockings", "str_pl": "pairs of purple striped stockings" },
+        "description": "This one is colored purple with a striped pattern.",
+        "weight": 50,
+        "color": "light_red",
+        "append": true
+      },
+      {
+        "id": "stockings_purple_polka_dot",
+        "name": { "str": "pair of purple polka dot stockings", "str_pl": "pairs of purple polka dot stockings" },
+        "description": "This one is colored purple with a polka dot pattern.",
+        "weight": 35,
+        "color": "magenta",
+        "append": true
+      },
+      {
+        "id": "stockings_purple_floral",
+        "name": { "str": "pair of purple floral stockings", "str_pl": "pairs of purple floral stockings" },
+        "description": "This one is colored mauve with a floral pattern.",
+        "weight": 40,
         "color": "magenta",
         "append": true
       },
@@ -2927,33 +3000,33 @@
         "append": true
       },
       {
-        "id": "stockings_striped",
-        "name": { "str": "pair of striped stockings", "str_pl": "pairs of striped stockings" },
-        "description": "This one is striped.",
-        "weight": 20,
-        "color": "blue",
+        "id": "stockings_pink_striped",
+        "name": { "str": "pair of pink striped stockings", "str_pl": "pairs of pink striped stockings" },
+        "description": "This one is colored coral and white with a striped pattern.",
+        "weight": 45,
+        "color": "light_red",
         "append": true
       },
       {
-        "id": "stockings_floral",
-        "name": { "str": "pair of floral stockings", "str_pl": "pairs of floral stockings" },
-        "description": "This one has a nice floral pattern.",
+        "id": "stockings_pink_polka_dot",
+        "name": { "str": "pair of pink polka dot stockings", "str_pl": "pairs of pink polka dot stockings" },
+        "description": "This one is colored pink with a polka dot pattern.",
+        "weight": 35,
+        "color": "light_red",
+        "append": true
+      },
+      {
+        "id": "stockings_green_striped",
+        "name": { "str": "pair of green striped stockings", "str_pl": "pairs of green striped stockings" },
+        "description": "This one is colored green and white with a striped pattern.",
         "weight": 40,
-        "color": "red",
+        "color": "green",
         "append": true
       },
       {
-        "id": "stockings_dots",
-        "name": { "str": "pair of polka dot stockings", "str_pl": "pairs of polka dot stockings" },
-        "description": "This one is covered in polka dots.",
-        "weight": 40,
-        "color": "red",
-        "append": true
-      },
-      {
-        "id": "stockings_gray",
-        "name": { "str": "pair of gray stockings", "str_pl": "pairs of gray stockings" },
-        "description": "This one is colored gray.",
+        "id": "stockings_gray_striped",
+        "name": { "str": "pair of gray striped stockings", "str_pl": "pairs of gray striped stockings" },
+        "description": "This one is colored gray and white with a striped pattern.",
         "weight": 55,
         "color": "light_gray",
         "append": true
@@ -2963,6 +3036,14 @@
         "name": { "str": "pair of brown stockings", "str_pl": "pairs of brown stockings" },
         "description": "This one is colored brown.",
         "weight": 80,
+        "color": "brown",
+        "append": true
+      },
+      {
+        "id": "stockings_brown_polka_dot",
+        "name": { "str": "pair of brown polka dot stockings", "str_pl": "pairs of brown polka dot stockings" },
+        "description": "This one is colored brown with a polka dot pattern.",
+        "weight": 20,
         "color": "brown",
         "append": true
       },
