@@ -3418,6 +3418,8 @@ void smart_controller_config::serialize( JsonOut &json ) const
 
 void vehicle::deserialize( const JsonObject &data )
 {
+    map &here = get_map();
+
     data.allow_omitted_members();
 
     int fdir = 0;
@@ -3496,7 +3498,7 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "fuel_remainder", fuel_remainder );
     data.read( "fuel_used_last_turn", fuel_used_last_turn );
 
-    refresh();
+    refresh( &here );
 
     point p;
     zone_data zd;
@@ -3540,6 +3542,7 @@ void vehicle::deserialize_parts( const JsonArray &data )
 
 void vehicle::serialize( JsonOut &json ) const
 {
+    map &here = get_map();
     json.start_object();
     json.member( "type", type );
     json.member( "posx", pos.x() );
@@ -3583,7 +3586,7 @@ void vehicle::serialize( JsonOut &json ) const
     if( is_towed() ) {
         vehicle *tower = tow_data.get_towed_by();
         if( tower ) {
-            other_tow_temp_point = tower->bub_part_pos( tower->get_tow_part() );
+            other_tow_temp_point = tower->bub_part_pos( &here, tower->get_tow_part() );
         }
     }
     json.member( "other_tow_point", other_tow_temp_point );

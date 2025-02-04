@@ -257,6 +257,8 @@ TEST_CASE( "player_morale_kills_hostile_bandit", "[player_morale]" )
 
 TEST_CASE( "player_morale_ranged_kill_of_unaware_hostile_bandit", "[player_morale]" )
 {
+    map &here = get_map();
+
     clear_avatar();
     avatar &player = get_avatar();
     // Set the time to midnight to ensure the bandit doesn't notice the player.
@@ -275,7 +277,7 @@ TEST_CASE( "player_morale_ranged_kill_of_unaware_hostile_bandit", "[player_moral
         player.set_body();
         arm_shooter( player, itype_shotgun_s );
         player.recoil = 0;
-        player.fire_gun( bandit_pos, 1, *player.get_wielded_item() );
+        player.fire_gun( &here, bandit_pos, 1, *player.get_wielded_item() );
         if( badguy.is_dead_state() ) {
             break;
         }

@@ -75,7 +75,7 @@ TEST_CASE( "character_at_volume_will_be_cramped_in_vehicle", "[volume]" )
     clear_vehicles(); // extra safety
     here.add_vehicle( vehicle_prototype_character_volume_test_car, test_pos, 0_degrees, 0, 0 );
     you.setpos( test_pos );
-    const optional_vpart_position vp_there = here.veh_at( here.get_bub( you.pos_abs() ) );
+    const optional_vpart_position vp_there = here.veh_at( you.pos_bub( &here ) );
     REQUIRE( vp_there );
     tripoint_abs_ms dest_loc = you.pos_abs();
 

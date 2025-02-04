@@ -333,7 +333,7 @@ TEST_CASE( "vehicle_with_fake_obstacle_parts_block_movement", "[vehicle][vehicle
     vehicle *veh = here.add_vehicle( vehicle_prototype_obstacle_test,
                                      test_origin, 315_degrees, 100, 0 );
     REQUIRE( veh != nullptr );
-    veh->refresh();
+    veh->refresh( &here );
     here.set_seen_cache_dirty( 0 );
     here.build_map_cache( 0 );
     validate_part_count( *veh, 0, 315_degrees, 11, 6, 5 );

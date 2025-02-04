@@ -15,6 +15,11 @@
     "text": "Enjoyed a conversation"
   },
   {
+    "id": "morale_chat_uncaring",
+    "type": "morale_type",
+    "text": "Had to suffer through an inane conversation"
+  },
+  {
     "id": "morale_ate_with_table",
     "type": "morale_type",
     "text": "Ate with a table and chair"

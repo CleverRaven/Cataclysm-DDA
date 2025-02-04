@@ -2014,7 +2014,7 @@ bool vehicle::level_vehicle()
         if( prt.info().location != part_location_structure ) {
             continue;
         }
-        const tripoint_bub_ms part_pos = bub_part_pos( prt );
+        const tripoint_bub_ms part_pos = bub_part_pos( &here, prt );
         if( no_support.find( part_pos.z() ) == no_support.end() ) {
             no_support[part_pos.z()] = part_pos.z() > -OVERMAP_DEPTH;
         }
@@ -2043,7 +2043,7 @@ bool vehicle::level_vehicle()
             adjust_level = true;
             // drop unsupported parts 1 zlevel
             for( size_t prt = 0; prt < parts.size(); prt++ ) {
-                if( bub_part_pos( prt ).z() == zlevel ) {
+                if( abs_part_pos( prt ).z() == zlevel ) {
                     dropped_parts.insert( static_cast<int>( prt ) );
                 }
             }
@@ -2090,7 +2090,7 @@ void vehicle::check_falling_or_floating()
     // Check under the wheels, if they're supported nothing else matters.
     int supported_wheels = 0;
     for( int wheel_index : wheelcache ) {
-        const tripoint_bub_ms position = bub_part_pos( wheel_index );
+        const tripoint_bub_ms position = bub_part_pos( &here, wheel_index );
         if( has_support( position, false ) ) {
             ++supported_wheels;
         }
@@ -2132,7 +2132,7 @@ void vehicle::check_falling_or_floating()
     in_water =  2 * water_tiles >= pts.size();
 }
 
-float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modifiers ) const
+float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modifiers )
 {
     if( veh.is_in_water( /* deep_water = */ true ) ) {
         return veh.can_float() ? 1.0f : -1.0f;
@@ -2151,7 +2151,7 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
     for( const int wheel_idx : veh.wheelcache ) {
         const vehicle_part &vp = veh.part( wheel_idx );
         const vpart_info &vpi = vp.info();
-        const tripoint_bub_ms pp = veh.bub_part_pos( vp );
+        const tripoint_bub_ms pp = veh.bub_part_pos( this, vp );
         const ter_t &tr = ter( pp ).obj();
         if( tr.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ||
             tr.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
@@ -2193,6 +2193,7 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
 units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                                  const units::angle &direction )
 {
+    map &here = get_map();
     const int d_vel = std::abs( veh.velocity - velocity_before ) / 100;
 
     std::vector<rider_data> riders = veh.get_riders();
@@ -2206,7 +2207,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             continue;
         }
 
-        const tripoint_bub_ms part_pos = veh.bub_part_pos( ps );
+        const tripoint_bub_ms part_pos = veh.bub_part_pos( &here, ps );
         if( rider->pos_bub() != part_pos ) {
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
                       rider->posx(), rider->posy(), rider->posz(),

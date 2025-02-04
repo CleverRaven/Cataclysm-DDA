@@ -1732,7 +1732,7 @@ void npc::execute_action( npc_action action )
             if( is_hallucination() ) {
                 pretend_fire( this, mode.qty, *mode );
             } else {
-                fire_gun( tar, mode.qty, *mode );
+                fire_gun( &here, tar, mode.qty, *mode );
                 // "discard" the fake bio weapon after shooting it
                 if( is_using_bionic_weapon() ) {
                     discharge_cbm_weapon();
@@ -1810,7 +1810,7 @@ void npc::execute_action( npc_action action )
                 }
                 // A seat is available if we can move there and it's either unassigned or assigned to us
                 auto available_seat = [&]( const vehicle_part & pt ) {
-                    tripoint_bub_ms target = veh->bub_part_pos( pt );
+                    tripoint_bub_ms target = veh->bub_part_pos( &here, pt );
                     if( !pt.is_seat() ) {
                         return false;
                     }
@@ -1875,7 +1875,7 @@ void npc::execute_action( npc_action action )
 
                 const int cur_part = seats[i].second;
 
-                tripoint_bub_ms pp = veh->bub_part_pos( cur_part );
+                tripoint_bub_ms pp = veh->bub_part_pos( &here, cur_part );
                 update_path( pp, true );
                 if( !path.empty() ) {
                     // All is fine
@@ -3176,8 +3176,7 @@ void npc::avoid_friendly_fire()
 
     tripoint_bub_ms center = midpoint_round_to_nearest( fr_pts );
 
-    std::vector<tripoint_bub_ms> candidates = closest_points_first( pos_bub(), 1 );
-    candidates.erase( candidates.begin() );
+    std::vector<tripoint_bub_ms> candidates = closest_points_first( pos_bub(), 1, 1 );
     std::sort( candidates.begin(), candidates.end(),
     [&tar, &center]( const tripoint_bub_ms & l, const tripoint_bub_ms & r ) {
         return ( rl_dist( l, tar ) - rl_dist( l, center ) ) <

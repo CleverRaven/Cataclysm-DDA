@@ -52,10 +52,11 @@ static const flag_id json_flag_FROM_FROZEN_LIQUID( "FROM_FROZEN_LIQUID" );
 static void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num,
                                      const item &liquid )
 {
+    map &here = get_map();
     act.values.push_back( static_cast<int>( liquid_source_type::VEHICLE ) );
     act.values.push_back( part_num );
     if( part_num != -1 ) {
-        act.coords.push_back( get_map().get_abs( veh.bub_part_pos( part_num ) ) );
+        act.coords.push_back( here.get_abs( veh.bub_part_pos( &here, part_num ) ) );
     } else {
         act.coords.push_back( veh.pos_abs() );
     }
@@ -84,9 +85,10 @@ static void serialize_liquid_source( player_activity &act, const tripoint_bub_ms
 
 static void serialize_liquid_target( player_activity &act, const vpart_reference &vp )
 {
+    map &here = get_map();
     act.values.push_back( static_cast<int>( liquid_target_type::VEHICLE ) );
     act.values.push_back( 0 ); // dummy
-    act.coords.push_back( get_map().get_abs( vp.vehicle().bub_part_pos( 0 ) ) );
+    act.coords.push_back( here.get_abs( vp.vehicle().bub_part_pos( &here,  0 ) ) );
     act.values.push_back( vp.part_index() ); // tank part index
 }
 

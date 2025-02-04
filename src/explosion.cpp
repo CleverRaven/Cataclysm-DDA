@@ -523,6 +523,12 @@ void explosion( const Creature *source, const tripoint_bub_ms &p, const explosio
     _explosions.emplace_back( source, get_map().get_abs( p ), ex );
 }
 
+void explosion( const Creature *source, map *here, const tripoint_bub_ms &p,
+                const explosion_data &ex )
+{
+    _explosions.emplace_back( source, here->get_abs( p ), ex );
+}
+
 void _make_explosion( map *m, const Creature *source, const tripoint_bub_ms &p,
                       const explosion_data &ex )
 {

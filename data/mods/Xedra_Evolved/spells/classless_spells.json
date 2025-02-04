@@ -370,5 +370,24 @@
     "max_damage": 9999,
     "base_casting_time": 0,
     "flags": [ "SILENT", "NO_FAIL" ]
+  },
+  {
+    "id": "xedra_self_banish",
+    "type": "SPELL",
+    "name": { "str": "Banish Self", "//~": "NO_I18N" },
+    "description": {
+      "str": "Banish the caster, killing them and destroying their body.  Having this spell is a bug, and casting it would be suicidal.",
+      "//~": "NO_I18N"
+    },
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "effect": "banishment",
+    "shape": "blast",
+    "spell_class": "NONE",
+    "damage_type": "pure",
+    "min_damage": 9999,
+    "max_damage": 9999,
+    "base_casting_time": 0,
+    "flags": [ "SILENT", "NO_FAIL", "PERCENT_DAMAGE" ]
   }
 ]

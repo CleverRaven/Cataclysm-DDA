@@ -137,6 +137,8 @@ void handbrake()
 
 void vehicle::control_doors()
 {
+    map &here = get_map();
+
     const auto open_or_close_all = [this]( bool new_open, const std::string & require_flag ) {
         for( const vpart_reference &vpr_motor : get_avail_parts( "DOOR_MOTOR" ) ) {
             const int motorized_idx = new_open
@@ -170,7 +172,7 @@ void vehicle::control_doors()
         }
     };
 
-    const auto add_openable = [this]( veh_menu & menu, int vp_idx ) {
+    const auto add_openable = [this, &here]( veh_menu & menu, int vp_idx ) {
         if( vp_idx == -1 ) {
             return;
         }
@@ -179,7 +181,7 @@ void vehicle::control_doors()
         const bool open = !vp.open;
         menu.add( string_format( "%s %s", actname, vp.name() ) )
         .hotkey_auto()
-        .location( bub_part_pos( vp ).raw() )
+        .location( bub_part_pos( &here, vp ).raw() )
         .keep_menu_open()
         .on_submit( [this, vp_idx, open] {
             if( can_close( vp_idx, get_player_character() ) )
@@ -189,7 +191,7 @@ void vehicle::control_doors()
         } );
     };
 
-    const auto add_lockable = [this]( veh_menu & menu, int vp_idx ) {
+    const auto add_lockable = [this, &here]( veh_menu & menu, int vp_idx ) {
         if( vp_idx == -1 ) {
             return;
         }
@@ -198,7 +200,7 @@ void vehicle::control_doors()
         const bool lock = !vp.locked;
         menu.add( string_format( "%s %s", actname, vp.name() ) )
         .hotkey_auto()
-        .location( bub_part_pos( vp ).raw() )
+        .location( bub_part_pos( &here, vp ).raw() )
         .keep_menu_open()
         .on_submit( [this, vp_idx, lock] {
             lock_or_unlock( vp_idx, lock );
@@ -555,17 +557,17 @@ void vehicle::toggle_tracking()
     }
 }
 
-void vehicle::connect( const tripoint_bub_ms &source_pos, const tripoint_bub_ms &target_pos )
+void vehicle::connect( map *here, const tripoint_bub_ms &source_pos,
+                       const tripoint_bub_ms &target_pos )
 {
-    map &here = get_map();
-    const optional_vpart_position sel_vp = here.veh_at( target_pos );
-    const optional_vpart_position prev_vp = here.veh_at( source_pos );
+    const optional_vpart_position sel_vp = here->veh_at( target_pos );
+    const optional_vpart_position prev_vp = here->veh_at( source_pos );
 
     if( !sel_vp ) {
         return;
     }
     if( &sel_vp->vehicle() == &prev_vp->vehicle() ) {
-        return ;
+        return;
     }
 
     item cord( itype_power_cord );
@@ -576,11 +578,13 @@ void vehicle::connect( const tripoint_bub_ms &source_pos, const tripoint_bub_ms 
 
 double vehicle::engine_cold_factor( const vehicle_part &vp ) const
 {
+    map &here = get_map();
+
     if( !vp.info().has_flag( "E_COLD_START" ) ) {
         return 0.0;
     }
 
-    const tripoint_bub_ms pos = bub_part_pos( vp );
+    const tripoint_bub_ms pos = bub_part_pos( &here, vp );
     double eff_temp = units::to_fahrenheit( get_weather().get_temperature( pos ) );
     if( !vp.has_fault_flag( "BAD_COLD_START" ) ) {
         eff_temp = std::min( eff_temp, 20.0 );
@@ -630,6 +634,8 @@ bool vehicle::auto_select_fuel( vehicle_part &vp )
 
 bool vehicle::start_engine( vehicle_part &vp )
 {
+    map &here = get_map();
+
     const vpart_info &vpi = vp.info();
     if( !is_engine_on( vp ) ) {
         return false;
@@ -670,7 +676,7 @@ bool vehicle::start_engine( vehicle_part &vp )
 
     const double dmg = vp.damage_percent();
     const time_duration start_time = engine_start_time( vp );
-    const tripoint_bub_ms pos = bub_part_pos( vp );
+    const tripoint_bub_ms pos = bub_part_pos( &here, vp );
 
     if( ( 1 - dmg ) < vpi.engine_info->backfire_threshold &&
         one_in( vpi.engine_info->backfire_freq ) ) {
@@ -747,6 +753,7 @@ bool vehicle::start_engine( vehicle_part &vp )
 
 void vehicle::stop_engines()
 {
+    map &here = get_map();
     vehicle_noise = 0;
     engine_on = false;
     for( const int p : engines ) {
@@ -755,7 +762,8 @@ void vehicle::stop_engines()
             continue;
         }
 
-        sounds::sound( bub_part_pos( vp ), 2, sounds::sound_t::movement, _( "the engine go silent" ) );
+        sounds::sound( bub_part_pos( &here, vp ), 2, sounds::sound_t::movement,
+                       _( "the engine go silent" ) );
 
         std::string variant = vp.info().id.str();
 
@@ -774,11 +782,13 @@ void vehicle::stop_engines()
         sfx::play_variant_sound( "engine_stop", variant, vp.info().engine_info->noise_factor );
     }
     sfx::do_vehicle_engine_sfx();
-    refresh();
+    refresh( &here );
 }
 
 void vehicle::start_engines( Character *driver, const bool take_control, const bool autodrive )
 {
+    map &here = get_map();
+
     bool has_engine = std::any_of( engines.begin(), engines.end(), [&]( int idx ) {
         return parts[ idx ].enabled && !parts[ idx ].is_broken();
     } );
@@ -798,7 +808,7 @@ void vehicle::start_engines( Character *driver, const bool take_control, const b
     for( const int p : engines ) {
         const vehicle_part &vp = parts[p];
         if( !has_starting_engine_position && !vp.is_broken() && vp.enabled ) {
-            starting_engine_position = bub_part_pos( vp );
+            starting_engine_position = bub_part_pos( &here, vp );
             has_starting_engine_position = true;
         }
         has_engine = has_engine || is_engine_on( vp );
@@ -811,7 +821,7 @@ void vehicle::start_engines( Character *driver, const bool take_control, const b
 
     if( !has_engine ) {
         add_msg( m_info, _( "The %s doesn't have an engine!" ), name );
-        refresh();
+        refresh( &here );
         return;
     }
 
@@ -824,7 +834,7 @@ void vehicle::start_engines( Character *driver, const bool take_control, const b
         driver->activity.relative_placement = starting_engine_position - driver->pos_bub();
         driver->activity.values.push_back( take_control );
     }
-    refresh();
+    refresh( &here );
 }
 
 void vehicle::enable_patrol()
@@ -1116,12 +1126,12 @@ void vehicle::operate_scoop()
                 _( "Whirrrr" ), _( "Ker-chunk" ), _( "Swish" ), _( "Cugugugugug" )
             }
         };
-        sounds::sound( bub_part_pos( scoop ), rng( 20, 35 ), sounds::sound_t::combat,
+        sounds::sound( bub_part_pos( &here, scoop ), rng( 20, 35 ), sounds::sound_t::combat,
                        random_entry_ref( sound_msgs ), false, "vehicle", "scoop" );
         std::vector<tripoint_bub_ms> parts_points;
         parts_points.reserve( 8 );
         for( const tripoint_bub_ms &current :
-             here.points_in_radius( bub_part_pos( scoop ), 1 ) ) {
+             here.points_in_radius( bub_part_pos( &here, scoop ), 1 ) ) {
             parts_points.push_back( current );
         }
         for( const tripoint_bub_ms &position : parts_points ) {
@@ -1261,7 +1271,7 @@ bool vehicle::can_close( int part_index, Character &who )
         for( int partID : vec ) {
             // Check the part for collisions, then if there's a fake part present check that too.
             while( partID >= 0 ) {
-                const Creature *const mon = creatures.creature_at( bub_part_pos( parts[partID] ) );
+                const Creature *const mon = creatures.creature_at( abs_part_pos( parts[partID] ) );
                 if( mon ) {
                     if( mon->is_avatar() ) {
                         who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );

@@ -45,6 +45,11 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                         const dispersion_sources &dispersion, Creature *origin = nullptr, const vehicle *in_veh = nullptr,
                         const weakpoint_attack &wp_attack = weakpoint_attack() );
 
+void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_arg,
+                        map *here, const tripoint_bub_ms &source, const tripoint_bub_ms &target_arg,
+                        const dispersion_sources &dispersion, Creature *origin = nullptr, const vehicle *in_veh = nullptr,
+                        const weakpoint_attack &wp_attack = weakpoint_attack() );
+
 /* Used for selecting which part to target in a projectile attack
  * Primarily a template for ease of testing, but can be reused!
  * To use:
