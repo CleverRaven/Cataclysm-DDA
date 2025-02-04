@@ -1397,7 +1397,7 @@ float spell::spell_fail( const Character &guy ) const
         type->magic_type.value()->failure_chance_formula_id.has_value() ) {
         const_dialogue d( get_const_talker_for( guy ), nullptr );
         fail_chance = type->magic_type.value()->failure_chance_formula_id.value()->eval( d );
-    } else if ( is_psi ) {
+    } else if( is_psi ) {
         fail_chance = std::pow( ( psi_effective_skill - 40.0f ) / 40.0f, 2 );
     } else {
         fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
