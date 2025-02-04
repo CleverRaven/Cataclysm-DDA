@@ -14086,7 +14086,7 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
     if( link_type == link_state::vehicle_tow ) {
         if( veh.has_tow_attached() || veh.is_towed() || veh.is_towing() ) {
             return ret_val<void>::make_failure( _( "That vehicle already has a tow-line attached." ) );
-        } else if( !veh.is_external_part( veh.mount_to_tripoint( mount ) ) ) {
+        } else if( !veh.is_external_part( mount ) ) {
             return ret_val<void>::make_failure( _( "You can't attach a tow-line to an internal part." ) );
         } else {
             const int part_at = veh.part_at( veh.coord_translate( mount ) );
@@ -14122,7 +14122,7 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
         link().source = bio_link ? link_state::bio_cable : link_state::no_link;
         link().target = link_type;
         link().t_veh = veh.get_safe_reference();
-        link().t_abs_pos = get_map().get_abs( link().t_veh->pos_bub() );
+        link().t_abs_pos = link().t_veh->pos_abs();
         link().t_mount = mount;
         link().s_bub_pos = tripoint_bub_ms::min; // Forces the item to check the length during process_link.
 
