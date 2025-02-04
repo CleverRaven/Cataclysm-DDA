@@ -370,13 +370,110 @@
       {
         "u_roll_remainder": [ "changeling_spring_nurturing_the_green" ],
         "type": "spell",
-        "message": "Your research bears fruit! You learn the %s glamour.",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
         "false_eocs": {
           "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_DONE",
           "effect": [
             {
               "u_message": "You are a mighty sorcerer, and the power of spring has but few secrets which are unknown to you.",
+              "type": "mixed"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_FINALIZE",
+    "effect": [
+      { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_PAY_COST" },
+      {
+        "if": { "math": [ "rand(9)", "<", "9" ] },
+        "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_1" },
+        "else": {
+          "if": { "math": [ "rand(9)", "<", "9" ] },
+          "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_2" },
+          "else": {
+            "if": { "math": [ "rand(9)", "<", "9" ] },
+            "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_3" },
+            "else": {
+              "if": { "math": [ "rand(9)", "<", "9" ] },
+              "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_4" },
+              "else": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_5" }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_1",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_summer_light_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_2" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_2",
+    "effect": [
+      {
+        "u_roll_remainder": [ "SPELLS GO HERE" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_3" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_3",
+    "effect": [
+      {
+        "u_roll_remainder": [ "SPELLS GO HERE" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_4" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_4",
+    "effect": [
+      {
+        "u_roll_remainder": [ "SPELLS GO HERE" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_5" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_5",
+    "effect": [
+      {
+        "u_roll_remainder": [ "SPELLS GO HERE" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": {
+          "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_DONE",
+          "effect": [
+            {
+              "u_message": "You are a mighty sorcerer, and the power of summer has but few secrets which are unknown to you.",
               "type": "mixed"
             }
           ]
@@ -413,7 +510,7 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_1",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_winter_walk_on_water" ],
+        "u_roll_remainder": [ "changeling_winter_walk_on_water_spell" ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
@@ -467,7 +564,7 @@
       {
         "u_roll_remainder": [ "SPELLS GO HERE" ],
         "type": "spell",
-        "message": "Your research bears fruit! You learn the %s glamour.",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
         "false_eocs": {
           "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_DONE",

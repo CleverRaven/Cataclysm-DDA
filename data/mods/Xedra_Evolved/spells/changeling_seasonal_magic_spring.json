@@ -17,12 +17,12 @@
     "name": { "str": "Commanding the Grasses" },
     "description": "Your command over plants allows you to cause grass to grow in profusion from the soil, making the terrain very difficult for enemies to traverse.  The glamour is much more difficult to use in the winter.",
     "valid_targets": [ "hostile", "ground" ],
+    "teachable": false,
     "flags": [ "VERRBAL", "SOMATIC", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_spring",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
     "max_level": 1,
     "skill": "deduction",
-    "teachable": false,
     "difficulty": 1,
     "effect": "ter_transform",
     "effect_str": "ter_changeling_spring_command_grasses",
@@ -35,22 +35,22 @@
     },
     "min_aoe": {
       "math": [
-        "min( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.25) + (u_skill('deduction') * 0.5)), 15) * (global_what_is_the_season == 4 ? 0.5 : 1)"
+        "min( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.25) + (u_skill('deduction') * 0.5)), 15) * (global_what_is_the_season == 3 ? 0.5 : 1)"
       ]
     },
     "max_aoe": {
       "math": [
-        "min( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.25) + (u_skill('deduction') * 0.5)), 15) * (global_what_is_the_season == 4 ? 0.5 : 1)"
+        "min( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.25) + (u_skill('deduction') * 0.5)), 15) * (global_what_is_the_season == 3 ? 0.5 : 1)"
       ]
     },
     "base_energy_cost": {
       "math": [
-        "max( ( 150 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 3) - (u_skill('deduction') * 4)), 50) * (global_what_is_the_season == 4 ? 4 : 1)"
+        "max( ( 150 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 3) - (u_skill('deduction') * 4)), 50) * (global_what_is_the_season == 3 ? 4 : 1)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "max( ( 150 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 3) - (u_skill('deduction') * 5)), 75)  * (global_what_is_the_season == 4 ? 4 : 1)"
+        "max( ( 150 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 3) - (u_skill('deduction') * 5)), 75)  * (global_what_is_the_season == 3 ? 4 : 1)"
       ]
     }
   },
@@ -64,6 +64,7 @@
     "magic_type": "xe_fey_seasonal_magick_spring",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
     "valid_targets": [ "self" ],
+    "teachable": false,
     "skill": "deduction",
     "max_level": 1,
     "shape": "blast",
@@ -71,7 +72,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_CHANGELING_SPRING_MINOR_RESTORE_STAMINA_AND_PAIN",
     "min_range": 1,
-    "teachable": false,
     "base_energy_cost": {
       "math": [
         "max( ( 400 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 8) - (u_skill('deduction') * 10)), 100)"
@@ -92,6 +92,7 @@
     "magic_type": "xe_fey_seasonal_magick_spring",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
     "valid_targets": [ "ground" ],
+    "teachable": false,
     "skill": "deduction",
     "max_level": 1,
     "shape": "blast",
@@ -99,7 +100,6 @@
     "effect": "ter_transform",
     "effect_str": "ter_changeling_spring_plant_growth",
     "min_range": 1,
-    "teachable": false,
     "base_energy_cost": {
       "math": [
         "max( ( 1000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 8) - (u_skill('deduction') * 10)), 500)  * (global_what_is_the_season == 4 ? 10000 : 1)"
