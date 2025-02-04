@@ -27,12 +27,6 @@
   },
   {
     "type": "jmath_function",
-    "id": "afs_bionic_cost_adjust",
-    "num_args": 1,
-    "return": "_0 * 500000"
-  },
-  {
-    "type": "jmath_function",
     "id": "afs_hack_bonus",
     "//": "Intended as: Tool Quality + ( Base Focus Mod * (Focus - Focus Threshold) / Focus Threshold ):rounded to nearest int",
     "//1": "Below 100 Focus your focus mod will be negative and you are punished. At 100 focus your mod will be 0. Above 100 focus your mod will be positive and you will be rewarded.",
@@ -47,6 +41,7 @@
     "effect": [
       { "math": [ "_t_delay = afs_hack_time_adjust(_t_delay, time('20s'), time('2m'))" ] },
       { "math": [ "_hack_cost = (5 * (_t_delay / time('10m') )) * max(1, _power_cost_mult)" ] },
+      { "math": [ "_hack_cost_bionic = (energy('2 kJ') * (_t_delay / time('10m') )) * max(1, _power_cost_mult)" ] },
       {
         "u_run_inv_eocs": "manual",
         "title": "Select a Hacking tool",
@@ -54,7 +49,7 @@
           { "condition": { "math": [ "n_quality('HACK') > 0" ] }, "flags": "HACK_NO_CHARGE" },
           {
             "condition": {
-              "and": [ { "math": [ "n_quality('HACK') > 0" ] }, { "math": [ "afs_bionic_cost_adjust(_hack_cost) < u_val('power')" ] } ]
+              "and": [ { "math": [ "n_quality('HACK') > 0" ] }, { "math": [ "_hack_cost_bionic < u_val('power')" ] } ]
             },
             "flags": "USES_BIONIC_POWER"
           },
@@ -114,7 +109,7 @@
         "true_eocs": [
           {
             "id": "EOC_hack_bionic_power_consume_found_item",
-            "effect": [ { "math": [ "u_val('power') -= afs_bionic_cost_adjust(_hack_cost)" ] }, { "npc_unset_flag": "ACTIVE_HACK_TOOL" } ]
+            "effect": [ { "math": [ "u_val('power') -= _hack_cost_bionic" ] }, { "npc_unset_flag": "ACTIVE_HACK_TOOL" } ]
           }
         ]
       }
