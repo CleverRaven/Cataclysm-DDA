@@ -10,6 +10,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_summer_sun_glasses_spell",
+    "name": [ "Shading Your Eyes" ],
+    "desc": [ "Nearby lights don't seem quite as bright now." ],
+    "apply_message": "",
+    "remove_message": "You blink as nearby lights grow brighter.",
+    "flags": [ "GLARE_RESIST" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_walk_on_water",
     "name": [ "Path of Rime" ],
     "desc": [ "Each step you take leaves a tracing of frost on the ground, and liquids freeze at your touch." ],
