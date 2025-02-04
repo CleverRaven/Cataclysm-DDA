@@ -152,7 +152,7 @@
     "shape": "blast",
     "valid_targets": [ "ground" ],
     "min_aoe": 6,
-    "max_aoe": 7,
+    "max_aoe": 6,
     "difficulty": 1,
     "min_range": 10,
     "max_range": 10
