@@ -15717,6 +15717,16 @@ std::list<item *> item::all_items_top()
     return contents.all_items_top();
 }
 
+std::list<const item *> item::all_items_container_top() const
+{
+    return contents.all_items_container_top();
+}
+
+std::list<item *> item::all_items_container_top()
+{
+    return contents.all_items_container_top();
+}
+
 std::list<const item *> item::all_items_top( pocket_type pk_type ) const
 {
     return contents.all_items_top( pk_type );

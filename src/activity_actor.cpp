@@ -2969,18 +2969,31 @@ std::string enum_to_string<efile_combo>( efile_combo data )
 }
 } // namespace io
 
+bool efile_activity_actor::processed_edevices_remain() const
+{
+    return target_edevices.empty();
+}
+
+bool  efile_activity_actor::processed_efiles_remain() const
+{
+    return currently_processed_efiles.empty();
+}
+
 item_location &efile_activity_actor::get_currently_processed_edevice()
 {
-    return *next_edevice;
+    return target_edevices.back();
 }
 
 item_location &efile_activity_actor::get_currently_processed_efile()
 {
-    return *next_efile;
+    return currently_processed_efiles.back();
 }
 void efile_activity_actor::start( player_activity &act, Character &who )
 {
-    //handle combo move
+    if( combo_type == COMBO_MOVE_ONTO_BROWSE ) {
+        target_edevices_copy = target_edevices;
+    }
+    //handle combo move e-device (browsing may have included used e-device)
     if( action_type == EF_MOVE_ONTO_THIS ) {
         auto i = target_edevices.begin();
         while( i != target_edevices.end() ) {
@@ -3002,15 +3015,15 @@ void efile_activity_actor::start( player_activity &act, Character &who )
     }
     //only skip if loaded through deserialization
     if( !started_processing ) {
-        next_edevice = target_edevices.begin();
         started_processing = true;
         computer_low_skill = who.get_skill_level( skill_computer ) < 1;
     }
 
-    if( next_edevice != target_edevices.end() ) {
+    if( !processed_edevices_remain() ) {
         const time_duration total_time = total_processing_time( used_edevice, target_edevices,
                                          selected_efiles, action_type, who, computer_low_skill );
         act.moves_total = to_moves<int>( total_time );
+        target_edevices_count = target_edevices.size();
         add_msg_debug( debugmode::DF_ACT_EBOOK, "total processing moves: %d",
                        act.moves_total );
     } else {
@@ -3046,8 +3059,11 @@ void efile_activity_actor::do_turn( player_activity &act, Character &who )
                 do {
                     failed_processing_current_edevice();
                 } while( !done_processing );
-            } else if( !*next_edevice || !edevice_reduce_charge( get_currently_processed_edevice() ) ) {
-                failed_processing_current_edevice();
+            } else {
+                item_location next_edevice = get_currently_processed_edevice();
+                if( !next_edevice || !edevice_reduce_charge( next_edevice ) ) {
+                    failed_processing_current_edevice();
+                }
             }
         }
     }
@@ -3076,7 +3092,7 @@ void efile_activity_actor::do_turn( player_activity &act, Character &who )
     }
     if( next_edevice_booted ) { //should not be an "else" because files start processing in same turn
         //current file exists check
-        if( !*next_efile ) {
+        if( !get_currently_processed_efile() ) {
             failed_processing_current_efile( act, who );
         } else if( turns_left_on_current_efile > 0 ) {
             turns_left_on_current_efile--;
@@ -3100,14 +3116,13 @@ void efile_activity_actor::start_processing_next_edevice()
         currently_processed_efiles = ignore_filter ? selected_efiles :
                                      filter_edevice_efiles( edevice_filter, selected_efiles );
     }
-    next_efile = currently_processed_efiles.begin();
     add_msg_debug( debugmode::DF_ACT_EBOOK, string_format( "started processing edevice %s",
                    current_edevice->display_name() ) );
 }
 
 void efile_activity_actor::start_processing_next_efile( player_activity &/*act*/, Character &who )
 {
-    if( next_efile != currently_processed_efiles.end() ) {
+    if( !processed_efiles_remain() ) {
         //separate for easy debugging
         item_location &current_efile = get_currently_processed_efile();
         item_location &current_edevice = get_currently_processed_edevice();
@@ -3133,8 +3148,8 @@ void efile_activity_actor::completed_processing_current_edevice()
 
     next_edevice_booted = false;
     turns_left_on_current_edevice.reset();
-    next_edevice++;
-    if( next_edevice == target_edevices.end() ) {
+    target_edevices.pop_back();
+    if( processed_edevices_remain() ) {
         done_processing = true;
     }
 }
@@ -3225,7 +3240,7 @@ void efile_activity_actor::completed_processing_current_efile( player_activity &
             break;
     }
     processed_efiles++;
-    next_efile++;
+    currently_processed_efiles.pop_back();
 }
 
 void efile_activity_actor::failed_processing_current_edevice()
@@ -3234,8 +3249,8 @@ void efile_activity_actor::failed_processing_current_edevice()
 
     turns_left_on_current_edevice.reset();
     next_edevice_booted = false;
-    next_edevice++;
-    if( next_edevice == target_edevices.end() ) {
+    target_edevices.pop_back();
+    if( processed_edevices_remain() ) {
         done_processing = true;
     }
 }
@@ -3251,7 +3266,7 @@ void efile_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
     std::string action_name = efile_action_name( action_type, true, true );
-    int total_edevices = target_edevices.size();
+    int total_edevices = target_edevices_count;
     if( total_edevices == 0 && processed_edevices == 0 ) {
         add_msg_if_player_sees( who, m_info, _( "No devices needed to be processed." ) );
     } else if( processed_edevices == 0 ) {
@@ -3259,22 +3274,22 @@ void efile_activity_actor::finish( player_activity &act, Character &who )
                                 efile_action_name( action_type, false, true ), total_edevices );
     } else {
         add_msg_if_player_sees( who, m_good, _( "You successfully %s %d/%d device(s)." ),
-                                action_name, processed_edevices, target_edevices.size() );
+                                action_name, processed_edevices, total_edevices );
     }
     combo_next_activity( who );
 }
 
 std::vector<item_location> efile_activity_actor::filter_edevice_efiles(
-    const item_location &edevice,
-    const std::vector<item_location> &filter_files )
+    const item_location &edevice, std::vector<item_location> &filter_files )
 {
     std::vector<item_location> filtered_efiles;
-    if( !filter_files.empty() ) {
-        //filter e-files
-        for( const item_location &i : filter_files ) {
-            if( i.parent_item() == edevice ) {
-                filtered_efiles.emplace_back( i );
-            }
+    std::vector<item_location>::iterator it = filter_files.begin();
+    while( it != filter_files.end() ) {
+        if( it->parent_item() == edevice ) {
+            filtered_efiles.emplace_back( *it );
+            it = filter_files.erase( it );
+        } else {
+            it++;
         }
     }
     return filtered_efiles;
@@ -3348,18 +3363,17 @@ void efile_activity_actor::combo_next_activity( Character &who )
 {
     efile_combo new_combo = COMBO_NONE;
     efile_action new_action = EF_INVALID;
-
-    //filter out invalidated e-files removed during prior operation
-    std::vector<item_location> valid_efiles;
-    for( const item_location &efile : selected_efiles ) {
-        if( efile ) {
-            valid_efiles.emplace_back( efile );
-        }
-    }
+    std::vector<item_location> all_updated_files;
 
     if( combo_type == COMBO_MOVE_ONTO_BROWSE ) {
+        for( item_location &edevice : target_edevices_copy ) {
+            for( item *efile : edevice->efiles() ) {
+                all_updated_files.emplace_back( edevice, efile );
+            }
+        }
+
         units::ememory total_ememory;
-        for( item_location &edevice : target_edevices ) {
+        for( item_location &edevice : target_edevices_copy ) {
             if( edevice->is_browsed() ) {
                 for( item *efile : edevice->efiles() ) {
                     total_ememory += efile->ememory_size();
@@ -3373,10 +3387,9 @@ void efile_activity_actor::combo_next_activity( Character &who )
                                     _( "File size exceeds available memory; canceling file move." ) );
         }
     }
-
     if( new_action != EF_INVALID ) {
-        const efile_activity_actor new_activity( used_edevice, target_edevices,
-                valid_efiles, new_action, new_combo );
+        const efile_activity_actor new_activity( used_edevice, target_edevices_copy,
+                all_updated_files, new_action, new_combo );
         who.assign_activity( player_activity( new_activity ) );
     }
 }
@@ -3405,12 +3418,12 @@ void efile_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
     jsout.member( "used_edevice", used_edevice );
     jsout.member( "target_edevices", target_edevices );
+    jsout.member( "target_edevices_copy", target_edevices_copy );
     jsout.member( "action_type", action_type );
     jsout.member( "combo_type", combo_type );
     jsout.member( "selected_efiles", selected_efiles );
     jsout.member( "currently_processed_efiles", currently_processed_efiles );
-    jsout.member( "next_edevice", next_edevice - target_edevices.begin() );
-    jsout.member( "next_efile", next_efile - currently_processed_efiles.begin() );
+    jsout.member( "target_edevices_count", target_edevices_count );
     jsout.member( "processed_edevices", processed_edevices );
     jsout.member( "failed_edevices", failed_edevices );
     jsout.member( "processed_efiles", processed_efiles );
@@ -3420,10 +3433,7 @@ void efile_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "next_edevice_booted", next_edevice_booted );
     jsout.member( "computer_low_skill", computer_low_skill );
     jsout.member( "turns_left_on_current_edevice", turns_left_on_current_edevice );
-    jsout.member( "processed_edevices", processed_edevices );
     jsout.member( "turns_left_on_current_efile", turns_left_on_current_efile );
-
-
     jsout.end_object();
 }
 
@@ -3434,19 +3444,14 @@ std::unique_ptr<activity_actor> efile_activity_actor::deserialize( JsonValue &js
     JsonObject data = jsin.get_object();
     data.read( "used_edevice", actor.used_edevice );
     data.read( "target_edevices", actor.target_edevices );
+    data.read( "target_edevices_copy", actor.target_edevices_copy );
     data.read( "turns_left_on_current_edevice", actor.turns_left_on_current_edevice );
     data.read( "action_type", actor.action_type );
     data.read( "combo_type", actor.combo_type );
+    data.read( "target_edevices_count", actor.target_edevices_count );
     data.read( "processed_edevices", actor.processed_edevices );
     data.read( "selected_efiles", actor.selected_efiles );
     data.read( "currently_processed_efiles", actor.currently_processed_efiles );
-    if( data.has_member( "next_edevice" ) ) {
-        actor.next_edevice = actor.target_edevices.begin() + data.get_int( "next_edevice" );
-    }
-    if( data.has_member( "next_efile" ) ) {
-        actor.next_efile = actor.currently_processed_efiles.begin() + data.get_int( "next_efile" );
-    }
-    data.read( "processed_edevices", actor.processed_edevices );
     data.read( "failed_edevices", actor.failed_edevices );
     data.read( "processed_efiles", actor.processed_efiles );
     data.read( "failed_efiles", actor.failed_efiles );
@@ -3454,8 +3459,6 @@ std::unique_ptr<activity_actor> efile_activity_actor::deserialize( JsonValue &js
     data.read( "done_processing", actor.done_processing );
     data.read( "next_edevice_booted", actor.next_edevice_booted );
     data.read( "computer_low_skill", actor.computer_low_skill );
-    data.read( "turns_left_on_current_edevice", actor.turns_left_on_current_edevice );
-    data.read( "processed_edevices", actor.processed_edevices );
     data.read( "turns_left_on_current_efile", actor.turns_left_on_current_efile );
     return actor.clone();
 }

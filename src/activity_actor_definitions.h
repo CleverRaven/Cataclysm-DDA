@@ -852,10 +852,11 @@ class efile_activity_actor : public activity_actor
         /** Returns the effective electronic transfer rate with `external_transfer_rate` factored in */
         static units::ememory current_etransfer_rate( Character &who, const efile_transfer &transfer,
                 const item_location &efile );
-        /** Returns all e-files on this device that are in the filter_files list
-        @param filter_files list of e-files to use, usually selected_files */
+        /** Returns all e-files on this device that are in the filter_files list,
+        * and removes matching efiles from filter_files list
+        * @param filter_files list of e-files to use, usually selected_files */
         static std::vector<item_location> filter_edevice_efiles( const item_location &edevice,
-                const std::vector<item_location> &filter_files );
+                std::vector<item_location> &filter_files );
         /** Returns the most optimal estorage (if needed) for improving transfer speed given the two edevices provided */
         static item_location find_external_transfer_estorage( Character &p,
                 const item_location &efile, const item_location &ed1, const item_location &ed2 );
@@ -872,15 +873,16 @@ class efile_activity_actor : public activity_actor
     private:
         item_location used_edevice;
         std::vector<item_location> target_edevices;
+        /** Held for combo activity */
+        std::vector<item_location> target_edevices_copy;
+        /** e-files that have yet to be processed, across all devices */
         std::vector<item_location> selected_efiles;
         efile_action action_type = EF_INVALID;
         efile_combo combo_type = COMBO_NONE;
-        /** contents copy of currently processed e-device */
+        /** e-files currently processed on current e-device */
         std::vector<item_location> currently_processed_efiles;
-        /** iterator pointing to next e-file to process */
-        std::vector<item_location>::iterator next_efile;
-        /** iterator pointing to next e-device to process */
-        std::vector<item_location>::iterator next_edevice;
+        /** How many e-devices this activity started with. */
+        int target_edevices_count = 0;
         /** How many e-devices this activity has successfully processed so far. */
         int processed_edevices = 0;
         /** How many e-devices this activity has failed to process so far. */
@@ -913,6 +915,9 @@ class efile_activity_actor : public activity_actor
 
         item_location &get_currently_processed_edevice();
         item_location &get_currently_processed_efile();
+        bool processed_edevices_remain() const;
+        bool processed_efiles_remain() const;
+
         /** Segway to the next player activity for a combo type */
         void combo_next_activity( Character &who );
         time_duration charge_time( efile_action action_type );
