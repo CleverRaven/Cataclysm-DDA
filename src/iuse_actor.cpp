@@ -1303,8 +1303,8 @@ std::optional<int> reveal_map_actor::use( Character *p, item &it, const tripoint
         p->add_msg_if_player( _( "It's too dark to read." ) );
         return std::nullopt;
     }
-    const tripoint_abs_omt center( it.get_var( "reveal_map_center_omt",
-                                   p->pos_abs_omt() ) );
+    const tripoint_abs_omt center( coords::project_to<coords::omt>( it.get_var( "reveal_map_center",
+                                   p->pos_abs() ) ) );
     // Clear highlight on previously revealed OMTs before revealing new ones
     p->map_revealed_omts.clear();
     for( const auto &omt : omt_types ) {

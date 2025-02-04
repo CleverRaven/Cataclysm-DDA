@@ -157,7 +157,7 @@
     "description": "Information about nearby locations stored from previous use.",
     "ememory_size": "32 MB",
     "use_action": { "type": "effect_on_conditions", "effect_on_conditions": [ "EOC_CHECK_MAP_CACHE" ] },
-    "extend": { "flags": [ "PRESERVE_SPAWN_OMT" ] }
+    "extend": { "flags": [ "PRESERVE_SPAWN_LOC" ] }
   },
   {
     "abstract": "abstract_efile_recipes",

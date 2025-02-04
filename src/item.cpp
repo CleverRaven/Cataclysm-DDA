@@ -1503,14 +1503,13 @@ bool _stacks_weapon_mods( item const &lhs, item const &rhs )
 
 bool _stacks_location_hint( item const &lhs, item const &rhs )
 {
-    static const std::string omt_loc_var = "spawn_location_omt";
-    const tripoint_abs_omt this_loc( lhs.get_var( omt_loc_var, tripoint_abs_omt::max ) );
-    const tripoint_abs_omt that_loc( rhs.get_var( omt_loc_var, tripoint_abs_omt::max ) );
+    static const std::string omt_loc_var = "spawn_location";
+    const tripoint_abs_ms this_loc( lhs.get_var( omt_loc_var, tripoint_abs_ms::max ) );
+    const tripoint_abs_ms that_loc( rhs.get_var( omt_loc_var, tripoint_abs_ms::max ) );
     if( this_loc == that_loc ) {
         return true;
-    } else if( this_loc != tripoint_abs_omt::max && that_loc != tripoint_abs_omt::max ) {
-        const tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().get_abs(
-                                               get_player_character().pos_bub() ) ) );
+    } else if( this_loc != tripoint_abs_ms::max && that_loc != tripoint_abs_ms::max ) {
+        const tripoint_abs_ms player_loc( get_map().get_abs( get_player_character().pos_bub() ) );
         const int this_dist = rl_dist( player_loc, this_loc );
         const int that_dist = rl_dist( player_loc, that_loc );
         static const auto get_bucket = []( const int dist ) {
@@ -1725,7 +1724,7 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     bits.set( tname::segments::UPS, _stacks_ups( *this, rhs ) );
     // Guns that differ only by dirt/shot_counter can still stack,
     // but other item_vars such as label/note will prevent stacking
-    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt", "ethereal", "last_act_by_char_id" };
+    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location", "ethereal", "last_act_by_char_id" };
     bits.set( tname::segments::TRAITS, template_traits == rhs.template_traits );
     bits.set( tname::segments::VARS, map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) );
     bits.set( tname::segments::ETHEREAL, _stacks_ethereal( *this, rhs ) );
@@ -1904,13 +1903,13 @@ double item::get_var( const std::string &name, const double default_value ) cons
     return result;
 }
 
-void item::set_var( const std::string &name, const tripoint_abs_omt &value )
+void item::set_var( const std::string &name, const tripoint_abs_ms &value )
 {
     item_vars[name] = value.to_string();
 }
 
-tripoint_abs_omt item::get_var( const std::string &name,
-                                const tripoint_abs_omt &default_value ) const
+tripoint_abs_ms item::get_var( const std::string &name,
+                               const tripoint_abs_ms &default_value ) const
 {
     const auto it = item_vars.find( name );
     if( it == item_vars.end() ) {
@@ -1920,7 +1919,7 @@ tripoint_abs_omt item::get_var( const std::string &name,
     // todo: has to read both "(0,0,0)" and "0,0,0" formats for now, clean up after 0.I
     // first is produced by tripoint::to_string, second was old custom format
     if( it->second[0] == '(' ) {
-        return tripoint_abs_omt{tripoint::from_string( it->second )};
+        return tripoint_abs_ms{tripoint::from_string( it->second )};
     }
 
     std::vector<std::string> values = string_split( it->second, ',' );
@@ -1934,9 +1933,9 @@ tripoint_abs_omt item::get_var( const std::string &name,
             return 0;
         }
     };
-    return tripoint_abs_omt( convert_or_error( values[0] ),
-                             convert_or_error( values[1] ),
-                             convert_or_error( values[2] ) );
+    return tripoint_abs_ms( convert_or_error( values[0] ),
+                            convert_or_error( values[1] ),
+                            convert_or_error( values[2] ) );
 }
 
 void item::set_var( const std::string &name, const std::string &value )
@@ -7132,7 +7131,7 @@ std::string item::display_name( unsigned int quantity ) const
     // HACK: This is a hack to prevent possible crashing when displaying maps as items during character creation
     if( is_map() && calendar::turn != calendar::turn_zero ) {
         tripoint_abs_omt map_pos_omt =
-            get_var( "reveal_map_center_omt", player_character.pos_abs_omt() );
+            project_to<coords::omt>( get_var( "reveal_map_center", player_character.pos_abs() ) );
         tripoint_abs_sm map_pos =
             project_to<coords::sm>( map_pos_omt );
         const city *c = overmap_buffer.closest_city( map_pos ).city;

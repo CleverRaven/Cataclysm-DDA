@@ -64,8 +64,6 @@ T convert_tripoint_from_var( std::optional<var_info> &var, const_dialogue const 
                              bool is_npc );
 tripoint_abs_ms get_tripoint_ms_from_var( std::optional<var_info> var, const_dialogue const &d,
         bool is_npc );
-tripoint_abs_omt get_tripoint_omt_from_var( std::optional<var_info> var, const_dialogue const &d,
-        bool is_npc );
 var_info read_var_info( const JsonObject &jo );
 translation_var_info read_translation_var_info( const JsonObject &jo );
 void write_var_value( var_type type, const std::string &name, dialogue *d,

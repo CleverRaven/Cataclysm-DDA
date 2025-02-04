@@ -291,8 +291,9 @@ std::string food_traits( item const &it, unsigned int /* quantity */,
 std::string location_hint( item const &it, unsigned int /* quantity */,
                            segment_bitset const &/* segments */ )
 {
-    if( it.has_flag( json_flag_HINT_THE_LOCATION ) && it.has_var( "spawn_location_omt" ) ) {
-        tripoint_abs_omt loc( it.get_var( "spawn_location_omt", tripoint_abs_omt::zero ) );
+    if( it.has_flag( json_flag_HINT_THE_LOCATION ) && it.has_var( "spawn_location" ) ) {
+        tripoint_abs_omt loc( coords::project_to<coords::omt>(
+                                  it.get_var( "spawn_location", tripoint_abs_ms::zero ) ) );
         tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().get_abs(
                                          get_avatar().pos_bub() ) ) );
         int dist = rl_dist( player_loc, loc );

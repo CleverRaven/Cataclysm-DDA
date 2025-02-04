@@ -138,7 +138,7 @@ static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 static const flag_id json_flag_AVATAR_ONLY( "AVATAR_ONLY" );
 static const flag_id json_flag_JETPACK( "JETPACK" );
 static const flag_id json_flag_LEVITATION( "LEVITATION" );
-static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
+static const flag_id json_flag_PRESERVE_SPAWN_LOC( "PRESERVE_SPAWN_LOC" );
 static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
 static const flag_id json_flag_UNDODGEABLE( "UNDODGEABLE" );
 
@@ -5265,17 +5265,16 @@ item &map::add_item( const tripoint_bub_ms &p, item new_item, int copies )
         new_item.active = true;
     }
 
-    if( new_item.is_map() && !new_item.has_var( "reveal_map_center_omt" ) ) {
-        new_item.set_var( "reveal_map_center_omt",
-                          coords::project_to<coords::omt>( get_abs( p ) ) );
+    if( new_item.is_map() && !new_item.has_var( "reveal_map_center" ) ) {
+        new_item.set_var( "reveal_map_center", get_abs( p ) );
     }
 
     std::list<item *> all_items = new_item.all_items_ptr();
     all_items.emplace_back( &new_item );
     for( item *it : all_items ) {
-        if( it->has_flag( json_flag_PRESERVE_SPAWN_OMT ) &&
-            !it->has_var( "spawn_location_omt" ) ) {
-            it->set_var( "spawn_location_omt", coords::project_to<coords::omt>( get_abs( p ) ) );
+        if( it->has_flag( json_flag_PRESERVE_SPAWN_LOC ) &&
+            !it->has_var( "spawn_location" ) ) {
+            it->set_var( "spawn_location", get_abs( p ) );
         }
     };
 
