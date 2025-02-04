@@ -1,6 +1,15 @@
 [
   {
     "type": "effect_type",
+    "id": "effect_changeling_summer_light_spell",
+    "name": [ "Bonefire's Light" ],
+    "desc": [ "A wisp of flickering insubstanial fire hovers near your shoulder." ],
+    "apply_message": "",
+    "remove_message": "The wisp winks out.",
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 10 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_walk_on_water",
     "name": [ "Path of Rime" ],
     "desc": [ "Each step you take leaves a tracing of frost on the ground, and liquids freeze at your touch." ],
