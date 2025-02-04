@@ -53,7 +53,9 @@
         "search_data": [
           { "condition": { "math": [ "n_quality('HACK') > 0" ] }, "flags": "HACK_NO_CHARGE" },
           {
-            "condition": { "and": [ { "math": [ "n_quality('HACK') > 0" ] }, { "math": [ "afs_bionic_cost_adjust(_hack_cost) < u_val('power')" ] } ] },
+            "condition": {
+              "and": [ { "math": [ "n_quality('HACK') > 0" ] }, { "math": [ "afs_bionic_cost_adjust(_hack_cost) < u_val('power')" ] } ]
+            },
             "flags": "USES_BIONIC_POWER"
           },
           {
