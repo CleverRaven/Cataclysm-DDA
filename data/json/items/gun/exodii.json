@@ -151,7 +151,7 @@
     "effect_str": "exodii_foam",
     "shape": "blast",
     "valid_targets": [ "ground" ],
-    "min_aoe": 4,
+    "min_aoe": 5,
     "max_aoe": 5,
     "difficulty": 1,
     "min_range": 10,
