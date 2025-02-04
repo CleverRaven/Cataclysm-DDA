@@ -196,7 +196,17 @@
     "subtype": "collection",
     "items": [
       { "item": "273x44RG", "container-item": "box_medium_wood", "prob": 10, "count": [ 1, 2 ], "sealed": true },
-      { "item": "273x110slugheavy", "container-item": "box_small", "prob": 30, "count": [ 1, 2 ], "sealed": true }
+      { "item": "273x110slugheavy", "container-item": "box_small", "prob": 30, "count": [ 1, 2 ], "sealed": true },
+      {
+        "collection": [
+          { "item": "khuunaofaai", "prob": 100, "count": [ 1, 2 ] },
+          { "item": "exodii_khuunaofaai_mag_firework", "prob": 100, "count": [ 3, 4 ] },
+          { "item": "exodii_khuunaofaai_mag_incendiary", "prob": 50, "count": [ 1, 2 ] },
+          { "item": "exodii_khuunaofaai_mag_corrosive", "prob": 50, "count": [ 1, 2 ] },
+          { "item": "exodii_khuunaofaai_mag_adhesive", "prob": 50, "count": [ 1, 2 ] }
+        ],
+        "prob": 25
+      }
     ]
   },
   {
