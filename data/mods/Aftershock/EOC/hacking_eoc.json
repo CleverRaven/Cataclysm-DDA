@@ -26,27 +26,19 @@
     "return": "_0 - _1 * afs_hack_skill(1) < _2 ? _2 : _0 - _1* afs_hack_skill(1)"
   },
   {
-    "type": "effect_on_condition",
-    "id": "EOC_afs_hack_unlock",
-    "condition": { "and": [ { "expects_vars": [ "furn_pos", "difficulty", "t_radius" ] }, { "u_has_effect": "afs_hack_done" } ] },
-    "effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "_EOC_afs_hack_unlock",
-            "condition": { "roll_contested": { "math": [ "afs_hack_skill(1)" ] }, "die_size": 4, "difficulty": { "context_val": "difficulty" } },
-            "effect": [
-              {
-                "u_transform_radius": { "context_val": "t_radius" },
-                "ter_furn_transform": "afs_multi_unlock",
-                "target_var": { "context_val": "furn_pos" }
-              }
-            ],
-            "false_effect": [ { "run_eocs": [ "EOC_afs_hack_failure" ] } ]
-          }
-        ]
-      }
-    ]
+    "type": "jmath_function",
+    "id": "afs_bionic_cost_adjust",
+    "num_args": 1,
+    "return": "_0 * 500000"
+  },
+  {
+    "type": "jmath_function",
+    "id": "afs_hack_bonus",
+    "//": "Intended as: Tool Quality + ( Base Focus Mod * (Focus - Focus Threshold) / Focus Threshold ):rounded to nearest int",
+    "//1": "Below 100 Focus your focus mod will be negative and you are punished. At 100 focus your mod will be 0. Above 100 focus your mod will be positive and you will be rewarded.",
+    "//2": "ARGS: (Hack Tool Quality, Current Focus)",
+    "num_args": 2,
+    "return": "_0 + trunc( 4 * ( ( _1 - 100 ) / 100 ) )"
   },
   {
     "type": "effect_on_condition",
@@ -59,23 +51,18 @@
         "u_run_inv_eocs": "manual",
         "title": "Select a Hacking tool",
         "search_data": [
-          { "id": "electrohack", "condition": { "math": [ "_hack_cost < n_val('power')" ] } },
-          { "id": "afs_wrist_computer", "condition": { "math": [ "_hack_cost < n_val('power')" ] } },
-          { "id": "afs_bio_deck_jack", "condition": { "math": [ "_hack_cost < u_val('power')" ] } },
-          { "id": "electrokinetic_electrohack_1" },
-          { "id": "electrokinetic_electrohack_2" },
-          { "id": "electrokinetic_electrohack_3" },
-          { "id": "electrokinetic_electrohack_4" },
-          { "id": "electrokinetic_electrohack_5" },
-          { "id": "electrokinetic_electrohack_6" }
-        ],
-        "true_eocs": [ "EOC_hack_with_tool" ],
-        "false_eocs": [
+          { "condition": { "math": [ "n_quality('HACK') > 0" ] }, "flags": "HACK_NO_CHARGE" },
           {
-            "id": "EOC_afs_no_hack_tool",
-            "effect": [ { "u_message": "You need a working hacking tool with enough charges to do this!", "popup": true } ]
+            "condition": { "and": [ { "math": [ "n_quality('HACK') > 0" ] }, { "math": [ "afs_bionic_cost_adjust(_hack_cost) < u_val('power')" ] } ] },
+            "flags": "USES_BIONIC_POWER"
+          },
+          {
+            "condition": { "and": [ { "math": [ "n_quality('HACK') > 0" ] }, { "math": [ "_hack_cost < n_val('power')" ] } ] },
+            "excluded_flags": "USES_BIONIC_POWER",
+            "uses_energy": true
           }
-        ]
+        ],
+        "true_eocs": [ "EOC_hack_with_tool" ]
       }
     ]
   },
@@ -86,17 +73,7 @@
       { "npc_set_flag": "ACTIVE_HACK_TOOL" },
       { "u_message": "You connect to the lock controller." },
       { "u_assign_activity": "ACT_afs_hack", "duration": { "context_val": "t_delay" } },
-      { "math": [ "u_hack_bonus = 0" ] },
-      {
-        "run_eocs": [
-          "EOC_hack_bonus_tier_1",
-          "EOC_hack_bonus_tier_2",
-          "EOC_hack_bonus_tier_3",
-          "EOC_hack_bonus_tier_4",
-          "EOC_hack_bonus_tier_5",
-          "EOC_hack_bonus_tier_6"
-        ]
-      },
+      { "math": [ "u_hack_bonus = afs_hack_bonus( n_quality('HACK'), u_val('focus') )" ] },
       { "run_eocs": [ "EOC_hack_item_power_consume", "EOC_hack_bionic_power_consume" ] },
       {
         "run_eocs": "EOC_afs_hack_unlock",
@@ -111,83 +88,11 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_hack_bonus_tier_1",
-    "effect": [
-      {
-        "u_run_inv_eocs": "all",
-        "search_data": [
-          { "flags": "ACTIVE_HACK_TOOL", "id": "electrohack" },
-          { "flags": "ACTIVE_HACK_TOOL", "id": "electrokinetic_electrohack_1" }
-        ],
-        "true_eocs": [ { "id": "EOC_hack_bonus_tier_1_set_var", "effect": [ { "math": [ "u_hack_bonus = 1" ] } ] } ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_hack_bonus_tier_2",
-    "effect": [
-      {
-        "u_run_inv_eocs": "all",
-        "search_data": [
-          { "flags": "ACTIVE_HACK_TOOL", "id": "afs_bio_deck_jack" },
-          { "flags": "ACTIVE_HACK_TOOL", "id": "electrokinetic_electrohack_2" }
-        ],
-        "true_eocs": [ { "id": "EOC_hack_bonus_tier_2_set_var", "effect": [ { "math": [ "u_hack_bonus = 2" ] } ] } ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_hack_bonus_tier_3",
-    "effect": [
-      {
-        "u_run_inv_eocs": "all",
-        "search_data": [ { "flags": "ACTIVE_HACK_TOOL", "id": "electrokinetic_electrohack_3" } ],
-        "true_eocs": [ { "id": "EOC_hack_bonus_tier_3_set_var", "effect": [ { "math": [ "u_hack_bonus = 3" ] } ] } ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_hack_bonus_tier_4",
-    "effect": [
-      {
-        "u_run_inv_eocs": "all",
-        "search_data": [ { "flags": "ACTIVE_HACK_TOOL", "id": "electrokinetic_electrohack_4" } ],
-        "true_eocs": [ { "id": "EOC_hack_bonus_tier_4_set_var", "effect": [ { "math": [ "u_hack_bonus = 4" ] } ] } ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_hack_bonus_tier_5",
-    "effect": [
-      {
-        "u_run_inv_eocs": "all",
-        "search_data": [ { "flags": "ACTIVE_HACK_TOOL", "id": "electrokinetic_electrohack_5" } ],
-        "true_eocs": [ { "id": "EOC_hack_bonus_tier_5_set_var", "effect": [ { "math": [ "u_hack_bonus = 5" ] } ] } ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_hack_bonus_tier_6",
-    "effect": [
-      {
-        "u_run_inv_eocs": "all",
-        "search_data": [ { "flags": "ACTIVE_HACK_TOOL", "id": "electrokinetic_electrohack_6" } ],
-        "true_eocs": [ { "id": "EOC_hack_bonus_tier_6_set_var", "effect": [ { "math": [ "u_hack_bonus = 6" ] } ] } ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_hack_item_power_consume",
     "effect": [
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "flags": "ACTIVE_HACK_TOOL", "id": "electrohack" }, { "flags": "ACTIVE_HACK_TOOL", "id": "afs_wrist_computer" } ],
+        "search_data": [ { "flags": "ACTIVE_HACK_TOOL", "excluded_flags": "USES_BIONIC_POWER", "uses_energy": true } ],
         "true_eocs": [
           {
             "id": "EOC_hack_item_power_consume_found_item",
@@ -203,13 +108,50 @@
     "effect": [
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "flags": "ACTIVE_HACK_TOOL", "id": "afs_bio_deck_jack" } ],
+        "search_data": [ { "flags": [ "ACTIVE_HACK_TOOL", "USES_BIONIC_POWER" ] } ],
         "true_eocs": [
           {
             "id": "EOC_hack_bionic_power_consume_found_item",
-            "effect": [ { "math": [ "u_val('power') -= _hack_cost" ] }, { "npc_unset_flag": "ACTIVE_HACK_TOOL" } ]
+            "effect": [ { "math": [ "u_val('power') -= afs_bionic_cost_adjust(_hack_cost)" ] }, { "npc_unset_flag": "ACTIVE_HACK_TOOL" } ]
           }
         ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_afs_hack_unlock",
+    "condition": { "and": [ { "expects_vars": [ "furn_pos", "difficulty", "t_radius" ] }, { "u_has_effect": "afs_hack_done" } ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_afs_hack_success",
+            "condition": { "roll_contested": { "math": [ "afs_hack_skill(1)" ] }, "die_size": 4, "difficulty": { "context_val": "difficulty" } },
+            "effect": [
+              {
+                "if": { "compare_string": [ { "u_val": "hack_success_eoc" }, "" ] },
+                "then": [ { "u_add_var": "hack_success_eoc", "value": "EOC_afs_hack_generic_success" } ]
+              },
+              { "run_eocs": [ { "u_val": "hack_success_eoc" } ] },
+              { "u_add_var": "hack_minor_failure_eoc", "value": "" },
+              { "u_add_var": "hack_critical_fail_eoc", "value": "" },
+              { "u_add_var": "hack_success_eoc", "value": "" }
+            ],
+            "false_effect": [ { "run_eocs": [ "EOC_afs_hack_failure" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_afs_hack_generic_success",
+    "effect": [
+      {
+        "u_transform_radius": { "context_val": "t_radius" },
+        "ter_furn_transform": "afs_multi_unlock",
+        "target_var": { "context_val": "furn_pos" }
       }
     ]
   },
@@ -236,7 +178,8 @@
         "then": [ { "run_eocs": [ { "u_val": "hack_minor_failure_eoc" } ] } ]
       },
       { "u_add_var": "hack_minor_failure_eoc", "value": "" },
-      { "u_add_var": "hack_critical_fail_eoc", "value": "" }
+      { "u_add_var": "hack_critical_fail_eoc", "value": "" },
+      { "u_add_var": "hack_success_eoc", "value": "" }
     ]
   },
   {
