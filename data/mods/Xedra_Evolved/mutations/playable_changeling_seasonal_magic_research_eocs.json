@@ -426,7 +426,7 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_2",
     "effect": [
       {
-        "u_roll_remainder": [ "SPELLS GO HERE" ],
+        "u_roll_remainder": [ "changeling_summer_fire_melee_damage_spell" ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
@@ -439,7 +439,7 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_3",
     "effect": [
       {
-        "u_roll_remainder": [ "SPELLS GO HERE" ],
+        "u_roll_remainder": [ "changeling_summer_fire_melee_damage_spell" ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
@@ -452,7 +452,7 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_4",
     "effect": [
       {
-        "u_roll_remainder": [ "SPELLS GO HERE" ],
+        "u_roll_remainder": [ "changeling_summer_fire_melee_damage_spell" ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
@@ -465,7 +465,7 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_5",
     "effect": [
       {
-        "u_roll_remainder": [ "SPELLS GO HERE" ],
+        "u_roll_remainder": [ "changeling_summer_fire_melee_damage_spell" ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],

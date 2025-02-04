@@ -3,7 +3,7 @@
     "type": "effect_type",
     "id": "effect_changeling_summer_light_spell",
     "name": [ "Bonefire's Light" ],
-    "desc": [ "A wisp of flickering insubstanial fire hovers near your shoulder." ],
+    "desc": [ "A wisp of flickering insubstantial fire hovers near your shoulder." ],
     "apply_message": "",
     "remove_message": "The wisp winks out.",
     "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 10 } ] } ]
@@ -16,6 +16,43 @@
     "apply_message": "",
     "remove_message": "You blink as nearby lights grow brighter.",
     "flags": [ "GLARE_RESIST" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_light_spell",
+    "name": [ "Burning Solar Grasp" ],
+    "desc": [ "Ethereal flames flicker around your hands" ],
+    "apply_message": "",
+    "remove_message": "The flames gutter out.",
+    "enchantments": [
+      {
+        "condition": "u_has_weapon",
+        "melee_damage_bonus": [
+          {
+            "type": "heat",
+            "add": {
+              "math": [
+                "rng( (1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') / 2) ), (5 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') ) ) / 2.5"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": { "not": "u_has_weapon" },
+        "melee_damage_bonus": [
+          {
+            "type": "heat",
+            "add": {
+              "math": [
+                "rng( (1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') / 2) ), (5 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') ) )"
+              ]
+            }
+          }
+        ]
+      },
+      { "values": [ { "value": "LUMINATION", "add": 2 } ] }
+    ]
   },
   {
     "type": "effect_type",
