@@ -5111,11 +5111,11 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
         ret = holster.parents_can_contain_recursive( &it );
         if( !ret.success() ) {
             if( carrier->is_avatar() && query_yn(
-                    _( "The parent container does not have enough space to fit more items.  Would you like to wield %s first, to fit more?" ),
+                    _( "The parent container does not have enough space to fit more items.  Would you like to wield %s first to fit more?" ),
                     holster->tname() )
                 &&
                 // wield the container
-                carrier->wield_contents( *holster.parent_item(), holster.get_item() ) ) {
+                carrier->wield( *holster.get_item() ) ) {
                 holster = carrier->get_wielded_item();
 
                 // and recheck if parent can hold (there should be no parent)
@@ -5140,11 +5140,11 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
     } else if( carrier->is_avatar() && max_parent_charges.value() < holstered_item.second ) {
         // if you cannot fit all items because parent container is too small
         if( query_yn(
-                _( "The parent container does not have enough space to fit more than %i %s.  Would you like to wield %s first, to fit more?" ),
+                _( "The parent container does not have enough space to fit more than %i %s.  Would you like to wield %s first to fit more?" ),
                 max_parent_charges.value(), it.tname( max_parent_charges.value() ), holster->tname() )
             &&
             // wield the container
-            carrier->wield_contents( *holster.parent_item(), holster.get_item() ) ) {
+            carrier->wield( *holster.get_item() ) ) {
             holster = carrier->get_wielded_item();
 
             // and recalc max_parent_charges
