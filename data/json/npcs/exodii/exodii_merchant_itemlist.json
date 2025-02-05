@@ -206,7 +206,7 @@
     "subtype": "collection",
     "items": [
       { "item": "273x44RG", "container-item": "box_medium_wood", "prob": 10, "count": [ 1, 2 ], "sealed": true },
-      { "item": "273x110slugheavy", "container-item": "box_small", "prob": 30, "count": [ 1, 2 ], "sealed": true },
+      { "item": "273x110slugheavy", "container-item": "box_small", "prob": 30, "count": [ 1, 2 ], "sealed": true }
     ]
   },
   {
