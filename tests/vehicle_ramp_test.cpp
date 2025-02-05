@@ -280,7 +280,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     }
     std::set<int> z_span;
     for( vehicle_part *prt : all_parts ) {
-        z_span.insert( veh.bub_part_pos( *prt ).z() );
+        z_span.insert( veh.abs_part_pos( *prt ).z() );
     }
     REQUIRE( z_span.size() > 1 );
 
@@ -306,7 +306,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
 
     here.vehmove();
     for( vehicle_part *prt : all_parts ) {
-        CHECK( veh.bub_part_pos( *prt ).z() == 0 );
+        CHECK( veh.abs_part_pos( *prt ).z() == 0 );
     }
     CHECK( dmon.posz() == 0 );
     CHECK( veh.pos_bub().z() == 0 );

@@ -995,6 +995,19 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jo_mount_items, was_loaded, "storage", mount_items.storage, itype_id() );
     }
 
+    if( jo.has_array( "revive_forms" ) ) {
+        revive_type foo;
+        for( JsonObject jo_form : jo.get_array( "revive_forms" ) ) {
+            read_condition( jo_form, "condition", foo.condition, true );
+            if( jo_form.has_string( "monster" ) ) {
+                mandatory( jo_form, was_loaded, "monster", foo.revive_mon );
+            } else {
+                mandatory( jo_form, was_loaded, "monster_group", foo.revive_monster_group );
+            }
+            revive_types.push_back( foo );
+        }
+    }
+
     optional( jo, was_loaded, "zombify_into", zombify_into, string_id_reader<::mtype> {},
               mtype_id() );
 

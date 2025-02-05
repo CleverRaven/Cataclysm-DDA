@@ -361,7 +361,7 @@ void vehicle_part::ammo_unset()
     }
 }
 
-int vehicle_part::ammo_consume( int qty, const tripoint_bub_ms &pos )
+int vehicle_part::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos )
 {
     if( is_tank() && !base.empty() ) {
         const int res = std::min( ammo_remaining(), qty );
@@ -372,7 +372,7 @@ int vehicle_part::ammo_consume( int qty, const tripoint_bub_ms &pos )
         }
         return res;
     }
-    return base.ammo_consume( qty, pos, nullptr );
+    return base.ammo_consume( qty, here, pos, nullptr );
 }
 
 units::energy vehicle_part::consume_energy( const itype_id &ftype, units::energy wanted_energy )
@@ -553,11 +553,10 @@ void vehicle_part::unset_crew()
     crew_id = character_id();
 }
 
-void vehicle_part::reset_target( const tripoint_bub_ms &pos )
+void vehicle_part::reset_target( const tripoint_abs_ms &pos )
 {
-    const tripoint_abs_ms tgt = get_map().get_abs( pos );
-    target.first = tgt;
-    target.second = tgt;
+    target.first = pos;
+    target.second = pos;
 }
 
 bool vehicle_part::is_engine() const

@@ -191,7 +191,7 @@
       { "item": "cordless_drill", "prob": 30 },
       { "item": "rope_30", "prob": 50 },
       { "item": "pliers", "prob": 50 },
-      { "item": "laptop", "prob": 70 },
+      { "group": "new_laptops", "prob": 70 },
       { "item": "cable", "prob": 40 },
       { "item": "manual_traps_mil", "prob": 80 },
       { "group": "gear_eod_light_or_heavy", "prob": 100 }
@@ -255,8 +255,7 @@
       [ "hammer_sledge_engineer", 5 ],
       [ "hammer_sledge_heavy", 1 ],
       [ "shovel", 20 ],
-      { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 20, "charges": [ 0, -1 ], "contents-group": "civilian_smartphone_efiles" },
+      { "group": "civilian_phones", "prob": 20 },
       [ "airhorn", 5 ],
       [ "boltcutters", 5 ],
       [ "tacvest", 10 ],

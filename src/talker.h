@@ -646,6 +646,9 @@ class const_talker
         virtual int climate_control_str_chill() const {
             return 0;
         }
+        virtual int get_quality( const std::string &, bool ) const {
+            return 0;
+        }
 };
 
 class talker: virtual public const_talker
@@ -690,6 +693,7 @@ class talker: virtual public const_talker
         virtual void set_dex_bonus( int ) {}
         virtual void set_int_bonus( int ) {}
         virtual void set_per_bonus( int ) {}
+        virtual void set_cash( int ) {}
         virtual void set_spell_level( const spell_id &, int ) {}
         virtual void set_spell_exp( const spell_id &, int ) {}
         virtual void set_skill_level( const skill_id &, int ) {}

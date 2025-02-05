@@ -337,7 +337,7 @@ struct vehicle_part {
          * @param pos current reality bubble location of part from which ammo is being consumed
          * @return amount consumed which will be between 0 and specified qty
          */
-        int ammo_consume( int qty, const tripoint_bub_ms &pos );
+        int ammo_consume( int qty, map *here, const tripoint_bub_ms &pos );
 
         /**
          * Consume fuel by energy content.
@@ -394,7 +394,7 @@ struct vehicle_part {
         void unset_crew();
 
         /** Reset the target for this part. */
-        void reset_target( const tripoint_bub_ms &pos );
+        void reset_target( const tripoint_abs_ms &pos );
 
         /**
          * @name Part capabilities
@@ -641,7 +641,7 @@ class turret_data
          * Check if target is in range of this turret (considers current ammo)
          * Assumes this turret's status is 'ready'
          */
-        bool in_range( const tripoint_bub_ms &target ) const;
+        bool in_range( const tripoint_abs_ms &target ) const;
 
         /**
          * Prepare the turret for firing, called by firing function.
@@ -656,7 +656,7 @@ class turret_data
          * @param p the player that just fired (or attempted to fire) the turret.
          * @param shots the number of shots fired by the most recent call to turret::fire.
          */
-        void post_fire( Character &you, int shots );
+        void post_fire( map *here, Character &you, int shots );
 
         /**
          * Fire the turret's gun at a given target.
@@ -664,7 +664,7 @@ class turret_data
          * @param target coordinates that will be fired on.
          * @return the number of shots actually fired (may be zero).
          */
-        int fire( Character &c, const tripoint_bub_ms &target );
+        int fire( Character &c, map *here, const tripoint_bub_ms &target );
 
         bool can_reload() const;
         bool can_unload() const;
@@ -911,7 +911,7 @@ class vehicle
         void suspend_refresh();
         void enable_refresh();
         //Refresh all caches and re-locate all parts
-        void refresh( bool remove_fakes = true );
+        void refresh( map *here, bool remove_fakes = true );
 
         // Refresh active_item cache for vehicle parts
         void refresh_active_item_cache();
@@ -970,7 +970,8 @@ class vehicle
         bool is_towing() const;
         bool has_tow_attached() const;
         int get_tow_part() const;
-        bool is_external_part( const tripoint_bub_ms &part_pt ) const;
+        bool is_external_part( map *here, const tripoint_bub_ms &part_pt ) const;
+        bool is_external_part( const point_rel_ms &mount ) const;
         bool is_towed() const;
         void set_tow_directions();
         /// @return true if vehicle is an appliance
@@ -1015,7 +1016,7 @@ class vehicle
         // Stop any kind of automatic vehicle control and apply the brakes.
         void stop_autodriving( bool apply_brakes = true );
 
-        void connect( const tripoint_bub_ms &source_pos, const tripoint_bub_ms &target_pos );
+        void connect( map *here, const tripoint_bub_ms &source_pos, const tripoint_bub_ms &target_pos );
 
         bool precollision_check( units::angle &angle, map &here, bool follow_protocol );
         // Try select any fuel for engine, returns true if some fuel is available
@@ -1288,7 +1289,11 @@ class vehicle
          *  @param flag if set only flags with this part will be considered
          *  @param condition enum to include unabled, unavailable, and broken parts
          */
+        // TODO: Get rid of map less overload.
         std::vector<vehicle_part *> get_parts_at( const tripoint_bub_ms &pos, const std::string &flag,
+                part_status_flag condition );
+        std::vector<vehicle_part *> get_parts_at( map *here, const tripoint_bub_ms &pos,
+                const std::string &flag,
                 part_status_flag condition );
         std::vector<const vehicle_part *> get_parts_at( const tripoint_bub_ms &pos,
                 const std::string &flag, part_status_flag condition ) const;
@@ -1433,12 +1438,14 @@ class vehicle
         tripoint_abs_omt pos_abs_omt() const;
         // Returns the coordinates (in map squares) of the vehicle relative to the local map.
         // Warning: Don't assume this position contains a vehicle part
+        // TODO: Replace usage of map less version.
         tripoint_bub_ms pos_bub() const;
+        tripoint_bub_ms pos_bub( map *here ) const;
         /**
          * Get the coordinates of the studied part of the vehicle
          */
-        tripoint_bub_ms bub_part_pos( int index ) const;
-        tripoint_bub_ms bub_part_pos( const vehicle_part &pt ) const;
+        tripoint_bub_ms bub_part_pos( map *here, int index ) const;
+        tripoint_bub_ms bub_part_pos( map *here, const vehicle_part &pt ) const;
         tripoint_abs_ms abs_part_pos( int index ) const;
         tripoint_abs_ms abs_part_pos( const vehicle_part &pt ) const;
         /**
@@ -1465,6 +1472,9 @@ class vehicle
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
         int drain( const itype_id &ftype, int amount,
+                   const std::function<bool( vehicle_part & )> &filter = return_true< vehicle_part &>,
+                   bool apply_loss = true );
+        int drain( map *here, const itype_id &ftype, int amount,
                    const std::function<bool( vehicle_part & )> &filter = return_true< vehicle_part &>,
                    bool apply_loss = true );
         int drain( int index, int amount, bool apply_loss = true );
@@ -2129,7 +2139,7 @@ class vehicle
          * This should be called only when the vehicle has actually been moved, not when
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
-        void set_submap_moved( const tripoint_bub_sm &p );
+        void set_submap_moved( map *here, const tripoint_bub_sm &p );
         void use_autoclave( int p );
         void use_washing_machine( int p );
         void use_dishwasher( int p );
@@ -2304,18 +2314,11 @@ class vehicle
 
     public:
         /**
-         * Submap coordinates of the currently loaded submap (see game::m)
-         * that contains this vehicle. These values are changed when the map
-         * shifts (but the vehicle is not actually moved than, it also stays on
-         * the same submap, only the relative coordinates in map::grid have changed).
-         * These coordinates must always refer to the submap in map::grid that contains
-         * this vehicle.
+         * Submap coordinates of the currently loaded submap that contains this vehicle.
          * When the vehicle is really moved (by map::displace_vehicle), set_submap_moved
-         * is called and updates these values, when the map is only shifted or when a submap
-         * is loaded into the map the values are directly set. The vehicles position does
-         * not change therefore no call to set_submap_moved is required.
+         * is called and updates these values.
          */
-        tripoint_bub_sm sm_pos = tripoint_bub_sm::zero; // NOLINT(cata-serialize)
+        tripoint_abs_sm sm_pos = tripoint_abs_sm::zero; // NOLINT(cata-serialize)
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
         int alternator_load = 0; // NOLINT(cata-serialize)

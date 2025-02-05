@@ -422,6 +422,7 @@
       { "item": "tomato", "prob": 20 },
       { "item": "lettuce", "prob": 15, "count": 5 },
       { "item": "cabbage", "prob": 10, "count": 8 },
+      { "item": "radish_taproot", "prob": 5, "count": 2 },
       { "item": "spinach", "prob": 6, "count": 9 },
       { "item": "cucumber", "prob": 10 },
       { "item": "pumpkin", "prob": 10 },

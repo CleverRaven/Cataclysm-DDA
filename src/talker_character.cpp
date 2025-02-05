@@ -175,6 +175,11 @@ void talker_character::set_per_bonus( int value )
     me_chr->mod_per_bonus( value );
 }
 
+void talker_character::set_cash( int value )
+{
+    me_chr->cash = value;
+}
+
 int talker_character_const::get_str_max() const
 {
     return me_chr_const->str_max;

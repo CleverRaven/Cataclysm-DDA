@@ -1303,8 +1303,8 @@ std::optional<int> reveal_map_actor::use( Character *p, item &it, const tripoint
         p->add_msg_if_player( _( "It's too dark to read." ) );
         return std::nullopt;
     }
-    const tripoint_abs_omt center( it.get_var( "reveal_map_center_omt",
-                                   p->pos_abs_omt() ) );
+    const tripoint_abs_omt center( coords::project_to<coords::omt>( it.get_var( "reveal_map_center",
+                                   p->pos_abs() ) ) );
     // Clear highlight on previously revealed OMTs before revealing new ones
     p->map_revealed_omts.clear();
     for( const auto &omt : omt_types ) {
@@ -5056,7 +5056,7 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
 
     const auto can_link = [&here]( const tripoint_bub_ms & point ) {
         const optional_vpart_position ovp = here.veh_at( point );
-        return ovp && ovp->vehicle().is_external_part( point );
+        return ovp && ovp->vehicle().is_external_part( &here,  point );
     };
 
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(

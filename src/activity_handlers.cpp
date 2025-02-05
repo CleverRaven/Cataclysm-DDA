@@ -625,8 +625,9 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                           corpse.in_species( species_HUMAN ) ||
                           corpse.in_species( species_FERAL );
 
-    // applies to all butchery actions except for dissections
-    if( is_human && action != butcher_type::DISSECT && !you.okay_with_eating_humans() ) {
+    // applies to all butchery actions except for dissections or dismemberment
+    if( is_human && action != butcher_type::DISSECT && !you.okay_with_eating_humans() &&
+        action != butcher_type::DISMEMBER ) {
         //first determine if the butcherer has the dissect_humans proficiency.
         if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
             //if it's player doing the butchery, ask them first.
@@ -1128,11 +1129,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         }
         // RIP AND TEAR
         if( action == butcher_type::DISMEMBER ) {
-            if( entry.type == harvest_drop_flesh ) {
-                roll /= 6;
-            } else {
-                continue;
-            }
+            roll = 0;
         }
         // field dressing ignores skin, flesh, and blood
         if( action == butcher_type::FIELD_DRESS ) {
@@ -1395,7 +1392,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     // therefore operations on this activity's targets and values may be invalidated.
     // reveal hidden items / hidden content
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
-        action != butcher_type::BLEED ) {
+        action != butcher_type::BLEED && action != butcher_type:: DISMEMBER ) {
         for( item *content : corpse_item->all_items_top( pocket_type::CONTAINER ) ) {
             if( ( roll_butchery_dissect( round( you.get_average_skill_level( skill_survival ) ), you.dex_cur,
                                          tool_quality ) + 10 ) * 5 > rng( 0, 100 ) ) {

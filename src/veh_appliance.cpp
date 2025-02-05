@@ -114,7 +114,7 @@ bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
                 continue;
             }
             if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
-                veh->connect( p, trip );
+                veh->connect( &here, p, trip );
                 connected_vehicles.insert( &veh_target );
             }
         }
@@ -528,8 +528,9 @@ void veh_app_interact::disconnect()
 
 void veh_app_interact::plug()
 {
+    map &here = get_map();
     const int part = veh->part_at( veh->coord_translate( a_point ) );
-    const tripoint_bub_ms pos = veh->bub_part_pos( part );
+    const tripoint_bub_ms pos = veh->bub_part_pos( &here, part );
     item cord( itype_power_cord );
     cord.link_to( *veh, a_point, link_state::automatic );
     if( cord.get_use( "link_up" ) ) {

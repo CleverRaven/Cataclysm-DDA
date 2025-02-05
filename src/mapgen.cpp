@@ -97,8 +97,10 @@ static const furn_str_id furn_f_sign( "f_sign" );
 static const furn_str_id furn_f_table( "f_table" );
 static const furn_str_id furn_f_toilet( "f_toilet" );
 static const furn_str_id furn_f_vending_c( "f_vending_c" );
+static const furn_str_id furn_f_vending_c_networked( "f_vending_c_networked" );
 static const furn_str_id furn_f_vending_c_off( "f_vending_c_off" );
 static const furn_str_id furn_f_vending_reinforced( "f_vending_reinforced" );
+static const furn_str_id furn_f_vending_reinforced_networked( "f_vending_reinforced_networked" );
 static const furn_str_id furn_f_vending_reinforced_off( "f_vending_reinforced_off" );
 
 static const item_group_id Item_spawn_data_ammo_rare( "ammo_rare" );
@@ -2205,10 +2207,12 @@ class jmapgen_vending_machine : public jmapgen_piece_with_has_vehicle_collision
         mapgen_value<item_group_id> group_id;
         bool lootable;
         bool powered;
+        bool networked;
         jmapgen_vending_machine( const JsonObject &jsi, const std::string_view/*context*/ ) :
             reinforced( jsi.get_bool( "reinforced", false ) )
             , lootable( jsi.get_bool( "lootable", false ) )
-            , powered( jsi.get_bool( "powered", false ) ) {
+            , powered( jsi.get_bool( "powered", false ) )
+            , networked( jsi.get_bool( "networked", false ) ) {
             if( jsi.has_member( "item_group" ) ) {
                 group_id = mapgen_value<item_group_id>( jsi.get_member( "item_group" ) );
             } else {
@@ -2223,7 +2227,7 @@ class jmapgen_vending_machine : public jmapgen_piece_with_has_vehicle_collision
             if( chosen_id.is_null() ) {
                 return;
             }
-            dat.m.place_vending( r, chosen_id, reinforced, lootable, powered );
+            dat.m.place_vending( r, chosen_id, reinforced, lootable, powered, networked );
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
@@ -6673,7 +6677,7 @@ void map::place_toilet( const tripoint_bub_ms &p, int charges )
 }
 
 void map::place_vending( const tripoint_bub_ms &p, const item_group_id &type, bool reinforced,
-                         bool lootable, bool powered )
+                         bool lootable, bool powered, bool networked )
 {
     if( !powered ) {
         if( reinforced ) {
@@ -6683,9 +6687,18 @@ void map::place_vending( const tripoint_bub_ms &p, const item_group_id &type, bo
         }
     } else {
         if( reinforced ) {
-            furn_set( p, furn_f_vending_reinforced );
+            if( networked ) {
+                furn_set( p, furn_f_vending_reinforced_networked );
+            } else {
+                furn_set( p, furn_f_vending_reinforced );
+            }
         } else {
-            furn_set( p, furn_f_vending_c );
+            if( networked ) {
+                furn_set( p, furn_f_vending_c_networked );
+            } else {
+                furn_set( p, furn_f_vending_c );
+            }
+
         }
     }
     // The chance to find a non-ransacked vending machine reduces greatly with every day after the Cataclysm,
@@ -6901,7 +6914,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
     tripoint_bub_sm quotient;
     point_sm_ms remainder;
     std::tie( quotient, remainder ) = coords::project_remain<coords::sm>( p_ms );
-    veh->sm_pos = quotient;
+    veh->sm_pos = abs_sub.xy() + rebase_rel( quotient );
     veh->pos = remainder;
     veh->init_state( *this, veh_fuel, veh_status, force_status );
     veh->place_spawn_items();
@@ -6916,7 +6929,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
     vehicle *placed_vehicle = placed_vehicle_up.get();
 
     if( placed_vehicle != nullptr ) {
-        submap *place_on_submap = get_submap_at_grid( rebase_rel( placed_vehicle->sm_pos ) );
+        submap *place_on_submap = get_submap_at_grid( placed_vehicle->sm_pos - abs_sub.xy() );
         if( place_on_submap == nullptr ) {
             debugmsg( "Tried to add vehicle at %s but the submap is not loaded",
                       placed_vehicle->sm_pos.to_string() );
@@ -6960,7 +6973,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
     for( std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++ ) {
-        const tripoint_bub_ms p = veh_to_add->bub_part_pos( *part );
+        const tripoint_bub_ms p = veh_to_add->bub_part_pos( this, *part );
 
         if( veh_to_add->part( *part ).is_fake ) {
             continue;
@@ -7003,13 +7016,13 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
             std::unique_ptr<RemovePartHandler> handler_ptr;
             bool did_merge = false;
             for( const tripoint_abs_ms &map_pos : first_veh->get_points( true ) ) {
-                const tripoint_bub_ms map_bub_pos = get_bub( map_pos ); // TODO: Make usages use this map.
-                std::vector<vehicle_part *> parts_to_move = veh_to_add->get_parts_at( map_bub_pos, "",
+                const tripoint_bub_ms map_bub_pos = get_bub( map_pos );
+                std::vector<vehicle_part *> parts_to_move = veh_to_add->get_parts_at( this, map_bub_pos, "",
                         part_status_flag::any );
                 if( !parts_to_move.empty() ) {
                     // Store target_point by value because first_veh->parts may reallocate
                     // to a different address after install_part()
-                    std::vector<vehicle_part *> first_veh_parts = first_veh->get_parts_at( map_bub_pos, "",
+                    std::vector<vehicle_part *> first_veh_parts = first_veh->get_parts_at( this, map_bub_pos, "",
                             part_status_flag:: any );
                     // This happens if this location is occupied by a fake part.
                     if( first_veh_parts.empty() || first_veh_parts.front()->is_fake ) {
@@ -7045,6 +7058,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                         // This is a heuristic: we just assume the default handler is good enough when called
                         // on the main game map. And assume that we run from some mapgen code if called on
                         // another instance.
+                        // TODO: Update logic to be able to work outside of mapgen and in the reality bubble.
                         if( !g || &get_map() != this ) {
                             handler_ptr = std::make_unique<MapgenRemovePartHandler>( *this );
                         }
@@ -7098,7 +7112,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
         veh_to_add->smash( *this );
     }
 
-    veh_to_add->refresh();
+    veh_to_add->refresh( this );
     return veh_to_add;
 }
 
@@ -7214,7 +7228,7 @@ void map::rotate( int turns )
                 sm->rotate( turns );
 
                 for( auto &veh : sm->vehicles ) {
-                    veh->sm_pos = { rebase_bub( p ), z_level };
+                    veh->sm_pos = { abs_sub.xy() + p, z_level };
                 }
 
                 update_vehicle_list( sm, z_level );

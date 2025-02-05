@@ -25,7 +25,8 @@
         [ "young_leaves", 4 ],
         [ "sauerkraut", 2 ],
         [ "grape_leaves", 2 ],
-        [ "cabbage", 2 ]
+        [ "cabbage", 2 ],
+        [ "radish_taproot", 2 ]
       ],
       [
         [ "any_salad_cucumber", 1, "LIST" ],
