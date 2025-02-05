@@ -95,7 +95,7 @@ TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
         REQUIRE( frame_part_idx != -1 );
         const int bat_part_idx = veh->install_part( point_rel_ms::zero, vpart_small_storage_battery );
         REQUIRE( bat_part_idx != -1 );
-        veh->refresh( &here );
+        veh->refresh( );
         here.add_vehicle_to_cache( veh );
         batteries.emplace_back( *veh, bat_part_idx );
     }

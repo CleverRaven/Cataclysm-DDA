@@ -205,14 +205,15 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
     clear_map();
     clear_vehicles();
     set_time( midday );
+    map &here = get_map();
 
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const int water_charges = 8;
     Character &character = get_player_character();
     const item backpack( itype_backpack );
     character.wear_item( backpack );
-    get_map().add_vehicle( vehicle_prototype_test_rv, test_origin, -90_degrees, 0, 0 );
-    const optional_vpart_position ovp = get_map().veh_at( test_origin );
+    here.add_vehicle( vehicle_prototype_test_rv, test_origin, -90_degrees, 0, 0 );
+    const optional_vpart_position ovp = here.veh_at( test_origin );
     REQUIRE( ovp.has_value() );
     vehicle &veh = ovp->vehicle();
 
@@ -235,12 +236,12 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
         }
     }
     REQUIRE( faucet.has_value() );
-    get_map().board_vehicle( faucet->pos_bub() + tripoint::east, &character );
+    here.board_vehicle( faucet->pos_bub( &here ) + tripoint::east, &character );
     veh_menu menu( veh, "TEST" );
     for( int i = 0; i < water_charges; i++ ) {
         CAPTURE( i, veh.fuel_left( itype_water_clean ) );
         menu.reset();
-        veh.build_interact_menu( menu, faucet->pos_bub(), false );
+        veh.build_interact_menu( menu, faucet->pos_bub( &here ), false );
         const std::vector<veh_menu_item> items = menu.get_items();
         const bool stomach_should_be_full = i == water_charges - 1;
         const auto drink_item_it = std::find_if( items.begin(), items.end(),
@@ -261,7 +262,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
     }
     REQUIRE( veh.fuel_left( itype_water_clean ) == 0 );
     REQUIRE( tank_it->empty_container() );
-    get_map().destroy_vehicle( &veh );
+    here.destroy_vehicle( &veh );
 }
 
 TEST_CASE( "craft_available_via_vehicle_rig", "[vehicle][vehicle_craft]" )

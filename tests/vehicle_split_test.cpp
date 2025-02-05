@@ -35,7 +35,7 @@ TEST_CASE( "vehicle_split_section", "[vehicle]" )
 
         here.destroy_vehicle( vehicle_origin );
         veh_ptr->part_removal_cleanup();
-        REQUIRE( veh_ptr->get_parts_at( vehicle_origin, "", part_status_flag::available ).empty() );
+        REQUIRE( veh_ptr->get_parts_at( &here, vehicle_origin, "", part_status_flag::available ).empty() );
         vehs = here.get_vehicles();
         // destroying the center frame results in 4 new vehicles
         CHECK( vehs.size() == 4 );
@@ -75,7 +75,7 @@ TEST_CASE( "vehicle_split_section", "[vehicle]" )
         REQUIRE( veh_ptr != nullptr );
         here.destroy_vehicle( vehicle_origin );
         veh_ptr->part_removal_cleanup();
-        REQUIRE( veh_ptr->get_parts_at( vehicle_origin, "", part_status_flag::available ).empty() );
+        REQUIRE( veh_ptr->get_parts_at( &here, vehicle_origin, "", part_status_flag::available ).empty() );
         vehs = here.get_vehicles();
         CHECK( vehs.size() == 1 );
         if( vehs.size() == 1 ) {

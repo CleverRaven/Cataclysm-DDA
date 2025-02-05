@@ -1058,7 +1058,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         if( act == ACT_VEHICLE_DECONSTRUCTION ) {
             // find out if there is a vehicle part here we can remove.
             std::vector<vehicle_part *> parts =
-                veh->get_parts_at( src_loc, "", part_status_flag::any );
+                veh->get_parts_at( &here, src_loc, "", part_status_flag::any );
             for( vehicle_part *part_elem : parts ) {
                 const int vpindex = veh->index_of_part( part_elem, true );
                 // if part is not on this vehicle, or if its attached to another part that needs to be removed first.
@@ -1101,7 +1101,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             }
         } else if( act == ACT_VEHICLE_REPAIR ) {
             // find out if there is a vehicle part here we can repair.
-            std::vector<vehicle_part *> parts = veh->get_parts_at( src_loc, "", part_status_flag::any );
+            std::vector<vehicle_part *> parts = veh->get_parts_at( &here, src_loc, "", part_status_flag::any );
             for( vehicle_part *part_elem : parts ) {
                 const vpart_info &vpinfo = part_elem->info();
                 int vpindex = veh->index_of_part( part_elem, true );

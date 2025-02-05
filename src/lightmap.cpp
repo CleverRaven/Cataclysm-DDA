@@ -638,7 +638,7 @@ void map::generate_lightmap( const int zlev )
         }
 
         for( const vpart_reference &vpr : v->get_any_parts( VPFLAG_CARGO ) ) {
-            const tripoint_bub_ms pos = vpr.pos_bub();
+            const tripoint_bub_ms pos = vpr.pos_bub( this );
             if( !inbounds( pos ) || vpr.info().has_flag( "COVERED" ) ) {
                 continue;
             }
@@ -1097,8 +1097,8 @@ void map::build_seen_cache( const tripoint_bub_ms &origin, const int target_z, i
         if( vp.part().removed || vp.part().is_broken() || !vp.info().has_flag( VPFLAG_EXTENDS_VISION ) ) {
             continue;
         }
-        const tripoint_bub_ms mirror_pos = vp.pos_bub();
-        if( rl_dist( origin, vp.pos_bub() ) > extension_range ) {
+        const tripoint_bub_ms mirror_pos = vp.pos_bub( this );
+        if( rl_dist( origin, vp.pos_bub( this ) ) > extension_range ) {
             continue;
         }
         // We can utilize the current state of the seen cache to determine

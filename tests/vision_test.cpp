@@ -886,6 +886,8 @@ TEST_CASE( "vision_vehicle_camera", "[shadowcasting][vision][vehicle]" )
 
 TEST_CASE( "vision_vehicle_camera_skew", "[shadowcasting][vision][vehicle][vehicle_fake]" )
 {
+    map &here = get_map();
+
     clear_vehicles();
     bool const camera_on = GENERATE( true, false );
     int const fiddle = GENERATE( 0, 1, 2 );
@@ -920,8 +922,8 @@ TEST_CASE( "vision_vehicle_camera_skew", "[shadowcasting][vision][vehicle][vehic
         std::optional<units::angle> const dir = testcase_veh_dir( { 4, 0 }, t, tile );
         if( dir ) {
             units::angle const skew = *dir + 45_degrees;
-            v = get_map().add_vehicle( vehicle_prototype_vehicle_camera_test, tile.p, skew, 0,
-                                       0 );
+            v = here.add_vehicle( vehicle_prototype_vehicle_camera_test, tile.p, skew, 0,
+                                  0 );
             v->camera_on = camera_on;
         }
         return true;
@@ -929,16 +931,16 @@ TEST_CASE( "vision_vehicle_camera_skew", "[shadowcasting][vision][vehicle][vehic
 
     auto const fiddle_parts = [&]() {
         if( fiddle > 0 ) {
-            std::vector<vehicle_part *> const horns = v->get_parts_at( v->pos_bub(), "HORN", {} );
+            std::vector<vehicle_part *> const horns = v->get_parts_at( v->pos_abs(), "HORN", {} );
             v->remove_part( *horns.front() );
         }
         if( fiddle > 1 ) {
             REQUIRE( v->install_part( point_rel_ms::zero, vpart_inboard_mirror ) != -1 );
         }
         if( fiddle > 0 ) {
-            get_map().add_vehicle_to_cache( v );
-            get_map().invalidate_map_cache( get_avatar().posz() );
-            get_map().build_map_cache( get_avatar().posz() );
+            here.add_vehicle_to_cache( v );
+            here.invalidate_map_cache( get_avatar().posz() );
+            here.build_map_cache( get_avatar().posz() );
         }
     };
 
@@ -1041,6 +1043,8 @@ TEST_CASE( "vision_bright_source", "[vision]" )
 
 TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision][moncam]" )
 {
+    map &here = get_map();
+
     clear_vehicles();
 
     bool door_open = GENERATE( false, true );
@@ -1118,7 +1122,7 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision][moncam]" )
             return;
         }
         // open door at `door` location
-        for( const vehicle_part *vp : v->get_parts_at( *door, "OPENABLE", part_status_flag::any ) ) {
+        for( const vehicle_part *vp : v->get_parts_at( &here, *door, "OPENABLE", part_status_flag::any ) ) {
             v -> open( v->index_of_part( vp ) );
         }
     };
@@ -1141,7 +1145,7 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision][moncam]" )
             dir = 0_degrees;
         }
         if( dir ) {
-            v = get_map().add_vehicle( vehicle_prototype_meth_lab, tile.p, *dir, 0, 0 );
+            v = here.add_vehicle( vehicle_prototype_meth_lab, tile.p, *dir, 0, 0 );
             for( const vpart_reference &vp : v->get_avail_parts( "OPENABLE" ) ) {
                 v -> close( vp.part_index() );
             }

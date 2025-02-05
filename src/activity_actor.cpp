@@ -1218,7 +1218,7 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
             return;
         }
         vehicle &veh = vp->vehicle();
-        if( vehicle::use_vehicle_tool( veh, veh_pos.value(), type.value(), true ) ) {
+        if( vehicle::use_vehicle_tool( veh, &here, veh_pos.value(), type.value(), true ) ) {
             sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
             if( calendar::once_every( 1_minutes ) ) {
                 //~ Sound of a metal sawing tool at work!
@@ -2597,7 +2597,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
     if( veh ) {
         std::vector<vehicle_part *> parts_at_target = veh->vehicle().get_parts_at(
-                    target, "LOCKABLE_DOOR", part_status_flag::available );
+                    &here, target, "LOCKABLE_DOOR", part_status_flag::available );
         if( !parts_at_target.empty() ) {
             locked_part = veh->vehicle().next_part_to_unlock(
                               veh->vehicle().index_of_part( parts_at_target.front() ) );
@@ -8025,14 +8025,14 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
     for( const vpart_reference &vpr : veh.get_any_parts( VPFLAG_CARGO ) ) {
         vehicle_stack cargo = vpr.items();
         for( const item &elem : cargo ) {
-            here.add_item_or_charges( veh.pos_bub(), elem );
+            here.add_item_or_charges( veh.pos_bub( &here ), elem );
         }
         cargo.clear();
     }
 
     veh.unboard_all();
     p.add_msg_if_player( _( "You fold the %s." ), veh.name );
-    here.add_item_or_charges( veh.pos_bub(), veh.get_folded_item() );
+    here.add_item_or_charges( veh.pos_bub( &here ), veh.get_folded_item() );
     here.destroy_vehicle( &veh );
 
     return true;
@@ -8127,7 +8127,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
         if( vp.info().location != "structure" ) {
             continue;
         }
-        if( invalid_pos( vp.pos_bub() ) ) {
+        if( invalid_pos( vp.pos_bub( &here ) ) ) {
             p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
             here.destroy_vehicle( veh );
             return false;

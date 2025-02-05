@@ -212,7 +212,7 @@ TEST_CASE( "vehicle_collision_applies_damage_to_fake_parent", "[vehicle] [vehicl
             // we know the mount point of the front right headlight is 2,2
             // that places it's fake mirror at 2,3
             const point_rel_ms fake_r_hl( 2, 3 );
-            tripoint_bub_ms fake_front_right_headlight = veh->mount_to_tripoint( fake_r_hl );
+            tripoint_bub_ms fake_front_right_headlight = veh->mount_to_tripoint( &here, fake_r_hl );
             // we're travelling south east, so placing it SE of the fake headlight mirror
             // will impact it on next move
             tripoint_bub_ms obstacle_point = fake_front_right_headlight + tripoint::south_east;
@@ -258,7 +258,7 @@ TEST_CASE( "vehicle_to_vehicle_collision", "[vehicle] [vehicle_fake]" )
         const tripoint_bub_ms test_origin( 30, 30, 0 );
         vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 30_degrees, 100, 0 );
         REQUIRE( veh != nullptr );
-        const tripoint_bub_ms global_origin = veh->pos_bub();
+        const tripoint_bub_ms global_origin = veh->pos_bub( &here );
 
         veh->tags.insert( "IN_CONTROL_OVERRIDE" );
         veh->engine_on = true;
@@ -266,7 +266,7 @@ TEST_CASE( "vehicle_to_vehicle_collision", "[vehicle] [vehicle_fake]" )
         veh->cruise_velocity = target_velocity;
         veh->velocity = veh->cruise_velocity;
         here.vehmove();
-        const tripoint_bub_ms global_move = veh->pos_bub();
+        const tripoint_bub_ms global_move = veh->pos_bub( &here );
         const tripoint_bub_ms obstacle_point = test_origin + 2 * ( global_move - global_origin );
         vehicle *trg = here.add_vehicle( vehicle_prototype_schoolbus, obstacle_point, 90_degrees, 100, 0 );
         REQUIRE( trg != nullptr );
@@ -333,7 +333,7 @@ TEST_CASE( "vehicle_with_fake_obstacle_parts_block_movement", "[vehicle][vehicle
     vehicle *veh = here.add_vehicle( vehicle_prototype_obstacle_test,
                                      test_origin, 315_degrees, 100, 0 );
     REQUIRE( veh != nullptr );
-    veh->refresh( &here );
+    veh->refresh( );
     here.set_seen_cache_dirty( 0 );
     here.build_map_cache( 0 );
     validate_part_count( *veh, 0, 315_degrees, 11, 6, 5 );
@@ -386,7 +386,7 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
         if( vp.info().has_flag( "OPENABLE" ) && vp.part().is_fake ) {
             fakes_tested++;
             REQUIRE( !vp.part().open );
-            CHECK( can_interact_at( ACTION_OPEN, vp.pos_bub() ) );
+            CHECK( can_interact_at( ACTION_OPEN, vp.pos_bub( &here ) ) );
             int part_to_open = veh->next_part_to_open( vp.part_index() );
             // This should be the same part for this use case since there are no curtains etc.
             REQUIRE( part_to_open == static_cast<int>( vp.part_index() ) );
@@ -415,12 +415,12 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
         CAPTURE( you.pos_bub() );
         REQUIRE( veh->can_close( vp.part_index(), you ) );
         REQUIRE( veh->can_close( fake_door.part_index(), you ) );
-        you.setpos( vp.pos_bub() );
+        you.setpos( vp.pos_abs() );
         CHECK( !veh->can_close( vp.part_index(), you ) );
         CHECK( !veh->can_close( fake_door.part_index(), you ) );
         // Move to the location of the fake part and repeat the assetion
-        you.setpos( fake_door.pos_bub() );
-        you.setpos( fake_door.pos_bub() );
+        you.setpos( fake_door.pos_abs() );
+        you.setpos( fake_door.pos_abs() );
         CHECK( !veh->can_close( vp.part_index(), you ) );
         CHECK( !veh->can_close( fake_door.part_index(), you ) );
         you.setpos( prev_player_pos );
@@ -432,7 +432,7 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
         if( vp.info().has_flag( "OPENABLE" ) && vp.part().is_fake ) {
             fakes_tested++;
             CHECK( vp.part().open );
-            CHECK( can_interact_at( ACTION_CLOSE, vp.pos_bub() ) );
+            CHECK( can_interact_at( ACTION_CLOSE, vp.pos_bub( &here ) ) );
             int part_to_close = veh->next_part_to_close( vp.part_index() );
             // This should be the same part for this use case since there are no curtains etc.
             REQUIRE( part_to_close == static_cast<int>( vp.part_index() ) );
