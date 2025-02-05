@@ -1692,6 +1692,9 @@ class item : public visitable
 
         bool is_irremovable() const;
 
+        /** Returns true if the item is identifiable */
+        bool is_identifiable() const;
+
         /** Returns true if the item is broken and can't be activated or used in crafting */
         bool is_broken() const;
 
@@ -2474,18 +2477,18 @@ class item : public visitable
         bool is_gun() const;
 
         /**
-         * Does this item have a gun variant associated with it
-         * If check_option, the return of this is dependent on the SHOW_GUN_VARIANTS option
+         * Does this item have a variant associated with it
+         * If check_option, the return of this is dependent on the SHOW_x_VARIANTS option
          */
         bool has_itype_variant( bool check_option = true ) const;
 
         /**
-         * The gun variant associated with this item
+         * The variant associated with this item
          */
         const itype_variant_data &itype_variant() const;
 
         /**
-         * Set the gun variant of this item
+         * Set the variant of this item
          */
         void set_itype_variant( const std::string &variant );
 

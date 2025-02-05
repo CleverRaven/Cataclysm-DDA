@@ -3008,6 +3008,34 @@ void inventory_column::cycle_hide_override()
     uistate.hide_entries_override = hide_entries_override;
 }
 
+void inventory_column::remove_duplicate_itypes( bool include_variants )
+{
+    std::set<itype_id> item_types;
+    std::set<std::string> variant_types;
+    std::vector<item_location> held_locs;
+
+    auto audit_entries = [&]( inventory_column::entries_t &audited_entries ) {
+        for( inventory_entry inv_entry : audited_entries ) {
+            for( item_location &loc : inv_entry.locations ) {
+                itype_id item_id = loc->typeId();
+                std::string variant_id = loc->has_itype_variant() ? loc->itype_variant().id : "";
+                if( !item_types.count( item_id ) || ( include_variants && !variant_types.count( variant_id ) ) ) {
+                    held_locs.emplace_back( loc );
+                }
+                item_types.insert( item_id );
+                variant_types.insert( variant_id );
+            }
+        }
+    };
+    //sort out duplicates, clear list, then reconstruct entries
+    audit_entries( entries );
+    audit_entries( entries_hidden );
+    clear();
+    for( item_location &loc : held_locs ) {
+        add_entry( inventory_entry( { loc } ) );
+    }
+}
+
 void selection_column::cycle_hide_override()
 {
     // never hide entries
@@ -4642,4 +4670,11 @@ input_context const *trade_selector::get_ctxt() const
 void inventory_selector::categorize_map_items( bool toggle )
 {
     _categorize_map_items = toggle;
+}
+
+void inventory_selector::remove_duplicate_itypes( bool include_variants )
+{
+    for( inventory_column *&column : columns ) {
+        column->remove_duplicate_itypes( include_variants );
+    }
 }
