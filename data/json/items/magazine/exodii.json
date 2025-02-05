@@ -77,6 +77,8 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "khuunaofaai_payload" ],
+    "capacity": 4,
+    "count": 4,
     "longest_side": "160 mm",
     "price_postapoc": "10 USD",
     "pocket_data": [
