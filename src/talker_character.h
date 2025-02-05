@@ -259,6 +259,7 @@ class talker_character: virtual public talker
         void set_dex_bonus( int value ) override;
         void set_int_bonus( int value ) override;
         void set_per_bonus( int value ) override;
+        void set_cash( int value ) override;
         void set_power_cur( units::energy value ) override;
         void set_mana_cur( int value ) override;
         void set_spell_level( const spell_id &, int ) override;
