@@ -3418,8 +3418,6 @@ void smart_controller_config::serialize( JsonOut &json ) const
 
 void vehicle::deserialize( const JsonObject &data )
 {
-    map &here = get_map();
-
     data.allow_omitted_members();
 
     int fdir = 0;
