@@ -56,7 +56,7 @@
     }
   },
   {
-    "id": "changeling_spring_minor_restore_stamina_and_pain",
+    "id": "changeling_spring_minor_restore_stamina_and_pain_spell",
     "type": "SPELL",
     "name": "Verdant Vitality",
     "description": "You can draw some of the energy inherent in nearby plants into yourself, restoring a bit of your stamina and easing your pain.  However, the energy is drawn from nearby foliage and cannot be accessed if you are not standing on verdant ground.",

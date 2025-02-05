@@ -1,0 +1,45 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_AUTUMN_CHANGE_WEATHER_DENSE_FOG",
+    "condition": { "math": [ "magic_weather_dense_fog != 1" ] },
+    "effect": [
+      { "u_message": "A thick fog begins to rise.", "type": "neutral" },
+      { "math": [ "magic_weather_dense_fog = 1" ] },
+      { "u_add_effect": "effect_controlling_weather_fog", "duration": "6 hours" },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      {
+        "run_eocs": "EOC_CHANGELING_AUTUMN_CHANGE_WEATHER_DENSE_FOG_REMOVE",
+        "time_in_future": [
+          {
+            "math": [
+              "( ( 458.12 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 79.52) + (u_skill('deduction') * 153.71) ) ) * (global_what_is_the_season == 2 ? 0.6 : 1)"
+            ]
+          },
+          {
+            "math": [
+              "( ( 915.27 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 216.85) + (u_skill('deduction') * 398.52) ) ) * (global_what_is_the_season == 2 ? 0.4 : 1)"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "You release your command over the fog and it begins to disperse.", "type": "neutral" },
+      { "math": [ "magic_weather_dense_fog = 0" ] },
+      { "u_lose_effect": "effect_controlling_weather_fog" },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_AUTUMN_CHANGE_WEATHER_DENSE_FOG_REMOVE",
+    "condition": { "math": [ "magic_weather_dense_fog == 1" ] },
+    "effect": [
+      { "if": "u_is_outside", "then": { "u_message": "The thick fog begins to disperse.", "type": "neutral" } },
+      { "u_lose_effect": "effect_controlling_weather_fog" },
+      { "run_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      { "math": [ "magic_weather_dense_fog = 0" ] }
+    ]
+  }
+]
