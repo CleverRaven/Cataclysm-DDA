@@ -53,13 +53,8 @@
         "if": { "compare_string": [ "read", { "npc_val": "map_cache" } ] },
         "then": [ { "u_message": "You already noted everything this map cache can offer." } ],
         "else": [
-          {
-            "location_variable_adjust": { "npc_val": "spawn_location_omt" },
-            "z_adjust": 0,
-            "z_override": true,
-            "overmap_tile": true
-          },
-          { "reveal_map": { "npc_val": "spawn_location_omt" }, "radius": { "math": [ "rng(11, 36)" ] } },
+          { "location_variable_adjust": { "npc_val": "spawn_location" }, "z_adjust": 0, "z_override": true, "overmap_tile": true },
+          { "reveal_map": { "npc_val": "spawn_location" }, "radius": { "math": [ "rng(11, 36)" ] } },
           { "npc_add_var": "map_cache", "value": "read" },
           { "u_message": "You found some useful data in the map cache and noted it.", "type": "good" }
         ]
