@@ -5,12 +5,12 @@
     "effect": [
       {
         "math": [
-          "u_spell_low_duration = ( ( ( 2.51 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 2.45) + (u_skill('deduction') * 3.50) ) )"
+          "u_spell_low_duration = ( ( ( 2.51 + (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 2.45) + (n_skill('deduction') * 3.50) ) )"
         ]
       },
       {
         "math": [
-          "u_spell_high_duration = ( ( ( 6.52 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 5.55) + (u_skill('deduction') * 7.91) ) )"
+          "u_spell_high_duration = ( ( ( 6.52 + (n_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 5.55) + (n_skill('deduction') * 7.91) ) )"
         ]
       },
       {

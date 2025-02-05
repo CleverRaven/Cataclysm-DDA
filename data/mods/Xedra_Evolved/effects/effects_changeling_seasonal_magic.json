@@ -56,6 +56,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_autumn_touch_of_frailty_character",
+    "name": [ "Touch of Frailty" ],
+    "desc": [ "A glamour is prematurely aging you." ],
+    "apply_message": "",
+    "remove_message": "Your vigor returns.",
+    "show_in_info": true,
+    "enchantments": [
+      { "values": [ { "value": "STRENGTH", "add": -3 }, { "value": "DODGE", "add": -2 }, { "value": "SPEED", "add": -5 } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_touch_of_frailty_monster",
+    "name": [ "Touch of Frailty" ],
+    "desc": [ "A glamour is prematurely aging you." ],
+    "apply_message": "",
+    "remove_message": "Your vigor returns.",
+    "show_in_info": true,
+    "base_mods": { "hit_mod": [ -1 ], "dodge_mod": [ -1 ], "speed_mod": [ -5 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_autumn_scare_animals",
     "//": "Tracker to prevent spell from being re-used back to back",
     "name": [ "" ],

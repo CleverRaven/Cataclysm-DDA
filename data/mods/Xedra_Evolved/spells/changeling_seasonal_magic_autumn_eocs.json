@@ -1,6 +1,33 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_AUTUMN_TOUCH_OF_FRAILTY",
+    "effect": [
+      {
+        "math": [
+          "u_spell_low_duration = ( ( ( 5.62 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 1.85) + (u_skill('deduction') * 2.53) ) ) * (global_what_is_the_season == 3 ? 3 : 1) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spell_high_duration = ( ( ( 12.35 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 3.85) + (u_skill('deduction') * 4.98) ) ) * (global_what_is_the_season == 3 ? 3 : 1) )"
+        ]
+      },
+      {
+        "if": "u_is_character",
+        "then": {
+          "u_add_effect": "effect_changeling_autumn_touch_of_frailty_character",
+          "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+        },
+        "else": {
+          "u_add_effect": "effect_changeling_autumn_touch_of_frailty_monster",
+          "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_AUTUMN_SCARE_ANIMALS",
     "//": "Exclusive species list for compatibility",
     "condition": {
