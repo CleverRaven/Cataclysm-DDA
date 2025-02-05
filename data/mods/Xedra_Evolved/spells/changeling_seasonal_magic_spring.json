@@ -73,13 +73,11 @@
     "effect_str": "EOC_CHANGELING_SPRING_MINOR_RESTORE_STAMINA_AND_PAIN",
     "min_range": 1,
     "base_energy_cost": {
-      "math": [
-        "max( ( 400 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 8) - (u_skill('deduction') * 10)), 100)"
-      ]
+      "math": [ "max( ( 200 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 8) - (u_skill('deduction') * 10)), 75)" ]
     },
     "base_casting_time": {
       "math": [
-        "max( ( 1500 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 25) - (u_skill('deduction') * 50)), 300)"
+        "max( ( 1500 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 25) - (u_skill('deduction') * 50)), 150)"
       ]
     }
   },
