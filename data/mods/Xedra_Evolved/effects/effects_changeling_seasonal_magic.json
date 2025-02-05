@@ -56,6 +56,26 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_winter_freeze_target_in_place_not_winter",
+    "name": [ "Grip of Winter" ],
+    "desc": [ "Ice coats your lower limbs, freezing you in place." ],
+    "apply_message": "",
+    "remove_message": "You can move again.",
+    "show_in_info": true,
+    "flags": [ "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_freeze_target_in_place_during_winter",
+    "name": [ "Grip of Winter" ],
+    "desc": [ "Ice coats your lower limbs, freezing you in place." ],
+    "apply_message": "",
+    "remove_message": "The chill around your feet fades away.",
+    "show_in_info": true,
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_walk_on_water",
     "name": [ "Path of Rime" ],
     "desc": [ "Each step you take leaves a tracing of frost on the ground, and liquids freeze at your touch." ],

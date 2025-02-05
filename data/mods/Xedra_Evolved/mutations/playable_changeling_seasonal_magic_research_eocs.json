@@ -607,7 +607,7 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_1",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_winter_walk_on_water_spell" ],
+        "u_roll_remainder": [ "changeling_winter_walk_on_water_spell", "changeling_winter_freeze_target_in_place_spell" ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
