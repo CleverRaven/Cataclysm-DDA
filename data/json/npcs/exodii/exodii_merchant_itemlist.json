@@ -187,16 +187,7 @@
           { "item": "33naval_ball", "container-item": "box_medium_wood", "prob": 50, "charges": 200, "sealed": true }
         ],
         "prob": 20
-      }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "EXODII_Shop_Guns_Tier3",
-    "subtype": "collection",
-    "items": [
-      { "item": "273x44RG", "container-item": "box_medium_wood", "prob": 10, "count": [ 1, 2 ], "sealed": true },
-      { "item": "273x110slugheavy", "container-item": "box_small", "prob": 30, "count": [ 1, 2 ], "sealed": true },
+      },
       {
         "collection": [
           { "item": "khuunaofaai", "prob": 100, "count": [ 1, 2 ] },
@@ -207,6 +198,15 @@
         ],
         "prob": 25
       }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_Shop_Guns_Tier3",
+    "subtype": "collection",
+    "items": [
+      { "item": "273x44RG", "container-item": "box_medium_wood", "prob": 10, "count": [ 1, 2 ], "sealed": true },
+      { "item": "273x110slugheavy", "container-item": "box_small", "prob": 30, "count": [ 1, 2 ], "sealed": true },
     ]
   },
   {
