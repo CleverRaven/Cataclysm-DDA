@@ -62,7 +62,7 @@
     "looks_like": "metal_tank_little",
     "type": "MAGAZINE",
     "name": { "str": "ordnance cannon celebration canister" },
-    "description": "A pressurized tank containing the original firework payload of the Khuunäöfaai.  This chemical payload contains two different compounds of copper, so that the projectiles burn a sharp blue and green to represent the united Earth it came from.  It isn't intended for combat, but getting hit by a massive firework is dangerous enough that it was brought along.  The tank capacity is larger than the other loads the Exodii created for it.",
+    "description": "A pressurized tank containing the original firework payload of the Exodii's own ordnance cannon.  This chemical payload contains two different compounds of copper, so that the projectiles burn a sharp blue and green to represent the united Earth it came from.  It isn't intended for combat, but getting hit by a massive firework is dangerous enough that it was brought along.  The tank capacity is larger than the other loads the Exodii created for it.",
     "weight": "1268 g",
     "volume": "1250 ml",
     "variant_type": "gun",
@@ -101,7 +101,7 @@
     "count": 4,
     "name": { "str": "ordnance cannon incendiary canister" },
     "type": "MAGAZINE",
-    "description": "A pressurized tank containing one of the special payloads the Exodii made for the Khuunäöfaai, something akin to white phosphorous on your Earth.  Its simplicity and effectiveness against targets big and small makes it the cannon's most popular ammunition by far.",
+    "description": "A pressurized tank containing one of the special payloads the Exodii made for their ordnance cannon, something akin to white phosphorous on your Earth.  Its simplicity and effectiveness against targets big and small makes it the cannon's most popular ammunition by far.",
     "variant_type": "gun",
     "variants": [
       {
@@ -130,7 +130,7 @@
     "count": 4,
     "name": { "str": "ordnance cannon corrosive canister" },
     "type": "MAGAZINE",
-    "description": "A pressurized tank containing one of the special payloads the Exodii made for the Khuunäöfaai, a mixture of several acids and peroxides capable of rapidly breaking down the organic tissues of zombies and mutants alike.  Apparently developed for cases where the incendiary payload would fail, like low to zero oxygen environments and targets capable of self-extinguishing - It's somewhat alarming the Exodii run into those scenarios frequently enough to justify producing this.",
+    "description": "A pressurized tank containing one of the special payloads the Exodii made for their ordnance cannon, a mixture of several acids and peroxides capable of rapidly breaking down the organic tissues of zombies and mutants alike.  Apparently developed for cases where the incendiary payload would fail, like low to zero oxygen environments and targets capable of self-extinguishing - It's somewhat alarming the Exodii run into those scenarios frequently enough to justify producing this.",
     "variant_type": "gun",
     "variants": [
       {
@@ -158,7 +158,7 @@
     "count": 4,
     "name": { "str": "ordnance cannon adhesive canister" },
     "type": "MAGAZINE",
-    "description": "A pressurized tank containing one of the special payloads the Exodii made for the Khuunäöfaai, an industrial grade chemical that adheres to anything it touches and hardens into a concrete-like resin.  Invented on some alternate Earth for quickly fixing holes in zeppelin and high-altitude craft, the Exodii found the substance useful for area denial, cover creation, or encasing nasty things in when they couldn't be bothered to waste bullets on them.",
+    "description": "A pressurized tank containing one of the special payloads the Exodii made for their ordnance cannon, an industrial grade chemical that adheres to anything it touches and hardens into a concrete-like resin.  Invented on some alternate Earth for quickly fixing holes in zeppelin and high-altitude craft, the Exodii found the substance useful for area denial, cover creation, or encasing nasty things in when they couldn't be bothered to waste bullets on them.",
     "variant_type": "gun",
     "variants": [
       {
