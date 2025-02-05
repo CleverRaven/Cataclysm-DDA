@@ -5,7 +5,7 @@
     "name": "No Hope",
     "authors": [ "Night_Pryanik" ],
     "maintainers": [ "Procyonae" ],
-    "description": "Aims to make the world more inhospitable and challenging in as many ways as possible, items needed for survival and vehicles are much harder to obtain, destruction and banditry is prevelant, even the weather has taken a turn for the worse, see in game help menu by pressing 0 once in-game for full feature list and option explanations.",
+    "description": "Aims to make the world more inhospitable and challenging in as many ways as possible, items needed for survival and vehicles are much harder to obtain, destruction and banditry is prevelent, even the weather has taken a turn for the worse, see in game help menu by pressing 0 once in-game for full feature list and option explanations.",
     "category": "content",
     "dependencies": [ "dda" ],
     "version": "3.5"
