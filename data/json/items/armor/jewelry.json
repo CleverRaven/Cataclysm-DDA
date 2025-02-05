@@ -1179,29 +1179,99 @@
     "variants": [
       {
         "id": "cross_necklace",
-        "name": { "str": "Cross necklace" },
-        "description": "A necklace made of gold, with a small cross symbol.  It represents a large amount of different Christian faiths, the cross being what Jesus was crucified on.",
+        "name": { "str": "cross necklace" },
+        "description": "A necklace made of a fine gold chain with a plain cross symbol as a pendant.  It is a symbol of Christian faith, no matter the denomination.",
         "color": "yellow",
-        "weight": 44
+        "weight": 100
       },
       {
         "id": "jewish_necklace",
         "name": { "str": "Star of David necklace" },
-        "description": "A necklace made of gold, with a small Star of David symbol.  While not originally a Jewish symbol, it is the most recognizable symbol of Judaism in the modern world.",
+        "description": "A necklace made of a fine gold chain with the Star of David symbol as a pendant.  It is a symbol of the Jewish faith.  The Star of David became officially associated with Judaism when it was chosen as the symbol to appear on a flag at the First Zionist Congress in 1897.  At that time, it became the symbol of the Jewish people, Zionism, and the Jewish communities throughout the world.",
         "color": "yellow",
-        "weight": 3
+        "weight": 15
       },
       {
         "id": "muslim_necklace",
-        "name": { "str": "Crescent and star necklace" },
-        "description": "A necklace made of gold, with a crescent and star symbol.  It is a universal symbol of believers of the Muslim faith.",
+        "name": { "str": "Crescent Moon and Star necklace" },
+        "description": "A necklace made of a fine gold chain with the Crescent Moon and Star symbol as a pendant.  It is a symbol of both the Sunni and Shia Islam faith.  The crescent of the new moon signifies the beginning and end of fasting during Ramadan.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "buddhist_necklace",
+        "name": { "str": "Dharmachakra necklace" },
+        "description": "A necklace made of a fine gold chain with the Dharmachakra symbol as a pendant.  It is a symbol of the Hindu, Jain and Buddhist faiths.  Also known as Dharma Wheel, the circle, the round shape of the wheel, represents the perfection of the Dharma, the Buddha's teaching.  The rim of the wheel represents meditative concentration and mindfulness, which hold practice together.  The hub represents moral discipline.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "odin_necklace",
+        "name": { "str": "Horn of Odin necklace" },
+        "description": "A necklace made of a fine gold chain with the Horn of Odin symbol as a pendant.  It is a symbol of the Asatru faith.  The Horn of Odin is one of the most recognizable Norse symbols, consisting of three interlocking drinking horns and symbolizing poetic inspiration and wisdom.  It is also a nod to Viking drinking customs and the camaraderie derived from them.",
         "color": "yellow",
         "weight": 1
       },
       {
-        "id": "buddhist_necklace",
-        "name": { "str": "Dharma wheel necklace" },
-        "description": "A necklace made of gold, with an eight-spoked wheel, also known as a \"dharmachakra\".  It is a common symbol of the Buddhist faith.",
+        "id": "zoroastrianist_necklace",
+        "name": { "str": "Faravahar necklace" },
+        "description": "A necklace made of a fine gold chain with the Faravahar symbol as a pendant.  It is a symbol of the Zoroastrianism faith.  While there is no total understanding of the meanings of that ancient symbol, it depicts a bearded man with one hand reaching forward.  He stands above a pair of wings that are outstretched from a circle which are believed to represent eternity.",
+        "color": "yellow",
+        "weight": 1
+      },
+      {
+        "id": "sikh_necklace",
+        "name": { "str": "Khanda necklace" },
+        "description": "A necklace made of a fine gold chain with the Khanda symbol as a pendant.  It is a symbol of the Sikh faith.  The Khanda symbol depicts the Sikh doctrine of Deg Tegh Fateh in emblematic form.  It is also part of the design of the 'Sikh national flag', the Nishan Sahib.  A double edged sword (also called Khanda) is placed at the top of a Nishan Sahib flag as an ornament or finial.",
+        "color": "yellow",
+        "weight": 1
+      },
+      {
+        "id": "bahai_necklace",
+        "name": { "str": "Baha'i Star necklace" },
+        "description": "A necklace made of a fine gold chain with the Baha'i Star symbol as a pendant.  It is a symbol of the Baha'i faith.  The Baha'i nine-pointed star reflects the importance of the number for the Faith.  The number nine is the highest single digit number, which symbolizes wholeness and the fulfillment of the expectations of all prior religions.",
+        "color": "yellow",
+        "weight": 1
+      },
+      {
+        "id": "shinto_necklace",
+        "name": { "str": "Torii necklace" },
+        "description": "A necklace made of a fine gold chain with the Torii symbol as a pendant.  It is a symbol of Shinto faith, where the Torii denotes the entrance to Shinto Shrines and the respect towards the Shinto beliefs and culture.",
+        "color": "yellow",
+        "weight": 1
+      },
+      {
+        "id": "taoist_necklace",
+        "name": { "str": "Ying Yang necklace" },
+        "description": "A necklace made of a fine gold chain with the Ying Yang symbol as a pendant.  It is a symbol of both Confucian and Taoist faiths and philosophical systems.  Yin is a symbol of earth, femininity, darkness, passivity, and absorption.  It is present in even numbers, in valleys and streams, and is represented by the tiger, the color orange, and a broken line.  Yang is conceived of as heaven, maleness, light, activity, and penetration, and together, they represent balance between opposites.",
+        "color": "yellow",
+        "weight": 1
+      },
+      {
+        "id": "caodaism_necklace",
+        "name": { "str": "Cao Dai necklace" },
+        "description": "A necklace made of a fine gold chain with the Cao Dai symbol as a pendant.  It is a symbol of Caodaism faith.  In Vietnamese, 'Cao' literally means 'high', while 'Dai' means 'tower', 'palace' or 'abode'. The combined verbal image is used to represent both a heavenly place and a Supreme Being envisioned as creating all religions and beings on the earth.  The visual symbol used by Caodaism followers for this Supreme Being is an all-seeing eye, the Cao Dai.",
+        "color": "yellow",
+        "weight": 1
+      },
+      {
+        "id": "nativeamerican_necklace",
+        "name": { "str": "Zia Sun necklace" },
+        "description": "A necklace made of a fine gold chain with the Zia Sun symbol as a pendant.  It is a symbol of the strength and union of the Zia Native Americans.  The Zia Sun symbol represent the four cardinal directions, the four seasons of the year, the four period of each day (morning, noon, evening, and night), and the four seasons of life (childhood, youth, middle age, and old age).",
+        "color": "yellow",
+        "weight": 1
+      },
+      {
+        "id": "pharaoh_necklace",
+        "name": { "str": "Ankh necklace" },
+        "description": "A necklace made of a fine gold chain with the Ankh Cross symbol as a pendant.  It is a symbol of the Kemetist faith.  While the Coptic Church of Egypt inherited the ankh as a form of the Christian cross, symbolizing eternal life through Christ, the source of its major use in modern times was through a new religious movement attempting to revive the ancient polytheistic beliefs of Ancient Egypt.  It means 'eternal life'.",
+        "color": "yellow",
+        "weight": 1
+      },
+      {
+        "id": "hinduist_necklace",
+        "name": { "str": "Om necklace" },
+        "description": "A necklace made of a fine gold chain with the Om symbol as a pendant.  It is a symbol of the Hindu faith, as Om is a sacred sound, syllable, mantra, or an invocation in Hinduism.  Om is the prime symbol of Hinduism, variously said to be the essence of the supreme Absolute, consciousness, Atman, Brahman, or the Cosmic world.  In Indian traditions, Om serves as a sonic representation of the divine, a standard of Vedic authority and a central aspect of soteriological doctrines and practices.",
         "color": "yellow",
         "weight": 1
       }

@@ -4877,6 +4877,7 @@
           { "item": "holybook_kojiki" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
+          { "item": "holy_symbol", "variant": "shinto_necklace" },
           { "item": "pants", "variant": "pants_white" }
         ]
       },
