@@ -41,11 +41,12 @@ To define a Hackable Furniture in Aftershock you need to give it an examine acti
           "id": "EOC_unlock_afs_security_panel",
           "effect": [
             { "math": [ "_t_delay = time('20 m')" ] },
+            { "u_add_var": "hack_minor_failure_eoc", value: "EOC_Hack_Custom_Minor_Failure" },
+            { "u_add_var": "hack_critical_fail_eoc", value: "EOC_Hack_Custom_Critical_Failure" },
+            { "u_add_var": "hack_success_eoc", value: "EOC_Hack_Custom_Success" },
             {
               "run_eocs": "EOC_start_lock_hack",
-              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "6",
-              "hack_minor_failure_eoc": "EOC_Custom_Minor_Failure", "hack_critical_failure": "EOC_Custom_Critical_Failure",
-              "hack_sucess_eoc": "EOC_Custom_Success", "power_cost_mult": 2 },
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "6", "power_cost_mult": 2 },
               "alpha_talker": "avatar"
             }
           ]
