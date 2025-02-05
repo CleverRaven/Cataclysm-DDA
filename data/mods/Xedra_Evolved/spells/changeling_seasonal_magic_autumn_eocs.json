@@ -1,6 +1,54 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_AUTUMN_SCARE_ANIMALS",
+    "//": "Exclusive species list for compatibility",
+    "condition": {
+      "and": [
+        { "not": "u_is_character" },
+        { "not": { "u_has_species": "ROBOT" } },
+        { "not": { "u_has_species": "ROBOT_FLYING" } },
+        { "not": { "u_has_species": "NETHER" } },
+        { "not": { "u_has_species": "NETHER_BURROWING" } },
+        { "not": { "u_has_species": "FERAL" } },
+        { "not": { "u_has_species": "VAMPIRE" } },
+        { "not": { "u_has_species": "RENFIELD" } },
+        { "not": { "u_has_species": "HORROR" } },
+        { "not": { "u_has_species": "ABERRATION" } },
+        { "not": { "u_has_species": "NIGHTMARE" } },
+        { "not": { "u_has_species": "MIGO" } },
+        { "not": { "u_has_species": "ZOMBIE" } },
+        { "not": { "u_has_species": "SLIME" } },
+        { "not": { "u_has_species": "PLANT" } },
+        { "not": { "u_has_species": "FUNGUS" } },
+        { "not": { "u_has_species": "CYBORG" } },
+        { "not": { "u_has_species": "CHANGELING" } },
+        { "not": { "u_has_species": "ARVORE" } },
+        { "not": { "u_has_species": "HOMULLUS" } },
+        { "not": { "u_has_species": "IERDE" } },
+        { "not": { "u_has_species": "SALAMANDER" } },
+        { "not": { "u_has_species": "SYLPH" } },
+        { "not": { "u_has_species": "UNDINE" } }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "not": { "u_has_effect": "effect_changeling_autumn_scare_animals" } },
+        "then": [
+          {
+            "math": [
+              "u_val('morale')",
+              "-=",
+              "(25 + ( (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 2) + (u_skill('deduction') * 4) ) ) * global_what_is_the_season == 1 ? 0.5 : 1"
+            ]
+          },
+          { "u_add_effect": "effect_changeling_autumn_scare_animals", "duration": "5 minutes" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_AUTUMN_CHANGE_WEATHER_DENSE_FOG",
     "condition": { "math": [ "magic_weather_dense_fog != 1" ] },
     "effect": [

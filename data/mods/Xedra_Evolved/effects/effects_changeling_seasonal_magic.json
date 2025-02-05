@@ -56,6 +56,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_autumn_scare_animals",
+    "//": "Tracker to prevent spell from being re-used back to back",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_freeze_target_in_place_not_winter",
     "name": [ "Grip of Winter" ],
     "desc": [ "Ice coats your lower limbs, freezing you in place." ],
