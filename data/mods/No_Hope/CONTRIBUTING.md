@@ -11,6 +11,8 @@ All difficult encounters should be avoidable/escapable through some means to avo
 
 - Made all gas stations have 0 - 5000 units of fuel instead of vanilla 40000 - 50000 units. Also made almost all locations in mapgen have the same 0 - 5000 units of fuel, including avgas. Also made almost all cars have zero fuel. There are places and cars where you could still find fuel, they are just very rare.
 
+- Also see #70325
+
 ## Ideal future changes
 
 - The item spawn rate difficulties could do with some more precise number tuning.
