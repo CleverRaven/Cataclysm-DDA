@@ -7165,7 +7165,7 @@ void vehicle::remove_remote_part( const vehicle_part &vp_local ) const
 
 void vehicle::shed_loose_parts( const trinary shed_cables, map *here, const tripoint_bub_ms *dst )
 {
-    if( ( here == nullptr && dst != nullptr ) || ( ( here != nullptr && dst == nullptr ) ) ) {
+    if( ( here == nullptr && dst != nullptr ) || ( here != nullptr && dst == nullptr ) ) {
         debugmsg( "map and dst have to both be nullptr or both refer to a value" );
         return;
     }
