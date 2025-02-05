@@ -28,12 +28,12 @@
     "effect": [
       {
         "math": [
-          "u_spell_low_duration = ( 58052 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 10982) + (u_skill('deduction') * 22365) )"
+          "u_spell_low_duration = ( 580.52 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 109.82) + (u_skill('deduction') * 223.65) )"
         ]
       },
       {
         "math": [
-          "u_spell_high_duration = ( 118521 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 31825) + (u_skill('deduction') * 81682) ) "
+          "u_spell_high_duration = ( 1185.21 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 318.25) + (u_skill('deduction') * 816.82) ) "
         ]
       },
       {

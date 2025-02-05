@@ -62,5 +62,15 @@
     "apply_message": "",
     "remove_message": "The chill around your feet fades away.",
     "flags": [ "WATERWALKING", "ITEM_WATERPROOFING", "SLUDGEPROOF" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_frozen_breath",
+    "name": [ "Chilled" ],
+    "desc": [ "Your movements are slowed." ],
+    "apply_message": "",
+    "remove_message": "The bone-deep chill fades away.",
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.1 } ] } ],
+    "base_mods": { "hit_mod": [ -1 ] }
   }
 ]
