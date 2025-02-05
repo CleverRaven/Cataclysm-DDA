@@ -202,7 +202,6 @@ Render WORN overlays for ablative pockets
 Add unloading hotkey to AIM menu
 Skip Default Backgrounds
 Add part bonus to rotor diameter in thrust calculations
-Audit small turbine engine
 Revivification by mon_group
 
 
@@ -432,8 +431,6 @@ Add the menorah and small candles to put in it
 adds three new lore log snippets for the player to find in smartphones or laptops
 Add an electric rechargeable lighter
 Adds marshmallow fluff and fluffernutters
-flesh out e-device item groups
-Add some missing flags to map_extras
 Gunstore Overhaul
 
 
@@ -1001,25 +998,14 @@ Add missing missions to sky island clear missions EOC
 [Aftershock] You need a combat License to buy a combat suit from the outfitter
 [MoM] Differentiate XEDRA lab-made and makeshift inferno grenades, add `pyrokinetic matrix crystal bomb`
 Aftershock: Add ETC firmware gunmods to Caseless military weapons.
-[Aftershock] Fix EFile pockets on Electronics
-Allow using raw cat/dog food when taming dinosaurs.
-[Aftershock] Augustmoon Traders use loot zones
 Add more goblin fruits to XE
-Change the Power Spoilers document for ease of browsing
-[Xedra Evolved] Add more changeling traits
-Update a minor typo in the sky island progress display
 [XE] Boann will use her magic against those who attack her.
 XE: Dreamsmith will learn casings if they are a shooter
 [Aftershock] Make UICA chit ATM-compatible
-[Xedra Evolved] Rein in vampire perception bonuses
 Aftershock: Add manhole terrain to exoplanet
 [Xedra Evolved/Sky Island] Elemental fae are at home on the island
-[Xedra Evolved] Rework how elemental fae gain terrain bonuses
-[Aftershock] Esper tweaks
 [Aftershock] Add the Salvor Fabricator to the Shuttlepad Camp
-[MoM] New power documentation updates
 [MoM] Add Apportation teleportation power
-Atom smartphone dont have e-transfer information. (Aftershock mod)
 [MoM] Item Gateway Power
 Adds a new recessed rail tile with the NOCOLLIDE flag, and replaces the rail which cross the road with recessed rails.
 Moves the rail lines used by the railroad mapgen closer and adds junctions
@@ -1568,27 +1554,13 @@ electronic storage overhaul migration fix
 Require "Dirt Floor" to be built on dirt with a shovel
 Pathfinding: Avoid NPCs falling down to open air
 fix map cache item/EOC
-Fix "dirt floor" durability and materials
 clear items in npc_test
-Fix broken EFilePocket on Integrated AR Bionic
-[Xedra Evolved] Fix Unsleeping Earth Vigil
-Fix written in: ebook; Allow scanning books with backlight off
-[Xedra Evolved] Allow Ierde to deactivate The Root of the Mountain
 Trading: NPC no longer accept items that would be deleted.
-Remove survnote item from textbooks itemgroup
 Fix vehicle parts being unrepairable after removing from vehicle
 fix query popup selector not wrapping
 implement (R)eading e-book requirements, fix etransfer_rate segfault
-Correct the gas mask item flags to correct default clothing layering
-[Xedra Evolved] Fix Lilit trait gain EoC
-[Magiclysm] Valzain book selling fix
-fix aim move query amount showing wrong max amount
 chapters are character-mapped for unique books
-Fixes crash for missing debug.log
-[MoM] Fix Thought-Form Exercises Recipe
 Prevent item::charges_per_weight to return overflowed values
-[MoM] Fixes Hounds of Tindalos following you when teleporting mechanic
-[Xedra Evolved] Fix commoner fae CBMs
 
 
 ## Performance:
