@@ -1,3 +1,7 @@
+# No Hope Difficulty Settings
+
+## Item Difficulty Settings
+
 As of writing there are 34 item categories in the game.
 No Hope alters some of the spawn rates for the categories to a degree depending on the players choice at the start of the game.
 These rates notably don't work with every type of item spawn rn.

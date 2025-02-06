@@ -590,14 +590,17 @@ struct map_data_common_t {
 
         // Set to be member of a connection target group
         void set_connect_groups( const std::vector<std::string> &connect_groups_vec );
+        void unset_connect_groups( const std::vector<std::string> &connect_groups_vec );
         // Set target connection group
         void set_connects_to( const std::vector<std::string> &connect_groups_vec );
+        void unset_connects_to( const std::vector<std::string> &connect_groups_vec );
         // Set target group to rotate towards
         void set_rotates_to( const std::vector<std::string> &connect_groups_vec );
+        void unset_rotates_to( const std::vector<std::string> &connect_groups_vec );
 
         // Set groups helper function
-        void set_groups( std::bitset<NUM_TERCONN> &bits,
-                         const std::vector<std::string> &connect_groups_vec );
+        void set_groups( std::bitset<NUM_TERCONN> &bits, const std::vector<std::string> &connect_groups_vec,
+                         bool unset = false );
 
         bool in_connect_groups( const std::bitset<NUM_TERCONN> &test_connect_group ) const {
             return ( connect_groups & test_connect_group ).any();

@@ -16,26 +16,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NH_difficultycheck",
-    "eoc_type": "EVENT",
-    "required_event": "game_load",
     "//": "When this EOC gets changed significantly a version variable should be added and checked against here so it reruns",
-    "//1": "TODO: Once variance is added to the difficulties update their descriptions to be more desciptive as to what they actually do",
-    "//2": "TODO: Add a vehicle difficulty check too that comes up as a second set of choices?",
     "condition": { "math": [ "!has_var( NH_item_difficulty )" ] },
-    "effect": [
-      {
-        "run_eoc_selector": [ "EOC_NH_set_item_difficulty_0", "EOC_NH_set_item_difficulty_1", "EOC_NH_set_item_difficulty_2" ],
-        "//": "A custom difficulty could be nice too, with smaller groups like guns/magazines/ammo/mods, clothing/armor, fuel/veh_parts.",
-        "names": [ "Creeping Despair", "Fervent Despair", "Overwhelming Despair" ],
-        "title": "Select an Item Rarity Difficulty",
-        "keys": [ "1", "2", "3" ],
-        "descriptions": [
-          "Creeping Despair makes items rarer than vanilla.",
-          "Fervent Despair makes items rarer than Creeping Despair.",
-          "Overwhelming Despair makes items rarer than Fervent Despair."
-        ]
-      }
-    ],
+    "effect": { "run_eocs": "EOC_NH_set_difficulty" },
     "false_effect": [
       {
         "switch": { "math": [ "NH_item_difficulty" ] },
@@ -43,6 +26,23 @@
           { "case": 0, "effect": { "run_eocs": "EOC_NH_item_difficulty_0" } },
           { "case": 1, "effect": { "run_eocs": "EOC_NH_item_difficulty_1" } },
           { "case": 2, "effect": { "run_eocs": "EOC_NH_item_difficulty_2" } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_set_difficulty",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_NH_set_item_difficulty_0", "EOC_NH_set_item_difficulty_1", "EOC_NH_set_item_difficulty_2" ],
+        "names": [ "Creeping Despair", "Fervent Despair", "Overwhelming Despair" ],
+        "title": "Select a difficulty",
+        "keys": [ "1", "2", "3" ],
+        "descriptions": [
+          "Creeping Despair makes items rarer than vanilla.",
+          "Fervent Despair makes items rarer than Creeping Despair.",
+          "Overwhelming Despair makes items rarer than Fervent Despair."
         ]
       }
     ]
