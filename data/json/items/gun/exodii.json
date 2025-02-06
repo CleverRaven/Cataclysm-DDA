@@ -277,10 +277,10 @@
   {
     "id": "exodii_plasma_fan",
     "type": "GUN",
-    "name": { "str_sp": "Caotel Sr3.3 (FAN)" },
+    "name": { "str_sp": "Caotel Sr2.2 (FAN)" },
     "copy-from": "exodii_plasma_projectile",
     "looks_like": "plasma_gun",
-    "description": "Nothing but ruins and ash-choked skies remained in the world where this exotic weapon was manufactured, and the Exodii, ever  pragmatic choose not to explore beyond what was necessary to perform a second, emergency escape.  Even a second of exposure to the Caotel's plasma fan is enough to flash-incinerate anything, but its state of disrepair limits the amount of time its destructive power can be sustained.",
+    "description": "Nothing but ruins and ash-choked skies remained in the world where this exotic weapon was manufactured, and the Exodii, ever pragmatic, choose not to explore beyond what was necessary to perform a second, emergency escape.  Even a second of exposure to the Caotel's plasma fan is enough to flash-incinerate anything, but its state of disrepair limits the amount of time its destructive power can be sustained.",
     "skill": "launcher",
     "range": 12,
     "ranged_damage": [ { "damage_type": "heat", "amount": 50, "armor_penetration": 60 } ],
