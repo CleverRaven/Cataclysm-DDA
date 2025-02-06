@@ -1142,7 +1142,8 @@ diag_eval_dbl_f spell_sum_eval( char scope, std::vector<diag_value> const & /* p
     };
 }
 
-diag_eval_dbl_f spell_difficulty_eval( char scope, std::vector<diag_value> const &params, diag_kwargs const & /* kwargs */ )
+diag_eval_dbl_f spell_difficulty_eval( char scope, std::vector<diag_value> const &params,
+                                       diag_kwargs const & /* kwargs */ )
 {
     return[beta = is_beta( scope ), sid = params[0]]( const_dialogue const & d ) -> double {
         std::string sid_str = sid.str( d );
