@@ -42,7 +42,7 @@ TEST_CASE( "export_vehicle_test" )
     // To ensure the zones get placed.
     veh_ptr->set_owner( get_player_character() );
     veh_ptr->place_zones( here );
-    veh_ptr->refresh( &here );
+    veh_ptr->refresh( );
     veh_ptr->refresh_zones();
 
     std::ostringstream os;

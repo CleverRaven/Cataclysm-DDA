@@ -463,10 +463,10 @@ void veh_app_interact::rename()
 void veh_app_interact::remove()
 {
     map &here = get_map();
-    const tripoint_bub_ms a_point_bub( veh->mount_to_tripoint( a_point ) );
+    const tripoint_abs_ms a_point_abs( veh->mount_to_tripoint_abs( a_point ) );
 
     vehicle_part *vp;
-    if( auto sel_part = here.veh_at( a_point_bub ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
+    if( auto sel_part = here.veh_at( a_point_abs ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
         vp = &sel_part->part();
     } else {
         int const part = veh->part_at( veh->coord_translate( a_point ) );
@@ -498,7 +498,6 @@ void veh_app_interact::remove()
         for( const tripoint_abs_ms &p : veh->get_points( true ) ) {
             act.coord_set.insert( p );
         }
-        const tripoint_abs_ms a_point_abs( here.get_abs( a_point_bub ) );
         act.values.push_back( a_point_abs.x() );
         act.values.push_back( a_point_abs.y() );
         act.values.push_back( a_point.x() );
@@ -549,8 +548,8 @@ void veh_app_interact::populate_app_actions()
 {
     map &here = get_map();
     vehicle_part *vp;
-    const tripoint_bub_ms a_point_bub( veh->mount_to_tripoint( a_point ) );
-    if( auto sel_part = here.veh_at( a_point_bub ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
+    const tripoint_abs_ms a_point_abs( veh->mount_to_tripoint_abs( a_point ) );
+    if( auto sel_part = here.veh_at( a_point_abs ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
         vp = &sel_part->part();
     } else {
         const int part = veh->part_at( veh->coord_translate( a_point ) );
@@ -617,7 +616,7 @@ void veh_app_interact::populate_app_actions()
 
     /*************** Get part-specific actions ***************/
     veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );
-    veh->build_interact_menu( menu, veh->mount_to_tripoint( a_point ), false );
+    veh->build_interact_menu( menu, veh->mount_to_tripoint( &here, a_point ), false );
     const std::vector<veh_menu_item> items = menu.get_items();
     for( size_t i = 0; i < items.size(); i++ ) {
         const veh_menu_item &it = items[i];

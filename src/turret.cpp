@@ -48,18 +48,6 @@ std::vector<vehicle_part *> vehicle::turrets()
     return res;
 }
 
-std::vector<vehicle_part *> vehicle::turrets( const tripoint_bub_ms &target )
-{
-    map &here = get_map();
-    std::vector<vehicle_part *> res = turrets();
-    // exclude turrets not ready to fire or where target is out of range
-    res.erase( std::remove_if( res.begin(), res.end(), [&]( vehicle_part * e ) {
-        return turret_query( *e ).query() != turret_data::status::ready ||
-               rl_dist( bub_part_pos( &here, *e ), target ) > e->base.gun_range();
-    } ), res.end() );
-    return res;
-}
-
 turret_data vehicle::turret_query( vehicle_part &pt )
 {
     if( !pt.is_turret() || pt.removed || pt.is_broken() ) {
@@ -70,7 +58,7 @@ turret_data vehicle::turret_query( vehicle_part &pt )
 
 turret_data vehicle::turret_query( const tripoint_bub_ms &pos )
 {
-    auto res = get_parts_at( pos, "TURRET", part_status_flag::any );
+    auto res = get_parts_at( &get_map(), pos, "TURRET", part_status_flag::any );
     return !res.empty() ? turret_query( *res.front() ) : turret_data();
 }
 
@@ -489,9 +477,9 @@ void vehicle::turrets_set_targeting()
         menu.fselected = sel;
 
         for( vehicle_part *&p : turrets ) {
-            menu.addentry( -1, has_part( bub_part_pos( &here, *p ), "TURRET_CONTROLS" ), MENU_AUTOASSIGN,
+            menu.addentry( -1, has_part( abs_part_pos( *p ), "TURRET_CONTROLS" ), MENU_AUTOASSIGN,
                            "%s [%s]", p->name(), p->enabled ?
-                           _( "auto -> manual" ) : has_part( bub_part_pos( &here, *p ), "TURRET_CONTROLS" ) ?
+                           _( "auto -> manual" ) : has_part( abs_part_pos( *p ), "TURRET_CONTROLS" ) ?
                            _( "manual -> auto" ) :
                            _( "manual (turret control unit required for auto mode)" ) );
         }
@@ -502,7 +490,7 @@ void vehicle::turrets_set_targeting()
         }
 
         sel = menu.ret;
-        if( has_part( locations[ sel ], "TURRET_CONTROLS" ) ) {
+        if( has_part( &here, locations[ sel ], "TURRET_CONTROLS" ) ) {
             turrets[sel]->enabled = !turrets[sel]->enabled;
         } else {
             turrets[sel]->enabled = false;

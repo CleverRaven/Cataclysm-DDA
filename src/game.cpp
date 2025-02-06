@@ -1058,7 +1058,7 @@ bool game::start_game()
             std::string search = std::string( "helicopter" );
             if( name.find( search ) != std::string::npos ) {
                 for( const vpart_reference &vp : v.v->get_any_parts( VPFLAG_CONTROLS ) ) {
-                    const tripoint_bub_ms pos = vp.pos_bub();
+                    const tripoint_abs_ms pos = vp.pos_abs();
                     u.setpos( pos );
 
                     // Delete the items that would have spawned here from a "corpse"
@@ -2831,6 +2831,8 @@ vehicle *game::remoteveh()
 
 void game::setremoteveh( vehicle *veh )
 {
+    map &here = get_map();
+
     remoteveh_cache_time = calendar::turn;
     remoteveh_cache = veh;
     if( veh != nullptr && !u.has_active_bionic( bio_remote ) &&
@@ -2845,7 +2847,7 @@ void game::setremoteveh( vehicle *veh )
     }
 
     std::stringstream remote_veh_string;
-    const tripoint_bub_ms vehpos = veh->pos_bub();
+    const tripoint_bub_ms vehpos = veh->pos_bub( &here );
     remote_veh_string << vehpos.x() << ' ' << vehpos.y() << ' ' << vehpos.z();
     u.set_value( "remote_controlling_vehicle", remote_veh_string.str() );
 }
@@ -5822,9 +5824,11 @@ void game::moving_vehicle_dismount( const tripoint_bub_ms &dest_loc )
 
 void game::control_vehicle()
 {
+    map &here = get_map();
+
     if( vehicle *remote_veh = remoteveh() ) { // remote controls have priority
         for( const vpart_reference &vpr : remote_veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
-            remote_veh->interact_with( vpr.pos_bub() );
+            remote_veh->interact_with( vpr.pos_bub( &here ) );
             return;
         }
     }
@@ -10314,6 +10318,8 @@ void game::reload_wielded( bool prompt )
 
 void game::reload_weapon( bool try_everything )
 {
+    map &here = get_map();
+
     // As a special streamlined activity, hitting reload repeatedly should:
     // Reload wielded gun
     // First reload a magazine if necessary.
@@ -10368,9 +10374,9 @@ void game::reload_weapon( bool try_everything )
         return;
     }
     // If we make it here and haven't found anything to reload, start looking elsewhere.
-    const optional_vpart_position ovp = m.veh_at( u.pos_bub() );
+    const optional_vpart_position ovp = m.veh_at( u.pos_abs() );
     if( ovp ) {
-        const turret_data turret = ovp->vehicle().turret_query( ovp->pos_bub() );
+        const turret_data turret = ovp->vehicle().turret_query( ovp->pos_bub( &here ) );
         if( turret.can_reload() ) {
             item::reload_option opt = u.select_ammo( turret.base(), true );
             if( opt ) {
@@ -11154,7 +11160,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
 
     if( grabbed_vehicle ) {
         // Vehicle might be at different z level than the grabbed part.
-        u.grab_point.z() = vp_grab->pos_bub().z() - u.posz();
+        u.grab_point.z() = vp_grab->pos_abs().z() - u.posz();
     }
 
     if( pulling ) {

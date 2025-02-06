@@ -256,7 +256,7 @@ bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) con
     vehicle &veh = vp_there->vehicle();
 
     std::vector<vehicle_part *> cargo_parts;
-    cargo_parts = veh.get_parts_at( here.get_bub( loc ), "CARGO", part_status_flag::any );
+    cargo_parts = veh.get_parts_at( loc, "CARGO", part_status_flag::any );
 
     units::volume capacity = 0_ml;
     units::volume free_cargo = 0_ml;

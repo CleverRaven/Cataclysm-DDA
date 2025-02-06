@@ -27,11 +27,11 @@ void check_vehicle_still_works( vehicle &veh )
     veh.engine_on = true;
     veh.velocity = 1000;
     veh.cruise_velocity = veh.velocity;
-    tripoint_bub_ms const startp = veh.pos_bub();
+    tripoint_bub_ms const startp = veh.pos_bub( &here );
     here.vehmove();
-    REQUIRE( veh.pos_bub() != startp );
+    REQUIRE( veh.pos_bub( &here ) != startp );
 
-    here.displace_vehicle( veh, startp - veh.pos_bub() );
+    here.displace_vehicle( veh, startp - veh.pos_bub( &here ) );
 }
 
 vehicle *add_test_vehicle( map &m, tripoint_bub_ms loc )
@@ -59,7 +59,7 @@ void local_test( vehicle *veh, tripoint_bub_ms const &test_loc, F const &fmg, ID
     vehicle *const veh2 = add_test_vehicle( here, this_test_loc );
     REQUIRE( here.veh_at( this_test_loc ).has_value() );
     REQUIRE( here.get_vehicles().size() == 2 );
-    REQUIRE( veh->pos_bub() == veh2->pos_bub() - point::east );
+    REQUIRE( veh->pos_abs() == veh2->pos_abs() - point::east );
     REQUIRE( veh->sm_pos == veh2->sm_pos );
 
     manual_mapgen( this_test_omt, fmg, id );

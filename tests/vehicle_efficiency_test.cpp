@@ -188,7 +188,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     // Remove all items from cargo to normalize weight.
     for( const vpart_reference &vp : veh.get_all_parts() ) {
         veh_ptr->get_items( vp.part() ).clear();
-        vp.part().ammo_consume( vp.part().ammo_remaining(), &here, vp.pos_bub() );
+        vp.part().ammo_consume( vp.part().ammo_remaining(), &here, vp.pos_bub( &here ) );
     }
     for( const vpart_reference &vp : veh.get_avail_parts( "OPENABLE" ) ) {
         veh.close( vp.part_index() );
@@ -208,7 +208,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     const float starting_fuel_per = fuel_percentage_left( veh, starting_fuel );
     REQUIRE( std::abs( starting_fuel_per - 1.0f ) < 0.001f );
 
-    const tripoint_bub_ms starting_point = veh.pos_bub();
+    const tripoint_bub_ms starting_point = veh.pos_bub( &here );
     veh.tags.insert( "IN_CONTROL_OVERRIDE" );
     veh.engine_on = true;
 
@@ -235,9 +235,9 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
             REQUIRE( here.ter( here.get_bub( pos ) ) );
         }
         // How much it moved
-        tiles_travelled += square_dist( starting_point, veh.pos_bub() );
+        tiles_travelled += square_dist( starting_point, veh.pos_bub( &here ) );
         // Bring it back to starting point to prevent it from leaving the map
-        const tripoint_rel_ms displacement = starting_point - veh.pos_bub();
+        const tripoint_rel_ms displacement = starting_point - veh.pos_bub( &here );
         here.displace_vehicle( veh, displacement );
         if( reset_velocity_turn < 0 ) {
             continue;

@@ -72,7 +72,7 @@ TEST_CASE( "destroy_grabbed_vehicle_section", "[vehicle]" )
         REQUIRE( player_character.grab_point == tripoint_rel_ms::east );
         WHEN( "The vehicle section grabbed by the player is destroyed" ) {
             here.destroy( grab_point );
-            REQUIRE( veh_ptr->get_parts_at( grab_point, "", part_status_flag::available ).empty() );
+            REQUIRE( veh_ptr->get_parts_at( &here, grab_point, "", part_status_flag::available ).empty() );
             THEN( "The player's grab is released" ) {
                 CHECK( player_character.get_grab_type() == object_type::NONE );
                 CHECK( player_character.grab_point == tripoint_rel_ms::zero );
@@ -477,7 +477,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
 
         WHEN( "displacing first appliance to the left" ) {
             for( int i = 0;
-                 rl_dist( m.get_abs( app1.pos_bub() ), m.get_abs( app2.pos_bub() ) ) <= max_dist &&
+                 rl_dist( app1.pos_abs(), app2.pos_abs() ) <= max_dist &&
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
@@ -485,15 +485,15 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
-            CAPTURE( m.get_abs( app1.pos_bub() ) );
-            CAPTURE( m.get_abs( app2.pos_bub() ) );
+            CAPTURE( app1.pos_abs() );
+            CAPTURE( app2.pos_abs() );
             CHECK( app1.part_count() == 1 );
             CHECK( app2.part_count() == 1 );
         }
 
         WHEN( "displacing second appliance to the right" ) {
             for( int i = 0;
-                 rl_dist( m.get_abs( app1.pos_bub() ), m.get_abs( app2.pos_bub() ) ) <= max_dist &&
+                 rl_dist( app1.pos_abs(), app2.pos_abs() ) <= max_dist &&
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
@@ -501,8 +501,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
-            CAPTURE( m.get_abs( app1.pos_bub() ) );
-            CAPTURE( m.get_abs( app2.pos_bub() ) );
+            CAPTURE( app1.pos_abs() );
+            CAPTURE( app2.pos_abs() );
             CHECK( app1.part_count() == 1 );
             CHECK( app2.part_count() == 1 );
         }
@@ -520,7 +520,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
 
         WHEN( "displacing first appliance to the left" ) {
             for( int i = 0;
-                 rl_dist( m.get_abs( app1.pos_bub() ), m.get_abs( app2.pos_bub() ) ) <= max_dist &&
+                 rl_dist( app1.pos_abs(), app2.pos_abs() ) <= max_dist &&
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
@@ -528,15 +528,15 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
-            CAPTURE( m.get_abs( app1.pos_bub() ) );
-            CAPTURE( m.get_abs( app2.pos_bub() ) );
+            CAPTURE( app1.pos_abs() );
+            CAPTURE( app2.pos_abs() );
             CHECK( app1.part_count() == 1 );
             CHECK( app2.part_count() == 1 );
         }
 
         WHEN( "displacing second appliance to the right" ) {
             for( int i = 0;
-                 rl_dist( m.get_abs( app1.pos_bub() ), m.get_abs( app2.pos_bub() ) ) <= max_dist &&
+                 rl_dist( app1.pos_abs(), app2.pos_abs() ) <= max_dist &&
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
@@ -544,8 +544,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
-            CAPTURE( m.get_abs( app1.pos_bub() ) );
-            CAPTURE( m.get_abs( app2.pos_bub() ) );
+            CAPTURE( app1.pos_abs() );
+            CAPTURE( app2.pos_abs() );
             CHECK( app1.part_count() == 1 );
             CHECK( app2.part_count() == 1 );
         }
@@ -591,7 +591,7 @@ static void rack_check( const rack_preset &preset )
         vehicle *veh_ptr = m.add_vehicle( preset.vehicles[i], preset.positions[i],
                                           preset.facings[i], 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        veh_ptr->refresh( &m );
+        veh_ptr->refresh( );
         vehs.push_back( veh_ptr );
         veh_names.push_back( veh_ptr->name );
     }
@@ -606,7 +606,7 @@ static void rack_check( const rack_preset &preset )
         vehicle &racking_veh = *vehs[rack_act.racking_vehicle_index];
         vehicle &racked_veh = *vehs[rack_act.racked_vehicle_index];
 
-        const std::vector<vehicle_part *> rack_parts = racking_veh.get_parts_at( rack_act.rack_pos,
+        const std::vector<vehicle_part *> rack_parts = racking_veh.get_parts_at( &m, rack_act.rack_pos,
                 "BIKE_RACK_VEH",
                 part_status_flag::available );
         REQUIRE( rack_parts.size() == 1 );
@@ -654,7 +654,7 @@ static void rack_check( const rack_preset &preset )
         const optional_vpart_position ovp_racked = m.veh_at( rack_act.rack_pos );
         REQUIRE( ovp_racked.has_value() );
 
-        const auto rack_parts = ovp_racked->vehicle().get_parts_at( rack_act.rack_pos,
+        const auto rack_parts = ovp_racked->vehicle().get_parts_at( &m, rack_act.rack_pos,
                                 "BIKE_RACK_VEH", part_status_flag::available );
         REQUIRE( rack_parts.size() == 1 );
         const int rack_idx = ovp_racked->vehicle().index_of_part( rack_parts[0] );
@@ -765,19 +765,19 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
     veh.is_following = true;
     veh.is_patrolling = false;
     veh.engine_on = true;
-    veh.refresh( &here );
+    veh.refresh( );
 
     int turns_left = 10;
     int tiles_travelled = 0;
-    const tripoint_bub_ms starting_point = veh.pos_bub();
+    const tripoint_bub_ms starting_point = veh.pos_bub( &here );
     while( veh.engine_on && turns_left > 0 ) {
         turns_left--;
         here.vehmove();
         veh.idle( true );
         // How much it moved
-        tiles_travelled += square_dist( starting_point, veh.pos_bub() );
+        tiles_travelled += square_dist( starting_point, veh.pos_bub( &here ) );
         // Bring it back to starting point to prevent it from leaving the map
-        const tripoint_rel_ms displacement = starting_point - veh.pos_bub();
+        const tripoint_rel_ms displacement = starting_point - veh.pos_bub( &here );
         here.displace_vehicle( veh, displacement );
     }
     return tiles_travelled;

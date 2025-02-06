@@ -7306,15 +7306,16 @@ static bool hackveh( Character &p, item &it, vehicle &veh )
 
 static vehicle *pickveh( const tripoint_bub_ms &center, bool advanced )
 {
+    map &here = get_map();
     static const std::string ctrl = "CTRL_ELECTRONIC";
     static const std::string advctrl = "REMOTE_CONTROLS";
     uilist pmenu;
     pmenu.title = _( "Select vehicle to access" );
     std::vector< vehicle * > vehs;
 
-    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
+    for( wrapped_vehicle &veh : here.get_vehicles() ) {
         vehicle *&v = veh.v;
-        if( rl_dist( center, v->pos_bub() ) < 40 &&
+        if( rl_dist( center, v->pos_bub( &here ) ) < 40 &&
             v->fuel_left( itype_battery ) > 0 &&
             ( !empty( v->get_avail_parts( advctrl ) ) ||
               ( !advanced && !empty( v->get_avail_parts( ctrl ) ) ) ) ) {
@@ -7324,7 +7325,7 @@ static vehicle *pickveh( const tripoint_bub_ms &center, bool advanced )
     std::vector<tripoint_bub_ms> locations;
     for( int i = 0; i < static_cast<int>( vehs.size() ); i++ ) {
         vehicle *veh = vehs[i];
-        locations.push_back( veh->pos_bub() );
+        locations.push_back( veh->pos_bub( &here ) );
         pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name );
     }
 
@@ -7371,6 +7372,8 @@ std::optional<int> iuse::remoteveh_tick( Character *p, item *it, const tripoint_
 
 std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    map &here = get_map();
+
     vehicle *remote = g->remoteveh();
 
     bool controlling = it->active && remote != nullptr;
@@ -7419,9 +7422,9 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint_bub_m
         const auto electronics_parts = veh->get_avail_parts( "CTRL_ELECTRONIC" );
         // Revert to original behavior if we can't find remote controls.
         if( empty( rctrl_parts ) ) {
-            veh->interact_with( electronics_parts.begin()->pos_bub() );
+            veh->interact_with( electronics_parts.begin()->pos_bub( &here ) );
         } else {
-            veh->interact_with( rctrl_parts.begin()->pos_bub() );
+            veh->interact_with( rctrl_parts.begin()->pos_bub( &here ) );
         }
     }
 

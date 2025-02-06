@@ -911,7 +911,7 @@ class vehicle
         void suspend_refresh();
         void enable_refresh();
         //Refresh all caches and re-locate all parts
-        void refresh( map *here, bool remove_fakes = true );
+        void refresh( bool remove_fakes = true );
 
         // Refresh active_item cache for vehicle parts
         void refresh_active_item_cache();
@@ -1268,7 +1268,9 @@ class vehicle
          *  @param flag The specified flag
          *  @param enabled if set part must also be enabled to be considered
          */
-        bool has_part( const tripoint_bub_ms &pos, const std::string &flag, bool enabled = false ) const;
+        bool has_part( map *here, const tripoint_bub_ms &pos, const std::string &flag,
+                       bool enabled = false ) const;
+        bool has_part( const tripoint_abs_ms &pos, const std::string &flag, bool enabled = false ) const;
 
         /**
          *  Check if vehicle has at least one unbroken part with each of the specified flags
@@ -1289,14 +1291,12 @@ class vehicle
          *  @param flag if set only flags with this part will be considered
          *  @param condition enum to include unabled, unavailable, and broken parts
          */
-        // TODO: Get rid of map less overload.
-        std::vector<vehicle_part *> get_parts_at( const tripoint_bub_ms &pos, const std::string &flag,
-                part_status_flag condition );
         std::vector<vehicle_part *> get_parts_at( map *here, const tripoint_bub_ms &pos,
                 const std::string &flag,
                 part_status_flag condition );
-        std::vector<const vehicle_part *> get_parts_at( const tripoint_bub_ms &pos,
-                const std::string &flag, part_status_flag condition ) const;
+        std::vector<vehicle_part *> get_parts_at( const tripoint_abs_ms &pos,
+                const std::string &flag,
+                part_status_flag condition );
 
         /** Test if part can be enabled (unbroken, sufficient fuel etc), optionally displaying failures to user */
         bool can_enable( const vehicle_part &pt, bool alert = false ) const;
@@ -1368,8 +1368,12 @@ class vehicle
         void coord_translate( tileray tdir, const point_rel_ms &pivot, const point_rel_ms &p,
                               tripoint_rel_ms &q ) const;
 
-        tripoint_bub_ms mount_to_tripoint( const point_rel_ms &mount ) const;
-        tripoint_bub_ms mount_to_tripoint( const point_rel_ms &mount, const point_rel_ms &offset ) const;
+        tripoint_bub_ms mount_to_tripoint( map *here,  const point_rel_ms &mount ) const;
+        tripoint_abs_ms mount_to_tripoint_abs( const point_rel_ms &mount ) const;
+        tripoint_bub_ms mount_to_tripoint( map *here, const point_rel_ms &mount,
+                                           const point_rel_ms &offset ) const;
+        tripoint_abs_ms mount_to_tripoint_abs( const point_rel_ms &mount,
+                                               const point_rel_ms &offset ) const;
 
         // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
         int part_at( const point_rel_ms &dp ) const;
@@ -1438,8 +1442,6 @@ class vehicle
         tripoint_abs_omt pos_abs_omt() const;
         // Returns the coordinates (in map squares) of the vehicle relative to the local map.
         // Warning: Don't assume this position contains a vehicle part
-        // TODO: Replace usage of map less version.
-        tripoint_bub_ms pos_bub() const;
         tripoint_bub_ms pos_bub( map *here ) const;
         /**
          * Get the coordinates of the studied part of the vehicle
@@ -1810,7 +1812,7 @@ class vehicle
                                       bool just_detect, bool bash_floor );
 
         // Process the trap beneath
-        void handle_trap( const tripoint_bub_ms &p, vehicle_part &vp_wheel );
+        void handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp_wheel );
         void activate_magical_follow();
         void activate_animal_follow();
         /**
@@ -1839,7 +1841,7 @@ class vehicle
         * @return amount of ammo in the `pseudo_magazine` or 0
         */
         int prepare_tool( item &tool ) const;
-        static bool use_vehicle_tool( vehicle &veh, const tripoint_bub_ms &vp_pos,
+        static bool use_vehicle_tool( vehicle &veh, map *here, const tripoint_bub_ms &vp_pos,
                                       const itype_id &tool_type,
                                       bool no_invoke = false );
         /**
@@ -1922,9 +1924,12 @@ class vehicle
          * @param - If set to trinary::NONE, the default, don't drop any cables.
          * @param - If set to trinary::SOME, calculate cable length, updating remote parts, and drop if it's too long.
          * @param - If set to trinary::ALL, drop all cables.
+         * @param here Future position map reference.
          * @param dst Future vehicle position, used for calculating cable length when shed_cables == trinary::SOME.
+         * here and dst have to either both be non null or both null.
          */
-        void shed_loose_parts( trinary shed_cables = trinary::NONE, const tripoint_bub_ms *dst = nullptr );
+        void shed_loose_parts( trinary shed_cables = trinary::NONE, map *here = nullptr,
+                               const tripoint_bub_ms *dst = nullptr );
         /**
          * Disconnect cables attached to the specified mount point.
          * @param mount The mount point to detach cables from.
@@ -1943,9 +1948,6 @@ class vehicle
 
         /** Get all vehicle turrets (excluding any that are destroyed) */
         std::vector<vehicle_part *> turrets();
-
-        /** Get all vehicle turrets loaded and ready to fire at target */
-        std::vector<vehicle_part *> turrets( const tripoint_bub_ms &target );
 
         /** Get firing data for a turret */
         turret_data turret_query( vehicle_part &pt );

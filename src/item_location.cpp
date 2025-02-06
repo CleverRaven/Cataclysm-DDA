@@ -509,7 +509,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                 debugmsg( "item in vehicle part without cargo storage" );
             }
             if( ch ) {
-                res += " " + direction_suffix( ch->pos_bub(), part_pos.pos_bub() );
+                res += " " + direction_suffix( ch->pos_abs(), part_pos.pos_abs() );
             }
             return res;
         }

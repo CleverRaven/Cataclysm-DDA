@@ -1000,8 +1000,8 @@ int Character::fire_gun( map *here, const tripoint_bub_ms &target, int shots, it
     bool bipod = here->has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, pos_bub( here ) ) ||
                  is_prone();
     if( !bipod ) {
-        if( const optional_vpart_position vp = here->veh_at( pos_bub( here ) ) ) {
-            bipod = vp->vehicle().has_part( pos_bub( here ), "MOUNTABLE" );
+        if( const optional_vpart_position vp = here->veh_at( pos_abs( ) ) ) {
+            bipod = vp->vehicle().has_part( pos_abs( ), "MOUNTABLE" );
         }
     }
 

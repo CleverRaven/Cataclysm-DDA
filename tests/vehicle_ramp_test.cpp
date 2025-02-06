@@ -139,7 +139,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
         for( const tripoint_abs_ms &checkpt : vpts ) {
             int partnum = 0;
             vehicle *check_veh = here.veh_at_internal( here.get_bub( checkpt ), partnum );
-            CAPTURE( veh_ptr->pos_bub() );
+            CAPTURE( veh_ptr->pos_bub( &here ) );
             CAPTURE( veh_ptr->face.dir() );
             CAPTURE( checkpt );
             CHECK( check_veh == veh_ptr );
@@ -158,7 +158,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
             }
             const point_rel_ms &pmount = vp.mount_pos();
             CAPTURE( pmount );
-            const tripoint_bub_ms &ppos = vp.pos_bub();
+            const tripoint_bub_ms &ppos = vp.pos_bub( &here );
             CAPTURE( ppos );
             if( cycles > ( transition_cycle - pmount.x() ) ) {
                 CHECK( ppos.z() == target_z );
@@ -267,7 +267,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
 
     std::vector<vehicle_part *> all_parts;
     for( const tripoint_abs_ms &pos : veh.get_points() ) {
-        for( vehicle_part *prt : veh.get_parts_at( here.get_bub( pos ), "", part_status_flag::any ) ) {
+        for( vehicle_part *prt : veh.get_parts_at( pos, "", part_status_flag::any ) ) {
             all_parts.push_back( prt );
             if( drop_pos && prt->mount.x() < 0 ) {
                 prt->precalc[0].z() = -1;
@@ -309,7 +309,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
         CHECK( veh.abs_part_pos( *prt ).z() == 0 );
     }
     CHECK( dmon.posz() == 0 );
-    CHECK( veh.pos_bub().z() == 0 );
+    CHECK( veh.pos_abs().z() == 0 );
 }
 
 static void test_leveling( const std::string &type )

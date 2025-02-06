@@ -309,7 +309,7 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
         if( one_in( 2 ) ) {
             vehicle_part &vp_wheel = grabbed_vehicle->part( p );
             tripoint_bub_ms wheel_p = grabbed_vehicle->bub_part_pos( &here, vp_wheel );
-            grabbed_vehicle->handle_trap( wheel_p, vp_wheel );
+            grabbed_vehicle->handle_trap( &m, wheel_p, vp_wheel );
         }
     }
 

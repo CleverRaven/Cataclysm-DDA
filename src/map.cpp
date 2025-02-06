@@ -875,7 +875,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
         veh.stop_autodriving();
         const int volume = std::min<int>( 100, std::sqrt( impulse ) );
         // TODO: Center the sound at weighted (by impulse) average of collisions
-        sounds::sound( veh.pos_bub(), volume, sounds::sound_t::combat, _( "crash!" ),
+        sounds::sound( veh.pos_bub( this ), volume, sounds::sound_t::combat, _( "crash!" ),
                        false, "smash_success", "hit_vehicle" );
     }
 
@@ -963,7 +963,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
                                "environment", "splash" );
             }
 
-            veh.handle_trap( wheel_p, vp_wheel );
+            veh.handle_trap( this, wheel_p, vp_wheel );
             // dont use vp_wheel or vp_wheel_idx below this - handle_trap might've removed it from parts
 
             if( !has_flag( ter_furn_flag::TFLAG_SEALED, wheel_p ) ) {
@@ -1064,8 +1064,10 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         int &y_cof2 = cof2.y();
         rl_vec2d collision_axis_y;
 
-        collision_axis_y.x = ( veh.pos_bub().x() + x_cof1 ) - ( veh2.pos_bub().x() + x_cof2 );
-        collision_axis_y.y = ( veh.pos_bub().y() + y_cof1 ) - ( veh2.pos_bub().y() + y_cof2 );
+        const tripoint_bub_ms veh_pos = veh.pos_bub( this );
+        const tripoint_bub_ms veh2_pos = veh2.pos_bub( this );
+        collision_axis_y.x = ( veh_pos.x() + x_cof1 ) - ( veh2_pos.x() + x_cof2 );
+        collision_axis_y.y = ( veh_pos.y() + y_cof1 ) - ( veh2_pos.y() + y_cof2 );
         collision_axis_y = collision_axis_y.normalized();
         rl_vec2d collision_axis_x = collision_axis_y.rotated( M_PI / 2 );
         // imp? & delta? & final? reworked:
@@ -1260,7 +1262,7 @@ std::set<tripoint_bub_ms> map::get_moving_vehicle_targets( const Creature &z, in
             continue; // coarse distance filter, 40 = ~24 * sqrt(2) - rough max diameter of a vehicle
         }
         for( const vpart_reference &vpr : v.v->get_all_parts() ) {
-            const tripoint_bub_ms vppos = vpr.pos_bub();
+            const tripoint_bub_ms vppos = vpr.pos_bub( this );
             if( rl_dist( zpos, vppos ) > max_range ) {
                 continue;
             }
@@ -1436,7 +1438,7 @@ void map::unboard_vehicle( const tripoint_bub_ms &p, bool dead_passenger )
 bool map::displace_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const bool adjust_pos,
                             const std::set<int> &parts_to_move )
 {
-    const tripoint_bub_ms src = veh.pos_bub();
+    const tripoint_bub_ms src = veh.pos_bub( this );
     // handle vehicle ramps
     int ramp_offset = 0;
     if( adjust_pos ) {
@@ -1576,7 +1578,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const bool 
         }
     }
 
-    veh.shed_loose_parts( trinary::SOME, &dst );
+    veh.shed_loose_parts( trinary::SOME, this, &dst );
     smzs = veh.advance_precalc_mounts( dst_offset, src, dp, ramp_offset,
                                        adjust_pos, parts_to_move );
     veh.update_active_fakes();
@@ -5547,7 +5549,7 @@ void map::process_items()
         level_cache &cache = access_cache( gz );
         std::set<tripoint> submaps_with_vehicles;
         for( vehicle *this_vehicle : cache.vehicle_list ) {
-            tripoint_bub_ms pos = this_vehicle->pos_bub();
+            tripoint_bub_ms pos = this_vehicle->pos_bub( this );
             submaps_with_vehicles.emplace( pos.x() / SEEX, pos.y() / SEEY, pos.z() );
         }
         for( const tripoint &pos : submaps_with_vehicles ) {
@@ -5645,7 +5647,7 @@ std::vector<item_reference> map::item_network_connections( vehicle *power_grid )
 
             if( active_item_ref.item_ref->has_link_data() &&
                 active_item_ref.item_ref->link().t_veh &&
-                active_item_ref.item_ref->link().t_veh->pos_bub() == power_grid->pos_bub() ) {
+                active_item_ref.item_ref->link().t_veh->pos_abs() == power_grid->pos_abs() ) {
                 result.emplace_back( active_item_ref );
             }
         }
@@ -5680,7 +5682,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
 {
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     for( const vpart_reference &vp : cur_veh.get_any_parts( VPFLAG_FLUIDTANK ) ) {
-        vp.part().process_contents( *this, vp.pos_bub(), engine_heater_is_on );
+        vp.part().process_contents( *this, vp.pos_bub( this ), engine_heater_is_on );
     }
 
     auto cargo_parts = cur_veh.get_parts_including_carried( VPFLAG_CARGO );
@@ -5706,7 +5708,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         const item &target = *active_item_ref.item_ref;
         // Find the cargo part and coordinates corresponding to the current active item.
         const vehicle_part &pt = it->part();
-        const tripoint_bub_ms item_loc = it->pos_bub();
+        const tripoint_bub_ms item_loc = it->pos_bub( this );
         vehicle_stack items = cur_veh.get_items( pt );
         float it_insulation = 1.0f;
         temperature_flag flag = temperature_flag::NORMAL;
@@ -8589,9 +8591,9 @@ void map::actualize( const tripoint_rel_sm &grid )
         // spill out items too large, MIGRATION pockets etc from vehicle parts
         for( const vpart_reference &vp : veh->get_all_parts() ) {
             const item &base_const = vp.part().get_base();
-            const_cast<item &>( base_const ).overflow( vp.pos_bub() );
+            const_cast<item &>( base_const ).overflow( vp.pos_bub( this ) );
         }
-        veh->refresh( this );
+        veh->refresh( );
     }
 
     const time_duration time_since_last_actualize = calendar::turn - tmpsub->last_touched;
@@ -10150,7 +10152,7 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
                 ( !vp.has_feature( VPFLAG_OPENABLE ) || !vp.part().open ) ) {
                 continue;
             }
-            const tripoint_bub_ms part_pos = vp.pos_bub();
+            const tripoint_bub_ms part_pos = vp.pos_bub( this );
             if( local_bounds.contains( part_pos.xy() ) ) {
                 reduces_scent[part_pos.x()][part_pos.y()] = true;
             }

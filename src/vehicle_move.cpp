@@ -1228,14 +1228,13 @@ veh_collision vehicle::part_collision( int part, const tripoint_abs_ms &p,
     return ret;
 }
 
-void vehicle::handle_trap( const tripoint_bub_ms &p, vehicle_part &vp_wheel )
+void vehicle::handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp_wheel )
 {
     if( !vp_wheel.info().has_flag( VPFLAG_WHEEL ) ) {
         debugmsg( "vehicle::handle_trap called on non-WHEEL part" );
         return;
     }
-    map &here = get_map();
-    const trap &tr = here.tr_at( p );
+    const trap &tr = here->tr_at( p );
 
     if( tr.is_null() ) {
         // If the trap doesn't exist, we can't interact with it, so just return
@@ -1271,25 +1270,25 @@ void vehicle::handle_trap( const tripoint_bub_ms &p, vehicle_part &vp_wheel )
             // Don't damage wheels with very high durability, such as roller drums or rail wheels
         } else if( damage_done ) {
             // Hit the wheel directly since it ran right over the trap.
-            damage_direct( here, vp_wheel, veh_data.damage );
+            damage_direct( *here, vp_wheel, veh_data.damage );
         }
         bool still_has_trap = true;
         if( veh_data.remove_trap || veh_data.do_explosion ) {
-            here.remove_trap( p );
+            here->remove_trap( p );
             still_has_trap = false;
         }
         for( const auto &it : veh_data.spawn_items ) {
             int cnt = roll_remainder( it.second );
             if( cnt > 0 ) {
-                here.spawn_item( p, it.first, cnt );
+                here->spawn_item( p, it.first, cnt );
             }
         }
         if( veh_data.set_trap ) {
-            here.trap_set( p, veh_data.set_trap.id() );
+            here->trap_set( p, veh_data.set_trap.id() );
             still_has_trap = true;
         }
         if( still_has_trap && player_is_driving_this_veh() ) {
-            const trap &tr = here.tr_at( p );
+            const trap &tr = here->tr_at( p );
             if( seen || known ) {
                 // known status has been reset by map::trap_set()
                 player_character.add_known_trap( p, tr );
@@ -1350,10 +1349,12 @@ void vehicle::selfdrive( const int trn, const int acceleration )
 
 bool vehicle::check_is_heli_landed()
 {
+    map &here = get_map();
+
     // @TODO - when there are chasms that extend below z-level 0 - perhaps the heli
     // will be able to descend into them but for now, assume z-level-0 == the ground.
-    if( pos_bub().z() == 0 ||
-        !get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pos_bub() ) ) {
+    if( pos_abs().z() == 0 ||
+        !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pos_bub( &here ) ) ) {
         is_flying = false;
         return true;
     }
@@ -1681,7 +1682,7 @@ void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool chec
         coord_translate( mdir.dir(), this->pivot_point(), wheel.mount,
                          wheel_point );
 
-        tripoint_bub_ms wheel_tripoint = pos_bub() + wheel_point;
+        tripoint_bub_ms wheel_tripoint = pos_bub( &here ) + wheel_point;
 
         // maximum number of incorrect tiles for this type of turn(diagonal or not)
         const int allowed_incorrect_tiles_diagonal = 1;
@@ -1828,8 +1829,9 @@ bool vehicle::is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int w
 
 vehicle *vehicle::act_on_map()
 {
-    const tripoint_bub_ms pt = pos_bub();
     map &here = get_map();
+
+    const tripoint_bub_ms pt = pos_bub( &here );
     if( !here.inbounds( pt ) ) {
         dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x() << "," << pt.y() << "," <<
                       pt.z() <<
@@ -2039,7 +2041,7 @@ bool vehicle::level_vehicle()
             if( no_support.find( zlevel ) == no_support.end() || !no_support[zlevel] ) {
                 continue;
             }
-            center_drop |= pos_bub().z() == zlevel;
+            center_drop |= pos_abs().z() == zlevel;
             adjust_level = true;
             // drop unsupported parts 1 zlevel
             for( size_t prt = 0; prt < parts.size(); prt++ ) {
