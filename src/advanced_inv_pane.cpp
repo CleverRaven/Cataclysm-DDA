@@ -158,6 +158,10 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
     if( weapon && weapon->is_container() ) {
         for( const std::vector<item_location> &it_stack : item_list_to_stack( weapon,
                 weapon->all_items_top( pocket_type::CONTAINER ) ) ) {
+            if( !it_stack.empty() && it_stack.front()->made_of_from_type( phase_id::LIQUID ) &&
+                !it_stack.front()->is_frozen_liquid() ) {
+                continue;
+            }
             advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
             if( !pane.is_filtered( *adv_it.items.front() ) ) {
                 square.volume += adv_it.volume;
