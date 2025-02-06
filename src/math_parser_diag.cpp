@@ -1142,6 +1142,20 @@ diag_eval_dbl_f spell_sum_eval( char scope, std::vector<diag_value> const & /* p
     };
 }
 
+diag_eval_dbl_f spell_difficulty_eval( char scope, std::vector<diag_value> const &params,
+                                       diag_kwargs const & /* kwargs */ )
+{
+    return[beta = is_beta( scope ), sid = params[0]]( const_dialogue const & d ) -> double {
+        std::string sid_str = sid.str( d );
+        spell_id spell( sid_str );
+        if( spell.is_valid() )
+        {
+            return d.const_actor( beta )->get_spell_difficulty( spell );
+        }
+        throw math::runtime_error( R"(Unknown spell id "%s" for spell_difficulty_eval)", sid_str );
+    };
+}
+
 diag_eval_dbl_f spell_exp_eval( char scope, std::vector<diag_value> const &params,
                                 diag_kwargs const & /* kwargs */ )
 {
@@ -1889,12 +1903,13 @@ std::map<std::string_view, dialogue_func> const dialogue_funcs{
     { "quality", { "un", 1, quality_eval } },
     { "skill", { "un", 1, skill_eval, skill_ass } },
     { "skill_exp", { "un", 1, skill_exp_eval, skill_exp_ass } },
-    { "spell_count", { "un", 0, spell_count_eval}},
-    { "spell_level_sum", { "un", 0, spell_sum_eval}},
-    { "spell_exp", { "un", 1, spell_exp_eval, spell_exp_ass }},
-    { "spell_exp_for_level", { "g", 2, spell_exp_for_level_eval}},
-    { "spell_level", { "un", 1, spell_level_eval, spell_level_ass }},
+    { "spell_count", { "un", 0, spell_count_eval } },
+    { "spell_difficulty", { "un", 1, spell_difficulty_eval } },
+    { "spell_exp", { "un", 1, spell_exp_eval, spell_exp_ass } },
+    { "spell_exp_for_level", { "g", 2, spell_exp_for_level_eval } },
+    { "spell_level", { "un", 1, spell_level_eval, spell_level_ass } },
     { "spell_level_adjustment", { "un", 1, spell_level_adjustment_eval, spell_level_adjustment_ass } },
+    { "spell_level_sum", { "un", 0, spell_sum_eval} },
     { "time", { "g", 1, time_eval, time_ass } },
     { "time_since", { "g", 1, time_since_eval } },
     { "time_until", { "g", 1, time_until_eval } },
