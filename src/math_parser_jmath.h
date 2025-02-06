@@ -20,6 +20,7 @@ struct jmath_func {
 
     double eval( const_dialogue const &d ) const;
     double eval( const_dialogue const &d, std::vector<double> const &params ) const;
+    double eval( const_dialogue const &d, std::vector<std::string> const &params ) const;
 
     void load( const JsonObject &jo, std::string_view src );
     static void load_func( const JsonObject &jo, std::string const &src );

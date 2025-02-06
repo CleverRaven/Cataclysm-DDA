@@ -83,3 +83,12 @@ double jmath_func::eval( const_dialogue const &d, std::vector<double> const &par
 
     return eval( d_next );
 }
+
+double jmath_func::eval( const_dialogue const &d, std::vector<std::string> const &params ) const
+{
+    const_dialogue d_next( d );
+    for( std::vector<std::string>::size_type i = 0; i < params.size(); i++ ) {
+        d_next.set_value( std::to_string( i ), params[i] );
+    }
+    return eval( d_next );
+}

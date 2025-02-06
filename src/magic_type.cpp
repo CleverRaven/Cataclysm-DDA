@@ -109,8 +109,8 @@ void magic_type::check_consistency()
             debugmsg( "ERROR: %s casting_xp_formula_id has params that != 0!", m_t.id.c_str() );
         }
         if( m_t.failure_chance_formula_id.has_value() &&
-            m_t.failure_chance_formula_id.value()->num_params != 0 ) {
-            debugmsg( "ERROR: %s failure_chance_formula_id has params that != 0!", m_t.id.c_str() );
+            m_t.failure_chance_formula_id.value()->num_params > 1 ) {
+            debugmsg( "ERROR: %s failure_chance_formula_id has params that > 1!", m_t.id.c_str() );
         }
     }
 }

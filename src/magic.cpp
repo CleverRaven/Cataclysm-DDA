@@ -1405,7 +1405,8 @@ float spell::spell_fail( const Character &guy ) const
     float fail_chance = 0;
     if( has_type_fail_chance ) {
         const_dialogue d( get_const_talker_for( guy ), nullptr );
-        fail_chance = type->magic_type.value()->failure_chance_formula_id.value()->eval( d );
+        std::vector<std::string> params = { id().c_str() };
+        fail_chance = type->magic_type.value()->failure_chance_formula_id.value()->eval( d, params );
     } else if( is_psi ) {
         fail_chance = std::pow( ( psi_effective_skill - 40.0f ) / 40.0f, 2 );
     } else {
@@ -1868,8 +1869,9 @@ int spell_type::get_level( int experience ) const
 
     // you aren't at the next level unless you have the requisite xp, so floor
     if( level_formula.has_value() ) {
+        std::vector<double> params = { static_cast<double>( experience ) };
         return std::max( static_cast<int>( std::floor( level_formula.value()->eval( dialogue(
-                                               std::make_unique<talker>(), nullptr ), { static_cast<double>( experience ) } ) ) ), 0 );
+                                               std::make_unique<talker>(), nullptr ), params ) ) ), 0 );
     }
     return std::max( static_cast<int>( std::floor( std::log( experience + a ) / b + c ) ), 0 );
 }
@@ -1955,8 +1957,9 @@ int spell_type::exp_for_level( int level ) const
     }
     std::optional<jmath_func_id> func_id = overall_exp_for_level_formula_id();
     if( func_id.has_value() ) {
+        std::vector<double> params = { static_cast<double>( level ) };
         return std::ceil( func_id.value()->eval( dialogue( std::make_unique<talker>(),
-                          nullptr ), { static_cast<double>( level ) } ) );
+                          nullptr ), params ) );
     }
     return std::ceil( std::exp( ( level - c ) * b ) ) - a;
 }
@@ -1990,7 +1993,7 @@ int spell::casting_exp( const Character &guy ) const
 {
     if( type->magic_type.has_value() && type->magic_type.value()->casting_xp_formula_id.has_value() ) {
         const_dialogue d( get_const_talker_for( guy ), nullptr );
-        return std::round( type->magic_type.value()->casting_xp_formula_id.value()->eval( d, {} ) );
+        return std::round( type->magic_type.value()->casting_xp_formula_id.value()->eval( d ) );
     } else {
         // the amount of xp you would get with no modifiers
         const int base_casting_xp = 75;
