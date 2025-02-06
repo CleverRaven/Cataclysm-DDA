@@ -367,28 +367,32 @@ void user_interface::show()
         wnoutrefresh( w_border );
 
         // Redraw the header
-        std::string desc_0 = string_format( "%s %s %s",
-                                          ctxt.get_desc( "ADD_RULE", _( "Add" ) ),
-                                          ctxt.get_desc( "REMOVE_RULE", _( "Remove" ) ),
-                                          ctxt.get_desc( "COPY_RULE", _( "Copy" ) ) );
-        std::string desc_1 = string_format( "%s %s",
-                                          ctxt.get_desc( "ENABLE_RULE", _( "Enable" ) ),
-                                          ctxt.get_desc( "DISABLE_RULE", _( "Disable" ) ) );
-        std::string desc_2 = string_format( "%s %s %s",
-                                          ctxt.get_desc( "MOVE_RULE_UP", _( "Move up" ) ),
-                                          ctxt.get_desc( "MOVE_RULE_DOWN", _( "Move down" ) ),
-                                          ctxt.get_desc( "CONFIRM", _( "Edit" ) ) );
-        if( !player_character.name.empty() ) {
-            desc_0 += string_format ( " %s", ctxt.get_desc( "SWAP_RULE_GLOBAL_CHAR", _( "Move" ) ) );
-            desc_1 += string_format ( " %s", ctxt.get_desc( "TEST_RULE", _( "Test" ) ) );
-        }
+        std::vector<std::string> keybinding_tips;
+        std::vector<std::string> act_descs;
+        const auto add_action_desc = [&]( const std::string & act, const std::string & txt ) {
+            act_descs.emplace_back( ctxt.get_desc( act, txt, input_context::allow_all_keys ) );
+        };
+
+        add_action_desc( "ADD_RULE", pgettext( "autopickup manager", "Add" ) );
+        add_action_desc( "REMOVE_RULE", pgettext( "autopickup manager", "Remove" ) );
+        add_action_desc( "COPY_RULE", pgettext( "autopickup manager", "Copy" ) );
+        add_action_desc( "ENABLE_RULE", pgettext( "autopickup manager", "Enable" ) );
+        add_action_desc( "DISABLE_RULE", pgettext( "autopickup manager", "Disable" ) );
+        add_action_desc( "MOVE_RULE_UP", pgettext( "autopickup manager", "Move up" ) );
+        add_action_desc( "MOVE_RULE_DOWN", pgettext( "autopickup manager", "Move down" ) );
+        add_action_desc( "CONFIRM", pgettext( "autopickup manager", "Edit" ) );
         if( tabs.size() > 1 ) {
-            desc_2 += string_format ( " %s", ctxt.get_desc( "NEXT_TAB", _( "Page" ) ) );
+            add_action_desc( "NEXT_TAB", pgettext( "autopickup manager", "Page" ) );
         }
-		
-        fold_and_print( w_header, point( 0, 0 ), 0, c_white, desc_0 );
-        fold_and_print( w_header, point( 0, 1 ), 0, c_white, desc_1 );
-        fold_and_print( w_header, point( 0, 2 ), 0, c_white, desc_2 );
+        if( !player_character.name.empty() ) {
+            add_action_desc( "SWAP_RULE_GLOBAL_CHAR", pgettext( "autopickup manager", "Move" ) );
+            add_action_desc( "TEST_RULE", pgettext( "autopickup manager", "Test" ) );
+        }
+        keybinding_tips = foldstring( enumerate_as_string( act_descs, enumeration_conjunction::none ), 50 );
+        for( size_t i = 0; i < keybinding_tips.size(); ++i ) {
+            nc_color dummy = c_white;
+            print_colored_text( w_header, point( 0, i ), dummy, c_white, keybinding_tips[i] );
+        }
 
         wattron( w_header, c_light_gray );
         mvwhline( w_header, point( 0,  3 ), LINE_OXOX, 78 );
