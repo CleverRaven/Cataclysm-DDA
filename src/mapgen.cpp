@@ -231,6 +231,30 @@ static constexpr int MON_RADIUS = 3;
 static void science_room( map *m, const point_bub_ms &p1, const point_bub_ms &p2, int z,
                           int rotate );
 
+static bool is_point_in_map_bounds( int x, int y )
+{
+    return !( x < 0 && x >= SEEX * 2 ) && !( y < 0 && y >= SEEY * 2 );
+}
+
+static tripoint_bub_ms get_point_from_direction( int streak_direction,
+        tripoint_bub_ms &current_tile )
+{
+    switch( streak_direction ) {
+        case 1:
+            // North
+            return tripoint_bub_ms( current_tile.x(), current_tile.y() - 1, current_tile.z() );
+        case 2:
+            // South
+            return tripoint_bub_ms( current_tile.x(), current_tile.y() + 1, current_tile.z() );
+        case 3:
+            // West
+            return tripoint_bub_ms( current_tile.x() - 1, current_tile.y(), current_tile.z() );
+        case 4:
+            // East
+            return tripoint_bub_ms( current_tile.x() + 1, current_tile.y(), current_tile.z() );
+    }
+}
+
 static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
 {
     if( p.z() < 0 ) {
@@ -285,8 +309,103 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
             }
         }
         // Set some fields at random!
-        if( x_in_y( 3, 100 ) ) {
-            md.add_field( current_tile, field_fd_blood );
+        if( x_in_y( 1, 100 ) ) {
+            int behavior_roll = rng( 1, 100 );
+
+            if( behavior_roll > 80 ) {
+                // 20% chance to place a field by itself
+                md.add_field( current_tile, field_fd_blood );
+            } else if( behavior_roll > 40 ) {
+                // 40% chance to try streaking the field
+                int streak_length = rng( 3, 8 );
+                int streak_direction = rng( 1, 4 );
+
+                if( md.has_flag( ter_furn_flag::TFLAG_WALL, current_tile ) ) {
+                    // Start a wall streak
+                    md.add_field( current_tile, field_fd_blood );
+                    tripoint_bub_ms last_tile = current_tile;
+
+                    for( int i = 0; i < streak_length; i++ ) {
+                        tripoint_bub_ms destination_tile = get_point_from_direction( streak_direction, last_tile );
+
+                        if( !is_point_in_map_bounds( destination_tile.x(), destination_tile.y() ) ) {
+                            // Out of the map, just terminate the streak
+                            break;
+                        }
+                        if( !md.has_flag( ter_furn_flag::TFLAG_WALL, destination_tile ) ) {
+                            // Wall Streaks should stay on walls
+                            bool terminate_streak = true;
+
+                            for( int ii = 1; ii < 5; ii++ ) {
+                                // Check for adjacent wall tiles and change streak direction if we find one
+                                if( ii == streak_direction ) {
+                                    continue;
+                                }
+                                tripoint_bub_ms adjacent_tile = get_point_from_direction( ii, last_tile );
+
+                                if( md.has_flag( ter_furn_flag::TFLAG_WALL, adjacent_tile ) ) {
+                                    streak_direction = ii;
+                                    destination_tile = adjacent_tile;
+                                    terminate_streak = false;
+                                    break;
+                                }
+                            }
+
+                            if( terminate_streak ) {
+                                // failed to find an adjacent wall tile, terminate the streak
+                                break;
+                            }
+                        }
+
+                        md.add_field( destination_tile, field_fd_blood );
+                        tripoint_bub_ms last_tile = destination_tile;
+                    }
+                } else {
+                    // Start a floor streak
+                    md.add_field( current_tile, field_fd_blood );
+                    tripoint_bub_ms last_tile = current_tile;
+
+                    for( int i = 0; i < streak_length; i++ ) {
+                        tripoint_bub_ms destination_tile = get_point_from_direction( streak_direction, last_tile );
+
+                        if( !is_point_in_map_bounds( destination_tile.x(), destination_tile.y() ) ) {
+                            // Out of bounds just terminate the streak
+                            break;
+                        }
+
+                        if( md.has_flag( ter_furn_flag::TFLAG_WALL, destination_tile ) ) {
+                            // Floor streak hit a wall, search for nearest non-wall tile
+                            bool terminate_streak = true;
+
+                            for( int ii = 1; ii < 5; ii++ ) {
+                                // Check for adjacent non-wall tiles and change streak direction if we find one
+                                if( ii == streak_direction ) {
+                                    continue;
+                                }
+                                tripoint_bub_ms adjacent_tile = get_point_from_direction( ii, last_tile );
+
+                                if( !md.has_flag( ter_furn_flag::TFLAG_WALL, adjacent_tile ) ) {
+                                    streak_direction = ii;
+                                    destination_tile = adjacent_tile;
+                                    terminate_streak = false;
+                                    break;
+                                }
+                            }
+
+                            if( terminate_streak ) {
+                                // failed to find an adjacent non-wall tile, terminate the streak
+                                break;
+                            }
+                        }
+
+                        md.add_field( destination_tile, field_fd_blood );
+                        tripoint_bub_ms last_tile = destination_tile;
+                    }
+                }
+            } else {
+                // 40% Chance to try pooling the field
+                md.add_field( current_tile, field_fd_blood );
+            }
         }
         if( x_in_y( 1, 2000 ) ) {
             md.add_field( current_tile, field_fd_fire );
