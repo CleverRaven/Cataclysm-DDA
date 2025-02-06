@@ -326,6 +326,29 @@ void user_interface::show()
     bool bLeftColumn = true;
     int iStartPos = 0;
     Character &player_character = get_player_character();
+    bStuffChanged = false;
+    input_context ctxt( "AUTO_PICKUP" );
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    if( tabs.size() > 1 ) {
+        ctxt.register_action( "NEXT_TAB" );
+    }
+    ctxt.register_action( "ADD_RULE" );
+    ctxt.register_action( "REMOVE_RULE" );
+    ctxt.register_action( "COPY_RULE" );
+    ctxt.register_action( "ENABLE_RULE" );
+    ctxt.register_action( "DISABLE_RULE" );
+    ctxt.register_action( "MOVE_RULE_UP" );
+    ctxt.register_action( "MOVE_RULE_DOWN" );
+    ctxt.register_action( "TEST_RULE" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "SWITCH_AUTO_PICKUP_OPTION" );
+    const bool allow_swapping = tabs.size() == 2;
+    if( allow_swapping ) {
+        ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
+    }
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         // Redraw the border
@@ -344,41 +367,47 @@ void user_interface::show()
         wnoutrefresh( w_border );
 
         // Redraw the header
-        int tmpx = 0;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<A>dd" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<R>emove" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<C>opy" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<M>ove" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<D>isable" ) ) + 2;
+        std::string desc_0 = string_format( "%s %s %s",
+                                          ctxt.get_desc( "ADD_RULE", _( "Add" ) ),
+                                          ctxt.get_desc( "REMOVE_RULE", _( "Remove" ) ),
+                                          ctxt.get_desc( "COPY_RULE", _( "Copy" ) ) );
+        std::string desc_1 = string_format( "%s %s",
+                                          ctxt.get_desc( "ENABLE_RULE", _( "Enable" ) ),
+                                          ctxt.get_desc( "DISABLE_RULE", _( "Disable" ) ) );
+        std::string desc_2 = string_format( "%s %s %s",
+                                          ctxt.get_desc( "MOVE_RULE_UP", _( "Move up" ) ),
+                                          ctxt.get_desc( "MOVE_RULE_DOWN", _( "Move down" ) ),
+                                          ctxt.get_desc( "CONFIRM", _( "Edit" ) ) );
         if( !player_character.name.empty() ) {
-            shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<T>est" ) );
+            desc_0 += string_format ( " %s", ctxt.get_desc( "SWAP_RULE_GLOBAL_CHAR", _( "Move" ) ) );
+            desc_1 += string_format ( " %s", ctxt.get_desc( "TEST_RULE", _( "Test" ) ) );
         }
-        tmpx = 0;
-        tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
-                                _( "<+-> Move up/down" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
-                                _( "<Enter>-Edit" ) ) + 2;
-        shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green, _( "<Tab>-Switch Page" ) );
+        if( tabs.size() > 1 ) {
+            desc_2 += string_format ( " %s", ctxt.get_desc( "NEXT_TAB", _( "Page" ) ) );
+        }
+		
+        fold_and_print( w_header, point( 0, 0 ), 0, c_white, desc_0 );
+        fold_and_print( w_header, point( 0, 1 ), 0, c_white, desc_1 );
+        fold_and_print( w_header, point( 0, 2 ), 0, c_white, desc_2 );
 
         wattron( w_header, c_light_gray );
-        mvwhline( w_header, point( 0,  2 ), LINE_OXOX, 78 );
+        mvwhline( w_header, point( 0,  3 ), LINE_OXOX, 78 );
         for( int x : {
                  4, 50, 60
              } ) {
-            mvwaddch( w_header, point( x, 2 ), LINE_OXXX );
-            mvwaddch( w_header, point( x, 3 ), LINE_XOXO );
+            mvwaddch( w_header, point( x, 3 ), LINE_OXXX );
+            mvwaddch( w_header, point( x, 4 ), LINE_XOXO );
         }
         wattroff( w_header, c_light_gray );
-        mvwprintz( w_header, point( 1, 3 ), c_white, "#" );
-        mvwprintz( w_header, point( 8, 3 ), c_white, _( "Rules" ) );
-        mvwprintz( w_header, point( 52, 3 ), c_white, _( "Inc/Exc" ) );
+        mvwprintz( w_header, point( 1, 4 ), c_white, "#" );
+        mvwprintz( w_header, point( 8, 4 ), c_white, _( "Rules" ) );
+        mvwprintz( w_header, point( 52, 4 ), c_white, _( "Inc/Exc" ) );
 
         rule_list &cur_rules = tabs[iTab].new_rules;
         int locx = 17;
         for( size_t i = 0; i < tabs.size(); i++ ) {
             const nc_color color = iTab == i ? hilite( c_white ) : c_white;
-            locx += shortcut_print( w_header, point( locx, 2 ), c_white, color, tabs[i].title ) + 1;
+            locx += shortcut_print( w_header, point( locx, 3 ), c_white, color, tabs[i].title ) + 1;
         }
 
         locx = 55;
@@ -386,9 +415,8 @@ void user_interface::show()
         locx += shortcut_print( w_header, point( locx, 1 ),
                                 get_option<bool>( "AUTO_PICKUP" ) ? c_light_green : c_light_red, c_white,
                                 get_option<bool>( "AUTO_PICKUP" ) ? _( "True" ) : _( "False" ) );
-        locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
-        locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, _( "<S>witch" ) );
-        shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
+        std::string desc_3 = string_format( " %s ", ctxt.get_desc( "SWITCH_AUTO_PICKUP_OPTION", _( "Switch" ) ) );
+        fold_and_print( w_header, point( locx, 1 ), 0, c_white, desc_3 );
 
         wnoutrefresh( w_header );
 
@@ -431,32 +459,6 @@ void user_interface::show()
 
         wnoutrefresh( w );
     } );
-
-    bStuffChanged = false;
-    input_context ctxt( "AUTO_PICKUP" );
-    ctxt.register_navigate_ui_list();
-    ctxt.register_leftright();
-    ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "QUIT" );
-    if( tabs.size() > 1 ) {
-        ctxt.register_action( "NEXT_TAB" );
-        ctxt.register_action( "PREV_TAB" );
-    }
-    ctxt.register_action( "ADD_RULE" );
-    ctxt.register_action( "REMOVE_RULE" );
-    ctxt.register_action( "COPY_RULE" );
-    ctxt.register_action( "ENABLE_RULE" );
-    ctxt.register_action( "DISABLE_RULE" );
-    ctxt.register_action( "MOVE_RULE_UP" );
-    ctxt.register_action( "MOVE_RULE_DOWN" );
-    ctxt.register_action( "TEST_RULE" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "SWITCH_AUTO_PICKUP_OPTION" );
-
-    const bool allow_swapping = tabs.size() == 2;
-    if( allow_swapping ) {
-        ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
-    }
 
     while( true ) {
         rule_list &cur_rules = tabs[iTab].new_rules;
