@@ -1515,7 +1515,7 @@
     "healthy": -2,
     "addiction_potential": 10,
     "addiction_type": "opiate",
-    "vitamins": [ [ "vit_mme", 200 ] ],
+    "vitamins": [ [ "vit_mme", 100 ] ],
     "flags": [ "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
