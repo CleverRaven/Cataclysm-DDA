@@ -39,7 +39,7 @@
     "extras": "build",
     "mondensity": 2,
     "see_cost": "high",
-    "flags": [ "RISK_HIGH", "GENERIC_LOOT" ]
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
