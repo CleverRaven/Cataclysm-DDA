@@ -19,7 +19,7 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_changeling_summer_light_spell",
+    "id": "effect_changeling_fire_melee_damage_spell",
     "name": [ "Burning Solar Grasp" ],
     "desc": [ "Ethereal flames flicker around your hands" ],
     "apply_message": "",
@@ -32,7 +32,7 @@
             "type": "heat",
             "add": {
               "math": [
-                "rng( (1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') / 2) ), (5 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') ) ) / 2.5"
+                "rng( (1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') / 2) ), (5 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') ) ) ) / 2.5"
               ]
             }
           }
@@ -45,7 +45,7 @@
             "type": "heat",
             "add": {
               "math": [
-                "rng( (1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') / 2) ), (5 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') ) )"
+                "rng( (1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') / 2) ), (5 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') ) ) )"
               ]
             }
           }
@@ -63,7 +63,9 @@
     "remove_message": "Your vigor returns.",
     "show_in_info": true,
     "enchantments": [
-      { "values": [ { "value": "STRENGTH", "add": -3 }, { "value": "DODGE", "add": -2 }, { "value": "SPEED", "add": -5 } ] }
+      {
+        "values": [ { "value": "STRENGTH", "add": -3 }, { "value": "DEXTERITY", "add": -2 }, { "value": "SPEED", "add": -5 } ]
+      }
     ]
   },
   {

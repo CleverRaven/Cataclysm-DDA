@@ -90,7 +90,7 @@
     "shape": "blast",
     "difficulty": 4,
     "effect": "attack",
-    "effect_str": "effect_changeling_summer_light_spell",
+    "effect_str": "effect_changeling_fire_melee_damage_spell",
     "min_duration": {
       "math": [
         "( ( 2285 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 915) + (u_skill('deduction') * 3045) ) ) * (global_what_is_the_season == 4 ? 0.6 : 1)"
