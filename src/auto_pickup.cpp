@@ -356,9 +356,9 @@ void user_interface::show()
 
         wattron( w, c_light_gray );
         // |-
-        mvwaddch( w_border, point( 0, 4 ), LINE_XXXO );
+        mvwaddch( w_border, point( 0, 3 ), LINE_XXXO );
         // -|
-        mvwaddch( w_border, point( 79, 4 ), LINE_XOXX );
+        mvwaddch( w_border, point( 79, 3 ), LINE_XOXX );
         // _|_
         mvwaddch( w_border, point( 5, FULL_SCREEN_HEIGHT - 1 ), LINE_XXOX );
         mvwaddch( w_border, point( 51, FULL_SCREEN_HEIGHT - 1 ), LINE_XXOX );
@@ -367,61 +367,39 @@ void user_interface::show()
         wnoutrefresh( w_border );
 
         // Redraw the header
-        std::vector<std::string> keybinding_tips;
-        std::vector<std::string> act_descs;
-        const auto add_action_desc = [&]( const std::string & act, const std::string & txt ) {
-            act_descs.emplace_back( ctxt.get_desc( act, txt, input_context::allow_all_keys ) );
-        };
-
-        add_action_desc( "ADD_RULE", pgettext( "autopickup manager", "Add" ) );
-        add_action_desc( "REMOVE_RULE", pgettext( "autopickup manager", "Remove" ) );
-        add_action_desc( "COPY_RULE", pgettext( "autopickup manager", "Copy" ) );
-        add_action_desc( "ENABLE_RULE", pgettext( "autopickup manager", "Enable" ) );
-        add_action_desc( "DISABLE_RULE", pgettext( "autopickup manager", "Disable" ) );
-        add_action_desc( "MOVE_RULE_UP", pgettext( "autopickup manager", "Move up" ) );
-        add_action_desc( "MOVE_RULE_DOWN", pgettext( "autopickup manager", "Move down" ) );
-        add_action_desc( "CONFIRM", pgettext( "autopickup manager", "Edit" ) );
-        if( tabs.size() > 1 ) {
-            add_action_desc( "NEXT_TAB", pgettext( "autopickup manager", "Page" ) );
-        }
-        if( !player_character.name.empty() ) {
-            add_action_desc( "SWAP_RULE_GLOBAL_CHAR", pgettext( "autopickup manager", "Move" ) );
-            add_action_desc( "TEST_RULE", pgettext( "autopickup manager", "Test" ) );
-        }
-        keybinding_tips = foldstring( enumerate_as_string( act_descs, enumeration_conjunction::none ), 50 );
-        for( size_t i = 0; i < keybinding_tips.size(); ++i ) {
-            nc_color dummy = c_white;
-            print_colored_text( w_header, point( 0, i ), dummy, c_white, keybinding_tips[i] );
-        }
+        int locx = 0;
+        const std::string autopickup_enabled_text = _( "Auto pickup enabled:" );
+        mvwprintz( w_header, point( locx, 0 ), c_white, autopickup_enabled_text );
+        locx += utf8_width( autopickup_enabled_text );
+        locx += shortcut_print( w_header, point( locx + 1, 0 ),
+                                ( get_option<bool>( "AUTO_PICKUP" ) ? c_light_green : c_light_red ), c_white,
+                                ( get_option<bool>( "AUTO_PICKUP" ) ? _( "True" ) : _( "False" ) ) );
+        std::string desc = string_format( " %s ", ctxt.get_desc( "SWITCH_AUTO_PICKUP_OPTION",
+                                            _( "Switch" ) ) );
+        fold_and_print( w_header, point( locx + 1, 0 ), 0, c_white, desc );
+        
+        std::string desc_2 = string_format( "%s", ctxt.get_desc( "HELP_KEYBINDINGS", _( "Display keybindings" ) ) );
+        fold_and_print( w_header, point( 0, 1 ), 0, c_white, desc_2 );
 
         wattron( w_header, c_light_gray );
-        mvwhline( w_header, point( 0,  3 ), LINE_OXOX, 78 );
+        mvwhline( w_header, point( 0,  2 ), LINE_OXOX, 78 );
         for( int x : {
                  4, 50, 60
              } ) {
-            mvwaddch( w_header, point( x, 3 ), LINE_OXXX );
-            mvwaddch( w_header, point( x, 4 ), LINE_XOXO );
+            mvwaddch( w_header, point( x, 2 ), LINE_OXXX );
+            mvwaddch( w_header, point( x, 3 ), LINE_XOXO );
         }
         wattroff( w_header, c_light_gray );
-        mvwprintz( w_header, point( 1, 4 ), c_white, "#" );
-        mvwprintz( w_header, point( 8, 4 ), c_white, _( "Rules" ) );
-        mvwprintz( w_header, point( 52, 4 ), c_white, _( "Inc/Exc" ) );
+        mvwprintz( w_header, point( 1, 3 ), c_white, "#" );
+        mvwprintz( w_header, point( 8, 3 ), c_white, _( "Rules" ) );
+        mvwprintz( w_header, point( 52, 3 ), c_white, _( "Inc/Exc" ) );
 
         rule_list &cur_rules = tabs[iTab].new_rules;
-        int locx = 17;
+        locx = 17;
         for( size_t i = 0; i < tabs.size(); i++ ) {
             const nc_color color = iTab == i ? hilite( c_white ) : c_white;
-            locx += shortcut_print( w_header, point( locx, 3 ), c_white, color, tabs[i].title ) + 1;
+            locx += shortcut_print( w_header, point( locx, 2 ), c_white, color, tabs[i].title ) + 1;
         }
-
-        locx = 55;
-        mvwprintz( w_header, point( locx, 0 ), c_white, _( "Auto pickup enabled:" ) );
-        locx += shortcut_print( w_header, point( locx, 1 ),
-                                get_option<bool>( "AUTO_PICKUP" ) ? c_light_green : c_light_red, c_white,
-                                get_option<bool>( "AUTO_PICKUP" ) ? _( "True" ) : _( "False" ) );
-        std::string desc = string_format( " %s ", ctxt.get_desc( "SWITCH_AUTO_PICKUP_OPTION",
-                                          _( "Switch" ) ) );
-        fold_and_print( w_header, point( locx, 1 ), 0, c_white, desc );
 
         wnoutrefresh( w_header );
 
