@@ -356,9 +356,9 @@ void user_interface::show()
 
         wattron( w, c_light_gray );
         // |-
-        mvwaddch( w_border, point( 0, 3 ), LINE_XXXO );
+        mvwaddch( w_border, point( 0, 4 ), LINE_XXXO );
         // -|
-        mvwaddch( w_border, point( 79, 3 ), LINE_XOXX );
+        mvwaddch( w_border, point( 79, 4 ), LINE_XOXX );
         // _|_
         mvwaddch( w_border, point( 5, FULL_SCREEN_HEIGHT - 1 ), LINE_XXOX );
         mvwaddch( w_border, point( 51, FULL_SCREEN_HEIGHT - 1 ), LINE_XXOX );
