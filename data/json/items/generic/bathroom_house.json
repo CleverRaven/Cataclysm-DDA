@@ -33,7 +33,7 @@
     "symbol": "t",
     "copy-from": "base_toiletries",
     "price": "8 USD",
-    "price_postapoc": "5 USD",
+    "price_postapoc": "50 cent",
     "//": "the end of the world doesn't mean everyone is okay with having ZZ Top beards.  disposable razors are a hot commodity.  The razor also loses the Cutting 1 quality.  Don't ask how we confirmed this.",
     "weight": "110 g",
     "material": [ "plastic", "steel" ],
@@ -49,6 +49,7 @@
     "volume": "38 ml",
     "longest_side": "18 cm",
     "price": "6 USD",
+    "price_postapoc": "10 cent",
     "copy-from": "base_toiletries",
     "snippet_category": [
       {
