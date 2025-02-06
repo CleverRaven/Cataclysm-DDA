@@ -7105,7 +7105,7 @@ talk_effect_fun_t::func f_reveal_map( const JsonObject &jo, std::string_view mem
     dbl_or_var radius = get_dbl_or_var( jo, "radius", false, 0 );
 
     return [ radius, target_var ]( dialogue & d ) {
-        tripoint_abs_omt omt = get_tripoint_omt_from_var( target_var, d, false );
+        tripoint_abs_omt omt = project_to<coords::omt>( get_tripoint_ms_from_var( target_var, d, false ) );
         overmap_buffer.reveal( omt, radius.evaluate( d ) );
     };
 }

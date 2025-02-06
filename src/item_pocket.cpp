@@ -2062,6 +2062,11 @@ bool item_pocket::is_standard_type() const
            data->type == pocket_type::MAGAZINE_WELL;
 }
 
+bool item_pocket::is_container_like_type() const
+{
+    return is_standard_type() || data->type == pocket_type::E_FILE_STORAGE;
+}
+
 bool item_pocket::is_forbidden() const
 {
     return data->forbidden;

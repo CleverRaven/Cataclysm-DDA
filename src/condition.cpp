@@ -410,16 +410,6 @@ tripoint_abs_ms get_tripoint_ms_from_var( std::optional<var_info> var, const_dia
     return pt;
 }
 
-tripoint_abs_omt get_tripoint_omt_from_var( std::optional<var_info> var, const_dialogue const &d,
-        bool is_npc )
-{
-    tripoint_abs_omt pt = convert_tripoint_from_var<tripoint_abs_omt>( var, d, is_npc );
-    if( pt.is_invalid() ) {
-        return coords::project_to<coords::omt>( get_map().get_abs( d.const_actor( is_npc )->pos_bub() ) );
-    }
-    return pt;
-}
-
 template<class T>
 static T abstract_read_var_info_no_translation( std::string && );
 
@@ -2421,6 +2411,7 @@ namespace
 std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals = {
     { "age", &talker::set_age },
     { "anger", &talker::set_anger },
+    { "cash", &talker::set_cash },
     { "dexterity_base", &talker::set_dex_max },
     { "dexterity_bonus", &talker::set_dex_bonus },
     { "exp", &talker::set_kill_xp },

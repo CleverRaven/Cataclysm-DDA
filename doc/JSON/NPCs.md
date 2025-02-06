@@ -1391,6 +1391,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | climate_control_str_chill()    |  ✅   |   ❌  | u, n  | return amount of chill climate control that character currently has (character feels better in cold places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "n_climate_control_str_chill() < 0" ] }`|
 | calories()    |  ✅   |   ✅  | u, n  | Return amount of calories character has. If used on item, return amount of calories this item gives when consumed (not affected by enchantments or mutations).  Optional kwargs:<br/>`format`: `s`/`v` - return the value in specific format.  Can be `percent` (return percent to the healthy amount of calories, `100` being the target, bmi 25, or 110000 kcal) or `raw`.  If now used, `raw` is used by default.<br/>`dont_affect_weariness`: `true`/`false` (default false) When assigning value, whether the gained/spent calories should be tracked by weariness.<br/><br/>Example:<br/>`"condition": { "math": [ "u_calories() < 0" ] }`<br/>`"condition": { "math": [ "u_calories('format': 'percent') > 0" ] }`<br/>`"condition": { "math": [ "u_calories() = 110000" ] }`|
 | get_calories_daily()  |  ✅   |   ❌  | g  | Return amount of calories character consumed before, up to 30 days, in kcal. Calorie diary is something only character has, so it can't be used with NPCs. Optional kwargs:<br/>`day`: `d/v` - picks the date the value would be pulled from, from 0 to 30. Default 0, meaning amount of calories you consumed today.<br/>`type`: `s/v` - picks the data that would be pulled. Possible values are: `spent` - how much calories character spent in different activities throughout the day; `gained` - how much calories character ate that day; `ingested` - how much calories character processed that day; `total` - `gained` minus `spent`. Default is `total`;<br/><br/>Example:<br/>`"condition": { "math": [ "get_calories_daily() > 1000" ] }`<br/> `{ "math": [ "foo = get_calories_daily('type':'gained', 'day':'1')" ] }`|
+| quality( `s` / `v` )  |  ✅   |   ❌  | u, n | Return the level of a specified item tool quality. Only usable on item talkers.<br/>Argument is the quality ID. Returns the lowest integer value if the item lacks the specified quality.<br/>Optional kwargs:<br/>`strict`: `true` / `false` (default false) When true the item must be empty to have the boiling quality.<br/><br/>Example<br/>`"condition: { "math": [ " u_quality('HACK') > 0 " ] }`<br/>`{ "math": [ "_cut_quality = u_quality('CUT') " ] }`<br/>`condition: { "math": [ " u_quality('BOIL', 'strict': true ) > 0" ] }`
 
 #### List of Character and item aspects
 These can be read or written to with `val()`.
@@ -1404,7 +1405,7 @@ These can be read or written to with `val()`.
 | `bmi_permil` | ❌ | Current BMI per mille (Body Mass Index x 1000) |
 | `body_temp` | ❌ | Current body temperature. |
 | `body_temp_delta` | ❌ | Difference in temperature between the hottest/coldest part and what feels like the hottest/coldest part. |
-| `cash` | ❌ | Amount of money |
+| `cash` | ✅ | Amount of money |
 | `dodge` | ❌ | Current effective dodge |
 | `exp` | ✅ | Total experience earned. |
 | `sleepiness` | ✅ | Current sleepiness level. |
@@ -1423,9 +1424,9 @@ These can be read or written to with `val()`.
 | `owed` | ✅ | Amount of money the Character owes the avatar. |
 | `pkill` | ✅ | Current painkiller level. |
 | `pos_x`<br/>`pos_y`<br/>`pos_z` | ✅ | Coordinate in the reality bubble |
-| `power` | ✅ | Bionic or item power in millijoule. |
-| `power_percentage` | ✅ | Percentage of max bionic or item power |
-| `power_max` | ❌ | Max bionic or item power in millijoule. |
+| `power` | ✅ | Bionic or item power. Bionic power is returned in millijoules. Item power is returned in battery charges. |
+| `power_percentage` | ✅ | Percentage of max bionic or item power. |
+| `power_max` | ❌ | Max bionic or item power. Bionic power is returned in millijoules. Item power is returned in battery charges. |
 | `rad` | ✅ | Current radiation level. |
 | `size` | ❌ | Size category from 1 (tiny) to 5 (huge). |
 | `sleep_deprivation` | ✅ | Current sleep deprivation level. |

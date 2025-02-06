@@ -3731,6 +3731,8 @@ static void vehicle_battery_charge()
 
 static void vehicle_export()
 {
+    map &here = get_map();
+
     if( optional_vpart_position ovp = get_map().veh_at( get_avatar().pos_bub() ) ) {
         cata_path export_dir{ cata_path::root_path::user,  "export_dir" };
         assure_dir_exist( export_dir );
@@ -3742,7 +3744,7 @@ static void vehicle_export()
         try {
             write_to_file( veh_path, [&]( std::ostream & fout ) {
                 JsonOut jsout( fout );
-                ovp->vehicle().refresh();
+                ovp->vehicle().refresh( &here );
                 vehicle_prototype::save_vehicle_as_prototype( ovp->vehicle(), jsout );
             } );
         } catch( const std::exception &err ) {

@@ -100,7 +100,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             REQUIRE( qry.query() == turret_data::status::ready );
             REQUIRE( qry.range() > 0 );
 
-            player_character.setpos( veh->bub_part_pos( vp ) );
+            player_character.setpos( &here, veh->bub_part_pos( &here, vp ) );
             int shots_fired = 0;
             // 3 attempts to fire, to account for possible misfires
             for( int attempt = 0; shots_fired == 0 && attempt < 3; attempt++ ) {

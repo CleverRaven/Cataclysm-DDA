@@ -163,6 +163,13 @@ class item_location
          */
         bool can_reload_with( const item_location &ammo, bool now ) const;
 
+        /**
+        * returns the item's level of the specified quality.
+        * @param quality the name of quality to check the level of
+        * @param boiling true if the item is required to be empty to have the boiling quality
+        */
+        int get_quality( const std::string &quality, bool strict ) const;
+
     private:
         class impl;
 

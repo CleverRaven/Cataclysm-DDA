@@ -485,7 +485,8 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         tripoint_bub_ms pos_bub() const override {
-            return cur.veh.bub_part_pos( cur.part );
+            map &here = get_map();
+            return cur.veh.bub_part_pos( &here, cur.part );
         }
 
         Character *carrier() const override {
@@ -532,9 +533,10 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                 return 0;
             }
 
+            map &here = get_map();
             item *obj = target();
             int mv = ch.item_handling_cost( *obj, true, VEHICLE_HANDLING_PENALTY, qty );
-            mv += 100 * rl_dist( ch.pos_bub(), cur.veh.bub_part_pos( cur.part ) );
+            mv += 100 * rl_dist( ch.pos_bub( &here ), cur.veh.bub_part_pos( &here, cur.part ) );
 
             // TODO: handle unpacking costs
 
@@ -587,7 +589,7 @@ class item_location::impl::item_in_container : public item_location::impl
                 return -1;
             }
             int idx = 0;
-            for( const item *it : container->all_items_top() ) {
+            for( const item *it : container->all_items_container_top() ) {
                 if( target() == it ) {
                     return idx;
                 }
@@ -857,7 +859,7 @@ void item_location::deserialize( const JsonObject &obj )
             ptr.reset( new impl::item_on_map( map_cursor( parent.pos_bub() ), idx ) ); // drop on ground
             return;
         }
-        const std::list<item *> parent_contents = parent->all_items_top();
+        const std::list<item *> parent_contents = parent->all_items_container_top();
         if( idx > -1 && idx < static_cast<int>( parent_contents.size() ) ) {
             auto iter = parent_contents.begin();
             std::advance( iter, idx );
@@ -1181,4 +1183,11 @@ bool item_location::can_reload_with( const item_location &ammo, bool now ) const
         }
     }
     return reloadable->can_reload_with( *ammo, now );
+}
+
+int item_location::get_quality( const std::string &quality, bool strict ) const
+{
+    const item_location tool = *this;
+    quality_id qualityid( quality );
+    return tool->get_quality_nonrecursive( qualityid, strict );
 }

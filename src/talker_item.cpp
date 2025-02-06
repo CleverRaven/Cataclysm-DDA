@@ -126,6 +126,11 @@ int talker_item_const::get_weight() const
     return units::to_milligram( me_it_const->get_item()->weight() );
 }
 
+int talker_item_const::get_quality( const std::string &quality, bool strict ) const
+{
+    return me_it_const->get_quality( quality, strict );
+}
+
 void talker_item::set_value( const std::string &var_name, const std::string &value )
 {
     me_it->get_item()->set_var( var_name, value );

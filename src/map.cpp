@@ -138,7 +138,7 @@ static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 static const flag_id json_flag_AVATAR_ONLY( "AVATAR_ONLY" );
 static const flag_id json_flag_JETPACK( "JETPACK" );
 static const flag_id json_flag_LEVITATION( "LEVITATION" );
-static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
+static const flag_id json_flag_PRESERVE_SPAWN_LOC( "PRESERVE_SPAWN_LOC" );
 static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
 static const flag_id json_flag_UNDODGEABLE( "UNDODGEABLE" );
 
@@ -470,7 +470,7 @@ void map::add_vehicle_to_cache( vehicle *veh )
         if( vpr.part().removed ) {
             continue;
         }
-        const tripoint_bub_ms p = veh->bub_part_pos( vpr.part() );
+        const tripoint_bub_ms p = veh->bub_part_pos( this, vpr.part() );
         level_cache &ch = get_cache( p.z() );
         ch.set_veh_cached_parts( p, *veh, static_cast<int>( vpr.part_index() ) );
         if( inbounds( p ) ) {
@@ -541,7 +541,8 @@ void map::reset_vehicles_sm_pos()
                 submap *const sm = get_submap_at_grid( grid );
                 if( sm != nullptr ) {
                     for( auto const &elem : sm->vehicles ) {
-                        elem->sm_pos = rebase_bub( grid );
+                        // This should be redundant.
+                        elem->sm_pos = abs_sub.xy() + grid;
                         add_vehicle_to_cache( &*elem );
                         _add_vehicle_to_list( ch, &*elem );
                     }
@@ -592,7 +593,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
         }
     }
     veh->invalidate_towing( true );
-    submap *const current_submap = get_submap_at_grid( rebase_rel( veh->sm_pos ) );
+    submap *const current_submap = get_submap_at_grid( veh->sm_pos - abs_sub.xy() );
     if( current_submap == nullptr ) {
         debugmsg( "Tried to detach vehicle at %s but the submap is not loaded",
                   veh->sm_pos.to_string() );
@@ -956,7 +957,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
         for( const int vp_wheel_idx : wheel_indices ) {
             vehicle_part &vp_wheel = veh.part( vp_wheel_idx );
             const vpart_info &vpi_wheel = vp_wheel.info();
-            const tripoint_bub_ms wheel_p = veh.bub_part_pos( vp_wheel );
+            const tripoint_bub_ms wheel_p = veh.bub_part_pos( this, vp_wheel );
             if( one_in( 2 ) && displace_water( wheel_p ) ) {
                 sounds::sound( wheel_p, 4, sounds::sound_t::movement, _( "splash!" ), false,
                                "environment", "splash" );
@@ -1025,8 +1026,8 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
 
     // Check whether avatar sees the collision, and log a message if so
     const avatar &you = get_avatar();
-    const tripoint_bub_ms part1_pos = veh.bub_part_pos( vp1 );
-    const tripoint_bub_ms part2_pos = veh2.bub_part_pos( vp2 );
+    const tripoint_bub_ms part1_pos = veh.bub_part_pos( this, vp1 );
+    const tripoint_bub_ms part2_pos = veh2.bub_part_pos( this, vp2 );
     if( you.sees( part1_pos ) || you.sees( part2_pos ) ) {
         //~ %1$s: first vehicle name (without "the")
         //~ %2$s: first part name
@@ -1303,7 +1304,7 @@ VehicleList map::get_vehicles( const tripoint_bub_ms &start, const tripoint_bub_
                     elem->sm_pos.z() = cz;
                     wrapped_vehicle w;
                     w.v = elem.get();
-                    w.pos = w.v->pos_bub();
+                    w.pos = w.v->pos_bub( this );
                     vehs.push_back( w );
                 }
             }
@@ -1528,7 +1529,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const bool 
                 continue;
             }
             Creature *psg = r.psg;
-            const tripoint_bub_ms part_pos = veh.bub_part_pos( prt );
+            const tripoint_bub_ms part_pos = veh.bub_part_pos( this, prt );
             if( psg == nullptr ) {
                 debugmsg( "Empty passenger for part #%d at %d,%d,%d player at %d,%d,%d?",
                           prt, part_pos.x(), part_pos.y(), part_pos.z(),
@@ -1582,7 +1583,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const bool 
 
     if( src_submap != dst_submap ) {
         dst_submap->ensure_nonuniform();
-        veh.set_submap_moved( { dst.x() / SEEX, dst.y() / SEEY, dst.z() } );
+        veh.set_submap_moved( this, { dst.x() / SEEX, dst.y() / SEEY, dst.z() } );
         auto src_submap_veh_it = src_submap->vehicles.begin() + our_i;
         dst_submap->vehicles.push_back( std::move( *src_submap_veh_it ) );
         src_submap->vehicles.erase( src_submap_veh_it );
@@ -5264,17 +5265,16 @@ item &map::add_item( const tripoint_bub_ms &p, item new_item, int copies )
         new_item.active = true;
     }
 
-    if( new_item.is_map() && !new_item.has_var( "reveal_map_center_omt" ) ) {
-        new_item.set_var( "reveal_map_center_omt",
-                          coords::project_to<coords::omt>( get_abs( p ) ) );
+    if( new_item.is_map() && !new_item.has_var( "reveal_map_center" ) ) {
+        new_item.set_var( "reveal_map_center", get_abs( p ) );
     }
 
     std::list<item *> all_items = new_item.all_items_ptr();
     all_items.emplace_back( &new_item );
     for( item *it : all_items ) {
-        if( it->has_flag( json_flag_PRESERVE_SPAWN_OMT ) &&
-            !it->has_var( "spawn_location_omt" ) ) {
-            it->set_var( "spawn_location_omt", coords::project_to<coords::omt>( get_abs( p ) ) );
+        if( it->has_flag( json_flag_PRESERVE_SPAWN_LOC ) &&
+            !it->has_var( "spawn_location" ) ) {
+            it->set_var( "spawn_location", get_abs( p ) );
         }
     };
 
@@ -8169,7 +8169,7 @@ void map::loadn( const point_bub_sm &grid, bool update_vehicles )
             vehicle *veh = iter->get();
             if( veh->part_count() > 0 ) {
                 // Always fix submap coordinates for easier Z-level-related operations
-                veh->sm_pos = { grid, z};
+                veh->sm_pos = abs_sub.xy() + tripoint_rel_sm{ rebase_rel( grid ), z};
                 iter++;
                 if( main_inbounds ) {
                     _main_requires_cleanup = true;
@@ -8591,7 +8591,7 @@ void map::actualize( const tripoint_rel_sm &grid )
             const item &base_const = vp.part().get_base();
             const_cast<item &>( base_const ).overflow( vp.pos_bub() );
         }
-        veh->refresh();
+        veh->refresh( this );
     }
 
     const time_duration time_since_last_actualize = calendar::turn - tmpsub->last_touched;
@@ -8699,7 +8699,7 @@ void map::copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from )
     }
     setsubmap( get_nonant( to ), smap );
     for( auto &it : smap->vehicles ) {
-        it->sm_pos = rebase_bub( to );
+        it->sm_pos = abs_sub.xy() + to;
     }
 }
 
@@ -9426,12 +9426,14 @@ void map::build_floor_caches()
 
 static void vehicle_caching_internal( level_cache &zch, const vpart_reference &vp, vehicle *v )
 {
+    map &here =
+        get_map(); // TODO: Check is this is actually reasonable. Probably need to feed the map in.
     auto &outside_cache = zch.outside_cache;
     auto &transparency_cache = zch.transparency_cache;
     auto &floor_cache = zch.floor_cache;
 
     const size_t part = vp.part_index();
-    const tripoint_bub_ms part_pos =  v->bub_part_pos( vp.part() );
+    const tripoint_bub_ms part_pos =  v->bub_part_pos( &here, vp.part() );
 
     bool vehicle_is_opaque = vp.has_feature( VPFLAG_OPAQUE ) && !vp.part().is_broken();
 
@@ -9456,8 +9458,10 @@ static void vehicle_caching_internal( level_cache &zch, const vpart_reference &v
 static void vehicle_caching_internal_above( level_cache &zch_above, const vpart_reference &vp,
         vehicle *v )
 {
+    map &here =
+        get_map(); // TODO: Check is this is actually reasonable. Probably need to feed the map in.
     if( vp.has_feature( VPFLAG_ROOF ) || vp.has_feature( VPFLAG_OPAQUE ) ) {
-        const tripoint_bub_ms part_pos = v->bub_part_pos( vp.part() );
+        const tripoint_bub_ms part_pos = v->bub_part_pos( &here, vp.part() );
         zch_above.floor_cache[part_pos.x()][part_pos.y()] = true;
     }
 }
@@ -9470,7 +9474,7 @@ void map::do_vehicle_caching( int z )
     }
     for( vehicle *v : ch->vehicle_list ) {
         for( const vpart_reference &vp : v->get_all_parts_with_fakes() ) {
-            const tripoint_bub_ms part_pos = v->bub_part_pos( vp.part() );
+            const tripoint_bub_ms part_pos = v->bub_part_pos( this, vp.part() );
             if( !inbounds( part_pos.xy() ) ) {
                 continue;
             }
