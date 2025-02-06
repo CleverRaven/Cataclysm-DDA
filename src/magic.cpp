@@ -1265,6 +1265,12 @@ bool spell::check_if_component_in_hand( Character &guy ) const
     return false;
 }
 
+int spell_type::get_difficulty( const Creature &caster ) const
+{
+    const_dialogue d( get_const_talker_for( caster ), nullptr );
+    return difficulty.evaluate( d );
+}
+
 int spell::get_difficulty( const Creature &caster ) const
 {
     const_dialogue d( get_const_talker_for( caster ), nullptr );

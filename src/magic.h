@@ -385,6 +385,8 @@ class spell_type
         int get_level( int experience ) const;
         // the maximum level of this spell that can be learned from a book.
         std::optional<int> get_max_book_level() const;
+        // the base difficulty of the spell, unmodified by character specific spell adjustments
+        int get_difficulty( const Creature &caster ) const;
     private:
         // default values
         static const skill_id skill_default;
