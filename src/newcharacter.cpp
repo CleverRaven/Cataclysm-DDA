@@ -894,11 +894,9 @@ void Character::set_skills_from_hobbies( bool no_override )
 void Character::set_recipes_from_hobbies()
 {
     for( const profession *profession : hobbies ) {
-        for( const proficiency_id &recipe : profession->recipes() ) {
-            // Do not duplicate recipes
-            if( !_recipes->has_learned( recipe ) ) {
-                add_recipe( recipe );
-            }
+        for( const recipe_id &recipeID : profession->recipes() ) {
+            const recipe& r = recipe_dictionary::get_craft(recipeID->result());
+            learn_recipe(&r);
         }
     }
 }
