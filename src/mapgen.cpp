@@ -371,22 +371,14 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
 
                     if ((rng(1, 100) < 30 + i * 10) && !wall_streak) {
                         // Floor streaks can meander and the probability of meandering increases with each step
+
                         int new_direction = rng(0, 1);
-                        if (streak_direction < 1) {
-                            tripoint_bub_ms adjacent_tile = get_point_from_direction(3 + new_direction, last_tile);
-                            bool destination_is_wall = md.has_flag(ter_furn_flag::TFLAG_WALL, adjacent_tile);
-                            if ((destination_is_wall && wall_streak) || (!destination_is_wall && !wall_streak && !md.has_furn(adjacent_tile))) {
-                                md.add_field(adjacent_tile, field_fd_blood);
-                                last_tile = adjacent_tile;
-                            }
-                        }
-                        else if(streak_direction > 1){
-                            tripoint_bub_ms adjacent_tile = get_point_from_direction(1 + new_direction, last_tile);
-                            bool destination_is_wall = md.has_flag(ter_furn_flag::TFLAG_WALL, adjacent_tile);
-                            if ((destination_is_wall && wall_streak) || (!destination_is_wall && !wall_streak && !md.has_furn(adjacent_tile))) {
-                                md.add_field(adjacent_tile, field_fd_blood);
-                                last_tile = adjacent_tile;
-                            }
+                        int meander_mod = (streak_direction > 3) ? 3 : 1;
+                        tripoint_bub_ms adjacent_tile = get_point_from_direction(meander_mod + new_direction, last_tile);
+                        bool destination_is_wall = md.has_flag(ter_furn_flag::TFLAG_WALL, adjacent_tile);
+                        if ((destination_is_wall && wall_streak) || (!destination_is_wall && !wall_streak && !md.has_furn(adjacent_tile))) {
+                            md.add_field(adjacent_tile, field_fd_blood);
+                            last_tile = adjacent_tile;
                         }
                     }
                 }
