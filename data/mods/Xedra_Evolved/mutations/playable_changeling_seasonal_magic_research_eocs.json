@@ -1,0 +1,678 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELINPG_GRANT_INITIAL_SEASONAL_MAGIC",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "math": [ "time_since('cataclysm', 'unit':'days') >= (rand(7) + 3)" ] },
+        { "u_has_trait": "CHANGELING_MAGIC" },
+        {
+          "not": {
+            "u_has_any_trait": [ "SEASONAL_MAGIC_SPRING", "SEASONAL_MAGIC_SUMMER", "SEASONAL_MAGIC_AUTUMN", "SEASONAL_MAGIC_WINTER" ]
+          }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "You dream of the lands Under the Hill.  Though you've never been there, it calls to your spirit, reminding you of your true home.  You belong to one of the great Courts of the Fair Folk, but which one?",
+        "type": "mixed"
+      },
+      {
+        "run_eoc_selector": [ "EOC_PICK_COURT_SUMMER", "EOC_PICK_COURT_WINTER" ],
+        "title": "Choose your court.",
+        "names": [ "The Summer Court", "The Winter Court" ],
+        "keys": [ "1", "2" ],
+        "descriptions": [
+          "The Summer Court, sometimes called the Seelie Court, the Fair Folk that are considered more benevolent (or at least, less malevolent) by mortals.",
+          "The Winter Court, sometimes called the Unseelie Court, the Fair Folk who lurk under bridges and in the darkness of the wild places."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PICK_COURT_SUMMER",
+    "condition": { "not": { "u_has_any_trait": [ "CHANGELING_COURT_SUMMER", "CHANGELING_COURT_WINTER" ] } },
+    "effect": [
+      { "u_add_trait": "CHANGELING_COURT_SUMMER" },
+      {
+        "run_eoc_selector": [ "EOC_PICK_CHANGELING_SPRING_MAGIC", "EOC_PICK_CHANGELING_SUMMER_MAGIC" ],
+        "title": "Choose the path of your magick.",
+        "names": [ "Magicks of Spring", "Magicks of Summer" ],
+        "keys": [ "1", "2" ],
+        "descriptions": [
+          "Magicks of Spring, affecting plants, growth, healing, rain, and love.",
+          "Magicks of Summer, affecting heat, light, athleticism, passion, illusion, and plenty."
+        ]
+      },
+      {
+        "if": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
+        "then": {
+          "run_eoc_selector": [
+            "EOC_PICK_CHANGELING_SPRING_MAGIC",
+            "EOC_PICK_CHANGELING_SUMMER_MAGIC",
+            "EOC_PICK_CHANGELING_AUTUMN_MAGIC",
+            "EOC_PICK_CHANGELING_WINTER_MAGIC"
+          ],
+          "title": "As one of the nobility of the Fair Folk, you are heir to a deeper understanding of their magicks.  Choose a second path.",
+          "names": [ "Magicks of Spring", "Magicks of Summer", "Magicks of Autumn", "Magicks of Winter" ],
+          "keys": [ "1", "2", "3", "4" ],
+          "hide_failing": true,
+          "descriptions": [
+            "Magicks of Spring, affecting plants, growth, healing, rain, and love.",
+            "Magicks of Summer, affecting heat, light, athleticism, passion, illusion, and plenty.",
+            "Magicks of Autumn, affecting decay, the harvest, fear, preservation, concealment, and colors.",
+            "Magicks of Winter, affecting darkness, silence, sleep, ice, snow, cold, wind, and death."
+          ]
+        }
+      },
+      { "run_eocs": "EOC_CHANGELING_SET_SEASONAL_MAGIC_RESEARCH_COSTS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PICK_COURT_WINTER",
+    "condition": { "not": { "u_has_any_trait": [ "CHANGELING_COURT_SUMMER", "CHANGELING_COURT_WINTER" ] } },
+    "effect": [
+      { "u_add_trait": "CHANGELING_COURT_WINTER" },
+      {
+        "run_eoc_selector": [ "EOC_PICK_CHANGELING_AUTUMN_MAGIC", "EOC_PICK_CHANGELING_WINTER_MAGIC" ],
+        "title": "Choose the path of your magick.",
+        "names": [ "Magicks of Autumn", "Magicks of Winter" ],
+        "keys": [ "1", "2" ],
+        "descriptions": [
+          "Magicks of Autumn, affecting decay, the harvest, fear, preservation, concealment, and colors.",
+          "Magicks of Winter, affecting darkness, silence, sleep, ice, snow, cold, wind, and death."
+        ]
+      },
+      {
+        "if": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
+        "then": {
+          "run_eoc_selector": [
+            "EOC_PICK_CHANGELING_SPRING_MAGIC",
+            "EOC_PICK_CHANGELING_SUMMER_MAGIC",
+            "EOC_PICK_CHANGELING_AUTUMN_MAGIC",
+            "EOC_PICK_CHANGELING_WINTER_MAGIC"
+          ],
+          "title": "As one of the nobility of the Fair Folk, you are heir to a deeper understanding of their magicks.  Choose a second path.",
+          "names": [ "Magicks of Spring", "Magicks of Summer", "Magicks of Autumn", "Magicks of Winter" ],
+          "keys": [ "1", "2", "3", "4" ],
+          "hide_failing": true,
+          "descriptions": [
+            "Magicks of Spring, affecting plants, growth, healing, rain, and love.",
+            "Magicks of Summer, affecting heat, light, athleticism, passion, illusion, and plenty.",
+            "Magicks of Autumn, affecting decay, the harvest, fear, preservation, concealment, and colors.",
+            "Magicks of Winter, affecting darkness, silence, sleep, ice, snow, cold, wind, and death."
+          ]
+        }
+      },
+      { "run_eocs": "EOC_CHANGELING_SET_SEASONAL_MAGIC_RESEARCH_COSTS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PICK_CHANGELING_SPRING_MAGIC",
+    "condition": { "not": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_SPRING" } },
+    "effect": [
+      { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_SPRING" },
+      { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PICK_CHANGELING_SUMMER_MAGIC",
+    "condition": { "not": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_SUMMER" } },
+    "effect": [
+      { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_SUMMER" },
+      { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PICK_CHANGELING_AUTUMN_MAGIC",
+    "condition": { "not": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_AUTUMN" } },
+    "effect": [
+      { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_AUTUMN" },
+      { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PICK_CHANGELING_WINTER_MAGIC",
+    "condition": { "not": { "u_has_trait": "EOC_PICK_CHANGELING_WINTER_MAGIC" } },
+    "effect": [
+      { "u_add_trait": "EOC_PICK_CHANGELING_WINTER_MAGIC" },
+      { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SET_SEASONAL_MAGIC_RESEARCH_COSTS",
+    "condition": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
+    "effect": [
+      { "math": [ "u_changeling_seasonal_magic_dreamdross_research_cost = 40" ] },
+      { "math": [ "u_changeling_seasonal_magic_dreamdross_research_cost_modifier = 40" ] }
+    ],
+    "false_effect": [
+      { "math": [ "u_changeling_seasonal_magic_dreamdross_research_cost = 50" ] },
+      { "math": [ "u_changeling_seasonal_magic_dreamdross_research_cost_modifier = 50" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_USE_DREAMDROSS_TO_RESEARCH_NEW_SPELLS",
+    "condition": {
+      "u_has_items": { "item": "scrap_dreamdross", "count": { "math": [ "u_changeling_seasonal_magic_dreamdross_research_cost" ] } }
+    },
+    "effect": [
+      { "u_message": "You reach into the dreamdross and draw on the dreams of mortals for inspiration.", "type": "good" },
+      {
+        "if": { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" },
+        "then": {
+          "run_eoc_selector": [
+            "EOC_RESEARCH_CHANGELING_SPRING_MAGIC_BEGIN",
+            "EOC_RESEARCH_CHANGELING_SUMMER_MAGIC_BEGIN",
+            "EOC_RESEARCH_CHANGELING_AUTUMN_MAGIC_BEGIN",
+            "EOC_RESEARCH_CHANGELING_WINTER_MAGIC_BEGIN"
+          ],
+          "title": "Which branch of glamour will you research?",
+          "names": [ "Magicks of Spring", "Magicks of Summer", "Magicks of Autumn", "Magicks of Winter" ],
+          "keys": [ "1", "2", "3", "4" ],
+          "hide_failing": true
+        },
+        "else": [
+          {
+            "if": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_SPRING" },
+            "then": { "run_eocs": "EOC_RESEARCH_CHANGELING_SPRING_MAGIC_BEGIN" }
+          },
+          {
+            "if": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_SUMMER" },
+            "then": { "run_eocs": "EOC_RESEARCH_CHANGELING_SUMMER_MAGIC_BEGIN" }
+          },
+          {
+            "if": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_AUTUMN" },
+            "then": { "run_eocs": "EOC_RESEARCH_CHANGELING_AUTUMN_MAGIC_BEGIN" }
+          },
+          {
+            "if": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_WINTER" },
+            "then": { "run_eocs": "EOC_RESEARCH_CHANGELING_WINTER_MAGIC_BEGIN" }
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You don't have enough dreamdross for your research into new magicks to be effective.  You need at least <u_val:changeling_seasonal_magic_dreamdross_research_cost> scraps of dreamdross.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RESEARCH_CHANGELING_SPRING_MAGIC_BEGIN",
+    "condition": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_SPRING" },
+    "effect": [
+      {
+        "u_assign_activity": "ACT_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING",
+        "duration": { "math": [ "10800 + (changeling_seasonal_magic_dreamdross_research_cost * 20)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RESEARCH_CHANGELING_SUMMER_MAGIC_BEGIN",
+    "condition": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_SUMMER" },
+    "effect": [
+      {
+        "u_assign_activity": "ACT_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER",
+        "duration": { "math": [ "10800 + (changeling_seasonal_magic_dreamdross_research_cost * 20)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RESEARCH_CHANGELING_AUTUMN_MAGIC_BEGIN",
+    "condition": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_AUTUMN" },
+    "effect": [
+      {
+        "u_assign_activity": "ACT_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN",
+        "duration": { "math": [ "10800 + (changeling_seasonal_magic_dreamdross_research_cost * 20)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RESEARCH_CHANGELING_WINTER_MAGIC_BEGIN",
+    "condition": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_WINTER" },
+    "effect": [
+      {
+        "u_assign_activity": "ACT_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER",
+        "duration": { "math": [ "10800 + (changeling_seasonal_magic_dreamdross_research_cost * 20)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_PAY_COST",
+    "condition": {
+      "u_has_items": { "item": "scrap_dreamdross", "count": { "math": [ "u_changeling_seasonal_magic_dreamdross_research_cost" ] } }
+    },
+    "effect": [
+      {
+        "u_consume_item": "scrap_dreamdross",
+        "count": { "math": [ "u_changeling_seasonal_magic_dreamdross_research_cost" ] }
+      }
+    ],
+    "false_effect": [
+      {
+        "u_message": "Somehow, you researched a glamour without having enough dreamdross for it.  Please report this bug.",
+        "type": "debug"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER",
+    "effect": [
+      {
+        "math": [
+          "u_changeling_seasonal_magic_dreamdross_research_cost",
+          "+=",
+          "u_changeling_seasonal_magic_dreamdross_research_cost_modifier"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_FINALIZE",
+    "effect": [
+      { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_PAY_COST" },
+      {
+        "if": { "math": [ "rand(99)", "<", "90 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING')" ] },
+        "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_1" },
+        "else": {
+          "if": { "math": [ "rand(99)", "<", "90 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING')" ] },
+          "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_2" },
+          "else": {
+            "if": { "math": [ "rand(99)", "<", "90 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING')" ] },
+            "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_3" },
+            "else": {
+              "if": { "math": [ "rand(99)", "<", "90 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING')" ] },
+              "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_4" },
+              "else": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_5" }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_1",
+    "//": "For this and following, make sure to add each spell into the proper tier.",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_spring_summon_grass_field_spell", "changeling_spring_minor_restore_stamina_and_pain_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_2" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_2",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_spring_growing_plants_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_3" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_3",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_spring_growing_plants_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_4" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_4",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_spring_growing_plants_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_5" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_5",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_spring_growing_plants_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": {
+          "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_DONE",
+          "effect": [
+            {
+              "u_message": "You are a mighty sorcerer, and the power of spring has but few secrets which are unknown to you.",
+              "type": "mixed"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_FINALIZE",
+    "effect": [
+      { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_PAY_COST" },
+      {
+        "if": { "math": [ "rand(99)", "<", "90 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER')" ] },
+        "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_1" },
+        "else": {
+          "if": { "math": [ "rand(99)", "<", "90 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER')" ] },
+          "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_2" },
+          "else": {
+            "if": { "math": [ "rand(99)", "<", "90 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER')" ] },
+            "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_3" },
+            "else": {
+              "if": { "math": [ "rand(99)", "<", "90 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER')" ] },
+              "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_4" },
+              "else": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_5" }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_1",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_summer_light_spell", "changeling_summer_sun_glasses_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_2" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_2",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_summer_fire_melee_damage_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_3" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_3",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_summer_fire_melee_damage_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_4" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_4",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_summer_fire_melee_damage_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_5" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_TIER_5",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_summer_fire_melee_damage_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": {
+          "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SUMMER_DONE",
+          "effect": [
+            {
+              "u_message": "You are a mighty sorcerer, and the power of summer has but few secrets which are unknown to you.",
+              "type": "mixed"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_FINALIZE",
+    "effect": [
+      { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_PAY_COST" },
+      {
+        "if": { "math": [ "rand(99)", "<", "90 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN')" ] },
+        "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_1" },
+        "else": {
+          "if": { "math": [ "rand(99)", "<", "90 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN')" ] },
+          "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_2" },
+          "else": {
+            "if": { "math": [ "rand(99)", "<", "90 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN')" ] },
+            "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_3" },
+            "else": {
+              "if": { "math": [ "rand(99)", "<", "90 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN')" ] },
+              "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_4" },
+              "else": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_5" }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_1",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_autumn_scare_animals_spell", "changeling_autumn_touch_of_frailty_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_2" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_2",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_autumn_call_mists_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_3" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_3",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_autumn_call_mists_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_4" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_4",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_autumn_call_mists_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_5" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_TIER_5",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_autumn_call_mists_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": {
+          "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_AUTUMN_DONE",
+          "effect": [
+            {
+              "u_message": "You are a mighty sorcerer, and the power of autumn has but few secrets which are unknown to you.",
+              "type": "mixed"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_FINALIZE",
+    "effect": [
+      { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_PAY_COST" },
+      {
+        "if": { "math": [ "rand(99)", "<", "90 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER')" ] },
+        "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_1" },
+        "else": {
+          "if": { "math": [ "rand(99)", "<", "90 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER')" ] },
+          "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_2" },
+          "else": {
+            "if": { "math": [ "rand(99)", "<", "90 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER')" ] },
+            "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_3" },
+            "else": {
+              "if": { "math": [ "rand(99)", "<", "90 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER')" ] },
+              "then": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_4" },
+              "else": { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_5" }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_1",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_winter_walk_on_water_spell", "changeling_winter_freeze_target_in_place_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_2" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_2",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_winter_frozen_breath_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_3" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_3",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_winter_frozen_breath_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_4" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_4",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_winter_frozen_breath_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_5" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_5",
+    "effect": [
+      {
+        "u_roll_remainder": [ "changeling_winter_frozen_breath_spell" ],
+        "type": "spell",
+        "message": "Your research bears fruit!  You learn the %s glamour.",
+        "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
+        "false_eocs": {
+          "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_DONE",
+          "effect": [
+            {
+              "u_message": "You are a mighty sorcerer, and the power of winter has but few secrets which are unknown to you.",
+              "type": "mixed"
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

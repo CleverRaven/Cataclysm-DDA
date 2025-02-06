@@ -1,0 +1,127 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_light_spell",
+    "name": [ "Bonefire's Light" ],
+    "desc": [ "A wisp of flickering insubstantial fire hovers near your shoulder." ],
+    "apply_message": "",
+    "remove_message": "The wisp winks out.",
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 10 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_sun_glasses_spell",
+    "name": [ "Shading Your Eyes" ],
+    "desc": [ "Nearby lights don't seem quite as bright now." ],
+    "apply_message": "",
+    "remove_message": "You blink as nearby lights grow brighter.",
+    "flags": [ "GLARE_RESIST" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_fire_melee_damage_spell",
+    "name": [ "Burning Solar Grasp" ],
+    "desc": [ "Ethereal flames flicker around your hands" ],
+    "apply_message": "",
+    "remove_message": "The flames gutter out.",
+    "enchantments": [
+      {
+        "condition": "u_has_weapon",
+        "melee_damage_bonus": [
+          {
+            "type": "heat",
+            "add": {
+              "math": [
+                "rng( (1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') / 2) ), (5 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') ) ) ) / 2.5"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": { "not": "u_has_weapon" },
+        "melee_damage_bonus": [
+          {
+            "type": "heat",
+            "add": {
+              "math": [
+                "rng( (1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') / 2) ), (5 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') ) ) )"
+              ]
+            }
+          }
+        ]
+      },
+      { "values": [ { "value": "LUMINATION", "add": 2 } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_touch_of_frailty_character",
+    "name": [ "Touch of Frailty" ],
+    "desc": [ "A glamour is prematurely aging you." ],
+    "apply_message": "",
+    "remove_message": "Your vigor returns.",
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [ { "value": "STRENGTH", "add": -3 }, { "value": "DEXTERITY", "add": -2 }, { "value": "SPEED", "add": -5 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_touch_of_frailty_monster",
+    "name": [ "Touch of Frailty" ],
+    "desc": [ "A glamour is prematurely aging you." ],
+    "apply_message": "",
+    "remove_message": "Your vigor returns.",
+    "show_in_info": true,
+    "base_mods": { "hit_mod": [ -1 ], "dodge_mod": [ -1 ], "speed_mod": [ -5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_scare_animals",
+    "//": "Tracker to prevent spell from being re-used back to back",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_freeze_target_in_place_not_winter",
+    "name": [ "Grip of Winter" ],
+    "desc": [ "Ice coats your lower limbs, freezing you in place." ],
+    "apply_message": "",
+    "remove_message": "You can move again.",
+    "show_in_info": true,
+    "flags": [ "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_freeze_target_in_place_during_winter",
+    "name": [ "Grip of Winter" ],
+    "desc": [ "Ice coats your lower limbs, freezing you in place." ],
+    "apply_message": "",
+    "remove_message": "The chill around your feet fades away.",
+    "show_in_info": true,
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_walk_on_water",
+    "name": [ "Path of Rime" ],
+    "desc": [ "Each step you take leaves a tracing of frost on the ground, and liquids freeze at your touch." ],
+    "apply_message": "",
+    "remove_message": "The chill around your feet fades away.",
+    "flags": [ "WATERWALKING", "ITEM_WATERPROOFING", "SLUDGEPROOF" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_frozen_breath",
+    "name": [ "Chilled" ],
+    "desc": [ "Your movements are slowed." ],
+    "apply_message": "",
+    "remove_message": "The bone-deep chill fades away.",
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.1 } ] } ],
+    "base_mods": { "hit_mod": [ -1 ] }
+  }
+]

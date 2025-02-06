@@ -1,0 +1,113 @@
+[
+  {
+    "//": "Spring magic should focus on: plants, growth, healing, rain, and love.",
+    "//2": "Make sure to add each new spell to the proper research EoC in the playable_changeling_seasonal_magic_research_eocs file.",
+    "//3": "Seasonal magic can have direct damage spells, but they should always be relevantly themed to the season, accomplish some secondary effect (slowing, blinding, starting fires, terrain alteration, etc), have some limitation on targets, or otherwise be less efficient than 'Wizard casts fireball' ",
+    "id": "xe_fey_seasonal_magick_spring",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_FEY_MAGIC", "NO_SPELLCASTING" ],
+    "cannot_cast_message": "You can't use your glamours now!",
+    "failure_cost_percent": 0.75,
+    "max_book_level": 0,
+    "failure_chance_formula_id": "xe_fey_seasonal_magick_spring_failure_chance"
+  },
+  {
+    "id": "changeling_spring_summon_grass_field_spell",
+    "type": "SPELL",
+    "name": { "str": "Commanding the Grasses" },
+    "description": "Your command over plants allows you to cause grass to grow in profusion from the soil, making the terrain very difficult for enemies to traverse.  The glamour is much more difficult to use in the winter.",
+    "valid_targets": [ "hostile", "ground" ],
+    "teachable": false,
+    "flags": [ "SOMATIC", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "max_level": 1,
+    "skill": "deduction",
+    "difficulty": 1,
+    "effect": "ter_transform",
+    "effect_str": "ter_changeling_spring_command_grasses",
+    "shape": "blast",
+    "min_range": {
+      "math": [ "min( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.8) + u_skill('deduction')), 30)" ]
+    },
+    "max_range": {
+      "math": [ "min( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.8) + u_skill('deduction')), 30)" ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.25) + (u_skill('deduction') * 0.5)), 15) * (global_what_is_the_season == 3 ? 0.5 : 1)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.25) + (u_skill('deduction') * 0.5)), 15) * (global_what_is_the_season == 3 ? 0.5 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 150 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 3) - (u_skill('deduction') * 4)), 50) * (global_what_is_the_season == 3 ? 4 : 1)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 150 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 3) - (u_skill('deduction') * 5)), 75)  * (global_what_is_the_season == 3 ? 4 : 1)"
+      ]
+    }
+  },
+  {
+    "id": "changeling_spring_minor_restore_stamina_and_pain_spell",
+    "type": "SPELL",
+    "name": "Verdant Vitality",
+    "description": "You can draw some of the energy inherent in nearby plants into yourself, restoring a bit of your stamina and easing your pain.  However, the energy is drawn from nearby foliage and cannot be accessed if you are not standing on verdant ground.",
+    "//": "Once terrain can accept flags or timed effects or something, we can use that instead of dead grass.",
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 2,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SPRING_MINOR_RESTORE_STAMINA_AND_PAIN",
+    "min_range": 1,
+    "base_energy_cost": {
+      "math": [ "max( ( 200 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 8) - (u_skill('deduction') * 10)), 75)" ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 1500 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 25) - (u_skill('deduction') * 50)), 150)"
+      ]
+    }
+  },
+  {
+    "id": "changeling_spring_growing_plants_spell",
+    "type": "SPELL",
+    "name": "Nurturing the Green",
+    "description": "You can greatly speed plant growth.  Grass can grow from seed in moments, crops can shoot towards the sky, and even young trees can put forth mighty limbs.  You cannot, however, bring a plant to ripeness or fruiting.  The glamour <color_red>cannot be used</color> in the winter.",
+    "flags": [ "VERBAL" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "ground" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 3,
+    "effect": "ter_transform",
+    "effect_str": "ter_changeling_spring_plant_growth",
+    "min_range": 1,
+    "base_energy_cost": {
+      "math": [
+        "max( ( 1000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 8) - (u_skill('deduction') * 10)), 500)  * (global_what_is_the_season == 4 ? 10000 : 1)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 6000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 150) - (u_skill('deduction') * 75)), 1500)"
+      ]
+    }
+  }
+]

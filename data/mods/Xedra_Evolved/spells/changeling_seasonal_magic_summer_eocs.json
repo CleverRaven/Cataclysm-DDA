@@ -1,0 +1,55 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_LIGHT_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_changeling_summer_light_spell" } },
+    "effect": [
+      {
+        "math": [
+          "u_spell_low_duration = ( ( ( 256.97 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 67.91) + (u_skill('deduction') * 162.50) ) ) * (global_what_is_the_season == 4 ? 0.6 : 1) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spell_high_duration = ( ( ( 615.27 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 165.31) + (u_skill('deduction') * 486.15) ) ) * (global_what_is_the_season == 4 ? 0.4 : 1) ) "
+        ]
+      },
+      {
+        "u_add_effect": "effect_changeling_summer_light_spell",
+        "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+      },
+      { "u_message": "A flickering red-orange wisp of light kindles near your shoulder.", "type": "neutral" }
+    ],
+    "false_effect": [ { "u_lose_effect": "effect_changeling_summer_light_spell" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_SUN_GLASSES_INITIATE",
+    "effect": [
+      {
+        "math": [
+          "u_spell_low_duration = ( 580.52 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 109.82) + (u_skill('deduction') * 223.65) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spell_high_duration = ( 1185.21 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 318.25) + (u_skill('deduction') * 816.82) ) "
+        ]
+      },
+      {
+        "u_add_effect": "effect_changeling_summer_sun_glasses_spell",
+        "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+      },
+      { "u_spawn_item": "changeling_summer_sunglasses", "suppress_message": true, "force_equip": true },
+      { "u_message": "The intensity of nearby light grows muted.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_SUN_GLASSES_REMOVER",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_changeling_summer_sun_glasses_spell", { "context_val": "effect" } ] },
+    "effect": { "u_remove_item_with": "changeling_summer_sunglasses" }
+  }
+]

@@ -62,6 +62,30 @@
   },
   {
     "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_spring_failure_chance",
+    "num_args": 0,
+    "return": "(0.15 + (global_what_is_the_season == 3 ? 0.2 : 0 ) ) - (u_skill('deduction') * 0.03)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_summer_failure_chance",
+    "num_args": 0,
+    "return": "(0.15 + (global_what_is_the_season == 4 ? 0.2 : 0 ) ) - (u_skill('deduction') * 0.03)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_autumn_failure_chance",
+    "num_args": 0,
+    "return": "(0.15 + (global_what_is_the_season == 1 ? 0.2 : 0 ) ) - (u_skill('deduction') * 0.03)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_winter_failure_chance",
+    "num_args": 0,
+    "return": "(0.15 + (global_what_is_the_season == 2 ? 0.2 : 0 ) ) - (u_skill('deduction') * 0.03)"
+  },
+  {
+    "type": "jmath_function",
     "id": "spell_train_factor",
     "num_args": 1,
     "//": "accept the spell _cost, return how much spellcasts required to level the spell",
