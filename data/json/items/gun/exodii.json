@@ -82,6 +82,87 @@
     "melee_damage": { "bash": 12 }
   },
   {
+    "id": "khuunaofaai",
+    "//": "note for translators, its pronounced \"Ka-hu-na-o-fa-aye\" and doesn't actually mean anything, you can translate the syllables directly.",
+    "copy-from": "m4_carlgustav",
+    "looks_like": "m202_flash",
+    "type": "GUN",
+    "name": { "str": "Exodii ordnance cannon" },
+    "description": "An oddball in the Exodii's oddball selection of armaments - This robust, shoulder mounted weapons platform started life not as a weapon, but as a ceremonial firework cannon, mounted in droves atop of parade tanks the size of buildings by some globe spanning military culture.  Little of its original design remains under the retrofits and wear, with even its engravings worn down to nothing by time.  It finds its niche in disposing incoming hordes from large distances, helped by the variety of chemical payloads its been modified to fire.",
+    "weight": "8180 g",
+    "volume": "10360 ml",
+    "material": [ "steel", "gold" ],
+    "longest_side": "1080 mm",
+    "price_postapoc": "125 USD",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "Khuunaofaai",
+        "name": { "str": "Khuunäöfaai ordnance cannon" },
+        "description": "An oddball in the Exodii's oddball selection of armaments - This robust, shoulder mounted weapons platform started life not as a weapon, but as a ceremonial firework cannon, mounted in droves atop of parade tanks the size of buildings by some globe spanning military culture.  Little of its original design remains under the retrofits and wear, with even its engravings worn down to nothing by time.  The Khuunäöfaai finds its niche in disposing incoming hordes from large distances, helped by the variety of chemical payloads its been modified to fire.",
+        "weight": 1
+      }
+    ],
+    "color": "red",
+    "valid_mod_locations": [ [ "sights_mount", 1 ], [ "sling", 1 ] ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING" ],
+    "melee_damage": { "bash": 12 },
+    "pocket_data": [
+      {
+        "magazine_well": "1250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "exodii_khuunaofaai_mag_firework",
+          "exodii_khuunaofaai_mag_incendiary",
+          "exodii_khuunaofaai_mag_corrosive",
+          "exodii_khuunaofaai_mag_adhesive"
+        ]
+      }
+    ],
+    "reload_noise_volume": 20,
+    "ammo": [ "khuunaofaai_payload", "khuunaofaai_payload_fire", "khuunaofaai_payload_acid", "khuunaofaai_payload_glue" ]
+  },
+  {
+    "id": "spell_corrosive_spray",
+    "type": "SPELL",
+    "name": { "str": "corrosive spray", "//~": "NO_I18N" },
+    "description": { "str": "Your weapon coats its target in highly corrosive chemicals", "//~": "NO_I18N" },
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "effect_str": "corroding",
+    "min_duration": 1300,
+    "max_duration": 1300,
+    "min_aoe": 6,
+    "max_aoe": 6,
+    "difficulty": 1,
+    "min_range": 10,
+    "max_range": 10,
+    "field_id": "fd_acid",
+    "min_field_intensity": 3,
+    "max_field_intensity": 3
+  },
+  {
+    "id": "spell_adhesive_spray",
+    "type": "SPELL",
+    "name": { "str": "adhesive spray", "//~": "NO_I18N" },
+    "description": { "str": "Your weapon coats its target in quickly hardening resin", "//~": "NO_I18N" },
+    "effect": "ter_transform",
+    "effect_str": "exodii_foam",
+    "shape": "blast",
+    "valid_targets": [ "ground" ],
+    "min_aoe": 5,
+    "max_aoe": 5,
+    "difficulty": 1,
+    "min_range": 10,
+    "max_range": 10
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "exodii_foam",
+    "terrain": [ { "result": "t_foam_wall", "valid_flags": [ "FLAT" ] } ]
+  },
+  {
     "id": "sapra",
     "looks_like": "smle_mk3",
     "type": "GUN",
