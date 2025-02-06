@@ -1942,7 +1942,7 @@ void Item_factory::init()
     add_actor( std::make_unique<cast_spell_actor>() );
     add_actor( std::make_unique<weigh_self_actor>() );
     add_actor( std::make_unique<sew_advanced_actor>() );
-    add_actor( std::make_unique<effect_on_conditons_actor>() );
+    add_actor( std::make_unique<effect_on_conditions_actor>() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups[Item_spawn_data_EMPTY_GROUP] =

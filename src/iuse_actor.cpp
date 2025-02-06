@@ -6041,12 +6041,12 @@ std::unique_ptr<iuse_actor> change_scent_iuse::clone() const
     return std::make_unique<change_scent_iuse>( *this );
 }
 
-std::unique_ptr<iuse_actor> effect_on_conditons_actor::clone() const
+std::unique_ptr<iuse_actor> effect_on_conditions_actor::clone() const
 {
-    return std::make_unique<effect_on_conditons_actor>( *this );
+    return std::make_unique<effect_on_conditions_actor>( *this );
 }
 
-void effect_on_conditons_actor::load( const JsonObject &obj, const std::string &src )
+void effect_on_conditions_actor::load( const JsonObject &obj, const std::string &src )
 {
     obj.read( "description", description );
     obj.read( "menu_text", menu_text );
@@ -6057,7 +6057,7 @@ void effect_on_conditons_actor::load( const JsonObject &obj, const std::string &
     }
 }
 
-std::string effect_on_conditons_actor::get_name() const
+std::string effect_on_conditions_actor::get_name() const
 {
     if( !menu_text.empty() ) {
         return menu_text.translated();
@@ -6065,18 +6065,18 @@ std::string effect_on_conditons_actor::get_name() const
     return iuse_actor::get_name();
 }
 
-void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump ) const
+void effect_on_conditions_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     dump.emplace_back( "DESCRIPTION", description.translated() );
 }
 
-std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
+std::optional<int> effect_on_conditions_actor::use( Character *p, item &it,
         const tripoint_bub_ms &pos ) const
 {
-    return effect_on_conditons_actor::use( p, it, &get_map(), pos );
+    return effect_on_conditions_actor::use( p, it, &get_map(), pos );
 }
 
-std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
+std::optional<int> effect_on_conditions_actor::use( Character *p, item &it,
         map *here, const tripoint_bub_ms &pos ) const
 {
     if( it.type->comestible ) {

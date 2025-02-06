@@ -1250,7 +1250,7 @@ class sew_advanced_actor : public iuse_actor
 /**
  * Activate an array of effect_on_conditions
  */
-class effect_on_conditons_actor : public iuse_actor
+class effect_on_conditions_actor : public iuse_actor
 {
     public:
         std::vector<effect_on_condition_id> eocs;
@@ -1260,10 +1260,11 @@ class effect_on_conditons_actor : public iuse_actor
         bool need_worn = false;
         /**does the item requires to be wielded to be activable*/
         bool need_wielding = false;
-        explicit effect_on_conditons_actor( const std::string &type = "effect_on_conditions" ) : iuse_actor(
+        explicit effect_on_conditions_actor( const std::string &type = "effect_on_conditions" ) :
+            iuse_actor(
                 type ) {}
 
-        ~effect_on_conditons_actor() override = default;
+        ~effect_on_conditions_actor() override = default;
         void load( const JsonObject &obj, const std::string &src ) override;
         std::optional<int> use( Character *p, item &it, const tripoint_bub_ms &pos ) const override;
         std::optional<int> use( Character *p, item &it, map *here,
