@@ -419,8 +419,9 @@ void user_interface::show()
         locx += shortcut_print( w_header, point( locx, 1 ),
                                 get_option<bool>( "AUTO_PICKUP" ) ? c_light_green : c_light_red, c_white,
                                 get_option<bool>( "AUTO_PICKUP" ) ? _( "True" ) : _( "False" ) );
-        std::string desc_3 = string_format( " %s ", ctxt.get_desc( "SWITCH_AUTO_PICKUP_OPTION", _( "Switch" ) ) );
-        fold_and_print( w_header, point( locx, 1 ), 0, c_white, desc_3 );
+        std::string desc = string_format( " %s ", ctxt.get_desc( "SWITCH_AUTO_PICKUP_OPTION",
+                                          _( "Switch" ) ) );
+        fold_and_print( w_header, point( locx, 1 ), 0, c_white, desc );
 
         wnoutrefresh( w_header );
 
