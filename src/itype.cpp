@@ -204,9 +204,9 @@ std::optional<int> itype::invoke( Character *p, item &it, map *here,
         return 0;
     }
     if( use_methods.find( "transform" ) != use_methods.end() ) {
-        return invoke( p, it, pos, "transform" );
+        return invoke( p, it, here, pos, "transform" );
     } else {
-        return invoke( p, it, pos, use_methods.begin()->first );
+        return invoke( p, it, here, pos, use_methods.begin()->first );
     }
 }
 

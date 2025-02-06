@@ -9170,8 +9170,7 @@ ret_val<void> use_function::can_call( const Character &p, const item &it,
                                             it.tname() );
     }
 
-    // TODO: Make can_use map aware
-    return actor->can_use( p, it, pos );
+    return actor->can_use( p, it, here, pos );
 }
 
 std::optional<int> use_function::call( Character *p, item &it,
@@ -9181,8 +9180,8 @@ std::optional<int> use_function::call( Character *p, item &it,
 }
 
 std::optional<int> use_function::call( Character *p, item &it,
-                                       map *here, const tripoint_bub_ms &pos ) const
+                                       map */*here*/, const tripoint_bub_ms &pos ) const
 {
-    // TODO: Make can_use map aware
+    // TODO: Make use map aware
     return actor->use( p, it, pos );
 }
