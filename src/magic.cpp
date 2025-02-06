@@ -1405,8 +1405,8 @@ float spell::spell_fail( const Character &guy ) const
     float fail_chance = 0;
     if( has_type_fail_chance ) {
         const_dialogue d( get_const_talker_for( guy ), nullptr );
-        std::vector<std::string> params = { id().c_str() };
-        fail_chance = type->magic_type.value()->failure_chance_formula_id.value()->eval( d, params );
+        d.set_value( "spell_id", id().str() );
+        fail_chance = type->magic_type.value()->failure_chance_formula_id.value()->eval( d );
     } else if( is_psi ) {
         fail_chance = std::pow( ( psi_effective_skill - 40.0f ) / 40.0f, 2 );
     } else {
