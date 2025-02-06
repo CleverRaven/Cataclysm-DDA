@@ -122,3 +122,5 @@ Oxymorphone (mg) ----------------------------------3
 Pentazocine (mg) ----------------------------------0.37
 Tapentadolix (mg) ---------------------------------0.4
 Tramadol (mg) -------------------------------------0.1
+
+Per Venera in the relevant PR injectable morhpine is three times the potency of oral ingestable morphine.  Injection items should reflect that in their vitamin counts.
