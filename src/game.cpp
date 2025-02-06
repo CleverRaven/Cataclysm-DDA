@@ -10318,8 +10318,6 @@ void game::reload_wielded( bool prompt )
 
 void game::reload_weapon( bool try_everything )
 {
-    map &here = get_map();
-
     // As a special streamlined activity, hitting reload repeatedly should:
     // Reload wielded gun
     // First reload a magazine if necessary.
