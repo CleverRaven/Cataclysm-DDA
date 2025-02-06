@@ -194,6 +194,12 @@ int itype::tick( Character *p, item &it, const tripoint_bub_ms &pos ) const
 
 std::optional<int> itype::invoke( Character *p, item &it, const tripoint_bub_ms &pos ) const
 {
+    return itype::invoke( p, it, &get_map(), pos );
+}
+
+std::optional<int> itype::invoke( Character *p, item &it, map *here,
+                                  const tripoint_bub_ms &pos ) const
+{
     if( !has_use() ) {
         return 0;
     }
@@ -207,6 +213,12 @@ std::optional<int> itype::invoke( Character *p, item &it, const tripoint_bub_ms 
 std::optional<int> itype::invoke( Character *p, item &it, const tripoint_bub_ms &pos,
                                   const std::string &iuse_name ) const
 {
+    return itype::invoke( p, it, &get_map(), pos, iuse_name );
+}
+
+std::optional<int> itype::invoke( Character *p, item &it, map *here, const tripoint_bub_ms &pos,
+                                  const std::string &iuse_name ) const
+{
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {
         debugmsg( "Tried to invoke %s on a %s, which doesn't have this use_function",
@@ -214,7 +226,7 @@ std::optional<int> itype::invoke( Character *p, item &it, const tripoint_bub_ms 
         return 0;
     }
     if( p ) {
-        const auto ret = use->can_call( *p, it, pos );
+        const auto ret = use->can_call( *p, it, here, pos );
 
         if( !ret.success() ) {
             p->add_msg_if_player( m_info, ret.str() );
@@ -222,7 +234,7 @@ std::optional<int> itype::invoke( Character *p, item &it, const tripoint_bub_ms 
         }
     }
 
-    return use->call( p, it, pos );
+    return use->call( p, it, here, pos );
 }
 
 std::string gun_type_type::name() const

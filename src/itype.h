@@ -34,6 +34,7 @@
 class Item_factory;
 class JsonObject;
 class item;
+class map;
 struct tripoint;
 template <typename E> struct enum_traits;
 
@@ -1594,9 +1595,15 @@ struct itype {
         const use_function *get_use( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
+        // TODO: Replace usage of map less overload.
         std::optional<int> invoke( Character *p, item &it,
                                    const tripoint_bub_ms &pos ) const; // Picks first method or returns 0
+        std::optional<int> invoke( Character *p, item &it,
+                                   map *here, const tripoint_bub_ms &pos ) const; // Picks first method or returns 0
+        // TODO: Replace usage of map less overload.
         std::optional<int> invoke( Character *p, item &it, const tripoint_bub_ms &pos,
+                                   const std::string &iuse_name ) const;
+        std::optional<int> invoke( Character *p, item &it, map *here, const tripoint_bub_ms &pos,
                                    const std::string &iuse_name ) const;
         int tick( Character *p, item &it, const tripoint_bub_ms &pos ) const;
 

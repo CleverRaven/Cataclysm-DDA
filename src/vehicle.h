@@ -1435,7 +1435,9 @@ class vehicle
         // get monster on a boardable part at p
         monster *get_monster( int p ) const;
 
-        bool enclosed_at( const tripoint_bub_ms &pos ); // not const because it calls refresh_insides
+        bool enclosed_at( map *here, const tripoint_bub_ms
+                          &pos ); // not const because it calls refresh_insides
+        bool enclosed_at( const tripoint_abs_ms &pos ); // not const because it calls refresh_insides
         // Returns the location of the vehicle in global map square coordinates.
         tripoint_abs_ms pos_abs() const;
         // Returns the location of the vehicle in global overmap terrain coordinates.
@@ -1951,7 +1953,8 @@ class vehicle
 
         /** Get firing data for a turret */
         turret_data turret_query( vehicle_part &pt );
-        turret_data turret_query( const tripoint_bub_ms &pos );
+        turret_data turret_query( map *here,  const tripoint_bub_ms &pos );
+        turret_data turret_query( const tripoint_abs_ms &pos );
 
         /** Set targeting mode for specific turrets */
         void turrets_set_targeting();
@@ -2059,7 +2062,7 @@ class vehicle
 
         // Honk the vehicle's horn, if there are any
         void honk_horn() const;
-        void reload_seeds( const tripoint_bub_ms &pos );
+        void reload_seeds( map *here, const tripoint_bub_ms &pos );
         void beeper_sound() const;
         void play_music() const;
         void play_chimes() const;
@@ -2145,7 +2148,7 @@ class vehicle
         void use_autoclave( int p );
         void use_washing_machine( int p );
         void use_dishwasher( int p );
-        void use_monster_capture( int part, const tripoint_bub_ms &pos );
+        void use_monster_capture( int part, map *here, const tripoint_bub_ms &pos );
         void use_harness( int part, const tripoint_bub_ms &pos );
 
         void build_electronics_menu( veh_menu &menu );
