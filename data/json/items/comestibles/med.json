@@ -1174,7 +1174,7 @@
     "healthy": -5,
     "fun": 50,
     "vitamins": [ [ "vit_mme", 1000 ] ],
-    "//": "Heroin due to being cut is at best 50% it's weight equivalent in morphine.",
+    "//": "Heroin due to being cut is at best 50% its weight equivalent in morphine.",
     "addiction_potential": 75,
     "addiction_type": "opiate",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
