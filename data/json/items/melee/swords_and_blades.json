@@ -779,6 +779,7 @@
     "volume": "187 ml",
     "longest_side": "36 cm",
     "price": "195 USD 90 cent",
+    "price_postapoc": "15 USD",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "good" },
     "material": [ "iron" ],
     "symbol": ";",
