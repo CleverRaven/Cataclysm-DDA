@@ -28,7 +28,9 @@ async function main() {
         'X-GitHub-Api-Version': '2022-11-28',
       },
     }
-  );
+  ).catch((e) =>{
+    throw `${e} ...when getting latest release`;
+  })
 
   let previousTag = null;
   if (latestReleaseResponse.data) {
@@ -52,7 +54,9 @@ async function main() {
         'X-GitHub-Api-Version': '2022-11-28',
       },
     }
-  );
+  ).catch((e) =>{
+    throw `${e} ...when asking github to autogenerate release notes since tag '${previousTag}'`;
+  });
 
   const noteSections = response.data.body?.split('\n\n');
   const trimmedSections = [];
