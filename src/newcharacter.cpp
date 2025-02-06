@@ -895,8 +895,8 @@ void Character::set_recipes_from_hobbies()
 {
     for( const profession *profession : hobbies ) {
         for( const recipe_id &recipeID : profession->recipes() ) {
-            const recipe& r = recipe_dictionary::get_craft(recipeID->result());
-            learn_recipe(&r);
+            const recipe &r = recipe_dictionary::get_craft( recipeID->result() );
+            learn_recipe( &r );
         }
     }
 }
