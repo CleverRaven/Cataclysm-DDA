@@ -1667,7 +1667,7 @@ class iuse_function_wrapper : public iuse_actor
         std::optional<int> use( Character *p, item &it, const tripoint_bub_ms &pos ) const override {
             return cpp_function( p, &it, pos );
         }
-        std::optional<int> use( Character *p, item &it, map *here,
+        std::optional<int> use( Character *p, item &it, map */*here*/,
                                 const tripoint_bub_ms &pos ) const override {
             // TODO: Change cpp_function to be map aware.
             return cpp_function( p, &it, pos );
