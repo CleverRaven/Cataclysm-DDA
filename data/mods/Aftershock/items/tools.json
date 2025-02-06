@@ -700,7 +700,7 @@
       "USES_BIONIC_POWER"
     ],
     "charges_per_use": 1,
-    "qualities": [ [ "HACK", 2 ] ]
+    "qualities": [ [ "HACK", 4 ] ]
   },
   {
     "id": "afs_internal_battery_compartment",
