@@ -99,14 +99,14 @@
     "color": "i_light_red",
     "see_cost": "full_high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "cathedral_b_NW", "cathedral_b_NE", "cathedral_b_SW", "cathedral_b_SE" ],
     "copy-from": "cathedral_1_NW",
     "name": "cathedral basement",
-    "delete": { "flags": [ "SIDEWALK" ] }
+    "delete": { "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -122,7 +122,7 @@
     ],
     "copy-from": "cathedral_1_NW",
     "name": "cathedral tower",
-    "delete": { "flags": [ "SIDEWALK" ] }
+    "delete": { "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -317,7 +317,7 @@
     "color": "light_blue",
     "see_cost": "full_high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "RISK_EXTREME", "SOURCE_BOOKS" ]
+    "flags": [ "SIDEWALK", "RISK_EXTREME", "SOURCE_BOOKS", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -328,7 +328,7 @@
     "color": "light_blue",
     "see_cost": "full_high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "RISK_EXTREME", "SOURCE_BOOKS" ]
+    "flags": [ "SIDEWALK", "RISK_EXTREME", "SOURCE_BOOKS", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -365,7 +365,7 @@
     "color": "light_blue",
     "see_cost": "full_high",
     "mondensity": 2,
-    "flags": [ "SOURCE_BOOKS", "RISK_EXTREME" ]
+    "flags": [ "SOURCE_BOOKS", "RISK_EXTREME", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -570,7 +570,7 @@
     "color": "green",
     "see_cost": "high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -588,7 +588,8 @@
     "sym": "H",
     "color": "green",
     "see_cost": "high",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -598,7 +599,7 @@
     "sym": "^",
     "color": "i_black",
     "see_cost": "full_high",
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -608,7 +609,8 @@
     "sym": "^",
     "color": "i_black",
     "see_cost": "full_high",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -618,7 +620,8 @@
     "sym": "^",
     "color": "i_black",
     "see_cost": "none",
-    "mondensity": 1
+    "mondensity": 1,
+    "flags": [ "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",

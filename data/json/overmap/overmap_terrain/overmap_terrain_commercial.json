@@ -11,12 +11,22 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gas", "s_gas_rural", "s_gas_g1" ],
+    "id": [ "s_gas", "s_gas_g1" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "gas station",
     "looks_like": "s_gas",
     "color": "light_blue",
     "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gas_rural"],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "gas station",
+    "looks_like": "s_gas",
+    "color": "light_blue",
+    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] },
+    "delete": { "flags": [ "RISK_HIGH", "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -26,10 +36,18 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gas_roof_1", "s_gas_rural_roof", "s_gas_g1_roof" ],
+    "id": [ "s_gas_roof_1", "s_gas_g1_roof" ],
     "copy-from": "generic_city_building",
     "name": "gas station roof",
     "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_gas_rural_roof" ],
+    "copy-from": "generic_city_building",
+    "name": "gas station roof",
+    "color": "light_blue",
+    "delete": { "flags": [ "RISK_HIGH", "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -167,7 +185,7 @@
     "color": "i_light_gray",
     "see_cost": "full_high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -178,7 +196,7 @@
     "color": "light_gray",
     "see_cost": "low",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -198,7 +216,7 @@
     "color": "i_light_gray",
     "see_cost": "high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -209,7 +227,7 @@
     "color": "light_gray",
     "see_cost": "high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -220,7 +238,7 @@
     "color": "light_gray",
     "see_cost": "high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -611,7 +629,7 @@
     "color": "light_gray",
     "see_cost": "high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_LUXURY" ]
+    "flags": [ "SIDEWALK", "SOURCE_LUXURY", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -622,7 +640,8 @@
     "sym": "$",
     "color": "light_gray",
     "see_cost": "none",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -774,7 +793,8 @@
     "sym": "M",
     "color": "blue",
     "extras": "build",
-    "see_cost": "full_high"
+    "see_cost": "full_high",
+    "flags": [ "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -793,14 +813,16 @@
     "sym": "M",
     "color": "blue",
     "extras": "build",
-    "see_cost": "full_high"
+    "see_cost": "full_high",
+    "flags": [ "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "megastore_1_1_roof",
     "copy-from": "megastore_0_0_roof",
     "mondensity": 2,
-    "spawns": { "group": "GROUP_VANILLA", "population": [ 8, 12 ], "chance": 100 }
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 8, 12 ], "chance": 100 },
+    "flags": [ "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -949,7 +971,7 @@
     "sym": "H",
     "color": "light_green_yellow",
     "see_cost": "full_high",
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -966,7 +988,8 @@
     "name": "home improvement superstore roof",
     "sym": "H",
     "color": "light_green_yellow",
-    "see_cost": "full_high"
+    "see_cost": "full_high",
+    "flags": [ "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",

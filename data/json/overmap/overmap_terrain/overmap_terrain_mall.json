@@ -8,7 +8,7 @@
     "sym": "M",
     "see_cost": "full_high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "RISK_EXTREME", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_MEDICINE", "SOURCE_FABRICATION" ]
+    "flags": [ "SIDEWALK", "RISK_EXTREME", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_MEDICINE", "SOURCE_FABRICATION", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",

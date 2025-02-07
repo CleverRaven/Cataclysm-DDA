@@ -73,7 +73,7 @@
     "vision_levels": "single_water",
     "see_cost": "none",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -187,7 +187,7 @@
     "vision_levels": "blends_till_details",
     "see_cost": "low",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_FARMING" ],
+    "flags": [ "SIDEWALK", "SOURCE_FARMING", "PP_GENERATE_RIOT_DAMAGE" ],
     "extras": "park"
   },
   {
@@ -209,7 +209,7 @@
     "vision_levels": "city_building",
     "see_cost": "high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_FARMING" ]
+    "flags": [ "SIDEWALK", "SOURCE_FARMING", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -219,7 +219,8 @@
     "sym": "g",
     "color": "i_green",
     "see_cost": "none",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -341,7 +342,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "golf course service building",
     "sym": "G",
-    "color": "light_gray"
+    "color": "light_gray",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -681,7 +683,7 @@
     "color": "dark_gray",
     "see_cost": "none",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -1111,7 +1113,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "marina",
     "color": "cyan",
-    "sym": "~"
+    "sym": "~",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
