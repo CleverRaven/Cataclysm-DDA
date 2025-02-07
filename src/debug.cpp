@@ -706,6 +706,7 @@ struct OutputDebugStreamA : public std::ostream {
 struct DebugFile {
     void init( DebugOutput, const cata_path &filename );
     void deinit();
+    ~DebugFile() { deinit(); }
     std::ostream &get_file();
     static DebugFile &instance() {
         static DebugFile instance;
