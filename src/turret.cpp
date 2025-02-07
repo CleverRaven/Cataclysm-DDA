@@ -56,9 +56,14 @@ turret_data vehicle::turret_query( vehicle_part &pt )
     return turret_data( this, &pt );
 }
 
-turret_data vehicle::turret_query( const tripoint_bub_ms &pos )
+turret_data vehicle::turret_query( map *here, const tripoint_bub_ms &pos )
 {
-    auto res = get_parts_at( &get_map(), pos, "TURRET", part_status_flag::any );
+    return vehicle::turret_query( here->get_abs( pos ) );
+}
+
+turret_data vehicle::turret_query( const tripoint_abs_ms &pos )
+{
+    const std::vector<vehicle_part *> res = get_parts_at( pos, "TURRET", part_status_flag::any );
     return !res.empty() ? turret_query( *res.front() ) : turret_data();
 }
 

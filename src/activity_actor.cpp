@@ -2196,6 +2196,8 @@ std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonValue &jsi
 
 void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     const tripoint_bub_ms dest = relative_destination + who.pos_bub();
 
     while( who.get_moves() > 0 && !target_items.empty() ) {
@@ -2242,10 +2244,10 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         const float weary_mult = who.exertion_adjusted_move_multiplier( exertion_level() );
         who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance / weary_mult );
         if( to_vehicle ) {
-            put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
+            put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, &here, dest );
         } else {
             std::vector<item_location> dropped_items = drop_on_map( who, item_drop_reason::deliberate, { newit },
-                    dest );
+                    &here, dest );
             if( hauling_mode ) {
                 who.haul_list.insert( who.haul_list.end(), dropped_items.begin(), dropped_items.end() );
             }
@@ -2260,7 +2262,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         // Nuke the current activity, leaving the backlog alone.
         act.set_to_null();
         if( hauling_mode ) {
-            std::vector<item_location> haulable_items = get_map().get_haulable_items( who.pos_bub() );
+            std::vector<item_location> haulable_items = here.get_haulable_items( who.pos_bub() );
             bool overflow = who.trim_haul_list( haulable_items );
             if( who.is_hauling() && haulable_items.empty() ) {
                 who.stop_hauling();
@@ -4684,10 +4686,11 @@ void drop_or_stash_item_info::deserialize( const JsonObject &jsobj )
 
 void drop_activity_actor::do_turn( player_activity &, Character &who )
 {
+    map &here = get_map();
     const tripoint_bub_ms pos = placement + who.pos_bub();
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
                               obtain_activity_items( items, handler, who, current_bulk_unload ),
-                              pos, force_ground );
+                              &here, pos, force_ground );
     // Cancel activity if items is empty. Otherwise, we modified in place and we will continue
     // to resolve the drop next turn. This is different from the pickup logic which creates
     // a brand new activity every turn and cancels the old activity
@@ -7633,7 +7636,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     if( it.made_of_from_type( phase_id::SOLID ) ) {
         you.mod_moves( -activity_handlers::move_cost( it, src, dest ) );
 
-        put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, dest );
+        put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, &here, dest );
         // Remove from map or vehicle.
         if( src_veh ) {
             vehicle_part &vp_src = src_veh->part( src_part );

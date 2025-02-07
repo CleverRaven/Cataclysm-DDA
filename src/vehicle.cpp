@@ -7259,11 +7259,15 @@ void vehicle::unlink_cables( const point_rel_ms &mount, Character &remover,
     }
 }
 
-bool vehicle::enclosed_at( const tripoint_bub_ms &pos )
+bool vehicle::enclosed_at( map *here, const tripoint_bub_ms &pos )
 {
-    map &here = get_map();
+    return vehicle::enclosed_at( here->get_abs( pos ) );
+}
+
+bool vehicle::enclosed_at( const tripoint_abs_ms &pos )
+{
     refresh_insides();
-    std::vector<vehicle_part *> parts_here = get_parts_at( &here, pos, "BOARDABLE",
+    std::vector<vehicle_part *> parts_here = get_parts_at( pos, "BOARDABLE",
             part_status_flag::working );
     if( !parts_here.empty() ) {
         return parts_here.front()->inside;

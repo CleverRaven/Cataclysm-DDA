@@ -2808,6 +2808,8 @@ void Character::complete_disassemble( item_location target )
 
 void Character::complete_disassemble( item_location &target, const recipe &dis )
 {
+    map &here = get_map();
+
     // Get the proper recipe - the one for disassembly, not assembly
     const requirement_data dis_requirements = dis.disassembly_requirements();
     const tripoint_bub_ms loc = target.pos_bub();
@@ -2993,7 +2995,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     }
 
     // Drop all recovered components
-    put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, drop_items, loc );
+    put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, drop_items, &here, loc );
 
     if( !dis.learn_by_disassembly.empty() && !knows_recipe( &dis ) ) {
         if( can_decomp_learn( dis ) ) {

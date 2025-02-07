@@ -10318,8 +10318,6 @@ void game::reload_wielded( bool prompt )
 
 void game::reload_weapon( bool try_everything )
 {
-    map &here = get_map();
-
     // As a special streamlined activity, hitting reload repeatedly should:
     // Reload wielded gun
     // First reload a magazine if necessary.
@@ -10376,7 +10374,7 @@ void game::reload_weapon( bool try_everything )
     // If we make it here and haven't found anything to reload, start looking elsewhere.
     const optional_vpart_position ovp = m.veh_at( u.pos_abs() );
     if( ovp ) {
-        const turret_data turret = ovp->vehicle().turret_query( ovp->pos_bub( &here ) );
+        const turret_data turret = ovp->vehicle().turret_query( ovp->pos_abs( ) );
         if( turret.can_reload() ) {
             item::reload_option opt = u.select_ammo( turret.base(), true );
             if( opt ) {

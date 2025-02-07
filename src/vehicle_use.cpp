@@ -887,7 +887,7 @@ void vehicle::honk_horn() const
     }
 }
 
-void vehicle::reload_seeds( const tripoint_bub_ms &pos )
+void vehicle::reload_seeds( map *here, const tripoint_bub_ms &pos )
 {
     Character &player_character = get_player_character();
     std::vector<item *> seed_inv = player_character.cache_get_items_with( "is_seed", &item::is_seed );
@@ -920,7 +920,7 @@ void vehicle::reload_seeds( const tripoint_bub_ms &pos )
             used_seed.front().set_age( 0_turns );
             //place seeds into the planter
             put_into_vehicle_or_drop( player_character, item_drop_reason::deliberate, used_seed,
-                                      pos );
+                                      here, pos );
         }
     }
 }
@@ -1575,12 +1575,13 @@ void vehicle::use_dishwasher( int p )
     }
 }
 
-void vehicle::use_monster_capture( int part, const tripoint_bub_ms &pos )
+void vehicle::use_monster_capture( int part, map */*here*/, const tripoint_bub_ms &pos )
 {
     if( parts[part].is_broken() || parts[part].removed ) {
         return;
     }
     item base = item( parts[part].get_base() );
+    // TODO: Use map aware invoke when available
     base.type->invoke( &get_avatar(), base, pos );
     if( base.has_var( "contained_name" ) ) {
         parts[part].set_flag( vp_flag::animal_flag );
@@ -2043,14 +2044,14 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, boo
         } );
     }
 
-    const turret_data turret = turret_query( vp.pos_bub( &here ) );
+    const turret_data turret = turret_query( vp.pos_abs( ) );
 
     if( turret.can_unload() ) {
         menu.add( string_format( _( "Unload %s" ), turret.name() ) )
         .hotkey( "UNLOAD_TURRET" )
         .skip_locked_check()
-        .on_submit( [this, vppos] {
-            item_location loc = turret_query( vppos ).base();
+        .on_submit( [this, vppos, &here] {
+            item_location loc = turret_query( &here, vppos ).base();
             get_player_character().unload( loc );
         } );
     }
@@ -2059,8 +2060,8 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, boo
         menu.add( string_format( _( "Reload %s" ), turret.name() ) )
         .hotkey( "RELOAD_TURRET" )
         .skip_locked_check()
-        .on_submit( [this, vppos] {
-            item_location loc = turret_query( vppos ).base();
+        .on_submit( [this, vppos, &here] {
+            item_location loc = turret_query( &here, vppos ).base();
             item::reload_option opt = get_player_character().select_ammo( loc, true );
             if( opt )
             {
@@ -2324,7 +2325,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, boo
         const size_t mc_idx = vp_monster_capture->part_index();
         menu.add( _( "Capture or release a creature" ) )
         .hotkey( "USE_CAPTURE_MONSTER_VEH" )
-        .on_submit( [this, mc_idx, vppos] { use_monster_capture( mc_idx, vppos ); } );
+        .on_submit( [this, mc_idx, vppos, &here] { use_monster_capture( mc_idx, &here, vppos ); } );
     }
 
     const std::optional<vpart_reference> vp_bike_rack = vp.avail_part_with_feature( "BIKE_RACK_VEH" );
@@ -2343,7 +2344,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, boo
     if( vp.avail_part_with_feature( "PLANTER" ) ) {
         menu.add( _( "Reload seed drill with seeds" ) )
         .hotkey( "USE_PLANTER" )
-        .on_submit( [this, vppos] { reload_seeds( vppos ); } );
+        .on_submit( [this, vppos, &here] { reload_seeds( &here, vppos ); } );
     }
 
     const std::optional<vpart_reference> vp_workbench = vp.avail_part_with_feature( "WORKBENCH" );

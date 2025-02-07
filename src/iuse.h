@@ -17,6 +17,7 @@
 class Character;
 class JsonObject;
 class item;
+class map;
 class monster;
 struct iteminfo;
 template<typename T> class ret_val;
@@ -236,7 +237,7 @@ bool robotcontrol_can_target( Character *, const monster & );
 
 // Helper for handling pesky wannabe-artists
 std::optional<int> handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
-        const tripoint_bub_ms &where );
+        map *here, const tripoint_bub_ms &where );
 
 //helper for lit cigs
 std::optional<std::string> can_smoke( const Character &you );
@@ -291,8 +292,13 @@ class iuse_actor
 
         virtual ~iuse_actor() = default;
         virtual void load( const JsonObject &jo, const std::string &src ) = 0;
+        // TODO: Replace usage of map unaware overload with map aware.
         virtual std::optional<int> use( Character *, item &, const tripoint_bub_ms & ) const = 0;
+        virtual std::optional<int> use( Character *, item &, map *here, const tripoint_bub_ms & ) const = 0;
+        // TODO: Replace usage of map unaware overload with map aware.
         virtual ret_val<void> can_use( const Character &, const item &, const tripoint_bub_ms & ) const;
+        virtual ret_val<void> can_use( const Character &, const item &, map *here,
+                                       const tripoint_bub_ms & ) const;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}
         /**
          * Returns a deep copy of this object. Example implementation:
@@ -333,8 +339,13 @@ struct use_function {
         use_function( const std::string &type, use_function_pointer f );
         explicit use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
 
+        // TODO: Replace map unaware overload with map aware.
         std::optional<int> call( Character *, item &, const tripoint_bub_ms & ) const;
+        std::optional<int> call( Character *, item &, map *here, const tripoint_bub_ms & ) const;
+        // TODO: Replace map unaware overload with map aware.
         ret_val<void> can_call( const Character &, const item &, const tripoint_bub_ms &pos ) const;
+        ret_val<void> can_call( const Character &, const item &, map *here,
+                                const tripoint_bub_ms &pos ) const;
 
         iuse_actor *get_actor_ptr() {
             return actor.get();

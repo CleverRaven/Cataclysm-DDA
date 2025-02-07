@@ -341,14 +341,13 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
 
 std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
                                         const std::list<item> &items,
-                                        const tripoint_bub_ms &where )
+                                        map *here, const tripoint_bub_ms &where )
 {
     if( items.empty() ) {
         return {};
     }
-    map &here = get_map();
-    const std::string ter_name = here.name( where );
-    const bool can_move_there = here.passable( where );
+    const std::string ter_name = here->name( where );
+    const bool can_move_there = here->passable( where );
 
     if( same_type( items ) ) {
         const item &it = items.front();
@@ -433,8 +432,8 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
     }
     std::vector<item_location> items_dropped;
     for( const item &it : items ) {
-        item &dropped_item = here.add_item_or_charges( where, it );
-        items_dropped.emplace_back( map_cursor( where ), &dropped_item );
+        item &dropped_item = here->add_item_or_charges( where, it );
+        items_dropped.emplace_back( map_cursor( here, where ), &dropped_item );
         item( it ).handle_pickup_ownership( you );
     }
 
@@ -447,20 +446,21 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
 void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
                                const std::list<item> &items )
 {
-    return put_into_vehicle_or_drop( you, reason, items, you.pos_bub() );
+    map &here = get_map();
+
+    return put_into_vehicle_or_drop( you, reason, items, &here, you.pos_bub( &here ) );
 }
 
 void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
                                const std::list<item> &items,
-                               const tripoint_bub_ms &where, bool force_ground )
+                               map *here, const tripoint_bub_ms &where, bool force_ground )
 {
-    map &here = get_map();
-    const std::optional<vpart_reference> vp = here.veh_at( where ).cargo();
+    const std::optional<vpart_reference> vp = here->veh_at( where ).cargo();
     if( vp && !force_ground ) {
         put_into_vehicle( you, reason, items, *vp );
         return;
     }
-    drop_on_map( you, reason, items, where );
+    drop_on_map( you, reason, items, here, where );
 }
 
 static double get_capacity_fraction( int capacity, int volume )
@@ -641,7 +641,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
         } else if( activity_to_restore == ACT_FETCH_REQUIRED ) {
             it.set_var( "activity_var", you.name );
         }
-        put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, dest );
+        put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, &here, dest );
         // Remove from map or vehicle.
         if( vpr_src ) {
             vpr_src->vehicle().remove_item( vpr_src->part(), &it );
@@ -1851,7 +1851,7 @@ static bool tidy_activity( Character &you, const tripoint_bub_ms &src_loc,
         for( item *inv_elem : you.inv_dump() ) {
             if( inv_elem->has_var( "activity_var" ) ) {
                 inv_elem->erase_var( "activity_var" );
-                put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { *inv_elem }, src_loc );
+                put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { *inv_elem }, &here, src_loc );
                 you.i_rem( inv_elem );
             }
         }
