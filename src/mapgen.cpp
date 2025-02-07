@@ -305,6 +305,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
     const tripoint_abs_sm p_sm_base = project_to<coords::sm>( p );
     std::vector<bool> generated;
     generated.resize( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS );
+    bool apply_post_proc = false;
 
     // Prepare the canvas...
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
@@ -386,6 +387,8 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         if( ( any_missing || !save_results ) &&
             !terrain_type->has_uniform_terrain() ) {
             draw_map( dat );
+            // Only apply post-proc when the map is first generated and never on updates or extras
+            apply_post_proc = true;
         }
 
         // Merge the overlays generated earlier into the current Z level now we have the base map on it.
@@ -463,6 +466,11 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         }
     }
 
+    // Apply post-process generators
+    if( apply_post_proc && overmap_buffer.ter( p )->has_flag( oter_flags::pp_generate_riot_damage ) ) {
+        GENERATOR_riot_damage( *this, p );
+    }
+
     if( save_results ) {
         for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
             for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
@@ -479,11 +487,6 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                 }
             }
         }
-    }
-
-    // Apply post-process generators
-    if( overmap_buffer.ter( p )->has_flag( oter_flags::pp_generate_riot_damage ) ) {
-        GENERATOR_riot_damage( *this, p );
     }
 
     set_abs_sub( p_sm_base );
