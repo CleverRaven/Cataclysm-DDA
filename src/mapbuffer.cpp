@@ -323,14 +323,21 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
         }
     }
 
-    read_from_file_optional_json( quad_path, [this]( const JsonValue & jsin ) {
+    const bool read = read_from_file_optional_json( quad_path, [this]( const JsonValue & jsin ) {
         deserialize( jsin );
     } );
+
+    if( read ) {
+        return submaps[p].get();
+    }
 
     // fill in uniform submaps that were not serialized. Note that failure if it's not
     // uniform is OK and results in a return of nullptr.
     oter_id const oid = overmap_buffer.ter( om_addr );
-    generate_uniform_omt( project_to<coords::sm>( om_addr ), oid );
+    if( !generate_uniform_omt( project_to<coords::sm>( om_addr ), oid ) ) {
+        return nullptr;
+    }
+
     return submaps[ p ].get();
 }
 
