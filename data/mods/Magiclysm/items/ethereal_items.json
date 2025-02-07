@@ -1767,14 +1767,9 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 6,
-    "flags": [ "EDIBLE_FROZEN", "TRADER_AVOID" ],
+    "flags": [ "EDIBLE_FROZEN", "TRADER_AVOID", "RELIC_PINK" ],
     "vitamins": [ [ "vitC", 50 ], [ "iron", 50 ], [ "calcium", 50 ], [ "fruit_allergen", 1 ] ],
-    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Eat the goodberries.",
-      "effect_on_conditions": [ "EOC_DRUID_EAT_THE_GOODBERRY" ]
-    }
+    "consumption_effect_on_conditions": [ "EOC_DRUID_EAT_THE_GOODBERRY" ]
   },
   {
     "type": "effect_on_condition",
