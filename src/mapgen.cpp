@@ -253,12 +253,15 @@ static tripoint_bub_ms get_point_from_direction( int direction,
 static bool tile_can_have_blood( map &md, const tripoint_bub_ms &current_tile,
                                  bool strictly_walls )
 {
+    // Wall streaks stick to walls, like blood was splattered against the suface
+    // Floor streaks avoid obstacles to look more like a person left the streak behind (Not walking through walls, closed doors, windows, or furniture)
     if( strictly_walls ) {
-        return ( md.has_flag( ter_furn_flag::TFLAG_WALL, current_tile ) );
+        return ( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile ) );
     } else {
-        return ( !md.has_flag( ter_furn_flag::TFLAG_WALL, current_tile ) &&
-                 !md.has_flag( ter_furn_flag::TFLAG_WINDOW, current_tile ) &&
-                 !md.has_flag( ter_furn_flag::TFLAG_DOOR, current_tile ) && !md.has_furn( current_tile ) );
+        return ( !md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile ) &&
+                 !md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WINDOW, current_tile ) &&
+                 !md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_DOOR, current_tile ) &&
+                 !md.has_furn( current_tile ) );
     }
 
 }
@@ -279,16 +282,19 @@ static void place_blood_on_adjacent( map &md, const tripoint_bub_ms &current_til
 
 static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
 {
-    if( md.has_furn( current_tile ) ) {
-        // Cannot streak from furniture tile
+    if( tile_can_have_blood( md, current_tile, false ) ||
+        tile_can_have_blood( md, current_tile, true ) ) {
+        // Quick check the tile is valid. We check both because the same function places wall and floor streaks.
+        // Checking both still works to filter out non-valid tiles like windows, doors, and furntiure.
         return;
     }
 
     int streak_length = rng( 3, 12 );
     int streak_direction = rng( 1, 4 );
+
     bool wall_streak = false;
 
-    if( md.has_flag( ter_furn_flag::TFLAG_WALL, current_tile ) ) {
+    if( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile ) ) {
         wall_streak = true;
     }
 
@@ -299,12 +305,12 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
         tripoint_bub_ms destination_tile = get_point_from_direction( streak_direction, last_tile );
 
         if( !tile_can_have_blood( md, destination_tile, wall_streak ) ) {
-            // Wall Streaks should stay on walls, floor streaks should stay on floors
+            // We hit a non-valid tile. Try to find a new direction otherwise just terminate the streak.
             bool terminate_streak = true;
 
             for( int ii = 1; ii < 5; ii++ ) {
-                // Check for valid adjacent tiles and change direction if we find one
                 if( ii == streak_direction ) {
+                    // We don't want to check the direction we came from. No turning around!
                     continue;
                 }
                 tripoint_bub_ms adjacent_tile = get_point_from_direction( ii, last_tile );
@@ -318,29 +324,29 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
             }
 
             if( terminate_streak ) {
-                // failed to find an adjacent wall tile, terminate the streak
                 break;
             }
         }
 
         if( rng( 1, 100 ) < 5 + i * 3 ) {
-            // Sometimes a streak should skip a tile, the chance increases the longer a streak is
+            // Sometimes a streak should skip a tile, the chance increases with each step
             last_tile = destination_tile;
             continue;
         }
 
         if( rng( 1, 100 ) < 10 + i * 5 ) {
-            // The longer a streak is the more likely it is to terminate early
+            // Sometimes a streak should end early, the chance increases with each step.
+            // This is just a hack to further weight the distrubution in favor of short streaks over long ones.
             break;
         }
 
-        // Place the target field
         md.add_field( destination_tile, field_fd_blood );
         last_tile = destination_tile;
 
 
         if( ( rng( 1, 100 ) < 30 + i * 3 ) && !wall_streak ) {
             // Floor streaks can meander and the probability of meandering increases with each step
+            // Long straight streaks aren't visually interesting. So sometimes a streak will curve by meandering to the side.
 
             int new_direction = rng( 0, 1 );
             int meander_mod = ( streak_direction >= 3 ) ? 1 : 3;
@@ -355,13 +361,14 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
 
 static void place_bool_pools( map &md, const tripoint_bub_ms &current_tile )
 {
-    if( md.has_flag( ter_furn_flag::TFLAG_WALL, current_tile ) || md.has_furn( current_tile ) ) {
-        // Don't place pools on walls or furniture
+    if( !tile_can_have_blood( md, current_tile, false ) ) {
+        // Quick check the first tile is valid for placement
         return;
     }
 
+    // Hardcoded to expand from one point across two generations of adjacent tiles.
+    // Past two generations it becomes impractically large.
     md.add_field( current_tile, field_fd_blood );
-
     place_blood_on_adjacent( md, current_tile, 60 );
 
     for( int i = 1; i < 4; i++ ) {
@@ -424,13 +431,13 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
             }
         }
         // Set some fields at random!
-        if( x_in_y( 1, 100 ) ) {
+        if( x_in_y( 2, 100 ) ) {
             int behavior_roll = rng( 1, 100 );
 
-            if( behavior_roll > 80 ) {
+            if( behavior_roll <= 20 ) {
                 // 20% chance to place a field by itself
                 md.add_field( current_tile, field_fd_blood );
-            } else if( behavior_roll > 40 ) {
+            } else if( behavior_roll <= 60 ) {
                 // 40% chance to try streaking the field
                 place_blood_streaks( md, current_tile );
             } else {
