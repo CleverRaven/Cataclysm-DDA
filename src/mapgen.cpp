@@ -236,24 +236,23 @@ static tripoint_bub_ms get_point_from_direction( int direction,
 {
     switch( direction ) {
         case 1:
-            // North
             return tripoint_bub_ms( current_tile.x(), current_tile.y() - 1, current_tile.z() );
         case 2:
-            // South
             return tripoint_bub_ms( current_tile.x(), current_tile.y() + 1, current_tile.z() );
         case 3:
-            // West
             return tripoint_bub_ms( current_tile.x() - 1, current_tile.y(), current_tile.z() );
         case 4:
-            // East
             return tripoint_bub_ms( current_tile.x() + 1, current_tile.y(), current_tile.z() );
     }
+    // This shouldn't happen unless the function is used incorrectly
+    debugmsg( "Attempted to get point from invalid direction." );
+    return current_tile;
 }
 
 static bool tile_can_have_blood( map &md, const tripoint_bub_ms &current_tile,
                                  bool strictly_walls )
 {
-    // Wall streaks stick to walls, like blood was splattered against the suface
+    // Wall streaks stick to walls, like blood was splattered against the surface
     // Floor streaks avoid obstacles to look more like a person left the streak behind (Not walking through walls, closed doors, windows, or furniture)
     if( strictly_walls ) {
         return ( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile ) );
@@ -285,7 +284,7 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
     if( tile_can_have_blood( md, current_tile, false ) ||
         tile_can_have_blood( md, current_tile, true ) ) {
         // Quick check the tile is valid. We check both because the same function places wall and floor streaks.
-        // Checking both still works to filter out non-valid tiles like windows, doors, and furntiure.
+        // Checking both still works to filter out non-valid tiles like windows, doors, and furniture.
         return;
     }
 
@@ -336,7 +335,7 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
 
         if( rng( 1, 100 ) < 10 + i * 5 ) {
             // Sometimes a streak should end early, the chance increases with each step.
-            // This is just a hack to further weight the distrubution in favor of short streaks over long ones.
+            // This is just a hack to further weight the distribution in favor of short streaks over long ones.
             break;
         }
 
@@ -366,8 +365,6 @@ static void place_bool_pools( map &md, const tripoint_bub_ms &current_tile )
         return;
     }
 
-    // Hardcoded to expand from one point across two generations of adjacent tiles.
-    // Past two generations it becomes impractically large.
     md.add_field( current_tile, field_fd_blood );
     place_blood_on_adjacent( md, current_tile, 60 );
 
@@ -435,13 +432,10 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
             int behavior_roll = rng( 1, 100 );
 
             if( behavior_roll <= 20 ) {
-                // 20% chance to place a field by itself
                 md.add_field( current_tile, field_fd_blood );
             } else if( behavior_roll <= 60 ) {
-                // 40% chance to try streaking the field
                 place_blood_streaks( md, current_tile );
             } else {
-                // 40% Chance to try pooling the field
                 place_bool_pools( md, current_tile );
             }
         }
