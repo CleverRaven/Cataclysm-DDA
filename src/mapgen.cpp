@@ -298,7 +298,7 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
     for( int i = 0; i < streak_length; i++ ) {
         tripoint_bub_ms destination_tile = get_point_from_direction( streak_direction, last_tile );
 
-        if( tile_can_have_blood( md, current_tile, wall_streak ) ) {
+        if( !tile_can_have_blood( md, destination_tile, wall_streak ) ) {
             // Wall Streaks should stay on walls, floor streaks should stay on floors
             bool terminate_streak = true;
 
@@ -308,7 +308,6 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
                     continue;
                 }
                 tripoint_bub_ms adjacent_tile = get_point_from_direction( ii, last_tile );
-                bool adjacent_is_wall = md.has_flag( ter_furn_flag::TFLAG_WALL, adjacent_tile );
 
                 if( tile_can_have_blood( md, adjacent_tile, wall_streak ) ) {
                     streak_direction = ii;
@@ -324,13 +323,13 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
             }
         }
 
-        if( rng( 1, 100 ) < 10 + i * 3 ) {
+        if( rng( 1, 100 ) < 5 + i * 3 ) {
             // Sometimes a streak should skip a tile, the chance increases the longer a streak is
             last_tile = destination_tile;
             continue;
         }
 
-        if( rng( 1, 100 ) < 10 + i * 7 ) {
+        if( rng( 1, 100 ) < 10 + i * 5 ) {
             // The longer a streak is the more likely it is to terminate early
             break;
         }
@@ -340,11 +339,11 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
         last_tile = destination_tile;
 
 
-        if( ( rng( 1, 100 ) < 30 + i * 10 ) && !wall_streak ) {
+        if( ( rng( 1, 100 ) < 30 + i * 3 ) && !wall_streak ) {
             // Floor streaks can meander and the probability of meandering increases with each step
 
             int new_direction = rng( 0, 1 );
-            int meander_mod = ( streak_direction > 3 ) ? 3 : 1;
+            int meander_mod = ( streak_direction >= 3 ) ? 1 : 3;
             tripoint_bub_ms adjacent_tile = get_point_from_direction( meander_mod + new_direction, last_tile );
             if( tile_can_have_blood( md, adjacent_tile, false ) ) {
                 md.add_field( adjacent_tile, field_fd_blood );
