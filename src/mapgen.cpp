@@ -245,16 +245,16 @@ static tripoint_bub_ms get_point_from_direction( int direction,
             return tripoint_bub_ms( current_tile.x() + 1, current_tile.y(), current_tile.z() );
     }
     // This shouldn't happen unless the function is used incorrectly
-    debugmsg( "Attempted to get point from invalid direction." );
+    debugmsg( "Attempted to get point from invalid direction. %d", direction );
     return current_tile;
 }
 
 static bool tile_can_have_blood( map &md, const tripoint_bub_ms &current_tile,
-                                 bool strictly_walls )
+                                 bool wall_streak )
 {
     // Wall streaks stick to walls, like blood was splattered against the surface
     // Floor streaks avoid obstacles to look more like a person left the streak behind (Not walking through walls, closed doors, windows, or furniture)
-    if( strictly_walls ) {
+    if( wall_streak ) {
         return ( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile ) );
     } else {
         return ( !md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile ) &&
@@ -350,7 +350,7 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
             int new_direction = rng( 0, 1 );
             int meander_mod = ( streak_direction >= 3 ) ? 1 : 3;
             tripoint_bub_ms adjacent_tile = get_point_from_direction( meander_mod + new_direction, last_tile );
-            if( tile_can_have_blood( md, adjacent_tile, false ) ) {
+            if( tile_can_have_blood( md, adjacent_tile, wall_streak ) ) {
                 md.add_field( adjacent_tile, field_fd_blood );
                 last_tile = adjacent_tile;
             }
