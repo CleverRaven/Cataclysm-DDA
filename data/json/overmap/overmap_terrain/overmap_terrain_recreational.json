@@ -97,7 +97,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "state park",
     "sym": "S",
-    "color": "i_green"
+    "color": "i_green",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -276,7 +277,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "miniature railway",
     "sym": "R",
-    "color": "green"
+    "color": "green",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -298,7 +300,8 @@
     "vision_levels": "isolated_building",
     "name": "miniature railway park",
     "sym": "P",
-    "color": "light_green"
+    "color": "light_green",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -318,7 +321,8 @@
     "vision_levels": "open_land",
     "name": "golf course",
     "sym": "G",
-    "color": "green"
+    "color": "green",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -327,7 +331,8 @@
     "name": "golf course parking lot",
     "vision_levels": "large_pavement",
     "sym": "G",
-    "color": "light_gray"
+    "color": "light_gray",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -344,7 +349,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "golf course bar",
     "sym": "G",
-    "color": "light_gray"
+    "color": "light_gray",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -352,7 +358,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "golf course service building roof",
     "sym": "G",
-    "color": "light_gray"
+    "color": "light_gray",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1121,7 +1128,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "marina",
     "color": "cyan",
-    "sym": "m"
+    "sym": "m",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -1129,7 +1137,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "marina parking",
     "color": "cyan",
-    "sym": "m"
+    "sym": "m",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",

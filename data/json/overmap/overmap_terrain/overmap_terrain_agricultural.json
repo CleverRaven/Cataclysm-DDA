@@ -30,7 +30,7 @@
     "sym": "#",
     "color": "i_brown",
     "vision_levels": "isolated_building",
-    "delete": { "flags": [ "RISK_HIGH" ] },
+    "delete": { "flags": [ "RISK_HIGH", "PP_GENERATE_RIOT_DAMAGE" ] },
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ] }
   },
   {
@@ -39,7 +39,8 @@
     "copy-from": "generic_rural_building",
     "name": "sugar house",
     "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 20 },
-    "sym": "S"
+    "sym": "S",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
