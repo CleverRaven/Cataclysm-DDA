@@ -801,6 +801,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_stone_fireplace",
+    "name": "Build Stone Fireplace"
+  },
+  {
+    "type": "construction_group",
     "id": "build_stone_wall",
     "name": "Build Stone Wall"
   },
