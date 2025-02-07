@@ -303,7 +303,7 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
             bool terminate_streak = true;
 
             for( int ii = 1; ii < 5; ii++ ) {
-                // Check for adjacent wall tiles and change streak direction if we find one
+                // Check for valid adjacent tiles and change direction if we find one
                 if( ii == streak_direction ) {
                     continue;
                 }
