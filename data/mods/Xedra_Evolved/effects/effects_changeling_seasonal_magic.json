@@ -107,6 +107,19 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_winter_walk_in_silence",
+    "name": [ "Footsteps in the Snow" ],
+    "desc": [ "Like an animal in winter, you are moving in almost complete silence." ],
+    "apply_message": "",
+    "remove_message": "The sound of your footsteps intrudes in your perceptions.",
+    "max_duration": "6 hours",
+    "enchantments": [
+      { "condition": { "not": { "is_season": "winter" } }, "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.9 } ] },
+      { "condition": { "is_season": "winter" }, "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_walk_on_water",
     "name": [ "Path of Rime" ],
     "desc": [ "Each step you take leaves a tracing of frost on the ground, and liquids freeze at your touch." ],

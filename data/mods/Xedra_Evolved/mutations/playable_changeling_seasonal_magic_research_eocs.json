@@ -289,6 +289,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_FINALIZE",
+    "//": "Spells have a tier equal to one-half their Difficulty. Tier 5 is everything 'and up'.",
     "effect": [
       { "run_eocs": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_PAY_COST" },
       {
@@ -607,7 +608,11 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_1",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_winter_walk_on_water_spell", "changeling_winter_freeze_target_in_place_spell" ],
+        "u_roll_remainder": [
+          "changeling_winter_walk_on_water_spell",
+          "changeling_winter_freeze_target_in_place_spell",
+          "changeling_winter_walk_in_silence"
+        ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
