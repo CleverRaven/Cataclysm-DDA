@@ -231,17 +231,26 @@ static constexpr int MON_RADIUS = 3;
 static void science_room( map *m, const point_bub_ms &p1, const point_bub_ms &p2, int z,
                           int rotate );
 
+static enum class blood_trail_direction : int {
+    first = 1,
+    NORTH = 1,
+    SOUTH = 2,
+    EAST = 3,
+    WEST = 4,
+    last = 4
+};
+
 static tripoint_bub_ms get_point_from_direction( int direction,
         const tripoint_bub_ms &current_tile )
 {
-    switch( direction ) {
-        case 1:
+    switch( ( blood_trail_direction )direction ) {
+        case blood_trail_direction::NORTH:
             return tripoint_bub_ms( current_tile.x(), current_tile.y() - 1, current_tile.z() );
-        case 2:
+        case blood_trail_direction::SOUTH:
             return tripoint_bub_ms( current_tile.x(), current_tile.y() + 1, current_tile.z() );
-        case 3:
+        case blood_trail_direction::WEST:
             return tripoint_bub_ms( current_tile.x() - 1, current_tile.y(), current_tile.z() );
-        case 4:
+        case blood_trail_direction::EAST:
             return tripoint_bub_ms( current_tile.x() + 1, current_tile.y(), current_tile.z() );
     }
     // This shouldn't happen unless the function is used incorrectly
@@ -255,19 +264,19 @@ static bool tile_can_have_blood( map &md, const tripoint_bub_ms &current_tile,
     // Wall streaks stick to walls, like blood was splattered against the surface
     // Floor streaks avoid obstacles to look more like a person left the streak behind (Not walking through walls, closed doors, windows, or furniture)
     if( wall_streak ) {
-        return ( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile ) );
+        return  md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile );
     } else {
-        return ( !md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile ) &&
-                 !md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WINDOW, current_tile ) &&
-                 !md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_DOOR, current_tile ) &&
-                 !md.has_furn( current_tile ) );
+        return !md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile ) &&
+               !md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WINDOW, current_tile ) &&
+               !md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_DOOR, current_tile ) &&
+               !md.has_furn( current_tile );
     }
 
 }
 
 static void place_blood_on_adjacent( map &md, const tripoint_bub_ms &current_tile, int chance )
 {
-    for( int i = 1; i < 4; i++ ) {
+    for( int i = ( int )blood_trail_direction::first; i <= ( int )blood_trail_direction::last; i++ ) {
         tripoint_bub_ms adjacent_tile = get_point_from_direction( i, current_tile );
 
         if( !tile_can_have_blood( md, adjacent_tile, false ) ) {
@@ -281,20 +290,21 @@ static void place_blood_on_adjacent( map &md, const tripoint_bub_ms &current_til
 
 static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
 {
-    if( tile_can_have_blood( md, current_tile, false ) ||
-        tile_can_have_blood( md, current_tile, true ) ) {
-        // Quick check the tile is valid. We check both because the same function places wall and floor streaks.
-        // Checking both still works to filter out non-valid tiles like windows, doors, and furniture.
-        return;
-    }
+
 
     int streak_length = rng( 3, 12 );
-    int streak_direction = rng( 1, 4 );
+    int streak_direction = rng( ( int )blood_trail_direction::first,
+                                ( int )blood_trail_direction::last );
 
     bool wall_streak = false;
 
     if( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile ) ) {
         wall_streak = true;
+    }
+
+    if( tile_can_have_blood( md, current_tile, wall_streak ) ) {
+        // Quick check the tile is valid.
+        return;
     }
 
     md.add_field( current_tile, field_fd_blood );
@@ -307,7 +317,8 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
             // We hit a non-valid tile. Try to find a new direction otherwise just terminate the streak.
             bool terminate_streak = true;
 
-            for( int ii = 1; ii < 5; ii++ ) {
+            for( int ii = ( int )blood_trail_direction::first; ii <= ( int )blood_trail_direction::last;
+                 ii++ ) {
                 if( ii == streak_direction ) {
                     // We don't want to check the direction we came from. No turning around!
                     continue;
@@ -346,10 +357,17 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
         if( ( rng( 1, 100 ) < 30 + i * 3 ) && !wall_streak ) {
             // Floor streaks can meander and the probability of meandering increases with each step
             // Long straight streaks aren't visually interesting. So sometimes a streak will curve by meandering to the side.
+            int new_direction = 0;
+            if( streak_direction == ( int )blood_trail_direction::NORTH ||
+                streak_direction == ( int )blood_trail_direction::SOUTH ) {
+                new_direction = one_in( 2 ) ? ( int )blood_trail_direction::EAST : ( int )
+                                blood_trail_direction::WEST;
+            } else {
+                new_direction = one_in( 2 ) ? ( int )blood_trail_direction::NORTH : ( int )
+                                blood_trail_direction::SOUTH;
+            }
 
-            int new_direction = rng( 0, 1 );
-            int meander_mod = ( streak_direction >= 3 ) ? 1 : 3;
-            tripoint_bub_ms adjacent_tile = get_point_from_direction( meander_mod + new_direction, last_tile );
+            tripoint_bub_ms adjacent_tile = get_point_from_direction( new_direction, last_tile );
             if( tile_can_have_blood( md, adjacent_tile, wall_streak ) ) {
                 md.add_field( adjacent_tile, field_fd_blood );
                 last_tile = adjacent_tile;
@@ -368,8 +386,11 @@ static void place_bool_pools( map &md, const tripoint_bub_ms &current_tile )
     md.add_field( current_tile, field_fd_blood );
     place_blood_on_adjacent( md, current_tile, 60 );
 
-    for( int i = 1; i < 4; i++ ) {
+    for( int i = ( int )blood_trail_direction::first; i <= ( int )blood_trail_direction::last; i++ ) {
         tripoint_bub_ms adjacent_tile = get_point_from_direction( i, current_tile );
+        if( !tile_can_have_blood( md, adjacent_tile, false ) ) {
+            continue;
+        }
         place_blood_on_adjacent( md, adjacent_tile, 30 );
     }
 }
