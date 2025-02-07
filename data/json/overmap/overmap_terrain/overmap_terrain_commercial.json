@@ -20,7 +20,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gas_rural"],
+    "id": [ "s_gas_rural" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "gas station",
     "looks_like": "s_gas",
