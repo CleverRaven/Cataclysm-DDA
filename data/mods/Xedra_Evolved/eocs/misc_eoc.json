@@ -28,7 +28,7 @@
             { "compare_string": [ "DREAMER", { "context_val": "school" } ] },
             { "compare_string": [ "DREAMSMITH", { "context_val": "school" } ] },
             { "compare_string": [ "INVENTOR", { "context_val": "school" } ] },
-            { "compare_string": [ "CHANGELING_NAGIC", { "context_val": "school" } ] },
+            { "compare_string": [ "CHANGELING_MAGIC", { "context_val": "school" } ] },
             { "compare_string": [ "CHANGELING_SEASONAL_MAGIC_SPRING", { "context_val": "school" } ] },
             { "compare_string": [ "CHANGELING_SEASONAL_MAGIC_SUMMER", { "context_val": "school" } ] },
             { "compare_string": [ "CHANGELING_SEASONAL_MAGIC_AUTUMN", { "context_val": "school" } ] },
