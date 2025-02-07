@@ -64,25 +64,62 @@
     "type": "jmath_function",
     "id": "xe_fey_seasonal_magick_spring_failure_chance",
     "num_args": 0,
-    "return": "(0.15 + (global_what_is_the_season == 3 ? 0.2 : 0 ) ) - (u_skill('deduction') * 0.03)"
+    "return": "global_what_is_the_season == 3 ? max(xe_fey_seasonal_magick_spring_failure_chance_actual(), 0.05) : xe_fey_seasonal_magick_spring_failure_chance_actual()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_spring_failure_chance_actual",
+    "//": "This and below separations are necessary to keep the 'You cannot go below 5% chance to fail in the opposite season' logic",
+    "num_args": 0,
+    "return": "(0.15 + (global_what_is_the_season == 2 ? 0.15 : 0 ) + (global_what_is_the_season == 3 ? 0.35 : 0 ) + (global_what_is_the_season == 4 ? 0.15 : 0 ) + (u_spell_difficulty(_spell_id) * 0.09 ) + xe_fey_magick_mana_penalty() ) - ( (u_skill('deduction') * 0.06) + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.04) )"
   },
   {
     "type": "jmath_function",
     "id": "xe_fey_seasonal_magick_summer_failure_chance",
     "num_args": 0,
-    "return": "(0.15 + (global_what_is_the_season == 4 ? 0.2 : 0 ) ) - (u_skill('deduction') * 0.03)"
+    "return": "global_what_is_the_season == 4 ? max(xe_fey_seasonal_magick_summer_failure_chance_actual(), 0.05) : xe_fey_seasonal_magick_summer_failure_chance_actual()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_summer_failure_chance_actual",
+    "num_args": 0,
+    "return": "(0.15 + (global_what_is_the_season == 1 ? 0.15 : 0 ) + (global_what_is_the_season == 3 ? 0.15 : 0 ) + (global_what_is_the_season == 4 ? 0.35 : 0 ) + (u_spell_difficulty(_spell_id) * 0.09 ) + xe_fey_magick_mana_penalty() ) - ( (u_skill('deduction') * 0.06) + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 0.04) )"
   },
   {
     "type": "jmath_function",
     "id": "xe_fey_seasonal_magick_autumn_failure_chance",
     "num_args": 0,
-    "return": "(0.15 + (global_what_is_the_season == 1 ? 0.2 : 0 ) ) - (u_skill('deduction') * 0.03)"
+    "return": "global_what_is_the_season == 1 ? max(xe_fey_seasonal_magick_autumn_failure_chance_actual(), 0.05) : xe_fey_seasonal_magick_autumn_failure_chance_actual()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_autumn_failure_chance_actual",
+    "num_args": 0,
+    "return": "(0.15 + (global_what_is_the_season == 1 ? 0.35 : 0 ) + (global_what_is_the_season == 2 ? 0.15 : 0 ) + (global_what_is_the_season == 4 ? 0.15 : 0 ) + (u_spell_difficulty(_spell_id) * 0.09 ) + xe_fey_magick_mana_penalty() ) - ( (u_skill('deduction') * 0.06) + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.04) )"
   },
   {
     "type": "jmath_function",
     "id": "xe_fey_seasonal_magick_winter_failure_chance",
     "num_args": 0,
-    "return": "(0.15 + (global_what_is_the_season == 2 ? 0.2 : 0 ) ) - (u_skill('deduction') * 0.03)"
+    "return": "global_what_is_the_season == 2 ? max(xe_fey_seasonal_magick_winter_failure_chance_actual(), 0.05) : xe_fey_seasonal_magick_winter_failure_chance_actual()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_winter_failure_chance_actual",
+    "num_args": 0,
+    "return": "(0.15 + (global_what_is_the_season == 1 ? 0.15 : 0 ) + (global_what_is_the_season == 2 ? 0.35 : 0 ) + (global_what_is_the_season == 3 ? 0.15 : 0 ) + (u_spell_difficulty(_spell_id) * 0.09 ) + xe_fey_magick_mana_penalty() ) - ( (u_skill('deduction') * 0.06) + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.04) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_magick_mana_penalty",
+    "num_args": 0,
+    "return": "u_val('mana') < (u_val('mana_max') / 2) ? xe_fey_magick_mana_penalty_secondary() : 0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_magick_mana_penalty_secondary",
+    "num_args": 0,
+    "return": "(1 - ( u_val('mana') / u_val('mana_max') ) - 0.2) / 1.5"
   },
   {
     "type": "jmath_function",
