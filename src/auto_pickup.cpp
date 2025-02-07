@@ -374,11 +374,9 @@ void user_interface::show()
         locx += shortcut_print( w_header, point( locx + 1, 0 ),
                                 ( get_option<bool>( "AUTO_PICKUP" ) ? c_light_green : c_light_red ), c_white,
                                 ( get_option<bool>( "AUTO_PICKUP" ) ? _( "True" ) : _( "False" ) ) );
-        std::string desc = string_format( " %s ", ctxt.get_desc( "SWITCH_AUTO_PICKUP_OPTION",
-                                            _( "Switch" ) ) );
-        fold_and_print( w_header, point( locx + 1, 0 ), 0, c_white, desc );
-        
-        std::string desc_2 = string_format( "%s", ctxt.get_desc( "HELP_KEYBINDINGS", _( "Display keybindings" ) ) );
+        std::string desc_2 = string_format( "%s", ctxt.get_desc( "HELP_KEYBINDINGS",
+                                            _( "Display keybindings" ) ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_header, point( 0, 1 ), 0, c_white, desc_2 );
 
         wattron( w_header, c_light_gray );
