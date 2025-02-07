@@ -323,20 +323,14 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
         }
     }
 
-    if( !read_from_file_optional_json( quad_path, [this]( const JsonValue & jsin ) {
-    deserialize( jsin );
-    } ) ) {
-        // If it doesn't exist, trigger generating it.
-        return nullptr;
-    }
-    // fill in uniform submaps that were not serialized
+    read_from_file_optional_json( quad_path, [this]( const JsonValue & jsin ) {
+        deserialize( jsin );
+    } );
+
+    // fill in uniform submaps that were not serialized. Note that failure if it's not
+    // uniform is OK and results in a return of nullptr.
     oter_id const oid = overmap_buffer.ter( om_addr );
     generate_uniform_omt( project_to<coords::sm>( om_addr ), oid );
-    if( submaps.count( p ) == 0 ) {
-        debugmsg( "file %s did not contain the expected submap %s for non-uniform terrain %s",
-                  quad_path.generic_u8string(), p.to_string(), oid.id().str() );
-        return nullptr;
-    }
     return submaps[ p ].get();
 }
 
