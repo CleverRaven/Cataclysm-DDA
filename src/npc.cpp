@@ -698,6 +698,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         add_default_background();
         set_skills_from_hobbies( true ); // Only trains skills that are still at 0 at this point
         set_proficiencies_from_hobbies();
+        set_recipes_from_hobbies();
         set_bionics_from_hobbies(); // Just in case, for mods
     }
 
