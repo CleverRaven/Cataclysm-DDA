@@ -16,6 +16,26 @@ const comittish = process.argv[4];
 const repo = process.env.REPOSITORY_NAME
 const owner = process.env.GITHUB_REPOSITORY_OWNER
 
+function format_request_error(error) {
+    // Octokit promises that all errors are https://github.com/octokit/request-error.js
+    try {
+        let out = `${error} (error ${error.name} code ${error.status})`;
+        if (error.response?.data){
+            // the response data is not the raw bytes we get from the server, but already
+            // preprocessed and typified object. There's *probably* not much extra info
+            // we can glean from this, but we shall try regardless
+            out += "\n";
+            let data = error.response.data;
+            for(let key of Object.keys(data)){
+                out += `  ${key}: ${data[key]}\n`
+            }
+        }
+        return out;
+    } catch (e) {
+        return `${error}`;
+    }
+}
+
 async function main() {
   const client = github.getOctokit(token);
 
@@ -29,10 +49,9 @@ async function main() {
       },
     }
   ).catch((e) =>{
-    throw `${e} ...when getting latest release`;
+    throw `${format_request_error(e)} ...when getting latest release`;
   })
 
-  let previousTag = null;
   if (latestReleaseResponse.data) {
     for (const responseData of latestReleaseResponse.data) {
       if (responseData.draft == false && responseData.prerelease == true) {
@@ -55,7 +74,7 @@ async function main() {
       },
     }
   ).catch((e) =>{
-    throw `${e} ...when asking github to autogenerate release notes since tag '${previousTag}'`;
+    throw `${format_request_error(e)} ...when asking github to autogenerate release notes since tag '${previousTag}'`;
   });
 
   const noteSections = response.data.body?.split('\n\n');
