@@ -2076,6 +2076,12 @@
         "append": true
       },
       {
+        "id": "pin_pride_progress",
+        "name": { "str": "progress pride pin" },
+        "description": "This one has the pride flag on it.",
+        "append": true
+      },
+      {
         "id": "pin_pride_bi",
         "name": { "str": "pride pin, bisexual", "str_pl": "pride pins, bisexual" },
         "description": "This one has the bisexual pride flag on it.",
@@ -2103,6 +2109,18 @@
         "id": "pin_pride_wlw",
         "name": { "str": "pride pin, lesbian", "str_pl": "pride pins, lesbian" },
         "description": "This one has the lesbian pride flag on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pride_labrys",
+        "name": { "str": "pride pin, labrys lesbian", "str_pl": "pride pins, labrys lesbian" },
+        "description": "This one has the labrys lesbian pride flag on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pride_poly",
+        "name": { "str": "pride pin, polysexual", "str_pl": "pride pins, polysexual" },
+        "description": "This one has the polysexual pride flag on it.",
         "append": true
       },
       {
