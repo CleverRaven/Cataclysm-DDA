@@ -261,7 +261,7 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
         // Move stuff at random!
         auto item_iterator = md.i_at( current_tile.xy() ).begin();
         while( item_iterator != md.i_at( current_tile.xy() ).end() ) {
-            if( x_in_y( 30, 100 ) ) {
+            if( x_in_y( 10, 100 ) ) {
                 // pick a new spot...
                 tripoint_bub_ms destination_tile( current_tile.x() + rng( -3, 3 ),
                                                   current_tile.y() + rng( -3, 3 ),
@@ -269,8 +269,9 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
                 // oops, don't place out of bounds. just skip moving
                 const bool outbounds_X = destination_tile.x() < 0 || destination_tile.x() >= SEEX * 2;
                 const bool outbounds_Y = destination_tile.y() < 0 || destination_tile.y() >= SEEY * 2;
-                const bool would_be_destroyed = md.has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, destination_tile );
-                if( outbounds_X || outbounds_Y || would_be_destroyed ) {
+                const bool cannot_place = md.has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, destination_tile ) ||
+                                          md.has_flag( ter_furn_flag::TFLAG_NOITEM, destination_tile ) || !md.has_floor( destination_tile );
+                if( outbounds_X || outbounds_Y || cannot_place ) {
                     item_iterator++;
                     continue;
                 } else {
@@ -461,6 +462,12 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                 }
             }
         }
+
+        // Apply post-process generators
+        if( ( any_missing || !save_results ) && overmap_buffer.ter( {p.x(), p.y(), gridz} )->has_flag(
+                oter_flags::pp_generate_riot_damage ) ) {
+            GENERATOR_riot_damage( *this, { p.x(), p.y(), gridz } );
+        }
     }
 
     if( save_results ) {
@@ -479,11 +486,6 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                 }
             }
         }
-    }
-
-    // Apply post-process generators
-    if( overmap_buffer.ter( p )->has_flag( oter_flags::pp_generate_riot_damage ) ) {
-        GENERATOR_riot_damage( *this, p );
     }
 
     set_abs_sub( p_sm_base );
