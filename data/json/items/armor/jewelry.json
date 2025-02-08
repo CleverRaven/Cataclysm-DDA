@@ -1759,6 +1759,130 @@
     "description": "A star-shaped plastic badge.  \"Foodkid\" is printed on it in bold letters.  This badge marks its wearer as Foodperson's trusty sidekick, and comes included with every kid's meal at Foodplace."
   },
   {
+    "id": "pin_badge",
+    "copy-from": "badge_abstract",
+    "type": "ARMOR",
+    "name": { "str": "pin" },
+    "material": [ "steel" ],
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
+    "weight": "4 g",
+    "volume": "10 ml",
+    "//": "Measured my own pin.  Hopefully the NB ones are universal.",
+    "description": "A small piece of metal with a pin, meant to affix itself to an article of clothing.  It's mainly used on jackets or backpacks, as a way to show off what bands you listen to, or other things like your pronouns.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "pin_pronoun_nb",
+        "name": { "str": "pronoun pin (they/them)", "str_pl": "pronoun pins (they/them)" },
+        "description": "This one has the pronouns \"they/them\" on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pronoun_fem",
+        "name": { "str": "pronoun pin (she/her)", "str_pl": "pronoun pins (she/her)" },
+        "description": "This one has the pronouns \"she/her\" on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pronoun_masc",
+        "name": { "str": "pronoun pin (he/him)", "str_pl": "pronoun pins (he/him)" },
+        "description": "This one has the pronouns \"he/him\" on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pronoun_it",
+        "name": { "str": "pronoun pin (it/its)", "str_pl": "pronoun pins (it/its)" },
+        "description": "This one has the pronouns \"it/its\" on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pride",
+        "name": { "str": "pride pin" },
+        "description": "This one has the pride flag on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pride_progress",
+        "name": { "str": "progress pride pin" },
+        "description": "This one has the progress pride flag on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pride_bi",
+        "name": { "str": "pride pin, bisexual", "str_pl": "pride pins, bisexual" },
+        "description": "This one has the bisexual pride flag on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pride_pan",
+        "name": { "str": "pride pin, pansexual", "str_pl": "pride pins, pansexual" },
+        "description": "This one has the pansexual pride flag on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pride_ace",
+        "name": { "str": "pride pin, asexual", "str_pl": "pride pins, asexual" },
+        "description": "This one has the asexual pride flag on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pride_aro",
+        "name": { "str": "pride pin, aromantic", "str_pl": "pride pins, aromantic" },
+        "description": "This one has the aromantic pride flag on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pride_wlw",
+        "name": { "str": "pride pin, lesbian", "str_pl": "pride pins, lesbian" },
+        "description": "This one has the lesbian pride flag on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pride_poly",
+        "name": { "str": "pride pin, polysexual", "str_pl": "pride pins, polysexual" },
+        "description": "This one has the polysexual pride flag on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pride_trans",
+        "name": { "str": "pride pin, transgender", "str_pl": "pride pins, transgender" },
+        "description": "This one has the transgender pride flag on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pride_nb",
+        "name": { "str": "pride pin, non-binary", "str_pl": "pride pins, non-binary" },
+        "description": "This one has the non-binary pride flag on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pride_agender",
+        "name": { "str": "pride pin, agender", "str_pl": "pride pins, agender" },
+        "description": "This one has the agender pride flag on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pride_gender",
+        "name": { "str": "pride pin, genderqueer", "str_pl": "pride pins, genderqueer" },
+        "description": "This one has the genderqueer pride flag on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pride_genderfluid",
+        "name": { "str": "pride pin, genderfluid", "str_pl": "pride pins, genderfluid" },
+        "description": "This one has the genderfluid pride flag on it.",
+        "append": true
+      },
+      {
+        "id": "pin_pride_intersex",
+        "name": { "str": "pride pin, intersex", "str_pl": "pride pins, intersex" },
+        "description": "This one has the intersex pride flag on it.",
+        "append": true
+      }
+    ]
+  },
+  {
     "id": "fur_cat_ears",
     "type": "ARMOR",
     "name": { "str": "pair of fuzzy cat ears", "str_pl": "pairs of fuzzy cat ears" },
