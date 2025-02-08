@@ -2508,7 +2508,7 @@ class MapgenRemovePartHandler : public RemovePartHandler
 
         ~MapgenRemovePartHandler() override = default;
 
-        void unboard( map * /*here*/, const tripoint_bub_ms&/*loc*/) override {
+        void unboard( map * /*here*/, const tripoint_bub_ms &/*loc*/ ) override {
             debugmsg( "Tried to unboard during mapgen!" );
             // Ignored. Will almost certainly not be called anyway, because
             // there are no creatures that could have been mounted during mapgen.

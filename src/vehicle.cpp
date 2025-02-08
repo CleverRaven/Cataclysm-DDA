@@ -1091,7 +1091,7 @@ void vehicle::backfire( map *here, const vehicle_part &vp ) const
     const std::string text = _( "a loud BANG! from the %s" ); // NOLINT(cata-text-style);
     const tripoint_bub_ms pos = bub_part_pos( here, vp );
     const int volume = 40 + units::to_watt( part_vpower_w( *here, vp, true ) ) / 10000;
-    if( here = &get_map() ) { // TODO: Make sound handling map aware.
+    if( here == &get_map() ) { // TODO: Make sound handling map aware.
         sounds::sound( pos, volume, sounds::sound_t::movement,
                        string_format( text, vp.name() ), true, "vehicle", "engine_backfire" );
     }
