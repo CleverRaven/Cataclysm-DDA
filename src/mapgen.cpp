@@ -291,19 +291,13 @@ static void place_blood_on_adjacent( map &md, const tripoint_bub_ms &current_til
 
 static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
 {
-
-
     int streak_length = rng( 3, 12 );
     int streak_direction = rng( static_cast<int>( blood_trail_direction::first ),
                                 static_cast<int>( blood_trail_direction::last ) );
 
-    bool wall_streak = false;
+    bool wall_streak = md.has_flag_ter_or_furn(ter_furn_flag::TFLAG_WALL, current_tile);
 
-    if( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile ) ) {
-        wall_streak = true;
-    }
-
-    if( tile_can_have_blood( md, current_tile, wall_streak ) ) {
+    if( !tile_can_have_blood( md, current_tile, wall_streak ) ) {
         // Quick check the tile is valid.
         return;
     }
@@ -452,8 +446,8 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
             }
         }
         // Set some fields at random!
-        if( x_in_y( 1, 100 ) ) {
-            int behavior_roll = rng( 15, 1000 );
+        if( x_in_y( 15, 1000 ) ) {
+            int behavior_roll = rng( 1, 100 );
 
             if( behavior_roll <= 20 ) {
                 md.add_field( current_tile, field_fd_blood );
