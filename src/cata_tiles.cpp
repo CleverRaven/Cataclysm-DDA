@@ -3934,7 +3934,7 @@ bool cata_tiles::draw_vpart( const tripoint_bub_ms &p, lit_level ll, int &height
             const int subtile = vd.is_open ? open_ : vd.is_broken ? broken : 0;
             const int rotation = angle_to_dir4( 270_degrees - veh.face.dir() );
             avatar &you = get_avatar();
-            if( !veh.forward_velocity() && !veh.player_in_control( you )
+            if( !veh.forward_velocity() && !veh.player_in_control( here, you )
                 && !( you.get_grab_type() == object_type::VEHICLE
                       && veh.get_points().count( ( you.pos_abs() + you.grab_point ) ) )
                 && here.memory_cache_dec_is_dirty( p ) ) {

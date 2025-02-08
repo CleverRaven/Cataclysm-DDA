@@ -749,7 +749,7 @@ static void grab()
                 return;
             }
             get_player_character().pause();
-            vp->vehicle().separate_from_grid( vp.value().mount_pos() );
+            vp->vehicle().separate_from_grid( &here, vp.value().mount_pos() );
             if( const optional_vpart_position &split_vp = here.veh_at( grabp ) ) {
                 veh_name = split_vp->vehicle().name;
             } else {
@@ -1167,7 +1167,7 @@ static void wait()
 
     if( player_character.controlling_vehicle ) {
         const vehicle &veh = here.veh_at( player_character.pos_bub() )->vehicle();
-        if( !veh.can_use_rails() && (   // control optional if on rails
+        if( !veh.can_use_rails( here ) && ( // control optional if on rails
                 veh.is_flying_in_air() ||   // control required: fuel is consumed even at hover
                 veh.is_falling ||           // *not* vertical_velocity, which is only used for collisions
                 veh.velocity ||             // is moving
@@ -2110,11 +2110,13 @@ static void handle_debug_mode()
 
 static bool has_vehicle_control( avatar &player_character )
 {
+    map &here = get_map();
+
     if( player_character.is_dead_state() ) {
         return false;
     }
-    const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
-    if( vp && vp->vehicle().player_in_control( player_character ) ) {
+    const optional_vpart_position vp = here.veh_at( player_character.pos_bub() );
+    if( vp && vp->vehicle().player_in_control( here, player_character ) ) {
         return true;
     }
     return g->remoteveh() != nullptr;
@@ -2355,7 +2357,6 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
                 if( get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MOPPING" ) &&
                     weapon && weapon->has_flag( json_flag_MOP ) ) {
-                    map &here = get_map();
                     const bool is_blind = player_character.is_blind();
                     for( const tripoint_bub_ms &point : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
                         bool did_mop = false;
@@ -2387,8 +2388,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             }
 
             if( has_vehicle_control( player_character ) ) {
-                const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
-                if( vp->vehicle().is_rotorcraft() ) {
+                const optional_vpart_position vp = here.veh_at( player_character.pos_bub() );
+                if( vp->vehicle().is_rotorcraft( here ) ) {
                     pldrive( tripoint_rel_ms::below );
                     break;
                 }
@@ -2445,8 +2446,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( !player_character.in_vehicle ) {
                 vertical_move( 1, false );
             } else if( has_vehicle_control( player_character ) ) {
-                const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
-                if( vp->vehicle().is_rotorcraft() ) {
+                const optional_vpart_position vp = here.veh_at( player_character.pos_bub() );
+                if( vp->vehicle().is_rotorcraft( here ) ) {
                     pldrive( tripoint_rel_ms::above );
                 }
             }

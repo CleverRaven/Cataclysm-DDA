@@ -2370,13 +2370,13 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
         }
 
         WHEN( "the tank contains liquid" ) {
-            REQUIRE( veh->fuel_left( itype_water ) == 0 );
+            REQUIRE( veh->fuel_left( here, itype_water ) == 0 );
             int charges = 50;
             for( const vpart_reference &tank : veh->get_avail_parts( vpart_bitflags::VPFLAG_FLUIDTANK ) ) {
                 tank.part().ammo_set( itype_water, charges );
                 charges = 0;
             }
-            REQUIRE( veh->fuel_left( itype_water ) == 50 );
+            REQUIRE( veh->fuel_left( here, itype_water ) == 50 );
 
             THEN( "crafting inventory does not contain the liquid" ) {
                 player.invalidate_crafting_inventory();

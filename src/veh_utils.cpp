@@ -93,6 +93,8 @@ vehicle_part *most_repairable_part( vehicle &veh, Character &who )
 
 bool repair_part( vehicle &veh, vehicle_part &pt, Character &who )
 {
+    map &here = get_map();
+
     const vpart_info &vp = pt.info();
 
     const requirement_data reqs = pt.is_broken()
@@ -140,7 +142,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who )
         const point_rel_ms mount = pt.mount;
         const units::angle direction = pt.direction;
         const std::string variant = pt.variant;
-        get_map().spawn_items( who.pos_bub(), pt.pieces_for_broken_part() );
+        here.spawn_items( who.pos_bub( &here ), pt.pieces_for_broken_part() );
         veh.remove_part( pt );
         const int partnum = veh.install_part( mount, vpid, std::move( base ) );
         if( partnum >= 0 ) {
@@ -148,7 +150,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who )
             vp.direction = direction;
             vp.variant = variant;
         }
-        veh.part_removal_cleanup();
+        veh.part_removal_cleanup( here );
         who.add_msg_if_player( m_good, _( "You replace the %1$s's %2$s. (was %3$s)" ),
                                veh.name, partname, startdurability );
     } else {

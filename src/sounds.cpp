@@ -881,6 +881,8 @@ int sfx::set_channel_volume( channel channel, int volume )
 
 void sfx::do_vehicle_engine_sfx()
 {
+    map &here = get_map();
+
     if( test_mode ) {
         return;
     }
@@ -899,7 +901,7 @@ void sfx::do_vehicle_engine_sfx()
     } else if( player_character.in_sleep_state() && audio_muted ) {
         return;
     }
-    optional_vpart_position vpart_opt = get_map().veh_at( player_character.pos_bub() );
+    optional_vpart_position vpart_opt = here.veh_at( player_character.pos_bub( &here ) );
     vehicle *veh;
     if( vpart_opt.has_value() ) {
         veh = &vpart_opt->vehicle();
@@ -955,9 +957,9 @@ void sfx::do_vehicle_engine_sfx()
     // Getting the safe speed for a stationary vehicle is expensive and unnecessary, so the calculation
     // is delayed until it is needed.
     std::optional<int> safe_speed_cached;
-    auto safe_speed = [veh, &safe_speed_cached]() {
+    auto safe_speed = [veh, &safe_speed_cached, &here]() {
         if( !safe_speed_cached ) {
-            safe_speed_cached = veh->safe_velocity();
+            safe_speed_cached = veh->safe_velocity( here );
         }
         return *safe_speed_cached;
     };

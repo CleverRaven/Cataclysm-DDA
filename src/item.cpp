@@ -11231,6 +11231,8 @@ int item::shots_remaining( const Character *carrier ) const
 int item::ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier,
                           const bool include_linked ) const
 {
+    map &here = get_map();
+
     const bool is_tool_with_carrier = carrier != nullptr && is_tool();
 
     if( is_tool_with_carrier && has_flag( flag_USES_NEARBY_AMMO ) && !ammo.empty() ) {
@@ -11250,11 +11252,11 @@ int item::ammo_remaining( const std::set<ammotype> &ammo, const Character *carri
     // Cable connections
     if( include_linked && link_length() >= 0 && link().efficiency >= MIN_LINK_EFFICIENCY ) {
         if( link().t_veh ) {
-            ret += link().t_veh->connected_battery_power_level().first;
+            ret += link().t_veh->connected_battery_power_level( here ).first;
         } else {
-            const optional_vpart_position vp = get_map().veh_at( link().t_abs_pos );
+            const optional_vpart_position vp = here.veh_at( link().t_abs_pos );
             if( vp ) {
-                ret += vp->vehicle().connected_battery_power_level().first;
+                ret += vp->vehicle().connected_battery_power_level( here ).first;
             }
         }
     }
@@ -11382,9 +11384,11 @@ int item::remaining_ammo_capacity() const
 
 int item::ammo_capacity( const ammotype &ammo, bool include_linked ) const
 {
+    map &here = get_map();
+
     const item *mag = magazine_current();
     if( include_linked && has_link_data() ) {
-        return link().t_veh ? link().t_veh->connected_battery_power_level().second : 0;
+        return link().t_veh ? link().t_veh->connected_battery_power_level( here ).second : 0;
     } else if( mag ) {
         return mag->ammo_capacity( ammo );
     } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
@@ -11490,11 +11494,11 @@ int item::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, Characte
     // Consume power from appliances/vehicles connected with cables
     if( has_link_data() ) {
         if( link().t_veh && link().efficiency >= MIN_LINK_EFFICIENCY ) {
-            qty = link().t_veh->discharge_battery( qty, true );
+            qty = link().t_veh->discharge_battery( *here, qty, true );
         } else {
             const optional_vpart_position vp = here->veh_at( link().t_abs_pos );
             if( vp ) {
-                qty = vp->vehicle().discharge_battery( qty, true );
+                qty = vp->vehicle().discharge_battery( *here, qty, true );
             }
         }
     }
@@ -14081,6 +14085,8 @@ ret_val<void> item::link_to( const optional_vpart_position &first_linked_vp,
 
 ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state link_type )
 {
+    map &here = get_map();
+
     if( !can_link_up() ) {
         return ret_val<void>::make_failure( _( "The %s doesn't have a cable!" ), type_name() );
     }
@@ -14141,7 +14147,7 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
         return ret_val<void>::make_failure();
     }
     if( !link().t_veh ) {
-        vehicle *found_veh = vehicle::find_vehicle( link().t_abs_pos );
+        vehicle *found_veh = vehicle::find_vehicle( here, link().t_abs_pos );
         if( found_veh ) {
             link().t_veh = found_veh->get_safe_reference();
         } else {
@@ -14359,7 +14365,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
 
     // Re-establish vehicle pointer if it got lost or if this item just got loaded.
     if( !link().t_veh ) {
-        vehicle *found_veh = vehicle::find_vehicle( link().t_abs_pos );
+        vehicle *found_veh = vehicle::find_vehicle( here, link().t_abs_pos );
         if( !found_veh ) {
             return reset_link( true, carrier, -2, true, pos );
         }
@@ -14475,6 +14481,8 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
 
 int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
 {
+    map &here = get_map();
+
     if( !has_link_data() || link().charge_rate == 0 || link().charge_interval < 1 ) {
         return 0;
     }
@@ -14506,7 +14514,7 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
                          ( turns_elapsed * 1.0f / link().charge_interval ) * link().charge_interval;
 
     if( power_in ) {
-        const int battery_deficit = linked_veh.discharge_battery( transfer_total, true );
+        const int battery_deficit = linked_veh.discharge_battery( here, transfer_total, true );
         // Around 85% efficient by default; a few of the discharges don't actually recharge
         if( battery_deficit == 0 && ( !short_time_passed || rng_float( 0.0, 1.0 ) <= link().efficiency ) ) {
             ammo_set( itype_battery, ammo_remaining() + transfer_total );
@@ -14514,12 +14522,12 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
     } else {
         // Around 85% efficient by default; a few of the discharges don't actually charge
         if( !short_time_passed || rng_float( 0.0, 1.0 ) <= link().efficiency ) {
-            const int battery_surplus = linked_veh.charge_battery( transfer_total, true );
+            const int battery_surplus = linked_veh.charge_battery( here, transfer_total, true );
             if( battery_surplus == 0 ) {
                 ammo_set( itype_battery, ammo_remaining() - transfer_total );
             }
         } else {
-            const std::pair<int, int> linked_levels = linked_veh.connected_battery_power_level();
+            const std::pair<int, int> linked_levels = linked_veh.connected_battery_power_level( here );
             if( linked_levels.first < linked_levels.second ) {
                 ammo_set( itype_battery, ammo_remaining() - transfer_total );
             }

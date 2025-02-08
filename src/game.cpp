@@ -1187,10 +1187,12 @@ vehicle *game::place_vehicle_nearby(
     const vproto_id &id, const point_abs_omt &origin, int min_distance,
     int max_distance, const std::vector<std::string> &omt_search_types )
 {
+    map &here = get_map();
+
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
         const vehicle &veh = *id->blueprint;
-        if( veh.max_ground_velocity() == 0 && veh.can_float() ) {
+        if( veh.max_ground_velocity( here ) == 0 && veh.can_float() ) {
             search_types.emplace_back( "river" );
             search_types.emplace_back( "lake" );
             search_types.emplace_back( "ocean" );
@@ -1455,6 +1457,8 @@ static int veh_lumi( vehicle &veh )
 
 void game::calc_driving_offset( vehicle *veh )
 {
+    map &here = get_map();
+
     if( veh == nullptr || !get_option<bool>( "DRIVING_VIEW_OFFSET" ) ) {
         set_driving_view_offset( point_rel_ms::zero );
         return;
@@ -1476,7 +1480,7 @@ void game::calc_driving_offset( vehicle *veh )
                                  vehicles::vmiph_per_tile;
     float velocity = veh->velocity;
     rl_vec2d offset = veh->move_vec();
-    if( !veh->skidding && veh->player_in_control( u ) &&
+    if( !veh->skidding && veh->player_in_control( here,  u ) &&
         std::abs( veh->cruise_velocity - veh->velocity ) < 7 * vehicles::vmiph_per_tile ) {
         // Use cruise_velocity, but only if
         // it is not too different from the actual velocity.
@@ -2808,6 +2812,8 @@ input_context get_default_mode_input_context()
 
 vehicle *game::remoteveh()
 {
+    map &here = get_map();
+
     if( calendar::turn == remoteveh_cache_time ) {
         return remoteveh_cache;
     }
@@ -2820,7 +2826,7 @@ vehicle *game::remoteveh()
         tripoint_bub_ms vp;
         remote_veh_string >> vp.x() >> vp.y() >> vp.z();
         vehicle *veh = veh_pointer_or_null( m.veh_at( vp ) );
-        if( veh && veh->fuel_left( itype_battery ) > 0 ) {
+        if( veh && veh->fuel_left( here, itype_battery ) > 0 ) {
             remoteveh_cache = veh;
         } else {
             remoteveh_cache = nullptr;
@@ -5828,7 +5834,7 @@ void game::control_vehicle()
 
     if( vehicle *remote_veh = remoteveh() ) { // remote controls have priority
         for( const vpart_reference &vpr : remote_veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
-            remote_veh->interact_with( vpr.pos_bub( &here ) );
+            remote_veh->interact_with( &here, vpr.pos_bub( &here ) );
             return;
         }
     }
@@ -5841,10 +5847,10 @@ void game::control_vehicle()
         const bool reins_ok = reins_idx >= 0 // reins + animal available to "drive"
                               && veh->has_engine_type( fuel_type_animal, false )
                               && veh->get_harnessed_animal();
-        if( veh->player_in_control( u ) ) {
+        if( veh->player_in_control( here, u ) ) {
             // player already "driving" - offer ways to leave
             if( controls_ok ) {
-                veh->interact_with( u.pos_bub() );
+                veh->interact_with( &here, u.pos_bub() );
             } else if( reins_idx >= 0 ) {
                 u.controlling_vehicle = false;
                 add_msg( m_info, _( "You let go of the reins." ) );
@@ -5852,7 +5858,7 @@ void game::control_vehicle()
         } else if( u.in_vehicle && ( controls_ok || reins_ok ) ) {
             // player not driving but has controls or reins on tile
             if( veh->is_locked ) {
-                veh->interact_with( u.pos_bub() );
+                veh->interact_with( &here, u.pos_bub() );
                 return; // interact_with offers to hotwire
             }
             if( !veh->handle_potential_theft( u ) ) {
@@ -5936,7 +5942,7 @@ void game::control_vehicle()
             if( !veh->handle_potential_theft( u ) ) {
                 return;
             }
-            veh->interact_with( *vehicle_position );
+            veh->interact_with( &here, *vehicle_position );
         }
     }
     if( veh ) {
@@ -6115,10 +6121,12 @@ bool game::npc_menu( npc &who )
 
 void game::examine( bool with_pickup )
 {
+    map &here = get_map();
+
     // if we are driving a vehicle, examine the
     // current tile without asking.
     const optional_vpart_position vp = m.veh_at( u.pos_bub() );
-    if( vp && vp->vehicle().player_in_control( u ) ) {
+    if( vp && vp->vehicle().player_in_control( here, u ) ) {
         examine( u.pos_bub(), with_pickup );
         return;
     }
@@ -6256,7 +6264,7 @@ void game::examine( const tripoint_bub_ms &examp, bool with_pickup )
     if( vp ) {
         if( !u.is_mounted() || u.mounted_creature->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             if( !vp->vehicle().is_appliance() ) {
-                vp->vehicle().interact_with( examp, with_pickup );
+                vp->vehicle().interact_with( &m, examp, with_pickup );
             } else {
                 g->exam_appliance( vp->vehicle(), vp->mount_pos() );
             }
@@ -10389,6 +10397,8 @@ void game::reload_weapon( bool try_everything )
 
 void game::wield( item_location loc )
 {
+    map &here = get_map();
+
     if( !loc ) {
         debugmsg( "ERROR: tried to wield null item" );
         return;
@@ -10476,7 +10486,7 @@ void game::wield( item_location loc )
             case item_location::type::vehicle: {
                 const std::optional<vpart_reference> ovp = m.veh_at( pos ).cargo();
                 // If we fail to return the item to the vehicle for some reason, add it to the map instead.
-                if( !ovp || !ovp->vehicle().add_item( ovp->part(), to_wield ) ) {
+                if( !ovp || !ovp->vehicle().add_item( here, ovp->part(), to_wield ) ) {
                     m.add_item( pos, to_wield );
                 }
                 break;

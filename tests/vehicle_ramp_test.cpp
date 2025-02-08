@@ -128,12 +128,12 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
     const int target_velocity = 400;
     veh.cruise_velocity = target_velocity;
     veh.velocity = target_velocity;
-    CHECK( veh.safe_velocity() > 0 );
+    CHECK( veh.safe_velocity( here ) > 0 );
     int cycles = 0;
     const int target_z = use_ramp ? ( up ? 1 : -1 ) : 0;
 
     std::set<tripoint_abs_ms> vpts = veh.get_points();
-    while( veh.engine_on && veh.safe_velocity() > 0 && cycles < 10 ) {
+    while( veh.engine_on && veh.safe_velocity( here ) > 0 && cycles < 10 ) {
         clear_creatures();
         CAPTURE( cycles );
         for( const tripoint_abs_ms &checkpt : vpts ) {
@@ -263,7 +263,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     const int target_velocity = 800;
     veh.cruise_velocity = target_velocity;
     veh.velocity = target_velocity;
-    CHECK( veh.safe_velocity() > 0 );
+    CHECK( veh.safe_velocity( here ) > 0 );
 
     std::vector<vehicle_part *> all_parts;
     for( const tripoint_abs_ms &pos : veh.get_points() ) {

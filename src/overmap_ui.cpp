@@ -1792,7 +1792,7 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         }
         player_veh = &vp->vehicle();
         // for now we can only handle flyers if already in the air
-        const bool can_fly = player_veh->is_rotorcraft() && player_veh->is_flying_in_air();
+        const bool can_fly = player_veh->is_rotorcraft( here ) && player_veh->is_flying_in_air();
         const bool can_float = player_veh->can_float();
         const bool can_drive = player_veh->valid_wheel_config();
         // TODO: check engines/fuel
@@ -1801,7 +1801,7 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         } else if( can_float && !can_drive ) {
             params = overmap_path_params::for_watercraft();
         } else if( can_drive ) {
-            const float offroad_coeff = player_veh->k_traction( player_veh->wheel_area() *
+            const float offroad_coeff = player_veh->k_traction( here, player_veh->wheel_area() *
                                         player_veh->average_offroad_rating() );
             const bool tiny = player_veh->get_points().size() <= 3;
             params = overmap_path_params::for_land_vehicle( offroad_coeff, tiny, can_float );

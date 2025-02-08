@@ -929,6 +929,8 @@ std::string display::vehicle_azimuth_text( const Character &u )
 
 std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Character &u )
 {
+    map &here = get_map();
+
     // Defaults in case no vehicle is found
     std::string vel_text;
     nc_color vel_color = c_light_gray;
@@ -946,7 +948,7 @@ std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Chara
         const std::string units = get_option<std::string> ( "USE_METRIC_SPEEDS" );
         vel_text = string_format( "%d < %d %s", target, current, units );
 
-        const float strain = veh->strain();
+        const float strain = veh->strain( here );
         if( strain <= 0 ) {
             vel_color = c_light_blue;
         } else if( strain <= 0.2 ) {
@@ -962,6 +964,8 @@ std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Chara
 
 std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const Character &u )
 {
+    map &here = get_map();
+
     // Defaults in case no vehicle is found
     std::string fuel_text;
     nc_color fuel_color = c_light_gray;
@@ -979,8 +983,8 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
                 fuel_type = vp.fuel_current();
             }
         }
-        int max_fuel = veh->fuel_capacity( fuel_type );
-        int cur_fuel = veh->fuel_left( fuel_type );
+        int max_fuel = veh->fuel_capacity( here, fuel_type );
+        int cur_fuel = veh->fuel_left( here, fuel_type );
         if( max_fuel != 0 ) {
             int percent = cur_fuel * 100 / max_fuel;
             // Simple percent indicator, yellow under 25%, red under 10%

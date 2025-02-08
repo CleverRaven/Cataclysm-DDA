@@ -656,12 +656,12 @@ void map::vehmove()
         level_cache &cache = *cache_lazy;
         for( vehicle *veh : cache.vehicle_list ) {
             if( veh->is_following ) {
-                veh->drive_to_local_target( player_pos, true );
+                veh->drive_to_local_target( this, player_pos, true );
             } else if( veh->is_patrolling ) {
-                veh->autopilot_patrol();
+                veh->autopilot_patrol( this );
             }
             veh->gain_moves();
-            veh->slow_leak();
+            veh->slow_leak( *this );
             wrapped_vehicle w;
             w.v = veh;
             vehicle_list.push_back( w );
@@ -684,7 +684,7 @@ void map::vehmove()
         };
         if( std::find_if( vehicle_list.begin(), vehicle_list.end(), same_ptr ) !=
             vehicle_list.end() ) {
-            elem->part_removal_cleanup();
+            elem->part_removal_cleanup( *this );
         }
     }
     dirty_vehicle_list.clear();
@@ -697,14 +697,14 @@ void map::vehmove()
         }
         for( vehicle *veh : cache->vehicle_list ) {
             vehs[veh] = true; // force on map vehicles to true
-            veh->get_connected_vehicles( connected_vehs );
+            veh->get_connected_vehicles( *this, connected_vehs );
         }
     }
     for( vehicle *connected_veh : connected_vehs ) {
         vehs.emplace( connected_veh, false ); // add with 'false' if does not exist (off map)
     }
     for( const std::pair<vehicle *const, bool> &veh_pair : vehs ) {
-        veh_pair.first->idle( /* on_map = */ veh_pair.second );
+        veh_pair.first->idle( *this, /* on_map = */ veh_pair.second );
     }
 
     // refresh vehicle zones for moved vehicles
@@ -726,7 +726,8 @@ bool map::vehproceed( VehicleList &vehicle_list )
     // Then vertical-only movement
     if( cur_veh == nullptr ) {
         for( wrapped_vehicle &vehs_v : vehicle_list ) {
-            if( vehs_v.v->is_falling || ( vehs_v.v->is_rotorcraft() && vehs_v.v->get_z_change() != 0 ) ) {
+            if( vehs_v.v->is_falling || ( vehs_v.v->is_rotorcraft( *this ) &&
+                                          vehs_v.v->get_z_change() != 0 ) ) {
                 cur_veh = &vehs_v;
                 break;
             }
@@ -803,7 +804,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
     // Split into vertical and horizontal movement
     const int &coll_velocity = vertical ? veh.vertical_velocity : veh.velocity;
     const int velocity_before = coll_velocity;
-    if( velocity_before == 0 && !veh.is_rotorcraft() && !veh.is_flying_in_air() ) {
+    if( velocity_before == 0 && !veh.is_rotorcraft( *this ) && !veh.is_flying_in_air() ) {
         debugmsg( "%s tried to move %s with no velocity",
                   veh.name, vertical ? "vertically" : "horizontally" );
         return &veh;
@@ -866,7 +867,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
 
     const int velocity_after = coll_velocity;
     bool can_move = velocity_after != 0 && sgn( velocity_after ) == sgn( velocity_before );
-    if( dp.z() != 0 && veh.is_rotorcraft() ) {
+    if( dp.z() != 0 && veh.is_rotorcraft( *this ) ) {
         can_move = true;
     }
     units::angle coll_turn = 0_degrees;
@@ -926,7 +927,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const tiler
             veh.skidding = true;
             veh.turn( coll_turn );
         }
-        veh.on_move();
+        veh.on_move( *this );
         // Actually change position
         displace_vehicle( veh, dp1 );
         level_vehicle( veh );
@@ -1579,7 +1580,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const bool 
     }
 
     veh.shed_loose_parts( trinary::SOME, this, &dst );
-    smzs = veh.advance_precalc_mounts( dst_offset, src, dp, ramp_offset,
+    smzs = veh.advance_precalc_mounts( dst_offset, this, src, dp, ramp_offset,
                                        adjust_pos, parts_to_move );
     veh.update_active_fakes();
 
@@ -5400,6 +5401,8 @@ static bool process_map_items( map &here, item_stack &items, safe_reference<item
 
 static void process_vehicle_items( vehicle &cur_veh, int part )
 {
+    map &here = get_map();
+
     vehicle_part &vp = cur_veh.part( part );
     const vpart_info &vpi = vp.info();
 
@@ -5468,7 +5471,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
         recharge_part.last_charged = calendar::turn;
 
         if( !recharge_part.removed && recharge_part.enabled  && ( turns_elapsed > 0 ) &&
-            cur_veh.is_battery_available() ) {
+            cur_veh.is_battery_available( here ) ) {
 
             int dischargeable = turns_elapsed * recharge_part.info().bonus;
             // Convert to kilojoule
@@ -5511,7 +5514,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                     // Around 85% efficient; a few of the discharges don't actually recharge
                     const int needed_for_full_charge = ( chargeable * 7 / 6 ) + x_in_y( chargeable * 7 % 6, 6 );
                     const int to_discharge = std::min( needed_for_full_charge, dischargeable );
-                    const int discharged = to_discharge - cur_veh.discharge_battery( to_discharge );
+                    const int discharged = to_discharge - cur_veh.discharge_battery( here, to_discharge );
 
                     int charged = {};
                     if( discharged < to_discharge  || needed_for_full_charge >= dischargeable ) {
@@ -7137,7 +7140,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint_bub_ms &p,
         tercol = vd.color;
         item_sym.clear(); // clear the item symbol so `sym` is used instead.
 
-        if( !veh->forward_velocity() && !veh->player_in_control( player_character )
+        if( !veh->forward_velocity() && !veh->player_in_control( *this, player_character )
             && !( player_character.get_grab_type() == object_type::VEHICLE
                   && veh->get_points().count( ( player_character.pos_abs() +
                                                 player_character.grab_point ) ) ) ) {

@@ -918,6 +918,8 @@ void vehicle::autodrive_controller::compute_goal_zone()
 
 void vehicle::autodrive_controller::precompute_data()
 {
+    map &here = get_map();
+
     const tripoint_abs_omt current_omt = driven_veh.pos_abs_omt();
     const tripoint_abs_omt next_omt = driver.omt_path.back();
     const tripoint_abs_omt next_next_omt = driver.omt_path.size() >= 2 ?
@@ -931,15 +933,15 @@ void vehicle::autodrive_controller::precompute_data()
         // initialize car and driver properties
         data.land_ok = driven_veh.valid_wheel_config();
         data.water_ok = driven_veh.can_float();
-        data.air_ok = driven_veh.has_sufficient_rotorlift();
-        data.is_flying = driven_veh.is_rotorcraft() && driven_veh.is_flying_in_air();
+        data.air_ok = driven_veh.has_sufficient_rotorlift( here );
+        data.is_flying = driven_veh.is_rotorcraft( here ) && driven_veh.is_flying_in_air();
         data.max_speed_tps = std::min(
                                  data.is_flying ? MAX_AIR_SPEED_TPS : MAX_SPEED_TPS,
-                                 driven_veh.safe_velocity() / VMIPH_PER_TPS
+                                 driven_veh.safe_velocity( here ) / VMIPH_PER_TPS
                              );
         data.acceleration.resize( data.max_speed_tps );
         for( int speed_tps = 0; speed_tps < data.max_speed_tps; speed_tps++ ) {
-            data.acceleration[speed_tps] = driven_veh.acceleration( true, speed_tps * VMIPH_PER_TPS );
+            data.acceleration[speed_tps] = driven_veh.acceleration( here, true, speed_tps * VMIPH_PER_TPS );
         }
         // TODO: compute from driver's skill and speed stat
         // TODO: change it during simulation based on vehicle speed and terrain
@@ -1139,11 +1141,13 @@ vehicle::autodrive_controller::autodrive_controller( const vehicle &driven_veh,
 
 void vehicle::autodrive_controller::check_safe_speed()
 {
+    map &here = get_map();
+
     // We normally drive at or below the vehicle's "safe speed" (beyond which the engine starts
     // taking damage). We normally determine this at the beginning of path planning and cache it.
     // However, sometimes the vehicle's safe speed may drop (e.g. amphibious vehicle entering
     // water), so this extra check is needed to adjust our max speed.
-    int safe_speed_tps = driven_veh.safe_velocity() / VMIPH_PER_TPS;
+    int safe_speed_tps = driven_veh.safe_velocity( here ) / VMIPH_PER_TPS;
     if( data.max_speed_tps > safe_speed_tps ) {
         data.max_speed_tps = safe_speed_tps;
     }
@@ -1183,7 +1187,7 @@ collision_check_result vehicle::autodrive_controller::check_collision_zone( orie
     if( turn_dir != to_orientation( tdir.dir() ) ) {
         tdir = profile.tdir;
     }
-    const int speed = std::min( driven_veh.velocity + driven_veh.current_acceleration(),
+    const int speed = std::min( driven_veh.velocity + driven_veh.current_acceleration( here ),
                                 driven_veh.cruise_velocity );
     const int speed_tps = speed / VMIPH_PER_TPS;
     std::unordered_set<point_rel_ms> collision_zone;
@@ -1358,10 +1362,12 @@ std::vector<std::tuple<point_rel_ms, int, std::string>> vehicle::get_debug_overl
 
 autodrive_result vehicle::do_autodrive( Character &driver )
 {
+    map &here = get_map();
+
     if( !is_autodriving ) {
         return autodrive_result::abort;
     }
-    if( !player_in_control( driver ) || skidding ) {
+    if( !player_in_control( here, driver ) || skidding ) {
         driver.add_msg_if_player( m_warning, _( "You lose control as the vehicle starts skidding." ) );
         stop_autodriving( false );
         return autodrive_result::abort;

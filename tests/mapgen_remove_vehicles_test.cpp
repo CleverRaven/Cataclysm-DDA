@@ -23,7 +23,7 @@ void check_vehicle_still_works( vehicle &veh )
 {
     map &here = get_map();
     REQUIRE( here.veh_at( get_avatar().pos_bub() ).has_value() );
-    REQUIRE( veh.player_in_control( get_avatar() ) );
+    REQUIRE( veh.player_in_control( here, get_avatar() ) );
     veh.engine_on = true;
     veh.velocity = 1000;
     veh.cruise_velocity = veh.velocity;

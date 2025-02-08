@@ -213,7 +213,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     veh.engine_on = true;
 
     const int sign = in_reverse ? -1 : 1;
-    const int target_velocity = sign * std::min( 50 * 100, veh.safe_ground_velocity( false ) );
+    const int target_velocity = sign * std::min( 50 * 100, veh.safe_ground_velocity( here, false ) );
     veh.cruise_velocity = target_velocity;
     // If we aren't testing repeated cold starts, start the vehicle at cruising velocity.
     // Otherwise changing the amount of fuel in the tank perturbs the test results.
@@ -224,11 +224,11 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     int tiles_travelled = 0;
     int cycles_left = cycle_limit;
     bool accelerating = true;
-    CHECK( veh.safe_velocity() > 0 );
-    while( veh.engine_on && veh.safe_velocity() > 0 && cycles_left > 0 ) {
+    CHECK( veh.safe_velocity( here ) > 0 );
+    while( veh.engine_on && veh.safe_velocity( here ) > 0 && cycles_left > 0 ) {
         cycles_left--;
         here.vehmove();
-        veh.idle( true );
+        veh.idle( here, true );
         // If the vehicle starts skidding, the effects become random and test is RUINED
         REQUIRE( !veh.skidding );
         for( const tripoint_abs_ms &pos : veh.get_points() ) {

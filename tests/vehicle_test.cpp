@@ -83,15 +83,16 @@ TEST_CASE( "destroy_grabbed_vehicle_section", "[vehicle]" )
 
 TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
 {
+    map &here = get_map();
     clear_map();
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const tripoint_bub_ms vehicle_origin = test_origin;
-    vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_bicycle, vehicle_origin, 0_degrees,
-                       0, 0 );
+    vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_bicycle, vehicle_origin, 0_degrees,
+                                         0, 0 );
     REQUIRE( veh_ptr != nullptr );
 
     const tripoint_bub_ms pos = vehicle_origin + tripoint::west;
-    const std::optional<vpart_reference> ovp_cargo = get_map().veh_at( pos ).cargo();
+    const std::optional<vpart_reference> ovp_cargo = here.veh_at( pos ).cargo();
     REQUIRE( ovp_cargo );
     //Must not be broken yet
     REQUIRE( !ovp_cargo->part().is_broken() );
@@ -101,7 +102,7 @@ TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
     REQUIRE( ovp_cargo->part().is_broken() );
     //Now part is really broken, adding an item should fail
     const item itm2 = item( itype_jeans );
-    REQUIRE( !veh_ptr->add_item( ovp_cargo->part(), itm2 ) );
+    REQUIRE( !veh_ptr->add_item( here, ovp_cargo->part(), itm2 ) );
 }
 
 TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
@@ -482,8 +483,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
                 m.displace_vehicle( app1, tripoint_rel_ms::west );
-                app1.part_removal_cleanup();
-                app2.part_removal_cleanup();
+                app1.part_removal_cleanup( m );
+                app2.part_removal_cleanup( m );
             }
             CAPTURE( app1.pos_abs() );
             CAPTURE( app2.pos_abs() );
@@ -498,8 +499,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
                 m.displace_vehicle( app2, tripoint_rel_ms::east );
-                app1.part_removal_cleanup();
-                app2.part_removal_cleanup();
+                app1.part_removal_cleanup( m );
+                app2.part_removal_cleanup( m );
             }
             CAPTURE( app1.pos_abs() );
             CAPTURE( app2.pos_abs() );
@@ -525,8 +526,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
                 m.displace_vehicle( app1, tripoint_rel_ms::west );
-                app1.part_removal_cleanup();
-                app2.part_removal_cleanup();
+                app1.part_removal_cleanup( m );
+                app2.part_removal_cleanup( m );
             }
             CAPTURE( app1.pos_abs() );
             CAPTURE( app2.pos_abs() );
@@ -541,8 +542,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
                 m.displace_vehicle( app2, tripoint_rel_ms::east );
-                app1.part_removal_cleanup();
-                app2.part_removal_cleanup();
+                app1.part_removal_cleanup( m );
+                app2.part_removal_cleanup( m );
             }
             CAPTURE( app1.pos_abs() );
             CAPTURE( app2.pos_abs() );
@@ -614,7 +615,7 @@ static void rack_check( const rack_preset &preset )
         REQUIRE( rack_idx >= 0 );
         CAPTURE( rack_idx );
 
-        const auto rackables = racking_veh.find_vehicles_to_rack( rack_idx );
+        const auto rackables = racking_veh.find_vehicles_to_rack( &m, rack_idx );
         REQUIRE( !rackables.empty() );
 
         const auto this_rackable = std::find_if( rackables.begin(), rackables.end(),
@@ -773,7 +774,7 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
     while( veh.engine_on && turns_left > 0 ) {
         turns_left--;
         here.vehmove();
-        veh.idle( true );
+        veh.idle( here, true );
         // How much it moved
         tiles_travelled += square_dist( starting_point, veh.pos_bub( &here ) );
         // Bring it back to starting point to prevent it from leaving the map

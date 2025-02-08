@@ -1387,9 +1387,9 @@ void spell_effect::recharge_vehicle( const spell &sp, Creature &caster,
     }
     vehicle &veh = v_part_pos->vehicle();
     if( sp.damage( caster ) >= 0 ) {
-        veh.charge_battery( sp.damage( caster ), false );
+        veh.charge_battery( here, sp.damage( caster ), false );
     } else {
-        veh.discharge_battery( -sp.damage( caster ), false );
+        veh.discharge_battery( here, -sp.damage( caster ), false );
     }
 }
 

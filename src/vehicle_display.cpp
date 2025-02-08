@@ -315,6 +315,8 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
  */
 std::vector<itype_id> vehicle::get_printable_fuel_types() const
 {
+    map &here = get_map();
+
     std::set<itype_id> opts;
     for( const vpart_reference &vpr : get_all_parts() ) {
         const vehicle_part &pt = vpr.part();
@@ -327,7 +329,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
     std::vector<itype_id> res( opts.begin(), opts.end() );
 
     std::sort( res.begin(), res.end(), [&]( const itype_id & lhs, const itype_id & rhs ) {
-        return basic_consumption( rhs ) < basic_consumption( lhs );
+        return basic_consumption( here, rhs ) < basic_consumption( here, lhs );
     } );
 
     return res;
@@ -402,10 +404,12 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
                                     std::map<itype_id, units::energy> fuel_usages,
                                     bool verbose, bool desc )
 {
+    map &here = get_map();
+
     static constexpr std::array<char, 5> fsyms = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_light_gray;
-    int cap = fuel_capacity( fuel_type );
-    int f_left = fuel_left( fuel_type );
+    int cap = fuel_capacity( here, fuel_type );
+    int f_left = fuel_left( here, fuel_type );
     nc_color f_color = item::find_type( fuel_type )->color;
     // NOLINTNEXTLINE(cata-text-style): not an ellipsis
     mvwprintz( win, p, col_indf1, "E...F" );
@@ -432,7 +436,8 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
             units = _( "mL" );
         }
         if( fuel_type == itype_battery ) {
-            rate += power_to_energy_bat( net_battery_charge_rate( /* include_reactors = */ true ), 1_hours );
+            rate += power_to_energy_bat( net_battery_charge_rate( here,/* include_reactors = */ true ),
+                                         1_hours );
             units = _( "kJ" );
         }
         if( rate != 0 && cap != 0 ) {
@@ -471,12 +476,14 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
 
 void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, int spacing ) const
 {
+    map &here = get_map();
+
     if( spacing < 0 ) {
         spacing = 0;
     }
 
     // Color is based on how much vehicle is straining beyond its safe velocity
-    const float strain = this->strain();
+    const float strain = this->strain( here );
     nc_color col_vel = strain <= 0 ? c_light_blue :
                        ( strain <= 0.2 ? c_yellow :
                          ( strain <= 0.4 ? c_light_red : c_red ) );
