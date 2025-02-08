@@ -295,7 +295,7 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
     int streak_direction = rng( static_cast<int>( blood_trail_direction::first ),
                                 static_cast<int>( blood_trail_direction::last ) );
 
-    bool wall_streak = md.has_flag_ter_or_furn(ter_furn_flag::TFLAG_WALL, current_tile);
+    bool wall_streak = md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile );
 
     if( !tile_can_have_blood( md, current_tile, wall_streak ) ) {
         // Quick check the tile is valid.
