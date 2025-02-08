@@ -2490,7 +2490,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
             get_map().set_floor_cache_dirty( z );
         }
         void removed( map *here, vehicle &veh, int part ) override;
-        void spawn_animal_from_part( item &base, map * /*here*/ , const tripoint_bub_ms& loc) override {
+        void spawn_animal_from_part( item &base, map * /*here*/, const tripoint_bub_ms &loc ) override {
             base.release_monster( loc, 1 );
         }
         map &get_map_ref() override {
