@@ -330,7 +330,7 @@
     "id": "gloves_h20survivor_thick",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "thick pair of Kevlar wetsuit gloves", "str_pl": "thick pairs of Kevlar wetsuit gloves" },
+    "name": { "str": "pair of thick Kevlar wetsuit gloves", "str_pl": "pairs of thick Kevlar wetsuit gloves" },
     "description": "A pair of customized, Kevlar-armored neoprene gloves, modified to provide maximum protection under extreme conditions.",
     "weight": "390 g",
     "volume": "750 ml",
