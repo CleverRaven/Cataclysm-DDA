@@ -174,7 +174,6 @@
       "rossi_r92_357_20",
       "rugerpcc"
     ],
-    "id": [ "ksub2000", "calico", "hk_mp5_10_semi", "mp40semi", "hpt3895", "uberti_1873", "rossi_r92_357_16", "rossi_r92_357_20" ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },
