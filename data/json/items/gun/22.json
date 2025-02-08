@@ -808,7 +808,7 @@
     "id": "sw617",
     "copy-from": "pistol_revolver",
     "type": "GUN",
-    "name": { "str": ".22 ten-shooter" },
+    "name": { "str": "high capacity revolver" },
     "description": "A revolver chambered in .22 LR, with 10 shots and a 6 inch barrel.",
     "ascii_picture": "redhawk",
     "weight": "1307 g",
