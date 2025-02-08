@@ -8066,13 +8066,10 @@ void map::saven( const tripoint_bub_sm &grid )
 }
 
 // Optimized mapgen function that only works properly for very simple overmap types
-// Does not create or require a temporary map and does its own saving
+// Does not create or require a temporary map and does its own saving.
+// Note that it assumes the map doesn't exist: it's an error to call this when it does.
 bool generate_uniform( const tripoint_abs_sm &p, const ter_str_id &ter )
 {
-    if( MAPBUFFER.submap_exists( p ) ) {
-        return false;
-    }
-
     std::unique_ptr<submap> sm = std::make_unique<submap>();
     sm->set_all_ter( ter, true );
     sm->last_touched = calendar::turn;
