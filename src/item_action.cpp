@@ -387,6 +387,12 @@ ret_val<void> iuse_actor::can_use( const Character &, const item &, const tripoi
     return ret_val<void>::make_success();
 }
 
+ret_val<void> iuse_actor::can_use( const Character &, const item &, map *,
+                                   const tripoint_bub_ms & ) const
+{
+    return ret_val<void>::make_success();
+}
+
 bool iuse_actor::is_valid() const
 {
     return item_action_generator::generator().action_exists( type );

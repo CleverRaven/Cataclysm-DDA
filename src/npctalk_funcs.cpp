@@ -1071,9 +1071,12 @@ void talk_function::player_weapon_away( npc &/*p*/ )
 
 void talk_function::player_weapon_drop( npc &/*p*/ )
 {
+    map &here = get_map();
+
     Character &player_character = get_player_character();
     item weap = player_character.remove_weapon();
-    drop_on_map( player_character, item_drop_reason::deliberate, {weap}, player_character.pos_bub() );
+    drop_on_map( player_character, item_drop_reason::deliberate, {weap}, &here,
+                 player_character.pos_bub( &here ) );
 }
 
 void talk_function::lead_to_safety( npc &p )

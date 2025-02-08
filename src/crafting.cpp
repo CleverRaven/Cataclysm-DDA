@@ -641,9 +641,16 @@ const inventory &Character::crafting_inventory( bool clear_path ) const
 const inventory &Character::crafting_inventory( const tripoint_bub_ms &src_pos, int radius,
         bool clear_path ) const
 {
+    return Character::crafting_inventory( &get_map(), src_pos, radius, clear_path );
+}
+
+const inventory &Character::crafting_inventory( map *here, const tripoint_bub_ms &src_pos,
+        int radius,
+        bool clear_path ) const
+{
     tripoint_bub_ms inv_pos = src_pos;
     if( src_pos == tripoint_bub_ms::zero ) {
-        inv_pos = pos_bub();
+        inv_pos = pos_bub( here );
     }
     if( crafting_cache.valid
         && moves == crafting_cache.moves
@@ -655,7 +662,7 @@ const inventory &Character::crafting_inventory( const tripoint_bub_ms &src_pos, 
     }
     crafting_cache.crafting_inventory->clear();
     if( radius >= 0 ) {
-        crafting_cache.crafting_inventory->form_from_map( inv_pos, radius, this, false, clear_path );
+        crafting_cache.crafting_inventory->form_from_map( here, inv_pos, radius, this, false, clear_path );
     }
 
     std::map<itype_id, int> tmp_liq_list;
@@ -2801,6 +2808,8 @@ void Character::complete_disassemble( item_location target )
 
 void Character::complete_disassemble( item_location &target, const recipe &dis )
 {
+    map &here = get_map();
+
     // Get the proper recipe - the one for disassembly, not assembly
     const requirement_data dis_requirements = dis.disassembly_requirements();
     const tripoint_bub_ms loc = target.pos_bub();
@@ -2986,7 +2995,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     }
 
     // Drop all recovered components
-    put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, drop_items, loc );
+    put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, drop_items, &here, loc );
 
     if( !dis.learn_by_disassembly.empty() && !knows_recipe( &dis ) ) {
         if( can_decomp_learn( dis ) ) {

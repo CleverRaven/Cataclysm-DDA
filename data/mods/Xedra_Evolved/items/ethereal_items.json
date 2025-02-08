@@ -555,5 +555,14 @@
       ],
       "message": "The earth reveals its secrets."
     }
+  },
+  {
+    "id": "changeling_summer_sunglasses",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "Under the Noonday Sun" },
+    "description": { "str": "You are protected from extremely bright lights." },
+    "qualities": [ [ "GLARE", 1 ] ],
+    "extend": { "flags": [ "SEMITANGIBLE", "INTEGRATED", "FLASH_PROTECTION", "SUN_GLASSES" ] }
   }
 ]

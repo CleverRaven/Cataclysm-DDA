@@ -675,7 +675,8 @@ Magic Type Example:
     "max_book_level": 0, // associated spells can not be leveled by reading books, scrolls, etc above this level.
     "failure_cost_percent": 1, // decimal value that decides how much energy is consumed by spells when they fail to cast.  Defaults to 0.
     "failure_exp_percent": 1, // decimal value that decides how much exp is gained when spells fail to cast compared to normal.  Defaults to 0.2 .
-    "failure_eocs": "EOC_random_mutate" // EOC cast by the player if the spell fails to cast.
+    "failure_eocs": "EOC_random_mutate", // EOC cast by the player if the spell fails to cast.,
+    "failure_chance_formula_id": "test_failure_formula_id" // id of a jmath func that defines the failure chance of these spells.  0 = 0% failure, 1 = 100% failure.  Chance will still be modified by spell specific flags such as SOMANTIC.  This formula may use the context variable "_spell_id" which stores the id of the spell which has the calculated failure chance.
   },
   {
     "id": "test_spell",

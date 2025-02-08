@@ -543,5 +543,36 @@
     "material": [ "stone" ],
     "symbol": "y",
     "color": "green"
+  },
+  {
+    "id": "sky_island_sunblock",
+    "type": "ARMOR",
+    "name": { "str": "Personal Sunblock" },
+    "description": "The island is protecting you against the sun as long as you are on it.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "material": [ "alien_resin" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "RAIN_PROTECT",
+      "SUN_GLASSES",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
   }
 ]

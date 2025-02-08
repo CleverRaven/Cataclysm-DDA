@@ -126,7 +126,8 @@
         "weight_multiplier": 0.0,
         "ememory_max": "1 TB"
       }
-    ]
+    ],
+    "qualities": [ [ "HACK", 1 ] ]
   },
   {
     "id": "xl_jeans",

@@ -1255,6 +1255,12 @@ void item_contents::heat_up()
 
 int item_contents::ammo_consume( int qty, const tripoint_bub_ms &pos, float fuel_efficiency )
 {
+    return item_contents::ammo_consume( qty, &get_map(), pos, fuel_efficiency );
+}
+
+int item_contents::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos,
+                                 float fuel_efficiency )
+{
     int consumed = 0;
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( pocket_type::MAGAZINE_WELL ) ) {
@@ -1264,12 +1270,12 @@ int item_contents::ammo_consume( int qty, const tripoint_bub_ms &pos, float fuel
             }
             // assuming only one mag
             item &mag = pocket.front();
-            const int res = mag.ammo_consume( qty, pos, nullptr );
+            const int res = mag.ammo_consume( qty, here, pos, nullptr );
             if( res && mag.ammo_remaining() == 0 ) {
                 if( mag.has_flag( STATIC( flag_id( "MAG_DESTROY" ) ) ) ) {
                     pocket.remove_item( mag );
                 } else if( mag.has_flag( STATIC( flag_id( "MAG_EJECT" ) ) ) ) {
-                    get_map().add_item( pos, mag );
+                    here->add_item( pos, mag );
                     pocket.remove_item( mag );
                 }
             }
@@ -1771,6 +1777,20 @@ std::list<const item *> item_contents::all_items_top() const
 {
     return all_items_top( []( const item_pocket & pocket ) {
         return pocket.is_standard_type();
+    } );
+}
+
+std::list<const item *> item_contents::all_items_container_top() const
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_container_like_type();
+    } );
+}
+
+std::list<item *> item_contents::all_items_container_top()
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_container_like_type();
     } );
 }
 

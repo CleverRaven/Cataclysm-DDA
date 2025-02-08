@@ -1654,6 +1654,7 @@ drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereade
                                    make_raw_stats, /*allow_select_contained=*/true );
     inv_s.add_character_items( who );
     inv_s.add_nearby_items( PICKUP_RANGE );
+    inv_s.remove_duplicate_itypes( true );
     inv_s.set_title( _( "Scan which books?" ) );
     if( inv_s.empty() ) {
         popup( std::string( _( "You have no books to scan." ) ), PF_GET_KEY );
@@ -1675,6 +1676,8 @@ drop_locations game_menus::inv::edevice_select( Character &who, item_location &u
             bool has_use_check = !unusable_only || !efile_activity_actor::edevice_has_use( loc.get_item() );
             bool browsed_equal_check = browse_equals == loc->is_browsed();
             bool fast_transfer = compat == efile_activity_actor::edevice_compatible::ECOMPAT_FAST;
+            bool no_files_check = !( action == EF_MOVE_ONTO_THIS || action == EF_COPY_ONTO_THIS )
+                                  || ( loc->is_browsed() && !loc->efiles().empty() );
             bool compatible_check = ( action == EF_BROWSE && browse_equals ) ||
                                     //if browsing, no compatibility check
                                     ( action == EF_READ && fast_transfer ) || //if reading, only fast-compatible edevices
@@ -1683,7 +1686,8 @@ drop_locations game_menus::inv::edevice_select( Character &who, item_location &u
                                used_edevice_check &&
                                has_use_check &&
                                browsed_equal_check &&
-                               compatible_check;
+                               compatible_check &&
+                               no_files_check;
             if( preset_bool ) {
                 add_msg_debug( debugmode::DF_ACT_EBOOK, string_format( "found edevice %s", loc->display_name() ) );
             }

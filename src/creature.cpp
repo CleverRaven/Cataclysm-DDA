@@ -208,6 +208,11 @@ tripoint_bub_ms Creature::pos_bub() const
     return get_map().get_bub( location );
 }
 
+tripoint_bub_ms Creature::pos_bub( map *here ) const
+{
+    return here->get_bub( location );
+}
+
 void Creature::setpos( const tripoint_bub_ms &p, bool check_gravity/* = true*/ )
 {
     const tripoint_abs_ms old_loc = pos_abs();
@@ -251,7 +256,7 @@ bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) con
     vehicle &veh = vp_there->vehicle();
 
     std::vector<vehicle_part *> cargo_parts;
-    cargo_parts = veh.get_parts_at( here.get_bub( loc ), "CARGO", part_status_flag::any );
+    cargo_parts = veh.get_parts_at( loc, "CARGO", part_status_flag::any );
 
     units::volume capacity = 0_ml;
     units::volume free_cargo = 0_ml;
@@ -266,7 +271,7 @@ bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) con
     }
     if( capacity > 0_ml ) {
         // First, we'll try to squeeze in. Open-topped vehicle parts have more room to step over cargo.
-        if( !veh.enclosed_at( here.get_bub( loc ) ) ) {
+        if( !veh.enclosed_at( loc ) ) {
             free_cargo *= 1.2;
         }
         const creature_size size = get_size();

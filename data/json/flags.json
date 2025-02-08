@@ -665,14 +665,14 @@
     "//": "Designates a food that is usually undesirable but gives a morale bonus to characters with predator mutations."
   },
   {
-    "id": "PRESERVE_SPAWN_OMT",
+    "id": "PRESERVE_SPAWN_LOC",
     "type": "json_flag",
-    "//": "This item will store the OMT it spawned in the 'spawn_location_omt' var"
+    "//": "This item will store the tripoint_abs_ms it spawned in the 'spawn_location' var"
   },
   {
     "id": "HINT_THE_LOCATION",
     "type": "json_flag",
-    "//": "Same as PRESERVE_SPAWN_OMT, but aslo shows a snippet of how far the character from the `spawn_location_omt`: 1 OMT or less is `(from here)`, less than 6 OMT is `(from nearby)`, less than 30 OMT is `(from this area)`, anything more is (from far away)"
+    "//": "Same as PRESERVE_SPAWN_LOC, but also shows a snippet of how far the character from the `spawn_location`: 1 OMT or less is `(from here)`, less than 6 OMT is `(from nearby)`, less than 30 OMT is `(from this area)`, anything more is (from far away)"
   },
   {
     "id": "PROVIDES_TECHNIQUES",

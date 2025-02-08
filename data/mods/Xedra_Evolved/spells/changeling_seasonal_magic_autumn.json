@@ -1,0 +1,116 @@
+[
+  {
+    "//": "Autumn magic should focus on: fear, decay, the harvest, preservation, fog, colors.",
+    "//2": "Make sure to add each new spell to the proper research EoC in the playable_changeling_seasonal_magic_research_eocs file.",
+    "//3": "Seasonal magic can have direct damage spells, but they should always be relevantly themed to the season, accomplish some secondary effect (slowing, blinding, starting fires, terrain alteration, etc), have some limitation on targets, or otherwise be less efficient than 'Wizard casts fireball' ",
+    "id": "xe_fey_seasonal_magick_autumn",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_FEY_MAGIC", "NO_SPELLCASTING" ],
+    "cannot_cast_message": "You can't use your glamours now!",
+    "failure_cost_percent": 0.75,
+    "max_book_level": 0,
+    "failure_chance_formula_id": "xe_fey_seasonal_magick_autumn_failure_chance"
+  },
+  {
+    "id": "changeling_autumn_touch_of_frailty_spell",
+    "type": "SPELL",
+    "name": "Touch of Frailty",
+    "description": "Like the fading of plantlife in the end of the year, afflict your target with the ravages of age, reducing their physical abilities for a brief period.  The duration is <color_green>greatly increased</color> in autumn.",
+    "flags": [ "SOMATIC", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "ally", "hostile" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_AUTUMN_TOUCH_OF_FRAILTY",
+    "min_range": 1,
+    "min_duration": {
+      "math": [
+        "( ( 562 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 185) + (u_skill('deduction') * 253) ) ) * (global_what_is_the_season == 3 ? 3 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 1235 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 385) + (u_skill('deduction') * 498) ) ) * (global_what_is_the_season == 3 ? 3 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 100 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 1) - (u_skill('deduction') * 3)), 40)" ]
+    },
+    "base_casting_time": 50
+  },
+  {
+    "id": "changeling_autumn_scare_animals_spell",
+    "type": "SPELL",
+    "name": "Eyes Amid the Leaves",
+    "description": "Gaze at a nearby animal with the eyes of a stalking predator, sending them fleeing.  Repeated gazes in a short period of time have no additional effect.  The glamour has <color_yellow>reduced effect</color> in spring.",
+    "flags": [ "SOMATIC", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "ally", "hostile" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 2,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_AUTUMN_SCARE_ANIMALS",
+    "min_range": {
+      "math": [
+        "min( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.4) + (u_skill('deduction') * 0.6) ), 10)"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "min( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.4) + (u_skill('deduction') * 0.6) ), 10)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 150 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 3) - (u_skill('deduction') * 6)), 50)" ]
+    },
+    "base_casting_time": 50
+  },
+  {
+    "id": "changeling_autumn_call_mists_spell",
+    "type": "SPELL",
+    "name": "Autumn Mists",
+    "description": "You can draw on the mystery of misty autumn mornings and condense a thick fog out of the air, reducing the vision of everyone and hiding your movements.  Reweave the glamour to dispel it. The glamour is <color_yellow>quicker to expire</color> in summer.",
+    "message": "",
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 4,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_AUTUMN_CHANGE_WEATHER_DENSE_FOG",
+    "min_duration": {
+      "math": [
+        "( ( 45812 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 7952) + (u_skill('deduction') * 15371) ) ) * (global_what_is_the_season == 2 ? 0.6 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 91527 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 21685) + (u_skill('deduction') * 39852) ) ) * (global_what_is_the_season == 2 ? 0.4 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_controlling_weather_fog') > -1 ? 50 : max( ( 400 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 6) - (u_skill('deduction') * 10)), 150)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_controlling_weather_fog') > -1 ? 50 : max( ( 6000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 56) - (u_skill('deduction') * 125)), 400)"
+      ]
+    }
+  }
+]

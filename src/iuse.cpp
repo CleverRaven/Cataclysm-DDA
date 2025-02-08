@@ -4929,33 +4929,34 @@ std::optional<int> iuse::mop( Character *p, item *, const tripoint_bub_ms & )
 
 std::optional<int> iuse::spray_can( Character *p, item *it, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     const std::optional<tripoint_bub_ms> dest_ = choose_adjacent( _( "Spray where?" ) );
     if( !dest_ ) {
         return std::nullopt;
     }
-    return handle_ground_graffiti( *p, it, _( "Spray what?" ), dest_.value() );
+    return handle_ground_graffiti( *p, it, _( "Spray what?" ), &here, dest_.value() );
 }
 
 std::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
-        const tripoint_bub_ms &where )
+        map *here, const tripoint_bub_ms &where )
 {
-    map &here = get_map();
     string_input_popup popup;
     std::string message = popup
                           .description( prefix + " " + _( "(To delete, clear the text and confirm)" ) )
-                          .text( here.has_graffiti_at( where ) ? here.graffiti_at( where ) : std::string() )
+                          .text( here->has_graffiti_at( where ) ? here->graffiti_at( where ) : std::string() )
                           .identifier( "graffiti" )
                           .query_string();
     if( popup.canceled() ) {
         return std::nullopt;
     }
 
-    bool grave = here.ter( where ) == ter_t_grave_new;
+    bool grave = here->ter( where ) == ter_t_grave_new;
     int move_cost;
     if( message.empty() ) {
-        if( here.has_graffiti_at( where ) ) {
-            move_cost = 3 * here.graffiti_at( where ).length();
-            here.delete_graffiti( where );
+        if( here->has_graffiti_at( where ) ) {
+            move_cost = 3 * here->graffiti_at( where ).length();
+            here->delete_graffiti( where );
             if( grave ) {
                 p.add_msg_if_player( m_info, _( "You blur the inscription on the grave." ) );
             } else {
@@ -4965,7 +4966,7 @@ std::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const s
             return std::nullopt;
         }
     } else {
-        here.set_graffiti( where, message );
+        here->set_graffiti( where, message );
         if( grave ) {
             p.add_msg_if_player( m_info, _( "You carve an inscription on the grave." ) );
         } else {
@@ -7306,15 +7307,16 @@ static bool hackveh( Character &p, item &it, vehicle &veh )
 
 static vehicle *pickveh( const tripoint_bub_ms &center, bool advanced )
 {
+    map &here = get_map();
     static const std::string ctrl = "CTRL_ELECTRONIC";
     static const std::string advctrl = "REMOTE_CONTROLS";
     uilist pmenu;
     pmenu.title = _( "Select vehicle to access" );
     std::vector< vehicle * > vehs;
 
-    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
+    for( wrapped_vehicle &veh : here.get_vehicles() ) {
         vehicle *&v = veh.v;
-        if( rl_dist( center, v->pos_bub() ) < 40 &&
+        if( rl_dist( center, v->pos_bub( &here ) ) < 40 &&
             v->fuel_left( itype_battery ) > 0 &&
             ( !empty( v->get_avail_parts( advctrl ) ) ||
               ( !advanced && !empty( v->get_avail_parts( ctrl ) ) ) ) ) {
@@ -7324,7 +7326,7 @@ static vehicle *pickveh( const tripoint_bub_ms &center, bool advanced )
     std::vector<tripoint_bub_ms> locations;
     for( int i = 0; i < static_cast<int>( vehs.size() ); i++ ) {
         vehicle *veh = vehs[i];
-        locations.push_back( veh->pos_bub() );
+        locations.push_back( veh->pos_bub( &here ) );
         pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name );
     }
 
@@ -7371,6 +7373,8 @@ std::optional<int> iuse::remoteveh_tick( Character *p, item *it, const tripoint_
 
 std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    map &here = get_map();
+
     vehicle *remote = g->remoteveh();
 
     bool controlling = it->active && remote != nullptr;
@@ -7419,9 +7423,9 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint_bub_m
         const auto electronics_parts = veh->get_avail_parts( "CTRL_ELECTRONIC" );
         // Revert to original behavior if we can't find remote controls.
         if( empty( rctrl_parts ) ) {
-            veh->interact_with( electronics_parts.begin()->pos_bub() );
+            veh->interact_with( electronics_parts.begin()->pos_bub( &here ) );
         } else {
-            veh->interact_with( rctrl_parts.begin()->pos_bub() );
+            veh->interact_with( rctrl_parts.begin()->pos_bub( &here ) );
         }
     }
 
@@ -9152,6 +9156,12 @@ void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) cons
 ret_val<void> use_function::can_call( const Character &p, const item &it,
                                       const tripoint_bub_ms &pos ) const
 {
+    return use_function::can_call( p, it, &get_map(), pos );
+}
+
+ret_val<void> use_function::can_call( const Character &p, const item &it,
+                                      map *here, const tripoint_bub_ms &pos ) const
+{
     if( actor == nullptr ) {
         return ret_val<void>::make_failure( _( "You can't do anything interesting with your %s." ),
                                             it.tname() );
@@ -9160,11 +9170,18 @@ ret_val<void> use_function::can_call( const Character &p, const item &it,
                                             it.tname() );
     }
 
-    return actor->can_use( p, it, pos );
+    return actor->can_use( p, it, here, pos );
 }
 
 std::optional<int> use_function::call( Character *p, item &it,
                                        const tripoint_bub_ms &pos ) const
 {
+    return use_function::call( p, it, &get_map(), pos );
+}
+
+std::optional<int> use_function::call( Character *p, item &it,
+                                       map */*here*/, const tripoint_bub_ms &pos ) const
+{
+    // TODO: Make use map aware
     return actor->use( p, it, pos );
 }

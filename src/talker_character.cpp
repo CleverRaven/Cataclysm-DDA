@@ -175,6 +175,11 @@ void talker_character::set_per_bonus( int value )
     me_chr->mod_per_bonus( value );
 }
 
+void talker_character::set_cash( int value )
+{
+    me_chr->cash = value;
+}
+
 int talker_character_const::get_str_max() const
 {
     return me_chr_const->str_max;
@@ -418,6 +423,14 @@ int talker_character_const::get_spell_exp( const spell_id &spell_name ) const
         return -1;
     }
     return me_chr_const->magic->get_spell( spell_name ).xp();
+}
+
+int talker_character_const::get_spell_difficulty( const spell_id &spell_name ) const
+{
+    if( !me_chr_const->magic->knows_spell( spell_name ) ) {
+        return spell_name->get_difficulty( *me_chr_const );
+    }
+    return me_chr_const->magic->get_spell( spell_name ).get_difficulty( *me_chr_const );
 }
 
 int talker_character_const::get_spell_count( const trait_id &school ) const

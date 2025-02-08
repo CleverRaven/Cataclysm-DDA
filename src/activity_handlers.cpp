@@ -625,8 +625,9 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                           corpse.in_species( species_HUMAN ) ||
                           corpse.in_species( species_FERAL );
 
-    // applies to all butchery actions except for dissections
-    if( is_human && action != butcher_type::DISSECT && !you.okay_with_eating_humans() ) {
+    // applies to all butchery actions except for dissections or dismemberment
+    if( is_human && action != butcher_type::DISSECT && !you.okay_with_eating_humans() &&
+        action != butcher_type::DISMEMBER ) {
         //first determine if the butcherer has the dissect_humans proficiency.
         if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
             //if it's player doing the butchery, ask them first.
@@ -1128,11 +1129,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         }
         // RIP AND TEAR
         if( action == butcher_type::DISMEMBER ) {
-            if( entry.type == harvest_drop_flesh ) {
-                roll /= 6;
-            } else {
-                continue;
-            }
+            roll = 0;
         }
         // field dressing ignores skin, flesh, and blood
         if( action == butcher_type::FIELD_DRESS ) {
@@ -1239,7 +1236,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                 // TODO: smarter NPC liquid handling
                 // If we're not bleeding the animal we don't care about the blood being wasted
                 if( you.is_npc() || action != butcher_type::BLEED ) {
-                    drop_on_map( you, item_drop_reason::deliberate, { obj }, you.pos_bub() );
+                    drop_on_map( you, item_drop_reason::deliberate, { obj }, &here, you.pos_bub( &here ) );
                 } else {
                     liquid_handler::handle_all_liquid( obj, 1 );
                 }
@@ -1395,7 +1392,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     // therefore operations on this activity's targets and values may be invalidated.
     // reveal hidden items / hidden content
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
-        action != butcher_type::BLEED ) {
+        action != butcher_type::BLEED && action != butcher_type:: DISMEMBER ) {
         for( item *content : corpse_item->all_items_top( pocket_type::CONTAINER ) ) {
             if( ( roll_butchery_dissect( round( you.get_average_skill_level( skill_survival ) ), you.dex_cur,
                                          tool_quality ) + 10 ) * 5 > rng( 0, 100 ) ) {
@@ -1905,6 +1902,8 @@ void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
 
 void activity_handlers::start_fire_finish( player_activity *act, Character *you )
 {
+    map &here = get_map();
+
     static const std::string iuse_name_string( "firestarter" );
 
     item &it = *act->targets.front();
@@ -1928,7 +1927,7 @@ void activity_handlers::start_fire_finish( player_activity *act, Character *you 
 
     you->practice( skill_survival, act->index, 5 );
 
-    firestarter_actor::resolve_firestarter_use( you, get_map().get_bub( act->placement ) );
+    firestarter_actor::resolve_firestarter_use( you, &here, here.get_bub( act->placement ) );
     act->set_to_null();
 }
 
@@ -2003,7 +2002,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
 
     you->mod_moves( -you->get_moves() );
     const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-    const float light = actor->light_mod( you->pos_bub() );
+    const float light = actor->light_mod( &here, you->pos_bub( &here ) );
     act->moves_left -= light * 100;
     if( light < 0.1 ) {
         add_msg( m_bad, _( "There is not enough sunlight to start a fire now.  You stop trying." ) );

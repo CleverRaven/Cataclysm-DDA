@@ -97,14 +97,8 @@ class vpart_position
         // Forms inventory for inventory::form_from_map
         void form_inventory( inventory &inv ) const;
 
-        /**
-         * Returns the position of this part in the coordinates system that @ref game::m uses.
-         * Postcondition (if the vehicle cache of the map is correct and if there are un-removed
-         * parts at this positions):
-         * `g->m.veh_at( this->pos() )` (there is a vehicle there)
-         * `g->m.veh_at( this->pos() )->vehicle() == this->vehicle()` (it's this one)
-         */
-        tripoint_bub_ms pos_bub() const;
+        tripoint_bub_ms pos_bub( map *here ) const;
+        tripoint_abs_ms pos_abs() const;
         /**
          * Returns the mount point: the point in the vehicles own coordinate system.
          * This system is independent of movement / rotation.

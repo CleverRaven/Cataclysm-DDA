@@ -1503,14 +1503,13 @@ bool _stacks_weapon_mods( item const &lhs, item const &rhs )
 
 bool _stacks_location_hint( item const &lhs, item const &rhs )
 {
-    static const std::string omt_loc_var = "spawn_location_omt";
-    const tripoint_abs_omt this_loc( lhs.get_var( omt_loc_var, tripoint_abs_omt::max ) );
-    const tripoint_abs_omt that_loc( rhs.get_var( omt_loc_var, tripoint_abs_omt::max ) );
+    static const std::string omt_loc_var = "spawn_location";
+    const tripoint_abs_ms this_loc( lhs.get_var( omt_loc_var, tripoint_abs_ms::max ) );
+    const tripoint_abs_ms that_loc( rhs.get_var( omt_loc_var, tripoint_abs_ms::max ) );
     if( this_loc == that_loc ) {
         return true;
-    } else if( this_loc != tripoint_abs_omt::max && that_loc != tripoint_abs_omt::max ) {
-        const tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().get_abs(
-                                               get_player_character().pos_bub() ) ) );
+    } else if( this_loc != tripoint_abs_ms::max && that_loc != tripoint_abs_ms::max ) {
+        const tripoint_abs_ms player_loc( get_map().get_abs( get_player_character().pos_bub() ) );
         const int this_dist = rl_dist( player_loc, this_loc );
         const int that_dist = rl_dist( player_loc, that_loc );
         static const auto get_bucket = []( const int dist ) {
@@ -1725,7 +1724,7 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     bits.set( tname::segments::UPS, _stacks_ups( *this, rhs ) );
     // Guns that differ only by dirt/shot_counter can still stack,
     // but other item_vars such as label/note will prevent stacking
-    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt", "ethereal", "last_act_by_char_id" };
+    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location", "ethereal", "last_act_by_char_id" };
     bits.set( tname::segments::TRAITS, template_traits == rhs.template_traits );
     bits.set( tname::segments::VARS, map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) );
     bits.set( tname::segments::ETHEREAL, _stacks_ethereal( *this, rhs ) );
@@ -1904,13 +1903,13 @@ double item::get_var( const std::string &name, const double default_value ) cons
     return result;
 }
 
-void item::set_var( const std::string &name, const tripoint_abs_omt &value )
+void item::set_var( const std::string &name, const tripoint_abs_ms &value )
 {
     item_vars[name] = value.to_string();
 }
 
-tripoint_abs_omt item::get_var( const std::string &name,
-                                const tripoint_abs_omt &default_value ) const
+tripoint_abs_ms item::get_var( const std::string &name,
+                               const tripoint_abs_ms &default_value ) const
 {
     const auto it = item_vars.find( name );
     if( it == item_vars.end() ) {
@@ -1920,7 +1919,7 @@ tripoint_abs_omt item::get_var( const std::string &name,
     // todo: has to read both "(0,0,0)" and "0,0,0" formats for now, clean up after 0.I
     // first is produced by tripoint::to_string, second was old custom format
     if( it->second[0] == '(' ) {
-        return tripoint_abs_omt{tripoint::from_string( it->second )};
+        return tripoint_abs_ms{tripoint::from_string( it->second )};
     }
 
     std::vector<std::string> values = string_split( it->second, ',' );
@@ -1934,9 +1933,9 @@ tripoint_abs_omt item::get_var( const std::string &name,
             return 0;
         }
     };
-    return tripoint_abs_omt( convert_or_error( values[0] ),
-                             convert_or_error( values[1] ),
-                             convert_or_error( values[2] ) );
+    return tripoint_abs_ms( convert_or_error( values[0] ),
+                            convert_or_error( values[1] ),
+                            convert_or_error( values[2] ) );
 }
 
 void item::set_var( const std::string &name, const std::string &value )
@@ -7132,7 +7131,7 @@ std::string item::display_name( unsigned int quantity ) const
     // HACK: This is a hack to prevent possible crashing when displaying maps as items during character creation
     if( is_map() && calendar::turn != calendar::turn_zero ) {
         tripoint_abs_omt map_pos_omt =
-            get_var( "reveal_map_center_omt", player_character.pos_abs_omt() );
+            project_to<coords::omt>( get_var( "reveal_map_center", player_character.pos_abs() ) );
         tripoint_abs_sm map_pos =
             project_to<coords::sm>( map_pos_omt );
         const city *c = overmap_buffer.closest_city( map_pos ).city;
@@ -10257,6 +10256,11 @@ bool item::is_irremovable() const
     return has_flag( flag_IRREMOVABLE );
 }
 
+bool item::is_identifiable() const
+{
+    return is_book();
+}
+
 bool item::is_broken() const
 {
     return has_flag( flag_ITEM_BROKEN ) || has_fault_flag( std::string( "ITEM_BROKEN" ) );
@@ -11455,6 +11459,11 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
 
 int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier )
 {
+    return item::ammo_consume( qty, &get_map(), pos, carrier );
+}
+
+int item::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, Character *carrier )
+{
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
         return 0;
@@ -11465,7 +11474,7 @@ int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier 
     if( is_tool_with_carrier && has_flag( flag_USES_NEARBY_AMMO ) ) {
         const ammotype ammo = ammo_type();
         if( !ammo.is_null() ) {
-            const inventory &carrier_inventory = carrier->crafting_inventory();
+            const inventory &carrier_inventory = carrier->crafting_inventory( here );
             itype_id ammo_type = ammo->default_ammotype();
             const int charges_avalable = carrier_inventory.charges_of( ammo_type, INT_MAX );
 
@@ -11483,7 +11492,7 @@ int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier 
         if( link().t_veh && link().efficiency >= MIN_LINK_EFFICIENCY ) {
             qty = link().t_veh->discharge_battery( qty, true );
         } else {
-            const optional_vpart_position vp = get_map().veh_at( link().t_abs_pos );
+            const optional_vpart_position vp = here->veh_at( link().t_abs_pos );
             if( vp ) {
                 qty = vp->vehicle().discharge_battery( qty, true );
             }
@@ -11492,7 +11501,7 @@ int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier 
 
     // Consume charges loaded in the item or its magazines
     if( is_magazine() || uses_magazine() ) {
-        qty -= contents.ammo_consume( qty, pos );
+        qty -= contents.ammo_consume( qty, here, pos );
         if( ammo_capacity( ammo_battery ) == 0 && carrier != nullptr ) {
             carrier->invalidate_weight_carried_cache();
         }
@@ -11540,6 +11549,13 @@ units::energy item::energy_consume( units::energy qty, const tripoint_bub_ms &po
                                     Character *carrier,
                                     float fuel_efficiency )
 {
+    return item::energy_consume( qty, &get_map(), pos, carrier, fuel_efficiency );
+}
+
+units::energy item::energy_consume( units::energy qty, map *here, const tripoint_bub_ms &pos,
+                                    Character *carrier,
+                                    float fuel_efficiency )
+{
     if( qty < 0_kJ ) {
         debugmsg( "Cannot consume negative quantity of energy for %s", tname() );
         return 0_kJ;
@@ -11549,7 +11565,7 @@ units::energy item::energy_consume( units::energy qty, const tripoint_bub_ms &po
 
     // Consume battery(ammo) and other fuel (if allowed)
     if( is_battery() || fuel_efficiency >= 0 ) {
-        int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), pos, fuel_efficiency );
+        int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), here, pos, fuel_efficiency );
         qty -= units::from_kilojoule( static_cast<std::int64_t>( consumed_kj ) );
         // Either we're out of juice or truncating the value above means we didn't drain quite enough.
         // In the latter case at least this will bump up energy enough to satisfy the remainder,
@@ -11559,7 +11575,7 @@ units::energy item::energy_consume( units::energy qty, const tripoint_bub_ms &po
         // which potentially allows it to burn less fuel next time.
         // Do we want an implicit 1kJ battery in the generator to smooth things out?
         if( qty > energy ) {
-            int64_t residual_drain = contents.ammo_consume( 1, pos, fuel_efficiency );
+            int64_t residual_drain = contents.ammo_consume( 1, here, pos, fuel_efficiency );
             energy += units::from_kilojoule( residual_drain );
         }
         if( qty > energy ) {
@@ -11573,7 +11589,7 @@ units::energy item::energy_consume( units::energy qty, const tripoint_bub_ms &po
 
     // Consume energy from contained magazine
     if( magazine_current() ) {
-        qty -= magazine_current()->energy_consume( qty, pos, carrier );
+        qty -= magazine_current()->energy_consume( qty, here, pos, carrier );
     }
 
     // Consume UPS energy from various sources
@@ -14074,7 +14090,7 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
     if( link_type == link_state::vehicle_tow ) {
         if( veh.has_tow_attached() || veh.is_towed() || veh.is_towing() ) {
             return ret_val<void>::make_failure( _( "That vehicle already has a tow-line attached." ) );
-        } else if( !veh.is_external_part( veh.mount_to_tripoint( mount ) ) ) {
+        } else if( !veh.is_external_part( mount ) ) {
             return ret_val<void>::make_failure( _( "You can't attach a tow-line to an internal part." ) );
         } else {
             const int part_at = veh.part_at( veh.coord_translate( mount ) );
@@ -14110,7 +14126,7 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
         link().source = bio_link ? link_state::bio_cable : link_state::no_link;
         link().target = link_type;
         link().t_veh = veh.get_safe_reference();
-        link().t_abs_pos = get_map().get_abs( link().t_veh->pos_bub() );
+        link().t_abs_pos = link().t_veh->pos_abs();
         link().t_mount = mount;
         link().s_bub_pos = tripoint_bub_ms::min; // Forces the item to check the length during process_link.
 
@@ -14415,8 +14431,8 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
     link().last_processed = calendar::turn;
 
     // Set the new absolute position to the vehicle's origin.
-    tripoint_bub_ms t_veh_bub_pos = t_veh->pos_bub();
-    tripoint_abs_ms new_t_abs_pos = here.get_abs( t_veh_bub_pos );
+    tripoint_abs_ms new_t_abs_pos = t_veh->pos_abs();;
+    tripoint_bub_ms t_veh_bub_pos = here.get_bub( new_t_abs_pos );;
     if( link().t_abs_pos != new_t_abs_pos ) {
         link().t_abs_pos = new_t_abs_pos;
         length_check_needed = true;
@@ -15703,6 +15719,16 @@ std::list<const item *> item::all_items_top() const
 std::list<item *> item::all_items_top()
 {
     return contents.all_items_top();
+}
+
+std::list<const item *> item::all_items_container_top() const
+{
+    return contents.all_items_container_top();
+}
+
+std::list<item *> item::all_items_container_top()
+{
+    return contents.all_items_container_top();
 }
 
 std::list<const item *> item::all_items_top( pocket_type pk_type ) const

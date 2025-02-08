@@ -698,6 +698,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         add_default_background();
         set_skills_from_hobbies( true ); // Only trains skills that are still at 0 at this point
         set_proficiencies_from_hobbies();
+        set_recipes_from_hobbies();
         set_bionics_from_hobbies(); // Just in case, for mods
     }
 
@@ -1175,9 +1176,9 @@ void npc::place_on_map( map *here )
         return;
     }
 
-    for( const tripoint_abs_ms &p : closest_points_first( pos_abs(), SEEX + 1 ) ) {
-        if( g->is_empty( here, p ) ) {
-            setpos( here, here->get_bub( p ) );
+    for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 1, SEEX + 1 ) ) {
+        if( g->is_empty( p ) ) {
+            setpos( p );
             return;
         }
     }
@@ -2977,7 +2978,7 @@ void npc::die( map *here, Creature *nkiller )
     // Need to unboard from vehicle before dying, otherwise
     // the vehicle code cannot find us
     if( in_vehicle ) {
-        here->unboard_vehicle( here->get_bub( pos_abs() ), true );
+        here->unboard_vehicle( pos_bub( here ), true );
     }
     if( is_mounted() ) {
         monster *critter = mounted_creature.get();
@@ -3288,14 +3289,14 @@ void npc::on_load( map *here )
 
     // for spawned npcs
     gravity_check( here );
-    if( here->has_flag( ter_furn_flag::TFLAG_UNSTABLE, here->get_bub( pos_abs() ) ) &&
-        !here->has_vehicle_floor( here->get_bub( pos_abs() ) ) ) {
+    if( here->has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos_bub( here ) ) &&
+        !here->has_vehicle_floor( pos_bub( here ) ) ) {
         add_effect( effect_bouldering, 1_turns,  true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
     if( here->veh_at( pos_abs() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
-        here->board_vehicle( here->get_bub( pos_abs() ), this );
+        here->board_vehicle( pos_bub( here ), this );
     }
     if( has_effect( effect_riding ) && !mounted_creature ) {
         if( const monster *const mon = get_creature_tracker().creature_at<monster>( pos_abs() ) ) {
@@ -3976,3 +3977,5 @@ std::unique_ptr<talker> get_talker_for( npc *guy )
 {
     return std::make_unique<talker_npc>( guy );
 }
+
+

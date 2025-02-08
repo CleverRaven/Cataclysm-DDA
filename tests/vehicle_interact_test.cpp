@@ -39,6 +39,7 @@ static const vproto_id vehicle_prototype_car( "car" );
 
 static void test_repair( const std::vector<item> &tools, bool plug_in_tools, bool expect_craftable )
 {
+    map &here = get_map();
     clear_avatar();
     clear_map();
 
@@ -55,7 +56,7 @@ static void test_repair( const std::vector<item> &tools, bool plug_in_tools, boo
     for( const item &gear : tools ) {
         item_location added_tool = player_character.i_add( gear );
         if( plug_in_tools && added_tool->can_link_up() ) {
-            added_tool->link_to( get_map().veh_at( player_character.pos_bub() + tripoint::north_west ),
+            added_tool->link_to( here.veh_at( player_character.pos_bub() + tripoint::north_west ),
                                  link_state::automatic );
             REQUIRE( added_tool->link().t_veh );
         }
@@ -63,13 +64,14 @@ static void test_repair( const std::vector<item> &tools, bool plug_in_tools, boo
     player_character.set_skill_level( skill_mechanics, 10 );
 
     const tripoint_bub_ms vehicle_origin = test_origin + tripoint::south_east;
-    vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_car, vehicle_origin, -90_degrees, 0,
-                       0 );
+    vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_car, vehicle_origin, -90_degrees, 0,
+                                         0 );
 
     REQUIRE( veh_ptr != nullptr );
     // Find the frame at the origin.
     vehicle_part *origin_frame = nullptr;
-    for( vehicle_part *part : veh_ptr->get_parts_at( vehicle_origin, "", part_status_flag::any ) ) {
+    for( vehicle_part *part : veh_ptr->get_parts_at( &here, vehicle_origin, "",
+            part_status_flag::any ) ) {
         if( part->info().location == "structure" ) {
             origin_frame = part;
             break;

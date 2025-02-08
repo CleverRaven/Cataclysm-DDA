@@ -6,11 +6,13 @@
     "terrain": {
       "^": "t_railroad_rubble",
       "-": "t_railroad_tie",
+      "/": "t_railroad_tie_d",
       "D": "t_railroad_track_d",
       "X": "t_railroad_track",
       "x": "t_railroad_track_on_tie",
       "S": "t_buffer_stop",
-      ".": "t_region_soil",
+      " ": "t_region_groundcover",
+      ".": [ [ "t_railroad_rubble", 2 ], "t_region_groundcover" ],
       "9": "t_region_groundcover_urban"
     }
   },

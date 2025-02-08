@@ -155,8 +155,10 @@ class item_pocket
         bool allows_speedloader( const itype_id &speedloader_id ) const;
 
         // is this pocket one of the standard types?
-        // exceptions are MOD, CORPSE, SOFTWARE, MIGRATION, etc.
+        // exceptions are MOD, CORPSE, MIGRATION, etc.
         bool is_standard_type() const;
+        // is this pocket a type that acts like a container in its underlying implementation?
+        bool is_container_like_type() const;
 
         bool is_forbidden() const;
 

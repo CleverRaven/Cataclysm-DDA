@@ -137,6 +137,7 @@ std::string direction_arrow( direction dir );
 
 /* Get suffix describing vector from p to q (e.g. 1NW, 2SE) or empty string if p == q */
 std::string direction_suffix( const tripoint_bub_ms &p, const tripoint_bub_ms &q );
+std::string direction_suffix( const tripoint_abs_ms &p, const tripoint_abs_ms &q );
 
 /**
  * The actual Bresenham algorithm in 2D and 3D, everything else should call these

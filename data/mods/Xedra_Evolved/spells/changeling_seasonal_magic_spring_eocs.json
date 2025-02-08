@@ -1,0 +1,19 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SPRING_MINOR_RESTORE_STAMINA_AND_PAIN",
+    "condition": { "or": [ { "u_is_on_terrain_with_flag": "PLOWABLE" }, { "u_is_on_terrain": "t_forestfloor" } ] },
+    "effect": [
+      { "math": [ "u_pain()", "-=", "rand(2) + 1" ] },
+      {
+        "math": [
+          "u_val('stamina')",
+          "+=",
+          "1000 + ( (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 30) - (u_skill('deduction') * 25))"
+        ]
+      },
+      { "u_transform_radius": 0, "ter_furn_transform": "ter_changeling_spring_verdant_vitality" }
+    ],
+    "false_effect": [ { "u_message": "You need to be standing on vegetation to drawn on its vitality.", "type": "bad" } ]
+  }
+]

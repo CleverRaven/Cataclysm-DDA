@@ -1333,6 +1333,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: Shorten relative distances nearby, allowing the psions to travel faster than their stride would indicate. Reduces move cost by 5% plus 2% per power level to a maximum of 60% reduced move cost.<br />
 *Prerequisites*: Phase 4, Stutterstep 6<br />
 </details>
+<details>
 <summary><h3>Apportation</h3></summary>
 
 *Difficulty*: 3<br />
@@ -1396,7 +1397,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Stamina Cost*: 6000, minus 100 per level to a minimum of 3500<br />
 *Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75.<br />
 *Effects*: Transport all wielded items through the Nether to an attuned location. This power works at any distance. This uses locations attuned to via Gateway. Allowed volume of wielded item is 10L plus 10L per power level.<br />
-*Prerequisites*: Gateway 6, Displacement 5<br />
+*Prerequisites*: Gateway 8, Apportation 6<br />
 </details>
 <details>
 <summary><h3>Farstep</h3></summary>

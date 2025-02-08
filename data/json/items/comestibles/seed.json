@@ -199,6 +199,17 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_radish",
+    "copy-from": "seed",
+    "price": "50 cent",
+    "name": { "str_sp": "radish seeds" },
+    "description": "Some radish seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "//": "Wikipedia says 3-4 weeks or 6-7 weeks in the cold",
+    "seed_data": { "plant_name": "radish", "fruit": "radish_taproot", "byproducts": [ "withered" ], "grow": "35 days" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_tomato",
     "copy-from": "seed",
     "price": "50 cent",

@@ -487,7 +487,7 @@
             {
               "and": [
                 { "math": [ "u_spell_level('teleport_gateway') >= 8" ] },
-                { "math": [ "u_spell_level('teleport_collapse_pull') >= 6" ] }
+                { "math": [ "u_spell_level('teleport_item_apport') >= 6" ] }
               ]
             }
           ]

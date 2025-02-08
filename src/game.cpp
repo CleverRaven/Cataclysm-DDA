@@ -1058,7 +1058,7 @@ bool game::start_game()
             std::string search = std::string( "helicopter" );
             if( name.find( search ) != std::string::npos ) {
                 for( const vpart_reference &vp : v.v->get_any_parts( VPFLAG_CONTROLS ) ) {
-                    const tripoint_bub_ms pos = vp.pos_bub();
+                    const tripoint_abs_ms pos = vp.pos_abs();
                     u.setpos( pos );
 
                     // Delete the items that would have spawned here from a "corpse"
@@ -1219,8 +1219,8 @@ vehicle *game::place_vehicle_nearby(
             vehicle *veh = target_map.add_vehicle( id, tinymap_center, random_entry( angles ),
                                                    rng( 50, 80 ), 0, false );
             if( veh ) {
-                const tripoint_bub_ms abs_local = m.get_bub( target_map.get_abs( tinymap_center ) );
-                tripoint_bub_sm quotient;
+                const tripoint_abs_ms abs_local = target_map.get_abs( tinymap_center );
+                tripoint_abs_sm quotient;
                 point_sm_ms remainder;
                 std::tie( quotient, remainder ) = coords::project_remain<coords::sm>( abs_local );
                 veh->sm_pos = quotient;
@@ -2831,6 +2831,8 @@ vehicle *game::remoteveh()
 
 void game::setremoteveh( vehicle *veh )
 {
+    map &here = get_map();
+
     remoteveh_cache_time = calendar::turn;
     remoteveh_cache = veh;
     if( veh != nullptr && !u.has_active_bionic( bio_remote ) &&
@@ -2845,7 +2847,7 @@ void game::setremoteveh( vehicle *veh )
     }
 
     std::stringstream remote_veh_string;
-    const tripoint_bub_ms vehpos = veh->pos_bub();
+    const tripoint_bub_ms vehpos = veh->pos_bub( &here );
     remote_veh_string << vehpos.x() << ' ' << vehpos.y() << ' ' << vehpos.z();
     u.set_value( "remote_controlling_vehicle", remote_veh_string.str() );
 }
@@ -5641,6 +5643,9 @@ bool game::revive_corpse( const tripoint_bub_ms &p, item &it, int radius )
         // Failed reanimation due to corpse being butchered
         return false;
     }
+
+    assing_revive_form( it, p );
+
     shared_ptr_fast<monster> newmon_ptr;
     if( it.has_var( "zombie_form" ) ) {
         // the monster was not a zombie but turns into one when its corpse is revived
@@ -5665,6 +5670,29 @@ bool game::revive_corpse( const tripoint_bub_ms &p, item &it, int radius )
     }
 
     return place_critter_around( newmon_ptr, tripoint_bub_ms( p ), radius );
+}
+
+void game::assing_revive_form( item &it, tripoint_bub_ms p )
+{
+    const mtype *montype = it.get_mtype();
+    if( montype == nullptr ) {
+        return;
+    }
+    dialogue d( nullptr, nullptr );
+    write_var_value( var_type::context, "loc", &d, get_map().get_abs( p ).to_string() );
+    write_var_value( var_type::context, "corpse_damage", &d, it.damage() );
+    for( const revive_type &rev_type : montype->revive_types ) {
+        if( rev_type.condition( d ) ) {
+            if( !rev_type.revive_mon.is_null() ) {
+                it.set_var( "zombie_form", rev_type.revive_mon.str() );
+                return;
+            }
+            if( !rev_type.revive_monster_group.is_null() ) {
+                mtype_id mon = MonsterGroupManager::GetRandomMonsterFromGroup( rev_type.revive_monster_group );
+                it.set_var( "zombie_form", mon.str() );
+            }
+        }
+    }
 }
 
 void game::save_cyborg( item *cyborg, const tripoint_bub_ms &couch_pos, Character &installer )
@@ -5796,9 +5824,11 @@ void game::moving_vehicle_dismount( const tripoint_bub_ms &dest_loc )
 
 void game::control_vehicle()
 {
+    map &here = get_map();
+
     if( vehicle *remote_veh = remoteveh() ) { // remote controls have priority
         for( const vpart_reference &vpr : remote_veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
-            remote_veh->interact_with( vpr.pos_bub() );
+            remote_veh->interact_with( vpr.pos_bub( &here ) );
             return;
         }
     }
@@ -10342,9 +10372,9 @@ void game::reload_weapon( bool try_everything )
         return;
     }
     // If we make it here and haven't found anything to reload, start looking elsewhere.
-    const optional_vpart_position ovp = m.veh_at( u.pos_bub() );
+    const optional_vpart_position ovp = m.veh_at( u.pos_abs() );
     if( ovp ) {
-        const turret_data turret = ovp->vehicle().turret_query( ovp->pos_bub() );
+        const turret_data turret = ovp->vehicle().turret_query( ovp->pos_abs( ) );
         if( turret.can_reload() ) {
             item::reload_option opt = u.select_ammo( turret.base(), true );
             if( opt ) {
@@ -11128,7 +11158,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
 
     if( grabbed_vehicle ) {
         // Vehicle might be at different z level than the grabbed part.
-        u.grab_point.z() = vp_grab->pos_bub().z() - u.posz();
+        u.grab_point.z() = vp_grab->pos_abs().z() - u.posz();
     }
 
     if( pulling ) {
