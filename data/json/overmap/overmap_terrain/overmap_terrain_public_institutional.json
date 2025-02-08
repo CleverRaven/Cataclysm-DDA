@@ -11,7 +11,7 @@
     "type": "overmap_terrain",
     "id": [ "church_roof", "church_2ndfloor_1", "church_3rdfloor_1", "church_roof_1" ],
     "vision_levels": "roof_or_air",
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_roof",
     "name": "church roof",
     "sym": "C",
     "color": "light_red"
@@ -19,7 +19,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "church_steeple", "church_steeple_end", "church_steeple_roof" ],
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_roof",
     "name": "church steeple",
     "sym": "C",
     "extras": "none",
@@ -72,7 +72,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "synagogue_roof", "synagogue_upper_roof" ],
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_roof",
     "name": "synagogue roof",
     "sym": "S",
     "color": "blue"
@@ -158,7 +158,7 @@
       "urban_library_roof_4"
     ],
     "name": "library roof",
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_roof",
     "color": "i_brown"
   },
   {
@@ -173,7 +173,7 @@
     "type": "overmap_terrain",
     "id": [ "police_roof", "police_roof_1", "police_roof_2", "police_upper_roof_2" ],
     "name": "police station roof",
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_roof",
     "color": "h_yellow"
   },
   {
@@ -524,7 +524,7 @@
     "type": "overmap_terrain",
     "id": [ "post_office_roof", "post_office_roof_1" ],
     "name": "post office roof",
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_roof",
     "color": "blue"
   },
   {
@@ -540,7 +540,7 @@
     "type": "overmap_terrain",
     "id": "mortuary_roof",
     "name": "mortuary roof",
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_roof",
     "sym": "M",
     "color": "i_blue",
     "mondensity": 6
@@ -557,7 +557,7 @@
     "type": "overmap_terrain",
     "id": [ "fire_station_roof", "fire_station_roof_1" ],
     "name": "fire station roof",
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_roof",
     "sym": "F",
     "color": "red"
   },
@@ -620,8 +620,7 @@
     "sym": "^",
     "color": "i_black",
     "see_cost": "none",
-    "mondensity": 1,
-    "flags": [ "PP_GENERATE_RIOT_DAMAGE" ]
+    "mondensity": 1
   },
   {
     "type": "overmap_terrain",
@@ -812,7 +811,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "small_kindergarten_roof" ],
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_roof",
     "name": "small kindergarten roof",
     "sym": "K",
     "color": "i_light_blue"

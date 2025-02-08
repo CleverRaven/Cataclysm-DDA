@@ -98,7 +98,7 @@
   {
     "type": "overmap_terrain",
     "id": "warehouse_roof",
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_roof",
     "name": "small warehouse roof",
     "vision_levels": "warehouse",
     "sym": "w",
@@ -116,7 +116,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "small_storage_units_roof", "small_storage_units_roof_1" ],
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_roof",
     "name": "small storage units roof",
     "vision_levels": "warehouse",
     "sym": "#",
@@ -160,7 +160,7 @@
     "type": "overmap_terrain",
     "id": [ "lumbermill_0_0_roof", "lumbermill_0_1_roof", "lumbermill_1_0_roof", "lumbermill_1_1_roof" ],
     "vision_levels": "roof_or_air",
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_roof",
     "name": "lumbermill roof",
     "sym": "L",
     "color": "i_green"
@@ -203,7 +203,7 @@
       "abandonedwarehouse_3_roof",
       "abandonedwarehouse_4_roof"
     ],
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_roof",
     "name": "abandoned warehouse roof",
     "vision_levels": "warehouse",
     "sym": "w",
@@ -233,7 +233,7 @@
       "medium_storage_units_roof_1",
       "medium_storage_units_roof_2"
     ],
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_roof",
     "name": "storage units roof",
     "vision_levels": "warehouse",
     "sym": "#",
