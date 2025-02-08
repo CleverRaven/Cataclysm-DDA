@@ -92,6 +92,20 @@ Checks: [
     -readability-simplify-boolean-expr,
     -readability-suspicious-call-argument,
     -readability-use-anyofallof,
+    # Temporarily disabled in an update to llvm 18. Untriaged.
+    -modernize-make-shared,
+    -readability-redundant-member-init,
+    -bugprone-chained-comparison,
+    -bugprone-multi-level-implicit-pointer-conversion,
+    -bugprone-optional-value-conversion,
+    -bugprone-unused-local-non-trivial-variable,
+    -clang-analyzer-optin.core.EnumCastOutOfRange,
+    -performance-enum-size,
+    -readability-avoid-nested-conditional-operator,
+    -readability-avoid-return-with-void-value,
+    -readability-redundant-casting,
+    -readability-redundant-inline-specifier,
+    -readability-reference-to-constructed-temporary,
 ]
 
 WarningsAsErrors: '*'
