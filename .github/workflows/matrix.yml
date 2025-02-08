@@ -25,7 +25,7 @@ concurrency:
 # - RELEASE=1
 # - CMAKE=1
 # - LOCALIZE=0
-# - LTO=1
+# - LTO=1 (to catch ODR violations)
 # - LIBBACKTRACE=1 (on Linux and Windows)
 # - Tests with important mods enabled (Magiclysm)
 # - A clang-tidy run
@@ -35,6 +35,22 @@ concurrency:
 # To see what toolchains are available, the following may be useful:
 # https://launchpad.net/%7Eubuntu-toolchain-r/+archive/ubuntu/test/+index
 # https://apt.llvm.org/
+# For github provided runners: https://github.com/actions/runner-images
+# See also our publicized docs about compiler support: https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/c++/COMPILER_SUPPORT.md
+#
+# At the time of writing (Jan 2025), the feature matrix for the above criteria looks like this:
+# | name                                 | OS       | compiler | newest/ oldest | tiles | sound | localize | cmake | backtrace | lto | sanitize | mods |
+# | ------------------------------------ | -------- | -------- | -------------- | ----- | ----- | -------- | ----- | --------- | --- | -------- | ---- |
+# | Basic Build and Test                 | ubuntu   | clang-10 | oldest (clang) |       |       | yes      |       |           |     |          | yes  |
+# | Clang 18, Ubuntu, Tiles, ASan        | ubuntu   | clang-18 | newest (clang) | yes   |       | yes      |       | yes       |     | address  |      |
+# | GCC 9, Curses, LTO                   | ubuntu   | gcc-9    | oldest   (gcc) |       |       | yes      |       | yes       | yes |          |      |
+# | GCC 12, Ubuntu, Curses, ASan         | ubuntu   | gcc-12   | newest*  (gcc) |       |       | yes      |       |           |     | address  |      |
+# | GCC 9, Ubuntu, Tiles, Sound, CMake   | ubuntu   | gcc-9    | oldest   (gcc) | yes   | yes   |          | yes   |           |     |          |      |
+# | macOS 13, Apple Clang 15             | macOS 13 | apple clang-15  |  N/A    | yes   | yes   | yes      |       |           |     |          |      |
+# | Windows (in msvc-full-features.yml)  | windows  | msvc     |     N/A        | yes   | yes   | yes      |       | yes?      |     |          |      |
+#
+# gcc-12 is not actually newest. gcc-14 exists, but it's failing the asan tests on newer (24.04) ubuntu runners for whatever reason.
+# See https://github.com/CleverRaven/Cataclysm-DDA/pull/79517#issuecomment-2635790180 for a tiny bit more context
 
 jobs:
   skip-duplicates-code:
@@ -105,9 +121,9 @@ jobs:
             tiles: 1
             sound: 1
             localize: 1
-            title: Clang 14, macOS 12, Tiles, Sound, x64 and arm64 Universal Binary
+            title: macOS 13, Apple Clang 15, Tiles, Sound, x64 and arm64 Universal Binary
             ccache_limit: 10G
-            ccache_key: macos-llvm-14-universal-break1
+            ccache_key: macos-llvm-15-universal
 
           - compiler: g++-9
             os: ubuntu-22.04
@@ -125,8 +141,8 @@ jobs:
             ccache_limit: 7.5G
             ccache_key: linux-gcc-9-lto
 
-          - compiler: clang++-12
-            os: ubuntu-22.04
+          - compiler: clang++-18
+            os: ubuntu-latest
             cmake: 0
             tiles: 1
             sound: 0
@@ -134,13 +150,12 @@ jobs:
             native: linux64
             pch: 1
             sanitize: address
-            cxxflags: --gcc-toolchain=/opt/mock-gcc-11
             dont_skip_data_only_changes: 1
-            title: Clang 12, Ubuntu, Tiles, ASan
+            title: Clang 18, Ubuntu, Tiles, ASan
             ccache_limit: 6G
-            ccache_key: linux-llvm-12-asan
+            ccache_key: linux-llvm-18-asan
 
-          - compiler: g++-11
+          - compiler: g++-12
             os: ubuntu-22.04
             cmake: 0
             tiles: 0
@@ -149,9 +164,9 @@ jobs:
             native: linux64
             pch: 1
             sanitize: address
-            title: GCC 11, Ubuntu, Curses, ASan
+            title: GCC 12, Ubuntu, Curses, ASan
             ccache_limit: 6.5G
-            ccache_key: linux-gcc-11-asan
+            ccache_key: linux-gcc-12-asan
 
           - compiler: g++-9
             os: ubuntu-22.04
@@ -228,18 +243,6 @@ jobs:
           sudo apt-get remove --purge -y ccache
           curl -sL https://github.com/ccache/ccache/releases/download/v4.10.2/ccache-4.10.2-linux-x86_64.tar.xz | sudo tar Jxvf - --strip-components 1 -C /usr/bin ccache-4.10.2-linux-x86_64/ccache
           ccache --version
-    - name: install Clang 12 (Ubuntu)
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-12') }}
-      run: |
-          sudo apt-get install clang-12
-    - name: set up a mock GCC toolchain root for Clang (Ubuntu)
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-12') }}
-      run: |
-        sudo mkdir /opt/mock-gcc-11
-        sudo ln -s /usr/include /opt/mock-gcc-11/include
-        sudo ln -s /usr/bin /opt/mock-gcc-11/bin
-        sudo mkdir -p /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu
-        sudo ln -s /usr/lib/gcc/x86_64-linux-gnu/11 /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu/11
     - name: install runtime dependencies (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
       uses: BrettDong/setup-sdl2-frameworks@v1
