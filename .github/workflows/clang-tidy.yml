@@ -1,4 +1,4 @@
-name: Clang-tidy 17
+name: Clang-tidy 18
 
 on:
   push:
@@ -36,13 +36,13 @@ jobs:
         fail-fast: true
     runs-on: ubuntu-24.04
     env:
-        COMPILER: clang++-17
+        COMPILER: clang++-18
     steps:
-    - name: install LLVM 17
+    - name: install LLVM 18
       if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
       run: |
           sudo apt-get update
-          sudo apt install llvm-17 llvm-17-dev llvm-17-tools clang-17 clang-tidy-17 clang-tools-17 libclang-17-dev
+          sudo apt install llvm-18 llvm-18-dev llvm-18-tools clang-18 clang-tidy-18 clang-tools-18 libclang-18-dev
           sudo apt install python3-pip ninja-build cmake
           pip3 install --user lit
     - name: checkout repository
@@ -74,8 +74,8 @@ jobs:
 
     runs-on: ubuntu-24.04
     env:
-        COMPILER: clang++-17
-        CATA_CLANG_TIDY: clang-tidy-17
+        COMPILER: clang++-18
+        CATA_CLANG_TIDY: clang-tidy-18
         CATA_CLANG_TIDY_SUBSET: ${{ matrix.subset }}
         TILES: 1
         SOUND: 1
@@ -85,7 +85,7 @@ jobs:
       if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
       run: |
           sudo apt-get update
-          sudo apt install clang-17 clang-tidy-17 cmake ccache jq
+          sudo apt install clang-18 clang-tidy-18 cmake ccache jq
           sudo apt install libflac-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev gettext 
     - name: checkout repository
       uses: actions/checkout@v4
@@ -122,7 +122,7 @@ jobs:
       run: | # the folder may not exist if there is no file to analyze
         if [ -d clang-tidy-trace ]
         then
-          jq -n 'reduce(inputs.profile | to_entries[]) as {$key,$value} ({}; .[$key] += $value) | with_entries(select(.key|contains(".wall"))) | to_entries | sort_by(.value) | reverse | .[0:10] | from_entries' clang-tidy-trace/*.json
+          jq -n 'reduce(inputs.profile | to_entries[]) as {$key,$value} ({}; .[$key] += $value) | with_entries(select(.key|contains(".wall"))) | to_entries | sort_by(.value) | reverse | .[0:30] | from_entries' clang-tidy-trace/*.json
         else
           echo "clang-tidy-trace folder not found."
         fi
