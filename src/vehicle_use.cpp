@@ -2323,7 +2323,7 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
                  fuel_left( *here, itype_battery ) >= itype_water_purifier->charges_to_use() )
         .hotkey( "PURIFY_WATER" )
         .on_submit( [this, here] {
-            const auto sel = [here]( const vehicle_part & pt )
+            const auto sel = []( const vehicle_part & pt )
             {
                 return pt.is_tank() && pt.ammo_current() == itype_water;
             };
