@@ -17,6 +17,7 @@
     "durability": 8,
     "modes": [ [ "DEFAULT", "Jet", 1 ], [ "AUTO", "Gout", 4 ] ],
     "extend": { "flags": [ "BELTED", "PRIMITIVE_RANGED_WEAPON", "IS_ARMOR" ] },
+    "max_worn": 1,
     "armor_data": {
       "armor": [
         {
