@@ -3105,7 +3105,6 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "power_armor", power_armor, false );
     optional( jo, was_loaded, "max_energy_shield_hp", max_energy_shield_hp, 0 );
     optional( jo, was_loaded, "valid_mods", valid_mods );
-    optional( jo, was_loaded, "max_worn", max_worn, MAX_WORN_PER_TYPE );
 }
 
 void islot_armor::deserialize( const JsonObject &jo )
@@ -4436,6 +4435,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     }
 
     optional( jo, def.was_loaded, "properties", def.properties );
+
+    optional( jo, def.was_loaded, "max_worn", def.max_worn, MAX_WORN_PER_TYPE );
 
     if( jo.has_member( "techniques" ) ) {
         def.techniques.clear();

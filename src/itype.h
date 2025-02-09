@@ -491,8 +491,6 @@ struct islot_armor {
         void load( const JsonObject &jo );
         void deserialize( const JsonObject &jo );
 
-        int max_worn = MAX_WORN_PER_TYPE;
-
     private:
         // Base material thickness, used to derive thickness in sub_data
         std::optional<float> _material_thickness = 0.0f;
@@ -1491,6 +1489,9 @@ struct itype {
         * Efficiency of solar energy conversion for solarpacks.
         */
         float solar_efficiency = 0.0f;
+
+        // Max amount of this type that can be worn.
+        int max_worn = MAX_WORN_PER_TYPE;
 
     private:
         /** maximum amount of damage to a non- count_by_charges item */

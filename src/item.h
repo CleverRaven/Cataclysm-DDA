@@ -2355,7 +2355,7 @@ class item : public visitable
         bool is_power_armor() const;
 
         /**
-         * The maximum amount of this item that can be worn at the same time.  Defaults to 2 if not defined for the armor.
+         * The maximum amount of this item that can be worn at the same time.  Defaults to MAX_WORN_PER_TYPE if not defined for the item.
          */
         int max_worn() const;
         /**
