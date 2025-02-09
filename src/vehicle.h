@@ -34,6 +34,7 @@
 #include "item_stack.h"
 #include "line.h"
 #include "map.h"
+#include "npc.h"
 #include "point.h"
 #include "tileray.h"
 #include "type_id.h"
@@ -47,7 +48,6 @@ class JsonOut;
 class map;
 class monster;
 class nc_color;
-class npc;
 class vehicle;
 class vehicle_part_range;
 class veh_menu;

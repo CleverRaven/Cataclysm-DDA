@@ -16,6 +16,7 @@
 class Character;
 struct tripoint;
 
+enum efile_action : int;
 class repair_item_actor;
 class salvage_actor;
 
