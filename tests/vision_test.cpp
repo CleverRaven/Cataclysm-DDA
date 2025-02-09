@@ -935,7 +935,7 @@ TEST_CASE( "vision_vehicle_camera_skew", "[shadowcasting][vision][vehicle][vehic
             v->remove_part( *horns.front() );
         }
         if( fiddle > 1 ) {
-            REQUIRE( v->install_part( point_rel_ms::zero, vpart_inboard_mirror ) != -1 );
+            REQUIRE( v->install_part( here, point_rel_ms::zero, vpart_inboard_mirror ) != -1 );
         }
         if( fiddle > 0 ) {
             here.add_vehicle_to_cache( v );

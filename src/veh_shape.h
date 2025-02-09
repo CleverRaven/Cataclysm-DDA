@@ -4,12 +4,13 @@
 
 #include "vehicle.h"
 
+class map;
 class player_activity;
 
 class veh_shape
 {
     public:
-        explicit veh_shape( vehicle &vehicle );
+        explicit veh_shape( map &here, vehicle &vehicle );
 
         /// Starts vehicle ui loop, runs until canceled or activity is selected and returned
         /// @param vehicle Vehicle to handle
@@ -23,6 +24,7 @@ class veh_shape
         vehicle &veh;
 
         // cursor handling
+        map &here;
         std::set<tripoint_bub_ms> cursor_allowed; // all points the cursor is allowed to be on
         tripoint_bub_ms cursor_pos;
         tripoint_bub_ms get_cursor_pos() const;

@@ -111,6 +111,7 @@ static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
 void handbrake()
 {
+    map &here = get_map();
     Character &player_character = get_player_character();
     const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
     if( !vp ) {
@@ -126,7 +127,7 @@ void handbrake()
     } else {
         int braking_power = std::abs( veh->velocity ) / 2 + 10 * 100;
         if( std::abs( veh->velocity ) < braking_power ) {
-            veh->stop();
+            veh->stop( here );
         } else {
             int sgn = veh->velocity > 0 ? 1 : -1;
             veh->velocity = sgn * ( std::abs( veh->velocity ) - braking_power );
@@ -181,7 +182,7 @@ void vehicle::control_doors()
         const bool open = !vp.open;
         menu.add( string_format( "%s %s", actname, vp.name() ) )
         .hotkey_auto()
-        .location( bub_part_pos( &here, vp ).raw() )
+        .location( bub_part_pos( here, vp ).raw() )
         .keep_menu_open()
         .on_submit( [this, vp_idx, open] {
             if( can_close( vp_idx, get_player_character() ) )
@@ -200,7 +201,7 @@ void vehicle::control_doors()
         const bool lock = !vp.locked;
         menu.add( string_format( "%s %s", actname, vp.name() ) )
         .hotkey_auto()
-        .location( bub_part_pos( &here, vp ).raw() )
+        .location( bub_part_pos( here, vp ).raw() )
         .keep_menu_open()
         .on_submit( [this, vp_idx, lock] {
             lock_or_unlock( vp_idx, lock );
@@ -248,7 +249,7 @@ void vehicle::control_doors()
     } while( menu.query() );
 }
 
-static void add_electronic_toggle( vehicle &veh, veh_menu &menu, const std::string &name,
+static void add_electronic_toggle( map &here, vehicle &veh, veh_menu &menu, const std::string &name,
                                    const std::string &action, const std::string &flag )
 {
     // fetch matching parts and abort early if none found
@@ -264,8 +265,9 @@ static void add_electronic_toggle( vehicle &veh, veh_menu &menu, const std::stri
 
     // can this menu option be selected by the user?
     // if toggled part potentially usable check if could be enabled now (sufficient fuel etc.)
-    bool allow = !state || std::any_of( found.begin(), found.end(), []( const vpart_reference & vp ) {
-        return vp.vehicle().can_enable( vp.part() );
+    bool allow = !state ||
+    std::any_of( found.begin(), found.end(), [&here]( const vpart_reference & vp ) {
+        return vp.vehicle().can_enable( here, vp.part() );
     } );
 
     const std::string msg = state ? _( "Turn on %s" ) : colorize( _( "Turn off %s" ), c_pink );
@@ -315,9 +317,9 @@ void vehicle::build_electronics_menu( veh_menu &menu )
         } );
     }
 
-    auto add_toggle = [this, &menu]( const std::string & name, const std::string & action,
+    auto add_toggle = [&here, this, &menu]( const std::string & name, const std::string & action,
     const std::string & flag ) {
-        add_electronic_toggle( *this, menu, name, action, flag );
+        add_electronic_toggle( here, *this, menu, name, action, flag );
     };
     add_toggle( pgettext( "electronics menu option", "reactor" ),
                 "TOGGLE_REACTOR", "REACTOR" );
@@ -588,7 +590,7 @@ double vehicle::engine_cold_factor( const vehicle_part &vp ) const
         return 0.0;
     }
 
-    const tripoint_bub_ms pos = bub_part_pos( &here, vp );
+    const tripoint_bub_ms pos = bub_part_pos( here, vp );
     double eff_temp = units::to_fahrenheit( get_weather().get_temperature( pos ) );
     if( !vp.has_fault_flag( "BAD_COLD_START" ) ) {
         eff_temp = std::min( eff_temp, 20.0 );
@@ -685,7 +687,7 @@ bool vehicle::start_engine( vehicle_part &vp )
 
     const double dmg = vp.damage_percent();
     const time_duration start_time = engine_start_time( vp );
-    const tripoint_bub_ms pos = bub_part_pos( &here, vp );
+    const tripoint_bub_ms pos = bub_part_pos( here, vp );
 
     if( ( 1 - dmg ) < vpi.engine_info->backfire_threshold &&
         one_in( vpi.engine_info->backfire_freq ) ) {
@@ -771,7 +773,7 @@ void vehicle::stop_engines()
             continue;
         }
 
-        sounds::sound( bub_part_pos( &here, vp ), 2, sounds::sound_t::movement,
+        sounds::sound( bub_part_pos( here, vp ), 2, sounds::sound_t::movement,
                        _( "the engine go silent" ) );
 
         std::string variant = vp.info().id.str();
@@ -817,7 +819,7 @@ void vehicle::start_engines( Character *driver, const bool take_control, const b
     for( const int p : engines ) {
         const vehicle_part &vp = parts[p];
         if( !has_starting_engine_position && !vp.is_broken() && vp.enabled ) {
-            starting_engine_position = bub_part_pos( &here, vp );
+            starting_engine_position = bub_part_pos( here, vp );
             has_starting_engine_position = true;
         }
         has_engine = has_engine || is_engine_on( vp );
@@ -1144,12 +1146,12 @@ void vehicle::operate_scoop()
                 _( "Whirrrr" ), _( "Ker-chunk" ), _( "Swish" ), _( "Cugugugugug" )
             }
         };
-        sounds::sound( bub_part_pos( &here, scoop ), rng( 20, 35 ), sounds::sound_t::combat,
+        sounds::sound( bub_part_pos( here, scoop ), rng( 20, 35 ), sounds::sound_t::combat,
                        random_entry_ref( sound_msgs ), false, "vehicle", "scoop" );
         std::vector<tripoint_bub_ms> parts_points;
         parts_points.reserve( 8 );
         for( const tripoint_bub_ms &current :
-             here.points_in_radius( bub_part_pos( &here, scoop ), 1 ) ) {
+             here.points_in_radius( bub_part_pos( here, scoop ), 1 ) ) {
             parts_points.push_back( current );
         }
         for( const tripoint_bub_ms &position : parts_points ) {
@@ -1204,7 +1206,7 @@ void vehicle::alarm()
                     _( "WHOOP WHOOP" ), _( "NEEeu NEEeu NEEeu" ), _( "BLEEEEEEP" ), _( "WREEP" )
                 }
             };
-            sounds::sound( pos_bub( &here ), static_cast<int>( rng( 45, 80 ) ),
+            sounds::sound( pos_bub( here ), static_cast<int>( rng( 45, 80 ) ),
                            sounds::sound_t::alarm,  random_entry_ref( sound_msgs ), false, "vehicle", "car_alarm" );
             if( one_in( 1000 ) ) {
                 is_alarm_on = false;
@@ -2142,8 +2144,8 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .desc( string_format( !item_linked && !tow_linked ? "" : _( "Remove other cables first" ) ) )
         .skip_locked_check()
         .hotkey( "DISCONNECT_CABLES" )
-        .on_submit( [this, vp] {
-            unlink_cables( vp.mount_pos(), get_player_character(), true, true, true );
+        .on_submit( [here, this, vp] {
+            unlink_cables( *here, vp.mount_pos(), get_player_character(), true, true, true );
             get_player_character().pause();
         } );
     }
@@ -2153,8 +2155,8 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         menu.add( menu_text )
         .skip_locked_check()
         .hotkey( "DISCONNECT_CABLES" )
-        .on_submit( [this, vp] {
-            unlink_cables( vp.mount_pos(), get_player_character(), true, true, false );
+        .on_submit( [here, this, vp] {
+            unlink_cables( *here, vp.mount_pos(), get_player_character(), true, true, false );
             get_player_character().pause();
         } );
     }
@@ -2322,14 +2324,14 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
         .enable( fuel_left( *here, itype_water ) &&
                  fuel_left( *here, itype_battery ) >= itype_water_purifier->charges_to_use() )
         .hotkey( "PURIFY_WATER" )
-        .on_submit( [this, here] {
+        .on_submit( [this, &here] {
             const auto sel = []( const vehicle_part & pt )
             {
                 return pt.is_tank() && pt.ammo_current() == itype_water;
             };
             std::string title = string_format( _( "Purify <color_%s>water</color> in tank" ),
                                                get_all_colors().get_name( itype_water->color ) );
-            const std::optional<vpart_reference> vpr = veh_interact::select_part( *this, sel, title );
+            const std::optional<vpart_reference> vpr = veh_interact::select_part( *here, *this, sel, title );
             if( !vpr )
             {
                 return;

@@ -178,12 +178,12 @@ TEST_CASE( "ensure_vehicle_weight_is_constant", "[vehicle] [vehicle_fake]" )
     veh->velocity = veh->cruise_velocity;
 
     GIVEN( "A vehicle with a known weight" ) {
-        units::mass initial_weight = veh->total_mass();
+        units::mass initial_weight = veh->total_mass( here );
         WHEN( "The vehicle turns such that it is not perpendicular to a cardinal axis" ) {
             veh->turn( 45_degrees );
             here.vehmove();
             THEN( "The vehicle weight is constant" ) {
-                units::mass turned_weight = veh->total_mass();
+                units::mass turned_weight = veh->total_mass( here );
                 CHECK( initial_weight == turned_weight );
             }
         }
@@ -258,7 +258,7 @@ TEST_CASE( "vehicle_to_vehicle_collision", "[vehicle] [vehicle_fake]" )
         const tripoint_bub_ms test_origin( 30, 30, 0 );
         vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 30_degrees, 100, 0 );
         REQUIRE( veh != nullptr );
-        const tripoint_bub_ms global_origin = veh->pos_bub( &here );
+        const tripoint_bub_ms global_origin = veh->pos_bub( here );
 
         veh->tags.insert( "IN_CONTROL_OVERRIDE" );
         veh->engine_on = true;
@@ -266,7 +266,7 @@ TEST_CASE( "vehicle_to_vehicle_collision", "[vehicle] [vehicle_fake]" )
         veh->cruise_velocity = target_velocity;
         veh->velocity = veh->cruise_velocity;
         here.vehmove();
-        const tripoint_bub_ms global_move = veh->pos_bub( &here );
+        const tripoint_bub_ms global_move = veh->pos_bub( here );
         const tripoint_bub_ms obstacle_point = test_origin + 2 * ( global_move - global_origin );
         vehicle *trg = here.add_vehicle( vehicle_prototype_schoolbus, obstacle_point, 90_degrees, 100, 0 );
         REQUIRE( trg != nullptr );

@@ -521,7 +521,7 @@ target_handler::trajectory target_handler::mode_turrets( avatar &you, vehicle &v
     int range_total = 0;
     for( vehicle_part *t : turrets ) {
         int range = veh.turret_query( *t ).range();
-        tripoint_bub_ms pos = veh.bub_part_pos( &here, *t );
+        tripoint_bub_ms pos = veh.bub_part_pos( here, *t );
 
         int res = 0;
         res = std::max( res, rl_dist( you.pos_bub(), pos + point( range, 0 ) ) );
@@ -2282,7 +2282,7 @@ static void cycle_action( item &weap, const itype_id &ammo, map *here, const tri
         if( !( brass_catcher &&
                brass_catcher->put_in( linkage, pocket_type::CONTAINER ).success() ) ) {
             if( ovp_cargo ) {
-                ovp_cargo->items().insert( linkage );
+                ovp_cargo->items().insert( *here, linkage );
             } else {
                 here->add_item_or_charges( eject, linkage );
             }
@@ -3389,7 +3389,7 @@ void target_ui::update_turrets_in_range()
     for( vehicle_part *t : *vturrets ) {
         turret_data td = veh->turret_query( *t );
         if( td.in_range( here.get_abs( dst ) ) ) {
-            tripoint_bub_ms src = veh->bub_part_pos( &here, *t );
+            tripoint_bub_ms src = veh->bub_part_pos( here, *t );
             turrets_in_range.push_back( {t, line_to( src, dst )} );
         }
     }

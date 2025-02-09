@@ -55,7 +55,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
                                              false, true );
             REQUIRE( veh );
 
-            const int turr_idx = veh->install_part( point_rel_ms::zero, turret_vpi->id );
+            const int turr_idx = veh->install_part( here, point_rel_ms::zero, turret_vpi->id );
             REQUIRE( turr_idx >= 0 );
             vehicle_part &vp = veh->part( turr_idx );
             CHECK( vp.is_turret() );
@@ -100,7 +100,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             REQUIRE( qry.query() == turret_data::status::ready );
             REQUIRE( qry.range() > 0 );
 
-            player_character.setpos( &here, veh->bub_part_pos( &here, vp ) );
+            player_character.setpos( &here, veh->bub_part_pos( here, vp ) );
             int shots_fired = 0;
             // 3 attempts to fire, to account for possible misfires
             for( int attempt = 0; shots_fired == 0 && attempt < 3; attempt++ ) {

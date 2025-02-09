@@ -7159,7 +7159,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
     veh->sm_pos = abs_sub.xy() + rebase_rel( quotient );
     veh->pos = remainder;
     veh->init_state( *this, veh_fuel, veh_status, force_status );
-    veh->place_spawn_items();
+    veh->place_spawn_items( *this );
     veh->face.init( dir );
     veh->turn_dir = dir;
     // for backwards compatibility, we always spawn with a pivot point of (0,0) so
@@ -7215,7 +7215,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
     for( std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++ ) {
-        const tripoint_bub_ms p = veh_to_add->bub_part_pos( this, *part );
+        const tripoint_bub_ms p = veh_to_add->bub_part_pos( *this, *part );
 
         if( veh_to_add->part( *part ).is_fake ) {
             continue;
@@ -7290,7 +7290,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                         const ret_val<void> valid_mount = first_veh->can_mount( target_point, vpi );
                         if( valid_mount.success() ) {
                             // make a copy so we don't interfere with veh_to_add->remove_part below
-                            first_veh->install_part( target_point, vehicle_part( *vp ) );
+                            first_veh->install_part( *this, target_point, vehicle_part( *vp ) );
                         }
                         // ignore parts that would make invalid vehicle configuration
                     }

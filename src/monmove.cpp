@@ -2404,7 +2404,7 @@ void monster::shove_vehicle( const tripoint_bub_ms &remote_destination,
         optional_vpart_position vp = here.veh_at( nearby_destination );
         if( vp ) {
             vehicle &veh = vp->vehicle();
-            const units::mass veh_mass = veh.total_mass();
+            const units::mass veh_mass = veh.total_mass( here );
             int shove_moves_minimal = 0;
             int shove_veh_mass_moves_factor = 0;
             int shove_velocity = 0;

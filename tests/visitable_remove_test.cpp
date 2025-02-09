@@ -445,7 +445,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             v->add_item( here,  vp->part(), obj );
         }
 
-        vehicle_selector sel( p.pos_bub(), 1 );
+        vehicle_selector sel( here,  p.pos_bub( &here ), 1 );
 
         REQUIRE( count_items( sel, container_id ) == count );
         REQUIRE( count_items( sel, liquid_id ) == count );

@@ -56,12 +56,11 @@ vpart_id vpart_appliance_from_item( const itype_id &item_id )
     return vpart_ap_standing_lamp;
 }
 
-bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
+bool place_appliance( map &here, const tripoint_bub_ms &p, const vpart_id &vpart,
                       const Character &owner, const std::optional<item> &base )
 {
 
     const vpart_info &vpinfo = vpart.obj();
-    map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
 
     if( !veh ) {
@@ -78,9 +77,9 @@ bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
             // transform the deploying item into what it *should* be before storing it
             copied.convert( vpinfo.base_item );
         }
-        partnum = veh->install_part( point_rel_ms::zero, vpart, std::move( copied ) );
+        partnum = veh->install_part( here, point_rel_ms::zero, vpart, std::move( copied ) );
     } else {
-        partnum = veh->install_part( point_rel_ms::zero, vpart );
+        partnum = veh->install_part( here, point_rel_ms::zero, vpart );
     }
     if( partnum == -1 ) {
         // unrecoverable, failed to be installed somehow
@@ -123,16 +122,16 @@ bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
 
     // Make some lighting appliances directed
     if( vpinfo.has_flag( flag_HALF_CIRCLE_LIGHT ) && partnum != -1 ) {
-        orient_part( veh, vpinfo, partnum );
+        orient_part( here, veh, vpinfo, partnum );
     }
     veh->set_owner( owner );
     return true;
 }
 
-player_activity veh_app_interact::run( vehicle &veh, const point_rel_ms &p )
+player_activity veh_app_interact::run( map &here, vehicle &veh, const point_rel_ms &p )
 {
     veh_app_interact ap( veh, p );
-    ap.app_loop();
+    ap.app_loop( here );
     return ap.act;
 }
 
@@ -150,21 +149,19 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point_rel_ms &p )
 }
 
 // @returns true if a battery part exists on any vehicle connected to veh
-static bool has_battery_in_grid( vehicle *veh )
+static bool has_battery_in_grid( map &here, vehicle *veh )
 {
-    map &here = get_map();
-
     return !veh->search_connected_batteries( here ).empty();
 }
 
-void veh_app_interact::init_ui_windows()
+void veh_app_interact::init_ui_windows( map &here )
 {
     imenu.reset();
-    populate_app_actions();
+    populate_app_actions( here );
 
-    int height_info = veh->get_printable_fuel_types().size() + 2;
+    int height_info = veh->get_printable_fuel_types( here ).size() + 2;
 
-    if( !has_battery_in_grid( veh ) ) {
+    if( !has_battery_in_grid( here, veh ) ) {
         height_info++;
     }
     if( !veh->batteries.empty() ) {
@@ -215,16 +212,14 @@ void veh_app_interact::init_ui_windows()
     imenu.setup();
 }
 
-void veh_app_interact::draw_info()
+void veh_app_interact::draw_info( map &here )
 {
-    map &here = get_map();
-
     werase( w_info );
 
     int row = 0;
     // Fuel indicators
-    veh->print_fuel_indicators( w_info, point( 0, row ), 0, true, true, true, true );
-    row += veh->get_printable_fuel_types().size();
+    veh->print_fuel_indicators( here, w_info, point( 0, row ), 0, true, true, true, true );
+    row += veh->get_printable_fuel_types( here ).size();
 
     // Onboard battery power
     if( !veh->batteries.empty() ) {
@@ -254,7 +249,7 @@ void veh_app_interact::draw_info()
         wprintz( w_info, rcol, rstr );
     };
 
-    if( !has_battery_in_grid( veh ) ) {
+    if( !has_battery_in_grid( here, veh ) ) {
         mvwprintz( w_info, point( 0, row ), c_light_red, _( "Appliance has no connection to a battery." ) );
         row++;
     }
@@ -423,10 +418,8 @@ void veh_app_interact::refill()
     }
 }
 
-void veh_app_interact::siphon()
+void veh_app_interact::siphon( map &here )
 {
-    map &here = get_map();
-
     std::vector<vehicle_part *> ptlist;
     for( const vpart_reference &vpr : veh->get_any_parts( VPFLAG_FLUIDTANK ) ) {
         if( vpr.part().get_base().has_item_with( []( const item & it ) {
@@ -466,9 +459,8 @@ void veh_app_interact::rename()
     }
 }
 
-void veh_app_interact::remove()
+void veh_app_interact::remove( map &here )
 {
-    map &here = get_map();
     const tripoint_abs_ms a_point_abs( veh->mount_to_tripoint_abs( a_point ) );
 
     vehicle_part *vp;
@@ -525,19 +517,16 @@ bool veh_app_interact::can_disconnect()
     return true;
 }
 
-void veh_app_interact::disconnect()
+void veh_app_interact::disconnect( map &here )
 {
-    map &here = get_map();
-
     veh->separate_from_grid( &here, a_point );
     get_player_character().pause();
 }
 
-void veh_app_interact::plug()
+void veh_app_interact::plug( map &here )
 {
-    map &here = get_map();
     const int part = veh->part_at( veh->coord_translate( a_point ) );
-    const tripoint_bub_ms pos = veh->bub_part_pos( &here, part );
+    const tripoint_bub_ms pos = veh->bub_part_pos( here, part );
     item cord( itype_power_cord );
     cord.link_to( *veh, a_point, link_state::automatic );
     if( cord.get_use( "link_up" ) ) {
@@ -552,9 +541,8 @@ void veh_app_interact::hide()
     vp.hidden = !vp.hidden;
 }
 
-void veh_app_interact::populate_app_actions()
+void veh_app_interact::populate_app_actions( map &here )
 {
-    map &here = get_map();
     vehicle_part *vp;
     const tripoint_abs_ms a_point_abs( veh->mount_to_tripoint_abs( a_point ) );
     if( auto sel_part = here.veh_at( a_point_abs ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
@@ -576,8 +564,8 @@ void veh_app_interact::populate_app_actions()
     imenu.addentry( -1, can_refill(), ctxt.keys_bound_to( "REFILL" ).front(),
                     ctxt.get_action_name( "REFILL" ) );
     // Siphon
-    app_actions.emplace_back( [this]() {
-        siphon();
+    app_actions.emplace_back( [&here, this]() {
+        siphon( here );
     } );
     imenu.addentry( -1, can_siphon(), ctxt.keys_bound_to( "SIPHON" ).front(),
                     ctxt.get_action_name( "SIPHON" ) );
@@ -588,14 +576,14 @@ void veh_app_interact::populate_app_actions()
     imenu.addentry( -1, true, ctxt.keys_bound_to( "RENAME" ).front(),
                     ctxt.get_action_name( "RENAME" ) );
     // Remove
-    app_actions.emplace_back( [this]() {
-        remove();
+    app_actions.emplace_back( [&here, this]() {
+        remove( here );
     } );
     imenu.addentry( -1, veh->can_unmount( *vp, true ).success(), ctxt.keys_bound_to( "REMOVE" ).front(),
                     ctxt.get_action_name( "REMOVE" ) );
     // Plug
-    app_actions.emplace_back( [this]() {
-        plug();
+    app_actions.emplace_back( [&here, this]() {
+        plug( here );
     } );
     imenu.addentry( -1, true, ctxt.keys_bound_to( "PLUG" ).front(),
                     string_format( "%s%s", ctxt.get_action_name( "PLUG" ),
@@ -613,8 +601,8 @@ void veh_app_interact::populate_app_actions()
 
     if( veh->is_powergrid() && veh->part_count() > 1 && !vp->info().has_flag( VPFLAG_WALL_MOUNTED ) ) {
         // Disconnect from power grid
-        app_actions.emplace_back( [this]() {
-            disconnect();
+        app_actions.emplace_back( [&here, this]() {
+            disconnect( here );
             veh = nullptr;
         } );
         const bool can_disc = can_disconnect();
@@ -634,33 +622,33 @@ void veh_app_interact::populate_app_actions()
     }
 }
 
-shared_ptr_fast<ui_adaptor> veh_app_interact::create_or_get_ui_adaptor()
+shared_ptr_fast<ui_adaptor> veh_app_interact::create_or_get_ui_adaptor( map &here )
 {
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
     if( !current_ui ) {
         ui = current_ui = make_shared_fast<ui_adaptor>();
-        current_ui->on_screen_resize( [this]( ui_adaptor & cui ) {
-            init_ui_windows();
+        current_ui->on_screen_resize( [&here, this]( ui_adaptor & cui ) {
+            init_ui_windows( here );
             cui.position_from_window( catacurses::stdscr );
         } );
         current_ui->mark_resize();
-        current_ui->on_redraw( [this]( const ui_adaptor & ) {
+        current_ui->on_redraw( [&here, this]( const ui_adaptor & ) {
             draw_border( w_border, c_white, veh->name, c_white );
             wnoutrefresh( w_border );
-            draw_info();
+            draw_info( here );
         } );
     }
     return current_ui;
 }
 
-void veh_app_interact::app_loop()
+void veh_app_interact::app_loop( map &here )
 {
     bool done = false;
     while( !done ) {
         // scope this tighter so that this ui is hidden when app_actions[ret]() triggers
         {
             ui.reset();
-            shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
+            shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor( here );
             ui_manager::redraw();
             shared_ptr_fast<uilist_impl> input_ui = imenu.create_or_get_ui();
             imenu.query();

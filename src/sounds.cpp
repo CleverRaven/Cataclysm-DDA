@@ -1049,10 +1049,10 @@ void sfx::do_vehicle_exterior_engine_sfx()
     for( wrapped_vehicle vehicle : vehs ) {
         if( vehicle.v->vehicle_noise > 0 &&
             vehicle.v->vehicle_noise -
-            sound_distance( player_character.pos_bub( &here ), vehicle.v->pos_bub( &here ) ) > noise_factor ) {
+            sound_distance( player_character.pos_bub( &here ), vehicle.v->pos_bub( here ) ) > noise_factor ) {
 
             noise_factor = vehicle.v->vehicle_noise - sound_distance( player_character.pos_bub( &here ),
-                           vehicle.v->pos_bub( &here ) );
+                           vehicle.v->pos_bub( here ) );
             veh = vehicle.v;
         }
     }
@@ -1091,7 +1091,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
 
     if( is_channel_playing( ch ) ) {
         if( engine_external_id_and_variant == id_and_variant ) {
-            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub( &here ) ) ), 0 );
+            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub( here ) ) ), 0 );
             set_channel_volume( ch, vol );
             add_msg_debug( debugmode::DF_SOUND, "PLAYING exterior_engine_sound, vol: ex:%d true:%d", vol,
                            Mix_Volume( ch_int, -1 ) );
@@ -1101,7 +1101,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
             add_msg_debug( debugmode::DF_SOUND, "STOP exterior_engine_sound, change id/var" );
             play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
                                         seas_str, indoors, night, 128, ch, 0 );
-            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub( &here ) ) ), 0 );
+            Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub( here ) ) ), 0 );
             set_channel_volume( ch, vol );
             add_msg_debug( debugmode::DF_SOUND, "START exterior_engine_sound %s %s vol: %d",
                            id_and_variant.first,
@@ -1112,7 +1112,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
         play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
                                     seas_str, indoors, night, 128, ch, 0 );
         add_msg_debug( debugmode::DF_SOUND, "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
-        Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub( &here ) ) ), 0 );
+        Mix_SetPosition( ch_int, to_degrees( get_heard_angle( veh->pos_bub( here ) ) ), 0 );
         add_msg_debug( debugmode::DF_SOUND, "Vol: %d %d", vol, Mix_Volume( ch_int, -1 ) );
         set_channel_volume( ch, vol );
         add_msg_debug( debugmode::DF_SOUND, "START exterior_engine_sound NEW %s %s vol: ex:%d true:%d",

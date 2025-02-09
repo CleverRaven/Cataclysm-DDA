@@ -1793,8 +1793,8 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         player_veh = &vp->vehicle();
         // for now we can only handle flyers if already in the air
         const bool can_fly = player_veh->is_rotorcraft( here ) && player_veh->is_flying_in_air();
-        const bool can_float = player_veh->can_float();
-        const bool can_drive = player_veh->valid_wheel_config();
+        const bool can_float = player_veh->can_float( here );
+        const bool can_drive = player_veh->valid_wheel_config( here );
         // TODO: check engines/fuel
         if( can_fly ) {
             params = overmap_path_params::for_aircraft();
