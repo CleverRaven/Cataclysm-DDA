@@ -2135,11 +2135,10 @@ void vehicle::check_falling_or_floating()
 
 float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modifiers )
 {
-    map &here = get_map();
     if( veh.is_in_water( /* deep_water = */ true ) ) {
-        return veh.can_float( here ) ? 1.0f : -1.0f;
+        return veh.can_float( *this ) ? 1.0f : -1.0f;
     }
-    if( veh.is_watercraft() && veh.can_float( here ) ) {
+    if( veh.is_watercraft() && veh.can_float( *this ) ) {
         return 1.0f;
     }
 
