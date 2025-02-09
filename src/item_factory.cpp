@@ -3105,6 +3105,7 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "power_armor", power_armor, false );
     optional( jo, was_loaded, "max_energy_shield_hp", max_energy_shield_hp, 0 );
     optional( jo, was_loaded, "valid_mods", valid_mods );
+    optional( jo, was_loaded, "max_worn", max_worn, 2 );
 }
 
 void islot_armor::deserialize( const JsonObject &jo )
