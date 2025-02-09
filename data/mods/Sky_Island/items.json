@@ -71,12 +71,12 @@
       "OVERSIZE",
       "PADDED",
       "ONE_PER_LAYER",
-      "ONLY_ONE",
       "UNBREAKABLE",
       "SEMITANGIBLE",
       "AURA",
       "TARDIS"
     ],
+    "max_worn": 1,
     "warmth": 0,
     "weight": "400 g",
     "volume": "2000 ml",
@@ -558,7 +558,6 @@
       "AURA",
       "SEMITANGIBLE",
       "OVERSIZE",
-      "ONLY_ONE",
       "TRADER_AVOID",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
@@ -567,6 +566,7 @@
       "SUN_GLASSES",
       "ALLOWS_NATURAL_ATTACKS"
     ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 0,

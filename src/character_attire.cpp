@@ -1336,7 +1336,7 @@ static ret_val<void> test_only_one_conflicts( const item &clothing, const item &
         return ret;
     };
 
-    if( i.has_flag( flag_ONLY_ONE ) && i.typeId() == clothing.typeId() ) {
+    if( i.max_worn() == 1 && i.typeId() == clothing.typeId() ) {
         return ret_val<void>::make_failure( _( "Can't wear more than one %s!" ), clothing.tname() );
     }
 
