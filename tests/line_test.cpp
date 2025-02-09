@@ -3,14 +3,13 @@
 #include <cstdio>
 #include <cstdlib>
 #include <functional>
-#include <iosfwd>
 #include <string>
-#include <type_traits>
 #include <vector>
 
-#include "cata_generators.h"
 #include "cata_catch.h"
+#include "cata_generators.h"
 #include "coordinates.h"
+#include "coords_fwd.h"
 #include "line.h"
 #include "point.h"
 #include "rng.h"

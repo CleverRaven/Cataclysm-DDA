@@ -1,15 +1,32 @@
-#include "catch/catch.hpp"
+#include <list>
+#include <memory>
+#include <optional>
 
+#include "calendar.h"
+#include "catch/catch.hpp"
+#include "character.h"
+#include "character_id.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "creature_tracker.h"
 #include "flag.h"
 #include "game.h"
+#include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "monster.h"
 #include "npc.h"
 #include "npc_attack.h"
-#include "npc_class.h"
 #include "options_helpers.h"
+#include "overmap_ui.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "point.h"
+#include "ret_val.h"
+#include "type_id.h"
+
+class Creature;
 
 static const faction_id faction_your_followers( "your_followers" );
 

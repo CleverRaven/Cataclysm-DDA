@@ -1,19 +1,39 @@
-#include "cata_catch.h"
-#include "map.h"
-
+#include <stddef.h>
+#include <functional>
 #include <memory>
+#include <optional>
+#include <ostream>
+#include <set>
+#include <string>
 #include <vector>
 
+#include "active_item_cache.h"
 #include "avatar.h"
+#include "calendar.h"
+#include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "coordinates.h"
+#include "coords_fwd.h"
+#include "cuboid_rectangle.h"
 #include "enums.h"
-#include "itype.h"
 #include "game.h"
-#include "game_constants.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
+#include "itype.h"
+#include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
+#include "map_selector.h"
+#include "monster.h"
+#include "pocket_type.h"
 #include "point.h"
+#include "ret_val.h"
 #include "submap.h"
 #include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
+#include "weather.h"
 
 static const itype_id itype_almond_milk( "almond_milk" );
 static const itype_id itype_bag_plastic( "bag_plastic" );

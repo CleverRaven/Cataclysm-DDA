@@ -1,11 +1,12 @@
 ﻿#include <algorithm>
 #include <array>
-#include <iosfwd>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "cata_catch.h"
 #include "coordinates.h"
+#include "coords_fwd.h"
 #include "enums.h"
 #include "map.h"
 #include "map_extras.h"

@@ -1,16 +1,20 @@
 #include <cstddef>
-#include <functional>
-#include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"

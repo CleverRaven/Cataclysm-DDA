@@ -1,11 +1,19 @@
+#include <string>
+
 #include "avatar.h"
 #include "cata_catch.h"
-#include "game.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "mapgen_helpers.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 
 static const nested_mapgen_id
 nested_mapgen_test_nested_remove_all_1x1( "test_nested_remove_all_1x1" );

@@ -1,27 +1,27 @@
-#include "cata_catch.h"
-
-#include <algorithm>
-#include <map>
 #include <memory>
-#include <utility>
+#include <set>
+#include <string>
 #include <vector>
 
-#include "ammo.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
+#include "coords_fwd.h"
+#include "explosion.h"
 #include "item.h"
-#include "item_location.h"
 #include "itype.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 
 static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
 

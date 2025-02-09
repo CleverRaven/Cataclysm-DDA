@@ -1,9 +1,16 @@
 #include <cstdlib>
+#include <optional>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
+#include "debug.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "options_helpers.h"
@@ -11,7 +18,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
-#include "weather.h"
+#include "vpart_position.h"
 #include "weather_type.h"
 
 static const efftype_id effect_blind( "blind" );

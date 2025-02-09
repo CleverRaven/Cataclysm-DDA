@@ -1,12 +1,16 @@
+#include <stddef.h>
+#include <functional>
 #include <optional>
+#include <vector>
 
 #include "cata_catch.h"
-#include "simple_pathfinding.h"
-
 #include "coordinates.h"
+#include "coords_fwd.h"
 #include "cuboid_rectangle.h"
 #include "line.h"
+#include "omdata.h"
 #include "point.h"
+#include "simple_pathfinding.h"
 
 template<typename Point>
 static void test_greedy_line_path()

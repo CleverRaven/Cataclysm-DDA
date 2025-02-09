@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
-#include <cstdlib>
 #include <map>
 #include <memory>
 #include <set>
@@ -13,10 +12,11 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "enums.h"
 #include "item.h"
 #include "itype.h"
-#include "line.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"

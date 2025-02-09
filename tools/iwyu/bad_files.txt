@@ -9,13 +9,11 @@ translation
 # iwyu mangles these
 lightmap
 color
-# tests will be dealt with later
-tests/
+tests/generic_factory_test.cpp
 # misc files deferred til better days
-stats_tracker.cpp
+src/stats_tracker.cpp
 src/mapsharing
 src/worldfactory.cpp
 src/mmap_file.cpp
 # opt-out literally everything for initial commit
 src/
-tests/

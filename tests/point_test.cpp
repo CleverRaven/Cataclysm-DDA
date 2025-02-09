@@ -1,10 +1,14 @@
-#include <iosfwd>
+#include <locale.h>
+#include <functional>
+#include <locale>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
 #include "coordinates.h"
+#include "coords_fwd.h"
 #include "cuboid_rectangle.h"
 #include "point.h"
 

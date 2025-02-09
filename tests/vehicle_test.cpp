@@ -1,23 +1,38 @@
+#include <stddef.h>
+#include <algorithm>
+#include <functional>
 #include <optional>
+#include <string>
+#include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "damage.h"
+#include "character_attire.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
+#include "debug.h"
 #include "enums.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "activity_actor_definitions.h"
+#include "map_scale_constants.h"
+#include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 #include "veh_appliance.h"
-#include "vehicle.h"
 #include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
+
+class activity_actor;
 
 static const damage_type_id damage_pure( "pure" );
 

@@ -1,9 +1,11 @@
 #include <functional>
-#include <optional>
 #include <list>
+#include <optional>
 
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "item.h"
 #include "item_location.h"
 #include "map.h"

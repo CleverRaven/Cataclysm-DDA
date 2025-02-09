@@ -1,38 +1,41 @@
 #include <algorithm>
 #include <cstdlib>
 #include <functional>
-#include <list>
+#include <map>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "anatomy.h"
 #include "ballistics.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "cata_catch.h"
+#include "cata_utility.h"
+#include "character_attire.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "creature.h"
 #include "dispersion.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "itype.h"
 #include "json.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
 #include "npc.h"
-#include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
-#include "ret_val.h"
+#include "ranged.h"
+#include "rng.h"
 #include "test_statistics.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "value_ptr.h"
 
 static const character_modifier_id
 character_modifier_ranged_dispersion_manip_mod( "ranged_dispersion_manip_mod" );

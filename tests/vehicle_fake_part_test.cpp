@@ -1,23 +1,26 @@
-#include <memory>
-#include <optional>
+#include <stddef.h>
+#include <cmath>
+#include <set>
+#include <string>
 #include <vector>
 
 #include "action.h"
-#include "avatar.h"
+#include "cata_assert.h"
 #include "catch/catch.hpp"
-#include "damage.h"
-#include "enums.h"
-#include "game.h"
-#include "item.h"
+#include "character.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "tileray.h"
 #include "type_id.h"
+#include "units.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "veh_type.h"
 
 static const vproto_id vehicle_prototype_bicycle( "bicycle" );
 static const vproto_id vehicle_prototype_obstacle_test( "obstacle_test" );

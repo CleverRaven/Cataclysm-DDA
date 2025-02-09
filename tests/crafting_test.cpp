@@ -1,6 +1,8 @@
 #include <algorithm>
 #include <climits>
+#include <fstream>
 #include <functional>
+#include <iostream>
 #include <list>
 #include <map>
 #include <memory>
@@ -11,36 +13,52 @@
 #include <utility>
 #include <vector>
 
-#include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "cata_catch.h"
+#include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "craft_command.h"
+#include "enums.h"
 #include "game.h"
+#include "game_constants.h"
+#include "game_inventory.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_components.h"
+#include "item_contents.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_selector.h"
+#include "mapdata.h"
 #include "npc.h"
+#include "output.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "skill.h"
+#include "string_formatter.h"
 #include "temp_crafting_inventory.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 

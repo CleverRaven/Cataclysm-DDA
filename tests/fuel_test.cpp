@@ -1,5 +1,10 @@
+#include <stdint.h>
+#include <string>
+
 #include "cata_catch.h"
 #include "item.h"
+#include "type_id.h"
+#include "units.h"
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_gasoline( "gasoline" );

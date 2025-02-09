@@ -1,10 +1,10 @@
-#include <iosfwd>
 #include <set>
 #include <string>
 
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "color.h"
 #include "flag.h"
 #include "item.h"
 #include "player_helpers.h"

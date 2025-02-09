@@ -1,10 +1,18 @@
+#include <string>
+
 #include "avatar.h"
 #include "avatar_action.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "flag.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
+#include "type_id.h"
 
 // Test cases related to movement cost
 //
