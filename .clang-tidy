@@ -93,7 +93,6 @@ Checks: [
     -readability-suspicious-call-argument,
     -readability-use-anyofallof,
     # Temporarily disabled in an update to llvm 18. Untriaged.
-    -readability-redundant-member-init,
     -bugprone-chained-comparison,
     -bugprone-multi-level-implicit-pointer-conversion,
     -bugprone-optional-value-conversion,

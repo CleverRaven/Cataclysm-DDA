@@ -129,7 +129,7 @@ struct overmap_draw_data_t {
     // draw zone location.
     tripoint_abs_omt select = tripoint_abs_omt( -1, -1, -1 );
     int iZoneIndex = -1;
-    std::vector<tripoint_abs_omt> display_path = {};
+    std::vector<tripoint_abs_omt> display_path;
     //center of UI view; usually player OMT position
     tripoint_abs_omt origin_pos = tripoint_abs_omt( -1, -1, -1 );
     /**
