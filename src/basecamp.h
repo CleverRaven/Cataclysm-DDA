@@ -37,6 +37,7 @@ class basecamp;
 class character_id;
 class faction;
 class item;
+class inventory_filter_preset;
 class npc;
 class recipe;
 class time_duration;
