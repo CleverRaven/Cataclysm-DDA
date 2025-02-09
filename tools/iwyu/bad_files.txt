@@ -1,0 +1,21 @@
+# This file is fed to `grep -v -f` to select the files that should be skipped
+# Comments like this one happen to be okay, but inline comments can't work
+# empty lines are also not allwoable
+#
+# These files are just scary or load-bearing in some way
+flexbuffer
+json
+translation
+# iwyu mangles these
+lightmap
+color
+# tests will be dealt with later
+tests/
+# misc files deferred til better days
+stats_tracker.cpp
+src/mapsharing
+src/worldfactory.cpp
+src/mmap_file.cpp
+# opt-out literally everything for initial commit
+src/
+tests/
