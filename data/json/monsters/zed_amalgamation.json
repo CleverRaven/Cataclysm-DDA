@@ -55,7 +55,7 @@
     "volume": "200 L",
     "weight": "200 kg",
     "hp": 200,
-    "upgrades": { "age_grow": 1, "into_group": "GROUP_COCOON_MED_1", "multiple_spawns": true, "spawn_range": 5 },
+    "upgrades": { "age_grow": 1, "into_group": "GROUP_COCOON_MED", "multiple_spawns": true, "spawn_range": 5 },
     "death_drops": "explode_innards",
     "death_function": {
       "message": "The %s explodes in a shower of gore!",
