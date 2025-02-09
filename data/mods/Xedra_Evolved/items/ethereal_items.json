@@ -284,17 +284,7 @@
       }
     ],
     "material_thickness": 0.1,
-    "flags": [
-      "BELTED",
-      "TRADER_AVOID",
-      "WATERPROOF",
-      "STURDY",
-      "OVERSIZE",
-      "NO_TAKEOFF",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "ZERO_WEIGHT"
-    ],
+    "flags": [ "BELTED", "TRADER_AVOID", "WATERPROOF", "STURDY", "OVERSIZE", "NO_TAKEOFF", "NO_REPAIR", "NO_SALVAGE", "ZERO_WEIGHT" ],
     "max_worn": 1,
     "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ]
   },

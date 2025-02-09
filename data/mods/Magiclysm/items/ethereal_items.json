@@ -298,15 +298,7 @@
     "description": "This is a wicked spear/halberd hybrid entirely created of bone.",
     "material": [ "bone" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
-    "flags": [
-      "UNBREAKABLE_MELEE",
-      "REACH_ATTACK",
-      "SPEAR",
-      "NONCONDUCTIVE",
-      "SHEATH_SPEAR",
-      "NO_REPAIR",
-      "MAGIC_FOCUS"
-    ],
+    "flags": [ "UNBREAKABLE_MELEE", "REACH_ATTACK", "SPEAR", "NONCONDUCTIVE", "SHEATH_SPEAR", "NO_REPAIR", "MAGIC_FOCUS" ],
     "max_worn": 1,
     "techniques": [ "WBLOCK_2", "WIDE", "SWEEP", "BRUTAL" ],
     "weight": "2175 g",
@@ -790,16 +782,7 @@
     "warmth": 0,
     "material_thickness": 0.4,
     "environmental_protection": 2,
-    "flags": [
-      "AURA",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "OVERSIZE",
-      "PADDED",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
+    "flags": [ "AURA", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE", "PADDED", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
     "max_worn": 1,
     "relic_data": {
       "passive_effects": [
@@ -1718,16 +1701,7 @@
     "symbol": "o",
     "color": "white",
     "material": [ "magical_material" ],
-    "flags": [
-      "PERSONAL",
-      "SEMITANGIBLE",
-      "OVERSIZE",
-      "TRADER_AVOID",
-      "ZERO_WEIGHT",
-      "NO_TAKEOFF",
-      "INTEGRATED",
-      "NONCONDUCTIVE"
-    ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "TRADER_AVOID", "ZERO_WEIGHT", "NO_TAKEOFF", "INTEGRATED", "NONCONDUCTIVE" ],
     "max_worn": 1,
     "relic_data": {
       "passive_effects": [

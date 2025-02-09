@@ -37,15 +37,7 @@
     "material": [ "ballistic_shield" ],
     "material_thickness": 0.3,
     "max_energy_shield_hp": 4,
-    "flags": [
-      "AURA",
-      "ENERGY_SHIELD",
-      "OVERSIZE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
+    "flags": [ "AURA", "ENERGY_SHIELD", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "ALLOWS_NATURAL_ATTACKS" ],
     "max_worn": 1,
     "armor": [
       {

@@ -8212,7 +8212,7 @@ bool item::is_power_armor() const
 int item::max_worn() const
 {
     const islot_armor *t = find_armor_data();
-    return (t != nullptr ) ? t->max_worn : 2;
+    return ( t != nullptr ) ? t->max_worn : 2;
 }
 
 int item::get_avg_encumber( const Character &p, encumber_flags flags ) const

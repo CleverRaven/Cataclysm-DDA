@@ -217,16 +217,7 @@
     "description": "Your powers allow you to listen for radio signals from the surrounding area.  With a moment's concentration, you may change frequency or switch to communicating by radio.",
     "use_action": [ "RADIO_ON", { "type": "transform", "target": "item_photokinetic_radio", "menu_text": "Switch to speaking mode" } ],
     "tick_action": [ "RADIO_TICK" ],
-    "flags": [
-      "TRADER_AVOID",
-      "UNBREAKABLE",
-      "PERSONAL",
-      "SEMITANGIBLE",
-      "ZERO_WEIGHT",
-      "NO_DROP",
-      "INTEGRATED",
-      "PADDED"
-    ],
+    "flags": [ "TRADER_AVOID", "UNBREAKABLE", "PERSONAL", "SEMITANGIBLE", "ZERO_WEIGHT", "NO_DROP", "INTEGRATED", "PADDED" ],
     "max_worn": 1
   },
   {

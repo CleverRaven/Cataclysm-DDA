@@ -245,7 +245,7 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
 
     if( amount_worn( it.typeId() ) >= it.max_worn() ) {
         return ret_val<void>::make_failure( _( "Can't wear %1$i or more %2$s at once." ),
-        it.max_worn() + 1, it.tname( it.max_worn() + 1 ) );
+                                            it.max_worn() + 1, it.tname( it.max_worn() + 1 ) );
     }
 
     return ret_val<void>::make_success();

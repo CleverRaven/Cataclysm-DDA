@@ -12,17 +12,7 @@
     "looks_like": "storage_battery",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [
-      "FRAGILE",
-      "CANT_WEAR",
-      "NO_UNLOAD",
-      "NO_RELOAD",
-      "RECHARGE",
-      "WATERPROOF",
-      "IS_UPS",
-      "USE_UPS",
-      "EXO_PSU"
-    ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS", "USE_UPS", "EXO_PSU" ],
     "max_worn": 1,
     "armor": [ { "encumbrance": 0, "coverage": 20, "covers": [ "torso" ] } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 40000 } } ]
@@ -133,17 +123,7 @@
     "looks_like": "storage_battery",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [
-      "FRAGILE",
-      "CANT_WEAR",
-      "NO_UNLOAD",
-      "NO_RELOAD",
-      "RECHARGE",
-      "WATERPROOF",
-      "IS_UPS",
-      "USE_UPS",
-      "EXO_MEDIUM_GADGET"
-    ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS", "USE_UPS", "EXO_MEDIUM_GADGET" ],
     "max_worn": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 6000 } } ]
   },
