@@ -66,8 +66,8 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             if( base_itype->gun->energy_drain > 0_kJ || turret_vpi->has_flag( "USE_BATTERIES" ) ) {
                 const auto& [bat_current, bat_capacity] = veh->battery_power_level();
                 CHECK( bat_capacity > 0 );
-                veh->charge_battery( bat_capacity, /* apply_loss = */ false );
-                REQUIRE( veh->battery_left( /* apply_loss = */ false ) == bat_capacity );
+                veh->charge_battery( here, bat_capacity, /* apply_loss = */ false );
+                REQUIRE( veh->battery_left( here, /* apply_loss = */ false ) == bat_capacity );
             }
 
             const itype_id ammo_itype = vp.get_base().ammo_default();

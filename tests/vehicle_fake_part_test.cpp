@@ -156,7 +156,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
             }
         }
         here.vehmove();
-        veh->idle( true );
+        veh->idle( here, true );
         validate_part_count( *veh, target_velocity, 0_degrees, original_parts, fake_parts,
                              active_fakes_by_angle.at( 0 ) );
     }

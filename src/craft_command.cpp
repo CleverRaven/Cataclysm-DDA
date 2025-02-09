@@ -289,7 +289,7 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
                 crafter->i_add_or_drop( iit );
             }
             for( auto &vit : veh_items ) {
-                vit.first.vehicle().add_item( vit.first.part(), vit.second );
+                vit.first.vehicle().add_item( m, vit.first.part(), vit.second );
             }
         };
 

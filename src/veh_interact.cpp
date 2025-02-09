@@ -1347,6 +1347,8 @@ void veh_interact::do_refill()
 
 void veh_interact::calc_overview()
 {
+    map &here = get_map();
+
     const hotkey_queue &hotkeys = hotkey_queue::alphabets();
 
     const auto next_hotkey = [&]( input_event & evt ) {
@@ -1361,12 +1363,12 @@ void veh_interact::calc_overview()
     overview_opts.clear();
     overview_headers.clear();
 
-    units::power epower = veh->net_battery_charge_rate( /* include_reactors = */ true );
-    overview_headers["1_ENGINE"] = [this]( const catacurses::window & w, int y ) {
+    units::power epower = veh->net_battery_charge_rate( here, /* include_reactors = */ true );
+    overview_headers["1_ENGINE"] = [this, &here]( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray,
                         string_format( _( "Engines: %sSafe %4d kW</color> %sMax %4d kW</color>" ),
-                                       health_color( true ), units::to_kilowatt( veh->total_power( true, true ) ),
-                                       health_color( false ), units::to_kilowatt( veh->total_power() ) ) );
+                                       health_color( true ), units::to_kilowatt( veh->total_power( here, true, true ) ),
+                                       health_color( false ), units::to_kilowatt( veh->total_power( here ) ) ) );
         right_print( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
     };
     overview_headers["2_TANK"] = []( const catacurses::window & w, int y ) {
@@ -1896,6 +1898,8 @@ void veh_interact::do_remove()
 
 void veh_interact::do_siphon()
 {
+    map &here = get_map();
+
     switch( cant_do( 's' ) ) {
         case task_reason::INVALID_TARGET:
             msg = _( "The vehicle has no liquid fuel left to siphon." );
@@ -1931,7 +1935,7 @@ void veh_interact::do_siphon()
         item liquid( base.legacy_front() );
         const int liq_charges = liquid.charges;
         if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
-            veh->drain( idx, liq_charges - liquid.charges );
+            veh->drain( here, idx, liq_charges - liquid.charges );
         }
     };
 
@@ -2370,6 +2374,8 @@ void veh_interact::display_veh()
 
 static std::string wheel_state_description( const vehicle &veh )
 {
+    map &here = get_map();
+
     bool is_boat = !veh.floating.empty();
     bool is_land = !veh.wheelcache.empty() || !is_boat;
 
@@ -2378,7 +2384,7 @@ static std::string wheel_state_description( const vehicle &veh )
 
     bool suf_boat = veh.can_float();
 
-    float steer = veh.steering_effectiveness();
+    float steer = veh.steering_effectiveness( here );
 
     std::string wheel_status;
     if( !suf_land && is_boat ) {
@@ -2420,6 +2426,8 @@ static std::string wheel_state_description( const vehicle &veh )
  */
 void veh_interact::display_stats() const
 {
+    map &here = get_map();
+
     werase( w_stats_1 );
     werase( w_stats_2 );
     werase( w_stats_3 );
@@ -2461,7 +2469,7 @@ void veh_interact::display_stats() const
 
     bool is_boat = !veh->floating.empty();
     bool is_ground = !veh->wheelcache.empty() || !is_boat;
-    bool is_aircraft = veh->is_rotorcraft() && veh->is_flying_in_air();
+    bool is_aircraft = veh->is_rotorcraft( here ) && veh->is_flying_in_air();
 
     const auto vel_to_int = []( const double vel ) {
         return static_cast<int>( convert_velocity( vel, VU_VEHICLE ) );
@@ -2471,28 +2479,28 @@ void veh_interact::display_stats() const
     if( is_aircraft ) {
         fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                         _( "Air Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-                        vel_to_int( veh->safe_rotor_velocity( false ) ),
-                        vel_to_int( veh->max_rotor_velocity( false ) ),
+                        vel_to_int( veh->safe_rotor_velocity( here, false ) ),
+                        vel_to_int( veh->max_rotor_velocity( here, false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
         fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                         _( "Air acceleration: <color_light_blue>%3d</color> %s/s" ),
-                        vel_to_int( veh->rotor_acceleration( false ) ),
+                        vel_to_int( veh->rotor_acceleration( here, false ) ),
                         velocity_units( VU_VEHICLE ) );
         i += 1;
     } else {
         if( is_ground ) {
             fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                             _( "Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-                            vel_to_int( veh->safe_ground_velocity( false ) ),
-                            vel_to_int( veh->max_ground_velocity( false ) ),
+                            vel_to_int( veh->safe_ground_velocity( here, false ) ),
+                            vel_to_int( veh->max_ground_velocity( here, false ) ),
                             velocity_units( VU_VEHICLE ) );
             i += 1;
             // TODO: extract accelerations units to its own function
             fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                             //~ /t means per turn
                             _( "Acceleration: <color_light_blue>%3d</color> %s/s" ),
-                            vel_to_int( veh->ground_acceleration( false ) ),
+                            vel_to_int( veh->ground_acceleration( here, false ) ),
                             velocity_units( VU_VEHICLE ) );
             i += 1;
         } else {
@@ -2501,15 +2509,15 @@ void veh_interact::display_stats() const
         if( is_boat ) {
             fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                             _( "Water Safe/Top speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-                            vel_to_int( veh->safe_water_velocity( false ) ),
-                            vel_to_int( veh->max_water_velocity( false ) ),
+                            vel_to_int( veh->safe_water_velocity( here, false ) ),
+                            vel_to_int( veh->max_water_velocity( here, false ) ),
                             velocity_units( VU_VEHICLE ) );
             i += 1;
             // TODO: extract accelerations units to its own function
             fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                             //~ /t means per turn
                             _( "Water acceleration: <color_light_blue>%3d</color> %s/s" ),
-                            vel_to_int( veh->water_acceleration( false ) ),
+                            vel_to_int( veh->water_acceleration( here, false ) ),
                             velocity_units( VU_VEHICLE ) );
             i += 1;
         } else {
@@ -2600,7 +2608,7 @@ void veh_interact::display_stats() const
 
     fold_and_print( *win[i], point( 0, row[i] ), getmaxx( *win[i] ), c_light_gray,
                     _( "Offroad:        <color_light_blue>%4d</color>%%" ),
-                    static_cast<int>( veh->k_traction( veh->wheel_area() *
+                    static_cast<int>( veh->k_traction( here, veh->wheel_area() *
                                       veh->average_offroad_rating() ) * 100 ) );
     i += 1;
 
@@ -2953,6 +2961,8 @@ void veh_interact::count_durability()
 
 void act_vehicle_siphon( vehicle *veh )
 {
+    map &here = get_map();
+
     std::vector<itype_id> fuels;
     bool has_liquid = false;
     // Check all tanks on this vehicle to see if they contain any liquid
@@ -2975,7 +2985,7 @@ void act_vehicle_siphon( vehicle *veh )
         item liquid( tank->part().get_base().only_item() );
         const int liq_charges = liquid.charges;
         if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, tank->part_index() ) ) {
-            veh->drain( tank->part_index(), liq_charges - liquid.charges );
+            veh->drain( here, tank->part_index(), liq_charges - liquid.charges );
             veh->invalidate_mass();
         }
     }
@@ -2983,6 +2993,8 @@ void act_vehicle_siphon( vehicle *veh )
 
 void act_vehicle_unload_fuel( vehicle *veh )
 {
+    map &here = get_map();
+
     std::vector<itype_id> fuels;
     for( auto &e : veh->fuels_left() ) {
         const itype *type = item::find_type( e.first );
@@ -3002,7 +3014,7 @@ void act_vehicle_unload_fuel( vehicle *veh )
         uilist smenu;
         smenu.text = _( "Remove what?" );
         for( auto &fuel : fuels ) {
-            if( fuel == itype_plut_cell && veh->fuel_left( fuel ) < PLUTONIUM_CHARGES ) {
+            if( fuel == itype_plut_cell && veh->fuel_left( here,  fuel ) < PLUTONIUM_CHARGES ) {
                 continue;
             }
             smenu.addentry( item::nname( fuel ) );
@@ -3018,7 +3030,7 @@ void act_vehicle_unload_fuel( vehicle *veh )
     }
 
     Character &player_character = get_player_character();
-    int qty = veh->fuel_left( fuel );
+    int qty = veh->fuel_left( here, fuel );
     if( fuel == itype_plut_cell ) {
         if( qty / PLUTONIUM_CHARGES == 0 ) {
             add_msg( m_info, _( "The vehicle has no charged plutonium cells." ) );
@@ -3026,11 +3038,11 @@ void act_vehicle_unload_fuel( vehicle *veh )
         }
         item plutonium( fuel, calendar::turn, qty / PLUTONIUM_CHARGES );
         player_character.i_add( plutonium );
-        veh->drain( fuel, qty - ( qty % PLUTONIUM_CHARGES ) );
+        veh->drain( here, fuel, qty - ( qty % PLUTONIUM_CHARGES ) );
     } else {
         item solid_fuel( fuel, calendar::turn, qty );
         player_character.i_add( solid_fuel );
-        veh->drain( fuel, qty );
+        veh->drain( here, fuel, qty );
     }
 
 }
@@ -3320,7 +3332,7 @@ void veh_interact::complete_vehicle( Character &you )
             if( appliance_removal && veh.part_count() > 1 ) {
                 // Split up power grids
                 veh.find_and_split_vehicles( here, { vp_index } );
-                veh.part_removal_cleanup();
+                veh.part_removal_cleanup( here );
                 // Ensure the position, pivot, and precalc points are up-to-date
                 veh.pos -= veh.pivot_anchor[0];
                 veh.precalc_mounts( 0, veh.turn_dir, point_rel_ms::zero );
@@ -3353,7 +3365,7 @@ void veh_interact::complete_vehicle( Character &you )
             } else if( vp ) {
                 veh.remove_part( *vp );
                 // part_removal_cleanup calls refresh, so parts_at_relative is valid
-                veh.part_removal_cleanup();
+                veh.part_removal_cleanup( here );
                 if( veh.parts_at_relative( part_mount, true ).empty() ) {
                     get_map().clear_vehicle_point_from_cache( &veh, part_pos );
                 }

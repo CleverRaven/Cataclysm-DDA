@@ -1396,7 +1396,7 @@ void Character::burn_fuel( bionic &bio )
     if( !result.connected_vehicles.empty() ) {
         // Cable bionic charging from connected vehicle(s)
         for( vehicle *veh : result.connected_vehicles ) {
-            int undrained = veh->discharge_battery( 1 );
+            int undrained = veh->discharge_battery( here, 1 );
             if( undrained == 0 ) {
                 energy_gain = 1_kJ;
                 break;

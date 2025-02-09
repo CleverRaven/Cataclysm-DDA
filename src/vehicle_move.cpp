@@ -148,6 +148,8 @@ int vehicle::slowdown( int at_velocity ) const
 
 void vehicle::smart_controller_handle_turn( const std::optional<float> &k_traction_cache )
 {
+    map &here = get_map();
+
     // get settings or defaults
     smart_controller_config cfg = smart_controller_cfg.value_or( smart_controller_config() );
 
@@ -168,7 +170,7 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
         const vehicle_part &vp = parts[engines[i]];
         const bool is_electric = is_engine_type( vp, fuel_type_battery );
         if( ( is_electric || is_engine_type_combustion( vp ) ) &&
-            ( ( vp.is_available() && engine_fuel_left( vp ) ) || vp.enabled ) ) {
+            ( ( vp.is_available() && engine_fuel_left( here, vp ) ) || vp.enabled ) ) {
             c_engines.push_back( i );
             if( is_electric ) {
                 has_electric_engine = true;
@@ -176,7 +178,7 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
         }
     }
 
-    bool rotorcraft = is_flying && is_rotorcraft();
+    bool rotorcraft = is_flying && is_rotorcraft( here );
 
     // bail and shut down
     if( rotorcraft || c_engines.empty() || ( has_electric_engine && c_engines.size() == 1 ) ||
@@ -185,7 +187,7 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
             vp.part().enabled = false;
         }
 
-        if( player_is_driving_this_veh() ) {
+        if( player_is_driving_this_veh( &here ) ) {
             if( rotorcraft ) {
                 add_msg( _( "Smart controller does not support flying vehicles." ) );
             } else if( c_engines.empty() ) {
@@ -249,16 +251,16 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
     smart_controller_cache cur_state;
 
     float traction = is_stationary ? 1.0f :
-                     ( k_traction_cache ? *k_traction_cache : k_traction( get_map().vehicle_wheel_traction( *this ) ) );
+                     ( k_traction_cache ? *k_traction_cache : k_traction( here, here.vehicle_wheel_traction( *this ) ) );
 
     int prev_mask = 0;
     // opt_ prefix denotes values for currently found "optimal" engine configuration
-    units::power opt_net_echarge_rate = net_battery_charge_rate( /* include_reactors = */ true );
+    units::power opt_net_echarge_rate = net_battery_charge_rate( here, /* include_reactors = */ true );
     // total engine fuel energy usage (J)
     units::power opt_fuel_usage = 0_W;
 
-    int opt_accel = is_stationary ? 1 : current_acceleration() * traction;
-    int opt_safe_vel = is_stationary ? 1 : safe_ground_velocity( true );
+    int opt_accel = is_stationary ? 1 : current_acceleration( here ) * traction;
+    int opt_safe_vel = is_stationary ? 1 : safe_ground_velocity( here, true );
     float cur_load_approx = static_cast<float>( std::min( accel_demand,
                             opt_accel ) )  / std::max( opt_accel, 1 );
     float cur_load_alternator = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
@@ -304,7 +306,7 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
     // turn on/off combustion engines when necessary
     if( !has_electric_engine ) {
         if( !discharge_forbidden_soft && is_stationary && engine_on && !autopilot_on &&
-            !player_is_driving_this_veh() ) {
+            !player_is_driving_this_veh( &here ) ) {
             stop_engines();
             sfx::do_vehicle_engine_sfx();
             // temporary solution
@@ -337,12 +339,12 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
             continue; // skip checking this state
         }
 
-        int safe_vel =  is_stationary ? 1 : safe_ground_velocity( true );
-        int accel = is_stationary ? 1 : current_acceleration() * traction;
+        int safe_vel =  is_stationary ? 1 : safe_ground_velocity( here, true );
+        int accel = is_stationary ? 1 : current_acceleration( here ) * traction;
         units::power fuel_usage = 0_W;
-        units::power net_echarge_rate = net_battery_charge_rate( /* include_reactors = */ true );
+        units::power net_echarge_rate = net_battery_charge_rate( here, /* include_reactors = */ true );
         float load_approx = static_cast<float>( std::min( accel_demand, accel ) ) / std::max( accel, 1 );
-        update_alternator_load();
+        update_alternator_load( here );
         float load_approx_alternator  = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
 
         for( int e : c_engines ) {
@@ -415,7 +417,7 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
             for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) ) {
                 vp.part().enabled = false;
             }
-            if( player_is_driving_this_veh() ) {
+            if( player_is_driving_this_veh( &here ) ) {
                 add_msg( m_bad, _( "Smart controller failed to start an engine." ) );
                 add_msg( m_bad, _( "Smart controller is shutting down." ) );
             }
@@ -434,7 +436,7 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
             }
             smart_controller_state = cur_state;
 
-            if( player_is_driving_this_veh() ) {
+            if( player_is_driving_this_veh( &here ) ) {
                 add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Smart controller optimizes engine state." );
             }
         }
@@ -442,21 +444,23 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
         // as the optimization was performed (even without state change), cache needs to be updated as well
         smart_controller_state = cur_state;
     }
-    update_alternator_load();
+    update_alternator_load( here );
 }
 
 void vehicle::thrust( int thd, int z )
 {
+    map &here = get_map();
+
     //if vehicle is stopped, set target direction to forward.
     //ensure it is not skidding. Set turns used to 0.
     if( !is_moving() && z == 0 ) {
         turn_dir = face.dir();
         stop();
     }
-    bool pl_ctrl = player_is_driving_this_veh();
+    bool pl_ctrl = player_is_driving_this_veh( &here );
 
     // No need to change velocity if there are no wheels
-    if( ( is_watercraft() && can_float() ) || ( is_rotorcraft() && ( z != 0 || is_flying ) ) ) {
+    if( ( is_watercraft() && can_float() ) || ( is_rotorcraft( here ) && ( z != 0 || is_flying ) ) ) {
         // we're good
     } else if( in_deep_water && !can_float() ) {
         stop();
@@ -479,13 +483,13 @@ void vehicle::thrust( int thd, int z )
     }
 
     // TODO: Pass this as an argument to avoid recalculating
-    float traction = k_traction( get_map().vehicle_wheel_traction( *this ) );
+    float traction = k_traction( here, here.vehicle_wheel_traction( *this ) );
 
     if( thrusting ) {
         smart_controller_handle_turn( traction );
     }
 
-    int accel = current_acceleration() * traction;
+    int accel = current_acceleration( here ) * traction;
     if( accel < 200 && velocity > 0 && is_towing() ) {
         if( pl_ctrl ) {
             add_msg( _( "The %s struggles to pull the %s on this surface!" ), name,
@@ -505,7 +509,7 @@ void vehicle::thrust( int thd, int z )
         }
         return;
     }
-    const int max_vel = traction * max_velocity();
+    const int max_vel = traction * max_velocity( here );
     // maximum braking is 20 mph/s, assumes high friction tires
     const int max_brake = 20 * 100;
     //pos or neg if accelerator or brake
@@ -536,7 +540,7 @@ void vehicle::thrust( int thd, int z )
         load = ( thrusting ? 1000 : 0 );
     }
     // rotorcraft need to spend 15% of load to hover, 30% to change z
-    if( is_rotorcraft() && ( z > 0 || is_flying_in_air() ) ) {
+    if( is_rotorcraft( here ) && ( z > 0 || is_flying_in_air() ) ) {
         load = std::max( load, z > 0 ? 300 : 150 );
         thrusting = true;
     }
@@ -544,9 +548,9 @@ void vehicle::thrust( int thd, int z )
     // only consume resources if engine accelerating
     if( load >= 1 && thrusting ) {
         //abort if engines not operational
-        if( total_power() <= 0_W || !engine_on || ( z == 0 && accel == 0 ) ) {
+        if( total_power( here ) <= 0_W || !engine_on || ( z == 0 && accel == 0 ) ) {
             if( pl_ctrl ) {
-                if( total_power( false ) <= 0_W ) {
+                if( total_power( here, false ) <= 0_W ) {
                     add_msg( m_info, _( "The %s doesn't have an engine!" ), name );
                 } else if( has_engine_type( fuel_type_muscle, true ) ) {
                     add_msg( m_info, _( "The %s's mechanism is out of reach!" ), name );
@@ -564,7 +568,7 @@ void vehicle::thrust( int thd, int z )
         // helicopters improve efficiency the closer they get to 50-70 knots
         // then it drops off as they go over that.
         // see https://i.stack.imgur.com/0zIO7.jpg
-        if( is_rotorcraft() && is_flying_in_air() ) {
+        if( is_rotorcraft( here ) && is_flying_in_air() ) {
             const int velocity_kt = velocity * 0.01;
             int value;
             if( velocity_kt < 70 ) {
@@ -577,15 +581,15 @@ void vehicle::thrust( int thd, int z )
             load = std::max( 200, std::min( 1000, ( ( value / 2 ) + 100 ) ) );
         }
         //make noise and consume fuel
-        noise_and_smoke( load + alternator_load );
-        consume_fuel( load + alternator_load, false );
-        if( z != 0 && is_rotorcraft() ) {
+        noise_and_smoke( here, load + alternator_load );
+        consume_fuel( here, load + alternator_load, false );
+        if( z != 0 && is_rotorcraft( here ) ) {
             requested_z_change = z;
         }
         //break the engines a bit, if going too fast.
-        const int strn = static_cast<int>( strain() * strain() * 100 );
+        const int strn = static_cast<int>( strain( here ) * strain( here ) * 100 );
         for( const int p : engines ) {
-            do_engine_damage( parts[p], strn );
+            do_engine_damage( here, parts[p], strn );
         }
     }
 
@@ -601,7 +605,7 @@ void vehicle::thrust( int thd, int z )
         stop();
     } else {
         // Increase velocity up to max_vel or min_vel, but not above.
-        const int min_vel = max_reverse_velocity();
+        const int min_vel = max_reverse_velocity( here );
         if( vel_inc > 0 ) {
             // Don't allow braking by accelerating (could happen with damaged engines)
             velocity = std::max( velocity, std::min( velocity + vel_inc, max_vel ) );
@@ -614,12 +618,12 @@ void vehicle::thrust( int thd, int z )
     for( size_t e = 0; e < parts.size(); e++ ) {
         vehicle_part &vp = parts[e];
         if( vp.info().fuel_type == fuel_type_animal && engines.size() != 1 ) {
-            monster *mon = get_monster( e );
+            monster *mon = get_monster( here, e );
             if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
                 if( velocity > mon->get_speed() * 12 ) {
                     add_msg( m_bad, _( "Your %s is not fast enough to keep up with the %s" ), mon->get_name(), name );
                     int dmg = rng( 0, 10 );
-                    damage_direct( get_map(), vp, dmg );
+                    damage_direct( here, vp, dmg );
                 }
             }
         }
@@ -628,12 +632,14 @@ void vehicle::thrust( int thd, int z )
 
 void vehicle::cruise_thrust( int amount )
 {
+    map &here = get_map();
+
     if( amount == 0 ) {
         return;
     }
-    int safe_vel = safe_velocity();
-    int max_vel = autopilot_on ? safe_velocity() : max_velocity();
-    int max_rev_vel = max_reverse_velocity();
+    int safe_vel = safe_velocity( here );
+    int max_vel = autopilot_on ? safe_velocity( here ) : max_velocity( here );
+    int max_rev_vel = max_reverse_velocity( here );
 
     //if the safe velocity is between the cruise velocity and its next value, set to safe velocity
     if( ( cruise_velocity < safe_vel && safe_vel < ( cruise_velocity + amount ) ) ||
@@ -698,7 +704,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
                          const tripoint_rel_ms &dp,
                          bool just_detect, bool bash_floor )
 {
-
+    map &here = get_map();
     /*
      * Big TODO:
      * Rewrite this function so that it has "pre-collision" phase (detection)
@@ -730,7 +736,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     const bool vertical = bash_floor || dp.z() != 0;
     const int &coll_velocity = vertical ? vertical_velocity : velocity;
     // Skip collisions when there is no apparent movement, except verticially moving rotorcraft.
-    if( coll_velocity == 0 && !is_rotorcraft() ) {
+    if( coll_velocity == 0 && !is_rotorcraft( here ) ) {
         just_detect = true;
     }
 
@@ -738,7 +744,6 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     int lowest_velocity = coll_velocity;
     const int sign_before = sgn( velocity_before );
     bool empty = true;
-    map &here = get_map();
     part_project_points( dp );
     for( int p = 0; p < part_count(); p++ ) {
         const vehicle_part &vp = parts.at( p );
@@ -841,7 +846,7 @@ veh_collision vehicle::part_collision( int part, const tripoint_abs_ms &p,
     Creature *critter = get_creature_tracker().creature_at( p, true );
     Character *ph = dynamic_cast<Character *>( critter );
 
-    Character *driver = get_driver();
+    Character *driver = get_driver( here );
 
     // If in a vehicle assume it's this one
     if( ph != nullptr && ph->in_vehicle ) {
@@ -882,7 +887,7 @@ veh_collision vehicle::part_collision( int part, const tripoint_abs_ms &p,
 
     if( is_body_collision ) {
         // critters on a BOARDABLE part in this vehicle aren't colliding
-        if( ovp && ( &ovp->vehicle() == this ) && get_monster( ovp->part_index() ) ) {
+        if( ovp && ( &ovp->vehicle() == this ) && get_monster( here, ovp->part_index() ) ) {
             return ret;
         }
         // we just ran into a fish, so move it out of the way
@@ -952,7 +957,8 @@ veh_collision vehicle::part_collision( int part, const tripoint_abs_ms &p,
                  // These are bashable, but don't interact with vehicles.
                  !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOCOLLIDE, pos ) &&
                  // Do not collide with track tiles if we can use rails
-                 !( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_RAIL, pos ) && this->can_use_rails() ) ) ) {
+                 !( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_RAIL, pos ) &&
+                    this->can_use_rails( here ) ) ) ) {
         // Movecost 2 indicates flat terrain like a floor, no collision there.
         ret.type = veh_coll_bashable;
         terrain_collision_data( pos, bash_floor, mass2, part_dens, e );
@@ -1168,7 +1174,7 @@ veh_collision vehicle::part_collision( int part, const tripoint_abs_ms &p,
     // Apply special effects from collision.
     if( critter != nullptr ) {
         if( !critter->is_hallucination() ) {
-            if( player_is_driving_this_veh() ) {
+            if( player_is_driving_this_veh( &here ) ) {
                 if( time_stunned > 0_turns ) {
                     //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
                     add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s and stuns it!" ),
@@ -1187,7 +1193,7 @@ veh_collision vehicle::part_collision( int part, const tripoint_abs_ms &p,
             }
         }
     } else {
-        if( player_is_driving_this_veh() ) {
+        if( player_is_driving_this_veh( &here ) ) {
             if( !snd.empty() ) {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
                 add_msg( m_warning, _( "Your %1$s's %2$s rams into %3$s with a %4$s" ),
@@ -1247,7 +1253,7 @@ void vehicle::handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp
     }
 
     Character &player_character = get_player_character();
-    const Character *driver = get_driver();
+    const Character *driver = get_driver( *here );
     const bool seen = player_character.sees( p );
     const bool known = tr.can_see( p, player_character );
     const bool damage_done = vp_wheel.info().durability <= veh_data.damage;
@@ -1287,7 +1293,7 @@ void vehicle::handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp
             here->trap_set( p, veh_data.set_trap.id() );
             still_has_trap = true;
         }
-        if( still_has_trap && player_is_driving_this_veh() ) {
+        if( still_has_trap && player_is_driving_this_veh( here ) ) {
             const trap &tr = here->tr_at( p );
             if( seen || known ) {
                 // known status has been reset by map::trap_set()
@@ -1304,10 +1310,12 @@ void vehicle::handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp
 
 monster *vehicle::get_harnessed_animal() const
 {
+    map &here = get_map();
+
     for( size_t e = 0; e < parts.size(); e++ ) {
         const vehicle_part &vp = parts[ e ];
         if( vp.info().fuel_type == fuel_type_animal ) {
-            monster *mon = get_monster( e );
+            monster *mon = get_monster( here, e );
             if( mon && mon->has_effect( effect_harnessed ) && mon->has_effect( effect_pet ) ) {
                 return mon;
             }
@@ -1318,12 +1326,14 @@ monster *vehicle::get_harnessed_animal() const
 
 void vehicle::selfdrive( const int trn, const int acceleration )
 {
+    map &here = get_map();
+
     if( !is_towed() && !magic && !get_harnessed_animal() && !has_part( "AUTOPILOT" ) ) {
         is_following = false;
         return;
     }
     if( trn != 0 ) {
-        if( steering_effectiveness() <= 0 ) {
+        if( steering_effectiveness( here ) <= 0 ) {
             return; // no steering
         }
         turn( trn * vehicles::steer_increment );
@@ -1338,7 +1348,7 @@ void vehicle::selfdrive( const int trn, const int acceleration )
     }
     // TODO: Actually check if we're on land on water (or disable water-skidding)
     if( skidding && valid_wheel_config() ) {
-        const float handling_diff = handling_difficulty();
+        const float handling_diff = handling_difficulty( here );
         if( handling_diff * rng( 1, 10 ) < 15 ) {
             velocity = static_cast<int>( forward_velocity() );
             skidding = false;
@@ -1363,13 +1373,14 @@ bool vehicle::check_is_heli_landed()
 
 bool vehicle::check_heli_descend( Character &p ) const
 {
-    if( !is_rotorcraft() ) {
+    map &here = get_map();
+
+    if( !is_rotorcraft( here ) ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
         return true;
     }
     int count = 0;
     int air_count = 0;
-    map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_abs_ms &pt : get_points( true ) ) {
         const tripoint_bub_ms pos = here.get_bub( pt );
@@ -1399,7 +1410,9 @@ bool vehicle::check_heli_descend( Character &p ) const
 
 bool vehicle::check_heli_ascend( Character &p ) const
 {
-    if( !is_rotorcraft() ) {
+    map &here = get_map();
+
+    if( !is_rotorcraft( here ) ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
         return true;
     }
@@ -1410,7 +1423,6 @@ bool vehicle::check_heli_ascend( Character &p ) const
     if( sm_pos.z() + 1 >= OVERMAP_HEIGHT ) {
         return false; // don't allow trying to ascend to max zlevel
     }
-    map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_abs_ms &pt : get_points( true ) ) {
         const tripoint_bub_ms pos = here.get_bub( pt );
@@ -1430,6 +1442,8 @@ bool vehicle::check_heli_ascend( Character &p ) const
 
 void vehicle::pldrive( Character &driver, const int trn, const int acceleration, const int z )
 {
+    map &here = get_map();
+
     bool is_non_proficient = false;
     float effective_driver_skill = driver.get_skill_level( skill_driving );
     float vehicle_proficiency;
@@ -1460,14 +1474,14 @@ void vehicle::pldrive( Character &driver, const int trn, const int acceleration,
         // - 50% Skill at Per/Dex 8: 1-in-16 chance
         // - 50% Skill at Per/Dex 12: 1-in-18 chance
     }
-    if( z != 0 && is_rotorcraft() ) {
+    if( z != 0 && is_rotorcraft( here ) ) {
         driver.set_moves( std::min( driver.get_moves(), 0 ) );
         thrust( 0, z );
     }
     units::angle turn_delta = vehicles::steer_increment * trn;
-    const float handling_diff = handling_difficulty() + non_prof_penalty;
+    const float handling_diff = handling_difficulty( here ) + non_prof_penalty;
     if( turn_delta != 0_degrees ) {
-        float eff = steering_effectiveness();
+        float eff = steering_effectiveness( here );
         if( eff == -2 ) {
             driver.add_msg_if_player( m_info,
                                       _( "You cannot steer an animal-drawn vehicle with no animal harnessed." ) );
@@ -1844,7 +1858,7 @@ vehicle *vehicle::act_on_map()
     if( decrement_summon_timer() ) {
         return nullptr;
     }
-    const bool pl_ctrl = player_is_driving_this_veh();
+    const bool pl_ctrl = player_is_driving_this_veh( &here );
     // TODO: Remove this hack, have vehicle sink a z-level
     if( in_deep_water && !can_float() ) {
         add_msg( m_bad, _( "Your %s sank." ), name );
@@ -1892,7 +1906,7 @@ vehicle *vehicle::act_on_map()
     }
 
     const float wheel_traction_area = here.vehicle_wheel_traction( *this );
-    const float traction = k_traction( wheel_traction_area );
+    const float traction = k_traction( here, wheel_traction_area );
     if( traction < 0.001f ) {
         of_turn = 0;
         if( !should_fall ) {
@@ -1910,7 +1924,8 @@ vehicle *vehicle::act_on_map()
     // Can't afford it this turn?
     // Low speed shouldn't prevent vehicle from falling, though
     bool falling_only = false;
-    if( turn_cost >= of_turn && ( ( !is_flying && requested_z_change == 0 ) || !is_rotorcraft() ) ) {
+    if( turn_cost >= of_turn && ( ( !is_flying && requested_z_change == 0 ) ||
+                                  !is_rotorcraft( here ) ) ) {
         if( !should_fall ) {
             of_turn_carry = of_turn;
             of_turn = 0;
@@ -1924,7 +1939,7 @@ vehicle *vehicle::act_on_map()
         of_turn -= turn_cost;
     }
 
-    bool can_use_rails = this->can_use_rails();
+    bool can_use_rails = this->can_use_rails( here );
     if( one_in( 10 ) ) {
         bool controlled = false;
         // It can even be a NPC, but must be at the controls
@@ -1995,7 +2010,7 @@ vehicle *vehicle::act_on_map()
     } else {
         dp.z() = requested_z_change;
         requested_z_change = 0;
-        if( dp.z() > 0 && is_rotorcraft() ) {
+        if( dp.z() > 0 && is_rotorcraft( here ) ) {
             is_flying = true;
         }
     }
@@ -2006,7 +2021,7 @@ vehicle *vehicle::act_on_map()
 bool vehicle::level_vehicle()
 {
     map &here = get_map();
-    if( is_flying && is_rotorcraft() ) {
+    if( is_flying && is_rotorcraft( here ) ) {
         return true;
     }
     is_on_ramp = false;
@@ -2061,8 +2076,10 @@ bool vehicle::level_vehicle()
 
 void vehicle::check_falling_or_floating()
 {
+    map &here = get_map();
+
     // If we're flying none of the rest of this matters.
-    if( is_flying && is_rotorcraft() ) {
+    if( is_flying && is_rotorcraft( here ) ) {
         is_falling = false;
         in_deep_water = false;
         in_water = false;
@@ -2071,7 +2088,6 @@ void vehicle::check_falling_or_floating()
 
     is_falling = true;
     is_flying = false;
-    map &here = get_map();
 
     auto has_support = [&here]( const tripoint_bub_ms & position, const bool water_supports ) {
         // if we're at the bottom of the z-levels, we're supported
@@ -2268,7 +2284,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             }
         }
 
-        if( psg && veh.player_in_control( *psg ) ) {
+        if( psg && veh.player_in_control( here, *psg ) ) {
             const int lose_ctrl_roll = rng( 0, d_vel );
             ///\EFFECT_DEX reduces chance of losing control of vehicle when shaken
 

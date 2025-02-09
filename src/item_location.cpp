@@ -560,7 +560,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         void make_active( item_location &head ) {
-            cur.veh.make_active( head );
+            cur.veh.make_active( get_map(), head );
         }
 
         units::volume volume_capacity() const override {

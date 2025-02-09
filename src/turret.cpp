@@ -91,11 +91,13 @@ bool turret_data::uses_vehicle_tanks_or_batteries() const
 
 int turret_data::ammo_remaining() const
 {
+    map &here = get_map();
+
     if( !veh || !part ) {
         return 0;
     }
     if( uses_vehicle_tanks_or_batteries() ) {
-        return veh->fuel_left( ammo_current() );
+        return veh->fuel_left( here, ammo_current() );
     }
     return part->base.ammo_remaining();
 }
@@ -231,6 +233,8 @@ bool turret_data::can_unload() const
 
 turret_data::status turret_data::query() const
 {
+    map &here = get_map();
+
     if( !veh || !part ) {
         return status::invalid;
     }
@@ -238,7 +242,7 @@ turret_data::status turret_data::query() const
     const item &gun = part->base;
 
     if( uses_vehicle_tanks_or_batteries() ) {
-        if( veh->fuel_left( ammo_current() ) < gun.ammo_required() ) {
+        if( veh->fuel_left( here, ammo_current() ) < gun.ammo_required() ) {
             return status::no_ammo;
         }
     } else {
@@ -248,7 +252,7 @@ turret_data::status turret_data::query() const
     }
 
     const units::energy energy_drain = gun.get_gun_energy_drain() * gun.gun_current_mode().qty;
-    if( energy_drain > units::from_kilojoule( veh->fuel_left( fuel_type_battery ) ) ) {
+    if( energy_drain > units::from_kilojoule( veh->fuel_left( here, fuel_type_battery ) ) ) {
         return status::no_power;
     }
 
@@ -257,6 +261,8 @@ turret_data::status turret_data::query() const
 
 void turret_data::prepare_fire( Character &you )
 {
+    map &here = get_map();
+
     // prevent turrets from shooting their own vehicles
     you.add_effect( effect_on_roof, 1_turns );
 
@@ -268,7 +274,7 @@ void turret_data::prepare_fire( Character &you )
     if( uses_vehicle_tanks_or_batteries() ) {
         gun_mode mode = base()->gun_current_mode();
         int qty  = mode->ammo_required();
-        int fuel_left = veh->fuel_left( ammo_current() );
+        int fuel_left = veh->fuel_left( here, ammo_current() );
         mode->ammo_set( ammo_current(), std::min( qty * mode.qty, fuel_left ) );
     }
 }

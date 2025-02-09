@@ -109,7 +109,7 @@ bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
         vehicle &veh_target = vp->vehicle();
         if( veh_target.has_tag( flag_APPLIANCE ) ) {
             if( veh->is_powergrid() && veh_target.is_powergrid() &&
-                veh->merge_appliance_into_grid( veh_target ) ) {
+                veh->merge_appliance_into_grid( &here, veh_target ) ) {
                 add_msg( _( "You merge it into the adjacent power grid." ) );
                 continue;
             }
@@ -119,7 +119,7 @@ bool place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
             }
         }
     }
-    veh->part_removal_cleanup();
+    veh->part_removal_cleanup( here );
 
     // Make some lighting appliances directed
     if( vpinfo.has_flag( flag_HALF_CIRCLE_LIGHT ) && partnum != -1 ) {
@@ -152,7 +152,9 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point_rel_ms &p )
 // @returns true if a battery part exists on any vehicle connected to veh
 static bool has_battery_in_grid( vehicle *veh )
 {
-    return !veh->search_connected_batteries().empty();
+    map &here = get_map();
+
+    return !veh->search_connected_batteries( here ).empty();
 }
 
 void veh_app_interact::init_ui_windows()
@@ -215,6 +217,8 @@ void veh_app_interact::init_ui_windows()
 
 void veh_app_interact::draw_info()
 {
+    map &here = get_map();
+
     werase( w_info );
 
     int row = 0;
@@ -257,43 +261,43 @@ void veh_app_interact::draw_info()
 
     // Battery power output
     units::power grid_flow = 0_W;
-    for( const std::pair<vehicle *const, float> &pair : veh->search_connected_vehicles() ) {
-        grid_flow += pair.first->net_battery_charge_rate( /* include_reactors = */ true );
+    for( const std::pair<vehicle *const, float> &pair : veh->search_connected_vehicles( here ) ) {
+        grid_flow += pair.first->net_battery_charge_rate( here, /* include_reactors = */ true );
     }
     print_charge( _( "Grid battery power flow: " ), grid_flow, row );
     row++;
 
     // Reactor power output
     if( !veh->reactors.empty() ) {
-        const units::power rate = veh->active_reactor_epower();
+        const units::power rate = veh->active_reactor_epower( here );
         print_charge( _( "Reactor power output: " ), rate, row );
         row++;
     }
 
     // Wind power output
     if( !veh->wind_turbines.empty() ) {
-        units::power rate = veh->total_wind_epower();
+        units::power rate = veh->total_wind_epower( here );
         print_charge( _( "Wind power output: " ), rate, row );
         row++;
     }
 
     // Solar power output
     if( !veh->solar_panels.empty() ) {
-        units::power rate = veh->total_solar_epower();
+        units::power rate = veh->total_solar_epower( here );
         print_charge( _( "Solar power output: " ), rate, row );
         row++;
     }
 
     // Water power output
     if( !veh->water_wheels.empty() ) {
-        units::power rate = veh->total_water_wheel_epower();
+        units::power rate = veh->total_water_wheel_epower( here );
         print_charge( _( "Water power output: " ), rate, row );
         row++;
     }
 
     // Alternator power output
     if( !veh->alternators.empty() ) {
-        units::power rate = veh->total_alternator_epower();
+        units::power rate = veh->total_alternator_epower( here );
         print_charge( _( "Alternator power output: " ), rate, row );
         row++;
     }
@@ -421,6 +425,8 @@ void veh_app_interact::refill()
 
 void veh_app_interact::siphon()
 {
+    map &here = get_map();
+
     std::vector<vehicle_part *> ptlist;
     for( const vpart_reference &vpr : veh->get_any_parts( VPFLAG_FLUIDTANK ) ) {
         if( vpr.part().get_base().has_item_with( []( const item & it ) {
@@ -440,7 +446,7 @@ void veh_app_interact::siphon()
     item liquid( base.legacy_front() );
     const int liq_charges = liquid.charges;
     if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
-        veh->drain( idx, liq_charges - liquid.charges );
+        veh->drain( here, idx, liq_charges - liquid.charges );
     }
 }
 
@@ -521,7 +527,9 @@ bool veh_app_interact::can_disconnect()
 
 void veh_app_interact::disconnect()
 {
-    veh->separate_from_grid( a_point );
+    map &here = get_map();
+
+    veh->separate_from_grid( &here, a_point );
     get_player_character().pause();
 }
 
@@ -616,7 +624,7 @@ void veh_app_interact::populate_app_actions()
 
     /*************** Get part-specific actions ***************/
     veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );
-    veh->build_interact_menu( menu, veh->mount_to_tripoint( &here, a_point ), false );
+    veh->build_interact_menu( menu, &here, veh->mount_to_tripoint( &here, a_point ), false );
     const std::vector<veh_menu_item> items = menu.get_items();
     for( size_t i = 0; i < items.size(); i++ ) {
         const veh_menu_item &it = items[i];

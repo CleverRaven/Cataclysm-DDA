@@ -7250,7 +7250,9 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint_bu
 
 static bool hackveh( Character &p, item &it, vehicle &veh )
 {
-    if( !veh.is_locked || !veh.has_security_working() ) {
+    map &here = get_map();
+
+    if( !veh.is_locked || !veh.has_security_working( here ) ) {
         return true;
     }
     const bool advanced = !empty( veh.get_avail_parts( "REMOTE_CONTROLS" ) );
@@ -7317,7 +7319,7 @@ static vehicle *pickveh( const tripoint_bub_ms &center, bool advanced )
     for( wrapped_vehicle &veh : here.get_vehicles() ) {
         vehicle *&v = veh.v;
         if( rl_dist( center, v->pos_bub( &here ) ) < 40 &&
-            v->fuel_left( itype_battery ) > 0 &&
+            v->fuel_left( here, itype_battery ) > 0 &&
             ( !empty( v->get_avail_parts( advctrl ) ) ||
               ( !advanced && !empty( v->get_avail_parts( ctrl ) ) ) ) ) {
             vehs.push_back( v );
@@ -7351,6 +7353,8 @@ static vehicle *pickveh( const tripoint_bub_ms &center, bool advanced )
 
 std::optional<int> iuse::remoteveh_tick( Character *p, item *it, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     vehicle *remote = g->remoteveh();
     bool stop = false;
     if( !it->ammo_sufficient( p ) ) {
@@ -7359,7 +7363,7 @@ std::optional<int> iuse::remoteveh_tick( Character *p, item *it, const tripoint_
     } else if( remote == nullptr ) {
         p->add_msg_if_player( _( "Lost contact with the vehicle." ) );
         stop = true;
-    } else if( remote->fuel_left( itype_battery ) == 0 ) {
+    } else if( remote->fuel_left( here, itype_battery ) == 0 ) {
         p->add_msg_if_player( m_bad, _( "The vehicle's battery died." ) );
         stop = true;
     }
@@ -7423,9 +7427,9 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint_bub_m
         const auto electronics_parts = veh->get_avail_parts( "CTRL_ELECTRONIC" );
         // Revert to original behavior if we can't find remote controls.
         if( empty( rctrl_parts ) ) {
-            veh->interact_with( electronics_parts.begin()->pos_bub( &here ) );
+            veh->interact_with( &here, electronics_parts.begin()->pos_bub( &here ) );
         } else {
-            veh->interact_with( rctrl_parts.begin()->pos_bub( &here ) );
+            veh->interact_with( &here, rctrl_parts.begin()->pos_bub( &here ) );
         }
     }
 
@@ -8211,6 +8215,8 @@ static std::optional<std::pair<tripoint_bub_ms, itype_id>> appliance_heater_sele
 
 heater find_heater( Character *p, item *it )
 {
+    map &here = get_map();
+
     bool consume_flag = true;
     bool pseudo_flag = false;
     int available_heater = 1;
@@ -8220,7 +8226,7 @@ heater find_heater( Character *p, item *it )
     if( it->has_flag( flag_PSEUDO ) && it->has_quality( qual_HOTPLATE ) ) {
         pseudo_flag = true;
     }
-    if( get_map().has_nearby_fire( p->pos_bub() ) && !it->has_quality( qual_HOTPLATE ) ) {
+    if( here.has_nearby_fire( p->pos_bub( &here ) ) && !it->has_quality( qual_HOTPLATE ) ) {
         p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
         return {loc, false, 1, 0, vpt, pseudo_flag};
     } else if( it->has_quality( qual_HOTPLATE ) ) {
@@ -8236,12 +8242,12 @@ heater find_heater( Character *p, item *it )
             return {loc, true, -1, 0, vpt, pseudo_flag};
         }
     } else if( !it->has_quality( qual_HOTPLATE ) ) {
-        auto filter = [p]( const item & e ) {
+        auto filter = [p, &here]( const item & e ) {
             if( e.has_quality( qual_HOTPLATE, 2 ) && e.ammo_remaining() >= e.type->charges_to_use() ) {
                 return true;
             }
             if( e.has_quality( qual_HOTPLATE, 2 ) && ( !e.has_no_links() ) ) {
-                if( e.link().t_veh->connected_battery_power_level().first >= e.type->charges_to_use() ) {
+                if( e.link().t_veh->connected_battery_power_level( here ).first >= e.type->charges_to_use() ) {
                     return true;
                 }
             }
@@ -8261,10 +8267,10 @@ heater find_heater( Character *p, item *it )
                 return {loc, true, -1, 0, vpt, pseudo_flag};
             } else {
                 pseudo_flag = true;
-                optional_vpart_position vp = get_map().veh_at( app.value().first );
-                available_heater = vp->vehicle().connected_battery_power_level().first;
+                optional_vpart_position vp = here.veh_at( app.value().first );
+                available_heater = vp->vehicle().connected_battery_power_level( here ).first;
                 heating_effect = app.value().second->charges_to_use();
-                vpt = get_map().get_abs( app.value().first );
+                vpt = here.get_abs( app.value().first );
                 if( available_heater >= heating_effect ) {
                     return {loc, consume_flag, available_heater, heating_effect, vpt, pseudo_flag};
                 } else {
@@ -8279,7 +8285,7 @@ heater find_heater( Character *p, item *it )
 
     heating_effect = loc->type->charges_to_use();
     if( !loc->has_no_links() ) {
-        available_heater = loc->link().t_veh->connected_battery_power_level().first;
+        available_heater = loc->link().t_veh->connected_battery_power_level( here ).first;
     } else if( !loc->has_flag( flag_USE_UPS ) ) {
         available_heater = loc->ammo_remaining();
     } else if( loc->has_flag( flag_USE_UPS ) ) {
@@ -9126,19 +9132,20 @@ std::optional<int> iuse::binder_manage_recipe( Character *p, item *binder,
 
 std::optional<int> iuse::voltmeter( Character *p, item *, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Check voltage where?" ) );
     if( !pnt_ ) {
         return std::nullopt;
     }
 
-    const map &here = get_map();
     const optional_vpart_position vp = here.veh_at( *pnt_ );
 
     if( !vp ) {
         p->add_msg_if_player( _( "There's nothing to measure there." ) );
         return std::nullopt;
     }
-    if( vp->vehicle().fuel_left( itype_battery ) ) {
+    if( vp->vehicle().fuel_left( here, itype_battery ) ) {
         p->add_msg_if_player( _( "The %1$s has voltage." ), vp->vehicle().name );
     } else {
         p->add_msg_if_player( _( "The %1$s has no voltage." ), vp->vehicle().name );
@@ -9180,8 +9187,7 @@ std::optional<int> use_function::call( Character *p, item &it,
 }
 
 std::optional<int> use_function::call( Character *p, item &it,
-                                       map */*here*/, const tripoint_bub_ms &pos ) const
+                                       map *here, const tripoint_bub_ms &pos ) const
 {
-    // TODO: Make use map aware
-    return actor->use( p, it, pos );
+    return actor->use( p, it, here, pos );
 }

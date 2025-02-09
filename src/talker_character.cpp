@@ -743,7 +743,9 @@ void talker_character::set_thirst( int value )
 
 bool talker_character_const::is_in_control_of( const vehicle &veh ) const
 {
-    return veh.player_in_control( *me_chr_const );
+    map &here = get_map();
+
+    return veh.player_in_control( here, *me_chr_const );
 }
 
 void talker_character::shout( const std::string &speech, bool order )

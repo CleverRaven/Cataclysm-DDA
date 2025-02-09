@@ -85,6 +85,8 @@ static bool test_drag(
     const int expected_safe = 0, const int expected_max = 0,
     const bool test_results = false )
 {
+    map &here = get_map();
+
     vehicle *veh_ptr = setup_drag_test( veh_id );
     if( veh_ptr == nullptr ) {
         return false;
@@ -93,8 +95,8 @@ static bool test_drag(
     const double c_air = veh_ptr->coeff_air_drag();
     const double c_rolling = veh_ptr->coeff_rolling_drag();
     const double c_water = veh_ptr->coeff_water_drag();
-    const int safe_v = veh_ptr->safe_ground_velocity( false );
-    const int max_v = veh_ptr->max_ground_velocity( false );
+    const int safe_v = veh_ptr->safe_ground_velocity( here, false );
+    const int max_v = veh_ptr->max_ground_velocity( here, false );
 
     const auto d_in_bounds = [&]( const double expected, double value ) {
         double expected_high = expected * 1.05;
