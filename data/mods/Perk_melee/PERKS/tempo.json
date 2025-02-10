@@ -29,7 +29,7 @@
     "id": "MELEE_PERK_TEMPO_ASSAULT",
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Unrelenting Assault" },
-    "description": "Whenever you kill an enemy in melee, you'll advance into their position and automatically attack an adjacent enemy. You'll gain a momentum stack if you can normally gain them.",
+    "description": "Whenever you kill an enemy in melee, you'll advance into their position and automatically attack an adjacent enemy.  You'll gain a momentum stack if you can normally gain them.",
     "flags": "MELEE_PERK_TEMPO_ASSAULT"
   },
   {
