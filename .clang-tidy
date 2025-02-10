@@ -72,10 +72,12 @@ Checks: [
     -bugprone-easily-swappable-parameters,
     -bugprone-empty-catch,
     -bugprone-implicit-widening-of-multiplication-result,
+    -bugprone-multi-level-implicit-pointer-conversion,  # untriaged since upgrade to LLVM 18
     -bugprone-narrowing-conversions,
     -bugprone-switch-missing-default-case,
     -bugprone-unchecked-optional-access,
     -bugprone-unhandled-exception-at-new,
+    -bugprone-unused-local-non-trivial-variable,  # great lint, but hard to fix
     -misc-confusable-identifiers,
     -misc-const-correctness,
     -misc-header-include-cycle,
@@ -90,8 +92,10 @@ Checks: [
     -modernize-use-default-member-init,
     -modernize-use-nodiscard,
     -performance-avoid-endl,
+    -performance-enum-size,  # untriaged since upgrade to LLVM 18
     -performance-noexcept-swap,
     -performance-no-automatic-move,
+    -readability-avoid-nested-conditional-operator,  # great lint, but hard to fix
     -readability-avoid-unconditional-preprocessor-if,
     -readability-container-data-pointer,
     -readability-convert-member-functions-to-static,
@@ -100,15 +104,10 @@ Checks: [
     -readability-implicit-bool-conversion,
     -readability-magic-numbers,
     -readability-named-parameter,
+    -readability-redundant-casting,  # probably good lint, just needs fixing
     -readability-simplify-boolean-expr,
     -readability-suspicious-call-argument,
     -readability-use-anyofallof,
-    # Temporarily disabled in an update to llvm 18. Untriaged.
-    -bugprone-multi-level-implicit-pointer-conversion,
-    -bugprone-unused-local-non-trivial-variable,
-    -performance-enum-size,
-    -readability-avoid-nested-conditional-operator,
-    -readability-redundant-casting,
 ]
 
 WarningsAsErrors: '*'
