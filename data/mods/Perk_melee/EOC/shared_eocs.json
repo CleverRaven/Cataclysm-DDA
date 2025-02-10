@@ -38,6 +38,22 @@
     ]
   },
   {
+    "id": "EOC_PERK_VICTIM_AFFLICTOR_MON",
+    "type": "effect_on_condition",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "math": [ "_hits == true" ] },
+    "effect": [ { "npc_add_effect": "perk_hit_marker", "duration": "2 seconds" } ]
+  },
+  {
+    "id": "EOC_PERK_VICTIM_AFFLICTOR_CHAR",
+    "type": "effect_on_condition",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": { "math": [ "_hits == true" ] },
+    "effect": [ { "npc_add_effect": "perk_hit_marker", "duration": "2 seconds" } ]
+  },
+  {
     "id": "EOC_EXECUTION_EXTA_EFFECTS",
     "type": "effect_on_condition",
     "effect": [
@@ -64,6 +80,15 @@
     ]
   },
   {
+    "id": "EOC_PERK_STEP_CLOSER",
+    "type": "effect_on_condition",
+    "effect": [
+      { "run_eocs": "EOC_PERK_TRY_STEP_CLOSER", "condition": { "math": [ "u_done_step_closer != 1" ] }, "iterations": 20 },
+      { "run_eocs": "EOC_PERK_MOMENTUM_UPDATE" },
+      { "math": [ "u_done_step_closer = 0" ] }
+    ]
+  },
+  {
     "id": "EOC_PERK_DODGE_RETREAT_MANUAL",
     "type": "effect_on_condition",
     "condition": { "and": [ { "u_has_flag": "MELEE_PERK_MOVING_DODGE" } ] },
@@ -76,10 +101,23 @@
     ]
   },
   {
+    "id": "EOC_PERK_MOVEMENT_ATTACK",
+    "type": "effect_on_condition",
+    "effect": [
+      { "set_string_var": { "mutator": "valid_technique" }, "target_var": { "context_val": "random_attack" } },
+      { "u_attack": { "context_val": "random_attack" } }
+    ]
+  },
+  {
     "id": "EOC_PERK_TEMPO_MANUAL",
     "type": "effect_on_condition",
     "condition": { "u_has_trait": "MELEE_PERK_TEMPO" },
     "effect": { "u_add_effect": "mabuff:buff_perk_tempo", "duration": "2 seconds" }
+  },
+  {
+    "id": "EOC_PERK_MOMENTUM_UPDATE",
+    "type": "effect_on_condition",
+    "effect": [ { "run_eocs": [ "EOC_PERK_MOMENTUM_MANUAL", "EOC_PERK_MOMENTUM_2", "EOC_PERK_duelist_insert_reach" ] } ]
   },
   {
     "id": "EOC_PERK_MOMENTUM_MANUAL",
@@ -94,6 +132,25 @@
     "effect": { "u_add_effect": "perk_dex_bonus", "duration": "2 seconds" }
   },
   {
+    "id": "EOC_PERK_TRY_STEP_CLOSER",
+    "type": "effect_on_condition",
+    "effect": [
+      { "u_location_variable": { "context_val": "original_pos" } },
+      { "npc_location_variable": { "context_val": "attempt" }, "min_radius": 1, "max_radius": 1 },
+      { "u_teleport": { "context_val": "attempt" } },
+      {
+        "run_eocs": [
+          {
+            "id": "_VALID_STEP_CLOSER",
+            "condition": { "math": [ "distance(_original_pos, _attempt ) > 1" ] },
+            "effect": [ { "u_teleport": { "context_val": "original_pos" } } ],
+            "false_effect": [ { "math": [ "u_done_step_closer = 1" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "EOC_PERK_TRY_RETREAT",
     "type": "effect_on_condition",
     "effect": [
@@ -105,10 +162,7 @@
           {
             "id": "_VALID_RETREAT",
             "condition": { "math": [ "u_monsters_nearby('radius': 1) == 0" ] },
-            "effect": [
-              { "u_add_effect": "mabuff:buff_perk_momentum", "duration": 2 },
-              { "run_eocs": [ "EOC_PERK_MOMENTUM_2", "EOC_PERK_MOMENTUM_MANUAL" ] }
-            ],
+            "effect": [ { "run_eocs": [ "EOC_PERK_MOMENTUM_UPDATE" ] } ],
             "false_effect": [ { "u_teleport": { "context_val": "original_pos" } } ]
           }
         ]
