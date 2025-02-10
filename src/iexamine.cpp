@@ -6592,7 +6592,58 @@ static void smoker_activate( Character &you, const tripoint_bub_ms &examp )
         return;
     }
 
-    you.use_charges( itype_fire, 1 );
+    // Determine the fire starter to use.
+    auto is_firestarter = []( const item & it ) {
+        return it.has_flag( flag_FIRESTARTER ) || it.has_flag( flag_FIRE );
+    };
+
+    std::multimap<int, item *> firestarters;
+
+    for( item *it : you.items_with( is_firestarter ) ) {
+        add_firestarter( it, firestarters, you, examp );
+    }
+
+    const bool has_bionic_firestarter = you.has_bionic( bio_lighter ) &&
+                                        you.enough_power_for( bio_lighter );
+
+    auto use_cbm = false;
+
+    // Query to use a CBM over another firestarter only if the firestarters list isn't empty.
+    if( has_bionic_firestarter && !firestarters.empty() ) {
+        use_cbm = query_yn( _( "Use a CBM to start a fire" ) );
+    } else if( has_bionic_firestarter ) {
+        use_cbm = true;
+    }
+
+    // Try to fire the smoking rack.
+    if( !use_cbm ) {
+        auto success = false;
+        for( auto &firestarter : firestarters ) {
+            item *it = firestarter.second;
+            const use_function *usef = it->type->get_use( "firestarter" );
+            const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+            you.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
+            const ret_val<void> can_use = actor->can_use( you, *it, examp );
+            if( can_use.success() ) {
+                // Wait for moves_cost_slow instead of using as we don't want to literally set fire to the smoking rack.
+                you.mod_moves( -actor->moves_cost_slow );
+                you.use_charges( it->typeId(), 1 );
+                success = true;
+                break;
+            } else {
+                you.add_msg_if_player( m_bad, can_use.str() );
+            }
+        }
+
+        if( !success ) {
+            you.add_msg_if_player( _( "You weren't able to start a fire." ) );
+            return;
+        }
+    } else {
+        you.mod_power_level( -bio_lighter->power_activate );
+        you.mod_moves( -to_moves<int>( 1_seconds ) );
+    }
+
     for( item &it : here.i_at( examp ) ) {
         if( it.has_flag( flag_SMOKABLE ) ) {
             it.process_temperature_rot( 1, examp, get_map(), nullptr );
