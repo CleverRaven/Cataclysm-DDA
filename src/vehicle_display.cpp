@@ -313,10 +313,8 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
  * Returns an array of fuel types that can be printed
  * @return An array of printable fuel type ids
  */
-std::vector<itype_id> vehicle::get_printable_fuel_types() const
+std::vector<itype_id> vehicle::get_printable_fuel_types( map &here ) const
 {
-    map &here = get_map();
-
     std::set<itype_id> opts;
     for( const vpart_reference &vpr : get_all_parts() ) {
         const vehicle_part &pt = vpr.part();
@@ -345,10 +343,11 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
  * @param desc true if the name of the fuel should be at the end
  * @param isHorizontal true if the menu is not vertical
  */
-void vehicle::print_fuel_indicators( const catacurses::window &win, const point &p, int start_index,
+void vehicle::print_fuel_indicators( map &here, const catacurses::window &win, const point &p,
+                                     int start_index,
                                      bool fullsize, bool verbose, bool desc, bool isHorizontal )
 {
-    auto fuels = get_printable_fuel_types();
+    auto fuels = get_printable_fuel_types( here );
     if( fuels.empty() ) {
         return;
     }
@@ -357,12 +356,12 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, const point 
             const vehicle_part &vp = parts[part_idx];
             // if only one display, print the first engine that's on and consumes power
             if( is_engine_on( vp ) && !is_perpetual_type( vp ) && !is_engine_type( vp, fuel_type_muscle ) ) {
-                print_fuel_indicator( win, p, vp.fuel_current(), verbose, desc );
+                print_fuel_indicator( here, win, p, vp.fuel_current(), verbose, desc );
                 return;
             }
         }
         // or print the first fuel if no engines
-        print_fuel_indicator( win, p, fuels.front(), verbose, desc );
+        print_fuel_indicator( here, win, p, fuels.front(), verbose, desc );
         return;
     }
 
@@ -372,7 +371,7 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, const point 
 
     for( int i = start_index; i < max_size; i++ ) {
         const itype_id &f = fuels[i];
-        print_fuel_indicator( win, p + point( 0, yofs ), f, fuel_used_last_turn, verbose, desc );
+        print_fuel_indicator( here, win, p + point( 0, yofs ), f, fuel_used_last_turn, verbose, desc );
         yofs++;
     }
 
@@ -392,20 +391,18 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, const point 
  * @param desc true if the name of the fuel should be at the end
  * @param fuel_usages map of fuel types to consumption for verbose
  */
-void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
+void vehicle::print_fuel_indicator( map &here, const catacurses::window &win, const point &p,
                                     const itype_id &fuel_type, bool verbose, bool desc )
 {
     std::map<itype_id, units::energy> fuel_usages;
-    print_fuel_indicator( win, p, fuel_type, fuel_usages, verbose, desc );
+    print_fuel_indicator( here, win, p, fuel_type, fuel_usages, verbose, desc );
 }
 
-void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
+void vehicle::print_fuel_indicator( map &here, const catacurses::window &win, const point &p,
                                     const itype_id &fuel_type,
                                     std::map<itype_id, units::energy> fuel_usages,
                                     bool verbose, bool desc )
 {
-    map &here = get_map();
-
     static constexpr std::array<char, 5> fsyms = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_light_gray;
     int cap = fuel_capacity( here, fuel_type );
@@ -474,10 +471,9 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
     }
 }
 
-void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, int spacing ) const
+void vehicle::print_speed_gauge( map &here, const catacurses::window &win, const point &p,
+                                 int spacing ) const
 {
-    map &here = get_map();
-
     if( spacing < 0 ) {
         spacing = 0;
     }

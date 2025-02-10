@@ -475,8 +475,8 @@ TEST_CASE( "npc-movement" )
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
                 REQUIRE( veh != nullptr );
-                veh->install_part( point_rel_ms::zero, vpart_frame );
-                veh->install_part( point_rel_ms::zero, vpart_seat );
+                veh->install_part( here, point_rel_ms::zero, vpart_frame );
+                veh->install_part( here, point_rel_ms::zero, vpart_seat );
                 here.add_vehicle_to_cache( veh );
             }
             // spawn npcs

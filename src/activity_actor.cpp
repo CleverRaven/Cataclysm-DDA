@@ -629,13 +629,15 @@ void autodrive_activity_actor::start( player_activity &, Character &who )
 
 void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     if( who.in_vehicle && who.controlling_vehicle && player_vehicle ) {
         if( who.get_moves() <= 0 ) {
             // out of moves? the driver's not doing anything this turn
             // (but the vehicle will continue moving)
             return;
         }
-        switch( player_vehicle->do_autodrive( who ) ) {
+        switch( player_vehicle->do_autodrive( here, who ) ) {
             case autodrive_result::ok:
                 if( who.get_moves() > 0 ) {
                     // if do_autodrive() didn't eat up all our moves, end the turn
@@ -1357,8 +1359,8 @@ bikerack_racking_activity_actor::bikerack_racking_activity_actor( const vehicle 
     : racks( racks )
 {
     map &here = get_map();
-    parent_vehicle_pos = parent_vehicle.bub_part_pos( &here,  0 );
-    racked_vehicle_pos = racked_vehicle.bub_part_pos( &here, 0 );
+    parent_vehicle_pos = parent_vehicle.bub_part_pos( here,  0 );
+    racked_vehicle_pos = racked_vehicle.bub_part_pos( here, 0 );
 }
 
 void bikerack_racking_activity_actor::start( player_activity &act, Character & )
@@ -1584,7 +1586,7 @@ bikerack_unracking_activity_actor::bikerack_unracking_activity_actor( const vehi
     : parts( parts ), racks( racks )
 {
     map &here = get_map();
-    parent_vehicle_pos = parent_vehicle.bub_part_pos( &here,  0 );
+    parent_vehicle_pos = parent_vehicle.bub_part_pos( here,  0 );
 }
 
 void bikerack_unracking_activity_actor::start( player_activity &act, Character & )
@@ -8031,14 +8033,14 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
     for( const vpart_reference &vpr : veh.get_any_parts( VPFLAG_CARGO ) ) {
         vehicle_stack cargo = vpr.items();
         for( const item &elem : cargo ) {
-            here.add_item_or_charges( veh.pos_bub( &here ), elem );
+            here.add_item_or_charges( veh.pos_bub( here ), elem );
         }
         cargo.clear();
     }
 
-    veh.unboard_all();
+    veh.unboard_all( here );
     p.add_msg_if_player( _( "You fold the %s." ), veh.name );
-    here.add_item_or_charges( veh.pos_bub( &here ), veh.get_folded_item() );
+    here.add_item_or_charges( veh.pos_bub( here ), veh.get_folded_item( here ) );
     here.destroy_vehicle( &veh );
 
     return true;
@@ -8048,7 +8050,7 @@ vehicle_folding_activity_actor::vehicle_folding_activity_actor( const vehicle &t
 {
     map &here = get_map();
     folding_time = target.folding_time();
-    target_pos = target.bub_part_pos( &here,  0 );
+    target_pos = target.bub_part_pos( here,  0 );
 }
 
 void vehicle_folding_activity_actor::start( player_activity &act, Character &p )
@@ -8121,7 +8123,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
         here.destroy_vehicle( veh );
         return false;
     }
-    const bool cant_float = !veh->can_float();
+    const bool cant_float = !veh->can_float( here );
     const auto invalid_pos = [&here, &cant_float]( const tripoint_bub_ms & p ) {
         return ( cant_float && here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) )
                || here.veh_at( p )

@@ -14217,13 +14217,13 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
     vehicle_part prev_veh_part( vpid, item( *this ) );
     prev_veh_part.target.first = prev_part_target.first;
     prev_veh_part.target.second = prev_part_target.second;
-    prev_veh->install_part( prev_mount, std::move( prev_veh_part ) );
+    prev_veh->install_part( here, prev_mount, std::move( prev_veh_part ) );
     prev_veh->precalc_mounts( 1, prev_veh->pivot_rotation[1], prev_veh->pivot_anchor[1] );
 
     vehicle_part sel_veh_part( vpid, item( *this ) );
     sel_veh_part.target.first = sel_part_target.first;
     sel_veh_part.target.second = sel_part_target.second;
-    veh.install_part( mount, std::move( sel_veh_part ) );
+    veh.install_part( here, mount, std::move( sel_veh_part ) );
     veh.precalc_mounts( 1, veh.pivot_rotation[1], veh.pivot_anchor[1] );
 
     if( link_type == link_state::vehicle_tow ) {

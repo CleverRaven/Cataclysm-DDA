@@ -337,7 +337,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 
     // don't actually need point_rel_ms::north but damage_all filters out direct damage
     // do some damage so it is transferred when folding
-    ovp->vehicle().damage_all( 100, 100, damage_pure, ovp->mount_pos() + point_rel_ms::north );
+    ovp->vehicle().damage_all( m, 100, 100, damage_pure, ovp->mount_pos() + point_rel_ms::north );
 
     // fold vehicle into an item
     complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
@@ -454,8 +454,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
     const tripoint_bub_ms app1_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
     const tripoint_bub_ms app2_pos( app1_pos + tripoint( 2, 2, 0 ) );
 
-    place_appliance( app1_pos, vpart_ap_test_standing_lamp, player_character, stand_lamp1 );
-    place_appliance( app2_pos, vpart_ap_test_standing_lamp, player_character, stand_lamp2 );
+    place_appliance( m, app1_pos, vpart_ap_test_standing_lamp, player_character, stand_lamp1 );
+    place_appliance( m, app2_pos, vpart_ap_test_standing_lamp, player_character, stand_lamp2 );
 
     optional_vpart_position app1_part = m.veh_at( app1_pos );
     optional_vpart_position app2_part = m.veh_at( app2_pos );
@@ -598,7 +598,7 @@ static void rack_check( const rack_preset &preset )
     }
 
     for( const point_rel_ms &rack_pos : preset.install_racks ) {
-        vehs[0]->install_part( rack_pos, vpart_bike_rack );
+        vehs[0]->install_part( m, rack_pos, vpart_bike_rack );
     }
 
     for( const rack_activation &rack_act : preset.rack_orders ) {
@@ -758,7 +758,7 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
     vehicle &veh = *veh_ptr;
     if( !extra_part.is_null() ) {
         vehicle_part vp( extra_part, item( extra_part->base_item ) );
-        const int part_index = veh.install_part( point_rel_ms::zero, std::move( vp ) );
+        const int part_index = veh.install_part( here, point_rel_ms::zero, std::move( vp ) );
         REQUIRE( part_index >= 0 );
     }
 
@@ -770,15 +770,15 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
 
     int turns_left = 10;
     int tiles_travelled = 0;
-    const tripoint_bub_ms starting_point = veh.pos_bub( &here );
+    const tripoint_bub_ms starting_point = veh.pos_bub( here );
     while( veh.engine_on && turns_left > 0 ) {
         turns_left--;
         here.vehmove();
         veh.idle( here, true );
         // How much it moved
-        tiles_travelled += square_dist( starting_point, veh.pos_bub( &here ) );
+        tiles_travelled += square_dist( starting_point, veh.pos_bub( here ) );
         // Bring it back to starting point to prevent it from leaving the map
-        const tripoint_rel_ms displacement = starting_point - veh.pos_bub( &here );
+        const tripoint_rel_ms displacement = starting_point - veh.pos_bub( here );
         here.displace_vehicle( veh, displacement );
     }
     return tiles_travelled;

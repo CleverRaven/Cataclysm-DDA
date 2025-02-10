@@ -197,7 +197,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     CHECK( veh.battery_power_level().first == expect_battery );
     CHECK( veh.fuel_left( here, itype_water_clean ) == expect_water );
 
-    veh.unboard_all();
+    veh.unboard_all( here );
 }
 
 TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )

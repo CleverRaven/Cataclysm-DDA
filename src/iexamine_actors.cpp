@@ -37,7 +37,7 @@ void appliance_convert_examine_actor::call( Character &you, const tripoint_bub_m
         here.ter_set( examp, *ter_set );
     }
 
-    place_appliance( examp, vpart_appliance_from_item( appliance_item ), you );
+    place_appliance( here, examp, vpart_appliance_from_item( appliance_item ), you );
 }
 
 void appliance_convert_examine_actor::finalize() const

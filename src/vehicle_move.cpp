@@ -107,7 +107,7 @@ int vmiph_to_cmps( int vmiph )
     return vmiph / mps_to_miph;
 }
 
-int vehicle::slowdown( int at_velocity ) const
+int vehicle::slowdown( map &here, int at_velocity ) const
 {
     double mps = vmiph_to_mps( std::abs( at_velocity ) );
 
@@ -115,21 +115,23 @@ int vehicle::slowdown( int at_velocity ) const
     double f_total_drag = coeff_air_drag() * mps * mps;
     if( is_watercraft() ) {
         // same with water resistance
-        f_total_drag += coeff_water_drag() * mps * mps;
+        f_total_drag += coeff_water_drag( here ) * mps * mps;
     } else if( !is_falling && !is_flying ) {
-        double f_rolling_drag = coeff_rolling_drag() * ( vehicles::rolling_constant_to_variable + mps );
+        double f_rolling_drag = coeff_rolling_drag( here ) * ( vehicles::rolling_constant_to_variable +
+                                mps );
         // increase rolling resistance by up to 25x if the vehicle is skidding at right angle to facing
         const double skid_factor = 1 + 24 * std::abs( units::sin( face.dir() - move.dir() ) );
         f_total_drag += f_rolling_drag * skid_factor;
     }
     // check mass to make sure it's not 0 which happens for some reason
-    double accel_slowdown = total_mass().value() > 0 ? f_total_drag / to_kilogram( total_mass() ) : 0;
+    double accel_slowdown = total_mass( here ).value() > 0 ? f_total_drag / to_kilogram( total_mass(
+                                here ) ) : 0;
     // converting m/s^2 to vmiph/s
     int slowdown = mps_to_vmiph( accel_slowdown );
     if( is_towing() ) {
         vehicle *other_veh = tow_data.get_towed();
         if( other_veh ) {
-            slowdown += other_veh->slowdown( at_velocity );
+            slowdown += other_veh->slowdown( here,  at_velocity );
         }
     }
     if( slowdown < 0 ) {
@@ -139,17 +141,16 @@ int vehicle::slowdown( int at_velocity ) const
                    "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
                    name, at_velocity, f_total_drag, slowdown, units::to_watt( static_drag() ) );
     // plows slow rolling vehicles, but not falling or floating vehicles
-    if( !( is_falling || ( is_watercraft() && can_float() ) || is_flying ) ) {
+    if( !( is_falling || ( is_watercraft() && can_float( here ) ) || is_flying ) ) {
         slowdown -= units::to_watt( static_drag() );
     }
 
     return std::max( 1, slowdown );
 }
 
-void vehicle::smart_controller_handle_turn( const std::optional<float> &k_traction_cache )
+void vehicle::smart_controller_handle_turn( map &here,
+        const std::optional<float> &k_traction_cache )
 {
-    map &here = get_map();
-
     // get settings or defaults
     smart_controller_config cfg = smart_controller_cfg.value_or( smart_controller_config() );
 
@@ -447,29 +448,28 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
     update_alternator_load( here );
 }
 
-void vehicle::thrust( int thd, int z )
+void vehicle::thrust( map &here, int thd, int z )
 {
-    map &here = get_map();
-
     //if vehicle is stopped, set target direction to forward.
     //ensure it is not skidding. Set turns used to 0.
     if( !is_moving() && z == 0 ) {
         turn_dir = face.dir();
-        stop();
+        stop( here );
     }
     bool pl_ctrl = player_is_driving_this_veh( &here );
 
     // No need to change velocity if there are no wheels
-    if( ( is_watercraft() && can_float() ) || ( is_rotorcraft( here ) && ( z != 0 || is_flying ) ) ) {
+    if( ( is_watercraft() && can_float( here ) ) || ( is_rotorcraft( here ) && ( z != 0 ||
+            is_flying ) ) ) {
         // we're good
-    } else if( in_deep_water && !can_float() ) {
-        stop();
+    } else if( in_deep_water && !can_float( here ) ) {
+        stop( here );
         if( pl_ctrl ) {
             add_msg( _( "The %s is too leaky!" ), name );
         }
         return;
-    } else if( !valid_wheel_config()  && z == 0 ) {
-        stop();
+    } else if( !valid_wheel_config( here )  && z == 0 ) {
+        stop( here );
         if( pl_ctrl ) {
             add_msg( _( "The %s doesn't have enough wheels to move!" ), name );
         }
@@ -486,7 +486,7 @@ void vehicle::thrust( int thd, int z )
     float traction = k_traction( here, here.vehicle_wheel_traction( *this ) );
 
     if( thrusting ) {
-        smart_controller_handle_turn( traction );
+        smart_controller_handle_turn( here, traction );
     }
 
     int accel = current_acceleration( here ) * traction;
@@ -602,7 +602,7 @@ void vehicle::thrust( int thd, int z )
     //change vehicles velocity
     if( ( velocity > 0 && velocity + vel_inc < 0 ) || ( velocity < 0 && velocity + vel_inc > 0 ) ) {
         //velocity within braking distance of 0
-        stop();
+        stop( here );
     } else {
         // Increase velocity up to max_vel or min_vel, but not above.
         const int min_vel = max_reverse_velocity( here );
@@ -630,10 +630,8 @@ void vehicle::thrust( int thd, int z )
     }
 }
 
-void vehicle::cruise_thrust( int amount )
+void vehicle::cruise_thrust( map &here, int amount )
 {
-    map &here = get_map();
-
     if( amount == 0 ) {
         return;
     }
@@ -685,14 +683,13 @@ void vehicle::turn( units::angle deg )
     turn_dir = round_to_multiple_of( turn_dir, vehicles::steer_increment );
 }
 
-void vehicle::stop()
+void vehicle::stop( map &here )
 {
     velocity = 0;
     skidding = false;
     move = face;
     last_turn = 0_degrees;
     of_turn_carry = 0;
-    map &here = get_map();
     for( const tripoint_abs_ms &p : get_points() ) {
         if( here.inbounds( p ) ) {
             here.memory_cache_dec_set_dirty( here.get_bub( p ), true );
@@ -700,11 +697,10 @@ void vehicle::stop()
     }
 }
 
-bool vehicle::collision( std::vector<veh_collision> &colls,
+bool vehicle::collision( map &here, std::vector<veh_collision> &colls,
                          const tripoint_rel_ms &dp,
                          bool just_detect, bool bash_floor )
 {
-    map &here = get_map();
     /*
      * Big TODO:
      * Rewrite this function so that it has "pre-collision" phase (detection)
@@ -721,14 +717,14 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
 
     if( dp.z() != 0 && ( dp.x() != 0 || dp.y() != 0 ) ) {
         // Split into horizontal + vertical
-        return collision( colls, tripoint_rel_ms( dp.xy(), 0 ), just_detect, bash_floor ) ||
-               collision( colls, tripoint_rel_ms( 0,    0,    dp.z() ), just_detect, bash_floor );
+        return collision( here, colls, tripoint_rel_ms( dp.xy(), 0 ), just_detect, bash_floor ) ||
+               collision( here, colls, tripoint_rel_ms( 0,    0,    dp.z() ), just_detect, bash_floor );
     }
 
     if( dp.z() == -1 && !bash_floor ) {
         // First check current level, then the one below if current had no collisions
         // Bash floors on the current one, but not on the one below.
-        if( collision( colls, tripoint_rel_ms::zero, just_detect, true ) ) {
+        if( collision( here, colls, tripoint_rel_ms::zero, just_detect, true ) ) {
             return true;
         }
     }
@@ -759,11 +755,12 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         // Coordinates of where part will go due to movement (dx/dy/dz)
         //  and turning (precalc[1])
         const tripoint_abs_ms dsp = vp.next_pos;
-        veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
+        veh_collision coll = part_collision( here, p, dsp, just_detect, bash_floor );
         if( coll.type == veh_coll_nothing && info.has_flag( VPFLAG_ROTOR ) ) {
             size_t radius = static_cast<size_t>( std::round( info.rotor_info->rotor_diameter / 2.0f ) );
             for( const tripoint_bub_ms &rotor_point : here.points_in_radius( here.get_bub( dsp ), radius ) ) {
-                veh_collision rotor_coll = part_collision( p, here.get_abs( rotor_point ), just_detect, false );
+                veh_collision rotor_coll = part_collision( here, p, here.get_abs( rotor_point ), just_detect,
+                                           false );
                 if( rotor_coll.type != veh_coll_nothing ) {
                     coll = rotor_coll;
                     if( just_detect ) {
@@ -823,11 +820,10 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
 }
 
 // A helper to make sure mass and density is always calculated the same way
-static void terrain_collision_data( const tripoint_bub_ms &p, bool bash_floor,
+static void terrain_collision_data( map &here, const tripoint_bub_ms &p, bool bash_floor,
                                     float &mass, float &density, float &elastic )
 {
     elastic = 0.30;
-    map &here = get_map();
     // Just a rough rescale for now to obtain approximately equal numbers
     const int bash_min = here.bash_resistance( p, bash_floor );
     const int bash_max = here.bash_strength( p, bash_floor );
@@ -835,10 +831,9 @@ static void terrain_collision_data( const tripoint_bub_ms &p, bool bash_floor,
     density = bash_min;
 }
 
-veh_collision vehicle::part_collision( int part, const tripoint_abs_ms &p,
+veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_ms &p,
                                        bool just_detect, bool bash_floor )
 {
-    map &here = get_map();
     tripoint_bub_ms pos = here.get_bub( p );
     // Vertical collisions need to be handled differently
     // All collisions have to be either fully vertical or fully horizontal for now
@@ -897,7 +892,7 @@ veh_collision vehicle::part_collision( int part, const tripoint_abs_ms &p,
             const std::set<tripoint_abs_ms> projected_points = get_projected_part_points();
             const units::angle angle =
                 move.dir() + ( coll_velocity > 0 ? 0_degrees : 180_degrees ) + 45_degrees *
-                ( parts[part].mount.x() > pivot_point().x() ? -1 : 1 );
+                ( parts[part].mount.x() > pivot_point( here ).x() ? -1 : 1 );
             const std::set<tripoint_abs_ms> &cur_points = get_points( true );
             // push the animal out of way until it's no longer in our vehicle and not in
             // anyone else's position
@@ -961,7 +956,7 @@ veh_collision vehicle::part_collision( int part, const tripoint_abs_ms &p,
                     this->can_use_rails( here ) ) ) ) {
         // Movecost 2 indicates flat terrain like a floor, no collision there.
         ret.type = veh_coll_bashable;
-        terrain_collision_data( pos, bash_floor, mass2, part_dens, e );
+        terrain_collision_data( here, pos, bash_floor, mass2, part_dens, e );
         ret.target_name = here.disp_name( pos );
     } else if( here.impassable_ter_furn( pos ) ||
                ( bash_floor && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, pos ) ) ) {
@@ -983,7 +978,7 @@ veh_collision vehicle::part_collision( int part, const tripoint_abs_ms &p,
     // Rotors only use rotor mass in calculation.
     const float mass = vpi.has_flag( VPFLAG_ROTOR )
                        ? to_kilogram( vp.base.weight() )
-                       : to_kilogram( total_mass() );
+                       : to_kilogram( total_mass( here ) );
 
     //Calculate damage resulting from d_E
     const itype *type = item::find_type( vpi.base_item );
@@ -1079,7 +1074,7 @@ veh_collision vehicle::part_collision( int part, const tripoint_abs_ms &p,
                 if( here.is_bashable_ter_furn( pos, bash_floor ) ) {
                     // There's new terrain there to smash
                     smashed = false;
-                    terrain_collision_data( pos, bash_floor, mass2, part_dens, e );
+                    terrain_collision_data( here, pos, bash_floor, mass2, part_dens, e );
                     ret.target_name = here.disp_name( pos );
                 } else if( here.impassable_ter_furn( pos ) ) {
                     // There's new terrain there, but we can't smash it!
@@ -1308,10 +1303,8 @@ void vehicle::handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp
     }
 }
 
-monster *vehicle::get_harnessed_animal() const
+monster *vehicle::get_harnessed_animal( const map &here ) const
 {
-    map &here = get_map();
-
     for( size_t e = 0; e < parts.size(); e++ ) {
         const vehicle_part &vp = parts[ e ];
         if( vp.info().fuel_type == fuel_type_animal ) {
@@ -1324,11 +1317,9 @@ monster *vehicle::get_harnessed_animal() const
     return nullptr;
 }
 
-void vehicle::selfdrive( const int trn, const int acceleration )
+void vehicle::selfdrive( map &here, const int trn, const int acceleration )
 {
-    map &here = get_map();
-
-    if( !is_towed() && !magic && !get_harnessed_animal() && !has_part( "AUTOPILOT" ) ) {
+    if( !is_towed() && !magic && !get_harnessed_animal( here ) && !has_part( "AUTOPILOT" ) ) {
         is_following = false;
         return;
     }
@@ -1341,13 +1332,13 @@ void vehicle::selfdrive( const int trn, const int acceleration )
     if( acceleration != 0 ) {
         if( !is_towed() ) {
             const int thr_amount = std::abs( velocity ) < 2000 ? 400 : 500;
-            cruise_thrust( -acceleration * thr_amount );
+            cruise_thrust( here, -acceleration * thr_amount );
         } else {
-            thrust( -acceleration );
+            thrust( here,  -acceleration );
         }
     }
     // TODO: Actually check if we're on land on water (or disable water-skidding)
-    if( skidding && valid_wheel_config() ) {
+    if( skidding && valid_wheel_config( here ) ) {
         const float handling_diff = handling_difficulty( here );
         if( handling_diff * rng( 1, 10 ) < 15 ) {
             velocity = static_cast<int>( forward_velocity() );
@@ -1357,24 +1348,20 @@ void vehicle::selfdrive( const int trn, const int acceleration )
     }
 }
 
-bool vehicle::check_is_heli_landed()
+bool vehicle::check_is_heli_landed( map &here )
 {
-    map &here = get_map();
-
     // @TODO - when there are chasms that extend below z-level 0 - perhaps the heli
     // will be able to descend into them but for now, assume z-level-0 == the ground.
     if( pos_abs().z() == 0 ||
-        !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pos_bub( &here ) ) ) {
+        !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pos_bub( here ) ) ) {
         is_flying = false;
         return true;
     }
     return false;
 }
 
-bool vehicle::check_heli_descend( Character &p ) const
+bool vehicle::check_heli_descend( map &here, Character &p ) const
 {
-    map &here = get_map();
-
     if( !is_rotorcraft( here ) ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
         return true;
@@ -1408,10 +1395,8 @@ bool vehicle::check_heli_descend( Character &p ) const
 
 }
 
-bool vehicle::check_heli_ascend( Character &p ) const
+bool vehicle::check_heli_ascend( map &here, Character &p ) const
 {
-    map &here = get_map();
-
     if( !is_rotorcraft( here ) ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
         return true;
@@ -1440,10 +1425,9 @@ bool vehicle::check_heli_ascend( Character &p ) const
     return true;
 }
 
-void vehicle::pldrive( Character &driver, const int trn, const int acceleration, const int z )
+void vehicle::pldrive( map &here, Character &driver, const int trn, const int acceleration,
+                       const int z )
 {
-    map &here = get_map();
-
     bool is_non_proficient = false;
     float effective_driver_skill = driver.get_skill_level( skill_driving );
     float vehicle_proficiency;
@@ -1476,7 +1460,7 @@ void vehicle::pldrive( Character &driver, const int trn, const int acceleration,
     }
     if( z != 0 && is_rotorcraft( here ) ) {
         driver.set_moves( std::min( driver.get_moves(), 0 ) );
-        thrust( 0, z );
+        thrust( here, 0, z );
     }
     units::angle turn_delta = vehicles::steer_increment * trn;
     const float handling_diff = handling_difficulty( here ) + non_prof_penalty;
@@ -1558,11 +1542,11 @@ void vehicle::pldrive( Character &driver, const int trn, const int acceleration,
     }
 
     if( acceleration != 0 ) {
-        cruise_thrust( -acceleration * 400 );
+        cruise_thrust( here, -acceleration * 400 );
     }
 
     // TODO: Actually check if we're on land on water (or disable water-skidding)
-    if( skidding && trn != 0 && valid_wheel_config() ) {
+    if( skidding && trn != 0 && valid_wheel_config( here ) ) {
         ///\EFFECT_DEX increases chance of regaining control of a vehicle
 
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
@@ -1659,7 +1643,8 @@ float get_collision_factor( const float delta_v )
     }
 }
 
-void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool check_rail_direction,
+void vehicle::precalculate_vehicle_turning( map &here, units::angle new_turn_dir,
+        bool check_rail_direction,
         const ter_furn_flag ter_flag_to_check, int &wheels_on_rail,
         int &turning_wheels_that_are_one_axis ) const
 {
@@ -1688,15 +1673,14 @@ void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool chec
     */
     turning_wheels_that_are_one_axis = 0;
 
-    map &here = get_map();
     for( int part_index : wheelcache ) {
         const auto &wheel = parts[ part_index ];
         bool rails_ahead = true;
         tripoint_rel_ms wheel_point;
-        coord_translate( mdir.dir(), this->pivot_point(), wheel.mount,
+        coord_translate( mdir.dir(), this->pivot_point( here ), wheel.mount,
                          wheel_point );
 
-        tripoint_bub_ms wheel_tripoint = pos_bub( &here ) + wheel_point;
+        tripoint_bub_ms wheel_tripoint = pos_bub( here ) + wheel_point;
 
         // maximum number of incorrect tiles for this type of turn(diagonal or not)
         const int allowed_incorrect_tiles_diagonal = 1;
@@ -1765,7 +1749,7 @@ static units::angle get_corrected_turn_dir( const units::angle &turn_dir,
     return normalize( corrected_turn_dir );
 }
 
-bool vehicle::allow_manual_turn_on_rails( units::angle &corrected_turn_dir ) const
+bool vehicle::allow_manual_turn_on_rails( map &here, units::angle &corrected_turn_dir ) const
 {
     bool allow_turn_on_rail = false;
     // driver tried to turn rails vehicle
@@ -1774,7 +1758,8 @@ bool vehicle::allow_manual_turn_on_rails( units::angle &corrected_turn_dir ) con
 
         int wheels_on_rail;
         int turning_wheels_that_are_one_axis;
-        precalculate_vehicle_turning( corrected_turn_dir, true, ter_furn_flag::TFLAG_RAIL, wheels_on_rail,
+        precalculate_vehicle_turning( here,  corrected_turn_dir, true, ter_furn_flag::TFLAG_RAIL,
+                                      wheels_on_rail,
                                       turning_wheels_that_are_one_axis );
         if( is_wheel_state_correct_to_turn_on_rails( wheels_on_rail, rail_wheelcache.size(),
                 turning_wheels_that_are_one_axis ) ) {
@@ -1784,7 +1769,7 @@ bool vehicle::allow_manual_turn_on_rails( units::angle &corrected_turn_dir ) con
     return allow_turn_on_rail;
 }
 
-bool vehicle::allow_auto_turn_on_rails( units::angle &corrected_turn_dir ) const
+bool vehicle::allow_auto_turn_on_rails( map &here, units::angle &corrected_turn_dir ) const
 {
     bool allow_turn_on_rail = false;
     // check if autoturn is possible
@@ -1792,14 +1777,15 @@ bool vehicle::allow_auto_turn_on_rails( units::angle &corrected_turn_dir ) const
         // precalculate wheels for every direction
         int straight_wheels_on_rail;
         int straight_turning_wheels_that_are_one_axis;
-        precalculate_vehicle_turning( face.dir(), true, ter_furn_flag::TFLAG_RAIL, straight_wheels_on_rail,
+        precalculate_vehicle_turning( here, face.dir(), true, ter_furn_flag::TFLAG_RAIL,
+                                      straight_wheels_on_rail,
                                       straight_turning_wheels_that_are_one_axis );
 
         units::angle left_turn_dir =
             get_corrected_turn_dir( face.dir() - 45_degrees, face.dir() );
         int leftturn_wheels_on_rail;
         int leftturn_turning_wheels_that_are_one_axis;
-        precalculate_vehicle_turning( left_turn_dir, true, ter_furn_flag::TFLAG_RAIL,
+        precalculate_vehicle_turning( here, left_turn_dir, true, ter_furn_flag::TFLAG_RAIL,
                                       leftturn_wheels_on_rail,
                                       leftturn_turning_wheels_that_are_one_axis );
 
@@ -1807,7 +1793,7 @@ bool vehicle::allow_auto_turn_on_rails( units::angle &corrected_turn_dir ) const
             get_corrected_turn_dir( face.dir() + 45_degrees, face.dir() );
         int rightturn_wheels_on_rail;
         int rightturn_turning_wheels_that_are_one_axis;
-        precalculate_vehicle_turning( right_turn_dir, true, ter_furn_flag::TFLAG_RAIL,
+        precalculate_vehicle_turning( here, right_turn_dir, true, ter_furn_flag::TFLAG_RAIL,
                                       rightturn_wheels_on_rail,
                                       rightturn_turning_wheels_that_are_one_axis );
 
@@ -1841,29 +1827,27 @@ bool vehicle::is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int w
     // allow turn for vehicles with wheel distance < 4 when moving backwards
 }
 
-vehicle *vehicle::act_on_map()
+vehicle *vehicle::act_on_map( map &here )
 {
-    map &here = get_map();
-
-    const tripoint_bub_ms pt = pos_bub( &here );
+    const tripoint_bub_ms pt = pos_bub( here );
     if( !here.inbounds( pt ) ) {
         dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x() << "," << pt.y() << "," <<
                       pt.z() <<
                       ")";
-        stop();
+        stop( here );
         of_turn = 0;
         is_falling = false;
         return this;
     }
-    if( decrement_summon_timer() ) {
+    if( decrement_summon_timer( here ) ) {
         return nullptr;
     }
     const bool pl_ctrl = player_is_driving_this_veh( &here );
     // TODO: Remove this hack, have vehicle sink a z-level
-    if( in_deep_water && !can_float() ) {
+    if( in_deep_water && !can_float( here ) ) {
         add_msg( m_bad, _( "Your %s sank." ), name );
         if( pl_ctrl ) {
-            unboard_all();
+            unboard_all( here );
         }
         if( g->remoteveh() == this ) {
             g->setremoteveh( nullptr );
@@ -1900,7 +1884,7 @@ vehicle *vehicle::act_on_map()
     // Low enough for bicycles to go in reverse.
     // If the movement is due to a change in z-level, i.e a helicopter then the lateral movement will often be zero.
     if( !should_fall && std::abs( velocity ) < 20 && requested_z_change == 0 ) {
-        stop();
+        stop( here );
         of_turn -= .321f;
         return this;
     }
@@ -1910,7 +1894,7 @@ vehicle *vehicle::act_on_map()
     if( traction < 0.001f ) {
         of_turn = 0;
         if( !should_fall ) {
-            stop();
+            stop( here );
             if( floating.empty() ) {
                 add_msg( m_info, _( "Your %s can't move on this terrain." ), name );
             } else {
@@ -1955,7 +1939,7 @@ vehicle *vehicle::act_on_map()
 
         // Eventually send it skidding if no control
         // But not if it's remotely controlled, is in water or can use rails
-        if( !controlled && !pl_ctrl && !( is_watercraft() && can_float() ) && !can_use_rails &&
+        if( !controlled && !pl_ctrl && !( is_watercraft() && can_float( here ) ) && !can_use_rails &&
             !is_flying && requested_z_change == 0 ) {
             skidding = true;
         }
@@ -1974,9 +1958,9 @@ vehicle *vehicle::act_on_map()
     bool allow_turn_on_rail = false;
     if( can_use_rails && !falling_only ) {
         units::angle corrected_turn_dir;
-        allow_turn_on_rail = allow_manual_turn_on_rails( corrected_turn_dir );
+        allow_turn_on_rail = allow_manual_turn_on_rails( here,  corrected_turn_dir );
         if( !allow_turn_on_rail ) {
-            allow_turn_on_rail = allow_auto_turn_on_rails( corrected_turn_dir );
+            allow_turn_on_rail = allow_auto_turn_on_rails( here, corrected_turn_dir );
         }
         if( allow_turn_on_rail ) {
             turn_dir = corrected_turn_dir;
@@ -2018,9 +2002,8 @@ vehicle *vehicle::act_on_map()
     return here.move_vehicle( *this, dp, mdir );
 }
 
-bool vehicle::level_vehicle()
+bool vehicle::level_vehicle( map &here )
 {
-    map &here = get_map();
     if( is_flying && is_rotorcraft( here ) ) {
         return true;
     }
@@ -2031,7 +2014,7 @@ bool vehicle::level_vehicle()
         if( prt.info().location != part_location_structure ) {
             continue;
         }
-        const tripoint_bub_ms part_pos = bub_part_pos( &here, prt );
+        const tripoint_bub_ms part_pos = bub_part_pos( here, prt );
         if( no_support.find( part_pos.z() ) == no_support.end() ) {
             no_support[part_pos.z()] = part_pos.z() > -OVERMAP_DEPTH;
         }
@@ -2108,7 +2091,7 @@ void vehicle::check_falling_or_floating()
     // Check under the wheels, if they're supported nothing else matters.
     int supported_wheels = 0;
     for( int wheel_index : wheelcache ) {
-        const tripoint_bub_ms position = bub_part_pos( &here, wheel_index );
+        const tripoint_bub_ms position = bub_part_pos( here, wheel_index );
         if( has_support( position, false ) ) {
             ++supported_wheels;
         }
@@ -2153,9 +2136,9 @@ void vehicle::check_falling_or_floating()
 float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modifiers )
 {
     if( veh.is_in_water( /* deep_water = */ true ) ) {
-        return veh.can_float() ? 1.0f : -1.0f;
+        return veh.can_float( *this ) ? 1.0f : -1.0f;
     }
-    if( veh.is_watercraft() && veh.can_float() ) {
+    if( veh.is_watercraft() && veh.can_float( *this ) ) {
         return 1.0f;
     }
 
@@ -2169,7 +2152,7 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
     for( const int wheel_idx : veh.wheelcache ) {
         const vehicle_part &vp = veh.part( wheel_idx );
         const vpart_info &vpi = vp.info();
-        const tripoint_bub_ms pp = veh.bub_part_pos( this, vp );
+        const tripoint_bub_ms pp = veh.bub_part_pos( *this, vp );
         const ter_t &tr = ter( pp ).obj();
         if( tr.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ||
             tr.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
@@ -2225,7 +2208,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             continue;
         }
 
-        const tripoint_bub_ms part_pos = veh.bub_part_pos( &here, ps );
+        const tripoint_bub_ms part_pos = veh.bub_part_pos( here, ps );
         if( rider->pos_bub() != part_pos ) {
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
                       rider->posx(), rider->posy(), rider->posz(),

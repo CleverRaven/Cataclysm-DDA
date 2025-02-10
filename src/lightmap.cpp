@@ -589,7 +589,7 @@ void map::generate_lightmap( const int zlev )
 
         for( const vehicle_part *pt : lights ) {
             const vpart_info &vp = pt->info();
-            tripoint_bub_ms src = v->bub_part_pos( this, *pt );
+            tripoint_bub_ms src = v->bub_part_pos( *this, *pt );
 
             if( !inbounds( src ) ) {
                 continue;
@@ -1123,7 +1123,7 @@ void map::build_seen_cache( const tripoint_bub_ms &origin, const int target_z, i
             continue; // Player not at camera control, so cameras don't work
         }
 
-        const tripoint_bub_ms mirror_pos = veh->bub_part_pos( this, vp_mirror );
+        const tripoint_bub_ms mirror_pos = veh->bub_part_pos( *this, vp_mirror );
 
         // Determine how far the light has already traveled so mirrors
         // don't cheat the light distance falloff.

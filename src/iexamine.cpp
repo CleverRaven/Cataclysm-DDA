@@ -1565,10 +1565,10 @@ void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
     }
 
     for( vehicle *v : vehs.v ) {
-        tripoint_bub_ms const p = _rotate_point_sm( { v->pos_bub( &here ).xy(), movez},
+        tripoint_bub_ms const p = _rotate_point_sm( { v->pos_bub( here ).xy(), movez},
                                   erot,
                                   sm_orig );
-        here.displace_vehicle( *v, p - v->pos_bub( &here ) );
+        here.displace_vehicle( *v, p - v->pos_bub( here ) );
         v->turn( erot * 90_degrees );
         v->face = tileray( v->turn_dir );
         v->precalc_mounts( 0, v->turn_dir, v->pivot_anchor[0] );

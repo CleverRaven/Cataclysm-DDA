@@ -1328,7 +1328,7 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it,
     // TODO: Use map aware operation when available
     it.spill_contents( suitable.value() );
     // TODO: Use map aware operation when available
-    if( !place_appliance( suitable.value(),
+    if( !place_appliance( *here, suitable.value(),
                           vpart_appliance_from_item( appliance_base ), *p, it ) ) {
         // failed to place somehow, cancel!!
         return 0;

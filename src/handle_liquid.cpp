@@ -56,7 +56,7 @@ static void serialize_liquid_source( player_activity &act, const vehicle &veh, c
     act.values.push_back( static_cast<int>( liquid_source_type::VEHICLE ) );
     act.values.push_back( part_num );
     if( part_num != -1 ) {
-        act.coords.push_back( here.get_abs( veh.bub_part_pos( &here, part_num ) ) );
+        act.coords.push_back( here.get_abs( veh.bub_part_pos( here, part_num ) ) );
     } else {
         act.coords.push_back( veh.pos_abs() );
     }
@@ -88,7 +88,7 @@ static void serialize_liquid_target( player_activity &act, const vpart_reference
     map &here = get_map();
     act.values.push_back( static_cast<int>( liquid_target_type::VEHICLE ) );
     act.values.push_back( 0 ); // dummy
-    act.coords.push_back( here.get_abs( vp.vehicle().bub_part_pos( &here,  0 ) ) );
+    act.coords.push_back( here.get_abs( vp.vehicle().bub_part_pos( here,  0 ) ) );
     act.values.push_back( vp.part_index() ); // tank part index
 }
 
@@ -385,6 +385,7 @@ static bool handle_item_target( Character &player_character, item &liquid, liqui
 static bool handle_vehicle_target( Character &player_character, item &liquid,
                                    liquid_dest_opt &target, const std::function<bool()> &create_activity )
 {
+    map &here = get_map();
     if( target.veh == nullptr ) {
         return false;
     }
@@ -398,7 +399,8 @@ static bool handle_vehicle_target( Character &player_character, item &liquid,
                               round_up( to_liter( liquid.charges * stack ), 1 ),
                               liquid.tname() );
 
-    const std::optional<vpart_reference> vpr = veh_interact::select_part( *target.veh, sel, title );
+    const std::optional<vpart_reference> vpr = veh_interact::select_part( here, *target.veh, sel,
+            title );
     if( !vpr ) {
         return false;
     }

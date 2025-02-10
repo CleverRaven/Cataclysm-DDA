@@ -660,10 +660,8 @@ bool vehicle::mod_hp( vehicle_part &pt, int qty )
     return pt.base.mod_damage( -qty * pt.base.max_damage() / dur );
 }
 
-bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
+bool vehicle::can_enable( map &here, const vehicle_part &pt, bool alert ) const
 {
-    map &here = get_map();
-
     if( std::none_of( parts.begin(), parts.end(), [&pt]( const vehicle_part & e ) {
     return &e == &pt;
 } ) || pt.removed ) {

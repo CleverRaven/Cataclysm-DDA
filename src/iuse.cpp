@@ -3050,7 +3050,7 @@ std::optional<int> iuse::siphon( Character *p, item *, const tripoint_bub_ms & )
         p->add_msg_if_player( m_info, _( "There's no vehicle there." ) );
         return std::nullopt;
     }
-    act_vehicle_siphon( v );
+    act_vehicle_siphon( here, v );
     return 1;
 }
 
@@ -7318,7 +7318,7 @@ static vehicle *pickveh( const tripoint_bub_ms &center, bool advanced )
 
     for( wrapped_vehicle &veh : here.get_vehicles() ) {
         vehicle *&v = veh.v;
-        if( rl_dist( center, v->pos_bub( &here ) ) < 40 &&
+        if( rl_dist( center, v->pos_bub( here ) ) < 40 &&
             v->fuel_left( here, itype_battery ) > 0 &&
             ( !empty( v->get_avail_parts( advctrl ) ) ||
               ( !advanced && !empty( v->get_avail_parts( ctrl ) ) ) ) ) {
@@ -7328,7 +7328,7 @@ static vehicle *pickveh( const tripoint_bub_ms &center, bool advanced )
     std::vector<tripoint_bub_ms> locations;
     for( int i = 0; i < static_cast<int>( vehs.size() ); i++ ) {
         vehicle *veh = vehs[i];
-        locations.push_back( veh->pos_bub( &here ) );
+        locations.push_back( veh->pos_bub( here ) );
         pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name );
     }
 

@@ -139,7 +139,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
         for( const tripoint_abs_ms &checkpt : vpts ) {
             int partnum = 0;
             vehicle *check_veh = here.veh_at_internal( here.get_bub( checkpt ), partnum );
-            CAPTURE( veh_ptr->pos_bub( &here ) );
+            CAPTURE( veh_ptr->pos_bub( here ) );
             CAPTURE( veh_ptr->face.dir() );
             CAPTURE( checkpt );
             CHECK( check_veh == veh_ptr );
