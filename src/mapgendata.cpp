@@ -20,8 +20,6 @@
 #include "point.h"
 #include "regional_settings.h"
 
-enum class jmapgen_flags;
-
 void mapgen_arguments::merge( const mapgen_arguments &other )
 {
     for( const std::pair<const std::string, cata_variant> &p : other.map ) {

@@ -56,10 +56,6 @@ class monster;
 class talker;
 class vehicle;
 
-namespace auto_pickup
-{
-class npc_settings;
-}  // namespace auto_pickup
 namespace npc_factions
 {
 enum class relationship : int;

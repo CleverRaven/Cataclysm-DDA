@@ -165,6 +165,8 @@ struct enum_traits<widget_alignment> {
 // Use generic_factory for loading JSON data.
 class JsonObject;
 class widget;
+// Forward declaration, due to codependency on panels.h
+class window_panel;
 template<typename T>
 class generic_factory;
 

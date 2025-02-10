@@ -37,6 +37,7 @@
 #include "item_stack.h"
 #include "line.h"
 #include "map.h"
+#include "npc.h"
 #include "point.h"
 #include "ret_val.h"
 #include "safe_reference.h"
@@ -44,14 +45,15 @@
 #include "type_id.h"
 #include "units.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
+// IWYU pragma: no_forward_declare npc // behind unique_ptr
 class Character;
 class Creature;
 class JsonArray;
 class JsonObject;
 class JsonOut;
 class monster;
-class npc;
 class veh_menu;
 class vehicle;
 class vpart_info;
@@ -61,8 +63,6 @@ enum vpart_bitflags : int;
 struct itype;
 struct vehicle_part;
 template <typename E> struct enum_traits;
-template<typename feature_type>
-class vehicle_part_with_feature_range;
 
 void handbrake();
 

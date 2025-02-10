@@ -13,18 +13,20 @@
 #include "calendar.h"
 #include "cata_variant.h"
 #include "coords_fwd.h"
+#include "cube_direction.h"
 #include "debug.h"
 #include "enum_bitset.h"
+#include "jmapgen_flags.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
+// IWYU pragma: no_forward_declare jmapgen_flags
+// IWYU pragma: no_forward_declare cube_direction
 class JsonOut;
 class JsonValue;
 class map;
 class mission;
-enum class cube_direction : int;
 enum class direction : unsigned int;
-enum class jmapgen_flags;
 enum class mapgen_phase;
 struct regional_settings;
 

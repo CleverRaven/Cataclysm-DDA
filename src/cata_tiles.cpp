@@ -28,6 +28,7 @@
 #include "cursesdef.h"
 #include "cursesport.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "field.h"
 #include "field_type.h"
 #include "filesystem.h"

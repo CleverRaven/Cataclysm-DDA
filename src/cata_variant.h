@@ -21,7 +21,6 @@
 
 class JsonOut;
 class JsonValue;
-class cata_variant;
 enum class mutagen_technique : int;
 template <typename E> struct enum_traits;
 

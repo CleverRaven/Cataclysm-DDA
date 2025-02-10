@@ -2,6 +2,7 @@
 
 #include <array>
 #include <cstdlib>
+#include <cmath>
 #include <functional>
 #include <map>
 #include <optional>
@@ -370,8 +371,9 @@ static bool mx_helicopter( map &m, const tripoint_abs_sm &abs_sub )
         point_rel_ms center_offset = {( bbox.p1.x() + bbox.p2.x() ) / 2, ( bbox.p1.y() + bbox.p2.y() ) / 2};
         // Clamp x1 & y1 such that no parts of the vehicle extend over the border of the submap.
 
-        wreckage_pos = { clamp( c.x() - center_offset.x(), abs( bbox.p1.x() ), SEEX * 2 - 1 - abs( bbox.p2.x() ) ),
-                         clamp( c.y() - center_offset.y(), abs( bbox.p1.y() ), SEEY * 2 - 1 - abs( bbox.p2.y() ) ), abs_sub.z()
+        wreckage_pos = { clamp( c.x() - center_offset.x(), std::abs( bbox.p1.x() ), SEEX * 2 - 1 - std::abs( bbox.p2.x() ) ),
+                         clamp( c.y() - center_offset.y(), std::abs( bbox.p1.y() ), SEEY * 2 - 1 - std::abs( bbox.p2.y() ) ),
+                         abs_sub.z()
                        };
     }
 

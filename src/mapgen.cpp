@@ -39,6 +39,7 @@
 #include "global_vars.h"
 #include "input.h"
 #include "item.h"
+#include "item_category.h"
 #include "item_factory.h"
 #include "item_group.h"
 #include "itype.h"

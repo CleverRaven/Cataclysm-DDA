@@ -8,6 +8,7 @@
 #include <string>
 #include <string_view>
 
+#include "coordinates.h"  // IWYU pragma: keep
 #include "coords_fwd.h"
 
 class Character;

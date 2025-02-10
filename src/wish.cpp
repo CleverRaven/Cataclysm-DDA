@@ -1,8 +1,9 @@
-#include "debug_menu.h" // IWYU pragma: associated
+#include "debug_menu.h"
 
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -21,6 +22,7 @@
 #include "character.h"
 #include "color.h"
 #include "coordinates.h"
+#include "coords_fwd.h"
 #include "creature.h"
 #include "debug.h"
 #include "effect.h"

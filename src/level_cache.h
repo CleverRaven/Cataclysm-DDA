@@ -12,10 +12,11 @@
 #include "coords_fwd.h"
 #include "map_scale_constants.h"
 #include "mdarray.h"
+#include "shadowcasting.h"
 
+// IWYU pragma: no_forward_declare four_quadrants
 class vehicle;
 enum class lit_level : int;
-struct four_quadrants;
 
 struct level_cache {
     public:

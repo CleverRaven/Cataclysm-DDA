@@ -1,4 +1,3 @@
-#include <stddef.h>
 #include <array>
 #include <clocale>
 #include <cmath>
@@ -21,7 +20,6 @@
 #include "character_attire.h"
 #include "coordinates.h"
 #include "coords_fwd.h"
-#include "cursesdef.h"
 #include "effect.h"
 #include "game.h"
 #include "game_constants.h"
@@ -47,6 +45,9 @@
 
 // Needed for screen scraping
 #if defined(TILES)
+#include <cstddef>
+
+#include "cursesdef.h"
 #include "cursesport.h"
 #endif
 
