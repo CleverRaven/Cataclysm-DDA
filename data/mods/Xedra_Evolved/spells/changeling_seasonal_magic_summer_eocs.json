@@ -72,5 +72,38 @@
     "required_event": "character_loses_effect",
     "condition": { "compare_string": [ "effect_changeling_summer_sun_glasses_spell", { "context_val": "effect" } ] },
     "effect": { "u_remove_item_with": "changeling_summer_sunglasses" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_RUN_FOR_LONG_PERIODS_CONTINUANCE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_changeling_summer_run_for_long_periods" },
+        { "compare_string": [ "run", { "context_val": "movement_mode" } ] }
+      ]
+    },
+    "effect": [
+      {
+        "if": { "math": [ "u_effect_duration('effect_changeling_summer_run_for_long_periods') < 2" ] },
+        "then": [ { "u_add_effect": "effect_changeling_summer_run_for_long_periods", "duration": 2 } ],
+        "else": [ { "u_add_effect": "effect_changeling_summer_run_for_long_periods", "duration": 1 } ]
+      }
+    ],
+    "false_effect": [ { "u_lose_effect": "effect_changeling_summer_run_for_long_periods" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_WALK_ON_WATER_RUNNING_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_hedge_walk_on_water" },
+        { "compare_string": [ "run", { "context_val": "movement_mode" } ] }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_hedge_walk_on_water" } ]
   }
 ]

@@ -38,8 +38,13 @@
     "id": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_COMBAT",
     "condition": {
       "or": [
-        { "u_has_effect": "effect_changeling_invisibility" },
-        { "u_has_effect": "effect_changeling_right_of_passage" },
+        {
+          "u_has_any_effect": [
+            "effect_changeling_invisibility",
+            "effect_changeling_right_of_passage",
+            "effect_changeling_summer_run_for_long_periods"
+          ]
+        },
         {
           "u_has_any_trait": [
             "CHANGELING_DISGUISE_AS_NATURE_BUSH",
@@ -51,6 +56,12 @@
         }
       ]
     },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_CASTING",
+    "condition": { "u_has_any_effect": [ "effect_changeling_summer_run_for_long_periods" ] },
     "effect": [  ]
   },
   {
@@ -191,7 +202,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_TAKING DAMAGE",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_TAKING_DAMAGE",
     "eoc_type": "EVENT",
     "required_event": "character_takes_damage",
     "condition": { "test_eoc": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_COMBAT" },
@@ -199,9 +210,23 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_SPELLCASTING",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": { "test_eoc": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_CASTING" },
+    "effect": [ { "u_lose_effect": [ "effect_changeling_summer_run_for_long_periods" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_EFFECTS_REMOVED_LOSE_EFFECTS",
     "effect": [
-      { "u_lose_effect": [ "effect_changeling_invisibility", "effect_changeling_right_of_passage" ] },
+      {
+        "u_lose_effect": [
+          "effect_changeling_invisibility",
+          "effect_changeling_right_of_passage",
+          "effect_changeling_summer_run_for_long_periods"
+        ]
+      },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_BUSH" },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_TREE" },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_POND" },
