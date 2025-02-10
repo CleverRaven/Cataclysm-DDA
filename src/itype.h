@@ -1490,6 +1490,9 @@ struct itype {
         */
         float solar_efficiency = 0.0f;
 
+        // Max amount of this type that can be worn.
+        int max_worn = MAX_WORN_PER_TYPE;
+
     private:
         /** maximum amount of damage to a non- count_by_charges item */
         static constexpr int damage_max_ = 4000;

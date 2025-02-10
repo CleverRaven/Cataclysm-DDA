@@ -243,9 +243,9 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
         }
     }
 
-    if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
+    if( amount_worn( it.typeId() ) >= it.max_worn() ) {
         return ret_val<void>::make_failure( _( "Can't wear %1$i or more %2$s at once." ),
-                                            MAX_WORN_PER_TYPE + 1, it.tname( MAX_WORN_PER_TYPE + 1 ) );
+                                            it.max_worn() + 1, it.tname( it.max_worn() + 1 ) );
     }
 
     return ret_val<void>::make_success();
@@ -1336,7 +1336,7 @@ static ret_val<void> test_only_one_conflicts( const item &clothing, const item &
         return ret;
     };
 
-    if( i.has_flag( flag_ONLY_ONE ) && i.typeId() == clothing.typeId() ) {
+    if( i.max_worn() == 1 && i.typeId() == clothing.typeId() ) {
         return ret_val<void>::make_failure( _( "Can't wear more than one %s!" ), clothing.tname() );
     }
 

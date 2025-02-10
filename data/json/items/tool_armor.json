@@ -3200,7 +3200,8 @@
     "color": "light_gray",
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
-    "flags": [ "BELTED", "FRAGILE", "ONLY_ONE", "SOLARPACK", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "BELTED", "FRAGILE", "SOLARPACK", "WATER_BREAK", "ELECTRONIC" ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
     "melee_damage": { "bash": 10 }
   },
@@ -3219,7 +3220,8 @@
     "material_thickness": 1,
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.05,
-    "flags": [ "BELTED", "FRAGILE", "ONLY_ONE", "SOLARPACK_ON", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "BELTED", "FRAGILE", "SOLARPACK_ON", "WATER_BREAK", "ELECTRONIC" ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
     "melee_damage": { "bash": 4 }
   },
@@ -3434,7 +3436,8 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
     ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "max_worn": 1,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
@@ -3464,7 +3467,8 @@
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "revert_to": "scuba_tank",
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "max_worn": 1,
     "environmental_protection": 3,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
@@ -3494,7 +3498,8 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 20 } }
     ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "max_worn": 1,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
@@ -3524,7 +3529,8 @@
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "revert_to": "small_scuba_tank",
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "max_worn": 1,
     "environmental_protection": 3,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,

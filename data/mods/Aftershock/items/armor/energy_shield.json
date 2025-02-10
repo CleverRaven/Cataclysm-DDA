@@ -16,7 +16,6 @@
       "AURA",
       "ENERGY_SHIELD",
       "OVERSIZE",
-      "ONLY_ONE",
       "TRADER_AVOID",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
@@ -26,6 +25,7 @@
       "POWERARMOR_COMPATIBLE",
       "UNRESTRICTED"
     ],
+    "max_worn": 1,
     "tick_action": {
       "type": "effect_on_conditions",
       "effect_on_conditions": [ { "id": "_afs_energy_shield", "effect": { "run_eocs": "EOC_afs_do_shield" } } ]
@@ -64,7 +64,8 @@
         "item_restriction": [ "afs_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
     ],
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "POWERARMOR_COMPATIBLE" ],
+    "flags": [ "BELTED", "WATERPROOF", "POWERARMOR_COMPATIBLE" ],
+    "max_worn": 1,
     "use_action": {
       "type": "effect_on_conditions",
       "ammo_scale": 1,
