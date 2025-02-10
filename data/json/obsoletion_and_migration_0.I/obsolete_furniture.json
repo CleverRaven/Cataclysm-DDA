@@ -96,7 +96,7 @@
   },
   {
     "type": "ter_furn_migration",
-    "from_furn": "f_machinery_heavy",
+    "from_furn": "f_arc_furnace",
     "to_furn": "f_arcfurnace_empty"
   }
 ]
