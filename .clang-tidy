@@ -101,7 +101,6 @@ Checks: [
     -readability-avoid-return-with-void-value,
     -readability-redundant-casting,
     -readability-redundant-inline-specifier,
-    -readability-reference-to-constructed-temporary,
 ]
 
 WarningsAsErrors: '*'
