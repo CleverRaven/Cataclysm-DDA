@@ -1,6 +1,22 @@
 [
   {
     "type": "effect_type",
+    "id": "effect_changeling_spring_protective_plant_armor",
+    "name": [ "Viridian Cuirass" ],
+    "desc": [ "You are covered in a set of living bark armor." ],
+    "apply_message": "Bark and leaves quickly grow over your skin.",
+    "remove_message": "The bark armor cracks and falls away.",
+    "enchantments": [
+      { "mutations": [ "ARVORE_MOSS", "BARK" ] },
+      {
+        "condition": { "not": { "is_season": "autumn" } },
+        "incoming_damage_mod": [ { "type": "cold", "multiply": -0.5 } ],
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_summer_light_spell",
     "name": [ "Bonefire's Light" ],
     "desc": [ "A wisp of flickering insubstantial fire hovers near your shoulder." ],
