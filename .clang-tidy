@@ -93,7 +93,6 @@ Checks: [
     -readability-suspicious-call-argument,
     -readability-use-anyofallof,
     # Temporarily disabled in an update to llvm 18. Untriaged.
-    -bugprone-chained-comparison,
     -bugprone-multi-level-implicit-pointer-conversion,
     -bugprone-unused-local-non-trivial-variable,
     -clang-analyzer-optin.core.EnumCastOutOfRange,
