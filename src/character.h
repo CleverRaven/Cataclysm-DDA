@@ -118,9 +118,6 @@ enum class recipe_filter_flags : int;
 enum class steed_type : int;
 enum class proficiency_bonus_type : int;
 
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
-
 using bionic_uid = unsigned int;
 
 constexpr int MAX_CLAIRVOYANCE = 40;
