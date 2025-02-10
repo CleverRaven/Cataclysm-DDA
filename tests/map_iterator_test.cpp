@@ -1,6 +1,6 @@
-#include <stddef.h>
 #include <algorithm>
 #include <array>
+#include <cstddef>
 #include <functional>
 #include <vector>
 

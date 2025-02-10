@@ -1,5 +1,5 @@
-#include <stdint.h>
 #include <algorithm>
+#include <cstdint>
 #include <functional>
 #include <map>
 #include <memory>

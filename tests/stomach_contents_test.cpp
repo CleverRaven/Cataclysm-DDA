@@ -1,4 +1,4 @@
-#include <stdint.h>
+#include <cstdint>
 #include <cstdio>
 #include <string>
 #include <vector>

@@ -1,7 +1,7 @@
 #include "calendar.h" // IWYU pragma: associated
 
-#include <stdio.h>
 #include <array>
+#include <cstdio>
 #include <functional>
 #include <iomanip>
 #include <optional>

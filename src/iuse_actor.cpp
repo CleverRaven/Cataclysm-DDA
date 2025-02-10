@@ -1,11 +1,11 @@
 #include "iuse_actor.h"
 
 #include <imgui/imgui.h>
-#include <wctype.h>
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <cwctype>
 #include <functional>
 #include <iterator>
 #include <limits>

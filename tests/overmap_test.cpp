@@ -1,6 +1,6 @@
-#include <stdio.h>
 #include <algorithm>
 #include <cmath>
+#include <cstdio>
 #include <functional>
 #include <list>
 #include <map>

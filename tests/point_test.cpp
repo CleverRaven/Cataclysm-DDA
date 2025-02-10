@@ -1,4 +1,4 @@
-#include <locale.h>
+#include <clocale>
 #include <functional>
 #include <locale>
 #include <stdexcept>

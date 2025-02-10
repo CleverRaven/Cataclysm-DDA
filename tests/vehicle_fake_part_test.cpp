@@ -1,5 +1,5 @@
-#include <stddef.h>
 #include <cmath>
+#include <cstddef>
 #include <set>
 #include <string>
 #include <vector>
