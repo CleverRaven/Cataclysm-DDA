@@ -6,6 +6,7 @@
     "desc": [ "You are covered in a set of living bark armor." ],
     "apply_message": "Bark and leaves quickly grow over your skin.",
     "remove_message": "The bark armor cracks and falls away.",
+    "max_duration": "12 hours",
     "enchantments": [
       { "mutations": [ "ARVORE_MOSS", "BARK" ] },
       {
@@ -17,11 +18,67 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_spring_healing_increase_while_outside",
+    "name": [ "New Growth" ],
+    "desc": [ "You are drawing on the energy of life to increase your healing rate." ],
+    "apply_message": "",
+    "remove_message": "The warmth fades away.",
+    "max_duration": "12 hours",
+    "enchantments": [
+      {
+        "condition": { "and": [ "u_is_outside", "u_is_avatar" ] },
+        "values": [
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 },
+          {
+            "value": "REGEN_HP",
+            "multiply": {
+              "math": [
+                "(10 + u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') + (u_skill('deduction') * 2) ) * (global_what_is_the_season == 3 ? 0.5 : 1) )"
+              ]
+            }
+          },
+          {
+            "value": "MENDING_MODIFIER",
+            "multiply": {
+              "math": [
+                "(3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') / 3) + u_skill('deduction') ) * (global_what_is_the_season == 3 ? 0.5 : 1) )"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": { "and": [ "u_is_outside", "u_is_npc" ] },
+        "values": [
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 },
+          {
+            "value": "REGEN_HP",
+            "multiply": {
+              "math": [
+                "(10 + u_spring_magic_spell_count + (u_spring_magic_deduction_level * 2) ) * (global_what_is_the_season == 3 ? 0.5 : 1) )"
+              ]
+            }
+          },
+          {
+            "value": "MENDING_MODIFIER",
+            "multiply": {
+              "math": [
+                "(3 + (u_spring_magic_spell_count / 3) + u_spring_magic_deduction_level) * (global_what_is_the_season == 3 ? 0.5 : 1) )"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_summer_light_spell",
     "name": [ "Bonefire's Light" ],
     "desc": [ "A wisp of flickering insubstantial fire hovers near your shoulder." ],
     "apply_message": "",
     "remove_message": "The wisp winks out.",
+    "max_duration": "12 hours",
     "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 10 } ] } ]
   },
   {
@@ -31,6 +88,7 @@
     "desc": [ "Nearby lights don't seem quite as bright now." ],
     "apply_message": "",
     "remove_message": "You blink as nearby lights grow brighter.",
+    "max_duration": "12 hours",
     "flags": [ "GLARE_RESIST" ]
   },
   {
@@ -40,6 +98,7 @@
     "desc": [ "Ethereal flames flicker around your hands" ],
     "apply_message": "",
     "remove_message": "The flames gutter out.",
+    "max_duration": "12 hours",
     "enchantments": [
       {
         "condition": "u_has_weapon",
@@ -78,6 +137,7 @@
     "apply_message": "",
     "remove_message": "Your vigor returns.",
     "show_in_info": true,
+    "max_duration": "12 hours",
     "enchantments": [
       {
         "values": [ { "value": "STRENGTH", "add": -3 }, { "value": "DEXTERITY", "add": -2 }, { "value": "SPEED", "add": -5 } ]
@@ -92,6 +152,7 @@
     "apply_message": "",
     "remove_message": "Your vigor returns.",
     "show_in_info": true,
+    "max_duration": "12 hours",
     "base_mods": { "hit_mod": [ -1 ], "dodge_mod": [ -1 ], "speed_mod": [ -5 ] }
   },
   {
@@ -109,6 +170,7 @@
     "apply_message": "",
     "remove_message": "You can move again.",
     "show_in_info": true,
+    "max_duration": "20 minutes",
     "flags": [ "CANNOT_MOVE" ]
   },
   {
@@ -119,6 +181,7 @@
     "apply_message": "",
     "remove_message": "The chill around your feet fades away.",
     "show_in_info": true,
+    "max_duration": "20 minutes",
     "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
   },
   {
@@ -128,7 +191,7 @@
     "desc": [ "Like an animal in winter, you are moving in almost complete silence." ],
     "apply_message": "",
     "remove_message": "The sound of your footsteps intrudes in your perceptions.",
-    "max_duration": "6 hours",
+    "max_duration": "12 hours",
     "enchantments": [
       { "condition": { "not": { "is_season": "winter" } }, "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.9 } ] },
       { "condition": { "is_season": "winter" }, "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] }
@@ -141,6 +204,7 @@
     "desc": [ "Each step you take leaves a tracing of frost on the ground, and liquids freeze at your touch." ],
     "apply_message": "",
     "remove_message": "The chill around your feet fades away.",
+    "max_duration": "12 hours",
     "flags": [ "WATERWALKING", "ITEM_WATERPROOFING", "SLUDGEPROOF" ]
   },
   {
@@ -150,6 +214,8 @@
     "desc": [ "Your movements are slowed." ],
     "apply_message": "",
     "remove_message": "The bone-deep chill fades away.",
+    "show_in_info": true,
+    "max_duration": "20 minutes",
     "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.1 } ] } ],
     "base_mods": { "hit_mod": [ -1 ] }
   }
