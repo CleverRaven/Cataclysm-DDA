@@ -6,14 +6,19 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "bodypart.h"
+#include "coords_fwd.h"
 #include "damage.h"
 #include "magic.h"
 #include "mattack_common.h"
+#include "mtype.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
 #include "weighted_list.h"
 
 class Creature;

@@ -6,6 +6,8 @@
 
 #include "skill.h"
 
+class Skill;
+
 /**
  * For building list of skills including category as headers.
  */

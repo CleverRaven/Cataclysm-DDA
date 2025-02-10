@@ -1,17 +1,36 @@
 #include "iexamine_actors.h"
 
-#include "avatar.h"
+#include <algorithm>
+#include <cstddef>
+#include <memory>
+#include <utility>
+
+#include "calendar.h"
+#include "character.h"
+#include "coordinates.h"
+#include "creature.h"
+#include "debug.h"
+#include "dialogue.h"
 #include "effect_on_condition.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "generic_factory.h"
-#include "itype.h"
+#include "item.h"
+#include "item_location.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
-#include "map_iterator.h"
 #include "messages.h"
+#include "monster.h"
 #include "mtype.h"
 #include "output.h"
+#include "point.h"
+#include "ret_val.h"
+#include "talker.h"
+#include "translations.h"
+#include "ui.h"
 #include "veh_appliance.h"
 
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );

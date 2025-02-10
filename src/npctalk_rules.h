@@ -18,9 +18,15 @@
 
 #include "cata_imgui.h"
 #include "dialogue.h"
-#include "npctalk.h"
-#include "ui_manager.h"
+#include "game_constants.h"
 #include "imgui/imgui.h"
+#include "npctalk.h"
+#include "translations.h"
+#include "ui_manager.h"
+
+class input_context;
+class npc;
+struct input_event;
 
 class follower_rules_ui
 {

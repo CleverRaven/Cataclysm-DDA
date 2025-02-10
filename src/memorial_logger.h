@@ -5,6 +5,8 @@
 #include <iosfwd>
 #include <new>
 #include <optional>
+#include <string>
+#include <string_view>
 #include <vector>
 
 #include "calendar.h"

@@ -3,6 +3,7 @@
 #define CATA_SRC_PINYIN_H
 
 #include <string>
+#include <string_view>
 
 namespace pinyin
 {

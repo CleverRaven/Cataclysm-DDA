@@ -1,15 +1,26 @@
 #include "mapgendata.h"
 
+#include <algorithm>
+#include <iterator>
+#include <optional>
+
 #include "all_enum_values.h"
+#include "coordinates.h"
+#include "cube_direction.h"
 #include "debug.h"
+#include "enum_conversions.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "hash_utils.h"
 #include "json.h"
+#include "line.h"
 #include "map.h"
-#include "mapdata.h"
 #include "omdata.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "regional_settings.h"
+
+enum class jmapgen_flags;
 
 void mapgen_arguments::merge( const mapgen_arguments &other )
 {

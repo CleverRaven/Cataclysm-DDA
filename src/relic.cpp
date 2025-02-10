@@ -1,23 +1,23 @@
 #include "relic.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
-#include <set>
 #include <string>
 
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "rng.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "weather.h"

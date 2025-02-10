@@ -5,11 +5,12 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <tuple>
-#include <type_traits>
 #include <vector>
 
 #include "avatar.h"
+#include "basecamp.h"
 #include "bodygraph.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -17,6 +18,7 @@
 #include "creature.h"
 #include "debug.h"
 #include "effect.h"
+#include "faction.h"
 #include "game.h"
 #include "game_constants.h"
 #include "make_static.h"
@@ -43,6 +45,7 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_type.h"
+#include "widget.h"
 
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );

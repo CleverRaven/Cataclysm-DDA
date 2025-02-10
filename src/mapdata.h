@@ -6,26 +6,33 @@
 #include <bitset>
 #include <cstddef>
 #include <iosfwd>
+#include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "clone_ptr.h"
 #include "color.h"
+#include "coords_fwd.h"
 #include "enum_bitset.h"
 #include "game_constants.h"
 #include "iexamine.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 
-class JsonObject;
 class Character;
-struct iexamine_actor;
+class JsonObject;
+struct connect_group;
 struct furn_t;
+struct iexamine_actor;
 struct itype;
+struct ter_t;
 struct tripoint;
 
 // size of connect groups bitset; increase if needed

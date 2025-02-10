@@ -1,7 +1,7 @@
 #include "mapdata.h"
 
 #include <algorithm>
-#include <cstdlib>
+#include <exception>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -9,19 +9,21 @@
 #include <utility>
 
 #include "assign.h"
+#include "avatar.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "game.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
 #include "iexamine_actors.h"
+#include "item.h"
 #include "item_group.h"
 #include "iteminfo_query.h"
-#include "json.h"
 #include "mod_manager.h"
 #include "output.h"
 #include "rng.h"

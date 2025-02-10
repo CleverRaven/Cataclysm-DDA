@@ -4,6 +4,7 @@
 
 #include <string>
 #include <string_view>
+#include <type_traits>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -14,12 +15,14 @@
 class math_exp;
 struct const_dialogue;
 struct diag_value;
+
 using diag_array = std::vector<diag_value>;
 
 // https://stackoverflow.com/a/45896101
 // *INDENT-OFF*
 template <class T, class U>
 struct is_one_of;
+
 template <class T, class... Ts>
 // NOLINTNEXTLINE(cata-avoid-alternative-tokens) broken check
 struct is_one_of<T, std::variant<Ts...>> : std::bool_constant<( std::is_same_v<T, Ts> || ... )> {};

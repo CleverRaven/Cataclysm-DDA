@@ -3,6 +3,9 @@
 #define CATA_SRC_OVERMAP_LOCATION_H
 
 #include <iosfwd>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "flat_set.h"

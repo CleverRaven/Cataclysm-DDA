@@ -9,9 +9,8 @@
 #include "enums.h"
 #include "gamemode.h"
 
-template <typename E> struct enum_traits;
-
 enum action_id : int;
+template <typename E> struct enum_traits;
 
 enum class tut_lesson : int {
     LESSON_INTRO = 0,

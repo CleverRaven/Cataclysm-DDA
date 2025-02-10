@@ -4,16 +4,22 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <functional>
 #include <iosfwd>
+#include <string>
 #include <vector>
 
 #include "coords_fwd.h"
 #include "point.h"
 #include "units.h"
 
-template <typename T> struct enum_traits;
+namespace coords
+{
+template <typename Point, origin Origin, scale Scale> class coord_point_ob;
+}  // namespace coords
 struct rl_vec2d;
+template <typename T> struct enum_traits;
 
 extern bool trigdist;
 

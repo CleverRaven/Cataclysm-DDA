@@ -3,6 +3,8 @@
 #define CATA_SRC_FACTION_H
 
 #include <bitset>
+#include <cstddef>
+#include <functional>
 #include <map>
 #include <optional>
 #include <set>
@@ -21,6 +23,8 @@
 #include "type_id.h"
 #include "vitamin.h"
 
+enum class vitamin_type : int;
+
 namespace catacurses
 {
 class window;
@@ -34,11 +38,11 @@ std::string fac_respect_text( int val );
 std::string fac_wealth_text( int val, int size );
 std::string fac_combat_ability_text( int val );
 
-class item;
 class JsonObject;
 class JsonOut;
 class JsonValue;
 class faction;
+class item;
 class npc;
 
 namespace npc_factions

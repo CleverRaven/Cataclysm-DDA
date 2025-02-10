@@ -3,37 +3,45 @@
 #define CATA_SRC_MUTATION_H
 
 #include <climits>
+#include <functional>
 #include <iosfwd>
 #include <map>
 #include <new>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
+#include "enums.h"
 #include "hash_utils.h"
 #include "magic.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "sleep.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 
+class Character;
 class JsonArray;
 class JsonObject;
+class JsonOut;
+class JsonValue;
 class Trait_group;
 class item;
 class nc_color;
-struct dream;
-
 enum game_message_type : int;
-
+struct const_dialogue;
+struct dream;
 template <typename E> struct enum_traits;
 
 extern std::vector<dream> dreams;

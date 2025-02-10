@@ -3,8 +3,10 @@
 #define CATA_SRC_TILERAY_H
 
 #include <iosfwd>
+#include <string>
 
 #include "coordinates.h"
+#include "coords_fwd.h"
 #include "point.h"
 #include "units.h"
 

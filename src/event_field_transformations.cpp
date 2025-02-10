@@ -1,12 +1,13 @@
 #include "event_field_transformations.h"
 
-#include <cmath>
 #include <cstdlib>
 #include <optional>
 #include <set>
 #include <string>
+#include <utility>
 
 #include "coordinates.h"
+#include "coords_fwd.h"
 #include "itype.h"
 #include "mapdata.h"
 #include "mtype.h"

@@ -1,7 +1,5 @@
 #include "monexamine.h"
 
-#include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
@@ -11,9 +9,12 @@
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -29,9 +30,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
-#include "npc.h"
 #include "output.h"
-#include "player_activity.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"

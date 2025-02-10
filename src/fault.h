@@ -6,6 +6,7 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <string_view>
 
 #include "calendar.h"
 #include "memory_fast.h"
@@ -13,12 +14,12 @@
 #include "translation.h"
 #include "type_id.h"
 
-template <typename T> class generic_factory;
-
+class JsonObject;
 class fault;
 class fault_fix;
-class JsonObject;
+class item;
 struct requirement_data;
+template <typename T> class generic_factory;
 
 namespace faults
 {

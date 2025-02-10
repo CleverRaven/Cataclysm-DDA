@@ -1,8 +1,18 @@
 #include "item_components.h"
 
+#include <iterator>
+#include <list>
+#include <memory>
+
+#include "debug.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "item.h"
 #include "itype.h"
+#include "json.h"
+#include "ret_val.h"
+#include "rng.h"
 #include "type_id.h"
 
 std::vector<item> item_components::operator[]( const itype_id it_id )

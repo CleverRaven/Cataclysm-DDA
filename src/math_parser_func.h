@@ -10,6 +10,8 @@
 #include <string_view>
 #include <vector>
 
+#include "debug.h"
+#include "math_defines.h"
 #include "rng.h"
 #include "units.h"
 

@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_REGIONAL_SETTINGS_H
 #define CATA_SRC_REGIONAL_SETTINGS_H
 
+#include <array>
 #include <iosfwd>
 #include <map>
 #include <memory>
@@ -11,6 +12,7 @@
 #include <vector>
 
 #include "enums.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "omdata.h"
@@ -19,6 +21,7 @@
 #include "weighted_list.h"
 
 class JsonObject;
+class mapgendata;
 
 class building_bin
 {

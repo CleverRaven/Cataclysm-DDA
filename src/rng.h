@@ -8,9 +8,13 @@
 #include <iterator>
 #include <optional>
 #include <random>
+#include <string>
 #include <type_traits>
+#include <utility>
+#include <vector>
 
 #include "coords_fwd.h"
+#include "units.h"
 #include "units_fwd.h"
 
 class map;

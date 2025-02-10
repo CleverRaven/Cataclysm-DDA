@@ -2,15 +2,22 @@
 #include <array>
 #include <cstdlib>
 #include <functional>
+#include <iterator>
+#include <list>
+#include <map>
 #include <memory>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "activity_handlers.h"
-#include "activity_type.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "effect.h"
@@ -20,7 +27,10 @@
 #include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input.h"
+#include "item.h"
+#include "item_location.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -28,18 +38,22 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "mongroup.h"
-#include "monster.h"
 #include "player_activity.h"
+#include "point.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "teleport.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
 #include "uistate.h"
 #include "units.h"
 #include "vitamin.h"
 #include "weather.h"
+#include "weighted_list.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 

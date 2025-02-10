@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <exception>
 #include <functional>
+#include <initializer_list>
 #include <iterator>
 #include <list>
 #include <map>
@@ -14,6 +15,7 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -21,22 +23,26 @@
 
 #include "action.h"
 #include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "character.h"
-#include "construction.h"
+#include "character_id.h"
 #include "character_martial_arts.h"
 #include "city.h"
 #include "color.h"
+#include "construction.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
+#include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
@@ -47,6 +53,8 @@
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
@@ -55,19 +63,25 @@
 #include "harvest.h"
 #include "iexamine.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "json.h"
+#include "json_error.h"
 #include "json_loader.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "memorial_logger.h"
@@ -83,9 +97,11 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "popup.h" // For play_game
 #include "recipe.h"
@@ -93,6 +109,7 @@
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "safe_reference.h"
 #include "sounds.h"
 #include "speech.h"
 #include "stomach.h"
@@ -100,12 +117,14 @@
 #include "string_input_popup.h"
 #include "teleport.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "try_parse_integer.h"
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
@@ -114,7 +133,6 @@
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "units.h"
 #include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"

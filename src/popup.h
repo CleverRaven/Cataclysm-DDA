@@ -6,13 +6,16 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "color.h"
 #include "input_enums.h"
+#include "point.h"
 
-class ui_adaptor;
 class query_popup_impl;
+class ui_adaptor;
 
 /**
  * UI class for displaying messages or querying player input with popups.

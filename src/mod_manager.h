@@ -10,17 +10,19 @@
 #include <utility>
 #include <vector>
 
+#include "cata_path.h"
 #include "output.h"
 #include "path_info.h"
 #include "pimpl.h"
+#include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-
-struct WORLD;
 
 class JsonObject;
 class dependency_tree;
 class mod_manager;
+struct WORLD;
 
 const std::vector<std::pair<std::string, translation>> &get_mod_list_categories();
 const std::vector<std::pair<std::string, translation>> &get_mod_list_tabs();

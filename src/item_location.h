@@ -2,21 +2,24 @@
 #ifndef CATA_SRC_ITEM_LOCATION_H
 #define CATA_SRC_ITEM_LOCATION_H
 
+#include <list>
 #include <memory>
 #include <string>
+#include <utility>
 
 #include "coordinates.h"
+#include "coords_fwd.h"
 #include "units_fwd.h"
 
 class Character;
 class JsonObject;
 class JsonOut;
+class const_talker;
 class item;
 class item_pocket;
 class map_cursor;
-class vehicle_cursor;
 class talker;
-class const_talker;
+class vehicle_cursor;
 struct tripoint;
 template<typename T> class ret_val;
 

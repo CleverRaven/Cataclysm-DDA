@@ -2,9 +2,21 @@
 #ifndef CATA_SRC_VEH_SHAPE_H
 #define CATA_SRC_VEH_SHAPE_H
 
+#include <functional>
+#include <optional>
+#include <set>
+#include <string>
+#include <vector>
+
+#include "coordinates.h"
+#include "coords_fwd.h"
+#include "input_context.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 
 class player_activity;
+class vehicle;
+template <typename T> class ret_val;
 
 class veh_shape
 {

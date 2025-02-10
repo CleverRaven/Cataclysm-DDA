@@ -1,28 +1,36 @@
 #include "veh_type.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstddef>
-#include <limits>
+#include <functional>
+#include <iterator>
+#include <list>
 #include <memory>
 #include <numeric>
-#include <tuple>
-#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 
 #include "ammo.h"
 #include "assign.h"
 #include "cata_assert.h"
+#include "catacharset.h"
 #include "character.h"
+#include "clzones.h"
 #include "color.h"
+#include "damage.h"
 #include "debug.h"
+#include "enums.h"
 #include "flag.h"
+#include "flat_set.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "init.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "output.h"
@@ -36,9 +44,9 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 #include "wcwidth.h"
-
-class npc;
 
 namespace
 {

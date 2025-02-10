@@ -1,26 +1,28 @@
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
-#include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "creature.h"
 #include "enums.h"
+#include "field.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "mapdata.h"
+#include "point.h"
 #include "submap.h"
+#include "translation.h"
 #include "trap.h"
 #include "type_id.h"
-
-struct tripoint;
-template <typename T> struct weighted_int_list;
+#include "weighted_list.h"
 
 namespace
 {

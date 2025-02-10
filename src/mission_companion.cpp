@@ -1,7 +1,10 @@
 #include "mission_companion.h"
 
 #include <algorithm>
+#include <array>
+#include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
@@ -9,6 +12,7 @@
 #include <set>
 #include <tuple>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -16,29 +20,32 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
-#include "colony.h"
+#include "character_id.h"
 #include "color.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h"
-#include "game_constants.h"
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_stack.h"
 #include "itype.h"
-#include "line.h"
+#include "json.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "messages.h"
@@ -53,14 +60,13 @@
 #include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "value_ptr.h"
 #include "weather.h"
 #include "weighted_list.h"
-
-class character_id;
 
 static const efftype_id effect_riding( "riding" );
 

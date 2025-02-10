@@ -9,6 +9,7 @@
 #include <utility>
 #include <vector>
 
+#include "coords_fwd.h"
 #include "enums.h"
 #include "item_stack.h"
 

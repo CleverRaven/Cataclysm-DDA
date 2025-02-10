@@ -2,19 +2,20 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstddef>
+#include <cstdlib>
 #include <iterator>
 #include <utility>
 
-#include "cata_utility.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "game_constants.h"
 #include "item.h"
-#include "json.h"
 #include "options.h"
 #include "recipe.h"
 #include "rng.h"
-#include "translations.h"
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_bashing( "bashing" );

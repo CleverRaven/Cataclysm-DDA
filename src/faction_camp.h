@@ -18,6 +18,7 @@ class window;
 class npc;
 struct mission_entry;
 struct point;
+
 namespace base_camps
 {
 enum tab_mode : int;

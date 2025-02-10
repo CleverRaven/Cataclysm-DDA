@@ -6,10 +6,14 @@
 #include <iosfwd>
 #include <optional>
 #include <set>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "coordinates.h"
+#include "coords_fwd.h"
 #include "enums.h" // IWYU pragma: keep
 #include "map_scale_constants.h"
 #include "point.h"

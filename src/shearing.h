@@ -1,5 +1,6 @@
 #pragma once
 #include "damage.h"
+#include "type_id.h"
 #ifndef CATA_SRC_SHEARING_H
 #define CATA_SRC_SHEARING_H
 

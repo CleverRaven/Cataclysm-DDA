@@ -6,6 +6,7 @@
 #include <functional>
 #include <iosfwd>
 #include <map>
+#include <string>
 #include <vector>
 
 #include "calendar.h"

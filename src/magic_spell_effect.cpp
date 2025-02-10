@@ -3,12 +3,11 @@
 #include <climits>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <cstdlib>
-#include <iosfwd>
 #include <iterator>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <queue>
 #include <set>
@@ -21,13 +20,15 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_martial_arts.h"
-#include "colony.h"
 #include "color.h"
+#include "condition.h"
 #include "coordinates.h"
+#include "coords_fwd.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
@@ -35,7 +36,9 @@
 #include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "global_vars.h"
 #include "item.h"
+#include "item_group.h"
 #include "kill_tracker.h"
 #include "line.h"
 #include "magic.h"
@@ -44,11 +47,11 @@
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "monstergenerator.h"
-#include "morale.h"
 #include "mtype.h"
 #include "npc.h"
 #include "overmapbuffer.h"
@@ -58,13 +61,17 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "teleport.h"
 #include "timed_event.h"
 #include "translations.h"
+#include "trap.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+class translation;
 
 static const efftype_id effect_teleglow( "teleglow" );
 

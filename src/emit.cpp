@@ -1,15 +1,12 @@
 #include "emit.h"
 
-#include <algorithm>
 #include <map>
 #include <utility>
 
-#include "debug.h"
-
 #include "condition.h"
-#include "flexbuffer_json-inl.h"
+#include "debug.h"
 #include "flexbuffer_json.h"
-#include "json.h"
+#include "flexbuffer_json-inl.h"
 
 static std::map<emit_id, emit> emits_all;
 

@@ -2,19 +2,33 @@
 #ifndef CATA_SRC_MAPGENDATA_H
 #define CATA_SRC_MAPGENDATA_H
 
+#include <array>
+#include <cstddef>
+#include <string>
+#include <type_traits>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
 #include "calendar.h"
 #include "cata_variant.h"
 #include "coords_fwd.h"
 #include "cube_direction.h"
+#include "debug.h"
 #include "enum_bitset.h"
 #include "jmapgen_flags.h"
 #include "mapgen.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
+class JsonOut;
 class JsonValue;
 class map;
 class mission;
+enum class cube_direction : int;
+enum class direction : unsigned int;
+enum class jmapgen_flags;
+enum class mapgen_phase;
 struct point;
 struct regional_settings;
 

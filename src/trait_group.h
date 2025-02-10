@@ -4,6 +4,7 @@
 
 #include <iosfwd>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "type_id.h"
@@ -11,7 +12,6 @@
 class JsonObject;
 class JsonValue;
 class Trait_group;
-
 struct trait_and_var;
 
 namespace trait_group

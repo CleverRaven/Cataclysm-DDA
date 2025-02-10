@@ -15,6 +15,7 @@
 #include <queue>
 #include <set>
 #include <string>
+#include <tuple>
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
@@ -32,7 +33,9 @@
 #include "character_id.h"
 #include "city.h"  // IWYU pragma: keep
 #include "compatibility.h"
+#include "coordinates.h"
 #include "coords_fwd.h"
+#include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
@@ -42,6 +45,8 @@
 #include "item.h"
 #include "item_location.h"
 #include "magic_enchantment.h"
+#include "memory_fast.h"
+#include "monster.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
@@ -64,6 +69,7 @@ class JsonOut;
 class SkillLevel;
 class SkillLevelMap;
 class activity_actor;
+class addiction;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
@@ -71,6 +77,7 @@ class craft_command;
 class dispersion_sources;
 class effect;
 class effect_source;
+class enchant_cache;
 class faction;
 class item_pocket;
 class known_magic;
@@ -87,10 +94,16 @@ class spell;
 class ui_adaptor;
 class vehicle;
 class vpart_reference;
+
 namespace catacurses
 {
 class window;
 }  // namespace catacurses
+enum action_id : int;
+enum class proficiency_bonus_type : int;
+enum class recipe_filter_flags : int;
+enum class steed_type : int;
+enum npc_attitude : int;
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
@@ -111,12 +124,6 @@ struct trait_and_var;
 struct trap;
 struct w_point;
 template <typename E> struct enum_traits;
-
-enum npc_attitude : int;
-enum action_id : int;
-enum class recipe_filter_flags : int;
-enum class steed_type : int;
-enum class proficiency_bonus_type : int;
 
 using bionic_uid = unsigned int;
 

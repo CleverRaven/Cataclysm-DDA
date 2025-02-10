@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_TALKER_TOPIC_H
 #define CATA_SRC_TALKER_TOPIC_H
 
+#include <memory>
+#include <string>
 #include <utility>
 #include <vector>
 

@@ -4,14 +4,19 @@
 
 #include <cstdint>
 #include <iosfwd>
+#include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "catacharset.h"
 #include "color.h"
 #include "coords_fwd.h"
 #include "flat_set.h"
 #include "string_id.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 

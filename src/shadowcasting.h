@@ -7,12 +7,16 @@
 #include <cmath>
 #include <functional>
 #include <iosfwd>
+#include <string>
+#include <type_traits>
 
 #include "coords_fwd.h"
 #include "game_constants.h"
 #include "lightmap.h"
+#include "map_scale_constants.h"
 #include "mdarray.h"
 
+struct fragment_cloud;
 struct point;
 struct tripoint;
 

@@ -5,6 +5,7 @@
 #include <bitset>
 #include <cstddef>
 #include <iosfwd>
+#include <string>
 #include <vector>
 
 enum class iteminfo_parts : size_t {

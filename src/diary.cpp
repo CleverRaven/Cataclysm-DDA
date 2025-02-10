@@ -1,7 +1,6 @@
 #include "diary.h"
 
 #include <algorithm>
-#include <filesystem>
 #include <fstream>
 #include <string>
 #include <utility>
@@ -13,9 +12,10 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
+#include "enum_conversions.h"
 #include "filesystem.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "json.h"
 #include "json_error.h"
@@ -24,7 +24,6 @@
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "npc.h"
 #include "output.h"
 #include "path_info.h"
 #include "pimpl.h"

@@ -1,5 +1,6 @@
 #include "memorial_logger.h"
 
+#include <cstddef>
 #include <istream>
 #include <list>
 #include <map>
@@ -16,20 +17,23 @@
 #include "calendar.h"
 #include "cata_variant.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "coordinates.h"
 #include "debug.h"
-#include "debug_menu.h"
 #include "effect.h"
 #include "enum_conversions.h"
 #include "event.h"
 #include "event_statistics.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "get_version.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
 #include "json.h"
 #include "json_loader.h"
@@ -47,12 +51,19 @@
 #include "past_games_info.h"
 #include "pimpl.h"
 #include "profession.h"
+#include "proficiency.h"
 #include "skill.h"
 #include "stats_tracker.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
+
+namespace debug_menu
+{
+enum class debug_menu_index : int;
+}  // namespace debug_menu
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_datura( "datura" );

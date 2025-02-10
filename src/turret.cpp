@@ -1,6 +1,7 @@
 #include "vehicle.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <cstddef>
 #include <memory>
 #include <string>
 
@@ -11,9 +12,12 @@
 #include "enums.h"
 #include "gun_mode.h"
 #include "item.h"
+#include "item_contents.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "messages.h"
 #include "npc.h"
+#include "pocket_type.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "string_formatter.h"

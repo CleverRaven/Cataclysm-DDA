@@ -5,9 +5,13 @@
 #include <cstdint>
 #include <iosfwd>
 #include <map>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "color.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"

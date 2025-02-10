@@ -7,6 +7,11 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <set>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "enum_bitset.h"
@@ -15,13 +20,16 @@
 #include "mattack_common.h"
 #include "mtype.h"
 #include "pimpl.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 
 class Creature;
 class JsonObject;
 class monster;
+enum class phase_id : int;
 struct dealt_projectile_attack;
+template <typename T> class generic_factory;
 
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );

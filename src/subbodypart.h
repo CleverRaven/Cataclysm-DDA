@@ -7,6 +7,7 @@
 #include <initializer_list>
 #include <iosfwd>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -15,14 +16,16 @@
 #include "flat_set.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
 class JsonOut;
 class JsonValue;
-struct sub_body_part_type;
 struct body_part_type;
+struct sub_body_part_type;
+template <typename T> struct enum_traits;
 
 using sub_bodypart_id = int_id<sub_body_part_type>;
 

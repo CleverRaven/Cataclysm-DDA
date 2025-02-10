@@ -1,12 +1,13 @@
 #include "field_type.h"
 
-#include <cstdlib>
+#include <algorithm>
 
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
-#include "json.h"
 
 const field_type_str_id fd_null = field_type_str_id::NULL_ID();
 const field_type_str_id fd_acid( "fd_acid" );

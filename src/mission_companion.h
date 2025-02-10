@@ -6,21 +6,26 @@
 #include <map>
 #include <new>
 #include <optional>
+#include <set>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "coordinates.h"
 #include "coords_fwd.h"
 #include "mapgendata.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
 
+class JsonOut;
+class JsonValue;
 class item;
 class monster;
 class npc;
 class npc_template;
 struct comp_rank;
+template <typename E> struct enum_traits;
 
 using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;

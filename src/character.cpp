@@ -12,13 +12,13 @@
 #include <memory>
 #include <numeric>
 #include <tuple>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
 #include "action.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "addiction.h"
 #include "anatomy.h"
 #include "avatar.h"
 #include "avatar_action.h"
@@ -30,13 +30,13 @@
 #include "character_attire.h"
 #include "character_martial_arts.h"
 #include "city.h"
-#include "colony.h"
 #include "color.h"
 #include "construction.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "disease.h"
 #include "display.h"
 #include "effect.h"
@@ -74,9 +74,9 @@
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "map_selector.h"
 #include "mapdata.h"
-#include "maptile_fwd.h"
 #include "martialarts.h"
 #include "math_defines.h"
 #include "memorial_logger.h"
@@ -93,6 +93,7 @@
 #include "output.h"
 #include "overlay_ordering.h"
 #include "overmap_types.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "profession.h"
@@ -128,7 +129,6 @@
 #include "weather_type.h"
 
 class activity_actor;
-struct dealt_projectile_attack;
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );

@@ -3,9 +3,11 @@
 #define CATA_SRC_MAP_ITEM_STACK_H
 
 #include <iosfwd>
+#include <string>
 #include <vector>
 
 #include "coordinates.h"
+#include "coords_fwd.h"
 #include "point.h"
 
 class item;

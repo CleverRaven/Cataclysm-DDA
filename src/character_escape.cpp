@@ -1,5 +1,7 @@
 #include <algorithm>
+#include <functional>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "bodypart.h"
@@ -7,6 +9,8 @@
 #include "character.h"
 #include "character_attire.h"
 #include "character_martial_arts.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"

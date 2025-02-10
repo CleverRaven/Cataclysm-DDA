@@ -1,12 +1,13 @@
 #include "live_view.h"
 
 #include <algorithm> // min & max
-#include <functional>
-#include <iosfwd>
 #include <memory>
 #include <string>
 
+#include "cached_options.h"
 #include "color.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "cursesdef.h"
 #include "game.h"
 #include "map.h"

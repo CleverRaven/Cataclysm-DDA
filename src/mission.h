@@ -8,19 +8,24 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "character_id.h"
+#include "coordinates.h"
 #include "coords_fwd.h"
 #include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "npc_favor.h"
 #include "omdata.h"
 #include "overmap.h"
+#include "point.h"
 #include "talker.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -33,9 +38,11 @@ class item;
 class mission;
 class npc;
 class overmapbuffer;
-template<typename T> struct enum_traits;
-
 enum npc_mission : int;
+struct const_dialogue;
+struct dialogue;
+struct oter_type_t;
+template<typename T> struct enum_traits;
 
 namespace debug_menu
 {

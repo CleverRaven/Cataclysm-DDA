@@ -9,11 +9,11 @@
 #include <string_view>
 
 #include "coordinates.h"
+#include "coords_fwd.h"
 
 class Character;
 class Creature;
 struct mongroup;
-
 template <typename E> struct enum_traits;
 
 namespace debug_menu

@@ -1,9 +1,12 @@
 #include "iexamine.h"
 
 #include <algorithm>
+#include <array>
 #include <climits>
 #include <cmath>
 #include <cstdio>
+#include <cstdlib>
+#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -12,7 +15,6 @@
 #include <utility>
 
 #include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "ammo.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -21,7 +23,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "color.h"
 #include "construction.h"
 #include "construction_group.h"
@@ -35,6 +36,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "faction.h"
 #include "field_type.h"
 #include "flag.h"
 #include "fungal_effects.h"
@@ -44,26 +46,29 @@
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_components.h"
 #include "item_location.h"
-#include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "line.h"
 #include "magic.h"
 #include "magic_teleporter_list.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "map_selector.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mission_companion.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "omdata.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -72,13 +77,14 @@
 #include "player_activity.h"
 #include "point.h"
 #include "recipe.h"
-#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "tileray.h"
 #include "timed_event.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "try_parse_integer.h"
@@ -92,6 +98,7 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 #include "weather.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );

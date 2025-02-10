@@ -2,29 +2,32 @@
 #ifndef CATA_SRC_VPART_POSITION_H
 #define CATA_SRC_VPART_POSITION_H
 
-#include <functional>
 #include <cstddef>
+#include <functional>
 #include <iosfwd>
+#include <map>
 #include <new>
 #include <optional>
+#include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
+#include "coords_fwd.h"
 #include "type_id.h"
 
-struct input_event;
-class inventory;
 class Character;
+class inventory;
+class map;
 class vehicle;
 class vehicle_stack;
 class vpart_info;
-struct vehicle_part;
-
-enum vpart_bitflags : int;
 class vpart_reference;
+enum vpart_bitflags : int;
+struct input_event;
 struct point;
 struct tripoint;
+struct vehicle_part;
 
 /**
  * Reference to a position (a point) of the @ref vehicle.

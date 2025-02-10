@@ -9,11 +9,13 @@
 #include <utility>
 #include <vector>
 
+#include "coords_fwd.h"
 #include "weakpoint.h"
 #include "weighted_list.h"
 
 class Creature;
 class dispersion_sources;
+class map;
 class vehicle;
 struct dealt_projectile_attack;
 struct projectile;

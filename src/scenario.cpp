@@ -2,21 +2,21 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <ostream>
+#include <unordered_set>
 
 #include "achievement.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
-#include "json.h"
-#include "map_extras.h"
 #include "mission.h"
 #include "mutation.h"
 #include "options.h"
-#include "past_games_info.h"
 #include "past_achievements_info.h"
 #include "profession.h"
 #include "rng.h"
 #include "start_location.h"
-#include "string_id.h"
 #include "translations.h"
 
 static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );

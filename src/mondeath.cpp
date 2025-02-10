@@ -3,31 +3,20 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
-#include <functional>
-#include <iosfwd>
-#include <list>
 #include <map>
 #include <memory>
-#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
-#include "character.h"
-#include "colony.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "creature.h"
-#include "debug.h"
 #include "enums.h"
-#include "explosion.h"
-#include "field_type.h"
-#include "fungal_effects.h"
-#include "game.h"
 #include "harvest.h"
-#include "item_stack.h"
+#include "item.h"
 #include "itype.h"
-#include "kill_tracker.h"
-#include "line.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -39,13 +28,10 @@
 #include "point.h"
 #include "rng.h"
 #include "sounds.h"
-#include "string_formatter.h"
-#include "timed_event.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
-#include "viewer.h"
 
 static const efftype_id effect_no_ammo( "no_ammo" );
 

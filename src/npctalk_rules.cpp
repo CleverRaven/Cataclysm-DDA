@@ -1,26 +1,30 @@
 #include "npctalk_rules.h"
 
-#include <algorithm>
-#include <array>
-#include <cmath>
-#include <cstddef>
 #include <iterator>
-#include <list>
 #include <map>
 #include <memory>
-#include <ostream>
+#include <set>
 #include <string>
 #include <unordered_map>
-#include <unordered_set>
+#include <utility>
 #include <vector>
 
+#include "auto_pickup.h"
 #include "cata_imgui.h"
-#include "dialogue.h"
+#include "character.h"
+#include "character_id.h"
+#include "color.h"
+#include "debug.h"
 #include "game.h"
-#include "npctalk.h"
-#include "ui_manager.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
+#include "input_context.h"
+#include "input_enums.h"
+#include "npc.h"
+#include "pimpl.h"
+#include "string_formatter.h"
+#include "translation.h"
+#include "ui_manager.h"
 
 static std::map<cbm_recharge_rule, std::string> recharge_map = {
     {cbm_recharge_rule::CBM_RECHARGE_ALL, "<ally_rule_cbm_recharge_all_text>" },

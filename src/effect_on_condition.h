@@ -22,6 +22,7 @@ class JsonObject;
 class JsonValue;
 class talker;
 class time_duration;
+enum class event_type : int;
 struct effect_on_condition;
 template <typename E> struct enum_traits;
 template <typename T> class generic_factory;

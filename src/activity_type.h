@@ -14,6 +14,7 @@ class Character;
 class JsonObject;
 class activity_type;
 class player_activity;
+enum class distraction_type : int;
 template <typename T> struct enum_traits;
 
 /** @relates string_id */

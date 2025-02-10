@@ -4,6 +4,7 @@
 
 #include <iosfwd>
 #include <map>
+#include <string>
 #include <vector>
 
 #include "event_subscriber.h"

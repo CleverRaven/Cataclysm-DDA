@@ -1,6 +1,7 @@
 #include "iuse_actor.h"
 
-#include <cctype>
+#include <imgui/imgui.h>
+#include <wctype.h>
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -10,29 +11,30 @@
 #include <limits>
 #include <list>
 #include <memory>
-#include <numeric>
-#include <sstream>
-#include <type_traits>
+#include <unordered_set>
 
 #include "action.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
-#include "activity_type.h"
 #include "assign.h"
 #include "avatar.h" // IWYU pragma: keep
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_imgui.h"
+#include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
 #include "clothing_mod.h"
 #include "clzones.h"
-#include "colony.h"
+#include "condition.h"
+#include "coordinates.h"
 #include "crafting.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "enum_conversions.h"
@@ -40,22 +42,25 @@
 #include "explosion.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h"
-#include "game_constants.h"
 #include "game_inventory.h"
 #include "generic_factory.h"
+#include "global_vars.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_components.h"
+#include "item_contents.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
-#include "json.h"
-#include "json_loader.h"
-#include "line.h"
 #include "magic.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "map_selector.h"
 #include "mapdata.h"
 #include "material.h"
@@ -65,16 +70,19 @@
 #include "mtype.h"
 #include "music.h"
 #include "mutation.h"
+#include "npc.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
+#include "safe_reference.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -91,9 +99,7 @@
 #include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
-#include "vpart_range.h"
 #include "weather.h"
-#include "weather_type.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );

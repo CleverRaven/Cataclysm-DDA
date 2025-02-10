@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_SKILL_H
 #define CATA_SRC_SKILL_H
 
+#include <algorithm>
 #include <functional>
 #include <iosfwd>
 #include <map>
@@ -12,6 +13,7 @@
 
 #include "calendar.h"
 #include "game_constants.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 

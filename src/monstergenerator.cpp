@@ -2,41 +2,45 @@
 #include "monstergenerator.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <cstdlib>
-#include <limits>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
+#include <unordered_set>
 #include <utility>
 
 #include "assign.h"
-#include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "catacharset.h"
+#include "condition.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
-#include "enum_conversions.h"
+#include "enums.h"
 #include "field_type.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
+#include "game_constants.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
-#include "json.h"
-#include "make_static.h"
+#include "magic.h"
 #include "mattack_actors.h"
 #include "monattack.h"
-#include "mondeath.h"
 #include "mondefense.h"
 #include "mongroup.h"
+#include "monster.h"
 #include "options.h"
 #include "pathfinding.h"
 #include "rng.h"
-#include "translations.h"
+#include "shearing.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
 #include "weakpoint.h"
+
+struct itype;
 
 static const material_id material_flesh( "flesh" );
 

@@ -1,13 +1,19 @@
 #include "shop_cons_rate.h"
 
+#include <algorithm>
+
 #include "avatar.h"
 #include "condition.h"
+#include "creature.h"
+#include "debug.h"
 #include "dialogue.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
+#include "item.h"
 #include "item_category.h"
 #include "item_group.h"
 #include "itype.h"
-#include "json.h"
 #include "npc.h"
 
 namespace

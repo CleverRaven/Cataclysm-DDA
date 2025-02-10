@@ -7,6 +7,7 @@
 #include <list>
 
 #include "colony.h"
+#include "coords_fwd.h"
 #include "item.h" // IWYU pragma: keep
 #include "type_id.h"
 #include "units_fwd.h"

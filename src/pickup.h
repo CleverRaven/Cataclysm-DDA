@@ -4,6 +4,7 @@
 
 #include <vector>
 
+#include "coordinates.h"
 #include "coords_fwd.h"
 #include "cuboid_rectangle.h"
 #include "item_location.h"
@@ -11,6 +12,8 @@
 #include "units.h"
 
 class Character;
+class JsonObject;
+class JsonOut;
 class item;
 
 namespace Pickup

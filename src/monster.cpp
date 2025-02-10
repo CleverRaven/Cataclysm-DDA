@@ -1,44 +1,55 @@
 #include "monster.h"
 
 #include <algorithm>
-#include <array>
 #include <cmath>
+#include <cstdint>
+#include <cstdlib>
+#include <list>
 #include <memory>
 #include <optional>
 #include <sstream>
 #include <string>
 #include <tuple>
+#include <unordered_map>
 
 #include "ascii_art.h"
 #include "avatar.h"
 #include "bodypart.h"
-#include "catacharset.h"
+#include "cached_options.h"
 #include "cata_imgui.h"
+#include "catacharset.h"
 #include "character.h"
-#include "colony.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
+#include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "effect_source.h"
+#include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
 #include "faction.h"
 #include "field_type.h"
+#include "flat_set.h"
 #include "game.h"
-#include "game_constants.h"
 #include "harvest.h"
+#include "imgui/imgui.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
-#include "imgui/imgui.h"
-#include "line.h"
+#include "magic.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "mattack_common.h"
 #include "melee.h"
@@ -55,19 +66,24 @@
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pathfinding.h"
 #include "pimpl.h"
+#include "pocket_type.h"
+#include "point.h"
 #include "projectile.h"
+#include "ret_val.h"
 #include "rng.h"
+#include "shearing.h"
 #include "sounds.h"
+#include "speed_description.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vpart_position.h"
 #include "viewer.h"
 #include "weakpoint.h"
 #include "weather.h"
@@ -203,8 +219,6 @@ static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
 static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-
-struct pathfinding_settings;
 
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.

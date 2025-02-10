@@ -3,7 +3,9 @@
 #define CATA_SRC_MAP_TGZ_ARCHIVER_H
 #include <array>
 #include <chrono>
+#include <cstddef>
 #include <filesystem>
+#include <iosfwd>
 #include <string>
 #include <utility>
 

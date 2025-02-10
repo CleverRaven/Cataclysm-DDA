@@ -2,9 +2,14 @@
 #ifndef CATA_SRC_NPCTALK_H
 #define CATA_SRC_NPCTALK_H
 
+#include <functional>
+#include <string>
+#include <vector>
+
 #include "npc.h"
 #include "type_id.h"
 
+class Character;
 class item;
 class json_talk_topic;
 class npc;

@@ -6,8 +6,10 @@
 #include <map>
 #include <optional>
 #include <set>
+#include <string>
 
 #include "coordinates.h"
+#include "coords_fwd.h"
 
 class Character;
 class JsonObject;

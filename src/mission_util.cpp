@@ -1,10 +1,9 @@
-#include <algorithm>
 #include <functional>
-#include <iosfwd>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
+#include <string_view>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -12,15 +11,19 @@
 #include "cata_assert.h"
 #include "character.h"
 #include "city.h"
-#include "coordinates.h"
 #include "condition.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h"
-#include "json.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapgen_functions.h"
 #include "messages.h"
 #include "mission.h"

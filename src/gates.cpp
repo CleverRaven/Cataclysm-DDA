@@ -2,29 +2,39 @@
 
 #include <algorithm>
 #include <array>
+#include <functional>
+#include <iterator>
 #include <memory>
 #include <optional>
-#include <set>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "character.h"
-#include "colony.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h" // TODO: This is a circular dependency
 #include "generic_factory.h"
 #include "iexamine.h"
 #include "item.h"
-#include "json.h"
+#include "itype.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "monster.h"
 #include "player_activity.h"
 #include "point.h"
+#include "rng.h"
+#include "sounds.h"
+#include "translation.h"
 #include "translations.h"
 #include "units.h"
 #include "vehicle.h"

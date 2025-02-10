@@ -12,6 +12,7 @@
 #include "activity_actor_definitions.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"

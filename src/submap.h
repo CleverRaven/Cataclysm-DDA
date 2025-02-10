@@ -8,8 +8,10 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "active_item_cache.h"
@@ -20,17 +22,24 @@
 #include "compatibility.h"
 #include "computer.h"
 #include "construction.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "field.h"
 #include "game_constants.h"
 #include "item.h"
+#include "map_scale_constants.h"
+#include "mapdata.h"
 #include "mapgen.h"
 #include "mdarray.h"
 #include "point.h"
 #include "trap.h"
 #include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 
 class JsonOut;
+class JsonValue;
+class basecamp;
 class map;
 class vehicle;
 struct furn_t;

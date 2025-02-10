@@ -3,10 +3,12 @@
 #define CATA_SRC_WEATHER_H
 
 #include <optional>
+#include <string>
 
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
+#include "coordinates.h"
 #include "coords_fwd.h"
 #include "pimpl.h"
 #include "point.h"

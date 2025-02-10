@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_TALKER_FURNITURE_H
 #define CATA_SRC_TALKER_FURNITURE_H
 
+#include <memory>
+#include <string>
 #include <vector>
 
 #include "coords_fwd.h"

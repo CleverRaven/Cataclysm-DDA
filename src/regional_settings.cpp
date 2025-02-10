@@ -1,22 +1,27 @@
 #include "regional_settings.h"
 
 #include <algorithm>
+#include <cstddef>
 #include <map>
 #include <memory>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <utility>
 
 #include "debug.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "map_extras.h"
 #include "options.h"
 #include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "translations.h"
+#include "translation.h"
+
+class mapgendata;
 
 ter_furn_id::ter_furn_id() : ter( ter_str_id::NULL_ID().id() ),
     furn( furn_str_id::NULL_ID().id() ) { }

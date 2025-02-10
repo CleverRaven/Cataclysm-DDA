@@ -2,6 +2,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -12,12 +13,14 @@
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
+#include "coords_fwd.h"
 #include "debug.h"
 #include "effect.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "morale.h"
 #include "pimpl.h"
+#include "point.h"
 #include "type_id.h"
 #include "units.h"
 

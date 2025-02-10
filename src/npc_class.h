@@ -5,18 +5,26 @@
 #include <functional>
 #include <iosfwd>
 #include <map>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
+#include "calendar.h"
+#include "faction.h"
 #include "shop_cons_rate.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 
-class npc;
 class JsonObject;
 class Trait_group;
-
+class item;
+class npc;
 struct const_dialogue;
 struct faction_price_rule;
+struct shopkeeper_blacklist;
+struct shopkeeper_cons_rates;
 
 namespace trait_group
 {

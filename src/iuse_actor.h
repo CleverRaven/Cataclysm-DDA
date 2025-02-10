@@ -13,6 +13,7 @@
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "color.h"
 #include "coords_fwd.h"
@@ -21,6 +22,7 @@
 #include "explosion.h"
 #include "iuse.h"
 #include "ret_val.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -29,6 +31,7 @@ class Character;
 class JsonObject;
 class item;
 class item_location;
+class map;
 class npc_template;
 struct furn_t;
 struct iteminfo;

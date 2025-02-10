@@ -27,7 +27,6 @@
 class Character;
 class JsonObject;
 class JsonOut;
-
 enum class character_stat : char;
 
 struct bionic_data {

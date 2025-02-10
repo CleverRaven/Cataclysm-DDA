@@ -10,11 +10,15 @@
 #include <queue>
 #include <set>
 #include <string>
+#include <string_view>
+#include <unordered_set>
+#include <utility>
 #include <vector>
 
 #include "body_part_set.h"
 #include "bodypart.h"
 #include "coordinates.h"
+#include "coords_fwd.h"
 #include "damage.h"
 #include "dialogue_helpers.h"
 #include "enum_bitset.h"
@@ -22,6 +26,7 @@
 #include "magic_type.h"
 #include "point.h"
 #include "sounds.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -33,7 +38,6 @@ class JsonOut;
 class nc_color;
 class spell;
 class time_duration;
-
 struct dealt_projectile_attack;
 struct requirement_data;
 

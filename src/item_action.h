@@ -7,12 +7,13 @@
 #include <string>
 #include <vector>
 
+#include "translation.h"
 #include "translations.h"
 
+class Character;
 class JsonObject;
 class item;
 class item_action;
-class Character;
 
 using item_action_id = std::string;
 using item_action_map = std::map< item_action_id, item * >;

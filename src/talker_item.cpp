@@ -1,11 +1,19 @@
 #include "talker_item.h"
 
+#include <optional>
+#include <vector>
+
+#include "bodypart.h"
+#include "cata_utility.h"
 #include "character.h"
+#include "coordinates.h"
+#include "debug.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
-#include "magic.h"
-#include "point.h"
-#include "vehicle.h"
+#include "map.h"
+#include "messages.h"
+#include "units.h"
 
 static const ammotype ammo_battery( "battery" );
 

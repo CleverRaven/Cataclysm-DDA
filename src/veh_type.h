@@ -12,6 +12,8 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -19,16 +21,22 @@
 #include "color.h"
 #include "compatibility.h"
 #include "coordinates.h"
+#include "coords_fwd.h"
 #include "damage.h"
+#include "memory_fast.h"
+#include "point.h"
 #include "requirements.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
-class JsonObject;
 class Character;
+class JsonObject;
+class JsonOut;
 class vehicle;
-
+class vpart_info;
+struct vehicle_prototype;
 template <typename T> class generic_factory;
 
 namespace vehicles

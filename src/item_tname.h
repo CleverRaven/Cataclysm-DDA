@@ -3,12 +3,16 @@
 #define CATA_SRC_ITEM_TNAME_H
 
 #include <cstddef>
+#include <cstdint>
+#include <limits>
 #include <string>
+#include <vector>
 
 #include "enum_bitset.h"
 #include "enum_traits.h"
 
 class item;
+template <typename T> struct enum_traits;
 
 namespace tname
 {

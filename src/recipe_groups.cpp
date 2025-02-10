@@ -1,15 +1,22 @@
 #include "recipe_groups.h"
 
-#include <set>
 #include <string>
+#include <string_view>
+#include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "cata_variant.h"
 #include "debug.h"
+#include "enum_conversions.h"
+#include "enums.h"
+#include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
-#include "json.h"
+#include "mapgendata.h"
 #include "overmap.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 // recipe_groups namespace

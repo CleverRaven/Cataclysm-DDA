@@ -13,15 +13,20 @@
 #include <string>
 #include <string_view>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
+#include "calendar.h"
+#include "coordinates.h"
 #include "coords_fwd.h"
 #include "craft_command.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "inventory.h"
+#include "item_location.h"
 #include "map.h"
 #include "mapgendata.h"
+#include "memory_fast.h"
 #include "mission_companion.h"
 #include "point.h"
 #include "requirements.h"
@@ -36,14 +41,14 @@ class JsonOut;
 class basecamp;
 class character_id;
 class faction;
-class item;
 class inventory_filter_preset;
+class item;
 class npc;
 class recipe;
 class time_duration;
 class zone_data;
-struct MonsterGroupResult;
 enum class farm_ops;
+struct MonsterGroupResult;
 
 const int work_day_hours = 10;
 const int work_day_rest_hours = 8;

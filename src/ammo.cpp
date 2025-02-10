@@ -5,10 +5,9 @@
 #include <utility>
 
 #include "debug.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "flexbuffer_json-inl.h"
 #include "item.h"
-#include "json_error.h"
 #include "type_id.h"
 
 namespace

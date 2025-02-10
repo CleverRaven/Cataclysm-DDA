@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MONSTER_H
 #define CATA_SRC_MONSTER_H
 
+#include <algorithm>
 #include <bitset>
 #include <climits>
 #include <cstddef>
@@ -11,13 +12,19 @@
 #include <new>
 #include <optional>
 #include <set>
+#include <string>
+#include <string_view>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "color.h"
 #include "compatibility.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
@@ -34,16 +41,18 @@ class effect;
 class effect_source;
 class item;
 class map;
+enum class phase_id : int;
 struct monster_plan;
+struct mtype;
+
 namespace catacurses
 {
 class window;
 }  // namespace catacurses
+enum class mon_trigger : int;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
-
-enum class mon_trigger : int;
 
 class mon_special_attack
 {

@@ -1,13 +1,35 @@
 #include "npctrade_utils.h"
 
+#include <algorithm>
+#include <functional>
+#include <iterator>
 #include <list>
 #include <map>
+#include <optional>
+#include <ostream>
+#include <string>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "clzones.h"
+#include "coordinates.h"
+#include "coords_fwd.h"
+#include "debug.h"
+#include "game_constants.h"
+#include "item.h"
+#include "item_location.h"
+#include "map.h"
+#include "mapdata.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "pocket_type.h"
+#include "point.h"
 #include "rng.h"
+#include "shop_cons_rate.h"
+#include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
