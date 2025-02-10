@@ -35,6 +35,10 @@ Checks: [
     -clang-analyzer-core.NonNullParamChecker,
     -clang-analyzer-core.UndefinedBinaryOperatorResult,
     -clang-analyzer-cplusplus.NewDelete,
+    # We often use enums as bitsets and do things like `enum::A | enum::B`
+    # which is explicitly unsupported by this check, and it is officially recommended to disable
+    # this lint for project that use such patterns.
+    -clang-analyzer-optin.core.EnumCastOutOfRange,
     clang-diagnostic-*,
     cppcoreguidelines-slicing,
     google-explicit-constructor,
@@ -102,7 +106,6 @@ Checks: [
     # Temporarily disabled in an update to llvm 18. Untriaged.
     -bugprone-multi-level-implicit-pointer-conversion,
     -bugprone-unused-local-non-trivial-variable,
-    -clang-analyzer-optin.core.EnumCastOutOfRange,
     -performance-enum-size,
     -readability-avoid-nested-conditional-operator,
     -readability-redundant-casting,

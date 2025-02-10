@@ -308,6 +308,7 @@ const std::unordered_map<std::string, cbm_reserve_rule> cbm_reserve_strs = { {
     }
 };
 
+// NOLINTBEGIN(optin.core.EnumCastOutOfRange)
 enum class ally_rule : int {
     DEFAULT = 0,
     use_guns = 1,
@@ -329,6 +330,7 @@ enum class ally_rule : int {
     lock_doors = 65536,
     avoid_locks = 131072
 };
+// NOLINTEND(optin.core.EnumCastOutOfRange)
 
 struct ally_rule_data {
     ally_rule rule;
