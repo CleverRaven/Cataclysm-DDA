@@ -54,9 +54,16 @@ Checks: [
     # This check does not bring much value at the moment and consumes a lot of CPU time.
     -readability-identifier-length,
     -readability-identifier-naming,
+    # disabled due to behaviour change between pre-module and post-module world.
+    # Reevaluate in 2027(?) when the code is sufficiently migrated to C++20 modules
+    # or when there is a decision not perform the migration
+    -readability-redundant-inline-specifier,
   
-    # ==  Untriaged checks follow ==
-    # Either re-enable, or add a comment and move to the appropriate section above.
+    # ====  Untriaged checks follow  ====
+    # Either fix the code and re-enable the check,
+    # or add a good comment and move to the appropriate section above.
+    # Silencing the existing errors with a //NOLINT does count as a "fix", as that still
+    # prevents new issues from cropping up.
     -bugprone-assignment-in-if-condition,
     -bugprone-easily-swappable-parameters,
     -bugprone-empty-catch,
@@ -99,7 +106,6 @@ Checks: [
     -performance-enum-size,
     -readability-avoid-nested-conditional-operator,
     -readability-redundant-casting,
-    -readability-redundant-inline-specifier,
 ]
 
 WarningsAsErrors: '*'
