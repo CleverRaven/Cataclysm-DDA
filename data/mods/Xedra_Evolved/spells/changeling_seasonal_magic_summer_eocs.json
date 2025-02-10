@@ -24,6 +24,16 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_LIGHT_FIRE_INITIATE",
+    "condition": { "not": { "is_season": "winter" } },
+    "effect": [
+      { "run_eocs": "EOC_HEDGE_LIGHT_FIRE" },
+      { "u_message": "You gesture and summon up a burst of fiery heat.", "type": "neutral" }
+    ],
+    "false_effect": [ { "u_message": "You gesture but nothing happens.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_SUMMER_SUN_GLASSES_INITIATE",
     "effect": [
       {

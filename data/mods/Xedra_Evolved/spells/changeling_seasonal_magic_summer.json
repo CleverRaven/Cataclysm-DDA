@@ -47,6 +47,28 @@
     "base_casting_time": 50
   },
   {
+    "id": "changeling_summer_light_fire_spell",
+    "type": "SPELL",
+    "name": "Quick-Kindle",
+    "description": "With a quick gesture, summon up a burst of heat sufficient to ignite flammable material.  The glamour <color_red>cannot be used</color> in winter.",
+    "message": "",
+    "flags": [ "SOMATIC" ],
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SUMMER_LIGHT_FIRE_INITIATE",
+    "base_energy_cost": {
+      "math": [ "max( ( 75 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 2) - (u_skill('deduction') * 2)), 25)" ]
+    },
+    "base_casting_time": 50
+  },
+  {
     "id": "changeling_summer_sun_glasses_spell",
     "type": "SPELL",
     "name": "Shading Your Eyes",
