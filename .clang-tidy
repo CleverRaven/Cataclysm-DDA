@@ -39,69 +39,70 @@
 # We are not enforcing a standard identifier naming scheme in the code base.
 # This check does not bring much value at the moment and consumes a lot of CPU time.
 
-Checks: "\
-bugprone-*,\
-cata-*,\
-cert-*,\
--cert-dcl21-cpp,\
--cert-env33-c,\
--cert-dcl37-c,\
--cert-dcl51-cpp,\
--cert-err58-cpp,\
--clang-analyzer-core.CallAndMessage,\
--clang-analyzer-core.DivideZero,\
--clang-analyzer-core.NonNullParamChecker,\
--clang-analyzer-core.UndefinedBinaryOperatorResult,\
--clang-analyzer-cplusplus.NewDelete,\
-clang-diagnostic-*,\
-cppcoreguidelines-slicing,\
-google-explicit-constructor,\
-llvm-namespace-comment,\
-misc-*,\
-modernize-*,\
--modernize-use-auto,\
--modernize-use-trailing-return-type,\
-performance-*,\
-readability-*,\
--bugprone-assignment-in-if-condition,\
--bugprone-easily-swappable-parameters,\
--bugprone-empty-catch,\
--bugprone-implicit-widening-of-multiplication-result,\
--bugprone-narrowing-conversions,\
--bugprone-switch-missing-default-case,\
--bugprone-throw-keyword-missing,\
--bugprone-unchecked-optional-access,\
--bugprone-unhandled-exception-at-new,\
--misc-confusable-identifiers,\
--misc-const-correctness,\
--misc-header-include-cycle,\
--misc-include-cleaner,\
--misc-no-recursion,\
--misc-non-private-member-variables-in-classes,\
--misc-use-anonymous-namespace,\
--modernize-concat-nested-namespaces,\
--modernize-macro-to-enum,\
--modernize-pass-by-value,\
--modernize-return-braced-init-list,\
--modernize-use-default-member-init,\
--modernize-use-nodiscard,\
--performance-avoid-endl,\
--performance-noexcept-swap,\
--performance-no-automatic-move,\
--readability-avoid-unconditional-preprocessor-if,\
--readability-container-data-pointer,\
--readability-convert-member-functions-to-static,\
--readability-else-after-return,\
--readability-function-cognitive-complexity,\
--readability-identifier-length,\
--readability-identifier-naming,\
--readability-implicit-bool-conversion,\
--readability-magic-numbers,\
--readability-named-parameter,\
--readability-simplify-boolean-expr,\
--readability-suspicious-call-argument,\
--readability-use-anyofallof,\
-"
+Checks: [
+    bugprone-*,
+    cata-*,
+    cert-*,
+    -cert-dcl21-cpp,
+    -cert-env33-c,
+    -cert-dcl37-c,
+    -cert-dcl51-cpp,
+    -cert-err58-cpp,
+    -clang-analyzer-core.CallAndMessage,
+    -clang-analyzer-core.DivideZero,
+    -clang-analyzer-core.NonNullParamChecker,
+    -clang-analyzer-core.UndefinedBinaryOperatorResult,
+    -clang-analyzer-cplusplus.NewDelete,
+    clang-diagnostic-*,
+    cppcoreguidelines-slicing,
+    google-explicit-constructor,
+    llvm-namespace-comment,
+    misc-*,
+    modernize-*,
+    -modernize-use-auto,
+    -modernize-use-trailing-return-type,
+    performance-*,
+    readability-*,
+    -bugprone-assignment-in-if-condition,
+    -bugprone-easily-swappable-parameters,
+    -bugprone-empty-catch,
+    -bugprone-implicit-widening-of-multiplication-result,
+    -bugprone-narrowing-conversions,
+    -bugprone-switch-missing-default-case,
+    -bugprone-throw-keyword-missing,
+    -bugprone-unchecked-optional-access,
+    -bugprone-unhandled-exception-at-new,
+    -misc-confusable-identifiers,
+    -misc-const-correctness,
+    -misc-header-include-cycle,
+    -misc-include-cleaner,
+    -misc-no-recursion,
+    -misc-non-private-member-variables-in-classes,
+    -misc-use-anonymous-namespace,
+    -modernize-concat-nested-namespaces,
+    -modernize-macro-to-enum,
+    -modernize-pass-by-value,
+    -modernize-return-braced-init-list,
+    -modernize-use-default-member-init,
+    -modernize-use-nodiscard,
+    -performance-avoid-endl,
+    -performance-noexcept-swap,
+    -performance-no-automatic-move,
+    -readability-avoid-unconditional-preprocessor-if,
+    -readability-container-data-pointer,
+    -readability-convert-member-functions-to-static,
+    -readability-else-after-return,
+    -readability-function-cognitive-complexity,
+    -readability-identifier-length,
+    -readability-identifier-naming,
+    -readability-implicit-bool-conversion,
+    -readability-magic-numbers,
+    -readability-named-parameter,
+    -readability-simplify-boolean-expr,
+    -readability-suspicious-call-argument,
+    -readability-use-anyofallof,
+]
+
 WarningsAsErrors: '*'
 HeaderFilterRegex: '(src|test|tools).*'
 FormatStyle:     none
