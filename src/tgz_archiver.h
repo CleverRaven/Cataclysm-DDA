@@ -9,7 +9,6 @@
 #include <string>
 #include <utility>
 
-#include "filesystem.h"
 #include "zlib.h"
 
 class tgz_archiver

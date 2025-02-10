@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 
-#include "npc.h"
 #include "type_id.h"
 
 class Character;

@@ -10,7 +10,6 @@
 #include <vector>
 
 #include "dialogue_helpers.h"
-#include "enum_bitset.h"
 #include "type_id.h"
 
 class JsonObject;

@@ -4,21 +4,16 @@
 
 #include <climits>
 #include <cstddef>
-#include <iosfwd>
 #include <set>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "assign.h"
 #include "common_types.h"
 #include "coords_fwd.h"
-#include "enums.h"
-#include "game_constants.h"
 #include "map_scale_constants.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;

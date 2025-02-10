@@ -3,10 +3,7 @@
 #define CATA_SRC_IUSE_ACTOR_H
 
 #include <climits>
-#include <iosfwd>
 #include <map>
-#include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
@@ -23,7 +20,6 @@
 #include "iuse.h"
 #include "ret_val.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -34,8 +30,6 @@ class item_location;
 class map;
 class npc_template;
 struct furn_t;
-struct iteminfo;
-struct tripoint;
 
 /**
  * Transform an item into a specific type.

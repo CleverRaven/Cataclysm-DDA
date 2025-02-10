@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_OVERMAP_LOCATION_H
 #define CATA_SRC_OVERMAP_LOCATION_H
 
-#include <iosfwd>
 #include <string>
 #include <string_view>
 #include <utility>

@@ -4,7 +4,6 @@
 
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <optional>
@@ -20,7 +19,6 @@
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "visitable.h"
 
 class Character;
@@ -31,7 +29,6 @@ class item_location;
 class iteminfo_query;
 class map;
 struct iteminfo;
-struct tripoint;
 
 /// NEW!ness to player, if they seen such item already
 enum class content_newness {

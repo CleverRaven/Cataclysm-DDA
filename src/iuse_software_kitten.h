@@ -4,7 +4,6 @@
 
 #include <array>
 #include <cstdint>
-#include <iosfwd>
 #include <string>
 #include <vector>
 

@@ -16,27 +16,20 @@
 #include <utility>
 #include <vector>
 
-#include "assign.h"
 #include "cached_options.h"
 #include "cata_scope_helpers.h"
-#include "cata_type_traits.h"
 #include "cata_utility.h"
-#include "catacharset.h"
 #include "debug.h"
 #include "demangle.h"
-#include "enum_bitset.h"
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
 #include "flexbuffer_json-inl.h"
 #include "init.h"
 #include "int_id.h"
-#include "json.h"
 #include "mod_tracker.h"
-#include "output.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "units.h"
-#include "wcwidth.h"
 
 template <typename E> class enum_bitset;
 
@@ -127,9 +120,6 @@ const my_class &string_id<my_class>::obj() const
 
 \endcode
 */
-
-template<typename T>
-class string_id_reader;
 
 template<typename T>
 class generic_factory

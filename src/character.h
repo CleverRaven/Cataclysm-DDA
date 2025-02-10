@@ -10,7 +10,6 @@
 #include <limits>
 #include <list>
 #include <map>
-#include <memory>
 #include <optional>
 #include <queue>
 #include <set>
@@ -23,8 +22,6 @@
 #include <vector>
 
 #include "activity_tracker.h"
-#include "activity_type.h"
-#include "addiction.h"
 #include "body_part_set.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -44,7 +41,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "magic_enchantment.h"
 #include "memory_fast.h"
 #include "monster.h"
 #include "pimpl.h"
@@ -73,18 +69,14 @@ class addiction;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
-class craft_command;
 class dispersion_sources;
 class effect;
-class effect_source;
 class enchant_cache;
 class faction;
 class item_pocket;
 class known_magic;
 class ma_technique;
 class map;
-class monster;
-class nc_color;
 class player_morale;
 class profession;
 class proficiency_set;
@@ -108,7 +100,6 @@ struct bionic;
 struct construction;
 struct dealt_projectile_attack;
 struct display_proficiency;
-struct field_immunity_data;
 /// @brief Item slot used to apply modifications from food and meds
 struct islot_comestible;
 struct item_comp;

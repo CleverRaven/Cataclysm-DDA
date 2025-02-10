@@ -15,10 +15,8 @@
 #include "calendar.h"
 #include "debug.h"
 #include "global_vars.h"
-#include "math_parser_type.h"
 #include "translation.h"
 
-class JsonArray;
 class JsonObject;
 class math_exp;
 class npc;

@@ -3,7 +3,6 @@
 #define CATA_SRC_NPC_CLASS_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <string>
 #include <string_view>
@@ -12,9 +11,7 @@
 
 #include "calendar.h"
 #include "faction.h"
-#include "shop_cons_rate.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -22,7 +19,6 @@ class Trait_group;
 class item;
 class npc;
 struct const_dialogue;
-struct faction_price_rule;
 struct shopkeeper_blacklist;
 struct shopkeeper_cons_rates;
 

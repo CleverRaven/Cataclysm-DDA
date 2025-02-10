@@ -12,14 +12,11 @@
 #include "coords_fwd.h"
 #include "dialogue.h"
 #include "dialogue_helpers.h"
-#include "global_vars.h"
 #include "translation.h"
 
 class JsonObject;
 class JsonValue;
-class translation;
 enum class var_type : int;
-struct dialogue;
 template <typename T> struct enum_traits;
 
 namespace dialogue_data

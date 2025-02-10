@@ -14,7 +14,6 @@
 #include "coords_fwd.h"
 #include "point.h"
 #include "type_id.h"
-#include "widget.h"
 
 class Character;
 class Creature;

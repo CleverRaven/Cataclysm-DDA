@@ -24,7 +24,6 @@
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "vpart_position.h"
 
 class Character;

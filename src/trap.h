@@ -4,7 +4,6 @@
 
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -14,11 +13,9 @@
 
 #include "color.h"
 #include "coords_fwd.h"
-#include "effect_on_condition.h"
 #include "flat_set.h"
 #include "magic.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -27,7 +24,6 @@ class Creature;
 class JsonObject;
 class item;
 class map;
-struct tripoint;
 
 namespace trapfunc
 {

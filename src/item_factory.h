@@ -3,7 +3,6 @@
 #define CATA_SRC_ITEM_FACTORY_H
 
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>

@@ -5,13 +5,9 @@
 #include <cstddef>
 #include <functional>
 #include <iterator>
-#include <new>
 #include <optional>
-#include <type_traits>
 #include <utility>
 
-#include "cata_assert.h"
-#include "vehicle.h"
 #include "vpart_position.h"
 
 class vehicle;

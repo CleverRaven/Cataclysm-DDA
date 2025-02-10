@@ -1,6 +1,5 @@
 #pragma once
 #include <cmath>
-#include <iosfwd>
 #include <string>
 #include <type_traits>
 #include <utility>

@@ -3,9 +3,7 @@
 #define CATA_SRC_MATERIAL_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
@@ -16,7 +14,6 @@
 #include "damage.h"
 #include "fire.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 

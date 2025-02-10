@@ -2,9 +2,6 @@
 #ifndef CATA_SRC_TALKER_CHARACTER_H
 #define CATA_SRC_TALKER_CHARACTER_H
 
-#include <functional>
-#include <iosfwd>
-#include <list>
 #include <string>
 #include <vector>
 
@@ -12,24 +9,9 @@
 #include "character.h"
 #include "coords_fwd.h"
 #include "enums.h"
-#include "npc.h"
 #include "talker.h"
 #include "type_id.h"
 #include "units_fwd.h"
-
-class character_id;
-class faction;
-class item;
-class map;
-class time_duration;
-class vehicle;
-struct mutation_variant;
-struct tripoint;
-
-namespace npc_factions
-{
-enum class relationship : int;
-} // namespace npc_factions
 
 /*
  * Talker wrapper class for const Character access.

@@ -4,16 +4,11 @@
 
 #include <memory>
 #include <string>
-#include <vector>
 
 #include "avatar.h"
 #include "talker.h"
 #include "talker_character.h"
 #include "type_id.h"
-
-class avatar;
-class talker;
-class translation;
 
 /*
  * Talker wrapper class for avatar.

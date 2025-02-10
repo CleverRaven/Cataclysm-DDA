@@ -7,7 +7,6 @@
 #include <string>
 #include <utility>
 
-#include "coordinates.h"
 #include "coords_fwd.h"
 #include "units_fwd.h"
 
@@ -20,7 +19,6 @@ class item_pocket;
 class map_cursor;
 class talker;
 class vehicle_cursor;
-struct tripoint;
 template<typename T> class ret_val;
 
 /**

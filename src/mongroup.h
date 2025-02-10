@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_MONGROUP_H
 #define CATA_SRC_MONGROUP_H
 
-#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>

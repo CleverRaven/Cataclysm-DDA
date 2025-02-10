@@ -4,7 +4,6 @@
 
 #include <functional>
 #include <map>
-#include <memory>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -13,14 +12,12 @@
 
 #include "dialogue.h"
 #include "dialogue_helpers.h"
-#include "event.h"
 #include "event_subscriber.h"
 #include "type_id.h"
 
 class Character;
 class JsonObject;
 class JsonValue;
-class talker;
 class time_duration;
 enum class event_type : int;
 struct effect_on_condition;

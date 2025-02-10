@@ -2,13 +2,11 @@
 #ifndef CATA_SRC_ITEM_ACTION_H
 #define CATA_SRC_ITEM_ACTION_H
 
-#include <iosfwd>
 #include <map>
 #include <string>
 #include <vector>
 
 #include "translation.h"
-#include "translations.h"
 
 class Character;
 class JsonObject;

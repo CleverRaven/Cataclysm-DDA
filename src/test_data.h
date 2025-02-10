@@ -13,7 +13,6 @@
 
 #include "coordinates.h"
 #include "coords_fwd.h"
-#include "pocket_type.h"
 #include "point.h"
 #include "type_id.h"
 

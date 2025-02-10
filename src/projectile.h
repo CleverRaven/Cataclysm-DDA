@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_PROJECTILE_H
 #define CATA_SRC_PROJECTILE_H
 
-#include <iosfwd>
 #include <map>
 #include <memory>
 #include <set>

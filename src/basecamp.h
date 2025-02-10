@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_BASECAMP_H
 #define CATA_SRC_BASECAMP_H
 
-#include <algorithm>
 #include <cstddef>
 #include <functional>
 #include <list>
@@ -21,7 +20,6 @@
 #include "coords_fwd.h"
 #include "craft_command.h"
 #include "game_constants.h"
-#include "game_inventory.h"
 #include "inventory.h"
 #include "item_location.h"
 #include "map.h"
@@ -45,8 +43,6 @@ class inventory_filter_preset;
 class item;
 class npc;
 class recipe;
-class time_duration;
-class zone_data;
 enum class farm_ops;
 struct MonsterGroupResult;
 

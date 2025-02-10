@@ -4,8 +4,6 @@
 
 #include <vector>
 
-#include "skill.h"
-
 class Skill;
 
 /**

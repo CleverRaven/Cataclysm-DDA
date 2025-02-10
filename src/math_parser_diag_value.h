@@ -12,7 +12,6 @@
 #include "dialogue_helpers.h"
 #include "math_parser.h"
 
-class math_exp;
 struct const_dialogue;
 struct diag_value;
 

@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "enum_bitset.h"
-#include "enum_traits.h"
 
 class item;
 template <typename T> struct enum_traits;

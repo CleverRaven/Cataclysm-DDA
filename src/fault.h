@@ -15,10 +15,7 @@
 #include "type_id.h"
 
 class JsonObject;
-class fault;
-class fault_fix;
 class item;
-struct requirement_data;
 template <typename T> class generic_factory;
 
 namespace faults

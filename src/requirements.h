@@ -4,8 +4,6 @@
 
 #include <cstdint>
 #include <functional>
-#include <iosfwd>
-#include <list>
 #include <map>
 #include <numeric>
 #include <string>
@@ -18,7 +16,6 @@
 
 #include "crafting.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 
 class Character;

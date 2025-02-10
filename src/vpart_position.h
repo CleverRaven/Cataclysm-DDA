@@ -4,13 +4,9 @@
 
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
 #include <string>
-#include <type_traits>
-#include <utility>
 #include <vector>
 
 #include "coords_fwd.h"
@@ -24,9 +20,6 @@ class vehicle_stack;
 class vpart_info;
 class vpart_reference;
 enum vpart_bitflags : int;
-struct input_event;
-struct point;
-struct tripoint;
 struct vehicle_part;
 
 /**

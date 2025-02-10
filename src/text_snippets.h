@@ -3,7 +3,6 @@
 #define CATA_SRC_TEXT_SNIPPETS_H
 
 #include <cstdint>
-#include <iosfwd>
 #include <map>
 #include <optional>
 #include <string>
@@ -13,7 +12,6 @@
 
 #include "dialogue.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 
 class JsonArray;

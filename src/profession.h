@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_PROFESSION_H
 #define CATA_SRC_PROFESSION_H
 
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <optional>
@@ -16,15 +15,12 @@
 #include "mutation.h"
 #include "ret_val.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 
 class Character;
 class JsonObject;
-class addiction;
 class avatar;
 class item;
-struct trait_and_var;
 template<typename T>
 class generic_factory;
 

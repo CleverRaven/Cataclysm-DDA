@@ -3,9 +3,7 @@
 #define CATA_SRC_MAPGENFORMAT_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <string>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -13,7 +11,6 @@
 #include "type_id.h"
 
 class map;
-struct point;
 
 namespace mapf
 {

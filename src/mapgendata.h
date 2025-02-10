@@ -13,11 +13,8 @@
 #include "calendar.h"
 #include "cata_variant.h"
 #include "coords_fwd.h"
-#include "cube_direction.h"
 #include "debug.h"
 #include "enum_bitset.h"
-#include "jmapgen_flags.h"
-#include "mapgen.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
@@ -29,7 +26,6 @@ enum class cube_direction : int;
 enum class direction : unsigned int;
 enum class jmapgen_flags;
 enum class mapgen_phase;
-struct point;
 struct regional_settings;
 
 namespace om_direction

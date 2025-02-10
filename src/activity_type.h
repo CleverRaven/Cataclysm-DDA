@@ -5,7 +5,6 @@
 #include <set>
 #include <string>
 
-#include "enums.h"
 #include "game_constants.h"
 #include "translation.h"
 #include "type_id.h"

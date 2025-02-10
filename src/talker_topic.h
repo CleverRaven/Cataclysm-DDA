@@ -9,8 +9,6 @@
 
 #include "talker.h"
 
-struct tripoint;
-
 /*
  * Talker wrapper class for an empty talker thats just topics
  */

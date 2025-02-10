@@ -7,7 +7,6 @@
 #include <utility>
 #include <vector>
 
-#include "recipe_dictionary.h"
 #include "type_id.h"
 
 class Character;

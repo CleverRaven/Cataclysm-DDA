@@ -3,11 +3,8 @@
 #define CATA_SRC_MAGIC_ENCHANTMENT_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
-#include <set>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -18,7 +15,6 @@
 #include "color.h"
 #include "dialogue_helpers.h"
 #include "magic.h"
-#include "monster.h"
 #include "translation.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -31,8 +27,6 @@ class JsonValue;
 class item;
 class monster;
 struct const_dialogue;
-struct dbl_or_var;
-struct dialogue;
 
 namespace enchant_vals
 {

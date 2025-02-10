@@ -3,9 +3,7 @@
 #define CATA_SRC_MAGIC_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
 #include <queue>
 #include <set>
@@ -27,7 +25,6 @@
 #include "point.h"
 #include "sounds.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 
@@ -45,11 +42,6 @@ namespace spell_effect
 {
 struct override_parameters;
 } // namespace spell_effect
-
-namespace cata
-{
-class event;
-}  // namespace cata
 template <typename E> struct enum_traits;
 
 enum class spell_flag : int {

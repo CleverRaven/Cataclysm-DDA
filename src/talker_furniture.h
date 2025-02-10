@@ -4,13 +4,11 @@
 
 #include <memory>
 #include <string>
-#include <vector>
 
 #include "coords_fwd.h"
 #include "talker.h"
 
 class computer;
-struct tripoint;
 
 /*
  * Talker wrapper class for furniture

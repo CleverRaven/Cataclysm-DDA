@@ -4,13 +4,11 @@
 
 #include <array>
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <string>
 #include <utility>
 
 #include "coords_fwd.h"
-#include "mapdata.h"
 #include "ret_val.h"
 #include "type_id.h"
 
@@ -20,8 +18,6 @@ class mission;
 class tinymap;
 struct mapgen_arguments;
 struct mapgen_parameters;
-struct point;
-struct tripoint;
 
 using mapgen_update_func = std::function<void( const tripoint_abs_omt &map_pos3, mission *miss )>;
 class JsonObject;

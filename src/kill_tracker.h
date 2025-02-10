@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_KILL_TRACKER_H
 #define CATA_SRC_KILL_TRACKER_H
 
-#include <iosfwd>
 #include <map>
 #include <string>
 #include <vector>
@@ -12,11 +11,6 @@
 
 class JsonObject;
 class JsonOut;
-
-namespace cata
-{
-class event;
-}  // namespace cata
 
 class kill_tracker : public event_subscriber
 {

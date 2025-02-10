@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_PAST_GAMES_INFO_H
 #define CATA_SRC_PAST_GAMES_INFO_H
 
-#include <iosfwd>
 #include <memory>
 #include <string>
 #include <unordered_map>

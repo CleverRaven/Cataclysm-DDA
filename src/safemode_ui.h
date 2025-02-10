@@ -3,7 +3,6 @@
 #define CATA_SRC_SAFEMODE_UI_H
 
 #include <array>
-#include <iosfwd>
 #include <string>
 #include <string_view>
 #include <unordered_map>

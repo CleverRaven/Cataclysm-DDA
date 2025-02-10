@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_MONSTERGENERATOR_H
 #define CATA_SRC_MONSTERGENERATOR_H
 
-#include <array>
-#include <iosfwd>
 #include <map>
 #include <memory>
 #include <optional>
@@ -15,13 +13,10 @@
 #include <vector>
 
 #include "enum_bitset.h"
-#include "enums.h"
-#include "generic_factory.h"
 #include "mattack_common.h"
 #include "mtype.h"
 #include "pimpl.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 
 class Creature;

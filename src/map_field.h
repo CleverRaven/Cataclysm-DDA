@@ -9,7 +9,6 @@
 class field_entry;
 struct field_proc_data;
 struct field_type;
-struct tripoint;
 
 namespace map_field_processing
 {

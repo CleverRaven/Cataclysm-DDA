@@ -3,7 +3,6 @@
 #define CATA_SRC_MOD_MANAGER_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -12,7 +11,6 @@
 
 #include "cata_path.h"
 #include "output.h"
-#include "path_info.h"
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "translation.h"

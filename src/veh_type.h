@@ -2,13 +2,10 @@
 #ifndef CATA_SRC_VEH_TYPE_H
 #define CATA_SRC_VEH_TYPE_H
 
-#include <algorithm>
 #include <array>
 #include <bitset>
-#include <iosfwd>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
@@ -19,15 +16,12 @@
 
 #include "calendar.h"
 #include "color.h"
-#include "compatibility.h"
 #include "coordinates.h"
 #include "coords_fwd.h"
-#include "damage.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "requirements.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 

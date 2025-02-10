@@ -9,7 +9,6 @@
 #include "enums.h"
 #include "gamemode.h"
 
-enum action_id : int;
 template <typename E> struct enum_traits;
 
 enum class tut_lesson : int {

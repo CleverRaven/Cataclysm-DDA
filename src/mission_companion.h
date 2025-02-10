@@ -2,9 +2,7 @@
 #ifndef CATA_SRC_MISSION_COMPANION_H
 #define CATA_SRC_MISSION_COMPANION_H
 
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
@@ -15,7 +13,6 @@
 #include "coords_fwd.h"
 #include "mapgendata.h"
 #include "memory_fast.h"
-#include "point.h"
 #include "type_id.h"
 
 class JsonOut;

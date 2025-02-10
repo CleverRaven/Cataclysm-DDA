@@ -19,7 +19,6 @@ class map;
 class vehicle;
 struct dealt_projectile_attack;
 struct projectile;
-struct tripoint;
 
 /** Aim result for a single projectile attack */
 struct projectile_attack_aim {

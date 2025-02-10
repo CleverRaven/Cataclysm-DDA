@@ -2,39 +2,28 @@
 #ifndef CATA_SRC_NPC_H
 #define CATA_SRC_NPC_H
 
-#include <algorithm>
 #include <array>
 #include <cstdint>
-#include <functional>
 #include <iosfwd>
-#include <iterator>
 #include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
 #include <string_view>
-#include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "activity_type.h"
 #include "auto_pickup.h"
-#include "basecamp.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
 #include "compatibility.h"
 #include "coordinates.h"
 #include "coords_fwd.h"
-#include "creature.h"
 #include "dialogue_chatbin.h"
-#include "enums.h"
-#include "faction.h"
-#include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -51,9 +40,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
-#include "units_fwd.h"
 
 class Creature;
 class JsonObject;
@@ -65,9 +52,7 @@ class const_talker;
 class faction;
 class map;
 class mission;
-class monfaction;
 class monster;
-class npc_class;
 class talker;
 class vehicle;
 
@@ -95,9 +80,6 @@ namespace catacurses
 class window;
 }  // namespace catacurses
 class gun_mode;
-enum game_message_type : int;
-struct bionic_data;
-struct mission_type;
 struct overmap_location;
 struct pathfinding_settings;
 

@@ -4,7 +4,6 @@
 
 #include <array>
 #include <functional>
-#include <map>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -12,8 +11,6 @@
 #include <utility>
 #include <vector>
 
-#include "condition.h"
-#include "damage.h"
 #include "translation.h"
 #include "type_id.h"
 

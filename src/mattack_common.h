@@ -5,15 +5,10 @@
 #include <functional>
 #include <memory>
 #include <string> // IWYU pragma: keep
-#include <type_traits>
 #include <utility>
 
 #include "clone_ptr.h"
-#include "condition.h"
-#include "creature.h"
-#include "dialogue.h"
 #include "dialogue_helpers.h"
-#include "type_id.h"
 
 class JsonObject;
 class monster;

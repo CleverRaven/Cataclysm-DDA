@@ -3,14 +3,12 @@
 #define CATA_SRC_GAME_INVENTORY_H
 
 #include <functional>
-#include <list>
 #include <optional>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "activity_actor_definitions.h"
 #include "bodypart.h"
 #include "cata_imgui.h"
 #include "coordinates.h"
@@ -26,7 +24,6 @@ class Character;
 class repair_item_actor;
 class salvage_actor;
 enum efile_action : int;
-struct tripoint;
 
 using item_filter = std::function<bool( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;

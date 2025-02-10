@@ -4,17 +4,13 @@
 
 #include <memory>
 #include <string>
-#include <vector>
 
 #include "coords_fwd.h"
 #include "talker.h"
 #include "type_id.h"
 #include "units_fwd.h"
 
-class item;
 class item_location;
-class map;
-struct tripoint;
 
 /*
  * Talker wrapper class for item.

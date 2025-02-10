@@ -12,7 +12,6 @@
 #include <tuple>
 #include <type_traits>
 #include <utility>
-#include <variant>
 #include <vector>
 
 #include "cata_inline.h"
@@ -25,7 +24,6 @@
 
 class JsonOut;
 class JsonValue;
-enum class direction : unsigned;
 
 namespace coords
 {

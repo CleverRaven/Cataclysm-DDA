@@ -5,7 +5,6 @@
 #include <array>
 #include <bitset>
 #include <cstddef>
-#include <iosfwd>
 #include <optional>
 #include <set>
 #include <string>
@@ -21,7 +20,6 @@
 #include "game_constants.h"
 #include "iexamine.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -30,10 +28,8 @@ class Character;
 class JsonObject;
 struct connect_group;
 struct furn_t;
-struct iexamine_actor;
 struct itype;
 struct ter_t;
-struct tripoint;
 
 // size of connect groups bitset; increase if needed
 const int NUM_TERCONN = 256;

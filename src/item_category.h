@@ -2,9 +2,7 @@
 #ifndef CATA_SRC_ITEM_CATEGORY_H
 #define CATA_SRC_ITEM_CATEGORY_H
 
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -13,7 +11,6 @@
 
 #include "flat_set.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;

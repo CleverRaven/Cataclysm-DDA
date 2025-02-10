@@ -3,7 +3,6 @@
 #define CATA_SRC_REGIONAL_SETTINGS_H
 
 #include <array>
-#include <iosfwd>
 #include <map>
 #include <memory>
 #include <set>

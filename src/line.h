@@ -6,7 +6,6 @@
 #include <cmath>
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <string>
 #include <vector>
 

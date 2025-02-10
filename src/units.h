@@ -19,7 +19,6 @@
 #include "flexbuffer_json-inl.h"
 #include "json.h"
 #include "math_defines.h"
-#include "translations.h"
 #include "units_fwd.h" // IWYU pragma: export
 
 class time_duration;

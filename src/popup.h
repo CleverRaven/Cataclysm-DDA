@@ -15,7 +15,6 @@
 #include "point.h"
 
 class query_popup_impl;
-class ui_adaptor;
 
 /**
  * UI class for displaying messages or querying player input with popups.

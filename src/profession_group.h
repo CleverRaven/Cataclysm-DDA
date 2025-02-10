@@ -6,7 +6,6 @@
 #include <string_view>
 #include <vector>
 
-#include "json.h"
 #include "type_id.h"
 
 class JsonObject;

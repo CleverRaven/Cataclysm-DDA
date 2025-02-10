@@ -19,7 +19,6 @@ class JsonOut;
 class item;
 class item_location;
 struct itype;
-struct tripoint;
 
 namespace auto_pickup
 {

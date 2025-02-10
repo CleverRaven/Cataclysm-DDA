@@ -2,9 +2,7 @@
 #ifndef CATA_SRC_MTYPE_H
 #define CATA_SRC_MTYPE_H
 
-#include <array>
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <optional>
 #include <set>
@@ -18,14 +16,11 @@
 #include "color.h"
 #include "damage.h"
 #include "enum_bitset.h"
-#include "enums.h"
 #include "magic.h"
 #include "mattack_common.h"
 #include "pathfinding.h"
 #include "shearing.h"
-#include "speed_description.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units.h" // IWYU pragma: keep
 #include "weakpoint.h"

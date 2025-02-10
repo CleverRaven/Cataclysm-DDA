@@ -27,7 +27,6 @@
 class JsonObject;
 class JsonOut;
 class JsonValue;
-class faction;
 class item;
 class map;
 struct construction;

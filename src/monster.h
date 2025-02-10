@@ -7,9 +7,7 @@
 #include <climits>
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
@@ -26,9 +24,6 @@
 #include "coordinates.h"
 #include "coords_fwd.h"
 #include "creature.h"
-#include "damage.h"
-#include "enums.h"
-#include "point.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "value_ptr.h"
@@ -37,22 +32,13 @@
 class Character;
 class JsonObject;
 class JsonOut;
-class effect;
 class effect_source;
 class item;
 class map;
+enum class mon_trigger : int;
 enum class phase_id : int;
 struct monster_plan;
 struct mtype;
-
-namespace catacurses
-{
-class window;
-}  // namespace catacurses
-enum class mon_trigger : int;
-struct dealt_projectile_attack;
-struct pathfinding_settings;
-struct trap;
 
 class mon_special_attack
 {

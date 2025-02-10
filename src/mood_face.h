@@ -10,7 +10,6 @@
 #include "type_id.h"
 
 class JsonObject;
-class JsonOut;
 class mood_face_value;
 template<typename T>
 class generic_factory;

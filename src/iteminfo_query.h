@@ -4,7 +4,6 @@
 
 #include <bitset>
 #include <cstddef>
-#include <iosfwd>
 #include <string>
 #include <vector>
 

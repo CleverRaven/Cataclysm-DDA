@@ -3,7 +3,6 @@
 #define CATA_SRC_ITEM_GROUP_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <map>
 #include <memory>
 #include <optional>

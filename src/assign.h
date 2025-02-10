@@ -3,7 +3,6 @@
 #define CATA_SRC_ASSIGN_H
 
 #include <exception>
-#include <iterator>
 #include <limits>
 #include <optional>
 #include <set>

@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <array>
 #include <climits>
-#include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
@@ -14,8 +13,6 @@
 #include <string>
 #include <tuple>
 #include <vector>
-
-#include "cata_assert.h"
 
 class JsonArray;
 class JsonOut;

@@ -3,9 +3,7 @@
 #define CATA_SRC_MISSION_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
-#include <memory>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -16,17 +14,11 @@
 #include "character_id.h"
 #include "coordinates.h"
 #include "coords_fwd.h"
-#include "dialogue.h"
 #include "dialogue_helpers.h"
 #include "enums.h"
-#include "game_constants.h"
 #include "npc_favor.h"
-#include "omdata.h"
-#include "overmap.h"
 #include "point.h"
-#include "talker.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 
 class Creature;
@@ -38,7 +30,6 @@ class item;
 class mission;
 class npc;
 class overmapbuffer;
-enum npc_mission : int;
 struct const_dialogue;
 struct dialogue;
 struct oter_type_t;

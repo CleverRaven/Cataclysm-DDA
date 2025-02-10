@@ -10,17 +10,11 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "bodypart.h"
 #include "color.h"
 #include "dialogue_helpers.h"
-#include "enum_traits.h"
-#include "generic_factory.h"
 #include "output.h"
-#include "panels.h"
-#include "string_id.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 
 class avatar;
@@ -171,8 +165,6 @@ struct enum_traits<widget_alignment> {
 // Use generic_factory for loading JSON data.
 class JsonObject;
 class widget;
-// Forward declaration, due to codependency on panels.h
-class window_panel;
 template<typename T>
 class generic_factory;
 

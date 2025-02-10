@@ -7,9 +7,7 @@
 #include <functional>
 #include <map>
 #include <optional>
-#include <set>
 #include <string>
-#include <tuple>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -21,7 +19,6 @@
 #include "stomach.h"
 #include "translation.h"
 #include "type_id.h"
-#include "vitamin.h"
 
 enum class vitamin_type : int;
 
@@ -41,7 +38,6 @@ std::string fac_combat_ability_text( int val );
 class JsonObject;
 class JsonOut;
 class JsonValue;
-class faction;
 class item;
 class npc;
 

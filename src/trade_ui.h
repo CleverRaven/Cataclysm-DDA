@@ -26,7 +26,6 @@
 
 class npc;
 class trade_ui;
-struct point;
 
 class trade_selector : public inventory_drop_selector
 {

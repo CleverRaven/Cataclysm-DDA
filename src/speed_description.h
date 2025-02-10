@@ -11,7 +11,6 @@
 #include "type_id.h"
 
 class JsonObject;
-class JsonOut;
 class speed_description_value;
 template<typename T>
 class generic_factory;

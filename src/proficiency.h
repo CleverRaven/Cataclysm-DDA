@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_PROFICIENCY_H
 #define CATA_SRC_PROFICIENCY_H
 
-#include <iosfwd>
 #include <map>
 #include <optional>
 #include <set>
@@ -14,13 +13,10 @@
 #include "calendar.h"
 #include "color.h"
 #include "flat_set.h"
-#include "mod_tracker.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 
 class Character;
-class JsonArray;
 class JsonObject;
 class JsonOut;
 struct display_proficiency;

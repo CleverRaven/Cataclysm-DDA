@@ -12,7 +12,6 @@
 
 class JsonObject;
 struct const_dialogue;
-struct dialogue;
 
 struct jmath_func {
     jmath_func_id id;

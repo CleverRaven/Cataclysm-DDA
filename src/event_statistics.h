@@ -19,7 +19,6 @@ class event_multiset;
 class stats_tracker;
 class stats_tracker_state;
 enum class cata_variant_type : int;
-enum class event_type : int;
 enum class monotonically : int;
 
 using event_fields_type = std::unordered_map<std::string, cata_variant_type>;

@@ -7,7 +7,6 @@
 #include <vector>
 
 #include "cata_path.h"
-#include "path_info.h"
 
 class JsonObject;
 class mod_tileset;

@@ -10,13 +10,8 @@
 
 #include "coordinates.h"
 #include "coords_fwd.h"
-#include "game_constants.h"
-#include "lightmap.h"
 #include "map_scale_constants.h"
 #include "mdarray.h"
-#include "point.h"
-#include "shadowcasting.h"
-#include "value_ptr.h"
 
 class vehicle;
 enum class lit_level : int;

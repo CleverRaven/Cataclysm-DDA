@@ -2,11 +2,8 @@
 #ifndef CATA_SRC_WEATHER_TYPE_H
 #define CATA_SRC_WEATHER_TYPE_H
 
-#include <climits>
 #include <cstdint>
 #include <functional>
-#include <iosfwd>
-#include <new>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -16,9 +13,7 @@
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
-#include "damage.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;

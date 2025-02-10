@@ -4,7 +4,6 @@
 
 #include <climits>
 #include <cstddef>
-#include <iosfwd>
 #include <map>
 #include <optional>
 #include <set>
