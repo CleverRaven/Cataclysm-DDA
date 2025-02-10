@@ -1977,7 +1977,7 @@
     "copy-from": "mask_gas",
     "looks_like": "mask_gas",
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
-    "flags": [ "OVERSIZE", "PREFIX_XL", "SLEEP_IGNORE" ]
+    "flags": [ "VARSIZE", "OVERSIZE", "PREFIX_XL", "SLEEP_IGNORE" ]
   },
   {
     "id": "mask_gas_xs",
