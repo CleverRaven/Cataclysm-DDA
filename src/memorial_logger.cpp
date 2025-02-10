@@ -21,6 +21,7 @@
 #include "character_id.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "effect.h"
 #include "enum_conversions.h"
 #include "event.h"
@@ -60,10 +61,7 @@
 #include "type_id.h"
 #include "units.h"
 
-namespace debug_menu
-{
-enum class debug_menu_index : int;
-}  // namespace debug_menu
+// IWYU pragma: no_forward_declare debug_menu::debug_menu_index
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_datura( "datura" );

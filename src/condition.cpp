@@ -82,10 +82,11 @@
 #include "viewer.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "widget.h"
 #include "worldfactory.h"
 
+// IWYU pragma: no_forward_declare cardinal_direction // need its enum_traits
 class recipe;
-enum class cardinal_direction : int;
 struct mapgen_arguments;
 
 static const efftype_id effect_currently_busy( "currently_busy" );

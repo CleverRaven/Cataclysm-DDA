@@ -39,6 +39,7 @@
 #include "units.h"
 #include "value_ptr.h"
 
+// IWYU pragma: no_forward_declare std::hash
 class Character;
 class Item_factory;
 class JsonObject;
@@ -50,10 +51,6 @@ enum art_charge_req : int;
 enum art_effect_active : int;
 enum art_effect_passive : int;
 
-namespace std
-{
-template <typename> struct hash;
-}  // namespace std
 struct tripoint;
 template <typename E> struct enum_traits;
 
