@@ -75,6 +75,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_RUN_FOR_LONG_PERIODS",
+    "effect": [
+      { "u_add_effect": "effect_changeling_summer_run_for_long_periods", "duration": 2 },
+      { "run_eocs": "EOC_CHANGELING_NO_CASTING_OTHER_GLAMOURS_CHECKER", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_SUMMER_RUN_FOR_LONG_PERIODS_CONTINUANCE",
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
@@ -92,18 +100,5 @@
       }
     ],
     "false_effect": [ { "u_lose_effect": "effect_changeling_summer_run_for_long_periods" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_HEDGE_WALK_ON_WATER_RUNNING_CANCEL",
-    "eoc_type": "EVENT",
-    "required_event": "avatar_moves",
-    "condition": {
-      "and": [
-        { "u_has_effect": "effect_hedge_walk_on_water" },
-        { "compare_string": [ "run", { "context_val": "movement_mode" } ] }
-      ]
-    },
-    "effect": [ { "u_lose_effect": "effect_hedge_walk_on_water" } ]
   }
 ]

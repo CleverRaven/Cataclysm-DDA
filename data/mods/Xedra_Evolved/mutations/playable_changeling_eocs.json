@@ -61,7 +61,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_CASTING",
-    "condition": { "u_has_any_effect": [ "effect_changeling_summer_run_for_long_periods" ] },
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_changeling_using_glamour_removes_checker" },
+        { "u_has_any_effect": [ "effect_changeling_summer_run_for_long_periods" ] }
+      ]
+    },
     "effect": [  ]
   },
   {
@@ -210,11 +215,26 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_NO_CASTING_OTHER_GLAMOURS_CHECKER",
+    "//": "Due to the way spellcasting_finish events work, this has to be run 1 second after the initial glamour weaving, or a glamour that fades if another glamour is woven is immediately removed because the initial weaving count as 'another glamour' ",
+    "effect": [ { "u_add_effect": "effect_changeling_using_glamour_removes_checker", "duration": "PERMANENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_SPELLCASTING",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
-    "condition": { "test_eoc": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_CASTING" },
-    "effect": [ { "u_lose_effect": [ "effect_changeling_summer_run_for_long_periods" ] } ]
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_changeling_using_glamour_removes_checker" },
+        { "test_eoc": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_CASTING" }
+      ]
+    },
+    "effect": [
+      {
+        "u_lose_effect": [ "effect_changeling_using_glamour_removes_checker", "effect_changeling_summer_run_for_long_periods" ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

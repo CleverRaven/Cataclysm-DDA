@@ -1,6 +1,13 @@
 [
   {
     "type": "effect_type",
+    "id": "effect_changeling_using_glamour_removes_checker",
+    "//": "Hidden effect, used to prevent the initial use of a glamour that's not supposed to be used with other glamours from removing itself",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_spring_protective_plant_armor",
     "name": [ "Viridian Cuirass" ],
     "desc": [ "You are covered in a set of living bark armor." ],
@@ -134,7 +141,7 @@
     "id": "effect_changeling_summer_run_for_long_periods",
     "name": [ "Outracing the Sun" ],
     "desc": [ "You are filled with burning energy." ],
-    "apply_message": "",
+    "apply_message": "You are filled with burning energy.",
     "remove_message": "The burning energy filling your muscles dissipates.",
     "max_duration": "12 hours",
     "enchantments": [
