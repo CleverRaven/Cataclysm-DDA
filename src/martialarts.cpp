@@ -26,7 +26,6 @@
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "input_context.h"

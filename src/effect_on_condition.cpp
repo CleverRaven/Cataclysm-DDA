@@ -18,7 +18,6 @@
 #include "debug.h"
 #include "event.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "mod_tracker.h"

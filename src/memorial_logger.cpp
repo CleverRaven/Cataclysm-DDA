@@ -28,7 +28,6 @@
 #include "event_statistics.h"
 #include "filesystem.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "get_version.h"
 #include "inventory.h"

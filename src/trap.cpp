@@ -14,7 +14,6 @@
 #include "event.h"
 #include "event_bus.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "map.h"

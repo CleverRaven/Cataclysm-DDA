@@ -10,7 +10,6 @@
 #include "catacharset.h"
 #include "color.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "cursesdef.h"
 #include "input_context.h"
 #include "output.h"

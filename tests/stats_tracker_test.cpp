@@ -18,7 +18,6 @@
 #include "event_statistics.h"
 #include "event_subscriber.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "json_loader.h"
 #include "map_scale_constants.h"

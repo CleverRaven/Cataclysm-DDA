@@ -6,7 +6,6 @@
 #include "character.h"
 #include "clzones.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "faction.h"
 #include "item.h"
 #include "item_components.h"

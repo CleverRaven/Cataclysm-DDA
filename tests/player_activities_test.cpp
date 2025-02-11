@@ -14,7 +14,6 @@
 #include "catch/catch.hpp"
 #include "character.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "enums.h"
 #include "flag.h"
 #include "inventory.h"

@@ -28,7 +28,6 @@
 #include "colony.h"
 #include "color.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "debug.h"
 #include "enums.h"
 #include "item.h"

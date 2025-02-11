@@ -17,7 +17,6 @@
 #include "cata_utility.h"
 #include "character_attire.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "dispersion.h"
 #include "game_constants.h"

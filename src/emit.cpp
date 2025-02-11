@@ -6,7 +6,6 @@
 #include "condition.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 
 static std::map<emit_id, emit> emits_all;
 

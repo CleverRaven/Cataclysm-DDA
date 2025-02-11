@@ -11,7 +11,6 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature_tracker.h"
 #include "game.h"
 #include "item.h"

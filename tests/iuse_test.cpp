@@ -10,7 +10,6 @@
 #include "cata_catch.h"
 #include "character_attire.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "flag.h"
 #include "inventory.h"
 #include "item.h"

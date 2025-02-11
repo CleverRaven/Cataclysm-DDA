@@ -14,7 +14,6 @@
 #include "character.h"
 #include "common_types.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature_tracker.h"
 #include "faction.h"
 #include "field.h"

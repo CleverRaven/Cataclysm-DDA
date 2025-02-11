@@ -10,7 +10,6 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "mtype.h"
 #include "options.h"
 #include "rng.h"

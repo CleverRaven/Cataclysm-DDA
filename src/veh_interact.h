@@ -13,7 +13,6 @@
 
 #include "color.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "cursesdef.h"
 #include "input_context.h"
 #include "input_enums.h"
@@ -28,8 +27,8 @@
 
 class Character;
 class inventory;
-class time_duration;
 class map;
+class time_duration;
 class vpart_info;
 struct requirement_data;
 

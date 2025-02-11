@@ -7,12 +7,10 @@
 
 #include "avatar.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "enums.h"
 #include "field.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
 #include "magic_ter_furn_transform.h"
 #include "map.h"

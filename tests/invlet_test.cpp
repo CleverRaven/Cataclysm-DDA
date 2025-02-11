@@ -14,7 +14,6 @@
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"

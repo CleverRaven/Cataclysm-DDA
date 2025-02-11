@@ -22,7 +22,6 @@
 #include "computer.h"
 #include "construction.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "field.h"
 #include "item.h"
 #include "map_scale_constants.h"

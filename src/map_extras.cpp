@@ -20,7 +20,6 @@
 #include "enums.h"
 #include "field_type.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "fungal_effects.h"
 #include "generic_factory.h"
 #include "item.h"

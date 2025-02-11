@@ -17,7 +17,6 @@
 #include "debug.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"

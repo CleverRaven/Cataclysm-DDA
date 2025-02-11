@@ -13,7 +13,6 @@
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "debug.h"
 #include "effect.h"
 #include "map_iterator.h"

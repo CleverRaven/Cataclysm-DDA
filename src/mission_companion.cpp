@@ -35,7 +35,6 @@
 #include "faction.h"
 #include "faction_camp.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "input_context.h"
 #include "inventory.h"

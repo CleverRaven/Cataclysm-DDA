@@ -6,7 +6,6 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "dispersion.h"

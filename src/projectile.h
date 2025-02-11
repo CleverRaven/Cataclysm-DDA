@@ -10,7 +10,6 @@
 
 #include "compatibility.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "damage.h"
 #include "point.h"
 #include "type_id.h"

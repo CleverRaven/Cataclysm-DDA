@@ -26,7 +26,6 @@
 #include "character_id.h"
 #include "color.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "craft_command.h"
 #include "crafting_gui.h"
 #include "creature.h"

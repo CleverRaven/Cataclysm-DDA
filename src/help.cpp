@@ -19,7 +19,6 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "input_context.h"
 #include "input_enums.h"
 #include "output.h"

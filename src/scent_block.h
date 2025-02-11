@@ -5,7 +5,6 @@
 #include <array>
 
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "map_scale_constants.h"
 #include "point.h"
 

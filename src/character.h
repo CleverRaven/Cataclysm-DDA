@@ -31,7 +31,6 @@
 #include "city.h"  // IWYU pragma: keep
 #include "compatibility.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "damage.h"

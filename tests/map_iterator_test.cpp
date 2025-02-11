@@ -6,7 +6,6 @@
 
 #include "cata_catch.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "line.h"
 #include "map_iterator.h"
 #include "point.h"

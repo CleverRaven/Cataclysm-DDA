@@ -16,7 +16,6 @@
 #include "clzones.h"
 #include "construction.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "faction.h"
 #include "game.h"
 #include "game_constants.h"

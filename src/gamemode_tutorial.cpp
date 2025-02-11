@@ -9,7 +9,6 @@
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "debug.h"
 #include "game.h"
 #include "item.h"

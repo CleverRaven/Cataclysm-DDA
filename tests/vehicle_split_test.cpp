@@ -5,7 +5,6 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"

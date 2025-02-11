@@ -18,7 +18,6 @@
 #include "character_id.h"
 #include "condition.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"

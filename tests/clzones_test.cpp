@@ -8,7 +8,6 @@
 #include "cata_catch.h"
 #include "clzones.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "item.h"
 #include "item_pocket.h"
 #include "map.h"

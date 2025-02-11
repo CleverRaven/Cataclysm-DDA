@@ -5,7 +5,6 @@
 #include <string>
 
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "units.h"
 
 // Class for calculating tile coordinates

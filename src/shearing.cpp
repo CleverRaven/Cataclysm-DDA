@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
 #include "monster.h"
 #include "rng.h"

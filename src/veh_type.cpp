@@ -24,7 +24,6 @@
 #include "flag.h"
 #include "flat_set.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "item.h"

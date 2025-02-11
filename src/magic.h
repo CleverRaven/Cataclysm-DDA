@@ -16,7 +16,6 @@
 #include "body_part_set.h"
 #include "bodypart.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "damage.h"
 #include "dialogue_helpers.h"
 #include "enum_bitset.h"

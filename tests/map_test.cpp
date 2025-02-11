@@ -13,7 +13,6 @@
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "cuboid_rectangle.h"
 #include "enums.h"
 #include "game.h"

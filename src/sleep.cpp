@@ -8,7 +8,6 @@
 #include "debug.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_stack.h"

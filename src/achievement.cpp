@@ -14,7 +14,6 @@
 #include "event.h"
 #include "event_statistics.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "past_achievements_info.h"

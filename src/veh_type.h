@@ -17,7 +17,6 @@
 #include "calendar.h"
 #include "color.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "requirements.h"

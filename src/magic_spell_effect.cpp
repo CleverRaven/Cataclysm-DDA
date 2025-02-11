@@ -23,7 +23,6 @@
 #include "color.h"
 #include "condition.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"

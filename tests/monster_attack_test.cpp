@@ -12,7 +12,6 @@
 #include "character.h"
 #include "character_martial_arts.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "effect.h"
 #include "game.h"

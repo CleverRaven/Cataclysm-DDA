@@ -11,7 +11,6 @@
 
 #include "calendar.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "enums.h"
 #include "harvest.h"

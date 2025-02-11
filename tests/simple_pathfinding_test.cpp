@@ -5,7 +5,6 @@
 
 #include "cata_catch.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "cuboid_rectangle.h"
 #include "line.h"
 #include "omdata.h"

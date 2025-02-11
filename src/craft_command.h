@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "type_id.h"

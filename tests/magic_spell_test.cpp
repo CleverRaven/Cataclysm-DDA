@@ -5,7 +5,6 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "dialogue_helpers.h"

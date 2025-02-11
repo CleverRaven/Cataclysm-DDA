@@ -11,7 +11,6 @@
 
 #include "cata_catch.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "cuboid_rectangle.h"
 #include "level_cache.h"
 #include "lightmap.h"

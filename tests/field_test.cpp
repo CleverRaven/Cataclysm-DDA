@@ -7,7 +7,6 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "field.h"
 #include "field_type.h"
 #include "item.h"

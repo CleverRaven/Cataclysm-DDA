@@ -22,7 +22,6 @@
 #include "character_id.h"
 #include "color.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"

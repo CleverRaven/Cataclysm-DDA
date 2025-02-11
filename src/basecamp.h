@@ -17,7 +17,6 @@
 
 #include "calendar.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "craft_command.h"
 #include "game_constants.h"
 #include "inventory.h"

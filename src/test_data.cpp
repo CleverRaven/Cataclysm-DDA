@@ -1,7 +1,6 @@
 #include "test_data.h"
 
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
 #include "pocket_type.h"  // IWYU pragma: keep // need full type to read from json
 

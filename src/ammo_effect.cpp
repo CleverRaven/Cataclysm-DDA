@@ -2,7 +2,6 @@
 
 #include "debug.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
 
 generic_factory<ammo_effect> &get_all_ammo_effects()

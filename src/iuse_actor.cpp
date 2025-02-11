@@ -43,7 +43,6 @@
 #include "field_type.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "generic_factory.h"

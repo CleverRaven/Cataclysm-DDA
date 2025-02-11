@@ -4,7 +4,6 @@
 #include "contents_change_handler.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "item_pocket.h"
 #include "json.h"
 

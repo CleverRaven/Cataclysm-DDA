@@ -19,7 +19,6 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
 #include "point.h"

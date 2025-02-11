@@ -22,7 +22,6 @@
 #include "color.h"
 #include "compatibility.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "type_id.h"
 #include "units_fwd.h"

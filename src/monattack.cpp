@@ -27,7 +27,6 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"

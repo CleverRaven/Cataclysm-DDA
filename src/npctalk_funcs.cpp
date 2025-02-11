@@ -24,7 +24,6 @@
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"

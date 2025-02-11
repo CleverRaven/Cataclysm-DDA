@@ -14,7 +14,6 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"

@@ -12,7 +12,6 @@
 #include "debug.h"
 #include "dialogue.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
 #include "item_group.h"
 #include "mutation.h"

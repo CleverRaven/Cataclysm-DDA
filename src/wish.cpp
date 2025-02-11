@@ -1,5 +1,3 @@
-#include "debug_menu.h"
-
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
@@ -22,9 +20,9 @@
 #include "character.h"
 #include "color.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "effect.h"
 #include "enums.h"
 #include "game.h"

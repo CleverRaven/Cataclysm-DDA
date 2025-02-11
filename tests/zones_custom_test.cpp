@@ -4,7 +4,6 @@
 #include "cata_catch.h"
 #include "clzones.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"

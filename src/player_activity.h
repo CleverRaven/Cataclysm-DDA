@@ -17,7 +17,6 @@
 #include "clone_ptr.h"
 #include "compatibility.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "enums.h"
 #include "item_location.h"
 #include "memory_fast.h"

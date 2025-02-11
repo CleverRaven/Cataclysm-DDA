@@ -11,7 +11,6 @@
 #include "character.h"
 #include "debug.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "itype.h"
 #include "json.h"
 #include "magic_enchantment.h"

@@ -11,7 +11,6 @@
 #include "character.h"
 #include "clzones.h"
 #include "color.h"
-#include "coords_fwd.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "inventory_ui.h"

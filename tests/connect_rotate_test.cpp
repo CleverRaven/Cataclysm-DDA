@@ -8,7 +8,6 @@
 #include "cata_catch.h"
 #include "cata_tiles.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "enums.h"
 #include "map.h"
 #include "map_helpers.h"

@@ -10,7 +10,6 @@
 #include "catch/catch.hpp"
 #include "character_martial_arts.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "item.h"
 #include "magic_enchantment.h"

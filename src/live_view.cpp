@@ -7,7 +7,6 @@
 #include "cached_options.h"
 #include "color.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "cursesdef.h"
 #include "game.h"
 #include "map.h"

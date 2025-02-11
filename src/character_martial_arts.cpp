@@ -7,7 +7,6 @@
 #include "color.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "json.h"
 #include "martialarts.h"
 #include "messages.h"

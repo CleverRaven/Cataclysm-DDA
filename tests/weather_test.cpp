@@ -10,7 +10,6 @@
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "options_helpers.h"
 #include "pimpl.h"
 #include "type_id.h"

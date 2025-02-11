@@ -10,7 +10,6 @@
 
 #include "clone_ptr.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "item_location.h"
 #include "point.h"
 #include "type_id.h"

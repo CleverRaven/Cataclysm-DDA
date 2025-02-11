@@ -9,7 +9,6 @@
 #include "catacharset.h"
 #include "color.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "pimpl.h"
 #include "type_id.h"
 #include "units.h"

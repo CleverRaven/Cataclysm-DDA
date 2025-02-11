@@ -15,7 +15,6 @@
 #include "cata_imgui.h"
 #include "character.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"

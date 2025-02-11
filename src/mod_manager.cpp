@@ -14,7 +14,6 @@
 #include "dependency_tree.h"
 #include "filesystem.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "json.h"
 #include "localized_comparator.h"
 #include "path_info.h"

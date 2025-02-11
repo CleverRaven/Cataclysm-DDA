@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "item_pocket.h"
 #include "point.h"
 #include "safe_reference.h"

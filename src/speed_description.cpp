@@ -3,7 +3,6 @@
 #include <algorithm>
 
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
 
 namespace

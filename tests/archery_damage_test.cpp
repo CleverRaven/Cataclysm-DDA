@@ -19,7 +19,6 @@
 
 #include "cata_catch.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "damage.h"
 #include "game_constants.h"
 #include "item.h"

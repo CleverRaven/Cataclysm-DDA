@@ -16,7 +16,6 @@
 #include "creature_tracker.h"
 #include "enums.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "imgui/imgui.h"
 #include "json.h"

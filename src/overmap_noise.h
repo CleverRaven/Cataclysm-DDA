@@ -3,7 +3,6 @@
 #define CATA_SRC_OVERMAP_NOISE_H
 
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "game_constants.h"
 #include "point.h"
 

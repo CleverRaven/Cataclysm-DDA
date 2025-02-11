@@ -13,7 +13,6 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "enums.h"
 #include "item.h"
 #include "itype.h"

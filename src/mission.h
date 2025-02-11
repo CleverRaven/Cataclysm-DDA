@@ -13,7 +13,6 @@
 #include "calendar.h"
 #include "character_id.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "dialogue_helpers.h"
 #include "enums.h"
 #include "npc_favor.h"

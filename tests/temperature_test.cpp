@@ -3,7 +3,6 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "enums.h"
 #include "flag.h"
 #include "game_constants.h"

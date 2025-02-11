@@ -5,7 +5,6 @@
 
 #include "cata_catch.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "lru_cache.h"
 #include "map.h"
 #include "map_memory.h"

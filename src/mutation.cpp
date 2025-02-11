@@ -15,7 +15,6 @@
 #include "character.h"
 #include "color.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue.h"

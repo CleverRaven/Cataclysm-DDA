@@ -15,7 +15,6 @@
 #include "character_attire.h"
 #include "colony.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "debug.h"
 #include "flag.h"
 #include "inventory.h"

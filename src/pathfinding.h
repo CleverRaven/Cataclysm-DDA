@@ -7,7 +7,6 @@
 #include <unordered_set>
 
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "mdarray.h"
 
 enum class creature_size : int;

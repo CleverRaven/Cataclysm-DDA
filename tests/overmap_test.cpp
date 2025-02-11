@@ -18,7 +18,6 @@
 #include "city.h"
 #include "common_types.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"

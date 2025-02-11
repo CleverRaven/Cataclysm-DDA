@@ -22,7 +22,6 @@
 #include "flag.h"
 #include "flat_set.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "input_context.h"
 #include "input_popup.h"
 #include "item.h"

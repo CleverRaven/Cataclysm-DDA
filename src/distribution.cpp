@@ -6,7 +6,6 @@
 #include <random>
 
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "memory_fast.h"
 #include "rng.h"
 #include "string_formatter.h"

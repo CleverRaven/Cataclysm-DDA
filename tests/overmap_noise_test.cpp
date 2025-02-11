@@ -4,7 +4,6 @@
 
 #include "cata_catch.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "map_scale_constants.h"
 #include "overmap_noise.h"
 #include "point.h"

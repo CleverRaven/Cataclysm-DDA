@@ -15,7 +15,6 @@
 #include "damage.h"
 #include "flat_set.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "type_id.h"
 #include "units.h"
 

@@ -7,7 +7,6 @@
 #include "debug.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "item.h"
 #include "itype.h"
 #include "json.h"

@@ -16,7 +16,6 @@
 #include <vector>
 
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "cuboid_rectangle.h"
 #include "map_scale_constants.h"
 #include "memory_fast.h"

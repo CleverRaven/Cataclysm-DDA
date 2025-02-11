@@ -3,7 +3,6 @@
 #include "cata_catch.h"
 #include "city.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "map.h"
 #include "map_scale_constants.h"
 #include "omdata.h"

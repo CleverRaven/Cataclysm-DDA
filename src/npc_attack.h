@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "gun_mode.h"
 #include "map_iterator.h"
 #include "point.h"

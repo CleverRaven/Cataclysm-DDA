@@ -14,7 +14,6 @@
 #include "dialogue.h"
 #include "effect_on_condition.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"

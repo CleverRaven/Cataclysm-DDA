@@ -19,7 +19,6 @@
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"

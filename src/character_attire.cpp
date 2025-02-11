@@ -25,7 +25,6 @@
 #include "fire.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item_contents.h"

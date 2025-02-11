@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "item_location.h"
 #include "point.h"
 #include "units.h"

@@ -17,7 +17,6 @@
 #include "event.h"
 #include "event_field_transformations.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
 #include "hash_utils.h"
 #include "output.h"

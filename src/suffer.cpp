@@ -24,7 +24,6 @@
 #include "character_attire.h"
 #include "color.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"

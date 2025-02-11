@@ -16,7 +16,6 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"

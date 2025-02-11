@@ -16,7 +16,6 @@
 #include "character_martial_arts.h"
 #include "computer.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"

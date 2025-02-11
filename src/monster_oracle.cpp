@@ -4,7 +4,6 @@
 
 #include "behavior.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "item.h"
 #include "map.h"
 #include "map_iterator.h"

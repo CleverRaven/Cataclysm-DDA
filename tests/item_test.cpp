@@ -19,7 +19,6 @@
 #include "cata_catch.h"
 #include "character_attire.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "enums.h"
 #include "flag.h"
 #include "game.h"

@@ -12,7 +12,6 @@
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "game.h"
 #include "item.h"
 #include "item_contents.h"

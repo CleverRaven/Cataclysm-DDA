@@ -15,7 +15,6 @@
 #include "calendar.h"
 #include "clzones.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "debug.h"
 #include "game_constants.h"
 #include "item.h"

@@ -15,7 +15,6 @@
 #include "cata_utility.h"
 #include "color.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"

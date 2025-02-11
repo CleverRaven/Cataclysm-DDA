@@ -5,7 +5,6 @@
 #include "avatar_action.h"
 #include "cata_catch.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "mapdata.h"

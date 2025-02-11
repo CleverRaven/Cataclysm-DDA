@@ -19,7 +19,6 @@
 #include "catch/catch.hpp"
 #include "character_attire.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "effect.h"
 #include "game.h"
 #include "game_constants.h"

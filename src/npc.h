@@ -22,7 +22,6 @@
 #include "color.h"
 #include "compatibility.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "dialogue_chatbin.h"
 #include "inventory.h"
 #include "item.h"

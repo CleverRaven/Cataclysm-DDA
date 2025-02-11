@@ -9,7 +9,6 @@
 #include "character.h"
 #include "character_id.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "effect.h"

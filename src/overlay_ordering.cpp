@@ -5,7 +5,6 @@
 #include <utility>
 
 #include "flexbuffer_json.h"
-#include "flexbuffer_json-inl.h"
 
 std::map<std::string, int> base_mutation_overlay_ordering;
 std::map<std::string, int> tileset_mutation_overlay_ordering;

@@ -9,7 +9,6 @@
 #include <utility>
 
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "map_scale_constants.h"
 #include "mdarray.h"
 #include "shadowcasting.h"

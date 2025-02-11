@@ -8,7 +8,6 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "flag.h"
 #include "item.h"
 #include "item_contents.h"

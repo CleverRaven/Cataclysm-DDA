@@ -20,7 +20,6 @@
 #include "character.h"
 #include "character_attire.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "craft_command.h"
 #include "enums.h"
 #include "game.h"

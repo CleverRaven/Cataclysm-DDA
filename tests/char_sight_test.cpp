@@ -6,7 +6,6 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
-#include "coords_fwd.h"
 #include "flag.h"
 #include "game.h"
 #include "item.h"
