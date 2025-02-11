@@ -241,7 +241,7 @@ std::optional<vpart_reference> veh_interact::select_part( map &here, const vehic
         const part_selector &sel, const std::string &title )
 {
     std::optional<vpart_reference> res = std::nullopt;
-    const auto act = [&]( const map & here, const vehicle_part & pt ) {
+    const auto act = [&]( const map &, const vehicle_part & pt ) {
         res = vpart_reference( const_cast<vehicle &>( veh ), veh.index_of_part( &pt ) );
     };
     std::function<bool( const vpart_reference & )> sel_wrapper = [sel,
@@ -1282,7 +1282,7 @@ void veh_interact::do_mend( map &here )
 
     avatar &player_character = get_avatar();
     const bool toggling = player_character.has_trait( trait_DEBUG_HS );
-    auto sel = [toggling]( const map & here, const vehicle_part & pt ) {
+    auto sel = [toggling]( const map &, const vehicle_part & pt ) {
         if( toggling ) {
             return !pt.faults_potential().empty();
         } else {
@@ -1290,7 +1290,7 @@ void veh_interact::do_mend( map &here )
         }
     };
 
-    auto act = [&]( const map & here, const vehicle_part & pt ) {
+    auto act = [&]( const map &, const vehicle_part & pt ) {
         player_character.mend_item( veh->part_base( veh->index_of_part( &pt ) ) );
         sel_cmd = 'q';
     };
@@ -1842,7 +1842,7 @@ void veh_interact::do_remove( map &here )
 
         bool can_remove = can_remove_part( here, part, player_character );
 
-        overview_enable = [this, part, &here]( const map & here,  const vehicle_part & pt ) {
+        overview_enable = [this, part]( const map &,  const vehicle_part & pt ) {
             return &pt == &veh->part( part );
         };
 
@@ -1917,7 +1917,7 @@ void veh_interact::do_siphon( map &here )
     restore_on_out_of_scope prev_title( title );
     title = _( "Select part to siphon:" );
 
-    auto sel = [&]( const map & here,  const vehicle_part & pt ) {
+    auto sel = [&]( const map &,  const vehicle_part & pt ) {
         return pt.is_tank() && !pt.base.empty() &&
                pt.base.only_item().made_of( phase_id::LIQUID );
     };
@@ -2006,11 +2006,11 @@ void veh_interact::do_assign_crew( map &here )
     restore_on_out_of_scope prev_title( title );
     title = _( "Assign crew positions:" );
 
-    auto sel = []( const map & here, const vehicle_part & pt ) {
+    auto sel = []( const map &, const vehicle_part & pt ) {
         return pt.is_seat();
     };
 
-    auto act = [&]( map & here, vehicle_part & pt ) {
+    auto act = [&]( map &, vehicle_part & pt ) {
         uilist menu;
         menu.text = _( "Select crew member" );
 
@@ -2966,7 +2966,7 @@ void act_vehicle_siphon( map &here, vehicle *veh )
     }
 
     std::string title = _( "Select tank to siphon:" );
-    auto sel = []( const map & here, const vehicle_part & pt ) {
+    auto sel = []( const map &, const vehicle_part & pt ) {
         return pt.contains_liquid();
     };
     if( const std::optional<vpart_reference> tank = veh_interact::select_part( here, *veh, sel,
