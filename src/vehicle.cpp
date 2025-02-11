@@ -1603,10 +1603,12 @@ std::vector<vehicle::rackable_vehicle> vehicle::find_vehicles_to_rack( map *here
     return rackables;
 }
 
-std::vector<vehicle::unrackable_vehicle> vehicle::find_vehicles_to_unrack( int rack ) const
+std::vector<vehicle::unrackable_vehicle> vehicle::find_vehicles_to_unrack( int rack,
+        bool ignore_broken ) const
 {
     std::vector<unrackable_vehicle> unrackables;
-    for( const std::vector<int> &rack_parts : find_lines_of_parts( rack, "BIKE_RACK_VEH" ) ) {
+    for( const std::vector<int> &rack_parts : find_lines_of_parts( rack, "BIKE_RACK_VEH",
+            ignore_broken ) ) {
         unrackable_vehicle unrackable;
 
         // a racked vehicle is "finished" by collecting all of its carried parts and carrying racks
@@ -2032,6 +2034,14 @@ bool vehicle::remove_part( vehicle_part &vp, RemovePartHandler &handler )
     // Unboard any entities standing on removed boardable parts
     if( vpi.has_flag( "BOARDABLE" ) && vp.has_flag( vp_flag::passenger_flag ) ) {
         handler.unboard( &handler.get_map_ref(), part_loc );
+    } else if( vpi.has_flag( "BIKE_RACK_VEH" ) ) {
+
+        for( const unrackable_vehicle &unrackable : find_vehicles_to_unrack( index_of_part( &vp ),
+                true ) ) {
+            if( !remove_carried_vehicle( handler.get_map_ref(), unrackable.parts, unrackable.racks ) ) {
+                debugmsg( _( "Bike rack broke, but could not unrack %s from %s" ), unrackable.name, name );
+            }
+        }
     }
 
     for( const item &it : vp.tools ) {
@@ -3176,9 +3186,9 @@ int vehicle::get_next_shifted_index( int original_index, Character &you ) const
  * on the X or Y axis. Returns 0, 1, or 2 lists of indices.
  */
 std::vector<std::vector<int>> vehicle::find_lines_of_parts(
-                               int part, const std::string &flag ) const
+                               int part, const std::string &flag, bool ignore_broken ) const
 {
-    const auto possible_parts = get_avail_parts( flag );
+    const auto possible_parts = ignore_broken ? get_avail_parts( flag ) :  get_any_parts( flag );
     std::vector<std::vector<int>> ret_parts;
     if( empty( possible_parts ) ) {
         return ret_parts;
@@ -3197,7 +3207,7 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts(
     for( const vpart_reference &vpr : possible_parts ) {
         const vehicle_part &vp_other = vpr.part();
         const vpart_info &vpi_other = vp_other.info();
-        if( vp_other.is_unavailable() ||
+        if( ( vp_other.is_broken() && ignore_broken ) ||
             !vpi_other.has_flag( "MULTISQUARE" ) ||
             vpi_other.id != part_id )  {
             continue;

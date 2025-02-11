@@ -271,7 +271,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
-    "flags": [ "BIKE_RACK_VEH", "MULTISQUARE" ],
+    "flags": [ "BIKE_RACK_VEH", "MULTISQUARE", "UNMOUNT_ON_DAMAGE" ],
     "damage_reduction": { "all": 10 },
     "variants": [ { "symbols": "=", "symbols_broken": "#" } ]
   },

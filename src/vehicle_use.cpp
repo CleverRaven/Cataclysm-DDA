@@ -1693,7 +1693,7 @@ void vehicle::build_bike_rack_menu( veh_menu &menu, int part )
     // @returns true if vehicle already has a vehicle with this name racked
     const auto has_veh_name_racked = [this]( const std::string & name ) {
         for( const vpart_reference &vpr : get_any_parts( "BIKE_RACK_VEH" ) ) {
-            for( const unrackable_vehicle &unrackable : find_vehicles_to_unrack( vpr.part_index() ) ) {
+            for( const unrackable_vehicle &unrackable : find_vehicles_to_unrack( vpr.part_index(), true ) ) {
                 if( unrackable.name == name ) {
                     return true;
                 }
