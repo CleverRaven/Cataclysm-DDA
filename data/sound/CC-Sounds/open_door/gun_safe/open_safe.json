@@ -1,0 +1,16 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "open_door",
+    "variant": "f_gunsafe_c",
+    "volume": 100,
+    "files": [ "open_door/gun_safe/open_safe.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "open_door",
+    "variant": "f_safe_c",
+    "volume": 100,
+    "files": [ "open_door/gun_safe/open_safe.ogg" ]
+  }
+]

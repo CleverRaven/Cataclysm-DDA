@@ -1,0 +1,1234 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_scrap_antenna",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_exodii_signpost",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_exodii_botrack",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_exodii_lamp",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_exodii_printer_large",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_exodii_generator_1",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_exodii_generator_2",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_exodii_generator_3",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_exodii_generator_4",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_exodii_charger",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_exodii_charger_cheap",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_exodii_portal_tower",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_exodii_portal_enclosure",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_exodii_locator_antenna",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_air_conditioner",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_air_filter",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_dishwasher",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_dryer",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_fridge",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_freezer",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_home_furnace",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_washer",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_oven",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_gas_oven",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_gas_oven_microwave_combo",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_bellows",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_drophammer",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_shredder",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_server",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_satellite",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_hd_compressor_unit",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_bigmirror_b",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_shackle",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_rotary_clothesline",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_floor_lamp",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_vent_cold_air2_stream",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_vent_cold_air2_stream",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_vent_cold_air2_stream",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_vent_hot_air2_stream",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_vent_hot_air2_stream",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_vent_toxic_leak",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_vent_toxic_leak",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_vent_rad_leak",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_woodstove",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_brazier",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_hobo_stove",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_portable_stove",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_55gal_firebarrel",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_30gal_firebarrel",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_chemical_mixer",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_generator_broken",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_compact_ASRG_containment",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_machinery_heavy",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_machinery_old",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_machinery_electronic",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_robotic_arm",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_capacitor",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_control_station",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_nuclear_fuel_cell",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_active_backup_generator",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_autoclave",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_autoclave_full",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_sample_freezer",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_lab_bench",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_fume_hood",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_shaker",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_eyewash",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_IV_pole",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_HPLC",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_GC",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_MS",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_NMR",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_electron_microscope",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_CTscan",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_MRI",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_scan_bed",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_anesthetic",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_dialysis",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_ventilator",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_centrifuge",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_water_heater",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_water_heater_family",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_water_purifier",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_exercise",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_ball_mach",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_target",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_arcade_machine",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_pinball_machine",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_ergometer",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_ergometer_mechanical",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_treadmill",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_treadmill_mechanical",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_small_satellite_dish",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_TV_antenna",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_roof_turbine_vent",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_camp_chair",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_metal_bench",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_barstool",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_triple_bunkbed",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_gunsafe_o",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_gunsafe_c",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_gunsafe_ml",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_gunsafe_mj",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_gun_safe_el",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_locker",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_mailbox",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_clothing_rail",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_rack",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_rack_l",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_safe_c",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_safe_l",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_safe_o",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_metal_trashcan",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_filing_cabinet",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_utility_shelf",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_warehouse_shelf",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_fireman_cabinet",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_fireman_cabinet_o",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_fireman_cabinet_b",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_standing_tank",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_storage_tank",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_gas_tank",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_gas_tank_smashed",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_diesel_tank",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_diesel_tank_smashed",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_dumpster",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_butter_churn",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_metal_crate_r",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_metal_crate_c",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_metal_crate_o",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_foot_locker",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_foot_locker_aluminum",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_432gal_drum_rubber",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_workbench",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_tourist_table",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_metal_table",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_wreckage",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_street_light",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_traffic_light",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_bike_rack",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_flagpole",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_scrap_bridge",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_rebar_stack_short",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_rebar_stack_mid",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_rebar_stack_tall",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_pipe_stack_short",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_pipe_stack_mid",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_pipe_stack_tall",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_anvil",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_anvil_heavy",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_anvil_crude",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_still",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_kiln_metal_empty",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_kiln_metal_full",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_arcfurnace_empty",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_arcfurnace_full",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_metal_smoking_rack",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_metal_smoking_rack_active",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_aluminum_stepladder",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_arc_furnace",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_beverly_shear",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_drill_press",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_tablesaw",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_mitresaw",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_bandsaw",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_router",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_planer",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_jointer",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_catalytic_cracking_reactor",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_hydraulic_press",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_heavy_lathe",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_air_compressor",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_manual_tire_changer",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_metal_butcher_rack",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_hanging_meathook",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_aut_gas_console_o",
+    "volume": 60,
+    "files": [ "smash_success/metal/smash_success_metal.ogg", "smash_success/metal/smash_success_metal_1.ogg" ]
+  }
+]

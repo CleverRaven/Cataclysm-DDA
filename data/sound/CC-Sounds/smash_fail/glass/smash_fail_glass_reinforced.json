@@ -1,0 +1,93 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_laminated_glass",
+    "volume": 80,
+    "files": [ "smash_fail/glass/smash_fail_glass_reinforced.ogg", "smash_fail/glass/smash_fail_glass_reinforced_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_ballistic_glass",
+    "volume": 80,
+    "files": [ "smash_fail/glass/smash_fail_glass_reinforced.ogg", "smash_fail/glass/smash_fail_glass_reinforced_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_reinforced_glass",
+    "volume": 80,
+    "files": [ "smash_fail/glass/smash_fail_glass_reinforced.ogg", "smash_fail/glass/smash_fail_glass_reinforced_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_reinforced_glass_shutter",
+    "volume": 80,
+    "files": [ "smash_fail/glass/smash_fail_glass_reinforced.ogg", "smash_fail/glass/smash_fail_glass_reinforced_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_reinforced_glass_shutter_open",
+    "volume": 80,
+    "files": [ "smash_fail/glass/smash_fail_glass_reinforced.ogg", "smash_fail/glass/smash_fail_glass_reinforced_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_laminated_door_glass_c",
+    "volume": 80,
+    "files": [ "smash_fail/glass/smash_fail_glass_reinforced.ogg", "smash_fail/glass/smash_fail_glass_reinforced_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_laminated_door_glass_o",
+    "volume": 80,
+    "files": [ "smash_fail/glass/smash_fail_glass_reinforced.ogg", "smash_fail/glass/smash_fail_glass_reinforced_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_ballistic_door_glass_c",
+    "volume": 80,
+    "files": [ "smash_fail/glass/smash_fail_glass_reinforced.ogg", "smash_fail/glass/smash_fail_glass_reinforced_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_ballistic_door_glass_o",
+    "volume": 80,
+    "files": [ "smash_fail/glass/smash_fail_glass_reinforced.ogg", "smash_fail/glass/smash_fail_glass_reinforced_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_reinforced_door_glass_c",
+    "volume": 80,
+    "files": [ "smash_fail/glass/smash_fail_glass_reinforced.ogg", "smash_fail/glass/smash_fail_glass_reinforced_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_reinforced_door_glass_lab_c",
+    "volume": 80,
+    "files": [ "smash_fail/glass/smash_fail_glass_reinforced.ogg", "smash_fail/glass/smash_fail_glass_reinforced_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_reinforced_door_glass_o",
+    "volume": 80,
+    "files": [ "smash_fail/glass/smash_fail_glass_reinforced.ogg", "smash_fail/glass/smash_fail_glass_reinforced_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_reinforced_door_glass_lab_o",
+    "volume": 80,
+    "files": [ "smash_fail/glass/smash_fail_glass_reinforced.ogg", "smash_fail/glass/smash_fail_glass_reinforced_1.ogg" ]
+  }
+]

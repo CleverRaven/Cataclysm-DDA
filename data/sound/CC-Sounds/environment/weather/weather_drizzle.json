@@ -1,0 +1,10 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "environment",
+    "variant": "WEATHER_DRIZZLE",
+    "volume": 100,
+    "is_indoors": false,
+    "files": [ "environment/weather/drizzle.ogg" ]
+  }
+]

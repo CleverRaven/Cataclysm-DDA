@@ -1,0 +1,110 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "tac50",
+    "volume": 100,
+    "files": [
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_01.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_02.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_03.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "cz600",
+    "volume": 100,
+    "files": [
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_01.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_02.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_03.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "m2010",
+    "volume": 100,
+    "files": [
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_01.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_02.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_03.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "ruger_pr",
+    "volume": 100,
+    "files": [
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_01.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_02.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_03.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "steyr_scout",
+    "volume": 100,
+    "files": [
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_01.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_02.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_03.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "tac338",
+    "volume": 100,
+    "files": [
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_01.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_02.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_03.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "mrad_smr",
+    "volume": 100,
+    "files": [
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_01.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_02.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_03.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "axmc",
+    "volume": 100,
+    "files": [
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_01.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_02.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_03.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "ruger_arr",
+    "volume": 100,
+    "files": [
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_01.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_02.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_03.ogg",
+      "reload/mag_fed_bolt_action_rifle/bolt_action_rifle_load_04.ogg"
+    ]
+  }
+]

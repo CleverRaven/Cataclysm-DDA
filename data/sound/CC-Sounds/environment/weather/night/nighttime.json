@@ -1,0 +1,10 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "environment",
+    "variant": "nighttime",
+    "is_indoors": false,
+    "volume": 50,
+    "files": [ "environment/weather/night/clear_night_3.ogg" ]
+  }
+]

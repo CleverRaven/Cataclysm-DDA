@@ -1,0 +1,79 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "m240",
+    "volume": 100,
+    "files": [ "fire_gun/machineguns/machinegun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "m249",
+    "volume": 100,
+    "files": [ "fire_gun/machineguns/machinegun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "m249_semi",
+    "volume": 100,
+    "files": [ "fire_gun/machineguns/machinegun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "m2browning",
+    "volume": 100,
+    "files": [ "fire_gun/machineguns/machinegun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "m2browning_sawn",
+    "volume": 100,
+    "files": [ "fire_gun/machineguns/machinegun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "m60",
+    "volume": 100,
+    "files": [ "fire_gun/machineguns/machinegun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "m60_semi",
+    "volume": 100,
+    "files": [ "fire_gun/machineguns/machinegun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "rm298",
+    "volume": 100,
+    "files": [ "fire_gun/machineguns/machinegun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "rm614_lmg",
+    "volume": 100,
+    "files": [ "fire_gun/machineguns/machinegun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "bigun",
+    "volume": 100,
+    "files": [ "fire_gun/machineguns/machinegun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "m134",
+    "volume": 100,
+    "files": [ "fire_gun/machineguns/machinegun_1.ogg" ]
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "walk_grass",
+    "volume": 100,
+    "files": [
+      "plmove/walk_grass/walk_grass_1.ogg",
+      "plmove/walk_grass/walk_grass_2.ogg",
+      "plmove/walk_grass/walk_grass_3.ogg",
+      "plmove/walk_grass/walk_grass_4.ogg",
+      "plmove/walk_grass/walk_grass_5.ogg",
+      "plmove/walk_grass/walk_grass_6.ogg"
+    ]
+  }
+]
