@@ -188,7 +188,7 @@ TEST_CASE( "battery-powered_tool_qualities", "[tool][battery][quality]" )
             REQUIRE( bat_cell->ammo_remaining( here ) == bat_charges );
             // Install heavy battery into UPS
             REQUIRE( ups->put_in( *bat_cell, pocket_type::MAGAZINE_WELL ).success() );
-            REQUIRE( ups->ammo_remaining( &they ) == bat_charges );
+            REQUIRE( ups->ammo_remaining( here, &they ) == bat_charges );
 
             WHEN( "UPS battery mod is installed into the drill" ) {
                 // Ensure drill currently has no mods
@@ -203,7 +203,7 @@ TEST_CASE( "battery-powered_tool_qualities", "[tool][battery][quality]" )
                 CHECK( they.has_item( *ups ) );
 
                 THEN( "the drill has the same charge as the UPS" ) {
-                    CHECK( drill->ammo_remaining( &they ) == bat_charges );
+                    CHECK( drill->ammo_remaining( here, &they ) == bat_charges );
                 }
                 THEN( "inherent qualities of the drill can be used" ) {
                     CHECK( drill->has_quality( qual_SCREW, 1, 1 ) );
