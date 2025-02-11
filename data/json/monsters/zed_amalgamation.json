@@ -395,5 +395,46 @@
     ],
     "dodge": 3,
     "armor": { "bash": 15, "cut": 8, "stab": 8, "acid": 8, "bullet": 4, "electric": 8 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_amalgamation_meatball",
+    "copy-from": "mon_amalgamation_abstract_med",
+    "name": { "str": "orb amalgamation" },
+    "description": "A smooth red orb about the size of a small car.  It has no visible organs or limbs, save for an array of barbed tentacles it uses to hold itself in place when not rolling.  How do you kill something without organs?",
+    "color": "red",
+    "bodytype": "blob",
+    "volume": "450 L",
+    "weight": "450 kg",
+    "hp": 535,
+    "speed": 135,
+    "melee_skill": 6,
+    "melee_dice": 10,
+    "melee_dice_sides": 2,
+    "special_attacks": [
+      {
+        "id": "ranged_pull",
+        "range": 10,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 10 } ],
+        "hit_dmg_u": "%s launches a barbed tentacle at you, pulling you in!",
+        "hit_dmg_npc": "%s launches a barbed tentacle at <npcname>, pulling them in!",
+        "miss_msg_u": "%s launches a barbed tentacle at you, but you dodge!",
+        "miss_msg_npc": "%s launches a barbed tentacle at <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%s launches a barbed tentacle at you, but it fails to embed!",
+        "no_dmg_msg_npc": "%s launches a barbed tentacle at you, but it fails to embed!"
+      }
+    ],
+    "dodge": 0,
+    "vision_night": 0,
+    "regenerates": 5,
+    "//1": "I want it to regenerate but I'm not sure what exactly would be balanced enough to not make it unkillable like a shoggoth, so it's 5 for now. If it turns out it's too flimsy, increase it",
+    "extend": { "flags": [ "GRABS" ] },
+    "delete": {
+      "weakpoint_sets": [ "wps_amalgamation_base" ],
+      "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_amalgamation" ],
+      "//2": "Read the description again before you go asking around why I removed the weakpoints from it",
+      "flags": [ "SMELLS", "HEARS" ]
+    },
+    "armor": { "bash": 50, "cut": 30, "stab": 30, "acid": 15, "bullet": 40, "electric": 12 }
   }
 ]
