@@ -182,7 +182,6 @@ struct act_item {
           consumed_moves( consumed_moves ) {}
 };
 
-// TODO: Deliberately unified with multidrop. Unify further.
 static bool same_type( const std::list<item> &items )
 {
     return std::all_of( items.begin(), items.end(), [&items]( const item & it ) {
