@@ -256,6 +256,25 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_winter_feign_death",
+    "name": [ "Stillness of the Tomb" ],
+    "desc": [ "You do not move, or breathe, or think, or live.  For now." ],
+    "apply_message": "",
+    "remove_message": "Life returns to your limbs.",
+    "show_in_info": true,
+    "max_duration": "6 hours",
+    "enchantments": [ { "mutations": [ "WINTER_FEIGN_DEATH_TRAITS" ] } ],
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 0.2 },
+      { "limb_score": "block", "modifier": 0.0 },
+      { "limb_score": "swim", "modifier": 0.0 },
+      { "limb_score": "manip", "modifier": 0.1 },
+      { "limb_score": "grip", "modifier": 0.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_frozen_breath",
     "name": [ "Chilled" ],
     "desc": [ "Your movements are slowed." ],
