@@ -704,8 +704,11 @@ struct OutputDebugStreamA : public std::ostream {
 #endif
 
 struct DebugFile {
-    ~DebugFile();
     void init( DebugOutput, const cata_path &filename );
+    void deinit();
+    ~DebugFile() {
+        deinit();
+    }
     std::ostream &get_file();
     static DebugFile &instance() {
         static DebugFile instance;
@@ -720,7 +723,7 @@ struct DebugFile {
 // DebugFile OStream Wrapper                                        {{{2
 // ---------------------------------------------------------------------
 
-DebugFile::~DebugFile()
+void DebugFile::deinit()
 {
     if( file && file.get() != &std::cerr ) {
         output_repetitions( *file );
@@ -836,7 +839,7 @@ void setupDebug( DebugOutput output_mode )
 
 void deinitDebug()
 {
-    DebugFile::instance().~DebugFile();
+    DebugFile::instance().deinit();
 }
 
 // OStream Operators                                                {{{2
