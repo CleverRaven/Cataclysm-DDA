@@ -1927,7 +1927,7 @@ class Character : public Creature, public visitable
             bool operator()( const item &it ) const {
                 return it.mission_id == mission_id || it.has_any_with( [&]( const item & it ) {
                     return it.mission_id == mission_id;
-                }, pocket_type::SOFTWARE );
+                }, pocket_type::E_FILE_STORAGE );
             }
         };
 
