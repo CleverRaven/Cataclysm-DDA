@@ -90,7 +90,7 @@ struct talk_effect_fun_t {
             if( !function ) {
                 return;
             }
-            return function( d );
+            function( d );
         }
 };
 

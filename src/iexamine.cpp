@@ -5132,7 +5132,7 @@ static void reload_furniture( Character &you, const tripoint_bub_ms &examp, bool
 
 void iexamine::reload_furniture( Character &you, const tripoint_bub_ms &examp )
 {
-    return reload_furniture( you, examp, true );
+    reload_furniture( you, examp, true );
 }
 
 void iexamine::curtains( Character &you, const tripoint_bub_ms &examp )

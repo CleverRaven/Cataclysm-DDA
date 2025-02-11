@@ -569,7 +569,7 @@ static void pldrive( const tripoint_rel_ms &p )
 
 static void pldrive( point_rel_ms d )
 {
-    return pldrive( tripoint_rel_ms( d, 0 ) );
+    pldrive( tripoint_rel_ms( d, 0 ) );
 }
 
 static void open()

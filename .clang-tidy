@@ -98,7 +98,6 @@ Checks: [
     -clang-analyzer-optin.core.EnumCastOutOfRange,
     -performance-enum-size,
     -readability-avoid-nested-conditional-operator,
-    -readability-avoid-return-with-void-value,
     -readability-redundant-casting,
     -readability-redundant-inline-specifier,
 ]
