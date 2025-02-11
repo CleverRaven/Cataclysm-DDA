@@ -186,6 +186,31 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_autumn_protection_from_ranged",
+    "name": [ "Swirl of Autumn Leaves" ],
+    "desc": [ "A chill wind is whirling around you." ],
+    "apply_message": "",
+    "remove_message": "The autumn leaves fall to the ground.",
+    "show_in_info": true,
+    "max_duration": "12 hours",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "RANGE_DODGE",
+            "multiply": {
+              "math": [
+                "min( ( 15 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.75) + (u_skill('deduction') * 1.5) ), 50 )"
+              ]
+            }
+          }
+        ]
+      },
+      { "condition": { "is_season": "autumn" }, "values": [ { "value": "STEALTH_MODIFIER", "add": 33 } ] }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_freeze_target_in_place_not_winter",
     "name": [ "Grip of Winter" ],
     "desc": [ "Ice coats your lower limbs, freezing you in place." ],

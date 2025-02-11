@@ -1,6 +1,6 @@
 [
   {
-    "//": "Autumn magic should focus on: fear, decay, the harvest, preservation, fog, colors.",
+    "//": "Autumn magic should focus on: fear, decay, the harvest, preservation, fog, colors, home and the hearth.",
     "//2": "Make sure to add each new spell to the proper research EoC in the playable_changeling_seasonal_magic_research_eocs file.",
     "//3": "Seasonal magic can have direct damage spells, but they should always be relevantly themed to the season, accomplish some secondary effect (slowing, blinding, starting fires, terrain alteration, etc), have some limitation on targets, or otherwise be less efficient than 'Wizard casts fireball' ",
     "id": "xe_fey_seasonal_magick_autumn",
@@ -110,6 +110,42 @@
     "base_casting_time": {
       "math": [
         "u_effect_intensity('effect_controlling_weather_fog') > -1 ? 50 : max( ( 6000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 56) - (u_skill('deduction') * 125)), 400)"
+      ]
+    }
+  },
+  {
+    "id": "changeling_autumn_protection_from_ranged_spell",
+    "type": "SPELL",
+    "name": "Swirl of Autumn Leaves",
+    "description": "Whip up a wind and a swirl of autumn leaves around yourself, giving ranged attacks a chance to go awry.  The glamour also makes you <color_green>harder to spot</color> if used in autumn.",
+    "message": "A spray of colored leaves whirl around you.",
+    "flags": [ "VERBAL", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 6,
+    "effect": "attack",
+    "effect_str": "effect_changeling_autumn_protection_from_ranged",
+    "min_duration": {
+      "math": [
+        "( ( 19852 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 5852) + (u_skill('deduction') * 11512) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 40851 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 16815) + (u_skill('deduction') * 32945) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 450 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 5) - (u_skill('deduction') * 8)), 250)" ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 500 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 8) - (u_skill('deduction') * 15)), 150)"
       ]
     }
   }
