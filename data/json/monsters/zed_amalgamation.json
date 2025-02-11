@@ -2,7 +2,7 @@
   {
     "type": "MONSTER",
     "id": "mon_meat_cocoon_tiny",
-    "//": "10 - 35 kg corpse",
+    "//": "12-35 kg corpse",
     "copy-from": "mon_meat_cocoon_small",
     "name": { "str": "tiny meat cocoon" },
     "description": "A small, wet sack of pink skin, with something dog-sized moving around underneath the surface.  Black roots anchor it to the ground.",
