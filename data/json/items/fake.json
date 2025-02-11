@@ -20,12 +20,6 @@
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] }
   },
   {
-    "id": "fake_arcfurnace",
-    "copy-from": "fake_item",
-    "type": "TOOL",
-    "name": { "str": "arc furnace" }
-  },
-  {
     "id": "spinwheelitem",
     "copy-from": "fake_item",
     "type": "TOOL",
@@ -251,7 +245,7 @@
     "id": "fake_arc_furnace",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
-    "name": { "str": "industrial arc furnace" }
+    "name": { "str": "arc furnace" }
   },
   {
     "id": "fake_beverly_shear",
