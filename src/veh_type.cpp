@@ -33,6 +33,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "map.h"
 #include "output.h"
 #include "pocket_type.h"
 #include "requirements.h"

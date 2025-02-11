@@ -19,6 +19,7 @@
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
+#include "map.h"
 #include "map_selector.h"
 #include "player_activity.h"
 #include "ret_val.h"

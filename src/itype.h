@@ -23,6 +23,7 @@
 #include "damage.h"
 #include "enums.h" // point
 #include "explosion.h"
+#include "game_constants.h"
 #include "item.h"
 #include "item_pocket.h"
 #include "iuse.h" // use_function

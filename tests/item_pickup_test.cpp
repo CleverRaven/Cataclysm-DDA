@@ -12,7 +12,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
-#include "npc.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "point.h"

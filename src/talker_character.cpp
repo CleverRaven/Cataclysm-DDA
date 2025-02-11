@@ -28,6 +28,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "magic.h"
+#include "map.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "npc.h"
