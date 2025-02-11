@@ -62,7 +62,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_last_amigara_death",
-    "condition": { "math": [ "npc_monsters_nearby('mon_amigara_horror') < 1" ] },
+    "condition": { "math": [ "n_monsters_nearby('mon_amigara_horror') < 1" ] },
     "effect": [
       { "npc_location_variable": { "context_val": "loc" }, "max_radius": 2, "passable_only": true },
       { "map_spawn_item": "amigara_drops", "use_item_group": true, "loc": { "context_val": "loc" } },
