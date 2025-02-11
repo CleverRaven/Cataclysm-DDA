@@ -78,7 +78,6 @@ Checks: [
     -bugprone-easily-swappable-parameters,
     -bugprone-empty-catch,
     -bugprone-implicit-widening-of-multiplication-result,
-    -bugprone-multi-level-implicit-pointer-conversion,  # untriaged since upgrade to LLVM 18
     -bugprone-narrowing-conversions,
     -bugprone-switch-missing-default-case,
     -bugprone-unchecked-optional-access,
