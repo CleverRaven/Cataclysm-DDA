@@ -7,6 +7,13 @@ on:
     branches:
     - master
     types: [opened, reopened, synchronize, ready_for_review]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'tools/iwyu/**'
+      - '**/CMakeLists.txt'
+      - '.github/workflows/iwyu.yml'
+
 # We only care about the latest revision of a PR, so cancel all previous instances.
 concurrency:
   group: iwyu-${{ github.event.pull_request.number || github.ref_name }}
@@ -59,4 +66,4 @@ jobs:
 
         cd Cataclysm-DDA
         FILES_LIST=$( find src/ tests/ -maxdepth 1 -name '*.cpp' | grep -v -f tools/iwyu/bad_files.txt | sort )
-        python ${IWYU_SRC_DIR}/iwyu_tool.py ${FILES_LIST} -p build --output-format clang --jobs 5  -- -Xiwyu "--mapping_file=${PWD}/tools/iwyu/cata.imp" -Xiwyu --cxx17ns -Xiwyu --comment_style=long -Xiwyu --max_line_length=1000 
+        python ${IWYU_SRC_DIR}/iwyu_tool.py ${FILES_LIST} -p build --output-format clang --jobs 4  -- -Xiwyu "--mapping_file=${PWD}/tools/iwyu/cata.imp" -Xiwyu --cxx17ns -Xiwyu --comment_style=long -Xiwyu --max_line_length=1000 
