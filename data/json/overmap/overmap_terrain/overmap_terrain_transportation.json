@@ -144,7 +144,7 @@
     "see_cost": "high",
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "KNOWN_DOWN", "SIDEWALK" ]
+    "flags": [ "KNOWN_DOWN", "SIDEWALK", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -167,7 +167,7 @@
     "color": "yellow",
     "see_cost": "full_high",
     "extras": "subway",
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -178,7 +178,7 @@
     "color": "yellow",
     "see_cost": "full_high",
     "extras": "subway",
-    "flags": [ "KNOWN_UP", "NO_ROTATE" ]
+    "flags": [ "KNOWN_UP", "NO_ROTATE", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",

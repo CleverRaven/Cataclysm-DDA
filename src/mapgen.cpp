@@ -264,7 +264,8 @@ static bool tile_can_have_blood( map &md, const tripoint_bub_ms &current_tile,
     // Wall streaks stick to walls, like blood was splattered against the surface
     // Floor streaks avoid obstacles to look more like a person left the streak behind (Not walking through walls, closed doors, windows, or furniture)
     if( wall_streak ) {
-        return  md.has_flag_ter( ter_furn_flag::TFLAG_WALL, current_tile );
+        return md.has_flag_ter( ter_furn_flag::TFLAG_WALL, current_tile ) &&
+               !md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile );
     } else {
         if( !md.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, current_tile ) &&
             !x_in_y( ( ( 30 - days_since_cataclysm ) / 30 ), 1 ) ) {
@@ -403,13 +404,8 @@ static void place_bool_pools( map &md, const tripoint_bub_ms &current_tile,
 
 static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
 {
-    if( p.z() < 0 ) {
-        // for the moment make sure we don't apply this to labs or other places
-        debugmsg( "Riot damage mapgen generator called on underground structure.  This is likely a bug." );
-        return;
-    }
-
     std::list<tripoint_bub_ms> all_points_in_map;
+
 
     int days_since_cataclysm = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
 
@@ -427,6 +423,10 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
 
         // Do nothing at random!;
         if( x_in_y( 10, 100 ) ) {
+            continue;
+        }
+        // Skip naturally occuring underground wall tiles
+        if (md.has_flag_ter(ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile)) {
             continue;
         }
         // Bash stuff at random!
