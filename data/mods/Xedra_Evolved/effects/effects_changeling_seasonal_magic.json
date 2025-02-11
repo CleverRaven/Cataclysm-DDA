@@ -80,7 +80,7 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_changeling_summer_light_spell",
+    "id": "effect_changeling_summer_light",
     "name": [ "Bonefire's Light" ],
     "desc": [ "A wisp of flickering insubstantial fire hovers near your shoulder." ],
     "apply_message": "",
@@ -90,7 +90,7 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_changeling_summer_sun_glasses_spell",
+    "id": "effect_changeling_summer_sun_glasses",
     "name": [ "Shading Your Eyes" ],
     "desc": [ "Nearby lights don't seem quite as bright now." ],
     "apply_message": "",
@@ -100,7 +100,7 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_changeling_fire_melee_damage_spell",
+    "id": "effect_changeling_fire_melee_damage",
     "name": [ "Burning Solar Grasp" ],
     "desc": [ "Ethereal flames flicker around your hands" ],
     "apply_message": "",
@@ -148,6 +148,26 @@
       {
         "condition": { "or": [ { "not": { "is_season": "winter" } }, { "and": [ { "is_season": "winter" }, "u_is_outside" ] } ] },
         "values": [ { "value": "REGEN_STAMINA", "add": 200 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_summer_powerful_sunlight",
+    "name": [ "Helios's Wrath" ],
+    "desc": [ "You blaze with the pure light of the summer sun." ],
+    "apply_message": "",
+    "remove_message": "The blinding light fades away.",
+    "show_in_info": true,
+    "max_duration": "12 hours",
+    "enchantments": [
+      {
+        "values": [ { "value": "LUMINATION", "add": 8000 } ],
+        "intermittent_activation": {
+          "effects": [
+            { "frequency": "4 seconds", "spell_effects": [ { "id": "changeling_summer_powerful_sunlight_spell_aura_effects" } ] }
+          ]
+        }
       }
     ]
   },

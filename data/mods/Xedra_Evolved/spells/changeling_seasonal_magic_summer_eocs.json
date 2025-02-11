@@ -15,12 +15,12 @@
         ]
       },
       {
-        "u_add_effect": "effect_changeling_summer_light_spell",
+        "u_add_effect": "effect_changeling_summer_light",
         "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
       },
       { "u_message": "A flickering red-orange wisp of light kindles near your shoulder.", "type": "neutral" }
     ],
-    "false_effect": [ { "u_lose_effect": "effect_changeling_summer_light_spell" } ]
+    "false_effect": [ { "u_lose_effect": "effect_changeling_summer_light" } ]
   },
   {
     "type": "effect_on_condition",
@@ -58,7 +58,7 @@
         ]
       },
       {
-        "u_add_effect": "effect_changeling_summer_sun_glasses_spell",
+        "u_add_effect": "effect_changeling_summer_sun_glasses",
         "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
       },
       { "u_spawn_item": "changeling_summer_sunglasses", "suppress_message": true, "force_equip": true },
@@ -70,7 +70,7 @@
     "id": "EOC_CHANGELING_SUMMER_SUN_GLASSES_REMOVER",
     "eoc_type": "EVENT",
     "required_event": "character_loses_effect",
-    "condition": { "compare_string": [ "effect_changeling_summer_sun_glasses_spell", { "context_val": "effect" } ] },
+    "condition": { "compare_string": [ "effect_changeling_summer_sun_glasses", { "context_val": "effect" } ] },
     "effect": { "u_remove_item_with": "changeling_summer_sunglasses" }
   },
   {
@@ -100,5 +100,39 @@
       }
     ],
     "false_effect": [ { "u_lose_effect": "effect_changeling_summer_run_for_long_periods" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_POWERFUL_SUNLIGHT_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_changeling_summer_powerful_sunlight" } },
+    "effect": [
+      {
+        "math": [
+          "u_spell_low_duration = ( 5.95 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 1.52) + (u_skill('deduction') * 2.51) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spell_high_duration = ( 15.20 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 3.82) + (u_skill('deduction') * 6.01) )"
+        ]
+      },
+      {
+        "u_add_effect": "effect_changeling_summer_powerful_sunlight",
+        "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_POWERFUL_SUNLIGHT_AURA_EFFECTS",
+    "effect": [
+      { "if": { "not": { "u_has_effect": "blind" }, "then": { "u_add_effect": "blind", "duration": "1 minutes" } } },
+      {
+        "if": {
+          "not": { "u_has_flag": "SUNDEATH" },
+          "then": { "u_cast_spell": { "id": "changeling_summer_powerful_sunlight_spell_sundeath_self_damage", "hit_self": false } }
+        }
+      }
+    ]
   }
 ]
