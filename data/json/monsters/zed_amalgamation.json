@@ -391,11 +391,56 @@
         "id": "lash_bash_attack",
         "cooldown": 10,
         "move_cost": 120,
+        "range": 4,
         "damage_max_instance": [ { "damage_type": "bash", "amount": 25 } ]
       }
     ],
     "dodge": 3,
-    "armor": { "bash": 15, "cut": 8, "stab": 8, "acid": 8, "bullet": 4, "electric": 8 }
+    "armor": { "bash": 15, "cut": 8, "stab": 8, "acid": 8, "bullet": 5, "electric": 8 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_amalgamation_recycler_soil",
+    "copy-from": "mon_amalgamation_recycler",
+    "name": { "str": "soil-armored recycler amalgamation" },
+    "description": "A recycler amalgamation covered in armor made of different colors type of soil, with various random pieces of grass and other plants covering it in some places.",
+    "color": "brown",
+    "proportional": { "weight": 1.15, "volume": 1.15, "speed": 0.85 },
+    "melee_dice_sides": 6,
+    "aggression": 100,
+    "special_attacks": [
+      {
+        "id": "lash_bash_attack",
+        "cooldown": 10,
+        "move_cost": 130,
+        "range": 4,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 40 } ]
+      }
+    ],
+    "dodge": 1,
+    "armor": { "bash": 60, "cut": 50, "stab": 35, "acid": 10, "bullet": 50, "electric": 100 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_amalgamation_recycler_rock",
+    "copy-from": "mon_amalgamation_recycler",
+    "name": { "str": "rock-armored recycler amalgamation" },
+    "description": "A recycler amalgamation covered in armor made of various minerals, either naturally occurring rocks, concrete, or asphalt.  It drags its heavy armored tentacles behind itself, snapping them occasionally.",
+    "color": "brown",
+    "proportional": { "weight": 1.3, "volume": 1.2, "speed": 0.75 },
+    "melee_dice_sides": 8,
+    "aggression": 100,
+    "special_attacks": [
+      {
+        "id": "lash_bash_attack",
+        "cooldown": 10,
+        "move_cost": 150,
+        "range": 4,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 55 } ]
+      }
+    ],
+    "dodge": 1,
+    "armor": { "bash": 100, "cut": 120, "stab": 120, "acid": 15, "bullet": 120, "electric": 8 }
   },
   {
     "type": "MONSTER",
