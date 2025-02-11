@@ -15,7 +15,7 @@
 #include <vector>
 
 #include "cata_inline.h"
-#include "coords_fwd.h"
+#include "coords_fwd.h"  // IWYU pragma: export
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "line.h"  // IWYU pragma: keep

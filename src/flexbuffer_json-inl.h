@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_FLEXBUFFER_JSON_INL_H
 #define CATA_SRC_FLEXBUFFER_JSON_INL_H
 
+// IWYU pragma: private, include "flexbuffer_json.h"
+
 #include <optional>
 #include <string>
 #include <type_traits>
