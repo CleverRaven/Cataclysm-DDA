@@ -44,7 +44,13 @@ Checks: [
     google-explicit-constructor,
     llvm-namespace-comment,
     misc-*,
+    # Extremely expensive, and we are not using `using` anyway, so it's not catching anything.
+    -misc-unused-using-decls,
     modernize-*,
+    # Rather expensive check, and it is unlikely that somebody
+    # would *want* to use std::auto_ptr in %CURRENT_YEAR% (2025+) when unique_ptr is both better
+    # and is a de-facto default in the codebase already.
+    -modernize-replace-auto-ptr,
     # * modernize-use-auto
     # We prefer an almost-always-avoid-auto style.
     -modernize-use-auto,
