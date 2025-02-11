@@ -308,6 +308,8 @@ item::item() : bday( calendar::start_of_cataclysm )
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
 {
+    map &here = get_map();
+
     contents = item_contents( type->pockets );
     if( type->countdown_interval > 0_seconds ) {
         countdown_point = calendar::turn + type->countdown_interval;
@@ -398,8 +400,8 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         last_temp_check = bday;
 
     } else if( type->tool ) {
-        if( ammo_remaining() && !ammo_types().empty() ) {
-            ammo_set( ammo_default(), ammo_remaining() );
+        if( ammo_remaining( here ) && !ammo_types().empty() ) {
+            ammo_set( ammo_default(), ammo_remaining( here ) );
         }
     }
 
@@ -1509,7 +1511,7 @@ bool _stacks_location_hint( item const &lhs, item const &rhs )
     if( this_loc == that_loc ) {
         return true;
     } else if( this_loc != tripoint_abs_ms::max && that_loc != tripoint_abs_ms::max ) {
-        const tripoint_abs_ms player_loc( get_map().get_abs( get_player_character().pos_bub() ) );
+        const tripoint_abs_ms player_loc( get_player_character().pos_abs() );
         const int this_dist = rl_dist( player_loc, this_loc );
         const int that_dist = rl_dist( player_loc, that_loc );
         static const auto get_bucket = []( const int dist ) {
@@ -2996,6 +2998,8 @@ void item::magazine_info( std::vector<iteminfo> &info, const iteminfo_query *par
 void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /* batch */,
                       bool /* debug */ ) const
 {
+    map &here = get_map();
+
     // Skip this section for guns and items without ammo data
     if( is_gun() || !has_ammo_data() ||
         !parts->test( iteminfo_parts::AMMO_REMAINING_OR_TYPES ) ) {
@@ -3006,9 +3010,9 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     if( !ammo.damage.empty() || ammo.force_stat_display ) {
         if( is_ammo() ) {
             info.emplace_back( "AMMO", _( "<bold>Ammunition type</bold>: " ), ammo_type()->name() );
-        } else if( ammo_remaining() > 0 ) {
+        } else if( ammo_remaining( here ) > 0 ) {
             info.emplace_back( "AMMO", _( "<bold>Ammunition</bold>: " ),
-                               ammo_data()->nname( ammo_remaining() ) );
+                               ammo_data()->nname( ammo_remaining( here ) ) );
         }
 
         const std::string space = "  ";
@@ -3139,6 +3143,8 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminfo_query *parts,
                      int /* batch */, bool /* debug */ ) const
 {
+    map &here = get_map();
+
     const std::string space = "  ";
     const islot_gun &gun = *mod->type->gun;
     const Skill &skill = *mod->gun_skill();
@@ -3148,7 +3154,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     const item *loaded_mod = mod;
     item tmp;
     const itype *curammo = nullptr;
-    if( mod->ammo_required() && !mod->ammo_remaining() ) {
+    if( mod->ammo_required() && !mod->ammo_remaining( here ) ) {
         tmp = *mod;
         if( tmp.ammo_types().size() == 1 && *tmp.ammo_types().begin() == ammotype::NULL_ID() ) {
             itype_id default_bore_type_id = itype_id::NULL_ID();
@@ -3410,7 +3416,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         const bool is_default_fire_mode = loaded_mod->gun_current_mode().tname() == "DEFAULT";
         //if empty, use the temporary gun loaded with default ammo
         const item::sound_data data = ( mod->ammo_required() &&
-                                        !mod->ammo_remaining() ) ? tmp.gun_noise( is_default_fire_mode ) : loaded_mod->gun_noise(
+                                        !mod->ammo_remaining( here ) ) ? tmp.gun_noise( is_default_fire_mode ) : loaded_mod->gun_noise(
                                           is_default_fire_mode );
         const int loudness = data.volume;
         info.emplace_back( "GUN", _( "Loudness with current fire mode: " ), "", iteminfo::lower_is_better,
@@ -3453,7 +3459,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( mod->has_ammo_data() && parts->test( iteminfo_parts::AMMO_REMAINING ) ) {
         info.emplace_back( "AMMO", _( "Ammunition: " ), string_format( "<stat>%s</stat>",
-                           mod->ammo_data()->nname( mod->ammo_remaining() ) ) );
+                           mod->ammo_data()->nname( mod->ammo_remaining( here ) ) ) );
     }
 
     if( mod->ammo_required() > 1 && parts->test( iteminfo_parts::AMMO_TO_FIRE ) ) {
@@ -4786,6 +4792,7 @@ void item::battery_info( std::vector<iteminfo> &info, const iteminfo_query * /*p
 void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
                       bool /*debug*/ ) const
 {
+    map &here = get_map();
     avatar &player_character = get_avatar();
 
     if( !is_tool() ) {
@@ -4795,7 +4802,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     insert_separation_line( info );
     if( !ammo_types().empty() && parts->test( iteminfo_parts::TOOL_CHARGES ) ) {
         info.emplace_back( "TOOL", string_format( _( "<bold>Charges</bold>: %d" ),
-                           ammo_remaining() ) );
+                           ammo_remaining( here ) ) );
     }
 
     if( !magazine_integral() ) {
@@ -4874,10 +4881,11 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         if( has_ammo_data() ) {
             // Candle items that use ammo instead of charges
             // The capacity should never be zero but clang complains about it
-            percent_left = 100 * ammo_remaining() / std::max( ammo_capacity( ammo_data()->ammo->type ), 1 );
+            percent_left = 100 * ammo_remaining( here ) / std::max( ammo_capacity( ammo_data()->ammo->type ),
+                           1 );
         } else if( type->maximum_charges() > 0 ) {
             // Candle items that use charges instead of ammo
-            percent_left = 100 * ammo_remaining() / type->maximum_charges();
+            percent_left = 100 * ammo_remaining( here ) / type->maximum_charges();
         }
 
         std::string feedback;
@@ -6989,6 +6997,7 @@ std::string item::display_money( unsigned int quantity, unsigned int total,
 
 std::string item::display_name( unsigned int quantity ) const
 {
+    map &here = get_map();
     std::string name = tname( quantity );
     std::string sidetxt;
     std::string amt;
@@ -7016,7 +7025,7 @@ std::string item::display_name( unsigned int quantity ) const
     } else if( magazine_current() ) {
         show_amt = true;
         const item *mag = magazine_current();
-        amount = ammo_remaining();
+        amount = ammo_remaining( here );
         const itype *adata = mag->ammo_data();
         if( adata ) {
             max_amount = mag->ammo_capacity( adata->ammo->type );
@@ -7026,11 +7035,11 @@ std::string item::display_name( unsigned int quantity ) const
         }
     } else if( is_tool() && has_flag( flag_USES_NEARBY_AMMO ) ) {
         show_amt = true;
-        amount = ammo_remaining( player_character.as_character() );
+        amount = ammo_remaining( here, player_character.as_character() );
     } else if( !ammo_types().empty() ) {
         // anything that can be reloaded including tools, magazines, guns and auxiliary gunmods
         // but excluding bows etc., which have ammo, but can't be reloaded
-        amount = ammo_remaining();
+        amount = ammo_remaining( here );
         const itype *adata = ammo_data();
         if( adata ) {
             max_amount = ammo_capacity( adata->ammo->type );
@@ -7178,6 +7187,7 @@ int item::price( bool practical ) const
 
 int item::price_no_contents( bool practical, std::optional<int> price_override ) const
 {
+    map &here = get_map();
     if( rotten() ) {
         return 0;
     }
@@ -7194,7 +7204,7 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
 
     } else if( is_tool() && type->tool->max_charges != 0 ) {
         // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
-        price *= ammo_remaining() / static_cast< double >( std::max( type->charges_default(), 1 ) );
+        price *= ammo_remaining( here ) / static_cast< double >( std::max( type->charges_default(), 1 ) );
 
     }
 
@@ -7229,6 +7239,7 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
 // TODO: MATERIALS add a density field to materials.json
 units::mass item::weight( bool include_contents, bool integral ) const
 {
+    map &here = get_map();
     if( is_null() ) {
         return 0_gram;
     }
@@ -7310,7 +7321,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
     // if this is an ammo belt add the weight of any implicitly contained linkages
     if( type->magazine && type->magazine->linkage ) {
         item links( *type->magazine->linkage );
-        links.charges = ammo_remaining();
+        links.charges = ammo_remaining( here );
         ret += links.weight();
     }
 
@@ -11133,7 +11144,9 @@ units::mass item::gun_base_weight() const
 }
 int item::gun_recoil( const Character &p, bool bipod, bool ideal_strength ) const
 {
-    if( !is_gun() || ( ammo_required() && !ammo_remaining() ) ) {
+    map &here = get_map();
+
+    if( !is_gun() || ( ammo_required() && !ammo_remaining( here ) ) ) {
         return 0;
     }
 
@@ -11223,9 +11236,11 @@ int item::gun_range( const Character *p ) const
 
 int item::shots_remaining( const Character *carrier ) const
 {
+    map &here = get_map();
+
     int ret = 1000; // Arbitrary large number for things that do not require ammo.
     if( ammo_required() ) {
-        ret = std::min( ammo_remaining( carrier, true ) / ammo_required(), ret );
+        ret = std::min( ammo_remaining( here,  carrier, true ) / ammo_required(), ret );
     }
     if( get_gun_energy_drain() > 0_kJ ) {
         ret = std::min( static_cast<int>( energy_remaining( carrier ) / get_gun_energy_drain() ), ret );
@@ -11233,11 +11248,9 @@ int item::shots_remaining( const Character *carrier ) const
     return ret;
 }
 
-int item::ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier,
+int item::ammo_remaining( const map &here, const std::set<ammotype> &ammo, const Character *carrier,
                           const bool include_linked ) const
 {
-    map &here = get_map();
-
     const bool is_tool_with_carrier = carrier != nullptr && is_tool();
 
     if( is_tool_with_carrier && has_flag( flag_USES_NEARBY_AMMO ) && !ammo.empty() ) {
@@ -11251,7 +11264,7 @@ int item::ammo_remaining( const std::set<ammotype> &ammo, const Character *carri
     // Magazine in the item
     const item *mag = magazine_current();
     if( mag ) {
-        ret += mag->ammo_remaining();
+        ret += mag->ammo_remaining( here );
     }
 
     // Cable connections
@@ -11302,15 +11315,17 @@ int item::ammo_remaining( const std::set<ammotype> &ammo, const Character *carri
 
     return ret;
 }
-int item::ammo_remaining( const Character *carrier, const bool include_linked ) const
+int item::ammo_remaining( const map &here, const Character *carrier,
+                          const bool include_linked ) const
 {
     std::set<ammotype> ammo = ammo_types();
-    return ammo_remaining( ammo, carrier, include_linked );
+    return ammo_remaining( here, ammo, carrier, include_linked );
 }
 
 int item::ammo_remaining( const bool include_linked ) const
 {
-    return ammo_remaining( nullptr, include_linked );
+    map &here = get_map();
+    return ammo_remaining( here, nullptr, include_linked );
 }
 
 bool item::uses_energy() const
@@ -11375,15 +11390,17 @@ units::energy item::energy_remaining( const Character *carrier, bool ignoreExter
 
 int item::remaining_ammo_capacity() const
 {
+    map &here = get_map();
+
     if( ammo_types().empty() ) {
         return 0;
     }
 
     const itype *loaded_ammo = ammo_data();
     if( loaded_ammo == nullptr ) {
-        return ammo_capacity( item::find_type( ammo_default() )->ammo->type ) - ammo_remaining();
+        return ammo_capacity( item::find_type( ammo_default() )->ammo->type ) - ammo_remaining( here );
     } else {
-        return ammo_capacity( loaded_ammo->ammo->type ) - ammo_remaining();
+        return ammo_capacity( loaded_ammo->ammo->type ) - ammo_remaining( here );
     }
 }
 
@@ -11445,8 +11462,10 @@ void item::handle_liquid_or_spill( Character &guy, const item *avoid )
 
 bool item::ammo_sufficient( const Character *carrier, int qty ) const
 {
+    map &here = get_map();
+
     if( count_by_charges() ) {
-        return ammo_remaining( carrier, true ) >= qty;
+        return ammo_remaining( here, carrier, true ) >= qty;
     }
 
     if( is_comestible() ) {
@@ -11712,6 +11731,8 @@ itype_id item::ammo_current() const
 
 const item &item::loaded_ammo() const
 {
+    map &here = get_map();
+
     const item *mag = magazine_current();
     if( mag ) {
         return mag->loaded_ammo();
@@ -11729,7 +11750,7 @@ const item &item::loaded_ammo() const
         }
     }
 
-    if( is_gun() && ammo_remaining() != 0 ) {
+    if( is_gun() && ammo_remaining( here ) != 0 ) {
         return contents.first_ammo();
     }
     return null_item_reference();
@@ -11974,6 +11995,8 @@ item *item::gunmod_find_by_flag( const flag_id &flag )
 
 ret_val<void> item::is_gunmod_compatible( const item &mod ) const
 {
+    map &here = get_map();
+
     if( !mod.is_gunmod() ) {
         debugmsg( "Tried checking compatibility of non-gunmod" );
         return ret_val<void>::make_failure();
@@ -12021,7 +12044,7 @@ ret_val<void> item::is_gunmod_compatible( const item &mod ) const
                  mod.type->gunmod->location.name() == "mechanism" ||
                  mod.type->gunmod->location.name() == "loading port" ||
                  mod.type->gunmod->location.name() == "bore" ) &&
-               ( ammo_remaining() > 0 || magazine_current() ) ) {
+               ( ammo_remaining( here ) > 0 || magazine_current() ) ) {
         return ret_val<void>::make_failure( _( "must be unloaded before installing this mod" ) );
 
     } else if( gunmod_find( itype_stock_none ) &&
@@ -12250,6 +12273,8 @@ int item::reload_option::moves() const
 
 void item::reload_option::qty( int val )
 {
+    map &here = get_map();
+
     bool ammo_in_container = ammo->is_ammo_container();
     bool ammo_in_liquid_container = ammo->is_watertight_container();
     item &ammo_obj = ( ammo_in_container || ammo_in_liquid_container ) ?
@@ -12281,7 +12306,7 @@ void item::reload_option::qty( int val )
     bool ammo_by_charges = ammo_obj.is_ammo() || ammo_in_liquid_container;
     int available_ammo;
     if( ammo->has_flag( flag_SPEEDLOADER ) || ammo->has_flag( flag_SPEEDLOADER_CLIP ) ) {
-        available_ammo = ammo_obj.ammo_remaining();
+        available_ammo = ammo_obj.ammo_remaining( here );
     } else {
         available_ammo = ammo_by_charges ? ammo_obj.charges : ammo_obj.count();
     }
@@ -12316,6 +12341,8 @@ void item::casings_handle( const std::function<bool( item & )> &func )
 
 bool item::reload( Character &u, item_location ammo, int qty )
 {
+    map &here = get_map();
+
     if( qty <= 0 ) {
         debugmsg( "Tried to reload zero or less charges" );
         return false;
@@ -12341,7 +12368,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
     if( is_watertight_container() && ammo->made_of_from_type( phase_id::LIQUID ) ) {
         limit = get_remaining_capacity_for_liquid( *ammo );
     } else if( ammo->is_ammo() ) {
-        limit = ammo_capacity( ammo->ammo_type() ) - ammo_remaining();
+        limit = ammo_capacity( ammo->ammo_type() ) - ammo_remaining( here );
     }
 
     if( ammo->ammo_type() == ammo_plutonium ) {
@@ -14500,8 +14527,8 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
     }
 
     const bool power_in = link().charge_rate > 0;
-    if( power_in ? ammo_remaining() >= ammo_capacity( ammo_battery ) :
-        ammo_remaining() <= 0 ) {
+    if( power_in ? ammo_remaining( here ) >= ammo_capacity( ammo_battery ) :
+        ammo_remaining( here ) <= 0 ) {
         return 0;
     }
 
@@ -14522,19 +14549,19 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
         const int battery_deficit = linked_veh.discharge_battery( here, transfer_total, true );
         // Around 85% efficient by default; a few of the discharges don't actually recharge
         if( battery_deficit == 0 && ( !short_time_passed || rng_float( 0.0, 1.0 ) <= link().efficiency ) ) {
-            ammo_set( itype_battery, ammo_remaining() + transfer_total );
+            ammo_set( itype_battery, ammo_remaining( here ) + transfer_total );
         }
     } else {
         // Around 85% efficient by default; a few of the discharges don't actually charge
         if( !short_time_passed || rng_float( 0.0, 1.0 ) <= link().efficiency ) {
             const int battery_surplus = linked_veh.charge_battery( here, transfer_total, true );
             if( battery_surplus == 0 ) {
-                ammo_set( itype_battery, ammo_remaining() - transfer_total );
+                ammo_set( itype_battery, ammo_remaining( here ) - transfer_total );
             }
         } else {
             const std::pair<int, int> linked_levels = linked_veh.connected_battery_power_level( here );
             if( linked_levels.first < linked_levels.second ) {
-                ammo_set( itype_battery, ammo_remaining() - transfer_total );
+                ammo_set( itype_battery, ammo_remaining( here ) - transfer_total );
             }
         }
     }
@@ -14652,6 +14679,8 @@ units::energy item::energy_per_second() const
 
 bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
 {
+    map &here = get_map();
+
     // FIXME: remove this once power armors don't need to be TOOL_ARMOR anymore
     if( is_power_armor() && carrier && carrier->can_interface_armor() && carrier->has_power() ) {
         return false;
@@ -14660,7 +14689,7 @@ bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
     // if insufficient available charges shutdown the tool
     if( ( type->tool->power_draw > 0_W || type->tool->turns_per_charge > 0 ) &&
         ( ( uses_energy() && energy_remaining( carrier ) < energy_per_second() ) ||
-          ( !uses_energy() && ammo_remaining( carrier, true ) == 0 ) ) ) {
+          ( !uses_energy() && ammo_remaining( here, carrier, true ) == 0 ) ) ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }

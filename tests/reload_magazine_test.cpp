@@ -11,6 +11,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "map.h"
 #include "pimpl.h"
 #include "type_id.h"
 #include "visitable.h"
@@ -34,6 +35,7 @@ static const itype_id itype_sw_619( "sw_619" );
 // NOLINTNEXTLINE(readability-function-size)
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [reload]" )
 {
+    map &here = get_map();
     const itype_id gun_id = itype_debug_modular_m4_carbine;
     const ammotype gun_ammo = ammo_223;
     const itype_id ammo_id = itype_556; // any type of compatible ammo
@@ -76,14 +78,14 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
     CHECK( !mag->has_ammo_data() );
 
     GIVEN( "An empty magazine" ) {
-        CHECK( mag->ammo_remaining() == 0 );
+        CHECK( mag->ammo_remaining( here ) == 0 );
 
         WHEN( "the magazine is reloaded with incompatible ammo" ) {
             item_location ammo = player_character.i_add( item( bad_ammo ) );
             bool ok = mag->reload( player_character, ammo, mag->ammo_capacity( gun_ammo ) );
             THEN( "reloading should fail" ) {
                 REQUIRE_FALSE( ok );
-                REQUIRE( mag->ammo_remaining() == 0 );
+                REQUIRE( mag->ammo_remaining( here ) == 0 );
             }
         }
 
@@ -130,7 +132,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
                     REQUIRE( mag->has_ammo_data() );
                 }
                 AND_THEN( "the magazine is filled with the correct quantity" ) {
-                    REQUIRE( mag->ammo_remaining() == mag_cap - 2 );
+                    REQUIRE( mag->ammo_remaining( here ) == mag_cap - 2 );
                 }
                 AND_THEN( "the ammo stack was completely used" ) {
                     std::vector<const item *> found;
@@ -148,7 +150,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
             AND_WHEN( "the magazine is further reloaded with matching ammo" ) {
                 item_location ammo = player_character.i_add( item( ammo_id, calendar::turn, 10 ) );
                 REQUIRE( ammo->charges == 10 );
-                REQUIRE( mag->ammo_remaining() == mag_cap - 2 );
+                REQUIRE( mag->ammo_remaining( here ) == mag_cap - 2 );
 
                 bool ok = mag->reload( player_character, ammo, mag->ammo_capacity( gun_ammo ) );
                 THEN( "further reloading is successful" ) {
@@ -177,7 +179,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
                 bool ok = mag->reload( player_character, ammo, mag->ammo_capacity( gun_ammo ) );
                 THEN( "further reloading should be succesful" ) {
                     REQUIRE( ok );
-                    REQUIRE( mag->ammo_remaining() == mag_cap );
+                    REQUIRE( mag->ammo_remaining( here ) == mag_cap );
                 }
             }
 
@@ -186,7 +188,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
                 bool ok = mag->reload( player_character, ammo, mag->ammo_capacity( gun_ammo ) );
                 THEN( "further reloading should fail" ) {
                     REQUIRE_FALSE( ok );
-                    REQUIRE( mag->ammo_remaining() == mag_cap - 2 );
+                    REQUIRE( mag->ammo_remaining( here ) == mag_cap - 2 );
                 }
             }
         }
@@ -205,7 +207,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
         CHECK( gun->magazine_current() == nullptr );
         CHECK( item( gun->magazine_default() ).ammo_types().count( gun_ammo ) );
         CHECK( gun->ammo_capacity( gun_ammo ) == 0 );
-        CHECK( gun->ammo_remaining() == 0 );
+        CHECK( gun->ammo_remaining( here ) == 0 );
         CHECK( gun->ammo_current().is_null() );
         CHECK( !gun->has_ammo_data() );
 
@@ -219,7 +221,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
         }
 
         WHEN( "the gun is reloaded with an empty compatible magazine" ) {
-            CHECK( mag->ammo_remaining() == 0 );
+            CHECK( mag->ammo_remaining( here ) == 0 );
 
             bool ok = gun->reload( player_character, mag, 1 );
             THEN( "reloading is successful" ) {
@@ -237,7 +239,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
                 }
                 AND_THEN( "the gun contains no ammo" ) {
                     REQUIRE( gun->ammo_current().is_null() );
-                    REQUIRE( gun->ammo_remaining() == 0 );
+                    REQUIRE( gun->ammo_remaining( here ) == 0 );
                     REQUIRE( !gun->has_ammo_data() );
                 }
             }
@@ -246,7 +248,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
         WHEN( "the gun is reloaded with a partially filled compatible magazine" ) {
             mag->ammo_set( ammo_id, mag_cap - 2 );
             CHECK( mag->ammo_current() == ammo_id );
-            CHECK( mag->ammo_remaining() == mag_cap - 2 );
+            CHECK( mag->ammo_remaining( here ) == mag_cap - 2 );
 
             bool ok = gun->reload( player_character, mag, 1 );
             THEN( "reloading is successful" ) {
@@ -263,7 +265,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
                     REQUIRE( gun->ammo_capacity( gun_ammo ) == mag_cap );
                 }
                 AND_THEN( "the gun contains the correct amount and type of ammo" ) {
-                    REQUIRE( gun->ammo_remaining() == mag_cap - 2 );
+                    REQUIRE( gun->ammo_remaining( here ) == mag_cap - 2 );
                     REQUIRE( gun->ammo_current() == ammo_id );
                     REQUIRE( gun->has_ammo_data() );
                 }
@@ -273,7 +275,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
                     bool ok = gun->magazine_current()->reload( player_character, ammo, 10 );
                     THEN( "further reloading should be succesful" ) {
                         REQUIRE( ok );
-                        REQUIRE( gun->ammo_remaining() == mag_cap );
+                        REQUIRE( gun->ammo_remaining( here ) == mag_cap );
                     }
                 }
 
@@ -282,7 +284,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
                     bool ok = gun->magazine_current()->reload( player_character, ammo, 10 );
                     THEN( "further reloading should fail" ) {
                         REQUIRE_FALSE( ok );
-                        REQUIRE( gun->ammo_remaining() == mag_cap - 2 );
+                        REQUIRE( gun->ammo_remaining( here ) == mag_cap - 2 );
                     }
                 }
 
@@ -295,7 +297,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
                         REQUIRE( ok );
 
                         AND_THEN( "the guns contained magazine is filled to capacity" ) {
-                            REQUIRE( gun->ammo_remaining() == mag_cap );
+                            REQUIRE( gun->ammo_remaining( here ) == mag_cap );
                         }
                         AND_THEN( "a single correctly sized ammo stack remains in the inventory" ) {
                             std::vector<const item *> found;
@@ -321,7 +323,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
                     bool ok = gun->reload( player_character, another_mag, 1 );
                     THEN( "the gun is now loaded with the full magazine" ) {
                         CHECK( ok );
-                        CHECK( gun->ammo_remaining() == mag_cap );
+                        CHECK( gun->ammo_remaining( here ) == mag_cap );
                     }
                 }
             }
@@ -331,6 +333,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
 
 TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
 {
+    map &here = get_map();
     const itype_id gun_id = itype_sw_619;
     const ammotype gun_ammo = ammo_38;
     const itype_id ammo_id = itype_38_special; // any type of compatible ammo
@@ -358,7 +361,7 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
         CHECK( player_character.can_reload( *gun, &ammo_it ) );
         CHECK( gun->magazine_integral() );
         CHECK( gun->ammo_capacity( gun_ammo ) == mag_cap );
-        CHECK( gun->ammo_remaining() == 0 );
+        CHECK( gun->ammo_remaining( here ) == 0 );
         CHECK( gun->ammo_current().is_null() );
         CHECK( !gun->has_ammo_data() );
 
@@ -367,7 +370,7 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
             bool ok = gun->reload( player_character, ammo, gun->ammo_capacity( gun_ammo ) );
             THEN( "reloading should fail" ) {
                 REQUIRE_FALSE( ok );
-                REQUIRE( gun->ammo_remaining() == 0 );
+                REQUIRE( gun->ammo_remaining( here ) == 0 );
             }
         }
 
@@ -414,7 +417,7 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
                     REQUIRE( gun->has_ammo_data() );
                 }
                 AND_THEN( "the gun is filled with the correct quantity" ) {
-                    REQUIRE( gun->ammo_remaining() == mag_cap - 2 );
+                    REQUIRE( gun->ammo_remaining( here ) == mag_cap - 2 );
                 }
                 AND_THEN( "the ammo stack was completely used" ) {
                     std::vector<const item *> found;
@@ -432,7 +435,7 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
             AND_WHEN( "the gun is further reloaded with matching ammo" ) {
                 item_location ammo = player_character.i_add( item( ammo_id, calendar::turn, 10 ) );
                 REQUIRE( ammo->charges == 10 );
-                REQUIRE( gun->ammo_remaining() == mag_cap - 2 );
+                REQUIRE( gun->ammo_remaining( here ) == mag_cap - 2 );
 
                 bool ok = gun->reload( player_character, ammo, gun->ammo_capacity( gun_ammo ) );
                 THEN( "further reloading is successful" ) {
@@ -461,7 +464,7 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
                 bool ok = gun->reload( player_character, ammo, gun->ammo_capacity( gun_ammo ) );
                 THEN( "further reloading should fail" ) {
                     REQUIRE_FALSE( ok );
-                    REQUIRE( gun->ammo_remaining() == mag_cap - 2 );
+                    REQUIRE( gun->ammo_remaining( here ) == mag_cap - 2 );
                 }
             }
 
@@ -470,7 +473,7 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
                 bool ok = gun->reload( player_character, ammo, gun->ammo_capacity( gun_ammo ) );
                 THEN( "further reloading should fail" ) {
                     REQUIRE_FALSE( ok );
-                    REQUIRE( gun->ammo_remaining() == mag_cap - 2 );
+                    REQUIRE( gun->ammo_remaining( here ) == mag_cap - 2 );
                 }
             }
         }

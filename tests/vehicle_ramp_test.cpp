@@ -158,7 +158,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
             }
             const point_rel_ms &pmount = vp.mount_pos();
             CAPTURE( pmount );
-            const tripoint_bub_ms &ppos = vp.pos_bub( &here );
+            const tripoint_bub_ms &ppos = vp.pos_bub( here );
             CAPTURE( ppos );
             if( cycles > ( transition_cycle - pmount.x() ) ) {
                 CHECK( ppos.z() == target_z );

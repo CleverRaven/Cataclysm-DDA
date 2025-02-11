@@ -7078,7 +7078,7 @@ std::vector<item *> map::place_items(
                 !e->magazine_current() ) {
                 e->put_in( item( e->magazine_default(), e->birthday() ), pocket_type::MAGAZINE_WELL );
             }
-            if( rng( 0, 99 ) < ammo && e->ammo_default() && e->ammo_remaining() == 0 ) {
+            if( rng( 0, 99 ) < ammo && e->ammo_default() && e->ammo_remaining( *this ) == 0 ) {
                 e->ammo_set( e->ammo_default() );
             }
         }

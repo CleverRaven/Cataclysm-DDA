@@ -154,12 +154,12 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
 
     REQUIRE( veh.fuel_left( here, itype_water_clean ) == 0 );
     for( const vpart_reference &tank : veh.get_avail_parts( vpart_bitflags::VPFLAG_FLUIDTANK ) ) {
-        tank.part().ammo_set( itype_water_clean, give_water );
+        tank.part().ammo_set( here, itype_water_clean, give_water );
         break;
     }
     for( const vpart_reference &p : ovp->vehicle().get_all_parts() ) {
         if( p.has_feature( "DOOR" ) ) {
-            veh.open( p.part_index() );
+            veh.open( here, p.part_index() );
         }
         // seems it's not needed but just in case
         if( p.has_feature( "SOLAR_PANEL" ) ) {
@@ -194,7 +194,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
         REQUIRE_FALSE( can_craft );
     }
 
-    CHECK( veh.battery_power_level().first == expect_battery );
+    CHECK( veh.battery_power_level( here ).first == expect_battery );
     CHECK( veh.fuel_left( here, itype_water_clean ) == expect_water );
 
     veh.unboard_all( here );
@@ -221,7 +221,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
     REQUIRE( veh.fuel_left( here, itype_water_clean ) == 0 );
     item *tank_it = nullptr;
     for( const vpart_reference &tank : veh.get_avail_parts( vpart_bitflags::VPFLAG_FLUIDTANK ) ) {
-        tank.part().ammo_set( itype_water_clean, water_charges );
+        tank.part().ammo_set( here, itype_water_clean, water_charges );
         tank_it = const_cast<item *>( &tank.part().get_base() );
         tank_it->only_item().cold_up();
         break;
@@ -231,18 +231,18 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
 
     std::optional<vpart_reference> faucet;
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
-        faucet = vpr.part_with_tool( itype_water_faucet );
+        faucet = vpr.part_with_tool( here, itype_water_faucet );
         if( faucet.has_value() ) {
             break;
         }
     }
     REQUIRE( faucet.has_value() );
-    here.board_vehicle( faucet->pos_bub( &here ) + tripoint::east, &character );
+    here.board_vehicle( faucet->pos_bub( here ) + tripoint::east, &character );
     veh_menu menu( veh, "TEST" );
     for( int i = 0; i < water_charges; i++ ) {
         CAPTURE( i, veh.fuel_left( here, itype_water_clean ) );
         menu.reset();
-        veh.build_interact_menu( menu, &here, faucet->pos_bub( &here ), false );
+        veh.build_interact_menu( menu, &here, faucet->pos_bub( here ), false );
         const std::vector<veh_menu_item> items = menu.get_items();
         const bool stomach_should_be_full = i == water_charges - 1;
         const auto drink_item_it = std::find_if( items.begin(), items.end(),
@@ -313,9 +313,11 @@ TEST_CASE( "verify_vehicle_tank_refill", "[vehicle]" )
 
 TEST_CASE( "check_capacity_fueltype_handling", "[vehicle]" )
 {
+    map &here = get_map();
+
     GIVEN( "tank is empty" ) {
         vehicle_part vp( vpart_tank_test, item( itype_metal_tank_test ) );
-        REQUIRE( vp.ammo_remaining() == 0 );
+        REQUIRE( vp.ammo_remaining( here ) == 0 );
         THEN( "ammo_current ammotype is always null" ) {
             CHECK( vp.ammo_current().is_null() );
             CHECK( !item::find_type( vp.ammo_current() )->ammo );
@@ -332,7 +334,7 @@ TEST_CASE( "check_capacity_fueltype_handling", "[vehicle]" )
         item tank( itype_metal_tank_test );
         REQUIRE( tank.fill_with( item( itype_water_clean ), 100 ) == 100 );
         vp.set_base( std::move( tank ) );
-        REQUIRE( vp.ammo_remaining() == 100 );
+        REQUIRE( vp.ammo_remaining( here ) == 100 );
 
         THEN( "ammo_current is not null" ) {
             CHECK( vp.ammo_current() == itype_water_clean );

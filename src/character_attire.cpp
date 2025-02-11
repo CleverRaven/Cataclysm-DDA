@@ -2045,6 +2045,7 @@ std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy )
 void outfit::fire_options( Character &guy, std::vector<std::string> &options,
                            std::vector<std::function<void()>> &actions )
 {
+    map &here = get_map();
     for( item &clothing : worn ) {
         std::vector<item *> guns = clothing.items_with( []( const item & it ) {
             return it.is_gun();
@@ -2056,7 +2057,7 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
             options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
                                               guns.front()->tname(),
                                               clothing.type_name(),
-                                              guns.front()->ammo_remaining() ) );
+                                              guns.front()->ammo_remaining( here ) ) );
 
             actions.emplace_back( [&] { guy.invoke_item( &clothing, "holster" ); } );
 

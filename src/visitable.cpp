@@ -819,6 +819,8 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                                 const std::function<bool( const item & )> &filter,
                                 const std::function<void( int )> &visitor, bool in_tools )
 {
+    map &here = get_map();
+
     int qty = 0;
 
     bool found_tool_with_UPS = false;
@@ -832,7 +834,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                 if( e->count_by_charges() ) {
                     qty = sum_no_wrap( qty, e->charges );
                 } else {
-                    qty = sum_no_wrap( qty, e->ammo_remaining( nullptr, true ) );
+                    qty = sum_no_wrap( qty, e->ammo_remaining( here, nullptr, true ) );
                 }
                 if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
                     found_tool_with_UPS = true;
@@ -840,7 +842,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                     found_bionic_tool = true;
                 }
             } else if( id == itype_UPS && e->has_flag( flag_IS_UPS ) ) {
-                qty = sum_no_wrap( qty, e->ammo_remaining( nullptr, true ) );
+                qty = sum_no_wrap( qty, e->ammo_remaining( here, nullptr, true ) );
             }
         }
         if( qty >= limit ) {

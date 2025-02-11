@@ -99,7 +99,7 @@ TEST_CASE( "mapgen_remove_vehicles" )
     veh->set_owner( get_avatar() );
     REQUIRE( here.get_vehicles().size() == 1 );
     here.board_vehicle( start_loc, &get_avatar() );
-    veh->start_engines( &get_avatar(), true );
+    veh->start_engines( here, &get_avatar(), true );
 
     tripoint_bub_ms const test_loc = get_avatar().pos_bub();
     check_vehicle_still_works( *veh );

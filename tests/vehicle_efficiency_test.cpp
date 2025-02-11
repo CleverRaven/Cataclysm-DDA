@@ -60,6 +60,7 @@ static void clear_game( const ter_id &terrain )
 // But contains only fuels actually used by engines
 static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fuel_mult )
 {
+    map &here = get_map();
     // First we need to find the fuels to set
     // That is, fuels actually used by some engine
     std::set<itype_id> actually_used;
@@ -94,13 +95,13 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
         vehicle_part &pt = vp.part();
 
         if( pt.is_battery() ) {
-            pt.ammo_set( itype_battery, pt.ammo_capacity( ammo_battery ) * veh_fuel_mult );
+            pt.ammo_set( here, itype_battery, pt.ammo_capacity( ammo_battery ) * veh_fuel_mult );
             ret[itype_battery] += pt.ammo_capacity( ammo_battery ) * veh_fuel_mult;
         } else if( pt.is_tank() && !liquid_fuel.is_null() ) {
             float qty = pt.ammo_capacity( item::find_type( liquid_fuel )->ammo->type ) * veh_fuel_mult;
             qty *= std::max( item::find_type( liquid_fuel )->stack_size, 1 );
             qty /= to_milliliter( 250_ml );
-            pt.ammo_set( liquid_fuel, qty );
+            pt.ammo_set( here, liquid_fuel, qty );
             ret[ liquid_fuel ] += qty;
         } else {
             pt.ammo_unset();
@@ -123,6 +124,7 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
 // i.e. 1 means no fuel was used, 0 means at least one dry tank
 static float fuel_percentage_left( vehicle &v, const std::map<itype_id, int> &started_with )
 {
+    map &here = get_map();
     std::map<itype_id, int> fuel_amount;
     std::set<itype_id> consumed_fuels;
     for( const vpart_reference &vp : v.get_all_parts() ) {
@@ -130,7 +132,7 @@ static float fuel_percentage_left( vehicle &v, const std::map<itype_id, int> &st
 
         if( ( pt.is_battery() || pt.is_reactor() || pt.is_tank() ) &&
             !pt.ammo_current().is_null() ) {
-            fuel_amount[ pt.ammo_current() ] += pt.ammo_remaining();
+            fuel_amount[ pt.ammo_current() ] += pt.ammo_remaining( here );
         }
 
         if( pt.is_engine() && !pt.info().fuel_type.is_null() ) {
@@ -188,10 +190,10 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     // Remove all items from cargo to normalize weight.
     for( const vpart_reference &vp : veh.get_all_parts() ) {
         veh_ptr->get_items( vp.part() ).clear();
-        vp.part().ammo_consume( vp.part().ammo_remaining(), &here, vp.pos_bub( &here ) );
+        vp.part().ammo_consume( vp.part().ammo_remaining( here ), &here, vp.pos_bub( here ) );
     }
     for( const vpart_reference &vp : veh.get_avail_parts( "OPENABLE" ) ) {
-        veh.close( vp.part_index() );
+        veh.close( here, vp.part_index() );
     }
 
     veh.refresh_insides();

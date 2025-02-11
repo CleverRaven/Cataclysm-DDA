@@ -1271,7 +1271,7 @@ int item_contents::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos,
             // assuming only one mag
             item &mag = pocket.front();
             const int res = mag.ammo_consume( qty, here, pos, nullptr );
-            if( res && mag.ammo_remaining() == 0 ) {
+            if( res && mag.ammo_remaining( *here ) == 0 ) {
                 if( mag.has_flag( STATIC( flag_id( "MAG_DESTROY" ) ) ) ) {
                     pocket.remove_item( mag );
                 } else if( mag.has_flag( STATIC( flag_id( "MAG_EJECT" ) ) ) ) {

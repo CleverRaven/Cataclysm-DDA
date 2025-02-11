@@ -488,6 +488,8 @@ Item_modifier::Item_modifier()
 
 void Item_modifier::modify( item &new_item, const std::string &context ) const
 {
+    map &here = get_map();
+
     if( new_item.is_null() ) {
         return;
     }
@@ -633,7 +635,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
 
         if( new_item.is_magazine() ||
             new_item.has_pocket_type( pocket_type::MAGAZINE_WELL ) ) {
-            bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining() == 0 && ch == -1 &&
+            bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining( here ) == 0 && ch == -1 &&
                               ( !new_item.is_tool() || new_item.type->tool->rand_charges.empty() );
             bool spawn_mag = rng( 0, 99 ) < with_magazine && !new_item.magazine_integral() &&
                              !new_item.magazine_current();

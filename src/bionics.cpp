@@ -630,6 +630,7 @@ void npc::deactivate_or_discharge_bionic_weapon( bool stow_real_weapon )
 
 void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 {
+    map &here = get_map();
     // if we're already using a bio_weapon, keep using it
     if( is_using_bionic_weapon() ) {
         return;
@@ -657,7 +658,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     item_location weapon = get_wielded_item();
     const item &weap = weapon ? *weapon : null_item_reference();
 
-    int ammo_count = weap.ammo_remaining( this );
+    int ammo_count = weap.ammo_remaining( here, this );
     const units::energy ups_drain = weap.get_gun_ups_drain();
     if( ups_drain > 0_kJ ) {
         ammo_count = units::from_kilojoule( static_cast<std::int64_t>( ammo_count ) ) / ups_drain;
@@ -1411,7 +1412,7 @@ void Character::burn_fuel( bionic &bio )
         for( item *fuel_source : result.connected_fuel ) {
             item *fuel;
             // Fuel may be ammo or in container
-            if( fuel_source->ammo_remaining() ) {
+            if( fuel_source->ammo_remaining( here ) ) {
                 fuel = &fuel_source->first_ammo();
             } else {
                 fuel = fuel_source->all_items_ptr( pocket_type::CONTAINER ).front();
@@ -3319,6 +3320,7 @@ bionic_id Character::get_remote_fueled_bionic() const
 
 std::vector<item *> Character::get_bionic_fuels( const bionic_id &bio )
 {
+    map &here = get_map();
     std::vector<item *> stored_fuels;
 
     for( item_location it : top_items_loc() ) {
@@ -3326,7 +3328,7 @@ std::vector<item *> Character::get_bionic_fuels( const bionic_id &bio )
             continue;
         }
         for( const material_id &mat : bio->fuel_opts ) {
-            if( it->ammo_remaining() && it->first_ammo().made_of( mat ) ) {
+            if( it->ammo_remaining( here ) && it->first_ammo().made_of( mat ) ) {
                 // Ammo from magazines
                 stored_fuels.emplace_back( it.get_item() );
             } else {
@@ -3346,6 +3348,7 @@ std::vector<item *> Character::get_bionic_fuels( const bionic_id &bio )
 
 std::vector<item *> Character::get_cable_ups()
 {
+    map &here = get_map();
     std::vector<item *> stored_fuels;
 
     int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
@@ -3359,7 +3362,7 @@ std::vector<item *> Character::get_cable_ups()
     // So if there are multiple cables and some of them are only partially connected this may add wrong ups
     for( item_location it : all_items_loc() ) {
         if( it->has_flag( flag_IS_UPS ) && it->get_var( "cable" ) == "plugged_in" &&
-            it->ammo_remaining() ) {
+            it->ammo_remaining( here ) ) {
             stored_fuels.emplace_back( it.get_item() );
             n--;
         }
@@ -3369,7 +3372,7 @@ std::vector<item *> Character::get_cable_ups()
     }
 
     if( n > 0 && weapon.has_flag( flag_IS_UPS ) && weapon.get_var( "cable" ) == "plugged_in" &&
-        weapon.ammo_remaining() ) {
+        weapon.ammo_remaining( here ) ) {
         stored_fuels.emplace_back( &weapon.first_ammo() );
     }
 

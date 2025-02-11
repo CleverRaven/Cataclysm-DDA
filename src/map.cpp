@@ -1269,7 +1269,7 @@ std::set<tripoint_bub_ms> map::get_moving_vehicle_targets( const Creature &z, in
             continue; // coarse distance filter, 40 = ~24 * sqrt(2) - rough max diameter of a vehicle
         }
         for( const vpart_reference &vpr : v.v->get_all_parts() ) {
-            const tripoint_bub_ms vppos = vpr.pos_bub( this );
+            const tripoint_bub_ms vppos = vpr.pos_bub( *this );
             if( rl_dist( zpos, vppos ) > max_range ) {
                 continue;
             }
@@ -4686,7 +4686,7 @@ bool map::open_door( Creature const &u, const tripoint_bub_ms &p, const bool ins
                     !vp->vehicle().handle_potential_theft( *u.as_character() ) ) {
                     return false;
                 }
-                vp->vehicle().open_all_at( openable );
+                vp->vehicle().open_all_at( *this, openable );
             }
 
             return true;
@@ -5505,7 +5505,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                     chargeable = std::ceil( units::to_kilojoule<double>( n.type->battery->max_capacity -
                                             n.energy_remaining( nullptr ) ) );
                 } else if( n.ammo_capacity( ammo_battery ) ) {
-                    chargeable = n.ammo_capacity( ammo_battery ) - n.ammo_remaining();
+                    chargeable = n.ammo_capacity( ammo_battery ) - n.ammo_remaining( here );
                 }
 
                 if( !is_running && chargeable > 0 ) {
@@ -5534,7 +5534,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                     if( n.is_vehicle_battery() ) {
                         n.mod_energy( units::from_kilojoule( static_cast<std::int64_t>( charged ) ) );
                     } else {
-                        n.ammo_set( itype_battery, n.ammo_remaining() + charged );
+                        n.ammo_set( itype_battery, n.ammo_remaining( here ) + charged );
                     }
 
                 }
@@ -5691,7 +5691,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
 {
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     for( const vpart_reference &vp : cur_veh.get_any_parts( VPFLAG_FLUIDTANK ) ) {
-        vp.part().process_contents( *this, vp.pos_bub( this ), engine_heater_is_on );
+        vp.part().process_contents( *this, vp.pos_bub( *this ), engine_heater_is_on );
     }
 
     auto cargo_parts = cur_veh.get_parts_including_carried( VPFLAG_CARGO );
@@ -5717,7 +5717,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         const item &target = *active_item_ref.item_ref;
         // Find the cargo part and coordinates corresponding to the current active item.
         const vehicle_part &pt = it->part();
-        const tripoint_bub_ms item_loc = it->pos_bub( this );
+        const tripoint_bub_ms item_loc = it->pos_bub( *this );
         vehicle_stack items = cur_veh.get_items( pt );
         float it_insulation = 1.0f;
         temperature_flag flag = temperature_flag::NORMAL;
@@ -5990,7 +5990,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
                 if( furn_item.use_charges( type, quantity, ret, p, return_true<item>, nullptr, in_tools ) ) {
                     stack.erase( iter );
                 } else {
-                    iter->charges = furn_item.ammo_remaining();
+                    iter->charges = furn_item.ammo_remaining( *m );
                 }
             }
         }
@@ -8597,7 +8597,7 @@ void map::actualize( const tripoint_rel_sm &grid )
         // spill out items too large, MIGRATION pockets etc from vehicle parts
         for( const vpart_reference &vp : veh->get_all_parts() ) {
             const item &base_const = vp.part().get_base();
-            const_cast<item &>( base_const ).overflow( vp.pos_bub( this ) );
+            const_cast<item &>( base_const ).overflow( vp.pos_bub( *this ) );
         }
         veh->refresh( );
     }
@@ -10158,7 +10158,7 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
                 ( !vp.has_feature( VPFLAG_OPENABLE ) || !vp.part().open ) ) {
                 continue;
             }
-            const tripoint_bub_ms part_pos = vp.pos_bub( this );
+            const tripoint_bub_ms part_pos = vp.pos_bub( *this );
             if( local_bounds.contains( part_pos.xy() ) ) {
                 reduces_scent[part_pos.x()][part_pos.y()] = true;
             }

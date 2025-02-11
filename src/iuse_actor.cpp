@@ -409,7 +409,7 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
         }
     }
 
-    if( need_charges && it.ammo_remaining( &p, true ) < need_charges ) {
+    if( need_charges && it.ammo_remaining( *here, &p, true ) < need_charges ) {
         return ret_val<void>::make_failure( string_format( need_charges_msg, it.tname() ) );
     }
 
@@ -1011,7 +1011,7 @@ std::optional<int> place_monster_iuse::use( Character *p, item &it, map *here,
         return std::nullopt;
     }
 
-    if( it.ammo_remaining() < need_charges ) {
+    if( it.ammo_remaining( *here ) < need_charges ) {
         p->add_msg_if_player( m_info, _( "This requires %d charges to activate." ), need_charges );
         return std::nullopt;
     }

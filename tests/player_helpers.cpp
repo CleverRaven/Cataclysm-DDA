@@ -36,6 +36,7 @@ static const move_mode_id move_mode_walk( "walk" );
 
 int get_remaining_charges( const itype_id &tool_id )
 {
+    map &here = get_map();
     const inventory crafting_inv = get_player_character().crafting_inventory();
     std::vector<const item *> items =
     crafting_inv.items_with( [tool_id]( const item & i ) {
@@ -43,7 +44,7 @@ int get_remaining_charges( const itype_id &tool_id )
     } );
     int remaining_charges = 0;
     for( const item *instance : items ) {
-        remaining_charges += instance->ammo_remaining();
+        remaining_charges += instance->ammo_remaining( here );
     }
     return remaining_charges;
 }

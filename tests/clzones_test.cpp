@@ -97,7 +97,7 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
 
     item ammo_belt = item( itype_belt223, calendar::turn );
     ammo_belt.ammo_set( ammo_belt.ammo_default() );
-    int belt_ammo_count_before_unload = ammo_belt.ammo_remaining();
+    int belt_ammo_count_before_unload = ammo_belt.ammo_remaining( here );
 
     REQUIRE( belt_ammo_count_before_unload > 0 );
 

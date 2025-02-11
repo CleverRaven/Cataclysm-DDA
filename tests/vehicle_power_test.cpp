@@ -125,7 +125,7 @@ TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
         CHECK( remainder <= preset.max_charge_excess );
         for( size_t i = 0; i < batteries.size(); i++ ) {
             CAPTURE( i );
-            CHECK( preset.max_charge_in_battery >= batteries[i].part().ammo_remaining() );
+            CHECK( preset.max_charge_in_battery >= batteries[i].part().ammo_remaining( here ) );
         }
         const int deficit = v.discharge_battery( here, preset.discharge );
         CHECK( deficit >= preset.min_discharge_deficit );
@@ -289,7 +289,7 @@ TEST_CASE( "maximum_reverse_velocity", "[vehicle][power][reverse]" )
         REQUIRE( veh_ptr->fuel_left( here, fuel_type_battery ) == 450 );
 
         WHEN( "the engine is started" ) {
-            veh_ptr->start_engines();
+            veh_ptr->start_engines( here );
 
             THEN( "it can go in both forward and reverse" ) {
                 int max_fwd = veh_ptr->max_velocity( here, false );
@@ -315,7 +315,7 @@ TEST_CASE( "maximum_reverse_velocity", "[vehicle][power][reverse]" )
         REQUIRE( veh_ptr->fuel_left( here, fuel_type_battery ) == 5000 );
 
         WHEN( "the engine is started" ) {
-            veh_ptr->start_engines();
+            veh_ptr->start_engines( here );
 
             THEN( "it can go in both forward and reverse" ) {
                 int max_fwd = veh_ptr->max_velocity( here, false );

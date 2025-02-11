@@ -48,6 +48,7 @@ class gun_type_type;
 class gunmod_location;
 class item;
 class iteminfo_query;
+class map;
 class monster;
 class nc_color;
 enum class pocket_type;
@@ -2524,13 +2525,15 @@ class item : public visitable
          * @param carrier is used for UPS and bionic power for tools
          * @param include_linked Add cable-linked vehicles' ammo to the ammo count
          */
-        int ammo_remaining( const Character *carrier = nullptr, bool include_linked = false ) const;
+        int ammo_remaining( const map &here, const Character *carrier = nullptr,
+                            bool include_linked = false ) const;
         int ammo_remaining( bool include_linked ) const;
 
 
     private:
         units::energy energy_per_second() const;
-        int ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier = nullptr,
+        int ammo_remaining( const map &here, const std::set<ammotype> &ammo,
+                            const Character *carrier = nullptr,
                             bool include_linked = false ) const;
     public:
 
