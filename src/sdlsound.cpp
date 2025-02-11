@@ -32,6 +32,7 @@
 #include "sdl_wrappers.h"
 #include "sounds.h"
 #include "units.h"
+#include <game.h>
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -301,10 +302,12 @@ static bool check_sound( const int volume = 1 )
 /**
  * Attempt to initialize an audio device.  Returns false if initialization fails.
  */
+const Uint16 audio_format = AUDIO_S16; // if this ever changes, do_pitch_shift() and slow_motion_sound() will probably need adjustment
+
 bool init_sound()
 {
     int audio_rate = 44100;
-    Uint16 audio_format = AUDIO_S16;
+    
     int audio_channels = 2;
     int audio_buffers = 2048;
 
@@ -367,6 +370,7 @@ static void play_music_file( const std::string &filename, int volume )
         return;
     }
     Mix_VolumeMusic( volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );
+
     if( Mix_PlayMusic( current_music, 0 ) != 0 ) {
         dbg( D_ERROR ) << "Starting playlist " << path << " failed: " << Mix_GetError();
         return;
@@ -419,6 +423,9 @@ void play_music( const std::string &playlist )
 {
     // Don't interrupt playlist that's already playing.
     if( playlist == current_playlist ) {
+        // possibly modify pitch of ongoing music
+        //if (get_avatar().ge)
+
         return;
     } else {
         stop_music();
@@ -660,21 +667,114 @@ bool sfx::has_variant_sound( const std::string &id, const std::string &variant,
     return find_random_effect( id, variant, season, is_indoors, is_night ) != nullptr;
 }
 
-// Deletes the dynamically created chunk (if such a chunk had been played).
-static void cleanup_when_channel_finished( int /* channel */, void *udata )
-{
-    Mix_Chunk *chunk = static_cast<Mix_Chunk *>( udata );
-    free( chunk->abuf );
-    free( chunk );
-}
-
 // empty effect, as we cannot change the size of the output buffer,
 // therefore we cannot do the math from do_pitch_shift here
+// used with SDL's Mix_RegisterEffect(). this method takes two callbacks, one of which modifies the sound as it plays (this one) which is undesired, hence empty_effect is needed
 static void empty_effect( int /* chan */, void * /* stream */, int /* len */, void * /* udata */ )
 {
 }
 
-static Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
+static bool is_time_slowed() {
+    // if the player have significantly more moves than their speed, they probably used an artifact/CBM to slow time.
+    // I checked; the only things that increase a player's # of moves is spells/cbms that slow down time (and also unit tests) so this should work.
+    // Would get_speed_base() be better?
+    return std::max(get_avatar().get_speed(), 100) < get_avatar().get_moves() * 2;
+}
+
+// used with SDL's Mix_RegisterEffect(). each sound that is currently playing has one. needed to dynamically control playback speed for slowing time
+struct sound_effect_handler {
+    Mix_Chunk* audio_src;
+    bool active; // if not active, we're just playing the given audio and aren't making any modifications to it.
+    bool owns_audio; // if true, it owns the audio it was given and will free it when the sound stops playing.
+    int currentSampleI = 0; // with respect to audio_src
+
+    ~sound_effect_handler() {
+        if (owns_audio) {
+            free(audio_src->abuf);
+            free(audio_src);
+        }
+    }
+
+    static void on_finish(int /* chan */, void* udata) {
+        cata_assert(false);
+        sound_effect_handler* handler = static_cast<sound_effect_handler*>(udata);
+        cata_assert(handler != nullptr && handler->audio_src != nullptr);
+        delete handler;
+    }
+
+    static void slowed_time_effect(int /* chan */, void* stream, int len, void* udata)
+    {
+        cata_assert(false);
+        sound_effect_handler* handler = static_cast<sound_effect_handler*>(udata);
+
+        if (is_time_slowed()) {
+            cata_assert(audio_format == AUDIO_S16);
+
+            constexpr int sound_stretch_factor = 4;
+            constexpr int bytes_per_sample = 4; // because AUDIO_S16 is two bytes per ear
+            constexpr int zero = 0;
+
+            int minlen = std::min(handler->audio_src->alen, static_cast<unsigned int>(len));
+            for (int sampleI = 0; sampleI < minlen / bytes_per_sample / sound_stretch_factor; sampleI++) {
+
+                for (int i = 0; i < sound_stretch_factor; i++) {
+                    //memcpy((uint8_t*)stream + (i * bytes_per_sample) + (sampleI * sound_stretch_factor * bytes_per_sample), handler->audio_src->abuf/* + sampleI * bytes_per_sample*/, bytes_per_sample);
+                    memcpy((uint8_t*)stream + (i * bytes_per_sample) + (sampleI * sound_stretch_factor * bytes_per_sample), &zero, bytes_per_sample);
+                }
+            }
+        }
+    }
+
+    // returns false if failed
+    static bool make_audio(int audioChannel, Mix_Chunk* audio_src, int nloops, int volume, bool owns_audio, const sound_effect& effect, std::optional<units::angle> angle, std::optional<float> fade_in_duration) {
+        
+        
+        sound_effect_handler* handler = new sound_effect_handler();
+        handler->active = true;
+        handler->audio_src = audio_src;
+        handler->owns_audio = owns_audio;
+
+        Mix_VolumeChunk(audio_src,
+            effect.volume * get_option<int>("SOUND_EFFECT_VOLUME") * volume / (100 * 100));
+        int channel;
+        if (fade_in_duration.has_value()) {
+            channel = (Mix_FadeInChannel(audioChannel, audio_src, nloops, *fade_in_duration) == -1);
+        }
+        else {
+            channel = (Mix_PlayChannel(audioChannel, audio_src, nloops) == -1);
+        }
+        bool failed = channel == -1;
+        if (!failed) {
+            //Mix_SetPanning(channel, 0, 255);
+            int out = Mix_RegisterEffect(channel, slowed_time_effect, on_finish, handler);
+            if (out == 0) { // returns zero if SDL failed to setup the effect, meaning we better cancel the sound.
+                // To prevent use after free, stop the playback right now.
+                failed = true;
+                dbg(D_WARNING) << "Mix_RegisterEffect failed: " << Mix_GetError();
+                Mix_HaltChannel(channel);
+            }
+            dbg(D_WARNING) << "BRUH " << out << " ";
+        }
+        if (!failed && angle.has_value()) {
+            if (Mix_SetPosition(channel, static_cast<Sint16>(to_degrees(*angle)), 1) == 0) {
+                // Not critical
+                dbg(D_INFO) << "Mix_SetPosition failed: " << Mix_GetError();
+            }
+        }
+        if (failed) {
+            on_finish(-1, handler);
+        }
+
+        return failed;
+    }
+};
+
+
+
+
+
+// Note: makes new Mix_Chunk, leaves s unaffected. Created mix_chunk is freed by make_audio().
+static Mix_Chunk *do_pitch_shift( const Mix_Chunk *s, float pitch )
 {
     Uint32 s_in = s->alen / 4;
     Uint32 s_out = static_cast<Uint32>( static_cast<float>( s_in ) * pitch );
@@ -717,6 +817,36 @@ static Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
     return result;
 }
 
+// Note: makes new Mix_Chunk. Use cleanup_when_channel_finished or similar to free the created mix_chunk.
+    // if consume_passed_chunk == true, s will be freed, if not it will be unaffected by this call.
+// MAYBE TODO: make slowdown amount vary with how much they slowed time? (aka how much more moves they have than their speed would normally let them have)
+//static Mix_Chunk* slow_motion_sound(Mix_Chunk* s, bool consume_passed_chunk) {
+//    Mix_Chunk* result = static_cast<Mix_Chunk*>(malloc(sizeof(Mix_Chunk))); // why is malloc used for this???
+//    cata_assert(audio_format == AUDIO_S16);
+//
+//    constexpr int sound_stretch_factor = 4;
+//
+//    int n_samples_in = s->alen / 4; // audio_format is 2 16-bit channels per sample, so 4 bytes/sample.
+//    int n_samples_out = n_samples_in * sound_stretch_factor; // 1/4 the speed, 4x the samples
+//
+//    result->alen = n_samples_out * 4; 
+//    result->abuf = static_cast<Uint8*>(malloc(result->alen * sizeof(Uint8)));
+//    result->allocated = 1;
+//    result->volume = s->volume;
+//
+//    for (int i = 0; i < n_samples_in; i++) {
+//        for (int j = 0; j < sound_stretch_factor; j++) {
+//            memcpy(result->abuf + i * 4 * sound_stretch_factor + j * 4, s->abuf + i * 4, 4);
+//        }
+//    }
+//
+//    if (consume_passed_chunk) {
+//        cleanup_when_channel_finished(-1, s);
+//    }
+//
+//    return result;
+//}
+
 void sfx::play_variant_sound( const std::string &id, const std::string &variant,
                               const std::string &season, const std::optional<bool> &is_indoors,
                               const std::optional<bool> &is_night, int volume )
@@ -740,10 +870,9 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     const sound_effect &selected_sound_effect = *eff;
 
     Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );
-    Mix_VolumeChunk( effect_to_play,
-                     selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
-    bool failed = Mix_PlayChannel( static_cast<int>( channel::any ), effect_to_play, 0 ) == -1;
-    if( failed ) {
+
+    bool error = sound_effect_handler::make_audio(static_cast<int>(channel::any), effect_to_play, 0, volume, false, selected_sound_effect, std::nullopt, std::nullopt);
+    if (error) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError() << " id:" << id
                        << " variant:" << variant << " season:" << season;
     }
@@ -770,37 +899,20 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     const sound_effect &selected_sound_effect = *eff;
 
     Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );
-    bool is_pitched = ( pitch_min > 0 ) && ( pitch_max > 0 );
+    bool is_pitched = (pitch_min > 0) && (pitch_max > 0);
+
+    // do_pitch_shift() creates a new Mix_Chunk (so original sound isn't modified) and we need to delete it when the audio finishes.
+    bool destroy_sound = is_pitched;
+    
     if( is_pitched ) {
-        double pitch_random = rng_float( pitch_min, pitch_max );
-        effect_to_play = do_pitch_shift( effect_to_play, static_cast<float>( pitch_random ) );
+        double pitch_mod = rng_float(pitch_min, pitch_max);
+        effect_to_play = do_pitch_shift( effect_to_play, static_cast<float>(pitch_mod) );
     }
-    Mix_VolumeChunk( effect_to_play,
-                     selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
-    int channel = Mix_PlayChannel( static_cast<int>( sfx::channel::any ), effect_to_play, 0 );
-    bool failed = channel == -1;
-    if( !failed && is_pitched ) {
-        if( Mix_RegisterEffect( channel, empty_effect, cleanup_when_channel_finished,
-                                effect_to_play ) == 0 ) {
-            // To prevent use after free, stop the playback right now.
-            failed = true;
-            dbg( D_WARNING ) << "Mix_RegisterEffect failed: " << Mix_GetError();
-            Mix_HaltChannel( channel );
-        }
-    }
-    if( !failed ) {
-        if( Mix_SetPosition( channel, static_cast<Sint16>( to_degrees( angle ) ), 1 ) == 0 ) {
-            // Not critical
-            dbg( D_INFO ) << "Mix_SetPosition failed: " << Mix_GetError();
-        }
-    }
-    if( failed ) {
-        dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError() << " id:" << id
-                       << " variant:" << variant << " season:" << season;
-        if( is_pitched ) {
-            cleanup_when_channel_finished( channel, effect_to_play );
-        }
-    }
+
+    bool error = sound_effect_handler::make_audio(static_cast<int>(channel::any), effect_to_play, 0, volume, destroy_sound, selected_sound_effect, std::make_optional(angle), std::nullopt);
+    if (error)
+        dbg(D_ERROR) << "Failed to play sound effect: " << Mix_GetError() << " id:" << id
+        << " variant:" << variant << " season:" << season;
 }
 
 void sfx::play_ambient_variant_sound( const std::string &id, const std::string &variant,
@@ -824,34 +936,20 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
     const sound_effect &selected_sound_effect = *eff;
 
     Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );
+
     bool is_pitched = pitch > 0;
-    if( is_pitched ) {
-        effect_to_play = do_pitch_shift( effect_to_play, static_cast<float>( pitch ) );
-    }
-    Mix_VolumeChunk( effect_to_play,
-                     selected_sound_effect.volume * get_option<int>( "AMBIENT_SOUND_VOLUME" ) * volume / ( 100 * 100 ) );
-    bool failed = false;
-    int ch = static_cast<int>( channel );
-    if( fade_in_duration ) {
-        failed = ( Mix_FadeInChannel( ch, effect_to_play, loops, fade_in_duration ) == -1 );
-    } else {
-        failed = ( Mix_PlayChannel( ch, effect_to_play, loops ) == -1 );
-    }
-    if( !failed && is_pitched ) {
-        if( Mix_RegisterEffect( ch, empty_effect, cleanup_when_channel_finished, effect_to_play ) == 0 ) {
-            // To prevent use after free, stop the playback right now.
-            failed = true;
-            dbg( D_WARNING ) << "Mix_RegisterEffect failed: " << Mix_GetError();
-            Mix_HaltChannel( ch );
-        }
-    }
-    if( failed ) {
+
+    // do_pitch_shift() creates a new Mix_Chunk (so original sound isn't modified) and we need to delete it when the audio finishes.
+    bool destroy_sound = is_pitched;
+
+    if (is_pitched) effect_to_play = do_pitch_shift(effect_to_play, static_cast<float>(pitch));
+
+    volume = selected_sound_effect.volume * get_option<int>("AMBIENT_SOUND_VOLUME") * volume / (100 * 100);
+    bool failed = sound_effect_handler::make_audio(static_cast<int>(channel), effect_to_play, loops, volume, destroy_sound, selected_sound_effect, std::nullopt, fade_in_duration);
+
+    if( failed )
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError() << " id:" << id
                        << " variant:" << variant << " season:" << season;
-        if( is_pitched ) {
-            cleanup_when_channel_finished( ch, effect_to_play );
-        }
-    }
 }
 
 void load_soundset()
