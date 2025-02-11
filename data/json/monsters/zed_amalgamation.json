@@ -428,8 +428,10 @@
     ],
     "dodge": 0,
     "vision_night": 0,
+    "bleed_rate": 5,
     "regenerates": 5,
     "//1": "I want it to regenerate but I'm not sure what exactly would be balanced enough to not make it unkillable like a shoggoth, so it's 5 for now. If it turns out it's too flimsy, increase it",
+    "harvest": "zombie_meatslug",
     "extend": { "flags": [ "GRABS" ] },
     "delete": {
       "weakpoint_sets": [ "wps_amalgamation_base" ],
