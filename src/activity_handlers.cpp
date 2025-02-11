@@ -1665,11 +1665,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                     veh = &vp->vehicle();
                     part = act_ref.values[4];
                     if( source_veh &&
-                        source_veh->fuel_left( liquid.typeId(), ( veh ? std::function<bool( const vehicle_part & )> { [&]( const vehicle_part & pa )
+                        source_veh->fuel_left( here, liquid.typeId(), ( veh ? std::function<bool( const vehicle_part & )> { [&]( const vehicle_part & pa )
                 {
                     return &veh->part( part ) != &pa;
                     }
-                                                                                                                    } : return_true<const vehicle_part &> ) ) <= 0 ) {
+                                                                                                                          } : return_true<const vehicle_part &> ) ) <= 0 ) {
                         act_ref.set_to_null();
                         return;
                     }
@@ -1713,7 +1713,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                         act_ref.set_to_null(); // leaky tank spilled while we were transferring
                         return;
                     }
-                    source_veh->drain( part_num, removed_charges );
+                    source_veh->drain( here, part_num, removed_charges );
                     liquid.charges = veh_charges - removed_charges;
                     // If there's no liquid left in this tank we're done, otherwise
                     // we need to update our liquid serialization to reflect how
@@ -1728,11 +1728,12 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                         act_ref.str_values[0] = serialize( liquid );
                     }
                 } else {
-                    source_veh->drain( liquid.typeId(), removed_charges, ( veh ? std::function<bool( vehicle_part & )> { [&]( vehicle_part & pa )
+                    source_veh->drain( here, liquid.typeId(), removed_charges,
+                                       ( veh ? std::function<bool( vehicle_part & )> { [&]( vehicle_part & pa )
                     {
                         return &veh->part( part ) != &pa;
                     }
-                                                                                                                       } : return_true<vehicle_part &> ) );
+                                                                                     } : return_true<vehicle_part &> ) );
                 }
                 break;
             case liquid_source_type::MAP_ITEM:
@@ -2145,7 +2146,7 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
     const optional_vpart_position vp = here.veh_at( here.get_bub( tripoint_abs_ms( act->values[0],
                                        act->values[1],
                                        you->posz() ) ) );
-    veh_interact::complete_vehicle( *you );
+    veh_interact::complete_vehicle( here, *you );
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
     // is to be examined again.
@@ -2409,6 +2410,8 @@ struct weldrig_hack {
     }
 
     item &get_item() {
+        map &here = get_map();
+
         if( !part ) {
             // null item should be handled just fine
             return null_item_reference();
@@ -2433,7 +2436,7 @@ struct weldrig_hack {
                       mag.typeId().str(), pseudo.typeId().str() );
             return null_item_reference();
         }
-        pseudo.ammo_set( itype_battery, part->vehicle().drain( itype_battery,
+        pseudo.ammo_set( itype_battery, part->vehicle().drain( here,  itype_battery,
                          pseudo.ammo_capacity( ammo_battery ),
                          return_true< vehicle_part &>, false ) ); // no cable loss since all of this is virtual
         return pseudo;
@@ -2444,7 +2447,9 @@ struct weldrig_hack {
             return;
         }
 
-        part->vehicle().charge_battery( pseudo.ammo_remaining(),
+        map &here = get_map();
+
+        part->vehicle().charge_battery( here, pseudo.ammo_remaining(),
                                         false ); // return unused charges without cable loss
     }
 

@@ -655,7 +655,7 @@ bool vehicle::mod_hp( vehicle_part &pt, int qty )
     return pt.base.mod_damage( -qty * pt.base.max_damage() / dur );
 }
 
-bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
+bool vehicle::can_enable( map &here, const vehicle_part &pt, bool alert ) const
 {
     if( std::none_of( parts.begin(), parts.end(), [&pt]( const vehicle_part & e ) {
     return &e == &pt;
@@ -676,7 +676,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
 
     // TODO: check fuel for combustion engines
 
-    if( pt.info().epower < 0_W && fuel_left( fuel_type_battery ) <= 0 ) {
+    if( pt.info().epower < 0_W && fuel_left( here, fuel_type_battery ) <= 0 ) {
         if( alert ) {
             add_msg( m_bad, _( "Insufficient power to enable %s" ), pt.name() );
         }

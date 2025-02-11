@@ -29,6 +29,7 @@
 class Character;
 class inventory;
 class time_duration;
+class map;
 class vpart_info;
 struct requirement_data;
 
@@ -57,16 +58,17 @@ class veh_interact
         using part_selector = std::function<bool( const vehicle_part &pt )>;
 
     public:
-        static player_activity run( vehicle &veh, const point_rel_ms &p );
+        static player_activity run( map &here,  vehicle &veh, const point_rel_ms &p );
 
         /** Prompt for a part matching the selector function */
-        static std::optional<vpart_reference> select_part( const vehicle &veh, const part_selector &sel,
+        static std::optional<vpart_reference> select_part( map &here, const vehicle &veh,
+                const part_selector &sel,
                 const std::string &title = std::string() );
 
-        static void complete_vehicle( Character &you );
+        static void complete_vehicle( map &here, Character &you );
 
     private:
-        explicit veh_interact( vehicle &veh, const point_rel_ms &p = point_rel_ms::zero );
+        explicit veh_interact( map &here, vehicle &veh, const point_rel_ms &p = point_rel_ms::zero );
         ~veh_interact();
 
         point_rel_ms dd = point_rel_ms::zero;
@@ -136,17 +138,17 @@ class veh_interact
         // maximum weight_capacity of available jacking equipment (if any)
         units::mass max_jack;
 
-        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
-        void hide_ui( bool hide );
+        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor( map &here );
+        void hide_ui( map &here, bool hide );
 
-        player_activity serialize_activity();
+        player_activity serialize_activity( map &here );
 
         /** Format list of requirements returning true if all are met */
         bool format_reqs( std::string &msg, const requirement_data &reqs,
                           const std::map<skill_id, int> &skills, time_duration time ) const;
 
         int part_at( const point_rel_ms &d );
-        void move_cursor( const point_rel_ms &d, int dstart_at = 0 );
+        void move_cursor( map &here, const point_rel_ms &d, int dstart_at = 0 );
         task_reason cant_do( char mode );
         bool can_potentially_install( const vpart_info &vpart );
         /** Move index (parameter pos) according to input action:
@@ -159,7 +161,7 @@ class veh_interact
          */
         bool move_in_list( int &pos, const std::string &action, int size,
                            int header = 0 ) const;
-        void move_fuel_cursor( int delta );
+        void move_fuel_cursor( map &here, int delta );
 
         /**
          * @name Task handlers
@@ -169,16 +171,16 @@ class veh_interact
          * @param msg failure message to display (if any)
          */
         /*@{*/
-        void do_install();
-        void do_repair();
-        void do_mend();
-        void do_refill();
-        void do_remove();
+        void do_install( map &here );
+        void do_repair( map &here );
+        void do_mend( map &here );
+        void do_refill( map &here );
+        void do_remove( map &here );
         void do_rename();
-        void do_siphon();
+        void do_siphon( map &here );
         // Returns true if exiting the screen
-        bool do_unload();
-        void do_assign_crew();
+        bool do_unload( map &here );
+        void do_assign_crew( map &here );
         void do_relabel();
         /*@}*/
 
@@ -187,11 +189,11 @@ class veh_interact
         * @return bool true if lift requirements are fulfilled
         * @return string msg for the ui to show the lift requirements
         */
-        std::pair<bool, std::string> calc_lift_requirements( const vpart_info &sel_vpart_info );
+        std::pair<bool, std::string> calc_lift_requirements( map &here, const vpart_info &sel_vpart_info );
 
         void display_grid();
-        void display_veh();
-        void display_stats() const;
+        void display_veh( map &here );
+        void display_stats( map &here ) const;
         void display_name();
         void display_mode();
         void display_list( size_t pos, const std::vector<const vpart_info *> &list, int header = 0 );
@@ -233,7 +235,7 @@ class veh_interact
         overview_action_t overview_action;
         int overview_pos = -1;
 
-        void calc_overview();
+        void calc_overview( map &here );
         void display_overview();
         /**
          * Display overview of parts, optionally with interactive selection of one part
@@ -243,7 +245,7 @@ class veh_interact
                          that will be highlighted
          * @param action callback when part is selected.
          */
-        void overview( const overview_enable_t &enable = {},
+        void overview( map &here, const overview_enable_t &enable = {},
                        const overview_action_t &action = {} );
         void move_overview_line( int );
 
@@ -261,9 +263,9 @@ class veh_interact
         vehicle_part *get_most_repairable_part() const;
 
         //do_remove supporting operation, writes requirements to ui
-        bool can_remove_part( int idx, const Character &you );
+        bool can_remove_part( map &here, int idx, const Character &you );
         //do install support, writes requirements to ui
-        bool update_part_requirements();
+        bool update_part_requirements( map &here );
 
         /* Vector of all vpart TYPES that can be mounted in the current square.
          * Can be converted to a vector<vpart_info>.
@@ -288,17 +290,17 @@ class veh_interact
 
         void cache_tool_availability();
         void allocate_windows();
-        void do_main_loop();
+        void do_main_loop( map &here );
 
         void cache_tool_availability_update_lifting( const tripoint_bub_ms &world_cursor_pos );
 
         /** Returns true if the vehicle has a jack powerful enough to lift itself installed */
-        bool can_self_jack();
+        bool can_self_jack( map &here );
 };
 
-void act_vehicle_siphon( vehicle *veh );
+void act_vehicle_siphon( map &here, vehicle *veh );
 
-void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum,
+void orient_part( map &here, vehicle *veh, const vpart_info &vpinfo, int partnum,
                   const std::optional<point_rel_ms> &part_placement = std::nullopt );
 
 #endif // CATA_SRC_VEH_INTERACT_H

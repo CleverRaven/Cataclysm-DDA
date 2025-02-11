@@ -1770,6 +1770,7 @@
     "volume": "10 ml",
     "//": "Measured my own pin.  Hopefully the NB ones are universal.",
     "description": "A small piece of metal with a pin, meant to affix itself to an article of clothing.  It's mainly used on jackets or backpacks, as a way to show off what bands you listen to, or other things like your pronouns.",
+    "max_worn": 2147483647,
     "variant_type": "generic",
     "variants": [
       {

@@ -493,7 +493,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
         tripoint_bub_ms pos_bub() const override {
             map &here = get_map();
-            return cur.veh.bub_part_pos( &here, cur.part );
+            return cur.veh.bub_part_pos( here, cur.part );
         }
 
         Character *carrier() const override {
@@ -543,7 +543,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             map &here = get_map();
             item *obj = target();
             int mv = ch.item_handling_cost( *obj, true, VEHICLE_HANDLING_PENALTY, qty );
-            mv += 100 * rl_dist( ch.pos_bub( &here ), cur.veh.bub_part_pos( &here, cur.part ) );
+            mv += 100 * rl_dist( ch.pos_bub( &here ), cur.veh.bub_part_pos( here, cur.part ) );
 
             // TODO: handle unpacking costs
 
@@ -567,7 +567,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         void make_active( item_location &head ) {
-            cur.veh.make_active( head );
+            cur.veh.make_active( get_map(), head );
         }
 
         units::volume volume_capacity() const override {

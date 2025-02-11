@@ -1749,9 +1749,11 @@ void npc::mutiny()
 
 float npc::vehicle_danger( int radius ) const
 {
+    map &here = get_map();
+
     const tripoint_bub_ms from( posx() - radius, posy() - radius, posz() );
     const tripoint_bub_ms to( posx() + radius, posy() + radius, posz() );
-    VehicleList vehicles = get_map().get_vehicles( from, to );
+    VehicleList vehicles = here.get_vehicles( from, to );
 
     int danger = -1;
 
@@ -1759,8 +1761,8 @@ float npc::vehicle_danger( int radius ) const
     for( size_t i = 0; i < vehicles.size(); ++i ) {
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
-            const auto &points_to_check = wrapped_veh.v->immediate_path();
-            point_abs_ms p( get_map().get_abs( pos_bub() ).xy() );
+            const auto &points_to_check = wrapped_veh.v->immediate_path( &here );
+            point_abs_ms p( here.get_abs( pos_bub() ).xy() );
             if( points_to_check.find( p ) != points_to_check.end() ) {
                 danger = i;
             }

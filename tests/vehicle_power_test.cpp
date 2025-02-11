@@ -80,7 +80,7 @@ TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
         vehicle_part source_part( vpid, item( cord ) );
         source_part.target.first = target_global;
         source_part.target.second = target_veh->pos_abs();
-        source_veh->install_part( vcoords, std::move( source_part ) );
+        source_veh->install_part( here, vcoords, std::move( source_part ) );
 
         vcoords = target_vp->mount_pos();
         vehicle_part target_part( vpid, item( cord ) );
@@ -89,7 +89,7 @@ TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
                                        cord.get_var( "source_z", 0 ) );
         target_part.target.first = here.get_abs( source_global );
         target_part.target.second = source_veh->pos_abs();
-        target_veh->install_part( vcoords, std::move( target_part ) );
+        target_veh->install_part( here, vcoords, std::move( target_part ) );
     };
 
     const std::vector<tripoint_bub_ms> placements { { 4, 10, 0 }, { 6, 10, 0 }, { 8, 10, 0 } };
@@ -98,9 +98,9 @@ TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
         REQUIRE( !here.veh_at( p ).has_value() );
         vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
         REQUIRE( veh != nullptr );
-        const int frame_part_idx = veh->install_part( point_rel_ms::zero, vpart_frame );
+        const int frame_part_idx = veh->install_part( here, point_rel_ms::zero, vpart_frame );
         REQUIRE( frame_part_idx != -1 );
-        const int bat_part_idx = veh->install_part( point_rel_ms::zero, vpart_small_storage_battery );
+        const int bat_part_idx = veh->install_part( here, point_rel_ms::zero, vpart_small_storage_battery );
         REQUIRE( bat_part_idx != -1 );
         veh->refresh( );
         here.add_vehicle_to_cache( veh );
@@ -127,14 +127,14 @@ TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
         { 9000, 5500, 1000, 9000, 6000 },
     };
     for( const preset_t &preset : presets ) {
-        REQUIRE( v.fuel_left( fuel_type_battery ) == 0 ); // ensure empty batteries
-        const int remainder = v.charge_battery( preset.charge );
+        REQUIRE( v.fuel_left( here, fuel_type_battery ) == 0 ); // ensure empty batteries
+        const int remainder = v.charge_battery( here, preset.charge );
         CHECK( remainder <= preset.max_charge_excess );
         for( size_t i = 0; i < batteries.size(); i++ ) {
             CAPTURE( i );
             CHECK( preset.max_charge_in_battery >= batteries[i].part().ammo_remaining() );
         }
-        const int deficit = v.discharge_battery( preset.discharge );
+        const int deficit = v.discharge_battery( here, preset.discharge );
         CHECK( deficit >= preset.min_discharge_deficit );
     }
 }
@@ -155,12 +155,12 @@ TEST_CASE( "Solar_power", "[vehicle][power]" )
 
     SECTION( "Summer day noon" ) {
         calendar::turn = calendar::turn_zero + calendar::season_length() + 1_days + 12_hours;
-        veh_ptr->update_time( calendar::turn );
-        veh_ptr->discharge_battery( 100000 );
-        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
+        veh_ptr->update_time( here,  calendar::turn );
+        veh_ptr->discharge_battery( here, 100000 );
+        REQUIRE( veh_ptr->fuel_left( here, fuel_type_battery ) == 0 );
         WHEN( "30 minutes elapse" ) {
-            veh_ptr->update_time( calendar::turn + 30_minutes );
-            int power = veh_ptr->fuel_left( fuel_type_battery );
+            veh_ptr->update_time( here, calendar::turn + 30_minutes );
+            int power = veh_ptr->fuel_left( here, fuel_type_battery );
             CHECK( power == Approx( 425 ).margin( 1 ) );
         }
     }
@@ -168,24 +168,24 @@ TEST_CASE( "Solar_power", "[vehicle][power]" )
     SECTION( "Summer before sunrise" ) {
         calendar::turn = calendar::turn_zero + calendar::season_length() + 1_days;
         calendar::turn = sunrise( calendar::turn ) - 1_hours;
-        veh_ptr->update_time( calendar::turn );
-        veh_ptr->discharge_battery( 100000 );
-        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
+        veh_ptr->update_time( here, calendar::turn );
+        veh_ptr->discharge_battery( here, 100000 );
+        REQUIRE( veh_ptr->fuel_left( here, fuel_type_battery ) == 0 );
         WHEN( "30 minutes elapse" ) {
-            veh_ptr->update_time( calendar::turn + 30_minutes );
-            int power = veh_ptr->fuel_left( fuel_type_battery );
+            veh_ptr->update_time( here, calendar::turn + 30_minutes );
+            int power = veh_ptr->fuel_left( here, fuel_type_battery );
             CHECK( power == 0 );
         }
     }
 
     SECTION( "Winter noon" ) {
         calendar::turn = calendar::turn_zero + 3 * calendar::season_length() + 1_days + 12_hours;
-        veh_ptr->update_time( calendar::turn );
-        veh_ptr->discharge_battery( 100000 );
-        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
+        veh_ptr->update_time( here, calendar::turn );
+        veh_ptr->discharge_battery( here, 100000 );
+        REQUIRE( veh_ptr->fuel_left( here, fuel_type_battery ) == 0 );
         WHEN( "30 minutes elapse" ) {
-            veh_ptr->update_time( calendar::turn + 30_minutes );
-            int power = veh_ptr->fuel_left( fuel_type_battery );
+            veh_ptr->update_time( here, calendar::turn + 30_minutes );
+            int power = veh_ptr->fuel_left( here, fuel_type_battery );
             CHECK( power == Approx( 184 ).margin( 1 ) );
         }
     }
@@ -199,21 +199,21 @@ TEST_CASE( "Solar_power", "[vehicle][power]" )
         REQUIRE( veh_2_ptr != nullptr );
 
         calendar::turn = calendar::turn_zero + 1_days;
-        veh_ptr->update_time( calendar::turn );
-        veh_2_ptr->update_time( calendar::turn );
+        veh_ptr->update_time( here, calendar::turn );
+        veh_2_ptr->update_time( here, calendar::turn );
 
-        veh_ptr->discharge_battery( 100000 );
-        veh_2_ptr->discharge_battery( 100000 );
-        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
-        REQUIRE( veh_2_ptr->fuel_left( fuel_type_battery ) == 0 );
+        veh_ptr->discharge_battery( here, 100000 );
+        veh_2_ptr->discharge_battery( here, 100000 );
+        REQUIRE( veh_ptr->fuel_left( here, fuel_type_battery ) == 0 );
+        REQUIRE( veh_2_ptr->fuel_left( here, fuel_type_battery ) == 0 );
 
         // Vehicle 1 does 2x 30 minutes while vehicle 2 does 1x 60 minutes
-        veh_ptr->update_time( calendar::turn + 30_minutes );
-        veh_ptr->update_time( calendar::turn + 60_minutes );
-        veh_2_ptr->update_time( calendar::turn + 60_minutes );
+        veh_ptr->update_time( here, calendar::turn + 30_minutes );
+        veh_ptr->update_time( here, calendar::turn + 60_minutes );
+        veh_2_ptr->update_time( here, calendar::turn + 60_minutes );
 
-        int power = veh_ptr->fuel_left( fuel_type_battery );
-        int power_2 = veh_2_ptr->fuel_left( fuel_type_battery );
+        int power = veh_ptr->fuel_left( here, fuel_type_battery );
+        int power_2 = veh_2_ptr->fuel_left( here, fuel_type_battery );
         CHECK( power == Approx( power_2 ).margin( 1 ) );
     }
 }
@@ -233,48 +233,48 @@ TEST_CASE( "Daily_solar_power", "[vehicle][power]" )
 
     SECTION( "Spring day 2" ) {
         calendar::turn = calendar::turn_zero + 1_days;
-        veh_ptr->update_time( calendar::turn );
-        veh_ptr->discharge_battery( 100000 );
-        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
+        veh_ptr->update_time( here, calendar::turn );
+        veh_ptr->discharge_battery( here, 100000 );
+        REQUIRE( veh_ptr->fuel_left( here, fuel_type_battery ) == 0 );
         WHEN( "24 hours pass" ) {
-            veh_ptr->update_time( calendar::turn + 24_hours );
-            int power = veh_ptr->fuel_left( fuel_type_battery );
+            veh_ptr->update_time( here, calendar::turn + 24_hours );
+            int power = veh_ptr->fuel_left( here, fuel_type_battery );
             CHECK( power == Approx( 5259 ).margin( 1 ) );
         }
     }
 
     SECTION( "Summer day 1" ) {
         calendar::turn = calendar::turn_zero + calendar::season_length();
-        veh_ptr->update_time( calendar::turn );
-        veh_ptr->discharge_battery( 100000 );
-        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
+        veh_ptr->update_time( here, calendar::turn );
+        veh_ptr->discharge_battery( here, 100000 );
+        REQUIRE( veh_ptr->fuel_left( here, fuel_type_battery ) == 0 );
         WHEN( "24 hours pass" ) {
-            veh_ptr->update_time( calendar::turn + 24_hours );
-            int power = veh_ptr->fuel_left( fuel_type_battery );
+            veh_ptr->update_time( here, calendar::turn + 24_hours );
+            int power = veh_ptr->fuel_left( here, fuel_type_battery );
             CHECK( power == Approx( 7925 ).margin( 1 ) );
         }
     }
 
     SECTION( "Autum day 1" ) {
         calendar::turn = calendar::turn_zero + 2 * calendar::season_length();
-        veh_ptr->update_time( calendar::turn );
-        veh_ptr->discharge_battery( 100000 );
-        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
+        veh_ptr->update_time( here, calendar::turn );
+        veh_ptr->discharge_battery( here, 100000 );
+        REQUIRE( veh_ptr->fuel_left( here, fuel_type_battery ) == 0 );
         WHEN( "24 hours pass" ) {
-            veh_ptr->update_time( calendar::turn + 24_hours );
-            int power = veh_ptr->fuel_left( fuel_type_battery );
+            veh_ptr->update_time( here, calendar::turn + 24_hours );
+            int power = veh_ptr->fuel_left( here, fuel_type_battery );
             CHECK( power == Approx( 5138 ).margin( 1 ) );
         }
     }
 
     SECTION( "Winter day 1" ) {
         calendar::turn = calendar::turn_zero + 3 * calendar::season_length();
-        veh_ptr->update_time( calendar::turn );
-        veh_ptr->discharge_battery( 100000 );
-        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
+        veh_ptr->update_time( here, calendar::turn );
+        veh_ptr->discharge_battery( here, 100000 );
+        REQUIRE( veh_ptr->fuel_left( here, fuel_type_battery ) == 0 );
         WHEN( "24 hours pass" ) {
-            veh_ptr->update_time( calendar::turn + 24_hours );
-            int power = veh_ptr->fuel_left( fuel_type_battery );
+            veh_ptr->update_time( here, calendar::turn + 24_hours );
+            int power = veh_ptr->fuel_left( here, fuel_type_battery );
             CHECK( power == Approx( 2137 ).margin( 1 ) );
         }
     }
@@ -292,15 +292,15 @@ TEST_CASE( "maximum_reverse_velocity", "[vehicle][power][reverse]" )
         const tripoint_bub_ms origin{ 10, 0, 0 };
         vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_scooter_test, origin, 0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        veh_ptr->charge_battery( 450 );
-        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 450 );
+        veh_ptr->charge_battery( here, 450 );
+        REQUIRE( veh_ptr->fuel_left( here, fuel_type_battery ) == 450 );
 
         WHEN( "the engine is started" ) {
             veh_ptr->start_engines();
 
             THEN( "it can go in both forward and reverse" ) {
-                int max_fwd = veh_ptr->max_velocity( false );
-                int max_rev = veh_ptr->max_reverse_velocity( false );
+                int max_fwd = veh_ptr->max_velocity( here, false );
+                int max_rev = veh_ptr->max_reverse_velocity( here, false );
 
                 CHECK( max_rev < 0 );
                 CHECK( max_fwd > 0 );
@@ -318,15 +318,15 @@ TEST_CASE( "maximum_reverse_velocity", "[vehicle][power][reverse]" )
         vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_scooter_electric_test, origin,
                                              0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        veh_ptr->charge_battery( 5000 );
-        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 5000 );
+        veh_ptr->charge_battery( here, 5000 );
+        REQUIRE( veh_ptr->fuel_left( here, fuel_type_battery ) == 5000 );
 
         WHEN( "the engine is started" ) {
             veh_ptr->start_engines();
 
             THEN( "it can go in both forward and reverse" ) {
-                int max_fwd = veh_ptr->max_velocity( false );
-                int max_rev = veh_ptr->max_reverse_velocity( false );
+                int max_fwd = veh_ptr->max_velocity( here, false );
+                int max_rev = veh_ptr->max_reverse_velocity( here, false );
 
                 CHECK( max_rev < 0 );
                 CHECK( max_fwd > 0 );

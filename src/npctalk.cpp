@@ -921,11 +921,13 @@ static void tell_veh_stop_following()
 
 static void assign_veh_to_follow()
 {
+    map &here = get_map();
+
     Character &player_character = get_player_character();
-    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
+    for( wrapped_vehicle &veh : here.get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( player_character ) ) {
-            v->activate_animal_follow();
+            v->activate_animal_follow( here );
         }
     }
 }

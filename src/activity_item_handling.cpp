@@ -224,7 +224,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     c.invalidate_weight_carried_cache();
     vehicle_part &vp = vpr.part();
     vehicle &veh = vpr.vehicle();
-    const tripoint_bub_ms where = veh.bub_part_pos( &here, vp );
+    const tripoint_bub_ms where = veh.bub_part_pos( here, vp );
     int items_did_not_fit_count = 0;
     int into_vehicle_count = 0;
     const std::string part_name = vp.info().name();
@@ -240,12 +240,12 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
             it.charges = 0;
         }
 
-        if( veh.add_item( vp, it ) ) {
+        if( veh.add_item( here, vp, it ) ) {
             into_vehicle_count += it.count();
         } else {
             if( it.count_by_charges() ) {
                 // Maybe we can add a few charges in the trunk and the rest on the ground.
-                const int charges_added = veh.add_charges( vp, it );
+                const int charges_added = veh.add_charges( here, vp, it );
                 it.mod_charges( -charges_added );
                 into_vehicle_count += charges_added;
             }
@@ -651,7 +651,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     // If we didn't pick up a whole stack, put the remainder back where it came from.
     if( leftovers.charges > 0 ) {
         if( vpr_src ) {
-            if( !vpr_src->vehicle().add_item( vpr_src->part(), leftovers ) ) {
+            if( !vpr_src->vehicle().add_item( here, vpr_src->part(), leftovers ) ) {
                 debugmsg( "SortLoot: Source vehicle failed to receive leftover charges." );
             }
         } else {
@@ -989,7 +989,7 @@ static bool are_requirements_nearby(
             const std::optional<vpart_reference> &vp = here.veh_at( elem ).part_with_tool( itype_welder );
 
             if( vp ) {
-                const int veh_battery = vp->vehicle().fuel_left( itype_battery );
+                const int veh_battery = vp->vehicle().fuel_left( here, itype_battery );
 
                 item welder( itype_welder, calendar::turn_zero );
                 welder.charges = veh_battery;
@@ -1022,7 +1022,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         // if the vehicle is moving or player is controlling it.
-        if( std::abs( veh->velocity ) > 100 || veh->player_in_control( player_character ) ) {
+        if( std::abs( veh->velocity ) > 100 || veh->player_in_control( here, player_character ) ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         for( const npc &guy : g->all_npcs() ) {
@@ -2417,7 +2417,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                                     if( it->first->type->magazine->linkage ) {
                                         item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
                                         if( vpr_src ) {
-                                            vpr_src->vehicle().add_item( vpr_src->part(), link );
+                                            vpr_src->vehicle().add_item( here, vpr_src->part(), link );
                                         } else {
                                             here.add_item_or_charges( src_loc, link );
                                         }

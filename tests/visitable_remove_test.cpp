@@ -443,10 +443,10 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         // Empty the vehicle of any cargo.
         v->get_items( vp->part() ).clear();
         for( int i = 0; i != count; ++i ) {
-            v->add_item( vp->part(), obj );
+            v->add_item( here,  vp->part(), obj );
         }
 
-        vehicle_selector sel( p.pos_bub(), 1 );
+        vehicle_selector sel( here,  p.pos_bub( &here ), 1 );
 
         REQUIRE( count_items( sel, container_id ) == count );
         REQUIRE( count_items( sel, liquid_id ) == count );

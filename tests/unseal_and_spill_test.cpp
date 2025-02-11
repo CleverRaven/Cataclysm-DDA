@@ -447,7 +447,7 @@ void test_scenario::run()
             std::optional<vpart_reference> vp =
                 here.veh_at( guy.pos_bub() ).part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );
             REQUIRE( vp.has_value() );
-            std::optional<vehicle_stack::iterator> added = veh->add_item( vp->part(), it );
+            std::optional<vehicle_stack::iterator> added = veh->add_item( here, vp->part(), it );
             REQUIRE( added.has_value() );
             it_loc = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), & **added );
             break;

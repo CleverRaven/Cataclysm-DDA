@@ -624,13 +624,15 @@ void autodrive_activity_actor::start( player_activity &, Character &who )
 
 void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     if( who.in_vehicle && who.controlling_vehicle && player_vehicle ) {
         if( who.get_moves() <= 0 ) {
             // out of moves? the driver's not doing anything this turn
             // (but the vehicle will continue moving)
             return;
         }
-        switch( player_vehicle->do_autodrive( who ) ) {
+        switch( player_vehicle->do_autodrive( here, who ) ) {
             case autodrive_result::ok:
                 if( who.get_moves() > 0 ) {
                     // if do_autodrive() didn't eat up all our moves, end the turn
@@ -1076,12 +1078,12 @@ void hotwire_car_activity_actor::finish( player_activity &act, Character &who )
     } else if( skill > rng( 0, 4 ) ) {
         // Soft fail
         who.add_msg_if_player( _( "You found a wire that looks like the right one." ) );
-        veh.is_alarm_on = veh.has_security_working();
+        veh.is_alarm_on = veh.has_security_working( here );
         veh.is_locked = false;
     } else if( !veh.is_alarm_on ) {
         // Hard fail
         who.add_msg_if_player( _( "The red wire always starts the engine, doesn't it?" ) );
-        veh.is_alarm_on = veh.has_security_working();
+        veh.is_alarm_on = veh.has_security_working( here );
     } else {
         // Already failed
         who.add_msg_if_player(
@@ -1352,8 +1354,8 @@ bikerack_racking_activity_actor::bikerack_racking_activity_actor( const vehicle 
     : racks( racks )
 {
     map &here = get_map();
-    parent_vehicle_pos = parent_vehicle.bub_part_pos( &here,  0 );
-    racked_vehicle_pos = racked_vehicle.bub_part_pos( &here, 0 );
+    parent_vehicle_pos = parent_vehicle.bub_part_pos( here,  0 );
+    racked_vehicle_pos = racked_vehicle.bub_part_pos( here, 0 );
 }
 
 void bikerack_racking_activity_actor::start( player_activity &act, Character & )
@@ -1383,7 +1385,7 @@ void bikerack_racking_activity_actor::finish( player_activity &act, Character & 
     vehicle &parent_veh = ovp_parent->vehicle();
     vehicle &racked_veh = ovp_racked->vehicle();
 
-    if( !parent_veh.merge_rackable_vehicle( &racked_veh, racks ) ) {
+    if( !parent_veh.merge_rackable_vehicle( &here, &racked_veh, racks ) ) {
         debugmsg( "racking actor failed: failed racking %s on %s, racks: [%s].",
                   racked_veh.name, parent_veh.name, enumerate_ints_to_string( racks ) );
     }
@@ -1579,7 +1581,7 @@ bikerack_unracking_activity_actor::bikerack_unracking_activity_actor( const vehi
     : parts( parts ), racks( racks )
 {
     map &here = get_map();
-    parent_vehicle_pos = parent_vehicle.bub_part_pos( &here,  0 );
+    parent_vehicle_pos = parent_vehicle.bub_part_pos( here,  0 );
 }
 
 void bikerack_unracking_activity_actor::start( player_activity &act, Character & )
@@ -1590,7 +1592,9 @@ void bikerack_unracking_activity_actor::start( player_activity &act, Character &
 
 void bikerack_unracking_activity_actor::finish( player_activity &act, Character & )
 {
-    const optional_vpart_position ovp = get_map().veh_at( parent_vehicle_pos );
+    map &here = get_map();
+
+    const optional_vpart_position ovp = here.veh_at( parent_vehicle_pos );
     if( !ovp ) {
         debugmsg( "unracking actor lost vehicle." );
         act.set_to_null();
@@ -1599,7 +1603,7 @@ void bikerack_unracking_activity_actor::finish( player_activity &act, Character 
 
     vehicle &parent_vehicle = ovp->vehicle();
 
-    if( !parent_vehicle.remove_carried_vehicle( parts, racks ) ) {
+    if( !parent_vehicle.remove_carried_vehicle( here, parts, racks ) ) {
         debugmsg( "unracking actor failed on %s, parts: [%s], racks: [%s]", parent_vehicle.name,
                   enumerate_ints_to_string( parts ), enumerate_ints_to_string( racks ) );
     }
@@ -7645,7 +7649,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     if( leftovers.charges > 0 ) {
         if( src_veh ) {
             vehicle_part &vp_src = src_veh->part( src_part );
-            if( !src_veh->add_item( vp_src, leftovers ) ) {
+            if( !src_veh->add_item( here, vp_src, leftovers ) ) {
                 debugmsg( "SortLoot: Source vehicle failed to receive leftover charges." );
             }
         } else {
@@ -7902,7 +7906,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                                     item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
                                     if( this_veh != nullptr ) {
                                         vehicle_part &vp_this = this_veh->part( this_part );
-                                        this_veh->add_item( vp_this, link );
+                                        this_veh->add_item( here, vp_this, link );
                                     } else {
                                         here.add_item_or_charges( src_loc, link );
                                     }
@@ -8024,14 +8028,14 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
     for( const vpart_reference &vpr : veh.get_any_parts( VPFLAG_CARGO ) ) {
         vehicle_stack cargo = vpr.items();
         for( const item &elem : cargo ) {
-            here.add_item_or_charges( veh.pos_bub( &here ), elem );
+            here.add_item_or_charges( veh.pos_bub( here ), elem );
         }
         cargo.clear();
     }
 
-    veh.unboard_all();
+    veh.unboard_all( here );
     p.add_msg_if_player( _( "You fold the %s." ), veh.name );
-    here.add_item_or_charges( veh.pos_bub( &here ), veh.get_folded_item() );
+    here.add_item_or_charges( veh.pos_bub( here ), veh.get_folded_item( here ) );
     here.destroy_vehicle( &veh );
 
     return true;
@@ -8041,7 +8045,7 @@ vehicle_folding_activity_actor::vehicle_folding_activity_actor( const vehicle &t
 {
     map &here = get_map();
     folding_time = target.folding_time();
-    target_pos = target.bub_part_pos( &here,  0 );
+    target_pos = target.bub_part_pos( here,  0 );
 }
 
 void vehicle_folding_activity_actor::start( player_activity &act, Character &p )
@@ -8114,7 +8118,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
         here.destroy_vehicle( veh );
         return false;
     }
-    const bool cant_float = !veh->can_float();
+    const bool cant_float = !veh->can_float( here );
     const auto invalid_pos = [&here, &cant_float]( const tripoint_bub_ms & p ) {
         return ( cant_float && here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) )
                || here.veh_at( p )
@@ -8223,9 +8227,10 @@ std::unique_ptr<activity_actor> vehicle_unfolding_activity_actor::deserialize( J
 
 int heat_activity_actor::get_available_heater( Character &p, item_location &loc ) const
 {
+    map &here = get_map();
     int available_heater = 0;
     if( !loc->has_no_links() ) {
-        available_heater = loc->link().t_veh->connected_battery_power_level().first;
+        available_heater = loc->link().t_veh->connected_battery_power_level( here ).first;
     } else if( !loc->has_flag( flag_USE_UPS ) ) {
         available_heater = loc->ammo_remaining();
     } else if( loc->has_flag( flag_USE_UPS ) ) {
@@ -8242,18 +8247,20 @@ void heat_activity_actor::start( player_activity &act, Character & )
 
 void heat_activity_actor::do_turn( player_activity &act, Character &p )
 {
+    map &here = get_map();
+
     // use a hack in use_vehicle_tool vehicle_use.cpp
     if( !act.coords.empty() ) {
         h.vpt = act.coords[0];
     }
-    std::optional<vpart_position> vp = get_map().veh_at( h.vpt );
+    std::optional<vpart_position> vp = here.veh_at( h.vpt );
     if( h.pseudo_flag ) {
         if( !vp ) {
             p.add_msg_if_player( _( "You can't find the appliance any more." ) );
             act.set_to_null();
             return;
         }
-        if( vp.value().vehicle().connected_battery_power_level().first < requirements.ammo *
+        if( vp.value().vehicle().connected_battery_power_level( here ).first < requirements.ammo *
             h.heating_effect ) {
             p.add_msg_if_player( _( "You need more energy to heat these items." ) );
             act.set_to_null();
@@ -8282,6 +8289,8 @@ void heat_activity_actor::do_turn( player_activity &act, Character &p )
 
 void heat_activity_actor::finish( player_activity &act, Character &p )
 {
+    map &here = get_map();
+
     for( drop_location &ait : to_heat ) {
         item_location cold_item = ait.first;
         if( cold_item->count_by_charges() ) {
@@ -8311,7 +8320,7 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
     }
     if( h.consume_flag ) {
         if( h.pseudo_flag ) {
-            get_map().veh_at( h.vpt ).value().vehicle().discharge_battery( requirements.ammo *
+            here.veh_at( h.vpt ).value().vehicle().discharge_battery( here, requirements.ammo *
                     h.heating_effect );
         } else {
             h.loc->activation_consume( requirements.ammo, h.loc.pos_bub(), &p );

@@ -37,7 +37,7 @@ TEST_CASE( "vehicle_split_section", "[vehicle]" )
         std::set<tripoint_abs_ms> original_points = veh_ptr->get_points( true );
 
         here.destroy_vehicle( vehicle_origin );
-        veh_ptr->part_removal_cleanup();
+        veh_ptr->part_removal_cleanup( here );
         REQUIRE( veh_ptr->get_parts_at( &here, vehicle_origin, "", part_status_flag::available ).empty() );
         vehs = here.get_vehicles();
         // destroying the center frame results in 4 new vehicles
@@ -77,7 +77,7 @@ TEST_CASE( "vehicle_split_section", "[vehicle]" )
         veh_ptr = here.add_vehicle( vehicle_prototype_circle_split_test, vehicle_origin, dir, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         here.destroy_vehicle( vehicle_origin );
-        veh_ptr->part_removal_cleanup();
+        veh_ptr->part_removal_cleanup( here );
         REQUIRE( veh_ptr->get_parts_at( &here, vehicle_origin, "", part_status_flag::available ).empty() );
         vehs = here.get_vehicles();
         CHECK( vehs.size() == 1 );

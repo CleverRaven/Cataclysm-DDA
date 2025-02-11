@@ -97,7 +97,7 @@
     "type": "vehicle_part",
     "id": "ap_arc_furnace",
     "name": { "str": "arc furnace" },
-    "looks_like": "f_arc_furnace",
+    "looks_like": "f_arcfurnace_empty",
     "color": "blue",
     "categories": [ "utility" ],
     "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.  Plugged in and ready to go.",

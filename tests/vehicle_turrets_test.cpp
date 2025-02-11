@@ -55,7 +55,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
                                              false, true );
             REQUIRE( veh );
 
-            const int turr_idx = veh->install_part( point_rel_ms::zero, turret_vpi->id );
+            const int turr_idx = veh->install_part( here, point_rel_ms::zero, turret_vpi->id );
             REQUIRE( turr_idx >= 0 );
             vehicle_part &vp = veh->part( turr_idx );
             CHECK( vp.is_turret() );
@@ -66,8 +66,8 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             if( base_itype->gun->energy_drain > 0_kJ || turret_vpi->has_flag( "USE_BATTERIES" ) ) {
                 const auto& [bat_current, bat_capacity] = veh->battery_power_level();
                 CHECK( bat_capacity > 0 );
-                veh->charge_battery( bat_capacity, /* apply_loss = */ false );
-                REQUIRE( veh->battery_left( /* apply_loss = */ false ) == bat_capacity );
+                veh->charge_battery( here, bat_capacity, /* apply_loss = */ false );
+                REQUIRE( veh->battery_left( here, /* apply_loss = */ false ) == bat_capacity );
             }
 
             const itype_id ammo_itype = vp.get_base().ammo_default();
@@ -100,7 +100,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             REQUIRE( qry.query() == turret_data::status::ready );
             REQUIRE( qry.range() > 0 );
 
-            player_character.setpos( &here, veh->bub_part_pos( &here, vp ) );
+            player_character.setpos( &here, veh->bub_part_pos( here, vp ) );
             int shots_fired = 0;
             // 3 attempts to fire, to account for possible misfires
             for( int attempt = 0; shots_fired == 0 && attempt < 3; attempt++ ) {

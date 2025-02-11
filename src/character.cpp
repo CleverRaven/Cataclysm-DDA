@@ -3072,6 +3072,7 @@ int Character::get_standard_stamina_cost( const item *thrown_item ) const
 std::vector<item_location> Character::nearby( const
         std::function<bool( const item *, const item * )> &func, int radius ) const
 {
+    map &here = get_map();
     std::vector<item_location> res;
 
     visit_items( [&]( const item * e, const item * parent ) {
@@ -3081,7 +3082,7 @@ std::vector<item_location> Character::nearby( const
         return VisitResponse::NEXT;
     } );
 
-    for( const map_cursor &cur : map_selector( pos_bub(), radius ) ) {
+    for( const map_cursor &cur : map_selector( pos_bub( &here ), radius ) ) {
         cur.visit_items( [&]( const item * e, const item * parent ) {
             if( func( e, parent ) ) {
                 res.emplace_back( cur, const_cast<item *>( e ) );
@@ -3090,7 +3091,7 @@ std::vector<item_location> Character::nearby( const
         } );
     }
 
-    for( const vehicle_cursor &cur : vehicle_selector( pos_bub(), radius ) ) {
+    for( const vehicle_cursor &cur : vehicle_selector( here, pos_bub( &here ), radius ) ) {
         cur.visit_items( [&]( const item * e, const item * parent ) {
             if( func( e, parent ) ) {
                 res.emplace_back( cur, const_cast<item *>( e ) );
@@ -3210,6 +3211,7 @@ units::mass Character::best_nearby_lifting_assist() const
 
 units::mass Character::best_nearby_lifting_assist( const tripoint_bub_ms &world_pos ) const
 {
+    map &here = get_map();
     int mech_lift = 0;
     if( is_mounted() ) {
         auto *mons = mounted_creature.get();
@@ -3219,7 +3221,7 @@ units::mass Character::best_nearby_lifting_assist( const tripoint_bub_ms &world_
     }
     int lift_quality = std::max( { this->max_quality( qual_LIFT ), mech_lift,
                                    map_selector( this->pos_bub(), PICKUP_RANGE ).max_quality( qual_LIFT ),
-                                   vehicle_selector( world_pos, 4, true, true ).max_quality( qual_LIFT )
+                                   vehicle_selector( here, world_pos, 4, true, true ).max_quality( qual_LIFT )
                                  } );
     return lifting_quality_to_mass( lift_quality );
 }
@@ -4042,7 +4044,7 @@ std::pair<int, int> Character::climate_control_strength() const
                                  // Also check for a working alternator. Muscle or animal could be powering it.
                                  (
                                      vp->is_inside() &&
-                                     vp->vehicle().total_alternator_epower() > 0_W
+                                     vp->vehicle().total_alternator_epower( here ) > 0_W
                                  )
                              );
         }
@@ -6925,6 +6927,7 @@ void Character::mod_stamina( int mod )
 
 void Character::burn_move_stamina( int moves )
 {
+    map &here = get_map();
     int overburden_percentage = 0;
     //add half the difference between current stored kcal weight and healthy stored kcal weight to weight of carried gear
     units::mass fat_penalty = units::from_kilogram( 0.5f * std::max( 0.0f,
@@ -6946,12 +6949,12 @@ void Character::burn_move_stamina( int moves )
 
     ///\EFFECT_SWIMMING decreases stamina burn when swimming
     //Appropriate traits let you walk along the bottom without getting as tired
-    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos_bub() ) &&
+    if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos_bub( &here ) ) &&
         !has_flag( json_flag_WATERWALKING ) &&
         ( !has_flag( json_flag_WALK_UNDERWATER ) ||
-          get_map().has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos_bub() ) ) &&
-        !get_map().has_flag_furn( "BRIDGE", pos_bub() ) &&
-        !( in_vehicle && get_map().veh_at( pos_bub() )->vehicle().can_float() ) ) {
+          here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos_bub( &here ) ) ) &&
+        !here.has_flag_furn( "BRIDGE", pos_bub( &here ) ) &&
+        !( in_vehicle && here.veh_at( pos_bub( &here ) )->vehicle().can_float( here ) ) ) {
         burn_ratio += 100 / std::pow( 1.1, get_skill_level( skill_swimming ) );
     }
 
@@ -11977,8 +11980,9 @@ int Character::count_flag( const json_character_flag &flag ) const
 
 bool Character::is_driving() const
 {
-    const optional_vpart_position vp = get_map().veh_at( pos_bub() );
-    return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( *this );
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( pos_bub() );
+    return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( here, *this );
 }
 
 time_duration Character::estimate_effect_dur( const skill_id &relevant_skill,
@@ -12076,12 +12080,14 @@ bool Character::beyond_final_warning( const faction_id &id )
 
 read_condition_result Character::check_read_condition( const item &book ) const
 {
+    map &here = get_map();
+
     read_condition_result result = read_condition_result::SUCCESS;
     if( !book.is_book() ) {
         result |= read_condition_result::NOT_BOOK;
     } else {
-        const optional_vpart_position vp = get_map().veh_at( pos_bub() );
-        if( vp && vp->vehicle().player_in_control( *this ) ) {
+        const optional_vpart_position vp = here.veh_at( pos_bub() );
+        if( vp && vp->vehicle().player_in_control( here, *this ) ) {
             result |= read_condition_result::DRIVING;
         }
 
@@ -13347,8 +13353,8 @@ void Character::pause()
         vehicle *veh = nullptr;
         for( wrapped_vehicle &v : vehs ) {
             veh = v.v;
-            if( veh && veh->is_moving() && veh->player_in_control( *this ) ) {
-                double exp_temp = 1 + veh->total_mass() / 400.0_kilogram +
+            if( veh && veh->is_moving() && veh->player_in_control( here, *this ) ) {
+                double exp_temp = 1 + veh->total_mass( here ) / 400.0_kilogram +
                                   std::abs( veh->velocity / 3200.0 );
                 int experience = static_cast<int>( exp_temp );
                 if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
@@ -13364,8 +13370,7 @@ void Character::pause()
     wait_effects();
 }
 
-template <typename T>
-bool Character::can_lift( const T &obj ) const
+bool Character::can_lift( item &obj ) const
 {
     // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
     int str = get_lift_str();
@@ -13376,8 +13381,18 @@ bool Character::can_lift( const T &obj ) const
     const int npc_str = get_lift_assist();
     return str + npc_str >= obj.lift_strength();
 }
-template bool Character::can_lift<item>( const item &obj ) const;
-template bool Character::can_lift<vehicle>( const vehicle &obj ) const;
+
+bool Character::can_lift( vehicle &veh, map &here ) const
+{
+    // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
+    int str = get_lift_str();
+    if( mounted_creature ) {
+        auto *const mons = mounted_creature.get();
+        str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
+    }
+    const int npc_str = get_lift_assist();
+    return str + npc_str >= veh.lift_strength( here );
+}
 
 static std::string wrap60( const std::string &text )
 {

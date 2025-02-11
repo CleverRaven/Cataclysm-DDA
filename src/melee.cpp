@@ -1851,7 +1851,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
                 ( to_swimmable && to_deepwater ) || // Dive into deep water
                 is_mounted() ||
                 ( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle
-                ( veh0 != nullptr && veh0->player_in_control( get_avatar() ) ) || // Player is driving
+                ( veh0 != nullptr && veh0->player_in_control( here, get_avatar() ) ) || // Player is driving
                 has_effect( effect_amigara ) ||
                 has_flag( json_flag_GRAB );
             if( !move_issue ) {

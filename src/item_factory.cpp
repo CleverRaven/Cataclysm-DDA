@@ -4445,6 +4445,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     optional( jo, def.was_loaded, "properties", def.properties );
 
+    optional( jo, def.was_loaded, "max_worn", def.max_worn, MAX_WORN_PER_TYPE );
+
     if( jo.has_member( "techniques" ) ) {
         def.techniques.clear();
         set_techniques_from_json( jo, "techniques", def );

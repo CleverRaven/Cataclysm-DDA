@@ -56,7 +56,7 @@ static void test_repair( const std::vector<item> &tools, bool plug_in_tools, boo
 
     const tripoint_bub_ms battery_pos = test_origin + tripoint::north_west;
     std::optional<item> battery_item( itype_test_storage_battery );
-    place_appliance( battery_pos, vpart_ap_test_storage_battery, player_character, battery_item );
+    place_appliance( here, battery_pos, vpart_ap_test_storage_battery, player_character, battery_item );
 
     for( const item &gear : tools ) {
         item_location added_tool = player_character.i_add( gear );

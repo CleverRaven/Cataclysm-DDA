@@ -197,9 +197,9 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     veh.refresh_insides();
 
     if( test_mass ) {
-        CHECK( to_gram( veh.total_mass() ) == expected_mass );
+        CHECK( to_gram( veh.total_mass( here ) ) == expected_mass );
     }
-    expected_mass = to_gram( veh.total_mass() );
+    expected_mass = to_gram( veh.total_mass( here ) );
     veh.check_falling_or_floating();
     REQUIRE( !veh.is_in_water() );
     const auto &starting_fuel = set_vehicle_fuel( veh, fuel_level );
@@ -208,12 +208,12 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     const float starting_fuel_per = fuel_percentage_left( veh, starting_fuel );
     REQUIRE( std::abs( starting_fuel_per - 1.0f ) < 0.001f );
 
-    const tripoint_bub_ms starting_point = veh.pos_bub( &here );
+    const tripoint_bub_ms starting_point = veh.pos_bub( here );
     veh.tags.insert( "IN_CONTROL_OVERRIDE" );
     veh.engine_on = true;
 
     const int sign = in_reverse ? -1 : 1;
-    const int target_velocity = sign * std::min( 50 * 100, veh.safe_ground_velocity( false ) );
+    const int target_velocity = sign * std::min( 50 * 100, veh.safe_ground_velocity( here, false ) );
     veh.cruise_velocity = target_velocity;
     // If we aren't testing repeated cold starts, start the vehicle at cruising velocity.
     // Otherwise changing the amount of fuel in the tank perturbs the test results.
@@ -224,20 +224,20 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     int tiles_travelled = 0;
     int cycles_left = cycle_limit;
     bool accelerating = true;
-    CHECK( veh.safe_velocity() > 0 );
-    while( veh.engine_on && veh.safe_velocity() > 0 && cycles_left > 0 ) {
+    CHECK( veh.safe_velocity( here ) > 0 );
+    while( veh.engine_on && veh.safe_velocity( here ) > 0 && cycles_left > 0 ) {
         cycles_left--;
         here.vehmove();
-        veh.idle( true );
+        veh.idle( here, true );
         // If the vehicle starts skidding, the effects become random and test is RUINED
         REQUIRE( !veh.skidding );
         for( const tripoint_abs_ms &pos : veh.get_points() ) {
             REQUIRE( here.ter( here.get_bub( pos ) ) );
         }
         // How much it moved
-        tiles_travelled += square_dist( starting_point, veh.pos_bub( &here ) );
+        tiles_travelled += square_dist( starting_point, veh.pos_bub( here ) );
         // Bring it back to starting point to prevent it from leaving the map
-        const tripoint_rel_ms displacement = starting_point - veh.pos_bub( &here );
+        const tripoint_rel_ms displacement = starting_point - veh.pos_bub( here );
         here.displace_vehicle( veh, displacement );
         if( reset_velocity_turn < 0 ) {
             continue;

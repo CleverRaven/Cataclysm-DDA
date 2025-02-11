@@ -112,6 +112,7 @@ static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
 void handbrake()
 {
+    map &here = get_map();
     Character &player_character = get_player_character();
     const optional_vpart_position vp = get_map().veh_at( player_character.pos_bub() );
     if( !vp ) {
@@ -127,7 +128,7 @@ void handbrake()
     } else {
         int braking_power = std::abs( veh->velocity ) / 2 + 10 * 100;
         if( std::abs( veh->velocity ) < braking_power ) {
-            veh->stop();
+            veh->stop( here );
         } else {
             int sgn = veh->velocity > 0 ? 1 : -1;
             veh->velocity = sgn * ( std::abs( veh->velocity ) - braking_power );
@@ -182,7 +183,7 @@ void vehicle::control_doors()
         const bool open = !vp.open;
         menu.add( string_format( "%s %s", actname, vp.name() ) )
         .hotkey_auto()
-        .location( bub_part_pos( &here, vp ).raw() )
+        .location( bub_part_pos( here, vp ).raw() )
         .keep_menu_open()
         .on_submit( [this, vp_idx, open] {
             if( can_close( vp_idx, get_player_character() ) )
@@ -201,7 +202,7 @@ void vehicle::control_doors()
         const bool lock = !vp.locked;
         menu.add( string_format( "%s %s", actname, vp.name() ) )
         .hotkey_auto()
-        .location( bub_part_pos( &here, vp ).raw() )
+        .location( bub_part_pos( here, vp ).raw() )
         .keep_menu_open()
         .on_submit( [this, vp_idx, lock] {
             lock_or_unlock( vp_idx, lock );
@@ -249,7 +250,7 @@ void vehicle::control_doors()
     } while( menu.query() );
 }
 
-static void add_electronic_toggle( vehicle &veh, veh_menu &menu, const std::string &name,
+static void add_electronic_toggle( map &here, vehicle &veh, veh_menu &menu, const std::string &name,
                                    const std::string &action, const std::string &flag )
 {
     // fetch matching parts and abort early if none found
@@ -265,8 +266,9 @@ static void add_electronic_toggle( vehicle &veh, veh_menu &menu, const std::stri
 
     // can this menu option be selected by the user?
     // if toggled part potentially usable check if could be enabled now (sufficient fuel etc.)
-    bool allow = !state || std::any_of( found.begin(), found.end(), []( const vpart_reference & vp ) {
-        return vp.vehicle().can_enable( vp.part() );
+    bool allow = !state ||
+    std::any_of( found.begin(), found.end(), [&here]( const vpart_reference & vp ) {
+        return vp.vehicle().can_enable( here, vp.part() );
     } );
 
     const std::string msg = state ? _( "Turn on %s" ) : colorize( _( "Turn off %s" ), c_pink );
@@ -289,6 +291,8 @@ static void add_electronic_toggle( vehicle &veh, veh_menu &menu, const std::stri
 
 void vehicle::build_electronics_menu( veh_menu &menu )
 {
+    map &here = get_map();
+
     if( has_part( "DOOR_MOTOR" ) ) {
         menu.add( _( "Control doors and curtains" ) )
         .hotkey( "TOGGLE_DOORS" )
@@ -299,7 +303,7 @@ void vehicle::build_electronics_menu( veh_menu &menu )
         menu.add( camera_on
                   ? colorize( _( "Turn off camera system" ), c_pink )
                   : _( "Turn on camera system" ) )
-        .enable( fuel_left( fuel_type_battery ) )
+        .enable( fuel_left( here, fuel_type_battery ) )
         .hotkey( "TOGGLE_CAMERA" )
         .keep_menu_open()
         .on_submit( [&] {
@@ -314,9 +318,9 @@ void vehicle::build_electronics_menu( veh_menu &menu )
         } );
     }
 
-    auto add_toggle = [this, &menu]( const std::string & name, const std::string & action,
+    auto add_toggle = [&here, this, &menu]( const std::string & name, const std::string & action,
     const std::string & flag ) {
-        add_electronic_toggle( *this, menu, name, action, flag );
+        add_electronic_toggle( here, *this, menu, name, action, flag );
     };
     add_toggle( pgettext( "electronics menu option", "reactor" ),
                 "TOGGLE_REACTOR", "REACTOR" );
@@ -384,6 +388,8 @@ void vehicle::build_electronics_menu( veh_menu &menu )
 
 void vehicle::control_engines()
 {
+    map &here = get_map();
+
     bool dirty = false;
 
     veh_menu menu( this, _( "Toggle which?" ) );
@@ -393,7 +399,7 @@ void vehicle::control_engines()
             const vehicle_part &vp = parts[engine_idx];
             for( const itype_id &fuel_type : vp.info().engine_info->fuel_opts ) {
                 const bool is_active = vp.enabled && vp.fuel_current() == fuel_type;
-                const bool has_fuel = is_perpetual_type( vp ) || fuel_left( fuel_type );
+                const bool has_fuel = is_perpetual_type( vp ) || fuel_left( here, fuel_type );
                 menu.add( string_format( "[%s] %s %s", is_active ? "x" : " ", vp.name(), fuel_type->nname( 1 ) ) )
                 .enable( vp.is_available() && has_fuel )
                 .keep_menu_open()
@@ -424,7 +430,7 @@ void vehicle::control_engines()
 
     // if current velocity greater than new configuration safe speed
     // drop down cruise velocity.
-    int safe_vel = safe_velocity();
+    int safe_vel = safe_velocity( here );
     if( velocity > safe_vel ) {
         cruise_velocity = safe_vel;
     }
@@ -585,7 +591,7 @@ double vehicle::engine_cold_factor( const vehicle_part &vp ) const
         return 0.0;
     }
 
-    const tripoint_bub_ms pos = bub_part_pos( &here, vp );
+    const tripoint_bub_ms pos = bub_part_pos( here, vp );
     double eff_temp = units::to_fahrenheit( get_weather().get_temperature( pos ) );
     if( !vp.has_fault_flag( "BAD_COLD_START" ) ) {
         eff_temp = std::min( eff_temp, 20.0 );
@@ -596,8 +602,11 @@ double vehicle::engine_cold_factor( const vehicle_part &vp ) const
 
 time_duration vehicle::engine_start_time( const vehicle_part &vp ) const
 {
+    map &here = get_map();
+
     time_duration result = 0_seconds;
-    if( !is_engine_on( vp ) || vp.info().has_flag( "E_STARTS_INSTANTLY" ) || !engine_fuel_left( vp ) ) {
+    if( !is_engine_on( vp ) || vp.info().has_flag( "E_STARTS_INSTANTLY" ) ||
+        !engine_fuel_left( here, vp ) ) {
         return result;
     }
 
@@ -609,7 +618,7 @@ time_duration vehicle::engine_start_time( const vehicle_part &vp ) const
 
     // divided by magic 16 = watts / 6000
     const double watts_per_time = 6000;
-    const double engine_watts = units::to_watt( part_vpower_w( vp, true ) );
+    const double engine_watts = units::to_watt( part_vpower_w( here, vp, true ) );
     result += time_duration::from_moves( engine_watts / watts_per_time );
     return result;
 }
@@ -617,15 +626,17 @@ time_duration vehicle::engine_start_time( const vehicle_part &vp ) const
 // NOLINTNEXTLINE(readability-make-member-function-const)
 bool vehicle::auto_select_fuel( vehicle_part &vp )
 {
+    map &here = get_map();
+
     const vpart_info &vp_engine_info = vp.info();
     if( !vp.is_available() || !vp.is_engine() ) {
         return false;
     }
-    if( vp_engine_info.fuel_type == fuel_type_none || engine_fuel_left( vp ) > 0 ) {
+    if( vp_engine_info.fuel_type == fuel_type_none || engine_fuel_left( here, vp ) > 0 ) {
         return true;
     }
     for( const itype_id &fuel_id : vp_engine_info.engine_info->fuel_opts ) {
-        if( fuel_left( fuel_id ) > 0 ) {
+        if( fuel_left( here, fuel_id ) > 0 ) {
             vp.fuel_set( fuel_id );
             return true;
         }
@@ -677,11 +688,11 @@ bool vehicle::start_engine( vehicle_part &vp )
 
     const double dmg = vp.damage_percent();
     const time_duration start_time = engine_start_time( vp );
-    const tripoint_bub_ms pos = bub_part_pos( &here, vp );
+    const tripoint_bub_ms pos = bub_part_pos( here, vp );
 
     if( ( 1 - dmg ) < vpi.engine_info->backfire_threshold &&
         one_in( vpi.engine_info->backfire_freq ) ) {
-        backfire( vp );
+        backfire( &here, vp );
     } else {
         sounds::sound( pos, to_seconds<int>( start_time ) * 10, sounds::sound_t::movement,
                        string_format( _( "the %s bang as it starts!" ), vp.name() ), true, "vehicle",
@@ -708,7 +719,7 @@ bool vehicle::start_engine( vehicle_part &vp )
         const double cold_factor = engine_cold_factor( vp );
         const units::power start_power = -part_epower( vp ) * ( dmg * 5 + cold_factor * 2 + 10 );
         const int start_bat = power_to_energy_bat( start_power, start_time );
-        if( discharge_battery( start_bat ) != 0 ) {
+        if( discharge_battery( here, start_bat ) != 0 ) {
             sounds::sound( pos, vpi.engine_info->noise_factor, sounds::sound_t::alarm,
                            string_format( _( "the %s rapidly clicking." ), vp.name() ), true, "vehicle",
                            "engine_multi_click_fail" );
@@ -763,7 +774,7 @@ void vehicle::stop_engines()
             continue;
         }
 
-        sounds::sound( bub_part_pos( &here, vp ), 2, sounds::sound_t::movement,
+        sounds::sound( bub_part_pos( here, vp ), 2, sounds::sound_t::movement,
                        _( "the engine go silent" ) );
 
         std::string variant = vp.info().id.str();
@@ -809,7 +820,7 @@ void vehicle::start_engines( Character *driver, const bool take_control, const b
     for( const int p : engines ) {
         const vehicle_part &vp = parts[p];
         if( !has_starting_engine_position && !vp.is_broken() && vp.enabled ) {
-            starting_engine_position = bub_part_pos( &here, vp );
+            starting_engine_position = bub_part_pos( here, vp );
             has_starting_engine_position = true;
         }
         has_engine = has_engine || is_engine_on( vp );
@@ -852,7 +863,7 @@ void vehicle::honk_horn() const
 {
     map &here = get_map();
 
-    const bool no_power = !fuel_left( fuel_type_battery );
+    const bool no_power = !fuel_left( here, fuel_type_battery );
     bool honked = false;
 
     for( const vpart_reference &vp : get_avail_parts( "HORN" ) ) {
@@ -931,7 +942,7 @@ void vehicle::beeper_sound() const
     map &here = get_map();
 
     // No power = no sound
-    if( fuel_left( fuel_type_battery ) == 0 ) {
+    if( fuel_left( here, fuel_type_battery ) == 0 ) {
         return;
     }
 
@@ -975,10 +986,11 @@ void vehicle::play_chimes() const
 
 void vehicle::crash_terrain_around()
 {
-    if( total_power() <= 0_W ) {
+    map &here = get_map();
+
+    if( total_power( here ) <= 0_W ) {
         return;
     }
-    map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "CRASH_TERRAIN_AROUND" ) ) {
         tripoint_bub_ms crush_target( 0, 0, -OVERMAP_LAYERS );
         const tripoint_bub_ms start_pos = vp.pos_bub( &here );
@@ -1075,7 +1087,7 @@ void vehicle::operate_reaper()
         if( vp.info().has_flag( VPFLAG_CARGO ) ) {
             for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
                 if( ( iter->volume() <= max_pickup_volume ) &&
-                    add_item( vp.part(), *iter ) ) {
+                    add_item( here, vp.part(), *iter ) ) {
                     iter = items.erase( iter );
                 } else {
                     ++iter;
@@ -1135,12 +1147,12 @@ void vehicle::operate_scoop()
                 _( "Whirrrr" ), _( "Ker-chunk" ), _( "Swish" ), _( "Cugugugugug" )
             }
         };
-        sounds::sound( bub_part_pos( &here, scoop ), rng( 20, 35 ), sounds::sound_t::combat,
+        sounds::sound( bub_part_pos( here, scoop ), rng( 20, 35 ), sounds::sound_t::combat,
                        random_entry_ref( sound_msgs ), false, "vehicle", "scoop" );
         std::vector<tripoint_bub_ms> parts_points;
         parts_points.reserve( 8 );
         for( const tripoint_bub_ms &current :
-             here.points_in_radius( bub_part_pos( &here, scoop ), 1 ) ) {
+             here.points_in_radius( bub_part_pos( here, scoop ), 1 ) ) {
             parts_points.push_back( current );
         }
         for( const tripoint_bub_ms &position : parts_points ) {
@@ -1172,7 +1184,7 @@ void vehicle::operate_scoop()
                                sounds::sound_t::combat, _( "BEEEThump" ), false, "vehicle", "scoop_thump" );
             }
             //This attempts to add the item to the scoop inventory and if successful, removes it from the map.
-            if( add_item( vp.part(), *that_item_there ) ) {
+            if( add_item( here, vp.part(), *that_item_there ) ) {
                 here.i_rem( position, that_item_there );
             } else {
                 break;
@@ -1187,7 +1199,7 @@ void vehicle::alarm()
 
     if( one_in( 4 ) ) {
         //first check if the alarm is still installed
-        bool found_alarm = has_security_working();
+        bool found_alarm = has_security_working( here );
 
         //if alarm found, make noise, else set alarm disabled
         if( found_alarm ) {
@@ -1195,7 +1207,7 @@ void vehicle::alarm()
                     _( "WHOOP WHOOP" ), _( "NEEeu NEEeu NEEeu" ), _( "BLEEEEEEP" ), _( "WREEP" )
                 }
             };
-            sounds::sound( pos_bub( &here ), static_cast<int>( rng( 45, 80 ) ),
+            sounds::sound( pos_bub( here ), static_cast<int>( rng( 45, 80 ) ),
                            sounds::sound_t::alarm,  random_entry_ref( sound_msgs ), false, "vehicle", "car_alarm" );
             if( one_in( 1000 ) ) {
                 is_alarm_on = false;
@@ -1389,6 +1401,8 @@ void vehicle::lock_or_unlock( const int part_index, const bool locking )
 
 void vehicle::use_autoclave( int p )
 {
+    map &here = get_map();
+
     vehicle_part &vp = parts[p];
     vehicle_stack items = get_items( vp );
     bool filthy_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
@@ -1409,7 +1423,7 @@ void vehicle::use_autoclave( int p )
                  _( "You turn the autoclave off before it's finished the program, and open its door." ) );
     } else if( items.empty() ) {
         add_msg( m_bad, _( "The autoclave is empty; there's no point in starting it." ) );
-    } else if( fuel_left( itype_water ) < 8 && fuel_left( itype_water_clean ) < 8 ) {
+    } else if( fuel_left( here, itype_water ) < 8 && fuel_left( here, itype_water_clean ) < 8 ) {
         add_msg( m_bad, _( "You need 8 charges of water in the tanks of the %s for the autoclave to run." ),
                  name );
     } else if( filthy_items ) {
@@ -1425,18 +1439,21 @@ void vehicle::use_autoclave( int p )
             n.set_age( 0_turns );
         }
 
-        if( fuel_left( itype_water ) >= 8 ) {
-            drain( itype_water, 8 );
+        if( fuel_left( here, itype_water ) >= 8 ) {
+            drain( here, itype_water, 8 );
         } else {
-            drain( itype_water_clean, 8 );
+            drain( here, itype_water_clean, 8 );
         }
 
         add_msg( m_good, _( "You turn the autoclave on and it starts its cycle." ) );
     }
 }
 
+// TODO: Organize magic number consumption.
 void vehicle::use_washing_machine( int p )
 {
+    map &here = get_map();
+
     vehicle_part &vp = parts[p];
     avatar &player_character = get_avatar();
     // Get all the items that can be used as detergent
@@ -1460,7 +1477,7 @@ void vehicle::use_washing_machine( int p )
                  _( "You turn the washing machine off before it's finished its cycle, and open its lid." ) );
     } else if( items.empty() ) {
         add_msg( m_bad, _( "The washing machine is empty; there's no point in starting it." ) );
-    } else if( fuel_left( itype_water ) < 24 && fuel_left( itype_water_clean ) < 24 ) {
+    } else if( fuel_left( here, itype_water ) < 24 && fuel_left( here, itype_water_clean ) < 24 ) {
         add_msg( m_bad,
                  _( "You need 24 charges of water in the tanks of the %s to fill the washing machine." ), name );
     } else if( detergents.empty() ) {
@@ -1504,10 +1521,10 @@ void vehicle::use_washing_machine( int p )
             n.set_age( 0_turns );
         }
 
-        if( fuel_left( itype_water ) >= 24 ) {
-            drain( itype_water, 24 );
+        if( fuel_left( here, itype_water ) >= 24 ) {
+            drain( here, itype_water, 24 );
         } else {
-            drain( itype_water_clean, 24 );
+            drain( here, itype_water_clean, 24 );
         }
 
         std::vector<item_comp> detergent;
@@ -1519,8 +1536,11 @@ void vehicle::use_washing_machine( int p )
     }
 }
 
+// TODO: Organize magic number consumption.
 void vehicle::use_dishwasher( int p )
 {
+    map &here = get_map();
+
     vehicle_part &vp = parts[p];
     avatar &player_character = get_avatar();
     bool detergent_is_enough = player_character.crafting_inventory().has_charges( itype_detergent, 5 );
@@ -1545,7 +1565,7 @@ void vehicle::use_dishwasher( int p )
                  _( "You turn the dishwasher off before it's finished its cycle, and open its lid." ) );
     } else if( items.empty() ) {
         add_msg( m_bad, _( "The dishwasher is empty, there's no point in starting it." ) );
-    } else if( fuel_left( itype_water ) < 24 && fuel_left( itype_water_clean ) < 24 ) {
+    } else if( fuel_left( here, itype_water ) < 24 && fuel_left( here, itype_water_clean ) < 24 ) {
         add_msg( m_bad, _( "You need 24 charges of water in the tanks of the %s to fill the dishwasher." ),
                  name );
     } else if( !detergent_is_enough ) {
@@ -1561,10 +1581,10 @@ void vehicle::use_dishwasher( int p )
             n.set_age( 0_turns );
         }
 
-        if( fuel_left( itype_water ) >= 24 ) {
-            drain( itype_water, 24 );
+        if( fuel_left( here, itype_water ) >= 24 ) {
+            drain( here, itype_water, 24 );
         } else {
-            drain( itype_water_clean, 24 );
+            drain( here, itype_water_clean, 24 );
         }
 
         std::vector<item_comp> detergent;
@@ -1593,8 +1613,14 @@ void vehicle::use_monster_capture( int part, map */*here*/, const tripoint_bub_m
     invalidate_mass();
 }
 
-void vehicle::use_harness( int part, const tripoint_bub_ms &pos )
+void vehicle::use_harness( int part, map *here, const tripoint_bub_ms &pos )
 {
+    if( here !=
+        &get_map() ) { // TODO: Work needed on used operations for this to be possible to remove.
+        debugmsg( "vehicle::use_harness can only be used with the reality bubble." );
+        return;
+    }
+
     const vehicle_part &vp = parts[part];
     const vpart_info &vpi = vp.info();
 
@@ -1602,10 +1628,12 @@ void vehicle::use_harness( int part, const tripoint_bub_ms &pos )
         debugmsg( "use_harness called on invalid part" );
         return;
     }
+    // TODO: Make 'is_empty' map aware.
     if( !g->is_empty( pos ) ) {
         add_msg( m_info, _( "The harness is blocked." ) );
         return;
     }
+    // TODO: Make 'choose_adjacent_highlight' map aware so 'f' can be too.
     creature_tracker &creatures = get_creature_tracker();
     const std::function<bool( const tripoint_bub_ms & )> f = [&creatures](
     const tripoint_bub_ms & pnt ) {
@@ -1618,6 +1646,7 @@ void vehicle::use_harness( int part, const tripoint_bub_ms &pos )
                                     f.has_flag( mon_flag_PET_HARNESSABLE ) );
     };
 
+    // TODO: Make 'choose_adjacent_highlight' map aware.
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
                 _( "Where is the creature to harness?" ), _( "There is no creature to harness nearby." ), f,
                 false );
@@ -1625,7 +1654,8 @@ void vehicle::use_harness( int part, const tripoint_bub_ms &pos )
         add_msg( m_info, _( "Never mind." ) );
         return;
     }
-    const tripoint_bub_ms &target = *pnt_;
+
+    const tripoint_abs_ms &target = here->get_abs( *pnt_ );
     monster *mon_ptr = creatures.creature_at<monster>( target );
     if( mon_ptr == nullptr ) {
         add_msg( m_info, _( "No creature there." ) );
@@ -1645,7 +1675,7 @@ void vehicle::use_harness( int part, const tripoint_bub_ms &pos )
     }
 
     m.add_effect( effect_harnessed, 1_turns, true );
-    m.setpos( pos );
+    m.setpos( here->get_abs( pos ) );
     //~ %1$s: monster name, %2$s: vehicle name
     add_msg( m_info, _( "You harness your %1$s to %2$s." ), m.get_name(), disp_name() );
     if( m.has_effect( effect_tied ) ) {
@@ -1660,6 +1690,8 @@ void vehicle::use_harness( int part, const tripoint_bub_ms &pos )
 
 void vehicle::build_bike_rack_menu( veh_menu &menu, int part )
 {
+    map &here = get_map();
+
     // prevent racking two vehicles with same name on single vehicle
     // @returns true if vehicle already has a vehicle with this name racked
     const auto has_veh_name_racked = [this]( const std::string & name ) {
@@ -1676,7 +1708,7 @@ void vehicle::build_bike_rack_menu( veh_menu &menu, int part )
     menu.desc_lines_hint = std::max( 1, menu.desc_lines_hint );
     bool has_rack_actions = false;
 
-    for( const rackable_vehicle &rackable : find_vehicles_to_rack( part ) ) {
+    for( const rackable_vehicle &rackable : find_vehicles_to_rack( &here,  part ) ) {
         const bool has_this_name_racked = has_veh_name_racked( rackable.name );
 
         menu.add( string_format( _( "Attach the %s to the rack" ), rackable.name ) )
@@ -1745,6 +1777,8 @@ void vpart_position::form_inventory( inventory &inv ) const
 
 std::pair<const itype_id &, int> vehicle::tool_ammo_available( const itype_id &tool_type ) const
 {
+    map &here = get_map();
+
     if( !tool_type->tool ) {
         return { itype_id::NULL_ID(), 0 };
     }
@@ -1755,9 +1789,9 @@ std::pair<const itype_id &, int> vehicle::tool_ammo_available( const itype_id &t
     // 2 bil ought to be enough for everyone, and hopefully not overflow int
     const int64_t max = 2000000000;
     if( ft->ammo->type == ammo_battery ) {
-        return { ft, static_cast<int>( std::min<int64_t>( battery_left(), max ) ) };
+        return { ft, static_cast<int>( std::min<int64_t>( battery_left( here ), max ) ) };
     } else {
-        return { ft, static_cast<int>( std::min<int64_t>( fuel_left( ft ), max ) ) };
+        return { ft, static_cast<int>( std::min<int64_t>( fuel_left( here, ft ), max ) ) };
     }
 }
 
@@ -1840,26 +1874,26 @@ bool vehicle::use_vehicle_tool( vehicle &veh, map *here, const tripoint_bub_ms &
     if( used_charges > 0 ) {
         if( is_battery_tool ) {
             // if tool has less battery charges than it started with - discharge from vehicle batteries
-            veh.discharge_battery( used_charges );
+            veh.discharge_battery( *here, used_charges );
         } else {
-            veh.drain( tool.ammo_current(), used_charges );
+            veh.drain( here, tool.ammo_current(), used_charges );
         }
     }
     return true;
 }
 
-void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, bool with_pickup )
+void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub_ms &p,
+                                   bool with_pickup )
 {
-    map &here = get_map();
-    const optional_vpart_position ovp = here.veh_at( p );
+    const optional_vpart_position ovp = here->veh_at( p );
     if( !ovp ) {
         debugmsg( "vehicle::build_interact_menu couldn't find vehicle at %s", p.to_string() );
         return;
     }
     const vpart_position vp = *ovp;
-    const tripoint_bub_ms vppos = vp.pos_bub( &here );
+    const tripoint_bub_ms vppos = vp.pos_bub( here );
 
-    std::vector<vehicle_part *> vp_parts = get_parts_at( &here, vppos, "", part_status_flag::working );
+    std::vector<vehicle_part *> vp_parts = get_parts_at( here, vppos, "", part_status_flag::working );
 
     // @returns true if pos contains available part with a flag
     const auto has_part_here = [vp_parts]( const std::string & flag ) {
@@ -1874,8 +1908,8 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, boo
                                          : has_part_here( "CTRL_ELECTRONIC" );
     const bool controls_here = has_part_here( "CONTROLS" );
     const bool player_is_driving = get_player_character().controlling_vehicle;
-    const bool player_inside = here.veh_at( get_player_character().pos_abs() ) ?
-                               &here.veh_at( get_player_character().pos_abs() )->vehicle() == this :
+    const bool player_inside = here->veh_at( get_player_character().pos_abs() ) ?
+                               &here->veh_at( get_player_character().pos_abs() )->vehicle() == this :
                                false;
     bool power_linked = false;
     bool item_linked = false;
@@ -1922,7 +1956,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, boo
             } );
         }
 
-        if( !is_alarm_on && has_security_working() ) {
+        if( !is_alarm_on && has_security_working( *here ) ) {
             menu.add( _( "Trigger the alarm" ) )
             .desc( _( "Trigger the alarm to make noise." ) )
             .skip_locked_check()
@@ -2051,8 +2085,8 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, boo
         menu.add( string_format( _( "Unload %s" ), turret.name() ) )
         .hotkey( "UNLOAD_TURRET" )
         .skip_locked_check()
-        .on_submit( [this, vppos, &here] {
-            item_location loc = turret_query( &here, vppos ).base();
+        .on_submit( [this, vppos, here] {
+            item_location loc = turret_query( here, vppos ).base();
             get_player_character().unload( loc );
         } );
     }
@@ -2061,8 +2095,8 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, boo
         menu.add( string_format( _( "Reload %s" ), turret.name() ) )
         .hotkey( "RELOAD_TURRET" )
         .skip_locked_check()
-        .on_submit( [this, vppos, &here] {
-            item_location loc = turret_query( &here, vppos ).base();
+        .on_submit( [this, vppos, here] {
+            item_location loc = turret_query( here, vppos ).base();
             item::reload_option opt = get_player_character().select_ammo( loc, true );
             if( opt )
             {
@@ -2111,8 +2145,8 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, boo
         .desc( string_format( !item_linked && !tow_linked ? "" : _( "Remove other cables first" ) ) )
         .skip_locked_check()
         .hotkey( "DISCONNECT_CABLES" )
-        .on_submit( [this, vp] {
-            unlink_cables( vp.mount_pos(), get_player_character(), true, true, true );
+        .on_submit( [here, this, vp] {
+            unlink_cables( *here, vp.mount_pos(), get_player_character(), true, true, true );
             get_player_character().pause();
         } );
     }
@@ -2122,8 +2156,8 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, boo
         menu.add( menu_text )
         .skip_locked_check()
         .hotkey( "DISCONNECT_CABLES" )
-        .on_submit( [this, vp] {
-            unlink_cables( vp.mount_pos(), get_player_character(), true, true, false );
+        .on_submit( [here, this, vp] {
+            unlink_cables( *here, vp.mount_pos(), get_player_character(), true, true, false );
             get_player_character().pause();
         } );
     }
@@ -2190,7 +2224,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, boo
         .enable( ammo_amount >= tool_item.typeId()->charges_to_use() )
         .hotkey( hk )
         .skip_locked_check( tool_ammo.is_null() || tool_ammo->ammo->type != ammo_battery )
-        .on_submit( [this, vppos, tool_type, &here] { use_vehicle_tool( *this, &here, vppos, tool_type ); } );
+        .on_submit( [this, vppos, tool_type, here] { use_vehicle_tool( *this, here, vppos, tool_type ); } );
     }
 
     const std::optional<vpart_reference> vp_autoclave = vp.avail_part_with_feature( "AUTOCLAVE" );
@@ -2227,7 +2261,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, boo
     const std::optional<vpart_reference> vp_cargo = vp.cargo();
     // Whether vehicle part (cargo) contains items, and whether map tile (ground) has items
     if( with_pickup && (
-            here.has_items( vp.pos_bub( &here ) ) ||
+            here->has_items( vp.pos_bub( here ) ) ||
             ( vp_cargo && !vp_cargo->items().empty() ) ) ) {
         menu.add( _( "Get items" ) )
         .hotkey( "GET_ITEMS" )
@@ -2288,24 +2322,24 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, boo
 
     if( vp.part_with_tool( itype_water_purifier ) ) {
         menu.add( _( "Purify water in vehicle tank" ) )
-        .enable( fuel_left( itype_water ) &&
-                 fuel_left( itype_battery ) >= itype_water_purifier->charges_to_use() )
+        .enable( fuel_left( *here, itype_water ) &&
+                 fuel_left( *here, itype_battery ) >= itype_water_purifier->charges_to_use() )
         .hotkey( "PURIFY_WATER" )
-        .on_submit( [this] {
+        .on_submit( [this, &here] {
             const auto sel = []( const vehicle_part & pt )
             {
                 return pt.is_tank() && pt.ammo_current() == itype_water;
             };
             std::string title = string_format( _( "Purify <color_%s>water</color> in tank" ),
                                                get_all_colors().get_name( itype_water->color ) );
-            const std::optional<vpart_reference> vpr = veh_interact::select_part( *this, sel, title );
+            const std::optional<vpart_reference> vpr = veh_interact::select_part( *here, *this, sel, title );
             if( !vpr )
             {
                 return;
             }
             vehicle_part &tank = vpr->part();
             int64_t cost = static_cast<int64_t>( itype_water_purifier->charges_to_use() );
-            if( fuel_left( itype_battery ) < tank.ammo_remaining() * cost )
+            if( fuel_left( *here, itype_battery ) < tank.ammo_remaining() * cost )
             {
                 //~ $1 - vehicle name, $2 - part name
                 add_msg( m_bad, _( "Insufficient power to purify the contents of the %1$s's %2$s" ),
@@ -2314,7 +2348,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, boo
             {
                 //~ $1 - vehicle name, $2 - part name
                 add_msg( m_good, _( "You purify the contents of the %1$s's %2$s" ), name, tank.name() );
-                discharge_battery( tank.ammo_remaining() * cost );
+                discharge_battery( *here, tank.ammo_remaining() * cost );
                 tank.ammo_set( itype_water_clean, tank.ammo_remaining() );
             }
         } );
@@ -2326,7 +2360,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, boo
         const size_t mc_idx = vp_monster_capture->part_index();
         menu.add( _( "Capture or release a creature" ) )
         .hotkey( "USE_CAPTURE_MONSTER_VEH" )
-        .on_submit( [this, mc_idx, vppos, &here] { use_monster_capture( mc_idx, &here, vppos ); } );
+        .on_submit( [this, mc_idx, vppos, here] { use_monster_capture( mc_idx, here, vppos ); } );
     }
 
     const std::optional<vpart_reference> vp_bike_rack = vp.avail_part_with_feature( "BIKE_RACK_VEH" );
@@ -2339,13 +2373,13 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, boo
         const size_t hn_idx = vp_harness->part_index();
         menu.add( _( "Harness an animal" ) )
         .hotkey( "USE_ANIMAL_CTRL" )
-        .on_submit( [this, hn_idx, vppos] { use_harness( hn_idx, vppos ); } );
+        .on_submit( [this, hn_idx, here, vppos] { use_harness( hn_idx, here, vppos ); } );
     }
 
     if( vp.avail_part_with_feature( "PLANTER" ) ) {
         menu.add( _( "Reload seed drill with seeds" ) )
         .hotkey( "USE_PLANTER" )
-        .on_submit( [this, vppos, &here] { reload_seeds( &here, vppos ); } );
+        .on_submit( [this, vppos, here] { reload_seeds( here, vppos ); } );
     }
 
     const std::optional<vpart_reference> vp_workbench = vp.avail_part_with_feature( "WORKBENCH" );
@@ -2461,9 +2495,9 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint_bub_ms &p, boo
     }
 }
 
-void vehicle::interact_with( const tripoint_bub_ms &p, bool with_pickup )
+void vehicle::interact_with( map *here, const tripoint_bub_ms &p, bool with_pickup )
 {
-    const optional_vpart_position ovp = get_map().veh_at( p );
+    const optional_vpart_position ovp = here->veh_at( p );
     if( !ovp ) {
         debugmsg( "interact_with called at %s and no vehicle is found", p.to_string() );
         return;
@@ -2472,6 +2506,6 @@ void vehicle::interact_with( const tripoint_bub_ms &p, bool with_pickup )
     veh_menu menu( *this, _( "Select an action" ) );
     do {
         menu.reset();
-        build_interact_menu( menu, p, with_pickup );
+        build_interact_menu( menu, here, p, with_pickup );
     } while( menu.query() );
 }

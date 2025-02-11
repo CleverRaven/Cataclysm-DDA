@@ -3584,7 +3584,7 @@ void vehicle::serialize( JsonOut &json ) const
     if( is_towed() ) {
         vehicle *tower = tow_data.get_towed_by();
         if( tower ) {
-            other_tow_temp_point = tower->bub_part_pos( &here, tower->get_tow_part() );
+            other_tow_temp_point = tower->bub_part_pos( here, tower->get_tow_part() );
         }
     }
     json.member( "other_tow_point", other_tow_temp_point );
