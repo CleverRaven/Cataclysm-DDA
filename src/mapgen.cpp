@@ -478,7 +478,7 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
 
         // Base + (Max Increase / Days until Max Increase ) * Days passed
         // Decrease the chance of fire spawning over the first week of the cataclysm
-        if( x_in_y( 1, ( 2000 + ( 6000 / 7 ) * days_since_cataclysm ) ) ) {
+        if( x_in_y( 1, ( 2000 + ( 4000 / 7 ) * days_since_cataclysm ) ) ) {
             if( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE, current_tile ) ||
                 days_since_cataclysm < 3 ) {
                 // Only place fire on flammable surfaces unless the cataclysm started very recently
