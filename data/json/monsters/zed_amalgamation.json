@@ -369,5 +369,31 @@
       "flags": [ "GRABS", "PULP_PRYING" ]
     },
     "armor": { "bash": 20, "cut": 25, "stab": 30, "acid": 12, "bullet": 40, "electric": 12 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_amalgamation_recycler",
+    "copy-from": "mon_amalgamation_abstract_med",
+    "name": { "str": "recycler amalgamation" },
+    "description": "A large white-pinkish stubby caterpillar with several tentacles protruding from its underside and an oversized fleshy hump on its back.  It moves around sluggishly, seemingly not paying you any mind.",
+    "color": "dark_gray",
+    "bodytype": "snake",
+    "volume": "325 L",
+    "weight": "325 kg",
+    "hp": 300,
+    "speed": 95,
+    "melee_skill": 5,
+    "melee_dice": 4,
+    "melee_dice_sides": 4,
+    "special_attacks": [
+      {
+        "id": "lash_bash_attack",
+        "cooldown": 10,
+        "move_cost": 120,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 25 } ]
+      }
+    ],
+    "dodge": 3,
+    "armor": { "bash": 15, "cut": 8, "stab": 8, "acid": 8, "bullet": 4, "electric": 8 }
   }
 ]
