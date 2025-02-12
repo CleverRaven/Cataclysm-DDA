@@ -104,7 +104,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CHANGELING_SUMMER_POWERFUL_SUNLIGHT_INITIATE",
-    "condition": { "not": { "u_has_effect": "effect_changeling_summer_powerful_sunlight" } },
     "effect": [
       {
         "math": [
@@ -120,20 +119,24 @@
         "u_add_effect": "effect_changeling_summer_powerful_sunlight",
         "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
       },
-      { "u_message": "You blaze with brilliant light.", "type": "good" }
-    ],
-    "false_effect": { "u_lose_effect": "effect_changeling_summer_powerful_sunlight" }
+      { "u_message": "You blaze with brilliant light.", "type": "good" },
+      { "u_cast_spell": { "id": "changeling_summer_powerful_sunlight_spell_aura_effects", "hit_self": false } }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CHANGELING_SUMMER_POWERFUL_SUNLIGHT_AURA_EFFECTS",
     "effect": [
-      { "if": { "not": { "u_has_effect": "blind" }, "then": { "u_add_effect": "blind", "duration": "1 minutes" } } },
+      { "if": { "not": { "u_has_effect": "blind" } }, "then": { "u_add_effect": "blind", "duration": "1 minutes" } },
       {
-        "if": {
-          "not": { "u_has_flag": "SUNDEATH" },
-          "then": { "u_cast_spell": { "id": "changeling_summer_powerful_sunlight_spell_sundeath_self_damage", "hit_self": false } }
-        }
+        "if": { "u_has_flag": "SUNDEATH" },
+        "then": [
+          { "math": [ "u_val('morale')", "-=", "200" ] },
+          {
+            "u_cast_spell": { "id": "changeling_summer_powerful_sunlight_spell_sundeath_self_damage", "hit_self": true }
+          },
+          { "message": "The <u_name> is seared by the brilliant light!", "type": "neutral" }
+        ]
       }
     ]
   }

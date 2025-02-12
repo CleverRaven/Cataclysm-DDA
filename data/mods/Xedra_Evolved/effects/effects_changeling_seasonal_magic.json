@@ -295,6 +295,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_winter_feign_death_limiter",
+    "name": [ "Definitely Alive" ],
+    "desc": [ "You can fool them once, but you can't fool them twice." ],
+    "max_duration": "1 minutes",
+    "blocks_effects": [ "effect_changeling_winter_feign_death" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_frozen_breath",
     "name": [ "Chilled" ],
     "desc": [ "Your movements are slowed." ],

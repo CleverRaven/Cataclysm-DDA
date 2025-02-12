@@ -412,12 +412,23 @@
     "type": "effect_on_condition",
     "id": "EOC_CHANGELING_DISGUISE_AS_NATURE_END",
     "effect": [
+      {
+        "if": {
+          "u_has_any_trait": [
+            "CHANGELING_DISGUISE_AS_NATURE_BUSH",
+            "CHANGELING_DISGUISE_AS_NATURE_TREE",
+            "CHANGELING_DISGUISE_AS_NATURE_POND",
+            "CHANGELING_DISGUISE_AS_NATURE_GRASS",
+            "CHANGELING_DISGUISE_AS_NATURE_ROCK"
+          ]
+        },
+        "then": { "u_message": "The glamour disguising you fades.", "type": "bad" }
+      },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_BUSH" },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_TREE" },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_POND" },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_GRASS" },
-      { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_ROCK" },
-      { "u_message": "The glamour disguising you fades.", "type": "bad" }
+      { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_ROCK" }
     ]
   },
   {
