@@ -477,7 +477,7 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
         }
 
         // Decrease the chance of fire spawning as the Cataclysm progresses to the min fire chance of 1 in 10,000
-        if( x_in_y( 1, ( std::min( 2000 + 714 * days_since_cataclysm, 10000 ) ) ) ) {
+        if( x_in_y( 1,  std::min( 2000 + 714 * days_since_cataclysm, 10000 ) ) ) {
             if( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE, current_tile ) ||
                 md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE_ASH, current_tile ) ||
                 md.has_flag_ter_or_furn( ter_furn_flag:: TFLAG_FLAMMABLE_HARD, current_tile ) ||
@@ -660,10 +660,12 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         // Apply post-process generators
         const tripoint_abs_omt omt_point = { p.x(), p.y(), gridz };
         oter_id omt = overmap_buffer.ter( omt_point );
-        if( ( any_missing || !save_results ) && omt->has_flag(
-                oter_flags::pp_generate_riot_damage ) || ( omt->has_flag( oter_flags::road ) &&
-                        overmap_buffer.is_in_city( omt_point ) ) ) {
-            GENERATOR_riot_damage( *this, omt_point );
+        if( any_missing || !save_results ) {
+            if( omt->has_flag(
+                    oter_flags::pp_generate_riot_damage ) || ( omt->has_flag( oter_flags::road ) &&
+                            overmap_buffer.is_in_city( omt_point ) ) ) {
+                GENERATOR_riot_damage( *this, omt_point );
+            }
         }
     }
 
