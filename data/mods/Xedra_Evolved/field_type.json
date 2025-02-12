@@ -229,6 +229,7 @@
   {
     "id": "fd_obscuring_fog",
     "type": "field_type",
+    "immune_mtypes": [ "mon_wild_hunt_hound" ],
     "intensity_levels": [
       {
         "name": "thick fog",
@@ -247,7 +248,6 @@
     "dirty_transparency_cache": true,
     "priority": 8,
     "half_life": "7 minutes",
-    "phase": "gas",
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_smoke"
@@ -255,6 +255,7 @@
   {
     "id": "fd_autumn_lost_fog",
     "type": "field_type",
+    "immune_mtypes": [ "mon_wild_hunt_hound" ],
     "intensity_levels": [
       {
         "name": "obscuring fog",
@@ -263,7 +264,7 @@
         "transparent": false,
         "translucency": 0,
         "color": "dark_gray",
-        "move_cost": 75,
+        "move_cost": 50,
         "scent_neutralization": 9,
         "light_override": 0,
         "effects": [
@@ -294,9 +295,7 @@
     "percent_spread": 45,
     "dirty_transparency_cache": true,
     "priority": 8,
-    "//": "FIXME: The below half-life makes it last the expected 8-16 minutes.",
-    "half_life": "24 hours",
-    "phase": "gas",
+    "half_life": "12 minutes",
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_smoke"
