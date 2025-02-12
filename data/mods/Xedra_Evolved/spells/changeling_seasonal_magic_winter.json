@@ -192,5 +192,39 @@
       "math": [ "max( ( 200 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 3) - (u_skill('deduction') * 5)), 100)" ]
     },
     "base_casting_time": 100
+  },
+  {
+    "id": "changeling_winter_neutralize_morale_spell",
+    "type": "SPELL",
+    "name": "The Frozen Heart",
+    "description": "Freeze out all emotion in your heart, rendering you perfectly calm.  This will cancel extremes of both positive and negative emotion and prevent you from feeling anything for the glamour's duration.  This latter effect <color_red>does not occur</color> in summer.",
+    "message": "",
+    "flags": [ "NO_LEGS", "SOMATIC", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 5,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_WINTER_NEUTRALIZE_MORALE",
+    "min_duration": {
+      "math": [
+        "( ( 2912 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 1582) + (u_skill('deduction') * 3184) ) ) * (global_what_is_the_season == 2 ? 0 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 6952 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 4185) + (u_skill('deduction') * 9052) ) ) * (global_what_is_the_season == 2 ? 0 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 500 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 2 ) - (u_skill('deduction') * 4)), 350)"
+      ]
+    },
+    "base_casting_time": 500
   }
 ]

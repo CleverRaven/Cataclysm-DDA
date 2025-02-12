@@ -312,5 +312,12 @@
     "max_duration": "20 minutes",
     "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.1 } ] } ],
     "base_mods": { "hit_mod": [ -1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_neutralize_morale",
+    "name": [ "Frozen Heart" ],
+    "desc": [ "All emotions are frozen out." ],
+    "enchantments": [ { "mutations": [ "PSYCHOPATH" ] } ]
   }
 ]
