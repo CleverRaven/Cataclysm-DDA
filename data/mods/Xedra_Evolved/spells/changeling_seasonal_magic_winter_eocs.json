@@ -302,27 +302,27 @@
               { "u_lose_morale": "morale_ierde_meditation" },
               { "u_lose_morale": "morale_boring_fruit" }
             ]
+          }
+        ]
+      },
+      {
+        "if": { "not": { "is_season": "summer" } },
+        "then": [
+          {
+            "math": [
+              "u_spell_low_duration = ( ( 29.12 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 15.82) + (u_skill('deduction') * 31.84) ) )"
+            ]
           },
           {
-            "if": { "not": { "is_season": "summer" } },
-            "then": [
-              {
-                "math": [
-                  "u_spell_low_duration = ( ( 29.12 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 15.82) + (u_skill('deduction') * 31.84) ) )"
-                ]
-              },
-              {
-                "math": [
-                  "u_spell_high_duration = ( ( 69.52 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 41.85) + (u_skill('deduction') * 90.52) ) )"
-                ]
-              },
-              {
-                "u_add_effect": "effect_changeling_winter_neutralize_morale",
-                "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
-              },
-              { "run_eocs": "EOC_CHANGELING_WINTER_NEUTRALIZE_MORALE_CONTINUANCE", "time_in_future": 60 }
+            "math": [
+              "u_spell_high_duration = ( ( 69.52 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 41.85) + (u_skill('deduction') * 90.52) ) )"
             ]
-          }
+          },
+          {
+            "u_add_effect": "effect_changeling_winter_neutralize_morale",
+            "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+          },
+          { "run_eocs": "EOC_CHANGELING_WINTER_NEUTRALIZE_MORALE_CONTINUANCE", "time_in_future": 60 }
         ]
       }
     ]
