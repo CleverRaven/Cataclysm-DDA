@@ -477,7 +477,7 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
         }
 
         // Decrease the chance of fire spawning as the Cataclysm progresses to the min fire chance of 1 in 10,000
-        if( x_in_y( 1, ( std::min(2000 + 714 * days_since_cataclysm, 10000) ) ) ) {
+        if( x_in_y( 1, ( std::min( 2000 + 714 * days_since_cataclysm, 10000 ) ) ) ) {
             if( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE, current_tile ) ||
                 md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE_ASH, current_tile ) ||
                 md.has_flag_ter_or_furn( ter_furn_flag:: TFLAG_FLAMMABLE_HARD, current_tile ) ||
