@@ -85,7 +85,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ",",
     "color": "light_red",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 1 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "flags": [ "BELT_CLIP", "SHEATH_KNIFE" ],
     "weapon_category": [ "SHIVS" ],
     "melee_damage": { "stab": 2 }

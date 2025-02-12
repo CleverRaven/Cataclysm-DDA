@@ -2732,7 +2732,7 @@
     "description": "A single-edged two-handed sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
     "proportional": { "price_postapoc": 1.05, "price": 1.05 },
-    "relative": { "melee_damage": { "cut": 1 }, "qualities": [ [ "BUTCHER", 1 ] ] }
+    "relative": { "melee_damage": { "cut": 1 } }
   },
   {
     "id": "ch_kriegsmesser",
@@ -2742,7 +2742,7 @@
     "description": "A single-edged two-handed sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
     "proportional": { "price_postapoc": 1.1, "price": 1.1 },
-    "relative": { "melee_damage": { "cut": 3 }, "qualities": [ [ "BUTCHER", 2 ] ] }
+    "relative": { "melee_damage": { "cut": 3 } }
   },
   {
     "id": "qt_kriegsmesser",
@@ -2752,7 +2752,7 @@
     "description": "A single-edged two-handed sword of German design, with a long, curved blade.  It became popular across Europe due to its low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
     "proportional": { "price_postapoc": 1.15, "price": 1.15 },
-    "relative": { "melee_damage": { "cut": 5 }, "qualities": [ [ "BUTCHER", 3 ] ] }
+    "relative": { "melee_damage": { "cut": 5 } }
   },
   {
     "id": "falx",
@@ -2772,7 +2772,7 @@
     "replace_materials": { "mc_steel": "lc_steel", "leather": "lc_steel" },
     "proportional": { "price_postapoc": 0.75, "price": 0.75 },
     "delete": { "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ] },
-    "relative": { "melee_damage": { "cut": -3 }, "qualities": [ [ "BUTCHER", -3 ] ] }
+    "relative": { "melee_damage": { "cut": -3 } }
   },
   {
     "id": "mc_falx",
@@ -2805,7 +2805,7 @@
     "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.\n\nMade with high steel and featuring a sturdy grip, this feels like a proper weapon.  The balance feels right and the blade is quite sharp.",
     "replace_materials": { "mc_steel": "hc_steel" },
     "proportional": { "price_postapoc": 1.05, "price": 1.05 },
-    "relative": { "melee_damage": { "cut": 2 }, "qualities": [ [ "BUTCHER", 1 ] ] }
+    "relative": { "melee_damage": { "cut": 2 } }
   },
   {
     "id": "ch_falx",
@@ -2815,7 +2815,7 @@
     "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.\n\nMade of hardened steel and with a molded grip that fits your hand perfectly, this weapon looks as good as any you might find in a museum.  The balance is perfect and the edge is as sharp as a razor.",
     "replace_materials": { "mc_steel": "ch_steel", "leather": "kevlar" },
     "proportional": { "price_postapoc": 1.1, "price": 1.1 },
-    "relative": { "melee_damage": { "cut": 3 }, "qualities": [ [ "BUTCHER", 2 ] ] }
+    "relative": { "melee_damage": { "cut": 3 } }
   },
   {
     "id": "qt_falx",
@@ -2825,7 +2825,7 @@
     "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.\n\nMade of tempered steel, this is a masterpiece.  The grip, the balance, the blade, all perfect.  This is the peak of the swordsmith's craft.",
     "replace_materials": { "mc_steel": "qt_steel", "leather": "kevlar" },
     "proportional": { "price_postapoc": 1.15, "price": 1.15 },
-    "relative": { "melee_damage": { "cut": 4 }, "qualities": [ [ "BUTCHER", 3 ] ] }
+    "relative": { "melee_damage": { "cut": 4 } }
   },
   {
     "type": "GENERIC",
