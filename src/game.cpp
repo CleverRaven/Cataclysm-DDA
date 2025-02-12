@@ -7167,14 +7167,16 @@ void game::zones_manager()
 
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwprintz( w_zones_options, point( 1, 0 ), c_white, mgr.get_name_from_type( zone.get_type() ) );
+            mvwprintz( w_zones_options, point( 1, 1 ), c_white, _( "Priority" ) );
+            mvwprintz( w_zones_options, point( 20, 1 ), c_white, "%d", zone.get_priority() );
 
             if( zone.has_options() ) {
                 const auto &descriptions = zone.get_options().get_descriptions();
 
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
-                mvwprintz( w_zones_options, point( 1, 1 ), c_white, _( "Options" ) );
+                mvwprintz( w_zones_options, point( 1, 2 ), c_white, _( "Options" ) );
 
-                int y = 2;
+                int y = 3;
                 wattron( w_zones_options, c_white );
                 for( const auto &desc : descriptions ) {
                     mvwprintw( w_zones_options, point( 3, y ), desc.first );
@@ -7552,6 +7554,7 @@ void game::zones_manager()
                                            zone.get_type() == zone_type_LOOT_CUSTOM ? _( "Edit filter" ) : _( "Edit options" ) );
                 as_m.entries.emplace_back( 4, !zone.get_is_vehicle(), '4', _( "Edit position" ) );
                 as_m.entries.emplace_back( 5, !zone.get_is_vehicle(), '5', _( "Move position" ) );
+                as_m.entries.emplace_back( 6, true, '6', _( "Edit priority" ) );
                 as_m.query();
 
                 switch( as_m.ret ) {
@@ -7627,8 +7630,14 @@ void game::zones_manager()
                             }
                             stuff_changed = true;
                         }
+                        break;
                     }
-                    break;
+                    case 6: {
+                        if( zone.set_priority() ) {
+                            stuff_changed = true;
+                        }
+                        break;
+                    }
                     default:
                         break;
                 }
