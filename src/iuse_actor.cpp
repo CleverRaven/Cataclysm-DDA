@@ -44,6 +44,7 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "generic_factory.h"
+#include "iexamine.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
@@ -81,6 +82,7 @@
 #include "talker.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "ui.h"
 #include "units_utility.h"
 #include "value_ptr.h"
@@ -1423,11 +1425,12 @@ std::unique_ptr<iuse_actor> firestarter_actor::clone() const
     return std::make_unique<firestarter_actor>( *this );
 }
 
-bool firestarter_actor::prep_firestarter_use( const Character &p, map *here, tripoint_bub_ms &pos )
+firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character &p,
+        map *here, tripoint_bub_ms &pos )
 {
     if( here != &get_map() ) { // Unless 'choose_adjacent' gets map aware.
         debugmsg( "Usage outside reality bubble is not supported" );
-        return false;
+        return ST_NONE;
     }
 
     // checks for fuel are handled by use and the activity, not here
@@ -1435,18 +1438,45 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, map *here, tri
         if( const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
             pos = *pnt_;
         } else {
-            return false;
+            return ST_NONE;
         }
     }
     if( pos == p.pos_bub( here ) ) {
         p.add_msg_if_player( m_info, _( "You would set yourself on fire." ) );
         p.add_msg_if_player( _( "But you're already smokin' hot." ) );
-        return false;
+        return ST_NONE;
     }
+
+    const furn_id &f_id = here->furn( pos );
+    const bool is_smoking_rack = f_id == furn_str_id( "f_metal_smoking_rack" ) ||
+                                 f_id == furn_str_id( "f_smoking_rack" );
+    const bool is_kiln = f_id == furn_str_id( "f_kiln_empty" ) ||
+                         f_id == furn_str_id( "f_kiln_metal_empty" ) || f_id == furn_str_id( "f_kiln_portable_empty" );
+
+    if( is_smoking_rack || is_kiln ) {
+        uilist selection_menu;
+        selection_menu.text = _( "Select an action" );
+
+        std::string f_name = here->furnname( pos );
+
+        selection_menu.addentry( 0, true, 'f', _( "Fire the %s" ), f_name );
+        selection_menu.addentry( 1, true, 'F', _( "Set the %s on fire" ), f_name );
+
+        selection_menu.query();
+
+        if( selection_menu.ret == 0 ) {
+            if( is_smoking_rack ) {
+                return iexamine::smoker_prep( p, pos ) ? ST_SMOKER : ST_NONE;
+            } else {
+                return ST_KILN; // TODO: Kiln prep logic.
+            }
+        }
+    }
+
     if( here->get_field( pos, fd_fire ) ) {
         // check if there's already a fire
         p.add_msg_if_player( m_info, _( "There is already a fire." ) );
-        return false;
+        return ST_NONE;
     }
     // check if there's a fire fuel source spot
     bool target_is_firewood = false;
@@ -1461,7 +1491,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, map *here, tri
     }
     if( target_is_firewood ) {
         if( !query_yn( _( "Do you really want to burn your firewood source?" ) ) ) {
-            return false;
+            return ST_NONE;
         }
     }
     // Check for an adjacent fire container
@@ -1476,7 +1506,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, map *here, tri
         }
         if( here->has_flag_furn( "FIRE_CONTAINER", query ) ) {
             if( !query_yn( _( "Are you sure you want to start fire here?  There's a fireplace adjacent." ) ) ) {
-                return false;
+                return ST_NONE;
             } else {
                 // Don't ask multiple times if they say no and there are multiple fireplaces
                 break;
@@ -1490,15 +1520,19 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, map *here, tri
             has_unactivated_brazier = true;
         }
     }
-    return !has_unactivated_brazier ||
-           query_yn(
-               _( "There's a brazier there but you haven't set it up to contain the fire.  Continue?" ) );
+    if( has_unactivated_brazier &&
+        !query_yn(
+            _( "There's a brazier there but you haven't set it up to contain the fire.  Continue?" ) ) ) {
+        return ST_NONE;
+    }
+
+    return ST_FIRE;
 }
 
 void firestarter_actor::resolve_firestarter_use( Character *p, map *here,
-        const tripoint_bub_ms &pos )
+        const tripoint_bub_ms &pos, start_type st )
 {
-    if( here->add_field( pos, fd_fire, 1, 10_minutes ) ) {
+    if( firestarter_actor::resolve_start( p, here, pos, st ) ) {
         if( !p->has_trait( trait_PYROMANIA ) ) {
             p->add_msg_if_player( _( "You successfully light a fire." ) );
         } else {
@@ -1511,6 +1545,21 @@ void firestarter_actor::resolve_firestarter_use( Character *p, map *here,
                 p->rem_morale( morale_pyromania_nofire );
             }
         }
+    }
+}
+
+bool firestarter_actor::resolve_start( Character *p, map *here,
+                                       const tripoint_bub_ms &pos, start_type type )
+{
+    switch( type ) {
+        case ST_FIRE:
+            return here->add_field( pos, fd_fire, 1, 10_minutes );
+        case ST_SMOKER:
+            return iexamine::smoker_fire( *p, pos );
+        case ST_KILN:
+        case ST_NONE:
+        default:
+            return false;
     }
 }
 
@@ -1590,7 +1639,8 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
     tripoint_bub_ms pos = spos;
 
     float light = light_mod( here, p->pos_bub( here ) );
-    if( !prep_firestarter_use( *p, here, pos ) ) {
+    start_type st = prep_firestarter_use( *p, here, pos );
+    if( st == ST_NONE ) {
         return std::nullopt;
     }
 
@@ -1613,7 +1663,7 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
                               minutes );
     } else if( moves < to_moves<int>( 2_turns ) && here->is_flammable( pos ) ) {
         // If less than 2 turns, don't start a long action
-        resolve_firestarter_use( p, here,  pos );
+        resolve_firestarter_use( p, here,  pos, st );
         p->mod_moves( -moves );
         return 1;
     }
