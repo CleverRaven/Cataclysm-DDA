@@ -7,6 +7,7 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -6508,82 +6509,9 @@ static void mill_activate( Character &you, const tripoint_bub_ms &examp )
 
 static void smoker_activate( Character &you, const tripoint_bub_ms &examp )
 {
-    map &here = get_map();
-    const furn_id &cur_smoker_type = here.furn( examp );
-    furn_id next_smoker_type = furn_str_id::NULL_ID();
-    const bool portable = cur_smoker_type == furn_f_metal_smoking_rack ||
-                          cur_smoker_type == furn_f_metal_smoking_rack_active;
-    if( cur_smoker_type == furn_f_smoking_rack ) {
-        next_smoker_type = furn_f_smoking_rack_active;
-    } else if( cur_smoker_type == furn_f_metal_smoking_rack ) {
-        next_smoker_type = furn_f_metal_smoking_rack_active;
-    } else {
-        debugmsg( "Examined furniture has action smoker_activate, but is of type %s",
-                  cur_smoker_type.id().c_str() );
+    if( !iexamine::smoker_prep( you, examp ) ) {
         return;
-    }
-    bool food_present = false;
-    bool charcoal_present = false;
-    map_stack items = here.i_at( examp );
-    units::volume food_volume = 0_ml;
-    item *charcoal = nullptr;
-
-    for( item &it : items ) {
-        if( it.has_flag( flag_SMOKED ) && !it.has_flag( flag_SMOKABLE ) ) {
-            add_msg( _( "This rack already contains smoked food." ) );
-            add_msg( _( "Remove it before firing the smoking rack again." ) );
-            return;
-        }
-        if( it.has_flag( flag_SMOKABLE ) ) {
-            food_present = true;
-            food_volume += it.volume();
-            continue;
-        }
-        if( it.typeId() == itype_charcoal ) {
-            charcoal_present = true;
-            charcoal = &it;
-        }
-        if( it.typeId() != itype_charcoal && !it.has_flag( flag_SMOKABLE ) ) {
-            add_msg( m_bad, _( "This rack contains %s, which can't be smoked!" ), it.tname( 1,
-                     false ) );
-            add_msg( _( "You remove %s from the rack." ), it.tname() );
-            here.add_item_or_charges( you.pos_bub(), it );
-            you.mod_moves( -you.item_handling_cost( it ) );
-            here.i_rem( examp, &it );
-            return;
-        }
-        if( it.has_flag( flag_SMOKED ) && it.has_flag( flag_SMOKABLE ) ) {
-            add_msg( _( "This rack has some smoked food that might be dehydrated by smoking it again." ) );
-        }
-    }
-    if( !food_present ) {
-        add_msg( _( "This rack is empty.  Fill it with raw meat, fish or sausages and try again." ) );
-        return;
-    }
-    if( !charcoal_present ) {
-        add_msg( _( "There is no charcoal in the rack." ) );
-        return;
-    }
-    if( portable && food_volume > sm_rack::MAX_FOOD_VOLUME_PORTABLE ) {
-        add_msg( _( "This rack is overloaded with food, and it blocks the flow of smoke.  Remove some and try again." ) );
-        add_msg( _( "You think that you can load about %s %s in it." ),
-                 format_volume( sm_rack::MAX_FOOD_VOLUME_PORTABLE ), volume_units_long() );
-        return;
-    } else if( food_volume > sm_rack::MAX_FOOD_VOLUME ) {
-        add_msg( _( "This rack is overloaded with food, and it blocks the flow of smoke.  Remove some and try again." ) );
-        add_msg( _( "You think that you can load about %s %s in it." ),
-                 format_volume( sm_rack::MAX_FOOD_VOLUME ), volume_units_long() );
-        return;
-    }
-
-    int char_charges = get_charcoal_charges( food_volume );
-
-    if( count_charges_in_list( charcoal->type, here.i_at( examp ) ) < char_charges ) {
-        add_msg( _( "There is not enough charcoal in the rack to smoke this much food." ) );
-        add_msg( _( "You need at least %1$s pieces of charcoal, and the smoking rack has %2$s inside." ),
-                 char_charges, count_charges_in_list( charcoal->type, here.i_at( examp ) ) );
-        return;
-    }
+    };
 
     if( !you.has_charges( itype_fire, 1 ) ) {
         add_msg( _( "This smoking rack is ready to be fired, but you have no fire source." ) );
@@ -6617,7 +6545,6 @@ static void smoker_activate( Character &you, const tripoint_bub_ms &examp )
 
     // Try to fire the smoking rack.
     if( !use_cbm ) {
-        auto success = false;
         for( auto &firestarter : firestarters ) {
             item *it = firestarter.second;
             const use_function *usef = it->type->get_use( "firestarter" );
@@ -6625,23 +6552,126 @@ static void smoker_activate( Character &you, const tripoint_bub_ms &examp )
             you.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
             const ret_val<void> can_use = actor->can_use( you, *it, examp );
             if( can_use.success() ) {
-                // Wait for moves_cost_slow instead of using as we don't want to literally set fire to the smoking rack.
-                you.mod_moves( -actor->moves_cost_slow );
-                you.use_charges( it->typeId(), 1 );
-                success = true;
-                break;
+                const int charges = actor->use( &you, *it, examp ).value_or( 0 );
+                you.use_charges( it->typeId(), charges );
+                return;
             } else {
                 you.add_msg_if_player( m_bad, can_use.str() );
             }
         }
-
-        if( !success ) {
-            you.add_msg_if_player( _( "You weren't able to start a fire." ) );
-            return;
-        }
     } else {
         you.mod_power_level( -bio_lighter->power_activate );
         you.mod_moves( -to_moves<int>( 1_seconds ) );
+        iexamine::smoker_fire( you, examp );
+    }
+}
+
+bool iexamine::smoker_prep( Character &you, const tripoint_bub_ms &examp,
+                            item **charcoal_ref,
+                            std::optional<std::reference_wrapper<furn_id>> next_smoker_t_ref,
+                            std::optional<std::reference_wrapper<int>> charges_ref )
+{
+    map &here = get_map();
+    const furn_id &cur_smoker_type = here.furn( examp );
+    furn_id next_smoker_type = furn_str_id::NULL_ID();
+    const bool portable = cur_smoker_type == furn_f_metal_smoking_rack ||
+                          cur_smoker_type == furn_f_metal_smoking_rack_active;
+    if( cur_smoker_type == furn_f_smoking_rack ) {
+        next_smoker_type = furn_f_smoking_rack_active;
+    } else if( cur_smoker_type == furn_f_metal_smoking_rack ) {
+        next_smoker_type = furn_f_metal_smoking_rack_active;
+    } else {
+        debugmsg( "Examined furniture has action smoker_activate, but is of type %s",
+                  cur_smoker_type.id().c_str() );
+        return false;
+    }
+    bool food_present = false;
+    bool charcoal_present = false;
+    map_stack items = here.i_at( examp );
+    units::volume food_volume = 0_ml;
+    item *charcoal = nullptr;
+
+    for( item &it : items ) {
+        if( it.has_flag( flag_SMOKED ) && !it.has_flag( flag_SMOKABLE ) ) {
+            add_msg( _( "This rack already contains smoked food." ) );
+            add_msg( _( "Remove it before firing the smoking rack again." ) );
+            return false;
+        }
+        if( it.has_flag( flag_SMOKABLE ) ) {
+            food_present = true;
+            food_volume += it.volume();
+            continue;
+        }
+        if( it.typeId() == itype_charcoal ) {
+            charcoal_present = true;
+            charcoal = &it;
+        }
+        if( it.typeId() != itype_charcoal && !it.has_flag( flag_SMOKABLE ) ) {
+            add_msg( m_bad, _( "This rack contains %s, which can't be smoked!" ), it.tname( 1,
+                     false ) );
+            add_msg( _( "You remove %s from the rack." ), it.tname() );
+            here.add_item_or_charges( you.pos_bub(), it );
+            you.mod_moves( -you.item_handling_cost( it ) );
+            here.i_rem( examp, &it );
+            return false;
+        }
+        if( it.has_flag( flag_SMOKED ) && it.has_flag( flag_SMOKABLE ) ) {
+            add_msg( _( "This rack has some smoked food that might be dehydrated by smoking it again." ) );
+        }
+    }
+    if( !food_present ) {
+        add_msg( _( "This rack is empty.  Fill it with raw meat, fish or sausages and try again." ) );
+        return false;
+    }
+    if( !charcoal_present ) {
+        add_msg( _( "There is no charcoal in the rack." ) );
+        return false;
+    }
+    if( portable && food_volume > sm_rack::MAX_FOOD_VOLUME_PORTABLE ) {
+        add_msg( _( "This rack is overloaded with food, and it blocks the flow of smoke.  Remove some and try again." ) );
+        add_msg( _( "You think that you can load about %s %s in it." ),
+                 format_volume( sm_rack::MAX_FOOD_VOLUME_PORTABLE ), volume_units_long() );
+        return false;
+    } else if( food_volume > sm_rack::MAX_FOOD_VOLUME ) {
+        add_msg( _( "This rack is overloaded with food, and it blocks the flow of smoke.  Remove some and try again." ) );
+        add_msg( _( "You think that you can load about %s %s in it." ),
+                 format_volume( sm_rack::MAX_FOOD_VOLUME ), volume_units_long() );
+        return false;
+    }
+
+    int char_charges = get_charcoal_charges( food_volume );
+
+    if( count_charges_in_list( charcoal->type, here.i_at( examp ) ) < char_charges ) {
+        add_msg( _( "There is not enough charcoal in the rack to smoke this much food." ) );
+        add_msg( _( "You need at least %1$s pieces of charcoal, and the smoking rack has %2$s inside." ),
+                 char_charges, count_charges_in_list( charcoal->type, here.i_at( examp ) ) );
+        return false;
+    }
+
+    if( charcoal_ref ) {
+        *charcoal_ref = charcoal;
+    }
+
+    if( next_smoker_t_ref ) {
+        next_smoker_t_ref->get() = next_smoker_type;
+    }
+    if( charges_ref ) {
+        charges_ref->get() = char_charges;
+    }
+
+    return true;
+}
+
+bool iexamine::smoker_fire( Character &you, const tripoint_bub_ms &examp )
+{
+    map &here = get_map();
+
+    item *charcoal = nullptr;
+    furn_id next_smoker_type = furn_str_id::NULL_ID();
+    int char_charges = 0;
+
+    if( !smoker_prep( you, examp, &charcoal, next_smoker_type, char_charges ) ) {
+        return false;
     }
 
     for( item &it : here.i_at( examp ) ) {
@@ -6661,14 +6691,7 @@ static void smoker_activate( Character &you, const tripoint_bub_ms &examp )
     result.activate();
     here.add_item( examp, result );
 
-    if( you.has_trait( trait_PYROMANIA ) ) {
-        you.add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
-        you.rem_morale( morale_pyromania_nofire );
-        you.add_msg_if_player( m_good,
-                               _( "You happily light a small fire under the rack and it starts to smoke." ) );
-    } else {
-        add_msg( _( "You light a small fire under the rack and it starts to smoke." ) );
-    }
+    return true;
 }
 
 void iexamine::mill_finalize( Character &, const tripoint_bub_ms &examp )

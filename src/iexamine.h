@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #ifndef CATA_SRC_IEXAMINE_H
 #define CATA_SRC_IEXAMINE_H
 
@@ -140,6 +141,11 @@ void on_smoke_out( const tripoint_bub_ms &examp,
 void mill_finalize( Character &, const tripoint_bub_ms &examp );
 void quern_examine( Character &you, const tripoint_bub_ms &examp );
 void smoker_options( Character &you, const tripoint_bub_ms &examp );
+bool smoker_prep( Character &you, const tripoint_bub_ms &examp,
+                  item **charcoal_ref = nullptr,
+                  std::optional<std::reference_wrapper<furn_id>> next_smoker_t_ref = std::nullopt,
+                  std::optional<std::reference_wrapper<int>> charges_ref = std::nullopt );
+bool smoker_fire( Character &you, const tripoint_bub_ms &examp );
 void open_safe( Character &you, const tripoint_bub_ms &examp );
 void workbench( Character &you, const tripoint_bub_ms &examp );
 void workbench_internal( Character &you, const tripoint_bub_ms &examp,
