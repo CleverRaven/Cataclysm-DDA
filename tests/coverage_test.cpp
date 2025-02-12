@@ -1,17 +1,31 @@
 #include <memory>
+#include <set>
 #include <string>
+#include <vector>
 
 #include "ballistics.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "cata_catch.h"
-#include "creature.h"
+#include "character.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "dispersion.h"
+#include "item.h"
+#include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "monster.h"
 #include "npc.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "point.h"
 #include "projectile.h"
-#include "ranged.h"
+#include "ret_val.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
+#include "type_id.h"
+#include "weakpoint.h"
 
 static const damage_type_id damage_bullet( "bullet" );
 

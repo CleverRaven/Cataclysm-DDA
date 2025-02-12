@@ -2,14 +2,16 @@
 
 #include <algorithm>
 #include <cmath>
+#include <functional>
 #include <memory>
 #include <optional>
 #include <set>
+#include <string>
 #include <utility>
 #include <vector>
 
-#include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
@@ -23,6 +25,7 @@
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
@@ -30,6 +33,7 @@
 #include "options.h"
 #include "point.h"
 #include "projectile.h"
+#include "ranged.h"
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"

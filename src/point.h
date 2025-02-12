@@ -2,17 +2,17 @@
 #ifndef CATA_SRC_POINT_H
 #define CATA_SRC_POINT_H
 
+#include <algorithm>
 #include <array>
 #include <climits>
-#include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
 #include <optional>
 #include <ostream>
+#include <string>
+#include <tuple>
 #include <vector>
-
-#include "cata_assert.h"
 
 class JsonArray;
 class JsonOut;

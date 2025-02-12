@@ -3,9 +3,10 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
-#include <cstdlib>
 #include <cstdint>
+#include <cstdlib>
 #include <forward_list>
+#include <functional>
 #include <iterator>
 #include <list>
 #include <memory>
@@ -17,7 +18,6 @@
 
 #include "action.h"
 #include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "assign.h"
 #include "avatar.h"
 #include "avatar_action.h"
@@ -28,7 +28,6 @@
 #include "character.h"
 #include "character_attire.h"
 #include "character_martial_arts.h"
-#include "colony.h"
 #include "color.h"
 #include "condition.h"
 #include "coordinates.h"
@@ -45,20 +44,16 @@
 #include "explosion.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "global_vars.h"
 #include "handle_liquid.h"
-#include "init.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
 #include "json.h"
-#include "json_error.h"
-#include "line.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
@@ -71,6 +66,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"

@@ -1,13 +1,23 @@
+#include <array>
+#include <memory>
+#include <vector>
+
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "mapgen_helpers.h"
 #include "npc.h"
 #include "overmapbuffer.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 static const string_id<npc_template> npc_template_test_npc_trader( "test_npc_trader" );
 static const string_id<npc_template> npc_template_thug( "thug" );

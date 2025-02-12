@@ -1,21 +1,45 @@
-#include "catch/catch.hpp"
-#include "map_helpers.h"
-#include "monster_helpers.h"
-#include "player_helpers.h"
-#include "activity_scheduling_helper.h"
+#include <algorithm>
+#include <functional>
+#include <map>
+#include <memory>
+#include <optional>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
+#include "coordinates.h"
+#include "enums.h"
 #include "flag.h"
-#include "game.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_group.h"
+#include "item_location.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "map.h"
+#include "map_helpers.h"
+#include "mapdata.h"
 #include "monster.h"
+#include "monster_helpers.h"
 #include "options_helpers.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
+#include "proficiency.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
+#include "weather_type.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );

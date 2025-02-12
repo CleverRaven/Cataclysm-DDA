@@ -3,8 +3,10 @@
 #define CATA_SRC_PAST_ACHIEVEMENTS_INFO_H
 
 #include <map>
+#include <string>
+#include <vector>
 
-#include "achievement.h"
+#include "type_id.h"
 
 class past_achievements_info
 {

@@ -22,6 +22,7 @@
 #include "units_utility.h"
 #include "veh_type.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
 static const std::string part_location_structure( "structure" );
 static const ammotype ammo_battery( "battery" );

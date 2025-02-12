@@ -1,10 +1,12 @@
 #include "game_inventory.h"
 
+#include <imgui/imgui.h>
 #include <algorithm>
 #include <bitset>
-#include <cstddef>
+#include <cmath>
 #include <functional>
 #include <iterator>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -12,7 +14,6 @@
 #include <string>
 #include <vector>
 
-#include "activity_type.h"
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -20,28 +21,36 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_id.h"
 #include "color.h"
-#include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "display.h"
 #include "enums.h"
 #include "flag.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input.h"
 #include "input_context.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "map.h"
+#include "mapdata.h"
 #include "messages.h"
+#include "npc.h"
 #include "npctrade.h"
 #include "options.h"
+#include "output.h"
 #include "pimpl.h"
+#include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -50,13 +59,14 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "text.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
-#include "veh_type.h"
 #include "vitamin.h"
 
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );

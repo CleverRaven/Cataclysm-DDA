@@ -1,19 +1,14 @@
 #include "climbing.h"
 
 #include <cstdint>
-#include <memory>
-#include <set>
 #include <utility>
 
 #include "cata_utility.h"
 #include "character.h"
 #include "creature_tracker.h"
 #include "debug.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
-#include "json_error.h"
 #include "map.h"
 #include "vpart_position.h"
 

@@ -7,18 +7,21 @@
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
-#include <cstring>
-#include <ctime>
 #include <exception>
+#include <functional>
 #include <memory>
 #include <ostream>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_catch.h"
 #include "coordinates.h"
+#include "enums.h"
+#include "flexbuffer_json.h"
+#include "point.h"
 #if defined(_MSC_VER)
 #include <io.h>
 #else
@@ -39,7 +42,6 @@
 #include "map.h"
 #include "messages.h"
 #include "options.h"
-#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"

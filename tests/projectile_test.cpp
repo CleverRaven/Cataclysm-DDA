@@ -1,12 +1,11 @@
-#include <iosfwd>
 #include <memory>
 #include <set>
-#include <string>
 #include <vector>
 
 #include "ballistics.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "dispersion.h"

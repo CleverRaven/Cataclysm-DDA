@@ -2,9 +2,11 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <cstring>
 #include <memory>
+#include <ostream>
 #include <set>
 #include <utility>
 
@@ -15,25 +17,28 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_id.h"
 #include "color.h"
 #include "condition.h"
 #include "creature.h"
 #include "creature_tracker.h"
-#include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "field.h"
+#include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "generic_factory.h"
 #include "imgui/imgui.h"
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "json.h"
-#include "line.h"
 #include "localized_comparator.h"
 #include "magic_enchantment.h"
 #include "map.h"
@@ -45,17 +50,23 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "npc_attack.h"
 #include "output.h"
 #include "pimpl.h"
 #include "point.h"
 #include "projectile.h"
+#include "ranged.h"
 #include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "talker.h"
+#include "text.h"
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
+
+struct species_type;
 
 static const ammo_effect_str_id ammo_effect_MAGIC( "MAGIC" );
 

@@ -22,6 +22,7 @@
 #include "calendar.h"
 #include "enum_conversions.h"
 #ifdef TILES
+#include "cached_options.h"
 #include "cata_tiles.h"
 #endif // TILES
 #include "cata_scope_helpers.h"

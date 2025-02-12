@@ -29,6 +29,7 @@
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dispersion.h"
 #include "enums.h"
 #include "event.h"

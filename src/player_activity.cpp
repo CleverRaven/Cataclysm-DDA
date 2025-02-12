@@ -2,32 +2,40 @@
 
 #include <algorithm>
 #include <memory>
-#include <new>
 
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "construction.h"
+#include "creature.h"
+#include "debug.h"
+#include "dialogue.h"
 #include "effect_on_condition.h"
-#include "field.h"
+#include "event.h"
 #include "event_bus.h"
+#include "field.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
+#include "magic.h"
 #include "map.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "talker.h"
+#include "translation.h"
 #include "translations.h"
 #include "ui.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "weather.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );

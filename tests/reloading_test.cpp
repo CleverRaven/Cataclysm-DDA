@@ -1,19 +1,25 @@
 #include <functional>
-#include <list>
 #include <memory>
 #include <set>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_selector.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "pocket_type.h"

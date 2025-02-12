@@ -40,6 +40,7 @@
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"

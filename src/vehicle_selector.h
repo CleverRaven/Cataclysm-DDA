@@ -4,18 +4,14 @@
 
 #include <climits>
 #include <cstddef>
-#include <functional>
-#include <list>
 #include <vector>
 
 #include "coords_fwd.h"
 #include "type_id.h"
 #include "visitable.h"
 
-class item;
 class map;
 class vehicle;
-struct tripoint;
 
 class vehicle_cursor : public visitable
 {

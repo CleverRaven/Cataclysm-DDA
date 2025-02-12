@@ -1,9 +1,11 @@
 #include "magic_type.h"
 
 #include "condition.h"
-#include "effect_on_condition.h"
 #include "debug.h"
+#include "effect_on_condition.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "json.h"
 #include "math_parser_jmath.h"
 
 // LOADING

@@ -21,17 +21,16 @@
 #include "character.h"
 #include "character_id.h"
 #include "color.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
-#include "game_constants.h"
 #include "global_vars.h"
 #include "item_location.h"
+#include "map_scale_constants.h"
 #include "memory_fast.h"
 #include "overmap_ui.h"
 #include "pimpl.h"
-#include "point.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "weather.h"
@@ -65,8 +64,6 @@ enum safe_mode_type {
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
 };
 
-enum action_id : int;
-
 class JsonValue;
 class achievements_tracker;
 class avatar;
@@ -97,6 +94,7 @@ class ui_adaptor;
 class uilist;
 class vehicle;
 class viewer;
+enum action_id : int;
 struct special_game;
 struct visibility_variables;
 template <typename Tripoint> class tripoint_range;

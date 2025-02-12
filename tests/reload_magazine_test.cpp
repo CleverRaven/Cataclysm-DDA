@@ -1,5 +1,4 @@
 #include <functional>
-#include <list>
 #include <memory>
 #include <set>
 #include <vector>
@@ -14,8 +13,6 @@
 #include "pimpl.h"
 #include "type_id.h"
 #include "visitable.h"
-
-struct itype;
 
 static const ammotype ammo_223( "223" );
 static const ammotype ammo_38( "38" );
