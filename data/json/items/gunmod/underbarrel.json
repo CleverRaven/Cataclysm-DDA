@@ -205,7 +205,7 @@
     "//": "underbarrel to interfere with other stuff in the underbarrel slot on the SKS.",
     "mod_targets": [ "shotgun", "rifle" ],
     "is_bayonet": true,
-    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -18 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ] ],
     "flags": [ "SLOW_WIELD", "IRREMOVABLE", "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "stab": 10 }
   },

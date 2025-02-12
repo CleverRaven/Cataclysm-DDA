@@ -176,7 +176,7 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "CUT", 1 ], [ "DIG", 3 ], [ "BUTCHER", -8 ], [ "COOK", 1 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "DIG", 3 ], [ "COOK", 1 ] ],
     "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD", "BELT_CLIP" ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
     "melee_damage": { "bash": 10, "cut": 8 }
@@ -269,7 +269,7 @@
     "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
-    "qualities": [ [ "HAMMER", 1 ], [ "BUTCHER", -5 ] ],
+    "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 2, "stab": 6 },
     "weapon_category": [ "SHIVS" ]
   },

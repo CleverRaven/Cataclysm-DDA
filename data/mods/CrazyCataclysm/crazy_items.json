@@ -356,7 +356,6 @@
     "price_postapoc": "2 USD 50 cent",
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
-    "qualities": [ [ "BUTCHER", -50 ] ],
     "techniques": [ "WBLOCK_1" ],
     "melee_damage": { "bash": 4, "cut": 8 }
   },

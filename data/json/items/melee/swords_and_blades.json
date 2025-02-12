@@ -69,7 +69,6 @@
     "price_postapoc": "2 USD 50 cent",
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
-    "qualities": [ [ "BUTCHER", -50 ] ],
     "techniques": [ "WBLOCK_1" ],
     "melee_damage": { "bash": 6, "cut": 18 }
   },
@@ -89,7 +88,6 @@
     "price_postapoc": "2 USD 50 cent",
     "flags": [ "BELT_CLIP", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "GREAT_SWORDS" ],
-    "qualities": [ [ "BUTCHER", -50 ] ],
     "techniques": [ "WBLOCK_1", "SWEEP", "BRUTAL" ],
     "melee_damage": { "bash": 12, "cut": 20 }
   },
@@ -122,7 +120,7 @@
     "price_postapoc": "5 USD",
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -5 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "techniques": [ "WBLOCK_2" ],
     "melee_damage": { "bash": 6, "cut": 22 }
   },
@@ -155,7 +153,7 @@
     "price_postapoc": "5 USD",
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "GREAT_SWORDS" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -20 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "melee_damage": { "bash": 8, "cut": 32 }
   },
@@ -195,7 +193,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "SWEEP", "WIDE", "BRUTAL" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "GREAT_SWORDS" ],
     "category": "weapons",
@@ -216,7 +214,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -8 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
     "category": "weapons",
@@ -804,7 +802,7 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", -27 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
@@ -1874,7 +1872,7 @@
     "flags": [ "ALWAYS_TWOHAND", "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD", "REACH_ATTACK" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "weapon_category": [ "LONG_THRUSTING_SWORDS", "GREAT_SWORDS" ],
     "melee_damage": { "bash": 10, "cut": 36 }
   },
@@ -2722,7 +2720,7 @@
     "flags": [ "DURABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -5 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "weapon_category": [ "GREAT_SWORDS" ],
     "melee_damage": { "bash": 14, "cut": 35 }
   },
@@ -2795,7 +2793,7 @@
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SWORD" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -14 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
     "melee_damage": { "bash": 5, "cut": 26 }
   },
@@ -2848,7 +2846,7 @@
     "volume": "6500 ml",
     "longest_side": "180 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -18 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "melee_damage": { "bash": 4, "cut": 26 }
   },
   {
@@ -2902,7 +2900,7 @@
     "turns_per_charge": 4,
     "charges_per_use": 0,
     "revert_to": "combatsaw_off",
-    "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -120 ] ],
+    "qualities": [ [ "AXE", 3 ] ],
     "use_action": {
       "type": "effect_on_conditions",
       "ammo_scale": 0,

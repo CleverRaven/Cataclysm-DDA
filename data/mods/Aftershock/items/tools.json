@@ -318,7 +318,7 @@
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "qualities": [ [ "CUT", 2 ], [ "SAW_M", 20 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -70 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "SAW_M", 20 ], [ "SAW_M_FINE", 1 ] ],
     "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 7, "cut": 80 }
   },
@@ -358,7 +358,7 @@
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "qualities": [ [ "CUT", 2 ], [ "SAW_M", 10 ], [ "BUTCHER", -50 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "SAW_M", 10 ] ],
     "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 6, "cut": 80 }
   },

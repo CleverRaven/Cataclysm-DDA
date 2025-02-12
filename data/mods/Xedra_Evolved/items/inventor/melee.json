@@ -35,7 +35,7 @@
     "color": "light_gray",
     "ammo": "battery",
     "charges_per_use": 1,
-    "charged_qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -50 ] ],
+    "charged_qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ] ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "use_action": {
       "target": "combatsaw_spear_on",

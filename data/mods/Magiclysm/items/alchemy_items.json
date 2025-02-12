@@ -26,7 +26,6 @@
     "material": [ "stone" ],
     "weight": "250 g",
     "volume": "150 ml",
-    "qualities": [ [ "BUTCHER", -50 ] ],
     "//": "Potion recipes that require a full owlbear egg could also instead require larger amounts of stone shell.  Since 1 egg gives 3 shells, you could perhaps have 1 egg be equivalent to 5 or more shells when making potions.",
     "melee_damage": { "bash": 5, "cut": 3 }
   },

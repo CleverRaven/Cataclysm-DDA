@@ -51,7 +51,6 @@
     "material": [ "steel" ],
     "volume": "250 ml",
     "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "qualities": [ [ "BUTCHER", -42 ] ],
     "price_postapoc": "10 cent",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "bash": 2, "stab": 6 },

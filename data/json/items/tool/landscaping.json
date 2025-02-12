@@ -32,7 +32,7 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ], [ "CUT", 2 ] ],
+    "qualities": [ [ "DIG", 1 ], [ "CUT", 2 ] ],
     "flags": [ "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK", "SHEATH_KNIFE" ],
     "melee_damage": { "bash": 3, "cut": 5 },
     "weapon_category": [ "SHIVS" ]
@@ -142,7 +142,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
-    "qualities": [ [ "CUT", 1 ], [ "GRASS_CUT", 2 ], [ "BUTCHER", -22 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "GRASS_CUT", 2 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "melee_damage": { "bash": 6, "cut": 14 }
@@ -191,7 +191,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "DIG", 3 ], [ "COOK", 1 ], [ "BUTCHER", -70 ] ],
+    "qualities": [ [ "DIG", 3 ], [ "COOK", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE", "NO_SALVAGE" ],
     "melee_damage": { "bash": 14, "cut": 3 }
@@ -308,7 +308,7 @@
     "symbol": "/",
     "color": "brown",
     "looks_like": "glaive",
-    "qualities": [ [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT", 1 ], [ "BUTCHER", -70 ] ],
+    "qualities": [ [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT", 1 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
@@ -329,7 +329,7 @@
     "symbol": "/",
     "color": "yellow",
     "looks_like": "brush_axe",
-    "qualities": [ [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT", 1 ], [ "BUTCHER", -70 ] ],
+    "qualities": [ [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT", 1 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
@@ -413,7 +413,7 @@
         }
       ]
     },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 4, "cut": 40 }
   }

@@ -11,7 +11,7 @@
     "volume": "2750 ml",
     "longest_side": "120 cm",
     "techniques": [ "WBLOCK_2", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ] ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "qt_steel", "titanium", "kevlar" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
@@ -40,7 +40,7 @@
     "volume": "2750 ml",
     "longest_side": "120 cm",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ [ "AXE", 2 ] ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "budget_steel", "rubber" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
@@ -234,7 +234,7 @@
       "ammo_scale": 0,
       "type": "transform"
     },
-    "qualities": [ [ "CUT", 3 ], [ "SAW_M", 20 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -80 ] ],
+    "qualities": [ [ "CUT", 3 ], [ "SAW_M", 20 ], [ "SAW_M_FINE", 1 ] ],
     "extend": { "flags": [ "MESSY" ] },
     "melee_damage": { "bash": 10, "cut": 100 }
   }

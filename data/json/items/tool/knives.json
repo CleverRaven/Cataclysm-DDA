@@ -278,7 +278,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "neutral" },
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", -18 ] ],
+    "qualities": [ [ "CUT", 2 ] ],
     "melee_damage": { "bash": 5, "cut": 3 }
   }
 ]

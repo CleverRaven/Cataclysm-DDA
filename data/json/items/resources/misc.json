@@ -47,7 +47,6 @@
     "volume": "50 ml",
     "longest_side": "8 cm",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "clumsy" },
-    "qualities": [ [ "BUTCHER", -66 ] ],
     "melee_damage": { "bash": 2, "cut": 2 },
     "weapon_category": [ "SHIVS" ]
   },
@@ -166,7 +165,7 @@
     "volume": "250 ml",
     "longest_side": "8 cm",
     "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "neutral" },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -50 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "bash": 5, "cut": 3 },
     "weapon_category": [ "SHIVS" ]

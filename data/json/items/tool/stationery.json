@@ -104,7 +104,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ",",
     "color": "light_red",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -3 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "flags": [ "BELT_CLIP", "SHEATH_KNIFE" ]
   },
   {

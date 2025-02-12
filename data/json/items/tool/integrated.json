@@ -144,8 +144,7 @@
       [ "SCREW_FINE", 1 ],
       [ "CUT", 2 ],
       [ "PRY", 1 ],
-      [ "PRYING_NAIL", 1 ],
-      [ "BUTCHER", -15 ]
+      [ "PRYING_NAIL", 1 ]
     ],
     "use_action": [ { "type": "CROWBAR", "ammo_scale": 0 } ],
     "melee_damage": { "bash": 1, "cut": 3 }

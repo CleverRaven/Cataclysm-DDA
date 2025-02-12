@@ -126,7 +126,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "flags": [ "FRAGILE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "melee_damage": { "bash": 16, "cut": 40 }
@@ -147,7 +147,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "melee_damage": { "bash": 13, "cut": 31 }
@@ -159,7 +159,7 @@
     "name": { "str": "makeshift glaive" },
     "description": "A stout tree branch that has been carefully split and reinforced.  At the split point, a sharp blade has been bolted into place and reinforced with layers of sturdy wrapped bindings.",
     "price_postapoc": "4 USD",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "delete": { "flags": [ "FRAGILE_MELEE" ] }
   },
   {
@@ -193,7 +193,7 @@
     "description": "A flimsy pole made of wood with a knife bound to the end.  It's long enough to slice from a distance, but the knife isn't that well attached.  You could take a bit more time to carefully split the shaft and attach the knife blade more permanently.",
     "price": "7 USD",
     "price_postapoc": "1 USD 50 cent",
-    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -42 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
@@ -214,7 +214,7 @@
     "color": "brown",
     "looks_like": "spear_steel",
     "techniques": [ "WBLOCK_1", "PENETRATE" ],
-    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -28 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "SPEARS" ],
@@ -238,7 +238,7 @@
     "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "SPEARS" ],
     "price": "160 USD",
-    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -28 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 4, "stab": 26 }
   },
@@ -516,7 +516,7 @@
     "longest_side": "180 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "price_postapoc": "100 USD",
-    "qualities": [ [ "COOK", 1 ], [ "BUTCHER", -70 ] ],
+    "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "category": "weapons",
     "melee_damage": { "bash": 15, "cut": 49 }
@@ -545,7 +545,7 @@
     "description": "A sturdy polearm with a sizable single-edged blade on the end.",
     "price": "500 USD",
     "material": [ "steel", "wood" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
@@ -569,7 +569,7 @@
     "volume": "2500 ml",
     "longest_side": "180 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "POLEARMS" ],
     "price": "800 USD",
@@ -781,7 +781,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WIDE", "BRUTAL" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
     "melee_damage": { "bash": 17, "cut": 42 }

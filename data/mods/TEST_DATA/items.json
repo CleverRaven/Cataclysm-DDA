@@ -806,7 +806,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 3 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ [ "AXE", 3 ], [ "PRY", 3 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
     "use_action": [ "CROWBAR" ],
     "melee_damage": { "bash": 20, "cut": 20 }
@@ -824,7 +824,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 3 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ [ "AXE", 3 ], [ "PRY", 3 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
     "use_action": [ "CROWBAR" ],
     "melee_damage": { "bash": 20, "cut": 20 }
@@ -842,7 +842,7 @@
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "AXE", 3 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
+    "qualities": [ [ "AXE", 3 ], [ "PRY", 3 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
     "use_action": [ "CROWBAR" ],
     "melee_damage": { "bash": 20, "cut": 20 }
@@ -2240,7 +2240,7 @@
     "description": "A sturdy polearm with a sizable, single-edged blade on the end.",
     "price": "500 USD",
     "material": [ "steel", "wood" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
+    "qualities": [ [ "CUT", 1 ] ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "techniques": [ "WIDE", "WBLOCK_1" ],
     "weight": "2100 g",

@@ -877,7 +877,6 @@
     "weight": "553 g",
     "volume": "750 ml",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "neutral" },
-    "qualities": [ [ "BUTCHER", -38 ] ],
     "flags": [ "ALLOWS_BODY_BLOCK", "SHEATH_KNIFE" ],
     "melee_damage": { "bash": 6, "cut": 8 },
     "weapon_category": [ "SHIVS" ]
@@ -895,7 +894,6 @@
     "material": [ "steel" ],
     "weight": "1 kg",
     "volume": "1500 ml",
-    "qualities": [ [ "BUTCHER", -38 ] ],
     "to_hit": { "grip": "bad", "length": "short", "surface": "line", "balance": "neutral" },
     "melee_damage": { "bash": 6, "cut": 8 }
   },

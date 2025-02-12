@@ -1170,7 +1170,7 @@
     "warmth": 10,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "uneven" },
     "//": "Assuming that it'd be shorter than 90cm but still long enough to slightly upset balance. Also given it does more bash than cut, I went with any striking surface as opposed to line. Not sure why it falls under shivs",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -4 ], [ "PRY", 1 ], [ "HAMMER", 1 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "PRY", 1 ], [ "HAMMER", 1 ] ],
     "environmental_protection": 3,
     "techniques": [ "BRUTAL", "WBLOCK_2" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "ALLOWS_TALONS" ],

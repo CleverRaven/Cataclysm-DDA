@@ -52,7 +52,7 @@
     "charges_per_use": 0,
     "revert_to": "masonrysaw_off",
     "techniques": [ "SWEEP" ],
-    "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -100 ] ],
+    "qualities": [ [ "AXE", 3 ] ],
     "use_action": {
       "type": "effect_on_conditions",
       "menu_text": "Turn off",
@@ -128,7 +128,7 @@
     "charges_per_use": 0,
     "revert_to": "electric_masonrysaw_off",
     "techniques": [ "SWEEP" ],
-    "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -100 ] ],
+    "qualities": [ [ "AXE", 3 ] ],
     "use_action": [
       {
         "type": "effect_on_conditions",
