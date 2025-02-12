@@ -2,16 +2,16 @@
 #define CATA_TESTS_MAP_TEST_CASE_H
 
 #include <functional>
-#include <new>
 #include <optional>
 #include <set>
 #include <sstream>
+#include <string>
 #include <vector>
 
 #include "cata_catch.h"
-#include "map.h"
-#include "mapdata.h"
+#include "coordinates.h"
 #include "point.h"
+#include "type_id.h"
 
 /**
  * Framework that simplifies writing tests that involve setting up 2d (or limited 3d) maps.

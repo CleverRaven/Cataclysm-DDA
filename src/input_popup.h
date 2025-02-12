@@ -2,12 +2,20 @@
 #ifndef CATA_SRC_INPUT_POPUP_H
 #define CATA_SRC_INPUT_POPUP_H
 
-#include <type_traits>
+#include <climits>
+#include <cstdint>
+#include <functional>
+#include <optional>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "cata_imgui.h"
 #include "color.h"
 #include "imgui/imgui.h"
 #include "input_context.h"
+#include "point.h"
+#include "translation.h"
 
 struct callback_input {
     std::string action;

@@ -1,14 +1,10 @@
 #include "weather_type.h"
 
-#include <cstdlib>
-#include <set>
-
 #include "assign.h"
 #include "condition.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
-#include "weather.h"
 
 namespace
 {

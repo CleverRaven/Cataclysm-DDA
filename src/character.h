@@ -10,11 +10,11 @@
 #include <limits>
 #include <list>
 #include <map>
-#include <memory>
 #include <optional>
 #include <queue>
 #include <set>
 #include <string>
+#include <tuple>
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
@@ -22,8 +22,6 @@
 #include <vector>
 
 #include "activity_tracker.h"
-#include "activity_type.h"
-#include "addiction.h"
 #include "body_part_set.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -32,7 +30,8 @@
 #include "character_id.h"
 #include "city.h"  // IWYU pragma: keep
 #include "compatibility.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
+#include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
@@ -41,7 +40,8 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "magic_enchantment.h"
+#include "memory_fast.h"
+#include "monster.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
@@ -64,20 +64,18 @@ class JsonOut;
 class SkillLevel;
 class SkillLevelMap;
 class activity_actor;
+class addiction;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
-class craft_command;
 class dispersion_sources;
 class effect;
-class effect_source;
+class enchant_cache;
 class faction;
 class item_pocket;
 class known_magic;
 class ma_technique;
 class map;
-class monster;
-class nc_color;
 class player_morale;
 class profession;
 class proficiency_set;
@@ -87,15 +85,20 @@ class spell;
 class ui_adaptor;
 class vehicle;
 class vpart_reference;
+
 namespace catacurses
 {
 class window;
 }  // namespace catacurses
+enum action_id : int;
+enum class proficiency_bonus_type : int;
+enum class recipe_filter_flags : int;
+enum class steed_type : int;
+enum npc_attitude : int;
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
 struct display_proficiency;
-struct field_immunity_data;
 /// @brief Item slot used to apply modifications from food and meds
 struct islot_comestible;
 struct item_comp;
@@ -111,15 +114,6 @@ struct trait_and_var;
 struct trap;
 struct w_point;
 template <typename E> struct enum_traits;
-
-enum npc_attitude : int;
-enum action_id : int;
-enum class recipe_filter_flags : int;
-enum class steed_type : int;
-enum class proficiency_bonus_type : int;
-
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
 
 using bionic_uid = unsigned int;
 
@@ -1927,7 +1921,7 @@ class Character : public Creature, public visitable
             bool operator()( const item &it ) const {
                 return it.mission_id == mission_id || it.has_any_with( [&]( const item & it ) {
                     return it.mission_id == mission_id;
-                }, pocket_type::SOFTWARE );
+                }, pocket_type::E_FILE_STORAGE );
             }
         };
 
@@ -2507,6 +2501,7 @@ class Character : public Creature, public visitable
         int get_proficiency_bonus( const std::string &category, proficiency_bonus_type prof_bonus ) const;
         void add_default_background();
         void set_proficiencies_from_hobbies();
+        void set_recipes_from_hobbies();
 
         // tests only!
         void set_proficiency_practice( const proficiency_id &id, const time_duration &amount );
@@ -2726,7 +2721,8 @@ class Character : public Creature, public visitable
         void pause(); // '.' command; pauses & resets recoil
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
-        template <typename T> bool can_lift( const T &obj ) const;
+        bool can_lift( item &obj ) const;
+        bool can_lift( vehicle &veh, map &here ) const;
         // --------------- Values ---------------
         std::string name; // Pre-cataclysm name, invariable
         // In-game name which you give to npcs or whoever asks, variable
@@ -4205,7 +4201,4 @@ struct enum_traits<character_stat> {
 };
 /// Get translated name of a stat
 std::string get_stat_name( character_stat Stat );
-
-extern template bool Character::can_lift<item>( const item &obj ) const;
-extern template bool Character::can_lift<vehicle>( const vehicle &obj ) const;
 #endif // CATA_SRC_CHARACTER_H

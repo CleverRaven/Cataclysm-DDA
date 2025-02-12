@@ -1,17 +1,55 @@
+#include <cstddef>
+#include <functional>
+#include <list>
+#include <memory>
+#include <optional>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "character_attire.h"
+#include "character_id.h"
 #include "character_martial_arts.h"
+#include "computer.h"
 #include "coordinates.h"
+#include "creature.h"
+#include "damage.h"
+#include "debug.h"
+#include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "effect_on_condition.h"
+#include "field_type.h"
 #include "game.h"
+#include "global_vars.h"
+#include "item.h"
+#include "item_location.h"
+#include "line.h"
+#include "magic.h"
 #include "make_static.h"
+#include "map.h"
 #include "map_helpers.h"
-#include "mutation.h"
+#include "map_iterator.h"
+#include "map_selector.h"
+#include "mapdata.h"
+#include "memory_fast.h"
+#include "messages.h"
+#include "monster.h"
+#include "npc.h"
 #include "overmapbuffer.h"
-#include "timed_event.h"
+#include "pimpl.h"
+#include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "rng.h"
+#include "talker.h"
+#include "timed_event.h"
+#include "type_id.h"
+
+class recipe;
 
 static const activity_id ACT_ADD_VARIABLE_COMPLETE( "ACT_ADD_VARIABLE_COMPLETE" );
 static const activity_id ACT_ADD_VARIABLE_DURING( "ACT_ADD_VARIABLE_DURING" );

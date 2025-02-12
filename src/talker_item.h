@@ -2,16 +2,15 @@
 #ifndef CATA_SRC_TALKER_ITEM_H
 #define CATA_SRC_TALKER_ITEM_H
 
-#include <vector>
+#include <memory>
+#include <string>
 
 #include "coords_fwd.h"
 #include "talker.h"
 #include "type_id.h"
+#include "units_fwd.h"
 
-class item;
-class map;
-
-struct tripoint;
+class item_location;
 
 /*
  * Talker wrapper class for item.

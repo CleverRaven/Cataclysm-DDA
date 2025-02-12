@@ -20,6 +20,7 @@
 #include "cata_lazy.h"
 #include "cata_utility.h"
 #include "compatibility.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "gun_mode.h"
 #include "io_tags.h"
@@ -2353,6 +2354,11 @@ class item : public visitable
          * or similar.
          */
         bool is_power_armor() const;
+
+        /**
+         * The maximum amount of this item that can be worn at the same time.  Defaults to MAX_WORN_PER_TYPE if not defined for the item.
+         */
+        int max_worn() const;
         /**
          * If this is an armor item, return its armor data. You should probably not use this function,
          * use the various functions above (like @ref get_storage) to access armor data directly.

@@ -445,11 +445,6 @@
     "type": "json_flag"
   },
   {
-    "id": "ONLY_ONE",
-    "type": "json_flag",
-    "info": "You can wear <info>only one</info>."
-  },
-  {
     "id": "ONE_PER_LAYER",
     "type": "json_flag",
     "info": "<info>Only one</info> item can be worn on this clothing layer."

@@ -15,6 +15,7 @@
 #include <vector>
 
 #include "color.h"
+#include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -53,9 +54,6 @@ enum class toggle_mode : int {
 
 struct inventory_input;
 struct navigation_mode_data;
-
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
 
 struct collation_meta_t {
     item_location tip;

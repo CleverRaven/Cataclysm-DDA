@@ -23,5 +23,15 @@
     "id": "perk_blind_check",
     "max_intensity": 15,
     "int_add_val": 1
+  },
+  {
+    "type": "effect_type",
+    "id": "perk_hit_marker",
+    "max_duration": "2 seconds",
+    "name": [ "Hit (1)", "Hit (2)", "Hit (3)", "Hit (4)", "Hit (5)", "Hit (6)", "Hit (7)", "Hit (8)", "Hit (9)", "Hit (10)" ],
+    "desc": [ "Each stack increases the damage of your weapon's main damage type by 1." ],
+    "max_intensity": 15,
+    "int_add_val": 1,
+    "show_in_info": true
   }
 ]

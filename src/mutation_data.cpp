@@ -1,11 +1,13 @@
 #include "mutation.h" // IWYU pragma: associated
 
+#include <algorithm>
 #include <cstdlib>
 #include <map>
 #include <memory>
 #include <set>
 #include <stdexcept>
 #include <type_traits>
+#include <unordered_map>
 #include <vector>
 
 #include "assign.h"
@@ -15,16 +17,19 @@
 #include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "localized_comparator.h"
-#include "magic.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
 #include "memory_fast.h"
 #include "npc.h"
 #include "string_formatter.h"
 #include "trait_group.h"
 #include "translations.h"
+#include "ui.h"
+#include "weighted_list.h"
 
 static const mutation_category_id mutation_category_ANY( "ANY" );
 
