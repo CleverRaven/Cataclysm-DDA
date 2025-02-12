@@ -268,7 +268,7 @@ static bool tile_can_have_blood( map &md, const tripoint_bub_ms &current_tile,
                !md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile );
     } else {
         if( !md.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, current_tile ) &&
-            !x_in_y( ( ( 30 - days_since_cataclysm ) / 30 ), 1 ) ) {
+            !x_in_y( ( 30.0 - days_since_cataclysm ) / 30.0, 1 ) ) {
             // Placement of blood outdoors scales down over the course of 30 days until no further blood is placed.
             return false;
         }
@@ -426,7 +426,7 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
             continue;
         }
         // Skip naturally occuring underground wall tiles
-        if (md.has_flag_ter(ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile)) {
+        if( md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile ) ) {
             continue;
         }
         // Bash stuff at random!
@@ -476,10 +476,11 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
             }
         }
 
-        // Base + (Max Increase / Days until Max Increase ) * Days passed
-        // Decrease the chance of fire spawning over the first week of the cataclysm
-        if( x_in_y( 1, ( 2000 + ( 4000 / 7 ) * days_since_cataclysm ) ) ) {
+        // Decrease the chance of fire spawning as the Cataclysm progresses to the min fire chance of 1 in 10,000
+        if( x_in_y( 1, ( std::min(2000 + 714 * days_since_cataclysm, 10000) ) ) ) {
             if( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE, current_tile ) ||
+                md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE_ASH, current_tile ) ||
+                md.has_flag_ter_or_furn( ter_furn_flag:: TFLAG_FLAMMABLE_HARD, current_tile ) ||
                 days_since_cataclysm < 3 ) {
                 // Only place fire on flammable surfaces unless the cataclysm started very recently
                 md.add_field( current_tile, field_fd_fire );
