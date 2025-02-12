@@ -9,29 +9,29 @@
 #include <iterator>
 #include <list>
 #include <memory>
-#include <ostream>
 #include <string>
-#include <unordered_map>
 
 #include "behavior.h"
 #include "bionics.h"
-#include "cached_options.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "creature_tracker.h"
+#include "damage.h"
 #include "debug.h"
+#include "effect.h"
+#include "enums.h"
 #include "field.h"
 #include "field_type.h"
 #include "game.h"
-#include "game_constants.h"
+#include "item.h"
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "mattack_common.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -46,12 +46,10 @@
 #include "scent_map.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "submap.h"
 #include "tileray.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
-#include "veh_type.h"
 #include "vehicle.h"
 #include "viewer.h"
 #include "vpart_position.h"
@@ -2404,7 +2402,7 @@ void monster::shove_vehicle( const tripoint_bub_ms &remote_destination,
         optional_vpart_position vp = here.veh_at( nearby_destination );
         if( vp ) {
             vehicle &veh = vp->vehicle();
-            const units::mass veh_mass = veh.total_mass();
+            const units::mass veh_mass = veh.total_mass( here );
             int shove_moves_minimal = 0;
             int shove_veh_mass_moves_factor = 0;
             int shove_velocity = 0;

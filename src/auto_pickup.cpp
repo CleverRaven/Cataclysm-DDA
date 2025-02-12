@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <functional>
+#include <initializer_list>
 #include <iosfwd>
 #include <map>
 #include <memory>
@@ -12,13 +13,14 @@
 
 #include "cata_path.h"
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "filesystem.h"
 #include "flag.h"
 #include "flat_set.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "input_context.h"
 #include "input_popup.h"

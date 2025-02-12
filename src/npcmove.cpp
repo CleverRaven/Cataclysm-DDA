@@ -1,88 +1,114 @@
-#include "npc.h" // IWYU pragma: associated
-
 #include <algorithm>
+#include <array>
 #include <cfloat>
 #include <climits>
 #include <cmath>
+#include <cstddef>
 #include <cstdlib>
+#include <functional>
 #include <iterator>
+#include <list>
+#include <map>
 #include <memory>
 #include <numeric>
+#include <optional>
 #include <ostream>
+#include <set>
+#include <string>
 #include <tuple>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "active_item_cache.h"
-#include "activity_handlers.h"
 #include "activity_actor_definitions.h"
-#include "ammo.h"
+#include "activity_handlers.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
+#include "body_part_set.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "cata_algo.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "clzones.h"
-#include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
-#include "damage.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "dispersion.h"
 #include "effect.h"
 #include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
+#include "faction.h"
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flat_set.h"
+#include "flat_set.h"  // IWYU pragma: keep // iwyu is being silly here
 #include "game.h"
 #include "game_constants.h"
 #include "gates.h"
 #include "gun_mode.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "lru_cache.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
+#include "map_selector.h"
 #include "mapdata.h"
-#include "material.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npc.h"
 #include "npc_attack.h"
+#include "npc_opinion.h"
 #include "npctalk.h"
 #include "omdata.h"
 #include "options.h"
-#include "overmap.h"
 #include "overmap_location.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player_activity.h"
+#include "point.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "simple_pathfinding.h"
 #include "sleep.h"
 #include "sounds.h"
 #include "stomach.h"
-#include "talker.h"
+#include "string_formatter.h"
+#include "talker.h"  // IWYU pragma: keep
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "viewer.h"
 #include "visitable.h"
-#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+
+enum class side : int;
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
@@ -1810,7 +1836,7 @@ void npc::execute_action( npc_action action )
                 }
                 // A seat is available if we can move there and it's either unassigned or assigned to us
                 auto available_seat = [&]( const vehicle_part & pt ) {
-                    tripoint_bub_ms target = veh->bub_part_pos( &here, pt );
+                    tripoint_bub_ms target = veh->bub_part_pos( here, pt );
                     if( !pt.is_seat() ) {
                         return false;
                     }
@@ -1875,7 +1901,7 @@ void npc::execute_action( npc_action action )
 
                 const int cur_part = seats[i].second;
 
-                tripoint_bub_ms pp = veh->bub_part_pos( &here, cur_part );
+                tripoint_bub_ms pp = veh->bub_part_pos( here, cur_part );
                 update_path( pp, true );
                 if( !path.empty() ) {
                     // All is fine

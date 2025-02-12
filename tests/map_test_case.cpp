@@ -1,13 +1,15 @@
 #include <algorithm>
 #include <cstddef>
 #include <iomanip>
-#include <map>
 #include <string>
+#include <utility>
 
 #include "field.h"
 #include "level_cache.h"
 #include "map.h"
 #include "map_test_case.h"
+#include "mdarray.h"
+#include "shadowcasting.h"
 
 tripoint_bub_ms map_test_case::get_origin()
 {

@@ -1,18 +1,29 @@
+#include <cstdio>
 #include <filesystem>
+#include <fstream>
+#include <map>
 #include <memory>
+#include <string>
+#include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
 #include "avatar_action.h"
+#include "calendar.h"
 #include "cata_catch.h"
-#include "creature.h"
+#include "character.h"
+#include "coordinates.h"
 #include "game.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "mutation.h"
+#include "player_helpers.h"
+#include "point.h"
 #include "profession.h"
 #include "skill.h"
-#include "player_helpers.h"
+#include "string_formatter.h"
 #include "type_id.h"
 
 static const efftype_id effect_winded( "winded" );

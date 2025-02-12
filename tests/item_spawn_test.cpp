@@ -1,16 +1,25 @@
+#include <list>
+#include <map>
+#include <optional>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "cata_catch.h"
-#include "game.h"
+#include "coordinates.h"
 #include "item.h"
 #include "item_group.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "mutation.h"
+#include "point.h"
 #include "profession.h"
 #include "recipe.h"
 #include "test_data.h"
+#include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
-#include "veh_type.h"
+#include "vpart_position.h"
 
 static std::string get_section_name( const spawn_type &type )
 {

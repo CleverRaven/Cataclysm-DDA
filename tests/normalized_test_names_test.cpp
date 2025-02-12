@@ -1,10 +1,9 @@
-#include "cata_catch.h"
-
-#include <algorithm>
-#include <cstddef>
-#include <functional>
-#include <iterator>
+#include <memory>
 #include <set>
+#include <string>
+#include <vector>
+
+#include "cata_catch.h"
 
 TEST_CASE( "enforce_normalized_test_cases" )
 {

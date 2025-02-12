@@ -2298,7 +2298,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     if( destarea == AIM_WORN ) {
         const itype_id &id = sitem.items.front()->typeId();
         // how many slots are available for the item?
-        const int slots_available = MAX_WORN_PER_TYPE - player_character.amount_worn( id );
+        const int slots_available = id->max_worn - player_character.amount_worn( id );
         // base the amount to equip on amount of slots available
         amount = std::min( slots_available, input_amount );
     }

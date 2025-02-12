@@ -1,11 +1,18 @@
+#include <string>
+
 #include "avatar.h"
 #include "cata_catch.h"
-#include "game.h"
+#include "coordinates.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "mapgen_helpers.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 
 static const nested_mapgen_id
 nested_mapgen_test_nested_remove_all_1x1( "test_nested_remove_all_1x1" );
@@ -27,11 +34,11 @@ void check_vehicle_still_works( vehicle &veh )
     veh.engine_on = true;
     veh.velocity = 1000;
     veh.cruise_velocity = veh.velocity;
-    tripoint_bub_ms const startp = veh.pos_bub( &here );
+    tripoint_bub_ms const startp = veh.pos_bub( here );
     here.vehmove();
-    REQUIRE( veh.pos_bub( &here ) != startp );
+    REQUIRE( veh.pos_bub( here ) != startp );
 
-    here.displace_vehicle( veh, startp - veh.pos_bub( &here ) );
+    here.displace_vehicle( veh, startp - veh.pos_bub( here ) );
 }
 
 vehicle *add_test_vehicle( map &m, tripoint_bub_ms loc )

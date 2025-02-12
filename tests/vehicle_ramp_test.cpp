@@ -1,7 +1,5 @@
 #include <array>
-#include <iosfwd>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
@@ -10,11 +8,13 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "game.h"
-#include "game_constants.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "monster.h"
 #include "point.h"
 #include "tileray.h"
@@ -139,7 +139,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
         for( const tripoint_abs_ms &checkpt : vpts ) {
             int partnum = 0;
             vehicle *check_veh = here.veh_at_internal( here.get_bub( checkpt ), partnum );
-            CAPTURE( veh_ptr->pos_bub( &here ) );
+            CAPTURE( veh_ptr->pos_bub( here ) );
             CAPTURE( veh_ptr->face.dir() );
             CAPTURE( checkpt );
             CHECK( check_veh == veh_ptr );

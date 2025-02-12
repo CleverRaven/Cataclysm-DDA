@@ -1,15 +1,12 @@
 #include "vehicle.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <cmath>
 #include <memory>
 #include <set>
 #include <string>
 
 #include "ammo.h"
-#include "cata_assert.h"
 #include "character.h"
-#include "color.h"
 #include "debug.h"
 #include "enums.h"
 #include "fault.h"
@@ -17,18 +14,16 @@
 #include "game.h"
 #include "item.h"
 #include "itype.h"
-#include "iuse_actor.h"
-#include "map.h"
 #include "messages.h"
 #include "npc.h"
 #include "pocket_type.h"
+#include "requirements.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
-#include "vpart_position.h"
 #include "weather.h"
 
 static const ammotype ammo_battery( "battery" );
@@ -660,10 +655,8 @@ bool vehicle::mod_hp( vehicle_part &pt, int qty )
     return pt.base.mod_damage( -qty * pt.base.max_damage() / dur );
 }
 
-bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
+bool vehicle::can_enable( map &here, const vehicle_part &pt, bool alert ) const
 {
-    map &here = get_map();
-
     if( std::none_of( parts.begin(), parts.end(), [&pt]( const vehicle_part & e ) {
     return &e == &pt;
 } ) || pt.removed ) {

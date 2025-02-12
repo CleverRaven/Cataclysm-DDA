@@ -1,6 +1,8 @@
 #include <algorithm>
 #include <climits>
+#include <fstream>
 #include <functional>
+#include <iostream>
 #include <list>
 #include <map>
 #include <memory>
@@ -11,36 +13,51 @@
 #include <utility>
 #include <vector>
 
-#include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "cata_catch.h"
+#include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "craft_command.h"
+#include "enums.h"
 #include "game.h"
+#include "game_constants.h"
+#include "game_inventory.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_components.h"
+#include "item_contents.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_selector.h"
+#include "mapdata.h"
 #include "npc.h"
+#include "output.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "skill.h"
+#include "string_formatter.h"
 #include "temp_crafting_inventory.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
@@ -483,6 +500,7 @@ static void grant_profs_to_character( Character &you, const recipe &r )
 static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
                         bool expect_craftable, int offset = 0, bool grant_profs = false, bool plug_in_tools = true )
 {
+    map &here = get_map();
     clear_avatar();
     clear_map();
 
@@ -498,7 +516,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
 
     const tripoint_bub_ms battery_pos = test_origin + tripoint::north;
     std::optional<item> battery_item( itype_test_storage_battery );
-    place_appliance( battery_pos, vpart_ap_test_storage_battery, player_character, battery_item );
+    place_appliance( here, battery_pos, vpart_ap_test_storage_battery, player_character, battery_item );
 
     give_tools( tools, plug_in_tools );
     const inventory &crafting_inv = player_character.crafting_inventory();
@@ -2384,7 +2402,7 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
                 CHECK( player.crafting_inventory().charges_of( itype_water ) == 0 );
             }
             WHEN( "the vehicle has a water faucet part" ) {
-                REQUIRE( veh->install_part( point_rel_ms::zero, vpart_water_faucet ) >= 0 );
+                REQUIRE( veh->install_part( here, point_rel_ms::zero, vpart_water_faucet ) >= 0 );
                 THEN( "crafting inventory contains the liquid" ) {
                     player.invalidate_crafting_inventory();
                     CHECK( player.crafting_inventory().count_item( itype_water_faucet ) == 1 );
@@ -2392,7 +2410,7 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
                 }
             }
             WHEN( "the vehicle has two water faucets" ) {
-                REQUIRE( veh->install_part( point_rel_ms::south, vpart_water_faucet ) >= 0 );
+                REQUIRE( veh->install_part( here, point_rel_ms::south, vpart_water_faucet ) >= 0 );
                 THEN( "crafting inventory contains the liquid" ) {
                     player.invalidate_crafting_inventory();
                     CHECK( player.crafting_inventory().count_item( itype_water_faucet ) == 1 );

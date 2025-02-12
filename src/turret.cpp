@@ -1,6 +1,7 @@
 #include "vehicle.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <cstddef>
 #include <memory>
 #include <string>
 
@@ -11,9 +12,12 @@
 #include "enums.h"
 #include "gun_mode.h"
 #include "item.h"
+#include "item_contents.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "messages.h"
 #include "npc.h"
+#include "pocket_type.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "string_formatter.h"
@@ -473,7 +477,7 @@ void vehicle::turrets_set_targeting()
     for( vehicle_part &p : parts ) {
         if( p.is_turret() ) {
             turrets.push_back( &p );
-            locations.push_back( bub_part_pos( &here, p ) );
+            locations.push_back( bub_part_pos( here, p ) );
         }
     }
 
@@ -529,7 +533,7 @@ void vehicle::turrets_set_mode()
     for( vehicle_part &p : parts ) {
         if( p.base.is_gun() ) {
             turrets.push_back( &p );
-            locations.push_back( bub_part_pos( &here, p ) );
+            locations.push_back( bub_part_pos( here, p ) );
         }
     }
 
@@ -581,7 +585,7 @@ npc &vehicle_part::get_targeting_npc( vehicle &veh )
         brain.name = string_format( _( "The %s turret" ), get_base().tname( 1 ) );
         brain.set_skill_level( get_base().gun_skill(), 8 );
     }
-    cpu.brain->setpos( veh.bub_part_pos( &here, *this ) );
+    cpu.brain->setpos( veh.bub_part_pos( here, *this ) );
     cpu.brain->recalc_sight_limits();
     return *cpu.brain;
 }
@@ -615,7 +619,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     }
 
     // The position of the vehicle part.
-    tripoint_bub_ms pos = bub_part_pos( &here, pt );
+    tripoint_bub_ms pos = bub_part_pos( here, pt );
 
     // Create the targeting computer's npc
     npc &cpu = pt.get_targeting_npc( *this );

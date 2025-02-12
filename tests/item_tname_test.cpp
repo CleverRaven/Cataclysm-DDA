@@ -1,5 +1,7 @@
 #include <memory>
+#include <set>
 #include <string>
+#include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -9,12 +11,15 @@
 #include "flag.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
 #include "item_pocket.h"
 #include "item_tname.h"
 #include "itype.h"
 #include "options_helpers.h"
 #include "pocket_type.h"
 #include "ret_val.h"
+#include "translation_manager.h"
+#include "translations.h"
 #include "type_id.h"
 #include "value_ptr.h"
 

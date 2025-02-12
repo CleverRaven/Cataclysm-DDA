@@ -7,6 +7,7 @@
 #include <utility>
 
 #include "basecamp.h"
+#include "debug.h"
 #include "mapdata.h"
 #include "tileray.h"
 #include "trap.h"

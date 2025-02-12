@@ -4672,6 +4672,23 @@
     ]
   },
   {
+    "result": "arc_furnace",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "360 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "fire_brick", 40 ] ],
+      [ [ "cu_pipe", 4 ] ],
+      [ [ "cable", 12 ] ],
+      [ [ "pipe", 4 ] ],
+      [ [ "clamp", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "medium_storage_battery", 2 ] ],
+      [ [ "frame", 1 ] ]
+    ]
+  },
+  {
     "result": "tablesaw",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

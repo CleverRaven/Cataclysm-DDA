@@ -1,21 +1,22 @@
-#include <array>
-#include <iosfwd>
+#include <algorithm>
+#include <cstdint>
+#include <functional>
 #include <map>
 #include <memory>
 #include <optional>
 #include <set>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "activity_type.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "damage.h"
-#include "game.h"
+#include "coordinates.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -26,8 +27,9 @@
 #include "requirements.h"
 #include "type_id.h"
 #include "units.h"
-#include "veh_utils.h"
+#include "value_ptr.h"
 #include "veh_type.h"
+#include "veh_utils.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -197,7 +199,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     CHECK( veh.battery_power_level().first == expect_battery );
     CHECK( veh.fuel_left( here, itype_water_clean ) == expect_water );
 
-    veh.unboard_all();
+    veh.unboard_all( here );
 }
 
 TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )

@@ -13,7 +13,7 @@
 #include <sstream>
 #include <string>
 #include <string_view>
-#include <type_traits>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -30,10 +30,10 @@
 #include "display.h"
 #include "flag.h"
 #include "flat_set.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "game_inventory.h"
+#include "generic_factory.h"
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
@@ -44,11 +44,14 @@
 #include "item_location.h"
 #include "itype.h"
 #include "localized_comparator.h"
+#include "magic_enchantment.h"
 #include "options.h"
 #include "output.h"
+#include "pimpl.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"

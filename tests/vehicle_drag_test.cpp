@@ -1,11 +1,13 @@
 #include <cstdio>
-#include <iosfwd>
+#include <map>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
@@ -93,8 +95,8 @@ static bool test_drag(
     }
 
     const double c_air = veh_ptr->coeff_air_drag();
-    const double c_rolling = veh_ptr->coeff_rolling_drag();
-    const double c_water = veh_ptr->coeff_water_drag();
+    const double c_rolling = veh_ptr->coeff_rolling_drag( here );
+    const double c_water = veh_ptr->coeff_water_drag( here );
     const int safe_v = veh_ptr->safe_ground_velocity( here, false );
     const int max_v = veh_ptr->max_ground_velocity( here, false );
 

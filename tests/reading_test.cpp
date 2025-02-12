@@ -1,21 +1,28 @@
-#include <iosfwd>
-#include <list>
+#include <initializer_list>
 #include <memory>
 #include <string>
 #include <vector>
 
-#include "avatar.h"
 #include "activity_actor_definitions.h"
+#include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map_helpers.h"
+#include "player_activity.h"
 #include "player_helpers.h"
-#include "skill.h"
+#include "pocket_type.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
+
+class SkillLevel;
 
 static const activity_id ACT_READ( "ACT_READ" );
 

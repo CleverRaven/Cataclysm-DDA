@@ -2,10 +2,13 @@
 #ifndef CATA_SRC_UI_EXTENDED_DESCRIPTION_H
 #define CATA_SRC_UI_EXTENDED_DESCRIPTION_H
 
+#include <cstdint>
+#include <string>
+#include <vector>
+
 #include "cata_imgui.h"
 #include "coordinates.h"
 #include "input_context.h"
-#include "imgui/imgui.h"
 #include "output.h"
 
 enum class description_target : int {

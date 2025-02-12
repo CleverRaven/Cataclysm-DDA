@@ -10,18 +10,18 @@
 #include <string>
 #include <tuple>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "clzones.h"
-#include "colony.h"
 #include "construction.h"
+#include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -45,6 +45,7 @@
 #include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
@@ -183,9 +184,6 @@ struct act_item {
 };
 
 // TODO: Deliberately unified with multidrop. Unify further.
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<std::pair<item_location, int>>;
-
 static bool same_type( const std::list<item> &items )
 {
     return std::all_of( items.begin(), items.end(), [&items]( const item & it ) {
@@ -226,7 +224,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     c.invalidate_weight_carried_cache();
     vehicle_part &vp = vpr.part();
     vehicle &veh = vpr.vehicle();
-    const tripoint_bub_ms where = veh.bub_part_pos( &here, vp );
+    const tripoint_bub_ms where = veh.bub_part_pos( here, vp );
     int items_did_not_fit_count = 0;
     int into_vehicle_count = 0;
     const std::string part_name = vp.info().name();

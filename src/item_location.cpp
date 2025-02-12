@@ -1,34 +1,40 @@
 #include "item_location.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstddef>
-#include <functional>
-#include <iosfwd>
 #include <iterator>
 #include <list>
 #include <optional>
+#include <ostream>
 #include <string>
 #include <vector>
 
 #include "character.h"
 #include "character_id.h"
 #include "color.h"
-#include "creature_tracker.h"
+#include "coordinates.h"
 #include "debug.h"
+#include "enums.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_pocket.h"
 #include "json.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_selector.h"
+#include "pimpl.h"
 #include "point.h"
 #include "ret_val.h"
 #include "safe_reference.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "talker_item.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -486,7 +492,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
         tripoint_bub_ms pos_bub() const override {
             map &here = get_map();
-            return cur.veh.bub_part_pos( &here, cur.part );
+            return cur.veh.bub_part_pos( here, cur.part );
         }
 
         Character *carrier() const override {
@@ -536,7 +542,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             map &here = get_map();
             item *obj = target();
             int mv = ch.item_handling_cost( *obj, true, VEHICLE_HANDLING_PENALTY, qty );
-            mv += 100 * rl_dist( ch.pos_bub( &here ), cur.veh.bub_part_pos( &here, cur.part ) );
+            mv += 100 * rl_dist( ch.pos_bub( &here ), cur.veh.bub_part_pos( here, cur.part ) );
 
             // TODO: handle unpacking costs
 

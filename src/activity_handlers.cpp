@@ -40,6 +40,7 @@
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -2146,7 +2147,7 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
     const optional_vpart_position vp = here.veh_at( here.get_bub( tripoint_abs_ms( act->values[0],
                                        act->values[1],
                                        you->posz() ) ) );
-    veh_interact::complete_vehicle( *you );
+    veh_interact::complete_vehicle( here, *you );
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
     // is to be examined again.

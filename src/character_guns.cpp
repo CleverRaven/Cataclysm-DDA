@@ -12,12 +12,14 @@
 #include "activity_actor_definitions.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
+#include "map.h"
 #include "map_selector.h"
 #include "player_activity.h"
 #include "ret_val.h"
@@ -110,6 +112,8 @@ std::vector<const item *> Character::get_ammo( const ammotype &at ) const
 
 std::vector<item_location> Character::find_ammo( const item &obj, bool empty, int radius ) const
 {
+    map &here = get_map();
+
     std::vector<item_location> res;
 
     find_ammo_helper( const_cast<Character &>( *this ), obj, empty, std::back_inserter( res ), true );
@@ -118,7 +122,7 @@ std::vector<item_location> Character::find_ammo( const item &obj, bool empty, in
         for( map_cursor &cursor : map_selector( pos_bub(), radius ) ) {
             find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
         }
-        for( vehicle_cursor &cursor : vehicle_selector( pos_bub(), radius ) ) {
+        for( vehicle_cursor &cursor : vehicle_selector( here, pos_bub( &here ), radius ) ) {
             find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
         }
     }

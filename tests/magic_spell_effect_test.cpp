@@ -1,11 +1,15 @@
 #include <set>
-#include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
 #include "field.h"
-#include "json.h"
+#include "field_type.h"
+#include "flexbuffer_json.h"
 #include "json_loader.h"
 #include "magic.h"
 #include "magic_spell_effect_helpers.h"

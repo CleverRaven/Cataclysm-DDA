@@ -12,10 +12,7 @@
 #include <map>
 #include <optional>
 #include <set>
-#include <sstream>
 #include <string>
-#include <string_view>
-#include <type_traits>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -27,8 +24,8 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
-#include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
@@ -36,22 +33,20 @@
 #include "contents_change_handler.h"
 #include "coordinates.h"
 #include "craft_command.h"
-#include "crafting_gui.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
-#include "field_type.h"
 #include "fault.h"
+#include "field_type.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
-#include "game_inventory.h"
 #include "gates.h"
 #include "gun_mode.h"
 #include "handle_liquid.h"
@@ -66,21 +61,21 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "json.h"
-#include "json_error.h"
-#include "line.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap_ui.h"
 #include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -88,19 +83,17 @@
 #include "point.h"
 #include "ranged.h"
 #include "recipe.h"
-#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "safe_reference.h"
 #include "shearing.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translation.h"
 #include "translations.h"
-#include "trap.h"
 #include "type_id.h"
-#include "try_parse_integer.h"
 #include "ui.h"
 #include "uistate.h"
 #include "units.h"
@@ -629,13 +622,15 @@ void autodrive_activity_actor::start( player_activity &, Character &who )
 
 void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     if( who.in_vehicle && who.controlling_vehicle && player_vehicle ) {
         if( who.get_moves() <= 0 ) {
             // out of moves? the driver's not doing anything this turn
             // (but the vehicle will continue moving)
             return;
         }
-        switch( player_vehicle->do_autodrive( who ) ) {
+        switch( player_vehicle->do_autodrive( here, who ) ) {
             case autodrive_result::ok:
                 if( who.get_moves() > 0 ) {
                     // if do_autodrive() didn't eat up all our moves, end the turn
@@ -1357,8 +1352,8 @@ bikerack_racking_activity_actor::bikerack_racking_activity_actor( const vehicle 
     : racks( racks )
 {
     map &here = get_map();
-    parent_vehicle_pos = parent_vehicle.bub_part_pos( &here,  0 );
-    racked_vehicle_pos = racked_vehicle.bub_part_pos( &here, 0 );
+    parent_vehicle_pos = parent_vehicle.bub_part_pos( here,  0 );
+    racked_vehicle_pos = racked_vehicle.bub_part_pos( here, 0 );
 }
 
 void bikerack_racking_activity_actor::start( player_activity &act, Character & )
@@ -1584,7 +1579,7 @@ bikerack_unracking_activity_actor::bikerack_unracking_activity_actor( const vehi
     : parts( parts ), racks( racks )
 {
     map &here = get_map();
-    parent_vehicle_pos = parent_vehicle.bub_part_pos( &here,  0 );
+    parent_vehicle_pos = parent_vehicle.bub_part_pos( here,  0 );
 }
 
 void bikerack_unracking_activity_actor::start( player_activity &act, Character & )
@@ -8031,14 +8026,14 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
     for( const vpart_reference &vpr : veh.get_any_parts( VPFLAG_CARGO ) ) {
         vehicle_stack cargo = vpr.items();
         for( const item &elem : cargo ) {
-            here.add_item_or_charges( veh.pos_bub( &here ), elem );
+            here.add_item_or_charges( veh.pos_bub( here ), elem );
         }
         cargo.clear();
     }
 
-    veh.unboard_all();
+    veh.unboard_all( here );
     p.add_msg_if_player( _( "You fold the %s." ), veh.name );
-    here.add_item_or_charges( veh.pos_bub( &here ), veh.get_folded_item() );
+    here.add_item_or_charges( veh.pos_bub( here ), veh.get_folded_item( here ) );
     here.destroy_vehicle( &veh );
 
     return true;
@@ -8048,7 +8043,7 @@ vehicle_folding_activity_actor::vehicle_folding_activity_actor( const vehicle &t
 {
     map &here = get_map();
     folding_time = target.folding_time();
-    target_pos = target.bub_part_pos( &here,  0 );
+    target_pos = target.bub_part_pos( here,  0 );
 }
 
 void vehicle_folding_activity_actor::start( player_activity &act, Character &p )
@@ -8121,7 +8116,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
         here.destroy_vehicle( veh );
         return false;
     }
-    const bool cant_float = !veh->can_float();
+    const bool cant_float = !veh->can_float( here );
     const auto invalid_pos = [&here, &cant_float]( const tripoint_bub_ms & p ) {
         return ( cant_float && here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) )
                || here.veh_at( p )
