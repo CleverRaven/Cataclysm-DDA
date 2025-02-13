@@ -1,7 +1,10 @@
+#include "calendar.h"
 #include "cata_variant.h"
-#include "cuboid_rectangle.h"
 #include "dialogue.h"
+#include "enum_conversions.h"
 #include "item.h"
+#include "line.h"
+#include "point.h"
 #include "stringmaker.h"
 
 // StringMaker specializations for Cata types for reporting via Catch2 macros

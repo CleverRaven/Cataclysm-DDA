@@ -7,15 +7,18 @@
 #include "debug.h"
 #include "map.h"
 #include "messages.h"
+#include "monster.h"
+#include "point.h"
 #include "rng.h"
 #include "sounds.h"
 #include "tileray.h"
 #include "translations.h"
+#include "units.h"
 #include "units_utility.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "veh_type.h"
 
 bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
 {
@@ -199,8 +202,8 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
             units::angle abs_turn_delta = angle_delta( grabbed_vehicle->face.dir(), grabbed_vehicle->turn_dir );
             if( abs_turn_delta != 0_degrees ) {
                 //angle values lose exact precision during calculation
-                int clockwise = abs( normalize( grabbed_vehicle->face.dir() + abs_turn_delta ).value() -
-                                     normalize( grabbed_vehicle->turn_dir ).value() ) < 0.1 ? 1 : -1;
+                int clockwise = std::abs( normalize( grabbed_vehicle->face.dir() + abs_turn_delta ).value() -
+                                          normalize( grabbed_vehicle->turn_dir ).value() ) < 0.1 ? 1 : -1;
                 units::angle turn_delta = abs_turn_delta * clockwise;
                 // mirror turn for given cases
                 if( ( pushing && !back_of_vehicle ) || ( pulling && back_of_vehicle ) ) {

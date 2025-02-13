@@ -1,24 +1,29 @@
 #include "item_contents.h"
 
 #include <algorithm>
+#include <cmath>
+#include <cstdint>
+#include <initializer_list>
 #include <iterator>
 #include <map>
+#include <numeric>
 #include <string>
+#include <tuple>
 #include <type_traits>
 
 #include "avatar.h"
 #include "cata_imgui.h"
 #include "character.h"
 #include "color.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "imgui/imgui.h"
 #include "input.h"
-#include "input_popup.h"
 #include "input_context.h"
+#include "input_enums.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
@@ -31,8 +36,8 @@
 #include "make_static.h"
 #include "map.h"
 #include "output.h"
-#include "point.h"
 #include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
 #include "ui.h"
 #include "units.h"

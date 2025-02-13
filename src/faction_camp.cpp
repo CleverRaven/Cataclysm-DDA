@@ -1,26 +1,34 @@
 #include "faction_camp.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <array>
+#include <climits>
+#include <cmath>
 #include <cstddef>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
+#include <numeric>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
-#include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "avatar.h"
 #include "basecamp.h"
+#include "build_reqs.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
+#include "cata_variant.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_id.h"
 #include "clzones.h"
-#include "colony.h"
 #include "color.h"
 #include "coordinates.h"
 #include "crafting_gui.h"
@@ -30,23 +38,30 @@
 #include "faction.h"
 #include "flag.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
+#include "global_vars.h"
 #include "iexamine.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_location.h"
 #include "item_pocket.h"
-#include "item_stack.h"
 #include "itype.h"
 #include "kill_tracker.h"
 #include "line.h"
 #include "localized_comparator.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
+#include "mapgen.h"
 #include "mapgen_functions.h"
+#include "mapgendata.h"
+#include "mdarray.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
@@ -60,16 +75,20 @@
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
 #include "recipe.h"
 #include "recipe_groups.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "simple_pathfinding.h"
 #include "skill.h"
+#include "stomach.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -80,9 +99,6 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "weighted_list.h"
-
-class character_id;
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 

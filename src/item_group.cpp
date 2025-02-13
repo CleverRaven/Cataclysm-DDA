@@ -1,32 +1,36 @@
 #include "item_group.h"
 
 #include <algorithm>
-#include <cstdlib>
-#include <new>
+#include <functional>
+#include <iterator>
 #include <set>
 #include <string>
-#include <type_traits>
 #include <unordered_map>
 
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "enum_traits.h"
 #include "enums.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "item_components.h"
+#include "item_contents.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
-#include "json.h"
 #include "make_static.h"
 #include "options.h"
 #include "pocket_type.h"
 #include "relic.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
 

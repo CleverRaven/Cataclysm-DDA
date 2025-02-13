@@ -1,19 +1,18 @@
 #include "mission.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <cstdlib>
+#include <list>
 #include <set>
 
 #include "assign.h"
-#include "calendar.h"
 #include "condition.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "init.h"
 #include "item.h"
-#include "json.h"
-#include "npc.h"
 #include "rng.h"
 
 static const mission_type_id mission_MISSION_EXPLORE_SARCOPHAGUS( "MISSION_EXPLORE_SARCOPHAGUS" );

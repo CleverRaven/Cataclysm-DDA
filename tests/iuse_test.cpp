@@ -1,17 +1,28 @@
 #include <cstdlib>
-#include <iosfwd>
+#include <functional>
+#include <list>
 #include <memory>
 #include <string>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "flag.h"
+#include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
+#include "iuse.h"
+#include "map.h"
 #include "map_helpers.h"
-#include "morale_types.h"
+#include "map_selector.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "point.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
 

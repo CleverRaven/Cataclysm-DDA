@@ -1,9 +1,9 @@
-#include <list>
 #include <memory>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character_attire.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"

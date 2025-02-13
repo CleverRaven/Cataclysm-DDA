@@ -1,10 +1,26 @@
+#include <optional>
+#include <string>
+
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "faction.h"
+#include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map_selector.h"
 #include "npc.h"
 #include "npctrade.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "point.h"
+#include "ret_val.h"
+#include "trade_ui.h"
+#include "type_id.h"
+#include "units.h"
+
+class Character;
 
 static const itype_id itype_FMCNote( "FMCNote" );
 static const itype_id itype_battery( "battery" );

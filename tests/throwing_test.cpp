@@ -1,16 +1,18 @@
 #include <algorithm>
 #include <memory>
 #include <ostream>
+#include <string>
 #include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "line.h"
 #include "map_helpers.h"
 #include "monster.h"
 #include "npc.h"

@@ -2,8 +2,6 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <iosfwd>
-#include <list>
 #include <map>
 #include <set>
 #include <string>
@@ -11,20 +9,22 @@
 #include <vector>
 
 #include "ballistics.h"
+#include "bodypart.h"
+#include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
 #include "dispersion.h"
 #include "enums.h"
-#include "gun_mode.h"
 #include "item.h"
-#include "line.h"
+#include "item_location.h"
+#include "map.h"
 #include "mattack_actors.h"
 #include "mattack_common.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
-#include "npc.h"
-#include "point.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"

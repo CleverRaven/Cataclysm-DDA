@@ -1,33 +1,35 @@
 #include <functional>
-#include <list>
 #include <memory>
-#include <new>
 #include <optional>
+#include <set>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
-#include "cached_options.h"
 #include "calendar.h"
 #include "cata_catch.h"
-#include "cata_scope_helpers.h"
 #include "character.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "game.h"
-#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "map_test_case.h"
-#include "mapdata.h"
+#include "monster.h"
 #include "mtype.h"
 #include "options_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weather_type.h"
 
 static const efftype_id effect_narcosis( "narcosis" );
 

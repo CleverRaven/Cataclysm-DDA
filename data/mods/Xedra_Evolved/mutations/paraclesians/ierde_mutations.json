@@ -693,7 +693,7 @@
     "cost": 1,
     "time": 5000,
     "activation_msg": "Your feelings calcify.",
-    "activated_eocs": [ "EOC_IERDE_STONE_MEDITATIONS" ]
+    "activated_eocs": [ "EOC_FULL_MORALE_NEUTRALIZATION" ]
   },
   {
     "type": "mutation",

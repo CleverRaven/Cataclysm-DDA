@@ -1,14 +1,20 @@
-#include <iosfwd>
 #include <memory>
+#include <optional>
 #include <string>
 
 #include "avatar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
+#include "dialogue_helpers.h"
 #include "game.h"
 #include "magic.h"
+#include "magic_type.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
+#include "npc.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"

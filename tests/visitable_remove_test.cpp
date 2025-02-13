@@ -1,22 +1,22 @@
 #include <algorithm>
 #include <functional>
 #include <list>
-#include <memory>
-#include <new>
 #include <optional>
 #include <vector>
 
 #include "calendar.h"
-#include "cata_utility.h"
 #include "cata_catch.h"
+#include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
-#include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "rng.h"

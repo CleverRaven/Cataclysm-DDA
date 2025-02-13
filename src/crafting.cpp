@@ -17,7 +17,6 @@
 
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
-#include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_assert.h"
@@ -25,7 +24,6 @@
 #include "character.h"
 #include "character_attire.h"
 #include "character_id.h"
-#include "colony.h"
 #include "color.h"
 #include "coordinates.h"
 #include "craft_command.h"
@@ -46,7 +44,6 @@
 #include "item.h"
 #include "item_components.h"
 #include "item_location.h"
-#include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
 #include "line.h"

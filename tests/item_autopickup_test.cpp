@@ -1,12 +1,30 @@
+#include <algorithm>
+#include <functional>
+#include <list>
+#include <map>
+#include <optional>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "auto_pickup.h"
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "enums.h"
 #include "item.h"
+#include "item_location.h"
+#include "item_stack.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_selector.h"
 #include "options.h"
 #include "pickup.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
+#include "rng.h"
+#include "type_id.h"
 
 static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_backpack( "backpack" );

@@ -1,8 +1,10 @@
 #include <set>
+#include <string>
 #include <vector>
 
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"

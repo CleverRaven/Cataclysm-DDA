@@ -19,6 +19,7 @@
 #include <unordered_set>
 #include <utility>
 
+#include "activity_actor_definitions.h"
 #include "ammo.h"
 #include "ascii_art.h"
 #include "avatar.h"

@@ -1,7 +1,5 @@
 #include <array>
-#include <iosfwd>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
@@ -10,11 +8,13 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "game.h"
-#include "game_constants.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "monster.h"
 #include "point.h"
 #include "tileray.h"

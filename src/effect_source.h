@@ -5,7 +5,6 @@
 #include <optional>
 
 #include "character_id.h"
-#include "item.h"
 #include "type_id.h"
 
 class Character;

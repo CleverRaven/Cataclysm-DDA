@@ -76,6 +76,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pocket_type.h"

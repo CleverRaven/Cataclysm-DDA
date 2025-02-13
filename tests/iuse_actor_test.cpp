@@ -1,16 +1,16 @@
 #include <algorithm>
 #include <functional>
-#include <iosfwd>
+#include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
-#include <vector>
+#include <utility>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
-#include "colony.h"
+#include "character.h"
+#include "coordinates.h"
 #include "creature_tracker.h"
 #include "game.h"
 #include "item.h"
