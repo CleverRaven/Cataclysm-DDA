@@ -1076,7 +1076,7 @@ class vehicle
         // attempts to find any racked vehicles that can be unracked on any of the list_of_racks
         // @returns vector of structs with data required to unrack each vehicle
         std::vector<unrackable_vehicle> find_vehicles_to_unrack( int rack,
-                bool ignore_broken = true ) const;
+                bool only_healthy = true ) const;
 
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( map *here, vehicle *carry_veh, const std::vector<int> &rack_parts );
