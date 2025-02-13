@@ -1358,7 +1358,7 @@ class vehicle
         // Given a part and a flag, returns the indices of all contiguously adjacent parts
         // with the same flag on the X and Y Axis
         std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag,
-                                   bool ignore_broken = true ) const;
+                                   bool only_healthy = true ) const;
 
         // Translate mount coordinates "p" using current pivot direction and anchor and return tile coordinates
         point_rel_ms coord_translate( const point_rel_ms &p ) const;

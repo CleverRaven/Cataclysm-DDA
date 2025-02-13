@@ -1604,11 +1604,11 @@ std::vector<vehicle::rackable_vehicle> vehicle::find_vehicles_to_rack( map *here
 }
 
 std::vector<vehicle::unrackable_vehicle> vehicle::find_vehicles_to_unrack( int rack,
-        bool ignore_broken ) const
+        bool only_healthy ) const
 {
     std::vector<unrackable_vehicle> unrackables;
     for( const std::vector<int> &rack_parts : find_lines_of_parts( rack, "BIKE_RACK_VEH",
-            ignore_broken ) ) {
+            only_healthy ) ) {
         unrackable_vehicle unrackable;
 
         // a racked vehicle is "finished" by collecting all of its carried parts and carrying racks
@@ -2034,12 +2034,16 @@ bool vehicle::remove_part( vehicle_part &vp, RemovePartHandler &handler )
     // Unboard any entities standing on removed boardable parts
     if( vpi.has_flag( "BOARDABLE" ) && vp.has_flag( vp_flag::passenger_flag ) ) {
         handler.unboard( &handler.get_map_ref(), part_loc );
-    } else if( vpi.has_flag( "BIKE_RACK_VEH" ) ) {
+    }
 
+    // unrack any vehicles that were connected to the part
+    if( vpi.has_flag( "BIKE_RACK_VEH" ) && vp.has_flag( vp_flag::carrying_flag ) ) {
         for( const unrackable_vehicle &unrackable : find_vehicles_to_unrack( index_of_part( &vp ),
-                true ) ) {
+                /*only_healthy=*/false ) ) {
+
             if( !remove_carried_vehicle( handler.get_map_ref(), unrackable.parts, unrackable.racks ) ) {
-                debugmsg( _( "Bike rack broke, but could not unrack %s from %s" ), unrackable.name, name );
+                debugmsg( "%s broke, but could not un-rack %s from %s.", vpi.id.str(),
+                          unrackable.name, name );
             }
         }
     }
@@ -2271,7 +2275,7 @@ bool vehicle::remove_carried_vehicle( map &here, const std::vector<int> &carried
     }
     if( split_vehicles( here, { carried_parts }, { new_vehicle }, { new_mounts } ) ) {
         //~ %s is the vehicle being loaded onto the bicycle rack
-        add_msg( _( "You unload the %s from the bike rack." ), new_vehicle->name );
+        add_msg( _( "The %s is being unloaded from the bike rack." ), new_vehicle->name );
         bool tracked_parts = false; // if any of the unracked vehicle parts carry a tracked_flag
         for( vehicle_part &part : new_vehicle->parts ) {
             tracked_parts |= part.has_flag( vp_flag::tracked_flag );
