@@ -66,4 +66,5 @@ jobs:
 
         cd Cataclysm-DDA
         FILES_LIST=$( find src/ tests/ -maxdepth 1 -name '*.cpp' | grep -v -f tools/iwyu/bad_files.txt | sort )
-        python ${IWYU_SRC_DIR}/iwyu_tool.py ${FILES_LIST} -p build --output-format clang --jobs 4  -- -Xiwyu "--mapping_file=${PWD}/tools/iwyu/cata.imp" -Xiwyu --cxx17ns -Xiwyu --comment_style=long -Xiwyu --max_line_length=1000 
+        python ${IWYU_SRC_DIR}/iwyu_tool.py ${FILES_LIST} -p build --output-format clang --jobs 4  -- -Xiwyu "--mapping_file=${PWD}/tools/iwyu/cata.imp" -Xiwyu --cxx17ns -Xiwyu --comment_style=long -Xiwyu --max_line_length=1000 -Xiwyu --error=1
+
