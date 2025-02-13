@@ -268,7 +268,7 @@ static bool tile_can_have_blood( map &md, const tripoint_bub_ms &current_tile,
                !md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile );
     } else {
         if( !md.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, current_tile ) &&
-            !x_in_y( ( 30.0 - days_since_cataclysm ) / 30.0, 1 ) ) {
+            x_in_y( days_since_cataclysm, 30 ) ) {
             // Placement of blood outdoors scales down over the course of 30 days until no further blood is placed.
             return false;
         }
@@ -476,13 +476,16 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
             }
         }
 
-        // Decrease the chance of fire spawning as the Cataclysm progresses to the min fire chance of 1 in 10,000
-        if( x_in_y( 1,  std::min( 2000 + 714 * days_since_cataclysm, 10000 ) ) ) {
+        // Randomly spawn fires, with the chance decreasing from 1 in 2000 to 1 in 10,000 over the
+        // course of 14 days
+        if( x_in_y( 1,  std::min( 2000 + 571 * days_since_cataclysm, 10000 ) ) ) {
             if( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE, current_tile ) ||
                 md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE_ASH, current_tile ) ||
-                md.has_flag_ter_or_furn( ter_furn_flag:: TFLAG_FLAMMABLE_HARD, current_tile ) ||
+                md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE_HARD, current_tile ) ||
                 days_since_cataclysm < 3 ) {
                 // Only place fire on flammable surfaces unless the cataclysm started very recently
+                // Note that most floors are FLAMMABLE_HARD, this is fine. This check is primarily geared
+                // at preventing fire in the middle of roads or parking lots.
                 md.add_field( current_tile, field_fd_fire );
             }
         }
