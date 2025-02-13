@@ -106,6 +106,18 @@ In the end, it's just odd to be able to hold 10000 rounds in your hands at once.
 
 Again, we do not want to make the game worse with this - there are some unavoidable problems caused by this migration, but after it is done, not only it would be easier to contribute for everyone, but the game would work better, and maybe even faster.
 
+### Options
+
+#### We should be able to disable features we don't want (portal storms, etc.): No.
+
+Simply put, features make it into the game because they are desired features which contribute to the game's intended direction.
+
+Features are shipped in stable versions when they are deemed to be in a good enough state. Features in experimental may come with bugs, severe balance issues, so on. That is the nature of experimental.
+
+Disabling features means they do not get worked on and there is no reason for developers to work on them, because the features will simply be disabled. There are several historical in-repo examples of this: Wandering hordes is a good one. Wandering hordes is one of the oldest game features, dating back almost as far as C:DDA's fork from the original Cataclysm. Wandering hordes is disabled by default, and as a consequence has several known major issues which have not seen any developer time in years. The presence of those major issues precludes removing the option, and the fact it's an option precludes people from working on it (nobody would see their changes without specifically opting in). 
+
+This is a catch-22, and clearly bad for development. The only reason wandering hordes currently has a toggle is that it was a legacy decision, implemented well before this current policy was written down.
+
 ### Multiplayer
 This has come up [many times](https://discourse.cataclysmdda.org/search?q=multiplayer), and it simply can not be added to DDA.
 
