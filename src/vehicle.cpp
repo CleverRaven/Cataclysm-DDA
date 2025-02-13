@@ -3190,9 +3190,9 @@ int vehicle::get_next_shifted_index( int original_index, Character &you ) const
  * on the X or Y axis. Returns 0, 1, or 2 lists of indices.
  */
 std::vector<std::vector<int>> vehicle::find_lines_of_parts(
-                               int part, const std::string &flag, bool ignore_broken ) const
+                               int part, const std::string &flag, bool only_healthy ) const
 {
-    const auto possible_parts = ignore_broken ? get_avail_parts( flag ) :  get_any_parts( flag );
+    const auto possible_parts = only_healthy ? get_avail_parts( flag ) :  get_any_parts( flag );
     std::vector<std::vector<int>> ret_parts;
     if( empty( possible_parts ) ) {
         return ret_parts;
@@ -3211,7 +3211,7 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts(
     for( const vpart_reference &vpr : possible_parts ) {
         const vehicle_part &vp_other = vpr.part();
         const vpart_info &vpi_other = vp_other.info();
-        if( ( vp_other.is_broken() && ignore_broken ) ||
+        if( ( vp_other.is_broken() && only_healthy ) ||
             !vpi_other.has_flag( "MULTISQUARE" ) ||
             vpi_other.id != part_id )  {
             continue;
