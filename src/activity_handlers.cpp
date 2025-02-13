@@ -1930,7 +1930,7 @@ void activity_handlers::start_fire_finish( player_activity *act, Character *you 
     you->practice( skill_survival, act->index, 5 );
 
     firestarter_actor::resolve_firestarter_use( you, &here, here.get_bub( act->placement ),
-            firestarter_actor::ST_FIRE );
+            firestarter_actor::start_type::FIRE );
     act->set_to_null();
 }
 

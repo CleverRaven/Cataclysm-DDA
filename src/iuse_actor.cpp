@@ -1435,7 +1435,7 @@ firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character
 {
     if( here != &get_map() ) { // Unless 'choose_adjacent' gets map aware.
         debugmsg( "Usage outside reality bubble is not supported" );
-        return ST_NONE;
+        return start_type::NONE;
     }
 
     // checks for fuel are handled by use and the activity, not here
@@ -1443,13 +1443,13 @@ firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character
         if( const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
             pos = *pnt_;
         } else {
-            return ST_NONE;
+            return start_type::NONE;
         }
     }
     if( pos == p.pos_bub( here ) ) {
         p.add_msg_if_player( m_info, _( "You would set yourself on fire." ) );
         p.add_msg_if_player( _( "But you're already smokin' hot." ) );
-        return ST_NONE;
+        return start_type::NONE;
     }
 
     const furn_id &f_id = here->furn( pos );
@@ -1462,26 +1462,17 @@ firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character
         uilist selection_menu;
         selection_menu.text = _( "Select an action" );
 
-        std::string f_name = here->furnname( pos );
-
-        selection_menu.addentry( 0, true, 'f', _( "Fire the %s" ), f_name );
-        selection_menu.addentry( 1, true, 'F', _( "Set the %s on fire" ), f_name );
-
-        selection_menu.query();
-
-        if( selection_menu.ret == 0 ) {
-            if( is_smoking_rack ) {
-                return iexamine::smoker_prep( p, pos ) ? ST_SMOKER : ST_NONE;
-            } else {
-                return ST_KILN; // TODO: Kiln prep logic.
-            }
+        if( is_smoking_rack ) {
+            return iexamine::smoker_prep( p, pos ) ? start_type::SMOKER : start_type::NONE;
+        } else {
+            return start_type::KILN; // TODO: Kiln prep logic.
         }
     }
 
     if( here->get_field( pos, fd_fire ) ) {
         // check if there's already a fire
         p.add_msg_if_player( m_info, _( "There is already a fire." ) );
-        return ST_NONE;
+        return start_type::NONE;
     }
     // check if there's a fire fuel source spot
     bool target_is_firewood = false;
@@ -1496,7 +1487,7 @@ firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character
     }
     if( target_is_firewood ) {
         if( !query_yn( _( "Do you really want to burn your firewood source?" ) ) ) {
-            return ST_NONE;
+            return start_type::NONE;
         }
     }
     // Check for an adjacent fire container
@@ -1511,7 +1502,7 @@ firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character
         }
         if( here->has_flag_furn( "FIRE_CONTAINER", query ) ) {
             if( !query_yn( _( "Are you sure you want to start fire here?  There's a fireplace adjacent." ) ) ) {
-                return ST_NONE;
+                return start_type::NONE;
             } else {
                 // Don't ask multiple times if they say no and there are multiple fireplaces
                 break;
@@ -1528,10 +1519,10 @@ firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character
     if( has_unactivated_brazier &&
         !query_yn(
             _( "There's a brazier there but you haven't set it up to contain the fire.  Continue?" ) ) ) {
-        return ST_NONE;
+        return start_type::NONE;
     }
 
-    return ST_FIRE;
+    return start_type::FIRE;
 }
 
 void firestarter_actor::resolve_firestarter_use( Character *p, map *here,
@@ -1557,12 +1548,12 @@ bool firestarter_actor::resolve_start( Character *p, map *here,
                                        const tripoint_bub_ms &pos, start_type type )
 {
     switch( type ) {
-        case ST_FIRE:
+        case start_type::FIRE:
             return here->add_field( pos, fd_fire, 1, 10_minutes );
-        case ST_SMOKER:
+        case start_type::SMOKER:
             return iexamine::smoker_fire( *p, pos );
-        case ST_KILN:
-        case ST_NONE:
+        case start_type::KILN:
+        case start_type::NONE:
         default:
             return false;
     }
@@ -1645,7 +1636,7 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
 
     float light = light_mod( here, p->pos_bub( here ) );
     start_type st = prep_firestarter_use( *p, here, pos );
-    if( st == ST_NONE ) {
+    if( st == start_type::NONE ) {
         return std::nullopt;
     }
 

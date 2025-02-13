@@ -496,11 +496,11 @@ class firestarter_actor : public iuse_actor
          */
         bool need_sunlight = false;
 
-        enum start_type : int {
-            ST_NONE,
-            ST_FIRE,
-            ST_SMOKER,
-            ST_KILN,
+        enum class start_type : int {
+            NONE,
+            FIRE,
+            SMOKER,
+            KILN,
         };
 
         static start_type prep_firestarter_use( Character &p, map *here, tripoint_bub_ms &pos );
