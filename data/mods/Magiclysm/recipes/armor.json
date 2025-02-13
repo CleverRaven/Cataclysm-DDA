@@ -56,12 +56,6 @@
     "result": "xl_armguard_demonchitin",
     "type": "recipe",
     "copy-from": "armguard_demonchitin",
-    "qualities": [
-      { "id": "CHISEL", "level": 1 },
-      { "id": "SEW", "level": 3 },
-      { "id": "LEATHER_AWL", "level": 1 },
-      { "id": "MANA_INFUSE", "level": 2 }
-    ],
     "time": "3 h",
     "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_plate", 1 ] ], [ [ "demon_chitin_piece", 3 ] ] ]
   },
@@ -93,12 +87,6 @@
     "result": "xl_armor_demonchitin",
     "type": "recipe",
     "copy-from": "armor_demonchitin",
-    "qualities": [
-      { "id": "CHISEL", "level": 1 },
-      { "id": "SEW", "level": 3 },
-      { "id": "LEATHER_AWL", "level": 1 },
-      { "id": "MANA_INFUSE", "level": 2 }
-    ],
     "time": "5 h",
     "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_plate", 1 ] ], [ [ "demon_chitin_piece", 10 ] ] ]
   },
@@ -130,12 +118,6 @@
     "result": "xl_boots_demonchitin",
     "type": "recipe",
     "copy-from": "boots_demonchitin",
-    "qualities": [
-      { "id": "CHISEL", "level": 1 },
-      { "id": "SEW", "level": 3 },
-      { "id": "LEATHER_AWL", "level": 1 },
-      { "id": "MANA_INFUSE", "level": 2 }
-    ],
     "time": "4 h",
     "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_plate", 1 ] ], [ [ "demon_chitin_piece", 5 ] ] ]
   },
@@ -167,12 +149,6 @@
     "result": "xl_gauntlets_demonchitin",
     "type": "recipe",
     "copy-from": "gauntlets_demonchitin",
-    "qualities": [
-      { "id": "CHISEL", "level": 1 },
-      { "id": "SEW", "level": 3 },
-      { "id": "LEATHER_AWL", "level": 1 },
-      { "id": "MANA_INFUSE", "level": 2 }
-    ],
     "time": "3 h",
     "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_piece", 14 ] ] ]
   },
@@ -181,12 +157,6 @@
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "copy-from": "armor_demonchitin",
-    "qualities": [
-      { "id": "CHISEL", "level": 1 },
-      { "id": "SEW", "level": 3 },
-      { "id": "LEATHER_AWL", "level": 1 },
-      { "id": "MANA_INFUSE", "level": 2 }
-    ],
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
     "time": "17 h 30 m",
@@ -205,12 +175,6 @@
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "copy-from": "armor_demonchitin",
-    "qualities": [
-      { "id": "CHISEL", "level": 1 },
-      { "id": "SEW", "level": 3 },
-      { "id": "LEATHER_AWL", "level": 1 },
-      { "id": "MANA_INFUSE", "level": 2 }
-    ],
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
     "skills_required": [ [ "spellcraft", 6 ], [ "fabrication", 4 ], [ "survival", 4 ] ],
