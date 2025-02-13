@@ -1666,7 +1666,7 @@
     "name": { "str_sp": "TEST pine nuts" },
     "weight": "30 g",
     "color": "brown",
-    "spoils_in": 1080,
+    "spoils_in": "45 days",
     "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -3345,7 +3345,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take the %s.",
-      "vitamins": [ [ "calcium", 100, 100 ], [ "iron", 100, 100 ], [ "vitC", 100, 100 ] ]
+      "vitamins": [ [ "calcium", 100 ], [ "iron", 100 ], [ "vitC", 100 ] ]
     }
   },
   {

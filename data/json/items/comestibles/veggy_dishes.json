@@ -811,7 +811,7 @@
     "name": { "str_sp": "pesto" },
     "weight": "65 g",
     "color": "light_green",
-    "spoils_in": 144,
+    "spoils_in": "6 days",
     "container": "jar_glass_sealed",
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -1071,7 +1071,7 @@
       }
     ],
     "flags": [ "EATEN_HOT" ],
-    "relative": { "calories": 200, "fun": 2 },
+    "relative": { "fun": 2 },
     "price": "5 USD",
     "price_postapoc": "50 cent",
     "spoils_in": "7 days"
