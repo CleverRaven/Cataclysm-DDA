@@ -338,12 +338,12 @@ void trap::trigger( const tripoint_bub_ms &pos ) const
 
 void trap::trigger( const tripoint_bub_ms &pos, Creature &creature ) const
 {
-    return trigger( pos, &creature, nullptr );
+    trigger( pos, &creature, nullptr );
 }
 
 void trap::trigger( const tripoint_bub_ms &pos, item &item ) const
 {
-    return trigger( pos, nullptr, &item );
+    trigger( pos, nullptr, &item );
 }
 
 void trap::trigger( const tripoint_bub_ms &pos, Creature *creature, item *item ) const

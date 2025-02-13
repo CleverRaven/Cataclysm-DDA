@@ -1945,7 +1945,7 @@ void map::set_map_damage( const tripoint_bub_ms &p, int dmg )
         debugmsg( "Called set_map_damage for unloaded submap" );
         return;
     }
-    return current_submap->set_map_damage( l, dmg );
+    current_submap->set_map_damage( l, dmg );
 }
 
 uint8_t map::get_known_connections( const tripoint_bub_ms &p,
