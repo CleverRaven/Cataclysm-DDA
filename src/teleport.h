@@ -14,8 +14,8 @@ class teleport
         static bool teleport_creature( Creature &critter, int min_distance = 2, int max_distance = 12,
                                        bool safe = false,
                                        bool add_teleglow = true );
-        static bool teleport_to_point( Creature &critter, tripoint target, bool safe, bool add_teleglow,
-                                       bool display_message = true, bool force = false );
+        static bool teleport_to_point( Creature &critter, tripoint_bub_ms target, bool safe,
+                                       bool add_teleglow, bool display_message = true, bool force = false, bool force_safe = false );
         static bool teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp );
 
 };

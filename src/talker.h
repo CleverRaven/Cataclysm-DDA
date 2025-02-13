@@ -70,12 +70,10 @@ class const_talker
         virtual computer const *get_const_computer() const {
             return nullptr;
         }
-        virtual vehicle *get_vehicle() {
+        virtual vehicle const *get_const_vehicle() const {
             return nullptr;
         }
-        virtual const vehicle *get_vehicle() const {
-            return nullptr;
-        }
+
         // identity and location
         virtual std::string disp_name() const {
             return "";
@@ -741,6 +739,9 @@ class talker: virtual public const_talker
             return nullptr;
         }
         virtual computer *get_computer() {
+            return nullptr;
+        }
+        virtual vehicle *get_vehicle() {
             return nullptr;
         }
         virtual void set_pos( tripoint_bub_ms ) {}

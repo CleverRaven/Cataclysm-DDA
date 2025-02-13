@@ -5,13 +5,6 @@
 #include "talker_vehicle.h"
 #include "vehicle.h"
 
-
-talker_vehicle::talker_vehicle( vehicle *new_me )
-{
-    me_veh = new_me;
-    me_veh_const = new_me;
-}
-
 std::string talker_vehicle_const::disp_name() const
 {
     return me_veh_const->disp_name();
@@ -24,32 +17,32 @@ std::string talker_vehicle_const::get_name() const
 
 int talker_vehicle_const::posx() const
 {
-    return pos().x;
+    return pos_bub().x();
 }
 
 int talker_vehicle_const::posy() const
 {
-    return pos().y;
+    return pos_bub().y();
 }
 
 int talker_vehicle_const::posz() const
 {
-    return pos().z;
+    return pos_bub().z();
 }
 
-tripoint talker_vehicle_const::pos() const
+tripoint_bub_ms talker_vehicle_const::pos_bub() const
 {
-    return me_veh_const->pos_bub().raw();
+    return me_veh_const->pos_bub();
 }
 
-tripoint_abs_ms talker_vehicle_const::global_pos() const
+tripoint_abs_ms talker_vehicle_const::pos_abs() const
 {
-    return me_veh_const->global_square_location();
+    return me_veh_const->pos_abs();
 }
 
-tripoint_abs_omt talker_vehicle_const::global_omt_location() const
+tripoint_abs_omt talker_vehicle_const::pos_abs_omt() const
 {
-    return me_veh_const->global_omt_location();
+    return me_veh_const->pos_abs_omt();
 }
 
 std::optional<std::string> talker_vehicle_const::maybe_get_value( const std::string &var_name )
@@ -68,12 +61,12 @@ void talker_vehicle::remove_value( const std::string &var_name )
     me_veh->remove_value( var_name );
 }
 
-std::vector<std::string> talker_vehicle_const::get_topics( bool )
+std::vector<std::string> talker_vehicle_const::get_topics( bool ) const
 {
     return me_veh_const->chat_topics;
 }
 
-bool talker_vehicle_const::will_talk_to_u( const Character &you, bool )
+bool talker_vehicle_const::will_talk_to_u( const Character &you, bool ) const
 {
     return !you.is_dead_state();
 }
