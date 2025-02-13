@@ -6457,11 +6457,11 @@ talk_effect_fun_t::func f_run_vehicle_eocs( const JsonObject &jo,
         vehicle_range = jo.get_int( "vehicle_range" );
     }
     return [eocs, vehicle_range, is_npc]( dialogue const & d ) {
-        tripoint actor_pos = d.actor( is_npc )->pos();
+        tripoint_abs_ms actor_pos = d.actor( is_npc )->pos_abs();
         for( wrapped_vehicle &elem : get_map().get_vehicles() ) {
             vehicle &veh = *elem.v;
             if( !vehicle_range.has_value() ||
-                rl_dist( actor_pos, veh.global_pos3() ) <= vehicle_range.value() ) {
+                rl_dist( actor_pos, veh.pos_abs() ) <= vehicle_range.value() ) {
                 for( const effect_on_condition_id &eoc : eocs ) {
                     dialogue newDialog( get_talker_for( veh ), nullptr, d.get_conditionals(), d.get_context() );
                     eoc->activate( newDialog );
@@ -7530,7 +7530,6 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
         }
         vehicle *veh = d.actor( is_npc )->get_vehicle();
         if( veh ) {
-            tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
             if( teleport::teleport_vehicle( *veh, target_pos ) ) {
                 add_msg( success_message.evaluate( d ) );
             } else {

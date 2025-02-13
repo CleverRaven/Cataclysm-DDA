@@ -836,6 +836,13 @@ static void terrain_collision_data( map &here, const tripoint_bub_ms &p, bool ba
 veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_ms &p,
                                        bool just_detect, bool bash_floor )
 {
+    map &here = get_map();
+    return part_collision( part, p, just_detect, bash_floor, here );
+}
+
+veh_collision vehicle::part_collision( int part, const tripoint_abs_ms &p,
+                                       bool just_detect, bool bash_floor, map &here )
+{
     tripoint_bub_ms pos = here.get_bub( p );
     // Vertical collisions need to be handled differently
     // All collisions have to be either fully vertical or fully horizontal for now

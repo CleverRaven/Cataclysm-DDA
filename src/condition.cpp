@@ -689,8 +689,9 @@ conditional_t::func f_has_part_flag( const JsonObject &jo, std::string_view memb
 {
     str_or_var trait_flag_to_check = get_str_or_var( jo.get_member( member ), member, true );
     bool enabled = jo.get_bool( "enabled", false );
-    return [trait_flag_to_check, enabled, is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->has_part_flag( trait_flag_to_check.evaluate( d ), enabled );
+    return [trait_flag_to_check, enabled, is_npc]( const_dialogue const & d ) {
+        const_talker const *actor = d.const_actor( is_npc );
+        return actor->has_part_flag( trait_flag_to_check.evaluate( d ), enabled );
     };
 }
 
@@ -1384,8 +1385,8 @@ conditional_t::func f_is_furniture( bool is_npc )
 
 conditional_t::func f_is_vehicle( bool is_npc )
 {
-    return [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->get_vehicle();
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->get_const_vehicle();
     };
 }
 
@@ -1447,81 +1448,83 @@ conditional_t::func f_has_beta()
 {
     return []( const_dialogue const & d ) {
         return d.has_beta;
+    };
+}
 
 conditional_t::func f_is_driven( bool is_npc )
 {
-    return [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->is_driven();
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_driven();
     };
 }
 
 conditional_t::func f_is_remote_controlled( bool is_npc )
 {
-    return [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->is_remote_controlled();
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_remote_controlled();
     };
 }
 
 conditional_t::func f_can_fly( bool is_npc )
 {
-    return [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->can_fly();
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->can_fly();
     };
 }
 
 conditional_t::func f_is_flying( bool is_npc )
 {
-    return [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->is_flying();
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_flying();
     };
 }
 
 conditional_t::func f_can_float( bool is_npc )
 {
-    return [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->can_float();
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->can_float();
     };
 }
 
 conditional_t::func f_is_floating( bool is_npc )
 {
-    return [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->is_floating();
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_floating();
     };
 }
 
 conditional_t::func f_is_falling( bool is_npc )
 {
-    return [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->is_falling();
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_falling();
     };
 }
 
 conditional_t::func f_is_skidding( bool is_npc )
 {
-    return [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->is_skidding();
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_skidding();
     };
 }
 
 conditional_t::func f_is_sinking( bool is_npc )
 {
-    return [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->is_sinking();
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_sinking();
     };
 }
 
 conditional_t::func f_is_on_rails( bool is_npc )
 {
-    return [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->is_on_rails();
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_on_rails();
     };
 }
 
 conditional_t::func f_is_avatar_passenger( bool is_npc )
 {
-    return [is_npc]( dialogue const & d ) {
-        return d.actor( is_npc )->is_passenger( get_player_character() );
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_passenger( get_player_character() );
     };
 }
 

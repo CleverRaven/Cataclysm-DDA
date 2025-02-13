@@ -5982,7 +5982,7 @@ void vehicle::on_move( map &here )
                         is_passenger( pc ), player_in_control( pc ), remote_controlled( pc ),
                         is_flying_in_air(), is_watercraft() && can_float(), can_use_rails(),
                         is_falling, is_in_water( true ) && !can_float(),
-                        skidding, velocity, sm_pos.z );
+                        skidding, velocity, sm_pos.z() );
     get_event_bus().send_with_talker( this, &pc, e );
 }
 
@@ -8691,7 +8691,7 @@ std::unique_ptr<talker> get_talker_for( vehicle &me )
 {
     return std::make_unique<talker_vehicle>( &me );
 }
-std::unique_ptr<talker> get_talker_for( const vehicle &me )
+std::unique_ptr<const_talker> get_talker_for( const vehicle &me )
 {
     return std::make_unique<talker_vehicle_const>( &me );
 }
