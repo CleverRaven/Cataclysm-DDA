@@ -253,5 +253,19 @@
     "stat_type": "count",
     "event_transformation": "avatar_gains_deduction_level_5",
     "description": { "str_sp": "Investigation skill level 5 gained" }
+  },
+  {
+    "id": "achievement_find_border_patrol_office",
+    "type": "achievement",
+    "name": "Do borders even matter now?",
+    "requirements": [
+      {
+        "event_statistic": "last_oter_type_avatar_entered",
+        "is": "==",
+        "target": [ "oter_type_str_id", "field_office_3" ],
+        "visible": "when_achievement_completed",
+        "description": "Enter a Border Patrol Office"
+      }
+    ]
   }
 ]
