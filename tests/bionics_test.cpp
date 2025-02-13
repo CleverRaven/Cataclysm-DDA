@@ -18,6 +18,7 @@
 #include "game.h"
 #include "item.h"
 #include "item_location.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "options_helpers.h"
 #include "pimpl.h"

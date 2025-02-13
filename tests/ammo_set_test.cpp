@@ -5,8 +5,10 @@
 
 #include "cata_catch.h"
 #include "debug.h"
+#include "game.h"
 #include "item.h"
 #include "itype.h"
+#include "map.h"
 #include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
