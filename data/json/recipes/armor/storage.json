@@ -1761,6 +1761,21 @@
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ]
   },
   {
+    "result": "wicker_basket_large",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "26 h",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "plant_cordage", 20, "LIST" ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_basketweaving" } ]
+  },
+  {
     "result": "survivor_duffel_bag",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
