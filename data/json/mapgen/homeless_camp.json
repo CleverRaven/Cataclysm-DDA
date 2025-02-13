@@ -61,7 +61,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "homelesscamp",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "forest_thick",
       "rotation": [ 0, 3 ],

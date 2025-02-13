@@ -31,31 +31,5 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "using": [ [ "soldering_standard", 40 ], [ "welding_standard", 10 ] ],
     "components": [ [ [ "power_supply", 1 ] ], [ [ "cable", 60 ] ], [ [ "bearing", 20 ] ], [ [ "scrap", 3 ] ], [ [ "steel_chunk", 3 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "generator_7500w",
-    "skill_used": "mechanics",
-    "difficulty": 4,
-    "time": "40 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [
-      [
-        [ "soldering_iron", 80 ],
-        [ "soldering_iron_portable", 80 ],
-        [ "integrated_electrokit", 80 ],
-        [ "toolset", 80 ],
-        [ "oxy_torch", 40 ]
-      ]
-    ],
-    "components": [
-      [ [ "power_supply", 4 ] ],
-      [ [ "cable", 400 ] ],
-      [ [ "bearing", 80 ] ],
-      [ [ "frame", 1 ] ],
-      [ [ "scrap", 12 ] ],
-      [ [ "steel_chunk", 8 ] ]
-    ]
   }
 ]

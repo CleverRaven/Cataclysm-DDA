@@ -8,13 +8,7 @@
     "value": 50000,
     "start": {
       "effect": [ "follow", { "u_spawn_item": "sarcophagus_access_code" } ],
-      "assign_mission_target": {
-        "om_terrain": "haz_sar_b_4",
-        "om_special": "Hazardous Waste Sarcophagus",
-        "reveal_radius": 1,
-        "search_range": 240,
-        "min_distance": 60
-      }
+      "assign_mission_target": { "om_terrain": "haz_sar_b_4", "om_special": "Hazardous Waste Sarcophagus", "reveal_radius": 1, "min_distance": 60 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "destination": "haz_sar_b_4",
@@ -45,7 +39,7 @@
       "describe": "I'm… short… of breath…",
       "offer": "I'm asthmatic.  I need you to get an inhaler for me…",
       "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry…",
-      "rejected": "What?!  Please, <ill_die> without your help!",
+      "rejected": "What?!  Please, I'll be dead soon without your help!",
       "advice": "There's a town nearby.  Check pharmacies; it'll be in the back with the good stuff.",
       "inquire": "Find any inhaler yet?",
       "success": "Oh thank god!  I'll be right as rain in no time.",
@@ -75,10 +69,10 @@
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "deadline": [ "24 days", "48 days" ],
     "dialogue": {
-      "describe": "This infection is bad, <very> bad…",
+      "describe": "This infection is bad, totally bad…",
       "offer": "I'm infected.  Badly.  I need you to get some good antibiotics for me…",
       "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry…",
-      "rejected": "What?!  Please, <ill_die> without your help!",
+      "rejected": "What?!  Please, I'll be dead soon without your help!",
       "advice": "There's a town nearby.  Check pharmacies; it'll be in the back, either antibiotics or broad-spectrum antibiotics will do.",
       "inquire": "Find any antibiotics yet?",
       "success": "Oh thank god!  I'll be right as rain in no time.",
@@ -144,7 +138,7 @@
     "item": "black_box_transcript",
     "start": {
       "effect": { "u_spawn_item": "black_box" },
-      "assign_mission_target": { "om_terrain": "lab_stairs", "om_special": "Lab", "reveal_radius": 3, "random": true, "search_range": 240, "z": 0 }
+      "assign_mission_target": { "om_terrain": "lab_stairs", "om_special": "Lab", "reveal_radius": 3, "random": true, "z": 0 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_EXPLORE_SARCOPHAGUS",
@@ -330,14 +324,7 @@
     "start": {
       "update_mapgen": { "place_item": [ { "item": "safe_box", "x": [ 18, 21 ], "y": [ 4, 6 ], "amount": 1 } ] },
       "effect": "follow_only",
-      "assign_mission_target": {
-        "om_terrain": "bank",
-        "om_terrain_match_type": "PREFIX",
-        "om_special": "bank",
-        "search_range": 120,
-        "random": true,
-        "z": 0
-      }
+      "assign_mission_target": { "om_terrain": "bank", "om_terrain_match_type": "PREFIX", "om_special": "bank", "random": true, "z": 0 }
     },
     "end": {
       "effect": [
@@ -392,7 +379,7 @@
     "item": "software_blood_data",
     "start": {
       "effect": [ { "u_spawn_item": "vacutainer" }, { "u_spawn_item": "usb_drive" } ],
-      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "hospital", "reveal_radius": 3, "search_range": 120 }
+      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "hospital", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -416,9 +403,7 @@
     "difficulty": 2,
     "value": 150000,
     "item": "etched_skull",
-    "start": {
-      "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3, "search_range": 120 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
     "dialogue": {
@@ -442,7 +427,7 @@
     "value": 150000,
     "item": "visions_solitude",
     "start": {
-      "assign_mission_target": { "om_terrain": "prison_1_4", "om_special": "Prison", "reveal_radius": 3, "search_range": 180 },
+      "assign_mission_target": { "om_terrain": "prison_1_4", "om_special": "Prison", "reveal_radius": 3 },
       "update_mapgen": { "om_terrain": "prison_1_4", "place_item": [ { "item": "visions_solitude", "x": 15, "y": 22 } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -522,14 +507,7 @@
         ]
       },
       "effect": "follow_only",
-      "assign_mission_target": {
-        "om_terrain": "house",
-        "om_terrain_match_type": "CONTAINS",
-        "search_range": 80,
-        "min_distance": 10,
-        "random": true,
-        "z": 0
-      }
+      "assign_mission_target": { "om_terrain": "house", "om_terrain_match_type": "CONTAINS", "min_distance": 10, "random": true, "z": 0 }
     },
     "end": { "effect": "stop_following" },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -560,7 +538,6 @@
         "om_terrain_replace": "forest",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 60,
         "min_distance": 5,
         "z": 0
       },
@@ -595,7 +572,6 @@
         "om_terrain_match_type": "PREFIX",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 60,
         "min_distance": 5,
         "z": 0
       },
@@ -691,14 +667,7 @@
     "item": "priest_diary",
     "start": {
       "update_mapgen": { "place_item": [ { "item": "priest_diary", "x": [ 3, 21 ], "y": [ 6, 21 ], "amount": 1 } ] },
-      "assign_mission_target": {
-        "om_terrain": "house",
-        "om_terrain_match_type": "PREFIX",
-        "search_range": 80,
-        "min_distance": 5,
-        "random": true,
-        "z": 0
-      }
+      "assign_mission_target": { "om_terrain": "house", "om_terrain_match_type": "PREFIX", "min_distance": 5, "random": true, "z": 0 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_CULT",
@@ -723,7 +692,7 @@
     "difficulty": 5,
     "value": 70000,
     "start": {
-      "assign_mission_target": { "om_terrain": "cabin", "om_special": "Cabin", "reveal_radius": 2, "search_range": 60 },
+      "assign_mission_target": { "om_terrain": "cabin", "om_special": "Cabin", "reveal_radius": 2 },
       "effect": "follow",
       "update_mapgen": { "place_npcs": [ { "class": "tracker_gunslinger", "x": 11, "y": 11, "target": true } ] }
     },
@@ -750,14 +719,7 @@
     "start": {
       "update_mapgen": { "place_monster": [ { "monster": "mon_dog", "x": [ 3, 21 ], "y": [ 6, 21 ], "friendly": true, "target": true } ] },
       "effect": [ { "u_spawn_item": "dog_whistle" } ],
-      "assign_mission_target": {
-        "om_terrain": "house",
-        "om_terrain_replace": "field",
-        "om_terrain_match_type": "PREFIX",
-        "search_range": 43,
-        "random": true,
-        "z": 0
-      }
+      "assign_mission_target": { "om_terrain": "house", "om_terrain_replace": "field", "om_terrain_match_type": "PREFIX", "random": true, "z": 0 }
     },
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "dialogue": {
@@ -902,23 +864,16 @@
     "has_generic_rewards": false,
     "start": {
       "effect": [ "follow_only", { "npc_first_topic": "MISSION_PYROMANIAC" } ],
-      "assign_mission_target": {
-        "om_terrain": "house",
-        "om_terrain_replace": "forest",
-        "om_terrain_match_type": "PREFIX",
-        "search_range": 75,
-        "random": true,
-        "z": 0
-      }
+      "assign_mission_target": { "om_terrain": "house", "om_terrain_replace": "forest", "om_terrain_match_type": "PREFIX", "random": true, "z": 0 }
     },
     "end": {
       "effect": [ "follow", { "u_consume_item": "gasoline", "count": 200 }, { "mapgen_update": "MISSION_PYROMANIAC_BURN" } ]
     },
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "dialogue": {
-      "describe": "Oh man, I want to <swear> burn it so bad…",
-      "offer": "I'm so <swear> infuriated!  I've got an enemy that ruined my life, and now I want to get revenge!  I don't care about <the_cataclysm>, I just want to burn his house!  Would you help me, <name_g>?",
-      "accepted": "Good.  Let's go to his house and <swear> burn it down!  Oh, by the way, could you bring gasoline with you, <name_g>?  I was so angry I forgot to bring it with me…",
+      "describe": "Oh man, I want to fucking burn it so bad…",
+      "offer": "I'm so fucking infuriated!  I've got an enemy that ruined my life, and now I want to get revenge!  I don't care about <the_cataclysm>, I just want to burn his house!  Would you help me, <name_g>?",
+      "accepted": "Good.  Let's go to his house and goddamn burn it down!  Oh, by the way, could you bring gasoline with you, <name_g>?  I was so angry I forgot to bring it with me…",
       "rejected": "Seriously?  It's such an easy job…",
       "advice": "Maybe we can find some gasoline at a gas station.",
       "inquire": "Are you ready, <name_g>?",

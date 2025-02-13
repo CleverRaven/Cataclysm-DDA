@@ -20,7 +20,7 @@
     "difficulty": 4,
     "max_level": 16,
     "base_casting_time": 300,
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "nova_flare",
@@ -44,7 +44,7 @@
     "difficulty": 8,
     "max_level": 16,
     "base_casting_time": 300,
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "create_lighter",
@@ -64,7 +64,7 @@
     "duration_increment": 5400,
     "max_level": 10,
     "spell_class": "KELVINIST",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_casting_time": 250,
     "final_casting_time": 50,
     "casting_time_increment": -20.0,
@@ -92,7 +92,7 @@
     "difficulty": 6,
     "spell_class": "KELVINIST",
     "base_casting_time": 200,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 100
   },
   {
@@ -117,7 +117,7 @@
     "spell_class": "KELVINIST",
     "base_casting_time": 200,
     "base_energy_cost": 350,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "difficulty": 4,
     "damage_type": "heat"
   },
@@ -143,7 +143,7 @@
     "spell_class": "KELVINIST",
     "base_casting_time": 200,
     "base_energy_cost": 350,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "difficulty": 4,
     "field_id": "fd_cold_air2",
     "min_field_intensity": 0,
@@ -173,7 +173,7 @@
     "spell_class": "KELVINIST",
     "base_casting_time": 100,
     "base_energy_cost": 150,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "difficulty": 2,
     "damage_type": "heat"
   },
@@ -201,7 +201,7 @@
     "spell_class": "KELVINIST",
     "base_casting_time": 100,
     "base_energy_cost": 100,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "difficulty": 2,
     "damage_type": "cold"
   },
@@ -227,7 +227,7 @@
     "difficulty": 1,
     "max_level": 10,
     "base_casting_time": 100,
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "glide_ice",
@@ -241,7 +241,7 @@
     "effect": "spawn_item",
     "effect_str": "ice_gliders",
     "shape": "blast",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "spell_class": "KELVINIST",
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "difficulty": 2,
@@ -265,7 +265,7 @@
     "effect": "spawn_item",
     "effect_str": "ice_gliders",
     "shape": "blast",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "spell_class": "KELVINIST",
     "difficulty": 5,
     "max_level": 25,
@@ -304,7 +304,7 @@
     "spell_class": "KELVINIST",
     "base_casting_time": 200,
     "base_energy_cost": 350,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "difficulty": 4,
     "damage_type": "cold"
   },
@@ -321,7 +321,7 @@
     "effect": "spawn_item",
     "effect_str": "shield_ice",
     "shape": "blast",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "spell_class": "KELVINIST",
     "difficulty": 3,
     "max_level": 15,
@@ -345,7 +345,7 @@
     "effect": "spawn_item",
     "effect_str": "shield_ice",
     "shape": "blast",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "spell_class": "KELVINIST",
     "difficulty": 5,
     "max_level": 25,
@@ -371,7 +371,7 @@
     "shape": "blast",
     "affected_body_parts": [ "head", "torso", "leg_l", "leg_r", "arm_r", "arm_l" ],
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "spell_class": "KELVINIST",
     "difficulty": 5,
     "max_level": 15,
@@ -394,7 +394,7 @@
     "effect_str": "armor_frost",
     "shape": "blast",
     "affected_body_parts": [ "head", "torso", "leg_l", "leg_r", "arm_r", "arm_l" ],
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "spell_class": "KELVINIST",
     "difficulty": 5,
     "max_level": 25,
@@ -428,7 +428,7 @@
     "difficulty": 0,
     "max_level": 0,
     "spell_class": "KELVINIST",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "flags": [ "CHANNELING_SPELL", "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   },
   {
@@ -450,7 +450,7 @@
     "duration_increment": 24000,
     "max_level": 15,
     "spell_class": "KELVINIST",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_casting_time": 250,
     "base_energy_cost": 300,
     "difficulty": 4,
@@ -475,7 +475,7 @@
     "duration_increment": 72000,
     "max_level": 25,
     "spell_class": "KELVINIST",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_casting_time": 250,
     "final_casting_time": 100,
     "casting_time_increment": -6,
@@ -513,7 +513,7 @@
     "spell_class": "KELVINIST",
     "base_casting_time": 150,
     "base_energy_cost": 200,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "difficulty": 5,
     "damage_type": "heat"
   },
@@ -544,7 +544,7 @@
     "base_casting_time": 160,
     "final_casting_time": 40,
     "casting_time_increment": -6,
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "kelvinist_anti_cold",
@@ -563,7 +563,7 @@
     "min_duration": 180000,
     "max_duration": 2160000,
     "duration_increment": 99000,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 250,
     "base_casting_time": 1500
   },
@@ -584,7 +584,7 @@
     "min_duration": 180000,
     "max_duration": 2160000,
     "duration_increment": 99000,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 250,
     "base_casting_time": 1500
   },
@@ -606,7 +606,7 @@
     "min_duration": 90000,
     "max_duration": 990000,
     "duration_increment": 45000,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 350,
     "base_casting_time": 500
   },
@@ -633,7 +633,7 @@
     "min_aoe": 1,
     "max_aoe": 10,
     "aoe_increment": 0.5,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 250,
     "base_casting_time": 250
   },
@@ -674,7 +674,7 @@
     "min_duration": 51840000,
     "max_duration": 327240000,
     "duration_increment": 18360000,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 400,
     "base_casting_time": 1500
   },
@@ -697,7 +697,7 @@
     "min_duration": 60000,
     "max_duration": 960000,
     "duration_increment": 60000,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 650,
     "base_casting_time": 6000
   },
@@ -720,7 +720,7 @@
     "min_range": 2,
     "max_range": 15,
     "range_increment": 1,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 75,
     "base_casting_time": 100,
     "sound_type": "combat",
@@ -742,7 +742,7 @@
     "shape": "blast",
     "difficulty": 1,
     "max_level": 15,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 200,
     "final_energy_cost": 50,
     "energy_increment": -10,
@@ -782,7 +782,7 @@
     "min_aoe": 2,
     "max_aoe": 12,
     "aoe_increment": 0.5,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 1000,
     "base_casting_time": 500
   },

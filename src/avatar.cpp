@@ -34,8 +34,6 @@
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
-#include "field_type.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
@@ -47,41 +45,36 @@
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
-#include "line.h"
 #include "map.h"
 #include "map_memory.h"
-#include "mapdata.h"
+#include "map_scale_constants.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "move_mode.h"
-#include "mutation.h"
 #include "npc.h"
+#include "npc_opinion.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pimpl.h"
+#include "point.h"
 #include "profession.h"
 #include "ranged.h"
 #include "recipe.h"
 #include "ret_val.h"
 #include "rng.h"
-#include "scenario.h"
 #include "skill.h"
-#include "sleep.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "talker.h"
 #include "talker_avatar.h"
 #include "timed_event.h"
 #include "translations.h"
-#include "trap.h"
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
 #include "value_ptr.h"
-#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -250,12 +243,12 @@ bool avatar::should_show_map_memory() const
 
 bool avatar::save_map_memory()
 {
-    return player_map_memory->save( get_map().getglobal( pos_bub() ) );
+    return player_map_memory->save( get_map().get_abs( pos_bub() ) );
 }
 
 void avatar::load_map_memory()
 {
-    player_map_memory->load( get_map().getglobal( pos_bub() ) );
+    player_map_memory->load( get_map().get_abs( pos_bub() ) );
 }
 
 void avatar::prepare_map_memory_region( const tripoint_abs_ms &p1, const tripoint_abs_ms &p2 )
@@ -688,16 +681,16 @@ void avatar::grab( object_type grab_type_new, const tripoint_rel_ms &grab_point_
         map &m = get_map();
         if( gtype == object_type::VEHICLE ) {
             if( const optional_vpart_position ovp = m.veh_at( pos_bub() + gpoint ) ) {
-                for( const tripoint_bub_ms &target : ovp->vehicle().get_points() ) {
+                for( const tripoint_abs_ms &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
-                        memorize_clear_decoration( m.getglobal( target ), /* prefix = */ "vp_" );
+                        memorize_clear_decoration( target, /* prefix = */ "vp_" );
                     }
-                    m.memory_cache_dec_set_dirty( target, true );
+                    m.memory_cache_dec_set_dirty( m.get_bub( target ), true );
                 }
             }
         } else if( gtype != object_type::NONE ) {
             if( erase ) {
-                memorize_clear_decoration( m.getglobal( pos_bub() + gpoint ) );
+                memorize_clear_decoration( m.get_abs( pos_bub() + gpoint ) );
             }
             m.memory_cache_dec_set_dirty( pos_bub() + gpoint, true );
         }
@@ -730,7 +723,7 @@ void avatar::identify( const item &item )
     if( has_identified( item.typeId() ) ) {
         return;
     }
-    if( !item.is_book() ) {
+    if( !item.is_identifiable() ) {
         debugmsg( "tried to identify non-book item" );
         return;
     }
@@ -1209,11 +1202,6 @@ bool avatar::is_obeying( const Character &p ) const
     return guy.is_obeying( *this );
 }
 
-bool avatar::cant_see( const tripoint &p ) const
-{
-    return cant_see( tripoint_bub_ms( p ) );
-}
-
 bool avatar::cant_see( const tripoint_bub_ms &p ) const
 {
 
@@ -1236,7 +1224,7 @@ void avatar::rebuild_aim_cache() const
 
     double pi = 2 * acos( 0.0 );
 
-    const tripoint_bub_ms local_last_target = get_map().bub_from_abs(
+    const tripoint_bub_ms local_last_target = get_map().get_bub(
                 last_target_pos.value() );
 
     float base_angle = atan2f( local_last_target.y() - posy(),
@@ -1845,7 +1833,7 @@ void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
     if( has_flag( json_flag_PAIN_IMMUNE ) ) {
         return;
     }
-    if( bp == bodypart_id( "bp_null" ) ) {
+    if( bp == bodypart_str_id::NULL_ID() ) {
         if( val > 20 ) {
             add_msg_if_player( _( "Your body is wracked with excruciating pain!" ) );
         } else if( val > 10 ) {
@@ -1922,9 +1910,9 @@ bool avatar::query_yn( const std::string &mes ) const
     return ::query_yn( mes );
 }
 
-void avatar::set_location( const tripoint_abs_ms &loc )
+void avatar::set_pos_abs_only( const tripoint_abs_ms &loc )
 {
-    Creature::set_location( loc );
+    Creature::set_pos_abs_only( loc );
 }
 
 npc &avatar::get_shadow_npc()

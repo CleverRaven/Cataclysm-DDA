@@ -78,7 +78,7 @@
     ]
   },
   {
-    "name": "GROUP_ANIMALSHELTER_DOGS",
+    "id": "GROUP_ANIMALSHELTER_DOGS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_dog", "weight": 200, "cost_multiplier": 0 },
@@ -87,7 +87,7 @@
     ]
   },
   {
-    "name": "GROUP_ANIMALSHELTER_OTHER",
+    "id": "GROUP_ANIMALSHELTER_OTHER",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_null", "weight": 5 },
@@ -377,7 +377,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "animalshelter_roof" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

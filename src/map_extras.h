@@ -3,23 +3,24 @@
 #define CATA_SRC_MAP_EXTRAS_H
 
 #include <cstdint>
-#include <iosfwd>
+#include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "catacharset.h"
 #include "color.h"
 #include "coords_fwd.h"
 #include "flat_set.h"
-#include "string_id.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
 class map;
 class mapgendata;
 class tinymap;
-struct tripoint;
 template<typename T> class generic_factory;
 template<typename T> struct enum_traits;
 
@@ -36,7 +37,7 @@ struct enum_traits<map_extra_method> {
     static constexpr map_extra_method last = map_extra_method::num_map_extra_methods;
 };
 
-using map_extra_pointer = bool( * )( map &, const tripoint & );
+using map_extra_pointer = bool( * )( map &, const tripoint_abs_sm & );
 
 class map_extra
 {

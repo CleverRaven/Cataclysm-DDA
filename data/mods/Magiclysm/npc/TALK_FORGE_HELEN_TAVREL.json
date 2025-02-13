@@ -76,7 +76,8 @@
     "id": "NC_FORGE_LORD_STORE_REAGENT_SHOP",
     "items": [
       { "group": "NC_FORGE_LORD_STORE_REAGENT", "count": [ 10, 20 ], "prob": 100 },
-      { "group": "NC_FORGE_PIRATE_wield", "count": 10, "prob": 20 }
+      { "group": "NC_FORGE_PIRATE_wield", "count": 10, "prob": 20 },
+      { "item": "denarius", "count": [ 5, 20 ], "prob": 100 }
     ]
   },
   {

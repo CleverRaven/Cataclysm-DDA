@@ -5,6 +5,26 @@
     "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
   },
   {
+    "id": "spell_components_dreamdross_2",
+    "type": "requirement",
+    "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_dreamdross_3",
+    "type": "requirement",
+    "components": [ [ [ "scrap_dreamdross", 3 ] ] ]
+  },
+  {
+    "id": "spell_components_dreamdross_4",
+    "type": "requirement",
+    "components": [ [ [ "scrap_dreamdross", 4 ] ] ]
+  },
+  {
+    "id": "spell_components_dreamdross_5",
+    "type": "requirement",
+    "components": [ [ [ "scrap_dreamdross", 5 ] ] ]
+  },
+  {
     "id": "spell_components_dreamdross2",
     "type": "requirement",
     "components": [ [ [ "dreamdross_lump", 1 ], [ "scrap_dreamdross", 10 ] ] ]

@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": [ [ "BotanicalGarden_1a", "BotanicalGarden_1b" ] ],
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [

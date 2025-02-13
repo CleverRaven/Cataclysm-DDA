@@ -1,0 +1,163 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_start",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "effect": [ { "run_eocs": "EOC_NH_difficultycheck" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_load",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "effect": [ { "run_eocs": "EOC_NH_difficultycheck" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_difficultycheck",
+    "//": "When this EOC gets changed significantly a version variable should be added and checked against here so it reruns",
+    "condition": { "math": [ "!has_var( NH_item_difficulty )" ] },
+    "effect": { "run_eocs": "EOC_NH_set_difficulty" },
+    "false_effect": [
+      {
+        "switch": { "math": [ "NH_item_difficulty" ] },
+        "cases": [
+          { "case": 0, "effect": { "run_eocs": "EOC_NH_item_difficulty_0" } },
+          { "case": 1, "effect": { "run_eocs": "EOC_NH_item_difficulty_1" } },
+          { "case": 2, "effect": { "run_eocs": "EOC_NH_item_difficulty_2" } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_set_difficulty",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_NH_set_item_difficulty_0", "EOC_NH_set_item_difficulty_1", "EOC_NH_set_item_difficulty_2" ],
+        "names": [ "Creeping Despair", "Fervent Despair", "Overwhelming Despair" ],
+        "title": "Select a difficulty",
+        "keys": [ "1", "2", "3" ],
+        "descriptions": [
+          "Creeping Despair makes items rarer than vanilla.",
+          "Fervent Despair makes items rarer than Creeping Despair.",
+          "Overwhelming Despair makes items rarer than Fervent Despair."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_set_item_difficulty_0",
+    "effect": [
+      { "u_message": "A creeping sense of despair approaches…" },
+      { "run_eocs": "EOC_NH_item_difficulty_0" },
+      { "math": [ "NH_item_difficulty = 0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_set_item_difficulty_1",
+    "effect": [
+      { "u_message": "An intense sensation of despair fills you…" },
+      { "run_eocs": "EOC_NH_item_difficulty_1" },
+      { "math": [ "NH_item_difficulty = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_set_item_difficulty_2",
+    "effect": [
+      { "u_message": "You are overcome by despair…" },
+      { "run_eocs": "EOC_NH_item_difficulty_2" },
+      { "math": [ "NH_item_difficulty = 2" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_item_difficulty_0",
+    "//": "Purposefully doesn't affect all item categories, see EOCS.md",
+    "//1": "TODO: Add more variance to the rates to make it more tailored than just a flat decrease",
+    "effect": [
+      {
+        "set_item_category_spawn_rates": [
+          { "spawn_rate": 0.6, "id": "guns" },
+          { "spawn_rate": 0.6, "id": "magazines" },
+          { "spawn_rate": 0.4, "id": "ammo" },
+          { "spawn_rate": 0.6, "id": "weapons" },
+          { "spawn_rate": 0.6, "id": "tools" },
+          { "spawn_rate": 0.6, "id": "clothing" },
+          { "spawn_rate": 0.4, "id": "food" },
+          { "spawn_rate": 0.4, "id": "drugs" },
+          { "spawn_rate": 0.6, "id": "manuals" },
+          { "spawn_rate": 0.6, "id": "books" },
+          { "spawn_rate": 0.6, "id": "mods" },
+          { "spawn_rate": 0.6, "id": "veh_parts" },
+          { "spawn_rate": 0.6, "id": "other" },
+          { "spawn_rate": 0.6, "id": "fuel" },
+          { "spawn_rate": 0.6, "id": "spare_parts" },
+          { "spawn_rate": 0.6, "id": "tool_magazine" },
+          { "spawn_rate": 0.6, "id": "armor" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_item_difficulty_1",
+    "//": "TODO: Higher difficulties should be more tailored than just everything being rarer",
+    "effect": [
+      { "u_message": "Difficulty set to Harder." },
+      {
+        "set_item_category_spawn_rates": [
+          { "spawn_rate": 0.4, "id": "guns" },
+          { "spawn_rate": 0.4, "id": "magazines" },
+          { "spawn_rate": 0.3, "id": "ammo" },
+          { "spawn_rate": 0.4, "id": "weapons" },
+          { "spawn_rate": 0.4, "id": "tools" },
+          { "spawn_rate": 0.4, "id": "clothing" },
+          { "spawn_rate": 0.3, "id": "food" },
+          { "spawn_rate": 0.3, "id": "drugs" },
+          { "spawn_rate": 0.4, "id": "manuals" },
+          { "spawn_rate": 0.4, "id": "books" },
+          { "spawn_rate": 0.4, "id": "mods" },
+          { "spawn_rate": 0.4, "id": "veh_parts" },
+          { "spawn_rate": 0.4, "id": "other" },
+          { "spawn_rate": 0.4, "id": "fuel" },
+          { "spawn_rate": 0.4, "id": "spare_parts" },
+          { "spawn_rate": 0.4, "id": "tool_magazine" },
+          { "spawn_rate": 0.4, "id": "armor" }
+        ]
+      },
+      { "math": [ "NH_item_difficulty = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_item_difficulty_2",
+    "effect": [
+      {
+        "set_item_category_spawn_rates": [
+          { "spawn_rate": 0.2, "id": "guns" },
+          { "spawn_rate": 0.2, "id": "magazines" },
+          { "spawn_rate": 0.1, "id": "ammo" },
+          { "spawn_rate": 0.2, "id": "weapons" },
+          { "spawn_rate": 0.2, "id": "tools" },
+          { "spawn_rate": 0.2, "id": "clothing" },
+          { "spawn_rate": 0.1, "id": "food" },
+          { "spawn_rate": 0.1, "id": "drugs" },
+          { "spawn_rate": 0.2, "id": "manuals" },
+          { "spawn_rate": 0.2, "id": "books" },
+          { "spawn_rate": 0.2, "id": "mods" },
+          { "spawn_rate": 0.2, "id": "veh_parts" },
+          { "spawn_rate": 0.2, "id": "other" },
+          { "spawn_rate": 0.2, "id": "fuel" },
+          { "spawn_rate": 0.2, "id": "spare_parts" },
+          { "spawn_rate": 0.2, "id": "tool_magazine" },
+          { "spawn_rate": 0.2, "id": "armor" }
+        ]
+      }
+    ]
+  }
+]

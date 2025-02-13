@@ -4,6 +4,8 @@ include(ExternalProject)
 find_package(LLVM REQUIRED CONFIG)
 find_package(Clang REQUIRED CONFIG)
 
+set(CMAKE_CXX_STANDARD 17)
+
 set(CataAnalyzerSrc
         AlmostNeverAutoCheck.cpp
         AssertCheck.cpp
@@ -45,7 +47,8 @@ set(CataAnalyzerSrc
         UseStringViewCheck.cpp
         UTF8ToLowerUpperCheck.cpp
         Utils.cpp
-        XYCheck.cpp)
+        XYCheck.cpp
+)
 
 if (CATA_CLANG_TIDY_EXECUTABLE)
     set(CataAnalyzerName CataAnalyzer)
@@ -55,6 +58,7 @@ if (CATA_CLANG_TIDY_EXECUTABLE)
 else ()
     set(CataAnalyzerName CataAnalyzerPlugin)
     add_library(${CataAnalyzerName} MODULE ${CataAnalyzerSrc})
+    target_link_libraries(${CataAnalyzerName} PRIVATE clangTidyPlugin)
     if ("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin")
         target_link_options(${CataAnalyzerName} PRIVATE -undefined dynamic_lookup)
     endif ()

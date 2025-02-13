@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "2farm_4", "2farm_3", "2farm_2", "2farm_1" ], [ "2farm_8", "2farm_7", "2farm_6", "2farm_5" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_dirtmound",
       "rows": [
@@ -109,7 +108,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "2farm_roof_4", "2farm_loft_3" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -154,7 +152,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "2farm_roof_3" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -191,7 +188,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "2farm_6_1" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -228,7 +224,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "2farm_6_2" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -265,7 +260,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "2farm_6_3" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -307,7 +301,6 @@
       [ "2farm_20", "2farm_19", "2farm_18", "2farm_17" ],
       [ "2farm_24", "2farm_23", "2farm_22", "2farm_21" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -415,7 +408,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "2farm_12", "2farm_11" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -465,7 +457,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "2farm_roof_11" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [

@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": [ [ "urban_13_2", "urban_13_1" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -70,7 +69,6 @@
     "method": "json",
     "om_terrain": [ [ "urban_13_3", "urban_13_4" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -167,7 +165,6 @@
     "method": "json",
     "om_terrain": [ [ "urban_13_5", "urban_13_6" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -225,7 +222,6 @@
     "method": "json",
     "om_terrain": [ [ "urban_13_7", "urban_13_8" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -303,7 +299,6 @@
     "method": "json",
     "om_terrain": [ [ "urban_13_9", "urban_13_10" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_concrete_green" },
       "rows": [
@@ -381,7 +376,6 @@
     "method": "json",
     "om_terrain": [ [ "urban_13_11", "urban_13_12" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

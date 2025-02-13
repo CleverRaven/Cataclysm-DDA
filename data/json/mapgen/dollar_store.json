@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": "dollarstore",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -153,7 +152,6 @@
     "method": "json",
     "om_terrain": "dollarstore_1",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

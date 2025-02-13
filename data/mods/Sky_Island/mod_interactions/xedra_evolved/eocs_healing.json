@@ -14,13 +14,17 @@
         "if": { "and": [ { "u_has_trait": "VAMPIRE" }, { "math": [ "u_vitamin('human_blood_vitamin') <= -4800" ] } ] },
         "then": { "math": [ "u_vitamin('human_blood_vitamin')", "=", "0" ] }
       },
-      { "u_lose_effect": "blood_spiders" },
-      { "u_lose_effect": "visuals" },
-      { "u_lose_effect": "effect_dread_weight" },
-      { "u_lose_effect": "poisoned_blood" },
-      { "u_lose_effect": "poisoned_blood2" },
-      { "u_lose_effect": "effect_broke_fae_ban" },
-      { "u_lose_effect": "effect_evil_eye" }
+      {
+        "u_lose_effect": [
+          "blood_spiders",
+          "visuals",
+          "effect_dread_weight",
+          "poisoned_blood",
+          "poisoned_blood2",
+          "effect_broke_fae_ban",
+          "effect_evil_eye"
+        ]
+      }
     ]
   }
 ]

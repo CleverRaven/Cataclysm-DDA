@@ -22,9 +22,9 @@
       [ "afs_bot_riotbot", 5 ],
       [ "afs_bot_copbot", 15 ],
       [ "afs_bot_eyebot", 20 ],
-      [ "afs_broken_riotbot", 10 ],
-      [ "afs_broken_copbot", 70 ],
-      [ "afs_broken_eyebot", 100 ]
+      [ "broken_afs_riotbot", 10 ],
+      [ "broken_afs_copbot", 70 ],
+      [ "broken_afs_eyebot", 100 ]
     ]
   }
 ]

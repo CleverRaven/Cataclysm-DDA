@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_ALIEN_REEF",
+    "id": "GROUP_ALIEN_REEF",
     "default": "mon_shrimp_flying",
     "monsters": [
       { "monster": "mon_shrimp_flying", "weight": 250, "cost_multiplier": 0 },

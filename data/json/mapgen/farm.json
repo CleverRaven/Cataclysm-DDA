@@ -212,7 +212,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "farm_3_roof", "farm_2_roof" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -250,7 +249,6 @@
     "method": "json",
     "om_terrain": [ [ "farm_1_silo" ] ],
     "//": "Grain silo copy of silo in ranch_camp_57",
-    "weight": 250,
     "object": {
       "fill_ter": "t_dirtfloor",
       "rows": [
@@ -293,7 +291,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "farm_1_silo_1" ] ],
-    "weight": 250,
     "object": {
       "rows": [
         "      III               ",
@@ -329,7 +326,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "farm_1_silo_2" ] ],
-    "weight": 250,
     "object": {
       "rows": [
         "      III               ",
@@ -365,7 +361,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "farm_1_silo_roof" ] ],
-    "weight": 250,
     "object": {
       "rows": [
         "      ...               ",
@@ -402,7 +397,6 @@
     "method": "json",
     "om_terrain": [ [ "farm_1_coop" ] ],
     "//": "Chicken Coop",
-    "weight": 250,
     "object": {
       "fill_ter": "t_dirtfloor",
       "rows": [
@@ -455,7 +449,6 @@
     "method": "json",
     "om_terrain": [ [ "farm_1_coop_roof" ] ],
     "//": "Chicken Coop",
-    "weight": 250,
     "object": {
       "rows": [
         "                        ",
@@ -492,7 +485,6 @@
     "method": "json",
     "om_terrain": [ [ "farm_1_greenhouse" ] ],
     "//": "Greenhouse",
-    "weight": 250,
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -550,7 +542,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "farm_1_greenhouse_roof" ] ],
-    "weight": 250,
     "object": {
       "rows": [
         "                        ",
@@ -586,7 +577,6 @@
     "method": "json",
     "om_terrain": [ [ "farm_1_apiary" ] ],
     "//": "Apiary",
-    "weight": 250,
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -637,7 +627,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "farm_1_apiary_roof" ] ],
-    "weight": 250,
     "object": {
       "rows": [
         "                        ",

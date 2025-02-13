@@ -164,5 +164,41 @@
     "message": "<arachnid_harvest>",
     "copy-from": "arachnid_acid",
     "extend": { "entries": [ { "drop": "ant_stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" } ] }
+  },
+  {
+    "id": "zombie_child",
+    "//": "your child sized humanoid zombie",
+    "type": "harvest",
+    "copy-from": "zombie_humanoid",
+    "message": "<zombie_humanoid_generic_harvest>",
+    "delete": { "entries": [ { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 } ] },
+    "extend": {
+      "entries": [
+        { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+        { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+        { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+        { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
+        { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+        { "drop": "underdeveloped_sinew", "type": "bone", "mass_ratio": 0.00035 }
+      ]
+    }
+  },
+  {
+    "id": "zombie_runner",
+    "//": "your runner humanoid zombie",
+    "type": "harvest",
+    "copy-from": "zombie_humanoid",
+    "message": "<zombie_humanoid_generic_harvest>",
+    "delete": { "entries": [ { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 } ] },
+    "extend": {
+      "entries": [
+        { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+        { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+        { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+        { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
+        { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+        { "drop": "runner_sinew", "type": "bone", "mass_ratio": 0.00035 }
+      ]
+    }
   }
 ]

@@ -345,14 +345,15 @@ void write_to_file( const cata_path &path, const std::function<void( std::ostrea
  */
 /**@{*/
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
-bool read_from_file( const fs::path &path, const std::function<void( std::istream & )> &reader );
+bool read_from_file( const std::filesystem::path &path,
+                     const std::function<void( std::istream & )> &reader );
 bool read_from_file( const cata_path &path, const std::function<void( std::istream & )> &reader );
 bool read_from_file_json( const cata_path &path,
                           const std::function<void( const JsonValue & )> &reader );
 
 bool read_from_file_optional( const std::string &path,
                               const std::function<void( std::istream & )> &reader );
-bool read_from_file_optional( const fs::path &path,
+bool read_from_file_optional( const std::filesystem::path &path,
                               const std::function<void( std::istream & )> &reader );
 bool read_from_file_optional( const cata_path &path,
                               const std::function<void( std::istream & )> &reader );
@@ -372,7 +373,7 @@ bool read_from_file_optional_json( const cata_path &path,
  */
 /**@{*/
 std::unique_ptr<std::istream> read_maybe_compressed_file( const std::string &path );
-std::unique_ptr<std::istream> read_maybe_compressed_file( const fs::path &path );
+std::unique_ptr<std::istream> read_maybe_compressed_file( const std::filesystem::path &path );
 std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path );
 /**@}*/
 
@@ -386,7 +387,7 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path 
  */
 /**@{*/
 std::optional<std::string> read_whole_file( const std::string &path );
-std::optional<std::string> read_whole_file( const fs::path &path );
+std::optional<std::string> read_whole_file( const std::filesystem::path &path );
 std::optional<std::string> read_whole_file( const cata_path &path );
 /**@}*/
 

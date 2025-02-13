@@ -56,5 +56,9 @@
   {
     "id": "STABILIZED_TIMELINE",
     "type": "monster_flag"
+  },
+  {
+    "id": "NO_FEY_MAGIC",
+    "type": "json_flag"
   }
 ]

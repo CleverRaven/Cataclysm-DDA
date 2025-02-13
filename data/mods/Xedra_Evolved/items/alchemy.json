@@ -293,19 +293,22 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the potion.",
-      "effect_on_conditions": [
-        {
-          "id": "extend_life",
-          "effect": [
-            { "u_message": "You imbibed the concoction and you feel your chakras align and your DNA de-age." },
-            { "u_add_trait": "EXTEND_LIFE" }
-          ]
-        }
-      ]
-    }
+    "consumption_effect_on_conditions": [ "extend_life" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "extend_life",
+    "condition": { "not": { "u_has_trait": "EXTEND_LIFE" } },
+    "effect": [
+      { "u_message": "You imbibed the concoction and you feel your chakras align and your DNA de-age." },
+      { "u_add_trait": "EXTEND_LIFE" }
+    ],
+    "false_effect": [
+      {
+        "u_message": "This was a very valuable elixir that you just wasted drinking yourself.  You can't become more unaging.",
+        "type": "neutral"
+      }
+    ]
   },
   {
     "id": "potion_dex",
@@ -342,20 +345,23 @@
     "id": "hyde_formula",
     "name": { "str_sp": "Hyde Formula" },
     "description": "This is a transmutation potion that will bring your best attributes to the forefront.",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the formula.",
-      "effect_on_conditions": [
-        {
-          "id": "hyde_formula",
-          "effect": [ { "u_message": "You imbibed the concoction and you feel your inner self unleashed." }, { "u_add_trait": "HYDE" } ]
-        }
-      ]
-    },
+    "consumption_effect_on_conditions": [ "hyde_formula" ],
     "type": "COMESTIBLE",
     "color": "green_yellow",
     "calories": 50,
     "copy-from": "life_extension_potion"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "hyde_formula",
+    "condition": { "not": { "u_has_trait": "HYDE" } },
+    "effect": [ { "u_message": "You imbibed the concoction and you feel your inner self unleashed." }, { "u_add_trait": "HYDE" } ],
+    "false_effect": [
+      {
+        "u_message": "If this was a just world choosing to drink this concotion more than once would send you into an uncontrollable rage state where you rampaged until your inevitable death.  This is not a just world.",
+        "type": "neutral"
+      }
+    ]
   },
   {
     "id": "plant_imbuement",
@@ -375,11 +381,7 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [ "become_plant_fae" ]
-    }
+    "consumption_effect_on_conditions": [ "become_plant_fae" ]
   },
   {
     "id": "earth_imbuement",
@@ -399,11 +401,7 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [ "become_earth_fae" ]
-    }
+    "consumption_effect_on_conditions": [ "become_earth_fae" ]
   },
   {
     "id": "water_imbuement",
@@ -423,11 +421,7 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [ "become_water_fae" ]
-    }
+    "consumption_effect_on_conditions": [ "become_water_fae" ]
   },
   {
     "id": "air_imbuement",
@@ -447,11 +441,7 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [ "become_air_fae" ]
-    }
+    "consumption_effect_on_conditions": [ "become_air_fae" ]
   },
   {
     "id": "fire_imbuement",
@@ -471,11 +461,7 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [ "become_fire_fae" ]
-    }
+    "consumption_effect_on_conditions": [ "become_fire_fae" ]
   },
   {
     "id": "doll_imbuement",
@@ -495,10 +481,6 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Drink the potion.  Will not work on those too distant from humanity already.",
-      "effect_on_conditions": [ "become_doll_fae" ]
-    }
+    "consumption_effect_on_conditions": [ "become_doll_fae" ]
   }
 ]

@@ -1,16 +1,22 @@
 #include "safemode_ui.h"
 
 #include <algorithm>
+#include <filesystem>
+#include <fstream>
+#include <functional>
 #include <map>
 #include <string>
 #include <utility>
 
+#include "cata_path.h"
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "input_context.h"
 #include "json.h"
 #include "json_loader.h"
@@ -22,7 +28,9 @@
 #include "point.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translation.h"
 #include "translations.h"
+#include "ui.h"
 #include "ui_manager.h"
 
 safemode &get_safemode()
@@ -815,7 +823,7 @@ void safemode::load( const bool is_character_in )
         file = PATH_INFO::player_base_save_path() + ".sfm.json";
     }
 
-    fs::path file_path = file.get_unrelative_path();
+    std::filesystem::path file_path = file.get_unrelative_path();
     fin.open( file_path, std::ifstream::in | std::ifstream::binary );
 
     if( fin.good() ) {

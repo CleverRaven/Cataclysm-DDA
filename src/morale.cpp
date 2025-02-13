@@ -8,6 +8,7 @@
 #include <string>
 #include <utility>
 
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -291,31 +292,31 @@ player_morale::player_morale() :
 
     mutations[trait_OPTIMISTIC] =
     mutation_data( [set_optimist]( player_morale * pm ) {
-        return set_optimist( pm, 9 );
+        set_optimist( pm, 9 );
     },
     [set_optimist]( player_morale * pm ) {
-        return set_optimist( pm, 0 );
+        set_optimist( pm, 0 );
     } );
     mutations[trait_BADTEMPER] =
     mutation_data( [set_badtemper]( player_morale * pm ) {
-        return set_badtemper( pm, -9 );
+        set_badtemper( pm, -9 );
     },
     [set_badtemper]( player_morale * pm ) {
-        return set_badtemper( pm, 0 );
+        set_badtemper( pm, 0 );
     } );
     mutations[trait_NUMB] =
     mutation_data( [set_numb]( player_morale * pm ) {
-        return set_numb( pm, -1 );
+        set_numb( pm, -1 );
     },
     [set_numb]( player_morale * pm ) {
-        return set_numb( pm, 0 );
+        set_numb( pm, 0 );
     } );
     mutations[trait_STYLISH] =
     mutation_data( [set_stylish]( player_morale * pm ) {
-        return set_stylish( pm, true );
+        set_stylish( pm, true );
     },
     [set_stylish]( player_morale * pm ) {
-        return set_stylish( pm, false );
+        set_stylish( pm, false );
     } );
     mutations[trait_FLOWERS]       = mutation_data( update_constrained );
     mutations[trait_ROOTS1]        = mutation_data( update_constrained );
@@ -979,14 +980,13 @@ void player_morale::on_worn_item_washed( const item &it )
 void player_morale::on_effect_int_change( const efftype_id &eid, int intensity,
         const bodypart_id &bp )
 {
-    const bodypart_id bp_null( "bp_null" );
-    if( eid == effect_took_prozac && bp == bp_null ) {
+    if( eid == effect_took_prozac && bp == bodypart_str_id::NULL_ID() ) {
         set_prozac( intensity != 0 );
-    } else if( eid == effect_took_prozac_bad && bp == bp_null ) {
+    } else if( eid == effect_took_prozac_bad && bp == bodypart_str_id::NULL_ID() ) {
         set_prozac_bad( intensity != 0 );
-    } else if( eid == effect_cold && bp != bp_null ) {
+    } else if( eid == effect_cold && bp != bodypart_str_id::NULL_ID() ) {
         body_parts[bp].cold = intensity;
-    } else if( eid == effect_hot && bp != bp_null ) {
+    } else if( eid == effect_hot && bp != bodypart_str_id::NULL_ID() ) {
         body_parts[bp].hot = intensity;
     }
 }

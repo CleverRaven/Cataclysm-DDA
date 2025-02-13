@@ -1,25 +1,28 @@
 #include "weather_gen.h"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <functional>
+#include <memory>
 #include <ostream>
 #include <random>
 #include <string>
-#include <utility>
+#include <unordered_map>
 
 #include "avatar.h"
 #include "cata_utility.h"
-#include "condition.h"
 #include "dialogue.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "math_defines.h"
+#include "pimpl.h"
 #include "point.h"
 #include "rng.h"
 #include "simplexnoise.h"
-#include "translations.h"
+#include "talker.h"
+#include "translation.h"
 #include "weather.h"
 #include "weather_type.h"
 

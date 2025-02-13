@@ -595,7 +595,7 @@ The English word "place" can be a verb, to put something down. Here "place" is a
 location. The "ctxt" part provides this context to translators so they can choose the most
 appropriate words in other languages.
 
-See the [Translatable strings section of JSON_INFO.md](JSON_INFO.md#translatable-strings)
+See the [Translatable strings section of JSON_INFO.md](JSON/JSON_INFO.md#translatable-strings)
 for more on how these work.
 
 ## string
@@ -789,7 +789,7 @@ red, given in a "colors" list:
 }
 ```
 
-Color names may be any of those described in [COLOR.md](COLOR.md). You can also see the available
+Color names may be any of those described in [COLOR.md](user-guides/COLOR.md). You can also see the available
 colors in-game from the "Settings" menu, under "Colors".
 
 Graphs can be colorized in the same way. For example, the classic stamina graph is a 5-character
@@ -909,13 +909,13 @@ which provides text and color definitions for different bodypart status conditio
 | `color`     | Defines the color for the text derived from this "clause".
 | `value`     | A numeric value for this "clause", which may be interpreted differently based on the context of the parent widget.
 | `widgets`   | For "layout" style widgets, the child widgets used for this "clause".
-| `condition` | A dialogue condition (see [Dialogue conditions](NPCs.md#dialogue-conditions)) that dictates whether this clause will be used or not. If the condition is true (or when no condition is defined), the clause can be used to its text/symbol/color in the widget's value.
-| `parse_tags`| default false. If true, parse custom entries in `text` before displaying it. This can be used to display global_val or u_val.(see [Special Custom Entries](NPCs.md#special-custom-entries) for details) You can also use `<color_XXX></color>` to modify the color of your text.
+| `condition` | A dialogue condition (see [Dialogue conditions](JSON/NPCs.md#dialogue-conditions)) that dictates whether this clause will be used or not. If the condition is true (or when no condition is defined), the clause can be used to its text/symbol/color in the widget's value.
+| `parse_tags`| default false. If true, parse custom entries in `text` before displaying it. This can be used to display global_val or u_val.(see [Special Custom Entries](JSON/NPCs.md#special-custom-entries) for details) You can also use `<color_XXX></color>` to modify the color of your text.
 
 ## Conditions
 
 Widget clauses and conditions can be used to define new widgets completely from JSON, using
-[dialogue conditions](NPCs.md#dialogue-conditions). By omitting the widget's `var` field, the
+[dialogue conditions](JSON/NPCs.md#dialogue-conditions). By omitting the widget's `var` field, the
 widget is interpreted as either a "text", "number", "symbol", or "legend" depending on the given
 `style`. The widget will evaluate each of its clauses to determine which ones to draw values from:
 

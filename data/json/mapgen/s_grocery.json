@@ -272,7 +272,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "s_grocery_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -566,7 +565,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "s_grocery_roof_1",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

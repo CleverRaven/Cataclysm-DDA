@@ -1,12 +1,21 @@
+#include <string>
+#include <vector>
+
 #include "activity_handlers.h"
 #include "cata_catch.h"
-#include "harvest.h"
+#include "character.h"
+#include "coordinates.h"
+#include "item.h"
 #include "item_group.h"
-#include "itype.h"
+#include "item_location.h"
 #include "map.h"
+#include "map_scale_constants.h"
+#include "map_selector.h"
 #include "monster.h"
-#include "mtype.h"
+#include "player_activity.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 
@@ -30,7 +39,7 @@ static void butcher_mon( const mtype_id &monid, const activity_id &actid, int *c
     item scalpel( itype_scalpel );
     Character &u = get_player_character();
     map &here = get_map();
-    const tripoint_abs_ms orig_pos = u.get_location();
+    const tripoint_abs_ms orig_pos = u.pos_abs();
     for( int i = 0; i < max_iters; i++ ) {
         clear_character( u, true );
         u.set_skill_level( skill_firstaid, 10 );
@@ -38,10 +47,10 @@ static void butcher_mon( const mtype_id &monid, const activity_id &actid, int *c
         u.wield( scalpel );
         monster cow( monid, mon_pos );
         const tripoint_bub_ms cow_loc = cow.pos_bub();
-        cow.die( nullptr );
-        u.move_to( cow.get_location() );
+        cow.die( &here, nullptr );
+        u.move_to( cow.pos_abs() );
         player_activity act( actid, 0, true );
-        act.targets.emplace_back( map_cursor( u.get_location() ), &*here.i_at( cow_loc ).begin() );
+        act.targets.emplace_back( map_cursor( u.pos_abs() ), &*here.i_at( cow_loc ).begin() );
         while( !act.is_null() ) {
             activity_handlers::butcher_finish( &act, &u );
         }

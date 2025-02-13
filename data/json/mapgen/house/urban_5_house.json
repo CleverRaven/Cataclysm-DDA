@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": [ [ "urban_5_1", "urban_5_2" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -78,7 +77,6 @@
     "method": "json",
     "om_terrain": [ [ "urban_5_3", "urban_5_4" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -125,7 +123,6 @@
     "method": "json",
     "om_terrain": [ [ "urban_5_5", "urban_5_6" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [

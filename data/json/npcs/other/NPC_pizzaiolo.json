@@ -59,7 +59,7 @@
     "type": "talk_topic",
     "id": "TALK_pizzaiolo_celebrate",
     "dynamic_line": {
-      "gendered_line": "Ah, home sweet home.  It feels like I haven't been here for ages.  <swear>, it looks so horrible now.  I guess it's because of <the_cataclysm>.  Thank you for bringing me here, <name_g>.  Let's eat the cake.",
+      "gendered_line": "Ah, home sweet home.  It feels like I haven't been here for ages.  Fuck, it looks so horrible now.  I guess it's because of <the_cataclysm>.  Thank you for bringing me here, <name_g>.  Let's eat the cake.",
       "relevant_genders": [ "npc" ]
     },
     "responses": [ { "text": "[*NOM-NOM*]", "topic": "TALK_pizzaiolo_celebrate1" } ]
@@ -114,12 +114,12 @@
     "followup": "MISSION_pizzaiolo_2",
     "dialogue": {
       "describe": "-",
-      "offer": "I'm so <swear> angry!  I have an enemy that ruined my life, and I want revenge for it!  I don't care about <the_cataclysm>, I just want to burn his <swear> restaurant!  Will you help me?",
-      "accepted": "Good.  Let's go to his restaurant and <swear> burn it!  Oh, by the way, could you bring gasoline with you, <name_g>?  I was so angry I forgot to bring it with me…",
+      "offer": "I'm so angry!  I have an enemy that ruined my life, and I want revenge for it!  I don't care about <the_cataclysm>, I just want to burn his <freaking> restaurant!  Will you help me?",
+      "accepted": "Good.  Let's go to his restaurant and fucking burn it!  Oh, by the way, could you bring gasoline with you, <name_g>?  I was so angry I forgot to bring it with me…",
       "rejected": "What?!  Why do you… ah, forget it.",
       "advice": "Maybe we can find some gasoline at gas station.",
       "inquire": "Are you ready, <name_g>?",
-      "success": "Sweet, sweet revenge!  It smells so nice!  His restaurant burns, his legacy is now ruined!  Even if he became a <zombie>, it still <swear> good.",
+      "success": "Sweet, sweet revenge!  It smells so nice!  His restaurant burns, his legacy is now ruined!  Even if he became a <zombie>, it still good.",
       "success_lie": "-",
       "failure": "-"
     }
@@ -147,7 +147,7 @@
     "dialogue": {
       "describe": "-",
       "offer": "Ah, it's you, <name_g>.  Wanna continue on my revenge to all American <name_b>s?",
-      "accepted": "Good.  Next stop, Foodplace.  I always hated that place, especially that <swear> <name_b> in his <dumb> mask.  I know he's still alive, hiding in his <swear> <dumb> parody of a restaurant.  Take this bat.  Let's take a visit to him, <name_g>, and kick his <swear> ass!",
+      "accepted": "Good.  Next stop, Foodplace.  I always hated that place, especially that <freaking> <name_b> in his idiotic mask.  I know he's still alive, hiding in his dumb parody of a restaurant.  Take this bat.  Let's take a visit to him, <name_g>, and kick his <freaking> ass!",
       "rejected": "What?!  Why do you… ah, forget it.",
       "advice": "I heard that these 'restaurants' use some kind of locking system for staff room, so we would need to find a way to get there.",
       "inquire": "I'm waiting.",
@@ -181,12 +181,12 @@
     "followup": "MISSION_pizzaiolo_4",
     "dialogue": {
       "describe": "-",
-      "offer": "I need to make a last step to achieve my revenge, and the step is - my pizza parlor.  Before <the_cataclysm>, the bank took my place, and now, some <swear> <name_b>s occupied it and made it their base!  <swear> unbelievable, I tell ya.  It's time for me to fight back, deal with this <swear> <name_b>s and regain my honor.  Are you with me, <name_g>?",
-      "accepted": "<very> good.  <lets_go>",
+      "offer": "I need to make a last step to achieve my revenge, and the step is - my pizza parlor.  Before <the_cataclysm>, the bank took my place, and now, some <freaking> <name_b>s occupied it and made it their base!  Just unbelievable, I tell ya.  It's time for me to fight back, deal with this <freaking> <name_b>s and regain my honor.  Are you with me, <name_g>?",
+      "accepted": "Very good.  <lets_go>",
       "rejected": "What?!  Why do you… ah, forget it.",
       "advice": "These <name_b>s might be heavily armed, so we need to prepare to face them.",
       "inquire": "I'm waiting.",
-      "success": "Nice, <very><swear> nice.  <swear>, this placed is thrashed.  <swear><name_b>s thrashed my restaurant!  Okay, calm down, calm down, will ya… At least I retrieved my place.  Thank you, <name_g>.  I couldn't make it without you.",
+      "success": "Nice, very fucking nice.  Fuck, this placed is thrashed.  <freaking> <name_b>s thrashed my restaurant!  Okay, calm down, calm down, will ya… At least I retrieved my place.  Thank you, <name_g>.  I couldn't make it without you.",
       "success_lie": "-",
       "failure": "-"
     }

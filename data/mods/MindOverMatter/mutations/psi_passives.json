@@ -32,18 +32,37 @@
       {
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "values": [
-          { "value": "HUNGER", "multiply": { "math": [ "(-0.03 - (0.00075 * u_spell_level_sum('school': 'BIOKINETIC')))" ] } },
+          {
+            "value": "HUNGER",
+            "multiply": {
+              "math": [
+                "(-0.03 - (0.00075 * u_spell_level_sum('school': 'BIOKINETIC'))) * (u_effect_intensity('effect_nether_attunement_biokinetic_inversion') > 0 ? -1 : 1)"
+              ]
+            }
+          },
           {
             "value": "THIRST",
-            "multiply": { "math": [ "(-0.03 - (0.00075 * u_spell_level_sum('school': 'BIOKINETIC')))" ] }
+            "multiply": {
+              "math": [
+                "(-0.03 - (0.00075 * u_spell_level_sum('school': 'BIOKINETIC'))) * (u_effect_intensity('effect_nether_attunement_biokinetic_inversion') > 0 ? -1 : 1)"
+              ]
+            }
           },
           {
             "value": "METABOLISM",
-            "multiply": { "math": [ "(-0.03 - (0.00075 * u_spell_level_sum('school': 'BIOKINETIC')))" ] }
+            "multiply": {
+              "math": [
+                "(-0.03 - (0.00075 * u_spell_level_sum('school': 'BIOKINETIC'))) * (u_effect_intensity('effect_nether_attunement_biokinetic_inversion') > 0 ? -1 : 1)"
+              ]
+            }
           },
           {
             "value": "VITAMIN_ABSORB_MOD",
-            "multiply": { "math": [ "(0.03 + (0.00075 * u_spell_level_sum('school': 'BIOKINETIC')))" ] }
+            "multiply": {
+              "math": [
+                "(0.03 + (0.00075 * u_spell_level_sum('school': 'BIOKINETIC'))) * (u_effect_intensity('effect_nether_attunement_biokinetic_inversion') > 0 ? -1 : 1)"
+              ]
+            }
           }
         ]
       }

@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pavilion" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
@@ -107,7 +106,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pavilion_1" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

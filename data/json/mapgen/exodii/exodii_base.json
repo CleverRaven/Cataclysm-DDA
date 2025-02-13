@@ -9,7 +9,6 @@
       [ "exodii_base_x0y2z0", "exodii_base_x1y2z0", "exodii_base_x2y2z0", "exodii_base_x3y2z0" ],
       [ "exodii_base_x0y3z0", "exodii_base_x1y3z0", "exodii_base_x2y3z0", "exodii_base_x3y3z0" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_scrap_floor",
       "rows": [
@@ -127,7 +126,8 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 0, 23 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 24, 47 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 48, 71 ] },
-        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 72, 95 ] }
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 72, 95 ] },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 22, 23 ], "y": [ 83, 84 ] }
       ],
       "faction_owner": [
         { "id": "exodii", "x": [ 0, 23 ], "y": [ 0, 23 ] },
@@ -178,7 +178,6 @@
       [ "exodii_base_x0y2z1", "exodii_base_x1y2z1", "exodii_base_x2y2z1", "exodii_base_x3y2z1" ],
       [ "exodii_base_x0y3z1", "exodii_base_x1y3z1", "exodii_base_x2y3z1", "exodii_base_x3y3z1" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_scrap_floor",
       "rows": [
@@ -363,7 +362,6 @@
       [ "exodii_base_x0y2z2", "exodii_base_x1y2z2", "exodii_base_x2y2z2", "exodii_base_x3y2z2" ],
       [ "exodii_base_x0y3z2", "exodii_base_x1y3z2", "exodii_base_x2y3z2", "exodii_base_x3y3z2" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_scrap_floor",
       "rows": [
@@ -546,7 +544,6 @@
       [ "exodii_base_x0y2z3", "exodii_base_x1y2z3", "exodii_base_x2y2z3", "exodii_base_x3y2z3" ],
       [ "exodii_base_x0y3z3", "exodii_base_x1y3z3", "exodii_base_x2y3z3", "exodii_base_x3y3z3" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_scrap_floor",
       "rows": [
@@ -728,7 +725,6 @@
       [ "exodii_base_x0y2z4", "exodii_base_x1y2z4", "exodii_base_x2y2z4", "exodii_base_x3y2z4" ],
       [ "exodii_base_x0y3z4", "exodii_base_x1y3z4", "exodii_base_x2y3z4", "exodii_base_x3y3z4" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_metal_flat_roof",
       "rows": [

@@ -73,7 +73,13 @@
       "F": "f_filing_cabinet",
       "Q": "f_locker",
       "x": "f_console_broken",
-      "X": "f_generator_broken",
+      "X": [
+        [ "f_generator_broken", 25 ],
+        [ "f_portable_generator", 5 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "N": "f_machinery_heavy",
       "y": "f_locker",
       "B": "f_bulletin",

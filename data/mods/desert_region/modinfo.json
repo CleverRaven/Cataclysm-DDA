@@ -4,12 +4,12 @@
     "id": "desertpack",
     "name": "Desert Region",
     "authors": [ "Dpwb", "DracoGriffin" ],
-    "maintainers": [ "LovamkKicsiGazsii" ],
+    "maintainers": [ "LovamkKicsiGazsii", "Procyonae" ],
     "description": "A testbed/WIP mod to showcase regional_map_settings JSON changes.",
     "category": "content",
     "dependencies": [ "dda" ],
     "version": "0.1",
-    "obsolete": true
+    "obsolete": false
   },
   {
     "type": "EXTERNAL_OPTION",

@@ -29,6 +29,7 @@
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dispersion.h"
 #include "enums.h"
 #include "event.h"
@@ -88,7 +89,6 @@ static const ammo_effect_str_id ammo_effect_IGNITE( "IGNITE" );
 static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
 static const ammo_effect_str_id ammo_effect_MATCHHEAD( "MATCHHEAD" );
-static const ammo_effect_str_id ammo_effect_MULTI_EFFECTS( "MULTI_EFFECTS" );
 static const ammo_effect_str_id ammo_effect_NON_FOULING( "NON_FOULING" );
 static const ammo_effect_str_id ammo_effect_NO_EMBED( "NO_EMBED" );
 static const ammo_effect_str_id ammo_effect_NO_ITEM_DAMAGE( "NO_ITEM_DAMAGE" );
@@ -193,7 +193,7 @@ static int RAS_time( const Character &p, const item_location &loc );
 * @param ammo   Ammo used.
 * @param pos    Character position.
 */
-static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos );
+static void cycle_action( item &weap, const itype_id &ammo, map *here, const tripoint_bub_ms &pos );
 static void make_gun_sound_effect( const Character &p, bool burst, item *weapon );
 
 class target_ui
@@ -321,10 +321,9 @@ class target_ui
 
         // Compact layout
         bool compact = false;
-        // Tiny layout - when extremely short on space
+        // Tiny layout - when extremely short on height
         bool tiny = false;
-        // Narrow layout - to keep in theme with
-        // "compact" and "labels-narrow" sidebar styles.
+        // Narrow layout - when short on width
         bool narrow = false;
 
         // Create window and set up input context
@@ -516,13 +515,14 @@ target_handler::trajectory target_handler::mode_turret_manual( avatar &you, turr
 target_handler::trajectory target_handler::mode_turrets( avatar &you, vehicle &veh,
         const std::vector<vehicle_part *> &turrets )
 {
+    map &here = get_map();
     // Find radius of a circle centered at u encompassing all points turrets can aim at
     // FIXME: this calculation is fine for square distances, but results in an underestimation
     //        when used with real circles
     int range_total = 0;
     for( vehicle_part *t : turrets ) {
         int range = veh.turret_query( *t ).range();
-        tripoint_bub_ms pos = veh.bub_part_pos( *t );
+        tripoint_bub_ms pos = veh.bub_part_pos( here, *t );
 
         int res = 0;
         res = std::max( res, rl_dist( you.pos_bub(), pos + point( range, 0 ) ) );
@@ -952,15 +952,18 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
 
 int Character::fire_gun( const tripoint_bub_ms &target, int shots )
 {
+    map &here = get_map();
+
     item_location gun = get_wielded_item();
     if( !gun ) {
         debugmsg( "%s doesn't have a gun to fire", get_name() );
         return 0;
     }
-    return fire_gun( target, shots, *gun, item_location() );
+    return fire_gun( &here, target, shots, *gun, item_location() );
 }
 
-int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, item_location ammo )
+int Character::fire_gun( map *here, const tripoint_bub_ms &target, int shots, item &gun,
+                         item_location ammo )
 {
     if( !gun.is_gun() ) {
         debugmsg( "%s tried to fire non-gun (%s).", get_name(), gun.tname() );
@@ -994,12 +997,12 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
         return 0;
     }
 
-    map &here = get_map();
     // usage of any attached bipod is dependent upon terrain or on being prone
-    bool bipod = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, pos_bub() ) || is_prone();
+    bool bipod = here->has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, pos_bub( here ) ) ||
+                 is_prone();
     if( !bipod ) {
-        if( const optional_vpart_position vp = here.veh_at( pos_bub() ) ) {
-            bipod = vp->vehicle().has_part( pos_bub(), "MOUNTABLE" );
+        if( const optional_vpart_position vp = here->veh_at( pos_abs( ) ) ) {
+            bipod = vp->vehicle().has_part( pos_abs( ), "MOUNTABLE" );
         }
     }
 
@@ -1038,8 +1041,8 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
         }
 
         // If this is a vehicle mounted turret, which vehicle is it mounted on?
-        const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( here.veh_at(
-                                    pos_bub() ) ) : nullptr;
+        const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( here->veh_at(
+                                    pos_bub( here ) ) ) : nullptr;
 
         // Add gunshot noise
         make_gun_sound_effect( *this, shots > 1, &gun );
@@ -1057,37 +1060,15 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
 
         dispersion_sources dispersion = total_gun_dispersion( gun, recoil_total(), proj.shot_spread );
 
-        bool first = true;
-        bool headshot = false;
-        bool multishot = proj.count > 1;
-        std::map< Creature *, std::pair < int, int >> targets_hit;
-        for( int projectile_number = 0; projectile_number < proj.count; ++projectile_number ) {
-            if( !first && !proj.multi_projectile_effects ) {
-                proj.proj_effects.erase( proj.proj_effects.begin(), proj.proj_effects.end() );
-            }
-            dealt_projectile_attack shot = projectile_attack( proj, pos_bub(), aim,
-                                           dispersion, this, in_veh, wp_attack, first );
-            first = false;
-            if( shot.hit_critter ) {
-                int damage = shot.dealt_dam.total_damage();
-                if( damage > 0 ) {
-                    targets_hit[ shot.hit_critter ].second += damage;
-                }
-                targets_hit[ shot.hit_critter ].first++;
-            }
-            if( shot.missed_by <= .1 ) {
-                headshot = true;
-            }
-            if( proj.count > 1 && shot.proj.count == 1 ) {
-                // Point-blank shots don't act like shot, everything hits the same target.
-                multishot = false;
-                break;
-            }
-        }
-        if( !targets_hit.empty() ) {
+        dealt_projectile_attack shot;
+        projectile_attack( shot, proj, here, pos_bub( here ), aim, dispersion, this, in_veh, wp_attack );
+        if( !shot.targets_hit.empty() ) {
             hits++;
         }
-        for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : targets_hit ) {
+        for( std::pair<Creature *const, std::pair<int, int>> &hit_entry : shot.targets_hit ) {
+            if( hit_entry.second.first == 0 ) {
+                continue;
+            }
             if( monster *const m = hit_entry.first->as_monster() ) {
                 cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(), gun_id,
                                 m->type->id );
@@ -1097,14 +1078,13 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
                                 c->getID(), c->get_name() );
                 get_event_bus().send_with_talker( this, c, e );
             }
-            if( multishot ) {
+            if( shot.proj.multishot ) {
                 // TODO: Pull projectile name from the ammo entry.
                 multi_projectile_hit_message( hit_entry.first, hit_entry.second.first, hit_entry.second.second,
                                               n_gettext( "projectile", "projectiles", hit_entry.second.first ) );
             }
         }
-        if( headshot ) {
-            // TODO: check head existence for headshot
+        if( shot.headshot ) {
             get_event_bus().send<event_type::character_gets_headshot>( getID() );
         }
         curshot++;
@@ -1139,7 +1119,7 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
         }
 
         const int required = gun.ammo_required();
-        if( gun.ammo_consume( required, pos_bub(), this ) != required ) {
+        if( gun.ammo_consume( required, here, pos_bub( here ), this ) != required ) {
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname() );
             break;
         }
@@ -1147,7 +1127,7 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
         // Vehicle turrets drain vehicle battery and do not care about this
         if( !gun.has_flag( flag_VEHICLE ) ) {
             const units::energy energ_req = gun.get_gun_energy_drain();
-            const units::energy drained = gun.energy_consume( energ_req, pos_bub(), this );
+            const units::energy drained = gun.energy_consume( energ_req, here, pos_bub( here ), this );
             if( drained < energ_req ) {
                 debugmsg( "Unexpected shortage of energy whilst firing %s. Required: %i J, drained: %i J",
                           gun.tname(), units::to_joule( energ_req ), units::to_joule( drained ) );
@@ -1156,7 +1136,7 @@ int Character::fire_gun( const tripoint_bub_ms &target, int shots, item &gun, it
         }
 
         if( !current_ammo.is_null() ) {
-            cycle_action( gun, current_ammo, pos() );
+            cycle_action( gun, current_ammo, here, pos_bub( here ) );
         }
 
         if( gun_skill == skill_launcher ) {
@@ -1559,18 +1539,18 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
     weakpoint_attack wp_attack;
     wp_attack.weapon = &to_throw;
     wp_attack.is_thrown = true;
-    dealt_projectile_attack dealt_attack = projectile_attack( proj, throw_from, target, dispersion,
-                                           this, nullptr, wp_attack );
+    dealt_projectile_attack dealt_attack;
+    projectile_attack( dealt_attack, proj, throw_from, target, dispersion,
+                       this, nullptr, wp_attack );
 
     const double missed_by = dealt_attack.missed_by;
 
-    if( critter && dealt_attack.hit_critter != nullptr && missed_by <= 0.1 &&
+    if( critter && dealt_attack.last_hit_critter != nullptr && dealt_attack.headshot &&
         !critter->has_flag( mon_flag_IMMOBILE ) &&
         !critter->has_flag( json_flag_CANNOT_MOVE ) ) {
         practice( skill_throw, final_xp_mult, MAX_SKILL );
-        // TODO: Check target for existence of head
         get_event_bus().send<event_type::character_gets_headshot>( getID() );
-    } else if( critter && dealt_attack.hit_critter != nullptr && missed_by > 0.0f &&
+    } else if( critter && dealt_attack.last_hit_critter != nullptr && missed_by > 0.0f &&
                !critter->has_flag( mon_flag_IMMOBILE ) &&
                !critter->has_flag( json_flag_CANNOT_MOVE ) ) {
         practice( skill_throw, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
@@ -1951,14 +1931,20 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
     int width = getmaxx( w ) - 2; // window width minus borders
     const int bars_pad = 3;
     bool display_numbers = get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers";
-    std::string panel_type = panel_manager::get_manager().get_current_layout_id();
+    bool narrow = panel_manager::get_manager().get_current_layout().panels().begin()->get_width() <= 42;
     nc_color col = c_light_gray;
 
-    // Start printing by panel type, inside each branch whether to output numbers or "bars"
-    if( panel_type == "legacy_labels_narrow_sidebar" || panel_type == "legacy_compact_sidebar" ) {
-        bool narrow = panel_type == "legacy_labels_narrow_sidebar";
-        // TODO: who uses this? this is broken likely since work started
-        // on sidebar widgets and yet nobody complains...
+
+    const auto &current_steadiness_it = std::find_if( sorted.begin(),
+    sorted.end(), []( const aim_type_prediction & atp ) {
+        return atp.is_default;
+    } );
+    if( current_steadiness_it != sorted.end() ) {
+        line_number = print_steadiness( w, line_number, current_steadiness_it->steadiness );
+    }
+
+    // Start printing by available width of aim window
+    if( narrow ) {
         std::vector<std::string> t_aims( 4 );
         std::vector<std::string> t_confidence( 20 );
         int aim_iter = 0;
@@ -2020,19 +2006,10 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
             line_number = line_number + 4; // 4 to account for the tables
         }
         return line_number;
-    } else { // print the "legacy classic" one
-        // there's more legacy sidebars but appear to not be used
-
-        const auto &current_steadiness_it = std::find_if( sorted.begin(),
-        sorted.end(), []( const aim_type_prediction & atp ) {
-            return atp.is_default;
-        } );
-        if( current_steadiness_it != sorted.end() ) {
-            line_number = print_steadiness( w, line_number, current_steadiness_it->steadiness );
-        }
+    } else { // print normally
 
         int column_number = 1;
-        if( !( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
+        if( !narrow ) {
             std::string label = _( "Symbols:" );
             mvwprintw( w, point( column_number, line_number ), label );
             column_number += utf8_width( label ) + 1; // 1 for whitespace after 'Symbols:'
@@ -2134,7 +2111,7 @@ static void draw_throw_aim( const target_ui &ui, const Character &you, const cat
             target_ui::TargetMode::ThrowBlind :
             target_ui::TargetMode::Throw;
     Target_attributes attributes( range, target_size,
-                                  get_map().ambient_light_at( tripoint_bub_ms( target_pos ) ),
+                                  get_map().ambient_light_at( target_pos ),
                                   you.sees( target_pos ) );
 
     const std::vector<aim_type_prediction> aim_chances = calculate_ranged_chances( ui, you,
@@ -2215,10 +2192,6 @@ static projectile make_gun_projectile( const item &gun )
 
         proj.critical_multiplier = ammo->critical_multiplier;
         proj.count = ammo->count;
-        proj.multi_projectile_effects = ammo->multi_projectile_effects;
-        if( fx.count( ammo_effect_MULTI_EFFECTS ) ) {
-            proj.multi_projectile_effects = true;
-        }
         proj.shot_spread = ammo->shot_spread * gun.gun_shot_spread_multiplier();
         if( !ammo->drop.is_null() && x_in_y( ammo->drop_chance, 1.0 ) ) {
             item drop( ammo->drop );
@@ -2259,20 +2232,20 @@ int RAS_time( const Character &p, const item_location &loc )
     return time;
 }
 
-static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos )
+static void cycle_action( item &weap, const itype_id &ammo, map *here, const tripoint_bub_ms &pos )
 {
-    map &here = get_map();
     // eject casings and linkages in random direction avoiding walls using player position as fallback
-    std::vector<tripoint> tiles = closest_points_first( pos, 1 );
+    std::vector<tripoint_bub_ms> tiles = closest_points_first( pos, 1 );
     tiles.erase( tiles.begin() );
-    tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint & e ) {
-        return !here.passable( e );
+    tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint_bub_ms & e ) {
+        return !here->passable( e );
     } ), tiles.end() );
     tripoint_bub_ms eject{ tiles.empty() ? pos : random_entry( tiles ) };
 
+
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
     const std::optional<vpart_reference> ovp_cargo = weap.has_flag( flag_VEHICLE )
-            ? here.veh_at( pos ).cargo()
+            ? here->veh_at( pos ).cargo()
             : std::nullopt;
 
     item *brass_catcher = weap.gunmod_find_by_flag( flag_BRASS_CATCHER );
@@ -2290,13 +2263,16 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
             if( brass_catcher && brass_catcher->can_contain( casing ).success() ) {
                 brass_catcher->put_in( casing, pocket_type::CONTAINER );
             } else if( ovp_cargo ) {
-                ovp_cargo->vehicle().add_item( ovp_cargo->part(), casing );
+                ovp_cargo->vehicle().add_item( *here, ovp_cargo->part(), casing );
             } else {
-                here.add_item_or_charges( eject, casing );
+                here->add_item_or_charges( eject, casing );
             }
 
-            sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
-                                     sfx::get_heard_angle( eject ) );
+            // TODO: Refine critera to handle overlapping maps.
+            if( here == &get_map() ) {
+                sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
+                                         sfx::get_heard_angle( eject ) );
+            }
         }
     }
 
@@ -2307,9 +2283,9 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
         if( !( brass_catcher &&
                brass_catcher->put_in( linkage, pocket_type::CONTAINER ).success() ) ) {
             if( ovp_cargo ) {
-                ovp_cargo->items().insert( linkage );
+                ovp_cargo->items().insert( *here, linkage );
             } else {
-                here.add_item_or_charges( eject, linkage );
+                here->add_item_or_charges( eject, linkage );
             }
         }
     }
@@ -2880,16 +2856,14 @@ target_handler::trajectory target_ui::run()
 
 void target_ui::init_window_and_input()
 {
-    std::string panel_type = panel_manager::get_manager().get_current_layout_id();
-    narrow = ( panel_type == "compact" || panel_type == "labels-narrow" );
-
     int top = 0;
-    int width;
+    int width = panel_manager::get_manager().get_current_layout().panels().begin()->get_width();
     int height;
+    narrow = width <= 42;
     if( narrow ) {
-        // Narrow layout removes the list of controls. This allows us
-        // to have small window size and not suffer from it.
-        width = 34;
+        if( width < 34 ) {
+            width = 34;
+        }
         height = 24;
         compact = true;
     } else {
@@ -2964,7 +2938,7 @@ void target_ui::init_window_and_input()
 bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_redraw )
 {
     std::optional<tripoint_bub_ms> mouse_pos;
-    const auto shift_view_or_cursor = [this]( const tripoint & delta ) {
+    const auto shift_view_or_cursor = [this]( const tripoint_rel_ms & delta ) {
         if( this->shifting_view ) {
             this->set_view_offset( this->you->view_offset + delta );
         } else {
@@ -2987,21 +2961,21 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
                 set_view_offset( you->view_offset + edge_scroll );
             }
         }
-    } else if( const std::optional<tripoint> delta = ctxt.get_direction( action ) ) {
+    } else if( const std::optional<tripoint_rel_ms> delta = ctxt.get_direction_rel_ms( action ) ) {
         // Shift view/cursor with directional keys
-        shift_view_or_cursor( *delta );
+        shift_view_or_cursor( delta.value() );
     } else if( action == "SELECT" &&
                ( mouse_pos = ctxt.get_coordinates( g->w_terrain, g->ter_view_p.raw().xy() ) ) ) {
         // Set pos by clicking with mouse
         mouse_pos->z() = you->posz() + you->view_offset.z();
-        set_cursor_pos( tripoint_bub_ms( *mouse_pos ) );
+        set_cursor_pos( *mouse_pos );
     } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
         // Shift view/cursor up/down one z level
-        tripoint delta = tripoint(
-                             0,
-                             0,
-                             action == "LEVEL_UP" ? 1 : -1
-                         );
+        tripoint_rel_ms delta = tripoint_rel_ms(
+                                    0,
+                                    0,
+                                    action == "LEVEL_UP" ? 1 : -1
+                                );
         shift_view_or_cursor( delta );
     } else if( action == "NEXT_TARGET" ) {
         cycle_targets( 1 );
@@ -3190,12 +3164,12 @@ tripoint_bub_ms target_ui::choose_initial_target()
 
     // Try closest practice target
     map &here = get_map();
-    const std::vector<tripoint_bub_ms> nearby = closest_points_first( src, range );
-    const auto target_spot = std::find_if( nearby.begin(), nearby.end(),
-    [this, &here]( const tripoint_bub_ms & pt ) {
+    std::optional<tripoint_bub_ms> target_spot = find_point_closest_first( src, 0, range, [this,
+    &here]( const tripoint_bub_ms & pt ) {
         return here.tr_at( pt ).id == tr_practice_target && this->you->sees( pt );
     } );
-    if( target_spot != nearby.end() ) {
+
+    if( target_spot != std::nullopt ) {
         return *target_spot;
     }
 
@@ -3220,7 +3194,7 @@ bool target_ui::try_reacquire_target( bool critter, tripoint_bub_ms &new_dst )
     }
 
     // Try to re-acquire target tile or tile where the target creature used to be
-    tripoint_bub_ms local_lt = get_map().bub_from_abs( *you->last_target_pos );
+    tripoint_bub_ms local_lt = get_map().get_bub( *you->last_target_pos );
     if( dist_fn( local_lt ) <= range ) {
         new_dst = local_lt;
         // Abort aiming if a creature moved in
@@ -3269,10 +3243,10 @@ int target_ui::dist_fn( const tripoint_bub_ms &p )
 void target_ui::set_last_target()
 {
     if( !you->last_target_pos.has_value() ||
-        you->last_target_pos.value() != get_map().getglobal( dst ) ) {
+        you->last_target_pos.value() != get_map().get_abs( dst ) ) {
         you->aim_cache_dirty = true;
     }
-    you->last_target_pos = get_map().getglobal( dst );
+    you->last_target_pos = get_map().get_abs( dst );
     if( dst_critter ) {
         you->last_target = g->shared_from( *dst_critter );
     } else {
@@ -3410,11 +3384,13 @@ void target_ui::set_view_offset( const tripoint_rel_ms &new_offset ) const
 
 void target_ui::update_turrets_in_range()
 {
+    map &here = get_map();
+
     turrets_in_range.clear();
     for( vehicle_part *t : *vturrets ) {
         turret_data td = veh->turret_query( *t );
-        if( td.in_range( dst ) ) {
-            tripoint_bub_ms src = veh->bub_part_pos( *t );
+        if( td.in_range( here.get_abs( dst ) ) ) {
+            tripoint_bub_ms src = veh->bub_part_pos( here, *t );
             turrets_in_range.push_back( {t, line_to( src, dst )} );
         }
     }
@@ -3437,7 +3413,7 @@ void target_ui::recalc_aim_turning_penalty()
     if( lt_ptr ) {
         curr_recoil_pos = lt_ptr->pos_bub();
     } else if( you->last_target_pos ) {
-        curr_recoil_pos = get_map().bub_from_abs( *you->last_target_pos );
+        curr_recoil_pos = get_map().get_bub( *you->last_target_pos );
     } else {
         curr_recoil_pos = src;
     }
@@ -3801,6 +3777,9 @@ void target_ui::draw_ui_window()
         }
     }
 
+    // Narrow layout removes the list of controls. This allows us
+    // to have small window size and not suffer from it.
+    bool narrow = panel_manager::get_manager().get_current_layout().panels().begin()->get_width() <= 42;
     if( !narrow ) {
         draw_controls_list( text_y );
     }
@@ -4225,7 +4204,7 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
     }
 
     const optional_vpart_position vp = m.veh_at( you.pos_bub() );
-    if( vp && vp->vehicle().player_in_control( you ) && ( gmode->is_two_handed( you ) ||
+    if( vp && vp->vehicle().player_in_control( m, you ) && ( gmode->is_two_handed( you ) ||
             gmode->has_flag( flag_FIRE_TWOHAND ) ) ) {
         messages.push_back( string_format( _( "You can't fire your %s while driving." ),
                                            gmode->tname() ) );

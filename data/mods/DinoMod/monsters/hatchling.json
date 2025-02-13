@@ -363,13 +363,15 @@
     "upgrades": { "age_grow": 40, "into": "mon_issi_juvenile" }
   },
   {
+    "id": "mon_moabosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_hatchling",
+    "upgrades": { "age_grow": 45, "into": "mon_moabosaurus_juvenile" }
+  },
+  {
     "id": "mon_haplocanthosaurus_hatchling",
     "type": "MONSTER",
-    "name": "long neck hatchling",
-    "copy-from": "mon_gallimimus_hatchling",
-    "weight": "4 kg",
-    "volume": "4 L",
-    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "copy-from": "mon_amargasaurus_hatchling",
     "upgrades": { "age_grow": 45, "into": "mon_haplocanthosaurus_juvenile" }
   },
   {
@@ -806,6 +808,19 @@
     "default_faction": "mosasaurus_hatchling",
     "harvest": "mammal_tiny",
     "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "AQUATIC", "WATER_CAMOUFLAGE" ] }
+  },
+  {
+    "id": "mon_shonisaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_spinosaurus_hatchling",
+    "name": "shonisaurus neonate",
+    "description": "A tiny aquatic reptile neonate with huge shiny eyes and pointy little teeth.",
+    "default_faction": "shonisaurus_hatchling",
+    "harvest": "mammal_tiny",
+    "upgrades": { "age_grow": 30, "into": "mon_shonisaurus_juvenile" },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "extend": { "flags": [ "AQUATIC", "WATER_CAMOUFLAGE" ] }

@@ -4,7 +4,6 @@
     "method": "json",
     "om_terrain": [ "last_mage_on_earth_shelter" ],
     "//": "Empty LMOE shelter built for a wizard.",
-    "weight": 40,
     "object": {
       "fill_ter": "t_carpet_metal_purple",
       "rows": [

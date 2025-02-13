@@ -1,19 +1,19 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_CROW_MUTANT",
+    "id": "GROUP_CROW_MUTANT",
     "monsters": [
       { "monster": "mon_crow_mutant_small", "weight": 650 },
       { "monster": "mon_crow_mutant", "weight": 350, "cost_multiplier": 2 }
     ]
   },
   {
-    "name": "GROUP_CENTIPEDE_ADULT",
+    "id": "GROUP_CENTIPEDE_ADULT",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_centipede_giant", "weight": 9 }, { "monster": "mon_centipede_mom", "weight": 1 } ]
   },
   {
-    "name": "GROUP_CENTIPEDE_GIANT",
+    "id": "GROUP_CENTIPEDE_GIANT",
     "type": "monstergroup",
     "default": "mon_centipede_mom",
     "monsters": [
@@ -23,7 +23,7 @@
     ]
   },
   {
-    "name": "GROUP_CENTIPEDE_MOM",
+    "id": "GROUP_CENTIPEDE_MOM",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_centipede_giant", "weight": 65 },
@@ -32,7 +32,7 @@
     ]
   },
   {
-    "name": "GROUP_MUTANT_EVOLVED",
+    "id": "GROUP_MUTANT_EVOLVED",
     "type": "monstergroup",
     "default": "mon_mutant_evolved",
     "monsters": [
@@ -46,7 +46,7 @@
     ]
   },
   {
-    "name": "GROUP_RATKIN_EVOLVED",
+    "id": "GROUP_RATKIN_EVOLVED",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zap_rat", "weight": 300 },

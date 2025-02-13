@@ -1,6 +1,7 @@
 #pragma once
 #ifndef CATA_SRC_SDL_FONT_H
 #define CATA_SRC_SDL_FONT_H
+#include "font_loader.h"
 
 #if defined(TILES)
 
@@ -156,7 +157,7 @@ class FontFallbackList : public Font
             SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
             int w, int h,
             const palette_array &palette,
-            const std::vector<std::string> &typefaces,
+            const std::vector<font_config> &typefaces,
             int fontsize, bool fontblending );
         ~FontFallbackList() override = default;
 

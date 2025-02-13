@@ -289,6 +289,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_teleport_reactive_displacement_monster",
+    "name": [ "Reactive Displacement" ],
+    "desc": [ "You will automatically teleport enemies that strike you away from yourself." ],
+    "show_in_info": true,
+    "rating": "good",
+    "enchantments": [ { "hit_me_effect": [ { "id": "teleport_reactive_displacement_monster_teleport" } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_riftwalker_teleport",
     "name": [ "Dimensionally Unstable" ],
     "desc": [ "You feel like you're barely part of the world." ],

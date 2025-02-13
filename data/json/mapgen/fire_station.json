@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "fire_station" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -143,7 +142,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "fire_station_1" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

@@ -8,7 +8,6 @@
       [ "bandit_farm_9", "bandit_farm_8", "bandit_farm_7" ]
     ],
     "//": "Supposed to be ramshackle, made-from-scratch.  Recently constructed.",
-    "weight": 250,
     "object": {
       "fill_ter": "t_dirtfloor",
       "faction_owner": [
@@ -159,7 +158,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "bandit_farm_3_roof", "bandit_farm_2_roof" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_open_air",
       "faction_owner": [

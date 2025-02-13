@@ -114,7 +114,7 @@
     "id": "candle_lit",
     "type": "TOOL",
     "copy-from": "candle",
-    "name": { "str": "candle" },
+    "name": { "str": "burning candle" },
     "description": "A thick wax candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit.",
     "turns_per_charge": 1260,
     "use_action": [
@@ -1115,7 +1115,7 @@
     "id": "candle_small_lit",
     "type": "TOOL",
     "copy-from": "candle_small",
-    "name": { "str": "small candle" },
+    "name": { "str": "burning small candle" },
     "description": "A thin wax candle.  It doesn't provide very much light and will burn relatively quickly.  This candle is lit.",
     "turns_per_charge": 63,
     "use_action": [

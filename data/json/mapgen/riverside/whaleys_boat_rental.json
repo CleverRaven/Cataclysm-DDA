@@ -68,7 +68,6 @@
     "method": "json",
     "om_terrain": "boat_rental",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "lake_shore",
       "rows": [
@@ -116,7 +115,6 @@
     "method": "json",
     "om_terrain": "boat_rental_roof",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -152,7 +150,6 @@
     "method": "json",
     "om_terrain": "boat_rental_1",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "lake_shore",
       "rows": [
@@ -200,7 +197,6 @@
     "method": "json",
     "om_terrain": "boat_rental_1_roof",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -236,7 +232,6 @@
     "method": "json",
     "om_terrain": "boat_rental_2",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "lake_shore",
       "rows": [
@@ -282,7 +277,6 @@
     "method": "json",
     "om_terrain": "boat_rental_2_roof",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

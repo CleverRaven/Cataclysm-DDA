@@ -3,7 +3,6 @@
     "method": "json",
     "type": "mapgen",
     "om_terrain": [ [ "shootingrange_1a" ], [ "shootingrange_2a" ] ],
-    "weight": 100,
     "object": {
       "rows": [
         "........................",

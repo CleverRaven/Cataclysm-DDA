@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_antique" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -62,7 +61,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_antique_roof" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [

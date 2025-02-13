@@ -1,0 +1,19 @@
+[
+  {
+    "type": "npc",
+    "id": "uica_ground_officer",
+    "//": "A generic commanding officer for UICA ground installations.",
+    "name_suffix": "UICA Officer",
+    "class": "NC_UICA_GROUND_SOLDIER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_UICA_GROUND_OFFICER",
+    "faction": "UICA"
+  },
+  {
+    "id": "TALK_UICA_GROUND_OFFICER",
+    "type": "talk_topic",
+    "dynamic_line": [ "Can I help you salvor?", "Not right now, I'm busy.", { "u_male": [ "Sir." ], "no": [ "Ma'am" ] } ],
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  }
+]

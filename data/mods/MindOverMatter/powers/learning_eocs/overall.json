@@ -97,7 +97,7 @@
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
     "condition": { "or": [ { "u_has_effect": "effect_psi_learning_new_power" }, { "u_has_effect": "effect_psi_studying_power" } ] },
-    "effect": [ { "u_lose_effect": "effect_psi_learning_new_power" }, { "u_lose_effect": "effect_psi_studying_power" } ]
+    "effect": [ { "u_lose_effect": [ "effect_psi_learning_new_power", "effect_psi_studying_power" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -105,7 +105,7 @@
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
     "condition": { "or": [ { "u_has_effect": "effect_psi_learning_new_power" }, { "u_has_effect": "effect_psi_studying_power" } ] },
-    "effect": [ { "u_lose_effect": "effect_psi_learning_new_power" }, { "u_lose_effect": "effect_psi_studying_power" } ]
+    "effect": [ { "u_lose_effect": [ "effect_psi_learning_new_power", "effect_psi_studying_power" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -125,7 +125,7 @@
         }
       ]
     },
-    "effect": [ { "u_lose_effect": "effect_psi_learning_new_power" }, { "u_lose_effect": "effect_psi_studying_power" } ]
+    "effect": [ { "u_lose_effect": [ "effect_psi_learning_new_power", "effect_psi_studying_power" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -146,8 +146,7 @@
       ]
     },
     "effect": [
-      { "u_lose_effect": "effect_psi_learning_new_power" },
-      { "u_lose_effect": "effect_psi_studying_power" },
+      { "u_lose_effect": [ "effect_psi_learning_new_power", "effect_psi_studying_power" ] },
       {
         "u_message": "You're so exhausted you can barely think straight, and certainly can't concentrate on studying your powers.",
         "popup": true

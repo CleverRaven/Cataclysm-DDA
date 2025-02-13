@@ -7,6 +7,7 @@
       "shop_sigma": 300,
       "shops": {
         "afs_augmentation_clinic_1": 400,
+        "afs_gene_clinic_1": 400,
         "city_block_2": 300,
         "urban_35_hospital": 175,
         "office_skyscraper": 300,

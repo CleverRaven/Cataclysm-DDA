@@ -8,7 +8,6 @@
       [ "mil_base_1c1", "mil_base_2c1", "mil_base_3c1", "mil_base_4c1" ],
       [ "mil_base_1d1", "mil_base_2d1", "mil_base_3d1", "mil_base_4d1" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -122,7 +121,6 @@
       [ "mil_base_5c1", "mil_base_6c1", "mil_base_7c1", "mil_base_8c1" ],
       [ "mil_base_5d1", "mil_base_6d1", "mil_base_7d1", "mil_base_8d1" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -235,7 +233,6 @@
       [ "mil_base_1f1", "mil_base_2f1", "mil_base_3f1", "mil_base_4f1" ],
       [ "mil_base_1g1", "mil_base_2g1", "mil_base_3g1", "mil_base_4g1" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -332,7 +329,6 @@
       [ "mil_base_5f1", "mil_base_6f1", "mil_base_7f1", "mil_base_8f1" ],
       [ "mil_base_5g1", "mil_base_6g1", "mil_base_7g1", "mil_base_8g1" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -429,7 +425,6 @@
       [ "mil_base_1j1", "mil_base_2j1", "mil_base_3j1", "mil_base_4j1" ],
       [ "mil_base_1k1", "mil_base_2k1", "mil_base_3k1", "mil_base_4k1" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -553,7 +548,6 @@
       [ "mil_base_5j1", "mil_base_6j1", "mil_base_7j1", "mil_base_8j1" ],
       [ "mil_base_5k1", "mil_base_6k1", "mil_base_7k1", "mil_base_8k1" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

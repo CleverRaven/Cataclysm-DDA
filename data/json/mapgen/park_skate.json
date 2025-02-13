@@ -16,7 +16,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "skate_park" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
@@ -63,7 +62,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "skate_park_up" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_concrete",
       "rows": [
@@ -109,7 +107,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "skate_park_down" ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_concrete",
       "rows": [

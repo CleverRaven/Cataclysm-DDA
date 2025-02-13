@@ -162,5 +162,75 @@
       { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER = 0" ] },
       { "math": [ "DREAMSMITH_RECIPE_SCORE_SUPER_TARGET", "+=", "200" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "DREAMSMITH_CASINGS_LOW_CALIBER_RECIPE",
+    "recurrence": [ "140 hours", "192 hours" ],
+    "condition": { "and": [ { "u_has_trait": "DREAMSMITH" }, { "math": [ "u_skill('pistols') >= 2" ] } ] },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "223_casing",
+          "22_casing",
+          "32_casing",
+          "38_casing",
+          "38super_casing",
+          "9mm_casing",
+          "10mm_casing",
+          "9x18mm_casing",
+          "9x21mm_casing",
+          "380_casing",
+          "40_casing",
+          "357mag_casing"
+        ],
+        "type": "recipe",
+        "true_eocs": {
+          "id": "EOC_DREAMSMITH_CASINGS_LC_MESSAGE_POSITIVE",
+          "effect": [ { "u_message": "You realize you know suddenly how to make a low caliber bullet casing.", "type": "good" } ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "DREAMSMITH_CASINGS_LARGE_CALIBER_RECIPE",
+    "recurrence": [ "140 hours", "192 hours" ],
+    "condition": { "and": [ { "u_has_trait": "DREAMSMITH" }, { "math": [ "u_skill('rifles') >= 3" ] } ] },
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "3006_casing",
+          "270win_casing",
+          "303_casing",
+          "300_casing",
+          "308_casing",
+          "762_51_casing",
+          "44_casing",
+          "454_casing",
+          "45_casing",
+          "45colt_casing",
+          "4570_casing",
+          "50beowulf_casing",
+          "450_casing",
+          "500_casing",
+          "50_casing",
+          "338lapua_casing",
+          "545_casing",
+          "57mm_casing",
+          "458wm_casing",
+          "762R_casing",
+          "762_casing",
+          "762_25_casing",
+          "300blk_casing",
+          "30carbine_casing"
+        ],
+        "type": "recipe",
+        "true_eocs": {
+          "id": "EOC_DREAMSMITH_CASINGS_HC_MESSAGE_POSITIVE",
+          "effect": [ { "u_message": "You realize you know suddenly how to make a larger caliber bullet casing.", "type": "good" } ]
+        }
+      }
+    ]
   }
 ]

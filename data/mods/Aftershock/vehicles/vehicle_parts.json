@@ -38,6 +38,39 @@
   },
   {
     "type": "vehicle_part",
+    "id": "plating_ship",
+    "name": { "str": "heavy ablative plating" },
+    "categories": [ "warfare" ],
+    "color": "dark_gray",
+    "broken_color": "light_gray",
+    "durability": 1600,
+    "item": "afs_mil_ship_plate",
+    "location": "armor",
+    "//": "300 cm weld to install",
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 6 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 300 ], [ "vehicle_bolt_install", 4 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal_cut_resistant", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      }
+    },
+    "flags": [ "ARMOR", "NO_REPAIR" ],
+    "breaks_into": [
+      { "item": "afs_material_1", "count": [ 8, 10 ] },
+      { "item": "afs_material_2", "count": [ 4, 6 ] },
+      { "item": "afs_material_3", "count": [ 0, 2 ] },
+      { "item": "afs_material_4", "count": [ 0, 1 ] }
+    ],
+    "damage_reduction": { "all": 450 },
+    "variants": [ { "symbols": ")", "symbols_broken": ")" } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "afs_control_station",
     "name": { "str": "control station" },
     "looks_like": "vehicle_dashboard",

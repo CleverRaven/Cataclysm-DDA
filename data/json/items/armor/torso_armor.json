@@ -292,7 +292,8 @@
     "material": [ "cotton" ],
     "warmth": 80,
     "environmental_protection": 4,
-    "flags": [ "VARSIZE", "STURDY", "NORMAL", "RAINPROOF", "NO_REPAIR", "ONLY_ONE", "BLOCK_WHILE_WORN" ],
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "RAINPROOF", "NO_REPAIR", "BLOCK_WHILE_WORN" ],
+    "max_worn": 1,
     "armor": [
       {
         "material": [
@@ -1548,7 +1549,8 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 2,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "max_worn": 1,
     "armor": [
       {
         "material": [
@@ -1664,7 +1666,8 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 4,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "max_worn": 1,
     "armor": [
       {
         "material": [
@@ -1780,7 +1783,8 @@
     "warmth": 20,
     "longest_side": "60 cm",
     "material_thickness": 6,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
+    "max_worn": 1,
     "armor": [
       {
         "material": [

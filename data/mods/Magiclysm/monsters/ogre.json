@@ -121,7 +121,19 @@
     ],
     "fear_triggers": [ "HURT" ],
     "path_settings": { "avoid_traps": true, "avoid_dangerous_fields": true },
-    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "EATS", "BASHES", "PUSH_MON", "PUSH_VEH", "FILTHY", "PATH_AVOID_DANGER" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "HAS_MIND",
+      "MAGIC_USER",
+      "WARM",
+      "EATS",
+      "BASHES",
+      "PUSH_MON",
+      "PUSH_VEH",
+      "FILTHY",
+      "PATH_AVOID_DANGER"
+    ]
   },
   {
     "id": "mon_ogre_twoheaded",

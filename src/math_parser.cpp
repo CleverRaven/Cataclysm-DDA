@@ -1,11 +1,13 @@
 #include "math_parser.h"
 
 #include <algorithm>
+#include <array>
 #include <cstddef>
 #include <locale>
 #include <map>
 #include <memory>
 #include <optional>
+#include <sstream>
 #include <stack>
 #include <string>
 #include <string_view>
@@ -17,9 +19,9 @@
 #include "cata_utility.h"
 #include "condition.h"
 #include "debug.h"
-#include "dialogue.h"
 #include "dialogue_helpers.h"
 #include "global_vars.h"
+#include "math_parser_diag.h"
 #include "math_parser_diag_value.h"
 #include "math_parser_func.h"
 #include "math_parser_impl.h"

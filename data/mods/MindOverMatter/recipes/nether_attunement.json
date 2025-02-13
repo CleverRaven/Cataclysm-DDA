@@ -9,7 +9,7 @@
     "subcategory": "CSC_PSIONIC_OTHER",
     "difficulty": 4,
     "time": "15 m",
-    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_psionic_minimum_requirements", "required": true } ],
     "skill_used": "metaphysics",
     "flags": [ "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
@@ -44,6 +44,7 @@
     "time": "1 h",
     "book_learn": [ [ "phavian_report_psionic_drain", 5 ] ],
     "proficiencies": [
+      { "proficiency": "prof_psionic_minimum_requirements", "required": true },
       { "proficiency": "prof_psionic_basic", "required": true },
       { "proficiency": "prof_psionic_containment", "required": false }
     ],

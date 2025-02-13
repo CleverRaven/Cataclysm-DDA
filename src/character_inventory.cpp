@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <bitset>
 #include <climits>
 #include <functional>
 #include <iterator>
@@ -19,6 +18,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
@@ -30,19 +30,17 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "line.h"
 #include "map.h"
 #include "map_selector.h"
 #include "options.h"
 #include "pimpl.h"
 #include "pocket_type.h"
-#include "point.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "units_fwd.h"
+#include "units.h"
 #include "vehicle.h"
 #include "visitable.h"
 #include "vpart_position.h"
@@ -161,7 +159,7 @@ int Character::count_softwares( const itype_id &id )
 {
     int count = 0;
     for( const item_location &it_loc : all_items_loc() ) {
-        if( it_loc->is_software_storage() ) {
+        if( it_loc->is_estorage() ) {
             for( const item *soft : it_loc->softwares() ) {
                 if( soft->typeId() == id ) {
                     count++;
@@ -338,7 +336,7 @@ item_location Character::i_add( item it, bool /* should_stack */, const item *av
     if( added == item_location::nowhere ) {
         if( !allow_wield || !wield( it ) ) {
             if( allow_drop ) {
-                return item_location( map_cursor( get_location() ), &get_map().add_item_or_charges( pos_bub(),
+                return item_location( map_cursor( pos_abs() ), &get_map().add_item_or_charges( pos_bub(),
                                       it ) );
             } else {
                 return added;
@@ -373,7 +371,7 @@ item_location Character::i_add( item it, int &copies_remaining,
         }
         if( allow_drop && copies_remaining > 0 ) {
             item map_added = get_map().add_item_or_charges( pos_bub(), it, copies_remaining );
-            added = added ? added : item_location( map_cursor( get_location() ), &map_added );
+            added = added ? added : item_location( map_cursor( pos_abs() ), &map_added );
         }
     }
     return added;
@@ -399,7 +397,7 @@ ret_val<item_location> Character::i_add_or_fill( item &it, bool should_stack, co
         if( new_charge >= 1 ) {
             if( !allow_wield || !wield( it ) ) {
                 if( allow_drop ) {
-                    loc = item_location( map_cursor( get_location() ), &get_map().add_item_or_charges( pos_bub(),
+                    loc = item_location( map_cursor( pos_abs() ), &get_map().add_item_or_charges( pos_bub(),
                                          it ) );
                 }
             } else {

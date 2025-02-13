@@ -10,10 +10,5 @@
         },
         "sdl2-ttf",
         "qt5-base"
-    ],
-    "vcpkg-configuration": {
-        "overlay-ports": [
-            "../.github/vcpkg_ports"
-        ]
-    }
+    ]
 }

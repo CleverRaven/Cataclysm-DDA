@@ -1,9 +1,23 @@
 [
   {
+    "id": "biomantic_pain_caused_light",
+    "type": "SPELL",
+    "name": { "str": "Cause minor pain", "//~": "NO_I18N" },
+    "description": { "str": "Causes a small amount of pain when certain spells are used.", "//~": "NO_I18N" },
+    "valid_targets": [ "self" ],
+    "effect": "recover_energy",
+    "effect_str": "PAIN",
+    "shape": "blast",
+    "flags": [ "SILENT", "RANDOM_DAMAGE" ],
+    "spell_class": "BIOMANCER",
+    "min_damage": -1,
+    "max_damage": -4
+  },
+  {
     "id": "light_healing",
     "type": "SPELL",
-    "name": "Cure Light Wounds",
-    "description": "Heals a little bit of damage on the target.",
+    "name": "Knit the Rent Flesh",
+    "description": "Cause the target's wounds to writhe, the flesh to crawl back together, and their injuries to heal.  Disturbing, and painful, but effective.",
     "valid_targets": [ "self", "ally" ],
     "min_damage": { "math": [ "(u_spell_level('light_healing') * -0.5) - 1" ] },
     "max_damage": { "math": [ "(u_spell_level('light_healing') * -1.1) - 4" ] },
@@ -15,11 +29,11 @@
     "shape": "blast",
     "base_casting_time": 300,
     "base_energy_cost": 800,
-    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true }, { "id": "biomantic_pain_caused_light", "hit_self": true } ],
     "flags": [ "RESTORATION_SPELL", "RANDOM_DAMAGE", "SOMATIC", "VERBAL", "NO_PROJECTILE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 2,
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "pain_split",
@@ -33,7 +47,7 @@
     "base_energy_cost": 800,
     "//": "This is transformation because it moves wounds around, it does not actually heal anything.",
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 4,
@@ -61,7 +75,7 @@
     "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "LOUD" ],
     "spell_class": "BIOMANCER",
     "learn_spells": { "vicious_tentacle_plus": 15 },
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "vicious_tentacle_plus",
@@ -88,7 +102,7 @@
     "max_level": 25,
     "flags": [ "TRANSFORMATION_SPELL", "LOUD", "NO_FAIL" ],
     "spell_class": "BIOMANCER",
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "bio_grotesque",
@@ -102,11 +116,11 @@
     "base_casting_time": 100,
     "casting_time_increment": -2.5,
     "final_casting_time": 50,
-    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true }, { "id": "biomantic_pain_caused_light", "hit_self": true } ],
     "base_energy_cost": 250,
     "energy_increment": -5.0,
     "final_energy_cost": 150,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "spell_class": "BIOMANCER",
     "difficulty": 6,
     "max_level": 20,
@@ -127,7 +141,7 @@
     "shape": "cone",
     "base_casting_time": 200,
     "base_energy_cost": 200,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "spell_class": "BIOMANCER",
     "difficulty": 2,
     "max_level": 20,
@@ -169,7 +183,7 @@
     "max_level": 20,
     "flags": [ "TRANSFORMATION_SPELL", "NO_HANDS", "NO_LEGS", "SOMATIC" ],
     "spell_class": "BIOMANCER",
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "bio_bonespear",
@@ -193,7 +207,7 @@
     "flags": [ "CONJURATION_SPELL", "LOUD", "SOMATIC" ],
     "spell_class": "BIOMANCER",
     "learn_spells": { "bio_bonespear_plus": 15 },
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "bio_bonespear_plus",
@@ -220,7 +234,7 @@
     "max_level": 25,
     "flags": [ "CONJURATION_SPELL", "LOUD", "NO_FAIL" ],
     "spell_class": "BIOMANCER",
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "create_rune_biomancer",
@@ -234,7 +248,7 @@
     "effect_str": "rune_biomancer",
     "shape": "blast",
     "base_casting_time": 5000,
-    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true }, { "id": "biomantic_pain_caused_light", "hit_self": true } ],
     "base_energy_cost": 5,
     "min_duration": 1,
     "max_duration": 2,
@@ -242,7 +256,7 @@
     "difficulty": 0,
     "max_level": 0,
     "spell_class": "BIOMANCER",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "flags": [ "CHANNELING_SPELL", "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   },
   {
@@ -256,7 +270,7 @@
     "shape": "blast",
     "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "VERBAL", "NO_HANDS" ],
     "spell_class": "BIOMANCER",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "difficulty": 3,
     "base_casting_time": 100,
     "base_energy_cost": 80,
@@ -288,7 +302,7 @@
     ],
     "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "VERBAL", "NO_HANDS", "SPLIT_DAMAGE" ],
     "spell_class": "BIOMANCER",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "difficulty": 4,
     "base_casting_time": 200,
     "base_energy_cost": 150,
@@ -352,7 +366,7 @@
     "effect_str": "bio_weave",
     "shape": "blast",
     "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "VERBAL" ],
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "spell_class": "BIOMANCER",
     "difficulty": 4,
     "base_casting_time": 200,
@@ -400,7 +414,7 @@
     "shape": "blast",
     "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "CONCENTRATE" ],
     "components": "spell_components_causticaura",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "spell_class": "BIOMANCER",
     "difficulty": 4,
     "base_casting_time": 400,
@@ -423,7 +437,7 @@
     "shape": "blast",
     "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "NO_FAIL" ],
     "components": "spell_components_causticaura",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "spell_class": "BIOMANCER",
     "difficulty": 7,
     "min_damage": 1,
@@ -459,7 +473,7 @@
     "max_duration": 360000,
     "duration_increment": 24000,
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 200,
     "base_casting_time": 1000
   },
@@ -479,7 +493,7 @@
     "min_duration": 30000,
     "max_duration": 90000,
     "duration_increment": 4000,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 500,
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "base_casting_time": 100
@@ -541,7 +555,7 @@
     "shape": "blast",
     "difficulty": 10,
     "max_level": 15,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "min_range": 1,
     "base_energy_cost": 1500,
     "base_casting_time": 180000,
@@ -562,7 +576,7 @@
     "effect_str": "effect_biomancer_carrion_feast",
     "shape": "blast",
     "difficulty": 3,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "max_level": 10,
     "min_duration": 6000,
     "max_duration": 36000,
@@ -579,8 +593,8 @@
     "valid_targets": [ "self" ],
     "spell_class": "BIOMANCER",
     "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_LASHING_TENTACLES_MUTATION",
+    "effect": "attack",
+    "effect_str": "effect_biomancer_lashing_tentacles",
     "shape": "blast",
     "difficulty": 6,
     "max_level": 15,
@@ -588,42 +602,45 @@
     "max_duration": 30000,
     "duration_increment": 1533,
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 400,
     "base_casting_time": 500
   },
   {
-    "type": "effect_on_condition",
-    "id": "EOC_LASHING_TENTACLES_MUTATION",
-    "condition": { "not": { "u_has_trait": "BIO_LASHING_TENTACLES" } },
-    "effect": [
-      { "u_message": "Your shoulders itch before two barbed tentacles erupt from them!", "type": "good" },
-      { "u_add_trait": "BIO_LASHING_TENTACLES" },
-      {
-        "run_eocs": "EOC_LASHING_TENTACLES_MUTATION_REMOVE",
-        "time_in_future": {
-          "math": [ "(( u_spell_level('biomancer_lashing_tentacles') * 15 ) + 70 ) * (transformation_proficiency_modifier() )" ]
-        }
-      }
-    ],
-    "false_effect": [ { "u_message": "You already have a pair of lashing tentacles!" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_LASHING_TENTACLES_MUTATION_REMOVE",
-    "effect": [
-      { "u_message": "The tentacles recede back into your body.", "type": "bad" },
-      { "u_lose_trait": "BIO_LASHING_TENTACLES" }
-    ]
-  },
-  {
     "id": "biomancer_cure_disease_minor",
     "type": "SPELL",
-    "name": "Cure Disease, Minor",
-    "description": "Cure any minor illnesses you might be suffering from.  This is one of the few biomantic cure spells that is castable on other people.",
+    "name": "Purgation of Maladies",
+    "description": "Vomit up any minor illnesses you might be suffering from, such as colds or the flu.  This is one of the few biomantic cure spells that is castable on other people.",
     "valid_targets": [ "self", "ally" ],
     "spell_class": "BIOMANCER",
     "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "vomit",
+    "shape": "blast",
+    "difficulty": 4,
+    "max_level": 10,
+    "min_duration": 60480000,
+    "max_duration": 60480000,
+    "min_range": 1,
+    "max_range": 1,
+    "magic_type": "magiclysm_generic_magic",
+    "base_energy_cost": 500,
+    "extra_effects": [
+      { "id": "eoc_restoration_setup", "hit_self": true },
+      { "id": "biomantic_pain_caused_light", "hit_self": true },
+      { "id": "biomancer_cure_disease_minor_actual_effect" }
+    ],
+    "base_casting_time": 90000,
+    "final_casting_time": 30000,
+    "casting_time_increment": -6000
+  },
+  {
+    "id": "biomancer_cure_disease_minor_actual_effect",
+    "type": "SPELL",
+    "name": { "str": "Purgation of Maladies Cure", "//~": "NO_I18N" },
+    "description": { "str": "This causes the actual cure effect, since a vomit effect spell doesn't apply effect_str", "//~": "NO_I18N" },
+    "valid_targets": [ "self", "ally" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "SILENT" ],
     "effect": "attack",
     "effect_str": "effect_biomancer_cure_disease_minor",
     "shape": "blast",
@@ -632,18 +649,12 @@
     "min_duration": 60480000,
     "max_duration": 60480000,
     "min_range": 1,
-    "max_range": 1,
-    "energy_source": "MANA",
-    "base_energy_cost": 500,
-    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
-    "base_casting_time": 90000,
-    "final_casting_time": 30000,
-    "casting_time_increment": -6000
+    "max_range": 1
   },
   {
     "id": "biomancer_hyper_regeneration",
     "type": "SPELL",
-    "name": "Rapid Regeneration",
+    "name": "Corporeal Reconstitution",
     "description": "Possibly the most powerful of the biomantic healing spells, this causes your flesh to literally knit itself together before your eyes.",
     "valid_targets": [ "self" ],
     "spell_class": "BIOMANCER",
@@ -656,7 +667,7 @@
     "min_duration": 3000,
     "max_duration": 13000,
     "duration_increment": 500,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "base_energy_cost": 900,
     "base_casting_time": 150
@@ -677,7 +688,7 @@
     "min_duration": 90000,
     "max_duration": 630000,
     "duration_increment": 36000,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 250,
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_casting_time": 350
@@ -728,7 +739,7 @@
     "min_duration": 24000,
     "max_duration": 360000,
     "duration_increment": 24000,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "base_energy_cost": 300,
     "base_casting_time": 500
@@ -741,42 +752,18 @@
     "valid_targets": [ "self" ],
     "spell_class": "BIOMANCER",
     "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_BIO_CAUSTIC_BLOOD_MUTATION",
+    "effect": "attack",
+    "effect_str": "effect_biomancer_caustic_blood",
     "shape": "blast",
     "difficulty": 7,
     "max_level": 20,
     "min_duration": 180000,
     "max_duration": 1380000,
     "duration_increment": 60000,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 450,
-    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true }, { "id": "biomantic_pain_caused_light", "hit_self": true } ],
     "base_casting_time": 600
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_BIO_CAUSTIC_BLOOD_MUTATION",
-    "condition": { "and": [ { "not": { "u_has_trait": "ACIDBLOOD" } }, { "not": { "u_has_trait": "ACIDPROOF" } } ] },
-    "effect": [
-      { "u_message": "Your entire body burns for a moment", "type": "mixed" },
-      { "u_add_trait": "ACIDBLOOD" },
-      { "u_add_trait": "ACIDPROOF" },
-      {
-        "run_eocs": "EOC_BIO_CAUSTIC_BLOOD_MUTATION_REMOVE",
-        "time_in_future": { "math": [ "(( u_spell_level('biomancer_caustic_blood') * 600 ) + 1800 ) * ( enhancement_proficiency_modifier() )" ] }
-      }
-    ],
-    "false_effect": [ { "u_message": "Your body is already inured to acid!" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_BIO_CAUSTIC_BLOOD_MUTATION_REMOVE",
-    "effect": [
-      { "u_message": "The faint burning sensation fades.", "type": "bad" },
-      { "u_lose_trait": "ACIDBLOOD" },
-      { "u_lose_trait": "ACIDPROOF" }
-    ]
   },
   {
     "id": "biomancer_eat_tons_of_food",
@@ -794,7 +781,7 @@
     "min_duration": 72000,
     "max_duration": 1224000,
     "duration_increment": 72000,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 200,
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "base_casting_time": 1500
@@ -813,9 +800,9 @@
     "shape": "blast",
     "difficulty": 5,
     "max_level": 15,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 350,
-    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true }, { "id": "biomantic_pain_caused_light", "hit_self": true } ],
     "base_casting_time": 1500
   },
   {

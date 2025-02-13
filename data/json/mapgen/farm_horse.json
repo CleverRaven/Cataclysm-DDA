@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "farm_horse_house_1" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -115,7 +114,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "farm_horse_greenhouse" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -154,7 +152,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "farm_horse_greenhouse_roof" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_glass_roof",
       "rows": [
@@ -190,7 +187,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "farm_horse_stable_1" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -387,7 +383,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "paddock",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -439,7 +434,6 @@
     "method": "json",
     "om_terrain": [ [ "paddock_L_butt", "paddock_R_butt" ] ],
     "//": "Can be used with paddock to form 2x1 small paddocks or with paddock_C to form longer paddocks",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -483,7 +477,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "paddock_L_gap", "paddock_R_gap" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -528,7 +521,6 @@
     "method": "json",
     "om_terrain": [ "paddock_C" ],
     "//": "Flip to use with _gap versions",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -578,7 +570,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "paddock_UL", "paddock_UR" ], [ "paddock_DL", "paddock_DR" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -666,7 +657,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "paddock_d_D_butt", "paddock_d_U_gap" ], [ "paddock_d_D_gap", "paddock_d_U_butt" ] ],
-    "weight": 250,
     "object": {
       "predecessor_mapgen": "forest_thick",
       "rows": [
@@ -735,7 +725,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "paddock_special_1",
-    "weight": 250,
     "object": {
       "predecessor_mapgen": "forest_thick",
       "rows": [
@@ -773,7 +762,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "paddock_special_2" ], [ "paddock_special_3" ] ],
-    "weight": 250,
     "object": {
       "predecessor_mapgen": "forest_thick",
       "rows": [
@@ -834,7 +822,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "paddock_special_4",
-    "weight": 250,
     "object": {
       "predecessor_mapgen": "forest_thick",
       "rows": [
@@ -876,7 +863,6 @@
       [ "paddock_trailhead_4", "paddock_trailhead_5", "paddock_trailhead_6" ],
       [ "paddock_trailhead_7", "paddock_trailhead_8", "paddock_trailhead_9" ]
     ],
-    "weight": 250,
     "object": {
       "predecessor_mapgen": "forest_thick",
       "rows": [
@@ -976,7 +962,6 @@
     "method": "json",
     "om_terrain": [ [ "paddock_end_UL" ], [ "paddock_end_DL" ] ],
     "//": "Use rural_road_turnback as UC and paddock_C as DC",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1041,7 +1026,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "paddock_end_UR" ], [ "paddock_end_DR" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1106,7 +1090,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "farm_horse_ring_1", "farm_horse_ring_2" ], [ "farm_horse_ring_3", "farm_horse_ring_4" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1166,7 +1149,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "farm_horse_track_1" ], [ "farm_horse_track_2" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1230,7 +1212,6 @@
       [ "farm_horse_track_large_1", "farm_horse_track_large_2" ],
       [ "farm_horse_track_large_3", "farm_horse_track_large_4" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1296,7 +1277,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "farm_horse_silo",
-    "weight": 250,
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -1343,7 +1323,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "farm_horse_silo_1",
-    "weight": 250,
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -1379,7 +1358,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "farm_horse_silo_roof",
-    "weight": 250,
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -1415,7 +1393,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "splitrail_fence_UL", "splitrail_fence_UR" ], [ "splitrail_fence_DL", "splitrail_fence_DR" ] ],
-    "weight": 250,
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -1476,7 +1453,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "splitrail_fence_butt",
-    "weight": 250,
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -1513,7 +1489,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "splitrail_fence_gap",
-    "weight": 250,
     "object": {
       "predecessor_mapgen": "field",
       "rows": [
@@ -1550,7 +1525,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "splitrail_fence_inner",
-    "weight": 250,
     "object": {
       "predecessor_mapgen": "field",
       "place_nested": [

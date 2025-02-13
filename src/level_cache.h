@@ -8,13 +8,14 @@
 #include <unordered_map>
 #include <utility>
 
-#include "game_constants.h"
-#include "lightmap.h"
-#include "point.h"
+#include "coordinates.h"
+#include "map_scale_constants.h"
+#include "mdarray.h"
 #include "shadowcasting.h"
-#include "value_ptr.h"
 
+// IWYU pragma: no_forward_declare four_quadrants
 class vehicle;
+enum class lit_level : int;
 
 struct level_cache {
     public:
@@ -81,20 +82,20 @@ struct level_cache {
         std::set<vehicle *> zone_vehicles;
 
         bool get_veh_in_active_range() const;
-        bool get_veh_exists_at( const tripoint &pt ) const;
-        std::pair<vehicle *, int> get_veh_cached_parts( const tripoint &pt ) const;
+        bool get_veh_exists_at( const tripoint_bub_ms &pt ) const;
+        std::pair<vehicle *, int> get_veh_cached_parts( const tripoint_bub_ms &pt ) const;
 
-        void set_veh_exists_at( const tripoint &pt, bool exists_at );
-        void set_veh_cached_parts( const tripoint &pt, vehicle &veh, int part_num );
+        void set_veh_exists_at( const tripoint_bub_ms &pt, bool exists_at );
+        void set_veh_cached_parts( const tripoint_bub_ms &pt, vehicle &veh, int part_num );
 
         void clear_vehicle_cache();
-        void clear_veh_from_veh_cached_parts( const tripoint &pt, vehicle *veh );
+        void clear_veh_from_veh_cached_parts( const tripoint_bub_ms &pt, vehicle *veh );
 
     private:
         // Whether the cache is empty or not; if true, nothing has been added to the cache
         // since the most recent call to clear_vehicle_cache()
         bool veh_cache_cleared = true;
         std::bitset<MAPSIZE_X *MAPSIZE_Y> veh_exists_at;
-        std::unordered_map<tripoint, std::pair<vehicle *, int>> veh_cached_parts;
+        std::unordered_map<tripoint_bub_ms, std::pair<vehicle *, int>> veh_cached_parts;
 };
 #endif // CATA_SRC_LEVEL_CACHE_H

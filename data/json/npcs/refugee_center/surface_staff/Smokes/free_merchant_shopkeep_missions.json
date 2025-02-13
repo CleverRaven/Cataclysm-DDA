@@ -9,13 +9,7 @@
     "difficulty": 5,
     "start": {
       "effect": [ { "u_spawn_item": "fema_data", "count": 1 } ],
-      "assign_mission_target": {
-        "om_terrain": "robofachq_surface_entrance",
-        "om_special": "hub_01",
-        "reveal_radius": 1,
-        "random": true,
-        "search_range": 1000
-      }
+      "assign_mission_target": { "om_terrain": "robofachq_surface_entrance", "om_special": "hub_01", "reveal_radius": 1 }
     },
     "end": { "effect": { "math": [ "free_merchants_hub_trade_route = 1" ] } },
     "goal_condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_free_merchants_hub_delivery_1" } ] },
@@ -198,7 +192,7 @@
     "value": 50000,
     "item": "commune_prospectus",
     "start": {
-      "assign_mission_target": { "om_terrain": "ranch_camp_67", "om_special": "ranch_camp", "reveal_radius": 1, "search_range": 540 },
+      "assign_mission_target": { "om_terrain": "ranch_camp_67", "om_special": "ranch_camp", "reveal_radius": 1 },
       "update_mapgen": {
         "place_npcs": [
           { "class": "ranch_foreman", "x": 16, "y": 15, "target": true, "add_trait": "NPC_MISSION_LEV_1" },

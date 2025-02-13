@@ -203,7 +203,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "unvitrified_orchard" ],
-    "weight": 100,
     "object": {
       "set": [ { "point": "variable", "id": "unvitrified_orchard_center", "x": 12, "y": 12 } ],
       "fill_ter": "t_dirt",

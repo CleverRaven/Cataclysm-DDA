@@ -10,11 +10,11 @@
 #include <limits>
 #include <list>
 #include <map>
-#include <memory>
 #include <optional>
 #include <queue>
 #include <set>
 #include <string>
+#include <tuple>
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
@@ -22,8 +22,6 @@
 #include <vector>
 
 #include "activity_tracker.h"
-#include "activity_type.h"
-#include "addiction.h"
 #include "body_part_set.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -32,7 +30,8 @@
 #include "character_id.h"
 #include "city.h"  // IWYU pragma: keep
 #include "compatibility.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
+#include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
@@ -41,7 +40,8 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "magic_enchantment.h"
+#include "memory_fast.h"
+#include "monster.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
@@ -64,20 +64,18 @@ class JsonOut;
 class SkillLevel;
 class SkillLevelMap;
 class activity_actor;
+class addiction;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
-class craft_command;
 class dispersion_sources;
 class effect;
-class effect_source;
+class enchant_cache;
 class faction;
 class item_pocket;
 class known_magic;
 class ma_technique;
 class map;
-class monster;
-class nc_color;
 class player_morale;
 class profession;
 class proficiency_set;
@@ -87,15 +85,20 @@ class spell;
 class ui_adaptor;
 class vehicle;
 class vpart_reference;
+
 namespace catacurses
 {
 class window;
 }  // namespace catacurses
+enum action_id : int;
+enum class proficiency_bonus_type : int;
+enum class recipe_filter_flags : int;
+enum class steed_type : int;
+enum npc_attitude : int;
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
 struct display_proficiency;
-struct field_immunity_data;
 /// @brief Item slot used to apply modifications from food and meds
 struct islot_comestible;
 struct item_comp;
@@ -111,15 +114,6 @@ struct trait_and_var;
 struct trap;
 struct w_point;
 template <typename E> struct enum_traits;
-
-enum npc_attitude : int;
-enum action_id : int;
-enum class recipe_filter_flags : int;
-enum class steed_type : int;
-enum class proficiency_bonus_type : int;
-
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
 
 using bionic_uid = unsigned int;
 
@@ -730,6 +724,7 @@ class Character : public Creature, public visitable
     public:
 
         void gravity_check() override;
+        void gravity_check( map *here ) override;
         void stagger();
 
         void mod_stat( const std::string &stat, float modifier ) override;
@@ -1271,7 +1266,7 @@ class Character : public Creature, public visitable
 
         // any side effects that might happen when the Character is hit
         /** Handles special defenses from melee attack that hit us (source can be null) */
-        void on_hit( Creature *source, bodypart_id bp_hit,
+        void on_hit( map *here, Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
         // any side effects that might happen when the Character hits a Creature
         void did_hit( Creature &target );
@@ -1282,7 +1277,8 @@ class Character : public Creature, public visitable
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                                            const damage_instance &d,
-                                           const weakpoint_attack &attack = weakpoint_attack() ) override;
+                                           const weakpoint_attack &attack = weakpoint_attack(),
+                                           const weakpoint &wp = weakpoint() ) override;
         /** Reduce healing effect intensity, return initial intensity of the effect */
         int reduce_healing_effect( const efftype_id &eff_id, int remove_med, const bodypart_id &hurt );
 
@@ -1296,7 +1292,7 @@ class Character : public Creature, public visitable
         void passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const;
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
         const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
-                                     damage_instance &dam ) override;
+                                     damage_instance &dam, const weakpoint &wp = weakpoint() ) override;
     protected:
         float generic_weakpoint_skill( skill_id skill_1, skill_id skill_2,
                                        limb_score_id limb_score_1, limb_score_id limb_score_2 ) const;
@@ -1374,6 +1370,8 @@ class Character : public Creature, public visitable
          *  Defaults to true
          */
         bool purifiable( const trait_id &flag ) const;
+        /** Returns true if a conflict has destroyed a bionic */
+        bool handle_bio_mut_conflict( const bionic_id &bio, const trait_id &mut );
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const mutation_category_id &cat, int strength ) const;
         /** Returns true if the player has the entered trait in cached_mutations */
@@ -1888,7 +1886,7 @@ class Character : public Creature, public visitable
         virtual item::reload_option select_ammo( const item_location &base, bool prompt = false,
                 bool empty = true ) = 0;
 
-        void process_items();
+        void process_items( map *here );
         void leak_items();
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
@@ -1923,7 +1921,7 @@ class Character : public Creature, public visitable
             bool operator()( const item &it ) const {
                 return it.mission_id == mission_id || it.has_any_with( [&]( const item & it ) {
                     return it.mission_id == mission_id;
-                }, pocket_type::SOFTWARE );
+                }, pocket_type::E_FILE_STORAGE );
             }
         };
 
@@ -2309,11 +2307,13 @@ class Character : public Creature, public visitable
         /** Calculates the total fun bonus relative to this character's traits and chapter progress */
         bool fun_to_read( const item &book ) const;
         int book_fun_for( const item &book, const Character &p ) const;
+        /** The number of chapters remaining for each book itype */
+        std::map<itype_id, int> book_chapters;
 
         bool can_pickVolume( const item &it, bool safe = false, const item *avoid = nullptr,
                              bool ignore_pkt_settings = true ) const;
         bool can_pickVolume_partial( const item &it, bool safe = false, const item *avoid = nullptr,
-                                     bool ignore_pkt_settings = true, bool is_pick_up_inv = false ) const;
+                                     bool ignore_pkt_settings = true, bool ignore_non_container_pocket = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
         bool can_pickWeight_partial( const item &it, bool safe = true ) const;
 
@@ -2501,6 +2501,7 @@ class Character : public Creature, public visitable
         int get_proficiency_bonus( const std::string &category, proficiency_bonus_type prof_bonus ) const;
         void add_default_background();
         void set_proficiencies_from_hobbies();
+        void set_recipes_from_hobbies();
 
         // tests only!
         void set_proficiency_practice( const proficiency_id &id, const time_duration &amount );
@@ -2566,7 +2567,7 @@ class Character : public Creature, public visitable
          *  Should only be called through player::normalize(), not on it's own!
          */
         void normalize() override;
-        void die( Creature *nkiller ) override;
+        void die( map *here, Creature *nkiller ) override;
         virtual void prevent_death();
 
         std::string get_name() const override;
@@ -2720,7 +2721,8 @@ class Character : public Creature, public visitable
         void pause(); // '.' command; pauses & resets recoil
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
-        template <typename T> bool can_lift( const T &obj ) const;
+        bool can_lift( item &obj ) const;
+        bool can_lift( vehicle &veh, map &here ) const;
         // --------------- Values ---------------
         std::string name; // Pre-cataclysm name, invariable
         // In-game name which you give to npcs or whoever asks, variable
@@ -2792,6 +2794,7 @@ class Character : public Creature, public visitable
         int get_focus() const {
             return std::max( 1, focus_pool / 1000 );
         }
+        int get_effective_focus() const;
         void mod_focus( int amount ) {
             focus_pool += amount * 1000;
             focus_pool = std::max( focus_pool, 0 );
@@ -3056,6 +3059,8 @@ class Character : public Creature, public visitable
         // age in years
         int age( time_point when = calendar::turn ) const;
         std::string age_string( time_point when = calendar::turn ) const;
+        // returns ugliness of character
+        int ugliness() const;
         // returns the height in cm
         int base_height() const;
         void set_base_height( int height );
@@ -3177,7 +3182,7 @@ class Character : public Creature, public visitable
          *  @param gun item to fire (which does not necessary have to be in the players possession)
          *  @return number of shots actually fired
          */
-        int fire_gun( const tripoint_bub_ms &target, int shots, item &gun,
+        int fire_gun( map *here, const tripoint_bub_ms &target, int shots, item &gun,
                       item_location ammo = item_location() );
         /** Execute a throw */
         dealt_projectile_attack throw_item( const tripoint_bub_ms &target, const item &to_throw,
@@ -3197,7 +3202,7 @@ class Character : public Creature, public visitable
         void on_item_acquire( const item &it );
         /** Called when effect intensity has been changed */
         void on_effect_int_change( const efftype_id &eid, int intensity,
-                                   const bodypart_id &bp = bodypart_id( "bp_null" ) ) override;
+                                   const bodypart_id &bp = bodypart_str_id::NULL_ID() ) override;
         /** Called when a mutation is gained */
         void on_mutation_gain( const trait_id &mid );
         /** Called when a mutation is lost */
@@ -3273,7 +3278,7 @@ class Character : public Creature, public visitable
         float speed_rating() const override;
 
         // Put corpse+inventory on map at the place where this is.
-        void place_corpse();
+        void place_corpse( map *here );
         // Put corpse+inventory on defined om tile
         void place_corpse( const tripoint_abs_omt &om_target );
 
@@ -3499,6 +3504,9 @@ class Character : public Creature, public visitable
         * @returns Craftable inventory items found.
         * */
         const inventory &crafting_inventory( const tripoint_bub_ms &src_pos = tripoint_bub_ms::zero,
+                                             int radius = PICKUP_RANGE, bool clear_path = true ) const;
+        const inventory &crafting_inventory( map *here,
+                                             const tripoint_bub_ms &src_pos = tripoint_bub_ms::zero,
                                              int radius = PICKUP_RANGE, bool clear_path = true ) const;
         void invalidate_crafting_inventory();
 
@@ -3765,14 +3773,13 @@ class Character : public Creature, public visitable
         // Returns a multiplier indicating the keenness of a player's hearing.
         float hearing_ability() const;
 
-        using trap_map = std::map<tripoint, std::string>;
+        using trap_map = std::map<tripoint_abs_ms, std::string>;
         // Use @ref trap::can_see to check whether a character knows about a
         // specific trap - it will consider visible and known traps.
         bool knows_trap( const tripoint_bub_ms &pos ) const;
         void add_known_trap( const tripoint_bub_ms &pos, const trap &t );
 
         // see Creature::sees
-        bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
         bool sees( const tripoint_bub_ms &t, bool is_avatar = false, int range_mod = 0 ) const override;
         // see Creature::sees
         bool sees( const Creature &critter ) const override;
@@ -4194,7 +4201,4 @@ struct enum_traits<character_stat> {
 };
 /// Get translated name of a stat
 std::string get_stat_name( character_stat Stat );
-
-extern template bool Character::can_lift<item>( const item &obj ) const;
-extern template bool Character::can_lift<vehicle>( const vehicle &obj ) const;
 #endif // CATA_SRC_CHARACTER_H

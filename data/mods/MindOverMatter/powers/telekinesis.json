@@ -9,6 +9,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
@@ -16,7 +17,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEKINETIC_FAR_HAND_SELECTOR",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 1250,
     "final_energy_cost": 500,
     "energy_increment": -80,
@@ -33,7 +33,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "item", "ground" ],
-    "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
@@ -69,7 +68,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "item", "ground" ],
-    "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
@@ -107,6 +105,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
@@ -115,7 +114,6 @@
     "effect_str": "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR",
     "shape": "blast",
     "max_range": 40,
-    "energy_source": "STAMINA",
     "base_energy_cost": 1750,
     "final_energy_cost": 750,
     "energy_increment": -80,
@@ -131,7 +129,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
-    "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
@@ -155,7 +152,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
-    "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
@@ -179,7 +175,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
-    "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
@@ -200,7 +195,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
-    "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
@@ -222,6 +216,7 @@
     "teachable": false,
     "valid_targets": [ "ground" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
@@ -244,7 +239,6 @@
       ]
     },
     "max_range": 60,
-    "energy_source": "STAMINA",
     "base_energy_cost": 1750,
     "final_energy_cost": 450,
     "energy_increment": -85,
@@ -263,6 +257,7 @@
     "teachable": false,
     "valid_targets": [ "ally", "hostile", "ground" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
@@ -297,7 +292,6 @@
       ]
     },
     "max_range": 40,
-    "energy_source": "STAMINA",
     "base_energy_cost": 2500,
     "final_energy_cost": 850,
     "energy_increment": -65,
@@ -315,6 +309,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 3,
@@ -332,7 +327,6 @@
         "( (u_spell_level('telekinetic_momentum') * 2000) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telekinetic_momentum') > -1 ? 0 : max((3500 - (u_spell_level('telekinetic_momentum') * 125)), 1750)"
@@ -353,6 +347,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 3,
@@ -370,7 +365,6 @@
         "( (u_spell_level('telekinetic_slowfall') * 400) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 2250,
     "final_energy_cost": 650,
     "energy_increment": -85,
@@ -387,14 +381,16 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "WONDER", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_TELEKIN_WAVE_FORCE",
+    "effect": "attack",
+    "extra_effects": [ { "id": "telekinetic_wavepush", "hit_self": true } ],
     "shape": "blast",
-    "energy_source": "STAMINA",
+    "min_damage": 12,
+    "max_damage": 12,
     "base_energy_cost": 4500,
     "final_energy_cost": 2250,
     "energy_increment": -125,
@@ -403,30 +399,12 @@
     "casting_time_increment": -4
   },
   {
-    "id": "telekinetic_wave_wonder",
-    "type": "SPELL",
-    "name": { "str": "[Ψ]Wave of Force WONDER", "//~": "NO_I18N" },
-    "description": { "str": "The WONDER spell that casts multiple waves of force.", "//~": "NO_I18N" },
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "spell_class": "TELEKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "WONDER" ],
-    "effect": "attack",
-    "extra_effects": [ { "id": "telekinetic_wavepush", "hit_self": true } ],
-    "shape": "blast",
-    "min_damage": 12,
-    "max_damage": 12
-  },
-  {
     "id": "telekinetic_wavepush",
     "type": "SPELL",
     "name": { "str": "[Ψ]Telekinetic Wave Push", "//~": "NO_I18N" },
     "description": { "str": "Part of Wave of Force.  If you see this it's a bug.", "//~": "NO_I18N" },
     "message": "",
     "valid_targets": [ "ally", "hostile", "item" ],
-    "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "RANDOM_TARGET", "NO_EXPLOSION_SFX" ],
     "effect": "directed_push",
@@ -448,6 +426,44 @@
     "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
   },
   {
+    "id": "telekinetic_water_walk",
+    "type": "SPELL",
+    "name": "[Ψ]Water Walking (C)",
+    "description": "Lift yourself enough to counteract your mass, allowing the surface tension of liquids to support you, enabling you to walk on water.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKIN_WATER_WALKING",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('telekinetic_water_walk') * 800) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('telekinetic_water_walk') * 2600) + 7500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_water_walking') > -1 ? 0 : max((5000 - (u_spell_level('telekinetic_water_walk') * 100)), 2000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_telekinetic_water_walking') > -1 ? 10 : max((150 -(u_spell_level('telekinetic_water_walk') * 6.5)), 50)"
+      ]
+    }
+  },
+  {
     "id": "telekinetic_lifting_field",
     "type": "SPELL",
     "name": "[Ψ]Lifting Field (C)",
@@ -456,6 +472,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 4,
@@ -473,7 +490,6 @@
         "( (u_spell_level('telekinetic_lifting_field') * 25900) + 167400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telekinetic_lifting_field') > -1 ? 0 : max((4500 - (u_spell_level('telekinetic_lifting_field') * 100)), 2000)"
@@ -494,6 +510,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
     "difficulty": 5,
@@ -511,7 +528,6 @@
         "( (u_spell_level('telekinetic_strength') * 3000) + 12000 )* (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telekinetic_strength') > -1 ? 0 : max((5000 - (u_spell_level('telekinetic_strength') * 150)), 2000)"
@@ -528,6 +544,7 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ground" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 5,
@@ -553,7 +570,6 @@
       ]
     },
     "max_range": 70,
-    "energy_source": "STAMINA",
     "base_energy_cost": 3750,
     "final_energy_cost": 1750,
     "energy_increment": -135,
@@ -573,6 +589,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
@@ -590,7 +607,6 @@
         "( (u_spell_level('telekinetic_vehicle_lift') * 42000) + 150000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telekinetic_vehicle_lift') > -1 ? 0 : max((6500 - (u_spell_level('telekinetic_vehicle_lift') * 200)), 3250)"
@@ -611,6 +627,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 6,
@@ -628,7 +645,6 @@
         "( (u_spell_level('telekinetic_shield') * 3700) + 72000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telekinetic_armor') > -1 ? 0 : max((8000 - (u_spell_level('telekinetic_shield') * 185)), 3250)"
@@ -649,6 +665,7 @@
     "teachable": false,
     "valid_targets": [ "ally", "hostile", "item", "ground" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [
       "PSIONIC",
@@ -691,7 +708,6 @@
       ]
     },
     "max_aoe": 30,
-    "energy_source": "STAMINA",
     "base_energy_cost": 8500,
     "final_energy_cost": 4500,
     "energy_increment": -200,
@@ -706,11 +722,12 @@
     "id": "telekinetic_levitation",
     "type": "SPELL",
     "name": "[Ψ]Levitation (C)",
-    "description": "Use your telekinesis and lift yourself up, defying gravity.  While not true flight, you can cross open air and descend safely.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "description": "Use your telekinesis and lift yourself up, defying gravity.  While not true flight, you can cross open air and descend safely.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.  It requires <color_yellow>even more concentration</color> than usual.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 7,
@@ -728,7 +745,6 @@
         "( (u_spell_level('telekinetic_levitation') * 200) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telekinetic_levitation') > -1 ? 0 : max((7500 - (u_spell_level('telekinetic_levitation') * 165)), 3500)"
@@ -749,6 +765,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 8,
@@ -756,7 +773,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_SELECTOR",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 9500,
     "final_energy_cost": 5000,
     "energy_increment": -175,
@@ -772,7 +788,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
-    "spell_class": "TELEKINETIC",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_PUSH_CHECKER",
@@ -792,7 +807,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
-    "spell_class": "TELEKINETIC",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_PULL_CHECKER",
@@ -813,6 +827,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 9,
@@ -826,7 +841,6 @@
         "( (u_spell_level('telekinetic_aegis') * 20) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 9500,
     "final_energy_cost": 5500,
     "energy_increment": -225,
@@ -843,6 +857,7 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "TELEKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "IGNORE_WALLS", "RANDOM_DURATION" ],
     "difficulty": 10,
@@ -870,7 +885,6 @@
       ]
     },
     "max_aoe": 30,
-    "energy_source": "STAMINA",
     "base_energy_cost": 11500,
     "final_energy_cost": 7000,
     "base_casting_time": 150,

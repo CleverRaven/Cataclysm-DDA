@@ -54,9 +54,8 @@
         }
       ],
       "place_items": [
-        { "item": "military", "x": 7, "y": 8 },
-        { "item": "science", "x": 9, "y": 11 },
-        { "item": "military", "x": 11, "y": 16 }
+        { "item": "clothing_soldier_set", "x": [ 4, 17 ], "y": [ 6, 15 ], "repeat": [ 2, 3 ], "chance": 80 },
+        { "item": "military_squad_guns", "x": [ 4, 17 ], "y": [ 6, 15 ], "repeat": [ 2, 3 ], "chance": 80 }
       ]
     }
   }

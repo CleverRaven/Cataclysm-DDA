@@ -3,7 +3,6 @@
     "type": "mapgen",
     "om_terrain": [ [ "ws_biker_dump_0_0", "ws_biker_dump_1_0", "ws_biker_dump_2_0", "ws_biker_dump_3_0" ] ],
     "method": "json",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -91,7 +90,6 @@
     "type": "mapgen",
     "om_terrain": [ [ "ws_biker_dump_0_1", "ws_biker_dump_1_1", "ws_biker_dump_2_1", "ws_biker_dump_3_1" ] ],
     "method": "json",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -157,7 +155,6 @@
     "type": "mapgen",
     "om_terrain": [ [ "ws_biker_dump_0_2", "ws_biker_dump_1_2", "ws_biker_dump_2_2", "ws_biker_dump_3_2" ] ],
     "method": "json",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -291,7 +288,6 @@
     "type": "mapgen",
     "om_terrain": [ [ "ws_biker_dump_0_3", "ws_biker_dump_1_3", "ws_biker_dump_2_3", "ws_biker_dump_3_3" ] ],
     "method": "json",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [

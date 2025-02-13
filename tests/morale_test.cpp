@@ -1,22 +1,38 @@
 #include <cstddef>
-#include <iosfwd>
-#include <utility>
+#include <memory>
+#include <string>
+#include <vector>
 
 #include "avatar.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
 #include "item.h"
+#include "item_location.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "morale.h"
 #include "npc.h"
+#include "pimpl.h"
 #include "player_helpers.h"
-#include "calendar.h"
+#include "point.h"
+#include "subbodypart.h"
 #include "type_id.h"
 
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_took_prozac( "took_prozac" );
+
+static const itype_id itype_boots( "boots" );
+static const itype_id itype_dress_wedding( "dress_wedding" );
+static const itype_id itype_heels( "heels" );
+static const itype_id itype_legpouch( "legpouch" );
+static const itype_id itype_sf_watch( "sf_watch" );
+static const itype_id itype_shotgun_s( "shotgun_s" );
+static const itype_id itype_tinfoil_hat( "tinfoil_hat" );
+static const itype_id itype_veil_wedding( "veil_wedding" );
 
 static const morale_type morale_book( "morale_book" );
 static const morale_type morale_food_bad( "morale_food_bad" );
@@ -248,6 +264,8 @@ TEST_CASE( "player_morale_kills_hostile_bandit", "[player_morale]" )
 
 TEST_CASE( "player_morale_ranged_kill_of_unaware_hostile_bandit", "[player_morale]" )
 {
+    map &here = get_map();
+
     clear_avatar();
     avatar &player = get_avatar();
     // Set the time to midnight to ensure the bandit doesn't notice the player.
@@ -261,12 +279,12 @@ TEST_CASE( "player_morale_ranged_kill_of_unaware_hostile_bandit", "[player_moral
     CHECK( m.get_total_positive_value() == 0 );
     CHECK( m.get_total_negative_value() == 0 );
     CHECK( badguy.guaranteed_hostile() == true );
-    CHECK( badguy.sees( player.pos() ) == false );
+    CHECK( badguy.sees( player.pos_bub() ) == false );
     for( size_t loop = 0; loop < 1000; loop++ ) {
         player.set_body();
-        arm_shooter( player, "shotgun_s" );
+        arm_shooter( player, itype_shotgun_s );
         player.recoil = 0;
-        player.fire_gun( bandit_pos, 1, *player.get_wielded_item() );
+        player.fire_gun( &here, bandit_pos, 1, *player.get_wielded_item() );
         if( badguy.is_dead_state() ) {
             break;
         }
@@ -280,9 +298,9 @@ TEST_CASE( "player_morale_fancy_clothes", "[player_morale]" )
     player_morale m;
 
     GIVEN( "a set of super fancy bride's clothes" ) {
-        const item dress_wedding( "dress_wedding", calendar::turn_zero ); // legs, torso | 8 + 2 | 10
-        const item veil_wedding( "veil_wedding", calendar::turn_zero );   // eyes, mouth | 4 + 2 | 6
-        const item heels( "heels", calendar::turn_zero );      // not super fancy, feet  | 1     | 1
+        const item dress_wedding( itype_dress_wedding, calendar::turn_zero ); // legs, torso | 8 + 2 | 10
+        const item veil_wedding( itype_veil_wedding, calendar::turn_zero );   // eyes, mouth | 4 + 2 | 6
+        const item heels( itype_heels, calendar::turn_zero );      // not super fancy, feet  | 1     | 1
 
         m.on_item_wear( dress_wedding );
         m.on_item_wear( veil_wedding );
@@ -320,7 +338,7 @@ TEST_CASE( "player_morale_fancy_clothes", "[player_morale]" )
                 }
             }
             AND_WHEN( "tries to be even fancier" ) {
-                const item watch( "sf_watch", calendar::turn_zero );
+                const item watch( itype_sf_watch, calendar::turn_zero );
                 m.on_item_wear( watch );
                 THEN( "there's a limit" ) {
                     CHECK( m.get_level() == 20 );
@@ -454,7 +472,7 @@ TEST_CASE( "player_morale_plant", "[player_morale]" )
         CHECK( m.has( morale_perm_constrained ) == 0 );
 
         WHEN( "wearing a hat" ) {
-            const item hat( "tinfoil_hat", calendar::turn_zero );
+            const item hat( itype_tinfoil_hat, calendar::turn_zero );
 
             m.on_item_wear( hat );
             THEN( "the flowers need sunlight" ) {
@@ -468,7 +486,7 @@ TEST_CASE( "player_morale_plant", "[player_morale]" )
         }
 
         WHEN( "wearing a legpouch" ) {
-            item legpouch( "legpouch", calendar::turn_zero );
+            item legpouch( itype_legpouch, calendar::turn_zero );
             legpouch.set_side( side::LEFT );
 
             m.on_item_wear( legpouch );
@@ -478,7 +496,7 @@ TEST_CASE( "player_morale_plant", "[player_morale]" )
         }
 
         WHEN( "wearing a pair of boots" ) {
-            const item boots( "boots", calendar::turn_zero );
+            const item boots( itype_boots, calendar::turn_zero );
 
             m.on_item_wear( boots );
             THEN( "all of the roots are suffering" ) {
@@ -486,7 +504,7 @@ TEST_CASE( "player_morale_plant", "[player_morale]" )
             }
 
             AND_WHEN( "even more constrains" ) {
-                const item hat( "tinfoil_hat", calendar::turn_zero );
+                const item hat( itype_tinfoil_hat, calendar::turn_zero );
 
                 m.on_item_wear( hat );
                 THEN( "it can't be worse" ) {

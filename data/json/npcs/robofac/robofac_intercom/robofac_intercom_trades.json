@@ -35,7 +35,7 @@
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
         "effect": [
           { "u_consume_item": "RobofacCoin", "count": 1, "popup": true },
-          { "mapgen_update": "robofachq_surface_entrance", "reveal_radius": 40, "random": true, "search_range": 70 },
+          { "mapgen_update": "robofachq_surface_entrance", "reveal_radius": 40 },
           { "npc_add_var": "dialogue_intercom_sold_local_map", "value": "yes" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"

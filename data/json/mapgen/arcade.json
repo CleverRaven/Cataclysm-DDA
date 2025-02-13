@@ -1,6 +1,6 @@
 [
   {
-    "name": "GROUP_ARCADE",
+    "id": "GROUP_ARCADE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_null", "weight": 400 }, { "monster": "mon_zombie_child", "weight": 600, "pack_size": [ 2, 5 ] } ]
   },
@@ -8,7 +8,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_arcade" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -65,7 +64,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "s_arcade_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

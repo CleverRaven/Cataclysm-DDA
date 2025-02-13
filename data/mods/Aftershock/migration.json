@@ -104,7 +104,12 @@
   {
     "id": [ "broken_eyebot" ],
     "type": "MIGRATION",
-    "replace": "afs_broken_eyebot"
+    "replace": "broken_afs_eyebot"
+  },
+  {
+    "id": [ "afs_broken_eyebot" ],
+    "type": "MIGRATION",
+    "replace": "broken_afs_eyebot"
   },
   {
     "id": [ "bot_copbot" ],
@@ -114,7 +119,12 @@
   {
     "id": [ "broken_copbot" ],
     "type": "MIGRATION",
-    "replace": "afs_broken_copbot"
+    "replace": "broken_afs_copbot"
+  },
+  {
+    "id": [ "afs_broken_copbot" ],
+    "type": "MIGRATION",
+    "replace": "broken_afs_copbot"
   },
   {
     "id": [ "bot_riotbot" ],
@@ -124,6 +134,11 @@
   {
     "id": [ "broken_riotbot" ],
     "type": "MIGRATION",
-    "replace": "afs_broken_riotbot"
+    "replace": "broken_afs_riotbot"
+  },
+  {
+    "id": [ "afs_broken_riotbot" ],
+    "type": "MIGRATION",
+    "replace": "broken_afs_riotbot"
   }
 ]

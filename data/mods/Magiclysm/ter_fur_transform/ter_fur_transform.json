@@ -572,7 +572,7 @@
       {
         "result": "fd_null",
         "valid_field": [ "fd_fire", "fd_incendiary", "fd_flame_burst" ],
-        "message": "The fires suddenly vanishes!",
+        "message": "The fires suddenly vanish!",
         "message_good": true
       }
     ]

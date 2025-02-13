@@ -2074,5 +2074,17 @@
     "copy-from": "t_column",
     "name": "pillar",
     "description": "A concrete column that helps keep the mine's ceiling and walls from collapsing."
+  },
+  {
+    "type": "terrain",
+    "id": "t_foam_wall",
+    "copy-from": "t_abstract_wall_concrete",
+    "name": "hardened resin mass",
+    "looks_like": "t_wax",
+    "color": "white",
+    "flags": [ "NOITEM", "MINEABLE", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
+    "roof": "t_foam_roof",
+    "description": "A mass of expansive foam that has hardened like a rock, tough enough to stop most zombies from breaking through.  It's big enough to walk ontop of.",
+    "bash": { "str_min": 38, "str_max": 120, "sound": "crunch!", "sound_fail": "whump!", "ter_set": "t_null" }
   }
 ]

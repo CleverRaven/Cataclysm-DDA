@@ -1,16 +1,15 @@
 #include "auto_note.h"
 
 #include <cstddef>
+#include <functional>
 #include <iosfwd>
 #include <iterator>
 #include <string>
-#include <type_traits>
 
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "input_context.h"

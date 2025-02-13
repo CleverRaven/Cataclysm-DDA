@@ -26,7 +26,8 @@
     "charges_per_use": 1,
     "warmth": 6,
     "material_thickness": 5,
-    "flags": [ "BELTED", "JETPACK", "ONLY_ONE" ],
+    "flags": [ "BELTED", "JETPACK" ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   }
 ]

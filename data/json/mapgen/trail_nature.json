@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "NatureTrail_1a", "NatureTrail_1b" ] ],
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "forest_thick",
       "rows": [

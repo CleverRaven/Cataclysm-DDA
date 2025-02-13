@@ -1,15 +1,21 @@
+#include <cmath>
+#include <list>
+#include <map>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "coordinates.h"
 #include "damage.h"
-#include "game_constants.h"
 #include "monster.h"
 #include "mtype.h"
 #include "player_helpers.h"
-#include "point.h"
 #include "type_id.h"
+#include "weakpoint.h"
 
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );

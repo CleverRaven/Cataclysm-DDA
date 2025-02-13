@@ -1394,7 +1394,8 @@
     "material": [ "kevlar_layered" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "STURDY", "OUTER", "ONLY_ONE", "NO_SALVAGE" ],
+    "flags": [ "STURDY", "OUTER", "NO_SALVAGE" ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 10,

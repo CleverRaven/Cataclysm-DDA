@@ -43,10 +43,9 @@
         "d": { "items": [ { "item": "office", "chance": 50 } ] },
         "r": {
           "items": [
-            { "item": "military", "chance": 60 },
-            { "item": "ammo_milspec", "chance": 10 },
-            { "item": "guns_milspec", "chance": 10 },
-            { "item": "afs_weapons_rare", "chance": 5 }
+            { "item": "ammo_milspec", "chance": 40 },
+            { "item": "guns_milspec", "chance": 40 },
+            { "item": "afs_weapons_rare", "chance": 6 }
           ]
         },
         "*": { "items": [ { "item": "casings", "chance": 10 } ] }

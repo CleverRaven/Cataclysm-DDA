@@ -22,7 +22,7 @@
     "difficulty": 6,
     "max_level": 35,
     "base_casting_time": 100,
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "demon_possession_aura",
@@ -33,7 +33,8 @@
     "volume": "1 ml",
     "symbol": "o",
     "color": "white",
-    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "max_worn": 1,
     "relic_data": {
       "passive_effects": [
         {
@@ -75,6 +76,7 @@
     "max_level": 35,
     "base_casting_time": 800,
     "base_energy_cost": 5,
+    "magic_type": "magiclysm_generic_magic",
     "energy_source": "HP"
   },
   {

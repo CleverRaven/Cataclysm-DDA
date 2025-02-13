@@ -1,15 +1,17 @@
-#include <list>
-#include <memory>
-#include <optional>
+#include <functional>
+#include <vector>
 
 #include "avatar.h"
-#include "calendar.h"
 #include "catch/catch.hpp"
+#include "character.h"
 #include "item.h"
-#include "map.h"
+#include "item_location.h"
 #include "map_helpers.h"
+#include "player_activity.h"
 #include "player_helpers.h"
 #include "type_id.h"
+
+static const itype_id itype_sw629( "sw629" );
 
 /**
  * When a player has no open inventory to place unloaded bullets, but there is room in the gun being
@@ -26,7 +28,7 @@ TEST_CASE( "unload_revolver_naked_one_bullet", "[unload][nonmagzine]" )
     avatar &player_character = get_avatar();
 
     // revolver with only one of six bullets
-    item revolver( "sw629" );
+    item revolver( itype_sw629 );
     revolver.ammo_set( revolver.ammo_default(), 1 );
 
     // wield the revolver
@@ -61,7 +63,7 @@ TEST_CASE( "unload_revolver_naked_fully_loaded", "[unload][nonmagzine]" )
     avatar &player_character = get_avatar();
 
     // revolver fully loaded
-    item revolver( "sw629" );
+    item revolver( itype_sw629 );
     revolver.ammo_set( revolver.ammo_default(), revolver.remaining_ammo_capacity() );
 
     // wield the revolver

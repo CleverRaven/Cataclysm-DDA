@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_CENTRAL_LAB",
+    "id": "GROUP_CENTRAL_LAB",
     "default": "mon_zombie_scientist",
     "monsters": [
       { "monster": "mon_zombie_scientist", "weight": 150, "cost_multiplier": 0 },
@@ -27,7 +27,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LAB",
+    "id": "GROUP_LAB",
     "default": "mon_zombie_scientist",
     "monsters": [
       { "monster": "mon_blob_small", "weight": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
@@ -63,7 +63,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LAB_SURFACE",
+    "id": "GROUP_LAB_SURFACE",
     "default": "mon_zombie_scientist",
     "monsters": [
       { "monster": "mon_feral_labsecurity_9mm", "weight": 18, "cost_multiplier": 8 },
@@ -98,7 +98,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LAB_SECURITY",
+    "id": "GROUP_LAB_SECURITY",
     "default": "mon_zombie_labsecurity",
     "monsters": [
       { "monster": "mon_feral_labsecurity_9mm", "weight": 22, "cost_multiplier": 8 },
@@ -121,7 +121,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LAB_FEMA",
+    "id": "GROUP_LAB_FEMA",
     "default": "mon_zombie_scientist",
     "//": "Mostly scientists, lab personnel and regular zombies.",
     "monsters": [
@@ -145,11 +145,11 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LAB_CYBORG",
+    "id": "GROUP_LAB_CYBORG",
     "monsters": [ { "monster": "mon_prototype_cyborg", "weight": 400, "cost_multiplier": 0 } ]
   },
   {
-    "name": "GROUP_LAB_MUTANT_BOSS",
+    "id": "GROUP_LAB_MUTANT_BOSS",
     "type": "monstergroup",
     "default": "mon_mutant_evolved",
     "monsters": [
@@ -162,7 +162,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MICROLAB",
+    "id": "GROUP_MICROLAB",
     "monsters": [
       { "monster": "mon_blob_small", "weight": 40, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
       { "monster": "mon_feral_labsecurity_9mm", "weight": 18, "cost_multiplier": 8 },
@@ -195,7 +195,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DISTORTED_MICROLAB",
+    "id": "GROUP_DISTORTED_MICROLAB",
     "default": "mon_zombie_scientist",
     "monsters": [
       { "monster": "mon_zombie_phase_skulker", "weight": 100, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
@@ -216,7 +216,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MEATLAB",
+    "id": "GROUP_MEATLAB",
     "monsters": [
       { "monster": "mon_null", "weight": 9 },
       { "monster": "mon_amalgamation_swarmer", "weight": 5, "pack_size": [ 1, 2 ] },
@@ -232,7 +232,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LAB_BASIC_SECURITY",
+    "id": "GROUP_LAB_BASIC_SECURITY",
     "monsters": [
       { "monster": "mon_feral_labsecurity_9mm", "weight": 18, "cost_multiplier": 12 },
       { "monster": "mon_feral_labsecurity_flashlight", "weight": 18, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
@@ -250,7 +250,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LAB_MILITARY",
+    "id": "GROUP_LAB_MILITARY",
     "monsters": [
       { "monster": "mon_feral_labsecurity_9mm", "weight": 12, "cost_multiplier": 8 },
       { "monster": "mon_feral_labsecurity_flashlight", "weight": 12, "cost_multiplier": 2 },
@@ -263,7 +263,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LAB_MAINTENANCE",
+    "id": "GROUP_LAB_MAINTENANCE",
     "monsters": [
       { "monster": "mon_zombie_technician", "weight": 819 },
       { "monster": "mon_feral_human_tool", "weight": 25 },
@@ -282,7 +282,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LAB_RESEARCHERS",
+    "id": "GROUP_LAB_RESEARCHERS",
     "monsters": [
       { "monster": "mon_zombie_technician", "weight": 5, "cost_multiplier": 5 },
       { "monster": "mon_feral_human_tool", "weight": 1, "cost_multiplier": 5 },
@@ -300,7 +300,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LAB_HOSPITAL",
+    "id": "GROUP_LAB_HOSPITAL",
     "monsters": [
       { "monster": "mon_zombie_medical", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie_medical_brute", "weight": 10, "cost_multiplier": 3 },
@@ -318,7 +318,7 @@
     ]
   },
   {
-    "name": "GROUP_RATKIN_LAB",
+    "id": "GROUP_RATKIN_LAB",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_lab_ratkin", "weight": 250, "pack_size": [ 2, 6 ] },

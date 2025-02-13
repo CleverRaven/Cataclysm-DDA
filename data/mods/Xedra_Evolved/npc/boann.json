@@ -6,7 +6,7 @@
     "class": "xe_fae_noblewoman_boann",
     "attitude": 0,
     "mission": 7,
-    "chat": "TALK_BOANN_1",
+    "chat": "TALK_BOANN_INTRO",
     "mission_offered": "MISSION_BRING_BOANN_JABBERWOCK_HEART",
     "gender": "female"
   },
@@ -17,18 +17,113 @@
     "job_description": "I'm in charge of the faeries of my court.",
     "common": false,
     "traits": [
-      { "trait": "hair_long", "variant": "blond" },
+      { "trait": "hair_super_princess", "variant": "blond" },
       { "trait": "natural_hair_color_blond" },
       { "trait": "SKIN_DARK" },
-      { "trait": "FAERIECREATURE" }
+      { "trait": "FAERIECREATURE" },
+      { "trait": "THRESH_FAIR_FOLK_NOBLE" },
+      { "trait": "IRON_ALLERGY" },
+      { "trait": "CHANGELING_MAGIC" },
+      { "trait": "DISIMMUNE" },
+      { "trait": "BEAUTIFUL2" },
+      { "trait": "PARACLESIAN_FAE_SIGHT_2" },
+      { "trait": "PARACLESIAN_INT_PER_2" },
+      { "trait": "PARACLESIAN_STR_DEX_2" },
+      { "trait": "PARACLESIAN_MAKE_GOSSAMER" },
+      { "trait": "CHANGELING_NOBLE_MOVEMENT_BUFFS" },
+      { "trait": "CHANGELING_NOBLE_BURNING_WEAPON" },
+      { "trait": "BOANN_RETALIATION" }
     ],
     "bonus_dex": { "rng": [ 4, 10 ] },
     "bonus_int": { "rng": [ 2, 5 ] },
+    "worn_override": "NC_BOANN_WORN_GEAR",
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "NC_BOANN_WEAPON",
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
       { "skill": "melee", "bonus": { "rng": [ 1, 5 ] } },
       { "skill": "firstaid", "bonus": { "rng": [ 1, 4 ] } },
       { "skill": "cooking", "bonus": { "rng": [ 6, 8 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BOANN_WORN_GEAR",
+    "subtype": "collection",
+    "entries": [
+      { "item": "loincloth_gossamer", "prob": 100 },
+      { "item": "stockings_gossamer", "prob": 100 },
+      { "item": "gloves_light_gossamer", "prob": 100 },
+      { "item": "gown_gossamer_boann_unique", "prob": 100 },
+      { "item": "slippers_gossamer", "prob": 100 },
+      { "item": "sapphire_silver_tiara", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BOANN_WEAPON",
+    "subtype": "collection",
+    "entries": [ { "item": "boann_unique_weapon_sword", "prob": 100 } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BOANN_INTRO",
+    "dynamic_line": [
+      {
+        "u_has_trait": "FAE_ENMITY",
+        "yes": "Begone, slayer.  I will have no dealings with you.",
+        "no": {
+          "u_has_trait": "CHANGELING_MAGIC",
+          "yes": { "u_male": true, "yes": "Greetings, kinsman.", "no": "Greetings, kinswoman." },
+          "no": {
+            "u_has_any_trait": [ "ARVORE", "HOMULLUS", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ],
+            "yes": "Greetings, elder cousin.",
+            "no": {
+              "u_has_any_trait": [ "VAMPIRE", "VAMPIRE2", "VAMPIRE3", "VAMPIRE4", "BLOOD_DRINKER", "LILIN_TRAITS" ],
+              "yes": "Greetings, nightwalker.",
+              "no": { "u_has_trait": "WEREWOLF_HYBRID_FORM", "yes": "Greetings, child of the moon.", "no": "Greetings, mortal." }
+            }
+          }
+        }
+      }
+    ],
+    "responses": [
+      { "text": "Greetings.", "topic": "TALK_BOANN_1", "condition": { "not": { "u_has_trait": "FAE_ENMITY" } } },
+      {
+        "text": "I-",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_trait": "FAE_ENMITY" },
+        "effect": [
+          {
+            "u_location_variable": { "context_val": "Boann_teleport" },
+            "target_params": {
+              "om_terrain": "forest",
+              "om_terrain_match_type": "CONTAINS",
+              "search_range": 1200,
+              "min_distance": 250,
+              "z": 0,
+              "random": true
+            }
+          },
+          {
+            "u_message": "Boann dismissively waves a hand before you can say anything, and you are enveloped by a swirl of multicolored lights.",
+            "popup": true
+          },
+          {
+            "npc_spawn_monster": "mon_wild_huntsman",
+            "real_count": { "math": [ "4 + rand(2)" ] },
+            "min_radius": 2,
+            "max_radius": 7
+          },
+          {
+            "npc_spawn_monster": "mon_wild_hunt_hound",
+            "real_count": { "math": [ "8 + rand(4)" ] },
+            "min_radius": 4,
+            "max_radius": 10
+          },
+          { "u_teleport": { "context_val": "Boann_teleport" }, "force": true }
+        ]
+      }
     ]
   },
   {

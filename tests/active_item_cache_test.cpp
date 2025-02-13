@@ -2,11 +2,15 @@
 
 #include "calendar.h"
 #include "cata_catch.h"
-#include "game_constants.h"
+#include "coordinates.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "point.h"
+#include "type_id.h"
+
+static const itype_id itype_firecracker_act( "firecracker_act" );
 
 TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
 {
@@ -14,7 +18,7 @@ TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
     map &here = get_map();
     REQUIRE( here.get_submaps_with_active_items().empty() );
     // An arbitrary active item.
-    item active( "firecracker_act", calendar::turn_zero, item::default_charges_tag() );
+    item active( itype_firecracker_act, calendar::turn_zero, item::default_charges_tag() );
     active.activate();
 
     // For each space in a wide area place the item and check if the cache has been updated.

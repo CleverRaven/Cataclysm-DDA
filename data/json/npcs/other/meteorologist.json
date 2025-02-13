@@ -295,7 +295,7 @@
       "rejected": "Maybe another time…",
       "advice": "I don't know quite what happened.  Maybe something noticed my drone and tried to bring it down.  Be careful.",
       "inquire": "How's it going?",
-      "success": "Hmm, I see that the drone is not with you.  Maybe at least the memory module remains?  Okay, show it to me… hmm, situation is worse than I expected, much, much worse… I'm not feeling good.  I don't feel safe in this place anymore.  I have to run, run somewhere.  But where to run if these <monster>s are everywhere…",
+      "success": "Hmm, I see that the drone is not with you.  Maybe at least the memory module remains?  Okay, show it to me… hmm, situation is worse than I expected, much, much worse… I'm not feeling good.  I don't feel safe in this place anymore.  I have to run, run somewhere.  But where to run if these monsters are everywhere…",
       "success_lie": "Why do you say that?",
       "failure": "…"
     }

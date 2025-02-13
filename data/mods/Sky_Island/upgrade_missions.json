@@ -3832,5 +3832,89 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [ [ [ "warptoken", 5 ] ] ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_sunblock",
+    "type": "mission_definition",
+    "name": "Upgrade: Personal sunblock",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Solar Refractor from sunglasses, glass and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: The sun's rays cannot affect you while on the island.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_sunblock",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_sunblock" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: The sun's rays cannot affect you while on the island.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "u_add_trait": "mut_skyisland_sunblock" },
+        { "u_forget_recipe": "upgradekey_sunblock" },
+        {
+          "u_message": "The sun's rays shift a little.  As long as you are on the island, any harm they could do to you will be negated.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_sunblock",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Solar Refractor" },
+    "description": "This strange metaphysical artifact will make the island protect your skin from the sun while you are not earthside.  If your skin doesn't burn as the sun shines on it, this artifact will not do much to help but still won't hinder.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: personal sunblock.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_sunblock",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "//": "Intended to be a very early-game craft, as the bunker and constructing on the surface makes it mostly obsolete.",
+    "//2": "The amount of glass shards is equal to the amount disassembling a standing mirror would give.",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [
+        [ "sunglasses", 1 ],
+        [ "sunglasses_eye", 1 ],
+        [ "sunglasses_bifocal", 1 ],
+        [ "sunglasses_reading", 1 ],
+        [ "fitover_sunglasses", 1 ],
+        [ "fancy_sunglasses_eye", 1 ],
+        [ "fancy_sunglasses_reading", 1 ],
+        [ "fancy_sunglasses_bifocal", 1 ]
+      ],
+      [
+        [ "sunglasses", 1 ],
+        [ "sunglasses_eye", 1 ],
+        [ "sunglasses_bifocal", 1 ],
+        [ "sunglasses_reading", 1 ],
+        [ "fitover_sunglasses", 1 ],
+        [ "fancy_sunglasses_eye", 1 ],
+        [ "fancy_sunglasses_reading", 1 ],
+        [ "fancy_sunglasses_bifocal", 1 ]
+      ],
+      [ [ "umbrella", 1 ], [ "teleumbrella", 1 ] ],
+      [ [ "sundress", 1 ] ],
+      [ [ "glass_shard", 176 ] ]
+    ]
   }
 ]

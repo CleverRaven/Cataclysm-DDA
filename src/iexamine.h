@@ -2,11 +2,11 @@
 #ifndef CATA_SRC_IEXAMINE_H
 #define CATA_SRC_IEXAMINE_H
 
-#include <iosfwd>
+#include <algorithm>
 #include <list>
 #include <memory>
 #include <optional>
-#include <set>
+#include <string>
 #include <tuple>
 #include <vector>
 
@@ -14,13 +14,12 @@
 #include "ret_val.h"
 #include "type_id.h"
 
-class item;
-class JsonObject;
 class Character;
+class JsonObject;
+class item;
 class time_point;
 class vpart_reference;
 struct itype;
-struct tripoint;
 
 using seed_tuple = std::tuple<itype_id, std::string, int>;
 
@@ -64,6 +63,7 @@ void gaspump( Character &you, const tripoint_bub_ms &examp );
 void atm( Character &you, const tripoint_bub_ms &examp );
 void vending( Character &you, const tripoint_bub_ms &examp );
 void elevator( Character &you, const tripoint_bub_ms &examp );
+void genemill( Character &you, const tripoint_bub_ms &examp );
 void nanofab( Character &you, const tripoint_bub_ms &examp );
 void controls_gate( Character &you, const tripoint_bub_ms &examp );
 void cardreader( Character &you, const tripoint_bub_ms &examp );
@@ -177,7 +177,7 @@ void practice_survival_while_foraging( Character &who );
 namespace iexamine_helper
 {
 bool drink_nectar( Character &you );
-void handle_harvest( Character &you, const std::string &itemid, bool force_drop );
+void handle_harvest( Character &you, const itype_id &itemid, bool force_drop );
 } // namespace iexamine_helper
 
 using iexamine_examine_function = void ( * )( Character &, const tripoint_bub_ms & );

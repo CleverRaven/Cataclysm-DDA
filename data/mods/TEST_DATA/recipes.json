@@ -281,6 +281,12 @@
     "using": [ [ "tailoring_cotton_patchwork", 6 ] ]
   },
   {
+    "//": "Variant version with XL prefix",
+    "result": "test_xl_waist_apron_long",
+    "type": "recipe",
+    "copy-from": "test_waist_apron_long_pink_apron_cotton"
+  },
+  {
     "result": "test_200_kcal",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",

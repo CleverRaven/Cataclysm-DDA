@@ -98,6 +98,26 @@
     ]
   },
   {
+    "id": "afs_bio_deck",
+    "type": "bionic",
+    "name": { "str": "Military Infolink" },
+    "description": "An implanted miniaturized computer isolated from the rest of your systems by military-grade firewalls.  An accompanying jack allows you to interface with external computer systems with minimal risk.  Skill in computers is important, and a failed use may damage your circuits.",
+    "occupied_bodyparts": [ [ "arm_l", 1 ], [ "arm_r", 1 ] ],
+    "passive_pseudo_items": [ "afs_bio_deck_jack" ]
+  },
+  {
+    "id": "afs_bio_beavy_batteries",
+    "type": "bionic",
+    "name": { "str": "High-Voltage Battery System" },
+    "description": "A high voltage battery port compatible with the power cartridges normally used in military weaponry.  Intended to supplement internally installed power generation and storage.",
+    "occupied_bodyparts": [ [ "torso", 20 ] ],
+    "fuel_options": [ "battery" ],
+    "fuel_efficiency": 2,
+    "time": "1 s",
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ],
+    "passive_pseudo_items": [ "afs_internal_battery_compartment" ]
+  },
+  {
     "id": "afs_bio_blood_brain",
     "type": "bionic",
     "name": { "str": "Blood Neurology" },

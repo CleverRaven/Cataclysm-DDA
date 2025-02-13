@@ -1,8 +1,9 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <cstdlib>
 #include <cstdint>
+#include <cstdlib>
+#include <functional>
 #include <limits>
 #include <list>
 #include <map>
@@ -15,6 +16,7 @@
 #include <vector>
 
 #include "addiction.h"
+#include "assign.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -22,6 +24,7 @@
 #include "character.h"
 #include "color.h"
 #include "contents_change_handler.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
@@ -41,7 +44,6 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "line.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
@@ -1093,7 +1095,7 @@ static bool eat( item &food, Character &you, bool force )
     int charges_used = 0;
     if( food.type->has_use() ) {
         if( !food.type->can_use( "PETFOOD" ) ) {
-            charges_used = food.type->invoke( &you, food, you.pos() ).value_or( 0 );
+            charges_used = food.type->invoke( &you, food, you.pos_bub() ).value_or( 0 );
             if( charges_used <= 0 ) {
                 return false;
             }
@@ -1878,7 +1880,7 @@ static bool consume_med( item &target, Character &you )
 
     int amount_used = 1;
     if( target.type->has_use() ) {
-        amount_used = target.type->invoke( &you, target, you.pos() ).value_or( 0 );
+        amount_used = target.type->invoke( &you, target, you.pos_bub() ).value_or( 0 );
         if( amount_used <= 0 ) {
             return false;
         }

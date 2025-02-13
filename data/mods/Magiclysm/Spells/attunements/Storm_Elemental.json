@@ -13,7 +13,7 @@
     "max_damage": { "math": [ "(u_spell_level('storm_chain_master') * 1.4) + 6" ] },
     "min_range": 1,
     "max_range": 1,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 500,
     "base_casting_time": 100,
     "difficulty": 4,
@@ -119,7 +119,7 @@
     "final_energy_cost": 150,
     "energy_increment": -5,
     "max_level": 35,
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "id": "eff_storm_elemental_electric_melee",

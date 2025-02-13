@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow17",
-    "weight": 50,
     "method": "json",
     "object": {
       "palettes": [
@@ -52,7 +51,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow17_roof",
-    "weight": 50,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],

@@ -70,7 +70,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "great_tree_z1_nw", "great_tree_z1_ne" ], [ "great_tree_z1_sw", "great_tree_z1_se" ] ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_barkfloor",
       "rows": [

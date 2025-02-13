@@ -9,7 +9,7 @@
     "move_cost_mod": -1,
     "coverage": 75,
     "required_str": -1,
-    "flags": [ "FLAMMABLE", "ORGANIC", "TRANSPARENT" ],
+    "flags": [ "FLAMMABLE", "ORGANIC", "TRANSPARENT", "FREE_TO_EXAMINE" ],
     "max_volume": "120 ml",
     "examine_action": "bulletin_board",
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 4, 8 ] } ] },

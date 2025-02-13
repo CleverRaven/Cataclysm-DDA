@@ -297,8 +297,6 @@ class input_context
          * the delta vector associated with it. Otherwise returns an empty value.
          * The returned vector will always have a z component of 0.
          */
-        // TODO: Get rid of untyped version and change name of the typed one.
-        std::optional<tripoint> get_direction( const std::string &action ) const;
         std::optional<tripoint_rel_ms> get_direction_rel_ms( const std::string &action ) const;
         std::optional<tripoint_rel_omt> get_direction_rel_omt( const std::string &action ) const;
 

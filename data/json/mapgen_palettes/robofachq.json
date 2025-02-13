@@ -32,6 +32,7 @@
     },
     "furniture": {
       "6": "f_console_broken",
+      "ϟ": "f_bulletin",
       ";": "f_toilet",
       "~": "f_shower",
       "@": "f_bed",

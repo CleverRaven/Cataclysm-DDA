@@ -105,7 +105,7 @@ Special prefixes that are used include:
 
 `overlay_` for movement modes.
 
-`vp_` for vehicle parts (see also [`symbols` and `standard_symbols` JSON keys](JSON_INFO.md#symbols-and-variants) that are used as suffixes).
+`vp_` for vehicle parts (see also [`symbols` and `standard_symbols` JSON keys](JSON/JSON_INFO.md#symbols-and-variants) that are used as suffixes).
 
 `explosion_` for spell explosion effects.  Multitile is required; only supports "center", "edge" and "corner".
 
@@ -172,11 +172,11 @@ For both properties, arrays of multiple groups are possible.
 
 Connections are only set up from types that have a `connects_to` group to types that have the same group in `connect_groups`.
 
-For details, see JSON_INFO.md, sections [`connect_groups`](./JSON_INFO.md#connect_groups) and [`connects_to`](./JSON_INFO.md#connects_to).
+For details, see JSON_INFO.md, sections [`connect_groups`](./JSON/JSON_INFO.md#connect_groups) and [`connects_to`](./JSON/JSON_INFO.md#connects_to).
 
 Wall work out of the box without modifying terrain definitions, as the required group `WALL` is implied by the flags `WALL` and `CONNECT_WITH_WALL` for `connect_groups` as well as `connects_to` (i.e. symmetric relation).
 
-For available connect groups, see [JSON_INFO.md, section Connection groups](./JSON_INFO.md#connection-groups).
+For available connect groups, see [JSON_INFO.md, section Connection groups](./JSON/JSON_INFO.md#connection-groups).
 
 For the full multitile, the 16 sprite variants of this template are required:
 
@@ -231,15 +231,15 @@ In JSON, the multitile would be defined like this:
 #### Auto-rotating terrain and furniture - `rotates_to`
 
 Terrain and furniture can auto-rotate depending on other surrounding terrain or furniture using `rotates_to`.
-For details, see JSON_INFO.md, sections [`connect_groups`](./JSON_INFO.md#connect_groups) and [`rotates_to`](./JSON_INFO.md#rotates_to).
+For details, see JSON_INFO.md, sections [`connect_groups`](./JSON/JSON_INFO.md#connect_groups) and [`rotates_to`](./JSON/JSON_INFO.md#rotates_to).
 Usage examples for terrain are doors and windows that look differently, seen from inside and outside (e.g. curtain).
 An example for furniture are street lights that orient towards the pavement.
 
 The mechanism works like to `connects_to`, and can be combined with it.
-It also makes use of the same [Connection group](./JSON_INFO.md#connection-groups), given by property `connect_groups`.
+It also makes use of the same [Connection group](./JSON/JSON_INFO.md#connection-groups), given by property `connect_groups`.
 Currently, however, auto-rotation is implemented only for `edge` and `end_piece` tiles (doors, windows, furniture) and `unconnected` tiles (e.g. street lights).
 
-For the active/rotating type, `rotates_to` specifies a [Connection group](./JSON_INFO.md#connection-groups) the terrain should rotate towards (or rather, depend on).
+For the active/rotating type, `rotates_to` specifies a [Connection group](./JSON/JSON_INFO.md#connection-groups) the terrain should rotate towards (or rather, depend on).
 For the passive/target type, `connect_groups` is used to add it to a connection group.
 
 Terrain can only use terrain to rotate towards, while furniture can use both, terrain and furniture.

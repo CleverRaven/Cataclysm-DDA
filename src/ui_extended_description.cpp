@@ -1,12 +1,20 @@
 #include "ui_extended_description.h"
 
+#include <imgui/imgui.h>
+
 #include "character.h"
+#include "color.h"
+#include "creature.h"
 #include "creature_tracker.h"
-#include "faction.h"
 #include "map.h"
+#include "mapdata.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "type_id.h"
 #include "ui_manager.h"
-#include "vehicle.h"
-#include "veh_type.h"
+#include "viewer.h"
+#include "vpart_position.h"
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 

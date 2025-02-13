@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_CAVE",
+    "id": "GROUP_CAVE",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_bat", "weight": 600, "pack_size": [ 2, 5 ] },
@@ -17,7 +17,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FOREST",
+    "id": "GROUP_FOREST",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -127,7 +127,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_WILDERNESS_FOREST_MAMMAL",
+    "id": "GROUP_WILDERNESS_FOREST_MAMMAL",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -158,7 +158,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
+    "id": "GROUP_WILDERNESS_FOREST_MAMMAL_WINTER",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -175,7 +175,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_WILDERNESS_FOREST_MAMMAL_MUTANT",
+    "id": "GROUP_WILDERNESS_FOREST_MAMMAL_MUTANT",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -185,7 +185,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_WILDERNESS_FOREST_BIRD",
+    "id": "GROUP_WILDERNESS_FOREST_BIRD",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -218,7 +218,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_WILDERNESS_FOREST_REPTILE",
+    "id": "GROUP_WILDERNESS_FOREST_REPTILE",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -230,7 +230,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_WILDERNESS_FOREST_INSECT_HARMLESS",
+    "id": "GROUP_WILDERNESS_FOREST_INSECT_HARMLESS",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -241,7 +241,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_WILDERNESS_FOREST_INSECT",
+    "id": "GROUP_WILDERNESS_FOREST_INSECT",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -265,7 +265,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_WILDERNESS_FOREST_ZOMBIE",
+    "id": "GROUP_WILDERNESS_FOREST_ZOMBIE",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -280,7 +280,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_RIVER",
+    "id": "GROUP_RIVER",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -394,7 +394,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_OCEAN_SHORE",
+    "id": "GROUP_OCEAN_SHORE",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -412,7 +412,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_OCEAN_DEEP",
+    "id": "GROUP_OCEAN_DEEP",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -434,7 +434,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SWAMP",
+    "id": "GROUP_SWAMP",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -479,7 +479,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_WILDERNESS_FRESHWATER_REPTILE",
+    "id": "GROUP_WILDERNESS_FRESHWATER_REPTILE",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -489,7 +489,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_WILDERNESS_SWAMP_INSECT",
+    "id": "GROUP_WILDERNESS_SWAMP_INSECT",
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
@@ -504,7 +504,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_PARK_ANIMAL",
+    "id": "GROUP_PARK_ANIMAL",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_crow", "weight": 50, "cost_multiplier": 0 },
@@ -536,7 +536,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ROOF_ANIMAL",
+    "id": "GROUP_ROOF_ANIMAL",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_crow", "weight": 45, "cost_multiplier": 0 },
@@ -576,7 +576,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_POND_ANIMAL",
+    "id": "GROUP_POND_ANIMAL",
     "is_animal": true,
     "monsters": [
       { "group": "GROUP_RABBIT_WILD", "weight": 50, "cost_multiplier": 0 },
@@ -593,7 +593,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_POND_BIRD",
+    "id": "GROUP_POND_BIRD",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_duck", "weight": 50, "cost_multiplier": 0 },
@@ -607,7 +607,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_POND_FISH",
+    "id": "GROUP_POND_FISH",
     "is_animal": true,
     "monsters": [
       { "group": "GROUP_POND_FISH_2", "weight": 200, "cost_multiplier": 0 },
@@ -618,7 +618,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_POND_FISH_2",
+    "id": "GROUP_POND_FISH_2",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_fish_bluegill", "weight": 50, "cost_multiplier": 0 },
@@ -629,7 +629,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_BIRDFEEDER",
+    "id": "GROUP_BIRDFEEDER",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_bluejay", "weight": 50, "cost_multiplier": 0 },
@@ -645,7 +645,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_STREAM",
+    "id": "GROUP_STREAM",
     "is_animal": true,
     "monsters": [
       { "group": "GROUP_STREAM_SMALL", "weight": 30 },
@@ -657,7 +657,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_STREAM_DOMESTIC",
+    "id": "GROUP_STREAM_DOMESTIC",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_goat", "weight": 1, "pack_size": [ 1, 4 ] },
@@ -666,7 +666,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_STREAM_BIRDS",
+    "id": "GROUP_STREAM_BIRDS",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_duck", "weight": 20, "pack_size": [ 1, 4 ], "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
@@ -678,7 +678,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_STREAM_SMALL",
+    "id": "GROUP_STREAM_SMALL",
     "is_animal": true,
     "monsters": [
       {

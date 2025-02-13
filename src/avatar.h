@@ -17,39 +17,33 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_id.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
+#include "item_location.h"
 #include "magic_teleporter_list.h"
 #include "mdarray.h"
-#include "point.h"
+#include "memory_fast.h"
 #include "type_id.h"
 #include "units.h"
 
+class JsonObject;
+class JsonOut;
 class advanced_inv_area;
 class advanced_inv_listitem;
 class advanced_inventory_pane;
 class cata_path;
 class diary;
-class faction;
-class item_location;
-class JsonObject;
-class JsonOut;
 class map_memory;
 class memorized_tile;
 class mission;
 class monster;
-class nc_color;
 class npc;
 class talker;
 struct bionic;
 struct mtype;
 
-namespace catacurses
-{
-class window;
-} // namespace catacurses
 namespace debug_menu
 {
 class mission_debug;
@@ -218,7 +212,7 @@ class avatar : public Character
                              int base_cost = INVENTORY_HANDLING_PENALTY );
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur );
-        void set_location( const tripoint_abs_ms &loc );
+        void set_pos_abs_only( const tripoint_abs_ms &loc );
         /** Handles reading effects and returns true if activity started */
         bool read( item_location &book, item_location ereader = {} );
         /** Note that we've read a book at least once. **/
@@ -286,8 +280,6 @@ class avatar : public Character
         std::string preferred_aiming_mode;
 
         // checks if the point is blocked based on characters current aiming state
-        // TODO Remove untyped overload
-        bool cant_see( const tripoint &p ) const;
         bool cant_see( const tripoint_bub_ms &p ) const;
 
         // rebuilds the full aim cache for the character if it is dirty

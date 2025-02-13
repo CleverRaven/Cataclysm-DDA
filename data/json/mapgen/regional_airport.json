@@ -335,7 +335,7 @@
       "k": "f_utility_shelf",
       "O": "f_crate_c",
       "N": [ "f_machinery_heavy", "f_machinery_electronic", "f_machinery_light" ],
-      "X": "f_generator_broken",
+      "X": [ [ "f_generator_broken", 25 ], [ "f_diesel_generator", 5 ], [ "f_12000_gasoline_generator", 5 ] ],
       "D": "f_dumpster"
     },
     "items": {

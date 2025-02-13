@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_pizza_parlor" ],
-    "weight": 1000,
     "object": {
       "//": "Default terrain is floor but some things are outside (tables)",
       "fill_ter": "t_floor",
@@ -111,7 +110,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "s_pizza_parlor_roof",
-    "weight": 200,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -164,7 +162,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_pizza_parlor_1" ],
-    "weight": 1000,
     "object": {
       "//": "Default terrain is floor but some things are outside (tables)",
       "fill_ter": "t_floor",
@@ -269,7 +266,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "s_pizza_parlor_roof_1",
-    "weight": 200,
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [

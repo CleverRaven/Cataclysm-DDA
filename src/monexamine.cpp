@@ -1,7 +1,5 @@
 #include "monexamine.h"
 
-#include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
@@ -11,9 +9,11 @@
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -29,9 +29,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
-#include "npc.h"
 #include "output.h"
-#include "player_activity.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -516,7 +514,7 @@ void milk_source( monster &source_mon )
         std::vector<tripoint_abs_ms> coords{};
         std::vector<std::string> str_values{};
         Character &player_character = get_player_character();
-        coords.push_back( get_map().getglobal( source_mon.pos_bub() ) );
+        coords.push_back( get_map().get_abs( source_mon.pos_bub() ) );
         // pin the cow in place if it isn't already
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {

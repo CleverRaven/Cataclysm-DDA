@@ -27,19 +27,16 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 1,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEPATH_SHIELD",
         "effect": [
-          {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
-          },
-          { "math": [ "u_spell_exp('afs_telepathic_shield')", "+=", "(contemplation_factor(1))" ] },
-          { "run_eocs": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD" }
+          { "set_string_var": "afs_telepathic_shield", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 2" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -54,19 +51,16 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 2,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEPATH_MIND_SENSE",
         "effect": [
-          {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
-          },
-          { "math": [ "u_spell_exp('afs_telepathic_mind_sense')", "+=", "(contemplation_factor(1))" ] },
-          { "run_eocs": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD" }
+          { "set_string_var": "afs_telepathic_mind_sense", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 3" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -81,19 +75,16 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 3,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_TELEPATH_SUGGESTION",
         "effect": [
-          {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
-          },
-          { "math": [ "u_spell_exp('afs_telepathic_suggestion')", "+=", "(contemplation_factor(1))" ] },
-          { "run_eocs": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD" }
+          { "set_string_var": "afs_telepathic_suggestion", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 4" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -115,12 +106,9 @@
       {
         "id": "EOC_PRACTICE_AFS_TELEPATH_CONFUSION",
         "effect": [
-          {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
-          },
-          { "math": [ "u_spell_exp('afs_telepathic_confusion')", "+=", "(contemplation_factor(1))" ] },
-          { "run_eocs": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD" }
+          { "set_string_var": "afs_telepathic_confusion", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 5" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -142,12 +130,9 @@
       {
         "id": "EOC_PRACTICE_AFS_TELEPATHIC_BLAST",
         "effect": [
-          {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
-          },
-          { "math": [ "u_spell_exp('afs_telepathic_blast')", "+=", "(contemplation_factor(1))" ] },
-          { "run_eocs": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD" }
+          { "set_string_var": "afs_telepathic_blast", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 7" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]

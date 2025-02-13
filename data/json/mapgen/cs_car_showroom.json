@@ -3,7 +3,6 @@
     "type": "mapgen",
     "om_terrain": [ "cs_car_showroom" ],
     "method": "json",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

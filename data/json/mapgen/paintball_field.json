@@ -80,8 +80,7 @@
       }
     },
     "om_terrain": "paintball_field",
-    "type": "mapgen",
-    "weight": 100
+    "type": "mapgen"
   },
   {
     "type": "mapgen",
@@ -206,8 +205,7 @@
       }
     },
     "om_terrain": "paintball_field_1",
-    "type": "mapgen",
-    "weight": 100
+    "type": "mapgen"
   },
   {
     "type": "mapgen",

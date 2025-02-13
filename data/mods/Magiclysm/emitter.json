@@ -80,5 +80,19 @@
     "field": "fd_obscuring_fog",
     "intensity": 3,
     "qty": 80
+  },
+  {
+    "id": "emit_hot_air3_blast",
+    "type": "emit",
+    "field": "fd_hot_air3",
+    "intensity": 3,
+    "qty": 100
+  },
+  {
+    "id": "emit_hot_air4_blast",
+    "type": "emit",
+    "field": "fd_hot_air4",
+    "intensity": 3,
+    "qty": 100
   }
 ]

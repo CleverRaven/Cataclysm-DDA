@@ -10,6 +10,7 @@
 #include "bodypart.h"
 #include "character.h"
 #include "character_attire.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "enums.h"
 #include "flag.h"
@@ -23,7 +24,6 @@
 #include "material.h"
 #include "memorial_logger.h"
 #include "mutation.h"
-#include "npc.h"
 #include "output.h"
 #include "pimpl.h"
 #include "point.h"
@@ -34,9 +34,6 @@
 #include "type_id.h"
 #include "units.h"
 #include "viewer.h"
-
-struct weakpoint;
-struct weakpoint_attack;
 
 static const bionic_id bio_ads( "bio_ads" );
 
@@ -139,7 +136,7 @@ void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
 }
 
 const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart_id &bp,
-                                        damage_instance &dam )
+                                        damage_instance &dam, const weakpoint & )
 {
     std::list<item> worn_remains;
     bool armor_destroyed = false;

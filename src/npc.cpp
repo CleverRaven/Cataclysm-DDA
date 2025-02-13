@@ -5,20 +5,21 @@
 #include <cmath>
 #include <cstdlib>
 #include <functional>
-#include <limits>
+#include <iterator>
 #include <memory>
 #include <ostream>
 
-#include "activity_type.h"
 #include "activity_actor_definitions.h"
+#include "activity_type.h"
 #include "auto_pickup.h"
 #include "basecamp.h"
 #include "bodypart.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "clzones.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -27,23 +28,25 @@
 #include "dialogue_chatbin.h"
 #include "effect.h"
 #include "effect_on_condition.h"
+#include "enum_conversions.h"
+#include "enum_traits.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
 #include "flag.h"
+#include "flat_set.h"
+#include "flexbuffer_json.h"
 #include "game.h"
-#include "gates.h"
 #include "game_constants.h"
 #include "game_inventory.h"
+#include "gates.h"
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "json.h"
 #include "magic.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -53,9 +56,9 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
+#include "npctalk.h"
 #include "npctrade.h"
 #include "npctrade_utils.h"
-#include "npctalk.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -64,6 +67,7 @@
 #include "player_activity.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "shop_cons_rate.h"
 #include "skill.h"
 #include "sounds.h"
 #include "stomach.h"
@@ -71,7 +75,6 @@
 #include "talker.h"
 #include "talker_npc.h"
 #include "text_snippets.h"
-#include "tileray.h"
 #include "trait_group.h"
 #include "translations.h"
 #include "units.h"
@@ -81,7 +84,6 @@
 #include "viewer.h"
 #include "visitable.h"
 #include "vpart_position.h"
-#include "vpart_range.h"
 
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_controlled( "controlled" );
@@ -113,6 +115,8 @@ static const item_group_id Item_spawn_data_npc_eyes( "npc_eyes" );
 static const item_group_id Item_spawn_data_survivor_bashing( "survivor_bashing" );
 static const item_group_id Item_spawn_data_survivor_cutting( "survivor_cutting" );
 static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing" );
+
+static const itype_id itype_molotov( "molotov" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
@@ -166,8 +170,6 @@ static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
-
-class monfaction;
 
 static void starting_clothes( npc &who, const npc_class_id &type, bool male );
 static void starting_inv( npc &who, const npc_class_id &type );
@@ -268,11 +270,11 @@ npc::npc()
 }
 
 standard_npc::standard_npc( const std::string &name, const tripoint_bub_ms &pos,
-                            const std::vector<std::string> &clothing,
+                            const std::vector<itype_id> &clothing,
                             int sk_lvl, int s_str, int s_dex, int s_int, int s_per )
 {
     this->name = name;
-    set_pos_only( pos );
+    set_pos_bub_only( pos );
     if( !getID().is_valid() ) {
         setID( g->assign_npc_id() );
     }
@@ -293,7 +295,7 @@ standard_npc::standard_npc( const std::string &name, const tripoint_bub_ms &pos,
         set_skill_level( e.ident(), std::max( sk_lvl, 0 ) );
     }
 
-    for( const std::string &e : clothing ) {
+    for( const itype_id &e : clothing ) {
         wear_item( item( e ), false );
     }
 
@@ -575,7 +577,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         return;
     }
 
-    set_wielded_item( item( "null", calendar::turn_zero ) );
+    set_wielded_item( item( itype_id::NULL_ID(), calendar::turn_zero ) );
     inv->clear();
     randomize_personality();
     moves = 100;
@@ -696,6 +698,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         add_default_background();
         set_skills_from_hobbies( true ); // Only trains skills that are still at 0 at this point
         set_proficiencies_from_hobbies();
+        set_recipes_from_hobbies();
         set_bionics_from_hobbies(); // Just in case, for mods
     }
 
@@ -930,7 +933,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     starting_inv_ammo( who, res, multiplier );
 
     if( type == NC_ARSONIST ) {
-        res.emplace_back( "molotov" );
+        res.emplace_back( itype_molotov );
     }
 
     int qty = ( type == NC_EVAC_SHOPKEEP ) ? 5 : 2;
@@ -1117,7 +1120,7 @@ void npc::on_move( const tripoint_abs_ms &old_pos )
 {
     Character::on_move( old_pos );
     const point_abs_om pos_om_old = project_to<coords::om>( old_pos.xy() );
-    const point_abs_om pos_om_new = project_to<coords::om>( get_location().xy() );
+    const point_abs_om pos_om_new = project_to<coords::om>( pos_abs().xy() );
     if( !is_fake() && pos_om_old != pos_om_new ) {
         overmap &om_old = overmap_buffer.get( pos_om_old );
         overmap &om_new = overmap_buffer.get( pos_om_new );
@@ -1136,10 +1139,10 @@ void npc::on_move( const tripoint_abs_ms &old_pos )
 
 void npc::travel_overmap( const tripoint_abs_omt &pos )
 {
-    const point_abs_om pos_om_old = project_to<coords::om>( global_omt_location().xy() );
+    const point_abs_om pos_om_old = project_to<coords::om>( pos_abs_omt().xy() );
     spawn_at_omt( pos );
-    const point_abs_om pos_om_new = project_to<coords::om>( global_omt_location().xy() );
-    if( global_omt_location() == goal ) {
+    const point_abs_om pos_om_new = project_to<coords::om>( pos_abs_omt().xy() );
+    if( pos_abs_omt() == goal ) {
         reach_omt_destination();
     }
     if( !is_fake() && pos_om_old != pos_om_new ) {
@@ -1164,16 +1167,16 @@ void npc::spawn_at_omt( const tripoint_abs_omt &p )
 
 void npc::spawn_at_precise( const tripoint_abs_ms &p )
 {
-    set_location( p );
+    set_pos_abs_only( p );
 }
 
-void npc::place_on_map()
+void npc::place_on_map( map *here )
 {
-    if( g->is_empty( pos_bub() ) || is_mounted() ) {
+    if( g->is_empty( here, pos_abs() ) || is_mounted() ) {
         return;
     }
 
-    for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), SEEX + 1 ) ) {
+    for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 1, SEEX + 1 ) ) {
         if( g->is_empty( p ) ) {
             setpos( p );
             return;
@@ -1653,18 +1656,8 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
         npc_values.fear += 6;
     }
 
-    int u_ugly = 0;
-    for( trait_id &mut : you.get_functioning_mutations() ) {
-        u_ugly += mut.obj().ugliness;
-    }
-    for( const bodypart_id &bp : you.get_all_body_parts() ) {
-        if( bp->ugliness == 0 && bp->ugliness_mandatory == 0 ) {
-            continue;
-        }
-        u_ugly += bp->ugliness_mandatory;
-        u_ugly += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
-        u_ugly = enchantment_cache->modify_value( enchant_vals::mod::UGLINESS, u_ugly );
-    }
+    int u_ugly = you.ugliness();
+
     npc_values.fear += u_ugly / 2;
     npc_values.trust -= u_ugly / 3;
 
@@ -1755,9 +1748,11 @@ void npc::mutiny()
 
 float npc::vehicle_danger( int radius ) const
 {
+    map &here = get_map();
+
     const tripoint_bub_ms from( posx() - radius, posy() - radius, posz() );
     const tripoint_bub_ms to( posx() + radius, posy() + radius, posz() );
-    VehicleList vehicles = get_map().get_vehicles( from, to );
+    VehicleList vehicles = here.get_vehicles( from, to );
 
     int danger = -1;
 
@@ -1765,8 +1760,8 @@ float npc::vehicle_danger( int radius ) const
     for( size_t i = 0; i < vehicles.size(); ++i ) {
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
-            const auto &points_to_check = wrapped_veh.v->immediate_path();
-            point_abs_ms p( get_map().getglobal( pos_bub() ).xy() );
+            const auto &points_to_check = wrapped_veh.v->immediate_path( &here );
+            point_abs_ms p( here.get_abs( pos_bub() ).xy() );
             if( points_to_check.find( p ) != points_to_check.end() ) {
                 danger = i;
             }
@@ -1811,8 +1806,10 @@ void npc::make_angry()
 
 void npc::on_attacked( const Creature &attacker )
 {
+    map &here = get_map();
+
     if( is_hallucination() ) {
-        die( nullptr );
+        die( &here, nullptr );
     }
     if( attacker.is_avatar() && !is_enemy() && !is_dead() && !guaranteed_hostile() ) {
         make_angry();
@@ -2499,7 +2496,7 @@ bool npc::is_leader() const
 
 bool npc::within_boundaries_of_camp() const
 {
-    const point_abs_omt p( global_omt_location().xy() );
+    const point_abs_omt p( pos_abs_omt().xy() );
     for( int x2 = -3; x2 < 3; x2++ ) {
         for( int y2 = -3; y2 < 3; y2++ ) {
             const point_abs_omt nearby = p + point( x2, y2 );
@@ -2948,7 +2945,7 @@ void npc::reboot()
     add_effect( effect_npc_suspend, 24_hours, true, 1 );
 }
 
-void npc::die( Creature *nkiller )
+void npc::die( map *here, Creature *nkiller )
 {
     if( dead ) {
         // We are already dead, don't die again, note that npc::dead is
@@ -2983,7 +2980,7 @@ void npc::die( Creature *nkiller )
     // Need to unboard from vehicle before dying, otherwise
     // the vehicle code cannot find us
     if( in_vehicle ) {
-        get_map().unboard_vehicle( pos_bub(), true );
+        here->unboard_vehicle( pos_bub( here ), true );
     }
     if( is_mounted() ) {
         monster *critter = mounted_creature.get();
@@ -3005,7 +3002,7 @@ void npc::die( Creature *nkiller )
         }
     }
     dead = true;
-    Character::die( nkiller );
+    Character::die( here, nkiller );
 
     if( is_hallucination() || lifespan_end ) {
         add_msg_if_player_sees( *this, _( "%s disappears." ), get_name().c_str() );
@@ -3065,7 +3062,7 @@ void npc::die( Creature *nkiller )
         }
     }
 
-    place_corpse();
+    place_corpse( here );
 }
 
 void npc::prevent_death()
@@ -3228,7 +3225,7 @@ void npc::npc_update_body()
     }
 }
 
-void npc::on_load()
+void npc::on_load( map *here )
 {
     const auto advance_effects = [&]( const time_duration & elapsed_dur ) {
         for( auto &elem : *effects ) {
@@ -3282,7 +3279,7 @@ void npc::on_load()
     if( dt > 0_turns ) {
         // This ensures food is properly rotten at load
         // Otherwise NPCs try to eat rotten food and fail
-        process_items();
+        process_items( here );
         // give NPCs that are doing activities a pile of moves
         if( has_destination() || activity ) {
             mod_moves( to_moves<int>( dt ) );
@@ -3292,20 +3289,19 @@ void npc::on_load()
     // Not necessarily true, but it's not a bad idea to set this
     has_new_items = true;
 
-    map &here = get_map();
     // for spawned npcs
-    gravity_check();
-    if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos_bub() ) &&
-        !here.has_vehicle_floor( pos_bub() ) ) {
+    gravity_check( here );
+    if( here->has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos_bub( here ) ) &&
+        !here->has_vehicle_floor( pos_bub( here ) ) ) {
         add_effect( effect_bouldering, 1_turns,  true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
-    if( here.veh_at( pos_bub() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
-        here.board_vehicle( pos_bub(), this );
+    if( here->veh_at( pos_abs() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
+        here->board_vehicle( pos_bub( here ), this );
     }
     if( has_effect( effect_riding ) && !mounted_creature ) {
-        if( const monster *const mon = get_creature_tracker().creature_at<monster>( pos_bub() ) ) {
+        if( const monster *const mon = get_creature_tracker().creature_at<monster>( pos_abs() ) ) {
             mounted_creature = g->shared_from( *mon );
         } else {
             add_msg_debug( debugmode::DF_NPC,
@@ -3482,15 +3478,18 @@ std::function<bool( const tripoint_bub_ms & )> npc::get_path_avoid() const
             return true;
         }
         if( rules.has_flag( ally_rule::avoid_locks ) &&
-            doors::can_unlock_door( here, *this, tripoint_bub_ms( p ) ) ) {
+            doors::can_unlock_door( here, *this, p ) ) {
+            return true;
+        }
+        if( here.is_open_air( p ) ) {
             return true;
         }
         if( rules.has_flag( ally_rule::hold_the_line ) &&
-            ( here.close_door( tripoint_bub_ms( p ), true, true ) ||
+            ( here.close_door( p, true, true ) ||
               here.move_cost( p ) > 2 ) ) {
             return true;
         }
-        if( sees_dangerous_field( tripoint_bub_ms( p ) ) ) {
+        if( sees_dangerous_field( p ) ) {
             return true;
         }
         return false;
@@ -3556,7 +3555,7 @@ std::string npc::get_epilogue() const
 
 void npc::set_companion_mission( npc &p, const mission_id &miss_id )
 {
-    const tripoint_abs_omt omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.pos_abs_omt();
     set_companion_mission( omt_pos, p.companion_mission_role_id, miss_id );
 }
 
@@ -3664,7 +3663,7 @@ void npc::set_unique_id( const std::string &id )
         debugmsg( "Tried to set unique_id of npc with one already of value: ", unique_id );
     } else {
         unique_id = id;
-        g->update_unique_npc_location( id, project_to<coords::om>( get_location().xy() ) );
+        g->update_unique_npc_location( id, project_to<coords::om>( pos_abs().xy() ) );
     }
 }
 
@@ -3980,3 +3979,5 @@ std::unique_ptr<talker> get_talker_for( npc *guy )
 {
     return std::make_unique<talker_npc>( guy );
 }
+
+

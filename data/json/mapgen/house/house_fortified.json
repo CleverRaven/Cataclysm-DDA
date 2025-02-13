@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "house_fortified" ],
-    "weight": 50,
     "//": "fortified houses shouldn't be common",
     "object": {
       "fill_ter": "t_floor",

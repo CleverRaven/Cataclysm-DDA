@@ -1989,7 +1989,7 @@
     "fun": 20,
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
     "addiction_potential": 40,
-    "addiction_type": "sleeping pill",
+    "addiction_type": "diazepam",
     "use_action": [ "XANAX" ]
   },
   {

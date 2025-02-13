@@ -3,7 +3,6 @@
     "type": "mapgen",
     "om_terrain": [ [ "bandit_garage_1", "bandit_garage_2" ] ],
     "method": "json",
-    "weight": 250,
     "object": {
       "predecessor_mapgen": "forest",
       "faction_owner": [
@@ -135,7 +134,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "bandit_garage_1_roof", "bandit_garage_2_roof" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [

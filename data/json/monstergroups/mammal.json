@@ -1,6 +1,6 @@
 [
   {
-    "name": "GROUP_COWS_DAIRY",
+    "id": "GROUP_COWS_DAIRY",
     "type": "monstergroup",
     "is_safe": true,
     "monsters": [
@@ -12,7 +12,7 @@
     ]
   },
   {
-    "name": "GROUP_COWS",
+    "id": "GROUP_COWS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_cow", "weight": 150, "cost_multiplier": 2 },
@@ -21,7 +21,7 @@
     ]
   },
   {
-    "name": "GROUP_BEARS",
+    "id": "GROUP_BEARS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_bear", "weight": 150, "cost_multiplier": 2 },
@@ -30,7 +30,7 @@
     ]
   },
   {
-    "name": "GROUP_BOARS",
+    "id": "GROUP_BOARS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_boar_wild", "weight": 150, "cost_multiplier": 2 },
@@ -39,7 +39,7 @@
     ]
   },
   {
-    "name": "GROUP_PIGS",
+    "id": "GROUP_PIGS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_pig", "weight": 150, "cost_multiplier": 2 },
@@ -48,7 +48,7 @@
     ]
   },
   {
-    "name": "GROUP_SHEEPS",
+    "id": "GROUP_SHEEPS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_sheep", "weight": 150, "cost_multiplier": 2 },
@@ -57,7 +57,7 @@
     ]
   },
   {
-    "name": "GROUP_DEERS",
+    "id": "GROUP_DEERS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_deer", "weight": 150, "cost_multiplier": 2 },
@@ -66,7 +66,7 @@
     ]
   },
   {
-    "name": "GROUP_REINDEERS",
+    "id": "GROUP_REINDEERS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_reindeer", "weight": 150, "cost_multiplier": 2 },
@@ -87,7 +87,7 @@
     ]
   },
   {
-    "name": "GROUP_DEER_MUT_SPIDERS",
+    "id": "GROUP_DEER_MUT_SPIDERS",
     "type": "monstergroup",
     "//": "Mutant deer are better prepared to protect/escape with their spawn than normal deer, so, contrary to normal wildlife, their spawn becomes more common as time goes on.",
     "monsters": [
@@ -107,7 +107,7 @@
     ]
   },
   {
-    "name": "GROUP_WOLFS",
+    "id": "GROUP_WOLFS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_wolf", "weight": 150, "cost_multiplier": 2 },
@@ -128,7 +128,7 @@
     ]
   },
   {
-    "name": "GROUP_COUGARS",
+    "id": "GROUP_COUGARS",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_cougar", "weight": 150, "cost_multiplier": 2 },
@@ -149,7 +149,7 @@
     ]
   },
   {
-    "name": "GROUP_HORSES",
+    "id": "GROUP_HORSES",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_horse", "weight": 150, "cost_multiplier": 2 },
@@ -158,12 +158,12 @@
     ]
   },
   {
-    "name": "GROUP_HORSES_STABLES",
+    "id": "GROUP_HORSES_STABLES",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_null", "weight": 50 }, { "group": "GROUP_HORSES", "weight": 50, "ends": "14 days" } ]
   },
   {
-    "name": "GROUP_MOOSE",
+    "id": "GROUP_MOOSE",
     "type": "monstergroup",
     "monsters": [
       { "group": "GROUP_MOOSE_NORMAL", "weight": 19 },
@@ -171,7 +171,7 @@
     ]
   },
   {
-    "name": "GROUP_MOOSE_NORMAL",
+    "id": "GROUP_MOOSE_NORMAL",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_moose", "weight": 150, "cost_multiplier": 2 },
@@ -180,7 +180,7 @@
     ]
   },
   {
-    "name": "GROUP_TUSKED_MOOSE",
+    "id": "GROUP_TUSKED_MOOSE",
     "type": "monstergroup",
     "//": "Same as mutant deer.",
     "monsters": [
@@ -190,7 +190,7 @@
     ]
   },
   {
-    "name": "GROUP_COYOTE",
+    "id": "GROUP_COYOTE",
     "type": "monstergroup",
     "//": "Not doing the whole weird thing with timers and weight halving for babies as the groups above me did. I have no idea what's that hoping to accomplish and nobody else seems to either.",
     "monsters": [
@@ -200,7 +200,7 @@
     ]
   },
   {
-    "name": "GROUP_BEAVER",
+    "id": "GROUP_BEAVER",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_beaver", "weight": 38 },
@@ -209,7 +209,7 @@
     ]
   },
   {
-    "name": "GROUP_STRAY_DOGS",
+    "id": "GROUP_STRAY_DOGS",
     "type": "monstergroup",
     "default": "mon_dog",
     "monsters": [
@@ -221,7 +221,7 @@
     ]
   },
   {
-    "name": "GROUP_STRAY_CATS",
+    "id": "GROUP_STRAY_CATS",
     "type": "monstergroup",
     "default": "mon_cat",
     "monsters": [
@@ -232,7 +232,7 @@
     ]
   },
   {
-    "name": "GROUP_PET_DOGS",
+    "id": "GROUP_PET_DOGS",
     "type": "monstergroup",
     "default": "mon_dog",
     "monsters": [
@@ -265,7 +265,7 @@
     ]
   },
   {
-    "name": "GROUP_MUTANT_PET_DOGS",
+    "id": "GROUP_MUTANT_PET_DOGS",
     "type": "monstergroup",
     "default": "mon_dog_mutant_mongrel",
     "monsters": [
@@ -276,7 +276,7 @@
     ]
   },
   {
-    "name": "GROUP_PET_CATS",
+    "id": "GROUP_PET_CATS",
     "type": "monstergroup",
     "default": "mon_cat",
     "//": "Both persian and sphynx cats are not really fit to survive without human assistance and will die off eventually. persians will overheat in the summer and have trouble breathing because of their flat faces and sphynx cats will freeze in the cold season.",
@@ -308,7 +308,7 @@
     ]
   },
   {
-    "name": "GROUP_PETS",
+    "id": "GROUP_PETS",
     "type": "monstergroup",
     "default": "mon_dog",
     "monsters": [
@@ -319,7 +319,7 @@
     ]
   },
   {
-    "name": "GROUP_RABBIT_WILD",
+    "id": "GROUP_RABBIT_WILD",
     "type": "monstergroup",
     "default": "mon_wild_rabbit",
     "monsters": [

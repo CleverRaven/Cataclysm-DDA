@@ -17,7 +17,11 @@
     "values": [
       {
         "value": "PERCEPTION",
-        "multiply": { "math": [ "1 + (u_has_trait('VAMPIRE2') * 1) + (u_has_trait('VAMPIRE3') * 2)" ] }
+        "add": {
+          "math": [
+            "1 + (vampire_total_tier_one_traits() * 0.20) + (vampire_total_tier_two_traits() * 0.3) + (vampire_total_tier_three_traits() * 0.45) + (vampire_total_tier_four_traits_plus_potence() * 0.6)"
+          ]
+        }
       }
     ]
   },

@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": "rural_house1",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -83,7 +82,6 @@
     "method": "json",
     "om_terrain": "rural_house2",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

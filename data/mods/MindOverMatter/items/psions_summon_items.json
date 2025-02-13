@@ -20,9 +20,9 @@
       "SEMITANGIBLE",
       "REBREATHER",
       "WATER_FRIENDLY",
-      "ONLY_ONE",
       "NO_DROP"
     ],
+    "max_worn": 1,
     "environmental_protection": -5,
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "mouth", "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
@@ -45,10 +45,10 @@
       "PADDED",
       "OUTER",
       "SEMITANGIBLE",
-      "ONLY_ONE",
       "WATER_FRIENDLY",
       "NO_DROP"
     ],
+    "max_worn": 1,
     "qualities": [
       [ "WRENCH", 1 ],
       [ "SCREW", 1 ],
@@ -95,9 +95,9 @@
       "PADDED",
       "SEMITANGIBLE",
       "WATER_FRIENDLY",
-      "ONLY_ONE",
       "NO_DROP"
     ],
+    "max_worn": 1,
     "environmental_protection": 0
   },
   {
@@ -112,7 +112,6 @@
     "looks_like": "spiral_stone",
     "flags": [
       "TRADER_AVOID",
-      "ONLY_ONE",
       "NO_DROP",
       "PADDED",
       "PERSONAL",
@@ -125,6 +124,7 @@
       "INTEGRATED",
       "MAGICAL"
     ],
+    "max_worn": 1,
     "use_action": [ "ROBOTCONTROL" ]
   },
   {
@@ -139,7 +139,6 @@
     "looks_like": "spiral_stone",
     "flags": [
       "TRADER_AVOID",
-      "ONLY_ONE",
       "NO_DROP",
       "PADDED",
       "PERSONAL",
@@ -152,6 +151,7 @@
       "INTEGRATED",
       "MAGICAL"
     ],
+    "max_worn": 1,
     "qualities": [ [ "HACK", 0 ] ]
   },
   {
@@ -199,7 +199,6 @@
       "TWO_WAY_RADIO",
       "UNBREAKABLE",
       "PERSONAL",
-      "ONLY_ONE",
       "TRADER_AVOID",
       "ZERO_WEIGHT",
       "SEMITANGIBLE",
@@ -207,6 +206,7 @@
       "INTEGRATED",
       "PADDED"
     ],
+    "max_worn": 1,
     "use_action": [ { "type": "transform", "target": "item_photokinetic_radio_on", "menu_text": "Switch to scanning mode" } ]
   },
   {
@@ -217,17 +217,8 @@
     "description": "Your powers allow you to listen for radio signals from the surrounding area.  With a moment's concentration, you may change frequency or switch to communicating by radio.",
     "use_action": [ "RADIO_ON", { "type": "transform", "target": "item_photokinetic_radio", "menu_text": "Switch to speaking mode" } ],
     "tick_action": [ "RADIO_TICK" ],
-    "flags": [
-      "TRADER_AVOID",
-      "UNBREAKABLE",
-      "PERSONAL",
-      "SEMITANGIBLE",
-      "ONLY_ONE",
-      "ZERO_WEIGHT",
-      "NO_DROP",
-      "INTEGRATED",
-      "PADDED"
-    ]
+    "flags": [ "TRADER_AVOID", "UNBREAKABLE", "PERSONAL", "SEMITANGIBLE", "ZERO_WEIGHT", "NO_DROP", "INTEGRATED", "PADDED" ],
+    "max_worn": 1
   },
   {
     "id": "integrated_photo_eyes",
@@ -1393,7 +1384,8 @@
     "price_postapoc": "1 cent",
     "symbol": "!",
     "color": "magenta",
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "max_worn": 1,
     "use_action": { "type": "heal", "bandages_power": 1, "bleed": 7, "move_cost": 0 }
   },
   {
@@ -1408,7 +1400,8 @@
     "price_postapoc": "1 cent",
     "symbol": "!",
     "color": "magenta",
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "max_worn": 1,
     "use_action": { "type": "heal", "bandages_power": 2, "bleed": 14, "move_cost": 0 }
   },
   {
@@ -1423,7 +1416,8 @@
     "price_postapoc": "1 cent",
     "symbol": "!",
     "color": "magenta",
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "max_worn": 1,
     "use_action": { "type": "heal", "bandages_power": 3, "bleed": 20, "move_cost": 0 }
   },
   {
@@ -1438,7 +1432,8 @@
     "price_postapoc": "1 cent",
     "symbol": "!",
     "color": "magenta",
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "max_worn": 1,
     "use_action": [ { "type": "heal", "bite": 0.5, "disinfectant_power": 1, "infect": 0.4, "move_cost": 0 } ]
   },
   {
@@ -1453,7 +1448,8 @@
     "price_postapoc": "1 cent",
     "symbol": "!",
     "color": "magenta",
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "max_worn": 1,
     "use_action": [ { "type": "heal", "bite": 0.7, "disinfectant_power": 2, "infect": 0.6, "move_cost": 0 } ]
   },
   {
@@ -1468,7 +1464,8 @@
     "price_postapoc": "1 cent",
     "symbol": "!",
     "color": "magenta",
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "max_worn": 1,
     "use_action": [ { "type": "heal", "bite": 0.9, "disinfectant_power": 3, "infect": 0.8, "move_cost": 0 } ]
   }
 ]

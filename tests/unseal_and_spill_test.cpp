@@ -1,11 +1,10 @@
-#include <iosfwd>
 #include <list>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
 #include <tuple>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
@@ -13,16 +12,17 @@
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
 #include "character.h"
-#include "colony.h"
+#include "character_attire.h"
 #include "contents_change_handler.h"
+#include "coordinates.h"
 #include "item.h"
 #include "item_location.h"
 #include "item_pocket.h"
-#include "item_stack.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
@@ -447,14 +447,14 @@ void test_scenario::run()
             std::optional<vpart_reference> vp =
                 here.veh_at( guy.pos_bub() ).part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );
             REQUIRE( vp.has_value() );
-            std::optional<vehicle_stack::iterator> added = veh->add_item( vp->part(), it );
+            std::optional<vehicle_stack::iterator> added = veh->add_item( here, vp->part(), it );
             REQUIRE( added.has_value() );
             it_loc = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), & **added );
             break;
         }
         case container_location::ground: {
             item &added = here.add_item( guy.pos_bub(), it );
-            it_loc = item_location( map_cursor( guy.get_location() ), &added );
+            it_loc = item_location( map_cursor( guy.pos_abs() ), &added );
             break;
         }
         default: {
@@ -862,7 +862,7 @@ void test_scenario::run()
         REQUIRE( !it_loc );
     }
     INFO( "checking ground items" );
-    match( map_cursor( guy.get_location() ), here.i_at( guy.pos_bub() ), ground );
+    match( map_cursor( guy.pos_abs() ), here.i_at( guy.pos_bub() ), ground );
     INFO( "checking vehicle items" );
     std::optional<vpart_reference> vp = here.veh_at( guy.pos_bub() )
                                         .part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );

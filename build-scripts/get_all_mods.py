@@ -56,7 +56,7 @@ total_conversions = set()
 for info in glob.glob('data/mods/*/modinfo.json'):
     mod_info = json.load(open(info, encoding='utf-8'))
     for e in mod_info:
-        if(e["type"] == "MOD_INFO" and
+        if (e["type"] == "MOD_INFO" and
                 ("obsolete" not in e or not e["obsolete"])):
             ident = e["id"]
             all_mod_dependencies[ident] = e.get("dependencies", [])
@@ -72,7 +72,7 @@ for r, d, f in os.walk('data/mods'):
     info_path = os.path.join(r, 'modinfo.json')
     mod_info = json.load(open(info_path, encoding='utf-8'))
     for e in mod_info:
-        if(e["type"] == "MOD_INFO" and
+        if (e["type"] == "MOD_INFO" and
                 ("obsolete" not in e or not e["obsolete"])):
             ident = e["id"]
     if ident == "":

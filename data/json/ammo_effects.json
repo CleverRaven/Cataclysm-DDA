@@ -56,7 +56,7 @@
   {
     "id": "BOUNCE",
     "type": "ammo_effect",
-    "//": "Inflicts target with `bounced` effect and rebounds to a nearby target without this effect. Hardcoded"
+    "//": "Projectile with this effect will rebound to a nearby target after hitting the oringinal target. Will not choose targets already hit by this projectile. Hardcoded"
   },
   {
     "id": "BURST",
@@ -272,6 +272,12 @@
     "aoe": { "field_type": "fd_plasma", "intensity_min": 1, "intensity_max": 3, "radius": 1, "chance": 10 }
   },
   {
+    "id": "PLASMA_FAN",
+    "type": "ammo_effect",
+    "always_cast_spell": true,
+    "spell_data": { "id": "spell_plasma_fan" }
+  },
+  {
     "id": "EXPLOSIVE",
     "type": "ammo_effect",
     "explosion": { "power": 360 }
@@ -327,6 +333,24 @@
     "id": "EXPLOSIVE_EXODII_THERMOBARIC",
     "type": "ammo_effect",
     "explosion": { "power": 66 }
+  },
+  {
+    "id": "EXPLOSIVE_EXODII_FIREWORK",
+    "//": "a large, shockwave like explosion with no shrapnel.",
+    "type": "ammo_effect",
+    "explosion": { "power": 318 }
+  },
+  {
+    "id": "CORROSIVE",
+    "type": "ammo_effect",
+    "always_cast_spell": true,
+    "spell_data": { "id": "spell_corrosive_spray" }
+  },
+  {
+    "id": "GLUE_FOAM",
+    "type": "ammo_effect",
+    "always_cast_spell": true,
+    "spell_data": { "id": "spell_adhesive_spray" }
   },
   {
     "id": "EXPLOSIVE_HESHOT",

@@ -2,6 +2,7 @@
 
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "pocket_type.h"  // IWYU pragma: keep // need full type to read from json
 
 std::set<itype_id> test_data::legacy_to_hit;
 std::set<itype_id> test_data::known_bad;

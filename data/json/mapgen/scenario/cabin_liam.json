@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "cabin_liam" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

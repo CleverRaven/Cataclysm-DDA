@@ -20,6 +20,7 @@
     "entries": [
       { "item": "bio_ethanol", "prob": 50 },
       { "item": "bio_fuel_cell_gasoline", "prob": 50 },
+      { "item": "bio_mana_to_bionic_power", "prob": 25 },
       { "item": "bio_fuel_cell_blood", "prob": 5 },
       { "item": "bio_torsionratchet", "prob": 200 }
     ]
@@ -58,7 +59,7 @@
       {
         "distribution": [
           { "group": "Zomborg_CBM_harvest_stat_enhancements", "prob": 100 },
-          { "group": "Zomborg_CBM_harvest_sensors", "prob": 60 },
+          { "group": "feral_technomancer_CBM_harvest_sensors", "prob": 60 },
           { "group": "Zomborg_CBM_harvest_expensive_utilities", "prob": 1 }
         ],
         "prob": 30
@@ -66,7 +67,7 @@
       {
         "distribution": [
           { "group": "Zomborg_CBM_harvest_stat_enhancements", "prob": 30 },
-          { "group": "Zomborg_CBM_harvest_sensors", "prob": 60 },
+          { "group": "feral_technomancer_CBM_harvest_sensors", "prob": 60 },
           { "group": "Zomborg_CBM_harvest_expensive_utilities", "prob": 1 }
         ],
         "prob": 20
@@ -121,7 +122,7 @@
       {
         "distribution": [
           { "group": "Zomborg_CBM_harvest_stat_enhancements", "prob": 50 },
-          { "group": "Zomborg_CBM_harvest_sensors", "prob": 20 },
+          { "group": "feral_technomancer_CBM_harvest_sensors", "prob": 20 },
           { "group": "Zomborg_CBM_harvest_expensive_utilities", "prob": 1 }
         ],
         "prob": 30
@@ -129,10 +130,26 @@
       {
         "distribution": [
           { "group": "Zomborg_CBM_harvest_stat_enhancements", "prob": 30 },
-          { "group": "Zomborg_CBM_harvest_sensors", "prob": 60 }
+          { "group": "feral_technomancer_CBM_harvest_sensors", "prob": 60 }
         ],
         "prob": 20
       }
+    ]
+  },
+  {
+    "id": "feral_technomancer_CBM_harvest_sensors",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_blood_anal", 20 ],
+      [ "bio_ears", 20 ],
+      [ "bio_eye_optic", 20 ],
+      [ "bio_membrane", 15 ],
+      [ "bio_meteorologist", 10 ],
+      [ "bio_night_vision", 5 ],
+      [ "bio_ground_sonar", 2 ],
+      { "item": "bio_see_wizards_eyes", "prob": 5 },
+      [ "bio_infrared", 8 ]
     ]
   }
 ]

@@ -16,7 +16,6 @@
       "AURA",
       "ENERGY_SHIELD",
       "OVERSIZE",
-      "ONLY_ONE",
       "TRADER_AVOID",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
@@ -26,6 +25,7 @@
       "POWERARMOR_COMPATIBLE",
       "UNRESTRICTED"
     ],
+    "max_worn": 1,
     "tick_action": {
       "type": "effect_on_conditions",
       "effect_on_conditions": [ { "id": "_afs_energy_shield", "effect": { "run_eocs": "EOC_afs_do_shield" } } ]
@@ -64,7 +64,8 @@
         "item_restriction": [ "afs_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
     ],
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "POWERARMOR_COMPATIBLE" ],
+    "flags": [ "BELTED", "WATERPROOF", "POWERARMOR_COMPATIBLE" ],
+    "max_worn": 1,
     "use_action": {
       "type": "effect_on_conditions",
       "ammo_scale": 1,
@@ -102,7 +103,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "SHD-1k Riemann Shield Generator (active)", "str_pl": "SHD-1k Riemann Shield Generators (active)" },
     "copy-from": "afs_backpack_shieldgen",
-    "description": "A powerful shielding system salvaged from a pre-Discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to withstand prolonged assault from anti-vehicle weaponry.",
+    "description": "This shield generator is active and maintaining a Riemann shield around its user.  It is capable of fully protecting its user during prolonged bursts of kinetic and energy attacks.  Standard issue for UICA breaching teams.\n\nIts high energy consumption and weight make it unsuitable for long-term use.  Powered with energy cartridges.",
     "//": "A hundred watts isnt much IRL, but this is powered with laser magazines, so theres an extra layer of abstraction here.",
     "power_draw": "1 kW",
     "revert_to": "afs_backpack_shieldgen",

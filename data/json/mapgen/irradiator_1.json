@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY",
+    "id": "GROUP_ZOMBIE_NUCLEAR_INDUSTRY",
     "monsters": [
       { "monster": "mon_zombie_technician", "weight": 450, "cost_multiplier": 3 },
       { "monster": "mon_zombie_hazmat", "weight": 250, "cost_multiplier": 3 },
@@ -89,7 +89,6 @@
       [ "irradiator_1_6", "irradiator_1_5", "irradiator_1_4" ],
       [ "irradiator_1_9", "irradiator_1_8", "irradiator_1_7" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
@@ -367,7 +366,6 @@
       [ "irradiator_1_6_roof", "irradiator_1_5_roof", "irradiator_1_4_roof" ],
       [ "irradiator_1_9_roof", "irradiator_1_8_roof", "irradiator_1_7_roof" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

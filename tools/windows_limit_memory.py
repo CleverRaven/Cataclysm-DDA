@@ -298,7 +298,8 @@ class Kernel32Wrapper:
 
     @staticmethod
     def create_buffer(obj: Any, max_buffer_len: Optional[int] = None) -> str:
-        """Creates a ctypes unicode buffer given an object convertible to string.
+        """Creates a ctypes unicode buffer given an object convertible to
+            string.
 
         Args:
             obj: The object from which to create a buffer. Must be convertible
@@ -407,7 +408,8 @@ class ProcessLimiter:
 
     def _query_information_job_object(self, structure: ctypes.Structure,
                                       query_type: int) -> ctypes.Structure:
-        """[Internal] Retrieves limit and job state information from the job object.
+        """[Internal] Retrieves limit and job state information from the job
+            object.
 
         Args:
             structure: The limit or job state information.
@@ -599,7 +601,8 @@ class ProcessLimiter:
         self._handle_process = handle_process
 
     def limit_process_memory(self, memory_limit: int) -> None:
-        """Effectively limit the process memory that the target process can allocates.
+        """Effectively limit the process memory that the target process can
+            allocates.
 
         Args:
             memory_limit: The memory limit of the process, in MiB (MebiBytes).

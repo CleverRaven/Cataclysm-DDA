@@ -4,7 +4,6 @@
     "method": "json",
     "om_terrain": [ "mansion_e1d" ],
     "//": "basement road_alt, wild 1, 0, -1.",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -27,15 +26,23 @@
         "...!!.############......",
         "...!!.#]]]]...#..#......",
         "......#]......+..+......",
-        ".....!#)..??..#..#......",
-        ".!!...#]..??..#..#......",
+        ".....!#)..?...#..#......",
+        ".!!...#]......#..#......",
         ".!!..!#]......#..#......",
         "......#].qq.q.#<<#......",
         "###++##############++###"
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
-      "furniture": { "?": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
+      "furniture": {
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
+        "!": [ "f_crate_c", "f_cardboard_box" ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "!": { "item": "crate_stack", "chance": 100 },
@@ -49,7 +56,6 @@
     "method": "json",
     "om_terrain": [ "mansion_e1" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -92,7 +98,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_e1u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -139,7 +144,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_e2d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -194,7 +198,6 @@
     "method": "json",
     "om_terrain": [ "mansion_e2" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -243,7 +246,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_e2u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -298,7 +300,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_t1d" ],
-    "weight": 700,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -336,7 +337,6 @@
     "method": "json",
     "om_terrain": [ "mansion_t1" ],
     "//": "updated",
-    "weight": 700,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -387,7 +387,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_t1u" ],
-    "weight": 700,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -727,8 +726,8 @@
         "#####%[###%[%%###[%#####",
         "   #....#......#...q#   ",
         "   #...............q#   ",
-        "   #]]]....}}.......#   ",
-        "   #..]....}}...=.=.#   ",
+        "   #]]]....}........#   ",
+        "   #..].........=.=.#   ",
         "   #..)]]...........#   ",
         "   #....]........ggg#   ",
         "   ##################   ",
@@ -745,7 +744,17 @@
         "[": "t_chaingate_c",
         "%": "t_chainfence"
       },
-      "furniture": { "&": "f_table", "=": "f_machinery_old", "}": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
+      "furniture": {
+        "&": "f_table",
+        "=": "f_machinery_old",
+        "}": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
+        "!": [ "f_crate_c", "f_cardboard_box" ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "!": { "item": "crate_stack", "chance": 100 },
@@ -813,7 +822,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_t4d" ],
-    "weight": 1100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -866,7 +874,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_t4" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -922,7 +929,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_t4u" ],
-    "weight": 1100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -970,7 +976,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_t5d" ],
-    "weight": 400,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -1033,7 +1038,6 @@
     "method": "json",
     "om_terrain": [ "mansion_t5" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1091,7 +1095,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_t5u" ],
-    "weight": 400,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1145,7 +1148,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_t6d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -1159,8 +1161,8 @@
         "J~~~~~#~~~~~UUUY~#......",
         "##++################++##",
         ".......!!!..............",
-        "........!!.??.........!!",
-        ".!!........??.........!!",
+        "........!!.?..........!!",
+        ".!!...................!!",
         ".!!!!...#......#...!!...",
         "###!!.]]]].........!!.##",
         "  #...])#].....#..##### ",
@@ -1196,7 +1198,17 @@
         "&": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "h": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
       },
-      "furniture": { "&": "f_table", "!": [ "f_cardboard_box", "f_crate_c" ], "=": "f_machinery_old", "?": "f_generator_broken" },
+      "furniture": {
+        "&": "f_table",
+        "!": [ "f_cardboard_box", "f_crate_c" ],
+        "=": "f_machinery_old",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "~": { "item": "clutter_basement", "chance": 1 },
@@ -1213,7 +1225,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_t6" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1274,7 +1285,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_t6u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
       "rows": [
@@ -1340,7 +1350,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_t7d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -1398,7 +1407,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_t7" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1462,7 +1470,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_t7u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_green" },
       "rows": [
@@ -1514,7 +1521,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_+1d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
@@ -1553,7 +1559,6 @@
     "method": "json",
     "om_terrain": [ "mansion_+1" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1598,7 +1603,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_+1u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor_noroof",
       "rows": [
@@ -1645,8 +1649,8 @@
         "#zz....].)]]]..#......!#",
         "#zz....]]]].]..#!....!!#",
         "#...........)..#...!!H!#",
-        "#!!...??.......+...!hH.#",
-        "#!!...??..=....#...iiHd#",
+        "#!!............+...!hH.#",
+        "#!!...?...=....#...iiHd#",
         "#............R.#....v!d#",
         "####+###########....hhc#",
         "#.....WO#--$rrr#&&...gh#",
@@ -1682,7 +1686,12 @@
         "/": "f_chair",
         "!": [ "f_cardboard_box", "f_crate_c" ],
         "=": "f_machinery_old",
-        "?": "f_generator_broken",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
         "$": "f_gunsafe_ml"
       },
       "items": {
@@ -1706,7 +1715,6 @@
     "method": "json",
     "om_terrain": [ "mansion_+2" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1757,7 +1765,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_+2u" ],
-    "weight": 900,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1819,8 +1826,8 @@
         "#......!!.#..#....]).).#",
         "#!!....!!.#..+....]]]]]#",
         "#!!.......#..#......]..#",
-        "#.....!!!.#..#.??......#",
-        "#.....!!!.#..#.??.....q#",
+        "#.....!!!.#..#.........#",
+        "#.....!!!.#..#.?......q#",
         "#.UUU.....#..#......UU.#",
         "###########++###########"
       ],
@@ -1829,7 +1836,12 @@
       "furniture": {
         "&": "f_table",
         "=": "f_machinery_old",
-        "?": "f_generator_broken",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
         "!": [ "f_cardboard_box", "f_crate_c" ],
         "$": "f_gunsafe_ml"
       },
@@ -1849,7 +1861,6 @@
     "method": "json",
     "om_terrain": [ "mansion_+3" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1913,7 +1924,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_+3u" ],
-    "weight": 800,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1951,7 +1961,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_+4d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -2007,7 +2016,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_+4" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2087,7 +2095,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_+4u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2138,7 +2145,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_c1d" ],
-    "weight": 700,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -2182,7 +2188,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_c1" ],
-    "weight": 700,
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
@@ -2237,7 +2242,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_c1u" ],
-    "weight": 700,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2298,7 +2302,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_c2d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -2318,8 +2321,8 @@
         "     #&&&.....#.].....!#",
         "     ####....####....###",
         "       #......#........#",
-        "       #...!!.#.??.....#",
-        "       #r..!!...??..!..+",
+        "       #...!!.#.?......#",
+        "       #r..!!.......!..+",
         "       #r..........!!..+",
         "       #...........!!..#",
         "       #6....6.........#",
@@ -2329,7 +2332,17 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
-      "furniture": { "=": "f_machinery_old", "&": "f_table", "?": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
+      "furniture": {
+        "=": "f_machinery_old",
+        "&": "f_table",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
+        "!": [ "f_crate_c", "f_cardboard_box" ]
+      },
       "items": { ".": { "item": "clutter_basement", "chance": 1 }, "!": { "item": "crate_stack", "chance": 100 } },
       "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
     }
@@ -2339,7 +2352,6 @@
     "method": "json",
     "om_terrain": [ "mansion_c2" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2404,7 +2416,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_c2u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2463,7 +2474,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_c3d" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -2508,7 +2518,6 @@
     "method": "json",
     "om_terrain": [ "mansion_c3" ],
     "//": "updated",
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2565,7 +2574,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_c3u" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2624,7 +2632,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_c4d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -2643,8 +2650,8 @@
         "      #######~~&&~~W~~Z#",
         "      #...!!#~~&&~~~~~~#",
         "      #.....#~~~~~~~~~~#",
-        "      #.??..######++####",
-        "      #.??.....#~~~~iii#",
+        "      #.?...######++####",
+        "      #........#~~~~iii#",
         "      #......=.#~~~~~~~+",
         "      #........+~~~~~~~+",
         "      #]]]]....+~~~~~~~#",
@@ -2673,7 +2680,17 @@
         "&": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "h": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
       },
-      "furniture": { "&": "f_table", "!": [ "f_cardboard_box", "f_crate_c" ], "=": "f_machinery_old", "?": "f_generator_broken" },
+      "furniture": {
+        "&": "f_table",
+        "!": [ "f_cardboard_box", "f_crate_c" ],
+        "=": "f_machinery_old",
+        "?": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "~": { "item": "clutter_basement", "chance": 1 },
@@ -2692,7 +2709,6 @@
     "method": "json",
     "om_terrain": [ "mansion_c4" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2748,7 +2764,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_c4u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2798,7 +2813,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_c5d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -2829,14 +2843,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { " ": "t_soil", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump", "/": "t_door_locked_interior" },
-      "furniture": {
-        "%": "f_rack_wood",
-        "!": "f_wood_keg",
-        "&": "f_table",
-        "?": "f_glass_fridge",
-        "=": "f_machinery_old",
-        "}": "f_generator_broken"
-      },
+      "furniture": { "%": "f_rack_wood", "!": "f_wood_keg", "&": "f_table", "?": "f_glass_fridge", "=": "f_machinery_old" },
       "liquids": { "!": { "liquid": "wine_chardonnay", "amount": [ 100, 500 ] } },
       "place_loot": [ { "item": "deck_of_cards", "x": 16, "y": 11, "chance": 100 } ],
       "items": {
@@ -2854,7 +2861,6 @@
     "method": "json",
     "om_terrain": [ "mansion_c5" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -2910,7 +2916,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_c5u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

@@ -79,6 +79,12 @@
   },
   {
     "type": "item_group",
+    "id": "afs_tools_vehicle_repair",
+    "//": "Fixes up rovers, shuttlecraft, aerocraft and more. (Group stubed created for someone more knowledgable to fill)",
+    "items": [ { "group": "afs_tools_structural_repair", "prob": 40 }, { "group": "afs_tools_electric_repair", "prob": 60 } ]
+  },
+  {
+    "type": "item_group",
     "id": "afs_tools_structural_repair",
     "//": "Fixes up spaceships, habitats and probably more.",
     "items": [

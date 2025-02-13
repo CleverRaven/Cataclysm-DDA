@@ -1015,7 +1015,7 @@ void game::draw_vpart_override(
     const bool hilite, const point_rel_ms &mount )
 {
     if( use_tiles ) {
-        tilecontext->init_draw_vpart_override( p, id, part_mod, veh_dir, hilite, mount.raw() );
+        tilecontext->init_draw_vpart_override( p, id, part_mod, veh_dir, hilite, mount );
     }
 }
 #else

@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_BREATHER",
+    "id": "GROUP_BREATHER",
     "monsters": [
       { "monster": "mon_breather", "weight": 990 },
       { "monster": "mon_breather", "weight": 10, "cost_multiplier": 2, "pack_size": [ 2, 4 ] }
@@ -9,22 +9,22 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_BREATHER_HUB",
+    "id": "GROUP_BREATHER_HUB",
     "monsters": [ { "monster": "mon_breather_hub" } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CHURCH_BLANK",
+    "id": "GROUP_CHURCH_BLANK",
     "monsters": [ { "monster": "mon_blank", "cost_multiplier": 0 } ]
   },
   {
-    "name": "GROUP_DARK_WYRM",
+    "id": "GROUP_DARK_WYRM",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_dark_wyrm" } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NETHER_REALITY_TEAR_FIELD",
+    "id": "GROUP_NETHER_REALITY_TEAR_FIELD",
     "default": "mon_blank",
     "monsters": [
       { "monster": "mon_flying_polyp", "weight": 100, "cost_multiplier": 0 },
@@ -42,7 +42,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NETHER",
+    "id": "GROUP_NETHER",
     "default": "mon_blank",
     "monsters": [
       { "monster": "mon_blank", "weight": 135, "cost_multiplier": 0 },
@@ -61,7 +61,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NETHER_CAPTURED",
+    "id": "GROUP_NETHER_CAPTURED",
     "default": "mon_gracke",
     "monsters": [
       { "monster": "mon_gelatin", "weight": 250, "cost_multiplier": 0 },
@@ -73,7 +73,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NETHER_UNVIABLE",
+    "id": "GROUP_NETHER_UNVIABLE",
     "default": "mon_nether_unviable_bug",
     "monsters": [
       { "monster": "mon_nether_unviable_bug", "weight": 4, "cost_multiplier": 0, "pack_size": [ 2, 6 ] },
@@ -85,7 +85,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NETHER_PORTAL",
+    "id": "GROUP_NETHER_PORTAL",
     "default": "mon_gracke",
     "monsters": [
       { "monster": "mon_gelatin", "weight": 200, "cost_multiplier": 0 },
@@ -99,7 +99,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SPIRAL",
+    "id": "GROUP_SPIRAL",
     "monsters": [
       { "monster": "mon_human_snail", "weight": 740, "cost_multiplier": 0 },
       { "monster": "mon_twisted_body", "weight": 180, "cost_multiplier": 0 },
@@ -108,12 +108,12 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_TINDALOS",
+    "id": "GROUP_TINDALOS",
     "monsters": [ { "monster": "mon_hound_tindalos" } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NETHER_CORPSE",
+    "id": "GROUP_NETHER_CORPSE",
     "default": "mon_gracke",
     "monsters": [
       { "monster": "mon_gelatin", "weight": 100, "cost_multiplier": 0 },
@@ -130,7 +130,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NETHER_CORPSE_PORTAL",
+    "id": "GROUP_NETHER_CORPSE_PORTAL",
     "default": "mon_gracke",
     "monsters": [
       { "monster": "mon_gelatin", "weight": 70, "cost_multiplier": 0 },
@@ -146,7 +146,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NETHER_CORPSE_TENTACLES",
+    "id": "GROUP_NETHER_CORPSE_TENTACLES",
     "monsters": [
       { "monster": "mon_hanging_roper", "weight": 200, "cost_multiplier": 0 },
       { "monster": "mon_nether_spearfisher", "weight": 150, "cost_multiplier": 0 },
@@ -156,7 +156,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NETHER_CORPSE_BOWELS",
+    "id": "GROUP_NETHER_CORPSE_BOWELS",
     "monsters": [
       { "monster": "mon_nether_spearfisher", "weight": 150, "cost_multiplier": 0 },
       { "monster": "mon_nether_fish", "weight": 300, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },

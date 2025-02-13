@@ -42,6 +42,25 @@
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_COMBAT_TEMPO_2" } },
+        "text": "Learn [<trait_name:MELEE_PERK_COMBAT_TEMPO_2>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_COMBAT_TEMPO_2>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_COMBAT_TEMPO_2>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_COMBAT_TEMPO_2", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Combat Tempo I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_COMBAT_TEMPO" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "MELEE_PERK_TEMPO_SHIFT" } },
         "text": "Learn [<trait_name:MELEE_PERK_TEMPO_SHIFT>]",
         "effect": [
@@ -57,6 +76,72 @@
             "i18n": true
           },
           { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_COMBAT_TEMPO" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_TEMPO_ASSAULT" } },
+        "text": "Learn [<trait_name:MELEE_PERK_TEMPO_ASSAULT>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_TEMPO_ASSAULT>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_TEMPO_ASSAULT>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_TEMPO_ASSAULT", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Combat Tempo I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "u_has_trait": "MELEE_PERK_COMBAT_TEMPO" }, { "u_has_trait": "MELEE_PERK_COMBAT_TEMPO_2" } ] }
+          }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_TEMPO_ZONING" } },
+        "text": "Learn [<trait_name:MELEE_PERK_TEMPO_ZONING>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_TEMPO_ZONING>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_TEMPO_ZONING>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_TEMPO_ZONING", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Combat Tempo I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "u_has_trait": "MELEE_PERK_COMBAT_TEMPO" }, { "u_has_trait": "MELEE_PERK_COMBAT_TEMPO_2" } ] }
+          }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_DUELIST_COMBO" } },
+        "text": "Learn [<trait_name:MELEE_PERK_DUELIST_COMBO>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_DUELIST_COMBO>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_DUELIST_COMBO>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_DUELIST_COMBO", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Combat Tempo I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "u_has_trait": "MELEE_PERK_COMBAT_TEMPO" }, { "u_has_trait": "MELEE_PERK_COMBAT_TEMPO_2" } ] }
+          }
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
@@ -80,15 +165,15 @@
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
       {
-        "condition": { "not": { "u_has_trait": "MELEE_PERK_STAGGER_STRIKE" } },
-        "text": "Learn [<trait_name:MELEE_PERK_STAGGER_STRIKE>]",
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_KNIFE_FINISHER" } },
+        "text": "Learn [<trait_name:MELEE_PERK_KNIFE_FINISHER>]",
         "effect": [
-          { "set_string_var": "<trait_name:MELEE_PERK_STAGGER_STRIKE>", "target_var": { "context_val": "trait_name" } },
+          { "set_string_var": "<trait_name:MELEE_PERK_KNIFE_FINISHER>", "target_var": { "context_val": "trait_name" } },
           {
-            "set_string_var": "<trait_description:MELEE_PERK_STAGGER_STRIKE>",
+            "set_string_var": "<trait_description:MELEE_PERK_KNIFE_FINISHER>",
             "target_var": { "context_val": "trait_description" }
           },
-          { "set_string_var": "MELEE_PERK_STAGGER_STRIKE", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "MELEE_PERK_KNIFE_FINISHER", "target_var": { "context_val": "trait_id" } },
           {
             "set_string_var": "Requires Combat Tempo I",
             "target_var": { "context_val": "trait_requirement_description" },
@@ -99,15 +184,15 @@
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
       {
-        "condition": { "not": { "u_has_trait": "MELEE_PERK_KNIFE_FINISHER" } },
-        "text": "Learn [<trait_name:MELEE_PERK_KNIFE_FINISHER>]",
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_STAGGER_STRIKE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_STAGGER_STRIKE>]",
         "effect": [
-          { "set_string_var": "<trait_name:MELEE_PERK_KNIFE_FINISHER>", "target_var": { "context_val": "trait_name" } },
+          { "set_string_var": "<trait_name:MELEE_PERK_STAGGER_STRIKE>", "target_var": { "context_val": "trait_name" } },
           {
-            "set_string_var": "<trait_description:MELEE_PERK_KNIFE_FINISHER>",
+            "set_string_var": "<trait_description:MELEE_PERK_STAGGER_STRIKE>",
             "target_var": { "context_val": "trait_description" }
           },
-          { "set_string_var": "MELEE_PERK_KNIFE_FINISHER", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "MELEE_PERK_STAGGER_STRIKE", "target_var": { "context_val": "trait_id" } },
           {
             "set_string_var": "Requires Combat Tempo I",
             "target_var": { "context_val": "trait_requirement_description" },
@@ -155,6 +240,25 @@
             "target_var": { "context_val": "trait_description" }
           },
           { "set_string_var": "MELEE_PERK_MOMENTUM_2", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Momentum I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_MOMENTUM" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_MOMENTUM_DUELIST" } },
+        "text": "Learn [<trait_name:MELEE_PERK_MOMENTUM_DUELIST>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_MOMENTUM_DUELIST>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_MOMENTUM_DUELIST>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_MOMENTUM_DUELIST", "target_var": { "context_val": "trait_id" } },
           {
             "set_string_var": "Requires Momentum I",
             "target_var": { "context_val": "trait_requirement_description" },
@@ -215,6 +319,25 @@
             "target_var": { "context_val": "trait_description" }
           },
           { "set_string_var": "MELEE_PERK_ESTOCADA", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires Momentum I",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "MELEE_PERK_MOMENTUM" } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_DUELIST_LUNGE" } },
+        "text": "Learn [<trait_name:MELEE_PERK_DUELIST_LUNGE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_DUELIST_LUNGE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_DUELIST_LUNGE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_DUELIST_LUNGE", "target_var": { "context_val": "trait_id" } },
           {
             "set_string_var": "Requires Momentum I",
             "target_var": { "context_val": "trait_requirement_description" },
@@ -467,6 +590,25 @@
             "i18n": true
           },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_MA_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MELEE_PERK_PRESSURE_STRIKES" } },
+        "text": "Learn [<trait_name:MELEE_PERK_PRESSURE_STRIKES>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MELEE_PERK_PRESSURE_STRIKES>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MELEE_PERK_PRESSURE_STRIKES>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MELEE_PERK_PRESSURE_STRIKES", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0 == 0" ] } }
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },

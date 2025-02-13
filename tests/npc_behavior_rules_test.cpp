@@ -1,43 +1,27 @@
-#include <map>
 #include <memory>
 #include <optional>
-#include <set>
-#include <sstream>
 #include <string>
-#include <utility>
 #include <vector>
 
-#include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "common_types.h"
-#include "creature_tracker.h"
-#include "faction.h"
-#include "field.h"
-#include "field_type.h"
+#include "coordinates.h"
 #include "game.h"
 #include "gates.h"
-#include "line.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_iterator.h"
 #include "mapgen_helpers.h"
 #include "memory_fast.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "overmapbuffer.h"
-#include "pathfinding.h"
-#include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
-#include "test_data.h"
-#include "text_snippets.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
-#include "veh_type.h"
 #include "vehicle.h"
-#include "vpart_position.h"
-
-class Creature;
 
 static const furn_str_id furn_f_chair( "f_chair" );
 
@@ -74,7 +58,7 @@ static shared_ptr_fast<npc> setup_generic_rules_test( ally_rule rule_to_test,
     tester_rules.clear_overrides(); // just to be sure
     tester_rules.set_flag( rule_to_test );
     REQUIRE( tester_rules.has_flag( rule_to_test ) );
-    const tripoint_abs_omt test_omt_pos = guy->global_omt_location() + point::north;
+    const tripoint_abs_omt test_omt_pos = guy->pos_abs_omt() + point::north;
     manual_mapgen( test_omt_pos, manual_update_mapgen, update_mapgen_id_to_apply );
     return guy;
 }
@@ -157,7 +141,7 @@ TEST_CASE( "NPC-rules-close-doors", "[npc_rules]" )
     REQUIRE( !test_subject->path.empty() );
 
     // we must force them to actually walk the path for this test
-    test_subject->goto_to_this_pos = here.getglobal( test_subject->path.back() );
+    test_subject->goto_to_this_pos = here.get_abs( test_subject->path.back() );
 
     // copy our path before we lose it
     std::vector<tripoint_bub_ms> path_taken = test_subject->path;
@@ -232,7 +216,7 @@ TEST_CASE( "NPC-rules-avoid-locks", "[npc_rules]" )
 
     // vehicle is a 5x5 grid, car_door_pos is the only door/exit
     std::vector<vehicle_part *> door_parts_at_target = test_vehicle->get_parts_at(
-                car_door_pos, "LOCKABLE_DOOR", part_status_flag::available );
+                &here, car_door_pos, "LOCKABLE_DOOR", part_status_flag::available );
     REQUIRE( !door_parts_at_target.empty() );
     vehicle_part *door = door_parts_at_target.front();
     // The door must be closed for the lock to be effective.
@@ -242,7 +226,7 @@ TEST_CASE( "NPC-rules-avoid-locks", "[npc_rules]" )
 
     // NOTE: The door lock is a separate part. We must ensure both the door exists and the door lock exists for this test.
     std::vector<vehicle_part *> door_lock_parts_at_target = test_vehicle->get_parts_at(
-                car_door_pos, "DOOR_LOCKING", part_status_flag::available );
+                &here, car_door_pos, "DOOR_LOCKING", part_status_flag::available );
     REQUIRE( !door_lock_parts_at_target.empty() );
     vehicle_part *door_lock = door_lock_parts_at_target.front();
     door_lock->locked = true;

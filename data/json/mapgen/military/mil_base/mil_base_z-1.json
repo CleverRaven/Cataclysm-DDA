@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mil_base_tunnels_a" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -39,7 +38,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mil_base_tunnels_b" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -75,7 +73,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mil_base_tunnels_c" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -119,7 +116,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mil_base_tunnels_d" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -155,7 +151,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mil_base_tunnels_e" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -200,7 +195,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mil_base_tunnels_f" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -249,7 +243,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mil_base_tunnels_g" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -285,7 +278,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mil_base_tunnels_h" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -321,7 +313,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mil_base_tunnels_i" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

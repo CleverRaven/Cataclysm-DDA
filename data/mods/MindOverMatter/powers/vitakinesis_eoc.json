@@ -35,8 +35,7 @@
             },
             "effect": [
               { "math": [ "u_vitamin('mutant_toxin')", "+=", "u_vitamin('dermatik_larva_size')" ] },
-              { "u_lose_effect": "dermatik" },
-              { "u_lose_effect": "dermatik_visible" },
+              { "u_lose_effect": [ "dermatik", "dermatik_visible" ] },
               { "math": [ "u_vitamin('dermatik_larva_size') = 0" ] },
               { "u_message": "You feel a severe itching sensation.", "type": "mixed" }
             ],
@@ -109,25 +108,10 @@
       { "u_message": "You begin to sweat.", "type": "mixed" },
       { "u_add_wet": 8 },
       { "run_eocs": [ "EOC_VITAKIN_DEXTOXIFICATION_TOXICFLESH" ] },
-      { "u_lose_effect": "poison" },
-      { "u_lose_effect": "poison", "target_part": "head" },
-      { "u_lose_effect": "poison", "target_part": "torso" },
-      { "u_lose_effect": "poison", "target_part": "arm_r" },
-      { "u_lose_effect": "poison", "target_part": "arm_l" },
-      { "u_lose_effect": "poison", "target_part": "leg_r" },
-      { "u_lose_effect": "poison", "target_part": "leg_l" },
-      { "u_lose_effect": "badpoison" },
-      { "u_lose_effect": "badpoison", "target_part": "head" },
-      { "u_lose_effect": "badpoison", "target_part": "torso" },
-      { "u_lose_effect": "badpoison", "target_part": "arm_r" },
-      { "u_lose_effect": "badpoison", "target_part": "arm_l" },
-      { "u_lose_effect": "badpoison", "target_part": "leg_r" },
-      { "u_lose_effect": "badpoison", "target_part": "leg_l" },
-      { "u_lose_effect": "venom_dmg" },
-      { "u_lose_effect": "venom_weaken" },
-      { "u_lose_effect": "venom_blind" },
-      { "u_lose_effect": "venom_pain" },
-      { "u_lose_effect": "paralyzepoison" }
+      {
+        "u_lose_effect": [ "poison", "badpoison", "venom_dmg", "venom_weaken", "venom_blind", "venom_pain", "paralyzepoison" ],
+        "target_part": "ALL"
+      }
     ]
   },
   {
@@ -236,7 +220,7 @@
     "condition": { "u_has_effect": "effect_vitakin_wakeful_resting" },
     "effect": [
       { "if": { "math": [ "u_val('focus') >= 25" ] }, "then": { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] } },
-      { "math": [ "u_spell_exp('vita_sleeping_trance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "math": [ "u_spell_exp('vita_sleeping_trance')", "+=", "psionic_power_experience_formula()" ] },
       {
         "run_eocs": "EOC_VITAKIN_SLEEP_EXPERIENCE",
         "time_in_future": [
@@ -355,7 +339,7 @@
     "condition": { "u_has_effect": "effect_vitakin_healing_trance" },
     "effect": [
       { "if": { "math": [ "u_val('focus') >= 25" ] }, "then": { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] } },
-      { "math": [ "u_spell_exp('vita_healing_trance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "math": [ "u_spell_exp('vita_healing_trance')", "+=", "psionic_power_experience_formula()" ] },
       {
         "run_eocs": "EOC_VITAKIN_HEALING_TRANCE_EXPERIENCE",
         "time_in_future": [
@@ -739,14 +723,18 @@
     },
     "effect": [
       { "u_message": "You feel much better.", "type": "good" },
-      { "u_lose_effect": "pre_common_cold" },
-      { "u_lose_effect": "common_cold" },
-      { "u_lose_effect": "pre_flu" },
-      { "u_lose_effect": "flu" },
-      { "u_lose_effect": "pre_conjunctivitis_viral" },
-      { "u_lose_effect": "conjunctivitis_viral" },
-      { "u_lose_effect": "pre_conjunctivitis_bacterial" },
-      { "u_lose_effect": "conjunctivitis_bacterial" },
+      {
+        "u_lose_effect": [
+          "pre_common_cold",
+          "common_cold",
+          "pre_flu",
+          "flu",
+          "pre_conjunctivitis_viral",
+          "conjunctivitis_viral",
+          "pre_conjunctivitis_bacterial",
+          "conjunctivitis_bacterial"
+        ]
+      },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
     ],
     "false_effect": [
@@ -1340,19 +1328,23 @@
       { "math": [ "u_vitamin('redcells') = 0" ] },
       { "math": [ "u_vitamin('bad_food') = 0" ] },
       { "math": [ "u_vitamin('blood') = 0" ] },
-      { "u_lose_effect": "corroding" },
-      { "u_lose_effect": "onfire" },
-      { "u_lose_effect": "dazed" },
-      { "u_lose_effect": "downed" },
-      { "u_lose_effect": "stunned" },
-      { "u_lose_effect": "venom_blind" },
-      { "u_lose_effect": "sap" },
-      { "u_lose_effect": "staggered_character" },
-      { "u_lose_effect": "nausea" },
-      { "u_lose_effect": "bleed" },
-      { "u_lose_effect": "blind" },
-      { "u_lose_effect": "deaf" },
-      { "u_lose_effect": "effect_vita_return_from_death" },
+      {
+        "u_lose_effect": [
+          "corroding",
+          "onfire",
+          "dazed",
+          "downed",
+          "stunned",
+          "venom_blind",
+          "sap",
+          "staggered_character",
+          "nausea",
+          "bleed",
+          "blind",
+          "deaf",
+          "effect_vita_return_from_death"
+        ]
+      },
       { "u_add_effect": "effect_vita_super_heal_return_from_death", "duration": "20 seconds" },
       {
         "run_eocs": "EOC_VITAKIN_RETURN_FROM_DEATH_RUN_HEALING",

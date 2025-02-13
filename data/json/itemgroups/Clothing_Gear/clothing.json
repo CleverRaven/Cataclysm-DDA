@@ -4510,7 +4510,8 @@
       { "item": "national_flag", "prob": 1 },
       { "item": "state_flag", "prob": 1 },
       { "item": "tool_belt", "prob": 2 },
-      { "group": "flask_liquor", "prob": 3 }
+      { "group": "flask_liquor", "prob": 3 },
+      { "item": "pin_badge", "prob": 6 }
     ]
   },
   {

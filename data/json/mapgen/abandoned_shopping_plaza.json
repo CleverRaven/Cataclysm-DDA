@@ -43,7 +43,6 @@
       [ "s_shoppingplaza_a1", "s_shoppingplaza_a2", "s_shoppingplaza_a3" ],
       [ "s_shoppingplaza_b1", "s_shoppingplaza_b2", "s_shoppingplaza_b3" ]
     ],
-    "weight": 500,
     "object": {
       "rows": [
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~4444444~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
@@ -105,7 +104,6 @@
       [ "s_shoppingplaza_a4", "s_shoppingplaza_a5", "s_shoppingplaza_a6" ],
       [ "s_shoppingplaza_b4", "s_shoppingplaza_b5", "s_shoppingplaza_b6" ]
     ],
-    "weight": 500,
     "object": {
       "rows": [
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~44###################rrr",
@@ -169,7 +167,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "s_shoppingplaza_B1", "s_shoppingplaza_B2", "s_shoppingplaza_B3" ] ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -205,7 +202,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "null", "null", "s_shoppingplaza_A6" ], [ "s_shoppingplaza_B4", "s_shoppingplaza_B5", "s_shoppingplaza_B6" ] ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

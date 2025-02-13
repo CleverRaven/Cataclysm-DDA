@@ -1,14 +1,20 @@
 #if (defined(TILES))
 
+#include <bitset>
+#include <map>
+#include <string>
+
 #include "avatar.h"
 #include "cata_catch.h"
 #include "cata_tiles.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "map.h"
-#include "mapdata.h"
 #include "map_helpers.h"
+#include "mapdata.h"
 #include "player_helpers.h"
-#include "sdltiles.h"
+#include "point.h"
+#include "type_id.h"
 
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_pavement( "t_pavement" );

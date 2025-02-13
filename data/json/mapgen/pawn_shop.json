@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pawn" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -150,7 +149,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pawn_1" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -294,7 +292,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pawn_pf" ],
-    "weight": 50,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

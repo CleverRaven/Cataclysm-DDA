@@ -153,7 +153,7 @@
         "p": "t_foamcrete_floor_seal",
         "z": "t_escape_pod_floor"
       },
-      "vendingmachines": { "V": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true } },
+      "vendingmachines": { "V": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true, "networked": true } },
       "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 19, "y": 14 } ],
       "mapping": {
         "e": { "items": [ { "item": "afs_ballistic_armory", "chance": 20 } ] },

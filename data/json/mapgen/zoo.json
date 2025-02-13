@@ -444,7 +444,7 @@
     }
   },
   {
-    "name": "GROUP_INSECT_ZOO",
+    "id": "GROUP_INSECT_ZOO",
     "type": "monstergroup",
     "monsters": [
       { "group": "GROUP_WILDERNESS_SWAMP_INSECT", "weight": 2 },
@@ -452,7 +452,7 @@
     ]
   },
   {
-    "name": "GROUP_PETTING_ZOO",
+    "id": "GROUP_PETTING_ZOO",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_goat_kid", "weight": 2 },
@@ -465,7 +465,7 @@
     ]
   },
   {
-    "name": "GROUP_LLAMA_ZOO",
+    "id": "GROUP_LLAMA_ZOO",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_llama", "weight": 7 },
@@ -474,17 +474,17 @@
     ]
   },
   {
-    "name": "GROUP_COYOTES_ZOO",
+    "id": "GROUP_COYOTES_ZOO",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_coyote" } ]
   },
   {
-    "name": "GROUP_TIGERS_ZOO",
+    "id": "GROUP_TIGERS_ZOO",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_tiger", "weight": 8 }, { "monster": "mon_ziger", "weight": 2 } ]
   },
   {
-    "name": "GROUP_COUGARS_ZOO",
+    "id": "GROUP_COUGARS_ZOO",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_cougar", "weight": 7 },
@@ -493,7 +493,7 @@
     ]
   },
   {
-    "name": "GROUP_FROGS_ZOO",
+    "id": "GROUP_FROGS_ZOO",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_leo_frog", "weight": 10 },
@@ -502,7 +502,7 @@
     ]
   },
   {
-    "name": "GROUP_SPIDERS_ZOO",
+    "id": "GROUP_SPIDERS_ZOO",
     "type": "monstergroup",
     "monsters": [
       { "group": "GROUP_SPIDER" },
@@ -512,32 +512,32 @@
     ]
   },
   {
-    "name": "GROUP_SNAKES_ZOO",
+    "id": "GROUP_SNAKES_ZOO",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_rattlesnake", "weight": 9 }, { "monster": "mon_rattlesnake_s", "weight": 1 } ]
   },
   {
-    "name": "GROUP_FOXES_ZOO",
+    "id": "GROUP_FOXES_ZOO",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fox_gray", "weight": 10 } ]
   },
   {
-    "name": "GROUP_REINDEERS_ZOO",
+    "id": "GROUP_REINDEERS_ZOO",
     "type": "monstergroup",
     "monsters": [ { "group": "GROUP_REINDEERS", "weight": 9 }, { "monster": "mon_zeindeer", "weight": 1 } ]
   },
   {
-    "name": "GROUP_BEARS_ZOO",
+    "id": "GROUP_BEARS_ZOO",
     "type": "monstergroup",
     "monsters": [ { "group": "GROUP_BEARS", "weight": 9 }, { "monster": "mon_zombear", "weight": 1 } ]
   },
   {
-    "name": "GROUP_MOOSE_ZOO",
+    "id": "GROUP_MOOSE_ZOO",
     "type": "monstergroup",
     "monsters": [ { "group": "GROUP_MOOSE", "weight": 9 }, { "monster": "mon_zoose", "weight": 1 } ]
   },
   {
-    "name": "GROUP_PIGS_ZOO",
+    "id": "GROUP_PIGS_ZOO",
     "type": "monstergroup",
     "monsters": [ { "group": "GROUP_PIGS", "weight": 950 }, { "monster": "mon_zombie_pig", "weight": 50 } ]
   }

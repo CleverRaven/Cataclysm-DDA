@@ -1,14 +1,41 @@
 #include "widget.h"
 
+#include <algorithm>
+#include <cmath>
+#include <cstddef>
+#include <map>
+#include <memory>
+#include <numeric>
+
+#include "avatar.h"
+#include "cata_utility.h"
+#include "catacharset.h"
+#include "character.h"
+#include "character_attire.h"
 #include "character_martial_arts.h"
 #include "color.h"
 #include "condition.h"
+#include "coordinates.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "dialogue.h"
 #include "display.h"
+#include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
+#include "global_vars.h"
+#include "magic.h"
+#include "magic_enchantment.h"
+#include "npc.h"
 #include "output.h"
-#include "overmapbuffer.h"
-#include "npctalk.h"
+#include "panels.h"
+#include "pimpl.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "talker.h"
+#include "translations.h"
+#include "units.h"
 
 const static flag_id json_flag_W_DISABLED_BY_DEFAULT( "W_DISABLED_BY_DEFAULT" );
 const static flag_id json_flag_W_DISABLED_WHEN_EMPTY( "W_DISABLED_WHEN_EMPTY" );
@@ -1241,14 +1268,14 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             desc = display::pain_text_color( ava );
             break;
         case widget_var::overmap_loc_text:
-            desc.first = display::overmap_position_text( ava.global_omt_location() );
+            desc.first = display::overmap_position_text( ava.pos_abs_omt() );
             break;
         case widget_var::overmap_text:
             desc.first = display::colorized_overmap_text( ava, _width == 0 ? max_width : _width, _height );
             apply_color = false;
             break;
         case widget_var::place_text:
-            desc.first = display::current_position_text( ava.global_omt_location() );
+            desc.first = display::current_position_text( ava.pos_abs_omt() );
             break;
         case widget_var::power_text:
             desc = display::power_text_color( ava );

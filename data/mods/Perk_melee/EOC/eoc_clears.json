@@ -2,11 +2,7 @@
   {
     "id": "EOC_CLEAR_BUFFS",
     "type": "effect_on_condition",
-    "effect": [
-      { "u_lose_effect": "mabuff:buff_perk_tempo" },
-      { "u_lose_effect": "mabuff:buff_perk_momentum" },
-      { "u_lose_effect": "perk_dex_bonus" }
-    ]
+    "effect": [ { "u_lose_effect": [ "mabuff:buff_perk_tempo", "mabuff:buff_perk_momentum", "perk_dex_bonus" ] } ]
   },
   {
     "id": "EOC_CLEAR_COMBAT_TEMPO",
@@ -16,6 +12,20 @@
   {
     "id": "EOC_CLEAR_MOMENTUM",
     "type": "effect_on_condition",
-    "effect": [ { "u_lose_effect": "mabuff:buff_perk_momentum" }, { "u_lose_effect": "perk_dex_bonus" } ]
+    "effect": [ { "u_lose_effect": [ "mabuff:buff_perk_momentum", "perk_dex_bonus" ] } ]
+  },
+  {
+    "id": "EOC_CLEAR_MOMENTUM_DUELIST",
+    "type": "effect_on_condition",
+    "condition": {
+      "and": [
+        { "math": [ "u_effect_intensity('mabuff:buff_perk_momentum') > 1" ] },
+        { "u_has_flag": "MELEE_PERK_MOMENTUM_DUELIST" }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": [ "mabuff:buff_perk_momentum", "perk_dex_bonus" ] },
+      { "run_eocs": [ "EOC_PERK_MOMENTUM_2", "EOC_PERK_MOMENTUM_MANUAL", "EOC_PERK_duelist_insert_reach" ] }
+    ]
   }
 ]

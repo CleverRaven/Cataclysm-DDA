@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_JSON_LOADER_H
 #define CATA_SRC_JSON_LOADER_H
 
-#include <ghc/fs_std_fwd.hpp>
-
 #include "path_info.h"
 #include "flexbuffer_json.h"
 

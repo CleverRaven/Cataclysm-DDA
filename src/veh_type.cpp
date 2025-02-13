@@ -1,30 +1,38 @@
 #include "veh_type.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstddef>
-#include <limits>
+#include <functional>
+#include <iterator>
+#include <list>
 #include <memory>
 #include <numeric>
-#include <tuple>
-#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 
 #include "ammo.h"
 #include "assign.h"
 #include "cata_assert.h"
+#include "catacharset.h"
 #include "character.h"
+#include "clzones.h"
 #include "color.h"
+#include "damage.h"
 #include "debug.h"
+#include "enums.h"
 #include "flag.h"
+#include "flat_set.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "init.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "map.h"
 #include "output.h"
 #include "pocket_type.h"
 #include "requirements.h"
@@ -36,9 +44,9 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 #include "wcwidth.h"
-
-class npc;
 
 namespace
 {
@@ -49,8 +57,6 @@ generic_factory<vpart_info> vpart_info_factory( "vehicle_part", "id" );
 static const ammotype ammo_battery( "battery" );
 
 static const itype_id fuel_type_animal( "animal" );
-
-static const itype_id itype_null( "null" );
 
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
@@ -634,7 +640,7 @@ void vehicles::parts::finalize()
 
 void vpart_info::finalize()
 {
-    if( engine_info && engine_info->fuel_opts.empty() && fuel_type != itype_null ) {
+    if( engine_info && engine_info->fuel_opts.empty() && !fuel_type.is_null() ) {
         engine_info->fuel_opts.push_back( fuel_type );
     }
 
@@ -1537,6 +1543,7 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
  */
 void vehicles::finalize_prototypes()
 {
+    map &here = get_map(); // TODO: Determine if this is good enough.
     vehicle_prototype_factory.finalize();
     for( const vehicle_prototype &const_proto : vehicles::get_all_prototypes() ) {
         vehicle_prototype &proto = const_cast<vehicle_prototype &>( const_proto );
@@ -1562,7 +1569,7 @@ void vehicles::finalize_prototypes()
                 continue;
             }
 
-            const int part_idx = blueprint.install_part( pt.pos, pt.part );
+            const int part_idx = blueprint.install_part( here, pt.pos, pt.part );
             if( part_idx < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name, pt.part.c_str(),

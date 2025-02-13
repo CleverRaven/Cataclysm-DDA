@@ -1,13 +1,12 @@
-#include "cata_catch.h"
-#include "map.h"
-
-#include "action.h"
 #include "calendar.h"
-#include "game.h"
+#include "cata_catch.h"
+#include "coordinates.h"
 #include "iexamine.h"
-#include "mapdata.h"
+#include "map.h"
 #include "map_helpers.h"
+#include "mapdata.h"
 #include "point.h"
+#include "type_id.h"
 
 TEST_CASE( "mapdata_examine" )
 {

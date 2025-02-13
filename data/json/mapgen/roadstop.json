@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "roadstop" ],
-    "weight": 333,
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
@@ -92,7 +91,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "roadstop_a" ],
-    "weight": 333,
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
@@ -188,7 +186,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "roadstop_b" ],
-    "weight": 333,
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
@@ -212,8 +209,8 @@
         "..._#           5#3#3#..",
         "..._#  7AA7ii7  5#T#T#..",
         "..._##################..",
-        "...__o_oo_..............",
-        "..._______..............",
+        "...__o_oo_DG#...........",
+        "..._______###...........",
         "..._______..............",
         "........................"
       ],
@@ -230,7 +227,9 @@
         "8": "t_sidewalk",
         "S": "t_sidewalk",
         "_": "t_concrete",
-        "o": "t_concrete"
+        "o": "t_concrete",
+        "G": "t_concrete",
+        "D": "t_door_locked"
       },
       "furniture": {
         "4": "f_chair",
@@ -243,7 +242,8 @@
         "(": "f_heavy_duty_freezer",
         "A": "f_sink",
         "i": "f_oven",
-        "o": [ "f_dumpster", "f_recycle_bin" ]
+        "o": [ "f_dumpster", "f_recycle_bin" ],
+        "G": "f_12000_gasoline_generator"
       },
       "place_items": [
         { "item": "cash_register_random", "x": [ 12, 14 ], "y": 13, "chance": 100 },
@@ -289,8 +289,8 @@
         "    ..................  ",
         "    ..................  ",
         "    ..................  ",
-        "                        ",
-        "                        ",
+        "          ...           ",
+        "          ...           ",
         "                        ",
         "                        "
       ],

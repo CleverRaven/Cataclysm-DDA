@@ -4,7 +4,6 @@
     "om_terrain": "house_vacant",
     "//": "no roof, just foundation pits",
     "type": "mapgen",
-    "weight": 80,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -34,7 +33,10 @@
         "   --  --  --  --  --   "
       ],
       "palettes": [ "construction_site_palette" ],
-      "place_loot": [ { "item": "con_mix_foldable", "x": [ 12, 22 ], "y": [ 19, 22 ] } ],
+      "place_loot": [
+        { "item": "con_mix_foldable", "x": [ 12, 22 ], "y": [ 19, 22 ] },
+        { "item": "diesel_generator", "x": [ 12, 22 ], "y": [ 19, 22 ], "chance": 70 }
+      ],
       "place_vehicles": [ { "vehicle": "small_utility_vehicles", "x": 11, "y": 2, "chance": 70, "rotation": 0 } ]
     }
   },
@@ -43,7 +45,6 @@
     "om_terrain": "house_vacant1",
     "//": "no roof, just foundation pits",
     "type": "mapgen",
-    "weight": 80,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -73,7 +74,10 @@
         "   @@  sss   11 22 22   "
       ],
       "palettes": [ "construction_site_palette" ],
-      "place_loot": [ { "item": "con_mix_foldable", "x": [ 1, 9 ], "y": [ 16, 19 ] } ],
+      "place_loot": [
+        { "item": "con_mix_foldable", "x": [ 1, 9 ], "y": [ 16, 19 ] },
+        { "item": "diesel_generator", "x": [ 1, 9 ], "y": [ 16, 19 ], "chance": 70 }
+      ],
       "place_vehicles": [ { "vehicle": "small_utility_vehicles", "x": 20, "y": 2, "chance": 70, "rotation": 0 } ]
     }
   },
@@ -82,7 +86,6 @@
     "om_terrain": "house_vacant2",
     "//": "no roof, just foundation pits",
     "type": "mapgen",
-    "weight": 80,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -112,7 +115,10 @@
         " ss      --   --        "
       ],
       "palettes": [ "construction_site_palette" ],
-      "place_loot": [ { "item": "con_mix_foldable", "x": [ 2, 8 ], "y": [ 19, 21 ] } ],
+      "place_loot": [
+        { "item": "con_mix_foldable", "x": [ 2, 8 ], "y": [ 19, 21 ] },
+        { "item": "diesel_generator", "x": [ 2, 8 ], "y": [ 19, 21 ], "chance": 70 }
+      ],
       "place_vehicles": [ { "vehicle": "small_utility_vehicles", "x": 5, "y": 2, "chance": 70, "rotation": 0 } ]
     }
   },
@@ -121,7 +127,6 @@
     "om_terrain": "house_vacant3",
     "//": "no roof, just foundation pits",
     "type": "mapgen",
-    "weight": 80,
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
@@ -151,7 +156,10 @@
         "                        "
       ],
       "palettes": [ "construction_site_palette" ],
-      "place_loot": [ { "item": "con_mix_foldable", "x": [ 7, 13 ], "y": [ 1, 5 ] } ],
+      "place_loot": [
+        { "item": "con_mix_foldable", "x": [ 7, 13 ], "y": [ 1, 5 ] },
+        { "item": "diesel_generator", "x": [ 7, 13 ], "y": [ 1, 5 ], "chance": 70 }
+      ],
       "place_vehicles": [ { "vehicle": "small_utility_vehicles", "x": 4, "y": 4, "chance": 70, "rotation": 90 } ]
     }
   }

@@ -12,13 +12,13 @@
 #include <memory>
 #include <numeric>
 #include <tuple>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
 #include "action.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "addiction.h"
 #include "anatomy.h"
 #include "avatar.h"
 #include "avatar_action.h"
@@ -30,13 +30,13 @@
 #include "character_attire.h"
 #include "character_martial_arts.h"
 #include "city.h"
-#include "colony.h"
 #include "color.h"
 #include "construction.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "disease.h"
 #include "display.h"
 #include "effect.h"
@@ -74,9 +74,9 @@
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "map_selector.h"
 #include "mapdata.h"
-#include "maptile_fwd.h"
 #include "martialarts.h"
 #include "math_defines.h"
 #include "memorial_logger.h"
@@ -93,6 +93,7 @@
 #include "output.h"
 #include "overlay_ordering.h"
 #include "overmap_types.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "profession.h"
@@ -128,7 +129,6 @@
 #include "weather_type.h"
 
 class activity_actor;
-struct dealt_projectile_attack;
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
@@ -284,13 +284,16 @@ static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_cookbook_human( "cookbook_human" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
-static const itype_id itype_null( "null" );
+static const itype_id itype_human_sample( "human_sample" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
+static const itype_id itype_rope_6( "rope_6" );
+static const itype_id itype_snare_trigger( "snare_trigger" );
 
 static const json_character_flag json_flag_ACIDBLOOD( "ACIDBLOOD" );
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
@@ -611,7 +614,7 @@ Character::Character() :
     grab_point = tripoint_rel_ms::zero;
     hauling = false;
     set_focus( 100 );
-    last_item = itype_null;
+    last_item = itype_id::NULL_ID();
     sight_max = 9999;
     last_batch = 0;
     death_drops = true;
@@ -1309,7 +1312,7 @@ int Character::unimpaired_range() const
 
 bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points ) const
 {
-    const tripoint_abs_omt ompos = global_omt_location();
+    const tripoint_abs_omt ompos = pos_abs_omt();
     const point_rel_omt offset = omt.xy() - ompos.xy();
     if( offset.x() < -sight_points || offset.x() > sight_points ||
         offset.y() < -sight_points || offset.y() > sight_points ) {
@@ -1616,8 +1619,8 @@ bool Character::check_outbounds_activity( const player_activity &act, bool check
 {
     map &here = get_map();
     if( ( act.placement != tripoint_abs_ms() && act.placement != player_activity::invalid_place &&
-          !here.inbounds( here.bub_from_abs( act.placement ) ) ) || ( !act.coords.empty() &&
-                  !here.inbounds( here.bub_from_abs( tripoint_abs_ms( act.coords.back() ) ) ) ) ) {
+          !here.inbounds( here.get_bub( act.placement ) ) ) || ( !act.coords.empty() &&
+                  !here.inbounds( here.get_bub( act.coords.back() ) ) ) ) {
         if( is_npc() && !check_only ) {
             // stash activity for when reloaded.
             stashed_outbounds_activity = act;
@@ -1799,6 +1802,8 @@ bool Character::is_mounted() const
 
 void Character::forced_dismount()
 {
+    map &here = get_map();
+
     remove_effect( effect_riding );
     remove_effect( effect_mech_recon_vision );
     bool mech = false;
@@ -1832,7 +1837,7 @@ void Character::forced_dismount()
         }
         const int dodge = get_dodge();
         const int damage = std::max( 0, rng( 1, 20 ) - rng( dodge, dodge * 2 ) );
-        bodypart_id hit( "bp_null" );
+        bodypart_id hit = bodypart_str_id::NULL_ID();
         switch( rng( 1, 10 ) ) {
             case  1:
                 if( one_in( 2 ) ) {
@@ -1876,7 +1881,7 @@ void Character::forced_dismount()
                     pgettext( "memorial_male", "Fell off a mount." ),
                     pgettext( "memorial_female", "Fell off a mount." ) );
             }
-            check_dead_state();
+            check_dead_state( &here );
         }
         add_effect( effect_downed, 5_turns, true );
     } else {
@@ -1908,7 +1913,7 @@ void Character::dismount()
         add_msg_debug( debugmode::DF_CHARACTER, "dismount called when not riding" );
         return;
     }
-    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_bub( _( "Dismount where?" ) ) ) {
+    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
         if( !g->is_empty( *pnt ) ) {
             add_msg( m_warning, _( "You cannot dismount there!" ) );
             return;
@@ -2096,7 +2101,7 @@ bool Character::uncanny_dodge()
         here.unboard_vehicle( pos_bub() );
     }
     if( adjacent.xy() != pos_bub().xy() ) {
-        set_pos_only( adjacent );
+        set_pos_bub_only( adjacent );
 
         //landed in a vehicle tile
         if( here.veh_at( pos_bub() ) ) {
@@ -2375,6 +2380,7 @@ void Character::expose_to_disease( const diseasetype_id &dis_type )
 
 void Character::process_turn()
 {
+    map &here = get_map();
     // Has to happen before reset_stats
     clear_miss_reasons();
     migrate_items_to_storage( false );
@@ -2402,10 +2408,10 @@ void Character::process_turn()
     if( leak_level_dirty ) {
         calculate_leak_level();
     }
-    process_items();
+    process_items( &here );
     leak_items();
     // Didn't just pick something up
-    last_item = itype_null;
+    last_item = itype_id::NULL_ID();
 
     cache_visit_items_with( "is_relic", &item::is_relic, [this]( item & it ) {
         it.process_relic( this, pos_bub() );
@@ -2478,7 +2484,7 @@ void Character::process_turn()
     if( !is_npc() && ( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) ||
                        has_trait( trait_NOMAD3 ) ) &&
         !has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
-        const tripoint_abs_omt ompos = global_omt_location();
+        const tripoint_abs_omt ompos = pos_abs_omt();
         const point_abs_omt pos = ompos.xy();
         if( overmap_time.find( pos ) == overmap_time.end() ) {
             overmap_time[pos] = 1_turns;
@@ -2488,7 +2494,7 @@ void Character::process_turn()
     }
     // Decay time spent in other overmap tiles.
     if( !is_npc() && calendar::once_every( 1_hours ) ) {
-        const tripoint_abs_omt ompos = global_omt_location();
+        const tripoint_abs_omt ompos = pos_abs_omt();
         const time_point now = calendar::turn;
         time_duration decay_time = 0_days;
         if( has_trait( trait_NOMAD ) ) {
@@ -3066,6 +3072,7 @@ int Character::get_standard_stamina_cost( const item *thrown_item ) const
 std::vector<item_location> Character::nearby( const
         std::function<bool( const item *, const item * )> &func, int radius ) const
 {
+    map &here = get_map();
     std::vector<item_location> res;
 
     visit_items( [&]( const item * e, const item * parent ) {
@@ -3075,7 +3082,7 @@ std::vector<item_location> Character::nearby( const
         return VisitResponse::NEXT;
     } );
 
-    for( const map_cursor &cur : map_selector( pos_bub(), radius ) ) {
+    for( const map_cursor &cur : map_selector( pos_bub( &here ), radius ) ) {
         cur.visit_items( [&]( const item * e, const item * parent ) {
             if( func( e, parent ) ) {
                 res.emplace_back( cur, const_cast<item *>( e ) );
@@ -3084,7 +3091,7 @@ std::vector<item_location> Character::nearby( const
         } );
     }
 
-    for( const vehicle_cursor &cur : vehicle_selector( pos_bub(), radius ) ) {
+    for( const vehicle_cursor &cur : vehicle_selector( here, pos_bub( &here ), radius ) ) {
         cur.visit_items( [&]( const item * e, const item * parent ) {
             if( func( e, parent ) ) {
                 res.emplace_back( cur, const_cast<item *>( e ) );
@@ -3204,6 +3211,7 @@ units::mass Character::best_nearby_lifting_assist() const
 
 units::mass Character::best_nearby_lifting_assist( const tripoint_bub_ms &world_pos ) const
 {
+    map &here = get_map();
     int mech_lift = 0;
     if( is_mounted() ) {
         auto *mons = mounted_creature.get();
@@ -3213,7 +3221,7 @@ units::mass Character::best_nearby_lifting_assist( const tripoint_bub_ms &world_
     }
     int lift_quality = std::max( { this->max_quality( qual_LIFT ), mech_lift,
                                    map_selector( this->pos_bub(), PICKUP_RANGE ).max_quality( qual_LIFT ),
-                                   vehicle_selector( world_pos, 4, true, true ).max_quality( qual_LIFT )
+                                   vehicle_selector( here, world_pos, 4, true, true ).max_quality( qual_LIFT )
                                  } );
     return lifting_quality_to_mass( lift_quality );
 }
@@ -3331,7 +3339,7 @@ bool Character::can_pickVolume( const item &it, bool, const item *avoid,
 }
 
 bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid,
-                                        const bool ignore_pkt_settings, const bool is_pick_up_inv ) const
+                                        const bool ignore_pkt_settings, const bool ignore_non_container_pocket ) const
 {
     item copy = it;
     if( it.count_by_charges() ) {
@@ -3339,11 +3347,12 @@ bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid,
     }
 
     if( ( avoid == nullptr || &weapon != avoid ) &&
-        weapon.can_contain( copy, false, false, ignore_pkt_settings, is_pick_up_inv ).success() ) {
+        weapon.can_contain( copy, false, false, ignore_pkt_settings, ignore_non_container_pocket
+                          ).success() ) {
         return true;
     }
 
-    return worn.can_pickVolume( copy, ignore_pkt_settings, is_pick_up_inv );
+    return worn.can_pickVolume( copy, ignore_pkt_settings, ignore_non_container_pocket );
 }
 
 bool Character::can_pickWeight( const item &it, bool safe ) const
@@ -3652,7 +3661,7 @@ void Character::normalize()
 
     activity_history.weary_clear();
     martial_arts_data->reset_style();
-    weapon = item( "null", calendar::turn_zero );
+    weapon = item( itype_id::NULL_ID(), calendar::turn_zero );
 
     set_body();
     recalc_hp();
@@ -3662,7 +3671,7 @@ void Character::normalize()
 }
 
 // Actual player death is mostly handled in game::is_game_over
-void Character::die( Creature *nkiller )
+void Character::die( map *, Creature *nkiller )
 {
     g->set_critter_died();
     set_all_parts_hp_cur( 0 );
@@ -3670,11 +3679,11 @@ void Character::die( Creature *nkiller )
     set_time_died( calendar::turn );
 
     if( has_effect( effect_heavysnare ) ) {
-        inv->add_item( item( "rope_6", calendar::turn_zero ) );
-        inv->add_item( item( "snare_trigger", calendar::turn_zero ) );
+        inv->add_item( item( itype_rope_6, calendar::turn_zero ) );
+        inv->add_item( item( itype_snare_trigger, calendar::turn_zero ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        inv->add_item( item( "beartrap", calendar::turn_zero ) );
+        inv->add_item( item( itype_beartrap, calendar::turn_zero ) );
     }
     mission::on_creature_death( *this );
 }
@@ -3707,8 +3716,7 @@ void Character::apply_skill_boost()
 
 std::pair<bodypart_id, int> Character::best_part_to_smash() const
 {
-    const bodypart_id bp_null( "bp_null" );
-    std::pair<bodypart_id, int> best_part_to_smash = {bp_null, 0};
+    std::pair<bodypart_id, int> best_part_to_smash = {bodypart_str_id::NULL_ID().id(), 0};
     int tmp_bash_armor = 0;
     for( const bodypart_id &bp : get_all_body_parts() ) {
         tmp_bash_armor += worn.damage_resist( damage_bash, bp );
@@ -4036,7 +4044,7 @@ std::pair<int, int> Character::climate_control_strength() const
                                  // Also check for a working alternator. Muscle or animal could be powering it.
                                  (
                                      vp->is_inside() &&
-                                     vp->vehicle().total_alternator_epower() > 0_W
+                                     vp->vehicle().total_alternator_epower( here ) > 0_W
                                  )
                              );
         }
@@ -6385,6 +6393,23 @@ std::string Character::age_string( time_point when ) const
     return string_format( unformatted, age( when ) );
 }
 
+int Character::ugliness() const
+{
+    int ugliness = 0;
+    for( trait_id &mut : get_functioning_mutations() ) {
+        ugliness += mut.obj().ugliness;
+    }
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( bp->ugliness == 0 && bp->ugliness_mandatory == 0 ) {
+            continue;
+        }
+        ugliness += bp->ugliness_mandatory;
+        ugliness += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
+    }
+    ugliness = enchantment_cache->modify_value( enchant_vals::mod::UGLINESS, ugliness );
+    return ugliness;
+}
+
 struct HeightLimits {
     int min_height = 0;
     int base_height = 0;
@@ -6902,6 +6927,7 @@ void Character::mod_stamina( int mod )
 
 void Character::burn_move_stamina( int moves )
 {
+    map &here = get_map();
     int overburden_percentage = 0;
     //add half the difference between current stored kcal weight and healthy stored kcal weight to weight of carried gear
     units::mass fat_penalty = units::from_kilogram( 0.5f * std::max( 0.0f,
@@ -6923,12 +6949,12 @@ void Character::burn_move_stamina( int moves )
 
     ///\EFFECT_SWIMMING decreases stamina burn when swimming
     //Appropriate traits let you walk along the bottom without getting as tired
-    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos_bub() ) &&
+    if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos_bub( &here ) ) &&
         !has_flag( json_flag_WATERWALKING ) &&
         ( !has_flag( json_flag_WALK_UNDERWATER ) ||
-          get_map().has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos_bub() ) ) &&
-        !get_map().has_flag_furn( "BRIDGE", pos_bub() ) &&
-        !( in_vehicle && get_map().veh_at( pos_bub() )->vehicle().can_float() ) ) {
+          here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos_bub( &here ) ) ) &&
+        !here.has_flag_furn( "BRIDGE", pos_bub( &here ) ) &&
+        !( in_vehicle && here.veh_at( pos_bub( &here ) )->vehicle().can_float( here ) ) ) {
         burn_ratio += 100 / std::pow( 1.1, get_skill_level( skill_swimming ) );
     }
 
@@ -7132,7 +7158,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     }
 
     std::optional<int> charges_used = actually_used->type->invoke( this, *actually_used,
-                                      pt.raw(), method );
+                                      pt, method );
     if( !charges_used.has_value() ) {
         set_moves( pre_obtain_moves );
         return false;
@@ -7443,7 +7469,7 @@ void Character::shout( std::string msg, bool order )
 
 void Character::signal_nemesis()
 {
-    const tripoint_abs_omt ompos = global_omt_location();
+    const tripoint_abs_omt ompos = pos_abs_omt();
     const tripoint_abs_sm smpos = project_to<coords::sm>( ompos );
     overmap_buffer.signal_nemesis( smpos );
 }
@@ -7629,9 +7655,7 @@ void Character::drench_mut_calc()
 weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categories() const
 {
     weighted_int_list<mutation_category_id> weighted_output;
-    const std::map<mutation_category_id, mutation_category_trait> &mutation_categories =
-        mutation_category_trait::get_all();
-    for( const auto &elem : mutation_categories ) {
+    for( const auto &elem : mutation_category_trait::get_all() ) {
         add_msg_debug( debugmode::DF_MUTATION, "get_vitamin_weighted_categories: category %s weight %d",
                        elem.second.id.c_str(), vitamin_get( elem.second.vitamin ) );
         weighted_output.add( elem.first, vitamin_get( elem.second.vitamin ) );
@@ -7821,11 +7845,11 @@ void Character::update_cached_mutations()
                 if( ( are_opposite_traits( iter.first, mut ) || b_is_higher_trait_of_a( iter.first, mut )
                       || are_same_type_traits( iter.first, mut ) ) && iter.second.corrupted > 0 ) {
                     --iter.second.corrupted;
-                    if( my_mutations.count( mut ) ) {
-                        --my_mutations[mut].corrupted;
+                    if( my_mutations.count( iter.first ) ) {
+                        --my_mutations[iter.first].corrupted;
                     }
                     if( iter.second.corrupted == 0 ) {
-                        mutation_effect( mut, false );
+                        mutation_effect( iter.first, false );
                         do_mutation_updates();
                     }
                 }
@@ -7840,11 +7864,11 @@ void Character::update_cached_mutations()
             if( are_opposite_traits( iter.first, mut ) || b_is_higher_trait_of_a( iter.first, mut )
                 || are_same_type_traits( iter.first, mut ) ) {
                 ++iter.second.corrupted;
-                if( my_mutations.count( mut ) ) {
-                    ++my_mutations[mut].corrupted;
+                if( my_mutations.count( iter.first ) ) {
+                    ++my_mutations[iter.first].corrupted;
                 }
                 if( iter.second.corrupted == 1 ) {
-                    mutation_loss_effect( mut );
+                    mutation_loss_effect( iter.first );
                     do_mutation_updates();
                 }
             }
@@ -8073,10 +8097,10 @@ std::string Character::weapname_ammo() const
     }
 }
 
-void Character::on_hit( Creature *source, bodypart_id bp_hit,
+void Character::on_hit( map *here, Creature *source, bodypart_id bp_hit,
                         float /*difficulty*/, dealt_projectile_attack const *const proj )
 {
-    check_dead_state();
+    check_dead_state( here );
     if( source == nullptr || proj != nullptr ) {
         return;
     }
@@ -8161,8 +8185,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         }
     }
 
-    map &here = get_map();
-    const optional_vpart_position veh_part = here.veh_at( pos_bub() );
+    const optional_vpart_position veh_part = here->veh_at( pos_abs() );
     bool in_skater_vehicle = in_vehicle && veh_part.part_with_feature( "SEAT_REQUIRES_BALANCE", false );
 
     if( ( worn_with_flag( flag_REQUIRES_BALANCE ) || in_skater_vehicle ) && !is_on_ground() )  {
@@ -8269,7 +8292,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
 }
 
 dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
-        const damage_instance &d, const weakpoint_attack &attack )
+        const damage_instance &d, const weakpoint_attack &attack, const weakpoint & )
 {
     if( has_effect( effect_incorporeal ) || has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         return dealt_damage_instance();
@@ -8527,8 +8550,14 @@ bool Character::crossed_threshold() const
 mutation_category_id Character::get_threshold_category() const
 {
     for( const trait_id &mut : get_functioning_mutations() ) {
-        if( mut->threshold && !mut->category.empty() ) {
-            return mut->category[0];
+        if( mut->threshold ) {
+            const std::map<mutation_category_id, mutation_category_trait> &mutation_categories =
+                mutation_category_trait::get_all();
+            for( const auto &cat : mutation_categories ) {
+                if( cat.second.threshold_mut == mut ) {
+                    return cat.first;
+                }
+            }
         }
     }
     return mutation_category_id::NULL_ID();
@@ -9888,8 +9917,8 @@ Character::moncam_cache_t Character::get_active_moncams() const
     for( monster const &mon : g->all_monsters() ) {
         for( const std::pair<const mtype_id, int> &moncam : get_moncams() ) {
             if( mon.type->id == moncam.first && mon.friendly != 0 &&
-                rl_dist( get_avatar().get_location(), mon.get_location() ) < moncam.second ) {
-                ret.insert( { &mon, mon.get_location() } );
+                rl_dist( get_avatar().pos_abs(), mon.pos_abs() ) < moncam.second ) {
+                ret.insert( { &mon, mon.pos_abs() } );
             }
         }
     }
@@ -10015,7 +10044,7 @@ void Character::on_mutation_gain( const trait_id &mid )
 void Character::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
-    magic->on_mutation_loss( mid );
+    magic->on_mutation_loss( mid, *this );
     update_type_of_scent( mid, false );
     effect_on_conditions::process_reactivate( *this );
     if( is_avatar() ) {
@@ -10051,7 +10080,7 @@ std::unordered_set<trait_id> Character::get_opposite_traits( const trait_id &fla
     return traits;
 }
 
-float Character::adjust_for_focus( float amount ) const
+int Character::get_effective_focus() const
 {
     int effective_focus = get_focus();
     effective_focus = enchantment_cache->modify_value( enchant_vals::mod::LEARNING_FOCUS,
@@ -10059,8 +10088,12 @@ float Character::adjust_for_focus( float amount ) const
     effective_focus *= 1.0 + ( 0.01f * ( get_int() -
                                          get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
                                get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" ) );
-    effective_focus = std::max( effective_focus, 1 );
-    return amount * ( effective_focus / 100.0f );
+    return std::max( effective_focus, 1 );
+}
+
+float Character::adjust_for_focus( float amount ) const
+{
+    return amount * ( get_effective_focus() / 100.0f );
 }
 
 std::function<bool( const tripoint_bub_ms & )> Character::get_path_avoid() const
@@ -10410,7 +10443,7 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
     return effects;
 }
 
-void Character::place_corpse()
+void Character::place_corpse( map *here )
 {
     //If the character/NPC is on a distant mission, don't drop their their gear when they die since they still have a local pos
     if( !death_drops ) {
@@ -10419,16 +10452,15 @@ void Character::place_corpse()
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, get_name() );
     body.set_item_temperature( units::from_celsius( 37 ) );
-    map &here = get_map();
     for( item *itm : tmp ) {
         body.force_insert_item( *itm, pocket_type::CONTAINER );
     }
     // One sample, as you would get from dissecting any other human.
-    body.put_in( item( "human_sample" ), pocket_type::CORPSE );
+    body.put_in( item( itype_human_sample ), pocket_type::CORPSE );
 
     for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.info().itype() ) ) {
-            item cbm( bio.id.str(), calendar::turn );
+            item cbm( bio.info().itype(), calendar::turn );
             cbm.set_flag( flag_FILTHY );
             cbm.set_flag( flag_NO_STERILE );
             cbm.set_flag( flag_NO_PACKED );
@@ -10437,7 +10469,7 @@ void Character::place_corpse()
         }
     }
 
-    here.add_item_or_charges( pos_bub(), body );
+    here->add_item_or_charges( pos_bub( here ), body );
 }
 
 void Character::place_corpse( const tripoint_abs_omt &om_target )
@@ -10466,11 +10498,12 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
         body.force_insert_item( *itm, pocket_type::CONTAINER );
     }
     // One sample, as you would get from dissecting any other human.
-    body.put_in( item( "human_sample" ), pocket_type::CORPSE );
+    body.put_in( item( itype_human_sample ), pocket_type::CORPSE );
 
     for( const bionic &bio : *my_bionics ) {
-        if( item::type_is_defined( bio.info().itype() ) ) {
-            body.put_in( item( bio.id.str(), calendar::turn ), pocket_type::CORPSE );
+        const itype_id &bio_itype = bio.info().itype();
+        if( item::type_is_defined( bio_itype ) ) {
+            body.put_in( item( bio_itype, calendar::turn ), pocket_type::CORPSE );
         }
     }
 
@@ -10687,18 +10720,18 @@ void Character::echo_pulse()
 
 bool Character::knows_trap( const tripoint_bub_ms &pos ) const
 {
-    const tripoint_abs_ms p = get_map().getglobal( pos );
-    return known_traps.count( p.raw() ) > 0;
+    const tripoint_abs_ms p = get_map().get_abs( pos );
+    return known_traps.count( p ) > 0;
 }
 
 void Character::add_known_trap( const tripoint_bub_ms &pos, const trap &t )
 {
-    const tripoint_abs_ms p = get_map().getglobal( pos );
+    const tripoint_abs_ms p = get_map().get_abs( pos );
     if( t.is_null() ) {
-        known_traps.erase( p.raw() );
+        known_traps.erase( p );
     } else {
         // TODO: known_traps should map to a trap_str_id
-        known_traps[p.raw()] = t.id.str();
+        known_traps[p] = t.id.str();
     }
 }
 
@@ -11110,7 +11143,7 @@ void Character::process_effects()
     }
 
     // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
-    if( will_be_cramped_in_vehicle_tile( get_map().getglobal( pos_bub() ) ) ) {
+    if( will_be_cramped_in_vehicle_tile( get_map().get_abs( pos_bub() ) ) ) {
         if( is_npc() && !has_effect( effect_narcosis ) ) {
             npc &as_npc = dynamic_cast<npc &>( *this );
             as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );
@@ -11128,6 +11161,15 @@ void Character::gravity_check()
     if( here.is_open_air( pos_bub() ) && !in_vehicle && !has_effect_with_flag( json_flag_GLIDING ) &&
         here.try_fall( pos_bub(), this ) ) {
         here.update_visibility_cache( pos_bub().z() );
+    }
+}
+
+void Character::gravity_check( map *here )
+{
+    const tripoint_bub_ms pos = pos_bub( here );
+    if( here->is_open_air( pos ) && !in_vehicle && !has_effect_with_flag( json_flag_GLIDING ) &&
+        here->try_fall( pos, this ) ) {
+        here->update_visibility_cache( pos.z() );
     }
 }
 
@@ -11158,7 +11200,7 @@ void Character::stagger()
         const optional_vpart_position vp_there = here.veh_at( dest );
         if( vp_there ) {
             vehicle &veh = vp_there->vehicle();
-            if( veh.enclosed_at( dest ) ) {
+            if( veh.enclosed_at( &here,  dest ) ) {
                 blocked = true;
             }
         }
@@ -11252,7 +11294,7 @@ const comfort_data &Character::get_comfort_data_for( const tripoint_bub_ms &p ) 
     const comfort_data *worst = nullptr;
     for( const trait_id trait : get_functioning_mutations() ) {
         for( const comfort_data &data : trait->comfort ) {
-            if( data.are_conditions_true( *this, p.raw() ) ) {
+            if( data.are_conditions_true( *this, p ) ) {
                 if( worst == nullptr || worst->base_comfort > data.base_comfort ) {
                     worst = &data;
                 }
@@ -11265,10 +11307,10 @@ const comfort_data &Character::get_comfort_data_for( const tripoint_bub_ms &p ) 
 
 const comfort_data::response &Character::get_comfort_at( const tripoint_bub_ms &p )
 {
-    if( comfort_cache.last_time == calendar::turn && comfort_cache.last_position == p.raw() ) {
+    if( comfort_cache.last_time == calendar::turn && comfort_cache.last_position == p ) {
         return comfort_cache;
     }
-    return comfort_cache = get_comfort_data_for( p ).get_comfort_at( p.raw() );
+    return comfort_cache = get_comfort_data_for( p ).get_comfort_at( p );
 }
 
 void Character::shift_destination( const point_rel_ms &shift )
@@ -11348,11 +11390,6 @@ npc_attitude Character::get_attitude() const
     return NPCATT_NULL;
 }
 
-bool Character::sees( const tripoint &t, bool, int ) const
-{
-    return sees( tripoint_bub_ms( t ) );
-}
-
 bool Character::sees( const tripoint_bub_ms &t, bool, int ) const
 {
     const int wanted_range = rl_dist( pos_bub(), t );
@@ -11389,7 +11426,7 @@ void Character::set_destination( const std::vector<tripoint_bub_ms> &route,
 {
     auto_move_route = route;
     set_destination_activity( new_destination_activity );
-    destination_point.emplace( get_map().getglobal( route.back() ) );
+    destination_point.emplace( get_map().get_abs( route.back() ) );
 }
 
 void Character::clear_destination()
@@ -11427,7 +11464,7 @@ bool Character::has_destination() const
 bool Character::has_destination_activity() const
 {
     return !get_destination_activity().is_null() && destination_point &&
-           pos_bub() == get_map().bub_from_abs( *destination_point );
+           pos_bub() == get_map().get_bub( *destination_point );
 }
 
 void Character::start_destination_activity()
@@ -11943,8 +11980,9 @@ int Character::count_flag( const json_character_flag &flag ) const
 
 bool Character::is_driving() const
 {
-    const optional_vpart_position vp = get_map().veh_at( pos_bub() );
-    return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( *this );
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( pos_bub() );
+    return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( here, *this );
 }
 
 time_duration Character::estimate_effect_dur( const skill_id &relevant_skill,
@@ -12042,12 +12080,14 @@ bool Character::beyond_final_warning( const faction_id &id )
 
 read_condition_result Character::check_read_condition( const item &book ) const
 {
+    map &here = get_map();
+
     read_condition_result result = read_condition_result::SUCCESS;
     if( !book.is_book() ) {
         result |= read_condition_result::NOT_BOOK;
     } else {
-        const optional_vpart_position vp = get_map().veh_at( pos_bub() );
-        if( vp && vp->vehicle().player_in_control( *this ) ) {
+        const optional_vpart_position vp = here.veh_at( pos_bub() );
+        if( vp && vp->vehicle().player_in_control( here, *this ) ) {
             result |= read_condition_result::DRIVING;
         }
 
@@ -12715,6 +12755,7 @@ bool Character::can_fly()
 // FIXME: Relies on hardcoded bash damage type
 void Character::knock_back_to( const tripoint_bub_ms &to )
 {
+    map &here = get_map();
     if( to == pos_bub() ) {
         return;
     }
@@ -12734,7 +12775,7 @@ void Character::knock_back_to( const tripoint_bub_ms &to )
             critter->apply_damage( this, bodypart_id( "torso" ), ( str_max - 6 ) / 4 );
             critter->add_effect( effect_stunned, 1_turns );
         }
-        critter->check_dead_state();
+        critter->check_dead_state( &here );
 
         add_msg_player_or_npc( _( "You bounce off a %s!" ), _( "<npcname> bounces off a %s!" ),
                                critter->name() );
@@ -12748,11 +12789,10 @@ void Character::knock_back_to( const tripoint_bub_ms &to )
         np->deal_damage( this, bodypart_id( "torso" ), damage_instance( damage_bash, 3 ) );
         add_msg_player_or_npc( _( "You bounce off %s!" ), _( "<npcname> bounces off %s!" ),
                                np->get_name() );
-        np->check_dead_state();
+        np->check_dead_state( &here );
         return;
     }
 
-    map &here = get_map();
     // If we're still in the function at this point, we're actually moving a tile!
     if( here.has_flag( ter_furn_flag::TFLAG_LIQUID, to ) &&
         here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, to ) ) {
@@ -12825,10 +12865,10 @@ void Character::leak_items()
     }
 }
 
-void Character::process_items()
+void Character::process_items( map *here )
 {
-    if( weapon.process( get_map(), this, pos_bub() ) ) {
-        weapon.spill_contents( pos_bub() );
+    if( weapon.process( *here, this, pos_bub( here ) ) ) {
+        weapon.spill_contents( here,  pos_bub( here ) );
         remove_weapon();
     }
 
@@ -12837,8 +12877,8 @@ void Character::process_items()
         if( !it ) {
             continue;
         }
-        if( it->process( get_map(), this, pos_bub() ) ) {
-            it->spill_contents( pos_bub() );
+        if( it->process( *here, this, pos_bub( here ) ) ) {
+            it->spill_contents( here, pos_bub( here ) );
             removed_items.push_back( it );
         }
     }
@@ -13091,7 +13131,11 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
     } else if( used.is_book() ) {
         // TODO: Handle this with dynamic dispatch.
         if( avatar *u = as_avatar() ) {
-            u->read( loc );
+            if( item::is_efile( loc ) ) {
+                u->read( loc, loc.parent_item() );
+            } else {
+                u->read( loc );
+            }
         }
     } else if( used.type->has_use() ) {
         invoke_item( &used, method, loc.pos_bub(), pre_obtain_moves );
@@ -13309,8 +13353,8 @@ void Character::pause()
         vehicle *veh = nullptr;
         for( wrapped_vehicle &v : vehs ) {
             veh = v.v;
-            if( veh && veh->is_moving() && veh->player_in_control( *this ) ) {
-                double exp_temp = 1 + veh->total_mass() / 400.0_kilogram +
+            if( veh && veh->is_moving() && veh->player_in_control( here, *this ) ) {
+                double exp_temp = 1 + veh->total_mass( here ) / 400.0_kilogram +
                                   std::abs( veh->velocity / 3200.0 );
                 int experience = static_cast<int>( exp_temp );
                 if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
@@ -13326,8 +13370,7 @@ void Character::pause()
     wait_effects();
 }
 
-template <typename T>
-bool Character::can_lift( const T &obj ) const
+bool Character::can_lift( item &obj ) const
 {
     // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
     int str = get_lift_str();
@@ -13338,8 +13381,18 @@ bool Character::can_lift( const T &obj ) const
     const int npc_str = get_lift_assist();
     return str + npc_str >= obj.lift_strength();
 }
-template bool Character::can_lift<item>( const item &obj ) const;
-template bool Character::can_lift<vehicle>( const vehicle &obj ) const;
+
+bool Character::can_lift( vehicle &veh, map &here ) const
+{
+    // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
+    int str = get_lift_str();
+    if( mounted_creature ) {
+        auto *const mons = mounted_creature.get();
+        str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
+    }
+    const int npc_str = get_lift_assist();
+    return str + npc_str >= veh.lift_strength( here );
+}
 
 static std::string wrap60( const std::string &text )
 {

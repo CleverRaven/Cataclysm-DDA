@@ -15,6 +15,12 @@
         "valid_furniture": [ "f_reinforced_displaycase" ],
         "message": "A panel of reinforced glass receeds into the case.",
         "message_good": true
+      },
+      {
+        "result": "f_e_safe_c",
+        "valid_furniture": [ "f_e_safe_l" ],
+        "message": "The safe's display chimes happily as the locking mechanism releases.",
+        "message_good": true
       }
     ],
     "terrain": [
@@ -29,6 +35,40 @@
         "valid_terrain": [ "t_afs_security_gate_closed" ],
         "message": "The security gate recedes into the cieling.",
         "message_good": true
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "//": "Used for generic critical failures on furniture that doesn't define custom behavior.",
+    "id": "afs_multi_lockdown",
+    "furniture": [
+      {
+        "result": "f_sealed_intermodal_crate_locked",
+        "valid_furniture": [ "f_sealed_intermodal_crate" ],
+        "message": "The shipping crate beeps unhappily before powering down."
+      },
+      {
+        "result": "f_e_safe_l_down",
+        "valid_furniture": [ "f_e_safe_l" ],
+        "message": "The safe beeps unhappily before powering down."
+      },
+      {
+        "result": "f_security_panel_locked",
+        "valid_furniture": [ "f_security_panel" ],
+        "message": "You trip the security failsafe and the panel fries it's own electronics."
+      },
+      {
+        "result": "f_reinforced_displaycase_locked",
+        "valid_furniture": [ "f_reinforced_displaycase" ],
+        "message": "The display case beeps unhappily before powering down."
+      }
+    ],
+    "terrain": [
+      {
+        "result": "t_door_metal_locked",
+        "valid_terrain": [ "t_afs_door_metal_elocked" ],
+        "message": "The door's PIN pad chimes unhappily before powering down."
       }
     ]
   },
@@ -147,5 +187,14 @@
         ]
       }
     ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_map_lights_on",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_ter_furn_transforms": [ { "transform": "afs_lights_on", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+    }
   }
 ]

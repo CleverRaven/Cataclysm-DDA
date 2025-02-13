@@ -12,7 +12,6 @@
   {
     "type": "effect_on_condition",
     "id": "scenario_deadly_virus",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       { "u_add_effect": "zombie_virus", "intensity": 1, "duration": "PERMANENT" },
       { "assign_mission": "MISSION_INFECTED_START_FIND_ANTIVIRALS" }

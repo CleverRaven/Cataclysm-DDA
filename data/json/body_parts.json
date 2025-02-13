@@ -900,7 +900,7 @@
     "parent": "bp_null",
     "side": 0,
     "opposite": "sub_limb_debug",
-    "name": "debug limb should never be seen"
+    "name": { "str": "debug limb should never be seen", "//~": "NO_I18N" }
   },
   {
     "id": "sub_limb_debug_tail",
@@ -908,7 +908,7 @@
     "parent": "debug_tail",
     "side": 0,
     "opposite": "sub_limb_debug_tail",
-    "name": "debug limb for debug tail"
+    "name": { "str": "debug limb for debug tail", "//~": "NO_I18N" }
   },
   {
     "id": "torso_upper",

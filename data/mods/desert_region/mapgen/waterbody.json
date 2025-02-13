@@ -21,29 +21,7 @@
     "object": {
       "fill_ter": "t_mudcrack",
       "place_nested": [
-        {
-          "else_chunks": [ "shore_north_west" ],
-          "x": 0,
-          "y": 0,
-          "neighbors": {
-            "north_west": [
-              "lake_bed",
-              "lake_shore",
-              "river_center",
-              "river_nw",
-              "river_ne",
-              "river_sw",
-              "river_se",
-              "river",
-              "river_c_not_ne",
-              "river_c_not_nw",
-              "river_c_not_se",
-              "river_c_not_sw",
-              "bridge",
-              "bridgehead_ground"
-            ]
-          }
-        },
+        { "else_chunks": [ "shore_north_west" ], "x": 0, "y": 0, "flags": { "north_west": [ "BRIDGE", "LAKE", "RIVER" ] } },
         {
           "else_chunks": [ "shore_north_east" ],
           "x": 0,
@@ -54,18 +32,18 @@
           "else_chunks": [ "shore_south_east" ],
           "x": 0,
           "y": 0,
-          "flags": { "north_east": [ "BRIDGE", "LAKE", "RIVER" ] }
+          "flags": { "south_east": [ "BRIDGE", "LAKE", "RIVER" ] }
         },
         {
           "else_chunks": [ "shore_south_west" ],
           "x": 0,
           "y": 0,
-          "flags": { "north_east": [ "BRIDGE", "LAKE", "RIVER" ] }
+          "flags": { "south_west": [ "BRIDGE", "LAKE", "RIVER" ] }
         },
-        { "else_chunks": [ "shore_north" ], "x": 0, "y": 0, "flags": { "north_east": [ "BRIDGE", "LAKE", "RIVER" ] } },
-        { "else_chunks": [ "shore_east" ], "x": 0, "y": 0, "flags": { "north_east": [ "BRIDGE", "LAKE", "RIVER" ] } },
-        { "else_chunks": [ "shore_south" ], "x": 0, "y": 0, "flags": { "north_east": [ "BRIDGE", "LAKE", "RIVER" ] } },
-        { "else_chunks": [ "shore_west" ], "x": 0, "y": 0, "flags": { "north_east": [ "BRIDGE", "LAKE", "RIVER" ] } }
+        { "else_chunks": [ "shore_north" ], "x": 0, "y": 0, "flags": { "north": [ "BRIDGE", "LAKE", "RIVER" ] } },
+        { "else_chunks": [ "shore_east" ], "x": 0, "y": 0, "flags": { "east": [ "BRIDGE", "LAKE", "RIVER" ] } },
+        { "else_chunks": [ "shore_south" ], "x": 0, "y": 0, "flags": { "south": [ "BRIDGE", "LAKE", "RIVER" ] } },
+        { "else_chunks": [ "shore_west" ], "x": 0, "y": 0, "flags": { "west": [ "BRIDGE", "LAKE", "RIVER" ] } }
       ]
     }
   },

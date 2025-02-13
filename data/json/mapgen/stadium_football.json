@@ -22,7 +22,6 @@
         "stadium_football_7_6"
       ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_pavement",
       "rows": [
@@ -102,7 +101,6 @@
       [ "stadium_football_0_1", "stadium_football_8_1" ],
       [ "stadium_football_0_2", "stadium_football_8_2" ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_pavement",
       "rows": [
@@ -199,7 +197,6 @@
       [ "stadium_football_0_5", "stadium_football_8_5" ],
       [ "stadium_football_0_6", "stadium_football_8_6" ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_pavement",
       "rows": [
@@ -363,7 +360,6 @@
         "stadium_football_7_5"
       ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -628,7 +624,6 @@
         "stadium_football_7_5_1"
       ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -709,7 +704,6 @@
       [ "stadium_football_1_3_1", "stadium_football_7_3_1" ],
       [ "stadium_football_1_4_1", "stadium_football_7_4_1" ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -802,7 +796,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "stadium_football_2_3_1", "stadium_football_6_3_1" ] ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -857,7 +850,6 @@
         "stadium_football_7_5_2"
       ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -938,7 +930,6 @@
       [ "stadium_football_1_3_2", "stadium_football_7_3_2" ],
       [ "stadium_football_1_4_2", "stadium_football_7_4_2" ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -1050,7 +1041,6 @@
         "stadium_football_7_5_3"
       ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -1131,7 +1121,6 @@
       [ "stadium_football_1_3_3", "stadium_football_7_3_3" ],
       [ "stadium_football_1_4_3", "stadium_football_7_4_3" ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -1239,7 +1228,6 @@
         "stadium_football_6_5_4"
       ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -1327,7 +1315,6 @@
         "stadium_football_6_5_5"
       ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

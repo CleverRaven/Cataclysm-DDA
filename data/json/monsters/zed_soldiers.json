@@ -312,6 +312,7 @@
     "id": "mon_bestial_stalker",
     "type": "MONSTER",
     "copy-from": "mon_zombie_marine_upgrade",
+    "species": [ "ZOMBIE" ],
     "looks_like": "mon_zombie_marine_upgrade",
     "//": "This is a variation which will drop default military equipment, rather than specific naval uniforms and gear.",
     "description": "Lumbering about on all fours, this mutated beast's dagger-like claws clack against the ground as it predatorially moves: thick strands of exposed muscle tissue running across its rotting body.  The addition of its new bulk has caused the skin along its arms and back to split, and the brute's teeth have extended into spikes of bone.  The military insignias on the remains of the creature's pulverized gear are the only testaments to the soldier that this hulking abomination used to be.",

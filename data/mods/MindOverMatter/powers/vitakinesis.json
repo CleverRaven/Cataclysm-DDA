@@ -8,6 +8,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
@@ -25,7 +26,6 @@
         "( (u_spell_level('vita_health_power') * 29800) + 155000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 0 : max((2500 - (u_spell_level('vita_health_power') * 75)), 1000)" ]
     },
@@ -42,6 +42,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
@@ -59,7 +60,6 @@
         "( (u_spell_level('vita_slow_bleeding') * 16300) + 117400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_vitakin_slow_bleeding') > -1 ? 0 : max((2500 - (u_spell_level('vita_health_power') * 95)), 1250)"
@@ -80,6 +80,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
@@ -91,7 +92,6 @@
     "max_damage": 1,
     "min_duration": 1200,
     "max_duration": 1200,
-    "energy_source": "STAMINA",
     "base_energy_cost": 3000,
     "final_energy_cost": 750,
     "energy_increment": -125,
@@ -108,7 +108,6 @@
       "//~": "NO_I18N"
     },
     "valid_targets": [ "self" ],
-    "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "teachable": false,
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
@@ -129,7 +128,6 @@
       "//~": "NO_I18N"
     },
     "valid_targets": [ "self" ],
-    "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "teachable": false,
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
@@ -150,7 +148,6 @@
       "//~": "NO_I18N"
     },
     "valid_targets": [ "self" ],
-    "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "teachable": false,
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
@@ -171,6 +168,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
@@ -188,7 +186,6 @@
         "( (u_spell_level('vita_concentrated_healing') * 28400) + 103400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_vita_concentrated_healing') > -1 ? 0 : max((3500 - (u_spell_level('vita_concentrated_healing') * 80)), 1350)"
@@ -209,6 +206,7 @@
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
@@ -219,26 +217,25 @@
     "damage_type": "biological",
     "min_dot": {
       "math": [
-        "min( ( ( (u_spell_level('vita_hurt_touch') * 0.01) + 0.05) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 0.33)"
+        "min( ( ( (u_spell_level('vita_hurt_touch') * 0.002) + 0.03) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 0.1)"
       ]
     },
     "max_dot": {
       "math": [
-        "min( ( ( (u_spell_level('vita_hurt_touch') * 0.01) + 0.05) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 0.33)"
+        "min( ( ( (u_spell_level('vita_hurt_touch') * 0.002) + 0.03) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 0.1)"
       ]
     },
     "min_range": 1,
     "min_duration": {
       "math": [
-        "( (u_spell_level('vita_hurt_touch') * 50) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_hurt_touch') * 2900) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('vita_hurt_touch') * 150) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('vita_hurt_touch') * 7800) + 6100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 2000,
     "final_energy_cost": 950,
     "energy_increment": -65,
@@ -256,6 +253,7 @@
     "teachable": false,
     "valid_targets": [ "ally" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
@@ -274,7 +272,6 @@
         "( (u_spell_level('vita_health_power_ally') * 29800) + 155000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 4000,
     "final_energy_cost": 2000,
     "energy_increment": -75,
@@ -292,6 +289,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
@@ -309,7 +307,6 @@
         "( (u_spell_level('vita_remove_poison') * 3200) + 41800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 3500,
     "final_energy_cost": 1750,
     "energy_increment": -115,
@@ -326,6 +323,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
     "difficulty": 4,
@@ -333,7 +331,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITAKIN_SLEEP",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 1000,
     "base_casting_time": 100
   },
@@ -346,6 +343,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 4,
@@ -363,7 +361,6 @@
         "( (u_spell_level('vita_cure_disease') * 31100) + 283400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_vita_cure_disease') > -1 ? 0 : max((5500 - (u_spell_level('vita_cure_disease') * 125)), 2500)"
@@ -384,6 +381,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 5,
@@ -391,7 +389,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITAKIN_STOP_INFECTION_SWITCH",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 5000,
     "final_energy_cost": 2250,
     "energy_increment": -145,
@@ -409,7 +406,6 @@
     },
     "valid_targets": [ "self" ],
     "teachable": false,
-    "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "spawn_item",
@@ -430,7 +426,6 @@
     },
     "valid_targets": [ "self" ],
     "teachable": false,
-    "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "spawn_item",
@@ -451,7 +446,6 @@
     },
     "valid_targets": [ "self" ],
     "teachable": false,
-    "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "spawn_item",
@@ -471,6 +465,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
     "difficulty": 6,
@@ -478,7 +473,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITAKIN_HEALING_TRANCE",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 8000,
     "base_casting_time": 500
   },
@@ -491,6 +485,7 @@
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
@@ -521,7 +516,6 @@
         "( (u_spell_level('vita_attack_touch') * 150) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 6000,
     "final_energy_cost": 2350,
     "energy_increment": -115,
@@ -539,6 +533,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 6,
@@ -546,7 +541,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITAKIN_RAD_PURGE",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 7000,
     "final_energy_cost": 4500,
     "energy_increment": -135,
@@ -561,6 +555,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 7,
@@ -569,7 +564,6 @@
     "effect_str": "cureall",
     "extra_effects": [ { "id": "vita_blood_purge_no_mutagens", "hit_self": true } ],
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 8500,
     "final_energy_cost": 4500,
     "energy_increment": -145,
@@ -600,6 +594,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 8,
@@ -607,7 +602,6 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITAKIN_BANISH_ILLNESS_SELECTOR",
     "shape": "blast",
-    "energy_source": "STAMINA",
     "base_energy_cost": 10000,
     "base_casting_time": 500
   },
@@ -620,6 +614,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 9,
@@ -637,7 +632,6 @@
         "( (u_spell_level('vita_super_heal') * 11000) + 37200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_vita_super_heal') > -1 ? 0 : max((10000 - (u_spell_level('vita_super_heal') * 150)), 6500)"
@@ -654,6 +648,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 10,
@@ -671,7 +666,6 @@
         "( (u_spell_level('vita_limb_restore') * 6000) + 35000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 10000,
     "final_energy_cost": 8000,
     "energy_increment": -150,
@@ -686,6 +680,7 @@
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 9,
@@ -704,7 +699,6 @@
         "75 - ( (u_spell_level('vita_degenerating_touch') * 2 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling )"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 8500,
     "final_energy_cost": 4500,
     "energy_increment": -250,
@@ -721,7 +715,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "SPLIT_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
@@ -741,7 +734,6 @@
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
-    "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
@@ -762,6 +754,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 10,
@@ -779,7 +772,6 @@
         "( (u_spell_level('vita_return_from_death') * 281900) + 1236000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_vita_return_from_death') > -1 ? 0 : max((9000 - (u_spell_level('vita_return_from_death') * 125)), 6000)"

@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_laundromat" ],
-    "weight": 400,
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
@@ -136,7 +135,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_laundromat_1" ],
-    "weight": 400,
     "object": {
       "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [

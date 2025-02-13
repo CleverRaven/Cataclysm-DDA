@@ -1,6 +1,9 @@
 #include "pickup.h"
 
 #include <algorithm>
+#include <array>
+#include <functional>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -11,15 +14,20 @@
 #include "activity_actor_definitions.h"
 #include "auto_pickup.h"
 #include "character.h"
-#include "colony.h"
+#include "contents_change_handler.h"
 #include "debug.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "item_stack.h"
+#include "json.h"
 #include "line.h"
 #include "map.h"
 #include "mapdata.h"
@@ -34,7 +42,6 @@
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
-#include "units_utility.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
@@ -390,7 +397,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
 }
 
 // Auto pickup items at given location
-void Pickup::autopickup( const tripoint &p )
+void Pickup::autopickup( const tripoint_bub_ms &p )
 {
     map &local = get_map();
 
@@ -406,7 +413,7 @@ void Pickup::autopickup( const tripoint &p )
     }
     Character &player = get_player_character();
     // Recursively pick up adjacent items if that option is on.
-    if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && player.pos() == p ) {
+    if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && player.pos_bub() == p ) {
         //Autopickup adjacent
         std::array<direction, 8> adjacentDir = {
             direction::NORTH, direction::NORTHEAST, direction::EAST,
@@ -415,10 +422,9 @@ void Pickup::autopickup( const tripoint &p )
         };
         for( direction &elem : adjacentDir ) {
 
-            tripoint apos = tripoint( displace_XY( elem ), 0 );
-            apos += p;
+            tripoint_rel_ms apos = tripoint_rel_ms( point_rel_ms( displace_XY( elem ) ), 0 );
 
-            autopickup( apos );
+            autopickup( p + apos );
         }
     }
     // Bail out if this square cannot be auto-picked-up
@@ -488,7 +494,7 @@ void Pickup::pick_info::deserialize( const JsonObject &jsobj )
 void Pickup::pick_info::set_src( const item_location &src_ )
 {
     // item_location of source may become invalid after the item is moved, so save the information separately.
-    src_pos = src_.position();
+    src_pos = src_.pos_bub();
     src_container = src_.parent_item();
     src_type = src_.where();
 }
@@ -496,16 +502,4 @@ void Pickup::pick_info::set_src( const item_location &src_ )
 void Pickup::pick_info::set_dst( const item_location &dst_ )
 {
     dst = dst_;
-}
-
-std::vector<Pickup::pickup_rect> Pickup::pickup_rect::list;
-
-Pickup::pickup_rect *Pickup::pickup_rect::find_by_coordinate( const point &p )
-{
-    for( pickup_rect &rect : pickup_rect::list ) {
-        if( rect.contains( p ) ) {
-            return &rect;
-        }
-    }
-    return nullptr;
 }

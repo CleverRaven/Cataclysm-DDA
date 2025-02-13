@@ -254,5 +254,16 @@
       { "point": [ 0, 0, 1 ], "overmap": "afs_shuttle_pad_a2_roof_south" }
     ],
     "locations": [ "land" ]
+  },
+  {
+    "id": "afs_gene_clinic_1",
+    "type": "city_building",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_gene_clinic_1_a1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_gene_clinic_1_a2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "afs_gene_clinic_1_a3_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "afs_gene_clinic_1_a4_north" }
+    ],
+    "locations": [ "land" ]
   }
 ]

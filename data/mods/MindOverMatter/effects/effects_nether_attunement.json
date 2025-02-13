@@ -58,25 +58,6 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_nether_attunement_health_bonus",
-    "//": "Hidden effect, used as a tracker",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "rating": "good",
-    "max_duration": "30 seconds",
-    "base_mods": { "health_min": [ 1 ], "health_chance": [ 2 ] }
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_nether_attunement_health_penalty",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "rating": "bad",
-    "max_duration": "30 seconds",
-    "base_mods": { "health_min": [ -1 ], "health_chance": [ 2 ] }
-  },
-  {
-    "type": "effect_type",
     "id": "effect_nether_attunement_raiser",
     "name": [ "Nether Conduit" ],
     "desc": [ "Your skin prickles." ],
@@ -87,15 +68,29 @@
     "type": "effect_type",
     "id": "effect_nether_attunement_attenuation",
     "name": [ "Nether Attenuation" ],
-    "desc": [ "You feel strangely listless." ],
-    "remove_message": "The listless feeling vanishes.",
+    "desc": [ "You have to work extra hard to draw enough energy to use your powers." ],
+    "remove_message": "Your difficulty in drawing on the Nether fades.",
     "enchantments": [ { "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": 4 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_extra_kcal",
+    "name": [ "Gnawing Hunger" ],
+    "desc": [ "Whenever you use your powers, your stomach rumbles." ],
+    "remove_message": "Your stomach finally calms down."
   },
   {
     "type": "effect_type",
     "id": "effect_nether_attunement_feedback",
     "name": [ "Feedback" ],
     "desc": [ "You feel a persistent itching that will not go away." ],
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_biokinetic_inversion",
+    "name": [ "Metabolic Inversion" ],
+    "desc": [ "You getting pretty hungry and thirsty." ],
     "rating": "bad"
   },
   {

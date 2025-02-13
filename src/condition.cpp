@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <array>
 #include <climits>
-#include <cmath>
 #include <cstddef>
 #include <functional>
 #include <map>
@@ -11,7 +10,6 @@
 #include <optional>
 #include <queue>
 #include <set>
-#include <stdexcept>
 #include <string>
 #include <type_traits>
 #include <unordered_map>
@@ -22,11 +20,13 @@
 
 #include "action.h"
 #include "avatar.h"
+#include "basecamp.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "character.h"
+#include "character_id.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "dialogue_helpers.h"
@@ -37,22 +37,24 @@
 #include "faction.h"
 #include "field.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
+#include "game_constants.h"
 #include "generic_factory.h"
 #include "global_vars.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_location.h"
-#include "json_error.h"
-#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "math_parser.h"
 #include "math_parser_type.h"
+#include "memory_fast.h"
+#include "messages.h"
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -60,6 +62,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "popup.h"
@@ -80,8 +83,7 @@
 #include "widget.h"
 #include "worldfactory.h"
 
-class Creature;
-class basecamp;
+// IWYU pragma: no_forward_declare cardinal_direction // need its enum_traits
 class recipe;
 struct mapgen_arguments;
 
@@ -382,21 +384,32 @@ str_translation_or_var get_str_translation_or_var(
     return ret_val;
 }
 
-tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, const_dialogue const &d,
-                                       bool is_npc )
+template<typename T>
+T convert_tripoint_from_var( std::optional<var_info> &var, const_dialogue const &d,
+                             bool is_npc )
 {
     if( var.has_value() ) {
         std::string value = read_var_value( var.value(), d );
         if( !value.empty() ) {
-            return tripoint_abs_ms( tripoint::from_string( value ) );
+            return T( tripoint::from_string( value ) );
         }
     }
     if( !d.has_actor( is_npc ) ) {
         debugmsg( "Tried to access location of invalid %s talker.  %s", is_npc ? "beta" : "alpha",
                   d.get_callstack() );
-        return tripoint_abs_ms::invalid;
+        return T::invalid;
     }
-    return get_map().getglobal( d.const_actor( is_npc )->pos_bub() );
+    return T::invalid;
+}
+
+tripoint_abs_ms get_tripoint_ms_from_var( std::optional<var_info> var, const_dialogue const &d,
+        bool is_npc )
+{
+    tripoint_abs_ms pt = convert_tripoint_from_var<tripoint_abs_ms>( var, d, is_npc );
+    if( pt.is_invalid() ) {
+        return get_map().get_abs( d.const_actor( is_npc )->pos_bub() );
+    }
+    return pt;
 }
 
 template<class T>
@@ -1078,7 +1091,7 @@ conditional_t::func f_at_om_location( const JsonObject &jo, std::string_view mem
 {
     str_or_var location = get_str_or_var( jo.get_member( member ), member, true );
     return [location, is_npc]( const_dialogue const & d ) {
-        const tripoint_abs_omt omt_pos = d.const_actor( is_npc )->global_omt_location();
+        const tripoint_abs_omt omt_pos = d.const_actor( is_npc )->pos_abs_omt();
         const oter_id &omt_ter = overmap_buffer.ter( omt_pos );
         const std::string &omt_str = omt_ter.id().str();
         std::string location_value = location.evaluate( d );
@@ -1105,7 +1118,7 @@ conditional_t::func f_near_om_location( const JsonObject &jo, std::string_view m
     str_or_var location = get_str_or_var( jo.get_member( member ), member, true );
     const dbl_or_var range = get_dbl_or_var( jo, "range", false, 1 );
     return [location, range, is_npc]( const_dialogue const & d ) {
-        const tripoint_abs_omt omt_pos = d.const_actor( is_npc )->global_omt_location();
+        const tripoint_abs_omt omt_pos = d.const_actor( is_npc )->pos_abs_omt();
         for( const tripoint_abs_omt &curr_pos : points_in_radius( omt_pos,
                 range.evaluate( d ) ) ) {
             const oter_id &omt_ter = overmap_buffer.ter( curr_pos );
@@ -1595,7 +1608,7 @@ conditional_t::func f_follower_present( const JsonObject &jo, std::string_view m
 conditional_t::func f_at_safe_space( bool is_npc )
 {
     return [is_npc]( const_dialogue const & d ) {
-        return overmap_buffer.is_safe( d.const_actor( is_npc )->global_omt_location() ) &&
+        return overmap_buffer.is_safe( d.const_actor( is_npc )->pos_abs_omt() ) &&
                d.const_actor( is_npc )->is_safe();
     };
 }
@@ -1691,8 +1704,8 @@ conditional_t::func f_line_of_sight( const JsonObject &jo, std::string_view memb
         with_fields = jo.get_bool( "with_fields" );
     }
     return [range, loc_var_1, loc_var_2, with_fields]( const_dialogue const & d ) {
-        tripoint_bub_ms loc_1 = get_map().bub_from_abs( get_tripoint_from_var( loc_var_1, d, false ) );
-        tripoint_bub_ms loc_2 = get_map().bub_from_abs( get_tripoint_from_var( loc_var_2, d, false ) );
+        tripoint_bub_ms loc_1 = get_map().get_bub( get_tripoint_ms_from_var( loc_var_1, d, false ) );
+        tripoint_bub_ms loc_2 = get_map().get_bub( get_tripoint_ms_from_var( loc_var_2, d, false ) );
 
         return get_map().sees( loc_1, loc_2, range.evaluate( d ), with_fields );
     };
@@ -1749,16 +1762,16 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
                     popup.message( "%s", message );
                 }
                 avatar dummy;
-                dummy.set_location( get_avatar().get_location() );
+                dummy.set_pos_abs_only( get_avatar().pos_abs() );
                 target_handler::trajectory traj = target_handler::mode_select_only( dummy, range.evaluate( d ) );
                 if( !traj.empty() ) {
                     loc = traj.back();
                 }
             } else if( type == "around" ) {
                 if( !message.empty() ) {
-                    loc = choose_adjacent_bub( message );
+                    loc = choose_adjacent( message );
                 } else {
-                    loc = choose_adjacent_bub( _( "Choose direction" ) );
+                    loc = choose_adjacent( _( "Choose direction" ) );
                 }
             } else {
                 debugmsg( string_format( "Invalid selection type: %s", type ) );
@@ -1766,7 +1779,7 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
 
         }
         if( loc.has_value() ) {
-            tripoint_abs_ms pos_global = get_map().getglobal( *loc );
+            tripoint_abs_ms pos_global = get_map().get_abs( *loc );
             write_var_value( target_var.type, target_var.name, d,
                              pos_global.to_string() );
         }
@@ -1804,7 +1817,7 @@ conditional_t::func f_map_ter_furn_with_flag( const JsonObject &jo, std::string_
         terrain = false;
     }
     return [terrain, furn_type, loc_var]( const_dialogue const & d ) {
-        tripoint_bub_ms loc = get_map().bub_from_abs( get_tripoint_from_var( loc_var, d, false ) );
+        tripoint_bub_ms loc = get_map().get_bub( get_tripoint_ms_from_var( loc_var, d, false ) );
         if( terrain ) {
             return get_map().ter( loc )->has_flag( furn_type.evaluate( d ) );
         } else {
@@ -1819,7 +1832,7 @@ conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view me
     var_info loc_var = read_var_info( jo.get_object( "loc" ) );
 
     return [member, furn_type, loc_var]( const_dialogue const & d ) {
-        tripoint_bub_ms loc = get_map().bub_from_abs( get_tripoint_from_var( loc_var, d, false ) );
+        tripoint_bub_ms loc = get_map().get_bub( get_tripoint_ms_from_var( loc_var, d, false ) );
         if( member == "map_terrain_id" ) {
             return get_map().ter( loc ) == ter_id( furn_type.evaluate( d ) );
         } else if( member == "map_furniture_id" ) {
@@ -2148,7 +2161,7 @@ conditional_t::func f_can_see_location( const JsonObject &jo, std::string_view m
     str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
     return [is_npc, target]( const_dialogue const & d ) {
         tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
-        return d.const_actor( is_npc )->can_see_location( get_map().bub_from_abs( target_pos ) );
+        return d.const_actor( is_npc )->can_see_location( get_map().get_bub( target_pos ) );
     };
 }
 
@@ -2205,7 +2218,7 @@ static std::function<T( const_dialogue const & )> get_get_str_( const JsonObject
         str_or_var target = get_str_or_var( jo.get_member( "target" ), "target" );
         bool use_beta_talker = mutator == "npc_loc_relative";
         return [target, use_beta_talker, ret_func]( const_dialogue const & d ) {
-            tripoint_abs_ms char_pos = get_map().getglobal( d.const_actor( use_beta_talker )->pos_bub() );
+            tripoint_abs_ms char_pos = get_map().get_abs( d.const_actor( use_beta_talker )->pos_bub() );
             tripoint_abs_ms target_pos = char_pos + tripoint::from_string( target.evaluate( d ) );
             return ret_func( target_pos.to_string() );
         };
@@ -2299,6 +2312,7 @@ std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_ge
     { "sleepiness", &const_talker::get_sleepiness },
     { "fine_detail_vision_mod", &const_talker::get_fine_detail_vision_mod },
     { "focus", &const_talker::focus_cur },
+    { "focus_effective", &const_talker::focus_effective_cur },
     { "friendly", &const_talker::get_friendly },
     { "grab_strength", &const_talker::get_grab_strength },
     { "height", &const_talker::get_height },
@@ -2399,6 +2413,7 @@ namespace
 std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals = {
     { "age", &talker::set_age },
     { "anger", &talker::set_anger },
+    { "cash", &talker::set_cash },
     { "dexterity_base", &talker::set_dex_max },
     { "dexterity_bonus", &talker::set_dex_bonus },
     { "exp", &talker::set_kill_xp },

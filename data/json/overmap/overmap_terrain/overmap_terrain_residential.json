@@ -30,7 +30,7 @@
     "copy-from": "generic_city_house_no_sidewalk",
     "name": "house roof",
     "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
-    "delete": { "flags": [ "GENERIC_LOOT" ] }
+    "delete": { "flags": [ "GENERIC_LOOT", "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -605,7 +605,7 @@
     "mondensity": 2,
     "extras": "build",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 10 ], "chance": 80 },
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+    "flags": [ "SIDEWALK", "GENERIC_LOOT", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -616,7 +616,8 @@
     "color": "light_green",
     "see_cost": "none",
     "mondensity": 2,
-    "extras": "build"
+    "extras": "build",
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   },
   {
     "type": "overmap_terrain",

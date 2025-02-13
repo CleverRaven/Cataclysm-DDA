@@ -1,21 +1,18 @@
 #include "kill_tracker.h"
 
+#include <memory>
+#include <set>
 #include <string>
-#include <tuple>
 #include <utility>
 
-#include "avatar.h"
 #include "cata_variant.h"
 #include "character.h"
 #include "character_id.h"
-#include "color.h"
 #include "event.h"
 #include "game.h"
 #include "mtype.h"
 #include "npc.h"
-#include "options.h"
-#include "string_formatter.h"
-#include "translations.h"
+#include "weakpoint.h"
 
 void kill_tracker::reset( const std::map<mtype_id, int> &kills_,
                           const std::vector<std::string> &npc_kills_ )

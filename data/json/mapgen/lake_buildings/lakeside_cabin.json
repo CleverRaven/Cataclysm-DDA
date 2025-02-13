@@ -45,7 +45,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "cabin_lakeside",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "lake_shore",
       "rows": [
@@ -83,7 +82,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "cabin_lakeside_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -120,7 +118,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "cabin_lakeside1",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "lake_shore",
       "rows": [
@@ -159,7 +156,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "cabin_lakeside1_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -196,7 +192,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "cabin_lakeside2",
-    "weight": 50,
     "object": {
       "predecessor_mapgen": "lake_shore",
       "rows": [
@@ -242,7 +237,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "cabin_lakeside2_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -279,7 +273,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "cabin_lakeside3",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "lake_shore",
       "rows": [
@@ -319,7 +312,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "cabin_lakeside3_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -356,7 +348,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "cabin_lakeside4",
-    "weight": 100,
     "object": {
       "predecessor_mapgen": "lake_shore",
       "rows": [
@@ -397,7 +388,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "cabin_lakeside4_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -434,7 +424,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "cabin_lakeside5",
-    "weight": 50,
     "object": {
       "predecessor_mapgen": "lake_shore",
       "rows": [
@@ -478,7 +467,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "cabin_lakeside5_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [

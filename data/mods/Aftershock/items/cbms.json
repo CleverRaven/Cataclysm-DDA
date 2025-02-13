@@ -47,6 +47,24 @@
     "difficulty": 5
   },
   {
+    "id": "afs_bio_deck",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Military Infolink CBM" },
+    "description": "An implanted miniaturized computer isolated from the rest of your systems by military-grade firewalls.  An accompanying jack allows you to interface with external computer systems with minimal risk.  Skill in computers is important, and a failed use may damage your circuits.",
+    "price_postapoc": "10 kUSD",
+    "difficulty": 5
+  },
+  {
+    "id": "afs_bio_beavy_batteries",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "High-Voltage Battery System CBM" },
+    "description": "A high voltage battery port compatible with the power cartridges normally used in military weaponry.  Intended to supplement internally installed power generation and storage.",
+    "price_postapoc": "7 kUSD",
+    "difficulty": 5
+  },
+  {
     "id": "afs_bio_blood_brain",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

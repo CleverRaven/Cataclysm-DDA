@@ -1,45 +1,64 @@
 #include "mattack_actors.h"
 
 #include <algorithm>
+#include <functional>
+#include <iterator>
 #include <limits>
 #include <memory>
 #include <optional>
+#include <set>
 #include <string>
 
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "character_attire.h"
+#include "condition.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "debug.h"
+#include "dialogue.h"
+#include "effect.h"
 #include "effect_on_condition.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "global_vars.h"
 #include "gun_mode.h"
 #include "input.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
+#include "output.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "projectile.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
+#include "talker.h"
 #include "tileray.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "vehicle.h"
+#include "units.h"
 #include "veh_type.h"
+#include "vehicle.h"
 #include "viewer.h"
+#include "vpart_position.h"
 
 static const damage_type_id damage_bash( "bash" );
 
@@ -63,6 +82,8 @@ static const efftype_id effect_zombie_virus( "zombie_virus" );
 static const flag_id json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
+
+static const itype_id itype_backpack( "backpack" );
 
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 
@@ -126,7 +147,7 @@ bool leap_actor::call( monster &z ) const
     std::vector<tripoint_bub_ms> options;
     const tripoint_abs_ms target_abs = z.get_dest();
     // Calculate distance to target
-    const float best_float = rl_dist( z.get_location(), target_abs );
+    const float best_float = rl_dist( z.pos_abs(), target_abs );
     add_msg_debug( debugmode::DF_MATTACK, "Target distance %.1f", best_float );
     if( best_float < min_consider_range || best_float > max_consider_range ) {
         add_msg_debug( debugmode::DF_MATTACK, "Best float outside of considered range" );
@@ -141,7 +162,7 @@ bool leap_actor::call( monster &z ) const
         return false;
     }
     map &here = get_map();
-    const tripoint_bub_ms target = here.bub_from_abs( target_abs );
+    const tripoint_bub_ms target = here.get_bub( target_abs );
     add_msg_debug( debugmode::DF_MATTACK, "Target at coordinates %s",
                    target.to_string_writable() );
 
@@ -587,7 +608,8 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
             target->add_effect( grab_data.grab_effect, 1_days, bp_id, true, eff_grab_strength );
         } else {
             // Monsters don't have limb scores, no need to target limbs
-            target->add_effect( grab_data.grab_effect, 1_days, body_part_bp_null, true, eff_grab_strength );
+            target->add_effect( grab_data.grab_effect, 1_days, bodypart_str_id::NULL_ID().id(), true,
+                                eff_grab_strength );
             z.add_effect( effect_grabbing, 1_days, true, 1 );
         }
     }
@@ -672,6 +694,8 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
 
 bool melee_actor::call( monster &z ) const
 {
+    map &here = get_map();
+
     Creature *target = find_target( z );
     if( target == nullptr ) {
         return false;
@@ -851,7 +875,7 @@ bool melee_actor::call( monster &z ) const
     dealt_damage.bp_hit = bp_id;
 
     // On hit effects
-    target->on_hit( &z, bp_id );
+    target->on_hit( &here, &z, bp_id );
 
     // Apply onhit self effects
     for( const mon_effect_data &eff : self_effects_onhit ) {
@@ -911,7 +935,7 @@ bool melee_actor::call( monster &z ) const
                         float path_distance = rng_float( 0, 1.0 );
                         tripoint_rel_ms vector = target->pos_bub() - z.pos_bub();
                         vector = { vector.x() *path_distance, vector.y() *path_distance, vector.z() *path_distance };
-                        pd[index]->spill_contents( z.pos() + vector.raw() );
+                        pd[index]->spill_contents( z.pos_bub() + vector );
                         add_msg( m_bad, _( "As you hit the ground something comes loose and is knocked away from you!" ) );
                         popup( _( "As you hit the ground something comes loose and is knocked away from you!" ) );
                     }
@@ -1268,7 +1292,7 @@ bool gun_actor::shoot( monster &z, const tripoint_bub_ms &target, const gun_mode
     z.mod_moves( -move_cost );
     standard_npc tmp( _( "The " ) + z.name(), z.pos_bub(), {}, 8,
                       fake_str, fake_dex, fake_int, fake_per );
-    tmp.worn.wear_item( tmp, item( "backpack" ), false, false, true, true );
+    tmp.worn.wear_item( tmp, item( itype_backpack ), false, false, true, true );
     tmp.set_fake( true );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
 

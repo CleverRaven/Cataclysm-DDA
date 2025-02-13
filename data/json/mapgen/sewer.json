@@ -885,7 +885,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "sewer_curved" ],
-    "weight": 1000000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

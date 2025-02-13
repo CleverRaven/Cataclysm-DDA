@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_SPIDER",
+    "id": "GROUP_SPIDER",
     "monsters": [
       { "monster": "mon_spider_disease", "weight": 40, "cost_multiplier": 0 },
       { "monster": "mon_spider_web_small", "weight": 400, "cost_multiplier": 0 }
@@ -9,7 +9,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CHANGELING_MIRRORED_FIELD",
+    "id": "GROUP_CHANGELING_MIRRORED_FIELD",
     "monsters": [
       { "monster": "mon_changeling", "weight": 100, "cost_multiplier": 1 },
       { "monster": "mon_fetch_child", "weight": 400, "cost_multiplier": 0 },
@@ -18,7 +18,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CHANGELING_STRIKE_FORCE",
+    "id": "GROUP_CHANGELING_STRIKE_FORCE",
     "monsters": [
       { "monster": "mon_changeling_bannerman", "weight": 100, "cost_multiplier": 1 },
       { "monster": "mon_fetch_daffodil_warrior", "weight": 400, "cost_multiplier": 0 },
@@ -28,7 +28,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GOBLIN_SPIDER",
+    "id": "GROUP_GOBLIN_SPIDER",
     "monsters": [
       { "monster": "mon_goblin_spider", "weight": 100, "cost_multiplier": 1 },
       { "monster": "mon_fetch_child", "weight": 200, "cost_multiplier": 1 }
@@ -36,7 +36,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DREAM_WOUND_SHADOW",
+    "id": "GROUP_DREAM_WOUND_SHADOW",
     "default": "mon_dream_shadow",
     "monsters": [
       { "monster": "mon_dream_shadow", "weight": 500, "cost_multiplier": 0 },
@@ -45,7 +45,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FOREST",
+    "id": "GROUP_FOREST",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_xe_unicorn", "weight": 10, "cost_multiplier": 10, "starts": 240, "pack_size": [ 1, 5 ] },
@@ -55,17 +55,17 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_RIVER",
+    "id": "GROUP_RIVER",
     "is_animal": true,
     "monsters": [ { "monster": "mon_xe_mavka", "weight": 1, "cost_multiplier": 10, "starts": 500, "pack_size": [ 1, 5 ] } ]
   },
   {
-    "name": "GROUP_PARK_SCENIC",
+    "id": "GROUP_PARK_SCENIC",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_vampire_moroi", "weight": 10 }, { "monster": "mon_vampire_strigoi", "weight": 1 } ]
   },
   {
-    "name": "GROUP_PARK_PLAYGROUND",
+    "id": "GROUP_PARK_PLAYGROUND",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_vampire_moroi", "weight": 10 },
@@ -74,38 +74,38 @@
     ]
   },
   {
-    "name": "GROUP_HOUSE",
+    "id": "GROUP_HOUSE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_vampire_moroi", "weight": 5 }, { "monster": "mon_vampire_strigoi", "weight": 1 } ]
   },
   {
-    "name": "GROUP_MANSION_START",
+    "id": "GROUP_MANSION_START",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_vampire_moroi", "weight": 80 } ]
   },
   {
-    "name": "GROUP_HOSPITAL",
+    "id": "GROUP_HOSPITAL",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_vampire_moroi", "weight": 5 }, { "monster": "mon_vampire_strigoi", "weight": 1 } ]
   },
   {
-    "name": "FERAL_HUMANS",
+    "id": "FERAL_HUMANS",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_vampire_moroi", "weight": 5 }, { "monster": "mon_vampire_strigoi", "weight": 1 } ]
   },
   {
-    "name": "GROUP_RETIREMENT_COMMUNITY",
+    "id": "GROUP_RETIREMENT_COMMUNITY",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_vampire_moroi", "weight": 5 }, { "monster": "mon_vampire_strigoi", "weight": 1 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MOROI",
+    "id": "GROUP_MOROI",
     "monsters": [ { "monster": "mon_vampire_moroi", "weight": 35 }, { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 2 ] } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_VAMPIRE_CATHEDRAL",
+    "id": "GROUP_VAMPIRE_CATHEDRAL",
     "monsters": [
       { "monster": "mon_bat_giant", "weight": 35, "pack_size": [ 1, 2 ] },
       { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 3 ] }
@@ -113,7 +113,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_STRIGOI",
+    "id": "GROUP_STRIGOI",
     "monsters": [
       { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_vampire_strigoi", "weight": 25 },
@@ -123,7 +123,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_VAMPIRES_MIXED",
+    "id": "GROUP_VAMPIRES_MIXED",
     "monsters": [
       { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_vampire_moroi", "weight": 25 },
@@ -132,30 +132,30 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_RENFIELDS",
+    "id": "GROUP_RENFIELDS",
     "monsters": [ { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 2 ] } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SWARM_BATS",
+    "id": "GROUP_SWARM_BATS",
     "is_animal": true,
     "monsters": [ { "monster": "xe_mon_bat", "weight": 10, "pack_size": [ 1, 2 ] } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GIANT_BATS",
+    "id": "GROUP_GIANT_BATS",
     "is_animal": true,
     "monsters": [ { "monster": "mon_bat_giant", "weight": 10 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_VAMPIRE_BATS",
+    "id": "GROUP_VAMPIRE_BATS",
     "is_animal": true,
     "monsters": [ { "monster": "mon_vampire_bat", "weight": 10, "pack_size": [ 1, 2 ] } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ALL_BATS",
+    "id": "GROUP_ALL_BATS",
     "is_animal": true,
     "monsters": [
       { "monster": "xe_mon_bat", "weight": 10, "pack_size": [ 1, 2 ] },
@@ -165,7 +165,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_Exodii_Jotunn",
+    "id": "GROUP_Exodii_Jotunn",
     "//": "A small Exodii hunter/killer unit or party.  Hunting for Xedra Survivors or Balthazar pawns.",
     "monsters": [
       { "monster": "mon_exodii_quad", "weight": 100 },
@@ -175,12 +175,12 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FERAL_AGENTS",
+    "id": "GROUP_FERAL_AGENTS",
     "monsters": [ { "monster": "mon_feral_zebra_agent", "weight": 100, "pack_size": [ 1, 2 ] } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FERAL_AGENTS_BORDER_PATROL_OFFICE",
+    "id": "GROUP_FERAL_AGENTS_BORDER_PATROL_OFFICE",
     "monsters": [
       { "monster": "mon_feral_zebra_agent", "weight": 100, "pack_size": [ 2, 4 ] },
       { "monster": "mon_feral_zebra_agent_p90", "weight": 100, "pack_size": [ 0, 2 ] }
@@ -188,7 +188,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_IERDE",
+    "id": "GROUP_GENIUS_IERDE",
     "monsters": [
       { "monster": "mon_monstrous_badger", "weight": 150, "cost_multiplier": 0 },
       { "monster": "mon_stoneling", "weight": 250, "cost_multiplier": 0 },
@@ -197,7 +197,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_IERDE_LESSER",
+    "id": "GROUP_GENIUS_IERDE_LESSER",
     "monsters": [
       { "monster": "mon_monstrous_badger", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_stoneling", "weight": 200, "cost_multiplier": 0 }
@@ -205,12 +205,12 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_IERDE_MEDIAL",
+    "id": "GROUP_GENIUS_IERDE_MEDIAL",
     "monsters": [ { "monster": "mon_shamir_worm", "weight": 50, "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_UNDINE",
+    "id": "GROUP_GENIUS_UNDINE",
     "monsters": [
       { "monster": "mon_water_sprite", "weight": 125, "cost_multiplier": 0 },
       { "monster": "mon_spitting_lizard", "weight": 300, "cost_multiplier": 0 },
@@ -226,7 +226,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_UNDINE_LESSER",
+    "id": "GROUP_GENIUS_UNDINE_LESSER",
     "monsters": [
       { "monster": "mon_water_sprite", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_spitting_lizard", "weight": 100, "cost_multiplier": 0 }
@@ -234,7 +234,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_UNDINE_MEDIAL",
+    "id": "GROUP_GENIUS_UNDINE_MEDIAL",
     "monsters": [
       { "monster": "mon_undertow", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_shabriri", "weight": 50, "cost_multiplier": 0 }
@@ -242,12 +242,12 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_UNDINE_GREATER",
+    "id": "GROUP_GENIUS_UNDINE_GREATER",
     "monsters": [ { "monster": "mon_nuckalavee", "weight": 20, "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_SALAMANDER",
+    "id": "GROUP_GENIUS_SALAMANDER",
     "monsters": [
       { "monster": "mon_smoke_mephit", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_salamander_tiny", "weight": 300, "cost_multiplier": 0 },
@@ -256,7 +256,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_SALAMANDER_LESSER",
+    "id": "GROUP_GENIUS_SALAMANDER_LESSER",
     "monsters": [
       { "monster": "mon_smoke_mephit", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_salamander_tiny", "weight": 100, "cost_multiplier": 0 }
@@ -264,12 +264,12 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_SALAMANDER_GREATER",
+    "id": "GROUP_GENIUS_SALAMANDER_GREATER",
     "monsters": [ { "monster": "mon_elemental_saraph", "weight": 50, "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_SYLPH",
+    "id": "GROUP_GENIUS_SYLPH",
     "monsters": [
       { "monster": "mon_skyglass_butterflies", "weight": 150, "cost_multiplier": 0 },
       { "monster": "mon_dragonfly_fae", "weight": 250, "cost_multiplier": 0 },
@@ -278,7 +278,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_SYLPH_LESSER",
+    "id": "GROUP_GENIUS_SYLPH_LESSER",
     "monsters": [
       { "monster": "mon_skyglass_butterflies", "weight": 80, "cost_multiplier": 0 },
       { "monster": "mon_dragonfly_fae", "weight": 40, "cost_multiplier": 0 }
@@ -286,12 +286,12 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_SYLPH_MEDIAL",
+    "id": "GROUP_GENIUS_SYLPH_MEDIAL",
     "monsters": [ { "monster": "mon_sheyd", "weight": 50, "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_ARVORE",
+    "id": "GROUP_GENIUS_ARVORE",
     "monsters": [
       { "monster": "mon_vineling", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_ratatosk_children", "weight": 300, "cost_multiplier": 0 },
@@ -301,7 +301,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_ARVORE_LESSER",
+    "id": "GROUP_GENIUS_ARVORE_LESSER",
     "monsters": [
       { "monster": "mon_vineling", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_ratatosk_children", "weight": 100, "cost_multiplier": 0 }
@@ -309,17 +309,17 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_ARVORE_MEDIAL",
+    "id": "GROUP_GENIUS_ARVORE_MEDIAL",
     "monsters": [ { "monster": "mon_bear_thorn", "weight": 50, "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_ARVORE_GREATER",
+    "id": "GROUP_GENIUS_ARVORE_GREATER",
     "monsters": [ { "monster": "mon_defender_wood", "weight": 50, "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GENIUS_HOMULLUS",
+    "id": "GROUP_GENIUS_HOMULLUS",
     "monsters": [
       { "monster": "mon_zoomorphic_figure_small", "weight": 40, "cost_multiplier": 0 },
       { "monster": "mon_venus_doll", "weight": 400, "cost_multiplier": 0 }
@@ -327,22 +327,22 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MI-GO_CAMP_OM",
+    "id": "GROUP_MI-GO_CAMP_OM",
     "monsters": [ { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 20, "starts": "210 hours" } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MI-GO_BASE_COMMON",
+    "id": "GROUP_MI-GO_BASE_COMMON",
     "monsters": [ { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MI-GO_BASE_CAPTORS",
+    "id": "GROUP_MI-GO_BASE_CAPTORS",
     "monsters": [ { "monster": "mon_mi_go_stalking_warper", "weight": 300, "cost_multiplier": 2, "starts": "210 hours" } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MI-GO_BASE_BOSS",
+    "id": "GROUP_MI-GO_BASE_BOSS",
     "monsters": [
       { "monster": "mon_mi_go_stalking_warper", "weight": 200, "cost_multiplier": 2 },
       { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 5, "pack_size": [ 2, 3 ] }
@@ -350,7 +350,37 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_HEDGE_TO_CAUSE_ARMED_MEN",
+    "id": "GROUP_SALAMANDER_ERUPTION_SURFACE",
+    "monsters": [
+      { "monster": "mon_smoke_mephit", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_salamander_tiny", "weight": 300, "cost_multiplier": 0 },
+      { "monster": "mon_elemental_saraph", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_salamagman_small", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_salamagman_large", "weight": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_SALAMANDER_ERUPTION",
+    "monsters": [
+      { "monster": "mon_smoke_mephit", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_salamander_tiny", "weight": 30, "cost_multiplier": 0 },
+      { "monster": "mon_salamagman_small", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_salamagman_large", "weight": 50, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_SALAMANDER_FINALE",
+    "monsters": [
+      { "monster": "mon_salamagman_warlord_butterfly", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_salamagman_small", "weight": 25, "cost_multiplier": 0, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_salamagman_large", "weight": 50, "cost_multiplier": 0, "pack_size": [ 1, 4 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_HEDGE_TO_CAUSE_ARMED_MEN",
     "monsters": [
       { "monster": "mon_hedge_armed_warrior_sword", "weight": 400 },
       { "monster": "mon_hedge_armed_warrior_spear", "weight": 400 },
@@ -360,7 +390,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_HOSTS_OF_SAMHAIN",
+    "id": "GROUP_HOSTS_OF_SAMHAIN",
     "monsters": [
       { "monster": "mon_samhain_ghost_mace", "weight": 333 },
       { "monster": "mon_samhain_ghost_axe", "weight": 333 },
@@ -369,12 +399,12 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_UPGRADE",
+    "id": "GROUP_ZOMBIE_UPGRADE",
     "monsters": [ { "monster": "mon_zombie_monochrome", "weight": 30 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_MONOCHROME_UPGRADE",
+    "id": "GROUP_ZOMBIE_MONOCHROME_UPGRADE",
     "default": "mon_zombie_monochrome",
     "monsters": [
       { "monster": "mon_zombie_monochrome", "weight": 450 },

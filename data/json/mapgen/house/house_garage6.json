@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "house_garage6" ],
-    "weight": 200,
     "//": "two bedroom one bath single garage home.",
     "object": {
       "fill_ter": "t_floor",

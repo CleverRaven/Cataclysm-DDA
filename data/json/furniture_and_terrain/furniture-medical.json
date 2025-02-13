@@ -755,7 +755,7 @@
     "type": "furniture",
     "id": "f_dialysis",
     "name": "dialysis machine",
-    "description": "A large machine for pumping and filtering the blood of somebody without the function of their kidneys.  Largely obsolete for those with access to bionics, but a lifeline to those that need it.",
+    "description": "A large machine for pumping and filtering the blood of somebody without the function of their kidneys.",
     "symbol": "8",
     "bgcolor": "white",
     "move_cost_mod": -1,

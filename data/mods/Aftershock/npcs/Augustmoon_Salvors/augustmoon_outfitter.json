@@ -17,7 +17,6 @@
     "//": "All guns are more expensive here.",
     "shopkeeper_item_group": [
       { "group": "afs_augustmoon_outfitter", "rigid": true },
-      { "group": "augustmoon_shop_money", "rigid": true },
       {
         "group": "afs_augustmoon_outfitter_military",
         "rigid": true,
@@ -38,12 +37,21 @@
     "subtype": "collection",
     "items": [
       { "group": "afs_wintersuit_generic_advanced", "count": [ 1, 3 ] },
+      { "group": "afs_frontier_cryo_g_full_combo", "count": 1 },
       { "group": "afs_basic_armor", "count": [ 0, 3 ] },
       { "group": "afs_colonist_outfit", "count": [ 1, 3 ] },
       { "group": "afs_civilian_hazard_outfit", "count": [ 1, 3 ], "prob": 60 },
       { "group": "afs_pals_pieces", "count": [ 6, 12 ] },
-      { "group": "afs_augustmoon_outfitter_bags", "count": [ 10, 28 ] }
+      { "group": "afs_augustmoon_outfitter_bags", "count": [ 10, 28 ] },
+      { "group": "augustmoon_shop_money" }
     ]
+  },
+  {
+    "id": "afs_frontier_cryo_g_full_combo",
+    "type": "item_group",
+    "//": "The bare minimum matching suit to vist Salus. Prevents having to restart because Port Augustmoon is mising a part like the mask.",
+    "subtype": "collection",
+    "entries": [ { "item": "afs_frontier_cryo" }, { "item": "afs_frontier_cryomask" } ]
   },
   {
     "type": "item_group",
@@ -84,7 +92,8 @@
     "items": [
       { "group": "afs_armor_military_infantry_g", "prob": 85 },
       { "item": "afs_backpack_rockets", "prob": 10 },
-      { "item": "afs_backpack_shieldgen", "prob": 5 }
+      { "item": "afs_backpack_shieldgen", "prob": 5 },
+      { "item": "afs_combat_cryo", "count": [ 1, 2 ], "prob": 60 }
     ]
   },
   {

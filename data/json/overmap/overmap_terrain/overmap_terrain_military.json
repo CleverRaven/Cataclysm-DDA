@@ -8,7 +8,7 @@
     "color": "blue",
     "see_cost": "high",
     "extras": "build",
-    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -30,7 +30,7 @@
     "color": "i_blue",
     "see_cost": "spaced_high",
     "extras": "build",
-    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",

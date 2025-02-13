@@ -6,15 +6,15 @@
 #include <array>
 #include <cmath>
 #include <functional>
-#include <iosfwd>
+#include <string>
+#include <type_traits>
 
 #include "coords_fwd.h"
-#include "game_constants.h"
 #include "lightmap.h"
+#include "map_scale_constants.h"
 #include "mdarray.h"
 
-struct point;
-struct tripoint;
+struct fragment_cloud;
 
 // For light we store four values, depending on the direction that the light
 // comes from.  This allows us to determine whether the side of the wall the

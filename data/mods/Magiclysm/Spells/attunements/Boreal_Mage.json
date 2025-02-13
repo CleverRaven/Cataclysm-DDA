@@ -24,7 +24,7 @@
     "max_level": 35,
     "base_casting_time": 230,
     "sound_description": "a faint shimmering crackle",
-    "energy_source": "MANA"
+    "magic_type": "magiclysm_generic_magic"
   },
   {
     "type": "SPELL",
@@ -46,7 +46,7 @@
     "min_aoe": 45,
     "max_aoe": 120,
     "aoe_increment": 3,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "damage_type": "cold",
     "max_level": 35
   },
@@ -59,7 +59,7 @@
     "effect": "spawn_item",
     "effect_str": "aura_auroral_guard",
     "shape": "blast",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "flags": [ "CONJURATION_SPELL", "CONCENTRATE", "VERBAL", "NO_LEGS" ],
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "difficulty": 9,

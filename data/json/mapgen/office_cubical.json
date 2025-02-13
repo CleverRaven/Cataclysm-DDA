@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "office_cubical" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -131,7 +130,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "office_cubical_1" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

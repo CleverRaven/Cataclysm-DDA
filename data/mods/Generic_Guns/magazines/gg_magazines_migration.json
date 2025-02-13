@@ -373,6 +373,11 @@
     "replace": "rifle_rail_mag"
   },
   {
+    "id": [ "caotel_plasma_ring" ],
+    "type": "MIGRATION",
+    "replace": "gg_plasma_mag"
+  },
+  {
     "id": [ "clip223_10rd" ],
     "type": "MIGRATION",
     "replace": "rifle_clip"

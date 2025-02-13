@@ -1,13 +1,13 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_NULL",
+    "id": "GROUP_NULL",
     "is_safe": true,
     "monsters": [ { "monster": "mon_null", "weight": 920 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FOREST",
+    "id": "GROUP_FOREST",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_null", "weight": 860 },
@@ -78,7 +78,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FERAL_WIZARDS",
+    "id": "GROUP_FERAL_WIZARDS",
     "monsters": [
       { "monster": "mon_feral_human_magician", "weight": 50, "cost_multiplier": 2 },
       { "monster": "mon_feral_druid", "weight": 50, "cost_multiplier": 2 },
@@ -95,7 +95,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FERAL_TECHNOMANCERS",
+    "id": "GROUP_FERAL_TECHNOMANCERS",
     "monsters": [
       { "monster": "mon_feral_technomancer", "weight": 50, "cost_multiplier": 2 },
       { "monster": "mon_feral_technomancer_enhanced", "weight": 5, "cost_multiplier": 4 }
@@ -103,7 +103,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SWAMP",
+    "id": "GROUP_SWAMP",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_null", "weight": 940 },
@@ -121,7 +121,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CAVE",
+    "id": "GROUP_CAVE",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_null", "weight": 782 },
@@ -154,7 +154,7 @@
     ]
   },
   {
-    "name": "GROUP_ZOMBIE_FANTASY_SPECIES",
+    "id": "GROUP_ZOMBIE_FANTASY_SPECIES",
     "type": "monstergroup",
     "//": "same ratio as ferals",
     "monsters": [
@@ -167,7 +167,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE",
+    "id": "GROUP_ZOMBIE",
     "monsters": [
       { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 4720 },
       { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 10, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
@@ -177,7 +177,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_GASSTATION",
+    "id": "GROUP_ZOMBIE_GASSTATION",
     "monsters": [
       { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 472 },
       { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 1, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
@@ -186,43 +186,43 @@
     ]
   },
   {
-    "name": "GROUP_MINERS",
+    "id": "GROUP_MINERS",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_zombie_miner", "weight": 100 }, { "monster": "mon_zombie_dwarf_miner", "weight": 40 } ]
   },
   {
-    "name": "GROUP_PARK_DOG",
+    "id": "GROUP_PARK_DOG",
     "type": "monstergroup",
     "monsters": [ { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 125 } ]
   },
   {
-    "name": "GROUP_PARK_PLAYGROUND",
+    "id": "GROUP_PARK_PLAYGROUND",
     "type": "monstergroup",
     "monsters": [ { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 100 } ]
   },
   {
-    "name": "GROUP_PARK_SCENIC",
+    "id": "GROUP_PARK_SCENIC",
     "type": "monstergroup",
     "monsters": [ { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 100 } ]
   },
   {
-    "name": "GROUP_ROOF_ZOMBIE",
+    "id": "GROUP_ROOF_ZOMBIE",
     "type": "monstergroup",
     "monsters": [ { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 100, "pack_size": [ 2, 3 ] } ]
   },
   {
     "type": "monstergroup",
-    "name": "DUMP_ANIMALS",
+    "id": "DUMP_ANIMALS",
     "monsters": [ { "monster": "mon_otyugh", "weight": 5 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SEWER",
+    "id": "GROUP_SEWER",
     "monsters": [ { "monster": "mon_otyugh", "weight": 15 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LAB",
+    "id": "GROUP_LAB",
     "monsters": [
       { "monster": "mon_feral_lab_magician", "weight": 25, "cost_multiplier": 5 },
       { "monster": "mon_feral_technomancer", "weight": 8, "cost_multiplier": 5 },
@@ -231,7 +231,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LAB_SURFACE",
+    "id": "GROUP_LAB_SURFACE",
     "monsters": [
       { "monster": "mon_feral_lab_magician", "weight": 25, "cost_multiplier": 5 },
       { "monster": "mon_feral_technomancer", "weight": 8, "cost_multiplier": 5 },
@@ -241,7 +241,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MICROLAB",
+    "id": "GROUP_MICROLAB",
     "monsters": [
       { "monster": "mon_feral_lab_magician", "weight": 2, "cost_multiplier": 5 },
       { "monster": "mon_feral_technomancer", "weight": 2, "cost_multiplier": 5 },
@@ -250,7 +250,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LAB_RESEARCHERS",
+    "id": "GROUP_LAB_RESEARCHERS",
     "monsters": [
       { "monster": "mon_feral_lab_magician", "weight": 20, "cost_multiplier": 5 },
       { "monster": "mon_feral_technomancer", "weight": 10, "cost_multiplier": 5 },
@@ -260,13 +260,13 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_POLYMORPH_SHADOW",
+    "id": "GROUP_POLYMORPH_SHADOW",
     "is_animal": true,
     "monsters": [ { "monster": "mon_magi_shadow", "weight": 990 }, { "monster": "mon_shadow_snake", "weight": 10 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DOMESTIC",
+    "id": "GROUP_DOMESTIC",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_dog", "weight": 980 },
@@ -275,7 +275,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_WORM",
+    "id": "GROUP_WORM",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_worm_small", "weight": 500 },
@@ -286,7 +286,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_BLACKDRAGON_LAIR_1",
+    "id": "GROUP_BLACKDRAGON_LAIR_1",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_null", "weight": 880 },
@@ -307,7 +307,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_BLACKDRAGON_LAIR_2",
+    "id": "GROUP_BLACKDRAGON_LAIR_2",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_black_pudding", "weight": 14, "pack_size": [ 4, 6 ] },
@@ -323,7 +323,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_LIZARDFOLK",
+    "id": "GROUP_LIZARDFOLK",
     "//": "A lizard humanoid race, they are allies and servants of the black dragons.",
     "is_animal": true,
     "monsters": [
@@ -337,7 +337,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_OGRE",
+    "id": "GROUP_OGRE",
     "//": "Contains ogres and their various mutations",
     "monsters": [
       { "monster": "mon_ogre", "weight": 500 },
@@ -352,7 +352,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_OGRE_MUTANTS",
+    "id": "GROUP_OGRE_MUTANTS",
     "monsters": [
       { "monster": "mon_ogre_twoheaded", "weight": 500 },
       { "monster": "mon_ogre_spider", "weight": 400 },
@@ -361,7 +361,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_TOWER_GOLEM",
+    "id": "GROUP_TOWER_GOLEM",
     "//": "Cheap golems used to defend the average wizard's tower.",
     "monsters": [
       { "monster": "mon_plasticgolem", "weight": 965 },
@@ -371,7 +371,7 @@
     ]
   },
   {
-    "name": "GROUP_FROGS_CLOAK",
+    "id": "GROUP_FROGS_CLOAK",
     "//": "Nature frogs with no seasonal limits",
     "type": "monstergroup",
     "default": "mon_peeper_frog",
@@ -386,7 +386,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ALL_GOBLINS",
+    "id": "GROUP_ALL_GOBLINS",
     "monsters": [
       { "monster": "mon_goblin_warrior", "weight": 335 },
       { "monster": "mon_feral_goblin", "weight": 50 },
@@ -406,7 +406,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GOBLIN_MUTANTS",
+    "id": "GROUP_GOBLIN_MUTANTS",
     "monsters": [
       { "monster": "mon_orc_warrior", "weight": 400 },
       { "monster": "mon_orc_archer", "weight": 150 },
@@ -418,7 +418,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GOBLIN_STANDARD",
+    "id": "GROUP_GOBLIN_STANDARD",
     "monsters": [
       { "monster": "mon_goblin_warrior", "weight": 900 },
       { "monster": "mon_goblin_warrior", "weight": 35, "pack_size": [ 2, 4 ] },
@@ -427,12 +427,12 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GOBLIN_ADVANCED",
+    "id": "GROUP_GOBLIN_ADVANCED",
     "monsters": [ { "monster": "mon_goblin_chieftain" } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FORGE_STANDARD",
+    "id": "GROUP_FORGE_STANDARD",
     "monsters": [
       { "monster": "mon_null", "weight": 978 },
       { "monster": "mon_forgeborn", "weight": 10, "cost_multiplier": 10 },
@@ -444,22 +444,22 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FORGEDEMONS",
+    "id": "GROUP_FORGEDEMONS",
     "monsters": [ { "monster": "mon_forgedemons", "cost_multiplier": 3 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FORGE_DWARVES",
+    "id": "GROUP_FORGE_DWARVES",
     "monsters": [ { "monster": "mon_forgedwarves", "cost_multiplier": 3 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FORGE_AUTOMATA",
+    "id": "GROUP_FORGE_AUTOMATA",
     "monsters": [ { "monster": "mon_forgeborn", "cost_multiplier": 3 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ORC",
+    "id": "GROUP_ORC",
     "monsters": [
       { "monster": "mon_orc_warrior", "weight": 960, "cost_multiplier": 5 },
       { "monster": "mon_orc_archer", "weight": 25, "cost_multiplier": 7 },
@@ -468,13 +468,13 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_WORKSHOP",
+    "id": "GROUP_WORKSHOP",
     "default": "mon_workshop_elf",
     "monsters": [ { "monster": "mon_workshop_elf", "weight": 100, "cost_multiplier": 2 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FERAL",
+    "id": "GROUP_FERAL",
     "monsters": [
       { "monster": "mon_feral_elf_pipe", "weight": 20, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_dwarf_pipe", "weight": 20, "pack_size": [ 2, 3 ] },
@@ -490,7 +490,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FOREST_SPIRIT",
+    "id": "GROUP_FOREST_SPIRIT",
     "monsters": [
       { "monster": "mon_mossling", "weight": 48, "cost_multiplier": 1 },
       { "monster": "mon_mossling", "weight": 16, "cost_multiplier": 2, "pack_size": [ 3, 6 ] },
@@ -503,7 +503,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FOREST_SPIRIT_SWAMP",
+    "id": "GROUP_FOREST_SPIRIT_SWAMP",
     "monsters": [
       { "monster": "mon_mossling", "weight": 25, "cost_multiplier": 1 },
       { "monster": "mon_mossling", "weight": 10, "cost_multiplier": 2, "pack_size": [ 2, 4 ] },
@@ -512,7 +512,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_EARTH_SPIRIT",
+    "id": "GROUP_EARTH_SPIRIT",
     "monsters": [
       { "monster": "mon_earth_gnome", "weight": 25, "cost_multiplier": 1 },
       { "monster": "mon_earth_gnome", "weight": 5, "cost_multiplier": 1, "pack_size": [ 2, 4 ] }
@@ -520,7 +520,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_EARTH_SPIRIT_CAVE",
+    "id": "GROUP_EARTH_SPIRIT_CAVE",
     "monsters": [
       { "monster": "mon_earth_gnome", "weight": 25, "cost_multiplier": 1 },
       { "monster": "mon_earth_gnome", "weight": 15, "cost_multiplier": 3, "pack_size": [ 2, 4 ] }
@@ -528,12 +528,12 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MAGIC_FIELD",
+    "id": "GROUP_MAGIC_FIELD",
     "monsters": [ { "group": "GROUP_FOREST", "weight": 2 }, { "group": "GROUP_FOREST_SPIRIT", "weight": 1 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_TRIFFID",
+    "id": "GROUP_TRIFFID",
     "default": "mon_triffid",
     "monsters": [
       { "monster": "mon_triffid_seedshaper", "weight": 25, "cost_multiplier": 5 },
@@ -542,7 +542,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_TRIFFID_OUTER",
+    "id": "GROUP_TRIFFID_OUTER",
     "default": "mon_triffid",
     "monsters": [
       { "monster": "mon_triffid_seedshaper", "weight": 50, "cost_multiplier": 2 },
@@ -551,7 +551,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_TRIFFID_HEARTGUARDS",
+    "id": "GROUP_TRIFFID_HEARTGUARDS",
     "default": "mon_triffid",
     "monsters": [
       { "monster": "mon_triffid_seedshaper", "weight": 150, "cost_multiplier": 2 },
@@ -560,7 +560,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_TRIFFID_HERBALISM_SEEDSHAPER",
+    "id": "GROUP_TRIFFID_HERBALISM_SEEDSHAPER",
     "//": "For placing in magic fields",
     "monsters": [
       { "monster": "mon_triffid_seedshaper", "weight": 1 },
@@ -570,7 +570,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_TRIFFID_HERBALISM_VINEWEAVER",
+    "id": "GROUP_TRIFFID_HERBALISM_VINEWEAVER",
     "//": "For placing in magic fields",
     "monsters": [
       { "monster": "mon_triffid_vineweaver", "weight": 1 },
@@ -580,7 +580,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MI-GO_CAMP_OM",
+    "id": "GROUP_MI-GO_CAMP_OM",
     "monsters": [
       { "monster": "mon_mi_go_fleshwarper", "weight": 50, "cost_multiplier": 20, "starts": "210 hours" },
       { "monster": "mon_mi_go_nethermancer", "weight": 50, "cost_multiplier": 20, "starts": "210 hours" }
@@ -588,7 +588,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MI-GO_BASE_COMMON",
+    "id": "GROUP_MI-GO_BASE_COMMON",
     "monsters": [
       { "monster": "mon_mi_go_fleshwarper", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" },
       { "monster": "mon_mi_go_nethermancer", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" }
@@ -596,7 +596,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MI-GO_BASE_CAPTORS",
+    "id": "GROUP_MI-GO_BASE_CAPTORS",
     "monsters": [
       { "monster": "mon_mi_go_fleshwarper", "weight": 300, "cost_multiplier": 2, "starts": "210 hours" },
       { "monster": "mon_mi_go_nethermancer", "weight": 100, "cost_multiplier": 2, "starts": "210 hours" }
@@ -604,7 +604,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MI-GO_BASE_BOSS",
+    "id": "GROUP_MI-GO_BASE_BOSS",
     "monsters": [
       { "monster": "mon_mi_go_fleshwarper", "weight": 200, "cost_multiplier": 2 },
       { "monster": "mon_mi_go_fleshwarper", "weight": 50, "cost_multiplier": 5, "pack_size": [ 2, 3 ] },
@@ -614,7 +614,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NETHERMANCER_SUMMON",
+    "id": "GROUP_NETHERMANCER_SUMMON",
     "default": "mon_blank",
     "monsters": [
       { "monster": "mon_flying_polyp_migo", "weight": 100, "cost_multiplier": 0 },
@@ -628,7 +628,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIFIED_ANIMALS",
+    "id": "GROUP_ZOMBIFIED_ANIMALS",
     "default": "mon_zombie_dog",
     "//": "For overrun or feral druid spaces",
     "monsters": [

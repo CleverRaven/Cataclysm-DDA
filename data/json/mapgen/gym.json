@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "gym_fitness" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -129,7 +128,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "gym_fitness_1" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

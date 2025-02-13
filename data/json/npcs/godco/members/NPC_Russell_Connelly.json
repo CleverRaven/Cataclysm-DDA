@@ -47,7 +47,7 @@
       "yes": "Get away from me, demon.  I shoot crazy sinners like you on a regular basis, and my rifle's right here.",
       "no": {
         "math": [ "n_npc_anger() >= 5" ],
-        "yes": "Get away from me <name_b>.  I'm not interested in whatever <swear> thing you have to say right now.",
+        "yes": "Get away from me <name_b>.  I'm not interested in whatever <freaking> thing you have to say right now.",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_russell" } ],
           "yes": [ "Praise the Lord, <name_g>.", "Praise the Lord, <u_name>.", "Greetings, <name_g><punc>  You okay?" ],

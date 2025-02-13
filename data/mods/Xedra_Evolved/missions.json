@@ -7,7 +7,7 @@
     "destination": "safe_house",
     "difficulty": 1,
     "value": 0,
-    "start": { "assign_mission_target": { "om_terrain": "safe_house", "om_special": "safe_house", "search_range": 200 } },
+    "start": { "assign_mission_target": { "om_terrain": "safe_house", "om_special": "safe_house" } },
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
@@ -68,7 +68,7 @@
     "destination": "cabin_sevenoclock",
     "difficulty": 1,
     "value": 0,
-    "start": { "assign_mission_target": { "om_terrain": "cabin_sevenoclock", "om_special": "old cabin", "search_range": 1800 } },
+    "start": { "assign_mission_target": { "om_terrain": "cabin_sevenoclock", "om_special": "old cabin" } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -91,9 +91,7 @@
     "destination": "field_deathworm",
     "difficulty": 1,
     "value": 0,
-    "start": {
-      "assign_mission_target": { "om_terrain": "field_deathworm", "om_special": "acid-scarred field", "search_range": 1800 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "field_deathworm", "om_special": "acid-scarred field" } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {

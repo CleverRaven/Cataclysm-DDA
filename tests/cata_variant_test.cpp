@@ -1,12 +1,13 @@
 #include <sstream>
 #include <string>
-#include <type_traits>
+#include <utility>
 
-#include "cata_variant.h"
 #include "cata_catch.h"
+#include "cata_variant.h"
 #include "character_id.h"
 #include "debug_menu.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "json.h"
 #include "json_loader.h"
 #include "point.h"

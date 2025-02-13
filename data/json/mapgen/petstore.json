@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_petstore" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -219,8 +218,7 @@
       }
     },
     "om_terrain": "s_petstore_1",
-    "type": "mapgen",
-    "weight": 100
+    "type": "mapgen"
   },
   {
     "type": "mapgen",
@@ -368,8 +366,7 @@
       }
     },
     "om_terrain": "s_petstore_2",
-    "type": "mapgen",
-    "weight": 100
+    "type": "mapgen"
   },
   {
     "type": "mapgen",

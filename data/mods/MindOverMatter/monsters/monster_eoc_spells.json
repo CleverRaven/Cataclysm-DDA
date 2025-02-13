@@ -450,5 +450,41 @@
       { "u_add_effect": "telepathic_ignorance", "duration": { "math": [ "n_power_obscurity_duration" ] } },
       { "npc_add_effect": "telepathic_ignorance_self", "duration": { "math": [ "n_power_obscurity_duration" ] } }
     ]
+  },
+  {
+    "id": "teleporter_breach_lab_devourer",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Breach Melded Task Force", "//~": "NO_I18N" },
+    "description": {
+      "str": "Open a portal to the Nether and summon monsters, if you're also a monster.  This will not end badly for you because they're all on your side.",
+      "//~": "NO_I18N"
+    },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self", "hostile" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "max_level": 30,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_SUMMON_LAB_DEVOURER",
+    "shape": "blast",
+    "min_damage": 1,
+    "min_range": 5,
+    "max_range": 80,
+    "range_increment": 1
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_SUMMON_LAB_DEVOURER",
+    "effect": [
+      {
+        "u_spawn_monster": "GROUP_NETHER_LAB_DEVOURER_BREACH",
+        "group": true,
+        "real_count": [ 1, 3 ],
+        "min_radius": 1,
+        "max_radius": 3
+      }
+    ]
   }
 ]

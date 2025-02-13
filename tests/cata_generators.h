@@ -5,7 +5,6 @@
 // Some Catch2 Generators for generating our data types
 
 #include "cata_catch.h"
-#include "game_constants.h"
 #include "map_scale_constants.h"
 
 struct point;

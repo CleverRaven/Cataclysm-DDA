@@ -23,7 +23,7 @@
     "id": "river_center",
     "copy-from": "generic_river",
     "travel_cost_type": "water",
-    "mapgen": [ { "method": "builtin", "name": "river_center" } ]
+    "uniform_terrain": "t_water_moving_dp"
   },
   {
     "type": "overmap_terrain",

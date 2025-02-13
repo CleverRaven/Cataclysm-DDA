@@ -2,16 +2,29 @@
 #ifndef CATA_SRC_WIDGET_H
 #define CATA_SRC_WIDGET_H
 
+#include <climits>
+#include <functional>
+#include <set>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
-#include "avatar.h"
-#include "enum_traits.h"
-#include "generic_factory.h"
-#include "panels.h"
-#include "string_id.h"
-#include "translations.h"
+#include "bodypart.h"
+#include "color.h"
+#include "dialogue_helpers.h"
+#include "output.h"
+#include "translation.h"
 #include "type_id.h"
+
+class avatar;
+
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
+struct const_dialogue;
+template <typename E> struct enum_traits;
 
 // These are the supported data variables for widgets, defined as enum widget_var.
 // widget_var names may be given as the "var" field in widget JSON.
@@ -151,12 +164,11 @@ struct enum_traits<widget_alignment> {
 
 // Use generic_factory for loading JSON data.
 class JsonObject;
-template<typename T>
-class generic_factory;
 class widget;
-
 // Forward declaration, due to codependency on panels.h
 class window_panel;
+template<typename T>
+class generic_factory;
 
 struct widget_clause {
     private:

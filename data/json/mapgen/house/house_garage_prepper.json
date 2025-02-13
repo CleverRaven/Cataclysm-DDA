@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "house_prepper2" ],
-    "weight": 100,
     "object": {
       "fill_ter": { "param": "carpet_color_type", "fallback": "t_carpet_concrete_red" },
       "rows": [

@@ -37,7 +37,8 @@
       { "group": "nested_cp33", "prob": 16 },
       { "group": "nested_ruger_mk4", "prob": 113 },
       { "group": "nested_ruger_charger", "prob": 16 },
-      { "group": "nested_1911_22", "prob": 100 }
+      { "group": "nested_1911_22", "prob": 100 },
+      { "group": "nested_sw617", "prob": 46 }
     ]
   },
   {
@@ -201,7 +202,8 @@
       { "item": "ruger_lcr_22", "prob": 2, "charges": [ 0, -1 ] },
       { "item": "ruger_mk4", "prob": 16, "charges": [ 0, -1 ] },
       { "item": "1911_22", "prob": 20, "charges": [ 0, -1 ] },
-      { "item": "cp33", "prob": 3, "charges": [ 0, -1 ] }
+      { "item": "cp33", "prob": 3, "charges": [ 0, -1 ] },
+      { "item": "sw617", "prob": 8, "charges": [ 0, -1 ] }
     ]
   },
   {
@@ -331,7 +333,8 @@
       { "item": "cp33", "prob": 16 },
       { "item": "ruger_mk4", "prob": 113 },
       { "item": "ruger_charger", "prob": 16 },
-      { "item": "1911_22", "prob": 100 }
+      { "item": "1911_22", "prob": 100 },
+      { "item": "sw617", "prob": 46 }
     ]
   },
   {
@@ -489,7 +492,8 @@
       { "group": "nested_rossi_gallery", "prob": 11 },
       { "group": "nested_ar15_retool_22", "prob": 2 },
       { "group": "nested_rio_bravo", "prob": 15 },
-      { "group": "nested_henry_golden_boy", "prob": 31 }
+      { "group": "nested_henry_golden_boy", "prob": 31 },
+      { "group": "nested_marlin60", "prob": 20 }
     ]
   },
   {
@@ -541,7 +545,7 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common_9mm",
-    "items": [ { "group": "nested_ksub2000", "prob": 100 } ]
+    "items": [ { "group": "nested_ksub2000", "prob": 84 }, { "group": "nested_rugerpcc", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -664,7 +668,8 @@
       { "item": "marlin_9a", "prob": 3 },
       { "group": "ar15_22", "prob": 2 },
       { "item": "rio_bravo", "prob": 15 },
-      { "item": "henry_golden_boy", "prob": 31 }
+      { "item": "henry_golden_boy", "prob": 31 },
+      { "item": "marlin60", "prob": 20 }
     ]
   },
   {
@@ -717,7 +722,7 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common_display_9mm",
-    "items": [ { "item": "ksub2000", "prob": 100 } ]
+    "items": [ { "item": "ksub2000", "prob": 84 }, { "item": "rugerpcc", "prob": 100 } ]
   },
   {
     "type": "item_group",

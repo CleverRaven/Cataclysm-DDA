@@ -231,7 +231,7 @@
         { "item": "magazines", "chance": 5, "repeat": [ 0, 1 ] },
         { "item": "literature", "chance": 5, "repeat": [ 0, 1 ] },
         { "item": "novels", "chance": 5, "repeat": [ 0, 1 ] },
-        { "item": "phones", "chance": 5, "repeat": [ 0, 1 ] }
+        { "item": "civilian_phones", "chance": 5, "repeat": [ 0, 1 ] }
       ],
       "ж": [ { "item": "milspec_arsenal_only_guns_or_ammo_or_armor", "chance": 100 } ],
       "Ж": [
