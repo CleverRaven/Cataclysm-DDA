@@ -18,10 +18,13 @@
 #include "options_helpers.h"
 #include "pocket_type.h"
 #include "ret_val.h"
-#include "translation_manager.h"
-#include "translations.h"
 #include "type_id.h"
 #include "value_ptr.h"
+
+#if defined(LOCALIZE)
+#include "translation_manager.h"
+#include "translations.h"
+#endif
 
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
