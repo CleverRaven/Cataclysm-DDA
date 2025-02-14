@@ -651,7 +651,7 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "max_contains_volume": "50 L",
-        "max_contains_weight": "50 kg",
+        "max_contains_weight": "12 kg",
         "max_item_length": "80 cm",
         "moves": 300
       }
