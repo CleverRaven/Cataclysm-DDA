@@ -32,7 +32,7 @@ int talker_vehicle_const::posz() const
 
 tripoint_bub_ms talker_vehicle_const::pos_bub() const
 {
-    return me_veh_const->pos_bub();
+    return me_veh_const->pos_bub( get_map() );
 }
 
 tripoint_abs_ms talker_vehicle_const::pos_abs() const
@@ -73,7 +73,7 @@ bool talker_vehicle_const::will_talk_to_u( const Character &you, bool ) const
 
 int talker_vehicle_const::get_weight() const
 {
-    return units::to_milligram( me_veh_const->total_mass() );
+    return units::to_milligram( me_veh_const->total_mass( get_map() ) );
 }
 
 int talker_vehicle_const::unloaded_weight() const
@@ -84,7 +84,7 @@ int talker_vehicle_const::unloaded_weight() const
 bool talker_vehicle_const::is_driven() const
 {
     //When/if npcs can drive this will need updating
-    return me_veh_const->player_in_control( get_avatar() );
+    return me_veh_const->player_in_control( get_map(), get_avatar() );
 }
 
 int talker_vehicle_const::vehicle_facing() const
@@ -104,12 +104,12 @@ bool talker_vehicle_const::is_flying() const
 
 bool talker_vehicle_const::can_float() const
 {
-    return me_veh_const->can_float();
+    return me_veh_const->can_float( get_map() );
 }
 
 bool talker_vehicle_const::is_floating() const
 {
-    return me_veh_const->is_watercraft() && me_veh_const->can_float();
+    return me_veh_const->is_watercraft() && me_veh_const->can_float( get_map() );
 }
 
 int talker_vehicle_const::current_speed() const
@@ -144,12 +144,12 @@ bool talker_vehicle_const::is_skidding() const
 
 bool talker_vehicle_const::is_sinking() const
 {
-    return me_veh_const->is_in_water( true ) && !me_veh_const->can_float();
+    return me_veh_const->is_in_water( true ) && !me_veh_const->can_float( get_map() );
 }
 
 bool talker_vehicle_const::is_on_rails() const
 {
-    return me_veh_const->can_use_rails();
+    return me_veh_const->can_use_rails( get_map() );
 }
 
 bool talker_vehicle_const::is_remote_controlled() const

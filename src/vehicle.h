@@ -1831,8 +1831,6 @@ class vehicle
         // Returns collision, which has type, impulse, part, & target.
         veh_collision part_collision( map &here, int part, const tripoint_abs_ms &p,
                                       bool just_detect, bool bash_floor );
-        veh_collision part_collision( int part, const tripoint_abs_ms &p,
-                                      bool just_detect, bool bash_floor, map &here );
 
         // Process the trap beneath
         void handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp_wheel );

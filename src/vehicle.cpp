@@ -5979,9 +5979,9 @@ void vehicle::on_move( map &here )
 
     Character &pc = get_player_character();
     cata::event e = cata::event::make<event_type::vehicle_moves>(
-                        is_passenger( pc ), player_in_control( pc ), remote_controlled( pc ),
-                        is_flying_in_air(), is_watercraft() && can_float(), can_use_rails(),
-                        is_falling, is_in_water( true ) && !can_float(),
+                        is_passenger( pc ), player_in_control( here, pc ), remote_controlled( pc ),
+                        is_flying_in_air(), is_watercraft() && can_float( here ), can_use_rails( here ),
+                        is_falling, is_in_water( true ) && !can_float( here ),
                         skidding, velocity, sm_pos.z() );
     get_event_bus().send_with_talker( this, &pc, e );
 }
