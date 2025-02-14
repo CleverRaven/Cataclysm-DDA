@@ -86,7 +86,7 @@ GITSHA = git.stdout.decode().strip()
 log.debug(f"{GITSHA=}")
 
 # Check if there are changes in the worktree
-DIRTYFLAG = None
+DIRTYFLAG = str()
 git = subprocess.run(('git', 'diff', '--numstat', '--exit-code'),
                      capture_output=True)
 if git.returncode != 0:
