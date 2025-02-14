@@ -43,16 +43,16 @@ static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_TELEPORT_LOCK( "TELEPORT_LOCK" );
 
 
-static bool TestForVehicleTeleportCollision( vehicle &veh, map *dest, const tripoint_abs_ms &dp )
+static bool TestForVehicleTeleportCollision( vehicle &veh, map &here, map *dest,
+        const tripoint_abs_ms &dp )
 {
     for( const vpart_reference &part : veh.get_all_parts_with_fakes( true ) ) {
-        tripoint_rel_ms rel_pos = part.pos_bub() - veh.pos_bub();
+        tripoint_rel_ms rel_pos = part.pos_bub( &here ) - veh.pos_bub( here );
         if( !dest->inbounds( dp + rel_pos ) ) {
             dest->load( project_to<coords::sm>( dp + rel_pos ), false );
         }
 
-        veh_collision coll = veh.part_collision( part.part_index(), dp + rel_pos, true, false,
-                             *dest );
+        veh_collision coll = veh.part_collision( *dest, part.part_index(), dp + rel_pos, true, false );
         if( coll.type != veh_coll_nothing ) {
             tripoint_abs_ms point = dp + rel_pos;
             add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Issue teleporting to abs_ms %s, hit %s",
@@ -81,7 +81,7 @@ static void HandlePassengers( vehicle &veh, map &here, const tripoint_abs_ms &dp
             }
             const int prt = r.prt;
             Creature *psg = r.psg;
-            const tripoint_bub_ms part_pos = veh.bub_part_pos( prt );
+            const tripoint_bub_ms part_pos = veh.bub_part_pos( here, prt );
             if( psg == nullptr ) {
                 debugmsg( "Empty passenger for part #%d at %d,%d,%d player at %d,%d,%d?",
                           prt, part_pos.x(), part_pos.y(), part_pos.z(),
@@ -133,7 +133,7 @@ static void CleanUpAfterVehicleTeleport( vehicle &veh, map &here, const tripoint
     if( veh.is_towing() ) {
         add_msg( m_info, _( "A towing cable snaps off of %s." ),
                  veh.tow_data.get_towed()->disp_name() );
-        veh.tow_data.get_towed()->invalidate_towing( true );
+        veh.tow_data.get_towed()->invalidate_towing( here, true );
     }
     g->invalidate_main_ui_adaptor();
     ui_manager::redraw_invalidated();
@@ -383,14 +383,15 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
     tileray facing;
     facing.init( veh.turn_dir );
 
-    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), veh.pivot_point() );
+    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), veh.pivot_point( here ) );
 
     Character &player_character = get_player_character();
-    const tripoint_bub_ms src = veh.pos_bub();
+    const tripoint_bub_ms src = veh.pos_bub( here );
 
     map tm;
+    point_sm_ms src_offset;
     point_sm_ms dst_offset;
-    submap *src_submap = here.get_submap_at_grid( point_rel_sm{veh.sm_pos.x(), veh.sm_pos.y()} );
+    submap *src_submap = here.get_submap_at( src, src_offset );
     submap *dst_submap;
     if( !dest->inbounds( dp ) ) {
         dest = &tm;
@@ -403,13 +404,27 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
         return false;
     }
     if( src_submap == nullptr ) {
-        debugmsg( "Tried to displace vehicle at (%d,%d) but the src submap is not loaded", veh.sm_pos.x(),
-                  veh.sm_pos.y() );
+        debugmsg( "Tried to displace vehicle at (%d,%d) but the src submap is not loaded", src_offset.x(),
+                  src_offset.y() );
         return false;
     }
     std::set<int> smzs;
-
-    if( !TestForVehicleTeleportCollision( veh, dest, dp ) ) {
+    size_t our_i = 0;
+    bool found = false;
+    for( submap *&smap : here.grid ) {
+        for( size_t i = 0; i < smap->vehicles.size(); i++ ) {
+            if( smap->vehicles[i].get() == &veh ) {
+                our_i = i;
+                src_submap = smap;
+                found = true;
+                break;
+            }
+        }
+        if( found ) {
+            break;
+        }
+    }
+    if( !TestForVehicleTeleportCollision( veh, here, dest, dp ) ) {
         return false;
     }
     here.memory_clear_vehicle_points( veh );
@@ -420,13 +435,13 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
     HandlePassengers( veh, here, dp, need_update, z_change );
 
     const std::set<int> &parts_to_move = {};
-    smzs = veh.advance_precalc_mounts( dst_offset, src, tripoint_rel_ms( 0, 0, 0 ), 0,
+    smzs = veh.advance_precalc_mounts( dst_offset, &here, src, tripoint_rel_ms( 0, 0, 0 ), 0,
                                        true, parts_to_move );
     veh.update_active_fakes();
 
     if( src_submap != dst_submap ) {
         dst_submap->ensure_nonuniform();
-        veh.set_submap_moved( project_to<coords::sm>( here.get_bub( dp ) ) );
+        veh.set_submap_moved( &here, project_to<coords::sm>( here.get_bub( dp ) ) );
         auto src_submap_veh_it =
             std::find_if( src_submap->vehicles.begin(), src_submap->vehicles.end(),
         [&veh]( std::unique_ptr<vehicle> const & v ) {
@@ -448,7 +463,7 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
             dest->add_vehicle_to_cache( &veh );
         }
         dest->update_vehicle_list( dst_submap, dp.z() );
-        veh.check_is_heli_landed();
+        veh.check_is_heli_landed( *dest );
     }
 
     if( remote ) {
