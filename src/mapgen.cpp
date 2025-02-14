@@ -260,28 +260,36 @@ static tripoint_bub_ms get_point_from_direction( int direction,
 }
 
 static bool tile_can_have_blood( map &md, const tripoint_bub_ms &current_tile,
-                                 bool wall_streak )
+                                 bool wall_streak, int days_since_cataclysm )
 {
     // Wall streaks stick to walls, like blood was splattered against the surface
     // Floor streaks avoid obstacles to look more like a person left the streak behind (Not walking through walls, closed doors, windows, or furniture)
     if( wall_streak ) {
-        return  md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile );
+        return md.has_flag_ter( ter_furn_flag::TFLAG_WALL, current_tile ) &&
+               !md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile );
     } else {
-        return !md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile ) &&
-               !md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WINDOW, current_tile ) &&
-               !md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_DOOR, current_tile ) &&
+        if( !md.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, current_tile ) &&
+            x_in_y( days_since_cataclysm, 30 ) ) {
+            // Placement of blood outdoors scales down over the course of 30 days until no further blood is placed.
+            return false;
+        }
+
+        return !md.has_flag_ter( ter_furn_flag::TFLAG_WALL, current_tile ) &&
+               !md.has_flag_ter( ter_furn_flag::TFLAG_WINDOW, current_tile ) &&
+               !md.has_flag_ter( ter_furn_flag::TFLAG_DOOR, current_tile ) &&
                !md.has_furn( current_tile );
     }
 
 }
 
-static void place_blood_on_adjacent( map &md, const tripoint_bub_ms &current_tile, int chance )
+static void place_blood_on_adjacent( map &md, const tripoint_bub_ms &current_tile, int chance,
+                                     int days_since_catacylsm )
 {
     for( int i = static_cast<int>( blood_trail_direction::first );
          i <= static_cast<int>( blood_trail_direction::last ); i++ ) {
         tripoint_bub_ms adjacent_tile = get_point_from_direction( i, current_tile );
 
-        if( !tile_can_have_blood( md, adjacent_tile, false ) ) {
+        if( !tile_can_have_blood( md, adjacent_tile, false, days_since_catacylsm ) ) {
             continue;
         }
         if( rng( 1, 100 ) < chance ) {
@@ -290,7 +298,8 @@ static void place_blood_on_adjacent( map &md, const tripoint_bub_ms &current_til
     }
 }
 
-static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
+static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile,
+                                 int days_since_cataclysm )
 {
     int streak_length = rng( 3, 12 );
     int streak_direction = rng( static_cast<int>( blood_trail_direction::first ),
@@ -298,7 +307,7 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
 
     bool wall_streak = md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile );
 
-    if( !tile_can_have_blood( md, current_tile, wall_streak ) ) {
+    if( !tile_can_have_blood( md, current_tile, wall_streak, days_since_cataclysm ) ) {
         // Quick check the tile is valid.
         return;
     }
@@ -309,7 +318,7 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
     for( int i = 0; i < streak_length; i++ ) {
         tripoint_bub_ms destination_tile = get_point_from_direction( streak_direction, last_tile );
 
-        if( !tile_can_have_blood( md, destination_tile, wall_streak ) ) {
+        if( !tile_can_have_blood( md, destination_tile, wall_streak, days_since_cataclysm ) ) {
             // We hit a non-valid tile. Try to find a new direction otherwise just terminate the streak.
             bool terminate_streak = true;
 
@@ -322,7 +331,7 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
                 }
                 tripoint_bub_ms adjacent_tile = get_point_from_direction( ii, last_tile );
 
-                if( tile_can_have_blood( md, adjacent_tile, wall_streak ) ) {
+                if( tile_can_have_blood( md, adjacent_tile, wall_streak, days_since_cataclysm ) ) {
                     streak_direction = ii;
                     destination_tile = adjacent_tile;
                     terminate_streak = false;
@@ -365,7 +374,7 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
             }
 
             tripoint_bub_ms adjacent_tile = get_point_from_direction( new_direction, last_tile );
-            if( tile_can_have_blood( md, adjacent_tile, wall_streak ) ) {
+            if( tile_can_have_blood( md, adjacent_tile, wall_streak, days_since_cataclysm ) ) {
                 md.add_field( adjacent_tile, field_fd_blood );
                 last_tile = adjacent_tile;
             }
@@ -373,34 +382,34 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
     }
 }
 
-static void place_bool_pools( map &md, const tripoint_bub_ms &current_tile )
+static void place_bool_pools( map &md, const tripoint_bub_ms &current_tile,
+                              int days_since_cataclysm )
 {
-    if( !tile_can_have_blood( md, current_tile, false ) ) {
+    if( !tile_can_have_blood( md, current_tile, false, days_since_cataclysm ) ) {
         // Quick check the first tile is valid for placement
         return;
     }
 
     md.add_field( current_tile, field_fd_blood );
-    place_blood_on_adjacent( md, current_tile, 60 );
+    place_blood_on_adjacent( md, current_tile, 60, days_since_cataclysm );
 
     for( int i = static_cast<int>( blood_trail_direction::first );
          i <= static_cast<int>( blood_trail_direction::last ); i++ ) {
         tripoint_bub_ms adjacent_tile = get_point_from_direction( i, current_tile );
-        if( !tile_can_have_blood( md, adjacent_tile, false ) ) {
+        if( !tile_can_have_blood( md, adjacent_tile, false, days_since_cataclysm ) ) {
             continue;
         }
-        place_blood_on_adjacent( md, adjacent_tile, 30 );
+        place_blood_on_adjacent( md, adjacent_tile, 30, days_since_cataclysm );
     }
 }
 
 static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
 {
-    if( p.z() < 0 ) {
-        // for the moment make sure we don't apply this to labs or other places
-        debugmsg( "Riot damage mapgen generator called on underground structure.  This is likely a bug." );
-        return;
-    }
     std::list<tripoint_bub_ms> all_points_in_map;
+
+
+    int days_since_cataclysm = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
+
     // Placeholder / FIXME
     // This assumes that we're only dealing with regular 24x24 OMTs. That is likely not the case.
     for( int i = 0; i < SEEX * 2; i++ ) {
@@ -412,8 +421,13 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
     for( size_t i = 0; i < all_points_in_map.size(); i++ ) {
         // Pick a tile at random!
         tripoint_bub_ms current_tile = random_entry( all_points_in_map );
+
         // Do nothing at random!;
         if( x_in_y( 10, 100 ) ) {
+            continue;
+        }
+        // Skip naturally occuring underground wall tiles
+        if( md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile ) ) {
             continue;
         }
         // Bash stuff at random!
@@ -452,15 +466,29 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
             int behavior_roll = rng( 1, 100 );
 
             if( behavior_roll <= 20 ) {
-                md.add_field( current_tile, field_fd_blood );
+                if( tile_can_have_blood( md, current_tile, md.has_flag_ter( ter_furn_flag::TFLAG_WALL,
+                                         current_tile ), days_since_cataclysm ) ) {
+                    md.add_field( current_tile, field_fd_blood );
+                }
             } else if( behavior_roll <= 60 ) {
-                place_blood_streaks( md, current_tile );
+                place_blood_streaks( md, current_tile, days_since_cataclysm );
             } else {
-                place_bool_pools( md, current_tile );
+                place_bool_pools( md, current_tile, days_since_cataclysm );
             }
         }
-        if( x_in_y( 1, 2000 ) ) {
-            md.add_field( current_tile, field_fd_fire );
+
+        // Randomly spawn fires, with the chance decreasing from 1 in 2000 to 1 in 10,000 over the
+        // course of 14 days
+        if( x_in_y( 1,  std::min( 2000 + 571 * days_since_cataclysm, 10000 ) ) ) {
+            if( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE, current_tile ) ||
+                md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE_ASH, current_tile ) ||
+                md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE_HARD, current_tile ) ||
+                days_since_cataclysm < 3 ) {
+                // Only place fire on flammable surfaces unless the cataclysm started very recently
+                // Note that most floors are FLAMMABLE_HARD, this is fine. This check is primarily geared
+                // at preventing fire in the middle of roads or parking lots.
+                md.add_field( current_tile, field_fd_fire );
+            }
         }
     }
 }
@@ -634,9 +662,14 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         }
 
         // Apply post-process generators
-        if( ( any_missing || !save_results ) && overmap_buffer.ter( {p.x(), p.y(), gridz} )->has_flag(
-                oter_flags::pp_generate_riot_damage ) ) {
-            GENERATOR_riot_damage( *this, { p.x(), p.y(), gridz } );
+        const tripoint_abs_omt omt_point = { p.x(), p.y(), gridz };
+        oter_id omt = overmap_buffer.ter( omt_point );
+        if( any_missing || !save_results ) {
+            if( omt->has_flag(
+                    oter_flags::pp_generate_riot_damage ) || ( omt->has_flag( oter_flags::road ) &&
+                            overmap_buffer.is_in_city( omt_point ) ) ) {
+                GENERATOR_riot_damage( *this, omt_point );
+            }
         }
     }
 

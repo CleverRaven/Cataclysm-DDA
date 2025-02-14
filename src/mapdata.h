@@ -354,6 +354,7 @@ enum class ter_furn_flag : int {
     TFLAG_CLIMB_ADJACENT,
     TFLAG_FLOATS_IN_AIR,
     TFLAG_HARVEST_REQ_CUT1,
+    TFLAG_NATURAL_UNDERGROUND,
 
     NUM_TFLAG_FLAGS
 };
