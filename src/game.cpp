@@ -12947,9 +12947,34 @@ std::optional<tripoint_bub_ms> game::find_or_make_stairs( map &mp, const int z_a
 
     if( movez > 0 ) {
         if( !mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, *stairs ) ) {
-            if( !query_yn( _( "You may be unable to return back down these stairs.  Continue up?" ) ) ) {
-                return std::nullopt;
+            if( mp.has_floor_or_support( *stairs ) ) {
+                if( !query_yn( _( "You may be unable to return back down these stairs.  Continue up?" ) ) ) {
+                    return std::nullopt;
+                }
+            } else {
+                // query for target, same as climbing
+                std::vector<tripoint_bub_ms> pts;
+
+                for( const tripoint_bub_ms &pt : mp.points_in_radius( *stairs, 1 ) ) {
+                    if( mp.passable( pt ) &&
+                        mp.has_floor_or_support( pt ) ) {
+                        pts.push_back( pt );
+                    }
+                }
+
+                if( pts.empty() ) {
+                    add_msg( m_info,
+                             _( "You can't climb here - there is no terrain above you that would support your weight." ) );
+                    return std::nullopt;
+                } else {
+                    const std::optional<tripoint_bub_ms> pnt = point_selection_menu( pts );
+                    if( !pnt ) {
+                        return std::nullopt;
+                    }
+                    stairs = pnt;
+                }
             }
+
         }
         // Manhole covers need this to work
         // Maybe require manhole cover here and fail otherwise?
