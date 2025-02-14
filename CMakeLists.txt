@@ -56,9 +56,7 @@ endif ()
 add_definitions(-DCMAKE)
 
 # Retrieve version from git into GIT_VERSION and creates VERSION.txt
-execute_process(COMMAND ${CMAKE_COMMAND}
-    -DGIT_BINARY=${GIT_BINARY}
-    -P ${CMAKE_SOURCE_DIR}/src/version.cmake
+execute_process(COMMAND python3 build-scripts/version.py
     ERROR_VARIABLE GIT_VERSION
     ERROR_STRIP_TRAILING_WHITESPACE
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
