@@ -342,7 +342,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
     }
 
     std::map<itype_id, double> fuels; // lets tanks of same fuel type have even contents
-    const auto rng_fuel_amount = [&fuels, init_veh_fuel, &placed_on]( vehicle_part & vp,
+    const auto rng_fuel_amount = [&fuels, init_veh_fuel]( vehicle_part & vp,
     const itype_id & fuel ) {
         if( !fuel ) {
             vp.ammo_unset(); // clear if no valid fuel
