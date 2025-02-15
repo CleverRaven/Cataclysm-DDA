@@ -1,29 +1,30 @@
-"""Write src/version.h and VERSION.txt from git
-
-If we are not in a git worktree, use environment VERSION and VERSION_STRING.
+"""Write src/version.h and VERSION.txt from git, if available
 
 All commands emulate the Makefile's "version" target.
 Format is: [TAG] [SHA1][-dirty]
 
-Write VERSION.txt only if not already created by release.yml GHA
+Write VERSION.txt only when missing.
 
-The optional arguments are:
-    VERSION=<version>
+The optional command line arguments or environment variables are:
+    VERSION|VERSION_STRING=<version>
     ARTIFACT=<artifact>
+    TIMESTAMP=<timestamp>
 """
 
+from pathlib import Path
+import datetime
+import logging
+import re
+import os
+import subprocess
 import sys
 if sys.version_info.major < 3 and sys.version_info.minor < 8:
     raise SystemExit(
         f"Version {sys.version_info.major}.{sys.version_info.mintor}"
         "not supported, 3.8 or later")
 
-import subprocess
-import os
-import re
-import logging
-import datetime
-from pathlib import Path
+VERSION = VERSION_STRING = ARTIFACT = TIMESTAMP = None
+
 
 logging.basicConfig(level=logging.DEBUG)  # DEBUG
 log = logging.getLogger()
@@ -36,11 +37,6 @@ def is_cwd_root():
     Note: src/ exists in CMake build directories
     '''
     return (Path.cwd() / "src").is_dir() and (Path.cwd() / "data").is_dir()
-
-
-while not is_cwd_root():
-    # Assuming we started somewhere down, climb up to the source directory
-    os.chdir(Path.cwd().parent)
 
 
 def read_version_h():
@@ -61,28 +57,24 @@ def write_version_h():
         VERSION_H = ("//NOLINT(cata-header-guard)\n"
                      f'#define VERSION "{VERSION_STRING}"\n')
         version_h.write(VERSION_H)
-        print(VERSION_STRING, end=None)
 
 
 def write_VERSION_TXT():
-    url = f"https://github.com/CleverRaven/Cataclysm-DDA/commit/{GITSHA}"
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d-%H%M")
+    url = "https://github.com/CleverRaven/Cataclysm-DDA"
+    if GITSHA:
+        url = f"{url}/commit/{GITSHA}"
+    timestamp = TIMESTAMP or datetime.datetime.now().strftime("%Y-%m-%d-%H%M")
     try:
         with open("VERSION.TXT", 'x') as VERSION_TXT:
             text = str()
-            if ARTIFACT:
-                text += f"build type: {ARTIFACT}\n"
-            text += f"build number: {timestamp}\n"
-            if GITSHA:
-                text += (f"commit sha: {GITSHA}\n"
-                         f"commit url: {url}")
+            text += (f"build type: {ARTIFACT or 'Release'}\n"
+                     f"build number: {timestamp}\n"
+                     f"commit sha: {GITSHA or 'Unknown'}\n"
+                     f"commit url: {url}")
             VERSION_TXT.write(text)
     except FileExistsError:
         log.debug('Skip writing VERSION.txt')
 
-
-VERSION_STRING = os.environ.get(
-    'VERSION', None) or os.environ.get('VERSION_STRING', None)
 
 # Not using argparse
 for arg in sys.argv[1:]:
@@ -91,16 +83,28 @@ for arg in sys.argv[1:]:
     if len(arg) == 2:
         globals()[arg[0]] = arg[1]
 
-ARTIFACT = globals().get('ARTIFACT', None) or 'Release'
+ARTIFACT = ARTIFACT or os.environ.get('ARTIFACT', None) or 'Release'
+TIMESTAMP = TIMESTAMP or os.environ.get('TIMESTAMP', None)
+VERSION_STRING = VERSION or os.environ.get(
+    'VERSION', None) or os.environ.get('VERSION_STRING', None) or '0.I'
 GITSHA = None
 
+while not is_cwd_root():
+    # Assuming we started somewhere down, climb up to the source directory
+    os.chdir(Path.cwd().parent)
+
 # Checking for .git/ may not work because of external worktrees
-git = subprocess.run(('git', 'rev-parse', '--is-inside-work-tree'),
-                     capture_output=True)
+try:
+    git = subprocess.run(('git', 'rev-parse', '--is-inside-work-tree'),
+                         capture_output=True)
+except FileNotFoundError:  # `git` command is missing
+    write_version_h()
+    write_VERSION_TXT()
+    raise SystemExit
+
 if git.returncode != 0:
     stdout = git.stdout.decode().strip()
     if 'true' != stdout:
-        VERSION_STRING = globals().get('VERSION', None) or '0.I'
         write_version_h()
         write_VERSION_TXT()
         raise SystemExit
@@ -114,7 +118,7 @@ git = subprocess.run(('git', 'describe', '--tags', '--always',
 GITVERSION = git.stdout.decode().strip()
 log.debug(f"{GITVERSION=}")
 
-# Get the SHA1
+# Get the short SHA1
 git = subprocess.run(('git', 'rev-parse', '--short', 'HEAD'),
                      capture_output=True)
 GITSHA = git.stdout.decode().strip()
@@ -145,3 +149,5 @@ else:
     log.debug("Skip writing src/version.h")
 
 write_VERSION_TXT()
+
+print(VERSION_STRING, end=None)
