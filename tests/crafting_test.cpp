@@ -826,8 +826,6 @@ TEST_CASE( "crafting_failure_rates_match_calculated", "[crafting][random]" )
 
 TEST_CASE( "UPS_shows_as_a_crafting_component", "[crafting][ups]" )
 {
-    map &here = get_map();
-
     avatar dummy;
     clear_character( dummy );
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
@@ -896,8 +894,6 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
     std::vector<item> tools;
 
     GIVEN( "recipe and required tools/materials" ) {
-        map &here = get_map();
-
         recipe_id carver( "carver_off" );
         // Uses fabrication skill
         // Requires electronics 3
