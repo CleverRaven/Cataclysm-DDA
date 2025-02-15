@@ -1036,6 +1036,22 @@
     ]
   },
   {
+    "id": "dweller",
+    "type": "harvest",
+    "entries": [
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.36 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "mutant_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "mutant_heart", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "nm_teeth", "scale_num": [ 6, 16 ], "max": 6, "type": "bone" }
+    ]
+  },
+  {
     "id": "animal_noskin",
     "//": "for those vertebrates that don't have something you can skin off of them",
     "type": "harvest",
