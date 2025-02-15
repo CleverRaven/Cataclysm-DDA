@@ -84,12 +84,7 @@
     "//grab": "Not getting much more grabby than a half-ton octopus",
     "grab_strength": 100,
     "special_attacks": [
-      {
-        "id": "grab_drag",
-        "cooldown": 12,
-        "grab_data": { "drag_distance": 5, "drag_deviation": 1, "drag_movecost_mod": 0.2 }
-      },
-      { "id": "drag_followup", "grab_data": { "drag_distance": 5, "drag_deviation": 1, "drag_movecost_mod": 0.2 } },
+      { "id": "grab_2" },
       { "id": "barbed_tentacle" },
       {
         "type": "bite",
