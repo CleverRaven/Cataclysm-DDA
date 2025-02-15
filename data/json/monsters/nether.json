@@ -175,7 +175,7 @@
     "species": [ "NETHER" ],
     "volume": "380000 ml",
     "weight": "250 kg",
-    "hp": 120,
+    "hp": 200,
     "speed": 75,
     "material": [ "flesh" ],
     "symbol": "A",
