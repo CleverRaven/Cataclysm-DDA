@@ -367,8 +367,7 @@
         { "vehicle": "forklift", "x": 179, "y": 129, "chance": 100, "rotation": 0, "status": 0 },
         { "vehicle": "miniature_train_loco", "x": 215, "y": 102, "chance": 95, "rotation": 90, "status": 0 },
         { "vehicle": "miniature_train_loco", "x": 64, "y": 123, "chance": 95, "rotation": 0, "status": 0 }
-      ],
-      "set": [ { "square": "radiation", "amount": [ 0, 10 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ]
+      ]
     }
   }
 ]

@@ -356,8 +356,7 @@
         { "vehicle": "welding_cart", "x": 86, "y": 162, "chance": 100, "rotation": 180 },
         { "vehicle": "welding_cart", "x": 353, "y": 157, "chance": 100, "rotation": 180 },
         { "vehicle": "welding_cart", "x": 196, "y": 56, "chance": 100, "rotation": 0 }
-      ],
-      "set": [ { "square": "radiation", "amount": [ 0, 10 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ]
+      ]
     }
   }
 ]
