@@ -7,6 +7,31 @@
     "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level"
   },
   {
+    "id": "xedra_chronomancy_field",
+    "type": "SPELL",
+    "name": "Chronomancy Field",
+    "valid_targets": [ "self" ],
+    "description": "Makes it so chronomancers can gain insight from non-chronomantic monsters.  Having this spell is a bug.",
+    "teachable": false,
+    "effect": "attack",
+    "effect_str": "effect_chronomancy_field",
+    "spell_class": "XEDRA_CHRONOMANCER",
+    "skill": "deduction",
+    "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "IGNORE_WALLS", "NO_PROJECTILE" ],
+    "min_duration": {
+      "math": [
+        "( ( 600 + (u_spell_count('school': 'XEDRA_CHRONOMANCER') * 200) + (u_skill('deduction') * 400) ) )"
+      ]
+    },
+    "difficulty": 0,
+    "max_level": 1,
+    "shape": "blast",
+    "min_range": 0,
+    "max_range": 0,
+    "base_energy_cost": 0,
+    "base_casting_time": 0
+  },
+  {
     "id": "xedra_chronomancer_time_freeze_target",
     "type": "SPELL",
     "name": "Time Freeze",
@@ -21,6 +46,7 @@
     "max_level": { "math": [ "xedra_chronomancer_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_xedra_time_freeze",
+    "extra_effects": [ { "id": "xedra_chronomancy_field" } ],
     "shape": "blast",
     "min_range": { "math": [ "min( xedra_chron_spell_calc( u_spell_level('xedra_chronomancer_time_freeze_target'), 2, 1 ), 80 )" ] },
     "max_range": 80,
