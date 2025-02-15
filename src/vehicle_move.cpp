@@ -210,7 +210,7 @@ void vehicle::smart_controller_handle_turn( map &here,
 
     int cur_battery_level;
     int max_battery_level;
-    std::tie( cur_battery_level, max_battery_level ) = battery_power_level();
+    std::tie( cur_battery_level, max_battery_level ) = battery_power_level( here );
     int battery_level_percent = max_battery_level == 0 ? 0 : cur_battery_level * 100 /
                                 max_battery_level;
 
@@ -308,7 +308,7 @@ void vehicle::smart_controller_handle_turn( map &here,
     if( !has_electric_engine ) {
         if( !discharge_forbidden_soft && is_stationary && engine_on && !autopilot_on &&
             !player_is_driving_this_veh( &here ) ) {
-            stop_engines();
+            stop_engines( here );
             sfx::do_vehicle_engine_sfx();
             // temporary solution
         } else if( discharge_forbidden_hard && !engine_on && cur_battery_level > 0 ) {
@@ -402,7 +402,7 @@ void vehicle::smart_controller_handle_turn( map &here,
             vehicle_part &vp = parts[engines[c_engines[i]]];
             // ..0.. < ..1..  was off, new state on
             if( ( prev_mask & ( 1 << i ) ) < ( opt_mask & ( 1 << i ) ) ) {
-                if( !start_engine( vp, true ) ) {
+                if( !start_engine( here, vp, true ) ) {
                     failed_to_start = true;
                 }
                 turned_on_gas_engine |= !is_engine_type( vp, fuel_type_battery );
@@ -429,7 +429,7 @@ void vehicle::smart_controller_handle_turn( map &here,
                 vehicle_part &vp = parts[engines[c_engines[i]]];
                 // was on, needs to be off
                 if( ( prev_mask & ( 1 << i ) ) > ( opt_mask & ( 1 << i ) ) ) {
-                    start_engine( vp, false );
+                    start_engine( here, vp, false );
                 }
             }
             if( turned_on_gas_engine ) {

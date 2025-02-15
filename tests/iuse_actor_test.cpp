@@ -120,6 +120,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
 
 TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
 {
+    map &here = get_map();
     Character *dummy = &get_avatar();
     clear_avatar();
 
@@ -131,7 +132,7 @@ TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
         // Charge the battery
         const int bat_charges = bat_cell.ammo_capacity( ammo_battery );
         bat_cell.ammo_set( bat_cell.ammo_default(), bat_charges );
-        REQUIRE( bat_cell.ammo_remaining() == bat_charges );
+        REQUIRE( bat_cell.ammo_remaining( here ) == bat_charges );
 
         // Put battery in flashlight
         REQUIRE( flashlight.has_pocket_type( pocket_type::MAGAZINE_WELL ) );

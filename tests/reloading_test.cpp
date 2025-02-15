@@ -104,6 +104,7 @@ static void test_reloading( item &target, item &ammo, bool expect_success = true
 
 TEST_CASE( "reload_magazines", "[reload]" )
 {
+    map &here = get_map();
 
     SECTION( "empty magazine" ) {
 
@@ -129,7 +130,7 @@ TEST_CASE( "reload_magazines", "[reload]" )
 
         item mag( itype_stanag30 );
         mag.put_in( item( itype_556, calendar::turn, 1 ), pocket_type::MAGAZINE );
-        REQUIRE( mag.ammo_remaining() == 1 );
+        REQUIRE( mag.ammo_remaining( here ) == 1 );
 
         SECTION( "with one round" ) {
             item ammo( itype_556 );
@@ -156,7 +157,7 @@ TEST_CASE( "reload_magazines", "[reload]" )
 
         item mag( itype_stanag30 );
         mag.put_in( item( itype_556, calendar::turn, 30 ), pocket_type::MAGAZINE );
-        REQUIRE( mag.ammo_remaining() == 30 );
+        REQUIRE( mag.ammo_remaining( here ) == 30 );
 
         SECTION( "with one round" ) {
             item ammo( itype_556 );
@@ -249,6 +250,8 @@ TEST_CASE( "reload_gun_with_casings", "[reload],[gun]" )
 
 TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
 {
+    map &here = get_map();
+
     SECTION( "empty gun" ) {
         item gun( itype_glock_19 );
 
@@ -260,14 +263,14 @@ TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
         SECTION( "with full magazine" ) {
             item mag( itype_glockmag );
             mag.put_in( item( itype_9mm, calendar::turn, 15 ), pocket_type::MAGAZINE );
-            REQUIRE( mag.ammo_remaining() == 15 );
+            REQUIRE( mag.ammo_remaining( here ) == 15 );
             test_reloading( gun, mag );
         }
 
         SECTION( "with magazine of wrong ammo" ) {
             item mag( itype_glockmag );
             mag.force_insert_item( item( itype_556, calendar::turn, 15 ), pocket_type::MAGAZINE );
-            REQUIRE( mag.ammo_remaining() == 15 );
+            REQUIRE( mag.ammo_remaining( here ) == 15 );
             test_reloading( gun, mag, false );
         }
     }
@@ -284,14 +287,14 @@ TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
         SECTION( "with full magazine" ) {
             item mag( itype_glockmag );
             mag.put_in( item( itype_9mm, calendar::turn, 15 ), pocket_type::MAGAZINE );
-            REQUIRE( mag.ammo_remaining() == 15 );
+            REQUIRE( mag.ammo_remaining( here ) == 15 );
             test_reloading( gun, mag );
         }
 
         SECTION( "with magazine of wrong ammo" ) {
             item mag( itype_glockmag );
             mag.force_insert_item( item( itype_556, calendar::turn, 15 ), pocket_type::MAGAZINE );
-            REQUIRE( mag.ammo_remaining() == 15 );
+            REQUIRE( mag.ammo_remaining( here ) == 15 );
             test_reloading( gun, mag, false );
         }
     }
@@ -300,9 +303,9 @@ TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
         item gun( itype_glock_19 );
         item old_mag( itype_glockmag );
         old_mag.put_in( item( itype_9mm, calendar::turn, 2 ), pocket_type::MAGAZINE );
-        REQUIRE( old_mag.ammo_remaining() == 2 );
+        REQUIRE( old_mag.ammo_remaining( here ) == 2 );
         gun.put_in( old_mag, pocket_type::MAGAZINE_WELL );
-        REQUIRE( gun.ammo_remaining() == 2 );
+        REQUIRE( gun.ammo_remaining( here ) == 2 );
 
         SECTION( "with empty magazine" ) {
             item mag( itype_glockmag );
@@ -312,21 +315,21 @@ TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
         SECTION( "with full magazine" ) {
             item mag( itype_glockmag );
             mag.put_in( item( itype_9mm, calendar::turn, 15 ), pocket_type::MAGAZINE );
-            REQUIRE( mag.ammo_remaining() == 15 );
+            REQUIRE( mag.ammo_remaining( here ) == 15 );
             test_reloading( gun, mag );
         }
 
         SECTION( "with full magazine with different ammo" ) {
             item mag( itype_glockmag );
             mag.put_in( item( itype_9mmfmj, calendar::turn, 15 ), pocket_type::MAGAZINE );
-            REQUIRE( mag.ammo_remaining() == 15 );
+            REQUIRE( mag.ammo_remaining( here ) == 15 );
             test_reloading( gun, mag );
         }
 
         SECTION( "with magazine of wrong ammo" ) {
             item mag( itype_glockmag );
             mag.force_insert_item( item( itype_556, calendar::turn, 15 ), pocket_type::MAGAZINE );
-            REQUIRE( mag.ammo_remaining() == 15 );
+            REQUIRE( mag.ammo_remaining( here ) == 15 );
             test_reloading( gun, mag, false );
         }
     }
@@ -335,9 +338,9 @@ TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
         item gun( itype_glock_19 );
         item old_mag( itype_glockmag );
         old_mag.put_in( item( itype_9mm, calendar::turn, 15 ), pocket_type::MAGAZINE );
-        REQUIRE( old_mag.ammo_remaining() == 15 );
+        REQUIRE( old_mag.ammo_remaining( here ) == 15 );
         gun.put_in( old_mag, pocket_type::MAGAZINE_WELL );
-        REQUIRE( gun.ammo_remaining() == 15 );
+        REQUIRE( gun.ammo_remaining( here ) == 15 );
 
         SECTION( "with empty magazine" ) {
             item mag( itype_glockmag );
@@ -347,21 +350,21 @@ TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
         SECTION( "with full magazine" ) {
             item mag( itype_glockmag );
             mag.put_in( item( itype_9mm, calendar::turn, 15 ), pocket_type::MAGAZINE );
-            REQUIRE( mag.ammo_remaining() == 15 );
+            REQUIRE( mag.ammo_remaining( here ) == 15 );
             test_reloading( gun, mag, false );
         }
 
         SECTION( "with full magazine with different ammo" ) {
             item mag( itype_glockmag );
             mag.put_in( item( itype_9mmfmj, calendar::turn, 15 ), pocket_type::MAGAZINE );
-            REQUIRE( mag.ammo_remaining() == 15 );
+            REQUIRE( mag.ammo_remaining( here ) == 15 );
             test_reloading( gun, mag, false );
         }
 
         SECTION( "with magazine of wrong ammo" ) {
             item mag( itype_glockmag );
             mag.force_insert_item( item( itype_556, calendar::turn, 15 ), pocket_type::MAGAZINE );
-            REQUIRE( mag.ammo_remaining() == 15 );
+            REQUIRE( mag.ammo_remaining( here ) == 15 );
             test_reloading( gun, mag, false );
         }
     }
@@ -807,6 +810,7 @@ TEST_CASE( "gunmod_reloading", "[reload],[gun]" )
 
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {
+    map &here = get_map();
     Character &dummy = get_avatar();
 
     clear_avatar();
@@ -817,7 +821,7 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
     item_location gun = dummy.i_add( item( itype_sw_610, calendar::turn_zero, item::default_charges_tag{} ) );
 
     REQUIRE( dummy.has_item( *ammo ) );
-    REQUIRE( gun->ammo_remaining() == 0 );
+    REQUIRE( gun->ammo_remaining( here ) == 0 );
     REQUIRE( gun->magazine_integral() );
 
     bool success = gun->reload( dummy, ammo, ammo->charges );
@@ -828,6 +832,7 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 
 TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun]" )
 {
+    map &here = get_map();
     Character &dummy = get_avatar();
 
     clear_avatar();
@@ -840,10 +845,10 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
     item_location gun = dummy.i_add( item( itype_sw_619, calendar::turn_zero, false ) );
 
     REQUIRE( dummy.has_item( *ammo ) );
-    REQUIRE( gun->ammo_remaining() == 0 );
+    REQUIRE( gun->ammo_remaining( here ) == 0 );
     REQUIRE( gun->magazine_integral() );
     REQUIRE( dummy.has_item( *speedloader ) );
-    REQUIRE( speedloader->ammo_remaining() == 0 );
+    REQUIRE( speedloader->ammo_remaining( here ) == 0 );
     REQUIRE( speedloader->has_flag( json_flag_SPEEDLOADER ) );
 
     bool speedloader_success = speedloader->reload( dummy, ammo, ammo->charges );
@@ -871,6 +876,7 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
 
 TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
 {
+    map &here = get_map();
     Character &dummy = get_avatar();
 
     clear_avatar();
@@ -906,7 +912,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     } );
     REQUIRE( glock_mags.size() == 1 );
     item &magazine = *glock_mags.front();
-    REQUIRE( magazine.ammo_remaining() == 0 );
+    REQUIRE( magazine.ammo_remaining( here ) == 0 );
 
     REQUIRE( dummy.has_item( *ammo ) );
 
@@ -915,7 +921,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     REQUIRE( magazine_success );
     REQUIRE( magazine.remaining_ammo_capacity() == 0 );
 
-    REQUIRE( gun.ammo_remaining() == 0 );
+    REQUIRE( gun.ammo_remaining( here ) == 0 );
     REQUIRE( gun.magazine_integral() == false );
 
     bool gun_success = gun.reload( dummy, item_location( dummy, &magazine ), 1 );
@@ -947,6 +953,7 @@ static void reload_a_revolver( Character &dummy, item &gun, item &ammo )
 
 TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 {
+    map &here = get_map();
     Character &dummy = get_avatar();
 
     clear_avatar();
@@ -968,7 +975,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         REQUIRE( ammo->is_ammo() );
 
         dummy.set_wielded_item( item( itype_sw_610, calendar::turn_zero, 0 ) );
-        REQUIRE( dummy.get_wielded_item()->ammo_remaining() == 0 );
+        REQUIRE( dummy.get_wielded_item()->ammo_remaining( here ) == 0 );
         REQUIRE( dummy.get_wielded_item().can_reload_with( ammo, false ) );
 
         WHEN( "the player triggers auto reload until the revolver is full" ) {
@@ -982,7 +989,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         }
         GIVEN( "the player has another gun with ammo" ) {
             item_location gun2 = dummy.i_add( item( itype_sw_610, calendar::turn_zero, 0 ) );
-            REQUIRE( gun2->ammo_remaining() == 0 );
+            REQUIRE( gun2->ammo_remaining( here ) == 0 );
             REQUIRE( gun2.can_reload_with( ammo, false ) );
             WHEN( "the player triggers auto reload until the first revolver is full" ) {
                 reload_a_revolver( dummy, *dummy.get_wielded_item(), *ammo );
@@ -1010,10 +1017,10 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         const cata::value_ptr<islot_magazine> &magazine_type = mag->type->magazine;
         REQUIRE( magazine_type );
         REQUIRE( magazine_type->type.count( ammo_type->type ) != 0 );
-        REQUIRE( mag->ammo_remaining() == 0 );
+        REQUIRE( mag->ammo_remaining( here ) == 0 );
 
         dummy.set_wielded_item( item( itype_glock_19, calendar::turn_zero, 0 ) );
-        REQUIRE( dummy.get_wielded_item()->ammo_remaining() == 0 );
+        REQUIRE( dummy.get_wielded_item()->ammo_remaining( here ) == 0 );
 
         WHEN( "the player triggers auto reload" ) {
             g->reload_weapon( false );
@@ -1034,7 +1041,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                 process_activity( dummy );
 
                 THEN( "The magazine is loaded into the gun" ) {
-                    CHECK( dummy.get_wielded_item()->ammo_remaining() > 0 );
+                    CHECK( dummy.get_wielded_item()->ammo_remaining( here ) > 0 );
                 }
                 WHEN( "the player triggers auto reload again" ) {
                     g->reload_weapon( false );
@@ -1049,7 +1056,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
             const cata::value_ptr<islot_magazine> &magazine_type2 = mag2->type->magazine;
             REQUIRE( magazine_type2 );
             REQUIRE( magazine_type2->type.count( ammo_type->type ) != 0 );
-            REQUIRE( mag2->ammo_remaining() == 0 );
+            REQUIRE( mag2->ammo_remaining( here ) == 0 );
 
             WHEN( "the player triggers auto reload" ) {
                 g->reload_weapon( false );
@@ -1070,7 +1077,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                     process_activity( dummy );
 
                     THEN( "The magazine is loaded into the gun" ) {
-                        CHECK( dummy.get_wielded_item()->ammo_remaining() > 0 );
+                        CHECK( dummy.get_wielded_item()->ammo_remaining( here ) > 0 );
                     }
                     WHEN( "the player triggers auto reload again" ) {
                         g->reload_weapon( false );

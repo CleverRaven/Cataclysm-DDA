@@ -1192,6 +1192,7 @@ static item_pocket *get_only_pocket( item &container )
 
 TEST_CASE( "best_pocket_in_item_contents", "[pocket][item][best]" )
 {
+    map &here = get_map();
     item_location loc;
 
     // Waterskins can be best pockets for liquids
@@ -1240,7 +1241,7 @@ TEST_CASE( "best_pocket_in_item_contents", "[pocket][item][best]" )
         // Empty magazine
         item glockmag( itype_test_glockmag, calendar::turn, 0 );
         REQUIRE( glockmag.has_pocket_type( pocket_type::MAGAZINE ) );
-        REQUIRE( glockmag.ammo_remaining() == 0 );
+        REQUIRE( glockmag.ammo_remaining( here ) == 0 );
         // A single 9mm bullet
         item glockammo( itype_test_9mm_ammo, calendar::turn, 1 );
         REQUIRE( glockammo.is_ammo() );

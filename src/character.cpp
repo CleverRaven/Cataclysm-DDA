@@ -6058,7 +6058,8 @@ bool Character::pour_into( item_location &container, item &liquid, bool ignore_s
 
 bool Character::pour_into( const vpart_reference &vp, item &liquid ) const
 {
-    if( !vp.part().fill_with( liquid ) ) {
+    map &here = get_map();
+    if( !vp.part().fill_with( here, liquid ) ) {
         return false;
     }
 
@@ -7114,6 +7115,7 @@ bool Character::invoke_item( item *used, const std::string &method )
 bool Character::invoke_item( item *used, const std::string &method, const tripoint_bub_ms &pt,
                              int pre_obtain_moves )
 {
+    map &here = get_map();
     if( method.empty() ) {
         return invoke_item( used, pt, pre_obtain_moves );
     }
@@ -7138,7 +7140,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
                                           ammo_req ),
                                it_name, ammo_req );
         } else {
-            int ammo_rem = used->ammo_remaining();
+            int ammo_rem = used->ammo_remaining( here );
             add_msg_if_player( m_info,
                                n_gettext( "Your %s has %d charge, but needs %d.",
                                           "Your %s has %d charges, but needs %d.",
@@ -8054,6 +8056,8 @@ std::string Character::weapname_mode() const
 
 std::string Character::weapname_ammo() const
 {
+    map &here = get_map();
+
     if( weapon.is_gun() ) {
         gun_mode current_mode = weapon.gun_current_mode();
         const bool no_mode = !current_mode.target;
@@ -8064,7 +8068,7 @@ std::string Character::weapname_ammo() const
             if( current_mode->uses_magazine() && !current_mode->magazine_current() ) {
                 mag_ammo = _( "(empty)" );
             } else {
-                int cur_ammo = current_mode->ammo_remaining();
+                int cur_ammo = current_mode->ammo_remaining( here );
                 int max_ammo;
                 if( cur_ammo == 0 ) {
                     max_ammo = current_mode->ammo_capacity( item( current_mode->ammo_default() ).ammo_type() );
@@ -9521,18 +9525,22 @@ bool Character::cache_has_item_with( const std::string &key, const itype_id &typ
 
 bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) const
 {
-    return has_item_with( [&flag, &need_charges, this]( const item & it ) {
+    map &here = get_map();
+
+    return has_item_with( [&flag, &need_charges, this, &here]( const item & it ) {
         return it.has_flag( flag ) && ( !need_charges || !it.is_tool() ||
-                                        it.type->tool->max_charges == 0 || it.ammo_remaining( this ) > 0 );
+                                        it.type->tool->max_charges == 0 || it.ammo_remaining( here, this ) > 0 );
     } );
 }
 
 bool Character::cache_has_item_with_flag( const flag_id &type_flag, bool need_charges ) const
 {
+    map &here = get_map();
+
     return cache_has_item_with( "HAS FLAG " + type_flag.str(), {}, type_flag, nullptr,
-    [this, &need_charges]( const item & it ) {
+    [this, &need_charges, &here]( const item & it ) {
         return !need_charges || !it.is_tool() || it.type->tool->max_charges == 0 ||
-               it.ammo_remaining( this ) > 0;
+               it.ammo_remaining( here, this ) > 0;
     } );
 }
 
@@ -9686,12 +9694,14 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
 
 units::energy Character::available_ups() const
 {
+    map &here = get_map();
+
     units::energy available_charges = 0_kJ;
 
     if( is_mounted() && mounted_creature.get()->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         auto *mons = mounted_creature.get();
         available_charges += units::from_kilojoule( static_cast<std::int64_t>
-                             ( mons->battery_item->ammo_remaining() ) );
+                             ( mons->battery_item->ammo_remaining( here ) ) );
     }
 
     bool has_bio_powered_ups = false;
@@ -9704,8 +9714,9 @@ units::energy Character::available_ups() const
         available_charges += get_power_level();
     }
 
-    cache_visit_items_with( flag_IS_UPS, [&available_charges]( const item & it ) {
-        available_charges += units::from_kilojoule( static_cast<std::int64_t>( it.ammo_remaining() ) );
+    cache_visit_items_with( flag_IS_UPS, [&available_charges, &here]( const item & it ) {
+        available_charges += units::from_kilojoule( static_cast<std::int64_t>( it.ammo_remaining(
+                                 here ) ) );
     } );
 
     return available_charges;
@@ -11615,6 +11626,7 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
 bool Character::unload( item_location &loc, bool bypass_activity,
                         const item_location &new_container )
 {
+    map &here = get_map();
     item &it = *loc;
     drop_locations locs;
     // Unload a container consuming moves per item successfully removed
@@ -11668,7 +11680,7 @@ bool Character::unload( item_location &loc, bool bypass_activity,
 
     for( item *e : it.gunmods() ) {
         if( ( e->is_gun() && !e->has_flag( flag_NO_UNLOAD ) &&
-              ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) ||
+              ( e->magazine_current() || e->ammo_remaining( here ) > 0 || e->casings_count() > 0 ) ) ||
             ( e->has_flag( flag_BRASS_CATCHER ) && !e->is_container_empty() ) ) {
             msgs.emplace_back( e->tname() );
             opts.emplace_back( e );
@@ -11708,7 +11720,8 @@ bool Character::unload( item_location &loc, bool bypass_activity,
             return false;
         }
 
-        if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
+        if( !target->magazine_current() && target->ammo_remaining( here ) <= 0 &&
+            target->casings_count() <= 0 ) {
             if( target->is_tool() ) {
                 add_msg( m_info, _( "Your %s isn't charged." ), target->tname() );
             } else {
@@ -11753,8 +11766,8 @@ bool Character::unload( item_location &loc, bool bypass_activity,
             return target->magazine_current() == &e;
         } );
 
-    } else if( target->ammo_remaining() ) {
-        int qty = target->ammo_remaining();
+    } else if( target->ammo_remaining( here ) ) {
+        int qty = target->ammo_remaining( here );
 
         // Construct a new ammo item and try to drop it
         item ammo( target->ammo_current(), calendar::turn, qty );
@@ -11777,19 +11790,19 @@ bool Character::unload( item_location &loc, bool bypass_activity,
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
         this->mod_moves( -this->item_reload_cost( *target, ammo, qty ) / 2 );
 
-        target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
+        target->ammo_set( target->ammo_current(), target->ammo_remaining( here ) - qty );
     } else if( target->has_flag( flag_BRASS_CATCHER ) ) {
         target->spill_contents( get_player_character() );
     }
 
     // Turn off any active tools
-    if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
+    if( target->is_tool() && target->active && target->ammo_remaining( here ) == 0 ) {
         target->deactivate( this );
     }
 
     add_msg( _( "You unload your %s." ), target->tname() );
 
-    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
+    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining( here ) == 0 ) {
         loc.remove_item();
     }
 
@@ -12894,8 +12907,8 @@ void Character::process_items( map *here )
 
     // Load all items that use the UPS and have their own battery to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
-    std::vector<item *> inv_use_ups = cache_get_items_with( flag_USE_UPS, []( item & it ) {
-        return ( it.ammo_capacity( ammo_battery ) > it.ammo_remaining() ||
+    std::vector<item *> inv_use_ups = cache_get_items_with( flag_USE_UPS, [&here]( item & it ) {
+        return ( it.ammo_capacity( ammo_battery ) > it.ammo_remaining( here ) ||
                  ( it.type->battery && it.type->battery->max_capacity > it.energy_remaining( nullptr ) ) );
     } );
     if( !inv_use_ups.empty() ) {
@@ -12909,10 +12922,10 @@ void Character::process_items( map *here )
             } else if( it->active && !it->ammo_sufficient( this ) ) {
                 it->deactivate();
             } else if( available_charges - ups_used >= 1_kJ &&
-                       it->ammo_remaining() < it->ammo_capacity( ammo_battery ) ) {
+                       it->ammo_remaining( here ) < it->ammo_capacity( ammo_battery ) ) {
                 // Charge the battery in the UPS modded tool
                 ups_used += 1_kJ;
-                it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
+                it->ammo_set( itype_battery, it->ammo_remaining( here ) + 1 );
             }
         }
         if( ups_used > 0_kJ ) {

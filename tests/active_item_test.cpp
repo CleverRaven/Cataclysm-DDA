@@ -74,13 +74,13 @@ TEST_CASE( "non_energy_tool_power_consumption_rate", "[active_item]" )
     map &here = get_map();
     // Must be captured before it's inactive and transforms
     int turns_per_charge = test_lantern.type->tool->turns_per_charge;
-    REQUIRE( test_lantern.ammo_remaining() == ammo_capacity );
+    REQUIRE( test_lantern.ammo_remaining( here ) == ammo_capacity );
     do {
         calendar::turn += 1_seconds;
         test_lantern.process( here, nullptr, tripoint_bub_ms::zero );
         seconds_active++;
     } while( test_lantern.active );
-    REQUIRE( test_lantern.ammo_remaining() == 0 );
+    REQUIRE( test_lantern.ammo_remaining( here ) == 0 );
     // Runtime vaguely in the bounds we expect.
     CHECK( seconds_active > ( turns_per_charge - 1 ) * ammo_capacity );
     CHECK( seconds_active < ( turns_per_charge + 1 ) * ammo_capacity );

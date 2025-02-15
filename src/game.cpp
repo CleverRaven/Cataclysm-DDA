@@ -5838,7 +5838,7 @@ void game::control_vehicle()
 
     if( vehicle *remote_veh = remoteveh() ) { // remote controls have priority
         for( const vpart_reference &vpr : remote_veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
-            remote_veh->interact_with( &here, vpr.pos_bub( &here ) );
+            remote_veh->interact_with( &here, vpr.pos_bub( here ) );
             return;
         }
     }
@@ -5900,7 +5900,7 @@ void game::control_vehicle()
                 u.controlling_vehicle = true;
                 add_msg( _( "You take control of the %s." ), veh->name );
             } else {
-                veh->start_engines( &u, true );
+                veh->start_engines( here, &u, true );
             }
         }
     }
@@ -6876,13 +6876,15 @@ void game::print_creature_info( const Creature *creature, const catacurses::wind
 void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurses::window &w_look,
                                const int column, int &line, const int last_line )
 {
+    map &here = get_map();
+
     if( veh ) {
         // Print the name of the vehicle.
         mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Vehicle: " ) );
         mvwprintz( w_look, point( column + utf8_width( _( "Vehicle: " ) ), line ), c_white, "%s",
                    veh->name );
         // Then the list of parts on that tile.
-        line = veh->print_part_list( w_look, ++line, last_line, getmaxx( w_look ), veh_part );
+        line = veh->print_part_list( here,  w_look, ++line, last_line, getmaxx( w_look ), veh_part );
     }
 }
 
@@ -10224,6 +10226,7 @@ static item::reload_option favorite_ammo_or_select( avatar &u, item_location &lo
 
 void game::reload( item_location &loc, bool prompt, bool empty )
 {
+    map &here = get_map();
     // bows etc. do not need to reload. select favorite ammo for them instead
     if( loc->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         item::reload_option opt = u.select_ammo( loc, prompt );
@@ -10243,7 +10246,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 
     switch( u.rate_action_reload( *loc ) ) {
         case hint_rating::iffy:
-            if( ( loc->is_ammo_container() || loc->is_magazine() ) && loc->ammo_remaining() > 0 &&
+            if( ( loc->is_ammo_container() || loc->is_magazine() ) && loc->ammo_remaining( here ) > 0 &&
                 loc->remaining_ammo_capacity() == 0 ) {
                 add_msg( m_info, _( "The %s is already fully loaded!" ), loc->tname() );
                 return;

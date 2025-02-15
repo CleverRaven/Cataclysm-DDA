@@ -63,7 +63,7 @@ struct itype;
 struct vehicle_part;
 template <typename E> struct enum_traits;
 
-void handbrake();
+void handbrake( map &here );
 
 void practice_athletic_proficiency( Character &p );
 void practice_pilot_proficiencies( Character &p, bool &boating );
@@ -311,7 +311,7 @@ struct vehicle_part {
         int item_capacity( const itype_id &stuffing_id ) const;
 
         /** Amount of fuel, charges or ammunition currently contained by a part */
-        int ammo_remaining() const;
+        int ammo_remaining( const map &here ) const;
         int remaining_ammo_capacity() const;
 
         /** Type of fuel used by an engine */
@@ -324,7 +324,7 @@ struct vehicle_part {
          * @param qty maximum ammo (capped by part capacity) or negative to fill to capacity
          * @return amount of ammo actually set or negative on failure
          */
-        int ammo_set( const itype_id &ammo, int qty = -1 );
+        int ammo_set( const map &here, const itype_id &ammo, int qty = -1 );
 
         /** Remove all fuel, charges or ammunition (if any) from this part */
         void ammo_unset();
@@ -346,7 +346,7 @@ struct vehicle_part {
         units::energy consume_energy( const itype_id &ftype, units::energy wanted_energy );
 
         /* @return true if part in current state be reloaded optionally with specific itype_id */
-        bool can_reload( const item &obj = item() ) const;
+        bool can_reload( const map &here, const item &obj = item() ) const;
 
         // No need to serialize this, it can simply be reinitialized after starting a new game.
         turret_cpu cpu; //NOLINT(cata-serialize)
@@ -362,7 +362,7 @@ struct vehicle_part {
          *  Try adding @param liquid to tank optionally limited by @param qty
          *  @return whether any of the liquid was consumed (which may be less than qty)
          */
-        bool fill_with( item &liquid, int qty = INT_MAX );
+        bool fill_with( const map &here, item &liquid, int qty = INT_MAX );
 
         /** Current faults affecting this part (if any) */
         const std::set<fault_id> &faults() const;
@@ -809,7 +809,7 @@ class vehicle
     private:
         bool has_structural_part( const point_rel_ms &dp ) const;
         bool is_structural_part_removed() const;
-        void open_or_close( int part_index, bool opening );
+        void open_or_close( map &here, int part_index, bool opening );
         void lock_or_unlock( int part_index, bool locking );
         bool is_connected( const vehicle_part &to, const vehicle_part &from,
                            const vehicle_part &excluded ) const;
@@ -823,7 +823,7 @@ class vehicle
         // Returns if it did actually explode
         bool explode_fuel( map &here, vehicle_part &vp, const damage_type_id &type );
         //damages vehicle controls and security system
-        void smash_security_system();
+        void smash_security_system( map &here );
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
         units::power part_vpower_w( map &here, const vehicle_part &vp, bool at_full_hp = false ) const;
 
@@ -848,10 +848,10 @@ class vehicle
                                    bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
-        time_duration engine_start_time( const vehicle_part &vp ) const;
+        time_duration engine_start_time( map &here, const vehicle_part &vp ) const;
 
         // How much does the temperature effect the engine starting (0.0 - 1.0)
-        double engine_cold_factor( const vehicle_part &vp ) const;
+        double engine_cold_factor( map &here, const vehicle_part &vp ) const;
 
         // refresh pivot_cache, clear pivot_dirty
         void refresh_pivot( map &here ) const;
@@ -867,7 +867,7 @@ class vehicle
         /// May load the connected vehicles' submaps
         /// Templated to support const and non-const vehicle*
         template<typename Vehicle>
-        static std::map<Vehicle *, float> search_connected_vehicles( map &here, Vehicle *start );
+        static std::map<Vehicle *, float> search_connected_vehicles( const map &here, Vehicle *start );
     public:
         /**
          * Find a possibly off-map vehicle. If necessary, loads up its submap through
@@ -875,16 +875,16 @@ class vehicle
          * give it the coordinates of the origin tile of a target vehicle.
          * @param where Location of the other vehicle's origin tile.
          */
-        static vehicle *find_vehicle( map &here, const tripoint_abs_ms &where );
+        static vehicle *find_vehicle( const map &here, const tripoint_abs_ms &where );
         // find_vehicle, but it compares the provided position to the position of
         // every vehicle part instead of just the vehicle's position
-        static vehicle *find_vehicle_using_parts( map &here,  const tripoint_abs_ms &where );
+        static vehicle *find_vehicle_using_parts( const map &here,  const tripoint_abs_ms &where );
         //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
-        std::map<vehicle *, float> search_connected_vehicles( map &here );
+        std::map<vehicle *, float> search_connected_vehicles( const map &here );
         //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
-        std::map<const vehicle *, float> search_connected_vehicles( map &here ) const;
+        std::map<const vehicle *, float> search_connected_vehicles( const map &here ) const;
         //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
-        void get_connected_vehicles( map &here, std::unordered_set<vehicle *> &dest );
+        void get_connected_vehicles( const map &here, std::unordered_set<vehicle *> &dest );
 
         /// Returns a map of connected battery references to power loss factor
         /// Keys are batteries in vehicles (includes self) connected by POWER_TRANSFER parts
@@ -954,7 +954,8 @@ class vehicle
         // deserializes parts from json to parts vector (clearing it first)
         void deserialize_parts( const JsonArray &data );
         // Vehicle parts list - all the parts on a single tile
-        int print_part_list( const catacurses::window &win, int y1, int max_y, int width, int p,
+        int print_part_list( const map &here, const catacurses::window &win, int y1, int max_y, int width,
+                             int p,
                              int hl = -1, bool detail = false, bool include_fakes = true ) const;
 
         // Vehicle parts descriptions - descriptions for all the parts on a single tile
@@ -1018,13 +1019,13 @@ class vehicle
 
         bool precollision_check( units::angle &angle, map &here, bool follow_protocol );
         // Try select any fuel for engine, returns true if some fuel is available
-        bool auto_select_fuel( vehicle_part &vp );
+        bool auto_select_fuel( map &here, vehicle_part &vp );
         // Attempt to start an engine
-        bool start_engine( vehicle_part &vp );
+        bool start_engine( map &here, vehicle_part &vp );
         // stop all engines
-        void stop_engines();
+        void stop_engines( map &here );
         // Attempt to start the vehicle's active engines
-        void start_engines( Character *driver = nullptr, bool take_control = false,
+        void start_engines( map &here, Character *driver = nullptr, bool take_control = false,
                             bool autodrive = false );
 
         // Engine backfire, making a loud noise
@@ -1459,7 +1460,7 @@ class vehicle
          * Note that empty tanks don't count at all. The value is the amount as it would be
          * reported by @ref fuel_left, it is always greater than 0. The key is the fuel item type.
          */
-        std::map<itype_id, int> fuels_left() const;
+        std::map<itype_id, int> fuels_left( const map &here ) const;
 
         /**
          * All the individual fuel items that are in all the tanks in the vehicle.
@@ -1542,10 +1543,10 @@ class vehicle
         void power_parts( map &here );
 
         // Current and total battery power (kJ) level as a pair
-        std::pair<int, int> battery_power_level() const;
+        std::pair<int, int> battery_power_level( const map &here ) const;
 
         // Current and total battery power (kJ) level of all connected vehicles as a pair
-        std::pair<int, int> connected_battery_power_level( map &here ) const;
+        std::pair<int, int> connected_battery_power_level( const map &here ) const;
 
         /**
         * @return true if at least one of the connected batteries has any charge left
@@ -1772,7 +1773,7 @@ class vehicle
         // @param on_map if true vehicle processes noise/smoke and updates time
         void idle( map &here, bool on_map );
         // continuous processing for running vehicle alarms
-        void alarm();
+        void alarm( map &here );
         // leak from broken tanks
         void slow_leak( map &here );
 
@@ -1845,7 +1846,7 @@ class vehicle
         * @param tool the tool item to modify
         * @return amount of ammo in the `pseudo_magazine` or 0
         */
-        int prepare_tool( item &tool ) const;
+        int prepare_tool( map &here, item &tool ) const;
         static bool use_vehicle_tool( vehicle &veh, map *here, const tripoint_bub_ms &vp_pos,
                                       const itype_id &tool_type,
                                       bool no_invoke = false );
@@ -1854,13 +1855,13 @@ class vehicle
         * @param tool the item to examine
         * @return a pair of tool's first ammo type and the amount of it available from tanks / batteries
         */
-        std::pair<const itype_id &, int> tool_ammo_available( const itype_id &tool_type ) const;
+        std::pair<const itype_id &, int> tool_ammo_available( map &here, const itype_id &tool_type ) const;
         /**
         * @return pseudo- and attached tools available from this vehicle part,
         * marked with PSEUDO flags, pseudo_magazine_mod and pseudo_magazine attached, magazines filled
         * with the first ammo type required by the tool. pseudo tools are mapped to their hotkey if exists.
         */
-        std::map<item, int> prepare_tools( const vehicle_part &vp ) const;
+        std::map<item, int> prepare_tools( map &here, const vehicle_part &vp ) const;
 
         /**
          * Update an item's active status, for example when adding
@@ -2037,8 +2038,8 @@ class vehicle
                                      const std::function<bool( const item & )> &filter, bool in_tools = false );
 
         // opens/closes/locks doors or multipart doors
-        void open( int part_index );
-        void close( int part_index );
+        void open( map &here, int part_index );
+        void close( map &here, int part_index );
         void lock( int part_index );
         void unlock( int part_index );
         // returns whether the door can be locked with an attached DOOR_LOCKING part.
@@ -2064,27 +2065,27 @@ class vehicle
         /**
          *  Opens everything that can be opened on the same tile as `p`
          */
-        void open_all_at( int p );
+        void open_all_at( map &here, int p );
 
         // Honk the vehicle's horn, if there are any
-        void honk_horn() const;
+        void honk_horn( map &here ) const;
         void reload_seeds( map *here, const tripoint_bub_ms &pos );
-        void beeper_sound() const;
-        void play_music() const;
-        void play_chimes() const;
-        void operate_planter();
-        void autopilot_patrol_check();
-        void toggle_autopilot();
-        void enable_patrol();
+        void beeper_sound( map &here ) const;
+        void play_music( map &here ) const;
+        void play_chimes( map &here ) const;
+        void operate_planter( map &here );
+        void autopilot_patrol_check( map &here );
+        void toggle_autopilot( map &here );
+        void enable_patrol( map &here );
         void toggle_tracking();
         //scoop operation,pickups, battery drain, etc.
-        void operate_scoop();
-        void operate_reaper();
+        void operate_scoop( map &here );
+        void operate_reaper( map &here );
         // for destroying any terrain around vehicle part. Automated mining tool.
-        void crash_terrain_around();
-        void transform_terrain();
+        void crash_terrain_around( map &here );
+        void transform_terrain( map &here );
         //main method for the control of individual engines
-        void control_engines();
+        void control_engines( map &here );
         //returns whether the engine is enabled or not, and has fueltype
         bool is_engine_type_on( const vehicle_part &vp, const itype_id &ft ) const;
         //returns whether the engine is enabled or not
@@ -2098,7 +2099,7 @@ class vehicle
         // try to turn engine on or off
         // (tries to start it and toggles it on if successful, shutdown is always a success)
         // returns true if engine status was changed
-        bool start_engine( vehicle_part &vp, bool turn_on );
+        bool start_engine( map &here, vehicle_part &vp, bool turn_on );
         //true if an engine exists with specified type
         //If enabled true, this engine must be enabled to return true
         bool has_engine_type( const itype_id &ft, bool enabled ) const;
@@ -2113,7 +2114,7 @@ class vehicle
         //if necessary, damage this engine
         void do_engine_damage( map &here, vehicle_part &vp, int strain );
         //remotely open/close doors
-        void control_doors();
+        void control_doors( map &here );
         // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
         rl_vec2d velo_vec() const;
         //normalized vectors, from tilerays face & move
@@ -2151,14 +2152,14 @@ class vehicle
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
         void set_submap_moved( map *here, const tripoint_bub_sm &p );
-        void use_autoclave( int p );
-        void use_washing_machine( int p );
-        void use_dishwasher( int p );
+        void use_autoclave( map &here, int p );
+        void use_washing_machine( map &here, int p );
+        void use_dishwasher( map &here, int p );
         void use_monster_capture( int part, map *here, const tripoint_bub_ms &pos );
         void use_harness( int part, map *here, const tripoint_bub_ms &pos );
 
-        void build_electronics_menu( veh_menu &menu );
-        void build_bike_rack_menu( veh_menu &menu, int part );
+        void build_electronics_menu( map &here, veh_menu &menu );
+        void build_bike_rack_menu( map &here, veh_menu &menu, int part );
         void build_interact_menu( veh_menu &menu, map *here, const tripoint_bub_ms &p, bool with_pickup );
         void interact_with( map *here, const tripoint_bub_ms &p, bool with_pickup = false );
 

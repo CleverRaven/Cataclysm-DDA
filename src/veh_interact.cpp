@@ -121,9 +121,9 @@ static double jack_quality( map &here, const vehicle &veh )
 }
 
 /** Can part currently be reloaded with anything? */
-static auto can_refill = []( const vehicle_part &pt )
+static auto can_refill = []( const map &here, const vehicle_part &pt )
 {
-    return pt.can_reload();
+    return pt.can_reload( here );
 };
 
 static void act_vehicle_unload_fuel( map &here, vehicle *veh );
@@ -137,7 +137,7 @@ player_activity veh_interact::serialize_activity( map &here )
         if( !parts_here.empty() ) {
             const vpart_reference part_here( *veh, parts_here[0] );
             const vpart_reference displayed_part( *veh, veh->part_displayed_at( part_here.mount_pos() ) );
-            return veh_shape( here, *veh ).start( displayed_part.pos_bub( &here ) );
+            return veh_shape( here, *veh ).start( displayed_part.pos_bub( here ) );
         }
         return player_activity();
     }
@@ -241,18 +241,19 @@ std::optional<vpart_reference> veh_interact::select_part( map &here, const vehic
         const part_selector &sel, const std::string &title )
 {
     std::optional<vpart_reference> res = std::nullopt;
-    const auto act = [&]( const vehicle_part & pt ) {
+    const auto act = [&]( const map &, const vehicle_part & pt ) {
         res = vpart_reference( const_cast<vehicle &>( veh ), veh.index_of_part( &pt ) );
     };
-    std::function<bool( const vpart_reference & )> sel_wrapper = [sel]( const vpart_reference & vpr ) {
-        return sel( vpr.part() );
+    std::function<bool( const vpart_reference & )> sel_wrapper = [sel,
+    &here]( const vpart_reference & vpr ) {
+        return sel( here, vpr.part() );
     };
 
     const vehicle_part_range vpr = veh.get_all_parts();
     int opts = std::count_if( vpr.begin(), vpr.end(), sel_wrapper );
 
     if( opts == 1 ) {
-        act( std::find_if( vpr.begin(), vpr.end(), sel_wrapper )->part() );
+        act( here, std::find_if( vpr.begin(), vpr.end(), sel_wrapper )->part() );
 
     } else if( opts != 0 ) {
         veh_interact vehint( here, const_cast<vehicle &>( veh ) );
@@ -428,7 +429,8 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor( map &here )
             display_veh( here );
 
             werase( w_parts );
-            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, highlight_part,
+            veh->print_part_list( here, w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart,
+                                  highlight_part,
                                   true, false );
             wnoutrefresh( w_parts );
 
@@ -472,11 +474,11 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor( map &here )
                 display_details( sel_vpart_info );
             } else if( remove_info ) {
                 display_details( sel_vpart_info );
-                display_overview();
+                display_overview( here );
             } else {
-                display_overview();
+                display_overview( here );
             }
-            display_mode();
+            display_mode( here );
         } );
     }
     return current_ui;
@@ -570,7 +572,7 @@ void veh_interact::do_main_loop( map &here )
             }
         } else if( action == "RELABEL" ) {
             if( owned_by_player ) {
-                do_relabel();
+                do_relabel( here );
             } else {
                 if( owner_fac ) {
                     popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), _( owner_fac->name ) );
@@ -637,7 +639,7 @@ void veh_interact::cache_tool_availability_update_lifting( const tripoint_bub_ms
  *             an action requiring a minimum morale,
  *         UNKNOWN_TASK if the requested operation is unrecognized.
  */
-task_reason veh_interact::cant_do( char mode )
+task_reason veh_interact::cant_do( const map &here,  char mode )
 {
     bool enough_morale = true;
     bool valid_target = false;
@@ -684,8 +686,8 @@ task_reason veh_interact::cant_do( char mode )
         break;
 
         case 'f':
-            valid_target = std::any_of( vpr.begin(), vpr.end(), []( const vpart_reference & pt ) {
-                return can_refill( pt.part() );
+            valid_target = std::any_of( vpr.begin(), vpr.end(), [&here]( const vpart_reference & pt ) {
+                return can_refill( here, pt.part() );
             } );
             has_tools = true;
             break;
@@ -720,7 +722,7 @@ task_reason veh_interact::cant_do( char mode )
             // unload mode
             valid_target = false;
             has_tools = true;
-            for( auto &e : veh->fuels_left() ) {
+            for( auto &e : veh->fuels_left( here ) ) {
                 if( e.first != fuel_type_battery && item::find_type( e.first )->phase == phase_id::SOLID ) {
                     valid_target = true;
                     break;
@@ -965,7 +967,7 @@ static void sort_uilist_entries_by_line_drawing( std::vector<uilist_entry> &shap
 
 void veh_interact::do_install( map &here )
 {
-    task_reason reason = cant_do( 'i' );
+    task_reason reason = cant_do( here,  'i' );
 
     if( reason == task_reason::INVALID_TARGET ) {
         msg = _( "Cannot install any part here." );
@@ -1118,7 +1120,7 @@ bool veh_interact::move_in_list( int &pos, const std::string &action, const int 
 
 void veh_interact::do_repair( map &here )
 {
-    task_reason reason = cant_do( 'r' );
+    task_reason reason = cant_do( here,  'r' );
 
     if( reason == task_reason::INVALID_TARGET ) {
         vehicle_part *most_repairable = get_most_repairable_part();
@@ -1236,7 +1238,7 @@ void veh_interact::do_repair( map &here )
                 }
             }
             if( ok ) {
-                reason = cant_do( 'r' );
+                reason = cant_do( here,  'r' );
                 if( !can_repair() ) {
                     return;
                 }
@@ -1258,7 +1260,7 @@ void veh_interact::do_repair( map &here )
 
 void veh_interact::do_mend( map &here )
 {
-    switch( cant_do( 'm' ) ) {
+    switch( cant_do( here,  'm' ) ) {
         case task_reason::LOW_MORALE:
             msg = _( "Your morale is too low to mend…" );
             return;
@@ -1280,7 +1282,7 @@ void veh_interact::do_mend( map &here )
 
     avatar &player_character = get_avatar();
     const bool toggling = player_character.has_trait( trait_DEBUG_HS );
-    auto sel = [toggling]( const vehicle_part & pt ) {
+    auto sel = [toggling]( const map &, const vehicle_part & pt ) {
         if( toggling ) {
             return !pt.faults_potential().empty();
         } else {
@@ -1288,7 +1290,7 @@ void veh_interact::do_mend( map &here )
         }
     };
 
-    auto act = [&]( const vehicle_part & pt ) {
+    auto act = [&]( const map &, const vehicle_part & pt ) {
         player_character.mend_item( veh->part_base( veh->index_of_part( &pt ) ) );
         sel_cmd = 'q';
     };
@@ -1298,7 +1300,7 @@ void veh_interact::do_mend( map &here )
 
 void veh_interact::do_refill( map &here )
 {
-    switch( cant_do( 'f' ) ) {
+    switch( cant_do( here, 'f' ) ) {
         case task_reason::MOVING_VEHICLE:
             msg = _( "You can't refill a moving vehicle." );
             return;
@@ -1314,15 +1316,15 @@ void veh_interact::do_refill( map &here )
     restore_on_out_of_scope prev_title( title );
     title = _( "Select part to refill:" );
 
-    auto act = [&]( const vehicle_part & pt ) {
+    auto act = [&]( const map & here, const vehicle_part & pt ) {
         auto validate = [&]( const item & obj ) {
             if( pt.is_tank() ) {
                 if( obj.is_watertight_container() && obj.num_item_stacks() == 1 ) {
                     // we are assuming only one pocket here, and it's a liquid so only one item
-                    return pt.can_reload( obj.only_item() );
+                    return pt.can_reload( here, obj.only_item() );
                 }
             } else if( pt.is_fuel_store() ) {
-                bool can_reload = pt.can_reload( obj );
+                bool can_reload = pt.can_reload( here, obj );
                 //check base item for fuel_stores that can take multiple types of ammunition (like the fuel_bunker)
                 if( pt.get_base().can_reload_with( obj, true ) ) {
                     return true;
@@ -1353,7 +1355,7 @@ void veh_interact::calc_overview( map &here )
         return prev;
     };
     auto is_selectable = [&]( const vehicle_part & pt ) {
-        return overview_action && overview_enable && overview_enable( pt );
+        return overview_action && overview_enable && overview_enable( here,  pt );
     };
 
     overview_opts.clear();
@@ -1476,10 +1478,10 @@ void veh_interact::calc_overview( map &here )
                     }
                 }
             };
-            auto no_tank_details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
+            auto no_tank_details = [&here]( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( !pt.ammo_current().is_null() ) {
                     const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
-                    double vol_L = to_liter( pt.ammo_remaining() * 250_ml /
+                    double vol_L = to_liter( pt.ammo_remaining( here ) * 250_ml /
                                              pt_ammo_cur->stack_size );
                     int offset = 1;
                     std::string fmtstring = "%s  %5.1fL";
@@ -1508,8 +1510,8 @@ void veh_interact::calc_overview( map &here )
 
         if( vpr.part().is_battery() ) {
             // always display total battery capacity and percentage charge
-            auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity(
+            auto details = [&here]( const vehicle_part & pt, const catacurses::window & w, int y ) {
+                int pct = ( static_cast<double>( pt.ammo_remaining( here ) ) / pt.ammo_capacity(
                                 ammo_battery ) ) * 100;
                 int offset = 1;
                 std::string fmtstring = "%i    %3i%%";
@@ -1526,8 +1528,8 @@ void veh_interact::calc_overview( map &here )
         }
 
         if( vpr.part().is_reactor() || vpr.part().is_turret() ) {
-            auto details_ammo = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                if( pt.ammo_remaining() ) {
+            auto details_ammo = [&here]( const vehicle_part & pt, const catacurses::window & w, int y ) {
+                if( pt.ammo_remaining( here ) ) {
                     int offset = 1;
                     std::string fmtstring = "%s   %5i";
                     if( pt.is_leaking() ) {
@@ -1535,7 +1537,7 @@ void veh_interact::calc_overview( map &here )
                         offset = 0;
                     }
                     right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
-                                 string_format( fmtstring, item::nname( pt.ammo_current() ), pt.ammo_remaining() ) );
+                                 string_format( fmtstring, item::nname( pt.ammo_current() ), pt.ammo_remaining( here ) ) );
                 }
             };
             selectable = is_selectable( vpr.part() );
@@ -1573,7 +1575,7 @@ void veh_interact::calc_overview( map &here )
 
 }
 
-void veh_interact::display_overview()
+void veh_interact::display_overview( const map &here )
 {
     werase( w_list );
     std::string last;
@@ -1597,7 +1599,7 @@ void veh_interact::display_overview()
         bool highlighted = false;
         // No action means no selecting, just highlight relevant ones
         if( overview_pos < 0 && overview_enable && !overview_action ) {
-            highlighted = overview_enable( pt );
+            highlighted = overview_enable( here, pt );
         } else if( overview_pos == idx ) {
             highlighted = true;
         }
@@ -1675,7 +1677,7 @@ void veh_interact::overview( map &here,
         const std::string input = main_context.handle_input();
         msg.reset();
         if( input == "CONFIRM" && overview_opts[overview_pos].selectable && overview_action ) {
-            overview_action( *overview_opts[overview_pos].part );
+            overview_action( here, *overview_opts[overview_pos].part );
             break;
 
         } else if( input == "QUIT" ) {
@@ -1704,7 +1706,7 @@ void veh_interact::overview( map &here,
                     return e.hotkey == hotkey;
                 } );
                 if( iter != overview_opts.end() ) {
-                    overview_action( *iter->part );
+                    overview_action( here,  *iter->part );
                     break;
                 }
             }
@@ -1805,7 +1807,7 @@ bool veh_interact::can_remove_part( map &here, int idx, const Character &you )
 
 void veh_interact::do_remove( map &here )
 {
-    task_reason reason = cant_do( 'o' );
+    task_reason reason = cant_do( here,  'o' );
 
     if( reason == task_reason::INVALID_TARGET ) {
         msg = _( "No parts here." );
@@ -1840,7 +1842,7 @@ void veh_interact::do_remove( map &here )
 
         bool can_remove = can_remove_part( here, part, player_character );
 
-        overview_enable = [this, part]( const vehicle_part & pt ) {
+        overview_enable = [this, part]( const map &,  const vehicle_part & pt ) {
             return &pt == &veh->part( part );
         };
 
@@ -1895,7 +1897,7 @@ void veh_interact::do_remove( map &here )
 
 void veh_interact::do_siphon( map &here )
 {
-    switch( cant_do( 's' ) ) {
+    switch( cant_do( here,  's' ) ) {
         case task_reason::INVALID_TARGET:
             msg = _( "The vehicle has no liquid fuel left to siphon." );
             return;
@@ -1915,12 +1917,12 @@ void veh_interact::do_siphon( map &here )
     restore_on_out_of_scope prev_title( title );
     title = _( "Select part to siphon:" );
 
-    auto sel = [&]( const vehicle_part & pt ) {
+    auto sel = [&]( const map &,  const vehicle_part & pt ) {
         return pt.is_tank() && !pt.base.empty() &&
                pt.base.only_item().made_of( phase_id::LIQUID );
     };
 
-    auto act = [&]( const vehicle_part & pt ) {
+    auto act = [&]( map & here, const vehicle_part & pt ) {
         on_out_of_scope restore_ui( [&]() {
             hide_ui( here, false );
         } );
@@ -1939,7 +1941,7 @@ void veh_interact::do_siphon( map &here )
 
 bool veh_interact::do_unload( map &here )
 {
-    switch( cant_do( 'd' ) ) {
+    switch( cant_do( here, 'd' ) ) {
         case task_reason::INVALID_TARGET:
             msg = _( "The vehicle has no solid fuel left to remove." );
             return false;
@@ -1996,7 +1998,7 @@ static void do_change_shape_menu( vehicle_part &vp )
 
 void veh_interact::do_assign_crew( map &here )
 {
-    if( cant_do( 'w' ) != task_reason::CAN_DO ) {
+    if( cant_do( here,  'w' ) != task_reason::CAN_DO ) {
         msg = _( "Need at least one seat and an ally to assign crew members." );
         return;
     }
@@ -2004,11 +2006,11 @@ void veh_interact::do_assign_crew( map &here )
     restore_on_out_of_scope prev_title( title );
     title = _( "Assign crew positions:" );
 
-    auto sel = []( const vehicle_part & pt ) {
+    auto sel = []( const map &, const vehicle_part & pt ) {
         return pt.is_seat();
     };
 
-    auto act = [&]( vehicle_part & pt ) {
+    auto act = [&]( map &, vehicle_part & pt ) {
         uilist menu;
         menu.text = _( "Select crew member" );
 
@@ -2048,9 +2050,9 @@ void veh_interact::do_rename()
     }
 }
 
-void veh_interact::do_relabel()
+void veh_interact::do_relabel( const map &here )
 {
-    if( cant_do( 'a' ) == task_reason::INVALID_TARGET ) {
+    if( cant_do( here,  'a' ) == task_reason::INVALID_TARGET ) {
         msg = _( "There are no parts here to label." );
         return;
     }
@@ -2658,7 +2660,7 @@ static std::string veh_act_desc( const input_context &ctxt, const std::string &i
 /**
  * Prints the list of usable commands, and highlights the hotkeys used to activate them.
  */
-void veh_interact::display_mode()
+void veh_interact::display_mode( const map &here )
 {
     werase( w_mode );
 
@@ -2671,37 +2673,37 @@ void veh_interact::display_mode()
         const std::array<std::string, action_cnt> actions = { {
                 veh_act_desc( main_context, "INSTALL",
                               pgettext( "veh_interact", "install" ),
-                              cant_do( 'i' ) ),
+                              cant_do( here,  'i' ) ),
                 veh_act_desc( main_context, "REPAIR",
                               pgettext( "veh_interact", "repair" ),
-                              cant_do( 'r' ) ),
+                              cant_do( here, 'r' ) ),
                 veh_act_desc( main_context, "MEND",
                               pgettext( "veh_interact", "mend" ),
-                              cant_do( 'm' ) ),
+                              cant_do( here, 'm' ) ),
                 veh_act_desc( main_context, "REFILL",
                               pgettext( "veh_interact", "refill" ),
-                              cant_do( 'f' ) ),
+                              cant_do( here,  'f' ) ),
                 veh_act_desc( main_context, "REMOVE",
                               pgettext( "veh_interact", "remove" ),
-                              cant_do( 'o' ) ),
+                              cant_do( here,  'o' ) ),
                 veh_act_desc( main_context, "SIPHON",
                               pgettext( "veh_interact", "siphon" ),
-                              cant_do( 's' ) ),
+                              cant_do( here,  's' ) ),
                 veh_act_desc( main_context, "UNLOAD",
                               pgettext( "veh_interact", "unload" ),
-                              cant_do( 'd' ) ),
+                              cant_do( here,  'd' ) ),
                 veh_act_desc( main_context, "ASSIGN_CREW",
                               pgettext( "veh_interact", "crew" ),
-                              cant_do( 'w' ) ),
+                              cant_do( here, 'w' ) ),
                 veh_act_desc( main_context, "CHANGE_SHAPE",
                               pgettext( "veh_interact", "shape" ),
-                              cant_do( 'p' ) ),
+                              cant_do( here, 'p' ) ),
                 veh_act_desc( main_context, "RENAME",
                               pgettext( "veh_interact", "rename" ),
                               task_reason::CAN_DO ),
                 veh_act_desc( main_context, "RELABEL",
                               pgettext( "veh_interact", "label" ),
-                              cant_do( 'a' ) ),
+                              cant_do( here,  'a' ) ),
                 veh_act_desc( main_context, "QUIT",
                               pgettext( "veh_interact", "back" ),
                               task_reason::CAN_DO ),
@@ -2964,7 +2966,7 @@ void act_vehicle_siphon( map &here, vehicle *veh )
     }
 
     std::string title = _( "Select tank to siphon:" );
-    auto sel = []( const vehicle_part & pt ) {
+    auto sel = []( const map &, const vehicle_part & pt ) {
         return pt.contains_liquid();
     };
     if( const std::optional<vpart_reference> tank = veh_interact::select_part( here, *veh, sel,
@@ -2981,7 +2983,7 @@ void act_vehicle_siphon( map &here, vehicle *veh )
 void act_vehicle_unload_fuel( map &here, vehicle *veh )
 {
     std::vector<itype_id> fuels;
-    for( auto &e : veh->fuels_left() ) {
+    for( auto &e : veh->fuels_left( here ) ) {
         const itype *type = item::find_type( e.first );
 
         if( e.first == fuel_type_battery || type->phase != phase_id::SOLID ) {
@@ -3170,7 +3172,8 @@ void veh_interact::complete_vehicle( map &here, Character &you )
                 handler.unseal_pocket_containing( contained );
 
                 // if code goes here, we can assume "vp" has already refilled with "contained" something.
-                int remaining_ammo_capacity = vp.ammo_capacity( contained->ammo_type() ) - vp.ammo_remaining();
+                int remaining_ammo_capacity = vp.ammo_capacity( contained->ammo_type() ) - vp.ammo_remaining(
+                                                  here );
 
                 if( remaining_ammo_capacity ) {
                     //~ 1$s vehicle name, 2$s tank name

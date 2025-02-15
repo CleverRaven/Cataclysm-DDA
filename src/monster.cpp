@@ -3152,10 +3152,12 @@ void monster::die( map *here, Creature *nkiller )
 
 units::energy monster::use_mech_power( units::energy amt )
 {
+    map &here = get_map();
+
     if( is_hallucination() || !has_flag( mon_flag_RIDEABLE_MECH ) || !battery_item ) {
         return 0_kJ;
     }
-    const int max_drain = battery_item->ammo_remaining();
+    const int max_drain = battery_item->ammo_remaining( here );
     const int consumption = std::min( static_cast<int>( units::to_kilojoule( amt ) ), max_drain );
     battery_item->ammo_consume( consumption, pos_bub(), nullptr );
     return units::from_kilojoule( static_cast<std::int64_t>( consumption ) );
@@ -3168,14 +3170,16 @@ int monster::mech_str_addition() const
 
 bool monster::check_mech_powered() const
 {
+    map &here = get_map();
+
     if( is_hallucination() || !has_flag( mon_flag_RIDEABLE_MECH ) || !battery_item ) {
         return false;
     }
-    if( battery_item->ammo_remaining() <= 0 ) {
+    if( battery_item->ammo_remaining( here ) <= 0 ) {
         return false;
     }
     const itype &type = *battery_item->type;
-    if( battery_item->ammo_remaining() <= type.magazine->capacity / 10 && one_in( 10 ) ) {
+    if( battery_item->ammo_remaining( here ) <= type.magazine->capacity / 10 && one_in( 10 ) ) {
         add_msg( m_bad, _( "Your %s emits a beeping noise as its batteries start to get low." ),
                  get_name() );
     }

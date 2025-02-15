@@ -63,7 +63,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             REQUIRE( base_itype );
             REQUIRE( base_itype->gun );
             if( base_itype->gun->energy_drain > 0_kJ || turret_vpi->has_flag( "USE_BATTERIES" ) ) {
-                const auto& [bat_current, bat_capacity] = veh->battery_power_level();
+                const auto& [bat_current, bat_capacity] = veh->battery_power_level( here );
                 CHECK( bat_capacity > 0 );
                 veh->charge_battery( here, bat_capacity, /* apply_loss = */ false );
                 REQUIRE( veh->battery_left( here, /* apply_loss = */ false ) == bat_capacity );
@@ -80,14 +80,14 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
                 for( const vpart_reference &vpr : veh->get_all_parts() ) {
                     vehicle_part &vp = vpr.part();
                     if( vp.is_tank() && vp.get_base().can_contain( item( ammo_itype ) ).success() ) {
-                        CHECK( vp.ammo_set( ammo_itype ) > 0 );
+                        CHECK( vp.ammo_set( here, ammo_itype ) > 0 );
                         filled_tank = true;
                         break;
                     }
                 }
                 REQUIRE( filled_tank );
             } else {
-                CHECK( vp.ammo_set( ammo_itype ) > 0 );
+                CHECK( vp.ammo_set( here, ammo_itype ) > 0 );
             }
             const bool default_ammo_is_RECYCLED = vp.get_base().ammo_effects().count(
                     ammo_effect_RECYCLED ) > 0;

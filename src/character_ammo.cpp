@@ -13,9 +13,11 @@
 #include "character.h"
 #include "enums.h"
 #include "flag.h"
+#include "game.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
+#include "map.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -26,6 +28,7 @@ static const skill_id skill_gun( "gun" );
 
 int Character::ammo_count_for( const item_location &gun ) const
 {
+    map &here = get_map();
     int ret = item::INFINITE_CHARGES;
     if( !gun || !gun->is_gun() ) {
         return ret;
@@ -35,7 +38,7 @@ int Character::ammo_count_for( const item_location &gun ) const
 
     if( required > 0 ) {
         int total_ammo = 0;
-        total_ammo += gun->ammo_remaining();
+        total_ammo += gun->ammo_remaining( here );
 
         bool has_mag = gun->magazine_integral();
 
@@ -44,7 +47,7 @@ int Character::ammo_count_for( const item_location &gun ) const
         for( const item_location &ammo : found_ammo ) {
             if( ammo->is_magazine() ) {
                 has_mag = true;
-                total_ammo += ammo->ammo_remaining();
+                total_ammo += ammo->ammo_remaining( here );
             } else if( ammo->is_ammo() ) {
                 loose_ammo += ammo->charges;
             }
@@ -84,6 +87,8 @@ bool Character::can_reload( const item &it, const item *ammo ) const
 bool Character::list_ammo( const item_location &base, std::vector<item::reload_option> &ammo_list,
                            bool empty ) const
 {
+    map &here = get_map();
+
     // Associate the destination with "parent"
     // Useful for handling gun mods with magazines
     std::vector<item_location> opts;
@@ -110,7 +115,8 @@ bool Character::list_ammo( const item_location &base, std::vector<item::reload_o
                 // even if something is preventing reloading at the moment.
                 ammo_match_found = true;
             } else if( ( ammo->has_flag( flag_SPEEDLOADER ) || ammo->has_flag( flag_SPEEDLOADER_CLIP ) ) &&
-                       p->allows_speedloader( ammo->typeId() ) && ammo->ammo_remaining() > 1 && p->ammo_remaining() < 1 ) {
+                       p->allows_speedloader( ammo->typeId() ) && ammo->ammo_remaining( here ) > 1 &&
+                       p->ammo_remaining( here ) < 1 ) {
                 // Again, this is "are they compatible", later check handles "can we do it now".
                 ammo_match_found = p.can_reload_with( ammo, false );
             }
@@ -207,6 +213,8 @@ hint_rating Character::rate_action_reload( const item &it ) const
 
 hint_rating Character::rate_action_unload( const item &it ) const
 {
+    map &here = get_map();
+
     if( it.is_container() && !it.empty() &&
         it.can_unload() ) {
         return hint_rating::good;
@@ -222,7 +230,7 @@ hint_rating Character::rate_action_unload( const item &it ) const
 
     for( const item *e : it.gunmods() ) {
         if( ( e->is_gun() && !e->has_flag( flag_NO_UNLOAD ) &&
-              ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) ||
+              ( e->magazine_current() || e->ammo_remaining( here ) > 0 || e->casings_count() > 0 ) ) ||
             ( e->has_flag( flag_BRASS_CATCHER ) && !e->is_container_empty() ) ) {
             return hint_rating::good;
         }
@@ -232,7 +240,7 @@ hint_rating Character::rate_action_unload( const item &it ) const
         return hint_rating::cant;
     }
 
-    if( it.ammo_remaining() > 0 || it.casings_count() > 0 ) {
+    if( it.ammo_remaining( here ) > 0 || it.casings_count() > 0 ) {
         return hint_rating::good;
     }
 
