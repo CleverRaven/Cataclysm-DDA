@@ -254,8 +254,6 @@ class selection_column_preset : public inventory_selector_preset
     public:
         selection_column_preset() = default;
         std::string get_caption( const inventory_entry &entry ) const override {
-            map &here = get_map();
-
             std::string res;
             const size_t available_count = entry.get_available_count();
             const item_location &item = entry.any_item();
@@ -270,10 +268,10 @@ class selection_column_preset : public inventory_selector_preset
             if( item->is_money() ) {
                 cata_assert( available_count == entry.get_stack_size() );
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                    res += item->display_money( available_count, item->ammo_remaining( here ),
+                    res += item->display_money( available_count, item->ammo_remaining( ),
                                                 entry.get_selected_charges() );
                 } else {
-                    res += item->display_money( available_count, item->ammo_remaining( here ) );
+                    res += item->display_money( available_count, item->ammo_remaining( ) );
                 }
             } else {
                 res += item->display_name( available_count );
@@ -723,12 +721,10 @@ std::function<bool( const inventory_entry & )> inventory_selector_preset::get_fi
 
 std::string inventory_selector_preset::get_caption( const inventory_entry &entry ) const
 {
-    map &here = get_map();
-
     size_t count = entry.get_stack_size();
     std::string disp_name;
     if( entry.any_item()->is_money() ) {
-        disp_name = entry.any_item()->display_money( count, entry.any_item()->ammo_remaining( here ) );
+        disp_name = entry.any_item()->display_money( count, entry.any_item()->ammo_remaining( ) );
     } else if( entry.is_collation_header() && entry.any_item()->count_by_charges() ) {
         item temp( *entry.any_item() );
         temp.charges = entry.get_total_charges();
@@ -3441,8 +3437,6 @@ std::vector<item_location> get_possible_reload_targets( const item_location &tar
 // todo: this should happen when the entries are created, but that's a different refactoring
 void ammo_inventory_selector::set_all_entries_chosen_count()
 {
-    map &here = get_map();
-
     for( inventory_column *col : columns ) {
         for( inventory_entry *entry : col->get_entries( return_item, true ) ) {
             for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
@@ -3451,7 +3445,7 @@ void ammo_inventory_selector::set_all_entries_chosen_count()
                     item::reload_option tmp_opt( &u, loc, it );
                     int count = entry->get_available_count();
                     if( it->has_flag( flag_SPEEDLOADER ) || it->has_flag( flag_SPEEDLOADER_CLIP ) ) {
-                        count = it->ammo_remaining( here );
+                        count = it->ammo_remaining( );
                     }
                     tmp_opt.qty( count );
                     entry->chosen_count = tmp_opt.qty();

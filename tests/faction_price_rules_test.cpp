@@ -188,7 +188,7 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
 
         REQUIRE( npc_trading::trading_price( get_avatar(), guy, tbd_entry ) ==
                  Approx( units::to_cent( tbd.type->price_post ) * 1.25 +
-                         battery_price * 1.25 * tbd.ammo_remaining( here, nullptr ) / battery.type->stack_size )
+                         battery_price * 1.25 * tbd.ammo_remaining( nullptr ) / battery.type->stack_size )
                  .margin( 1 ) );
     }
 }

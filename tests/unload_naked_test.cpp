@@ -39,7 +39,7 @@ TEST_CASE( "unload_revolver_naked_one_bullet", "[unload][nonmagzine]" )
     REQUIRE( player_character.wield( revolver ) );
     REQUIRE( player_character.is_armed( ) );
 
-    CHECK( player_character.get_wielded_item()->ammo_remaining( here ) == 1 );
+    CHECK( player_character.get_wielded_item()->ammo_remaining( ) == 1 );
 
     // Unload weapon
     item_location revo_loc = player_character.get_wielded_item();
@@ -48,7 +48,7 @@ TEST_CASE( "unload_revolver_naked_one_bullet", "[unload][nonmagzine]" )
     player_character.activity.do_turn( player_character );
 
     // No bullets in wielded gun
-    CHECK( player_character.get_wielded_item()->ammo_remaining( here ) == 0 );
+    CHECK( player_character.get_wielded_item()->ammo_remaining( ) == 0 );
 
     // No bullets in inventory
     const std::vector<item *> bullets = dummy.items_with( []( const item & item ) {
@@ -87,7 +87,7 @@ TEST_CASE( "unload_revolver_naked_fully_loaded", "[unload][nonmagzine]" )
     }
 
     // No bullets in wielded gun
-    CHECK( player_character.get_wielded_item()->ammo_remaining( here ) == 0 );
+    CHECK( player_character.get_wielded_item()->ammo_remaining( ) == 0 );
 
     // No bullets in inventory
     const std::vector<item *> bullets = dummy.items_with( []( const item & item ) {

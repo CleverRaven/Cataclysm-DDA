@@ -1056,8 +1056,6 @@ class atm_menu
 
         //!Move money from bank account onto cash card.
         bool do_withdraw_money() {
-            map &here = get_map();
-
             std::vector<item *> cash_cards_on_hand = you.cache_get_items_with( "is_cash_card",
                     &item::is_cash_card );
             if( cash_cards_on_hand.empty() ) {
@@ -1077,9 +1075,9 @@ class atm_menu
             int inserted = 0;
             int remaining = amount;
 
-            std::sort( cash_cards_on_hand.begin(), cash_cards_on_hand.end(), [&here]( item * one, item * two ) {
-                int balance_one = one->ammo_remaining( here );
-                int balance_two = two->ammo_remaining( here );
+            std::sort( cash_cards_on_hand.begin(), cash_cards_on_hand.end(), []( item * one, item * two ) {
+                int balance_one = one->ammo_remaining( );
+                int balance_two = two->ammo_remaining( );
                 return balance_one > balance_two;
             } );
 
@@ -1087,10 +1085,10 @@ class atm_menu
                 if( inserted == amount ) {
                     break;
                 }
-                int max_cap = cc->ammo_capacity( ammo_money ) - cc->ammo_remaining( here );
+                int max_cap = cc->ammo_capacity( ammo_money ) - cc->ammo_remaining( );
                 int to_insert = std::min( max_cap, remaining );
                 // insert whatever there's room for + the old balance.
-                cc->ammo_set( cc->ammo_default(), to_insert + cc->ammo_remaining( here ) );
+                cc->ammo_set( cc->ammo_default(), to_insert + cc->ammo_remaining( ) );
                 inserted += to_insert;
                 remaining -= to_insert;
             }
@@ -1109,8 +1107,6 @@ class atm_menu
 
         //!Deposit pre-Cataclysm currency and receive equivalent amount minus fees on a card.
         bool do_exchange_cash() {
-            map &here = get_map();
-
             item *dst;
             if( you.activity.id() == ACT_ATM ) {
                 dst = you.activity.targets.front().get_item();
@@ -1126,9 +1122,9 @@ class atm_menu
                     popup( _( "You do not have a cash card." ) );
                     return false;
                 }
-                dst = *std::max_element( cash_cards.begin(), cash_cards.end(), [&here]( const item * a,
+                dst = *std::max_element( cash_cards.begin(), cash_cards.end(), []( const item * a,
                 const item * b ) {
-                    return a->ammo_remaining( here ) < b->ammo_remaining( here );
+                    return a->ammo_remaining( ) < b->ammo_remaining( );
                 } );
                 if( !query_yn( _( "Exchange all paper bills and coins in inventory?" ) ) ) {
                     return false;
@@ -1150,7 +1146,7 @@ class atm_menu
             you.mod_moves( -std::max( 100, you.get_moves() ) );
             int value = units::to_cent( cash_item->type->price );
             value *= 0.99;  // subtract fee
-            if( value > dst->ammo_capacity( ammo_money ) - dst->ammo_remaining( here ) ) {
+            if( value > dst->ammo_capacity( ammo_money ) - dst->ammo_remaining( ) ) {
                 popup( _( "Destination card is full." ) );
                 return false;
             }
@@ -1159,7 +1155,7 @@ class atm_menu
             } else {
                 item_location( you, cash_item ).remove_item();
             }
-            dst->ammo_set( dst->ammo_default(), dst->ammo_remaining( here ) + value );
+            dst->ammo_set( dst->ammo_default(), dst->ammo_remaining( ) + value );
             you.assign_activity( ACT_ATM, 0, exchange_cash );
             you.activity.targets.emplace_back( you, dst );
             return true;
@@ -1167,7 +1163,6 @@ class atm_menu
 
         //!Move the money from all the cash cards in inventory to a single card.
         bool do_transfer_all_money() {
-            map &here = get_map();
             item *dst;
             std::vector<item *> cash_cards_on_hand = you.cache_get_items_with( "is_cash_card",
                     &item::is_cash_card );
@@ -1187,7 +1182,7 @@ class atm_menu
             }
 
             for( item *i : cash_cards_on_hand ) {
-                if( i == dst || i->ammo_remaining( here ) <= 0 || i->typeId() != itype_cash_card ) {
+                if( i == dst || i->ammo_remaining( ) <= 0 || i->typeId() != itype_cash_card ) {
                     continue;
                 }
                 if( you.get_moves() < 0 ) {
@@ -1199,11 +1194,11 @@ class atm_menu
                     break;
                 }
                 // should we check for max capacity here?
-                if( i->ammo_remaining( here ) > dst->ammo_capacity( ammo_money ) - dst->ammo_remaining( here ) ) {
+                if( i->ammo_remaining( ) > dst->ammo_capacity( ammo_money ) - dst->ammo_remaining( ) ) {
                     popup( _( "Destination card is full." ) );
                     return false;
                 }
-                dst->ammo_set( dst->ammo_default(), i->ammo_remaining( here ) + dst->ammo_remaining( here ) );
+                dst->ammo_set( dst->ammo_default(), i->ammo_remaining( ) + dst->ammo_remaining( ) );
                 i->ammo_set( i->ammo_default(), 0 );
                 you.mod_moves( -to_moves<int>( 1_seconds ) * 0.1 );
             }
@@ -5468,8 +5463,6 @@ static void turnOnSelectedPump( const tripoint_bub_ms &p, int number,
 
 void iexamine::pay_gas( Character &you, const tripoint_bub_ms &examp )
 {
-    map &here = get_map();
-
     int choice = -1;
     const int buy_gas = 1;
     const int choose_pump = 2;
@@ -5637,15 +5630,15 @@ void iexamine::pay_gas( Character &you, const tripoint_bub_ms &examp )
 
         // getGasPricePerLiter( platinum_discount) min price to avoid exploit
         int amount_money = amount_fuel * getGasPricePerLiter( 3 ) / 1000.0f;
-        std::sort( cash_cards.begin(), cash_cards.end(), [&here]( item * l, const item * r ) {
-            return l->ammo_remaining( here ) > r->ammo_remaining( here );
+        std::sort( cash_cards.begin(), cash_cards.end(), []( item * l, const item * r ) {
+            return l->ammo_remaining( ) > r->ammo_remaining( );
         } );
         for( item * const &cc : cash_cards ) {
             if( amount_money == 0 ) {
                 break;
             }
             const int transfer = std::min( amount_money, cc->remaining_ammo_capacity() );
-            cc->ammo_set( cc->ammo_default(), transfer + cc->ammo_remaining( here ) );
+            cc->ammo_set( cc->ammo_default(), transfer + cc->ammo_remaining( ) );
             amount_money -= transfer;
         }
         if( amount_money ) {
@@ -6065,7 +6058,7 @@ void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
             return it.has_quality( qual_ANESTHESIA );
         } );
         for( const item *anesthesia_item : a_filter ) {
-            if( anesthesia_item->ammo_remaining( here ) >= 1 ) {
+            if( anesthesia_item->ammo_remaining( ) >= 1 ) {
                 anesth_kit.emplace_back( anesthesia_item->typeId(), 1 );
             }
         }

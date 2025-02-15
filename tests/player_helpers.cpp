@@ -52,7 +52,7 @@ int get_remaining_charges( const itype_id &tool_id )
     } );
     int remaining_charges = 0;
     for( const item *instance : items ) {
-        remaining_charges += instance->ammo_remaining( here );
+        remaining_charges += instance->ammo_remaining( );
     }
     return remaining_charges;
 }

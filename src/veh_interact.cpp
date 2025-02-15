@@ -121,9 +121,9 @@ static double jack_quality( map &here, const vehicle &veh )
 }
 
 /** Can part currently be reloaded with anything? */
-static auto can_refill = []( const map &here, const vehicle_part &pt )
+static auto can_refill = []( const map &, const vehicle_part &pt )
 {
-    return pt.can_reload( here );
+    return pt.can_reload( );
 };
 
 static void act_vehicle_unload_fuel( map &here, vehicle *veh );
@@ -429,7 +429,7 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor( map &here )
             display_veh( here );
 
             werase( w_parts );
-            veh->print_part_list( here, w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart,
+            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart,
                                   highlight_part,
                                   true, false );
             wnoutrefresh( w_parts );
@@ -722,7 +722,7 @@ task_reason veh_interact::cant_do( const map &here,  char mode )
             // unload mode
             valid_target = false;
             has_tools = true;
-            for( auto &e : veh->fuels_left( here ) ) {
+            for( auto &e : veh->fuels_left( ) ) {
                 if( e.first != fuel_type_battery && item::find_type( e.first )->phase == phase_id::SOLID ) {
                     valid_target = true;
                     break;
@@ -1316,15 +1316,15 @@ void veh_interact::do_refill( map &here )
     restore_on_out_of_scope prev_title( title );
     title = _( "Select part to refill:" );
 
-    auto act = [&]( const map & here, const vehicle_part & pt ) {
+    auto act = [&]( const map &, const vehicle_part & pt ) {
         auto validate = [&]( const item & obj ) {
             if( pt.is_tank() ) {
                 if( obj.is_watertight_container() && obj.num_item_stacks() == 1 ) {
                     // we are assuming only one pocket here, and it's a liquid so only one item
-                    return pt.can_reload( here, obj.only_item() );
+                    return pt.can_reload( obj.only_item() );
                 }
             } else if( pt.is_fuel_store() ) {
-                bool can_reload = pt.can_reload( here, obj );
+                bool can_reload = pt.can_reload( obj );
                 //check base item for fuel_stores that can take multiple types of ammunition (like the fuel_bunker)
                 if( pt.get_base().can_reload_with( obj, true ) ) {
                     return true;
@@ -1478,10 +1478,10 @@ void veh_interact::calc_overview( map &here )
                     }
                 }
             };
-            auto no_tank_details = [&here]( const vehicle_part & pt, const catacurses::window & w, int y ) {
+            auto no_tank_details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( !pt.ammo_current().is_null() ) {
                     const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
-                    double vol_L = to_liter( pt.ammo_remaining( here ) * 250_ml /
+                    double vol_L = to_liter( pt.ammo_remaining( ) * 250_ml /
                                              pt_ammo_cur->stack_size );
                     int offset = 1;
                     std::string fmtstring = "%s  %5.1fL";
@@ -1510,8 +1510,8 @@ void veh_interact::calc_overview( map &here )
 
         if( vpr.part().is_battery() ) {
             // always display total battery capacity and percentage charge
-            auto details = [&here]( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                int pct = ( static_cast<double>( pt.ammo_remaining( here ) ) / pt.ammo_capacity(
+            auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
+                int pct = ( static_cast<double>( pt.ammo_remaining( ) ) / pt.ammo_capacity(
                                 ammo_battery ) ) * 100;
                 int offset = 1;
                 std::string fmtstring = "%i    %3i%%";
@@ -1528,8 +1528,8 @@ void veh_interact::calc_overview( map &here )
         }
 
         if( vpr.part().is_reactor() || vpr.part().is_turret() ) {
-            auto details_ammo = [&here]( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                if( pt.ammo_remaining( here ) ) {
+            auto details_ammo = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
+                if( pt.ammo_remaining( ) ) {
                     int offset = 1;
                     std::string fmtstring = "%s   %5i";
                     if( pt.is_leaking() ) {
@@ -1537,7 +1537,7 @@ void veh_interact::calc_overview( map &here )
                         offset = 0;
                     }
                     right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
-                                 string_format( fmtstring, item::nname( pt.ammo_current() ), pt.ammo_remaining( here ) ) );
+                                 string_format( fmtstring, item::nname( pt.ammo_current() ), pt.ammo_remaining( ) ) );
                 }
             };
             selectable = is_selectable( vpr.part() );
@@ -2983,7 +2983,7 @@ void act_vehicle_siphon( map &here, vehicle *veh )
 void act_vehicle_unload_fuel( map &here, vehicle *veh )
 {
     std::vector<itype_id> fuels;
-    for( auto &e : veh->fuels_left( here ) ) {
+    for( auto &e : veh->fuels_left( ) ) {
         const itype *type = item::find_type( e.first );
 
         if( e.first == fuel_type_battery || type->phase != phase_id::SOLID ) {
@@ -3173,7 +3173,7 @@ void veh_interact::complete_vehicle( map &here, Character &you )
 
                 // if code goes here, we can assume "vp" has already refilled with "contained" something.
                 int remaining_ammo_capacity = vp.ammo_capacity( contained->ammo_type() ) - vp.ammo_remaining(
-                                                  here );
+                                              );
 
                 if( remaining_ammo_capacity ) {
                     //~ 1$s vehicle name, 2$s tank name

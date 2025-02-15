@@ -2523,19 +2523,22 @@ class item : public visitable
 
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.
+         * @param here is the map used, which is used to determine linked power.
          * @param carrier is used for UPS and bionic power for tools
          * @param include_linked Add cable-linked vehicles' ammo to the ammo count
          */
-        int ammo_remaining( const map &here, const Character *carrier = nullptr,
-                            bool include_linked = false ) const;
-        int ammo_remaining( bool include_linked ) const;
-
+        int ammo_remaining( const map &here, const Character *carrier ) const;
+        int ammo_remaining( const Character *carrier ) const;
+        // The overload taking a map checks links (e.g. electricity).
+        int ammo_remaining( const map &here ) const;
+        int ammo_remaining() const;
 
     private:
         units::energy energy_per_second() const;
+        // The map parameter is only used if include_linked is true.
         int ammo_remaining( const map &here, const std::set<ammotype> &ammo,
-                            const Character *carrier = nullptr,
-                            bool include_linked = false ) const;
+                            const Character *carrier,
+                            bool include_linked ) const;
     public:
 
         /**

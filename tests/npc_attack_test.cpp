@@ -183,7 +183,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
                 battery.ammo_set( battery.ammo_default() );
                 worn_armor.put_in( battery, pocket_type::MAGAZINE_WELL );
 
-                REQUIRE( worn_armor.ammo_remaining( here ) > 0 );
+                REQUIRE( worn_armor.ammo_remaining( ) > 0 );
 
                 THEN( "NPC activates their exoskeleton successfully" ) {
 

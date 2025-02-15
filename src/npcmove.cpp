@@ -2122,9 +2122,7 @@ static bool wants_to_reload( const npc &guy, const item &candidate )
 
 static bool wants_to_reload_with( const item &weap, const item &ammo )
 {
-    map &here = get_map();
-
-    return !ammo.is_magazine() || ammo.ammo_remaining( here ) > weap.ammo_remaining( here );
+    return !ammo.is_magazine() || ammo.ammo_remaining( ) > weap.ammo_remaining( );
 }
 
 // todo: make visit_items use item_locations and remove this
@@ -2206,8 +2204,6 @@ item_location npc::find_usable_ammo( const item_location &weap ) const
 
 item::reload_option npc::select_ammo( const item_location &base, bool, bool empty )
 {
-    map &here = get_map();
-
     if( !base ) {
         return item::reload_option();
     }
@@ -2220,20 +2216,20 @@ item::reload_option npc::select_ammo( const item_location &base, bool, bool empt
     }
 
     // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), [&here]( const item::reload_option & lhs,
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
     const item::reload_option & rhs ) {
-        if( lhs.ammo->ammo_remaining( here ) == 0 || rhs.ammo->ammo_remaining( here ) == 0 ) {
-            return ( lhs.ammo->ammo_remaining( here ) != 0 ) > ( rhs.ammo->ammo_remaining( here ) != 0 );
+        if( lhs.ammo->ammo_remaining( ) == 0 || rhs.ammo->ammo_remaining( ) == 0 ) {
+            return ( lhs.ammo->ammo_remaining( ) != 0 ) > ( rhs.ammo->ammo_remaining( ) != 0 );
         }
 
         if( lhs.moves() != rhs.moves() ) {
             return lhs.moves() < rhs.moves();
         }
 
-        return lhs.ammo->ammo_remaining( here ) > rhs.ammo->ammo_remaining( here );
+        return lhs.ammo->ammo_remaining( ) > rhs.ammo->ammo_remaining( );
     } );
 
-    if( ammo_list[0].ammo.get_item()->ammo_remaining( here ) > 0 ) {
+    if( ammo_list[0].ammo.get_item()->ammo_remaining( ) > 0 ) {
         return ammo_list[0];
     } else {
         return item::reload_option();
@@ -4405,8 +4401,6 @@ void npc::pretend_heal( Character &patient, item used )
 
 void npc::heal_self()
 {
-    map &here = get_map();
-
     if( has_effect( effect_asthma ) ) {
         item *treatment = nullptr;
         std::string iusage = "INHALER";
@@ -4422,7 +4416,7 @@ void npc::heal_self()
         const std::vector<item *> inv_inhalers = filter_use( iusage );
 
         for( item *inhaler : inv_inhalers ) {
-            if( treatment == nullptr || treatment->ammo_remaining( here ) > inhaler->ammo_remaining( here ) ) {
+            if( treatment == nullptr || treatment->ammo_remaining( ) > inhaler->ammo_remaining( ) ) {
                 treatment = inhaler;
             }
         }
@@ -4433,7 +4427,7 @@ void npc::heal_self()
 
             for( item *oxy_bottle : inv_oxybottles ) {
                 if( treatment == nullptr ||
-                    treatment->ammo_remaining( here ) > oxy_bottle->ammo_remaining( here ) ) {
+                    treatment->ammo_remaining( ) > oxy_bottle->ammo_remaining( ) ) {
                     treatment = oxy_bottle;
                 }
             }
@@ -5373,8 +5367,6 @@ bool npc::complain()
 
 void npc::do_reload( const item_location &it )
 {
-    map &here = get_map();
-
     if( !it ) {
         debugmsg( "do_reload failed: %s tried to reload a none", name );
         return;
@@ -5393,7 +5385,7 @@ void npc::do_reload( const item_location &it )
     item_location &usable_ammo = reload_opt.ammo;
 
     int qty = std::max( 1, std::min( usable_ammo->charges,
-                                     it->ammo_capacity( usable_ammo->ammo_data()->ammo->type ) - it->ammo_remaining( here ) ) );
+                                     it->ammo_capacity( usable_ammo->ammo_data()->ammo->type ) - it->ammo_remaining( ) ) );
     int reload_time = item_reload_cost( *it, *usable_ammo, qty );
     // TODO: Consider printing this info to player too
     const std::string ammo_name = usable_ammo->tname();
