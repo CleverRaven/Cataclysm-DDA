@@ -181,6 +181,7 @@
     "symbol": "A",
     "color": "white",
     "attack_cost": 70,
+    "morale": 40,
     "regen_morale": true,
     "melee_skill": 5,
     "melee_dice_sides": 6,
@@ -204,7 +205,7 @@
         "min_mul": 0.8,
         "max_mul": 1.1,
         "infection_chance": 3,
-        "effects": [ { "chance": 5, "duration": 2, "permanent": true } ]
+        "effects": [ { "id": "tetanus", "chance": 5, "duration": 2, "permanent": true } ]
       }
     ],
     "flags": [ "PUSH_MON", "BORES", "CAN_DIG", "GOODHEARING", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS" ],
