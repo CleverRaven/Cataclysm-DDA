@@ -239,12 +239,7 @@ jobs:
       - name: Create VERSION.TXT
         shell: bash
         run: |
-          cat >VERSION.txt <<EOL
-          build type: ${{ matrix.artifact }}
-          build number: ${{ needs.release.outputs.timestamp }}
-          commit sha: ${{ github.sha }}
-          commit url: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
-          EOL
+          python3 build-scripts/version.py ARTIFACT=${{ matrix.artifact }} TIMESTAMP=${{ needs.release.outputs.timestamp }}
       - name: Compile translations (windows)
         if: runner.os == 'Windows'
         shell: msys2 {0}
