@@ -4047,11 +4047,7 @@
     "subtype": "distribution",
     "items": [
       {
-        "distribution": [
-          { "item": "straw_basket", "prob": 35 },
-          { "item": "suitcase_l", "prob": 15 },
-          { "item": "suitcase_m", "prob": 25 }
-        ],
+        "distribution": [ { "item": "straw_basket", "prob": 35 }, { "item": "suitcase_l", "prob": 15 }, { "item": "suitcase_m", "prob": 25 } ],
         "prob": 20
       },
       {
