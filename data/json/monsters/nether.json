@@ -190,7 +190,7 @@
     "special_attacks": [
 	  [ "SHRIEK_ALERT", 10 ],
       [ "SHRIEK_STUN", 1 ],
-      { "grab_2" },
+      { "id": "grab_2" },
       { "id": "barbed_tentacle" },
       {
         "type": "bite",
