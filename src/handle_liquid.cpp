@@ -229,7 +229,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         vehicle *veh = veh_pointer_or_null( here.veh_at( e ) );
         if( veh ) {
             vehicle_part_range vpr = veh->get_all_parts();
-            const auto veh_accepts_liquid = [&liquid, &here]( const vpart_reference & pt ) {
+            const auto veh_accepts_liquid = [&liquid]( const vpart_reference & pt ) {
                 return pt.part().can_reload( liquid );
             };
             if( std::any_of( vpr.begin(), vpr.end(), veh_accepts_liquid ) ) {
@@ -389,7 +389,7 @@ static bool handle_vehicle_target( Character &player_character, item &liquid,
     if( target.veh == nullptr ) {
         return false;
     }
-    auto sel = [&]( const map & here, const vehicle_part & pt ) {
+    auto sel = [&]( const map &, const vehicle_part & pt ) {
         return pt.is_tank() && pt.can_reload( liquid );
     };
 
