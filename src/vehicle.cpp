@@ -1609,10 +1609,12 @@ std::vector<vehicle::rackable_vehicle> vehicle::find_vehicles_to_rack( map *here
     return rackables;
 }
 
-std::vector<vehicle::unrackable_vehicle> vehicle::find_vehicles_to_unrack( int rack ) const
+std::vector<vehicle::unrackable_vehicle> vehicle::find_vehicles_to_unrack( int rack,
+        bool only_healthy ) const
 {
     std::vector<unrackable_vehicle> unrackables;
-    for( const std::vector<int> &rack_parts : find_lines_of_parts( rack, "BIKE_RACK_VEH" ) ) {
+    for( const std::vector<int> &rack_parts : find_lines_of_parts( rack, "BIKE_RACK_VEH",
+            only_healthy ) ) {
         unrackable_vehicle unrackable;
 
         // a racked vehicle is "finished" by collecting all of its carried parts and carrying racks
@@ -2040,6 +2042,18 @@ bool vehicle::remove_part( vehicle_part &vp, RemovePartHandler &handler )
         handler.unboard( &handler.get_map_ref(), part_loc );
     }
 
+    // unrack any vehicles that were connected to the part
+    if( vpi.has_flag( "BIKE_RACK_VEH" ) && vp.has_flag( vp_flag::carrying_flag ) ) {
+        for( const unrackable_vehicle &unrackable : find_vehicles_to_unrack( index_of_part( &vp ),
+                /*only_healthy=*/false ) ) {
+
+            if( !remove_carried_vehicle( handler.get_map_ref(), unrackable.parts, unrackable.racks ) ) {
+                debugmsg( "%s broke, but could not un-rack %s from %s.", vpi.id.str(),
+                          unrackable.name, name );
+            }
+        }
+    }
+
     for( const item &it : vp.tools ) {
         handler.add_item_or_charges( &handler.get_map_ref(), part_loc, it, false );
     }
@@ -2268,7 +2282,7 @@ bool vehicle::remove_carried_vehicle( map &here, const std::vector<int> &carried
     }
     if( split_vehicles( here, { carried_parts }, { new_vehicle }, { new_mounts } ) ) {
         //~ %s is the vehicle being loaded onto the bicycle rack
-        add_msg( _( "You unload the %s from the bike rack." ), new_vehicle->name );
+        add_msg( _( "The %s is being unloaded from the bike rack." ), new_vehicle->name );
         bool tracked_parts = false; // if any of the unracked vehicle parts carry a tracked_flag
         for( vehicle_part &part : new_vehicle->parts ) {
             tracked_parts |= part.has_flag( vp_flag::tracked_flag );
@@ -3183,9 +3197,9 @@ int vehicle::get_next_shifted_index( int original_index, Character &you ) const
  * on the X or Y axis. Returns 0, 1, or 2 lists of indices.
  */
 std::vector<std::vector<int>> vehicle::find_lines_of_parts(
-                               int part, const std::string &flag ) const
+                               int part, const std::string &flag, bool only_healthy ) const
 {
-    const auto possible_parts = get_avail_parts( flag );
+    const auto possible_parts = only_healthy ? get_avail_parts( flag ) :  get_any_parts( flag );
     std::vector<std::vector<int>> ret_parts;
     if( empty( possible_parts ) ) {
         return ret_parts;
@@ -3204,7 +3218,7 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts(
     for( const vpart_reference &vpr : possible_parts ) {
         const vehicle_part &vp_other = vpr.part();
         const vpart_info &vpi_other = vp_other.info();
-        if( vp_other.is_unavailable() ||
+        if( ( vp_other.is_broken() && only_healthy ) ||
             !vpi_other.has_flag( "MULTISQUARE" ) ||
             vpi_other.id != part_id )  {
             continue;

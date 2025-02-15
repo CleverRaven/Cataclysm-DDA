@@ -1727,7 +1727,8 @@ void vehicle::build_bike_rack_menu( veh_menu &menu, int part )
         has_rack_actions = true;
     }
 
-    for( const unrackable_vehicle &unrackable : find_vehicles_to_unrack( part ) ) {
+    for( const unrackable_vehicle &unrackable : find_vehicles_to_unrack(
+             part, /*only_healthy=*/ false ) ) {
         menu.add( string_format( _( "Remove the %s from the rack" ), unrackable.name ) )
         .hotkey_auto()
         .skip_locked_check()

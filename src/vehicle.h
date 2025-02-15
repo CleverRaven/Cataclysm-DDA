@@ -1073,7 +1073,8 @@ class vehicle
 
         // attempts to find any racked vehicles that can be unracked on any of the list_of_racks
         // @returns vector of structs with data required to unrack each vehicle
-        std::vector<unrackable_vehicle> find_vehicles_to_unrack( int rack ) const;
+        std::vector<unrackable_vehicle> find_vehicles_to_unrack( int rack,
+                bool only_healthy = true ) const;
 
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( map *here, vehicle *carry_veh, const std::vector<int> &rack_parts );
@@ -1354,7 +1355,8 @@ class vehicle
         int get_next_shifted_index( int original_index, Character &you ) const;
         // Given a part and a flag, returns the indices of all contiguously adjacent parts
         // with the same flag on the X and Y Axis
-        std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag ) const;
+        std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag,
+                                   bool only_healthy = true ) const;
 
         // Translate mount coordinates "p" using current pivot direction and anchor and return tile coordinates
         point_rel_ms coord_translate( const point_rel_ms &p ) const;
