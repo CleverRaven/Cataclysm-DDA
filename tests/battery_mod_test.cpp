@@ -98,8 +98,6 @@ TEST_CASE( "battery_tool_mod_test", "[battery][mod]" )
     }
 
     GIVEN( "tool compatible with light batteries" ) {
-        map &here = get_map();
-
         item flashlight( itype_diving_flashlight_small_hipower );
         REQUIRE( flashlight.is_reloadable() );
         REQUIRE( flashlight.can_reload_with( item( itype_light_battery_cell ), true ) );
@@ -311,8 +309,6 @@ TEST_CASE( "battery_and_tool_properties", "[battery][tool][properties]" )
 
 TEST_CASE( "installing_battery_in_tool", "[battery][tool][install]" )
 {
-    map &here = get_map();
-
     item bat_cell( itype_light_battery_cell );
     item flashlight( itype_diving_flashlight_small_hipower );
 

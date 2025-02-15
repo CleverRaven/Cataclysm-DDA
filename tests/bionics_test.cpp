@@ -381,7 +381,6 @@ TEST_CASE( "included_bionics", "[bionics]" )
 
 TEST_CASE( "fueled_bionics", "[bionics] [item]" )
 {
-    map &here = get_map();
     avatar &dummy = get_avatar();
     clear_avatar();
 
