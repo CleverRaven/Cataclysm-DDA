@@ -190,12 +190,7 @@
     "special_attacks": [
 	  [ "SHRIEK_ALERT", 10 ],
       [ "SHRIEK_STUN", 1 ],
-      {
-        "id": "grab_drag",
-        "cooldown": 12,
-        "grab_data": { "drag_distance": 3, "drag_deviation": 1, "drag_movecost_mod": 0.2 }
-      },
-      { "id": "drag_followup", "grab_data": { "drag_distance": 3, "drag_deviation": 1, "drag_movecost_mod": 0.2 } },
+      { "grab_2" },
       { "id": "barbed_tentacle" },
       {
         "type": "bite",
