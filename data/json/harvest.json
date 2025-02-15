@@ -1038,6 +1038,7 @@
   {
     "id": "dweller",
     "type": "harvest",
+	"//": "the nether monster corpse teeth being here are not an oversight or a mistake - I want to imply that these things and that giant dead kaiju are somehow related",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.36 },
       { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },

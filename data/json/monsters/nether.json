@@ -187,6 +187,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 13, "armor_penetration": 20 } ],
     "grab_strength": 100,
     "special_attacks": [
+	  [ "SHRIEK_ALERT", 10 ],
+      [ "SHRIEK_STUN", 1 ],
       {
         "id": "grab_drag",
         "cooldown": 12,
