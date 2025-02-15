@@ -23,8 +23,6 @@ static const itype_id itype_cz75mag_26rd( "cz75mag_26rd" );
 
 TEST_CASE( "ammo_set_items_with_MAGAZINE_pockets", "[ammo_set][magazine][ammo]" )
 {
-    map &here = get_map();
-
     GIVEN( "empty 9mm CZ 75 20-round magazine" ) {
         item cz75mag_20rd( itype_cz75mag_20rd );
         REQUIRE( cz75mag_20rd.is_magazine() );
@@ -194,8 +192,6 @@ TEST_CASE( "ammo_set_items_with_MAGAZINE_WELL_pockets_with_magazine",
            "[ammo_set][magazine][ammo]" )
 {
     GIVEN( "CZ 75 B 9mm gun with empty 9mm CZ 75 20-round magazine" ) {
-        map &here = get_map();
-
         item cz75( itype_cz75 );
         item cz75mag_20rd( itype_cz75mag_20rd );
         REQUIRE( cz75.is_gun() );
@@ -306,8 +302,6 @@ TEST_CASE( "ammo_set_items_with_MAGAZINE_WELL_pockets_without_magazine",
            "[ammo_set][magazine][ammo]" )
 {
     GIVEN( "CZ 75 B 9mm gun w/o magazine" ) {
-        map &here = get_map();
-
         item cz75( itype_cz75 );
         itype_id ammo9mm_id( "9mm" );
         REQUIRE( cz75.is_gun() );
