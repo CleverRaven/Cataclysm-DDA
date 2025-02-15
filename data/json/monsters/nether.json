@@ -208,7 +208,7 @@
         "effects": [ { "id": "tetanus", "chance": 5, "duration": 2, "permanent": true } ]
       }
     ],
-    "flags": [ "PUSH_MON", "BORES", "CAN_DIG", "GOODHEARING", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS" ],
+    "flags": [ "PUSH_MON", "BORES", "CAN_DIG", "GOODHEARING", "HEARS", "KEENNOSE", "SMELLS" ],
     "fear_triggers": [ "FIRE" ],
     "anger_triggers": [ "HURT", "SOUND", "STALK" ],
     "vision_day": 0,
