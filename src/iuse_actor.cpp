@@ -1459,13 +1459,10 @@ firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character
                          f_id == furn_str_id( "f_kiln_metal_empty" ) || f_id == furn_str_id( "f_kiln_portable_empty" );
 
     if( is_smoking_rack || is_kiln ) {
-        uilist selection_menu;
-        selection_menu.text = _( "Select an action" );
-
         if( is_smoking_rack ) {
             return iexamine::smoker_prep( p, pos ) ? start_type::SMOKER : start_type::NONE;
         } else {
-            return start_type::KILN; // TODO: Kiln prep logic.
+            return iexamine::kiln_prep( p, pos ) ? start_type::SMOKER : start_type::NONE;
         }
     }
 
@@ -1553,6 +1550,7 @@ bool firestarter_actor::resolve_start( Character *p, map *here,
         case start_type::SMOKER:
             return iexamine::smoker_fire( *p, pos );
         case start_type::KILN:
+            return iexamine::kiln_fire( *p, pos );
         case start_type::NONE:
         default:
             return false;

@@ -3143,45 +3143,106 @@ void iexamine::aggie_plant( Character &you, const tripoint_bub_ms &examp )
     }
 }
 
+static void add_firestarter( item *it, std::multimap<int, item *> &firestarters, Character &you,
+                             const tripoint_bub_ms &examp )
+{
+    const use_function *usef = it->type->get_use( "firestarter" );
+    if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
+        const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+        if( actor->can_use( you, *it, examp ).success() ) {
+            firestarters.insert( std::pair<int, item *>( actor->moves_cost_fast, it ) );
+        }
+    }
+}
+
+
+static void pick_firestarter_and_fire( Character &you, const tripoint_bub_ms &examp,
+                                       firestarter_actor::start_type st )
+{
+    map &here = get_map();
+    std::string f_name = here.furnname( examp );
+
+    if( !you.has_charges( itype_fire, 1 ) ) {
+        add_msg( _( "This %s is ready to be fired, but you have no fire source." ), f_name );
+        return;
+    } else if( !query_yn( _( "Fire the %s?" ), f_name ) ) {
+        return;
+    }
+
+    // Determine the fire starter to use.
+    auto is_firestarter = []( const item & it ) {
+        return it.has_flag( flag_FIRESTARTER ) || it.has_flag( flag_FIRE );
+    };
+
+    std::multimap<int, item *> firestarters;
+
+    for( item *it : you.items_with( is_firestarter ) ) {
+        add_firestarter( it, firestarters, you, examp );
+    }
+
+    const bool has_bionic_firestarter = you.has_bionic( bio_lighter ) &&
+                                        you.enough_power_for( bio_lighter );
+
+    auto use_cbm = false;
+
+    // Query to use a CBM over another firestarter only if the firestarters list isn't empty.
+    if( has_bionic_firestarter && !firestarters.empty() ) {
+        use_cbm = query_yn( _( "Use a CBM to start a fire" ) );
+    } else if( has_bionic_firestarter ) {
+        use_cbm = true;
+    }
+
+    // Try to start the smoking rack/kiln.
+    if( !use_cbm ) {
+        for( auto &firestarter : firestarters ) {
+            item *it = firestarter.second;
+            const use_function *usef = it->type->get_use( "firestarter" );
+            const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+            you.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
+            const ret_val<void> can_use = actor->can_use( you, *it, examp );
+            if( can_use.success() ) {
+                const int charges = actor->use( &you, *it, examp ).value_or( 0 );
+                you.use_charges( it->typeId(), charges );
+                return;
+            } else {
+                you.add_msg_if_player( m_bad, can_use.str() );
+            }
+        }
+    } else {
+        you.mod_power_level( -bio_lighter->power_activate );
+        you.mod_moves( -to_moves<int>( 1_seconds ) );
+        firestarter_actor::resolve_firestarter_use( &you, &get_map(), examp,
+                st );
+    }
+}
+
+static units::volume total_volume_at_pos( const tripoint_bub_ms &examp )
+{
+    map &here = get_map();
+    map_stack items = here.i_at( examp );
+    units::volume total_volume = 0_ml;
+    for( const item &i : items ) {
+        total_volume += i.volume();
+    }
+
+    return total_volume;
+}
+
 // Highly modified fermenting vat functions
 void iexamine::kiln_empty( Character &you, const tripoint_bub_ms &examp )
 {
+    if( !kiln_prep( you, examp ) ) {
+        return;
+    }
+
+    pick_firestarter_and_fire( you, examp, firestarter_actor::start_type::KILN );
+}
+
+static void kiln_prep_internal( Character &you, const tripoint_bub_ms &examp,
+                                std::reference_wrapper<int> char_charges_ref )
+{
     map &here = get_map();
-    const furn_id &cur_kiln_type = here.furn( examp );
-    furn_id next_kiln_type = furn_str_id::NULL_ID();
-    if( cur_kiln_type == furn_f_kiln_empty ) {
-        next_kiln_type = furn_f_kiln_full;
-    } else if( cur_kiln_type == furn_f_kiln_metal_empty ) {
-        next_kiln_type = furn_f_kiln_metal_full;
-    } else if( cur_kiln_type == furn_f_kiln_portable_empty ) {
-        next_kiln_type = furn_f_kiln_portable_full;
-    } else {
-        debugmsg( "Examined furniture has action kiln_empty, but is of type %s",
-                  cur_kiln_type.id().c_str() );
-        return;
-    }
 
-    static const std::set<material_id> kilnable{ material_wood, material_bone };
-    bool fuel_present = false;
-    map_stack items = here.i_at( examp );
-    for( const item &i : items ) {
-        if( i.typeId() == itype_charcoal ) {
-            add_msg( _( "This kiln already contains charcoal." ) );
-            add_msg( _( "Remove it before firing the kiln again." ) );
-            return;
-        } else if( i.made_of_any( kilnable ) ) {
-            fuel_present = true;
-        } else {
-            add_msg( m_bad, _( "This kiln contains %s, which can't be made into charcoal!" ), i.tname( 1,
-                     false ) );
-            return;
-        }
-    }
-
-    if( !fuel_present ) {
-        add_msg( _( "This kiln is empty.  Fill it with wood or bone and try again." ) );
-        return;
-    }
     // https://energypedia.info/wiki/Charcoal_Production
     // charcoal has about 25% of the density of wood, and wood pyrolysis produces about 10-15% charcoal by weight for a stone kiln.
     // listed efficiency is for primitive or DIY production, industrial process in a metal kiln is more efficient at 20-25%
@@ -3190,6 +3251,7 @@ void iexamine::kiln_empty( Character &you, const tripoint_bub_ms &examp )
     // For a cruddy kiln (a pit with a rock chimney) assume 10-15% efficiency, depending on fabrication (40-60% wastage)
     // For a well made kiln (industrial-style metal kiln) assume 20-25% efficiency, depending on fabrication (0-20% wastage)
     ///\EFFECT_FABRICATION decreases loss when firing a kiln
+    const furn_id &cur_kiln_type = here.furn( examp );
     const float skill = you.get_skill_level( skill_fabrication );
     int loss = 0;
     // if the current kiln is a metal one, use a more efficient conversion rate otherwise default to assuming it is a rock pit kiln
@@ -3201,44 +3263,84 @@ void iexamine::kiln_empty( Character &you, const tripoint_bub_ms &examp )
         loss = 60 - 2 * skill;
     }
 
-    // Burn stuff that should get charred, leave out the rest
-    units::volume total_volume = 0_ml;
-    for( const item &i : items ) {
-        total_volume += i.volume();
-    }
+    units::volume total_volume = total_volume_at_pos( examp );
 
     const itype *char_type = item::find_type( itype_unfinished_charcoal );
-    int char_charges = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
-    if( char_charges < 1 ) {
-        add_msg( _( "The batch in this kiln is too small to yield any charcoal." ) );
-        return;
+    char_charges_ref.get() = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
+}
+
+bool iexamine::kiln_prep( Character &you, const tripoint_bub_ms &examp )
+{
+    map &here = get_map();
+    const furn_id &cur_kiln_type = here.furn( examp );
+    if( cur_kiln_type != furn_f_kiln_empty && cur_kiln_type != furn_f_kiln_metal_empty &&
+        cur_kiln_type != furn_f_kiln_portable_empty ) {
+        debugmsg( "Examined furniture has action kiln_empty, but is of type %s",
+                  cur_kiln_type.id().c_str() );
+        return false;
     }
 
-    if( !you.has_charges( itype_fire, 1 ) ) {
-        add_msg( _( "This kiln is ready to be fired, but you have no fire source." ) );
-        return;
-    } else {
-        add_msg( _( "This kiln contains %s %s of material, and is ready to be fired." ),
-                 format_volume( total_volume ), volume_units_abbr() );
-        if( !query_yn( _( "Fire the kiln?" ) ) ) {
-            return;
+    static const std::set<material_id> kilnable{ material_wood, material_bone };
+    bool fuel_present = false;
+    map_stack items = here.i_at( examp );
+    for( const item &i : items ) {
+        if( i.typeId() == itype_charcoal ) {
+            add_msg( _( "This kiln already contains charcoal." ) );
+            add_msg( _( "Remove it before firing the kiln again." ) );
+            return false;
+        } else if( i.made_of_any( kilnable ) ) {
+            fuel_present = true;
+        } else {
+            add_msg( m_bad, _( "This kiln contains %s, which can't be made into charcoal!" ), i.tname( 1,
+                     false ) );
+            return false;
         }
     }
 
-    you.use_charges( itype_fire, 1 );
+    if( !fuel_present ) {
+        add_msg( _( "This kiln is empty.  Fill it with wood or bone and try again." ) );
+        return false;
+    }
+
+    int char_charges = 0;
+    kiln_prep_internal( you, examp, char_charges );
+
+    if( char_charges < 1 ) {
+        add_msg( _( "The batch in this kiln is too small to yield any charcoal." ) );
+        return false;
+    }
+
+    return true;
+}
+
+bool iexamine::kiln_fire( Character &you, const tripoint_bub_ms &examp )
+{
+    if( !kiln_prep( you, examp ) ) {
+        return false;
+    }
+
+    map &here = get_map();
+
+    const furn_id &cur_kiln_type = here.furn( examp );
+    furn_id next_kiln_type = furn_str_id::NULL_ID();
+    if( cur_kiln_type == furn_f_kiln_empty ) {
+        next_kiln_type = furn_f_kiln_full;
+    } else if( cur_kiln_type == furn_f_kiln_metal_empty ) {
+        next_kiln_type = furn_f_kiln_metal_full;
+    } else if( cur_kiln_type == furn_f_kiln_portable_empty ) {
+        next_kiln_type = furn_f_kiln_portable_full;
+    }
+
+    // Burn stuff that should get charred, leave out the rest
     here.i_clear( examp );
     here.furn_set( examp, next_kiln_type );
     item result( itype_unfinished_charcoal, calendar::turn );
+    int char_charges = 0;
+    kiln_prep_internal( you, examp, char_charges );
     result.charges = char_charges;
     here.add_item( examp, result );
 
-    if( you.has_trait( trait_PYROMANIA ) ) {
-        you.add_morale( morale_pyromania_startfire, 5, 10, 3_hours, 2_hours );
-        you.rem_morale( morale_pyromania_nofire );
-        you.add_msg_if_player( m_good, _( "You happily light a fire in the charcoal kiln." ) );
-    } else {
-        add_msg( _( "You fire the charcoal kiln." ) );
-    }
+    return true;
 }
 
 void iexamine::kiln_full( Character &, const tripoint_bub_ms &examp )
@@ -3640,18 +3742,6 @@ void iexamine::autoclave_full( Character &, const tripoint_bub_ms &examp )
                  _( "CBMs in direct contact with the environment will almost immediately become contaminated." ) );
     }
     here.furn_set( examp, next_autoclave_type );
-}
-
-static void add_firestarter( item *it, std::multimap<int, item *> &firestarters, Character &you,
-                             const tripoint_bub_ms &examp )
-{
-    const use_function *usef = it->type->get_use( "firestarter" );
-    if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
-        const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-        if( actor->can_use( you, *it, examp ).success() ) {
-            firestarters.insert( std::pair<int, item *>( actor->moves_cost_fast, it ) );
-        }
-    }
 }
 
 void iexamine::fireplace( Character &you, const tripoint_bub_ms &examp )
@@ -6520,58 +6610,7 @@ static void smoker_activate( Character &you, const tripoint_bub_ms &examp )
         return;
     };
 
-    if( !you.has_charges( itype_fire, 1 ) ) {
-        add_msg( _( "This smoking rack is ready to be fired, but you have no fire source." ) );
-        return;
-    } else if( !query_yn( _( "Fire the smoking rack?" ) ) ) {
-        return;
-    }
-
-    // Determine the fire starter to use.
-    auto is_firestarter = []( const item & it ) {
-        return it.has_flag( flag_FIRESTARTER ) || it.has_flag( flag_FIRE );
-    };
-
-    std::multimap<int, item *> firestarters;
-
-    for( item *it : you.items_with( is_firestarter ) ) {
-        add_firestarter( it, firestarters, you, examp );
-    }
-
-    const bool has_bionic_firestarter = you.has_bionic( bio_lighter ) &&
-                                        you.enough_power_for( bio_lighter );
-
-    auto use_cbm = false;
-
-    // Query to use a CBM over another firestarter only if the firestarters list isn't empty.
-    if( has_bionic_firestarter && !firestarters.empty() ) {
-        use_cbm = query_yn( _( "Use a CBM to start a fire" ) );
-    } else if( has_bionic_firestarter ) {
-        use_cbm = true;
-    }
-
-    // Try to fire the smoking rack.
-    if( !use_cbm ) {
-        for( auto &firestarter : firestarters ) {
-            item *it = firestarter.second;
-            const use_function *usef = it->type->get_use( "firestarter" );
-            const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-            you.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
-            const ret_val<void> can_use = actor->can_use( you, *it, examp );
-            if( can_use.success() ) {
-                const int charges = actor->use( &you, *it, examp ).value_or( 0 );
-                you.use_charges( it->typeId(), charges );
-                return;
-            } else {
-                you.add_msg_if_player( m_bad, can_use.str() );
-            }
-        }
-    } else {
-        you.mod_power_level( -bio_lighter->power_activate );
-        you.mod_moves( -to_moves<int>( 1_seconds ) );
-        firestarter_actor::resolve_firestarter_use( &you, &get_map(), examp,
-                firestarter_actor::start_type::SMOKER );
-    }
+    pick_firestarter_and_fire( you, examp, firestarter_actor::start_type::SMOKER );
 }
 
 static void smoker_prep_internal(
