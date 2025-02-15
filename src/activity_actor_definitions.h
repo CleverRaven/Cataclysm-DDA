@@ -2407,11 +2407,10 @@ class pulp_activity_actor : public activity_actor
 {
     public:
         pulp_activity_actor() = default;
-        explicit pulp_activity_actor( const tripoint_abs_ms placement,
-                                      const bool pulp_acid = false ) : placement( { placement } ),
-        num_corpses( 0 ), pulp_acid( pulp_acid ) {}
-        explicit pulp_activity_actor( const std::set<tripoint_abs_ms> &placement,
-                                      const bool pulp_acid = false ) : placement( placement ), num_corpses( 0 ), pulp_acid( pulp_acid ) {}
+        explicit pulp_activity_actor( const tripoint_abs_ms placement ) : placement( { placement } ),
+        num_corpses( 0 ), pulp_power( 0 ), pulp_effort( 0 ), mess_radius( 1 ) {}
+        explicit pulp_activity_actor( const std::set<tripoint_abs_ms> &placement ) : placement( placement ),
+            num_corpses( 0 ), pulp_power( 0 ), pulp_effort( 0 ), mess_radius( 1 ) {}
         const activity_id &get_type() const override {
             static const activity_id ACT_PULP( "ACT_PULP" );
             return ACT_PULP;
@@ -2419,24 +2418,59 @@ class pulp_activity_actor : public activity_actor
 
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &act, Character &you ) override;
+        bool punch_corpse_once( item &corpse, Character &you, tripoint_bub_ms pos, map &here );
+        // void canceled( player_activity &act, Character &p ) override;
         void finish( player_activity &, Character & ) override;
 
+        void send_final_message( Character &you ) const;
+
         std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<pulp_activity_actor>( *this );
+            auto plp = std::make_unique<pulp_activity_actor>( *this );
+            plp.get()->current_pos_iter = plp.get()->placement.begin();
+            return plp;
         }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
-        bool can_resume_with_internal( const activity_actor &other,
-                                       const Character &/*who*/ ) const override {
-            const pulp_activity_actor &actor = static_cast<const pulp_activity_actor &>( other );
-            return actor.pulp_acid == pulp_acid;
-        }
+        // tripoints with corpses we need to pulp;
+        // either single tripoint shoved into set, or 3x3 zone around u/npc
         std::set<tripoint_abs_ms> placement;
+
+        float float_corpse_damage_accum = 0.0f;
+
+        int unpulped_corpses_qty = 0;
+        // for tanky monsters
+        bool can_pry_armor = false;
+
+        // query player if they want to pulp corpses that cost more than 10 minutes to pulp
+        bool too_long_to_pulp = false;
+        bool too_long_to_pulp_interrupted = false;
+        // if corpse cost more than hour to pulp, drop it
+        bool way_too_long_to_pulp = false;
+
+        double bash_factor;
+        int cut_quality;
+        // bools for end message
+        bool stomps_only = false;
+        bool weapon_only = false;
+        bool can_severe_cutting = false;
+        bool used_pry = false;
+        bool couldnt_use_pry = false;
+        std::string bash_tool;
+        std::string cut_tool;
+        std::string pry_tool;
+        // how many corpses we pulped
         int num_corpses;
-        bool pulp_acid;
+        // how much damage you deal to corpse every second, average of multiple values
+        float pulp_power;
+        // how much stamina is consumed after each punch
+        float pulp_effort;
+        // how far the splatter goes
+        int mess_radius;
+        // what `placement` we are currently at
+        std::set<tripoint_abs_ms>::const_iterator current_pos_iter;
 };
 
 class wait_stamina_activity_actor : public activity_actor

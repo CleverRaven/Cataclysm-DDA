@@ -131,6 +131,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_PLASTIC,
             mon_flag_POISON,
             mon_flag_PRIORITIZE_TARGETS,
+            mon_flag_PULP_PRYING,
             mon_flag_PUSH_MON,
             mon_flag_PUSH_VEH,
             mon_flag_QUEEN,
@@ -257,6 +258,7 @@ void set_mon_flag_ids()
     mon_flag_PLASTIC = mon_flag_id( "PLASTIC" );
     mon_flag_POISON = mon_flag_id( "POISON" );
     mon_flag_PRIORITIZE_TARGETS = mon_flag_id( "PRIORITIZE_TARGETS" );
+    mon_flag_PULP_PRYING = mon_flag_id( "PULP_PRYING" );
     mon_flag_PUSH_MON = mon_flag_id( "PUSH_MON" );
     mon_flag_PUSH_VEH = mon_flag_id( "PUSH_VEH" );
     mon_flag_QUEEN = mon_flag_id( "QUEEN" );
