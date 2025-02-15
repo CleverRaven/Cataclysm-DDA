@@ -59,7 +59,6 @@ static void clear_game( const ter_id &terrain )
 // But contains only fuels actually used by engines
 static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fuel_mult )
 {
-    map &here = get_map();
     // First we need to find the fuels to set
     // That is, fuels actually used by some engine
     std::set<itype_id> actually_used;

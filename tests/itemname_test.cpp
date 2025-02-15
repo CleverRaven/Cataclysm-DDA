@@ -7,7 +7,6 @@
 #include "color.h"
 #include "flag.h"
 #include "item.h"
-#include "map.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "ret_val.h"

@@ -9,7 +9,6 @@
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
-#include "map.h"
 #include "map_selector.h"
 #include "npc.h"
 #include "npctrade.h"

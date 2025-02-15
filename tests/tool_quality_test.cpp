@@ -6,11 +6,9 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "character_attire.h"
-#include "game.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
-#include "map.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "ret_val.h"
@@ -89,7 +87,6 @@ TEST_CASE( "get_quality", "[tool][quality]" )
 // that are only available when the item is charged with at least "charges_per_use" charges.
 TEST_CASE( "battery-powered_tool_qualities", "[tool][battery][quality]" )
 {
-    map &here = get_map();
     item drill( itype_test_cordless_drill );
     item battery( itype_medium_battery_cell );
 
