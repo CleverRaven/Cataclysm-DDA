@@ -909,9 +909,9 @@
       { "item": "glowstick", "prob": 15, "charges": 1400 },
       { "item": "clown_suit", "prob": 5 },
       { "item": "clownshoes", "prob": 5 },
-      { "item": "inflatable_dragon", "prob": 1, "charges": [ 0, 500 ] },
-      { "item": "inflatable_ghost", "prob": 1, "charges": [ 0, 500 ] },
-      { "item": "fog_machine", "prob": 1, "charges": [ 0, 500 ] }
+      { "item": "inflatable_dragon", "prob": 1, "charges": [ 0, 56 ] },
+      { "item": "inflatable_ghost", "prob": 1, "charges": [ 0, 56 ] },
+      { "item": "fog_machine", "prob": 1, "charges": [ 0, 56 ] }
     ]
   },
   {
@@ -999,14 +999,9 @@
           { "item": "drum_percussion", "prob": 10 },
           { "item": "kantele", "prob": 10 },
           { "item": "ukulele", "prob": 50 },
-          { "item": "fog_machine", "prob": 1, "charges": [ 0, 500 ] },
           { "item": "violin", "prob": 90 },
           { "item": "guitar_electric", "prob": 90 },
-          {
-            "collection": [ { "item": "case_violin" }, { "item": "tommygun" }, { "item": "grip" }, { "item": "thompson_drum" } ],
-            "prob": 15
-          },
-          { "collection": [ { "item": "case_violin" }, { "item": "violin_golden" } ], "prob": 50 },
+          { "collection": [ { "item": "case_violin" }, { "item": "violin" } ], "prob": 50 },
           { "collection": [ { "item": "spoon" }, { "item": "washboard" } ], "prob": 15 }
         ]
       }

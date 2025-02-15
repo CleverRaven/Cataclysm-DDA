@@ -84,8 +84,8 @@
           { "item": "knit_scarf", "damage": [ 1, 4 ], "prob": 10 },
           { "item": "tricorne", "damage": [ 1, 4 ], "prob": 30 },
           { "item": "gloves_leather", "damage": [ 1, 4 ], "prob": 10 },
-          { "item": "stockings", "damage": [ 1, 4 ], "prob": 20 },
-          { "group": "underwear", "damage": [ 1, 4 ] }
+          { "item": "stockings", "variant": "stockings_white", "damage": [ 1, 4 ], "prob": 20 },
+          { "item": "long_underpants", "damage": [ 1, 4 ] }
         ]
       },
       {
