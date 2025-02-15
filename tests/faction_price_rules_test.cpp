@@ -6,7 +6,6 @@
 #include "cata_catch.h"
 #include "coordinates.h"
 #include "faction.h"
-#include "game.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -91,8 +90,6 @@ TEST_CASE( "basic_price_check", "[npc][trade]" )
 
 TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
 {
-    map &here = get_map();
-
     clear_avatar();
     npc &guy = spawn_npc( { 50, 50 }, "test_npc_trader" );
     faction const &fac = *guy.my_fac;

@@ -27,7 +27,6 @@
 class Character;
 class JsonObject;
 class JsonOut;
-class map;
 class vehicle;
 class vpart_info;
 struct vehicle_prototype;

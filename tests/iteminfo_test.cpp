@@ -14,7 +14,6 @@
 #include "character.h"
 #include "character_attire.h"
 #include "flag.h"
-#include "game.h"
 #include "item.h"
 #include "item_location.h"
 #include "iteminfo_query.h"
@@ -2458,8 +2457,6 @@ TEST_CASE( "item_conductivity", "[iteminfo][conductivity]" )
 // item::qualities_info
 TEST_CASE( "list_of_item_qualities", "[iteminfo][quality]" )
 {
-    map &here = get_map();
-
     clear_avatar();
 
     std::vector<iteminfo_parts> qualities = { iteminfo_parts::QUALITIES };
@@ -2566,7 +2563,6 @@ TEST_CASE( "tool_info", "[iteminfo][tool]" )
     // TODO: Find a tool using this
     //std::vector<iteminfo_parts> mag_current = { iteminfo_parts::TOOL_MAGAZINE_CURRENT };
 
-    map &here = get_map();
     clear_avatar();
 
     SECTION( "maximum charges" ) {

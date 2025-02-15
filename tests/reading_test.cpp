@@ -498,7 +498,6 @@ TEST_CASE( "reading_a_book_for_skill", "[reading][book][skill]" )
 
 TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
 {
-    map &here = get_map();
     avatar &dummy = get_avatar();
     clear_avatar();
 

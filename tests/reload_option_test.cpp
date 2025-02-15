@@ -4,7 +4,6 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character_attire.h"
-#include "game.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -33,7 +32,6 @@ static const itype_id itype_water_clean( "water_clean" );
 
 TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
 {
-    map &here = get_map();
     avatar dummy;
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
 
@@ -79,7 +77,6 @@ TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
 
 TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 {
-    map &here = get_map();
     avatar dummy;
     dummy.set_body();
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );

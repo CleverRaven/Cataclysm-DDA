@@ -31,7 +31,6 @@
 #include "itype.h"
 #include "iuse.h"
 #include "make_static.h"
-#include "map.h"
 #include "output.h"
 #include "pimpl.h"
 #include "pocket_type.h"

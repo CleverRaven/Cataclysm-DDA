@@ -120,7 +120,6 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
 
 TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
 {
-    map &here = get_map();
     Character *dummy = &get_avatar();
     clear_avatar();
 

@@ -1192,7 +1192,6 @@ static item_pocket *get_only_pocket( item &container )
 
 TEST_CASE( "best_pocket_in_item_contents", "[pocket][item][best]" )
 {
-    map &here = get_map();
     item_location loc;
 
     // Waterskins can be best pockets for liquids

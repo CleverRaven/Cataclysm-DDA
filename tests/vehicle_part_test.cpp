@@ -315,8 +315,6 @@ TEST_CASE( "verify_vehicle_tank_refill", "[vehicle]" )
 
 TEST_CASE( "check_capacity_fueltype_handling", "[vehicle]" )
 {
-    map &here = get_map();
-
     GIVEN( "tank is empty" ) {
         vehicle_part vp( vpart_tank_test, item( itype_metal_tank_test ) );
         REQUIRE( vp.ammo_remaining( ) == 0 );

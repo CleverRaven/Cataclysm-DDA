@@ -166,7 +166,6 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
             }
         }
         WHEN( "NPC has an exoskeleton" ) {
-            map &here = get_map();
             main_npc.clear_worn();
             item armor( itype_combat_exoskeleton_medium );
             std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );

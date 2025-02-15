@@ -123,7 +123,6 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
 // i.e. 1 means no fuel was used, 0 means at least one dry tank
 static float fuel_percentage_left( vehicle &v, const std::map<itype_id, int> &started_with )
 {
-    map &here = get_map();
     std::map<itype_id, int> fuel_amount;
     std::set<itype_id> consumed_fuels;
     for( const vpart_reference &vp : v.get_all_parts() ) {

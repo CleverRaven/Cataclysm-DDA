@@ -16,7 +16,6 @@
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
-#include "game.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"

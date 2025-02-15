@@ -32,7 +32,6 @@ static const itype_id itype_sw_619( "sw_619" );
 // NOLINTNEXTLINE(readability-function-size)
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [reload]" )
 {
-    map &here = get_map();
     const itype_id gun_id = itype_debug_modular_m4_carbine;
     const ammotype gun_ammo = ammo_223;
     const itype_id ammo_id = itype_556; // any type of compatible ammo

@@ -317,7 +317,6 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 // test the `iuse::oxygen_bottle` function
 TEST_CASE( "oxygen_tank", "[iuse][oxygen_bottle]" )
 {
-    map &here = get_map();
     avatar dummy;
     dummy.normalize();
 
@@ -662,7 +661,6 @@ TEST_CASE( "prozac", "[iuse][prozac]" )
 
 TEST_CASE( "inhaler", "[iuse][inhaler]" )
 {
-    map &here = get_map();
     clear_avatar();
     avatar &dummy = get_avatar();
     item inhaler( itype_inhaler );

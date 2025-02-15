@@ -6,7 +6,6 @@
 #include "character.h"
 #include "color.h"
 #include "flag.h"
-#include "game.h"
 #include "item.h"
 #include "map.h"
 #include "player_helpers.h"
@@ -137,7 +136,6 @@ TEST_CASE( "item_sizing_display", "[item][iteminfo][display_name][sizing]" )
 
 TEST_CASE( "display_name_includes_item_contents", "[item][display_name][contents]" )
 {
-    map &here = get_map();
     clear_avatar();
 
     item arrow( itype_test_arrow_wood, calendar::turn_zero, item::default_charges_tag{} );

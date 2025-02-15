@@ -4,7 +4,6 @@
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "character.h"
-#include "game.h"
 #include "item.h"
 #include "item_location.h"
 #include "map.h"
@@ -23,7 +22,6 @@ static const itype_id itype_sw629( "sw629" );
 
 TEST_CASE( "unload_revolver_naked_one_bullet", "[unload][nonmagzine]" )
 {
-    map &here = get_map();
     clear_avatar();
     clear_map();
 
@@ -59,7 +57,6 @@ TEST_CASE( "unload_revolver_naked_one_bullet", "[unload][nonmagzine]" )
 
 TEST_CASE( "unload_revolver_naked_fully_loaded", "[unload][nonmagzine]" )
 {
-    map &here = get_map();
     clear_avatar();
     clear_map();
 

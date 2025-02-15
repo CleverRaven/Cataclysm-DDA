@@ -250,8 +250,6 @@ TEST_CASE( "reload_gun_with_casings", "[reload],[gun]" )
 
 TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
 {
-    map &here = get_map();
-
     SECTION( "empty gun" ) {
         item gun( itype_glock_19 );
 
@@ -810,7 +808,6 @@ TEST_CASE( "gunmod_reloading", "[reload],[gun]" )
 
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {
-    map &here = get_map();
     Character &dummy = get_avatar();
 
     clear_avatar();
@@ -832,7 +829,6 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 
 TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun]" )
 {
-    map &here = get_map();
     Character &dummy = get_avatar();
 
     clear_avatar();
@@ -876,7 +872,6 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
 
 TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
 {
-    map &here = get_map();
     Character &dummy = get_avatar();
 
     clear_avatar();
@@ -953,7 +948,6 @@ static void reload_a_revolver( Character &dummy, item &gun, item &ammo )
 
 TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 {
-    map &here = get_map();
     Character &dummy = get_avatar();
 
     clear_avatar();

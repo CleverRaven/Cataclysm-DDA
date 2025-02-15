@@ -1726,7 +1726,6 @@ static void update_efiles( std::vector<item_location> &edevice_locs,
 
 TEST_CASE( "edevice", "[activity][edevice]" )
 {
-    map &here = get_map();
     avatar dummy;
     dummy.set_skill_level( skill_computer, 1 );
     clear_map();
