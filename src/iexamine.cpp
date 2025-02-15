@@ -6569,49 +6569,54 @@ static void smoker_activate( Character &you, const tripoint_bub_ms &examp )
     } else {
         you.mod_power_level( -bio_lighter->power_activate );
         you.mod_moves( -to_moves<int>( 1_seconds ) );
-        iexamine::smoker_fire( you, examp );
+        firestarter_actor::resolve_firestarter_use( &you, &get_map(), examp,
+                firestarter_actor::start_type::SMOKER );
     }
 }
 
-bool iexamine::smoker_prep( Character &you, const tripoint_bub_ms &examp,
-                            item **charcoal_ref,
-                            std::optional<std::reference_wrapper<furn_id>> next_smoker_t_ref,
-                            std::optional<std::reference_wrapper<int>> charges_ref )
+static void smoker_prep_internal(
+    const tripoint_bub_ms &examp,
+    item **charcoal_ref,
+    std::reference_wrapper<units::volume> food_volume_ref
+)
 {
     map &here = get_map();
+
+    map_stack items = here.i_at( examp );
+
+    for( item &it : items ) {
+        if( it.has_flag( flag_SMOKABLE ) ) {
+            food_volume_ref.get() += it.volume();
+            continue;
+        }
+        if( it.typeId() == itype_charcoal ) {
+            *charcoal_ref = &it;
+        }
+    }
+}
+
+bool iexamine::smoker_prep( Character &you, const tripoint_bub_ms &examp )
+{
+    map &here = get_map();
+
     const furn_id &cur_smoker_type = here.furn( examp );
-    furn_id next_smoker_type = furn_str_id::NULL_ID();
+
     const bool portable = cur_smoker_type == furn_f_metal_smoking_rack ||
                           cur_smoker_type == furn_f_metal_smoking_rack_active;
-    if( cur_smoker_type == furn_f_smoking_rack ) {
-        next_smoker_type = furn_f_smoking_rack_active;
-    } else if( cur_smoker_type == furn_f_metal_smoking_rack ) {
-        next_smoker_type = furn_f_metal_smoking_rack_active;
-    } else {
+
+    if( cur_smoker_type != furn_f_smoking_rack && cur_smoker_type != furn_f_metal_smoking_rack ) {
         debugmsg( "Examined furniture has action smoker_activate, but is of type %s",
                   cur_smoker_type.id().c_str() );
         return false;
     }
-    bool food_present = false;
-    bool charcoal_present = false;
+
     map_stack items = here.i_at( examp );
-    units::volume food_volume = 0_ml;
-    item *charcoal = nullptr;
 
     for( item &it : items ) {
         if( it.has_flag( flag_SMOKED ) && !it.has_flag( flag_SMOKABLE ) ) {
             add_msg( _( "This rack already contains smoked food." ) );
             add_msg( _( "Remove it before firing the smoking rack again." ) );
             return false;
-        }
-        if( it.has_flag( flag_SMOKABLE ) ) {
-            food_present = true;
-            food_volume += it.volume();
-            continue;
-        }
-        if( it.typeId() == itype_charcoal ) {
-            charcoal_present = true;
-            charcoal = &it;
         }
         if( it.typeId() != itype_charcoal && !it.has_flag( flag_SMOKABLE ) ) {
             add_msg( m_bad, _( "This rack contains %s, which can't be smoked!" ), it.tname( 1,
@@ -6626,11 +6631,16 @@ bool iexamine::smoker_prep( Character &you, const tripoint_bub_ms &examp,
             add_msg( _( "This rack has some smoked food that might be dehydrated by smoking it again." ) );
         }
     }
-    if( !food_present ) {
+
+    units::volume food_volume = 0_ml;
+    item *charcoal = nullptr;
+    smoker_prep_internal( examp, &charcoal, food_volume );
+
+    if( food_volume == 0_ml ) {
         add_msg( _( "This rack is empty.  Fill it with raw meat, fish or sausages and try again." ) );
         return false;
     }
-    if( !charcoal_present ) {
+    if( charcoal == nullptr ) {
         add_msg( _( "There is no charcoal in the rack." ) );
         return false;
     }
@@ -6655,17 +6665,6 @@ bool iexamine::smoker_prep( Character &you, const tripoint_bub_ms &examp,
         return false;
     }
 
-    if( charcoal_ref ) {
-        *charcoal_ref = charcoal;
-    }
-
-    if( next_smoker_t_ref ) {
-        next_smoker_t_ref->get() = next_smoker_type;
-    }
-    if( charges_ref ) {
-        charges_ref->get() = char_charges;
-    }
-
     return true;
 }
 
@@ -6673,12 +6672,16 @@ bool iexamine::smoker_fire( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
 
-    item *charcoal = nullptr;
-    furn_id next_smoker_type = furn_str_id::NULL_ID();
-    int char_charges = 0;
-
-    if( !smoker_prep( you, examp, &charcoal, next_smoker_type, char_charges ) ) {
+    if( !smoker_prep( you, examp ) ) {
         return false;
+    }
+
+    const furn_id &cur_smoker_type = here.furn( examp );
+    furn_id next_smoker_type = furn_str_id::NULL_ID();
+    if( cur_smoker_type == furn_f_smoking_rack ) {
+        next_smoker_type = furn_f_smoking_rack_active;
+    } else if( cur_smoker_type == furn_f_metal_smoking_rack ) {
+        next_smoker_type = furn_f_metal_smoking_rack_active;
     }
 
     for( item &it : here.i_at( examp ) ) {
@@ -6687,6 +6690,13 @@ bool iexamine::smoker_fire( Character &you, const tripoint_bub_ms &examp )
             it.set_flag( flag_PROCESSING );
         }
     }
+
+    units::volume food_volume = 0_ml;
+    item *charcoal = nullptr;
+    smoker_prep_internal( examp, &charcoal, food_volume );
+
+    int char_charges = get_charcoal_charges( food_volume );
+
     here.furn_set( examp, next_smoker_type );
     if( charcoal->charges == char_charges ) {
         here.i_rem( examp, charcoal );
