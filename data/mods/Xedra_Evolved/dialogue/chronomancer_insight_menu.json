@@ -548,7 +548,7 @@
       { "text": "Quit.", "topic": "TALK_DONE" }
     ]
   },
-    {
+  {
     "type": "talk_topic",
     "id": "TALK_CHRONOMANCER_SPELL_LEVEL_SELECT",
     "dynamic_line": "<context_val:chronomancer_menu_choice_name>: \"<context_val:chronomancer_menu_choice_description>\"\nSpell Difficulty:<context_val:chronomancer_menu_difficulty>\n<context_val:chronomancer_menu_requirement_description>.\n<context_val:chronomancer_menu_additional_details>",

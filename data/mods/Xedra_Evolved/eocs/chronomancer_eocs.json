@@ -81,8 +81,10 @@
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
     "condition": { "u_has_effect": "effect_chronomancy_field" },
-    "effect": [ { "math": [ "u_vitamin('xedra_chronomancer_insight') += 1" ] },
-      { "u_message": "You gain a tiny amount of insight into the workings of time.", "type": "info" } ]
+    "effect": [
+      { "math": [ "u_vitamin('xedra_chronomancer_insight') += 1" ] },
+      { "u_message": "You gain a tiny amount of insight into the workings of time.", "type": "info" }
+    ]
   },
   {
     "type": "effect_on_condition",

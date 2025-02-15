@@ -2902,7 +2902,9 @@
     "type": "effect_type",
     "id": "effect_chronomancy_field",
     "name": [ "Chronomancy Field" ],
-    "desc": [ "You have engaged some of your temporal abilities and any kills you make while this is active will grant you insight." ],
+    "desc": [
+      "You have engaged some of your temporal abilities and any kills you make while this is active will grant you insight."
+    ],
     "remove_message": "Your awareness of the 4th dimension fades.",
     "rating": "good",
     "show_in_info": true

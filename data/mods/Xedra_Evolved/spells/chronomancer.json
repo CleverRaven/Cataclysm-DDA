@@ -18,11 +18,7 @@
     "spell_class": "XEDRA_CHRONOMANCER",
     "skill": "deduction",
     "flags": [ "NO_FAIL", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "IGNORE_WALLS", "NO_PROJECTILE" ],
-    "min_duration": {
-      "math": [
-        "( ( 600 + (u_spell_count('school': 'XEDRA_CHRONOMANCER') * 200) + (u_skill('deduction') * 400) ) )"
-      ]
-    },
+    "min_duration": { "math": [ "( ( 600 + (u_spell_count('school': 'XEDRA_CHRONOMANCER') * 200) + (u_skill('deduction') * 400) ) )" ] },
     "difficulty": 0,
     "max_level": 1,
     "shape": "blast",
