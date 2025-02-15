@@ -1925,12 +1925,31 @@ void activity_handlers::start_fire_finish( player_activity *act, Character *you 
         return;
     }
 
-    it.activation_consume( 1, you->pos_bub(), you );
-
     you->practice( skill_survival, act->index, 5 );
 
+    const furn_id &f_id = here.furn( here.get_bub( act->placement ) );
+    const bool is_smoking_rack = f_id == furn_str_id( "f_metal_smoking_rack" ) ||
+                                 f_id == furn_str_id( "f_smoking_rack" );
+    const bool is_kiln = f_id == furn_str_id( "f_kiln_empty" ) ||
+                         f_id == furn_str_id( "f_kiln_metal_empty" ) || f_id == furn_str_id( "f_kiln_portable_empty" );
+
+    firestarter_actor::start_type st = firestarter_actor::start_type::FIRE;
+
+    if( is_smoking_rack || is_kiln ) {
+        if( is_smoking_rack ) {
+            st = firestarter_actor::start_type::SMOKER;
+        } else {
+            st = firestarter_actor::start_type::KILN;
+        }
+    }
+
+    if( st == firestarter_actor::start_type::FIRE ) {
+        it.activation_consume( 1, you->pos_bub(), you );
+    }
+
     firestarter_actor::resolve_firestarter_use( you, &here, here.get_bub( act->placement ),
-            firestarter_actor::start_type::FIRE );
+            st );
+
     act->set_to_null();
 }
 
