@@ -606,8 +606,6 @@ bool Character::can_mount( const monster &critter ) const
 
 bool monexamine::pet_menu( monster &z )
 {
-    map &here = get_map();
-
     enum choices {
         swap_pos = 0,
         push_monster,
