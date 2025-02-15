@@ -104,8 +104,6 @@ static void test_reloading( item &target, item &ammo, bool expect_success = true
 
 TEST_CASE( "reload_magazines", "[reload]" )
 {
-    map &here = get_map();
-
     SECTION( "empty magazine" ) {
 
         item mag( itype_stanag30 );
