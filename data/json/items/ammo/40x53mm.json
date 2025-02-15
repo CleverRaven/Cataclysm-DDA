@@ -22,6 +22,7 @@
     "longest_side": "112 mm",
     "count": 10,
     "ammo_type": "40x53mm",
+    "symbol": "=",
     "description": "A 40x53mm canister shot load, with 113 17-grain flechettes.",
     "ascii_picture": "40x53mm_m1001",
     "damage": { "damage_type": "bullet", "amount": 65 },
