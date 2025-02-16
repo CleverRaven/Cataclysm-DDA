@@ -437,7 +437,6 @@ Gunstore Overhaul
 Add radishes and seeds
 Riot damage in cities
 Another new Exodii Gun: the Khuunäöfaai ordnance cannon, a long range incendiary and chemical weapon.
-Buildable stone fireplaces are back
 Adds new rails vehicles
 Add in pride/pronoun pins
 Add in the guns S&W 617, Ruger PCC, and Marlin Model 60
