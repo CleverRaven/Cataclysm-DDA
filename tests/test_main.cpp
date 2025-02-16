@@ -16,28 +16,27 @@
 #include <utility>
 #include <vector>
 
-#include "calendar.h"
-#include "cata_catch.h"
-#include "coordinates.h"
-#include "enums.h"
-#include "flexbuffer_json.h"
-#include "point.h"
 #if defined(_MSC_VER)
 #include <io.h>
 #else
 #include <unistd.h>
 #endif
 
+#include "cata_catch.h"
+
 #include "avatar.h"
 #include "cached_options.h"
+#include "calendar.h"
 #include "cata_assert.h"
-#include "cata_catch.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "color.h"
 #include "compatibility.h"
+#include "coordinates.h"
 #include "debug.h"
+#include "enums.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "json.h"
 #include "map.h"
@@ -46,7 +45,9 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
+#include "point.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "weather.h"
 #include "worldfactory.h"
@@ -277,24 +278,22 @@ struct CataListener : Catch::TestEventListenerBase {
 
 CATCH_REGISTER_LISTENER( CataListener )
 
-struct CataCIReporter: Catch::ConsoleReporter{
-    CataCIReporter( Catch::ReporterConfig const &config );
+struct CataCIReporter: Catch::ConsoleReporter {
+    explicit CataCIReporter( Catch::ReporterConfig const &config ) : Catch::ConsoleReporter(
+            config ) {};
 
-    void testCaseStarting( Catch::TestCaseInfo const &testInfo ) {
+    void testCaseStarting( Catch::TestCaseInfo const &testInfo ) override {
         Catch::ConsoleReporter::testCaseStarting( testInfo );
-        std::string tag_string = "";
+        std::string tag_string;
         for( const std::string &tag : testInfo.tags ) {
             tag_string += string_format( "[%s]", tag );
         }
+        // NOLINTNEXTLINE(cata-text-style)
         DebugLog( D_INFO, DC_ALL ) << "  Testing " << testInfo.name << " " << tag_string << "...";
     }
-
 };
 
-CataCIReporter::CataCIReporter( Catch::ReporterConfig const &config )
-    : Catch::ConsoleReporter( config ) {};
-
-CATCH_REGISTER_REPORTER("cata-ci-reporter", CataCIReporter )
+CATCH_REGISTER_REPORTER( "cata-ci-reporter", CataCIReporter )
 
 int main( int argc, const char *argv[] )
 {
