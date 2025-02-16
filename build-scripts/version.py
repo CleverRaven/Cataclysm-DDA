@@ -18,7 +18,6 @@ You could run this script like the following.
 from pathlib import Path
 import datetime
 import logging
-import re
 import os
 import subprocess
 import sys
@@ -37,7 +36,7 @@ def write_version_h(VERSION_STRING='unknown'):
     VERSION_H = None
     src_version_h = Path("src") / "version.h"
     try:
-        VERSON_H = open(src_version_h, 'r').read()
+        VERSION_H = open(src_version_h, 'r').read()
     except FileNotFoundError:
         pass
     if not VERSION_H:
