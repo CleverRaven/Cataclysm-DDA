@@ -122,9 +122,13 @@ def main():
     git = subprocess.run(('git', '-c', 'core.safecrlf=false', 'diff', '--numstat', '--exit-code',),
                          capture_output=True)
     if git.returncode != 0:
-        stat = git.stdout.decode().strip()
-        # TODO filter lang/po
-        DIRTYFLAG = "-dirty"
+        for line in git.stdout.decode().strip().splitlines():
+            _ , path = line.rsplit(sep='\t', maxsplit=1)
+            logging.debug(path)
+            if ('lang', 'po') == Path(path).parts[0:2]:
+                continue
+            DIRTYFLAG = "-dirty"
+            break
     logging.debug(f"{DIRTYFLAG=}")
 
     if GITVERSION:
