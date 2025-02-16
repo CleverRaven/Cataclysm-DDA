@@ -1943,9 +1943,7 @@ void activity_handlers::start_fire_finish( player_activity *act, Character *you 
         }
     }
 
-    if( st == firestarter_actor::start_type::FIRE ) {
-        it.activation_consume( 1, you->pos_bub(), you );
-    }
+    it.activation_consume( 1, you->pos_bub(), you );
 
     firestarter_actor::resolve_firestarter_use( you, &here, here.get_bub( act->placement ),
             st );
@@ -1984,7 +1982,12 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
     }
 
     item &firestarter = *act->targets.front();
-    if( firestarter.has_flag( flag_REQUIRES_TINDER ) ) {
+
+    const furn_id f_id = here.furn( here.get_bub( act->placement ) );
+    const bool is_smoker = f_id == furn_str_id( "f_smoking_rack" ) ||
+                           f_id == furn_str_id( "f_metal_smoking_rack" );
+
+    if( firestarter.has_flag( flag_REQUIRES_TINDER ) && !is_smoker ) {
         if( !here.tinder_at( where ) ) {
             inventory_filter_preset preset( []( const item_location & loc ) {
                 return loc->has_flag( flag_TINDER );
