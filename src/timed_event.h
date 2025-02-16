@@ -7,6 +7,7 @@
 
 #include "calendar.h"
 #include "coordinates.h"
+#include "explosion.h"
 #include "point.h"
 #include "submap.h"
 

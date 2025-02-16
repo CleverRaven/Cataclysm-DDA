@@ -14,6 +14,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "explosion.h"
 #include "game.h"
 #include "magic.h"
 #include "map.h"
@@ -113,7 +114,6 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, const tripo
 {
     map_point = project_to<coords::sm>( map_square );
     expl_data = explos_data;
-    submap foo = default;
 }
 
 
