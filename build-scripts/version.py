@@ -43,14 +43,14 @@ def read_version_h():
         pass
 
 
-def write_version_h():
+def write_version_h(VERSION_STRING):
     with open(Path("src") / "version.h", 'w') as version_h:
         VERSION_H = ("//NOLINT(cata-header-guard)\n"
                      f'#define VERSION "{VERSION_STRING}"\n')
         version_h.write(VERSION_H)
 
 
-def write_VERSION_TXT():
+def write_VERSION_TXT(GITSHA=None,TIMESTAMP=None,ARTIFACT=None):
     url = "https://github.com/CleverRaven/Cataclysm-DDA"
     if GITSHA:
         url = f"{url}/commit/{GITSHA}"
