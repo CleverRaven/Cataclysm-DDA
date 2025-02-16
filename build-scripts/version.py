@@ -24,7 +24,6 @@ import subprocess
 import sys
 
 
-
 def is_cwd_root():
     '''Are we on the top-level source directory?
 
@@ -54,7 +53,7 @@ def write_version_h(VERSION_STRING):
         version_h.write(VERSION_H)
 
 
-def write_VERSION_TXT(GITSHA=None,TIMESTAMP=None,ARTIFACT=None):
+def write_VERSION_TXT(GITSHA=None, TIMESTAMP=None, ARTIFACT=None):
     url = "https://github.com/CleverRaven/Cataclysm-DDA"
     if GITSHA:
         url = f"{url}/commit/{GITSHA}"
@@ -62,10 +61,11 @@ def write_VERSION_TXT(GITSHA=None,TIMESTAMP=None,ARTIFACT=None):
     with open("VERSION.TXT", 'w') as VERSION_TXT:
         text = str()
         text += (f"build type: {ARTIFACT or 'Release'}\n"
-                    f"build number: {timestamp}\n"
-                    f"commit sha: {GITSHA or 'Unknown'}\n"
-                    f"commit url: {url}")
+                 f"build number: {timestamp}\n"
+                 f"commit sha: {GITSHA or 'Unknown'}\n"
+                 f"commit url: {url}")
         VERSION_TXT.write(text)
+
 
 def main():
     logging.basicConfig(level=logging.DEBUG)  # DEBUG
@@ -92,39 +92,41 @@ def main():
     # Checking for .git/ may not work because of external worktrees
     try:
         git = subprocess.run(('git', 'rev-parse', '--is-inside-work-tree'),
-                            capture_output=True)
+                             capture_output=True)
     except FileNotFoundError:  # `git` command is missing
         write_version_h(VERSION_STRING=VERSION_STRING)
-        write_VERSION_TXT(GITSHA=GITSHA, TIMESTAMP=TIMESTAMP, ARTIFACT=ARTIFACT)
+        write_VERSION_TXT(GITSHA=GITSHA, TIMESTAMP=TIMESTAMP,
+                          ARTIFACT=ARTIFACT)
         raise SystemExit
 
     if git.returncode != 0:
         stdout = git.stdout.decode().strip()
         if 'true' != stdout:
             write_version_h(VERSION_STRING=VERSION_STRING)
-            write_VERSION_TXT(GITSHA=GITSHA, TIMESTAMP=TIMESTAMP, ARTIFACT=ARTIFACT)
+            write_VERSION_TXT(
+                GITSHA=GITSHA, TIMESTAMP=TIMESTAMP, ARTIFACT=ARTIFACT)
             raise SystemExit
 
     # Get the tag
     git = subprocess.run(('git', 'describe', '--tags', '--always',
-                        '--match', '[0-9A-Z]*.[0-9A-Z]*',
-                        '--match', 'cdda-experimental-*', '--exact-match'
-                        ),
-                        capture_output=True)
+                          '--match', '[0-9A-Z]*.[0-9A-Z]*',
+                          '--match', 'cdda-experimental-*', '--exact-match'
+                          ),
+                         capture_output=True)
     GITVERSION = git.stdout.decode().strip()
     logging.debug(f"{GITVERSION=}")
 
     # Get the short SHA1
     git = subprocess.run(('git', 'rev-parse', '--short', 'HEAD'),
-                        capture_output=True)
+                         capture_output=True)
     GITSHA = git.stdout.decode().strip()
     logging.debug(f"{GITSHA=}")
 
     # Check if there are changes in the worktree
     DIRTYFLAG = str()
     git = subprocess.run(('git', 'diff', '--numstat', '--exit-code',
-                        '-c', 'core.safecrlf=false'),
-                        capture_output=True)
+                          '-c', 'core.safecrlf=false'),
+                         capture_output=True)
     if git.returncode != 0:
         stat = git.stdout.decode().strip()
         # TODO filter lang/po
@@ -147,6 +149,7 @@ def main():
     write_VERSION_TXT(GITSHA=GITSHA, TIMESTAMP=TIMESTAMP, ARTIFACT=ARTIFACT)
 
     print(VERSION_STRING)
+
 
 if __name__ == "__main__":
     main()
