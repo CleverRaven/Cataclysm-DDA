@@ -1006,6 +1006,7 @@
       [ "rock_flaking", 5 ],
       [ "flint", 1 ],
       [ "rock_large", 5 ],
+      [ "plastic_shopping_bag", 40 ],
       [ "sinew", 40 ],
       [ "cotton_patchwork", 40 ],
       [ "cup_plastic", 30 ],

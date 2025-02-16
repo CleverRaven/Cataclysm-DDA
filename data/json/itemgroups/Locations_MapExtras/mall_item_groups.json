@@ -24,7 +24,8 @@
       [ "lc_wire", 5 ],
       [ "splinter", 10 ],
       [ "cotton_patchwork", 15 ],
-      { "item": "cotton_patchwork", "prob": 10, "custom-flags": [ "FILTHY" ] }
+      { "item": "cotton_patchwork", "prob": 10, "custom-flags": [ "FILTHY" ] },
+      [ "plastic_shopping_bag", 10 ]
     ]
   },
   {
