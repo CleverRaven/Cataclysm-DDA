@@ -1,28 +1,26 @@
 #include "trap.h"
 
+#include <algorithm>
 #include <cmath>
-#include <typeinfo>
+#include <set>
 #include <vector>
 
 #include "assign.h"
-#include "bodypart.h"
 #include "character.h"
-#include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
-#include "effect_on_condition.h"
 #include "event.h"
 #include "event_bus.h"
-#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "json.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "translations.h"
 
 static const flag_id json_flag_ECHOLOCATION_DETECTABLE( "ECHOLOCATION_DETECTABLE" );
 static const flag_id json_flag_SONAR_DETECTABLE( "SONAR_DETECTABLE" );
@@ -338,12 +336,12 @@ void trap::trigger( const tripoint_bub_ms &pos ) const
 
 void trap::trigger( const tripoint_bub_ms &pos, Creature &creature ) const
 {
-    trigger( pos, &creature, nullptr );
+    return trigger( pos, &creature, nullptr );
 }
 
 void trap::trigger( const tripoint_bub_ms &pos, item &item ) const
 {
-    trigger( pos, nullptr, &item );
+    return trigger( pos, nullptr, &item );
 }
 
 void trap::trigger( const tripoint_bub_ms &pos, Creature *creature, item *item ) const

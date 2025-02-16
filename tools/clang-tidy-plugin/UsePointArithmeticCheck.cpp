@@ -105,7 +105,7 @@ struct ExpressionComponent {
     }
 
     void complete_init() {
-        if( StringRef( objectRef ).ends_with( "->" ) ) {
+        if( StringRef( objectRef ).endswith( "->" ) ) {
             objectRef.erase( objectRef.end() - 2, objectRef.end() );
         }
     }

@@ -1,7 +1,4 @@
-#include <string>
-
 #include "cata_catch.h"
-#include "coordinates.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"

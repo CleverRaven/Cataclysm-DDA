@@ -85,6 +85,6 @@
     "C_Cpp.formatting": "disabled",
     "astyle.astylerc": "${workspaceRoot}/.astylerc",
     "files.associations": {
-        ".clang-tidy": "yaml",
+        "vector": "cpp"
     }
 }

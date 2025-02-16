@@ -1,7 +1,10 @@
 #include "item_category.h"
 
+#include <set>
+
 #include "generic_factory.h"
 #include "item.h"
+#include "json.h"
 
 namespace
 {

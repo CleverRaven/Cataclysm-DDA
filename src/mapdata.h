@@ -5,31 +5,28 @@
 #include <array>
 #include <bitset>
 #include <cstddef>
-#include <optional>
+#include <iosfwd>
 #include <set>
 #include <string>
-#include <string_view>
-#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "clone_ptr.h"
 #include "color.h"
-#include "coords_fwd.h"
 #include "enum_bitset.h"
 #include "game_constants.h"
 #include "iexamine.h"
-#include "translation.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 
-class Character;
 class JsonObject;
-struct connect_group;
+class Character;
+struct iexamine_actor;
 struct furn_t;
 struct itype;
-struct ter_t;
+struct tripoint;
 
 // size of connect groups bitset; increase if needed
 const int NUM_TERCONN = 256;
@@ -354,7 +351,6 @@ enum class ter_furn_flag : int {
     TFLAG_CLIMB_ADJACENT,
     TFLAG_FLOATS_IN_AIR,
     TFLAG_HARVEST_REQ_CUT1,
-    TFLAG_NATURAL_UNDERGROUND,
 
     NUM_TFLAG_FLAGS
 };

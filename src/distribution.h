@@ -2,12 +2,13 @@
 #ifndef CATA_SRC_DISTRIBUTION_H
 #define CATA_SRC_DISTRIBUTION_H
 
+#include <memory>
 #include <string>
 
 #include "memory_fast.h"  // IWYU pragma: keep
 
-class JsonValue;
 struct int_distribution_impl;
+class JsonValue;
 
 // This represents a probability distribution over the integers, which is
 // abstract and can be read from a JSON definition

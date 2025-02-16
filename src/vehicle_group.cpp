@@ -1,18 +1,20 @@
 #include "vehicle_group.h"
 
-#include <cstddef>
 #include <functional>
-#include <memory>
+#include <cmath>
+#include <cstddef>
+#include <new>
 #include <string>
 #include <utility>
 
-#include "coordinates.h"
 #include "debug.h"
-#include "flexbuffer_json.h"
+#include "json.h"
 #include "map.h"
 #include "memory_fast.h"
 #include "point.h"
+#include "translations.h"
 #include "units.h"
+#include "vehicle.h"
 #include "vpart_position.h"
 
 using vplacement_id = string_id<VehiclePlacement>;

@@ -1,6 +1,5 @@
-#include <string>
-
 #include "cata_catch.h"
+
 #include "type_id.h"
 
 static const oter_str_id oter_sewer_es( "sewer_es" );

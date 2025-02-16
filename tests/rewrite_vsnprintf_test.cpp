@@ -1,4 +1,5 @@
 #if !defined(_MSC_VER)
+#include <iosfwd>
 #include <string>
 
 // the rewrite_vsnprintf function is explicitly defined for non-MS compilers in output.cpp

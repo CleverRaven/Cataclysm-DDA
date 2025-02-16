@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <iterator>
 
-#include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "line.h"

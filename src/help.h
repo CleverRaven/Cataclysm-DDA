@@ -2,18 +2,18 @@
 #ifndef CATA_SRC_HELP_H
 #define CATA_SRC_HELP_H
 
+#include <iosfwd>
 #include <map>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "cuboid_rectangle.h"
-#include "point.h"
-#include "translation.h"
+#include "input.h"
 
+class JsonArray;
 class JsonObject;
-struct input_event;
-
+class translation;
 namespace catacurses
 {
 class window;

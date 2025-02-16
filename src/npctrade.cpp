@@ -1,32 +1,23 @@
 #include "npctrade.h"
 
 #include <algorithm>
-#include <cmath>
-#include <cstdlib>
-#include <functional>
+#include <iosfwd>
 #include <iterator>
 #include <list>
-#include <memory>
-#include <optional>
 #include <ostream>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
 #include "character.h"
-#include "character_attire.h"
 #include "debug.h"
-#include "enums.h"
 #include "faction.h"
 #include "item.h"
 #include "item_category.h" // IWYU pragma: keep
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "npc.h"
-#include "npc_opinion.h"
 #include "npctrade_utils.h"
-#include "pocket_type.h"
 #include "ret_val.h"
 #include "skill.h"
 #include "trade_ui.h"

@@ -2,17 +2,13 @@
 #ifndef CATA_SRC_PROJECTILE_H
 #define CATA_SRC_PROJECTILE_H
 
-#include <map>
+#include <iosfwd>
 #include <memory>
 #include <set>
-#include <string>
-#include <utility>
 
 #include "compatibility.h"
 #include "coordinates.h"
 #include "damage.h"
-#include "point.h"
-#include "type_id.h"
 
 class Creature;
 class item;

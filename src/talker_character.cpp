@@ -1,53 +1,23 @@
-#include <algorithm>
-#include <bitset>
-#include <cmath>
-#include <cstddef>
-#include <functional>
-#include <list>
-#include <map>
 #include <memory>
-#include <optional>
-#include <set>
-#include <tuple>
-#include <unordered_set>
-#include <utility>
 
-#include "addiction.h"
-#include "calendar.h"
-#include "cata_utility.h"
-#include "character_attire.h"
+#include "avatar.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "coordinates.h"
-#include "creature.h"
-#include "damage.h"
-#include "debug.h"
 #include "effect.h"
-#include "faction.h"
 #include "item.h"
-#include "item_location.h"
 #include "itype.h"
 #include "magic.h"
-#include "map.h"
-#include "martialarts.h"
-#include "messages.h"
 #include "npc.h"
 #include "npctalk.h"
-#include "output.h"
 #include "pimpl.h"
 #include "player_activity.h"
-#include "proficiency.h"
-#include "ret_val.h"
+#include "point.h"
 #include "skill.h"
-#include "string_formatter.h"
 #include "talker_character.h"
-#include "translation.h"
-#include "translations.h"
-#include "units.h"
 #include "vehicle.h"
 #include "weather.h"
 
-struct bionic;
+class time_duration;
 
 static const flag_id json_flag_FIT( "FIT" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
@@ -773,9 +743,7 @@ void talker_character::set_thirst( int value )
 
 bool talker_character_const::is_in_control_of( const vehicle &veh ) const
 {
-    map &here = get_map();
-
-    return veh.player_in_control( here, *me_chr_const );
+    return veh.player_in_control( *me_chr_const );
 }
 
 void talker_character::shout( const std::string &speech, bool order )

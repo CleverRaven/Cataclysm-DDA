@@ -1,6 +1,6 @@
 #include "mutation.h" // IWYU pragma: associated
 
-#include "flexbuffer_json.h"
+#include "json.h"
 
 struct mutation_type {
     std::string id;

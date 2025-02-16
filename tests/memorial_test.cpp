@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <chrono>
 #include <iterator>
 #include <numeric>
 #include <sstream>
@@ -9,7 +10,6 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "cata_catch.h"
-#include "cata_utility.h"
 #include "character_id.h"
 #include "debug_menu.h"
 #include "event.h"
@@ -18,6 +18,8 @@
 #include "make_static.h"
 #include "memorial_logger.h"
 #include "mutation.h"
+#include "npc.h"
+#include "output.h"
 #include "player_helpers.h"
 #include "profession.h"
 #include "stats_tracker.h"

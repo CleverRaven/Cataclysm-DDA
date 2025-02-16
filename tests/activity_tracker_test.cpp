@@ -1,12 +1,11 @@
-#include <numeric>
-#include <string>
-#include <vector>
+#include "cata_catch.h"
 
 #include "activity_tracker.h"
 #include "calendar.h"
-#include "cata_catch.h"
 #include "game_constants.h"
 #include "rng.h"
+
+#include <vector>
 
 static void test_activity_tracker( const std::vector<float> &values )
 {

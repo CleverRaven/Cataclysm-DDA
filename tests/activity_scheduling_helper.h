@@ -2,7 +2,7 @@
 #define CATA_TESTS_ACTIVITY_SCHEDULING_HELPER_H
 
 #include <cstddef>
-#include <string>
+#include <iosfwd>
 #include <utility>
 #include <vector>
 

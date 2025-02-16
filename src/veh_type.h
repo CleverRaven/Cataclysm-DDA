@@ -2,35 +2,33 @@
 #ifndef CATA_SRC_VEH_TYPE_H
 #define CATA_SRC_VEH_TYPE_H
 
+#include <algorithm>
 #include <array>
 #include <bitset>
+#include <iosfwd>
 #include <map>
 #include <memory>
+#include <new>
 #include <optional>
 #include <set>
 #include <string>
-#include <string_view>
-#include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "color.h"
+#include "compatibility.h"
 #include "coordinates.h"
-#include "memory_fast.h"
-#include "point.h"
+#include "damage.h"
 #include "requirements.h"
-#include "translation.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
-class Character;
 class JsonObject;
-class JsonOut;
-class map;
+class Character;
 class vehicle;
-class vpart_info;
-struct vehicle_prototype;
+
 template <typename T> class generic_factory;
 
 namespace vehicles
@@ -361,7 +359,7 @@ class vpart_info
         item_group_id breaks_into_group = item_group_id( "EMPTY_GROUP" );
 
         /** Flat decrease of damage of a given type. */
-        std::unordered_map<damage_type_id, float> damage_reduction;
+        std::unordered_map<damage_type_id, float> damage_reduction = {};
 
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;
@@ -513,7 +511,7 @@ struct vehicle_prototype {
         shared_ptr_fast<vehicle> blueprint;
 
         void load( const JsonObject &jo, std::string_view src );
-        static void save_vehicle_as_prototype( const map &here, const vehicle &veh, JsonOut &json );
+        static void save_vehicle_as_prototype( const vehicle &veh, JsonOut &json );
     private:
         bool was_loaded = false; // used by generic_factory
         friend class generic_factory<vehicle_prototype>;

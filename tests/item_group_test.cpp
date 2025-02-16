@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iosfwd>
 #include <list>
 #include <set>
 #include <string>
@@ -6,8 +7,6 @@
 #include <vector>
 
 #include "cata_catch.h"
-#include "cata_utility.h"
-#include "enums.h"
 #include "flag.h"
 #include "item.h"
 #include "item_group.h"

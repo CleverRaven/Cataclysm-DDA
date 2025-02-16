@@ -1,13 +1,12 @@
 #include "talker_furniture.h"
 
-#include <optional>
-#include <vector>
-
 #include "character.h"
 #include "computer.h"
-#include "coordinates.h"
-#include "map.h"
+#include "item.h"
+#include "itype.h"
+#include "magic.h"
 #include "point.h"
+#include "vehicle.h"
 
 std::string talker_furniture_const::disp_name() const
 {

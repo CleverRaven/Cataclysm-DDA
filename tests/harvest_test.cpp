@@ -1,21 +1,12 @@
-#include <string>
-#include <vector>
-
 #include "activity_handlers.h"
 #include "cata_catch.h"
-#include "character.h"
-#include "coordinates.h"
-#include "item.h"
+#include "harvest.h"
 #include "item_group.h"
-#include "item_location.h"
+#include "itype.h"
 #include "map.h"
-#include "map_scale_constants.h"
-#include "map_selector.h"
 #include "monster.h"
-#include "player_activity.h"
+#include "mtype.h"
 #include "player_helpers.h"
-#include "point.h"
-#include "type_id.h"
 
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 

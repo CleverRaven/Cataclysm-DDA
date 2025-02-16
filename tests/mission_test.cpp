@@ -1,19 +1,11 @@
-#include <functional>
-#include <memory>
-#include <vector>
-
 #include "avatar.h"
 #include "cata_catch.h"
-#include "character_id.h"
-#include "coordinates.h"
+#include "character.h"
 #include "game.h"
-#include "item.h"
-#include "map.h"
+#include "player_helpers.h"
 #include "map_helpers.h"
 #include "mission.h"
-#include "player_helpers.h"
-#include "point.h"
-#include "type_id.h"
+#include "npc.h"
 
 static const itype_id itype_test_rock( "test_rock" );
 

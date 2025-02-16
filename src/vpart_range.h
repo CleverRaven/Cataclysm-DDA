@@ -2,15 +2,17 @@
 #ifndef CATA_SRC_VPART_RANGE_H
 #define CATA_SRC_VPART_RANGE_H
 
-#include <cstddef>
 #include <functional>
+#include <cstddef>
 #include <iterator>
+#include <new>
 #include <optional>
-#include <utility>
+#include <type_traits>
 
+#include "cata_assert.h"
+#include "vehicle.h"
 #include "vpart_position.h"
 
-class vehicle;
 enum class part_status_flag : int;
 
 /**

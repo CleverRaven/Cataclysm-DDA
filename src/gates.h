@@ -3,7 +3,6 @@
 #define CATA_SRC_GATES_H
 
 #include <string>
-#include <vector>
 
 #include "coords_fwd.h"
 #include "type_id.h"

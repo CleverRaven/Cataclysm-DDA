@@ -1,9 +1,6 @@
 #include "pickup.h"
 
 #include <algorithm>
-#include <array>
-#include <functional>
-#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -14,20 +11,15 @@
 #include "activity_actor_definitions.h"
 #include "auto_pickup.h"
 #include "character.h"
-#include "contents_change_handler.h"
+#include "colony.h"
 #include "debug.h"
 #include "enums.h"
-#include "flexbuffer_json.h"
 #include "game.h"
-#include "game_constants.h"
 #include "input.h"
 #include "input_context.h"
-#include "input_enums.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_stack.h"
-#include "json.h"
 #include "line.h"
 #include "map.h"
 #include "mapdata.h"
@@ -42,6 +34,7 @@
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
+#include "units_utility.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;

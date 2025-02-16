@@ -1,10 +1,6 @@
-#include <string>
-
 #include "avatar.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
-#include "creature.h"
 #include "monster.h"
 #include "mtype.h"
 #include "type_id.h"

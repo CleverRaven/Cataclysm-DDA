@@ -1,52 +1,24 @@
-#include <array>
-#include <clocale>
-#include <cmath>
-#include <functional>
-#include <list>
-#include <locale>
-#include <memory>
-#include <optional>
-#include <string>
-#include <string_view>
-#include <vector>
-
-#include "activity_tracker.h"
-#include "avatar.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "cata_scope_helpers.h"
-#include "cata_utility.h"
 #include "catch/catch.hpp"
-#include "character_attire.h"
-#include "coordinates.h"
-#include "effect.h"
+
+#include "cata_utility.h"
 #include "game.h"
 #include "game_constants.h"
-#include "item.h"
-#include "magic.h"
+#include "player_helpers.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "mission.h"
 #include "monster.h"
-#include "options_helpers.h"
-#include "overmap.h"
-#include "overmap_ui.h"
+#include "morale.h"
 #include "overmapbuffer.h"
-#include "pimpl.h"
-#include "player_helpers.h"
-#include "point.h"
-#include "string_formatter.h"
-#include "translation.h"
-#include "type_id.h"
-#include "units.h"
+#include "options_helpers.h"
 #include "weather.h"
 #include "weather_type.h"
 #include "widget.h"
 
+#include <clocale>
+
 // Needed for screen scraping
 #if defined(TILES)
-#include <cstddef>
-
-#include "cursesdef.h"
 #include "cursesport.h"
 #endif
 

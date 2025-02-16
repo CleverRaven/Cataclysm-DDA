@@ -1,20 +1,17 @@
-#include <game.h>
-#include <memory>
-#include <string>
+#include "cata_catch.h"
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "cata_catch.h"
-#include "character_attire.h"
-#include "coordinates.h"
+#include "creature_tracker.h"
+#include <game.h>
 #include "item.h"
-#include "item_location.h"
 #include "map.h"
-#include "map_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
-#include "type_id.h"
+
+#include <string>
+#include "map_helpers.h"
 
 static const itype_id itype_ammo_pouch( "ammo_pouch" );
 static const itype_id itype_arrow_wood( "arrow_wood" );

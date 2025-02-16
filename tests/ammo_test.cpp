@@ -1,12 +1,9 @@
-#include <set>
-#include <string>
-
 #include "cata_catch.h"
-#include "coordinates.h"
+
+#include <set>
+
 #include "damage.h"
 #include "item.h"
-#include "pocket_type.h"
-#include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 

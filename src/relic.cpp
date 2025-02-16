@@ -1,22 +1,23 @@
 #include "relic.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
+#include <set>
 #include <string>
 
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
-#include "enum_conversions.h"
 #include "enums.h"
-#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "rng.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "weather.h"
@@ -313,8 +314,6 @@ void relic_charge_info::serialize( JsonOut &jsout ) const
 
 void relic_charge_info::accumulate_charge( item &parent )
 {
-    map &here = get_map();
-
     const bool time = activation_time == 0_seconds;
     const bool regen_ammo = regenerate_ammo && item_can_not_load_ammo( parent );
     const bool has_max_charges = !regenerate_ammo && charges >= max_charges && max_charges != 0;
@@ -334,7 +333,7 @@ void relic_charge_info::accumulate_charge( item &parent )
             if( current_ammo == itype_id::NULL_ID() ) {
                 current_magazine->ammo_set( current_magazine->ammo_default(), 1 );
             } else {
-                current_magazine->ammo_set( current_ammo, current_magazine->ammo_remaining( here ) + 1 );
+                current_magazine->ammo_set( current_ammo, current_magazine->ammo_remaining() + 1 );
             }
         } else {
             charges++;

@@ -757,6 +757,7 @@
     "looks_like": "spiral_stone",
     "flags": [
       "TRADER_AVOID",
+      "ONLY_ONE",
       "NO_DROP",
       "PADDED",
       "PERSONAL",
@@ -768,7 +769,6 @@
       "INTEGRATED",
       "MAGICAL"
     ],
-    "max_worn": 1,
     "qualities": [ [ "HACK", 3 ] ]
   },
   {

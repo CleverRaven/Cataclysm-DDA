@@ -1,7 +1,6 @@
-#include <vector>
+#include "cata_catch.h"
 
 #include "cartesian_product.h"
-#include "cata_catch.h"
 
 TEST_CASE( "cartesian_product", "[nogame]" )
 {

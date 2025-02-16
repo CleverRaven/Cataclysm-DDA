@@ -1,34 +1,13 @@
 #include "npctrade_utils.h"
 
-#include <algorithm>
-#include <functional>
-#include <iterator>
 #include <list>
 #include <map>
-#include <optional>
-#include <ostream>
-#include <string>
-#include <unordered_set>
-#include <utility>
-#include <vector>
 
 #include "calendar.h"
 #include "clzones.h"
-#include "coordinates.h"
-#include "debug.h"
-#include "game_constants.h"
-#include "item.h"
-#include "item_location.h"
-#include "map.h"
-#include "mapdata.h"
 #include "npc.h"
 #include "npc_class.h"
-#include "pocket_type.h"
-#include "point.h"
 #include "rng.h"
-#include "shop_cons_rate.h"
-#include "type_id.h"
-#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -88,10 +67,8 @@ bool _to_map( item const &it, map &here, tripoint_bub_ms const &dpoint_here )
 
 bool _to_veh( item const &it, std::optional<vpart_reference> const &vp )
 {
-    map &here = get_map();
-
     if( vp->items().free_volume() >= it.volume() ) {
-        std::optional<vehicle_stack::iterator> const ret = vp->vehicle().add_item( here, vp->part(), it );
+        std::optional<vehicle_stack::iterator> const ret = vp->vehicle().add_item( vp->part(), it );
         return !ret.has_value();
     }
     return true;

@@ -4,11 +4,10 @@
 
 #include <climits>
 #include <cstddef>
-#include <map>
+#include <iosfwd>
 #include <optional>
 #include <set>
 #include <string>
-#include <string_view>
 #include <unordered_set>
 #include <vector>
 
@@ -16,7 +15,7 @@
 #include "calendar.h"
 #include "clone_ptr.h"
 #include "compatibility.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "enums.h"
 #include "item_location.h"
 #include "memory_fast.h"

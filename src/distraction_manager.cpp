@@ -1,5 +1,6 @@
 #include "distraction_manager.h"
 
+#include <memory>
 #include <string>
 #include <vector>
 

@@ -1,23 +1,21 @@
 #include "mutation.h"
 
 #include <algorithm>
-#include <climits>
-#include <cmath>
 #include <cstdlib>
 #include <functional>
 #include <memory>
-#include <unordered_map>
 #include <unordered_set>
 
+#include "activity_type.h"
 #include "avatar_action.h"
+#include "avatar.h"
 #include "bionics.h"
-#include "cata_utility.h"
+#include "character_attire.h"
 #include "character.h"
 #include "color.h"
-#include "coordinates.h"
+#include "condition.h"
 #include "creature.h"
 #include "debug.h"
-#include "dialogue.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
@@ -26,12 +24,13 @@
 #include "game.h"
 #include "item.h"
 #include "itype.h"
-#include "magic.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"
 #include "omdata.h"
@@ -41,15 +40,11 @@
 #include "pathfinding.h"
 #include "pimpl.h"
 #include "player_activity.h"
-#include "relic.h"
 #include "rng.h"
-#include "subbodypart.h"
-#include "talker.h"
 #include "text_snippets.h"
 #include "translations.h"
-#include "ui.h"
 #include "uistate.h"
-#include "weighted_list.h"
+#include "units.h"
 
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );

@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_MONDEATH_H
 #define CATA_SRC_MONDEATH_H
 
-#include "item_location.h"
+#include "item.h"
 
 class map;
 class monster;

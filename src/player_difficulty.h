@@ -2,12 +2,7 @@
 #ifndef CATA_SRC_PLAYER_DIFFICULTY_H
 #define CATA_SRC_PLAYER_DIFFICULTY_H
 
-#include <string>
-
 #include "npc.h"
-
-class Character;
-class avatar;
 
 // The point after which stats cost double
 constexpr int HIGH_STAT = 12;

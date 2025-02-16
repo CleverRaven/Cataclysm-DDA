@@ -3,24 +3,20 @@
 #define CATA_SRC_NPC_CLASS_H
 
 #include <functional>
+#include <iosfwd>
 #include <map>
-#include <string>
-#include <string_view>
-#include <utility>
 #include <vector>
 
-#include "calendar.h"
-#include "faction.h"
-#include "translation.h"
+#include "shop_cons_rate.h"
+#include "translations.h"
 #include "type_id.h"
 
+class npc;
 class JsonObject;
 class Trait_group;
-class item;
-class npc;
+
 struct const_dialogue;
-struct shopkeeper_blacklist;
-struct shopkeeper_cons_rates;
+struct faction_price_rule;
 
 namespace trait_group
 {

@@ -1,10 +1,7 @@
-#include <string>
-
+#include "calendar.h"
 #include "cata_catch.h"
-#include "coordinates.h"
 #include "item.h"
 #include "map.h"
-#include "type_id.h"
 
 static const field_type_str_id field_fd_acid( "fd_acid" );
 

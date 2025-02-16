@@ -1,19 +1,14 @@
 #include <algorithm>
-#include <array>
 #include <cstdlib>
-#include <functional>
-#include <memory>
-#include <string>
+#include <map>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
-#include "coordinates.h"
 #include "options_helpers.h"
-#include "pimpl.h"
+#include "point.h"
 #include "type_id.h"
-#include "units.h"
 #include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"

@@ -2,38 +2,29 @@
 
 #include <algorithm>
 #include <array>
-#include <functional>
-#include <iterator>
 #include <memory>
 #include <optional>
-#include <string_view>
-#include <utility>
+#include <set>
 #include <vector>
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
-#include "bodypart.h"
 #include "character.h"
-#include "coordinates.h"
+#include "colony.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
-#include "flexbuffer_json.h"
 #include "game.h" // TODO: This is a circular dependency
 #include "generic_factory.h"
 #include "iexamine.h"
 #include "item.h"
-#include "itype.h"
+#include "json.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "monster.h"
 #include "player_activity.h"
 #include "point.h"
-#include "rng.h"
-#include "sounds.h"
-#include "translation.h"
 #include "translations.h"
 #include "units.h"
 #include "vehicle.h"
@@ -304,7 +295,7 @@ void doors::close_door( map &m, Creature &who, const tripoint_bub_ms &closep )
             }
             Character *ch = who.as_character();
             if( ch && veh->can_close( closable, *ch ) ) {
-                veh->close( m, closable );
+                veh->close( closable );
                 //~ %1$s - vehicle name, %2$s - part name
                 who.add_msg_if_player( _( "You close the %1$s's %2$s." ), veh->name, veh->part( closable ).name() );
                 didit = true;

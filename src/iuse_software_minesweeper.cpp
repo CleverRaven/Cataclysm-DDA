@@ -8,7 +8,6 @@
 
 #include "catacharset.h"
 #include "color.h"
-#include "coordinates.h"
 #include "cursesdef.h"
 #include "input_context.h"
 #include "output.h"

@@ -1,7 +1,4 @@
-#include <clocale>
-#include <functional>
-#include <locale>
-#include <stdexcept>
+#include <iosfwd>
 #include <string>
 #include <vector>
 

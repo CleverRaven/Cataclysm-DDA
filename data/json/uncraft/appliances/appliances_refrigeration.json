@@ -21,12 +21,11 @@
       [ [ "plastic_chunk", 294 ] ],
       [ [ "chunk_rubber", 3 ] ],
       [ [ "material_aluminium_ingot", 12 ] ],
-      [ [ "glass_shard", 5 ] ],
+      [ [ "glass", 5 ] ],
       [ [ "cable", 42 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cu_pipe", 1 ] ],
-      [ [ "refrigerant_tank", 1 ] ],
-      [ [ "thermostat", 1 ] ]
+      [ [ "refrigerant_tank", 1 ] ]
     ]
   },
   {
@@ -50,12 +49,11 @@
       [ [ "plastic_chunk", 128 ] ],
       [ [ "chunk_rubber", 1 ] ],
       [ [ "material_aluminium_ingot", 5 ] ],
-      [ [ "glass_shard", 2 ] ],
+      [ [ "glass", 2 ] ],
       [ [ "cable", 18 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cu_pipe", 1 ] ],
-      [ [ "refrigerant_tank", 1 ] ],
-      [ [ "thermostat", 1 ] ]
+      [ [ "refrigerant_tank", 1 ] ]
     ]
   },
   {
@@ -80,7 +78,7 @@
       [ [ "plastic_chunk", 349 ] ],
       [ [ "chunk_rubber", 3 ] ],
       [ [ "material_aluminium_ingot", 14 ] ],
-      [ [ "glass_shard", 6 ] ],
+      [ [ "glass", 6 ] ],
       [ [ "cable", 50 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cu_pipe", 1 ] ],
@@ -109,13 +107,12 @@
       [ [ "plastic_chunk", 406 ] ],
       [ [ "chunk_rubber", 4 ] ],
       [ [ "material_aluminium_ingot", 16 ] ],
-      [ [ "glass_shard", 7 ] ],
+      [ [ "glass", 7 ] ],
       [ [ "cable", 58 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cu_pipe", 1 ] ],
       [ [ "refrigerant_tank", 1 ] ],
-      [ [ "tempered_glass_sheet", 1 ] ],
-      [ [ "thermostat", 1 ] ]
+      [ [ "tempered_glass_sheet", 1 ] ]
     ]
   },
   {
@@ -140,7 +137,7 @@
       [ [ "plastic_chunk", 874 ] ],
       [ [ "chunk_rubber", 7 ] ],
       [ [ "material_aluminium_ingot", 34 ] ],
-      [ [ "glass_shard", 14 ] ],
+      [ [ "glass", 14 ] ],
       [ [ "cable", 124 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cu_pipe", 1 ] ],
@@ -170,7 +167,7 @@
       [ [ "plastic_chunk", 858 ] ],
       [ [ "chunk_rubber", 7 ] ],
       [ [ "material_aluminium_ingot", 33 ] ],
-      [ [ "glass_shard", 14 ] ],
+      [ [ "glass", 14 ] ],
       [ [ "cable", 122 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cu_pipe", 1 ] ],
@@ -199,7 +196,7 @@
       [ [ "plastic_chunk", 531 ] ],
       [ [ "chunk_rubber", 5 ] ],
       [ [ "material_aluminium_ingot", 21 ] ],
-      [ [ "glass_shard", 9 ] ],
+      [ [ "glass", 9 ] ],
       [ [ "cable", 75 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cu_pipe", 1 ] ],
@@ -229,12 +226,11 @@
       [ [ "plastic_chunk", 294 ] ],
       [ [ "chunk_rubber", 3 ] ],
       [ [ "material_aluminium_ingot", 12 ] ],
-      [ [ "glass_shard", 5 ] ],
+      [ [ "glass", 5 ] ],
       [ [ "cable", 42 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cu_pipe", 1 ] ],
-      [ [ "refrigerant_tank", 1 ] ],
-      [ [ "thermostat", 1 ] ]
+      [ [ "refrigerant_tank", 1 ] ]
     ]
   },
   {
@@ -258,12 +254,11 @@
       [ [ "plastic_chunk", 140 ] ],
       [ [ "chunk_rubber", 2 ] ],
       [ [ "material_aluminium_ingot", 6 ] ],
-      [ [ "glass_shard", 3 ] ],
+      [ [ "glass", 3 ] ],
       [ [ "cable", 20 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cu_pipe", 1 ] ],
-      [ [ "refrigerant_tank", 1 ] ],
-      [ [ "thermostat", 1 ] ]
+      [ [ "refrigerant_tank", 1 ] ]
     ]
   },
   {
@@ -287,7 +282,7 @@
       [ [ "plastic_chunk", 120 ] ],
       [ [ "chunk_rubber", 1 ] ],
       [ [ "material_aluminium_ingot", 5 ] ],
-      [ [ "glass_shard", 2 ] ],
+      [ [ "glass", 2 ] ],
       [ [ "cable", 17 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cu_pipe", 1 ] ],
@@ -316,7 +311,7 @@
       [ [ "plastic_chunk", 375 ] ],
       [ [ "chunk_rubber", 3 ] ],
       [ [ "material_aluminium_ingot", 15 ] ],
-      [ [ "glass_shard", 6 ] ],
+      [ [ "glass", 6 ] ],
       [ [ "cable", 53 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cu_pipe", 1 ] ],
@@ -345,7 +340,7 @@
       [ [ "plastic_chunk", 260 ] ],
       [ [ "chunk_rubber", 2 ] ],
       [ [ "material_aluminium_ingot", 10 ] ],
-      [ [ "glass_shard", 4 ] ],
+      [ [ "glass", 4 ] ],
       [ [ "cable", 37 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cu_pipe", 1 ] ],
@@ -374,7 +369,7 @@
       [ [ "plastic_chunk", 895 ] ],
       [ [ "chunk_rubber", 7 ] ],
       [ [ "material_aluminium_ingot", 35 ] ],
-      [ [ "glass_shard", 14 ] ],
+      [ [ "glass", 14 ] ],
       [ [ "cable", 127 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cu_pipe", 1 ] ],
@@ -403,7 +398,7 @@
       [ [ "plastic_chunk", 416 ] ],
       [ [ "chunk_rubber", 4 ] ],
       [ [ "material_aluminium_ingot", 16 ] ],
-      [ [ "glass_shard", 7 ] ],
+      [ [ "glass", 7 ] ],
       [ [ "cable", 59 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cu_pipe", 1 ] ],
@@ -433,7 +428,7 @@
       [ [ "plastic_chunk", 315 ] ],
       [ [ "chunk_rubber", 3 ] ],
       [ [ "material_aluminium_ingot", 13 ] ],
-      [ [ "glass_shard", 5 ] ],
+      [ [ "glass", 5 ] ],
       [ [ "cable", 45 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cu_pipe", 1 ] ],

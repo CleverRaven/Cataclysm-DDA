@@ -1,14 +1,14 @@
 #include <bitset>
 #include <cstdio>
 #include <sstream>
-#include <string>
+#include <type_traits>
 
 #include "cata_catch.h"
-#include "coordinates.h"
+#include "game_constants.h"
+#include "json.h"
 #include "lru_cache.h"
 #include "map.h"
 #include "map_memory.h"
-#include "map_scale_constants.h"
 #include "point.h"
 
 static constexpr tripoint_abs_ms p1{ -SEEX - 2, -SEEY - 3, -1 };

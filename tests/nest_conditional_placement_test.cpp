@@ -1,15 +1,11 @@
-#include <vector>
-
 #include "cata_catch.h"
 #include "city.h"
 #include "coordinates.h"
+#include "game_constants.h"
 #include "map.h"
-#include "map_scale_constants.h"
-#include "omdata.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "point.h"
-#include "type_id.h"
+#include "test_data.h"
 
 static const oter_str_id oter_field( "field" );
 static const oter_str_id oter_ncpt_predecessors( "ncpt_predecessors" );

@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#include <iosfwd>
 #include <limits>
 #include <utility>
 
@@ -178,7 +179,6 @@ class tiny_bitset
                 // The hashtag blessed UB-avoiding way of type punning a pointer
                 // out of an integer.
                 block_t *ret;
-                // NOLINTNEXTLINE(bugprone-multi-level-implicit-pointer-conversion)
                 memcpy( &ret, &storage_, sizeof( storage_ ) );
                 return ret;
             }

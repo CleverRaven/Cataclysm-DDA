@@ -1,3 +1,4 @@
+#include <iosfwd>
 #include <string>
 
 #include "calendar.h"

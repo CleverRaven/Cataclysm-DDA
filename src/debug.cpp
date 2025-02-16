@@ -704,11 +704,8 @@ struct OutputDebugStreamA : public std::ostream {
 #endif
 
 struct DebugFile {
+    ~DebugFile();
     void init( DebugOutput, const cata_path &filename );
-    void deinit();
-    ~DebugFile() {
-        deinit();
-    }
     std::ostream &get_file();
     static DebugFile &instance() {
         static DebugFile instance;
@@ -723,7 +720,7 @@ struct DebugFile {
 // DebugFile OStream Wrapper                                        {{{2
 // ---------------------------------------------------------------------
 
-void DebugFile::deinit()
+DebugFile::~DebugFile()
 {
     if( file && file.get() != &std::cerr ) {
         output_repetitions( *file );
@@ -839,7 +836,7 @@ void setupDebug( DebugOutput output_mode )
 
 void deinitDebug()
 {
-    DebugFile::instance().deinit();
+    DebugFile::instance().~DebugFile();
 }
 
 // OStream Operators                                                {{{2
@@ -1426,7 +1423,7 @@ void debug_write_backtrace( std::ostream &out )
     if( !addresses.empty() ) {
         call_addr2line( last_binary_name, addresses );
     }
-    free( funcNames );  // NOLINT( bugprone-multi-level-implicit-pointer-conversion )
+    free( funcNames );
 #   endif
 #endif
 }

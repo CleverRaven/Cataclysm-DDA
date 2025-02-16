@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <climits>
+#include <cmath>
 #include <cstddef>
 #include <functional>
 #include <map>
@@ -10,6 +11,7 @@
 #include <optional>
 #include <queue>
 #include <set>
+#include <stdexcept>
 #include <string>
 #include <type_traits>
 #include <unordered_map>
@@ -20,13 +22,11 @@
 
 #include "action.h"
 #include "avatar.h"
-#include "basecamp.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
-#include "character_id.h"
 #include "coordinates.h"
-#include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "dialogue_helpers.h"
@@ -37,24 +37,22 @@
 #include "faction.h"
 #include "field.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
-#include "game_constants.h"
 #include "generic_factory.h"
 #include "global_vars.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_location.h"
+#include "json_error.h"
+#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "math_parser.h"
 #include "math_parser_type.h"
-#include "memory_fast.h"
-#include "messages.h"
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -62,7 +60,6 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
-#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "popup.h"
@@ -83,7 +80,8 @@
 #include "widget.h"
 #include "worldfactory.h"
 
-// IWYU pragma: no_forward_declare cardinal_direction // need its enum_traits
+class Creature;
+class basecamp;
 class recipe;
 struct mapgen_arguments;
 

@@ -5,8 +5,9 @@
 #include <climits>
 #include <cmath>
 #include <cstdlib>
-#include <functional>
+#include <iosfwd>
 #include <limits>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -16,25 +17,21 @@
 #include <utility>
 #include <vector>
 
-#include "anatomy.h"
 #include "avatar.h"
-#include "bionics.h"
-#include "body_part_set.h"
+#include "anatomy.h"
 #include "bodypart.h"
+#include "bionics.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "character_attire.h"
 #include "character_martial_arts.h"
-#include "color.h"
-#include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
-#include "dialogue.h"
-#include "effect.h"
 #include "effect_on_condition.h"
+#include "enum_bitset.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -43,8 +40,6 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
-#include "item_components.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
 #include "line.h"
@@ -54,6 +49,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monattack.h"
 #include "monster.h"
@@ -62,21 +58,15 @@
 #include "npc.h"
 #include "output.h"
 #include "pimpl.h"
-#include "pocket_type.h"
 #include "point.h"
 #include "popup.h"
-#include "proficiency.h"
 #include "projectile.h"
-#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "subbodypart.h"
-#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weakpoint.h"
@@ -1816,7 +1806,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
             new_.y() = b.y();
         }
 
-        const tripoint_bub_ms dest{ new_, b.z()};
+        const tripoint_bub_ms &dest{ new_, b.z()};
         if( g->is_empty( dest ) ) {
             t.setpos( dest );
         }
@@ -1850,7 +1840,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
                 ( to_swimmable && to_deepwater ) || // Dive into deep water
                 is_mounted() ||
                 ( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle
-                ( veh0 != nullptr && veh0->player_in_control( here, get_avatar() ) ) || // Player is driving
+                ( veh0 != nullptr && veh0->player_in_control( get_avatar() ) ) || // Player is driving
                 has_effect( effect_amigara ) ||
                 has_flag( json_flag_GRAB );
             if( !move_issue ) {

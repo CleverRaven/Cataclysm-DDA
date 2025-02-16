@@ -1,13 +1,10 @@
-#include <functional>
-#include <memory>
-#include <string>
-
-#include "calendar.h"
-#include "cata_scope_helpers.h"
 #include "catch/catch.hpp"
+
+#include "cata_scope_helpers.h"
 #include "game.h"
 #include "scenario.h"
-#include "string_id.h"
+#include "options.h"
+#include "options_helpers.h"
 
 static const string_id<scenario> scenario_test_custom_both( "test_custom_both" );
 static const string_id<scenario> scenario_test_custom_cataclysm( "test_custom_cataclysm" );

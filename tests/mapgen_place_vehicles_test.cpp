@@ -1,15 +1,11 @@
-#include <string>
-
 #include "avatar.h"
 #include "cata_catch.h"
-#include "coordinates.h"
+#include "game.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "mapgen_helpers.h"
 #include "player_helpers.h"
-#include "point.h"
-#include "type_id.h"
-#include "vpart_position.h"
+#include "vehicle.h"
 
 static const nested_mapgen_id
 nested_mapgen_test_nested_place_shopping_cart( "test_nested_place_shopping_cart" );

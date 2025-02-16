@@ -2,14 +2,15 @@
 #ifndef CATA_TESTS_MAP_HELPERS_H
 #define CATA_TESTS_MAP_HELPERS_H
 
-#include <string>
+#include <iosfwd>
 
+#include "calendar.h"
 #include "coords_fwd.h"
 #include "type_id.h"
 
 class map;
 class monster;
-class time_point;
+struct tripoint;
 
 void wipe_map_terrain( map *target = nullptr );
 void clear_creatures();

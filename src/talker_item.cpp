@@ -1,19 +1,11 @@
 #include "talker_item.h"
 
-#include <optional>
-#include <vector>
-
-#include "bodypart.h"
-#include "cata_utility.h"
 #include "character.h"
-#include "coordinates.h"
-#include "debug.h"
 #include "item.h"
-#include "item_location.h"
 #include "itype.h"
-#include "map.h"
-#include "messages.h"
-#include "units.h"
+#include "magic.h"
+#include "point.h"
+#include "vehicle.h"
 
 static const ammotype ammo_battery( "battery" );
 
@@ -99,9 +91,7 @@ int talker_item_const::get_hp_max( const bodypart_id & ) const
 
 units::energy talker_item_const::power_cur() const
 {
-    map &here = get_map();
-
-    return 1_mJ * me_it_const->get_item()->ammo_remaining( here );
+    return 1_mJ * me_it_const->get_item()->ammo_remaining();
 }
 
 units::energy talker_item_const::power_max() const

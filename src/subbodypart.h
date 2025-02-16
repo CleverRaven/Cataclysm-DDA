@@ -2,19 +2,27 @@
 #ifndef CATA_SRC_SUBBODYPART_H
 #define CATA_SRC_SUBBODYPART_H
 
+#include <array>
+#include <cstddef>
+#include <initializer_list>
+#include <iosfwd>
 #include <string>
-#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "damage.h"
-#include "translation.h"
+#include "enums.h"
+#include "flat_set.h"
+#include "int_id.h"
+#include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
-struct body_part_type;
+class JsonOut;
+class JsonValue;
 struct sub_body_part_type;
-template <typename T> struct enum_traits;
+struct body_part_type;
 
 using sub_bodypart_id = int_id<sub_body_part_type>;
 

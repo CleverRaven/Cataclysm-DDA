@@ -1,12 +1,9 @@
 #include <clocale>
 #include <cstddef>
-#include <functional>
+#include <iosfwd>
 #include <limits>
-#include <locale>
-#include <stdexcept>
 #include <string>
-#include <string_view>
-#include <utility>
+#include <type_traits>
 
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"

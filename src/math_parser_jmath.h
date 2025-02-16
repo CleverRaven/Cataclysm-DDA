@@ -4,14 +4,13 @@
 
 #include <string>
 #include <string_view>
-#include <utility>
 #include <vector>
 
 #include "math_parser.h"
 #include "type_id.h"
 
 class JsonObject;
-struct const_dialogue;
+struct dialogue;
 
 struct jmath_func {
     jmath_func_id id;

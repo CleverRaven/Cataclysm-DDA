@@ -13,7 +13,6 @@
 
 #include "ammo.h"
 #include "assign.h"
-#include "body_part_set.h"
 #include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
@@ -22,7 +21,6 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
-#include "coords_fwd.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect_on_condition.h"
@@ -31,7 +29,6 @@
 #include "explosion.h"
 #include "flag.h"
 #include "flat_set.h"
-#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "init.h"
@@ -39,13 +36,9 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
-#include "item_pocket.h"
 #include "iuse_actor.h"
-#include "mapdata.h"
 #include "material.h"
-#include "mod_tracker.h"
 #include "options.h"
-#include "output.h"
 #include "pocket_type.h"
 #include "proficiency.h"
 #include "recipe.h"
@@ -55,17 +48,16 @@
 #include "ret_val.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "subbodypart.h"
 #include "text_snippets.h"
-#include "translation.h"
 #include "translations.h"
 #include "try_parse_integer.h"
+#include "ui.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vitamin.h"
 
-class Trait_group;
+struct tripoint;
 template <typename T> struct enum_traits;
 
 static const ammo_effect_str_id ammo_effect_COOKOFF( "COOKOFF" );
@@ -4443,8 +4435,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     }
 
     optional( jo, def.was_loaded, "properties", def.properties );
-
-    optional( jo, def.was_loaded, "max_worn", def.max_worn, MAX_WORN_PER_TYPE );
 
     if( jo.has_member( "techniques" ) ) {
         def.techniques.clear();

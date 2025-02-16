@@ -1,8 +1,6 @@
-#include <string>
-
-#include "bodypart.h"
-#include "calendar.h"
 #include "cata_catch.h"
+
+#include "calendar.h"
 #include "character.h"
 #include "item.h"
 #include "options.h"

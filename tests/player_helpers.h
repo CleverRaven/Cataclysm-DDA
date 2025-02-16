@@ -2,15 +2,15 @@
 #ifndef CATA_TESTS_PLAYER_HELPERS_H
 #define CATA_TESTS_PLAYER_HELPERS_H
 
-#include <string>
+#include <iosfwd>
 #include <vector>
 
 #include "coords_fwd.h"
-#include "type_id.h"
+#include "npc.h"
 
-class Character;
 class item;
-class npc;
+class Character;
+struct point;
 
 int get_remaining_charges( const itype_id &tool_id );
 bool player_has_item_of_type( const itype_id &id );

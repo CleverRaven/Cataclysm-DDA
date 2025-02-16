@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-#include "flexbuffer_json.h"
+#include "json.h"
 #include "rng.h"
 
 static std::map<std::string, std::vector<SpeechBubble>> speech;

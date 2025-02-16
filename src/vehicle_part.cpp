@@ -1,12 +1,15 @@
 #include "vehicle.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <cmath>
 #include <memory>
 #include <set>
 #include <string>
 
 #include "ammo.h"
+#include "cata_assert.h"
 #include "character.h"
+#include "color.h"
 #include "debug.h"
 #include "enums.h"
 #include "fault.h"
@@ -14,16 +17,18 @@
 #include "game.h"
 #include "item.h"
 #include "itype.h"
+#include "iuse_actor.h"
+#include "map.h"
 #include "messages.h"
 #include "npc.h"
 #include "pocket_type.h"
-#include "requirements.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
+#include "vpart_position.h"
 #include "weather.h"
 
 static const ammotype ammo_battery( "battery" );
@@ -291,13 +296,13 @@ int vehicle_part::item_capacity( const itype_id &stuffing_id ) const
     return std::min( max_amount_volume, max_amount_weight );
 }
 
-int vehicle_part::ammo_remaining( const map &here ) const
+int vehicle_part::ammo_remaining() const
 {
     if( is_tank() ) {
         return base.empty() ? 0 : base.legacy_front().charges;
     }
     if( is_fuel_store( false ) || is_turret() ) {
-        return base.ammo_remaining( here );
+        return base.ammo_remaining();
     }
 
     return 0;
@@ -308,7 +313,7 @@ int vehicle_part::remaining_ammo_capacity() const
     return base.remaining_ammo_capacity();
 }
 
-int vehicle_part::ammo_set( const map &here, const itype_id &ammo, int qty )
+int vehicle_part::ammo_set( const itype_id &ammo, int qty )
 {
     // We often check if ammo is set to see if tank is empty, if qty == 0 don't set ammo
     if( is_tank() && qty != 0 ) {
@@ -325,14 +330,14 @@ int vehicle_part::ammo_set( const map &here, const itype_id &ammo, int qty )
 
     if( is_turret() ) {
         if( base.is_magazine() ) {
-            return base.ammo_set( ammo, qty ).ammo_remaining( here );
+            return base.ammo_set( ammo, qty ).ammo_remaining();
         }
         itype_id mag_type = base.magazine_default();
         if( mag_type ) {
             item mag( mag_type );
             mag.ammo_set( ammo, qty );
             base.put_in( mag, pocket_type::MAGAZINE_WELL );
-            return base.ammo_remaining( here );
+            return base.ammo_remaining();
         }
     }
 
@@ -340,7 +345,7 @@ int vehicle_part::ammo_set( const map &here, const itype_id &ammo, int qty )
         const itype *ammo_itype = item::find_type( ammo );
         if( ammo_itype && ammo_itype->ammo ) {
             base.ammo_set( ammo, qty >= 0 ? qty : ammo_capacity( ammo_itype->ammo->type ) );
-            return base.ammo_remaining( here );
+            return base.ammo_remaining();
         }
     }
 
@@ -359,7 +364,7 @@ void vehicle_part::ammo_unset()
 int vehicle_part::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos )
 {
     if( is_tank() && !base.empty() ) {
-        const int res = std::min( ammo_remaining( *here ), qty );
+        const int res = std::min( ammo_remaining(), qty );
         item &liquid = base.legacy_front();
         liquid.charges -= res;
         if( liquid.charges == 0 ) {
@@ -393,7 +398,7 @@ units::energy vehicle_part::consume_energy( const itype_id &ftype, units::energy
     return 0_J;
 }
 
-bool vehicle_part::can_reload( const map &here,  const item &obj ) const
+bool vehicle_part::can_reload( const item &obj ) const
 {
     // first check part is not destroyed and can contain ammo
     if( !is_fuel_store() ) {
@@ -445,7 +450,7 @@ bool vehicle_part::can_reload( const map &here,  const item &obj ) const
 
     // Despite checking for an empty tank, item::find_type can still turn up with an empty ammo pointer
     if( cata::value_ptr<islot_ammo> a_val = item::find_type( ammo_current() )->ammo ) {
-        return ammo_remaining( here ) < ammo_capacity( a_val->type );
+        return ammo_remaining() < ammo_capacity( a_val->type );
     }
 
     // Nothing in tank
@@ -470,15 +475,15 @@ void vehicle_part::process_contents( map &here, const tripoint_bub_ms &pos, cons
     base.process( here, nullptr, pos, 1, flag );
 }
 
-bool vehicle_part::fill_with( const map &here, item &liquid, int qty )
+bool vehicle_part::fill_with( item &liquid, int qty )
 {
-    if( ( is_tank() && !liquid.made_of( phase_id::LIQUID ) ) || !can_reload( here, liquid ) ) {
+    if( ( is_tank() && !liquid.made_of( phase_id::LIQUID ) ) || !can_reload( liquid ) ) {
         return false;
     }
 
     int charges_max = 0;
     if( cata::value_ptr<islot_ammo> a_val = item::find_type( ammo_current() )->ammo ) {
-        charges_max = ammo_capacity( a_val->type ) - ammo_remaining( here );
+        charges_max = ammo_capacity( a_val->type ) - ammo_remaining();
     } else {
         // Nothing in tank
         charges_max = ammo_capacity( liquid.ammo_type() );
@@ -655,7 +660,7 @@ bool vehicle::mod_hp( vehicle_part &pt, int qty )
     return pt.base.mod_damage( -qty * pt.base.max_damage() / dur );
 }
 
-bool vehicle::can_enable( map &here, const vehicle_part &pt, bool alert ) const
+bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
 {
     if( std::none_of( parts.begin(), parts.end(), [&pt]( const vehicle_part & e ) {
     return &e == &pt;
@@ -676,7 +681,7 @@ bool vehicle::can_enable( map &here, const vehicle_part &pt, bool alert ) const
 
     // TODO: check fuel for combustion engines
 
-    if( pt.info().epower < 0_W && fuel_left( here, fuel_type_battery ) <= 0 ) {
+    if( pt.info().epower < 0_W && fuel_left( fuel_type_battery ) <= 0 ) {
         if( alert ) {
             add_msg( m_bad, _( "Insufficient power to enable %s" ), pt.name() );
         }

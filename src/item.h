@@ -20,7 +20,6 @@
 #include "cata_lazy.h"
 #include "cata_utility.h"
 #include "compatibility.h"
-#include "coordinates.h"
 #include "enums.h"
 #include "gun_mode.h"
 #include "io_tags.h"
@@ -49,7 +48,6 @@ class gun_type_type;
 class gunmod_location;
 class item;
 class iteminfo_query;
-class map;
 class monster;
 class nc_color;
 enum class pocket_type;
@@ -2355,11 +2353,6 @@ class item : public visitable
          * or similar.
          */
         bool is_power_armor() const;
-
-        /**
-         * The maximum amount of this item that can be worn at the same time.  Defaults to MAX_WORN_PER_TYPE if not defined for the item.
-         */
-        int max_worn() const;
         /**
          * If this is an armor item, return its armor data. You should probably not use this function,
          * use the various functions above (like @ref get_storage) to access armor data directly.
@@ -2526,15 +2519,13 @@ class item : public visitable
          * @param carrier is used for UPS and bionic power for tools
          * @param include_linked Add cable-linked vehicles' ammo to the ammo count
          */
-        int ammo_remaining( const map &here, const Character *carrier = nullptr,
-                            bool include_linked = false ) const;
+        int ammo_remaining( const Character *carrier = nullptr, bool include_linked = false ) const;
         int ammo_remaining( bool include_linked ) const;
 
 
     private:
         units::energy energy_per_second() const;
-        int ammo_remaining( const map &here, const std::set<ammotype> &ammo,
-                            const Character *carrier = nullptr,
+        int ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier = nullptr,
                             bool include_linked = false ) const;
     public:
 

@@ -48,7 +48,7 @@ void UnusedStaticsCheck::check( const MatchFinder::MatchResult &Result )
 
     // Ignore cases that are not static linkage
     Linkage Lnk = ThisDecl->getFormalLinkage();
-    if( Lnk != Linkage::Internal && Lnk != Linkage::UniqueExternal ) {
+    if( Lnk != InternalLinkage && Lnk != UniqueExternalLinkage ) {
         return;
     }
 

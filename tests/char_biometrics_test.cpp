@@ -1,15 +1,12 @@
+#include <iosfwd>
 #include <functional>
-#include <map>
-#include <memory>
 #include <regex>
 #include <string>
-#include <utility>
-#include <vector>
+#include <memory>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
-#include "character.h"
 #include "creature.h"
 #include "display.h"
 #include "game_constants.h"

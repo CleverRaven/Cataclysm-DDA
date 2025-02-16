@@ -212,8 +212,6 @@ char get_free_invlet( Character &p )
 static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
                                    bionic_menu_mode mode )
 {
-    map &here = get_map();
-
     input_context ctxt( "BIONICS", keyboard_mode::keychar );
 
     werase( window );
@@ -223,7 +221,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
     for( const bionic &bio : *p->my_bionics ) {
         for( const item *fuel_source : p->get_bionic_fuels( bio.id ) ) {
             const item *fuel;
-            if( fuel_source->ammo_remaining( here ) ) {
+            if( fuel_source->ammo_remaining() ) {
                 fuel = &fuel_source->first_ammo();
             } else {
                 fuel = *fuel_source->all_items_top().begin();
@@ -238,7 +236,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
         fuel_string += fuel->tname() + ": " + colorize( std::to_string( fuel->charges ), c_green ) + " ";
     }
     for( vehicle *veh : p->get_cable_vehicle() ) {
-        int64_t charges = veh->connected_battery_power_level( here ).first;
+        int64_t charges = veh->connected_battery_power_level().first;
         if( charges > 0 ) {
             found_fuel = true;
             fuel_string += item( itype_battery ).tname() + ": " + colorize( std::to_string( charges ),

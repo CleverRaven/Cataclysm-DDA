@@ -1,8 +1,6 @@
 #include "itype.h"
 
-#include <algorithm>
-#include <cmath>
-#include <iterator>
+#include <cstdlib>
 #include <utility>
 
 #include "ammo.h"
@@ -11,13 +9,11 @@
 #include "debug.h"
 #include "item.h"
 #include "make_static.h"
-#include "map.h"
-#include "material.h"
 #include "recipe.h"
-#include "requirements.h"
 #include "ret_val.h"
-#include "subbodypart.h"
 #include "translations.h"
+
+struct tripoint;
 
 std::string gunmod_location::name() const
 {

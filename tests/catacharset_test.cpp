@@ -1,15 +1,15 @@
 #include <clocale>
-#include <functional>
-#include <locale>
+#include <iosfwd>
 #include <stdexcept>
 #include <string>
 #include <tuple>
 #include <utility>
 #include <vector>
 
-#include "cata_catch.h"
 #include "catacharset.h"
+#include "cata_catch.h"
 #include "localized_comparator.h"
+#include "translations.h"
 #include "unicode.h"
 
 TEST_CASE( "utf8_width", "[catacharset][nogame]" )

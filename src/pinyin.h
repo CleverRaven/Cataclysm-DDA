@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_PINYIN_H
 #define CATA_SRC_PINYIN_H
 
-#include <string_view>
+#include <string>
 
 namespace pinyin
 {

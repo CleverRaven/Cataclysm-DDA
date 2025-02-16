@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
-#include <list>
+#include <iosfwd>
 #include <map>
 #include <memory>
 #include <string>

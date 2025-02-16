@@ -2,9 +2,12 @@
 
 #include <algorithm>
 #include <cmath>
+#include <new>
+#include <set>
 #include <string>
 
 #include "generic_factory.h"
+#include "json.h"
 
 namespace
 {

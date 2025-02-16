@@ -1,8 +1,6 @@
 
 #include "temp_crafting_inventory.h"
 
-#include <functional>
-
 temp_crafting_inventory::temp_crafting_inventory( const read_only_visitable &v )
 {
     add_all_ref( v );

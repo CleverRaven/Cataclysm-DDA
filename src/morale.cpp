@@ -8,7 +8,6 @@
 #include <string>
 #include <utility>
 
-#include "body_part_set.h"
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -292,31 +291,31 @@ player_morale::player_morale() :
 
     mutations[trait_OPTIMISTIC] =
     mutation_data( [set_optimist]( player_morale * pm ) {
-        set_optimist( pm, 9 );
+        return set_optimist( pm, 9 );
     },
     [set_optimist]( player_morale * pm ) {
-        set_optimist( pm, 0 );
+        return set_optimist( pm, 0 );
     } );
     mutations[trait_BADTEMPER] =
     mutation_data( [set_badtemper]( player_morale * pm ) {
-        set_badtemper( pm, -9 );
+        return set_badtemper( pm, -9 );
     },
     [set_badtemper]( player_morale * pm ) {
-        set_badtemper( pm, 0 );
+        return set_badtemper( pm, 0 );
     } );
     mutations[trait_NUMB] =
     mutation_data( [set_numb]( player_morale * pm ) {
-        set_numb( pm, -1 );
+        return set_numb( pm, -1 );
     },
     [set_numb]( player_morale * pm ) {
-        set_numb( pm, 0 );
+        return set_numb( pm, 0 );
     } );
     mutations[trait_STYLISH] =
     mutation_data( [set_stylish]( player_morale * pm ) {
-        set_stylish( pm, true );
+        return set_stylish( pm, true );
     },
     [set_stylish]( player_morale * pm ) {
-        set_stylish( pm, false );
+        return set_stylish( pm, false );
     } );
     mutations[trait_FLOWERS]       = mutation_data( update_constrained );
     mutations[trait_ROOTS1]        = mutation_data( update_constrained );

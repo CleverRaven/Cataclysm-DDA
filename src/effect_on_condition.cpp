@@ -3,9 +3,9 @@
 #include <algorithm>
 #include <cstddef>
 #include <list>
-#include <memory>
 #include <ostream>
 #include <queue>
+#include <set>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -16,10 +16,11 @@
 #include "condition.h"
 #include "creature.h"
 #include "debug.h"
-#include "event.h"
+#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "init.h"
 #include "mod_tracker.h"
 #include "npc.h"
 #include "output.h"

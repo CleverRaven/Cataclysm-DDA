@@ -1,10 +1,8 @@
 #include "mission.h" // IWYU pragma: associated
 
-#include <array>
-#include <cstddef>
 #include <memory>
+#include <new>
 #include <optional>
-#include <set>
 #include <vector>
 
 #include "avatar.h"
@@ -12,23 +10,24 @@
 #include "computer.h"
 #include "coordinates.h"
 #include "debug.h"
-#include "dialogue.h"
+#include "enum_traits.h"
 #include "game.h"
+#include "game_constants.h"
 #include "item.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "npc.h"
+#include "omdata.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "talker.h"
 #include "translations.h"
+#include "units.h"
 
 static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_console( "f_console" );

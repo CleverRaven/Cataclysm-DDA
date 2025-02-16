@@ -3,24 +3,23 @@
 #define CATA_SRC_MAP_EXTRAS_H
 
 #include <cstdint>
-#include <optional>
+#include <iosfwd>
 #include <string>
-#include <string_view>
 #include <unordered_map>
-#include <utility>
-#include <vector>
 
 #include "catacharset.h"
 #include "color.h"
 #include "coords_fwd.h"
 #include "flat_set.h"
-#include "translation.h"
+#include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
 class map;
 class mapgendata;
 class tinymap;
+struct tripoint;
 template<typename T> class generic_factory;
 template<typename T> struct enum_traits;
 

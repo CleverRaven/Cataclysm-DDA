@@ -2963,6 +2963,12 @@
     "variant_type": "generic",
     "variants": [
       {
+        "id": "tardis_case",
+        "name": { "str": "police call box smartphone case" },
+        "description": "This waterproof smartphone case has a drawing on it that makes it look like an old English police call box.",
+        "ascii_picture": "tardis_case"
+      },
+      {
         "id": "black_smart_phone_case",
         "name": { "str": "black smartphone case" },
         "description": "A black waterproof case designed for a standard smartphone.  Will protect your smartphone from water damage entirely.",
@@ -3124,10 +3130,429 @@
         "weight": 5
       },
       {
+        "id": "nightmare_case",
+        "name": { "str": "Nightmare on Elm Street smartphone case" },
+        "description": "This design is inspired by a famous, classic horror movie about a dream demon who hunts teenagers in their dreams.  This case features a distorted stripe pattern, creating a kind of 3D effect, combined with the graphic of a glove with blades on the fingers against a dark, spooky, and cloudy sky.",
+        "ascii_picture": "nightmare_case",
+        "weight": 5
+      },
+      {
+        "id": "jason_case",
+        "name": { "str": "Friday the 13th smartphone case" },
+        "description": "This design is inspired by the iconic hockey mask killer.  This case features a hockey mask silhouette combined with the subtle texture of crystal-clear water and a design of a boat and trees to represent Crystal Lake.",
+        "ascii_picture": "jason_case",
+        "weight": 5
+      },
+      {
+        "id": "ghostface_case",
+        "name": { "str": "Scream smartphone case" },
+        "description": "The design on this case is inspired by the scream mask worn by the killers from the Scream movie series.  The case features the classic ghostly white mask together with the classic knife they wield, both designed in a gradient graphic with the case's background color and dark, smoky design lines to add an air of mystery and suspense.",
+        "ascii_picture": "ghostface_case",
+        "weight": 5
+      },
+      {
+        "id": "pennywise_case",
+        "name": { "str": "It the Clown smartphone case" },
+        "description": "This design is inspired by Pennywise, the killer clown, and his iconic red balloon.  This case features Pennywise's face in a black and white gradient color combination, with an image of his red balloon incorporated within the case's design.",
+        "ascii_picture": "pennywise_case",
+        "weight": 5
+      },
+      {
+        "id": "candyman_case",
+        "name": { "str": "Candyman smartphone case" },
+        "description": "This design is inspired by Candyman from the 'Candyman' horror movie series.  With his bee-themed terror, this case features a honeycomb pattern background in a dark yellowish-brownish hue, complemented with bees in a similar color scheme.  The Candyman's face is, alongside his hook, in black and blue tones, complementing the honeycomb pattern.",
+        "ascii_picture": "candyman_case",
+        "weight": 5
+      },
+      {
+        "id": "saw_case",
+        "name": { "str": "Saw smartphone case" },
+        "description": "This design is inspired by the infamous 'reverse bear trap' from Saw.  This case features an in-your-face graphic of the trap with a rusted metallic texture.  A blood spattering effect nearby is also included, probably to add extra horror detail.",
+        "ascii_picture": "saw_case",
+        "weight": 5
+      },
+      {
+        "id": "tallman_case",
+        "name": { "str": "Phantasm smartphone case" },
+        "description": "This design is inspired by the iconic ball-shaped weapon used by the Tallman, the main villain from the 'Phantasm' movie series.  This case features the ball image with a chrome-like metallic surface.  Inside the ball, there are graphics of the Phantasm movie scenes to further communicate the theme.",
+        "ascii_picture": "tallman_case",
+        "weight": 5
+      },
+      {
+        "id": "leatherface_case",
+        "name": { "str": "Texas Chainsaw Massacre smartphone case" },
+        "description": "This design is inspired by the iconic chainsaw used by Leatherface in the 'Texas Chainsaw Massacre' movie series.  This case presents an image of a volume meter with a chainsaw graphic etched vertically.  The blade of the chainsaw is designed with a sharp metallic accent against a bleak backdrop, symbolizing the haunting atmosphere of the film.",
+        "ascii_picture": "leatherface_case",
+        "weight": 5
+      },
+      {
+        "id": "chucky_case",
+        "name": { "str": "Child's Play smartphone case" },
+        "description": "The design of this waterproof smartphone case is inspired by the terrifying mission of the red-haired killer doll.  This case features Chucky's graphic, with vibrant highlights of blood-red and white, symbolizing his hair.  The background is plain black with a stitched-like design to make it look like a piece of fabric.",
+        "weight": 5
+      },
+      {
+        "id": "pinhead_case",
+        "name": { "str": "Hellraiser smartphone case" },
+        "description": "The design of this case is inspired by the gruesome Cenobite creatures from the 'Hellraiser' horror movie series.  It features a graphic of the infamous puzzle box with a bloody-gray, aged texture and small comic-like graphic symbols that are seen in the movie scenes.  The design layout also presents a reflection of the Cenobites and their leader, Pinhead, in the background, giving it a truly creepy vibe.",
+        "weight": 5
+      },
+      {
+        "id": "matt_case",
+        "name": { "str": "Maniac Cop smartphone case" },
+        "description": "The design of this waterproof smartphone case is inspired by the iconic police uniform of the maniac cop.  The case features the police badge, symbolizing authority, with the maniac's glove-clad hand over it in a steel-like color against a dark blue background.  It also includes a bloody police baton graphic to further emphasize the theme.",
+        "weight": 5
+      },
+      {
+        "id": "herbet_case",
+        "name": { "str": "Re-Animator smartphone case" },
+        "description": "Inspired by Dr. Herbert West's reanimation serum and the undead creatures it creates from the 'Re-Animator' horror movie series, this case features a medical syringe graphic with a glowing, green liquid radiating outward, symbolizing the serum substance, against a plain black background.  Eh, ironic.",
+        "weight": 5
+      },
+      {
+        "id": "ash_case",
+        "name": { "str": "Evil Dead smartphone case" },
+        "description": "This design is inspired by the Necronomicon and the demonic beings it awakens, as well as the hero from the 'Evil Dead' horror-comedy series.  The case features the book's cover design in brown with raised lettering.  The lettering represents the ancient text of the book; however, the iconical silhouette of Ash Williams can be seen in the center, with text saying 'Hail to the King, baby'.",
+        "weight": 5
+      },
+      {
+        "id": "pumpkinhead_case",
+        "name": { "str": "Pumpkinhead smartphone case" },
+        "description": "This design is inspired by the demonic creature that seeks vengeance.  This case features the graphic of Pumpkinhead, the demon of vengeance, with a fiery red and orange color combination against a black background.  Distorted, slimy tentacles are near the bottom to emphasize the monster's theme.",
+        "weight": 5
+      },
+      {
+        "id": "michael_case",
+        "name": { "str": "Halloween smartphone case" },
+        "description": "This design is inspired by the iconic slasher movie.  This case features the white, plain mask's silhouette against a dark, blood-red background.  It has the movie's tagline from a distance, with subtle illustrations of Michael Myers holding a knife to further reinforce the theme of Halloween.",
+        "weight": 5
+      },
+      {
+        "id": "coffinjoe_case",
+        "name": { "str": "Coffin Joe smartphone case" },
+        "description": "This design is inspired by the Brazilian horror icon, Coffin Joe (Zé do Caixo).  It has the silhouette of him wearing his classic top hat and suit, along with the symbolic scythe, against a purple backdrop in the background.",
+        "weight": 5
+      },
+      {
+        "id": "xenomorph_case",
+        "name": { "str": "Alien smartphone case" },
+        "description": "This design is inspired by the Xenomorphs' threat and the spaceship's doomed crew.  This case features a graphic of Ripley with the Alien Queen's tail coiling around the phone case, with a striking color combination of dark blues and greens to create an eerie mood.",
+        "weight": 5
+      },
+      {
+        "id": "yautja_case",
+        "name": { "str": "The Predator smartphone case" },
+        "description": "The design of this waterproof smartphone case is inspired by the Predator's advanced technology and their hunting tools presented in the action-horror series in which the creatures were presented.  This case features a graphic of the Predator's mask in red, silver, and black, with futuristic lines that create a mechanical texture, and a background of the jungle where the first movie was based.",
+        "weight": 5
+      },
+      {
+        "id": "feast_case",
+        "name": { "str": "Feast smartphone case" },
+        "description": "This design is inspired by the main monster species from the comedy-horror trash trilogy 'Feast', and also the filthiness of the environment.  This features a graphic of the monster in a dirty-feeling yellow and gray combination, with the monster's gross tongue hanging out.",
+        "weight": 5
+      },
+      {
+        "id": "collector_case",
+        "name": { "str": "The Collector smartphone case" },
+        "description": "The design of this waterproof smartphone case is inspired by the Collector's Trap's pattern and the horror-thriller feeling from the movie of the same name.  This case features a graphic of the box trap with a blend of green, orange, and purple colors against a plain black background, with a top-down style to show the intricate layout of the trap.",
+        "weight": 5
+      },
+      {
+        "id": "stenio_case",
+        "name": { "str": "The Nightshifter smartphone case" },
+        "description": "The design of this waterproof smartphone case is inspired by the mortuary where the protagonist from the Brazilian horror movie 'The Nightshifter' (Morto no Fala) works and the supernatural events that happen there.  This case features the image of the mortuary in a sepia hue, with an overlay of a ghostly hand coming out of a coffin, and the protagonist, Stenio, appearing in the background with a serious expression.",
+        "weight": 5
+      },
+      {
+        "id": "threefinger_case",
+        "name": { "str": "Wrong Turn smartphone case" },
+        "description": "Inspired by the deformed and cannibalistic mountain people that are the main antagonists of the horror movie series 'Wrong Turn', this case features a graphic of a silhouette of the monsters' faces, arranged in a circular pattern with blood-red highlights, against a misty mountain landscape.",
+        "weight": 5
+      },
+      {
+        "id": "babyface_case",
+        "name": { "str": "The Hills Runs Red smartphone case" },
+        "description": "The design of this waterproof smartphone case is inspired by the main antagonist of the horror film 'The Hills Run Red', Babyface.  This case features a graphic of the mask that Babyface wears, portrayed in a scratched and dirty metal-like texture, with a design of the film's title using a blood-dripping font above it.",
+        "weight": 5
+      },
+      {
+        "id": "you'renext_case",
+        "name": { "str": "You're Next smartphone case" },
+        "description": "The design of this waterproof smartphone case is inspired by the masked assailants who terrorize the family in the movie 'You're Next'.  This case features a graphic of an animal mask with a sharp graphic design printed onto the case, with a bloody-red background to create a sense of urgency and horror.",
+        "weight": 5
+      },
+      {
+        "id": "babadook_case",
+        "name": { "str": "The Babadook smartphone case" },
+        "description": "This design is inspired by the movie's titular character, a monster from a storybook.  This case features a graphic of the Babadook's silhouette in a dark blue-black color against a grayish textured background with the typography and illustrations as seen in the book.  The book is incorporated into the design as well.",
+        "weight": 5
+      },
+      {
+        "id": "leprechaun_case",
+        "name": { "str": "Leprechaun smartphone case" },
+        "description": "The design of this waterproof smartphone case features a vibrant green color and a graphic of the Leprechaun's face with his signature top hat on the back of the case.  The case also features an etched graphic of the pot of gold at the end of the rainbow on the sides.",
+        "weight": 5
+      },
+      {
+        "id": "smiley_case",
+        "name": { "str": "Smiley Face Killers smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of Smiley's chilling grin printed in black on a deep blue background.  This case also features a subtle graphic of the infamous yellow smiley face with blood dripping from it.",
+        "weight": 5
+      },
+      {
+        "id": "samara_case",
+        "name": { "str": "The Ring smartphone case" },
+        "description": "The design of this waterproof smartphone case features a graphic of the Ring Girl on a black background, with her hair covering her face and creating eerie flowing lines.  This case also features the iconic videotape from the movie with the cursed Alaskan landscape printed on the borders.",
+        "weight": 5
+      },
+      {
+        "id": "descent_case",
+        "name": { "str": "The Descent smartphone case" },
+        "description": "The design of this waterproof smartphone case features the shadows of the deformed humanoid creatures lurking in the cave that the characters must navigate, with corresponding blood dripping from them against a black background.",
+        "weight": 5
+      },
+      {
+        "id": "grudge_case",
+        "name": { "str": "The Grudge smartphone case" },
+        "description": "This waterproof smartphone case features the haunting Grudge ghost's white face on a black background, with her multiple horror contortions through the movie sparsely hinted at in a subtle way around her face.",
+        "weight": 5
+      },
+      {
+        "id": "rec_case",
+        "name": { "str": "[R E C] smartphone case" },
+        "description": "This waterproof smartphone case features the recognizable branding of said movie's original poster, which depicts a graphic of a person with a blood-splattered face, looking upwards, on an orange-colored background.  It also features the film's title, 'R E C' printed in bold white letters at the bottom.",
+        "weight": 5
+      },
+      {
+        "id": "pa_case",
+        "name": { "str": "Paranormal Activity smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of the Ouija board, with the film's title at the bottom, and a spooky blue-gray color throughout, symbolizing the film's eeriness and supernatural horror.",
+        "weight": 5
+      },
+      {
+        "id": "cloverfield_case",
+        "name": { "str": "Cloverfield Monster smartphone case" },
+        "description": "The design of this waterproof smartphone case features the Cloverfield monster's claw marks on an eroded statue-like surface against a gray-green background, with a scratchy film reel aesthetic found throughout the case.",
+        "weight": 5
+      },
+      {
+        "id": "hatchet_case",
+        "name": { "str": "Hatchet smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of an eerie swamp environment with a silhouette resembling one of the main villains from said movie series.  The case also includes a splash effect on the sides to represent the swamp water and leaves.",
+        "weight": 5
+      },
+      {
+        "id": "jaws_case",
+        "name": { "str": "Jaws smartphone case" },
+        "description": "This design features a graphic of a shark fin coming out of the water with the text 'Stay Out of the Water' written in bold letters over it.  It also uses an intense blue gradient color to represent the ocean horizon.",
+        "weight": 5
+      },
+      {
+        "id": "piranha_case",
+        "name": { "str": "Piranha smartphone case" },
+        "description": "The design of this waterproof smartphone case features a graphic of a group of red piranhas swimming with sharp white waves against a blue background.  The graphic of bloody water hints at the piranhas' violent nature.",
+        "weight": 5
+      },
+      {
+        "id": "anaconda_case",
+        "name": { "str": "Anaconda smartphone case" },
+        "description": "The design of this waterproof smartphone case features a graphic of a python's skin texture and a subtle shadow of the anaconda's head.  The background emulates dense jungle foliage, and the case sides feature coiled snake graphical elements.",
+        "weight": 5
+      },
+      {
+        "id": "spiders_case",
+        "name": { "str": "Eight-Legged Freaks smartphone case" },
+        "description": "The design of this waterproof smartphone case features a graphic of spider web outlines with intermittent sewn lines surrounding a four-eyed spider in the middle.  The web's 3D-looking white strands create a striking contrast with the dark background color palette.",
+        "weight": 5
+      },
+      {
+        "id": "bigaspider_case",
+        "name": { "str": "Big Ass Spider smartphone case" },
+        "description": "This waterproof smartphone case features a black spider leg on a bright red backdrop, with its shadow seen underneath.  The case's side texture presents red web-like patterns with black spider legs.",
+        "weight": 5
+      },
+      {
+        "id": "lagoon_case",
+        "name": { "str": "The Creature from the Black Lagoon smartphone case" },
+        "description": "The design of this waterproof smartphone case features an underwater scene of the lagoon with the Creature's shadow lurking beneath the water's surface.  The color scheme features blue and green tones to mimic the lagoon's color palette.",
+        "weight": 5
+      },
+      {
+        "id": "frank_case",
+        "name": { "str": "Frankenstein smartphone case" },
+        "description": "This waterproof smartphone case features multiple graphic stitches in a sloppy, Frankensteinian style wrapped around the phone case in green and metallic colors, symbolic of the animated monster's character.",
+        "weight": 5
+      },
+      {
+        "id": "day_case",
+        "name": { "str": "Day of the Dead smartphone case" },
+        "description": "This waterproof smartphone case features an underground military bunker setting and a graphic of a zombie breaking through a chain-link fence, alongside a recognizable smart zombie behind it.  The sides include a dark, military-colored camo pattern and texture.",
+        "weight": 5
+      },
+      {
+        "id": "dawn_case",
+        "name": { "str": "Dawn of the Dead smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of a blood-stained shopping mall's facade with the letters 'D.O.T.D.' floating ominously behind it.  The side grip of the case gives a nod to the mall floor with its scattered products.",
+        "weight": 5
+      },
+      {
+        "id": "night_case",
+        "name": { "str": "Night of the Living Dead smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of zombie silhouettes in black and white with a swarm of 'dead' creeping from city buildings, giving a nod to the movie's historical legacy in the genre.",
+        "weight": 5
+      },
+      {
+        "id": "creeper_case",
+        "name": { "str": "Jeepers Creepers smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of a winged creature identical to the movie's villain.  The ground beneath the creature's feet is cracked with dark textures, and it is looking directly at the viewer, giving off an eerie vibe.",
+        "weight": 5
+      },
+      {
+        "id": "art_case",
+        "name": { "str": "Terrifier smartphone case" },
+        "description": "This waterproof smartphone case features a joker-like face painting on the case's back with a graphic crimson star and stripes accent.  On the side, the case features red and black vertical stripes to evoke an image of the movie's main antagonist's clown costume.",
+        "weight": 5
+      },
+      {
+        "id": "miner_case",
+        "name": { "str": "My Bloody Valentine smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of a black-colored miner's helmet and gas mask with a blood splatter effect, alongside a bloody pickaxe, giving attention to the movie's important crime scene element.  The case's sides resemble cave walls with rock-like textures.",
+        "weight": 5
+      },
+      {
+        "id": "hostel_case",
+        "name": { "str": "Hostel smartphone case" },
+        "description": "This waterproof smartphone case features a dark design with a graphic of fingers taped up and blood dripping from them.  The case's sidewalls double as barbed wire or chains, adding contextual depth.",
+        "weight": 5
+      },
+      {
+        "id": "spacespiders_case",
+        "name": { "str": "Giant Spider Invasion smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of a giant spider with its legs extended and positioned as though wrapping around the case.  The background texture mimics space, giving an extraterrestrial theme to the case.",
+        "weight": 5
+      },
+      {
+        "id": "nosferatu_case",
+        "name": { "str": "Nosferatu smartphone case" },
+        "description": "This waterproof smartphone case features subtle elements from the movie, including a graphic of castle spires against a blood-red sky.  A shadowy figure can be seen lurking under the castle.  The sides of the case feature bats, fangs, and other gothic motifs in silver.",
+        "weight": 5
+      },
+      {
+        "id": "mars_case",
+        "name": { "str": "Mars Attacks smartphone case" },
+        "description": "This waterproof smartphone case features an image of a menacing alien spaceship hovering over a cityscape at night.  The case's sides have neon green and magenta stripes to give a nod to the movie's color palette and a small graphic of a Martian soldier from the movie.",
+        "weight": 5
+      },
+      {
+        "id": "dayafter_case",
+        "name": { "str": "The Day After Tomorrow smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of icebergs floating in the ocean with a cracked blue texture, giving a hint to the movie's overall environment.  The sidewalls include weather-related graphics, such as lightning and clouds.",
+        "weight": 5
+      },
+      {
+        "id": "2012_case",
+        "name": { "str": "2012 smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of modern high-rise buildings sinking in floodwater with a dark and gloomy blue and green color palette.  The sidewalls evoke the same colors in a pattern resembling the water's flow.",
+        "weight": 5
+      },
+      {
+        "id": "earth_case",
+        "name": { "str": "The Day Earth Stood Still smartphone case" },
+        "description": "This waterproof smartphone case features an image of an extraterrestrial spacecraft hovering over a city at night with intricate details resembling the craft from the movie.  The sidewalls include graphics of the solar system and other space motifs.",
+        "weight": 5
+      },
+      {
+        "id": "galaxy_case",
+        "name": { "str": "Galaxy of Terror smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of a galaxy with stars, planets, and a dark looming force in its center, giving an ode to the movie's intriguing cosmic horror.  The sidewalls incorporate a similar starry design with abstract waves.",
+        "weight": 5
+      },
+      {
+        "id": "thing_case",
+        "name": { "str": "The Thing smartphone case" },
+        "description": "This waterproof smartphone case features an icy blue background with a graphic of the Thing's iconic 'hooded' features in the center.  The case's sides resemble the rugged and icy Antarctic terrain where the film takes place.",
+        "weight": 5
+      },
+      {
+        "id": "blob_case",
+        "name": { "str": "The Blob smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of a metallic surface with red and silver colors and subtle tendrils interwoven around it, giving a nod to the movie's titular villain.  The sidewalls resemble veins through a similar design.",
+        "weight": 5
+      },
+      {
+        "id": "planeterror_case",
+        "name": { "str": "Planet Terror smartphone case" },
+        "description": "This waterproof smartphone case features an image of a toxic green zombie hand with a graphic resembling the weapon attached to Cherry's stump in the movie.  The sidewalls are deep red, with blood-effect splatters on top of them.",
+        "weight": 5
+      },
+      {
+        "id": "shaun_case",
+        "name": { "str": "Shaun of the Dead smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of zombie silhouettes in a comic-style format on a black background.  The sidewalls include a subtle 'blood effect' graphic, along with design elements of basic, mundane everyday objects recently used as weapons.",
+        "weight": 5
+      },
+      {
+        "id": "triffids_case",
+        "name": { "str": "Day of the Triffids smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of a giant plant with monster-like tendrils wrapped in gritty textures and faded imagery in the background.  The sidewalls resemble the stems of a giant plant with somewhat abstract foliage.",
+        "weight": 5
+      },
+      {
+        "id": "bird_case",
+        "name": { "str": "Bird Box smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of a blindfolded face on a black background with subtle patterns in the wallpaper.  The sidewalls have a broken, abstract hue with some light elements and waves.",
+        "weight": 5
+      },
+      {
+        "id": "dracula_case",
+        "name": { "str": "Dracula smartphone case" },
+        "description": "This waterproof smartphone case features an image of a classic gothic castle with a sinister font in tones of blood red, deep black, and gothic elements.  The sidewalls resemble the stone-walled interiors of the same castle, with colors matching the dominant colors of the case.",
+        "weight": 5
+      },
+      {
+        "id": "darkness_case",
+        "name": { "str": "Darkness Falls smartphone case" },
+        "description": "This waterproof smartphone case features an image of a creepy tooth fairy with sharp, acidic white accents on a dark black background.  The sidewalls include personal toothbrush elements.",
+        "weight": 5
+      },
+      {
+        "id": "mist_case",
+        "name": { "str": "The Mist smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of a white, ominous cloud over a suburban environment at night with tree branches and lightning in the background.  The sidewalls include misty abstract elements and tree graphics.",
+        "weight": 5
+      },
+      {
+        "id": "pyramidhead_case",
+        "name": { "str": "Silent Hill smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of a sinister fog with an iconic pyramid-headed silhouette in a dark world.  The sidewalls evoke an intermittent window pattern with the world's colors moving over it.",
+        "weight": 5
+      },
+      {
+        "id": "slender_case",
+        "name": { "str": "Slenderman smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of black and white mixed with static running through a dark background with fog and trees.  You can see the mysterious figure of the pale, faceless stalker among those trees.  The sidewalls resemble trees, with the same static running through them.",
+        "weight": 5
+      },
+      {
+        "id": "bates_case",
+        "name": { "str": "Bates Motel smartphone case" },
+        "description": "This waterproof smartphone case features a graphic of a creepy motel sign that can become warm and soothing with a touch of nostalgia for the old times.  The sidewalls feature floral patterns serenading the hotel's name.",
+        "weight": 5
+      },
+      {
+        "id": "bspace_case",
+        "name": { "str": "Black Universe smartphone case" },
+        "description": "This black waterproof smartphone case is made with high-quality, state-of-the-art materials.  The printing on the material looks exactly like the background of outer space you used to see in movies."
+      },
+      {
+        "id": "wspace_case",
+        "name": { "str": "White Universe smartphone case" },
+        "description": "This white waterproof smartphone case is made with high-quality, state-of-the-art materials.  The printing on the material looks exactly like the background of outer space you used to see in movies; however, instead of a black background, celestial bodies, and white dots, it presents you with a white background of outer space, celestial bodies, and black dots."
+      },
+      {
         "id": "zombie_case",
         "name": { "str": "zombie smartphone case" },
-        "description": "This waterproof smartphone case has a green zombie on its reverse side.  Would using this be in poor taste now?",
-        "weight": 1
+        "description": "This waterproof smartphone case has a green zombie on its reverse side.  Would using this be in poor taste now?"
       }
     ],
     "pocket_data": [

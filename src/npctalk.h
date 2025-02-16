@@ -2,13 +2,9 @@
 #ifndef CATA_SRC_NPCTALK_H
 #define CATA_SRC_NPCTALK_H
 
-#include <functional>
-#include <string>
-#include <vector>
-
+#include "npc.h"
 #include "type_id.h"
 
-class Character;
 class item;
 class json_talk_topic;
 class npc;
@@ -18,10 +14,10 @@ namespace talk_function
 {
 
 struct teach_domain {
-    skill_id skill;
-    matype_id style;
-    spell_id spell;
-    proficiency_id prof;
+    skill_id skill = skill_id();
+    matype_id style = matype_id();
+    spell_id spell = spell_id();
+    proficiency_id prof = proficiency_id();
 };
 
 void nothing( npc & );

@@ -1,7 +1,6 @@
 #include "smart_controller_ui.h"
 
 #include <algorithm>
-#include <functional>
 #include <optional>
 #include <string>
 #include <vector>
@@ -13,7 +12,6 @@
 #include "point.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
-#include "translation.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"

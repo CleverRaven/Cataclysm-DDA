@@ -9,7 +9,6 @@
 #include <utility>
 #include <vector>
 
-#include "coords_fwd.h"
 #include "enums.h"
 #include "item_stack.h"
 
@@ -19,6 +18,7 @@ class JsonOut;
 class item;
 class item_location;
 struct itype;
+struct tripoint;
 
 namespace auto_pickup
 {

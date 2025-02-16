@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <numeric>
-#include <string>
 #include <utility>
 
 #include "item.h"

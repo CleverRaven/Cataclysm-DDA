@@ -18,6 +18,7 @@
 #include "flat_set.h"
 #include "item.h"
 #include "magic.h"
+#include "npc.h"
 #include "translation.h"
 #include "type_id.h"
 #include "units.h"
@@ -26,6 +27,8 @@
 class Character;
 class JsonObject;
 class JsonOut;
+
+enum class character_stat : char;
 
 struct bionic_data {
     bionic_data();

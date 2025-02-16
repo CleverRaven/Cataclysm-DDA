@@ -1,7 +1,6 @@
 #include <cstddef>
-#include <map>
+#include <iosfwd>
 #include <string>
-#include <utility>
 #include <vector>
 
 #include "cata_catch.h"

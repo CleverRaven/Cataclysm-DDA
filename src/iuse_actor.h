@@ -3,14 +3,16 @@
 #define CATA_SRC_IUSE_ACTOR_H
 
 #include <climits>
+#include <iosfwd>
 #include <map>
+#include <memory>
+#include <new>
 #include <optional>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "color.h"
 #include "coords_fwd.h"
@@ -19,7 +21,7 @@
 #include "explosion.h"
 #include "iuse.h"
 #include "ret_val.h"
-#include "translation.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -27,9 +29,10 @@ class Character;
 class JsonObject;
 class item;
 class item_location;
-class map;
 class npc_template;
 struct furn_t;
+struct iteminfo;
+struct tripoint;
 
 /**
  * Transform an item into a specific type.
@@ -1161,7 +1164,7 @@ class link_up_actor : public iuse_actor
         translation menu_text;
 
         std::set<link_state> targets = { link_state::no_link, link_state::vehicle_port };
-        std::set<std::string> can_extend;
+        std::set<std::string> can_extend = {};
 
         std::optional<int> link_to_veh_app( Character *p, item &it, bool to_ports ) const;
         std::optional<int> link_tow_cable( Character *p, item &it, bool to_towing ) const;

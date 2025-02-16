@@ -1,6 +1,6 @@
 #include "coordinate_conversions.h"
 
-#include "map_scale_constants.h"
+#include "game_constants.h"
 
 static int divide( int v, int m )
 {

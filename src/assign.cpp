@@ -6,6 +6,7 @@
 
 #include "color.h"
 #include "debug.h"
+#include "json_error.h"
 
 void report_strict_violation( const JsonObject &jo, const std::string &message,
                               const std::string_view name )

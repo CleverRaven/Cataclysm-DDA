@@ -2188,8 +2188,7 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE" ],
-    "max_worn": 1,
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
     "melee_damage": { "bash": 3 }
   },
   {
@@ -2459,8 +2458,7 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE" ],
-    "max_worn": 1,
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -2690,8 +2688,7 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE" ],
-    "max_worn": 1,
+    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
     "melee_damage": { "bash": 8 }
   },
   {

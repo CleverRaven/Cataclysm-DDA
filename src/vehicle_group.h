@@ -2,9 +2,8 @@
 #ifndef CATA_SRC_VEHICLE_GROUP_H
 #define CATA_SRC_VEHICLE_GROUP_H
 
+#include <iosfwd>
 #include <optional>
-#include <string>
-#include <string_view>
 #include <unordered_map>
 #include <vector>
 
@@ -13,7 +12,7 @@
 #include "memory_fast.h"
 #include "rng.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 #include "weighted_list.h"
 
 class JsonObject;
@@ -22,6 +21,7 @@ class VehicleSpawn;
 class map;
 
 using vspawn_id = string_id<VehicleSpawn>;
+struct point;
 
 extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 

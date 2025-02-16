@@ -1,24 +1,17 @@
 #include <cstddef>
-#include <memory>
-#include <string>
-#include <vector>
+#include <iosfwd>
+#include <utility>
 
 #include "avatar.h"
 #include "bodypart.h"
-#include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "coordinates.h"
 #include "item.h"
-#include "item_location.h"
-#include "map.h"
 #include "map_helpers.h"
 #include "morale.h"
 #include "npc.h"
-#include "pimpl.h"
 #include "player_helpers.h"
-#include "point.h"
-#include "subbodypart.h"
+#include "calendar.h"
 #include "type_id.h"
 
 static const efftype_id effect_cold( "cold" );

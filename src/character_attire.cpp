@@ -24,17 +24,19 @@
 #include "event_bus.h"
 #include "fire.h"
 #include "flag.h"
+#include "flat_set.h"
+#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
-#include "game.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "json_error.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
-#include "map.h"
 #include "melee.h"
 #include "messages.h"
 #include "mutation.h"
@@ -241,9 +243,9 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
         }
     }
 
-    if( amount_worn( it.typeId() ) >= it.max_worn() ) {
+    if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
         return ret_val<void>::make_failure( _( "Can't wear %1$i or more %2$s at once." ),
-                                            it.max_worn() + 1, it.tname( it.max_worn() + 1 ) );
+                                            MAX_WORN_PER_TYPE + 1, it.tname( MAX_WORN_PER_TYPE + 1 ) );
     }
 
     return ret_val<void>::make_success();
@@ -1334,7 +1336,7 @@ static ret_val<void> test_only_one_conflicts( const item &clothing, const item &
         return ret;
     };
 
-    if( i.max_worn() == 1 && i.typeId() == clothing.typeId() ) {
+    if( i.has_flag( flag_ONLY_ONE ) && i.typeId() == clothing.typeId() ) {
         return ret_val<void>::make_failure( _( "Can't wear more than one %s!" ), clothing.tname() );
     }
 
@@ -2043,7 +2045,6 @@ std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy )
 void outfit::fire_options( Character &guy, std::vector<std::string> &options,
                            std::vector<std::function<void()>> &actions )
 {
-    map &here = get_map();
     for( item &clothing : worn ) {
         std::vector<item *> guns = clothing.items_with( []( const item & it ) {
             return it.is_gun();
@@ -2055,7 +2056,7 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
             options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
                                               guns.front()->tname(),
                                               clothing.type_name(),
-                                              guns.front()->ammo_remaining( here ) ) );
+                                              guns.front()->ammo_remaining() ) );
 
             actions.emplace_back( [&] { guy.invoke_item( &clothing, "holster" ); } );
 

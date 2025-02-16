@@ -2,23 +2,19 @@
 #ifndef CATA_TESTS_STRINGMAKER_H
 #define CATA_TESTS_STRINGMAKER_H
 
-#include <string>
-
-#include "cata_catch.h"
 #include "cuboid_rectangle.h"
+#include "cata_catch.h"
 #include "string_formatter.h"
-
-template <typename T> class int_id;
-template <typename T> class string_id;
+#include "string_id.h"
 
 // StringMaker specializations for Cata types for reporting via Catch2 macros
 
-class cata_variant;
 class item;
-class time_duration;
-class time_point;
 struct point;
 struct rl_vec2d;
+class cata_variant;
+class time_duration;
+class time_point;
 struct talk_response;
 
 namespace Catch

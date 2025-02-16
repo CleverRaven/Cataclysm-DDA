@@ -1,6 +1,12 @@
 #include "construction_group.h"
 
+#include <set>
+
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "init.h"
+#include "json_error.h"
 
 namespace
 {

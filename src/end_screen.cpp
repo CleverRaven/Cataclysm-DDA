@@ -1,3 +1,4 @@
+#include "assign.h"
 #include "condition.h"
 #include "end_screen.h"
 #include "generic_factory.h"

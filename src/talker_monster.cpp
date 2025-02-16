@@ -1,18 +1,15 @@
 #include "talker_monster.h"
 
-#include <optional>
-#include <vector>
-
 #include "character.h"
-#include "coordinates.h"
-#include "creature.h"
-#include "damage.h"
-#include "debug.h"
 #include "effect.h"
-#include "messages.h"
+#include "item.h"
+#include "magic.h"
 #include "monster.h"
 #include "mtype.h"
-#include "units.h"
+#include "point.h"
+#include "vehicle.h"
+
+class time_duration;
 
 std::string talker_monster_const::disp_name() const
 {

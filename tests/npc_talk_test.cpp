@@ -1,8 +1,5 @@
-#include <algorithm>
 #include <cstdio>
-#include <functional>
 #include <memory>
-#include <optional>
 #include <string>
 #include <vector>
 
@@ -10,40 +7,28 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "character_attire.h"
 #include "character_id.h"
 #include "coordinates.h"
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
-#include "dialogue_win.h"
 #include "effect.h"
-#include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
 #include "game.h"
-#include "global_vars.h"
 #include "input_enums.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_location.h"
-#include "magic.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "messages.h"
 #include "mission.h"
 #include "npc.h"
-#include "npc_opinion.h"
 #include "npctalk.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
-#include "units.h"
-#include "weather.h"
-#include "weather_gen.h"
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_power_storage( "bio_power_storage" );

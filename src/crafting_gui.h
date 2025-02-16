@@ -3,17 +3,16 @@
 #define CATA_SRC_CRAFTING_GUI_H
 
 #include <string>
-#include <string_view>
 #include <utility>
 #include <vector>
 
+#include "recipe_dictionary.h"
 #include "type_id.h"
 
 class Character;
-class JsonObject;
 class inventory;
+class JsonObject;
 class recipe;
-class recipe_subset;
 
 /**
  * Open crafting menu where user selects who will craft what (the crafter & the recipe).

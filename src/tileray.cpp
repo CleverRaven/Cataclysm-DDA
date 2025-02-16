@@ -1,12 +1,10 @@
 #include "tileray.h"
 
-#include <array>
 #include <cmath>
 #include <cstdlib>
 #include <string>
 
 #include "line.h"
-#include "point.h"
 #include "units.h"
 #include "units_utility.h"
 

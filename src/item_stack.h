@@ -7,12 +7,11 @@
 #include <list>
 
 #include "colony.h"
-#include "coords_fwd.h"
 #include "item.h" // IWYU pragma: keep
 #include "type_id.h"
 #include "units_fwd.h"
 
-class map;
+struct tripoint;
 
 // A wrapper class to bundle up the references needed for a caller to safely manipulate
 // items and obtain information about items at a particular map x/y location.
@@ -38,7 +37,7 @@ class item_stack
 
         size_t size() const;
         bool empty() const;
-        virtual void insert( map &here, const item &newitem ) = 0;
+        virtual void insert( const item &newitem ) = 0;
         virtual iterator erase( const_iterator it ) = 0;
         virtual void clear();
         // Will cause a debugmsg if there is not exactly one item at the location

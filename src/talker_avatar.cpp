@@ -1,12 +1,9 @@
 #include <memory>
 #include <string>
-#include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
-#include "coordinates.h"
-#include "debug.h"
-#include "enums.h"
+#include "character.h"
 #include "game.h"
 #include "messages.h"
 #include "monster.h"
@@ -16,7 +13,6 @@
 #include "output.h"
 #include "talker.h"
 #include "talker_avatar.h"
-#include "translation.h"
 #include "translations.h"
 
 static const efftype_id effect_pacified( "pacified" );

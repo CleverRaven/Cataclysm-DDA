@@ -1,7 +1,7 @@
 #include "mapdata.h"
 
 #include <algorithm>
-#include <exception>
+#include <cstdlib>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -9,20 +9,19 @@
 #include <utility>
 
 #include "assign.h"
-#include "avatar.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "flexbuffer_json.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
 #include "iexamine_actors.h"
-#include "item.h"
 #include "item_group.h"
 #include "iteminfo_query.h"
+#include "json.h"
 #include "mod_manager.h"
 #include "output.h"
 #include "rng.h"
@@ -278,7 +277,6 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_CLIMB_ADJACENT: return "CLIMB_ADJACENT";
         case ter_furn_flag::TFLAG_FLOATS_IN_AIR: return "FLOATS_IN_AIR";
         case ter_furn_flag::TFLAG_HARVEST_REQ_CUT1: return "HARVEST_REQ_CUT1";
-        case ter_furn_flag::TFLAG_NATURAL_UNDERGROUND: return "NATURAL_UNDERGROUND";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:

@@ -1,9 +1,9 @@
 #pragma once
 #include <map>
 #include <string>
-#include <utility>
 
-template <typename E> struct enum_traits;
+#include "enum_conversions.h"
+#include "enum_traits.h"
 
 namespace music
 {

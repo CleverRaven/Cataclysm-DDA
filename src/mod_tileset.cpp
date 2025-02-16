@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <string>
 
-#include "flexbuffer_json.h"
+#include "json.h"
 
 std::vector<mod_tileset> all_mod_tilesets;
 

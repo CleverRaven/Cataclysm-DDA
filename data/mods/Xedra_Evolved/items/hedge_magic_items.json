@@ -27,6 +27,7 @@
     "flags": [
       "AURA",
       "OVERSIZE",
+      "ONLY_ONE",
       "PADDED",
       "INTEGRATED",
       "ALLOWS_NATURAL_ATTACKS",
@@ -37,7 +38,6 @@
       "NONCONDUCTIVE",
       "RAINPROOF"
     ],
-    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "armor": [
       {
@@ -62,6 +62,7 @@
       "SEMITANGIBLE",
       "AURA",
       "OVERSIZE",
+      "ONLY_ONE",
       "PADDED",
       "ALLOWS_NATURAL_ATTACKS",
       "TRADER_AVOID",
@@ -70,7 +71,6 @@
       "ZERO_WEIGHT",
       "NONCONDUCTIVE"
     ],
-    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "use_action": {
       "type": "effect_on_conditions",

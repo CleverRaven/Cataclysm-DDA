@@ -1,6 +1,5 @@
-#include <string>
-
 #include "cata_catch.h"
+
 #include "creature.h"
 #include "item.h"
 #include "mondefense.h"

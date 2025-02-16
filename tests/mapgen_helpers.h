@@ -1,12 +1,13 @@
 #ifndef CATA_TESTS_MAPGEN_HELPERS_H
 #define CATA_TESTS_MAPGEN_HELPERS_H
 
-#include <functional>
-
-#include "coords_fwd.h"
+#include "cached_options.h"
+#include "cata_scope_helpers.h"
+#include "coordinates.h"
 #include "type_id.h"
 
 class map;
+class vehicle;
 
 using fprep_t = std::function<void( map &m )>;
 

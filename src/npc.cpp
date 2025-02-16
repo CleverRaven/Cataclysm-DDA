@@ -5,21 +5,20 @@
 #include <cmath>
 #include <cstdlib>
 #include <functional>
-#include <iterator>
+#include <limits>
 #include <memory>
 #include <ostream>
 
-#include "activity_actor_definitions.h"
 #include "activity_type.h"
+#include "activity_actor_definitions.h"
 #include "auto_pickup.h"
 #include "basecamp.h"
 #include "bodypart.h"
 #include "catacharset.h"
 #include "character.h"
-#include "character_attire.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "creature.h"
+#include "clzones.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -28,25 +27,23 @@
 #include "dialogue_chatbin.h"
 #include "effect.h"
 #include "effect_on_condition.h"
-#include "enum_conversions.h"
-#include "enum_traits.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
 #include "flag.h"
-#include "flat_set.h"
-#include "flexbuffer_json.h"
 #include "game.h"
+#include "gates.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "gates.h"
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "json.h"
 #include "magic.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -56,9 +53,9 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
-#include "npctalk.h"
 #include "npctrade.h"
 #include "npctrade_utils.h"
+#include "npctalk.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -67,7 +64,6 @@
 #include "player_activity.h"
 #include "ret_val.h"
 #include "rng.h"
-#include "shop_cons_rate.h"
 #include "skill.h"
 #include "sounds.h"
 #include "stomach.h"
@@ -75,6 +71,7 @@
 #include "talker.h"
 #include "talker_npc.h"
 #include "text_snippets.h"
+#include "tileray.h"
 #include "trait_group.h"
 #include "translations.h"
 #include "units.h"
@@ -84,6 +81,7 @@
 #include "viewer.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_controlled( "controlled" );
@@ -170,6 +168,8 @@ static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
+
+class monfaction;
 
 static void starting_clothes( npc &who, const npc_class_id &type, bool male );
 static void starting_inv( npc &who, const npc_class_id &type );
@@ -1748,11 +1748,9 @@ void npc::mutiny()
 
 float npc::vehicle_danger( int radius ) const
 {
-    map &here = get_map();
-
     const tripoint_bub_ms from( posx() - radius, posy() - radius, posz() );
     const tripoint_bub_ms to( posx() + radius, posy() + radius, posz() );
-    VehicleList vehicles = here.get_vehicles( from, to );
+    VehicleList vehicles = get_map().get_vehicles( from, to );
 
     int danger = -1;
 
@@ -1760,8 +1758,8 @@ float npc::vehicle_danger( int radius ) const
     for( size_t i = 0; i < vehicles.size(); ++i ) {
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
-            const auto &points_to_check = wrapped_veh.v->immediate_path( &here );
-            point_abs_ms p( here.get_abs( pos_bub() ).xy() );
+            const auto &points_to_check = wrapped_veh.v->immediate_path();
+            point_abs_ms p( get_map().get_abs( pos_bub() ).xy() );
             if( points_to_check.find( p ) != points_to_check.end() ) {
                 danger = i;
             }

@@ -1,9 +1,7 @@
-#include <cstdint>
 #include <cstdio>
-#include <string>
+#include <iosfwd>
 #include <vector>
 
-#include "activity_tracker.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"

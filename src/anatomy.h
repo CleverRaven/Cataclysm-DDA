@@ -12,6 +12,7 @@
 
 class Creature;
 class JsonObject;
+class anatomy;
 
 /**
  * A structure that contains body parts.

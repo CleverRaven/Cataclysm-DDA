@@ -40,7 +40,7 @@ static void CheckConstructor( StaticIntIdConstantsCheck &Check,
     }
 
     StringRef VarName = IntIdVarDecl->getName();
-    if( VarName.ends_with( "null" ) || VarName.ends_with( "NULL" ) ) {
+    if( VarName.endswith( "null" ) || VarName.endswith( "NULL" ) ) {
         // Null constants are OK because they probably don't vary
         return;
     }

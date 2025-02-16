@@ -12,8 +12,7 @@
     "color": "light_red",
     "charges_per_use": 1,
     "warmth": 0,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "NO_UNLOAD", "NO_RELOAD" ],
-    "max_worn": 1,
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ONLY_ONE", "NO_UNLOAD", "NO_RELOAD" ],
     "armor": [ { "coverage": 0, "covers": [ "torso" ] } ]
   },
   {

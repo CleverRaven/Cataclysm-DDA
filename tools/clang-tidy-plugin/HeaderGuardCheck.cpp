@@ -107,7 +107,7 @@ class HeaderGuardPPCallbacks : public PPCallbacks
         std::string GetFileName( SourceLocation Loc ) {
             SourceManager &SM = PP->getSourceManager();
             FileID Id = SM.getFileID( Loc );
-            if( const OptionalFileEntryRef Entry = SM.getFileEntryRefForID( Id ) ) {
+            if( const FileEntry *Entry = SM.getFileEntryForID( Id ) ) {
                 return cleanPath( Entry->getName() );
             } else {
                 return {};

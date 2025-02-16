@@ -1,21 +1,14 @@
-#include <cmath>
 #include <cstddef>
-#include <optional>
 #include <sstream>
 #include <string>
-#include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
-#include "character.h"
-#include "coordinates.h"
 #include "creature.h"
+#include "game_constants.h"
 #include "item.h"
-#include "item_location.h"
 #include "map_helpers.h"
-#include "map_scale_constants.h"
-#include "messages.h"
+#include "monattack.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"

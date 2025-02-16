@@ -1,6 +1,5 @@
 #include "character_oracle.h"
 
-#include <functional>
 #include <memory>
 #include <vector>
 

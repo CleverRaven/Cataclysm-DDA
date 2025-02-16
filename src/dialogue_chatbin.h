@@ -40,11 +40,11 @@ struct dialogue_chatbin {
     /**
      * The skill this dialogue offers to train.
      */
-    skill_id skill;
+    skill_id skill = skill_id();
     /**
      * The martial art style this dialogue offers to train.
      */
-    matype_id style;
+    matype_id style = matype_id();
     /**
      * The spell this dialogue offers to train
      */

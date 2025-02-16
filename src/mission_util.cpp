@@ -1,9 +1,10 @@
+#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <memory>
+#include <new>
 #include <optional>
 #include <string>
-#include <string_view>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -11,17 +12,15 @@
 #include "cata_assert.h"
 #include "character.h"
 #include "city.h"
-#include "condition.h"
 #include "coordinates.h"
+#include "condition.h"
 #include "debug.h"
 #include "dialogue.h"
-#include "dialogue_helpers.h"
 #include "enum_conversions.h"
 #include "enums.h"
-#include "flexbuffer_json.h"
 #include "game.h"
+#include "json.h"
 #include "map_iterator.h"
-#include "map_scale_constants.h"
 #include "mapgen_functions.h"
 #include "messages.h"
 #include "mission.h"
@@ -180,7 +179,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     tripoint_abs_omt target_pos = tripoint_abs_omt::invalid;
 
     if( params.target_var.has_value() ) {
-        return project_to<coords::omt>( get_tripoint_ms_from_var( params.target_var, d, false ) );
+        return project_to<coords::omt>( get_tripoint_ms_from_var( params.target_var.value(), d, false ) );
     }
 
     omt_find_params find_params;

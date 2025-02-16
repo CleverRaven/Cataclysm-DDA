@@ -112,8 +112,7 @@ class map_stack : public item_stack
     public:
         map_stack( cata::colony<item> *newstack, tripoint_bub_ms newloc, map *neworigin ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ) {}
-        void insert( map &, const item &newitem ) override;
-        void insert( const item &newitem );
+        void insert( const item &newitem ) override;
         iterator erase( const_iterator it ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_SQUARE;
@@ -2395,20 +2394,20 @@ class tinymap : private map
             map::i_rem( rebase_bub( p ), it );
         }
         void i_clear( const tripoint_omt_ms &p ) {
-            map::i_clear( rebase_bub( p ) );
+            return map::i_clear( rebase_bub( p ) );
         }
         bool add_field( const tripoint_omt_ms &p, const field_type_id &type_id, int intensity = INT_MAX,
                         const time_duration &age = 0_turns, bool hit_player = true ) {
             return map::add_field( rebase_bub( p ), type_id, intensity, age, hit_player );
         }
         void delete_field( const tripoint_omt_ms &p, const field_type_id &field_to_remove ) {
-            map::delete_field( rebase_bub( p ), field_to_remove );
+            return map::delete_field( rebase_bub( p ), field_to_remove );
         }
         bool has_flag( ter_furn_flag flag, const tripoint_omt_ms &p ) const {
             return map::has_flag( flag, rebase_bub( p ) );
         }
         void destroy( const tripoint_omt_ms &p, bool silent = false ) {
-            map::destroy( rebase_bub( p ), silent );
+            return map::destroy( rebase_bub( p ), silent );
         }
         const trap &tr_at( const tripoint_omt_ms &p ) const {
             return map::tr_at( rebase_bub( p ) );
@@ -2436,7 +2435,7 @@ class tinymap : private map
         }
         void add_splatter_trail( const field_type_id &type, const tripoint_omt_ms &from,
                                  const tripoint_omt_ms &to ) {
-            map::add_splatter_trail( type, rebase_bub( from ), rebase_bub( to ) );
+            return map::add_splatter_trail( type, rebase_bub( from ), rebase_bub( to ) );
         }
         void collapse_at( const tripoint_omt_ms &p, bool silent,
                           bool was_supporting = false,

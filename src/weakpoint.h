@@ -3,14 +3,15 @@
 #define CATA_SRC_WEAKPOINT_H
 
 #include <array>
-#include <functional>
+#include <map>
+#include <unordered_map>
 #include <optional>
 #include <string>
-#include <string_view>
-#include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "condition.h"
+#include "damage.h"
 #include "translation.h"
 #include "type_id.h"
 
@@ -19,11 +20,6 @@ class Creature;
 class JsonArray;
 class JsonObject;
 class JsonValue;
-class item;
-class time_duration;
-struct const_dialogue;
-struct damage_instance;
-struct resistances;
 
 // Information about an attack on a weak point.
 struct weakpoint_attack {

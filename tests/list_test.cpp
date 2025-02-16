@@ -3,8 +3,7 @@
 #include <functional> // std::greater
 #include <initializer_list>
 #include <iterator>
-#include <string>
-#include <utility>
+#include <type_traits>
 #include <vector> // range-insert testing
 
 #include "cata_catch.h"

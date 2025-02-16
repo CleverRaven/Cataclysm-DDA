@@ -2,14 +2,13 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <functional>
+#include <new>
 #include <random>
 #include <utility>
 
-#include "cata_utility.h"
 #include "debug.h"
-#include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "json.h"
 #include "path_info.h"
 #include "rng.h"
 

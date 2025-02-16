@@ -11,6 +11,8 @@ namespace behavior
 
 class node_t;
 class oracle_t;
+
+enum class status_t : char;
 struct behavior_return;
 
 class strategy_t

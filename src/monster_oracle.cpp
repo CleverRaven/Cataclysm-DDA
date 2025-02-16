@@ -1,17 +1,11 @@
-#include <algorithm>
-#include <string>
-#include <vector>
-
 #include "behavior.h"
-#include "coordinates.h"
-#include "item.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "material.h"
 #include "monster.h"
 #include "monster_oracle.h"
-#include "type_id.h"
+
+struct tripoint;
 
 namespace behavior
 {

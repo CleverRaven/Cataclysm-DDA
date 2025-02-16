@@ -2,21 +2,22 @@
 #ifndef CATA_SRC_PROFICIENCY_H
 #define CATA_SRC_PROFICIENCY_H
 
+#include <iosfwd>
 #include <map>
 #include <optional>
 #include <set>
-#include <string>
-#include <string_view>
-#include <utility>
 #include <vector>
+#include <string>
 
 #include "calendar.h"
 #include "color.h"
 #include "flat_set.h"
-#include "translation.h"
+#include "translations.h"
 #include "type_id.h"
 
-class Character;
+#include "mod_tracker.h"
+
+class JsonArray;
 class JsonObject;
 class JsonOut;
 struct display_proficiency;
@@ -24,6 +25,7 @@ struct learning_proficiency;
 template<typename E> struct enum_traits;
 template<typename T>
 class generic_factory;
+class Character;
 
 enum class proficiency_bonus_type : int {
     strength,

@@ -1,28 +1,10 @@
-#include <optional>
-#include <string>
-
 #include "avatar.h"
-#include "calendar.h"
 #include "cata_catch.h"
-#include "coordinates.h"
-#include "faction.h"
-#include "game.h"
-#include "item.h"
-#include "item_location.h"
 #include "itype.h"
-#include "map.h"
 #include "map_selector.h"
 #include "npc.h"
 #include "npctrade.h"
 #include "player_helpers.h"
-#include "pocket_type.h"
-#include "point.h"
-#include "ret_val.h"
-#include "trade_ui.h"
-#include "type_id.h"
-#include "units.h"
-
-class Character;
 
 static const itype_id itype_FMCNote( "FMCNote" );
 static const itype_id itype_battery( "battery" );
@@ -91,8 +73,6 @@ TEST_CASE( "basic_price_check", "[npc][trade]" )
 
 TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
 {
-    map &here = get_map();
-
     clear_avatar();
     npc &guy = spawn_npc( { 50, 50 }, "test_npc_trader" );
     faction const &fac = *guy.my_fac;
@@ -188,7 +168,7 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
 
         REQUIRE( npc_trading::trading_price( get_avatar(), guy, tbd_entry ) ==
                  Approx( units::to_cent( tbd.type->price_post ) * 1.25 +
-                         battery_price * 1.25 * tbd.ammo_remaining( here, nullptr ) / battery.type->stack_size )
+                         battery_price * 1.25 * tbd.ammo_remaining( nullptr ) / battery.type->stack_size )
                  .margin( 1 ) );
     }
 }

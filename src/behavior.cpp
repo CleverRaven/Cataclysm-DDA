@@ -1,6 +1,7 @@
 #include "behavior.h"
 
 #include <list>
+#include <set>
 #include <unordered_map>
 #include <utility>
 
@@ -8,8 +9,11 @@
 #include "behavior_strategy.h"
 #include "cata_assert.h"
 #include "debug.h"
+#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
+#include "init.h"
+#include "json_error.h"
 
 using namespace behavior;
 
