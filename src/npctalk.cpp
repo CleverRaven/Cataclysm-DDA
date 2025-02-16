@@ -5321,6 +5321,30 @@ talk_effect_fun_t::func f_attack( const JsonObject &jo, std::string_view member,
     };
 }
 
+
+talk_effect_fun_t::func f_ranged_attack( bool is_npc )
+{
+
+    return [is_npc]( dialogue & d ) {
+        // if beta is attacking then target is the alpha
+        talker *target = d.actor( !is_npc );
+        Character *attacker = d.actor( is_npc )->get_character();
+        Creature *c = target->get_creature();
+
+        if( c ) {
+            tripoint_bub_ms target_pos = c->pos_bub();
+            item_location wielded = attacker->get_wielded_item();
+            if( wielded->is_gun() ) {
+                gun_mode mode = wielded->gun_current_mode();
+                if( wielded->ammo_sufficient( attacker, mode.qty * 2 ) ) {
+                    attacker->fire_gun( target_pos, mode.qty );
+
+                }
+            }
+        }
+    };
+}
+
 talk_effect_fun_t::func f_die( bool is_npc )
 {
     return [is_npc]( dialogue const & d ) {
@@ -7629,6 +7653,16 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
     if( effect_id == "npc_gets_item" || effect_id == "npc_gets_item_to_use" ) {
         bool to_use = effect_id == "npc_gets_item_to_use";
         set_effect( talk_effect_fun_t( talk_effect_fun::f_npc_gets_item( to_use ) ) );
+        return;
+    }
+
+    if( effect_id == "u_ranged_attack" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_ranged_attack( false ) ) );
+        return;
+    }
+
+    if( effect_id == "npc_ranged_attack" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_ranged_attack( true ) ) );
         return;
     }
 

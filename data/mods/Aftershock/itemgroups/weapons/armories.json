@@ -66,10 +66,26 @@
     ]
   },
   {
+    "id": "afs_wraitheon_carsh_site_cache",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "afs_wraitheon_smart_rifle_cache", "prob": 5 }, { "group": "afs_wraitheon_vahagn_cache", "prob": 5 } ]
+  },
+  {
     "id": "afs_wraitheon_smart_rifle_cache",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "item": "afs_wa2519" }, { "item": "afs_25mm_smart", "count": [ 15, 25 ] } ]
+    "items": [ { "item": "afs_wa2519" }, { "item": "afs_25mm_smart", "count": [ 150, 250 ] } ]
+  },
+  {
+    "id": "afs_wraitheon_vahagn_cache",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "afs_vahagn_smartgun" },
+      { "item": "afs_vahagn_smartgun_mag", "count": 2 },
+      { "item": "afs_7.50mm_smart", "count": [ 750, 1500 ] }
+    ]
   },
   {
     "id": "afs_augustmoon_guntrader_military_ammo",
