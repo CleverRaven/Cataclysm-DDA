@@ -9692,7 +9692,8 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
     return false;
 }
 
-std::pair<float, item> Character::get_best_weapon_by_damage_type( const damage_type_id dmg_type ) const
+std::pair<float, item> Character::get_best_weapon_by_damage_type( const damage_type_id dmg_type )
+const
 {
     std::pair<float, item> best_weapon = std::make_pair( 0, item() );
 
