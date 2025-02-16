@@ -227,9 +227,6 @@ static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_wood( "wood" );
 
-static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
-static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
-
 static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
@@ -315,7 +312,6 @@ static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
-static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
@@ -3183,7 +3179,7 @@ static void pick_firestarter_and_fire( Character &you, const tripoint_bub_ms &ex
     const bool has_bionic_firestarter = you.has_bionic( bio_lighter ) &&
                                         you.enough_power_for( bio_lighter );
 
-    auto use_cbm = false;
+    bool use_cbm = false;
 
     // Query to use a CBM over another firestarter only if the firestarters list isn't empty.
     if( has_bionic_firestarter && !firestarters.empty() ) {

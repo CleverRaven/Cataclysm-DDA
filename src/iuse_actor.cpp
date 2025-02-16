@@ -131,6 +131,12 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
+static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
+static const furn_str_id furn_f_kiln_metal_empty( "f_kiln_metal_empty" );
+static const furn_str_id furn_f_kiln_portable_empty( "f_kiln_portable_empty" );
+static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
+static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
+
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 
 static const itype_id itype_barrel_small( "barrel_small" );
@@ -1453,10 +1459,10 @@ firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character
     }
 
     const furn_id &f_id = here->furn( pos );
-    const bool is_smoking_rack = f_id == furn_str_id( "f_metal_smoking_rack" ) ||
-                                 f_id == furn_str_id( "f_smoking_rack" );
-    const bool is_kiln = f_id == furn_str_id( "f_kiln_empty" ) ||
-                         f_id == furn_str_id( "f_kiln_metal_empty" ) || f_id == furn_str_id( "f_kiln_portable_empty" );
+    const bool is_smoking_rack = f_id == furn_f_metal_smoking_rack ||
+                                 f_id == furn_f_smoking_rack;
+    const bool is_kiln = f_id == furn_f_kiln_empty ||
+                         f_id == furn_f_kiln_metal_empty || f_id == furn_f_kiln_portable_empty;
 
     if( is_smoking_rack || is_kiln ) {
         if( is_smoking_rack ) {
