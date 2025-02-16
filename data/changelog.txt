@@ -1020,17 +1020,9 @@ Aftershock: Add manhole terrain to exoplanet
 Adds a new recessed rail tile with the NOCOLLIDE flag, and replaces the rail which cross the road with recessed rails.
 Moves the rail lines used by the railroad mapgen closer and adds junctions
 Add lucky/unlucky traits to Crazy Cata
-[XEDERA] Homullus: Add revive mutation
-[MoM] Change relocation to require apportation
-[MoM]Fix missed EOC rename
 Sky Island vampire compatibility
-Add an island-only sun protection to Sky island
 [Aftershock] Update and Expand Hacking System
-[DinoMod] restore dino weights
 [Xedra Evolved] Add seasonal magic for changelings
-[MoM/Innawood] Auto-learn refined matrix crystal dust recipes
-[Xedra Evolved] Seasonal magic casting failure adjustments
-[Xedra Evolved] Add changeling magic to deduction EoC
 
 
 ## Balance:
@@ -1584,15 +1576,10 @@ fix query popup selector not wrapping
 implement (R)eading e-book requirements, fix etransfer_rate segfault
 chapters are character-mapped for unique books
 Prevent item::charges_per_weight to return overflowed values
-[MoM] Fix Force Shove always asking the avatar about how to use it
 fix E_FILE_STORAGE item location serialization
 fix map cache segfault, remove omt tripoints from map items' operations
-Correct misleading information in the NPC Doc
 prevent storing multiple copies of the same book
 fix segfault when trying to insert items into container not carried
-e-device selection ignores empty browsed devices when moving/copying
-[Magiclysm] Fix Goodberry EoC
-[Xedra Evolved] Add missing deduction skill to spells
 Fix Riot Damage not applying properly to structures multiple z-levels tall
 Audit Overmap Terrains for correct application of Riot Damage
 
