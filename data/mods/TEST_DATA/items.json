@@ -2070,7 +2070,7 @@
     "price": "240 USD",
     "material": [ "plastic" ],
     "symbol": "[",
-    "looks_like": "plastic_shopping_bag",
+    "looks_like": "bag_plastic",
     "color": "light_gray",
     "sided": true,
     "pocket_data": [

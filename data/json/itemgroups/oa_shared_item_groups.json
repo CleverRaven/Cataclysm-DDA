@@ -14,7 +14,6 @@
       { "item": "matches", "prob": 50, "charges": [ 0, 20 ] },
       { "item": "ref_matches", "prob": 50, "charges": [ 0, 32 ] },
       { "prob": 20, "group": "cig_box_cigarette_1_5" },
-      [ "plastic_shopping_bag", 50 ],
       [ "wrapper", 50 ],
       [ "wrapper_foil", 5 ],
       { "item": "wrapper_foil_roll", "prob": 8 },

@@ -2244,5 +2244,15 @@
     "id": "kiln_done",
     "type": "MIGRATION",
     "replace": "char_kiln"
+  },
+  {
+    "id": "plastic_shopping_bag",
+    "type": "MIGRATION",
+    "replace": "bag_plastic"
+  },
+  {
+    "id": "swag_bag",
+    "type": "MIGRATION",
+    "replace": "bag_canvas"
   }
 ]

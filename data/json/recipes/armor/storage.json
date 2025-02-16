@@ -2050,19 +2050,6 @@
     ]
   },
   {
-    "result": "swag_bag",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
-    "skill_used": "survival",
-    "time": "36 s",
-    "reversible": true,
-    "autolearn": true,
-    "components": [ [ [ "bag_canvas", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
     "result": "tool_belt",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
