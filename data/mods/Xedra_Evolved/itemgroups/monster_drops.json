@@ -585,7 +585,7 @@
     "entries": [
       { "item": "hat_fur" },
       { "item": "sevenoclock_coat" },
-      { "item": "swag_bag" },
+      { "item": "bag_canvas" },
       { "item": "cane" },
       { "item": "bone_human", "count": [ 3, 15 ] },
       { "item": "human_meat_scrap", "count": [ 10, 40 ] },
