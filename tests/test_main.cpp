@@ -31,6 +31,7 @@
 #include "avatar.h"
 #include "cached_options.h"
 #include "cata_assert.h"
+#include "cata_catch.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "color.h"
@@ -276,6 +277,25 @@ struct CataListener : Catch::TestEventListenerBase {
 
 CATCH_REGISTER_LISTENER( CataListener )
 
+struct CataCIReporter: Catch::ConsoleReporter{
+    CataCIReporter( Catch::ReporterConfig const &config );
+
+    void testCaseStarting( Catch::TestCaseInfo const &testInfo ) {
+        Catch::ConsoleReporter::testCaseStarting( testInfo );
+        std::string tag_string = "";
+        for( const std::string &tag : testInfo.tags ) {
+            tag_string += string_format( "[%s]", tag );
+        }
+        DebugLog( D_INFO, DC_ALL ) << "  Testing " << testInfo.name << " " << tag_string << "...";
+    }
+
+};
+
+CataCIReporter::CataCIReporter( Catch::ReporterConfig const &config )
+    : Catch::ConsoleReporter( config ) {};
+
+CATCH_REGISTER_REPORTER("cata-ci-reporter", CataCIReporter )
+
 int main( int argc, const char *argv[] )
 {
 #if defined(_MSC_VER)
@@ -388,9 +408,9 @@ int main( int argc, const char *argv[] )
 
         // If the run is terminated due to a crash during initialization, we won't
         // see the seed unless it's printed out in advance, so do that here.
-        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
+        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed << std::endl;
     } else {
-        DebugLog( D_INFO, DC_ALL ) << "Default randomness seeded to: " << rng_get_first_seed();
+        DebugLog( D_INFO, DC_ALL ) << "Default randomness seeded to: " << rng_get_first_seed() << std::endl;
     }
 
     // Tests not requiring the global game initialized are tagged with [nogame]
