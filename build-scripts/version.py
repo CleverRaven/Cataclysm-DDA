@@ -119,8 +119,7 @@ def main():
 
     # Check if there are changes in the worktree
     DIRTYFLAG = str()
-    git = subprocess.run(('git', 'diff', '--numstat', '--exit-code',
-                          '-c', 'core.safecrlf=false'),
+    git = subprocess.run(('git', '-c', 'core.safecrlf=false', 'diff', '--numstat', '--exit-code',),
                          capture_output=True)
     if git.returncode != 0:
         stat = git.stdout.decode().strip()
