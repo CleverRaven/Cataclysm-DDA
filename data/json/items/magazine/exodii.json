@@ -5,6 +5,14 @@
     "type": "MAGAZINE",
     "name": { "str": "Exodii zombie hunting rifle magazine" },
     "description": "A small, sleek magazine based on a classic PA md. 71 clip, with some redesigns by the Exodii for better use in lighter-than-air drones.  Its small size is less appropriate for ground-fighting of hordes of zombies, as it is a bit inconvenient to reload.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodiiminimag",
+        "name": { "str": "PA md. 71 10-round magazine" },
+        "description": "A small, sleek magazine based on a classic PA md. 71 clip, with some redesigns by the Exodii for better use in lighter-than-air drones.  Its small size is less appropriate for ground-fighting of hordes of zombies, as it is a bit inconvenient to reload."
+      }
+    ],
     "weight": "30 g",
     "volume": "250 ml",
     "//": "just 10 shots stacked on top of one another as a clip",
@@ -33,6 +41,14 @@
     "type": "MAGAZINE",
     "name": { "str": "Exodii battle rifle pan magazine" },
     "description": "An unreasonably large pan magazine for the already heavy PA md. 68 battle rifle.  While the original magazines were double stack box magazines, the PA md. 68 started being pushed into aircraft and vehicle support roles, necessitating a larger pan magazine.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodiiBRmag",
+        "name": { "str": "PA md. 68 60-round magazine" },
+        "description": "An unreasonably large pan magazine for the already heavy PA md. 68 battle rifle.  While the original magazines were double stack box magazines, the PA md. 68 started being pushed into aircraft and vehicle support roles, necessitating a larger pan magazine."
+      }
+    ],
     "weight": "600 g",
     "volume": "1250 ml",
     "longest_side": "255 mm",
@@ -113,8 +129,16 @@
     "id": "exodiisapramag5",
     "looks_like": "exodiiminimag",
     "type": "MAGAZINE",
-    "name": { "str": "Sapra '36 magazine" },
+    "name": { "str": "Exodii grenade launcher 5-round magazine" },
     "description": "A large, five round single stack magazine for the Sapra '36.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "exodiisapramag5",
+        "name": { "str": "Sapra '36 5-round magazine" },
+        "description": "A large, five round single stack magazine for the Sapra '36."
+      }
+    ],
     "weight": "710 g",
     "volume": "449 ml",
     "longest_side": "132 mm",
@@ -132,7 +156,7 @@
     "id": "exodii_khuunaofaai_mag_firework",
     "looks_like": "metal_tank_little",
     "type": "MAGAZINE",
-    "name": { "str": "ordnance cannon celebration canister" },
+    "name": { "str": "Exodii celebration canister" },
     "description": "A pressurized tank containing the original firework payload of the Exodii's own ordnance cannon.  This chemical payload contains two different compounds of copper, so that the projectiles burn a sharp blue and green to represent the united Earth it came from.  It isn't intended for combat, but getting hit by a massive firework is dangerous enough that it was brought along.  The tank capacity is larger than the other loads the Exodii created for it.",
     "weight": "1268 g",
     "volume": "1250 ml",
@@ -170,7 +194,7 @@
     "ammo_type": [ "khuunaofaai_payload_fire" ],
     "capacity": 4,
     "count": 4,
-    "name": { "str": "ordnance cannon incendiary canister" },
+    "name": { "str": "Exodii incendiary canister" },
     "type": "MAGAZINE",
     "description": "A pressurized tank containing one of the special payloads the Exodii made for their ordnance cannon, something akin to white phosphorous on your Earth.  Its simplicity and effectiveness against targets big and small makes it the cannon's most popular ammunition by far.",
     "variant_type": "gun",
@@ -199,7 +223,7 @@
     "ammo_type": [ "khuunaofaai_payload_acid" ],
     "capacity": 4,
     "count": 4,
-    "name": { "str": "ordnance cannon corrosive canister" },
+    "name": { "str": "Exodii corrosive canister" },
     "type": "MAGAZINE",
     "description": "A pressurized tank containing one of the special payloads the Exodii made for their ordnance cannon, a mixture of several acids and peroxides capable of rapidly breaking down the organic tissues of zombies and mutants alike.  Apparently developed for cases where the incendiary payload would fail, like low to zero oxygen environments and targets capable of self-extinguishing - It's somewhat alarming the Exodii run into those scenarios frequently enough to justify producing this.",
     "variant_type": "gun",
@@ -227,7 +251,7 @@
     "ammo_type": [ "khuunaofaai_payload_glue" ],
     "capacity": 4,
     "count": 4,
-    "name": { "str": "ordnance cannon adhesive canister" },
+    "name": { "str": "Exodii adhesive canister" },
     "type": "MAGAZINE",
     "description": "A pressurized tank containing one of the special payloads the Exodii made for their ordnance cannon, an industrial grade chemical that adheres to anything it touches and hardens into a concrete-like resin.  Invented on some alternate Earth for quickly fixing holes in zeppelin and high-altitude craft, the Exodii found the substance useful for area denial, cover creation, or encasing nasty things in when they couldn't be bothered to waste bullets on them.",
     "variant_type": "gun",
@@ -253,13 +277,13 @@
     "id": "ree_33_4_mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "3.3 naval 4-round magazine" },
+    "name": { "str": "Exodii naval rifle 4-round magazine" },
     "description": "A bulky 4-round magazine for the Exodii naval rifle.  Grants some amount of portability, if the gun itself can be named portable.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ree_33_4_mag",
-        "name": { "str": "3.3 naval 4-round magazine" },
+        "name": { "str": "Ree 3.3 4-round magazine" },
         "description": "A bulky 4-round magazine for the Exodii Ree 3.3 rifle.  Grants some amount of portability, if the gun itself can be named portable."
       }
     ],
@@ -278,13 +302,13 @@
     "id": "ree_33_53_mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "3.3 naval 53-round box magazine" },
+    "name": { "str": "Exodii naval rifle 53-round box magazine" },
     "description": "Giant metal box with a belt, which allows it to be used as a high-capacity magazine for the Exodii naval rifle.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ree_33_53_mag",
-        "name": { "str": "3.3 naval 53-round box magazine" },
+        "name": { "str": "Ree 3.3 53-round box magazine" },
         "description": "Giant metal box with a belt, which allows it to be used as a high-capacity magazine for the Exodii Ree 3.3 rifle."
       }
     ],
@@ -303,8 +327,16 @@
     "id": "caotel_plasma_ring",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Caotel plasma condenser" },
+    "name": { "str": "Exodii plasma condenser" },
     "description": "A strange annular device analogous to a magazine, automatically ejected whenever the last of its mounted power cells are depleted.  In fact, you are not sure whether its meant to be reusable or not.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "caotel_plasma_ring",
+        "name": { "str": "Caotel plasma condenser" },
+        "description": "A strange annular device analogous to a magazine, automatically ejected whenever the last of its mounted power cells are depleted.  In fact, you are not sure whether its meant to be reusable or not."
+      }
+    ],
     "weight": "1020 g",
     "flags": [ "MAG_BULKY", "MAG_EJECT" ],
     "volume": "1450 ml",

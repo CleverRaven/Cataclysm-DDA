@@ -4,7 +4,7 @@
     "//": "Audited with manufacturer info/ImageJ.  Weight from comparison.",
     "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
-    "name": { "str": "10-round assault shotgun magazine" },
+    "name": { "str": "assault shotgun 10-round magazine" },
     "description": "A removable plastic 10-round box magazine, for use with firearms chambered in 12-gauge shotgun shells.",
     "variant_type": "gun",
     "variants": [
@@ -31,7 +31,7 @@
     "//": "Audited with ImageJ.  Weight from comparison.",
     "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
-    "name": { "str": "20-round assault shotgun magazine" },
+    "name": { "str": "assault shotgun 20-round drum magazine" },
     "description": "A removable plastic 20-round drum magazine, for use with firearms chambered in 12-gauge shotgun shells.",
     "variant_type": "gun",
     "variants": [
@@ -129,7 +129,7 @@
   {
     "id": "srm_1216_mag_16",
     "type": "MAGAZINE",
-    "name": { "str": "16-round rotary shotgun magazine" },
+    "name": { "str": "shotgun 16-round rotary magazine" },
     "description": "A 16-round magazine for a rotary magazine-fed shotgun.",
     "variant_type": "gun",
     "variants": [
@@ -155,9 +155,8 @@
     "id": "m26_mass_mag_3",
     "//": "Audited with ImageJ.  Weight from comparison.",
     "type": "MAGAZINE",
-    "name": { "str": "M26-MASS 3-round magazine" },
+    "name": { "str": "MASS shotgun 3-round magazine" },
     "description": "A small 3-round box magazine for the M26-MASS underbarrel shotgun.",
-    "variant_type": "gun",
     "weight": "112 g",
     "volume": "255 ml",
     "longest_side": "118 mm",
@@ -174,9 +173,8 @@
     "id": "m26_mass_mag_5",
     "//": "Audited with ImageJ.  Weight from comparison.",
     "type": "MAGAZINE",
-    "name": { "str": "M26-MASS 5-round magazine" },
+    "name": { "str": "MASS shotgun 5-round magazine" },
     "description": "A small 5-round box magazine for the M26-MASS underbarrel shotgun.",
-    "variant_type": "gun",
     "weight": "150 g",
     "volume": "342 ml",
     "longest_side": "158 mm",
@@ -193,7 +191,7 @@
     "id": "mossberg_590m_mag_5",
     "copy-from": "mossberg_590m_mag_10",
     "type": "MAGAZINE",
-    "name": { "str": "magazine-fed pump shotgun 5-round magazine" },
+    "name": { "str": "magazine-fed shotgun 5-round magazine" },
     "description": "A small 5-round box magazine for the magazine-fed pump shotgun.",
     "variant_type": "gun",
     "variants": [
@@ -216,7 +214,7 @@
   {
     "id": "mossberg_590m_mag_10",
     "type": "MAGAZINE",
-    "name": { "str": "magazine-fed pump shotgun 10-round magazine" },
+    "name": { "str": "magazine-fed shotgun 10-round magazine" },
     "description": "A 10-round box magazine for the magazine-fed pump shotgun.",
     "variant_type": "gun",
     "variants": [
@@ -242,7 +240,7 @@
     "id": "mossberg_590m_mag_15",
     "copy-from": "mossberg_590m_mag_10",
     "type": "MAGAZINE",
-    "name": { "str": "magazine-fed pump shotgun 15-round magazine" },
+    "name": { "str": "magazine-fed shotgun 15-round magazine" },
     "description": "A 15-round box magazine for the magazine-fed pump shotgun.",
     "variant_type": "gun",
     "variants": [
@@ -265,7 +263,7 @@
     "id": "mossberg_590m_mag_20",
     "copy-from": "mossberg_590m_mag_10",
     "type": "MAGAZINE",
-    "name": { "str": "magazine-fed pump shotgun 20-round magazine" },
+    "name": { "str": "magazine-fed shotgun 20-round magazine" },
     "description": "A 20-round box magazine for the magazine-fed pump shotgun.",
     "variant_type": "gun",
     "variants": [
@@ -288,16 +286,8 @@
     "id": "mka_1919_5",
     "copy-from": "mka_1919_10",
     "type": "MAGAZINE",
-    "name": { "str": "shotgun 5-round magazine" },
-    "description": "5-round box magazine for rifle-like magazine-fed shotguns.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "mka_1919_5",
-        "name": { "str": "MKA 1919 5-round magazine" },
-        "description": "Despite being intended to use with the Akdal MKA 1919, this type of magazines was adopted by multiple Turkish firearm manufacturers, and can be used with almost any Turkish-manufactured mag-fed shotgun.  This one is box shaped, and can hold 5 shots."
-      }
-    ],
+    "name": { "str": "MKA 5-round magazine" },
+    "description": "5-round box magazine for MKA shotguns.",
     "weight": "313 g",
     "volume": "430 ml",
     "longest_side": "156 mm",
@@ -313,16 +303,8 @@
   {
     "id": "mka_1919_10",
     "type": "MAGAZINE",
-    "name": { "str": "shotgun 10-round magazine" },
-    "description": "10-round box magazine for rifle-like magazine-fed shotguns.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "mka_1919_10",
-        "name": { "str": "MKA 1919 10-round magazine" },
-        "description": "Despite being intended to use with Akdal MKA 1919, this type of magazine was adopted by multiple Turkish firearm manufactures, and can be used with almost any Turkish-manufactured mag-fed shotgun.  This one is box shaped, and can hold 10 shots."
-      }
-    ],
+    "name": { "str": "MKA 10-round magazine" },
+    "description": "10-round box magazine for MKA shotguns.",
     "weight": "476 g",
     "volume": "696 ml",
     "longest_side": "305 mm",
@@ -339,16 +321,8 @@
     "id": "mka_1919_20",
     "copy-from": "mka_1919_10",
     "type": "MAGAZINE",
-    "name": { "str": "shotgun 20-round drum magazine" },
-    "description": "20-round drum magazine for rifle-like magazine-fed shotguns.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "mka_1919_20",
-        "name": { "str": "MKA 1919 20-round magazine" },
-        "description": "Despite being intended to use with the Akdal MKA 1919, this type of magazine was adopted by multiple Turkish firearm manufacturers, and can be used with almost any Turkish-manufactured mag-fed shotgun.  This one is a drum, and can hold 20 shots."
-      }
-    ],
+    "name": { "str": "MKA 20-round drum magazine" },
+    "description": "20-round drum magazine for MKA shotguns.",
     "weight": "1424 g",
     "volume": "5866 ml",
     "longest_side": "356 mm",

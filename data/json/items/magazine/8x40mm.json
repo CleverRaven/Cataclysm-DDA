@@ -3,16 +3,8 @@
     "id": "8x40_100_mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "caseless 100-round magazine" },
+    "name": { "str": "caseless 8mm 100-round magazine" },
     "description": "A 100-round box magazine for use with Rivtech 8x40mm caseless firearms.  Designated as RMGB100.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "8x40_100_mag",
-        "name": { "str": "8x40mm 100-round magazine" },
-        "description": "A 100-round box magazine for use with Rivtech 8x40mm caseless firearms.  Designated as RMGB100."
-      }
-    ],
     "weight": "150 g",
     "volume": "750 ml",
     "price": "400 USD",
@@ -29,16 +21,8 @@
     "id": "8x40_10_mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "caseless 10-round magazine" },
+    "name": { "str": "caseless 8mm 10-round magazine" },
     "description": "A 10-round stick magazine for use with Rivtech 8x40mm caseless firearms.  Designated as RMGP10.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "8x40_10_mag",
-        "name": { "str": "8x40mm 10-round magazine" },
-        "description": "A 10-round stick magazine for use with Rivtech 8x40mm caseless firearms.  Designated as RMGP10."
-      }
-    ],
     "weight": "60 g",
     "volume": "250 ml",
     "price": "90 USD",
@@ -55,16 +39,8 @@
     "id": "8x40_25_mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "caseless 25-round magazine" },
+    "name": { "str": "caseless 8mm 25-round magazine" },
     "description": "A 25-round stick magazine for use with Rivtech 8x40mm caseless firearms.  Designated as RMGP25.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "8x40_25_mag",
-        "name": { "str": "8x40mm 25-round magazine" },
-        "description": "A 25-round stick magazine for use with Rivtech 8x40mm caseless firearms.  Designated as RMGP25."
-      }
-    ],
     "weight": "90 g",
     "volume": "500 ml",
     "price": "125 USD",
@@ -81,16 +57,8 @@
     "id": "8x40_50_mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "caseless 50-round magazine" },
+    "name": { "str": "caseless 8mm 50-round magazine" },
     "description": "A 50-round box magazine for use with Rivtech 8x40mm caseless firearms.  Designated as RMGB50.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "8x40_50_mag",
-        "name": { "str": "8x40mm 50-round magazine" },
-        "description": "A 50-round box magazine for use with Rivtech 8x40mm caseless firearms.  Designated as RMGB50."
-      }
-    ],
     "weight": "110 g",
     "volume": "500 ml",
     "price": "250 USD",

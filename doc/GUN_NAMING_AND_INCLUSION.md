@@ -144,7 +144,7 @@ script.
 This rule requires that the name of the gun clarifies what it is. This is meant
 to prevent gun names that are obscure strings of letters and numbers.
 
-Guns that follow this rule will have names like `Glock pistol`, `m4 carbine`,
+Guns that follow this rule will have names like `Glock pistol`, `M4 carbine`,
 or `UMP submachine gun`. Guns that don't will have names like `FS2000`,
 `SIG P226`, `Ruger LCR .38`, or `Taurus Raging Bull`.
 

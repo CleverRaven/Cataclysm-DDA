@@ -52,7 +52,7 @@
     "variants": [
       {
         "id": "rm11b_sniper_rifle",
-        "name": { "str": "RM11B scout rifle" },
+        "name": { "str": "RM11B rifle" },
         "description": "Intended to function as a long-range sharpshooter support weapon for the military, the Rivtech RM11B scout rifle was designed for durability and accuracy under less than ideal circumstances.  Its bullpup layout, digital scope, and two round burst mode allow it to deliver precise long-range takedowns, utilizing the proprietary Rivtech 8mm caseless round.  Accepts stick magazines."
       }
     ],

@@ -4,7 +4,7 @@
     "copy-from": "gun_base_shotgun_manual",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "12 gauge pistol" },
+    "name": { "str": "12 gauge pipe pistol" },
     "description": "A single shot pistol that loads 12 gauge shotgun shells, handcrafted from scrap.",
     "ascii_picture": "shotgun_pistol",
     "weight": "828 g",
@@ -27,7 +27,7 @@
     "copy-from": "shotgun_base",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": { "str": "12-gauge Gatling gun" },
+    "name": { "str": "12 gauge Gatling gun" },
     "description": "An electrically driven six barrel Gatling shotgun, fed from handmade cloth belts.  Even properly mounted, this seems like an unwieldy beast, and the six separate barrels make for difficult zeroing.  The externally driven action means this is much less likely to jam.",
     "weight": "4980 g",
     "volume": "4500 ml",
@@ -51,14 +51,14 @@
     "copy-from": "gun_base_shotgun_manual",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": { "str": "compact bullpup shotgun" },
+    "name": { "str": "14-round bullpup shotgun" },
     "description": "This pump-action shotgun uses a system of twin magazines to carry 14 total rounds of 12-gauge shotgun shells.  As the weapon's trigger is situated forwards of the chamber in what is termed as a 'bullpup' design, the firearm's notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ksg",
         "name": { "str": "Kel-Tec KSG shotgun" },
-        "description": "A bullpup pump-action shotgun, the Kel-Tec KSG uses a pair of magazine tubes to increase its capacity."
+        "description": "This pump-action shotgun uses a system of twin magazines to carry 14 total rounds of 12-gauge shotgun shells.  As the weapon's trigger is situated forwards of the chamber in what is termed as a 'bullpup' design, the firearm's notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns."
       }
     ],
     "ascii_picture": "ksg",
@@ -164,14 +164,14 @@
     "copy-from": "mossberg_590",
     "looks_like": "mossberg_590",
     "type": "GUN",
-    "name": { "str": "magazine-fed pump shotgun" },
+    "name": { "str": "magazine-fed shotgun" },
     "description": "A classic pump-action shotgun, all save for the fact that the manufacturer has modified it to use detachable box magazines instead of a standard shotgun tube.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "mossberg_590",
         "name": { "str": "Mossberg 590M shotgun" },
-        "description": "A classic Mossberg 590 pump-action shotgun, modified by the manufacturer to utilize box magazines."
+        "description": "A classic pump-action shotgun, all save for the fact that the manufacturer has modified it to use detachable box magazines instead of a standard shotgun tube."
       }
     ],
     "weight": "3628 g",
@@ -301,7 +301,7 @@
       },
       {
         "id": "remington_1100",
-        "name": { "str": "Remington 1100 competition shotgun" },
+        "name": { "str": "Remington 1100 shotgun" },
         "description": "This semi-automatic shotgun features a self compensating gas system that will feed a wide array of shells while also reducing recoil.  Introduced in 1963, it is favored by law enforcement, hunters and competition shooters, and has been the best-selling autoloading shotgun in U.S. history.  This is the nickel finished, teflon coated competition model, with a full length magazine tube and 30 inch barrel.",
         "ascii_picture": "remington1100"
       },
@@ -333,7 +333,7 @@
     "id": "remington_870_breacher",
     "copy-from": "remington_870",
     "type": "GUN",
-    "name": { "str": "breaching shotgun" },
+    "name": { "str": "4-round breaching shotgun" },
     "description": "This shotgun has a short barrel and no stock, and is set up for breaching doors.  It is small enough to carry as a secondary weapon, but has fairly unpleasant recoil and no sights.",
     "variant_type": "gun",
     "variants": [
@@ -461,7 +461,7 @@
     "id": "shotgun_d",
     "copy-from": "shotgun_s",
     "type": "GUN",
-    "name": { "str": "double barrel shotgun" },
+    "name": { "str": "double-barrel shotgun" },
     "description": "An old shotgun, possibly antique.  It is little more than a pair of barrels, a wood stock, and a hammer to strike the cartridges.",
     "//": "Based on a CZ-USA Redhead 26in 12ga 3in ou",
     "ascii_picture": "2barrel_shotgun",
@@ -495,7 +495,7 @@
     "variants": [
       {
         "id": "triple_honcho",
-        "name": { "str": "Triple Honcho" },
+        "name": { "str": "Triple Honcho shotgun" },
         "description": "Made by Charles Daly, this modern three-barrel shotgun had a unique balance between how much it cost and how little firepower it could release with its 18.5-inch barrels.  Luckily, you do not need to pay the full price for it anymore."
       }
     ],
@@ -543,7 +543,7 @@
     "id": "tavor_12",
     "copy-from": "gun_base_shotgun_semi",
     "type": "GUN",
-    "name": { "str": "auto-loading bullpup shotgun" },
+    "name": { "str": "15-round bullpup shotgun" },
     "description": "Looking more like some form of sci-fi prop gun than an actual firearm, this weapon uses a system of three different magazines to field 15 12-gauge shotgun shells within a comparatively compact design.  As the weapon's trigger assembly is situated forwards of the chamber and magazines in what is termed as a 'bullpup' design, the firearm's notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns.",
     "variant_type": "gun",
     "variants": [
@@ -579,13 +579,13 @@
     "id": "dp_12",
     "copy-from": "gun_base_shotgun_manual",
     "type": "GUN",
-    "name": { "str": "double-barreled pump shotgun" },
+    "name": { "str": "14-round double-barreled shotgun" },
     "description": "A hefty shotgun with a double-barrel configuration, though each barrel feeds from its own magazine, making the weapon actually two firearms in a single frame.  While each barrel has its own associated trigger, considering there is a single pump to actuate both mechanisms, one can't really use it precisely.  This, however, isn't to say that the weapon isn't fit for the service of shooting zombies at point blank ranges.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "dp_12",
-        "name": { "str": "DP-12" },
+        "name": { "str": "DP-12 shotgun" },
         "description": "A bullpup, 12-gauge, pump-action, double-barreled mouthful of a shotgun.  Each barrel feeds from its own magazine, making the weapon actually two firearms in a single frame, and, while each barrel has its own associated trigger, the presence of a single pump to actuate both mechanisms means that it cannot be used precisely.  This, however, isn't to say that the weapon isn't fit for the service of shooting zombies at point blank ranges."
       }
     ],
@@ -616,13 +616,13 @@
     "id": "winchester_1887",
     "copy-from": "gun_base_shotgun_manual",
     "type": "GUN",
-    "name": { "str": "bootleg lever-action shotgun" },
+    "name": { "str": "6-round lever-action shotgun" },
     "description": "A lever-action shotgun with a very short barrel and no stock, with room for 6 rounds of 12 gauge shotshells.  Likely a bootlegged replica of a pre-1900 firearm, it would pair nicely with a motorcycle jacket and a Harley Davidson, and seems ready to terminate your cataclysmic adversaries.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "winchester_1887",
-        "name": { "str": "1887 bootleg shotgun" },
+        "name": { "str": "Winchester 1887 shotgun" },
         "description": "One of the first commercially successful repeating shotguns, the Winchester 1887 was specifically made lever-action at Winchester's request.  Though later overshadowed in success by pump designs, the 1887 remains popular today.  This one has a very short barrel, no stock, and would pair nicely with a motorcycle jacket and a Harley Davidson."
       }
     ],
@@ -818,61 +818,61 @@
     "copy-from": "gun_base_shotgun_semi",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": { "str": "rifle shotgun" },
+    "name": { "str": "MKA shotgun" },
     "description": "Despite looking like a military-issued rifle, this is, in fact, a shotgun.  It can accept a variety of magazines.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "tar_12p",
-        "name": { "str": "Tokarev TAR 12P" },
+        "name": { "str": "Tokarev TAR 12P shotgun" },
         "weight": 327,
         "description": "Not related to the Soviet weapon designer, Tokarev, this Turkish shotgun uses an AR-12 shotgun platform to make the user comfortably hold it like a rifle and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "vr80",
-        "name": { "str": "VR 80" },
+        "name": { "str": "VR 80 shotgun" },
         "weight": 575,
         "description": "The work of Rock Island Armoury, this AR-12-style shotgun affords both the comfort of being similar to a rifle and the ability to use MKA 1919 shotgun magazines."
       },
       {
         "id": "boss25",
-        "name": { "str": "BOSS 25" },
+        "name": { "str": "BOSS 25 shotgun" },
         "weight": 299,
         "description": "Manufactured in Turkey, this work of Farncolin Arms uses an AR-12 shotgun platform to let the user comfortably hold it like a rifle and utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "ar12s",
-        "name": { "str": "AR-12S" },
+        "name": { "str": "AR-12S shotgun" },
         "weight": 101,
         "description": "Created by Charles Daly, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "ar12a",
-        "name": { "str": "AR-12A" },
+        "name": { "str": "AR-12A shotgun" },
         "weight": 98,
         "description": "Made by Charles Daly, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "gf25",
-        "name": { "str": "GF25" },
+        "name": { "str": "GF25 shotgun" },
         "weight": 158,
         "description": "Work of GForce Arms, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "mka1919",
-        "name": { "str": "MKA 1919" },
+        "name": { "str": "MKA 1919 shotgun" },
         "weight": 85,
         "description": "First of its type, this Akdal Arms MKA 1919 looks like a bulky M-4 rifle, and was a parent for numerous shotguns, that soon after got a named \"AR-12 platform\", inspired by Armalite design."
       },
       {
         "id": "krx",
-        "name": { "str": "KRX" },
+        "name": { "str": "KRX shotgun" },
         "weight": 231,
         "description": "Created by TriStar Arms, this shotgun uses AR-12 platform to make user comfortably hold it like a rifle, and to utilize MKA 1919 magazines of different sizes."
       },
       {
         "id": "vr60",
-        "name": { "str": "VR60" },
+        "name": { "str": "VR60 shotgun" },
         "weight": 109,
         "description": "Work of Rock Island Armory, this AR-12 style shotgun afford both the comfort of being similar to rifle, and ability to use MKA 1919 shotgun magazines."
       }
@@ -904,19 +904,19 @@
     "copy-from": "gun_base_shotgun_semi",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": { "str": "bullpup shotgun" },
+    "name": { "str": "MKA bullpup shotgun" },
     "description": "A curious magazine-fed shotgun, made using bullpup scheme.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "gfy_1",
-        "name": { "str": "GFY-1" },
+        "name": { "str": "GFY-1 shotgun" },
         "weight": 101,
         "description": "A work of GForce Arms, this curious bullpup shotgun is compact, familiar to any rifleman, and can use standard MKA 1919 magazines."
       },
       {
         "id": "bp12",
-        "name": { "str": "BP-12" },
+        "name": { "str": "BP-12 shotgun" },
         "weight": 82,
         "description": "Manufactured by Century Arms, it is a compact bullpup shotgun, that accept a variety of MKA 1919 magazines."
       }
@@ -954,7 +954,7 @@
     "variants": [
       {
         "id": "srm_1216",
-        "name": { "str": "SRM Arms Model 1216" },
+        "name": { "str": "SRM Arms Model 1216 shotgun" },
         "description": "A delayed blowback semi-automatic shotgun feeding from detachable 16-round rotary magazines."
       }
     ],
@@ -985,9 +985,16 @@
     "id": "m26_mass_standalone",
     "copy-from": "gun_base_shotgun_manual",
     "type": "GUN",
-    "name": { "str": "M26-MASS standalone shotgun" },
-    "description": "The Modular Accessory Shotgun System is an underbarrel bolt-action shotgun that was inspired by the \"Masterkey\" and which fixed most of its predecessor's problems.  This one is configured for standalone usage.",
+    "name": { "str": "MASS standalone shotgun" },
+    "description": "An underbarrel bolt-action shotgun.  This one is configured for standalone usage.",
     "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m26_mass_standalone",
+        "name": { "str": "M26-MASS shotgun" },
+        "description": "The Modular Accessory Shotgun System is an underbarrel bolt-action shotgun that was inspired by the \"Masterkey\" and which fixed most of its predecessor's problems.  This one is configured for standalone usage."
+      }
+    ],
     "weight": "1900 g",
     "volume": "2390 ml",
     "longest_side": "610 mm",

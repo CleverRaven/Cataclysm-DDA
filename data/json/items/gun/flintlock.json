@@ -116,7 +116,7 @@
     "variants": [
       {
         "id": "leadworks_longrifle_flintlock",
-        "name": { "str": "Leadworks Pennsylvania 2068" },
+        "name": { "str": "Leadworks Pennsylvania 2068 rifle" },
         "description": "A high quality commemorative replica of a Pennsylvania rifle.  Its engraved stock plate claims it was built for the \"Northern American Federation Tricentennial Exhibition\".",
         "color": "dark_gray",
         "weight": 0,

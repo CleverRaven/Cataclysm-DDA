@@ -4,7 +4,7 @@
     "//": "Values copied from .44 Speedloader.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": ".500 5-round speedloader" },
+    "name": { "str": ".500 Magnum 5-round speedloader" },
     "description": "This speedloader can hold 5 rounds of .500 and quickly reload a compatible revolver.",
     "weight": "28 g",
     "volume": "25 ml",

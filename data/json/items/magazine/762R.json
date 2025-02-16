@@ -5,7 +5,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "category": "ammo",
-    "name": { "str": "7.62x54mmR 5-round clip" },
+    "name": { "str": "Mosin 5-round clip" },
     "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load five 7.62x54mmR rounds into a compatible firearm.",
     "weight": "9 g",
     "volume": "3 ml",

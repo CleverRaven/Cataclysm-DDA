@@ -4,7 +4,7 @@
     "looks_like": "ar15",
     "copy-from": "gun_base_rifle_manual",
     "type": "GUN",
-    "name": { "str": "small game rifle" },
+    "name": { "str": "19-round small game rifle" },
     "description": "A venerable .22 caliber lever-action rifle, with a 19-round tube magazine and a classic design that dates back over a century.  Generally used for the hunting of small game like rabbits, the strict taxonomic classification of zombies as 'small game' is debatable, but this decades-old weapon can still be counted upon to help manage the undead population.",
     "variant_type": "gun",
     "variants": [
@@ -138,13 +138,13 @@
     "id": "ruger_1022_auto",
     "copy-from": "ruger_1022",
     "type": "GUN",
-    "name": "full-auto varmint rifle",
+    "name": { "str": "full-auto varmint rifle" },
     "description": "A handy and lightweight rifle, modified to fire semi and full auto.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ruger_1022_auto",
-        "name": { "str": "full-auto Ruger 10/22 rifle" },
+        "name": { "str": "Ruger 10/22 auto rifle" },
         "description": "A Ruger 10/22 modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto."
       }
     ],
@@ -156,7 +156,7 @@
     "looks_like": "sw_619",
     "copy-from": "gun_base_handgun_manual",
     "type": "GUN",
-    "name": { "str": ".22 caliber revolver" },
+    "name": { "str": "pocket revolver" },
     "description": "A comparatively dainty revolver, chambered for 8 tiny rounds of .22 LR.",
     "variant_type": "gun",
     "variants": [
@@ -190,14 +190,14 @@
     "looks_like": "glock_17",
     "copy-from": "gun_base_22_semi_pistol",
     "type": "GUN",
-    "name": { "str": "firefly training pistol" },
+    "name": { "str": "training pistol" },
     "//": "Was the sig mosquito, has been renamed to the more common GSG firefly",
     "description": "A medium sized, .22 caliber semi-automatic pistol, for training with a pistol similar to more powerful pistols.  Built from aluminum and polymer components, the weapon is lightweight and concealable, but its chambering is not very powerful.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "sig_mosquito",
-        "name": { "str": "GSG Firefly", "str_pl": "GSG Fireflies" },
+        "name": { "str": "GSG Firefly pistol" },
         "description": "The GSG firefly is a .22 semi-automatic handgun.  While the GSG Firefly started off as the SIG Mosquito, after the Mosquito ceased production, German Sport Guns picked it up and renamed it to the Firefly."
       }
     ],
@@ -228,7 +228,7 @@
     "copy-from": "gun_base_22_semi_pistol",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Walther training pistol" },
+    "name": { "str": "compact training pistol" },
     "description": "A dainty training pistol offered by the Walther Arms company, making use of the .22 LR cartridge, for training on a pistol very similar to more powerful pistols.",
     "variant_type": "gun",
     "variants": [
@@ -252,14 +252,14 @@
     "copy-from": "gun_base_22_semi_pistol",
     "looks_like": "modular_ar_pistol",
     "type": "GUN",
-    "name": { "str": "high capacity handgun" },
+    "name": { "str": "competition handgun" },
     "description": "A large capacity handgun, chambered in .22 and feeding from quad stack magazines.  Used both recreationally and in competition.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "cp33",
-        "name": { "str": "CP33" },
-        "description": "The Kel-Tec CP33, standing for Competition Pistol 33, is a .22 semi automatic pistol targeted towards competition shooters and recreational shooters alike, with the ability to feed from 33 round quad stack magazines, or even 50 with an extension.  While in a fairly weak cartridge, the capacity makes it quite a formidable weapon in the right hands."
+        "name": { "str": "Kel-Tec CP33 handgun" },
+        "description": "The Kel-Tec CP33, standing for Competition Pistol 33, is a .22 semi-automatic pistol targeted towards competition shooters and recreational shooters alike, with the ability to feed from 33 round quad stack magazines, or even 50 with an extension.  While in a fairly weak cartridge, the capacity makes it quite a formidable weapon in the right hands."
       }
     ],
     "weight": "669 g",
@@ -285,25 +285,25 @@
     "copy-from": "gun_base_22_semi_pistol",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Ruger target pistol" },
+    "name": { "str": "target pistol" },
     "description": "A light and handy .22 LR handgun from Ruger, this handgun is one of the most popular .22 handguns ever created.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ruger_mk2",
-        "name": { "str": "Ruger Mark II" },
+        "name": { "str": "Ruger Mark II pistol" },
         "description": "The 2nd version of the Ruger Standard, which replaced production of the Standard in 1982 and continued until 2005 with the main feature of having adjustable sights.  Features a 5.5 inch barrel and feeds from a 10 round magazine.",
         "weight": 17
       },
       {
         "id": "ruger_mk3",
-        "name": { "str": "Ruger Mark III" },
+        "name": { "str": "Ruger Mark III pistol" },
         "description": "The 3rd version of the Ruger Standard, which replaced production of the Mark II in 2005 and continued until 2016.  Features a 5.5 inch barrel and feeds from a 10 round magazine.",
         "weight": 19
       },
       {
         "id": "ruger_mk4",
-        "name": { "str": "Ruger Mark IV" },
+        "name": { "str": "Ruger Mark IV pistol" },
         "description": "The 4th, and most modern version of the Ruger Standard.  Still in production since 2016, and has a simplified disassembly feature.  Has a 5.5 inch barrel and feeds from a 10 round magazine.",
         "weight": 135
       }
@@ -331,7 +331,7 @@
     "variants": [
       {
         "id": "ruger_charger",
-        "name": { "str": "Ruger 22 Charger" },
+        "name": { "str": "Ruger 22 Charger pistol" },
         "description": "This gun is essentially a shortened 10/22, feeding from the same magazines.  While it does feature a shorter barrel and a lack of a stock, it is a fair bit lighter, and comes included with a bipod to more steadily plink away at the undead."
       }
     ],
@@ -380,13 +380,13 @@
     "id": "ruger_charger_auto",
     "copy-from": "ruger_charger",
     "type": "GUN",
-    "name": "full-auto varmint pistol",
+    "name": { "str": "full-auto varmint pistol" },
     "description": "A lightweight varmint pistol, modified to fire both semi, and full auto.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "ruger_charger_auto",
-        "name": { "str": "full-auto Ruger 22 Charger" },
+        "name": { "str": "Ruger 22 Charger auto pistol" },
         "description": "A Ruger 22 Charger modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto even with the lack of a stock."
       }
     ],
@@ -404,7 +404,7 @@
     "variants": [
       {
         "id": "rossi_gallery",
-        "name": { "str": "Rossi Gallery", "str_pl": "Rossi Galleries" },
+        "name": { "str": "Rossi Gallery rifle" },
         "description": "A modern take on the Winchester 1890, the Rossi Gallery is a .22 LR rifle, notably using a pump action.  Much like a pump action shotgun, the magazine tube is below its 18 inch barrel and can hold 15 rounds.  While pump actions are quite often associated with shotguns, the mechanism can be applied to rifles as well, though in practice it's limited to .22 LR."
       }
     ],
@@ -437,7 +437,7 @@
     "id": "rough_rider_pistol",
     "copy-from": "gun_base_handgun_manual",
     "type": "GUN",
-    "name": { "str": ".22 six-shooter" },
+    "name": { "str": "plinking six-shooter" },
     "description": "A revolver chambered in .22 LR, with 6 shots and a 6.5 inch barrel.",
     "ascii_picture": "redhawk",
     "weight": "947 g",
@@ -458,7 +458,7 @@
     "variants": [
       {
         "id": "rough_rider_pistol",
-        "name": { "str": "Heritage Rough Rider 6.5\"", "str_pl": "Heritage Rough Riders 6.5\"" },
+        "name": { "str": "Heritage Rough Rider 6.5\" revolver" },
         "description": "A cheap, single action revolver chambered in .22 LR.  While it makes for a handy plinking gun, the single action mechanism, size of the firearm, combined with the lack of a swing out cylinder makes for a less than ideal zombie fighting handgun."
       }
     ]
@@ -467,7 +467,7 @@
     "id": "rough_rider_pistol_9",
     "copy-from": "rough_rider_pistol",
     "type": "GUN",
-    "name": { "str": "large .22 six-shooter" },
+    "name": { "str": "large plinking six-shooter" },
     "description": "A revolver chambered in .22 LR, with 6 shots and a 9 inch barrel.",
     "weight": "1046 g",
     "volume": "456 ml",
@@ -482,7 +482,7 @@
     "variants": [
       {
         "id": "rough_rider_pistol",
-        "name": { "str": "Heritage Rough Rider 9\"", "str_pl": "Heritage Rough Riders 9\"" },
+        "name": { "str": "Heritage Rough Rider 9\" revolver" },
         "description": "A cheap, single action revolver chambered in .22 LR.  While it makes for a handy plinking gun, the single action mechanism, size of the firearm, combined with the lack of a swing out cylinder makes for a less than ideal zombie fighting handgun, even with the slightly increased performance from the longer barrel."
       }
     ]
@@ -493,7 +493,7 @@
     "type": "GUN",
     "looks_like": "1911",
     "//": "Based on https://www.browning.com/products/firearms/pistols/1911-22/1911-22-a1.html",
-    "name": { "str": ".22 1911 pistol" },
+    "name": { "str": "pocket pistol" },
     "description": "A 1911 in .22 LR, with a 4 1/4\" barrel, and feeding from 10 round magazines.",
     "ascii_picture": "m1911",
     "weight": "425 g",
@@ -511,7 +511,7 @@
     "variants": [
       {
         "id": "1911_22",
-        "name": { "str": "1911-22" },
+        "name": { "str": "1911-22 pistol" },
         "description": "A 1911 handgun with \"1911-22\" stamped on the slide.  While .22 LR 1911s were first devised as a training aid for US soldiers, it found large civilian use from concealed carry to plinking thanks to the readily available ammunition and familiar platform."
       }
     ]
@@ -521,13 +521,13 @@
     "copy-from": "gun_base_rifle_manual",
     "looks_like": "marlin_9a",
     "type": "GUN",
-    "name": { "str": "small game lever-action rifle" },
+    "name": { "str": "15-round small game rifle" },
     "description": "A .22 Long Rifle lever-action rifle, which holds 15 rounds of ammo.  While quite useful against small game, its effectiveness isn't as great against the undead.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "rio_bravo",
-        "name": { "str": "Rossi Rio Bravo" },
+        "name": { "str": "Rossi Rio Bravo rifle" },
         "description": "A modern .22 LR lever-action rifle, the Rio Bravo features an 18\" barrel with 15 rounds of ammo in its tube magazine, which is loaded from the front of the rifle.  The mechanical origins date back decades, being based off of Rossi's R92 series of rifles which themselves were based off of the Winchester 1892."
       }
     ],
@@ -563,13 +563,13 @@
     "copy-from": "gun_base_rifle_manual",
     "looks_like": "marlin_9a",
     "type": "GUN",
-    "name": { "str": "small game lever-action rifle" },
+    "name": { "str": "16-round small game rifle" },
     "description": "A .22 Long Rifle lever-action rifle, which holds 16 rounds of ammo.  While quite useful against small game, its effectiveness isn't as great against the undead.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "henry_golden_boy",
-        "name": { "str": "Henry Golden Boy" },
+        "name": { "str": "Henry Golden Boy rifle" },
         "description": "A modern .22 LR lever-action rifle, the Henry Golden Boy features an 20\" octagonal barrel with 16 rounds of ammo in its tube magazine, which is loaded from the front of the rifle.  It fairly resembles the original Henry Model 1860 with its brass colored receiver, though with wooden furniture at the front, and without a doubt using modern manufacturing."
       }
     ],

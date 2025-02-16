@@ -5,7 +5,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "category": "ammo",
-    "name": { "str": "7.7x58mm 5-round stripper clip" },
+    "name": { "str": "Arisaka 5-round clip" },
     "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load five 7.7x58mm rounds into a compatible firearm.",
     "weight": "9 g",
     "volume": "3 ml",
