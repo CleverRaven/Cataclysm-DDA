@@ -11,7 +11,7 @@
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
 #include "enums.h"

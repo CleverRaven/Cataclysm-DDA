@@ -6,7 +6,7 @@
 
 #include "action.h"
 #include "cata_assert.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
 #include "map.h"
