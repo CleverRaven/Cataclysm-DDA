@@ -3,8 +3,6 @@
 All commands emulate the Makefile's "version" target.
 Format is: [TAG] [SHA1][-dirty]
 
-Write VERSION.txt only when missing.
-
 The optional command line arguments or environment variables are:
     VERSION|VERSION_STRING=<version>
     ARTIFACT=<artifact>
@@ -55,16 +53,13 @@ def write_VERSION_TXT(GITSHA=None,TIMESTAMP=None,ARTIFACT=None):
     if GITSHA:
         url = f"{url}/commit/{GITSHA}"
     timestamp = TIMESTAMP or datetime.datetime.now().strftime("%Y-%m-%d-%H%M")
-    try:
-        with open("VERSION.TXT", 'x') as VERSION_TXT:
-            text = str()
-            text += (f"build type: {ARTIFACT or 'Release'}\n"
-                     f"build number: {timestamp}\n"
-                     f"commit sha: {GITSHA or 'Unknown'}\n"
-                     f"commit url: {url}")
-            VERSION_TXT.write(text)
-    except FileExistsError:
-        logging.debug('Skip writing VERSION.txt')
+    with open("VERSION.TXT", 'w') as VERSION_TXT:
+        text = str()
+        text += (f"build type: {ARTIFACT or 'Release'}\n"
+                    f"build number: {timestamp}\n"
+                    f"commit sha: {GITSHA or 'Unknown'}\n"
+                    f"commit url: {url}")
+        VERSION_TXT.write(text)
 
 def main():
     logging.basicConfig(level=logging.DEBUG)  # DEBUG
