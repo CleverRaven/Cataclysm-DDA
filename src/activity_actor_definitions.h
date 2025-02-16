@@ -2424,7 +2424,6 @@ class pulp_activity_actor : public activity_actor
         void start( player_activity &act, Character &you ) override;
         void do_turn( player_activity &act, Character &you ) override;
         bool punch_corpse_once( item &corpse, Character &you, tripoint_bub_ms pos, map &here );
-        // void canceled( player_activity &act, Character &p ) override;
         void finish( player_activity &, Character & ) override;
 
         void send_final_message( Character &you ) const;
