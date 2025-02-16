@@ -64,86 +64,86 @@ def write_VERSION_TXT(GITSHA=None,TIMESTAMP=None,ARTIFACT=None):
                      f"commit url: {url}")
             VERSION_TXT.write(text)
     except FileExistsError:
-        log.debug('Skip writing VERSION.txt')
+        logging.debug('Skip writing VERSION.txt')
 
 def main():
     logging.basicConfig(level=logging.DEBUG)  # DEBUG
 
     VERSION = VERSION_STRING = ARTIFACT = TIMESTAMP = None
 
-# Not using argparse
-for arg in sys.argv[1:]:
-    arg = arg.split('=', 1)
-    log.debug(f"{arg}")
-    if len(arg) == 2:
-        globals()[arg[0]] = arg[1]
+    # Not using argparse
+    for arg in sys.argv[1:]:
+        arg = arg.split('=', 1)
+        logging.debug(f"{arg}")
+        if len(arg) == 2:
+            locals()[arg[0]] = arg[1]
 
-ARTIFACT = ARTIFACT or os.environ.get('ARTIFACT', None) or 'Release'
-TIMESTAMP = TIMESTAMP or os.environ.get('TIMESTAMP', None)
-VERSION_STRING = VERSION or os.environ.get(
-    'VERSION', None) or os.environ.get('VERSION_STRING', None) or '0.I'
-GITSHA = None
+    ARTIFACT = ARTIFACT or os.environ.get('ARTIFACT', None) or 'Release'
+    TIMESTAMP = TIMESTAMP or os.environ.get('TIMESTAMP', None)
+    VERSION_STRING = VERSION or os.environ.get(
+        'VERSION', None) or os.environ.get('VERSION_STRING', None)
+    GITSHA = None
 
-while not is_cwd_root():
-    # Assuming we started somewhere down, climb up to the source directory
-    os.chdir(Path.cwd().parent)
+    while not is_cwd_root():
+        # Assuming we started somewhere down, climb up to the source directory
+        os.chdir(Path.cwd().parent)
 
-# Checking for .git/ may not work because of external worktrees
-try:
-    git = subprocess.run(('git', 'rev-parse', '--is-inside-work-tree'),
-                         capture_output=True)
-except FileNotFoundError:  # `git` command is missing
-    write_version_h()
-    write_VERSION_TXT()
-    raise SystemExit
-
-if git.returncode != 0:
-    stdout = git.stdout.decode().strip()
-    if 'true' != stdout:
-        write_version_h()
-        write_VERSION_TXT()
+    # Checking for .git/ may not work because of external worktrees
+    try:
+        git = subprocess.run(('git', 'rev-parse', '--is-inside-work-tree'),
+                            capture_output=True)
+    except FileNotFoundError:  # `git` command is missing
+        write_version_h(VERSION_STRING=VERSION_STRING)
+        write_VERSION_TXT(GITSHA=GITSHA, TIMESTAMP=TIMESTAMP, ARTIFACT=ARTIFACT)
         raise SystemExit
 
-# Get the tag
-git = subprocess.run(('git', 'describe', '--tags', '--always',
-                     '--match', '[0-9A-Z]*.[0-9A-Z]*',
-                      '--match', 'cdda-experimental-*', '--exact-match'
-                      ),
-                     capture_output=True)
-GITVERSION = git.stdout.decode().strip()
-log.debug(f"{GITVERSION=}")
+    if git.returncode != 0:
+        stdout = git.stdout.decode().strip()
+        if 'true' != stdout:
+            write_version_h(VERSION_STRING=VERSION_STRING)
+            write_VERSION_TXT(GITSHA=GITSHA, TIMESTAMP=TIMESTAMP, ARTIFACT=ARTIFACT)
+            raise SystemExit
 
-# Get the short SHA1
-git = subprocess.run(('git', 'rev-parse', '--short', 'HEAD'),
-                     capture_output=True)
-GITSHA = git.stdout.decode().strip()
-log.debug(f"{GITSHA=}")
+    # Get the tag
+    git = subprocess.run(('git', 'describe', '--tags', '--always',
+                        '--match', '[0-9A-Z]*.[0-9A-Z]*',
+                        '--match', 'cdda-experimental-*', '--exact-match'
+                        ),
+                        capture_output=True)
+    GITVERSION = git.stdout.decode().strip()
+    logging.debug(f"{GITVERSION=}")
 
-# Check if there are changes in the worktree
-DIRTYFLAG = str()
-git = subprocess.run(('git', 'diff', '--numstat', '--exit-code',
-                      '-c', 'core.safecrlf=false'),
-                     capture_output=True)
-if git.returncode != 0:
-    stat = git.stdout.decode().strip()
-    # TODO filter lang/po
-    DIRTYFLAG = "-dirty"
-log.debug(f"{DIRTYFLAG=}")
+    # Get the short SHA1
+    git = subprocess.run(('git', 'rev-parse', '--short', 'HEAD'),
+                        capture_output=True)
+    GITSHA = git.stdout.decode().strip()
+    logging.debug(f"{GITSHA=}")
 
-if GITVERSION:
-    VERSION_STRING = f"{GITVERSION} {GITSHA}{DIRTYFLAG}"
-else:
-    VERSION_STRING = f"{GITSHA}{DIRTYFLAG}"
-log.debug(f"{VERSION_STRING=}")
+    # Check if there are changes in the worktree
+    DIRTYFLAG = str()
+    git = subprocess.run(('git', 'diff', '--numstat', '--exit-code',
+                        '-c', 'core.safecrlf=false'),
+                        capture_output=True)
+    if git.returncode != 0:
+        stat = git.stdout.decode().strip()
+        # TODO filter lang/po
+        DIRTYFLAG = "-dirty"
+    logging.debug(f"{DIRTYFLAG=}")
 
-OLDVERSION = read_version_h()
+    if GITVERSION:
+        VERSION_STRING = f"{GITVERSION} {GITSHA}{DIRTYFLAG}"
+    else:
+        VERSION_STRING = f"{GITSHA}{DIRTYFLAG}"
+    logging.debug(f"{VERSION_STRING=}")
 
-if VERSION_STRING != OLDVERSION:
-    write_version_h()
-else:
-    log.debug("Skip writing src/version.h")
+    OLDVERSION = read_version_h()
 
-write_VERSION_TXT()
+    if VERSION_STRING != OLDVERSION:
+        write_version_h(VERSION_STRING=VERSION_STRING)
+    else:
+        logging.debug("Skip writing src/version.h")
+
+    write_VERSION_TXT(GITSHA=GITSHA, TIMESTAMP=TIMESTAMP, ARTIFACT=ARTIFACT)
 
     print(VERSION_STRING)
 
