@@ -214,7 +214,7 @@ jobs:
           sudo make install
           cp ../LICENSE.txt ${{ github.workspace }}/LICENSE-SDL.txt
           sudo apt-get install libncursesw5-dev libsdl2-ttf-dev libsdl2-image-dev \
-            libsdl2-mixer-dev libpulse-dev ccache gettext parallel
+            libsdl2-mixer-dev libpulse-dev ccache gettext parallel python-is-python3
       - name: Install Emscripten (WebAssembly)
         if: matrix.wasm
         uses: mymindstorm/setup-emsdk@v13
