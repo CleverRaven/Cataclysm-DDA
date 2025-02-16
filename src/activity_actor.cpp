@@ -8554,9 +8554,9 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
                 ++unpulped_corpses_qty;
                 continue;
             }
+            processed_all = false;
             break;
         }
-        processed_all = false;
     }
 
     if( current_pos_iter == placement.end() ) {
