@@ -1,15 +1,31 @@
-#include "catch/catch.hpp"
+#include <list>
+#include <memory>
+#include <optional>
 
+#include "calendar.h"
+#include "catch/catch.hpp"
+#include "character.h"
+#include "character_id.h"
+#include "coordinates.h"
 #include "creature_tracker.h"
 #include "flag.h"
 #include "game.h"
+#include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "monster.h"
 #include "npc.h"
 #include "npc_attack.h"
-#include "npc_class.h"
 #include "options_helpers.h"
+#include "overmap_ui.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "point.h"
+#include "ret_val.h"
+#include "type_id.h"
+
+class Creature;
 
 static const faction_id faction_your_followers( "your_followers" );
 
@@ -150,7 +166,6 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
             }
         }
         WHEN( "NPC has an exoskeleton" ) {
-
             main_npc.clear_worn();
             item armor( itype_combat_exoskeleton_medium );
             std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
@@ -167,7 +182,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
                 battery.ammo_set( battery.ammo_default() );
                 worn_armor.put_in( battery, pocket_type::MAGAZINE_WELL );
 
-                REQUIRE( worn_armor.ammo_remaining() > 0 );
+                REQUIRE( worn_armor.ammo_remaining( ) > 0 );
 
                 THEN( "NPC activates their exoskeleton successfully" ) {
 

@@ -35,13 +35,11 @@
 #include "explosion.h"
 #include "field.h"
 #include "flat_set.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_location.h"
-#include "json_error.h"
 #include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
@@ -49,23 +47,23 @@
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "mattack_common.h"
 #include "mdarray.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "point.h"
 #include "projectile.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "talker.h"
 #include "talker_avatar.h"
-#include "talker_character.h"
 #include "talker_monster.h"
 #include "talker_npc.h"
 #include "translation.h"
@@ -1955,7 +1953,7 @@ void Creature::schedule_effect_removal( const efftype_id &eff_id, const bodypart
 }
 void Creature::schedule_effect_removal( const efftype_id &eff_id )
 {
-    return schedule_effect_removal( eff_id, bodypart_str_id::NULL_ID() );
+    schedule_effect_removal( eff_id, bodypart_str_id::NULL_ID() );
 }
 
 bool Creature::has_effect( const efftype_id &eff_id, const bodypart_id &bp ) const
@@ -3438,44 +3436,44 @@ void Creature::adjust_taken_damage_by_enchantments_post_absorbed( damage_unit &d
 
 void Creature::add_msg_if_player( const translation &msg ) const
 {
-    return add_msg_if_player( msg.translated() );
+    add_msg_if_player( msg.translated() );
 }
 
 void Creature::add_msg_if_player( const game_message_params &params, const translation &msg ) const
 {
-    return add_msg_if_player( params, msg.translated() );
+    add_msg_if_player( params, msg.translated() );
 }
 
 void Creature::add_msg_if_npc( const translation &msg ) const
 {
-    return add_msg_if_npc( msg.translated() );
+    add_msg_if_npc( msg.translated() );
 }
 
 void Creature::add_msg_if_npc( const game_message_params &params, const translation &msg ) const
 {
-    return add_msg_if_npc( params, msg.translated() );
+    add_msg_if_npc( params, msg.translated() );
 }
 
 void Creature::add_msg_player_or_npc( const translation &pc, const translation &npc ) const
 {
-    return add_msg_player_or_npc( pc.translated(), npc.translated() );
+    add_msg_player_or_npc( pc.translated(), npc.translated() );
 }
 
 void Creature::add_msg_player_or_npc( const game_message_params &params, const translation &pc,
                                       const translation &npc ) const
 {
-    return add_msg_player_or_npc( params, pc.translated(), npc.translated() );
+    add_msg_player_or_npc( params, pc.translated(), npc.translated() );
 }
 
 void Creature::add_msg_player_or_say( const translation &pc, const translation &npc ) const
 {
-    return add_msg_player_or_say( pc.translated(), npc.translated() );
+    add_msg_player_or_say( pc.translated(), npc.translated() );
 }
 
 void Creature::add_msg_player_or_say( const game_message_params &params, const translation &pc,
                                       const translation &npc ) const
 {
-    return add_msg_player_or_say( params, pc.translated(), npc.translated() );
+    add_msg_player_or_say( params, pc.translated(), npc.translated() );
 }
 
 std::vector <int> Creature::dispersion_for_even_chance_of_good_hit = { {

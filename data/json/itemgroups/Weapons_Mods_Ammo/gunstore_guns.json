@@ -243,7 +243,8 @@
       { "group": "boxed_cp33", "prob": 16 },
       { "group": "boxed_ruger_mk4", "prob": 113 },
       { "group": "boxed_ruger_charger", "prob": 16 },
-      { "group": "boxed_1911_22", "prob": 100 }
+      { "group": "boxed_1911_22", "prob": 100 },
+      { "group": "boxed_sw617", "prob": 46 }
     ]
   },
   {
@@ -306,6 +307,13 @@
     "id": "boxed_1911_22",
     "container-item": "box_pistol",
     "items": [ { "item": "1911_22" }, { "group": "firearm_box_extras" }, { "item": "1911_22_mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_sw617",
+    "container-item": "box_pistol",
+    "items": [ { "item": "sw617" }, { "group": "firearm_box_extras" } ]
   },
   {
     "type": "item_group",
@@ -818,7 +826,8 @@
           { "item": "marlin_9a", "prob": 3 },
           { "item": "rossi_gallery", "prob": 11 },
           { "item": "rio_bravo", "prob": 15 },
-          { "item": "henry_golden_boy", "prob": 31 }
+          { "item": "henry_golden_boy", "prob": 31 },
+          { "item": "marlin60", "prob": 20 }
         ]
       }
     ]
@@ -1023,7 +1032,7 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common_boxed_9mm",
-    "items": [ { "group": "boxed_ksub2000", "prob": 100 } ]
+    "items": [ { "group": "boxed_ksub2000", "prob": 84 }, { "group": "boxed_rugerpcc", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -1031,6 +1040,13 @@
     "id": "boxed_ksub2000",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
     "items": [ { "item": "ksub2000" }, { "group": "firearm_box_extras" }, { "item": "glockmag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_rugerpcc",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "rugerpcc" }, { "group": "firearm_box_extras" }, { "item": "glockmag", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",

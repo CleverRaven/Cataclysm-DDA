@@ -2,18 +2,22 @@
 #ifndef CATA_TEST_DATA_H
 #define CATA_TEST_DATA_H
 
+#include <cstdint>
 #include <map>
 #include <optional>
 #include <set>
+#include <string>
+#include <unordered_set>
+#include <utility>
 #include <vector>
 
 #include "coordinates.h"
 #include "point.h"
 #include "type_id.h"
-#include "pocket_type.h"
 
 class Character;
 class JsonObject;
+enum class pocket_type : int;
 
 struct efficiency_data {
     std::vector<int> forward;

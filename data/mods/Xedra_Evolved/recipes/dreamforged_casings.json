@@ -11,7 +11,7 @@
     "time": "40 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
@@ -28,7 +28,7 @@
     "time": "40 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 3,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 1 ] ] ],
@@ -46,7 +46,7 @@
     "time": "70 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -63,7 +63,7 @@
     "time": "70 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -80,7 +80,7 @@
     "time": "70 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 16 ] ] ]
@@ -97,7 +97,7 @@
     "time": "70 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -114,7 +114,7 @@
     "time": "70 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -131,7 +131,7 @@
     "time": "60 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -148,7 +148,7 @@
     "time": "60 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -165,7 +165,7 @@
     "time": "60 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -182,7 +182,7 @@
     "time": "40 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 2,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
@@ -199,7 +199,7 @@
     "time": "40 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 2,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -216,7 +216,7 @@
     "time": "40 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 2,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -233,7 +233,7 @@
     "time": "40 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 2,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -250,7 +250,7 @@
     "time": "40 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 2,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -267,7 +267,7 @@
     "time": "40 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
@@ -284,7 +284,7 @@
     "time": "40 s",
     "batch_time_factors": [ 45, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -301,7 +301,7 @@
     "time": "40 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
@@ -318,7 +318,7 @@
     "time": "45 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
@@ -335,7 +335,7 @@
     "time": "45 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
@@ -352,7 +352,7 @@
     "time": "55 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
@@ -369,7 +369,7 @@
     "time": "55 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
@@ -386,7 +386,7 @@
     "time": "45 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 2,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
@@ -403,7 +403,7 @@
     "time": "1 h",
     "batch_time_factors": [ 30, 5 ],
     "charges": 50,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ], [ [ "500_casing", 1 ] ] ]
@@ -420,7 +420,7 @@
     "time": "1 h",
     "batch_time_factors": [ 30, 5 ],
     "charges": 50,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ], [ [ "50_casing", 1 ] ] ]
@@ -437,7 +437,7 @@
     "time": "1 h",
     "batch_time_factors": [ 30, 5 ],
     "charges": 50,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ], [ [ "338lapua_casing", 1 ] ] ]
@@ -454,7 +454,7 @@
     "time": "45 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
@@ -471,7 +471,7 @@
     "time": "45 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 2,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
@@ -488,7 +488,7 @@
     "time": "1 h",
     "batch_time_factors": [ 30, 5 ],
     "charges": 60,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ], [ [ "458wm_casing", 1 ] ] ]
@@ -505,7 +505,7 @@
     "time": "45 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -522,7 +522,7 @@
     "time": "45 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -539,7 +539,7 @@
     "time": "45 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 1 ] ] ]
@@ -556,7 +556,7 @@
     "time": "75 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 9,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -573,7 +573,7 @@
     "time": "75 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 9,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -590,7 +590,7 @@
     "time": "75 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 9,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -607,7 +607,7 @@
     "time": "75 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 9,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -624,7 +624,7 @@
     "time": "75 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 9,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -641,7 +641,7 @@
     "time": "75 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 9,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -658,7 +658,7 @@
     "time": "75 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]
@@ -675,7 +675,7 @@
     "time": "75 s",
     "batch_time_factors": [ 30, 5 ],
     "charges": 1,
-    "reversible": { "time": "5 s" },
+    "id_suffix": "from_dreamdross",
     "flags": [ "SECRET" ],
     "proficiencies": [ { "proficiency": "prof_handloading" }, { "proficiency": "prof_dreamsmithing" } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ]

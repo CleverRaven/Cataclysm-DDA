@@ -10,18 +10,18 @@
 #include <string>
 #include <tuple>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "clzones.h"
-#include "colony.h"
 #include "construction.h"
+#include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -45,6 +45,7 @@
 #include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
@@ -183,9 +184,6 @@ struct act_item {
 };
 
 // TODO: Deliberately unified with multidrop. Unify further.
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<std::pair<item_location, int>>;
-
 static bool same_type( const std::list<item> &items )
 {
     return std::all_of( items.begin(), items.end(), [&items]( const item & it ) {
@@ -226,7 +224,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     c.invalidate_weight_carried_cache();
     vehicle_part &vp = vpr.part();
     vehicle &veh = vpr.vehicle();
-    const tripoint_bub_ms where = veh.bub_part_pos( &here, vp );
+    const tripoint_bub_ms where = veh.bub_part_pos( here, vp );
     int items_did_not_fit_count = 0;
     int into_vehicle_count = 0;
     const std::string part_name = vp.info().name();
@@ -242,12 +240,12 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
             it.charges = 0;
         }
 
-        if( veh.add_item( vp, it ) ) {
+        if( veh.add_item( here, vp, it ) ) {
             into_vehicle_count += it.count();
         } else {
             if( it.count_by_charges() ) {
                 // Maybe we can add a few charges in the trunk and the rest on the ground.
-                const int charges_added = veh.add_charges( vp, it );
+                const int charges_added = veh.add_charges( here, vp, it );
                 it.mod_charges( -charges_added );
                 into_vehicle_count += charges_added;
             }
@@ -448,7 +446,7 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
 {
     map &here = get_map();
 
-    return put_into_vehicle_or_drop( you, reason, items, &here, you.pos_bub( &here ) );
+    put_into_vehicle_or_drop( you, reason, items, &here, you.pos_bub( &here ) );
 }
 
 void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
@@ -653,7 +651,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     // If we didn't pick up a whole stack, put the remainder back where it came from.
     if( leftovers.charges > 0 ) {
         if( vpr_src ) {
-            if( !vpr_src->vehicle().add_item( vpr_src->part(), leftovers ) ) {
+            if( !vpr_src->vehicle().add_item( here, vpr_src->part(), leftovers ) ) {
                 debugmsg( "SortLoot: Source vehicle failed to receive leftover charges." );
             }
         } else {
@@ -988,10 +986,10 @@ static bool are_requirements_nearby(
     if( !found_welder ) {
         for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1,
                 PICKUP_RANGE - 1 ) ) {
-            const std::optional<vpart_reference> &vp = here.veh_at( elem ).part_with_tool( itype_welder );
+            const std::optional<vpart_reference> &vp = here.veh_at( elem ).part_with_tool( here, itype_welder );
 
             if( vp ) {
-                const int veh_battery = vp->vehicle().fuel_left( itype_battery );
+                const int veh_battery = vp->vehicle().fuel_left( here, itype_battery );
 
                 item welder( itype_welder, calendar::turn_zero );
                 welder.charges = veh_battery;
@@ -1024,7 +1022,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         // if the vehicle is moving or player is controlling it.
-        if( std::abs( veh->velocity ) > 100 || veh->player_in_control( player_character ) ) {
+        if( std::abs( veh->velocity ) > 100 || veh->player_in_control( here, player_character ) ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         for( const npc &guy : g->all_npcs() ) {
@@ -2419,7 +2417,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                                     if( it->first->type->magazine->linkage ) {
                                         item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
                                         if( vpr_src ) {
-                                            vpr_src->vehicle().add_item( vpr_src->part(), link );
+                                            vpr_src->vehicle().add_item( here, vpr_src->part(), link );
                                         } else {
                                             here.add_item_or_charges( src_loc, link );
                                         }
@@ -2461,7 +2459,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                             moved_something = true;
                         }
                     }
-                    if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
+                    if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining( ) == 0 ) {
                         if( vpr_src ) {
                             vpr_src->vehicle().remove_item( vpr_src->part(), it->first );
                         } else {

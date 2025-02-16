@@ -123,9 +123,9 @@
       [ "scythe_toy", 5 ],
       [ "RPG_die", 5 ],
       [ "metal_RPG_die", 1 ],
-      { "item": "inflatable_dragon", "prob": 1, "charges": [ 0, 500 ] },
-      { "item": "inflatable_ghost", "prob": 1, "charges": [ 0, 500 ] },
-      { "item": "fog_machine", "prob": 1, "charges": [ 0, 500 ] }
+      { "item": "inflatable_dragon", "prob": 1, "charges": [ 0, 56 ] },
+      { "item": "inflatable_ghost", "prob": 1, "charges": [ 0, 56 ] },
+      { "item": "fog_machine", "prob": 1, "charges": [ 0, 56 ] }
     ]
   },
   {

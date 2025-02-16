@@ -8,12 +8,12 @@
 #include <string>
 #include <string_view>
 
-#include "coordinates.h"
+#include "coordinates.h"  // IWYU pragma: keep
+#include "coords_fwd.h"
 
 class Character;
 class Creature;
 struct mongroup;
-
 template <typename E> struct enum_traits;
 
 namespace debug_menu

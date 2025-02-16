@@ -1187,10 +1187,12 @@ vehicle *game::place_vehicle_nearby(
     const vproto_id &id, const point_abs_omt &origin, int min_distance,
     int max_distance, const std::vector<std::string> &omt_search_types )
 {
+    map &here = get_map();
+
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
         const vehicle &veh = *id->blueprint;
-        if( veh.max_ground_velocity() == 0 && veh.can_float() ) {
+        if( veh.max_ground_velocity( here ) == 0 && veh.can_float( here ) ) {
             search_types.emplace_back( "river" );
             search_types.emplace_back( "lake" );
             search_types.emplace_back( "ocean" );
@@ -1455,6 +1457,8 @@ static int veh_lumi( vehicle &veh )
 
 void game::calc_driving_offset( vehicle *veh )
 {
+    map &here = get_map();
+
     if( veh == nullptr || !get_option<bool>( "DRIVING_VIEW_OFFSET" ) ) {
         set_driving_view_offset( point_rel_ms::zero );
         return;
@@ -1476,7 +1480,7 @@ void game::calc_driving_offset( vehicle *veh )
                                  vehicles::vmiph_per_tile;
     float velocity = veh->velocity;
     rl_vec2d offset = veh->move_vec();
-    if( !veh->skidding && veh->player_in_control( u ) &&
+    if( !veh->skidding && veh->player_in_control( here,  u ) &&
         std::abs( veh->cruise_velocity - veh->velocity ) < 7 * vehicles::vmiph_per_tile ) {
         // Use cruise_velocity, but only if
         // it is not too different from the actual velocity.
@@ -2808,6 +2812,8 @@ input_context get_default_mode_input_context()
 
 vehicle *game::remoteveh()
 {
+    map &here = get_map();
+
     if( calendar::turn == remoteveh_cache_time ) {
         return remoteveh_cache;
     }
@@ -2820,7 +2826,7 @@ vehicle *game::remoteveh()
         tripoint_bub_ms vp;
         remote_veh_string >> vp.x() >> vp.y() >> vp.z();
         vehicle *veh = veh_pointer_or_null( m.veh_at( vp ) );
-        if( veh && veh->fuel_left( itype_battery ) > 0 ) {
+        if( veh && veh->fuel_left( here, itype_battery ) > 0 ) {
             remoteveh_cache = veh;
         } else {
             remoteveh_cache = nullptr;
@@ -2847,7 +2853,7 @@ void game::setremoteveh( vehicle *veh )
     }
 
     std::stringstream remote_veh_string;
-    const tripoint_bub_ms vehpos = veh->pos_bub( &here );
+    const tripoint_bub_ms vehpos = veh->pos_bub( here );
     remote_veh_string << vehpos.x() << ' ' << vehpos.y() << ' ' << vehpos.z();
     u.set_value( "remote_controlling_vehicle", remote_veh_string.str() );
 }
@@ -5766,7 +5772,9 @@ void game::save_cyborg( item *cyborg, const tripoint_bub_ms &couch_pos, Characte
 
 void game::exam_appliance( vehicle &veh, const point_rel_ms &c )
 {
-    player_activity act = veh_app_interact::run( veh, c );
+    map &here = get_map();
+
+    player_activity act = veh_app_interact::run( here, veh, c );
     if( act ) {
         u.set_moves( 0 );
         u.assign_activity( act );
@@ -5775,11 +5783,13 @@ void game::exam_appliance( vehicle &veh, const point_rel_ms &c )
 
 void game::exam_vehicle( vehicle &veh, const point_rel_ms &c )
 {
+    map &here = get_map();
+
     if( veh.magic ) {
         add_msg( m_info, _( "This is your %s" ), veh.name );
         return;
     }
-    player_activity act = veh_interact::run( veh, c );
+    player_activity act = veh_interact::run( here, veh, c );
     if( act ) {
         u.set_moves( 0 );
         u.assign_activity( act );
@@ -5828,7 +5838,7 @@ void game::control_vehicle()
 
     if( vehicle *remote_veh = remoteveh() ) { // remote controls have priority
         for( const vpart_reference &vpr : remote_veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
-            remote_veh->interact_with( vpr.pos_bub( &here ) );
+            remote_veh->interact_with( &here, vpr.pos_bub( here ) );
             return;
         }
     }
@@ -5840,11 +5850,11 @@ void game::control_vehicle()
         const bool controls_ok = controls_idx >= 0; // controls available to "drive"
         const bool reins_ok = reins_idx >= 0 // reins + animal available to "drive"
                               && veh->has_engine_type( fuel_type_animal, false )
-                              && veh->get_harnessed_animal();
-        if( veh->player_in_control( u ) ) {
+                              && veh->get_harnessed_animal( here );
+        if( veh->player_in_control( here, u ) ) {
             // player already "driving" - offer ways to leave
             if( controls_ok ) {
-                veh->interact_with( u.pos_bub() );
+                veh->interact_with( &here, u.pos_bub() );
             } else if( reins_idx >= 0 ) {
                 u.controlling_vehicle = false;
                 add_msg( m_info, _( "You let go of the reins." ) );
@@ -5852,7 +5862,7 @@ void game::control_vehicle()
         } else if( u.in_vehicle && ( controls_ok || reins_ok ) ) {
             // player not driving but has controls or reins on tile
             if( veh->is_locked ) {
-                veh->interact_with( u.pos_bub() );
+                veh->interact_with( &here, u.pos_bub() );
                 return; // interact_with offers to hotwire
             }
             if( !veh->handle_potential_theft( u ) ) {
@@ -5890,7 +5900,7 @@ void game::control_vehicle()
                 u.controlling_vehicle = true;
                 add_msg( _( "You take control of the %s." ), veh->name );
             } else {
-                veh->start_engines( &u, true );
+                veh->start_engines( here, &u, true );
             }
         }
     }
@@ -5936,7 +5946,7 @@ void game::control_vehicle()
             if( !veh->handle_potential_theft( u ) ) {
                 return;
             }
-            veh->interact_with( *vehicle_position );
+            veh->interact_with( &here, *vehicle_position );
         }
     }
     if( veh ) {
@@ -6115,10 +6125,12 @@ bool game::npc_menu( npc &who )
 
 void game::examine( bool with_pickup )
 {
+    map &here = get_map();
+
     // if we are driving a vehicle, examine the
     // current tile without asking.
     const optional_vpart_position vp = m.veh_at( u.pos_bub() );
-    if( vp && vp->vehicle().player_in_control( u ) ) {
+    if( vp && vp->vehicle().player_in_control( here, u ) ) {
         examine( u.pos_bub(), with_pickup );
         return;
     }
@@ -6256,7 +6268,7 @@ void game::examine( const tripoint_bub_ms &examp, bool with_pickup )
     if( vp ) {
         if( !u.is_mounted() || u.mounted_creature->has_flag( mon_flag_RIDEABLE_MECH ) ) {
             if( !vp->vehicle().is_appliance() ) {
-                vp->vehicle().interact_with( examp, with_pickup );
+                vp->vehicle().interact_with( &m, examp, with_pickup );
             } else {
                 g->exam_appliance( vp->vehicle(), vp->mount_pos() );
             }
@@ -6400,7 +6412,7 @@ void game::pickup()
         return;
     }
     // Pick up items only from the selected tile
-    u.pick_up( game_menus::inv::pickup( *where_ ) );
+    u.pick_up( game_menus::inv::pickup( where_ ) );
 }
 
 void game::pickup_all()
@@ -10231,7 +10243,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 
     switch( u.rate_action_reload( *loc ) ) {
         case hint_rating::iffy:
-            if( ( loc->is_ammo_container() || loc->is_magazine() ) && loc->ammo_remaining() > 0 &&
+            if( ( loc->is_ammo_container() || loc->is_magazine() ) && loc->ammo_remaining( ) > 0 &&
                 loc->remaining_ammo_capacity() == 0 ) {
                 add_msg( m_info, _( "The %s is already fully loaded!" ), loc->tname() );
                 return;
@@ -10389,6 +10401,8 @@ void game::reload_weapon( bool try_everything )
 
 void game::wield( item_location loc )
 {
+    map &here = get_map();
+
     if( !loc ) {
         debugmsg( "ERROR: tried to wield null item" );
         return;
@@ -10476,7 +10490,7 @@ void game::wield( item_location loc )
             case item_location::type::vehicle: {
                 const std::optional<vpart_reference> ovp = m.veh_at( pos ).cargo();
                 // If we fail to return the item to the vehicle for some reason, add it to the map instead.
-                if( !ovp || !ovp->vehicle().add_item( ovp->part(), to_wield ) ) {
+                if( !ovp || !ovp->vehicle().add_item( here, ovp->part(), to_wield ) ) {
                     m.add_item( pos, to_wield );
                 }
                 break;
@@ -11192,6 +11206,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
 
 point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
 {
+    map &here = get_map();
     const optional_vpart_position vp1 = m.veh_at( dest_loc );
     if( const std::optional<std::string> label = vp1.get_label() ) {
         add_msg( m_info, _( "Label here: %s" ), *label );
@@ -11475,7 +11490,7 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
     // Drench the player if swimmable
     if( m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, u.pos_bub() ) &&
         !m.has_flag_furn( "BRIDGE", u.pos_bub() ) &&
-        !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) &&
+        !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float( here ) ) ) &&
         !u.has_flag( json_flag_WATERWALKING ) ) {
         u.drench( 80, u.get_drenching_body_parts( false, false ),
                   false );
@@ -12932,9 +12947,34 @@ std::optional<tripoint_bub_ms> game::find_or_make_stairs( map &mp, const int z_a
 
     if( movez > 0 ) {
         if( !mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, *stairs ) ) {
-            if( !query_yn( _( "You may be unable to return back down these stairs.  Continue up?" ) ) ) {
-                return std::nullopt;
+            if( mp.has_floor_or_support( *stairs ) ) {
+                if( !query_yn( _( "You may be unable to return back down these stairs.  Continue up?" ) ) ) {
+                    return std::nullopt;
+                }
+            } else {
+                // query for target, same as climbing
+                std::vector<tripoint_bub_ms> pts;
+
+                for( const tripoint_bub_ms &pt : mp.points_in_radius( *stairs, 1 ) ) {
+                    if( mp.passable( pt ) &&
+                        mp.has_floor_or_support( pt ) ) {
+                        pts.push_back( pt );
+                    }
+                }
+
+                if( pts.empty() ) {
+                    add_msg( m_info,
+                             _( "You can't climb here - there is no terrain above you that would support your weight." ) );
+                    return std::nullopt;
+                } else {
+                    const std::optional<tripoint_bub_ms> pnt = point_selection_menu( pts );
+                    if( !pnt ) {
+                        return std::nullopt;
+                    }
+                    stairs = pnt;
+                }
             }
+
         }
         // Manhole covers need this to work
         // Maybe require manhole cover here and fail otherwise?

@@ -1,45 +1,64 @@
 #include "mattack_actors.h"
 
 #include <algorithm>
+#include <functional>
+#include <iterator>
 #include <limits>
 #include <memory>
 #include <optional>
+#include <set>
 #include <string>
 
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "character_attire.h"
+#include "condition.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "debug.h"
+#include "dialogue.h"
+#include "effect.h"
 #include "effect_on_condition.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "global_vars.h"
 #include "gun_mode.h"
 #include "input.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
+#include "output.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "projectile.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
+#include "talker.h"
 #include "tileray.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "vehicle.h"
+#include "units.h"
 #include "veh_type.h"
+#include "vehicle.h"
 #include "viewer.h"
+#include "vpart_position.h"
 
 static const damage_type_id damage_bash( "bash" );
 

@@ -1974,68 +1974,18 @@
     "id": "mask_gas_xl",
     "type": "TOOL_ARMOR",
     "name": { "str": "gas mask" },
-    "category": "clothing",
-    "description": "A rather roomy mask with filters attached, designed to accommodate exotic anatomy.  Provides excellent protection from smoke, tear gas, and other contaminants.  It must be prepared before use.",
-    "weight": "1397 g",
-    "volume": "1500 ml",
-    "price": "250 USD",
-    "price_postapoc": "7 USD 50 cent",
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 25 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 35 }
-    ],
-    "warmth": 20,
-    "material_thickness": 2,
-    "environmental_protection": 4,
-    "environmental_protection_with_filter": 16,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
-      }
-    ],
-    "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK_ACTIVATE" ],
-    "tick_action": [ "GASMASK" ],
-    "flags": [ "OVERSIZE", "PREFIX_XL", "SLEEP_IGNORE" ]
+    "copy-from": "mask_gas",
+    "looks_like": "mask_gas",
+    "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
+    "flags": [ "VARSIZE", "OVERSIZE", "PREFIX_XL", "SLEEP_IGNORE" ]
   },
   {
     "id": "mask_gas_xs",
     "type": "TOOL_ARMOR",
     "name": { "str": "gas mask" },
-    "category": "clothing",
-    "description": "A rather small gas mask that covers the face and eyes.  Provides excellent protection from smoke, tear gas, and other contaminants.  It must be prepared before use.",
-    "weight": "470 g",
-    "volume": "500 ml",
-    "price": "250 USD",
-    "price_postapoc": "7 USD 50 cent",
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 25 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 35 }
-    ],
-    "warmth": 20,
-    "material_thickness": 2,
-    "environmental_protection": 4,
-    "environmental_protection_with_filter": 16,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
-      }
-    ],
-    "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK_ACTIVATE" ],
-    "tick_action": [ "GASMASK" ],
+    "copy-from": "mask_gas",
+    "looks_like": "mask_gas",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "UNDERSIZE", "PREFIX_XS", "SLEEP_IGNORE" ]
   },
   {
@@ -2220,6 +2170,8 @@
           { "type": "lc_steel", "covered_by_mat": 15, "thickness": 1 }
         ],
         "covers": [ "eyes" ],
+        "layers": [ "SKINTIGHT", "NORMAL" ],
+        "rigid_layer_only": true,
         "coverage": 100,
         "encumbrance": 28
       }
@@ -2336,6 +2288,8 @@
       {
         "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 5 } ],
         "covers": [ "eyes" ],
+        "layers": [ "SKINTIGHT", "NORMAL" ],
+        "rigid_layer_only": true,
         "coverage": 100,
         "encumbrance": 25
       }
@@ -3200,7 +3154,8 @@
     "color": "light_gray",
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
-    "flags": [ "BELTED", "FRAGILE", "ONLY_ONE", "SOLARPACK", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "BELTED", "FRAGILE", "SOLARPACK", "WATER_BREAK", "ELECTRONIC" ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
     "melee_damage": { "bash": 10 }
   },
@@ -3219,7 +3174,8 @@
     "material_thickness": 1,
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.05,
-    "flags": [ "BELTED", "FRAGILE", "ONLY_ONE", "SOLARPACK_ON", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "BELTED", "FRAGILE", "SOLARPACK_ON", "WATER_BREAK", "ELECTRONIC" ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
     "melee_damage": { "bash": 4 }
   },
@@ -3434,7 +3390,8 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
     ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "max_worn": 1,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
@@ -3464,7 +3421,8 @@
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "revert_to": "scuba_tank",
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "max_worn": 1,
     "environmental_protection": 3,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
@@ -3494,7 +3452,8 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 20 } }
     ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "max_worn": 1,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
@@ -3524,7 +3483,8 @@
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "revert_to": "small_scuba_tank",
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "max_worn": 1,
     "environmental_protection": 3,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,

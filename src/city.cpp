@@ -2,16 +2,11 @@
 
 #include <algorithm>
 #include <climits>
-#include <set>
 #include <vector>
 
 #include "coordinates.h"
 #include "debug.h"
-#include "flexbuffer_json-inl.h"
-#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
-#include "json_error.h"
 #include "options.h"
 #include "rng.h"
 #include "text_snippets.h"

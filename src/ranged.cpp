@@ -29,6 +29,7 @@
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dispersion.h"
 #include "enums.h"
 #include "event.h"
@@ -521,7 +522,7 @@ target_handler::trajectory target_handler::mode_turrets( avatar &you, vehicle &v
     int range_total = 0;
     for( vehicle_part *t : turrets ) {
         int range = veh.turret_query( *t ).range();
-        tripoint_bub_ms pos = veh.bub_part_pos( &here, *t );
+        tripoint_bub_ms pos = veh.bub_part_pos( here, *t );
 
         int res = 0;
         res = std::max( res, rl_dist( you.pos_bub(), pos + point( range, 0 ) ) );
@@ -972,7 +973,7 @@ int Character::fire_gun( map *here, const tripoint_bub_ms &target, int shots, it
         add_msg_if_player( _( "A shotgun equipped with choke cannot fire slugs." ) );
         return 0;
     }
-    if( gun.ammo_required() > 0 && !gun.ammo_remaining() && !ammo ) {
+    if( gun.ammo_required() > 0 && !gun.ammo_remaining( ) && !ammo ) {
         debugmsg( "%s is empty and has no ammo for reloading.", gun.tname() );
         return 0;
     }
@@ -987,7 +988,7 @@ int Character::fire_gun( map *here, const tripoint_bub_ms &target, int shots, it
         shots = std::min( shots, gun.shots_remaining( this ) );
     } else if( gun.ammo_required() ) {
         // This checks ammo only. Vehicle turret energy drain is handled elsewhere.
-        const int ammo_left = ammo ? ammo.get_item()->count() : gun.ammo_remaining();
+        const int ammo_left = ammo ? ammo.get_item()->count() : gun.ammo_remaining( );
         shots = std::min( shots, ammo_left / gun.ammo_required() );
     }
 
@@ -1025,7 +1026,7 @@ int Character::fire_gun( map *here, const tripoint_bub_ms &target, int shots, it
     while( curshot != shots ) {
         // Special handling for weapons where we supply the ammo separately (i.e. ammo is populated)
         // instead of it being loaded into the weapon, reload right before firing.
-        if( !!ammo && !gun.ammo_remaining() ) {
+        if( !!ammo && !gun.ammo_remaining( ) ) {
             Character &you = get_avatar();
             gun.reload( you, ammo, 1 );
             you.burn_energy_arms( - gun.get_min_str() * static_cast<int>( 0.006f *
@@ -2262,7 +2263,7 @@ static void cycle_action( item &weap, const itype_id &ammo, map *here, const tri
             if( brass_catcher && brass_catcher->can_contain( casing ).success() ) {
                 brass_catcher->put_in( casing, pocket_type::CONTAINER );
             } else if( ovp_cargo ) {
-                ovp_cargo->vehicle().add_item( ovp_cargo->part(), casing );
+                ovp_cargo->vehicle().add_item( *here, ovp_cargo->part(), casing );
             } else {
                 here->add_item_or_charges( eject, casing );
             }
@@ -2282,7 +2283,7 @@ static void cycle_action( item &weap, const itype_id &ammo, map *here, const tri
         if( !( brass_catcher &&
                brass_catcher->put_in( linkage, pocket_type::CONTAINER ).success() ) ) {
             if( ovp_cargo ) {
-                ovp_cargo->items().insert( linkage );
+                ovp_cargo->items().insert( *here, linkage );
             } else {
                 here->add_item_or_charges( eject, linkage );
             }
@@ -2780,7 +2781,7 @@ target_handler::trajectory target_ui::run()
             }
 
             if( relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-                if( !relevant->ammo_remaining() && activity->reload_loc ) {
+                if( !relevant->ammo_remaining( ) && activity->reload_loc ) {
                     you->mod_moves( -RAS_time( *you, activity->reload_loc ) );
                     relevant->reload( get_avatar(), activity->reload_loc, 1 );
                     you->burn_energy_arms( - relevant->get_min_str() * static_cast<int>( 0.006f *
@@ -3389,7 +3390,7 @@ void target_ui::update_turrets_in_range()
     for( vehicle_part *t : *vturrets ) {
         turret_data td = veh->turret_query( *t );
         if( td.in_range( here.get_abs( dst ) ) ) {
-            tripoint_bub_ms src = veh->bub_part_pos( &here, *t );
+            tripoint_bub_ms src = veh->bub_part_pos( here, *t );
             turrets_in_range.push_back( {t, line_to( src, dst )} );
         }
     }
@@ -3922,7 +3923,7 @@ void target_ui::draw_controls_list( int text_y )
                                       bound_key( "SWITCH_MODE" ).short_description() ) )
                          } );
         if( ( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) &&
-            ( !relevant->ammo_remaining() || !relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) ) {
+            ( !relevant->ammo_remaining( ) || !relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) ) {
             lines.push_back( { 6, colored( col_enabled, string_format( _( "[%s] to reload/switch ammo." ),
                                            bound_key( "SWITCH_AMMO" ).short_description() ) )
                              } );
@@ -4022,9 +4023,9 @@ void target_ui::panel_gun_info( int &text_y )
         mvwprintz( w_target, point( 1, text_y++ ), c_red, _( "OUT OF AMMO" ) );
     } else if( ammo ) {
         bool is_favorite = relevant->is_ammo_container() && relevant->first_ammo().is_favorite;
-        str = string_format( m->ammo_remaining() ? _( "Ammo: %s%s (%d/%d)" ) : _( "Ammo: %s%s" ),
-                             colorize( ammo->nname( std::max( m->ammo_remaining(), 1 ) ), ammo->color ),
-                             colorize( is_favorite ? " *" : "", ammo->color ), m->ammo_remaining(),
+        str = string_format( m->ammo_remaining( ) ? _( "Ammo: %s%s (%d/%d)" ) : _( "Ammo: %s%s" ),
+                             colorize( ammo->nname( std::max( m->ammo_remaining( ), 1 ) ), ammo->color ),
+                             colorize( is_favorite ? " *" : "", ammo->color ), m->ammo_remaining( ),
                              m->ammo_capacity( ammo->ammo->type ) );
         print_colored_text( w_target, point( 1, text_y++ ), clr, clr, str );
     } else {
@@ -4203,7 +4204,7 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
     }
 
     const optional_vpart_position vp = m.veh_at( you.pos_bub() );
-    if( vp && vp->vehicle().player_in_control( you ) && ( gmode->is_two_handed( you ) ||
+    if( vp && vp->vehicle().player_in_control( m, you ) && ( gmode->is_two_handed( you ) ||
             gmode->has_flag( flag_FIRE_TWOHAND ) ) ) {
         messages.push_back( string_format( _( "You can't fire your %s while driving." ),
                                            gmode->tname() ) );
@@ -4226,7 +4227,7 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
     bool result = true;
     if( !gmode->ammo_sufficient( &you ) &&
         !gmode->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        if( !gmode->ammo_remaining() ) {
+        if( !gmode->ammo_remaining( ) ) {
             messages.push_back( string_format( _( "Your %s is empty!" ), gmode->tname() ) );
         } else {
             messages.push_back( string_format( _( "Your %s needs %i charges to fire!" ),

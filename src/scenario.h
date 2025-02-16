@@ -2,14 +2,16 @@
 #ifndef CATA_SRC_SCENARIO_H
 #define CATA_SRC_SCENARIO_H
 
-#include <iosfwd>
+#include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
-#include "effect_on_condition.h"
-#include "translations.h"
+#include "ret_val.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;

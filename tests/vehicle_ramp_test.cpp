@@ -1,7 +1,5 @@
 #include <array>
-#include <iosfwd>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
@@ -10,11 +8,13 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "game.h"
-#include "game_constants.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "monster.h"
 #include "point.h"
 #include "tileray.h"
@@ -128,18 +128,18 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
     const int target_velocity = 400;
     veh.cruise_velocity = target_velocity;
     veh.velocity = target_velocity;
-    CHECK( veh.safe_velocity() > 0 );
+    CHECK( veh.safe_velocity( here ) > 0 );
     int cycles = 0;
     const int target_z = use_ramp ? ( up ? 1 : -1 ) : 0;
 
     std::set<tripoint_abs_ms> vpts = veh.get_points();
-    while( veh.engine_on && veh.safe_velocity() > 0 && cycles < 10 ) {
+    while( veh.engine_on && veh.safe_velocity( here ) > 0 && cycles < 10 ) {
         clear_creatures();
         CAPTURE( cycles );
         for( const tripoint_abs_ms &checkpt : vpts ) {
             int partnum = 0;
             vehicle *check_veh = here.veh_at_internal( here.get_bub( checkpt ), partnum );
-            CAPTURE( veh_ptr->pos_bub( &here ) );
+            CAPTURE( veh_ptr->pos_bub( here ) );
             CAPTURE( veh_ptr->face.dir() );
             CAPTURE( checkpt );
             CHECK( check_veh == veh_ptr );
@@ -158,7 +158,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
             }
             const point_rel_ms &pmount = vp.mount_pos();
             CAPTURE( pmount );
-            const tripoint_bub_ms &ppos = vp.pos_bub( &here );
+            const tripoint_bub_ms &ppos = vp.pos_bub( here );
             CAPTURE( ppos );
             if( cycles > ( transition_cycle - pmount.x() ) ) {
                 CHECK( ppos.z() == target_z );
@@ -263,7 +263,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     const int target_velocity = 800;
     veh.cruise_velocity = target_velocity;
     veh.velocity = target_velocity;
-    CHECK( veh.safe_velocity() > 0 );
+    CHECK( veh.safe_velocity( here ) > 0 );
 
     std::vector<vehicle_part *> all_parts;
     for( const tripoint_abs_ms &pos : veh.get_points() ) {

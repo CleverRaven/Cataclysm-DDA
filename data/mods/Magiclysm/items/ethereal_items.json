@@ -25,7 +25,8 @@
       ]
     },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "ONLY_ONE", "STURDY", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS", "UNRESTRICTED" ],
+    "flags": [ "STURDY", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS", "UNRESTRICTED" ],
+    "max_worn": 1,
     "techniques": [ "WBLOCK_3" ],
     "melee_damage": { "bash": 20 }
   },
@@ -172,7 +173,6 @@
     "weight": "300 g",
     "longest_side": "25 cm",
     "flags": [
-      "ONLY_ONE",
       "UNBREAKABLE_MELEE",
       "NONCONDUCTIVE",
       "LIGHT_5",
@@ -182,6 +182,7 @@
       "MAGIC_FOCUS",
       "UNRESTRICTED"
     ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "id": "ench_stormglove" } ] },
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "material_thickness": 0.3,
@@ -279,12 +280,12 @@
       "STURDY",
       "OVERSIZE",
       "NO_TAKEOFF",
-      "ONLY_ONE",
       "NO_REPAIR",
       "NO_SALVAGE",
       "ZERO_WEIGHT",
       "UNRESTRICTED"
     ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "UGLINESS", "add": 5 } ] } ] }
   },
@@ -297,16 +298,8 @@
     "description": "This is a wicked spear/halberd hybrid entirely created of bone.",
     "material": [ "bone" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
-    "flags": [
-      "UNBREAKABLE_MELEE",
-      "REACH_ATTACK",
-      "SPEAR",
-      "NONCONDUCTIVE",
-      "SHEATH_SPEAR",
-      "ONLY_ONE",
-      "NO_REPAIR",
-      "MAGIC_FOCUS"
-    ],
+    "flags": [ "UNBREAKABLE_MELEE", "REACH_ATTACK", "SPEAR", "NONCONDUCTIVE", "SHEATH_SPEAR", "NO_REPAIR", "MAGIC_FOCUS" ],
+    "max_worn": 1,
     "techniques": [ "WBLOCK_2", "WIDE", "SWEEP", "BRUTAL" ],
     "weight": "2175 g",
     "volume": "2500 ml",
@@ -328,7 +321,6 @@
       "BELTED",
       "UNBREAKABLE_MELEE",
       "NONCONDUCTIVE",
-      "ONLY_ONE",
       "NO_REPAIR",
       "SHEATH_BOW",
       "NO_SALVAGE",
@@ -337,6 +329,7 @@
       "RELOAD_AND_SHOOT",
       "NEVER_JAMS"
     ],
+    "max_worn": 1,
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "ammo": [ "arrow" ],
@@ -379,7 +372,8 @@
         "moves": 20
       }
     ],
-    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE", "UNRESTRICTED" ],
+    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "UNRESTRICTED" ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": [ 3, 5 ],
@@ -413,7 +407,8 @@
         "moves": 20
       }
     ],
-    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE", "UNRESTRICTED" ],
+    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "UNRESTRICTED" ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": [ 3, 5 ],
@@ -511,7 +506,6 @@
     "environmental_protection": 2,
     "flags": [
       "SEMITANGIBLE",
-      "ONLY_ONE",
       "OVERSIZE",
       "TRADER_AVOID",
       "PERSONAL",
@@ -521,6 +515,7 @@
       "PADDED",
       "UNRESTRICTED"
     ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 8,
@@ -544,7 +539,8 @@
     "warmth": 5,
     "material_thickness": 2.6,
     "environmental_protection": 2,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "PADDED" ],
+    "flags": [ "OVERSIZE", "PERSONAL", "STURDY", "PADDED" ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 16,
@@ -595,13 +591,13 @@
       "AURA",
       "SEMITANGIBLE",
       "OVERSIZE",
-      "ONLY_ONE",
       "TRADER_AVOID",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 0,
@@ -622,7 +618,8 @@
     "symbol": "o",
     "color": "white",
     "material": [ "magical_material" ],
-    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "id": "ench_aura_feral" } ] }
   },
   {
@@ -637,7 +634,8 @@
     "symbol": "o",
     "color": "white",
     "material": [ "magical_material" ],
-    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "id": "ench_aura_feral_plus" } ] }
   },
   {
@@ -677,7 +675,8 @@
     "description": "A pulsating club made of bone, stained with an ever-moving blood coating eager to absorb the living.",
     "material": [ "bone", "flesh" ],
     "weapon_category": [ "BATONS" ],
-    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "ONLY_ONE", "NO_REPAIR", "MAGIC_FOCUS", "BELT_CLIP", "TRADER_AVOID" ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "MAGIC_FOCUS", "BELT_CLIP", "TRADER_AVOID" ],
+    "max_worn": 1,
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "weight": "700 g",
     "volume": "800 ml",
@@ -732,7 +731,8 @@
     "symbol": "o",
     "color": "white",
     "material": [ "magical_material" ],
-    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "max_worn": 1,
     "relic_data": {
       "passive_effects": [
         {
@@ -782,17 +782,8 @@
     "warmth": 0,
     "material_thickness": 0.4,
     "environmental_protection": 2,
-    "flags": [
-      "AURA",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "OVERSIZE",
-      "PADDED",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
+    "flags": [ "AURA", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE", "PADDED", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
+    "max_worn": 1,
     "relic_data": {
       "passive_effects": [
         {
@@ -858,7 +849,8 @@
     "material": [ "concentrated_mana" ],
     "warmth": 0,
     "material_thickness": 0,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "OUTER", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID", "PADDED" ],
+    "flags": [ "OVERSIZE", "OUTER", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID", "PADDED" ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "id": "ench_armor_spirit" } ] },
     "armor": [
       {
@@ -928,7 +920,8 @@
     ],
     "material_thickness": 3.3,
     "environmental_protection": 8,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "PADDED" ]
+    "flags": [ "OVERSIZE", "PERSONAL", "STURDY", "PADDED" ],
+    "max_worn": 1
   },
   {
     "id": "pocket_sun",
@@ -1170,7 +1163,6 @@
     "flags": [
       "WATER_FRIENDLY",
       "SEMITANGIBLE",
-      "ONLY_ONE",
       "OVERSIZE",
       "AURA",
       "ZERO_WEIGHT",
@@ -1180,7 +1172,8 @@
       "REBREATHER",
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
-    ]
+    ],
+    "max_worn": 1
   },
   {
     "id": "thought_shield_item",
@@ -1198,7 +1191,6 @@
     "flags": [
       "WATER_FRIENDLY",
       "SEMITANGIBLE",
-      "ONLY_ONE",
       "OVERSIZE",
       "AURA",
       "ZERO_WEIGHT",
@@ -1209,7 +1201,8 @@
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS",
       "MAGICAL_MIND_PROTECTION"
-    ]
+    ],
+    "max_worn": 1
   },
   {
     "id": "thought_shield_plus_item",
@@ -1233,7 +1226,6 @@
     "flags": [
       "WATER_FRIENDLY",
       "SEMITANGIBLE",
-      "ONLY_ONE",
       "OVERSIZE",
       "AURA",
       "ZERO_WEIGHT",
@@ -1245,7 +1237,8 @@
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS",
       "MAGICAL_MIND_PROTECTION"
-    ]
+    ],
+    "max_worn": 1
   },
   {
     "type": "AMMO",
@@ -1292,7 +1285,8 @@
     "material": [ "concentrated_mana" ],
     "symbol": ";",
     "color": "cyan",
-    "flags": [ "TWO_WAY_RADIO", "ONLY_ONE", "TRADER_AVOID", "NO_DROP" ],
+    "flags": [ "TWO_WAY_RADIO", "TRADER_AVOID", "NO_DROP" ],
+    "max_worn": 1,
     "use_action": [ { "type": "transform", "target": "technomancer_summoned_radio_on", "menu_text": "Turn to scanning mode" } ],
     "melee_damage": { "bash": 4 }
   },
@@ -1304,7 +1298,8 @@
     "description": "An aetherspeaker tuned to listen for radio signals from the surrounding area.  With a command word, it may change frequency or switch to communicating with other aetherspeakers or radios.",
     "use_action": [ "RADIO_ON", { "type": "transform", "target": "technomancer_summoned_radio", "menu_text": "Turn to speaking mode" } ],
     "tick_action": [ "RADIO_TICK" ],
-    "flags": [ "TRADER_AVOID", "ONLY_ONE", "NO_DROP" ]
+    "max_worn": 1,
+    "flags": [ "TRADER_AVOID", "NO_DROP" ]
   },
   {
     "id": "technomancer_summoned_ups",
@@ -1320,7 +1315,8 @@
     "ammo_type": [ "battery" ],
     "capacity": 1,
     "looks_like": "spiral_stone",
-    "flags": [ "TRADER_AVOID", "ONLY_ONE", "NO_DROP", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "TRADER_AVOID", "NO_DROP", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD" ],
+    "max_worn": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "2 s", "regenerate_ammo": true } },
     "//": "Recharge time is 2 seconds due to bug #48019, making it actually 1 second. Reduce to 1 second if that ever gets fixed."
@@ -1345,9 +1341,9 @@
       "PADDED",
       "PERSONAL",
       "SEMITANGIBLE",
-      "ONLY_ONE",
       "NO_DROP"
     ],
+    "max_worn": 1,
     "qualities": [ [ "WELD", 2 ] ],
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 2, "electric": 6 }
@@ -1389,7 +1385,6 @@
     "flags": [
       "PERSONAL",
       "OVERSIZE",
-      "ONLY_ONE",
       "PADDED",
       "INTEGRATED",
       "ALLOWS_NATURAL_ATTACKS",
@@ -1398,6 +1393,7 @@
       "NO_TAKEOFF",
       "NONCONDUCTIVE"
     ],
+    "max_worn": 1,
     "relic_data": {
       "passive_effects": [
         {
@@ -1459,7 +1455,6 @@
     "flags": [
       "AURA",
       "OVERSIZE",
-      "ONLY_ONE",
       "PADDED",
       "INTEGRATED",
       "ALLOWS_NATURAL_ATTACKS",
@@ -1473,6 +1468,7 @@
       "WATERPROOF",
       "SWIM_GOGGLES"
     ],
+    "max_worn": 1,
     "relic_data": {
       "passive_effects": [
         {
@@ -1634,7 +1630,8 @@
     "symbol": "~",
     "color": "green",
     "phase": "solid",
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ONLY_ONE", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN", "ZERO_WEIGHT", "TRADER_AVOID", "SINGLE_USE" ],
+    "max_worn": 1,
     "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.9, "move_cost": 1 }
   },
   {
@@ -1684,13 +1681,13 @@
       "SEMITANGIBLE",
       "ZERO_WEIGHT",
       "OVERSIZE",
-      "ONLY_ONE",
       "TRADER_AVOID",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "PADDED",
       "INTEGRATED"
     ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "NUMB", "PSYCHOPATH" ] } ] }
   },
   {
@@ -1704,17 +1701,8 @@
     "symbol": "o",
     "color": "white",
     "material": [ "magical_material" ],
-    "flags": [
-      "PERSONAL",
-      "SEMITANGIBLE",
-      "OVERSIZE",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "ZERO_WEIGHT",
-      "NO_TAKEOFF",
-      "INTEGRATED",
-      "NONCONDUCTIVE"
-    ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "TRADER_AVOID", "ZERO_WEIGHT", "NO_TAKEOFF", "INTEGRATED", "NONCONDUCTIVE" ],
+    "max_worn": 1,
     "relic_data": {
       "passive_effects": [
         {

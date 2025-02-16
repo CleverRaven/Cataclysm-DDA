@@ -1,16 +1,15 @@
-#include "cached_options.h"
+#include <string>
+
 #include "calendar.h"
 #include "cata_catch.h"
-#include "cata_scope_helpers.h"
+#include "coordinates.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "mapdata.h"
 #include "monster.h"
-#include "options_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 static const ter_str_id ter_t_floor( "t_floor" );
-
-struct tripoint;
 
 static monster &spawn_and_clear( const tripoint_bub_ms &pos, bool set_floor )
 {

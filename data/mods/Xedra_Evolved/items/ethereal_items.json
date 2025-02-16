@@ -14,13 +14,13 @@
       "AURA",
       "SEMITANGIBLE",
       "OVERSIZE",
-      "ONLY_ONE",
       "TRADER_AVOID",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
     "armor": [
       {
@@ -46,13 +46,13 @@
       "AURA",
       "SEMITANGIBLE",
       "OVERSIZE",
-      "ONLY_ONE",
       "TRADER_AVOID",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
+    "max_worn": 1,
     "relic_data": {
       "passive_effects": [
         {
@@ -133,7 +133,8 @@
     "material": [ "dreamstuff" ],
     "warmth": 0,
     "material_thickness": 5,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "PADDED", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
+    "flags": [ "OVERSIZE", "PERSONAL", "PADDED", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 5,
@@ -153,7 +154,8 @@
     "symbol": "o",
     "color": "white",
     "material": [ "dreamstuff" ],
-    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "max_worn": 1,
     "relic_data": {
       "passive_effects": [
         {
@@ -235,12 +237,12 @@
       "AURA",
       "SEMITANGIBLE",
       "OVERSIZE",
-      "ONLY_ONE",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_r" ] } ],
     "use_action": { "type": "effect_on_conditions", "description": "Jump.", "effect_on_conditions": [ "EOC_WINCH_TELEPORT" ] }
   },
@@ -282,18 +284,8 @@
       }
     ],
     "material_thickness": 0.1,
-    "flags": [
-      "BELTED",
-      "TRADER_AVOID",
-      "WATERPROOF",
-      "STURDY",
-      "OVERSIZE",
-      "NO_TAKEOFF",
-      "ONLY_ONE",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "ZERO_WEIGHT"
-    ],
+    "flags": [ "BELTED", "TRADER_AVOID", "WATERPROOF", "STURDY", "OVERSIZE", "NO_TAKEOFF", "NO_REPAIR", "NO_SALVAGE", "ZERO_WEIGHT" ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
@@ -397,7 +389,8 @@
     "warmth": 5,
     "material_thickness": 0.6,
     "environmental_protection": 2,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "ZERO_WEIGHT", "NO_DROP", "STURDY", "PADDED" ],
+    "flags": [ "OVERSIZE", "PERSONAL", "ZERO_WEIGHT", "NO_DROP", "STURDY", "PADDED" ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 20,

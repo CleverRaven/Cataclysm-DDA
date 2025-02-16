@@ -1,21 +1,37 @@
 #include "npc_attack.h"
 
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <memory>
+#include <set>
+#include <string>
+
 #include "cata_utility.h"
 #include "character.h"
+#include "creature.h"
 #include "creature_tracker.h"
+#include "damage.h"
+#include "debug.h"
 #include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "flag.h"
+#include "game_constants.h"
+#include "inventory.h"
 #include "item.h"
-#include "itype.h"
-#include "line.h"
+#include "item_location.h"
 #include "magic.h"
 #include "magic_spell_effect_helpers.h"
 #include "map.h"
 #include "messages.h"
 #include "npc.h"
+#include "pimpl.h"
 #include "point.h"
 #include "projectile.h"
 #include "ranged.h"
+#include "ret_val.h"
+#include "rng.h"
+#include "talker.h"
 
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
 

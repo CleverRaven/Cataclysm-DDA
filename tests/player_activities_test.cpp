@@ -1,21 +1,45 @@
-#include "catch/catch.hpp"
-#include "map_helpers.h"
-#include "monster_helpers.h"
-#include "player_helpers.h"
-#include "activity_scheduling_helper.h"
+#include <algorithm>
+#include <functional>
+#include <map>
+#include <memory>
+#include <optional>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
+#include "coordinates.h"
+#include "enums.h"
 #include "flag.h"
-#include "game.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_group.h"
+#include "item_location.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "map.h"
+#include "map_helpers.h"
+#include "mapdata.h"
 #include "monster.h"
+#include "monster_helpers.h"
 #include "options_helpers.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
+#include "proficiency.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
+#include "weather_type.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
@@ -461,7 +485,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
                     dummy.process_items( &here );
                 }
 
-                CHECK( dummy.get_wielded_item()->ammo_remaining() == 0 );
+                CHECK( dummy.get_wielded_item()->ammo_remaining( ) == 0 );
                 REQUIRE( dummy.get_wielded_item()->typeId().str() == itype_test_shears_off.str() );
 
                 CHECK( dummy.max_quality( qual_SHEAR ) <= 0 );
@@ -1867,9 +1891,9 @@ TEST_CASE( "edevice", "[activity][edevice]" )
     SECTION( "slow move between incompatible devices" ) {
         add_edevices( Item_spawn_data_test_edevices_incompat, false );
         time_point before = calendar::turn;
-        int battery_start = laptop_with_files->ammo_remaining();
+        int battery_start = laptop_with_files->ammo_remaining( );
         do_activity( laptop_with_files, vector_edevice_without_files, efile_locs, EF_MOVE_FROM_THIS );
-        REQUIRE( battery_start - laptop_with_files->ammo_remaining() ==
+        REQUIRE( battery_start - laptop_with_files->ammo_remaining( ) ==
                  100 ); //400 minutes / 1 charge per 4 min
         REQUIRE( calendar::turn - ( before + 1_seconds ) == 24010_seconds ); // 24GB / 1MB per sec
     }
