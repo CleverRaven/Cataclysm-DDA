@@ -103,7 +103,7 @@ int turret_data::ammo_remaining() const
     if( uses_vehicle_tanks_or_batteries() ) {
         return veh->fuel_left( here, ammo_current() );
     }
-    return part->base.ammo_remaining( here );
+    return part->base.ammo_remaining( );
 }
 
 int turret_data::ammo_capacity( const ammotype &ammo ) const
@@ -142,8 +142,6 @@ itype_id turret_data::ammo_current() const
 
 std::set<itype_id> turret_data::ammo_options() const
 {
-    map &here = get_map();
-
     std::set<itype_id> opts;
 
     if( !veh || !part ) {
@@ -156,7 +154,7 @@ std::set<itype_id> turret_data::ammo_options() const
         }
 
     } else {
-        for( const auto &e : veh->fuels_left( here ) ) {
+        for( const auto &e : veh->fuels_left( ) ) {
             const itype *fuel = item::find_type( e.first );
             if( fuel->ammo && part->base.ammo_types().count( fuel->ammo->type ) &&
                 e.second >= part->base.ammo_required() ) {
@@ -215,8 +213,6 @@ bool turret_data::in_range( const tripoint_abs_ms &target ) const
 
 bool turret_data::can_reload() const
 {
-    map &here = get_map();
-
     if( !veh || !part || uses_vehicle_tanks_or_batteries() ) {
         return false;
     }
@@ -224,21 +220,19 @@ bool turret_data::can_reload() const
         // always allow changing of magazines
         return true;
     }
-    if( part->base.ammo_remaining( here ) == 0 ) {
+    if( part->base.ammo_remaining( ) == 0 ) {
         return true;
     }
-    return part->base.ammo_remaining( here ) <
+    return part->base.ammo_remaining( ) <
            part->base.ammo_capacity( part->base.ammo_data()->ammo->type );
 }
 
 bool turret_data::can_unload() const
 {
-    map &here = get_map();
-
     if( !veh || !part || uses_vehicle_tanks_or_batteries() ) {
         return false;
     }
-    return part->base.ammo_remaining( here ) || part->base.magazine_current();
+    return part->base.ammo_remaining( ) || part->base.magazine_current();
 }
 
 turret_data::status turret_data::query() const
@@ -256,7 +250,7 @@ turret_data::status turret_data::query() const
             return status::no_ammo;
         }
     } else {
-        if( gun.ammo_required() && gun.ammo_remaining( here ) < gun.ammo_required() ) {
+        if( gun.ammo_required() && gun.ammo_remaining( ) < gun.ammo_required() ) {
             return status::no_ammo;
         }
     }

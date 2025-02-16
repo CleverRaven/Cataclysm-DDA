@@ -817,7 +817,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     } else if( vp ) {
         mvwprintw( w_info, point( 1, off++ ), _( "There is a %s there.  Parts:" ),
                    vp->vehicle().name ); // 13
-        vp->vehicle().print_part_list( here, w_info, off, getmaxy( w_info ) - 1, width, vp->part_index() );
+        vp->vehicle().print_part_list( w_info, off, getmaxy( w_info ) - 1, width, vp->part_index() );
         off += 6;
     } // 19??
     map_stack target_stack = here.i_at( target );

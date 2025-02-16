@@ -223,7 +223,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
     for( const bionic &bio : *p->my_bionics ) {
         for( const item *fuel_source : p->get_bionic_fuels( bio.id ) ) {
             const item *fuel;
-            if( fuel_source->ammo_remaining( here ) ) {
+            if( fuel_source->ammo_remaining( ) ) {
                 fuel = &fuel_source->first_ammo();
             } else {
                 fuel = *fuel_source->all_items_top().begin();

@@ -31,7 +31,6 @@
 #include "itype.h"
 #include "iuse.h"
 #include "make_static.h"
-#include "map.h"
 #include "output.h"
 #include "pimpl.h"
 #include "pocket_type.h"
@@ -125,8 +124,6 @@ item_action_map item_action_generator::map_actions_to_items( Character &you ) co
 item_action_map item_action_generator::map_actions_to_items( Character &you,
         const std::vector<item *> &pseudos, const bool use_player_inventory ) const
 {
-    map &here = get_map();
-
     std::set< item_action_id > unmapped_actions;
     for( const auto &ia_ptr : item_actions ) { // Get ids of wanted actions
         unmapped_actions.insert( ia_ptr.first );
@@ -188,7 +185,7 @@ item_action_map item_action_generator::map_actions_to_items( Character &you,
                     continue; // Other item consumes less charges
                 }
 
-                if( found->second->ammo_remaining( here ) > actual_item->ammo_remaining( here ) ) {
+                if( found->second->ammo_remaining( ) > actual_item->ammo_remaining( ) ) {
                     better = true; // Items with less charges preferred
                 }
             }

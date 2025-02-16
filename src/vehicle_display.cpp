@@ -144,7 +144,7 @@ vpart_display vehicle::get_display_of_tile( const point_rel_ms &dp, bool rotate,
  * @param hl The index of the part to highlight (if any).
  * @param detail Whether or not to show detailed contents for fuel components.
  */
-int vehicle::print_part_list( const map &here, const catacurses::window &win, int y1,
+int vehicle::print_part_list( const catacurses::window &win, int y1,
                               const int max_y, int width,
                               int p, int hl /*= -1*/, bool detail, bool include_fakes ) const
 {
@@ -170,13 +170,13 @@ int vehicle::print_part_list( const map &here, const catacurses::window &win, in
         if( vp.is_fuel_store() && !vp.ammo_current().is_null() ) {
             if( detail ) {
                 if( vp.ammo_current() == itype_battery ) {
-                    partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining( here ),
+                    partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining( ),
                                                vp.ammo_capacity( ammo_battery ) );
                 } else if( vp.ammo_current()->stack_size > 0 ) {
                     const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
                     auto stack = 250_ml / pt_ammo_cur->stack_size;
                     partname += string_format( _( " (%.1fL %s)" ),
-                                               round_up( units::to_liter( vp.ammo_remaining( here ) * stack ), 1 ),
+                                               round_up( units::to_liter( vp.ammo_remaining( ) * stack ), 1 ),
                                                item::nname( vp.ammo_current() ) );
                 }
             } else {

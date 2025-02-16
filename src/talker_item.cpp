@@ -99,9 +99,7 @@ int talker_item_const::get_hp_max( const bodypart_id & ) const
 
 units::energy talker_item_const::power_cur() const
 {
-    map &here = get_map();
-
-    return 1_mJ * me_it_const->get_item()->ammo_remaining( here );
+    return 1_mJ * me_it_const->get_item()->ammo_remaining( );
 }
 
 units::energy talker_item_const::power_max() const

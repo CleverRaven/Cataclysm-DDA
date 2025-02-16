@@ -485,7 +485,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
                     dummy.process_items( &here );
                 }
 
-                CHECK( dummy.get_wielded_item()->ammo_remaining( here ) == 0 );
+                CHECK( dummy.get_wielded_item()->ammo_remaining( ) == 0 );
                 REQUIRE( dummy.get_wielded_item()->typeId().str() == itype_test_shears_off.str() );
 
                 CHECK( dummy.max_quality( qual_SHEAR ) <= 0 );
@@ -1726,7 +1726,6 @@ static void update_efiles( std::vector<item_location> &edevice_locs,
 
 TEST_CASE( "edevice", "[activity][edevice]" )
 {
-    map &here = get_map();
     avatar dummy;
     dummy.set_skill_level( skill_computer, 1 );
     clear_map();
@@ -1892,9 +1891,9 @@ TEST_CASE( "edevice", "[activity][edevice]" )
     SECTION( "slow move between incompatible devices" ) {
         add_edevices( Item_spawn_data_test_edevices_incompat, false );
         time_point before = calendar::turn;
-        int battery_start = laptop_with_files->ammo_remaining( here );
+        int battery_start = laptop_with_files->ammo_remaining( );
         do_activity( laptop_with_files, vector_edevice_without_files, efile_locs, EF_MOVE_FROM_THIS );
-        REQUIRE( battery_start - laptop_with_files->ammo_remaining( here ) ==
+        REQUIRE( battery_start - laptop_with_files->ammo_remaining( ) ==
                  100 ); //400 minutes / 1 charge per 4 min
         REQUIRE( calendar::turn - ( before + 1_seconds ) == 24010_seconds ); // 24GB / 1MB per sec
     }
