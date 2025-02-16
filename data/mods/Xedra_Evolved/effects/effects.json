@@ -2905,6 +2905,7 @@
     "desc": [
       "You have engaged some of your temporal abilities and any kills you make while this is active will grant you insight."
     ],
+    "apply_message": "You gain an increased awareness of the 4th dimension and how it interacts with the universe.",
     "remove_message": "Your awareness of the 4th dimension fades.",
     "rating": "good",
     "show_in_info": true
