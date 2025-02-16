@@ -54,8 +54,10 @@ endif ()
 
 add_definitions(-DCMAKE)
 
-# Retrieve version from git into GIT_VERSION and creates VERSION.txt
-execute_process(COMMAND python3 build-scripts/version.py
+find_package(Python3 COMPONENTS Interpreter)
+
+# Retrieve version from git. Creates src/version.h and VERSION.txt
+execute_process(COMMAND ${Python3_EXECUTABLE} build-scripts/version.py
     ERROR_VARIABLE GIT_VERSION
     ERROR_STRIP_TRAILING_WHITESPACE
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
