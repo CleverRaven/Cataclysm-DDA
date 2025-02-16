@@ -19,11 +19,6 @@ import os
 import subprocess
 import sys
 
-VERSION = VERSION_STRING = ARTIFACT = TIMESTAMP = None
-
-
-logging.basicConfig(level=logging.DEBUG)  # DEBUG
-log = logging.getLogger()
 
 
 def is_cwd_root():
@@ -71,6 +66,10 @@ def write_VERSION_TXT():
     except FileExistsError:
         log.debug('Skip writing VERSION.txt')
 
+def main():
+    logging.basicConfig(level=logging.DEBUG)  # DEBUG
+
+    VERSION = VERSION_STRING = ARTIFACT = TIMESTAMP = None
 
 # Not using argparse
 for arg in sys.argv[1:]:
@@ -147,3 +146,6 @@ else:
 write_VERSION_TXT()
 
 print(VERSION_STRING, end=None)
+
+if __name__ == "__main__":
+    main()
