@@ -33,24 +33,20 @@ def is_cwd_root():
     return (Path.cwd() / "src").is_dir() and (Path.cwd() / "data").is_dir()
 
 
-def read_version_h():
+def write_version_h(VERSION_STRING='unknown'):
+    VERSION_H = None
+    src_version_h = Path("src") / "version.h"
     try:
-        with open(Path("src") / "version.h", 'r') as version_h:
-            version_h = version_h.read()
-            if m := re.search('#define VERSION \"(.+)\"$', version_h):
-                if groups := m.groups():
-                    OLDVERSION = groups[0]
-                    logging.debug(f"{OLDVERSION=}")
-                    return OLDVERSION
+        VERSON_H = open(src_version_h, 'r').read()
     except FileNotFoundError:
         pass
-
-
-def write_version_h(VERSION_STRING):
-    with open(Path("src") / "version.h", 'w') as version_h:
-        VERSION_H = ("//NOLINT(cata-header-guard)\n"
-                     f'#define VERSION "{VERSION_STRING}"\n')
-        version_h.write(VERSION_H)
+    if not VERSION_H:
+        text = ("//NOLINT(cata-header-guard)\n"
+                f'#define VERSION "{VERSION_STRING}"\n')
+        if VERSION_H != text:
+            open(src_version_h, 'w').write(text)
+            return
+    logging.debug("Skip writing src/version.h")
 
 
 def write_VERSION_TXT(GITSHA=None, TIMESTAMP=None, ARTIFACT=None):
@@ -139,12 +135,7 @@ def main():
         VERSION_STRING = f"{GITSHA}{DIRTYFLAG}"
     logging.debug(f"{VERSION_STRING=}")
 
-    OLDVERSION = read_version_h()
-
-    if VERSION_STRING != OLDVERSION:
-        write_version_h(VERSION_STRING=VERSION_STRING)
-    else:
-        logging.debug("Skip writing src/version.h")
+    write_version_h(VERSION_STRING=VERSION_STRING)
 
     write_VERSION_TXT(GITSHA=GITSHA, TIMESTAMP=TIMESTAMP, ARTIFACT=ARTIFACT)
 
