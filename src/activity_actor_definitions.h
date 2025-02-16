@@ -2421,7 +2421,7 @@ class pulp_activity_actor : public activity_actor
             return ACT_PULP;
         }
 
-        void start( player_activity &act, Character &who ) override;
+        void start( player_activity &act, Character &you ) override;
         void do_turn( player_activity &act, Character &you ) override;
         bool punch_corpse_once( item &corpse, Character &you, tripoint_bub_ms pos, map &here );
         // void canceled( player_activity &act, Character &p ) override;

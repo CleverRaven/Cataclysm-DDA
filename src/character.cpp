@@ -9692,8 +9692,7 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
     return false;
 }
 
-std::pair<float, item> Character::get_best_weapon_by_damage_type( const damage_type_id dmg_type )
-const
+std::pair<float, item> Character::get_best_weapon_by_damage_type( damage_type_id dmg_type ) const
 {
     std::pair<float, item> best_weapon = std::make_pair( 0, item() );
 
@@ -9702,7 +9701,7 @@ const
         damage_instance di;
         roll_damage( dmg_type, false, di, true, it, attack_vector_id::NULL_ID(),
                      sub_bodypart_str_id::NULL_ID(), 1.f );
-        for( damage_unit du : di.damage_units ) {
+        for( damage_unit &du : di.damage_units ) {
             if( du.type == dmg_type && best_weapon.first < du.amount ) {
                 best_weapon = std::make_pair( du.amount, it );
             }
@@ -9712,7 +9711,7 @@ const
     return best_weapon;
 }
 
-std::pair<int, item> Character::get_best_tool( const quality_id quality ) const
+std::pair<int, item> Character::get_best_tool( quality_id quality ) const
 {
     // todo: check edge case of you having bionic tool/mutation,
     // something that max_quality() is aware but max_quality() is not?

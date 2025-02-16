@@ -3969,7 +3969,7 @@ bool npc::find_corpse_to_pulp()
                     const bool can_severe_cutting = pair_cut.first > 5;
 
                     double pulp_power = bash_factor *
-                    ( std::sqrt( get_skill_level( skill_survival ) + 2 ) ) *
+                    std::sqrt( get_skill_level( skill_survival ) + 2 ) *
                     ( can_severe_cutting ? 1 : 0.85 );
 
                     double pow_factor;
