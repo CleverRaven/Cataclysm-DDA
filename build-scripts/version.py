@@ -145,7 +145,7 @@ else:
 
 write_VERSION_TXT()
 
-print(VERSION_STRING, end=None)
+    print(VERSION_STRING)
 
 if __name__ == "__main__":
     main()
