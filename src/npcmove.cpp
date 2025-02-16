@@ -107,6 +107,7 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weakpoint.h"
 
 enum class side : int;
 
@@ -3985,7 +3986,7 @@ bool npc::find_corpse_to_pulp()
                         ( std::pow( units::to_liter( corpse.volume ), pow_factor ) * 1000 ) / pulp_power;
 
                     if( !corpse.families.families.empty() ) {
-                        int wp_known = 0;
+                        float wp_known = 0;
                         for( const weakpoint_family &wf : corpse.families.families ) {
                             if( has_proficiency( wf.proficiency ) ) {
                                 ++wp_known;

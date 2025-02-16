@@ -102,6 +102,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weakpoint.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
@@ -8522,7 +8523,7 @@ void pulp_activity_actor::start( player_activity &act, Character &you )
                    you.max_quality( qual_PRY ), pair_pry.second.display_name(), pair_pry.first );
 
     pulp_power = bash_factor
-                 * ( std::sqrt( you.get_skill_level( skill_survival ) + 2 ) )
+                 * std::sqrt( you.get_skill_level( skill_survival ) + 2 )
                  * ( can_severe_cutting ? 1 : 0.85 );
 
     add_msg_debug( debugmode::DF_ACTIVITY, "final pulp_power: %s", pulp_power );
@@ -8591,7 +8592,7 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
     // +25% to pulp time if char knows no weakpoints of monster
     // -25% if knows all of them
     if( !corpse_mtype->families.families.empty() ) {
-        double wp_known = 0;
+        float wp_known = 0;
         for( const weakpoint_family &wf : corpse_mtype->families.families ) {
             if( you.has_proficiency( wf.proficiency ) ) {
                 ++wp_known;
@@ -8626,7 +8627,8 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
 
     add_msg_debug( debugmode::DF_ACTIVITY,
                    "Activity: pulping, corpse: %s, time to pulp: %s, bash tool: %s, cut tool: %s, pry tool: %s",
-                   corpse_mtype->id.str(), to_string( time_duration::from_seconds( time_to_pulp ) ), bash_tool,
+                   corpse_mtype->id.str(), to_string_writable( time_duration::from_seconds( time_to_pulp ) ),
+                   bash_tool,
                    cut_tool, pry_tool );
 
     if( time_to_pulp > 3600 ) {
@@ -8806,7 +8808,6 @@ void pulp_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "bash_tool", bash_tool );
     jsout.member( "cut_tool", cut_tool );
     jsout.member( "pry_tool", pry_tool );
-    jsout.member( "float_corpse_damage_accum", float_corpse_damage_accum );
 
     jsout.end_object();
 }
@@ -8837,7 +8838,6 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
     data.read( "bash_tool", actor.bash_tool );
     data.read( "cut_tool", actor.cut_tool );
     data.read( "pry_tool", actor.pry_tool );
-    data.read( "float_corpse_damage_accum", actor.float_corpse_damage_accum );
 
     return actor.clone();
 }
