@@ -1,21 +1,28 @@
-#include <iosfwd>
-#include <list>
+#include <initializer_list>
 #include <memory>
 #include <string>
 #include <vector>
 
-#include "avatar.h"
 #include "activity_actor_definitions.h"
+#include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map_helpers.h"
+#include "player_activity.h"
 #include "player_helpers.h"
-#include "skill.h"
+#include "pocket_type.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
+
+class SkillLevel;
 
 static const activity_id ACT_READ( "ACT_READ" );
 
@@ -491,6 +498,7 @@ TEST_CASE( "reading_a_book_for_skill", "[reading][book][skill]" )
 
 TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
 {
+    map &here = get_map();
     avatar &dummy = get_avatar();
     clear_avatar();
 
@@ -515,22 +523,22 @@ TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
             read_activity_actor actor( dummy.time_to_read( *booklc, dummy ), booklc, ereader, true );
             dummy.activity = player_activity( actor );
 
-            REQUIRE( ereader->ammo_remaining() == 100 );
+            REQUIRE( ereader->ammo_remaining( here ) == 100 );
 
             dummy.activity.start_or_resume( dummy, false );
             REQUIRE( dummy.activity.id() == ACT_READ );
 
-            CHECK( ereader->ammo_remaining() == 99 );
+            CHECK( ereader->ammo_remaining( here ) == 99 );
 
             dummy.activity.do_turn( dummy );
 
             CHECK( dummy.activity.id() == ACT_READ );
 
             AND_THEN( "ereader has spent a charge while reading" ) {
-                CHECK( ereader->ammo_remaining() == 98 );
+                CHECK( ereader->ammo_remaining( here ) == 98 );
 
                 AND_THEN( "ereader runs out of battery" ) {
-                    ereader->ammo_consume( ereader->ammo_remaining(), dummy.pos_bub(), &dummy );
+                    ereader->ammo_consume( ereader->ammo_remaining( here ), dummy.pos_bub(), &dummy );
                     dummy.activity.do_turn( dummy );
 
                     THEN( "reading stops" ) {

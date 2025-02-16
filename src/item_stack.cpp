@@ -6,10 +6,9 @@
 #include "enums.h"
 #include "item.h"
 #include "map.h"
+#include "mapdata.h"
 #include "output.h"
 #include "units.h"
-
-struct tripoint;
 
 size_t item_stack::size() const
 {

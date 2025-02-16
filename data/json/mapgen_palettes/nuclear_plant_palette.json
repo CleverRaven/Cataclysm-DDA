@@ -200,7 +200,6 @@
       "r": { "monster": "mon_pigeon", "chance": 1, "pack_size": [ 0, 1 ] },
       "6": { "monster": "mon_zombie_scientist", "chance": 98, "pack_size": [ 1, 2 ] },
       "%": { "group": "GROUP_NUCLEAR_PLANT_WORK_ZOMBIES", "chance": 98 },
-      "&": { "group": "GROUP_NUCLEAR_PLANT_BEASTS", "chance": 98 },
       "9": { "group": "GROUP_MIL_WEAK", "chance": 98 }
     },
     "toilets": { "t": {  } },

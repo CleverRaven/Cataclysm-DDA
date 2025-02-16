@@ -41,6 +41,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_arc_furnace",
+    "name": "Place Arc Furnace"
+  },
+  {
+    "type": "construction_group",
     "id": "build_armchair",
     "name": "Place an armchair"
   },

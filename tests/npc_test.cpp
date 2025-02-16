@@ -1,3 +1,4 @@
+#include <functional>
 #include <map>
 #include <memory>
 #include <optional>
@@ -7,21 +8,28 @@
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "common_types.h"
+#include "coordinates.h"
 #include "creature_tracker.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
 #include "game.h"
-#include "line.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_group.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "memory_fast.h"
+#include "monster.h"
 #include "npc.h"
 #include "npctalk.h"
+#include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pimpl.h"
@@ -29,6 +37,7 @@
 #include "point.h"
 #include "test_data.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 #include "veh_type.h"
@@ -475,8 +484,8 @@ TEST_CASE( "npc-movement" )
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
                 REQUIRE( veh != nullptr );
-                veh->install_part( point_rel_ms::zero, vpart_frame );
-                veh->install_part( point_rel_ms::zero, vpart_seat );
+                veh->install_part( here, point_rel_ms::zero, vpart_frame );
+                veh->install_part( here, point_rel_ms::zero, vpart_seat );
                 here.add_vehicle_to_cache( veh );
             }
             // spawn npcs

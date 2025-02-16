@@ -1,25 +1,35 @@
 #include "item_pocket.h"
 
 #include <algorithm>
-#include <cstdlib>
+#include <cmath>
+#include <filesystem>
+#include <fstream>
+#include <iterator>
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <utility>
 
 #include "ammo.h"
+#include "bodypart.h"
 #include "calendar.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "crafting.h"
-#include "creature_tracker.h"
+#include "damage.h"
 #include "debug.h"
+#include "enum_traits.h"
 #include "enums.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "handle_liquid.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
 #include "item_factory.h"
 #include "item_location.h"
 #include "itype.h"
@@ -27,10 +37,13 @@
 #include "json_loader.h"
 #include "localized_comparator.h"
 #include "map.h"
+#include "material.h"
 #include "math_defines.h"
 #include "messages.h"
 #include "output.h"
+#include "path_info.h"
 #include "string_formatter.h"
+#include "subbodypart.h"
 #include "translations.h"
 #include "units.h"
 #include "units_utility.h"
@@ -1612,6 +1625,8 @@ bool item_pocket::contains_phase( phase_id phase ) const
 
 bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
 {
+    map &here = get_map();
+
     if( is_type( pocket_type::CONTAINER ) ) {
         // Only watertight container pockets are reloadable
         if( !watertight() ) {
@@ -1630,7 +1645,7 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
         // and the opcket needs to have enough space (except casings)
         return allows_speedloader( ammo.typeId() ) &&
                is_compatible( ammo.loaded_ammo() ).success() &&
-               ( remaining_ammo_capacity( ammo.loaded_ammo().ammo_type() ) >= ammo.ammo_remaining() );
+               ( remaining_ammo_capacity( ammo.loaded_ammo().ammo_type() ) >= ammo.ammo_remaining( here ) );
     }
 
     if( ammo.has_flag( flag_SPEEDLOADER_CLIP ) ) {

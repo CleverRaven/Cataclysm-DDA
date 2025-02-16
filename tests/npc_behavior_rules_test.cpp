@@ -1,43 +1,27 @@
-#include <map>
 #include <memory>
 #include <optional>
-#include <set>
-#include <sstream>
 #include <string>
-#include <utility>
 #include <vector>
 
-#include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "common_types.h"
-#include "creature_tracker.h"
-#include "faction.h"
-#include "field.h"
-#include "field_type.h"
+#include "coordinates.h"
 #include "game.h"
 #include "gates.h"
-#include "line.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_iterator.h"
 #include "mapgen_helpers.h"
 #include "memory_fast.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "overmapbuffer.h"
-#include "pathfinding.h"
-#include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
-#include "test_data.h"
-#include "text_snippets.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
-#include "veh_type.h"
 #include "vehicle.h"
-#include "vpart_position.h"
-
-class Creature;
 
 static const furn_str_id furn_f_chair( "f_chair" );
 

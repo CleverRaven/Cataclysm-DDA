@@ -2,28 +2,32 @@
 #ifndef CATA_SRC_MAGIC_ENCHANTMENT_H
 #define CATA_SRC_MAGIC_ENCHANTMENT_H
 
-#include <iosfwd>
+#include <functional>
 #include <map>
-#include <new>
 #include <optional>
-#include <set>
+#include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
+#include "body_part_set.h"
 #include "calendar.h"
+#include "color.h"
 #include "dialogue_helpers.h"
 #include "magic.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units_fwd.h"
-#include "monster.h"
 
 class Character;
 class Creature;
 class JsonObject;
 class JsonOut;
+class JsonValue;
 class item;
-struct dialogue;
-struct dbl_or_var;
+class monster;
+struct const_dialogue;
+
 namespace enchant_vals
 {
 // the different types of values that can be modified by enchantments

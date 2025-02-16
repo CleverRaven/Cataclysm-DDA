@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <bitset>
 #include <climits>
 #include <functional>
 #include <iterator>
@@ -19,6 +18,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
@@ -30,19 +30,17 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "line.h"
 #include "map.h"
 #include "map_selector.h"
 #include "options.h"
 #include "pimpl.h"
 #include "pocket_type.h"
-#include "point.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "units_fwd.h"
+#include "units.h"
 #include "vehicle.h"
 #include "visitable.h"
 #include "vpart_position.h"

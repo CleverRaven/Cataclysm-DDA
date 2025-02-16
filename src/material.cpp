@@ -1,16 +1,16 @@
 #include "material.h"
 
 #include <algorithm>
-#include <iterator>
+#include <cmath>
 #include <map>
 #include <set>
+#include <unordered_map>
 
 #include "assign.h"
-#include "calendar.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "json.h"
 #include "make_static.h"
 
 namespace

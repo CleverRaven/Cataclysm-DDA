@@ -1,20 +1,27 @@
 #include <cstddef>
 #include <functional>
 #include <list>
+#include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
 #include "bionics.h"
+#include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "coordinates.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
+#include "magic.h"
 #include "make_static.h"
 #include "map.h"
 #include "npc.h"
@@ -28,6 +35,7 @@
 #include "skill.h"
 #include "stomach.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_debug_nutrition( "debug_nutrition" );
@@ -36,6 +44,7 @@ static const move_mode_id move_mode_walk( "walk" );
 
 int get_remaining_charges( const itype_id &tool_id )
 {
+    map &here = get_map();
     const inventory crafting_inv = get_player_character().crafting_inventory();
     std::vector<const item *> items =
     crafting_inv.items_with( [tool_id]( const item & i ) {
@@ -43,7 +52,7 @@ int get_remaining_charges( const itype_id &tool_id )
     } );
     int remaining_charges = 0;
     for( const item *instance : items ) {
-        remaining_charges += instance->ammo_remaining();
+        remaining_charges += instance->ammo_remaining( here );
     }
     return remaining_charges;
 }

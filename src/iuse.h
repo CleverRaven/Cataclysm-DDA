@@ -2,15 +2,16 @@
 #ifndef CATA_SRC_IUSE_H
 #define CATA_SRC_IUSE_H
 
-#include <iosfwd>
 #include <memory>
 #include <optional>
-#include <type_traits>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "clone_ptr.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "item_location.h"
+#include "point.h"
 #include "type_id.h"
 #include "units.h"
 

@@ -1,10 +1,12 @@
 #include "teleport.h"
 
 #include <cmath>
+#include <functional>
 #include <memory>
 #include <string>
+#include <vector>
 
-#include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
@@ -18,13 +20,14 @@
 #include "explosion.h"
 #include "game.h"
 #include "map.h"
+#include "map_scale_constants.h"
 #include "messages.h"
 #include "point.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
+#include "units.h"
 #include "viewer.h"
-#include "map_iterator.h"
 
 static const efftype_id effect_teleglow( "teleglow" );
 
