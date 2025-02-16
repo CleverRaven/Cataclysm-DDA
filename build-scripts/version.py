@@ -3,10 +3,16 @@
 All commands emulate the Makefile's "version" target.
 Format is: [TAG] [SHA1][-dirty]
 
-The optional command line arguments or environment variables are:
-    VERSION|VERSION_STRING=<version>
+This script accepts arguments on the command line with the same format
+as environment variables:
+    VERSION=<version>
+    VERSION_STRING=<version>
     ARTIFACT=<artifact>
     TIMESTAMP=<timestamp>
+
+You could run this script like the following.
+- On Unix: ARTIFACT=linux python version.py
+- On Windows: python version.py ARTIFACT=linux
 """
 
 from pathlib import Path
