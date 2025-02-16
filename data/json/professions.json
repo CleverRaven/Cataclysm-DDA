@@ -1020,7 +1020,7 @@
           { "item": "gloves_rubber" },
           { "item": "glasses_safety" },
           { "item": "wristwatch" },
-          { "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_gray" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" }
         ]
@@ -1047,11 +1047,7 @@
     "items": {
       "both": {
         "items": [ "dress_shirt", "socks", "boots", "coat_lab", "gloves_rubber", "glasses_safety", "wristwatch" ],
-        "entries": [
-          { "group": "charged_smart_phone" },
-          { "group": "starter_wallet_full" },
-          { "item": "pants", "variant": "pants_stone" }
-        ]
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" }, { "item": "pants", "variant": "pants_gray" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -2845,7 +2841,7 @@
           { "group": "starter_wallet_full" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_ref_lighter" },
-          { "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_gray" },
           { "group": "speedloaders_s&w619_magnum" },
           { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 7, "container-item": "holster" }
         ]
@@ -3514,7 +3510,7 @@
           { "item": "hat_ball" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_gray" },
           { "item": "tank_top", "variant": "tank_top_generic" }
         ]
       },
@@ -3962,7 +3958,7 @@
           { "item": "memory_card" },
           { "item": "usb_drive" },
           { "item": "portable_game", "charges": 150 },
-          { "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_gray" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "group": "charged_laptop" }
@@ -4812,7 +4808,7 @@
           { "item": "holybook_bible1" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "holy_symbol", "variant": "general_necklace" }
+          { "item": "holy_symbol", "variant": "cross_necklace" }
         ]
       },
       "male": {
@@ -4837,7 +4833,7 @@
           { "item": "holybook_bible4" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "holy_symbol", "variant": "catholic_necklace" }
+          { "item": "holy_symbol", "variant": "cross_necklace" }
         ]
       },
       "male": {
@@ -4963,7 +4959,7 @@
           { "item": "holybook_talmud" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
-          { "item": "holy_symbol", "variant": "jewish_necklace1" },
+          { "item": "holy_symbol", "variant": "jewish_necklace" },
           { "item": "pants", "variant": "pants_black" }
         ]
       },
@@ -5024,7 +5020,7 @@
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "group": "charged_laptop" },
-          { "item": "holy_symbol", "variant": "general_necklace" },
+          { "item": "holy_symbol", "variant": "cross_necklace" },
           { "item": "pants", "variant": "pants_black" }
         ]
       },
@@ -7303,7 +7299,7 @@
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
-          { "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_gray" },
           {
             "item": "light_minus_battery_cell",
             "ammo-item": "battery",

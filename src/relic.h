@@ -4,15 +4,17 @@
 
 #include <climits>
 #include <cmath>
-#include <iosfwd>
+#include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
+#include "coords_fwd.h"
 #include "item.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
@@ -21,10 +23,8 @@ class Creature;
 class JsonObject;
 class JsonOut;
 class relic;
-class relic_procgen_data;
 struct relic_charge_info;
 struct relic_charge_template;
-struct tripoint;
 
 class relic_procgen_data
 {

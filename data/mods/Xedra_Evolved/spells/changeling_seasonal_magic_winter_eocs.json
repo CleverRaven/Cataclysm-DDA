@@ -76,5 +76,156 @@
         "else": [ { "npc_message": "The target easily shatters the ice!", "type": "bad" } ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_WINTER_FEIGN_DEATH",
+    "effect": [
+      { "u_add_effect": "effect_changeling_winter_feign_death", "duration": "PERMANENT" },
+      {
+        "if": { "not": { "u_has_effect": "effect_changeling_winter_feign_death_limiter" } },
+        "then": { "u_message": "You collapse to the ground as your chest ceases its movements.", "type": "neutral" },
+        "else": { "u_message": "You collapse to the ground, but nothing seems fooled!", "type": "bad" }
+      },
+      { "run_eocs": "EOC_CHANGELING_NO_CASTING_OTHER_GLAMOURS_CHECKER", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_WINTER_FEIGN_DEATH_LIMITER_ON_LOSS",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_changeling_winter_feign_death", { "context_val": "effect" } ] },
+    "effect": { "u_add_effect": "effect_changeling_winter_feign_death_limiter", "duration": "1 minutes" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_WINTER_FEIGN_DEATH_LOST_ON_ACTIVITY",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_changeling_winter_feign_death" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_LOCKPICK", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_REPAIR_ITEM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MEND_ITEM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_REPAIR", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_RELOAD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FIRSTAID", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MILK", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HACKSAW", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BOLTCUTTING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HAIRCUT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SHAVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CRACKING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_READ", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_EBOOKSAVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_TIDY_UP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MOP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_DECONSTRUCTION", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_FOLD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_UNFOLD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BIKERACK_UNRACKING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BIKERACK_RACKING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_DIS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_FISH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CRAFT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CHOP_PLANKS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CHOP_TREES", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_MINE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CONSTRUCTION", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_MOP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_READ", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FISH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_GENERIC_GAME", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_GAME", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_DISASSEMBLE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_FARM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HARVEST", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FIELD_DRESS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SKIN", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_QUARTER", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_DISSECT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_LONGSALVAGE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BUILD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKAXE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HAND_CRANK", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKUP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_AUTODRIVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FERTILIZE_PLOT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MOVE_LOOT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_UNLOAD_LOOT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_INSERT_ITEM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_START_FIRE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_OPEN_GATE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FILL_LIQUID", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SHEARING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HOTWIRE_CAR", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_AIM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_ATM", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_START_ENGINES", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_OXYTORCH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_TOOLMOD_ADD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CLEAR_RUBBLE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_WASH", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PRYING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHOP_LOGS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHOP_PLANKS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_JACKHAMMER", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHURN", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PLANT_SEED", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_WEAR", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKUP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_WIELD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BINDER_COPY_RECIPE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_DATA_HANDLING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FURNITURE_MOVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_TENT_PLACE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_TENT_DECONSTRUCT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_REEL_CABLE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_SALINE_INFUSE", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_changeling_winter_feign_death." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_WINTER_NEUTRALIZE_MORALE",
+    "effect": [
+      { "run_eocs": "EOC_FULL_MORALE_NEUTRALIZATION" },
+      {
+        "if": { "not": { "is_season": "summer" } },
+        "then": [
+          {
+            "math": [
+              "u_spell_low_duration = ( ( 29.12 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 15.82) + (u_skill('deduction') * 31.84) ) )"
+            ]
+          },
+          {
+            "math": [
+              "u_spell_high_duration = ( ( 69.52 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 41.85) + (u_skill('deduction') * 90.52) ) )"
+            ]
+          },
+          {
+            "u_add_effect": "effect_changeling_winter_neutralize_morale",
+            "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+          },
+          { "run_eocs": "EOC_CHANGELING_WINTER_NEUTRALIZE_MORALE_CONTINUANCE", "time_in_future": 60 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_WINTER_NEUTRALIZE_MORALE_CONTINUANCE",
+    "condition": { "u_has_effect": "effect_changeling_winter_neutralize_morale" },
+    "effect": [
+      { "run_eocs": "EOC_FULL_MORALE_NEUTRALIZATION" },
+      { "run_eocs": "EOC_CHANGELING_WINTER_NEUTRALIZE_MORALE_CONTINUANCE", "time_in_future": 60 }
+    ]
   }
 ]

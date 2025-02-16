@@ -689,7 +689,7 @@
       [ "leather_cat_tail", 5 ],
       [ "leather_collar", 5 ],
       [ "rope_30", 5 ],
-      { "item": "fog_machine", "prob": 5, "charges": [ 0, 500 ] },
+      { "item": "fog_machine", "prob": 5, "charges": [ 0, 56 ] },
       { "group": "costume_undergarments_women", "prob": 20 },
       { "group": "costume_suits", "prob": 20 },
       { "group": "costume_skirts", "prob": 10 },
@@ -881,9 +881,9 @@
       [ "joint_roach", 10 ],
       { "group": "corpse_mansion", "prob": 5 },
       [ "survnote", 1 ],
-      { "item": "inflatable_dragon", "prob": 1, "charges": [ 0, 500 ] },
-      { "item": "inflatable_ghost", "prob": 1, "charges": [ 0, 500 ] },
-      { "item": "fog_machine", "prob": 1, "charges": [ 0, 500 ] }
+      { "item": "inflatable_dragon", "prob": 1, "charges": [ 0, 56 ] },
+      { "item": "inflatable_ghost", "prob": 1, "charges": [ 0, 56 ] },
+      { "item": "fog_machine", "prob": 1, "charges": [ 0, 56 ] }
     ]
   },
   {

@@ -1,6 +1,6 @@
 [
   {
-    "//": "Autumn magic should focus on: fear, decay, the harvest, preservation, fog, colors.",
+    "//": "Autumn magic should focus on: fear, decay, the harvest, preservation, fog, colors, home and the hearth.",
     "//2": "Make sure to add each new spell to the proper research EoC in the playable_changeling_seasonal_magic_research_eocs file.",
     "//3": "Seasonal magic can have direct damage spells, but they should always be relevantly themed to the season, accomplish some secondary effect (slowing, blinding, starting fires, terrain alteration, etc), have some limitation on targets, or otherwise be less efficient than 'Wizard casts fireball' ",
     "id": "xe_fey_seasonal_magick_autumn",
@@ -112,5 +112,94 @@
         "u_effect_intensity('effect_controlling_weather_fog') > -1 ? 50 : max( ( 6000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 56) - (u_skill('deduction') * 125)), 400)"
       ]
     }
+  },
+  {
+    "id": "changeling_autumn_protection_from_ranged_spell",
+    "type": "SPELL",
+    "name": "Swirl of Autumn Leaves",
+    "description": "Whip up a wind and a swirl of autumn leaves around yourself, giving ranged attacks a chance to go awry.  The glamour also makes you <color_green>harder to spot</color> if used in autumn.",
+    "message": "A spray of colored leaves whirl around you.",
+    "flags": [ "VERBAL", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 6,
+    "effect": "attack",
+    "effect_str": "effect_changeling_autumn_protection_from_ranged",
+    "min_duration": {
+      "math": [
+        "( ( 19852 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 5852) + (u_skill('deduction') * 11512) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 40851 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 16815) + (u_skill('deduction') * 32945) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 450 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 5) - (u_skill('deduction') * 8)), 250)" ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 500 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 8) - (u_skill('deduction') * 15)), 150)"
+      ]
+    }
+  },
+  {
+    "id": "changeling_autumn_create_confusion_mist_spell",
+    "type": "SPELL",
+    "name": "Lost in the Mists",
+    "description": "Call up an obscuring mist, rendering anything inside insensate and incapable of navigating or determining their location.  Those inside the fog will wander, blind and deaf, until the glamour fades or they somehow find their way outside of its area.  The effected area is <color_yellow>reduced</color> in the spring.",
+    "message": "With a gesture, a mist begins to rise.",
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION", "IGNORE_WALLS" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "hostile", "ally", "ground", "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 8,
+    "effect": "attack",
+    "effect_str": "stunned",
+    "components": "spell_components_dreamdross_2",
+    "min_duration": 300,
+    "max_duration": 600,
+    "min_range": {
+      "math": [
+        "min( ( 4 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.4) + (u_skill('deduction') * 1) ), 25 ) * (global_what_is_the_season == 1 ? 0.5 : 1)"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "min( ( 4 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.4) + (u_skill('deduction') * 1) ), 25 ) * (global_what_is_the_season == 1 ? 0.5 : 1)"
+      ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.4) + (u_skill('deduction') * 1) ), 20 ) * (global_what_is_the_season == 1 ? 0.5 : 1)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.4) + (u_skill('deduction') * 1) ), 20 ) * (global_what_is_the_season == 1 ? 0.5 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 750 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 4) - (u_skill('deduction') * 8)), 500)" ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 250 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 5) - (u_skill('deduction') * 10)), 100)"
+      ]
+    },
+    "field_id": "fd_autumn_lost_fog",
+    "field_chance": 1,
+    "min_field_intensity": 1,
+    "max_field_intensity": 1
   }
 ]

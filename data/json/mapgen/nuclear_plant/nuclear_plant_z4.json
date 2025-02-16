@@ -62,7 +62,7 @@
         ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrIIII  Irrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
         ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrI^^I> Irrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
         ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrI^^I> irrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
-        ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrI  &  +rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
+        ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrI     +rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
         ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrIIIIIIIrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
         ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrrR___Rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
         ";;frrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrfrrrrrfrrrrrrrrr_____rrrrrrrrrfrrrrrfrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrf;;;;;;;;;;;;;;;;;;;;;",
@@ -109,8 +109,7 @@
       ],
       "terrain": {  },
       "furniture": {  },
-      "palettes": [ "nuclear_plant_palette" ],
-      "set": [ { "square": "radiation", "amount": [ 0, 10 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ]
+      "palettes": [ "nuclear_plant_palette" ]
     }
   }
 ]

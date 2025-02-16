@@ -139,5 +139,14 @@
     "has": "WIELD",
     "condition": "ALWAYS",
     "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.9 } ]
+  },
+  {
+    "id": "ench_ballistic_assist",
+    "name": { "str": "Ballistic assist" },
+    "description": "Your gear relays targeting data to your weapons, reducing dispersion by 10%.",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.1 } ]
   }
 ]

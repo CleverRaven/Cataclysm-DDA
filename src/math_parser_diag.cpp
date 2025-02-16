@@ -1,26 +1,58 @@
 #include "math_parser_diag.h"
 
+#include <algorithm>
+#include <cstddef>
 #include <functional>
+#include <list>
+#include <memory>
+#include <numeric>
+#include <optional>
 #include <string>
+#include <type_traits>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "character_id.h"
 #include "condition.h"
+#include "coordinates.h"
+#include "creature.h"
+#include "damage.h"
+#include "debug.h"
 #include "dialogue.h"
+#include "dialogue_helpers.h"
+#include "effect.h"
+#include "enum_conversions.h"
 #include "enums.h"
+#include "faction.h"
 #include "field.h"
 #include "game.h"
+#include "item.h"
+#include "item_location.h"
 #include "magic.h"
 #include "map.h"
 #include "math_parser_diag_value.h"
+#include "math_parser_type.h"
 #include "mod_manager.h"
 #include "mongroup.h"
+#include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
+#include "pimpl.h"
+#include "point.h"
+#include "proficiency.h"
+#include "stomach.h"
 #include "string_input_popup.h"
+#include "talker.h"
+#include "translations.h"
+#include "type_id.h"
 #include "units.h"
 #include "weather.h"
+#include "weather_gen.h"
+#include "weather_type.h"
 #include "worldfactory.h"
 
 /*
@@ -133,7 +165,7 @@ diag_assign_dbl_f addiction_turns_ass( char scope, std::vector<diag_value> const
                                        diag_kwargs const & /* kwargs */ )
 {
     return[ beta = is_beta( scope ), add_value = params[0]]( dialogue const & d, double val ) {
-        return d.actor( beta )->set_addiction_turns( addiction_id( add_value.str( d ) ), val );
+        d.actor( beta )->set_addiction_turns( addiction_id( add_value.str( d ) ), val );
     };
 }
 
@@ -150,7 +182,7 @@ diag_assign_dbl_f health_ass( char scope, std::vector<diag_value> const & /* par
 {
     return [beta = is_beta( scope )]( dialogue const & d, double val ) {
         const int current_health = d.actor( beta )->get_health();
-        return d.actor( beta )->mod_livestyle( val - current_health );
+        d.actor( beta )->mod_livestyle( val - current_health );
     };
 }
 
@@ -1079,7 +1111,7 @@ diag_assign_dbl_f skill_ass( char scope, std::vector<diag_value> const &params,
                              diag_kwargs const & /* kwargs */ )
 {
     return [beta = is_beta( scope ), sid = params[0] ]( dialogue const & d, double val ) {
-        return d.actor( beta )->set_skill_level( skill_id( sid.str( d ) ), val );
+        d.actor( beta )->set_skill_level( skill_id( sid.str( d ) ), val );
     };
 }
 
@@ -1112,7 +1144,7 @@ diag_assign_dbl_f skill_exp_ass( char scope, std::vector<diag_value> const &para
             throw math::runtime_error( R"(Unknown format type "%s" for skill_exp)", format );
         }
         bool raw = format == "raw";
-        return d.actor( beta )->set_skill_exp( skill, val, raw );
+        d.actor( beta )->set_skill_exp( skill, val, raw );
     };
 }
 
@@ -1183,7 +1215,7 @@ diag_assign_dbl_f spell_exp_ass( char scope, std::vector<diag_value> const &para
                                  diag_kwargs const & /* kwargs */ )
 {
     return[beta = is_beta( scope ), sid = params[0]]( dialogue const & d, double val ) {
-        return d.actor( beta )->set_spell_exp( spell_id( sid.str( d ) ), val );
+        d.actor( beta )->set_spell_exp( spell_id( sid.str( d ) ), val );
     };
 }
 
@@ -1606,7 +1638,7 @@ diag_assign_dbl_f npc_anger_ass( char scope, std::vector<diag_value> const & /* 
                                  diag_kwargs const & /* kwargs */ )
 {
     return[beta = is_beta( scope )]( dialogue const & d, double val ) {
-        return d.actor( beta )->set_npc_anger( val );
+        d.actor( beta )->set_npc_anger( val );
     };
 }
 
@@ -1614,7 +1646,7 @@ diag_assign_dbl_f npc_fear_ass( char scope, std::vector<diag_value> const & /* p
                                 diag_kwargs const & /* kwargs */ )
 {
     return[beta = is_beta( scope )]( dialogue const & d, double val ) {
-        return d.actor( beta )->set_npc_fear( val );
+        d.actor( beta )->set_npc_fear( val );
     };
 }
 
@@ -1622,7 +1654,7 @@ diag_assign_dbl_f npc_value_ass( char scope, std::vector<diag_value> const & /* 
                                  diag_kwargs const & /* kwargs */ )
 {
     return[beta = is_beta( scope )]( dialogue const & d, double val ) {
-        return d.actor( beta )->set_npc_value( val );
+        d.actor( beta )->set_npc_value( val );
     };
 }
 
@@ -1630,7 +1662,7 @@ diag_assign_dbl_f npc_trust_ass( char scope, std::vector<diag_value> const & /* 
                                  diag_kwargs const & /* kwargs */ )
 {
     return[beta = is_beta( scope )]( dialogue const & d, double val ) {
-        return d.actor( beta )->set_npc_trust( val );
+        d.actor( beta )->set_npc_trust( val );
     };
 }
 

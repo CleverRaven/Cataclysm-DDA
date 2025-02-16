@@ -103,7 +103,7 @@ static std::string GetPrefixFor( const CXXRecordDecl *Type, StaticStringIdConsta
     for( const char *Suffix : {
              "_type", "_info"
          } ) {
-        if( StringRef( TypeName ).endswith( Suffix ) ) {
+        if( StringRef( TypeName ).ends_with( Suffix ) ) {
             TypeName.erase( TypeName.end() - strlen( Suffix ), TypeName.end() );
         }
     }
@@ -123,7 +123,7 @@ static std::string GetCanonicalName( const CXXRecordDecl *Type, const StringRef 
     }
 
     static const std::string anon_prefix = "_anonymous_namespace___";
-    if( StringRef( Result ).startswith( anon_prefix ) ) {
+    if( StringRef( Result ).starts_with( anon_prefix ) ) {
         Result.erase( Result.begin(), Result.begin() + anon_prefix.size() );
     }
 
@@ -200,7 +200,7 @@ void StaticStringIdConstantsCheck::CheckConstructor( const MatchFinder::MatchRes
         std::string CurrentName = VarDeclParent->getNameAsString();
         if( CurrentName != CanonicalName &&
             !PreviousDeclIsExtern &&
-            !StringRef( CurrentName ).startswith( "fuel_type_" ) ) {
+            !StringRef( CurrentName ).starts_with( "fuel_type_" ) ) {
             SourceRange Range =
                 DeclarationNameInfo( VarDeclParent->getDeclName(), VarDeclParent->getLocation()
                                    ).getSourceRange();
@@ -528,7 +528,7 @@ static void CheckDeclRef( StaticStringIdConstantsCheck &Check,
     std::string CurrentName = VarDeclParent->getNameAsString();
 
     if( CurrentName != CanonicalName &&
-        !StringRef( CurrentName ).startswith( "fuel_type_" ) ) {
+        !StringRef( CurrentName ).starts_with( "fuel_type_" ) ) {
         Check.diag(
             Ref->getBeginLoc(),
             "Use of string_id %0 should be named '%1'."

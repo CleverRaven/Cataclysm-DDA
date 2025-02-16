@@ -54,7 +54,7 @@ class aim_activity_actor : public activity_actor
         bool should_unload_RAS = false;
         bool snap_to_target = false;
         /* Item location for RAS weapon reload */
-        item_location reload_loc = item_location();
+        item_location reload_loc;
         bool shifting_view = false;
         tripoint_rel_ms initial_view_offset;
         /** Target UI requested to abort aiming */
@@ -1428,8 +1428,8 @@ class milk_activity_actor : public activity_actor
 
     private:
         int total_moves {};
-        std::vector<tripoint_abs_ms> monster_coords {};
-        std::vector<std::string> string_values {};
+        std::vector<tripoint_abs_ms> monster_coords;
+        std::vector<std::string> string_values;
 };
 
 class shearing_activity_actor : public activity_actor

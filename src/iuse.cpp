@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <exception>
 #include <functional>
+#include <initializer_list>
 #include <iterator>
 #include <list>
 #include <map>
@@ -14,6 +15,7 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -21,22 +23,26 @@
 
 #include "action.h"
 #include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "character.h"
-#include "construction.h"
+#include "character_id.h"
 #include "character_martial_arts.h"
 #include "city.h"
 #include "color.h"
+#include "construction.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
+#include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
@@ -47,6 +53,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
@@ -55,9 +62,11 @@
 #include "harvest.h"
 #include "iexamine.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "iteminfo_query.h"
@@ -65,9 +74,12 @@
 #include "json.h"
 #include "json_loader.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "memorial_logger.h"
@@ -83,9 +95,11 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "popup.h" // For play_game
 #include "recipe.h"
@@ -93,6 +107,7 @@
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "safe_reference.h"
 #include "sounds.h"
 #include "speech.h"
 #include "stomach.h"
@@ -100,12 +115,14 @@
 #include "string_input_popup.h"
 #include "teleport.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "try_parse_integer.h"
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
@@ -114,7 +131,6 @@
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "units.h"
 #include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"
@@ -1720,6 +1736,8 @@ std::optional<int> iuse::radio_mod( Character *p, item *, const tripoint_bub_ms 
 
 std::optional<int> iuse::remove_all_mods( Character *p, item *, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     if( !p ) {
         return std::nullopt;
     }
@@ -1740,7 +1758,7 @@ std::optional<int> iuse::remove_all_mods( Character *p, item *, const tripoint_b
         return std::nullopt;
     }
 
-    if( !loc->ammo_remaining() || p->unload( loc ) ) {
+    if( !loc->ammo_remaining( here ) || p->unload( loc ) ) {
         item *mod = loc->get_item_with(
         []( const item & e ) {
             return e.is_toolmod() && !e.is_irremovable();
@@ -1819,7 +1837,7 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, const tripoint_bub_m
         return std::nullopt;
     }
 
-    if( it->ammo_remaining() == 0 ) {
+    if( it->ammo_remaining( here ) == 0 ) {
         p->add_msg_if_player( _( "Fish aren't foolish enough to go in here without bait." ) );
         return std::nullopt;
     }
@@ -1852,7 +1870,7 @@ std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint_
 {
     map &here = get_map();
     // Handle processing fish trap over time.
-    if( it->ammo_remaining() == 0 ) {
+    if( it->ammo_remaining( here ) == 0 ) {
         it->active = false;
         return 0;
     }
@@ -1867,15 +1885,16 @@ std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint_
 
         int success = -50;
         const float surv = player.get_skill_level( skill_survival );
-        const int attempts = rng( it->ammo_remaining(), it->ammo_remaining() * it->ammo_remaining() );
+        const int attempts = rng( it->ammo_remaining( here ),
+                                  it->ammo_remaining( here ) * it->ammo_remaining( here ) );
         for( int i = 0; i < attempts; i++ ) {
             /** @EFFECT_SURVIVAL randomly increases number of fish caught in fishing trap */
             success += rng( round( surv ), round( surv * surv ) );
         }
 
-        int bait_consumed = rng( 0, it->ammo_remaining() + 1 );
-        if( bait_consumed > it->ammo_remaining() ) {
-            bait_consumed = it->ammo_remaining();
+        int bait_consumed = rng( 0, it->ammo_remaining( here ) + 1 );
+        if( bait_consumed > it->ammo_remaining( here ) ) {
+            bait_consumed = it->ammo_remaining( here );
         }
 
         int fishes = 0;
@@ -1891,7 +1910,7 @@ std::optional<int> iuse::fish_trap_tick( Character *p, item *it, const tripoint_
         }
 
         if( fishes == 0 ) {
-            it->ammo_consume( it->ammo_remaining(), pos, nullptr );
+            it->ammo_consume( it->ammo_remaining( here ), pos, nullptr );
             player.practice( skill_survival, rng( 5, 15 ) );
 
             return 0;
@@ -3050,7 +3069,7 @@ std::optional<int> iuse::siphon( Character *p, item *, const tripoint_bub_ms & )
         p->add_msg_if_player( m_info, _( "There's no vehicle there." ) );
         return std::nullopt;
     }
-    act_vehicle_siphon( v );
+    act_vehicle_siphon( here, v );
     return 1;
 }
 
@@ -3749,7 +3768,9 @@ std::optional<int> iuse::tazer( Character *p, item *it, const tripoint_bub_ms &p
 
 std::optional<int> iuse::tazer2( Character *p, item *it, const tripoint_bub_ms &pos )
 {
-    if( it->ammo_remaining( p, true ) >= 2 ) {
+    map &here = get_map();
+
+    if( it->ammo_remaining( here, p, true ) >= 2 ) {
         // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
         // Ugly, but less so than copied blocks
         item fake( itype_tazer, calendar::turn_zero );
@@ -3977,6 +3998,8 @@ std::optional<int> iuse::rpgdie( Character *you, item *die, const tripoint_bub_m
 
 std::optional<int> iuse::dive_tank( Character *p, item *it, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     if( p && p->is_worn( *it ) ) {
         if( p->is_underwater() && p->oxygen < 10 ) {
             p->oxygen += 20;
@@ -3984,7 +4007,7 @@ std::optional<int> iuse::dive_tank( Character *p, item *it, const tripoint_bub_m
         if( one_in( 15 ) ) {
             p->add_msg_if_player( m_bad, _( "You take a deep breath from your %s." ), it->tname() );
         }
-        if( it->ammo_remaining() == 0 ) {
+        if( it->ammo_remaining( here ) == 0 ) {
             p->add_msg_if_player( m_bad, _( "Air in your %s runs out." ), it->tname() );
             it->erase_var( "overwrite_env_resist" );
             it->convert( *it->type->revert_to ).active = false;
@@ -3999,7 +4022,9 @@ std::optional<int> iuse::dive_tank( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::dive_tank_activate( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( it->ammo_remaining() == 0 ) {
+    map &here = get_map();
+
+    if( it->ammo_remaining( here ) == 0 ) {
         p->add_msg_if_player( _( "Your %s is empty." ), it->tname() );
     } else if( it->active ) { //off
         p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
@@ -4077,7 +4102,9 @@ std::optional<int> iuse::solarpack_off( Character *p, item *it, const tripoint_b
 
 std::optional<int> iuse::gasmask_activate( Character *p, item *it, const tripoint_bub_ms & )
 {
-    if( it->ammo_remaining() == 0 ) {
+    map &here = get_map();
+
+    if( it->ammo_remaining( here ) == 0 ) {
         p->add_msg_if_player( _( "Your %s doesn't have a filter." ), it->tname() );
     } else {
         p->add_msg_if_player( _( "You prepare your %s." ), it->tname() );
@@ -4090,9 +4117,11 @@ std::optional<int> iuse::gasmask_activate( Character *p, item *it, const tripoin
 
 std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    map &here = get_map();
+
     if( p && p->is_worn( *it ) ) {
         // calculate amount of absorbed gas per filter charge
-        const field &gasfield = get_map().field_at( pos );
+        const field &gasfield = here.field_at( pos );
         for( const auto &dfield : gasfield ) {
             const field_entry &entry = dfield.second;
             int gas_abs_factor = to_turns<int>( entry.get_field_type()->gas_absorption_factor );
@@ -4115,7 +4144,7 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint_bub_ms 
         if( it->get_var( "gas_absorbed", 0 ) >= 60 ) {
             it->ammo_consume( 1, pos, p );
             it->set_var( "gas_absorbed", 0 );
-            if( it->ammo_remaining() < 10 ) {
+            if( it->ammo_remaining( here ) < 10 ) {
                 p->add_msg_player_or_npc(
                     m_bad,
                     _( "Your %s is getting hard to breathe in!" ),
@@ -4123,7 +4152,7 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint_bub_ms 
                     , it->tname() );
             }
         }
-        if( it->ammo_remaining() == 0 ) {
+        if( it->ammo_remaining( here ) == 0 ) {
             p->add_msg_player_or_npc(
                 m_bad,
                 _( "Your %s requires new filters!" ),
@@ -4132,7 +4161,7 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint_bub_ms 
         }
     }
 
-    if( it->ammo_remaining() == 0 ) {
+    if( it->ammo_remaining( here ) == 0 ) {
         it->set_var( "overwrite_env_resist", 0 );
         it->active = false;
     }
@@ -4333,6 +4362,8 @@ std::optional<int> iuse::fitness_check( Character *p, item *it, const tripoint_b
 
 std::optional<int> iuse::hand_crank( Character *p, item *it, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     if( p->is_npc() ) {
         // Long action
         return std::nullopt;
@@ -4350,7 +4381,7 @@ std::optional<int> iuse::hand_crank( Character *p, item *it, const tripoint_bub_
         // 1600 minutes. It shouldn't ever run this long, but it's an upper bound.
         // expectation is it runs until the player is too tired.
         int moves = to_moves<int>( 1600_minutes );
-        if( it->ammo_capacity( ammo_battery ) > it->ammo_remaining() ) {
+        if( it->ammo_capacity( ammo_battery ) > it->ammo_remaining( here ) ) {
             p->add_msg_if_player( _( "You start cranking the %s to charge its %s." ), it->tname(),
                                   it->magazine_current()->tname() );
             p->assign_activity( ACT_HAND_CRANK, moves, -1, 0, "hand-cranking" );
@@ -4367,6 +4398,8 @@ std::optional<int> iuse::hand_crank( Character *p, item *it, const tripoint_bub_
 
 std::optional<int> iuse::vibe( Character *p, item *it, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     if( p->is_npc() ) {
         // Long action
         // Also, that would be creepy as fuck, seriously
@@ -4392,7 +4425,7 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint_bub_ms & )
         return std::nullopt;
     } else {
         int moves = to_moves<int>( 20_minutes );
-        if( it->ammo_remaining() > 0 ) {
+        if( it->ammo_remaining( here ) > 0 ) {
             p->add_msg_if_player( _( "You fire up your %s and start getting the tension out." ),
                                   it->tname() );
         } else {
@@ -5355,6 +5388,8 @@ std::optional<int> iuse::gunmod_attach( Character *p, item *it, const tripoint_b
 
 std::optional<int> iuse::toolmod_attach( Character *p, item *it, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     if( !it || !it->is_toolmod() ) {
         debugmsg( "tried to attach non-toolmod" );
         return std::nullopt;
@@ -5397,7 +5432,7 @@ std::optional<int> iuse::toolmod_attach( Character *p, item *it, const tripoint_
         return std::nullopt;
     }
 
-    if( loc->ammo_remaining() ) {
+    if( loc->ammo_remaining( here ) ) {
         if( !p->unload( loc ) ) {
             p->add_msg_if_player( m_info, _( "You cancel unloading the tool." ) );
             return std::nullopt;
@@ -6857,6 +6892,7 @@ std::optional<int> iuse::view_recipes( Character *p, item *it, const tripoint_bu
 
 std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    map &here = get_map();
 
     if( get_map().has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos.xy() ) ) {
         it->unset_flag( flag_NO_UNWIELD );
@@ -6906,7 +6942,7 @@ std::optional<int> iuse::ehandcuffs_tick( Character *p, item *it, const tripoint
 
     const point_bub_ms p2( it->get_var( "HANDCUFFS_X", 0 ), it->get_var( "HANDCUFFS_Y", 0 ) );
 
-    if( ( it->ammo_remaining() > it->type->maximum_charges() - 1000 ) && ( p2.x() != pos.x() ||
+    if( ( it->ammo_remaining( here ) > it->type->maximum_charges() - 1000 ) && ( p2.x() != pos.x() ||
             p2.y() != pos.y() ) ) {
 
         if( p->is_elec_immune() ) {
@@ -6989,12 +7025,14 @@ std::optional<int> iuse::foodperson_voice( Character *, item *, const tripoint_b
 
 std::optional<int> iuse::foodperson( Character *p, item *it, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     // Prevent crash if battery was somehow removed.
     if( !it->magazine_current() ) {
         return std::nullopt;
     }
 
-    time_duration shift = time_duration::from_turns( it->magazine_current()->ammo_remaining() *
+    time_duration shift = time_duration::from_turns( it->magazine_current()->ammo_remaining( here ) *
                           it->type->tool->turns_per_charge );
 
     p->add_msg_if_player( m_info, _( "Your HUD lights-up: \"Your shift ends in %s\"." ),
@@ -7250,7 +7288,9 @@ std::optional<int> iuse::radiocontrol( Character *p, item *it, const tripoint_bu
 
 static bool hackveh( Character &p, item &it, vehicle &veh )
 {
-    if( !veh.is_locked || !veh.has_security_working() ) {
+    map &here = get_map();
+
+    if( !veh.is_locked || !veh.has_security_working( here ) ) {
         return true;
     }
     const bool advanced = !empty( veh.get_avail_parts( "REMOTE_CONTROLS" ) );
@@ -7316,8 +7356,8 @@ static vehicle *pickveh( const tripoint_bub_ms &center, bool advanced )
 
     for( wrapped_vehicle &veh : here.get_vehicles() ) {
         vehicle *&v = veh.v;
-        if( rl_dist( center, v->pos_bub( &here ) ) < 40 &&
-            v->fuel_left( itype_battery ) > 0 &&
+        if( rl_dist( center, v->pos_bub( here ) ) < 40 &&
+            v->fuel_left( here, itype_battery ) > 0 &&
             ( !empty( v->get_avail_parts( advctrl ) ) ||
               ( !advanced && !empty( v->get_avail_parts( ctrl ) ) ) ) ) {
             vehs.push_back( v );
@@ -7326,7 +7366,7 @@ static vehicle *pickveh( const tripoint_bub_ms &center, bool advanced )
     std::vector<tripoint_bub_ms> locations;
     for( int i = 0; i < static_cast<int>( vehs.size() ); i++ ) {
         vehicle *veh = vehs[i];
-        locations.push_back( veh->pos_bub( &here ) );
+        locations.push_back( veh->pos_bub( here ) );
         pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name );
     }
 
@@ -7351,6 +7391,8 @@ static vehicle *pickveh( const tripoint_bub_ms &center, bool advanced )
 
 std::optional<int> iuse::remoteveh_tick( Character *p, item *it, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     vehicle *remote = g->remoteveh();
     bool stop = false;
     if( !it->ammo_sufficient( p ) ) {
@@ -7359,7 +7401,7 @@ std::optional<int> iuse::remoteveh_tick( Character *p, item *it, const tripoint_
     } else if( remote == nullptr ) {
         p->add_msg_if_player( _( "Lost contact with the vehicle." ) );
         stop = true;
-    } else if( remote->fuel_left( itype_battery ) == 0 ) {
+    } else if( remote->fuel_left( here, itype_battery ) == 0 ) {
         p->add_msg_if_player( m_bad, _( "The vehicle's battery died." ) );
         stop = true;
     }
@@ -7415,7 +7457,7 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint_bub_m
             g->setremoteveh( veh );
             p->add_msg_if_player( m_good, _( "You take control of the vehicle." ) );
             if( !veh->engine_on ) {
-                veh->start_engines( p );
+                veh->start_engines( here, p );
             }
         }
     } else if( choice == 1 ) {
@@ -7423,9 +7465,9 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint_bub_m
         const auto electronics_parts = veh->get_avail_parts( "CTRL_ELECTRONIC" );
         // Revert to original behavior if we can't find remote controls.
         if( empty( rctrl_parts ) ) {
-            veh->interact_with( electronics_parts.begin()->pos_bub( &here ) );
+            veh->interact_with( &here, electronics_parts.begin()->pos_bub( here ) );
         } else {
-            veh->interact_with( rctrl_parts.begin()->pos_bub( &here ) );
+            veh->interact_with( &here, rctrl_parts.begin()->pos_bub( here ) );
         }
     }
 
@@ -7487,6 +7529,8 @@ static bool multicooker_hallu( Character &p )
 
 std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    map &here = get_map();
+
     static const int charges_to_start = 50;
     const int charge_buffer = 2;
 
@@ -7529,7 +7573,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
         menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
     } else {
         if( dish_it == nullptr ) {
-            if( it->ammo_remaining( p, true ) < charges_to_start ) {
+            if( it->ammo_remaining( here, p, true ) < charges_to_start ) {
                 p->add_msg_if_player( _( "Batteries are low." ) );
                 return 0;
             }
@@ -7667,7 +7711,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
             const int all_charges = charges_to_start + mealtime * units::to_watt(
                                         it->type->tool->power_draw ) / 1000 / 1000;
 
-            if( it->ammo_remaining( p, true ) < all_charges ) {
+            if( it->ammo_remaining( here, p, true ) < all_charges ) {
 
                 p->add_msg_if_player( m_warning,
                                       _( "The multi-cooker needs %d charges to cook this dish." ),
@@ -7775,10 +7819,12 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
 
 std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    map &here = get_map();
+
     const int charge_buffer = 2;
 
     //stop action before power runs out and iuse deletes the cooker
-    if( it->ammo_remaining( p, true ) < charge_buffer ) {
+    if( it->ammo_remaining( here, p, true ) < charge_buffer ) {
         it->active = false;
         it->erase_var( "RECIPE" );
         it->convert( itype_multi_cooker, p );
@@ -8165,20 +8211,21 @@ heating_requirements heating_requirements_for_weight( const units::mass &frozen,
 
 static std::optional<std::pair<tripoint_bub_ms, itype_id>> appliance_heater_selector( Character *p )
 {
+    map &here = get_map();
     const std::optional<tripoint_bub_ms> pt = choose_adjacent_highlight( _( "Select an appliance." ),
             _( "There is no appliance nearby." ), ACTION_EXAMINE, false );
     if( !pt ) {
         p->add_msg_if_player( m_info, _( "You haven't selected any appliance." ) );
         return std::nullopt;
     } else {
-        optional_vpart_position vp_ = get_map().veh_at( pt.value() );
+        optional_vpart_position vp_ = here.veh_at( pt.value() );
         if( !vp_ ) {
             p->add_msg_if_player( m_info, _( "This isn't an appliance." ) );
             return std::nullopt;
         } else {
             std::map<int, itype_id> pseudo_tools;
             int n = 0;
-            for( const auto&[tool_item, hk] : vp_.value().get_tools() ) {
+            for( const auto&[tool_item, hk] : vp_.value().get_tools( here ) ) {
                 if( tool_item.has_quality( qual_HOTPLATE, 2 ) ) {
                     pseudo_tools[n] = tool_item.typeId();
                     n++;
@@ -8211,6 +8258,8 @@ static std::optional<std::pair<tripoint_bub_ms, itype_id>> appliance_heater_sele
 
 heater find_heater( Character *p, item *it )
 {
+    map &here = get_map();
+
     bool consume_flag = true;
     bool pseudo_flag = false;
     int available_heater = 1;
@@ -8220,11 +8269,11 @@ heater find_heater( Character *p, item *it )
     if( it->has_flag( flag_PSEUDO ) && it->has_quality( qual_HOTPLATE ) ) {
         pseudo_flag = true;
     }
-    if( get_map().has_nearby_fire( p->pos_bub() ) && !it->has_quality( qual_HOTPLATE ) ) {
+    if( here.has_nearby_fire( p->pos_bub( &here ) ) && !it->has_quality( qual_HOTPLATE ) ) {
         p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
         return {loc, false, 1, 0, vpt, pseudo_flag};
     } else if( it->has_quality( qual_HOTPLATE ) ) {
-        if( it->ammo_remaining() >= it->type->charges_to_use() ) {
+        if( it->ammo_remaining( here ) >= it->type->charges_to_use() ) {
             p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), loc->tname() );
         } else if( !it->has_no_links() ) {
             p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), loc->tname() );
@@ -8236,12 +8285,12 @@ heater find_heater( Character *p, item *it )
             return {loc, true, -1, 0, vpt, pseudo_flag};
         }
     } else if( !it->has_quality( qual_HOTPLATE ) ) {
-        auto filter = [p]( const item & e ) {
-            if( e.has_quality( qual_HOTPLATE, 2 ) && e.ammo_remaining() >= e.type->charges_to_use() ) {
+        auto filter = [p, &here]( const item & e ) {
+            if( e.has_quality( qual_HOTPLATE, 2 ) && e.ammo_remaining( here ) >= e.type->charges_to_use() ) {
                 return true;
             }
             if( e.has_quality( qual_HOTPLATE, 2 ) && ( !e.has_no_links() ) ) {
-                if( e.link().t_veh->connected_battery_power_level().first >= e.type->charges_to_use() ) {
+                if( e.link().t_veh->connected_battery_power_level( here ).first >= e.type->charges_to_use() ) {
                     return true;
                 }
             }
@@ -8261,10 +8310,10 @@ heater find_heater( Character *p, item *it )
                 return {loc, true, -1, 0, vpt, pseudo_flag};
             } else {
                 pseudo_flag = true;
-                optional_vpart_position vp = get_map().veh_at( app.value().first );
-                available_heater = vp->vehicle().connected_battery_power_level().first;
+                optional_vpart_position vp = here.veh_at( app.value().first );
+                available_heater = vp->vehicle().connected_battery_power_level( here ).first;
                 heating_effect = app.value().second->charges_to_use();
-                vpt = get_map().get_abs( app.value().first );
+                vpt = here.get_abs( app.value().first );
                 if( available_heater >= heating_effect ) {
                     return {loc, consume_flag, available_heater, heating_effect, vpt, pseudo_flag};
                 } else {
@@ -8279,9 +8328,9 @@ heater find_heater( Character *p, item *it )
 
     heating_effect = loc->type->charges_to_use();
     if( !loc->has_no_links() ) {
-        available_heater = loc->link().t_veh->connected_battery_power_level().first;
+        available_heater = loc->link().t_veh->connected_battery_power_level( here ).first;
     } else if( !loc->has_flag( flag_USE_UPS ) ) {
-        available_heater = loc->ammo_remaining();
+        available_heater = loc->ammo_remaining( here );
     } else if( loc->has_flag( flag_USE_UPS ) ) {
         available_heater = units::to_kilojoule( p->available_ups() );
     }
@@ -9003,6 +9052,8 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::binder_add_recipe( Character *p, item *binder, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -9029,12 +9080,12 @@ std::optional<int> iuse::binder_add_recipe( Character *p, item *binder, const tr
 
     const recipe_subset res = p->get_recipes_from_books( crafting_inv );
     const std::vector<const recipe *> recipes( res.begin(), res.end() );
-    const auto enough_writing_tool_charges = [&writing_tools]( int pages ) {
+    const auto enough_writing_tool_charges = [&writing_tools, &here]( int pages ) {
         for( const item *it : writing_tools ) {
             if( it->ammo_required() == 0 ) {
                 return true;
             }
-            pages -= it->ammo_remaining() / it->ammo_required();
+            pages -= it->ammo_remaining( here ) / it->ammo_required();
             if( pages <= 0 ) {
                 return true;
             }
@@ -9126,19 +9177,20 @@ std::optional<int> iuse::binder_manage_recipe( Character *p, item *binder,
 
 std::optional<int> iuse::voltmeter( Character *p, item *, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Check voltage where?" ) );
     if( !pnt_ ) {
         return std::nullopt;
     }
 
-    const map &here = get_map();
     const optional_vpart_position vp = here.veh_at( *pnt_ );
 
     if( !vp ) {
         p->add_msg_if_player( _( "There's nothing to measure there." ) );
         return std::nullopt;
     }
-    if( vp->vehicle().fuel_left( itype_battery ) ) {
+    if( vp->vehicle().fuel_left( here, itype_battery ) ) {
         p->add_msg_if_player( _( "The %1$s has voltage." ), vp->vehicle().name );
     } else {
         p->add_msg_if_player( _( "The %1$s has no voltage." ), vp->vehicle().name );
@@ -9180,8 +9232,7 @@ std::optional<int> use_function::call( Character *p, item &it,
 }
 
 std::optional<int> use_function::call( Character *p, item &it,
-                                       map */*here*/, const tripoint_bub_ms &pos ) const
+                                       map *here, const tripoint_bub_ms &pos ) const
 {
-    // TODO: Make use map aware
-    return actor->use( p, it, pos );
+    return actor->use( p, it, here, pos );
 }

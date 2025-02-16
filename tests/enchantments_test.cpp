@@ -1,15 +1,23 @@
+#include <cmath>
+#include <memory>
+#include <string>
+
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "field.h"
-#include "item.h"
-#include "item_group.h"
-#include "item_location.h"
 #include "game.h"
+#include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "messages.h"
 #include "monster.h"
-#include "npc.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "talker.h"

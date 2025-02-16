@@ -1,11 +1,18 @@
+#include <string>
+
 #include "avatar.h"
 #include "cata_catch.h"
-#include "game.h"
+#include "coordinates.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "mapgen_helpers.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 
 static const nested_mapgen_id
 nested_mapgen_test_nested_remove_all_1x1( "test_nested_remove_all_1x1" );
@@ -23,15 +30,15 @@ void check_vehicle_still_works( vehicle &veh )
 {
     map &here = get_map();
     REQUIRE( here.veh_at( get_avatar().pos_bub() ).has_value() );
-    REQUIRE( veh.player_in_control( get_avatar() ) );
+    REQUIRE( veh.player_in_control( here, get_avatar() ) );
     veh.engine_on = true;
     veh.velocity = 1000;
     veh.cruise_velocity = veh.velocity;
-    tripoint_bub_ms const startp = veh.pos_bub( &here );
+    tripoint_bub_ms const startp = veh.pos_bub( here );
     here.vehmove();
-    REQUIRE( veh.pos_bub( &here ) != startp );
+    REQUIRE( veh.pos_bub( here ) != startp );
 
-    here.displace_vehicle( veh, startp - veh.pos_bub( &here ) );
+    here.displace_vehicle( veh, startp - veh.pos_bub( here ) );
 }
 
 vehicle *add_test_vehicle( map &m, tripoint_bub_ms loc )
@@ -99,7 +106,7 @@ TEST_CASE( "mapgen_remove_vehicles" )
     veh->set_owner( get_avatar() );
     REQUIRE( here.get_vehicles().size() == 1 );
     here.board_vehicle( start_loc, &get_avatar() );
-    veh->start_engines( &get_avatar(), true );
+    veh->start_engines( here, &get_avatar(), true );
 
     tripoint_bub_ms const test_loc = get_avatar().pos_bub();
     check_vehicle_still_works( *veh );

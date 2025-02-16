@@ -1,8 +1,10 @@
+#include <algorithm>
+#include <cstddef>
+#include <cstdint>
 #include <functional>
-#include <iosfwd>
+#include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
 #include <utility>
@@ -12,23 +14,37 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
+#include "flat_set.h"
+#include "handle_liquid.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
 #include "item_factory.h"
+#include "item_group.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_selector.h"
 #include "mapgen_helpers.h"
+#include "player_activity.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "point.h"
 #include "ret_val.h"
+#include "rng.h"
 #include "test_data.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -1176,6 +1192,7 @@ static item_pocket *get_only_pocket( item &container )
 
 TEST_CASE( "best_pocket_in_item_contents", "[pocket][item][best]" )
 {
+    map &here = get_map();
     item_location loc;
 
     // Waterskins can be best pockets for liquids
@@ -1224,7 +1241,7 @@ TEST_CASE( "best_pocket_in_item_contents", "[pocket][item][best]" )
         // Empty magazine
         item glockmag( itype_test_glockmag, calendar::turn, 0 );
         REQUIRE( glockmag.has_pocket_type( pocket_type::MAGAZINE ) );
-        REQUIRE( glockmag.ammo_remaining() == 0 );
+        REQUIRE( glockmag.ammo_remaining( here ) == 0 );
         // A single 9mm bullet
         item glockammo( itype_test_9mm_ammo, calendar::turn, 1 );
         REQUIRE( glockammo.is_ammo() );

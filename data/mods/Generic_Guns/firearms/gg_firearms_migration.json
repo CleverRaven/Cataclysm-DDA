@@ -160,7 +160,17 @@
     "replace": "pistol_medium"
   },
   {
-    "id": [ "ksub2000", "calico", "hk_mp5_10_semi", "mp40semi", "hpt3895", "uberti_1873", "rossi_r92_357_16", "rossi_r92_357_20" ],
+    "id": [
+      "ksub2000",
+      "calico",
+      "hk_mp5_10_semi",
+      "mp40semi",
+      "hpt3895",
+      "uberti_1873",
+      "rossi_r92_357_16",
+      "rossi_r92_357_20",
+      "rugerpcc"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },
@@ -198,7 +208,7 @@
     "replace": "pistol_smg"
   },
   {
-    "id": [ "ruger_1022", "ruger_1022_auto", "ruger_charger_auto", "rossi_gallery" ],
+    "id": [ "ruger_1022", "ruger_1022_auto", "ruger_charger_auto", "rossi_gallery", "marlin60" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_rifle"
   },
@@ -217,7 +227,8 @@
       "rough_rider_pistol_9",
       "1911_22",
       "rio_bravo",
-      "henry_golden_boy"
+      "henry_golden_boy",
+      "sw617"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"

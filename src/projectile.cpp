@@ -1,26 +1,34 @@
 #include "projectile.h"
 
 #include <algorithm>
+#include <limits>
 #include <memory>
 #include <string>
-#include <type_traits>
 #include <vector>
 
 #include "ammo_effect.h"
+#include "calendar.h"
 #include "character.h"
 #include "condition.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
 #include "field.h"
+#include "field_type.h"
+#include "global_vars.h"
 #include "item.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "rng.h"
+#include "string_formatter.h"
+#include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 
