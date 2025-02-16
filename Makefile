@@ -1067,7 +1067,7 @@ $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 
 .PHONY: version prefix
 version:
-	python3 build-scripts/version.py VERSION=$(VERSION) ARTIFACT=$(ARTIFACT)
+	python build-scripts/version.py VERSION=$(VERSION) ARTIFACT=$(ARTIFACT)
 
 prefix:
 	@( PREFIX_STRING=$(PREFIX) ; \
