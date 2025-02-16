@@ -401,5 +401,22 @@
         "moves": 300
       }
     ]
+  },
+  {
+    "id": "bindle",
+    "type": "GENERIC",
+    "name": { "str": "bindle" },
+    "description": "You're ready for a trip down some train tracks.  Also known as a hobo stick.",
+    "weight": "980 g",
+    "volume": "3 L",
+    "price": "80 cent",
+    "price_postapoc": "10 cent",
+    "material": [ "cotton", "wood" ],
+    "symbol": "[",
+    "looks_like": "bag_plastic",
+    "color": "light_gray",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "15 kg", "moves": 300 } ],
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
+    "melee_damage": { "bash": 4 }
   }
 ]
