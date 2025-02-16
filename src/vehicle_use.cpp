@@ -1843,7 +1843,7 @@ bool vehicle::use_vehicle_tool( vehicle &veh, map *here, const tripoint_bub_ms &
         act.coords.push_back( here->get_abs( vp_pos ) );
     }
 
-    const int used_charges = ammo_in_tool - tool.ammo_remaining( *here, nullptr );
+    const int used_charges = ammo_in_tool - tool.ammo_remaining_linked( *here, nullptr );
     if( used_charges > 0 ) {
         if( is_battery_tool ) {
             // if tool has less battery charges than it started with - discharge from vehicle batteries

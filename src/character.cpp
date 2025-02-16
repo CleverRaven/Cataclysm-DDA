@@ -12897,7 +12897,7 @@ void Character::process_items( map *here )
     // Load all items that use the UPS and have their own battery to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     std::vector<item *> inv_use_ups = cache_get_items_with( flag_USE_UPS, [&here]( item & it ) {
-        return ( it.ammo_capacity( ammo_battery ) > it.ammo_remaining( *here, nullptr ) ||
+        return ( it.ammo_capacity( ammo_battery ) > it.ammo_remaining_linked( *here, nullptr ) ||
                  ( it.type->battery && it.type->battery->max_capacity > it.energy_remaining( nullptr ) ) );
     } );
     if( !inv_use_ups.empty() ) {
@@ -12911,10 +12911,10 @@ void Character::process_items( map *here )
             } else if( it->active && !it->ammo_sufficient( this ) ) {
                 it->deactivate();
             } else if( available_charges - ups_used >= 1_kJ &&
-                       it->ammo_remaining( *here, nullptr ) < it->ammo_capacity( ammo_battery ) ) {
+                       it->ammo_remaining_linked( *here, nullptr ) < it->ammo_capacity( ammo_battery ) ) {
                 // Charge the battery in the UPS modded tool
                 ups_used += 1_kJ;
-                it->ammo_set( itype_battery, it->ammo_remaining( *here, nullptr ) + 1 );
+                it->ammo_set( itype_battery, it->ammo_remaining_linked( *here, nullptr ) + 1 );
             }
         }
         if( ups_used > 0_kJ ) {

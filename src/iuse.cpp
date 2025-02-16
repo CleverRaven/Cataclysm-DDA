@@ -3768,7 +3768,7 @@ std::optional<int> iuse::tazer2( Character *p, item *it, const tripoint_bub_ms &
 {
     map &here = get_map();
 
-    if( it->ammo_remaining( here, p ) >= 2 ) {
+    if( it->ammo_remaining_linked( here, p ) >= 2 ) {
         // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
         // Ugly, but less so than copied blocks
         item fake( itype_tazer, calendar::turn_zero );
@@ -7555,7 +7555,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
         menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
     } else {
         if( dish_it == nullptr ) {
-            if( it->ammo_remaining( here, p ) < charges_to_start ) {
+            if( it->ammo_remaining_linked( here, p ) < charges_to_start ) {
                 p->add_msg_if_player( _( "Batteries are low." ) );
                 return 0;
             }
@@ -7693,7 +7693,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
             const int all_charges = charges_to_start + mealtime * units::to_watt(
                                         it->type->tool->power_draw ) / 1000 / 1000;
 
-            if( it->ammo_remaining( here, p ) < all_charges ) {
+            if( it->ammo_remaining_linked( here, p ) < all_charges ) {
 
                 p->add_msg_if_player( m_warning,
                                       _( "The multi-cooker needs %d charges to cook this dish." ),
@@ -7806,7 +7806,7 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
     const int charge_buffer = 2;
 
     //stop action before power runs out and iuse deletes the cooker
-    if( it->ammo_remaining( here, p ) < charge_buffer ) {
+    if( it->ammo_remaining_linked( here, p ) < charge_buffer ) {
         it->active = false;
         it->erase_var( "RECIPE" );
         it->convert( itype_multi_cooker, p );

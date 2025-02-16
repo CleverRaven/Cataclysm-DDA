@@ -11229,7 +11229,7 @@ int item::shots_remaining( const Character *carrier ) const
 
     int ret = 1000; // Arbitrary large number for things that do not require ammo.
     if( ammo_required() ) {
-        ret = std::min( ammo_remaining( here,  carrier ) / ammo_required(), ret );
+        ret = std::min( ammo_remaining_linked( here,  carrier ) / ammo_required(), ret );
     }
     if( get_gun_energy_drain() > 0_kJ ) {
         ret = std::min( static_cast<int>( energy_remaining( carrier ) / get_gun_energy_drain() ), ret );
@@ -11305,7 +11305,7 @@ int item::ammo_remaining( const map &here, const std::set<ammotype> &ammo, const
     return ret;
 }
 
-int item::ammo_remaining( const map &here, const Character *carrier ) const
+int item::ammo_remaining_linked( const map &here, const Character *carrier ) const
 {
     std::set<ammotype> ammo = ammo_types();
     return ammo_remaining( here, ammo, carrier, true );
@@ -11316,9 +11316,9 @@ int item::ammo_remaining( const Character *carrier ) const
     return ammo_remaining( get_map(), ammo, carrier, false ); // get_map() is a dummy parameter here.
 }
 
-int item::ammo_remaining( const map &here ) const
+int item::ammo_remaining_linked( const map &here ) const
 {
-    return ammo_remaining( here, nullptr );
+    return ammo_remaining_linked( here, nullptr );
 }
 
 int item::ammo_remaining( ) const
@@ -11461,7 +11461,7 @@ bool item::ammo_sufficient( const Character *carrier, int qty ) const
     map &here = get_map();
 
     if( count_by_charges() ) {
-        return ammo_remaining( here, carrier ) >= qty;
+        return ammo_remaining_linked( here, carrier ) >= qty;
     }
 
     if( is_comestible() ) {
@@ -12617,7 +12617,7 @@ int item::getlight_emit() const
         has_flag( flag_USES_BIONIC_POWER ) ) {
         return lumint;
     }
-    if( ammo_remaining( here ) == 0 ) {
+    if( ammo_remaining_linked( here ) == 0 ) {
         return 0;
     }
     if( has_flag( flag_CHARGEDIM ) && is_tool() && !has_flag( flag_USE_UPS ) ) {
@@ -12636,8 +12636,8 @@ int item::getlight_emit() const
         // Falloff starts at 1/5 total charge and scales linearly from there to 0.
         const ammotype &loaded_ammo = ammo_data()->ammo->type;
         if( ammo_capacity( loaded_ammo ) &&
-            ammo_remaining( here ) < ( ammo_capacity( loaded_ammo ) / 5 ) ) {
-            lumint *= ammo_remaining( here ) * 5.0 / ammo_capacity( loaded_ammo );
+            ammo_remaining_linked( here ) < ( ammo_capacity( loaded_ammo ) / 5 ) ) {
+            lumint *= ammo_remaining_linked( here ) * 5.0 / ammo_capacity( loaded_ammo );
         }
     }
     return lumint;
@@ -14679,7 +14679,7 @@ bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
     // if insufficient available charges shutdown the tool
     if( ( type->tool->power_draw > 0_W || type->tool->turns_per_charge > 0 ) &&
         ( ( uses_energy() && energy_remaining( carrier ) < energy_per_second() ) ||
-          ( !uses_energy() && ammo_remaining( here, carrier ) == 0 ) ) ) {
+          ( !uses_energy() && ammo_remaining_linked( here, carrier ) == 0 ) ) ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }

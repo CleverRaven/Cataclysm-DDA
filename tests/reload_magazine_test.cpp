@@ -366,7 +366,7 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location] [reload]" )
             bool ok = gun->reload( player_character, ammo, gun->ammo_capacity( gun_ammo ) );
             THEN( "reloading should fail" ) {
                 REQUIRE_FALSE( ok );
-                REQUIRE( gun->ammo_remaining( here ) == 0 );
+                REQUIRE( gun->ammo_remaining_linked( here ) == 0 );
             }
         }
 
