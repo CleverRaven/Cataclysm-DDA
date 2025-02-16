@@ -119,11 +119,12 @@ def main():
 
     # Check if there are changes in the worktree
     DIRTYFLAG = str()
-    git = subprocess.run(('git', '-c', 'core.safecrlf=false', 'diff', '--numstat', '--exit-code',),
+    git = subprocess.run(('git', '-c', 'core.safecrlf=false',
+                         'diff', '--numstat', '--exit-code',),
                          capture_output=True)
     if git.returncode != 0:
         for line in git.stdout.decode().strip().splitlines():
-            _ , path = line.rsplit(sep='\t', maxsplit=1)
+            _, path = line.rsplit(sep='\t', maxsplit=1)
             logging.debug(path)
             if ('lang', 'po') == Path(path).parts[0:2]:
                 continue
