@@ -210,7 +210,7 @@ void vehicle::smart_controller_handle_turn( map &here,
 
     int cur_battery_level;
     int max_battery_level;
-    std::tie( cur_battery_level, max_battery_level ) = battery_power_level( here );
+    std::tie( cur_battery_level, max_battery_level ) = battery_power_level( );
     int battery_level_percent = max_battery_level == 0 ? 0 : cur_battery_level * 100 /
                                 max_battery_level;
 

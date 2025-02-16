@@ -9,14 +9,12 @@
 #include "character.h"
 #include "coordinates.h"
 #include "debug.h"
-#include "game.h"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "make_static.h"
-#include "map.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "ret_val.h"
@@ -98,8 +96,6 @@ TEST_CASE( "battery_tool_mod_test", "[battery][mod]" )
     }
 
     GIVEN( "tool compatible with light batteries" ) {
-        map &here = get_map();
-
         item flashlight( itype_diving_flashlight_small_hipower );
         REQUIRE( flashlight.is_reloadable() );
         REQUIRE( flashlight.can_reload_with( item( itype_light_battery_cell ), true ) );
@@ -167,11 +163,11 @@ TEST_CASE( "battery_tool_mod_test", "[battery][mod]" )
 
                 const int bat_charges = med_battery.ammo_capacity( ammo_battery );
                 med_battery.ammo_set( med_battery.ammo_default(), bat_charges );
-                REQUIRE( med_battery.ammo_remaining( here ) == bat_charges );
+                REQUIRE( med_battery.ammo_remaining( ) == bat_charges );
                 flashlight.put_in( med_battery, pocket_type::MAGAZINE_WELL );
 
                 THEN( "the flashlight has charges" ) {
-                    CHECK( flashlight.ammo_remaining( here ) == bat_charges );
+                    CHECK( flashlight.ammo_remaining( ) == bat_charges );
                 }
 
                 AND_WHEN( "flashlight is activated" ) {
@@ -311,8 +307,6 @@ TEST_CASE( "battery_and_tool_properties", "[battery][tool][properties]" )
 
 TEST_CASE( "installing_battery_in_tool", "[battery][tool][install]" )
 {
-    map &here = get_map();
-
     item bat_cell( itype_light_battery_cell );
     item flashlight( itype_diving_flashlight_small_hipower );
 
@@ -322,7 +316,7 @@ TEST_CASE( "installing_battery_in_tool", "[battery][tool][install]" )
     SECTION( "flashlight with no battery installed" ) {
         REQUIRE( !flashlight.magazine_current() );
 
-        CHECK( flashlight.ammo_remaining( here ) == 0 );
+        CHECK( flashlight.ammo_remaining( ) == 0 );
         CHECK( flashlight.ammo_capacity( ammo_battery ) == 0 );
         CHECK( flashlight.remaining_ammo_capacity() == 0 );
     }
@@ -330,7 +324,7 @@ TEST_CASE( "installing_battery_in_tool", "[battery][tool][install]" )
     SECTION( "dead battery installed in flashlight" ) {
         // Ensure battery is dead
         bat_cell.ammo_set( bat_cell.ammo_default(), 0 );
-        REQUIRE( bat_cell.ammo_remaining( here ) == 0 );
+        REQUIRE( bat_cell.ammo_remaining( ) == 0 );
 
         // Put battery in flashlight
         REQUIRE( flashlight.has_pocket_type( pocket_type::MAGAZINE_WELL ) );
@@ -339,13 +333,13 @@ TEST_CASE( "installing_battery_in_tool", "[battery][tool][install]" )
         CHECK( flashlight.magazine_current() );
 
         // No remaining ammo
-        CHECK( flashlight.ammo_remaining( here ) == 0 );
+        CHECK( flashlight.ammo_remaining( ) == 0 );
     }
 
     SECTION( "charged battery installed in flashlight" ) {
         // Charge the battery
         bat_cell.ammo_set( bat_cell.ammo_default(), bat_charges );
-        REQUIRE( bat_cell.ammo_remaining( here ) == bat_charges );
+        REQUIRE( bat_cell.ammo_remaining( ) == bat_charges );
 
         // Put battery in flashlight
         REQUIRE( flashlight.has_pocket_type( pocket_type::MAGAZINE_WELL ) );
@@ -354,7 +348,7 @@ TEST_CASE( "installing_battery_in_tool", "[battery][tool][install]" )
         CHECK( flashlight.magazine_current() );
 
         // Flashlight has a full charge
-        CHECK( flashlight.ammo_remaining( here ) == bat_charges );
+        CHECK( flashlight.ammo_remaining( ) == bat_charges );
     }
 
     SECTION( "wrong size battery for flashlight" ) {

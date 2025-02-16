@@ -1709,7 +1709,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
             case liquid_source_type::VEHICLE:
                 if( part_num != -1 ) {
                     const vehicle_part &pt = source_veh->part( part_num );
-                    if( pt.is_leaking() && !pt.ammo_remaining( here ) ) {
+                    if( pt.is_leaking() && !pt.ammo_remaining( ) ) {
                         act_ref.set_to_null(); // leaky tank spilled while we were transferring
                         return;
                     }
@@ -2192,16 +2192,14 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, Character *you
     // to 10 watt (suspicious claims from some manufacturers) sustained output.
     // It takes 2.4 minutes to produce 1kj at just slightly under 7 watts (25 kj per hour)
     // time-based instead of speed based because it's a sustained activity
-    map &here = get_map();
-
     item &hand_crank_item = *act->targets.front();
 
     int time_to_crank = to_seconds<int>( 144_seconds );
     // Modify for weariness
     time_to_crank /= you->exertion_adjusted_move_multiplier( act->exertion_level() );
     if( calendar::once_every( time_duration::from_seconds( time_to_crank ) ) ) {
-        if( hand_crank_item.ammo_capacity( ammo_battery ) > hand_crank_item.ammo_remaining( here ) ) {
-            hand_crank_item.ammo_set( itype_battery, hand_crank_item.ammo_remaining( here ) + 1 );
+        if( hand_crank_item.ammo_capacity( ammo_battery ) > hand_crank_item.ammo_remaining( ) ) {
+            hand_crank_item.ammo_set( itype_battery, hand_crank_item.ammo_remaining( ) + 1 );
         } else {
             act->moves_left = 0;
             add_msg( m_info, _( "You've charged the battery completely." ) );
@@ -2219,7 +2217,6 @@ void activity_handlers::vibe_do_turn( player_activity *act, Character *you )
     //Using a vibrator takes time (10 minutes), not speed
     //Linear increase in morale during action with a small boost at end
     //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
-    map &here = get_map();
     item &vibrator_item = *act->targets.front();
 
     if( you->encumb( bodypart_id( "mouth" ) ) >= 30 ) {
@@ -2228,10 +2225,10 @@ void activity_handlers::vibe_do_turn( player_activity *act, Character *you )
     }
 
     if( calendar::once_every( 1_minutes ) ) {
-        if( vibrator_item.ammo_remaining( here, you ) > 0 ) {
+        if( vibrator_item.ammo_remaining( you ) > 0 ) {
             vibrator_item.ammo_consume( 1, you->pos_bub(), you );
             you->add_morale( morale_feeling_good, 3, 40 );
-            if( vibrator_item.ammo_remaining( here, you ) == 0 ) {
+            if( vibrator_item.ammo_remaining( you ) == 0 ) {
                 add_msg( m_info, _( "The %s runs out of batteries." ), vibrator_item.tname() );
             }
         } else {
@@ -2452,7 +2449,7 @@ struct weldrig_hack {
 
         map &here = get_map();
 
-        part->vehicle().charge_battery( here, pseudo.ammo_remaining( here ),
+        part->vehicle().charge_battery( here, pseudo.ammo_remaining( ),
                                         false ); // return unused charges without cable loss
     }
 
@@ -2636,7 +2633,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
             ammo_name = item::nname( used_tool->ammo_current() );
         }
 
-        int ammo_remaining = used_tool->ammo_remaining( here, you, true );
+        int ammo_remaining = used_tool->ammo_remaining_linked( here, you );
 
         std::set<itype_id> valid_entries = actor->get_valid_repair_materials( fix );
         const inventory &crafting_inv = you->crafting_inventory();

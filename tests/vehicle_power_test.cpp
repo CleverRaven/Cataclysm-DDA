@@ -131,7 +131,7 @@ TEST_CASE( "power_loss_to_cables", "[vehicle][power]" )
         CHECK( remainder <= preset.max_charge_excess );
         for( size_t i = 0; i < batteries.size(); i++ ) {
             CAPTURE( i );
-            CHECK( preset.max_charge_in_battery >= batteries[i].part().ammo_remaining( here ) );
+            CHECK( preset.max_charge_in_battery >= batteries[i].part().ammo_remaining( ) );
         }
         const int deficit = v.discharge_battery( here, preset.discharge );
         CHECK( deficit >= preset.min_discharge_deficit );

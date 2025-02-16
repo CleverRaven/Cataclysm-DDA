@@ -3746,7 +3746,7 @@ static void vehicle_export()
             write_to_file( veh_path, [&]( std::ostream & fout ) {
                 JsonOut jsout( fout );
                 ovp->vehicle().refresh( );
-                vehicle_prototype::save_vehicle_as_prototype( here, ovp->vehicle(), jsout );
+                vehicle_prototype::save_vehicle_as_prototype( ovp->vehicle(), jsout );
             } );
         } catch( const std::exception &err ) {
             debugmsg( _( "Failed to export vehicle: %s" ), err.what() );

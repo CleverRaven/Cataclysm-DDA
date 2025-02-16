@@ -4,11 +4,9 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character_attire.h"
-#include "game.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
-#include "map.h"
 #include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -33,7 +31,6 @@ static const itype_id itype_water_clean( "water_clean" );
 
 TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
 {
-    map &here = get_map();
     avatar dummy;
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
 
@@ -42,13 +39,13 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
     item_location ammo = dummy.i_add( item( itype_38_special, calendar::turn_zero,
                                             gun->ammo_capacity( gun_ammo_type ) ) );
     REQUIRE( gun->has_flag( json_flag_RELOAD_ONE ) );
-    REQUIRE( gun->ammo_remaining( here ) == 0 );
+    REQUIRE( gun->ammo_remaining( ) == 0 );
 
     const item::reload_option gun_option( &dummy, gun, ammo );
     REQUIRE( gun_option.qty() == 1 );
 
     item_location speedloader = dummy.i_add( item( itype_38_speedloader, calendar::turn_zero, 0 ) );
-    REQUIRE( speedloader->ammo_remaining( here ) == 0 );
+    REQUIRE( speedloader->ammo_remaining( ) == 0 );
 
     const item::reload_option speedloader_option( &dummy, speedloader, ammo );
     CHECK( speedloader_option.qty() == speedloader->ammo_capacity( gun_ammo_type ) );
@@ -79,7 +76,6 @@ TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
 
 TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 {
-    map &here = get_map();
     avatar dummy;
     dummy.set_body();
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
@@ -93,7 +89,7 @@ TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
     // Belt is populated with "charges" rounds by the item constructor.
     belt->ammo_unset();
 
-    REQUIRE( belt->ammo_remaining( here ) == 0 );
+    REQUIRE( belt->ammo_remaining( ) == 0 );
     const item::reload_option belt_option( &dummy, belt, ammo );
     CHECK( belt_option.qty() == belt->ammo_capacity( belt_ammo_type ) );
 

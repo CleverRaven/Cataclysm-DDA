@@ -16,7 +16,6 @@
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
-#include "game.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -41,7 +40,6 @@ template <typename T, typename Output>
 void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nested )
 {
     src.visit_items( [&src, &nested, &out, &obj, empty]( item * node, item * parent ) {
-        map &here = get_map();
 
         // This stops containers and magazines counting *themselves* as ammo sources
         if( node == &obj ) {
@@ -69,13 +67,13 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         }
 
         // Do not consider empty mags unless specified
-        if( node->is_magazine() && !node->ammo_remaining( here ) && !empty ) {
+        if( node->is_magazine() && !node->ammo_remaining( ) && !empty ) {
             return VisitResponse::SKIP;
         }
 
         if( node->has_flag( flag_SPEEDLOADER ) && obj.magazine_integral() ) {
             // Can't reload with empty speedloaders
-            if( !node->ammo_remaining( here ) ) {
+            if( !node->ammo_remaining( ) ) {
                 return VisitResponse::SKIP;
             }
             // All speedloaders are accepted.

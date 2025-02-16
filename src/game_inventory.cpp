@@ -1291,8 +1291,6 @@ class gunmod_remove_inventory_preset : public inventory_selector_preset
             }, _( "SUCCESS CHANCE" ) );
         }
 
-        map &here = get_map();
-
         bool is_shown( const item_location &loc ) const override {
             return loc->is_gunmod() && !loc->is_irremovable();
         }
@@ -1308,7 +1306,7 @@ class gunmod_remove_inventory_preset : public inventory_selector_preset
                   mod.type->gunmod->location.name() == "mechanism" ||
                   mod.type->gunmod->location.name() == "loading port" ||
                   mod.type->gunmod->location.name() == "bore" ) &&
-                ( gun.ammo_remaining( here ) > 0 || gun.magazine_current() ) ) {
+                ( gun.ammo_remaining( ) > 0 || gun.magazine_current() ) ) {
                 return _( "must be unloaded before removing this mod" );
             }
 
@@ -1617,8 +1615,6 @@ item_location game_menus::inv::ebookread( Character &you, item_location &ereader
 
 drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereader )
 {
-    map &here = get_map();
-
     std::set<itype_id> already_saved;
     for( const item *efile : ereader->efiles() ) {
         if(
@@ -1638,7 +1634,7 @@ drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereade
                  !already_saved.count( loc->typeId() ) );
     } );
 
-    const int available_charges = ereader->ammo_remaining( here );
+    const int available_charges = ereader->ammo_remaining( );
     auto make_raw_stats = [&available_charges, &ereader](
                               const std::vector<std::pair<item_location, int>> &locs
     ) {
@@ -1752,8 +1748,6 @@ drop_locations game_menus::inv::edevice_select( Character &who, item_location &u
 drop_locations game_menus::inv::efile_select( Character &who, item_location &used_edevice,
         const std::vector<item_location> &target_edevices, efile_action action, bool from_used_edevice )
 {
-    map &here = get_map();
-
     item_location to_edevice = used_edevice;
     std::vector<item_location> from_edevices = target_edevices;
 
@@ -1771,7 +1765,7 @@ drop_locations game_menus::inv::efile_select( Character &who, item_location &use
         return item::is_efile( loc ) && ( !copying || loc->is_ecopiable() );
     } );
 
-    const int available_charges = to_edevice->ammo_remaining( here );
+    const int available_charges = to_edevice->ammo_remaining( );
     auto make_raw_stats = [&]( const std::vector<std::pair<item_location, int>> &locs ) {
         std::vector<item_location> efiles;
         efiles.reserve( locs.size() );
@@ -2702,8 +2696,6 @@ void game_menus::inv::swap_letters()
 static item_location autodoc_internal( Character &you, Character &patient,
                                        const inventory_selector_preset &preset, int radius, bool surgeon = false )
 {
-    map &here = get_map();
-
     inventory_pick_selector inv_s( you, preset );
     std::string hint;
     int drug_count = 0;
@@ -2719,8 +2711,8 @@ static item_location autodoc_internal( Character &you, Character &patient,
                 return it.has_quality( qual_ANESTHESIA );
             } );
             for( const item *anesthesia_item : a_filter ) {
-                if( anesthesia_item->ammo_remaining( here ) >= 1 ) {
-                    drug_count += anesthesia_item->ammo_remaining( here );
+                if( anesthesia_item->ammo_remaining( ) >= 1 ) {
+                    drug_count += anesthesia_item->ammo_remaining( );
                 }
             }
             hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
@@ -3078,7 +3070,7 @@ class select_ammo_inventory_preset : public inventory_selector_preset
                 return false;
             }
 
-            if( !empty && loc->is_magazine() && !loc->ammo_remaining( here ) ) {
+            if( !empty && loc->is_magazine() && !loc->ammo_remaining( ) ) {
                 return false;
             }
 
@@ -3086,7 +3078,7 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
             for( item_location &p : opts ) {
                 if( ( loc->has_flag( flag_SPEEDLOADER ) && p->allows_speedloader( loc->typeId() ) &&
-                      loc->ammo_remaining( here ) > 1 && p->ammo_remaining( here ) < 1 ) &&
+                      loc->ammo_remaining( ) > 1 && p->ammo_remaining( ) < 1 ) &&
                     p.can_reload_with( loc, true ) ) {
                     return true;
                 }
@@ -3101,21 +3093,19 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
         // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
-            map &here = get_map();
-
             item_location left = lhs.any_item();
             item_location right = rhs.any_item();
 
-            if( left->ammo_remaining( here ) == 0 || right->ammo_remaining( here ) == 0 ) {
-                return ( left->ammo_remaining( here ) != 0 ) > ( right->ammo_remaining( here ) != 0 );
+            if( left->ammo_remaining( ) == 0 || right->ammo_remaining( ) == 0 ) {
+                return ( left->ammo_remaining( ) != 0 ) > ( right->ammo_remaining( ) != 0 );
             }
 
             if( left.obtain_cost( you ) != right.obtain_cost( you ) ) {
                 return left.obtain_cost( you ) < right.obtain_cost( you );
             }
 
-            if( left->ammo_remaining( here ) != right->ammo_remaining( here ) ) {
-                return left->ammo_remaining( here ) > right->ammo_remaining( here );
+            if( left->ammo_remaining( ) != right->ammo_remaining( ) ) {
+                return left->ammo_remaining( ) > right->ammo_remaining( );
             }
 
             return inventory_selector_preset::sort_compare( lhs, rhs );

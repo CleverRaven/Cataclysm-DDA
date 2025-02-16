@@ -1843,7 +1843,7 @@ bool vehicle::use_vehicle_tool( vehicle &veh, map *here, const tripoint_bub_ms &
         act.coords.push_back( here->get_abs( vp_pos ) );
     }
 
-    const int used_charges = ammo_in_tool - tool.ammo_remaining( here );
+    const int used_charges = ammo_in_tool - tool.ammo_remaining_linked( *here, nullptr );
     if( used_charges > 0 ) {
         if( is_battery_tool ) {
             // if tool has less battery charges than it started with - discharge from vehicle batteries
@@ -2312,7 +2312,7 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
             }
             vehicle_part &tank = vpr->part();
             int64_t cost = static_cast<int64_t>( itype_water_purifier->charges_to_use() );
-            if( fuel_left( *here, itype_battery ) < tank.ammo_remaining( *here ) * cost )
+            if( fuel_left( *here, itype_battery ) < tank.ammo_remaining( ) * cost )
             {
                 //~ $1 - vehicle name, $2 - part name
                 add_msg( m_bad, _( "Insufficient power to purify the contents of the %1$s's %2$s" ),
@@ -2321,8 +2321,8 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
             {
                 //~ $1 - vehicle name, $2 - part name
                 add_msg( m_good, _( "You purify the contents of the %1$s's %2$s" ), name, tank.name() );
-                discharge_battery( *here, tank.ammo_remaining( *here ) * cost );
-                tank.ammo_set( *here, itype_water_clean, tank.ammo_remaining( *here ) );
+                discharge_battery( *here, tank.ammo_remaining( ) * cost );
+                tank.ammo_set( itype_water_clean, tank.ammo_remaining( ) );
             }
         } );
     }

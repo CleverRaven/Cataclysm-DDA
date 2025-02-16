@@ -311,7 +311,7 @@ struct vehicle_part {
         int item_capacity( const itype_id &stuffing_id ) const;
 
         /** Amount of fuel, charges or ammunition currently contained by a part */
-        int ammo_remaining( const map &here ) const;
+        int ammo_remaining() const;
         int remaining_ammo_capacity() const;
 
         /** Type of fuel used by an engine */
@@ -324,7 +324,7 @@ struct vehicle_part {
          * @param qty maximum ammo (capped by part capacity) or negative to fill to capacity
          * @return amount of ammo actually set or negative on failure
          */
-        int ammo_set( const map &here, const itype_id &ammo, int qty = -1 );
+        int ammo_set( const itype_id &ammo, int qty = -1 );
 
         /** Remove all fuel, charges or ammunition (if any) from this part */
         void ammo_unset();
@@ -346,7 +346,7 @@ struct vehicle_part {
         units::energy consume_energy( const itype_id &ftype, units::energy wanted_energy );
 
         /* @return true if part in current state be reloaded optionally with specific itype_id */
-        bool can_reload( const map &here, const item &obj = item() ) const;
+        bool can_reload( const item &obj = item() ) const;
 
         // No need to serialize this, it can simply be reinitialized after starting a new game.
         turret_cpu cpu; //NOLINT(cata-serialize)
@@ -362,7 +362,7 @@ struct vehicle_part {
          *  Try adding @param liquid to tank optionally limited by @param qty
          *  @return whether any of the liquid was consumed (which may be less than qty)
          */
-        bool fill_with( const map &here, item &liquid, int qty = INT_MAX );
+        bool fill_with( item &liquid, int qty = INT_MAX );
 
         /** Current faults affecting this part (if any) */
         const std::set<fault_id> &faults() const;
@@ -954,7 +954,7 @@ class vehicle
         // deserializes parts from json to parts vector (clearing it first)
         void deserialize_parts( const JsonArray &data );
         // Vehicle parts list - all the parts on a single tile
-        int print_part_list( const map &here, const catacurses::window &win, int y1, int max_y, int width,
+        int print_part_list( const catacurses::window &win, int y1, int max_y, int width,
                              int p,
                              int hl = -1, bool detail = false, bool include_fakes = true ) const;
 
@@ -1460,7 +1460,7 @@ class vehicle
          * Note that empty tanks don't count at all. The value is the amount as it would be
          * reported by @ref fuel_left, it is always greater than 0. The key is the fuel item type.
          */
-        std::map<itype_id, int> fuels_left( const map &here ) const;
+        std::map<itype_id, int> fuels_left( ) const;
 
         /**
          * All the individual fuel items that are in all the tanks in the vehicle.
@@ -1543,7 +1543,7 @@ class vehicle
         void power_parts( map &here );
 
         // Current and total battery power (kJ) level as a pair
-        std::pair<int, int> battery_power_level( const map &here ) const;
+        std::pair<int, int> battery_power_level( ) const;
 
         // Current and total battery power (kJ) level of all connected vehicles as a pair
         std::pair<int, int> connected_battery_power_level( const map &here ) const;

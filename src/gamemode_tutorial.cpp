@@ -210,7 +210,7 @@ void tutorial_game::per_turn()
     }
 
     if( player_character.get_wielded_item() &&
-        player_character.get_wielded_item()->ammo_remaining( here, &player_character ) > 0 ) {
+        player_character.get_wielded_item()->ammo_remaining( &player_character ) > 0 ) {
         add_message( tut_lesson::LESSON_GUN_FIRE );
     }
 
