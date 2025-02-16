@@ -4,13 +4,13 @@
 
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
+#include <string>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "coords_fwd.h"
@@ -18,12 +18,14 @@
 #include "flat_set.h"
 #include "pocket_type.h"
 #include "ret_val.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
 
 class Character;
+class JsonArray;
 class JsonObject;
 class JsonOut;
 class item;
@@ -31,9 +33,6 @@ class item_location;
 class map;
 class pocket_data;
 struct iteminfo;
-struct itype;
-struct tripoint;
-class map;
 
 class item_pocket
 {
@@ -155,8 +154,10 @@ class item_pocket
         bool allows_speedloader( const itype_id &speedloader_id ) const;
 
         // is this pocket one of the standard types?
-        // exceptions are MOD, CORPSE, SOFTWARE, MIGRATION, etc.
+        // exceptions are MOD, CORPSE, MIGRATION, etc.
         bool is_standard_type() const;
+        // is this pocket a type that acts like a container in its underlying implementation?
+        bool is_container_like_type() const;
 
         bool is_forbidden() const;
 

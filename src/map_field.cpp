@@ -4,11 +4,9 @@
 #include <cmath>
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <queue>
 #include <set>
@@ -22,12 +20,12 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "effect.h"
 #include "emit.h"
 #include "enums.h"
@@ -36,16 +34,16 @@
 #include "fire.h"
 #include "fungal_effects.h"
 #include "game.h"
-#include "game_constants.h"
 #include "item.h"
 #include "itype.h"
 #include "level_cache.h"
-#include "line.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_field.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
+#include "maptile_fwd.h"
 #include "material.h"
 #include "messages.h"
 #include "mongroup.h"
@@ -57,8 +55,11 @@
 #include "rng.h"
 #include "scent_block.h"
 #include "scent_map.h"
+#include "string_formatter.h"
 #include "submap.h"
+#include "talker.h"
 #include "teleport.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -1446,7 +1447,7 @@ If you wish for a field effect to do something over time (propagate, interact wi
 void map::player_in_field( Character &you )
 {
     // A copy of the current field for reference. Do not add fields to it, use map::add_field
-    field &curfield = get_field( get_bub( you.pos_abs() ) );
+    field &curfield = get_field( you.pos_bub( this ) );
     // Are we inside?
     bool inside = false;
     // If we are in a vehicle figure out if we are inside (reduces effects usually)
@@ -1514,7 +1515,7 @@ void map::player_in_field( Character &you )
             // Sap does nothing to cars.
             if( !you.in_vehicle ) {
                 // Use up sap.
-                mod_field_intensity( get_bub( you.pos_abs() ), ft, -1 );
+                mod_field_intensity( you.pos_bub( this ), ft, -1 );
             }
         }
         if( ft == fd_sludge ) {

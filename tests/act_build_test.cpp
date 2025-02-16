@@ -1,18 +1,40 @@
 #include <algorithm>
+#include <list>
+#include <map>
+#include <memory>
+#include <optional>
+#include <set>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "activity_handlers.h"
 #include "avatar.h"
-#include "avatar_action.h"
+#include "calendar.h"
 #include "cata_catch.h"
-#include "activity_type.h"
+#include "character.h"
 #include "clzones.h"
 #include "construction.h"
+#include "coordinates.h"
+#include "faction.h"
 #include "game.h"
+#include "game_constants.h"
+#include "item.h"
+#include "map.h"
 #include "map_helpers.h"
+#include "map_iterator.h"
+#include "map_scale_constants.h"
+#include "memory_fast.h"
+#include "npc.h"
 #include "options_helpers.h"
 #include "pathfinding.h"
+#include "pimpl.h"
+#include "player_activity.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "requirements.h"
+#include "type_id.h"
+#include "weather_type.h"
 
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 

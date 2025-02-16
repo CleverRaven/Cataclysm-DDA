@@ -2,32 +2,16 @@
 #ifndef CATA_SRC_TALKER_CHARACTER_H
 #define CATA_SRC_TALKER_CHARACTER_H
 
-#include <functional>
-#include <iosfwd>
-#include <list>
+#include <string>
 #include <vector>
 
+#include "bodypart.h"
 #include "character.h"
 #include "coords_fwd.h"
-#include "npc.h"
+#include "enums.h"
 #include "talker.h"
 #include "type_id.h"
-
-class character_id;
-class faction;
-class item;
-class map;
-
-class time_duration;
-class vehicle;
-struct tripoint;
-
-struct mutation_variant;
-
-namespace npc_factions
-{
-enum class relationship : int;
-} // namespace npc_factions
+#include "units_fwd.h"
 
 /*
  * Talker wrapper class for const Character access.
@@ -112,6 +96,7 @@ class talker_character_const: virtual public const_talker
         int get_spell_level( const trait_id & ) const override;
         int get_spell_level( const spell_id & ) const override;
         int get_spell_exp( const spell_id & ) const override;
+        int get_spell_difficulty( const spell_id & ) const override;
         int get_highest_spell_level() const override;
         int get_spell_count( const trait_id & ) const override;
         int get_spell_sum( const trait_id &school, int min_level ) const override;
@@ -259,6 +244,7 @@ class talker_character: virtual public talker
         void set_dex_bonus( int value ) override;
         void set_int_bonus( int value ) override;
         void set_per_bonus( int value ) override;
+        void set_cash( int value ) override;
         void set_power_cur( units::energy value ) override;
         void set_mana_cur( int value ) override;
         void set_spell_level( const spell_id &, int ) override;

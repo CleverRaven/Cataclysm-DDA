@@ -197,10 +197,10 @@ struct talk_response {
     bool ignore_conditionals = false;
 
     mission *mission_selected = nullptr;
-    skill_id skill = skill_id();
-    matype_id style = matype_id();
-    spell_id dialogue_spell = spell_id();
-    proficiency_id proficiency = proficiency_id();
+    skill_id skill;
+    matype_id style;
+    spell_id dialogue_spell;
+    proficiency_id proficiency;
 
     talk_effect_t success;
     talk_effect_t failure;

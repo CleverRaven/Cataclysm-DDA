@@ -65,8 +65,6 @@ struct enum_traits<body_part> {
     static constexpr body_part last = body_part::num_bp;
 };
 
-enum class side : int;
-
 // Drench cache
 enum water_tolerance {
     WT_IGNORED = 0,

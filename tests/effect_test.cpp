@@ -1,24 +1,27 @@
-#include <iosfwd>
 #include <memory>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
 #include "character_id.h"
+#include "coordinates.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "effect.h"
 #include "effect_source.h"
 #include "game.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
 #include "npc.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "stomach.h"
 #include "type_id.h"
 
 class Creature;

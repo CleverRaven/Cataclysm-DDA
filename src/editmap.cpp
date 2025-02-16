@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
@@ -816,7 +817,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     } else if( vp ) {
         mvwprintw( w_info, point( 1, off++ ), _( "There is a %s there.  Parts:" ),
                    vp->vehicle().name ); // 13
-        vp->vehicle().print_part_list( w_info, off, getmaxy( w_info ) - 1, width, vp->part_index() );
+        vp->vehicle().print_part_list( here, w_info, off, getmaxy( w_info ) - 1, width, vp->part_index() );
         off += 6;
     } // 19??
     map_stack target_stack = here.i_at( target );
@@ -1929,7 +1930,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                         std::swap( *destsm, *srcsm );
 
                         for( auto &veh : destsm->vehicles ) {
-                            veh->sm_pos = rebase_bub( dest_pos );
+                            veh->sm_pos = here.get_abs_sub().xy() + dest_pos;
                         }
 
                         if( !destsm->spawns.empty() ) {                             // trigger spawnpoints

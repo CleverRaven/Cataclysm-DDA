@@ -1,16 +1,16 @@
-#include <memory>
-#include <utility>
+#include <vector>
 
-#include "avatar.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "game.h"
+#include "coordinates.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "mutation.h"
 #include "player_helpers.h"
-#include "vehicle.h"
-#include "veh_type.h"
+#include "point.h"
+#include "type_id.h"
+#include "units.h"
+#include "vpart_position.h"
 
 static const itype_id itype_backpack_giant( "backpack_giant" );
 static const itype_id itype_rock_volume_test( "rock_volume_test" );
@@ -75,7 +75,7 @@ TEST_CASE( "character_at_volume_will_be_cramped_in_vehicle", "[volume]" )
     clear_vehicles(); // extra safety
     here.add_vehicle( vehicle_prototype_character_volume_test_car, test_pos, 0_degrees, 0, 0 );
     you.setpos( test_pos );
-    const optional_vpart_position vp_there = here.veh_at( here.get_bub( you.pos_abs() ) );
+    const optional_vpart_position vp_there = here.veh_at( you.pos_bub( &here ) );
     REQUIRE( vp_there );
     tripoint_abs_ms dest_loc = you.pos_abs();
 

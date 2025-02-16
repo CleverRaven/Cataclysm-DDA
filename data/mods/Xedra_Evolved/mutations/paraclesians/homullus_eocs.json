@@ -361,5 +361,72 @@
     "false_effect": [
       { "u_message": "You must be within one of the remaining bastions of civilization to cast this spell.", "type": "mixed" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DEATH_DOOR_REBIRTH",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": {
+      "and": [ { "u_has_trait": "DEATH_IS_BUT_A_DOOR" }, { "not": { "u_has_effect": "effect_homullus_prevented_death" } } ]
+    },
+    "effect": [
+      {
+        "u_location_variable": { "context_val": "homullus_death_door_target" },
+        "species": "FERAL",
+        "target_min_radius": 0,
+        "target_max_radius": 30
+      },
+      {
+        "if": { "math": [ "!has_var(_homullus_death_door_target)" ] },
+        "then": [
+          {
+            "u_location_variable": { "context_val": "homullus_death_door_target" },
+            "npc": "",
+            "target_min_radius": 0,
+            "target_max_radius": 30
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "has_var(_homullus_death_door_target)" ] },
+        "then": [
+          {
+            "run_eocs": { "id": "EOC_HOMULLUS_DEATH_DOOR_KILL_TARGET", "effect": [ { "npc_cast_spell": { "id": "xedra_self_banish" } } ] },
+            "beta_loc": { "context_val": "homullus_death_door_target" }
+          },
+          { "math": [ "u_vitamin('blood') = 0" ] },
+          "u_prevent_death",
+          { "math": [ "u_hp('ALL') = 999" ] },
+          { "math": [ "u_vitamin('redcells') = 0" ] },
+          { "math": [ "u_pain() = 0" ] },
+          { "math": [ "u_val('rad') = 0" ] },
+          {
+            "u_lose_effect": [
+              "corroding",
+              "onfire",
+              "dazed",
+              "stunned",
+              "venom_blind",
+              "formication",
+              "blisters",
+              "frostbite",
+              "frostbite_recovery",
+              "wet",
+              "slimed",
+              "migo_atmosphere",
+              "fetid_goop",
+              "sap",
+              "nausea",
+              "bleed"
+            ]
+          },
+          {
+            "u_add_effect": "effect_homullus_prevented_death",
+            "duration": { "math": [ "max( 20160, 1209600 - 15120 * u_sum_traits_of_category_char_has('HOMULLUS') )" ] }
+          },
+          { "u_teleport": { "context_val": "homullus_death_door_target" }, "force_safe": true }
+        ]
+      }
+    ]
   }
 ]

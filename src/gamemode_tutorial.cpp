@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <optional>
+#include <string>
 
 #include "action.h"
 #include "avatar.h"
@@ -11,20 +12,25 @@
 #include "debug.h"
 #include "game.h"
 #include "item.h"
+#include "item_location.h"
 #include "loading_ui.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapdata.h"
+#include "omdata.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "profession.h"
 #include "scent_map.h"
+#include "stomach.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
+#include "units.h"
 #include "weather.h"
 
 static const furn_str_id furn_f_rack( "f_rack" );
@@ -187,6 +193,8 @@ bool tutorial_game::init()
 
 void tutorial_game::per_turn()
 {
+    map &here = get_map();
+
     // note that add_message does nothing if the message was already shown
     add_message( tut_lesson::LESSON_INTRO );
     add_message( tut_lesson::LESSON_MOVE );
@@ -202,7 +210,7 @@ void tutorial_game::per_turn()
     }
 
     if( player_character.get_wielded_item() &&
-        player_character.get_wielded_item()->ammo_remaining( &player_character ) > 0 ) {
+        player_character.get_wielded_item()->ammo_remaining( here, &player_character ) > 0 ) {
         add_message( tut_lesson::LESSON_GUN_FIRE );
     }
 
@@ -214,7 +222,6 @@ void tutorial_game::per_turn()
         add_message( tut_lesson::LESSON_RESTORE_STAMINA );
     }
 
-    map &here = get_map();
     if( !tutorials_seen[tut_lesson::LESSON_BUTCHER] ) {
         for( const item &it : here.i_at( player_character.pos_bub().xy() ) ) {
             if( it.is_corpse() ) {

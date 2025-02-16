@@ -2,45 +2,47 @@
 #ifndef CATA_SRC_ITYPE_H
 #define CATA_SRC_ITYPE_H
 
-#include <array>
 #include <cstddef>
-#include <iosfwd>
 #include <map>
 #include <memory>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <tuple>
+#include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "color.h" // nc_color
+#include "coords_fwd.h"
 #include "damage.h"
 #include "enums.h" // point
 #include "explosion.h"
 #include "game_constants.h"
+#include "item.h"
 #include "item_pocket.h"
 #include "iuse.h" // use_function
 #include "mapdata.h"
 #include "proficiency.h"
 #include "relic.h"
 #include "stomach.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 
+// IWYU pragma: no_forward_declare std::hash
+class Character;
 class Item_factory;
 class JsonObject;
-class item;
-struct tripoint;
+class Trait_group;
+class map;
 template <typename E> struct enum_traits;
-
-enum art_effect_active : int;
-enum art_charge : int;
-enum art_charge_req : int;
-enum art_effect_passive : int;
 
 class gun_modifier_data
 {
@@ -1489,6 +1491,9 @@ struct itype {
         */
         float solar_efficiency = 0.0f;
 
+        // Max amount of this type that can be worn.
+        int max_worn = MAX_WORN_PER_TYPE;
+
     private:
         /** maximum amount of damage to a non- count_by_charges item */
         static constexpr int damage_max_ = 4000;
@@ -1594,9 +1599,15 @@ struct itype {
         const use_function *get_use( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
+        // TODO: Replace usage of map less overload.
         std::optional<int> invoke( Character *p, item &it,
                                    const tripoint_bub_ms &pos ) const; // Picks first method or returns 0
+        std::optional<int> invoke( Character *p, item &it,
+                                   map *here, const tripoint_bub_ms &pos ) const; // Picks first method or returns 0
+        // TODO: Replace usage of map less overload.
         std::optional<int> invoke( Character *p, item &it, const tripoint_bub_ms &pos,
+                                   const std::string &iuse_name ) const;
+        std::optional<int> invoke( Character *p, item &it, map *here, const tripoint_bub_ms &pos,
                                    const std::string &iuse_name ) const;
         int tick( Character *p, item &it, const tripoint_bub_ms &pos ) const;
 

@@ -10,13 +10,13 @@
 
 #include "calendar.h"
 #include "coords_fwd.h"
+#include "dialogue.h"
 #include "dialogue_helpers.h"
-#include "global_vars.h"
+#include "translation.h"
 
 class JsonObject;
 class JsonValue;
-class translation;
-struct dialogue;
+enum class var_type : int;
 template <typename T> struct enum_traits;
 
 namespace dialogue_data
@@ -63,8 +63,6 @@ template<typename T>
 T convert_tripoint_from_var( std::optional<var_info> &var, const_dialogue const &d,
                              bool is_npc );
 tripoint_abs_ms get_tripoint_ms_from_var( std::optional<var_info> var, const_dialogue const &d,
-        bool is_npc );
-tripoint_abs_omt get_tripoint_omt_from_var( std::optional<var_info> var, const_dialogue const &d,
         bool is_npc );
 var_info read_var_info( const JsonObject &jo );
 translation_var_info read_translation_var_info( const JsonObject &jo );

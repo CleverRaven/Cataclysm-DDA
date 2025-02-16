@@ -8,13 +8,13 @@
 #include <vector>
 
 #include "coordinates.h"
-#include "map.h"
+#include "point.h"
 #include "type_id.h"
 
 class Creature;
 class JsonObject;
+class map;
 class nc_color;
-struct tripoint;
 
 struct shrapnel_data {
     int casing_mass = 0;
@@ -84,6 +84,8 @@ void explosion(
 // until triggered normally.
 bool explosion_processing_active();
 void explosion( const Creature *source, const tripoint_bub_ms &p, const explosion_data &ex );
+void explosion( const Creature *source, map *here, const tripoint_bub_ms &p,
+                const explosion_data &ex );
 void _make_explosion( map *m, const Creature *source, const tripoint_bub_ms &p,
                       const explosion_data &ex );
 

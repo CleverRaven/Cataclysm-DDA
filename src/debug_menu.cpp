@@ -3706,8 +3706,9 @@ static void unlock_all()
 
 static void vehicle_battery_charge()
 {
+    map &here = get_map();
 
-    optional_vpart_position v_part_pos = get_map().veh_at( player_picks_tile() );
+    optional_vpart_position v_part_pos = here.veh_at( player_picks_tile() );
     if( !v_part_pos ) {
         add_msg( m_bad, _( "There's no vehicle there." ) );
         return;
@@ -3722,16 +3723,18 @@ static void vehicle_battery_charge()
     if( !popup.canceled() ) {
         vehicle &veh = v_part_pos->vehicle();
         if( amount >= 0 ) {
-            veh.charge_battery( amount, false );
+            veh.charge_battery( here, amount, false );
         } else {
-            veh.discharge_battery( -amount, false );
+            veh.discharge_battery( here, -amount, false );
         }
     }
 }
 
 static void vehicle_export()
 {
-    if( optional_vpart_position ovp = get_map().veh_at( get_avatar().pos_bub() ) ) {
+    map &here = get_map();
+
+    if( optional_vpart_position ovp = here.veh_at( get_avatar().pos_abs() ) ) {
         cata_path export_dir{ cata_path::root_path::user,  "export_dir" };
         assure_dir_exist( export_dir );
         const std::string text = string_input_popup()
@@ -3742,8 +3745,8 @@ static void vehicle_export()
         try {
             write_to_file( veh_path, [&]( std::ostream & fout ) {
                 JsonOut jsout( fout );
-                ovp->vehicle().refresh();
-                vehicle_prototype::save_vehicle_as_prototype( ovp->vehicle(), jsout );
+                ovp->vehicle().refresh( );
+                vehicle_prototype::save_vehicle_as_prototype( here, ovp->vehicle(), jsout );
             } );
         } catch( const std::exception &err ) {
             debugmsg( _( "Failed to export vehicle: %s" ), err.what() );

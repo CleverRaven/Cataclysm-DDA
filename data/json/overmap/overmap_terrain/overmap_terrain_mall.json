@@ -8,7 +8,15 @@
     "sym": "M",
     "see_cost": "full_high",
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "RISK_EXTREME", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_MEDICINE", "SOURCE_FABRICATION" ]
+    "flags": [
+      "SIDEWALK",
+      "RISK_EXTREME",
+      "SOURCE_FOOD",
+      "SOURCE_DRINK",
+      "SOURCE_MEDICINE",
+      "SOURCE_FABRICATION",
+      "PP_GENERATE_RIOT_DAMAGE"
+    ]
   },
   {
     "type": "overmap_terrain",
@@ -94,13 +102,15 @@
     "id": [ "mall_a_3_roof", "mall_upper_roof_3" ],
     "copy-from": "generic_mall",
     "name": "mall - loading bay roof",
-    "color": "i_light_red"
+    "color": "i_light_red",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
     "id": "mall_upper_roof_4",
     "copy-from": "generic_mall",
-    "name": "mall - loading bay roof"
+    "name": "mall - loading bay roof",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -112,7 +122,8 @@
     "type": "overmap_terrain",
     "id": [ "mall_a_4_roof", "mall_a_5_roof" ],
     "copy-from": "generic_mall",
-    "name": "mall - utilities roof"
+    "name": "mall - utilities roof",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -331,6 +342,7 @@
     "vision_levels": "underground_stone",
     "copy-from": "generic_mall",
     "name": "mall - subway station",
-    "color": "i_light_red"
+    "color": "i_light_red",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   }
 ]

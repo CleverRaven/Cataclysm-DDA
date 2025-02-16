@@ -1,88 +1,114 @@
-#include "npc.h" // IWYU pragma: associated
-
 #include <algorithm>
+#include <array>
 #include <cfloat>
 #include <climits>
 #include <cmath>
+#include <cstddef>
 #include <cstdlib>
+#include <functional>
 #include <iterator>
+#include <list>
+#include <map>
 #include <memory>
 #include <numeric>
+#include <optional>
 #include <ostream>
+#include <set>
+#include <string>
 #include <tuple>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "active_item_cache.h"
-#include "activity_handlers.h"
 #include "activity_actor_definitions.h"
-#include "ammo.h"
+#include "activity_handlers.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
+#include "body_part_set.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "cata_algo.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "clzones.h"
-#include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
-#include "damage.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "dispersion.h"
 #include "effect.h"
 #include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
+#include "faction.h"
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flat_set.h"
+#include "flat_set.h"  // IWYU pragma: keep // iwyu is being silly here
 #include "game.h"
 #include "game_constants.h"
 #include "gates.h"
 #include "gun_mode.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "lru_cache.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
+#include "map_selector.h"
 #include "mapdata.h"
-#include "material.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npc.h"
 #include "npc_attack.h"
+#include "npc_opinion.h"
 #include "npctalk.h"
 #include "omdata.h"
 #include "options.h"
-#include "overmap.h"
 #include "overmap_location.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player_activity.h"
+#include "point.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "simple_pathfinding.h"
 #include "sleep.h"
 #include "sounds.h"
 #include "stomach.h"
-#include "talker.h"
+#include "string_formatter.h"
+#include "talker.h"  // IWYU pragma: keep
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "viewer.h"
 #include "visitable.h"
-#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+
+enum class side : int;
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
@@ -1737,7 +1763,7 @@ void npc::execute_action( npc_action action )
             if( is_hallucination() ) {
                 pretend_fire( this, mode.qty, *mode );
             } else {
-                fire_gun( tar, mode.qty, *mode );
+                fire_gun( &here, tar, mode.qty, *mode );
                 // "discard" the fake bio weapon after shooting it
                 if( is_using_bionic_weapon() ) {
                     discharge_cbm_weapon();
@@ -1815,7 +1841,7 @@ void npc::execute_action( npc_action action )
                 }
                 // A seat is available if we can move there and it's either unassigned or assigned to us
                 auto available_seat = [&]( const vehicle_part & pt ) {
-                    tripoint_bub_ms target = veh->bub_part_pos( pt );
+                    tripoint_bub_ms target = veh->bub_part_pos( here, pt );
                     if( !pt.is_seat() ) {
                         return false;
                     }
@@ -1880,7 +1906,7 @@ void npc::execute_action( npc_action action )
 
                 const int cur_part = seats[i].second;
 
-                tripoint_bub_ms pp = veh->bub_part_pos( cur_part );
+                tripoint_bub_ms pp = veh->bub_part_pos( here, cur_part );
                 update_path( pp, true );
                 if( !path.empty() ) {
                     // All is fine
@@ -2101,7 +2127,9 @@ static bool wants_to_reload( const npc &guy, const item &candidate )
 
 static bool wants_to_reload_with( const item &weap, const item &ammo )
 {
-    return !ammo.is_magazine() || ammo.ammo_remaining() > weap.ammo_remaining();
+    map &here = get_map();
+
+    return !ammo.is_magazine() || ammo.ammo_remaining( here ) > weap.ammo_remaining( here );
 }
 
 // todo: make visit_items use item_locations and remove this
@@ -2183,6 +2211,8 @@ item_location npc::find_usable_ammo( const item_location &weap ) const
 
 item::reload_option npc::select_ammo( const item_location &base, bool, bool empty )
 {
+    map &here = get_map();
+
     if( !base ) {
         return item::reload_option();
     }
@@ -2195,20 +2225,20 @@ item::reload_option npc::select_ammo( const item_location &base, bool, bool empt
     }
 
     // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const item::reload_option & lhs,
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), [&here]( const item::reload_option & lhs,
     const item::reload_option & rhs ) {
-        if( lhs.ammo->ammo_remaining() == 0 || rhs.ammo->ammo_remaining() == 0 ) {
-            return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
+        if( lhs.ammo->ammo_remaining( here ) == 0 || rhs.ammo->ammo_remaining( here ) == 0 ) {
+            return ( lhs.ammo->ammo_remaining( here ) != 0 ) > ( rhs.ammo->ammo_remaining( here ) != 0 );
         }
 
         if( lhs.moves() != rhs.moves() ) {
             return lhs.moves() < rhs.moves();
         }
 
-        return lhs.ammo->ammo_remaining() > rhs.ammo->ammo_remaining();
+        return lhs.ammo->ammo_remaining( here ) > rhs.ammo->ammo_remaining( here );
     } );
 
-    if( ammo_list[0].ammo.get_item()->ammo_remaining() > 0 ) {
+    if( ammo_list[0].ammo.get_item()->ammo_remaining( here ) > 0 ) {
         return ammo_list[0];
     } else {
         return item::reload_option();
@@ -3181,8 +3211,7 @@ void npc::avoid_friendly_fire()
 
     tripoint_bub_ms center = midpoint_round_to_nearest( fr_pts );
 
-    std::vector<tripoint_bub_ms> candidates = closest_points_first( pos_bub(), 1 );
-    candidates.erase( candidates.begin() );
+    std::vector<tripoint_bub_ms> candidates = closest_points_first( pos_bub(), 1, 1 );
     std::sort( candidates.begin(), candidates.end(),
     [&tar, &center]( const tripoint_bub_ms & l, const tripoint_bub_ms & r ) {
         return ( rl_dist( l, tar ) - rl_dist( l, center ) ) <
@@ -4430,6 +4459,8 @@ void npc::pretend_heal( Character &patient, item used )
 
 void npc::heal_self()
 {
+    map &here = get_map();
+
     if( has_effect( effect_asthma ) ) {
         item *treatment = nullptr;
         std::string iusage = "INHALER";
@@ -4445,7 +4476,7 @@ void npc::heal_self()
         const std::vector<item *> inv_inhalers = filter_use( iusage );
 
         for( item *inhaler : inv_inhalers ) {
-            if( treatment == nullptr || treatment->ammo_remaining() > inhaler->ammo_remaining() ) {
+            if( treatment == nullptr || treatment->ammo_remaining( here ) > inhaler->ammo_remaining( here ) ) {
                 treatment = inhaler;
             }
         }
@@ -4455,7 +4486,8 @@ void npc::heal_self()
             const std::vector<item *> inv_oxybottles = filter_use( iusage );
 
             for( item *oxy_bottle : inv_oxybottles ) {
-                if( treatment == nullptr || treatment->ammo_remaining() > oxy_bottle->ammo_remaining() ) {
+                if( treatment == nullptr ||
+                    treatment->ammo_remaining( here ) > oxy_bottle->ammo_remaining( here ) ) {
                     treatment = oxy_bottle;
                 }
             }
@@ -5395,6 +5427,8 @@ bool npc::complain()
 
 void npc::do_reload( const item_location &it )
 {
+    map &here = get_map();
+
     if( !it ) {
         debugmsg( "do_reload failed: %s tried to reload a none", name );
         return;
@@ -5413,7 +5447,7 @@ void npc::do_reload( const item_location &it )
     item_location &usable_ammo = reload_opt.ammo;
 
     int qty = std::max( 1, std::min( usable_ammo->charges,
-                                     it->ammo_capacity( usable_ammo->ammo_data()->ammo->type ) - it->ammo_remaining() ) );
+                                     it->ammo_capacity( usable_ammo->ammo_data()->ammo->type ) - it->ammo_remaining( here ) ) );
     int reload_time = item_reload_cost( *it, *usable_ammo, qty );
     // TODO: Consider printing this info to player too
     const std::string ammo_name = usable_ammo->tname();

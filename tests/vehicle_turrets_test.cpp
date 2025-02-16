@@ -1,27 +1,26 @@
-#include "cata_catch.h"
-
-#include <algorithm>
-#include <map>
 #include <memory>
-#include <utility>
+#include <set>
+#include <string>
 #include <vector>
 
-#include "ammo.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "coordinates.h"
+#include "explosion.h"
 #include "item.h"
-#include "item_location.h"
 #include "itype.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 
 static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
 
@@ -55,7 +54,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
                                              false, true );
             REQUIRE( veh );
 
-            const int turr_idx = veh->install_part( point_rel_ms::zero, turret_vpi->id );
+            const int turr_idx = veh->install_part( here, point_rel_ms::zero, turret_vpi->id );
             REQUIRE( turr_idx >= 0 );
             vehicle_part &vp = veh->part( turr_idx );
             CHECK( vp.is_turret() );
@@ -64,10 +63,10 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             REQUIRE( base_itype );
             REQUIRE( base_itype->gun );
             if( base_itype->gun->energy_drain > 0_kJ || turret_vpi->has_flag( "USE_BATTERIES" ) ) {
-                const auto& [bat_current, bat_capacity] = veh->battery_power_level();
+                const auto& [bat_current, bat_capacity] = veh->battery_power_level( here );
                 CHECK( bat_capacity > 0 );
-                veh->charge_battery( bat_capacity, /* apply_loss = */ false );
-                REQUIRE( veh->battery_left( /* apply_loss = */ false ) == bat_capacity );
+                veh->charge_battery( here, bat_capacity, /* apply_loss = */ false );
+                REQUIRE( veh->battery_left( here, /* apply_loss = */ false ) == bat_capacity );
             }
 
             const itype_id ammo_itype = vp.get_base().ammo_default();
@@ -81,14 +80,14 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
                 for( const vpart_reference &vpr : veh->get_all_parts() ) {
                     vehicle_part &vp = vpr.part();
                     if( vp.is_tank() && vp.get_base().can_contain( item( ammo_itype ) ).success() ) {
-                        CHECK( vp.ammo_set( ammo_itype ) > 0 );
+                        CHECK( vp.ammo_set( here, ammo_itype ) > 0 );
                         filled_tank = true;
                         break;
                     }
                 }
                 REQUIRE( filled_tank );
             } else {
-                CHECK( vp.ammo_set( ammo_itype ) > 0 );
+                CHECK( vp.ammo_set( here, ammo_itype ) > 0 );
             }
             const bool default_ammo_is_RECYCLED = vp.get_base().ammo_effects().count(
                     ammo_effect_RECYCLED ) > 0;
@@ -100,11 +99,12 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             REQUIRE( qry.query() == turret_data::status::ready );
             REQUIRE( qry.range() > 0 );
 
-            player_character.setpos( veh->bub_part_pos( vp ) );
+            player_character.setpos( &here, veh->bub_part_pos( here, vp ) );
             int shots_fired = 0;
             // 3 attempts to fire, to account for possible misfires
             for( int attempt = 0; shots_fired == 0 && attempt < 3; attempt++ ) {
-                shots_fired += qry.fire( player_character, player_character.pos_bub() + point( qry.range(), 0 ) );
+                shots_fired += qry.fire( player_character, &here, player_character.pos_bub() + point( qry.range(),
+                                         0 ) );
             }
             CHECK( shots_fired > 0 );
 

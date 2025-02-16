@@ -1,25 +1,35 @@
-#include <iosfwd>
-#include <list>
+#include <cstddef>
+#include <map>
 #include <memory>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
 #include "flag.h"
+#include "game.h"
 #include "item.h"
+#include "item_location.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "make_static.h"
+#include "map.h"
 #include "options_helpers.h"
 #include "output.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
+#include "ret_val.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -2448,6 +2458,8 @@ TEST_CASE( "item_conductivity", "[iteminfo][conductivity]" )
 // item::qualities_info
 TEST_CASE( "list_of_item_qualities", "[iteminfo][quality]" )
 {
+    map &here = get_map();
+
     clear_avatar();
 
     std::vector<iteminfo_parts> qualities = { iteminfo_parts::QUALITIES };
@@ -2514,7 +2526,7 @@ TEST_CASE( "list_of_item_qualities", "[iteminfo][quality]" )
         int bat_charges = drill.type->charges_to_use();
         battery.ammo_set( battery.ammo_default(), bat_charges );
         drill.put_in( battery, pocket_type::MAGAZINE_WELL );
-        REQUIRE( drill.ammo_remaining() == bat_charges );
+        REQUIRE( drill.ammo_remaining( here ) == bat_charges );
 
         CHECK( item_info_str( drill, qualities ) ==
                "--\n"
@@ -2554,6 +2566,7 @@ TEST_CASE( "tool_info", "[iteminfo][tool]" )
     // TODO: Find a tool using this
     //std::vector<iteminfo_parts> mag_current = { iteminfo_parts::TOOL_MAGAZINE_CURRENT };
 
+    map &here = get_map();
     clear_avatar();
 
     SECTION( "maximum charges" ) {
@@ -2570,7 +2583,7 @@ TEST_CASE( "tool_info", "[iteminfo][tool]" )
 
         item matches( itype_test_matches );
         matches.ammo_set( itype_match );
-        REQUIRE( matches.ammo_remaining() > 0 );
+        REQUIRE( matches.ammo_remaining( here ) > 0 );
 
         CHECK( item_info_str( matches, charges ) ==
                "--\n"
@@ -2582,7 +2595,7 @@ TEST_CASE( "tool_info", "[iteminfo][tool]" )
 
         item candle( itype_candle );
         candle.ammo_set( itype_candle_wax );
-        REQUIRE( candle.ammo_remaining() > 0 );
+        REQUIRE( candle.ammo_remaining( here ) > 0 );
 
         CHECK( item_info_str( candle, burnout ) ==
                "--\n"

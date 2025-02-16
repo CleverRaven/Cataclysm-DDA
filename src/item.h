@@ -20,6 +20,7 @@
 #include "cata_lazy.h"
 #include "cata_utility.h"
 #include "compatibility.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "gun_mode.h"
 #include "io_tags.h"
@@ -48,6 +49,7 @@ class gun_type_type;
 class gunmod_location;
 class item;
 class iteminfo_query;
+class map;
 class monster;
 class nc_color;
 enum class pocket_type;
@@ -1692,6 +1694,9 @@ class item : public visitable
 
         bool is_irremovable() const;
 
+        /** Returns true if the item is identifiable */
+        bool is_identifiable() const;
+
         /** Returns true if the item is broken and can't be activated or used in crafting */
         bool is_broken() const;
 
@@ -1973,8 +1978,8 @@ class item : public visitable
         void set_var( const std::string &name, long value );
         void set_var( const std::string &name, double value );
         double get_var( const std::string &name, double default_value ) const;
-        void set_var( const std::string &name, const tripoint_abs_omt &value );
-        tripoint_abs_omt get_var( const std::string &name, const tripoint_abs_omt &default_value ) const;
+        void set_var( const std::string &name, const tripoint_abs_ms &value );
+        tripoint_abs_ms get_var( const std::string &name, const tripoint_abs_ms &default_value ) const;
         //TODO: Add cata_variant overload for value here and for get_var rather than using raw strings where appropriate?
         void set_var( const std::string &name, const std::string &value );
         std::string get_var( const std::string &name, const std::string &default_value ) const;
@@ -2350,6 +2355,11 @@ class item : public visitable
          * or similar.
          */
         bool is_power_armor() const;
+
+        /**
+         * The maximum amount of this item that can be worn at the same time.  Defaults to MAX_WORN_PER_TYPE if not defined for the item.
+         */
+        int max_worn() const;
         /**
          * If this is an armor item, return its armor data. You should probably not use this function,
          * use the various functions above (like @ref get_storage) to access armor data directly.
@@ -2474,18 +2484,18 @@ class item : public visitable
         bool is_gun() const;
 
         /**
-         * Does this item have a gun variant associated with it
-         * If check_option, the return of this is dependent on the SHOW_GUN_VARIANTS option
+         * Does this item have a variant associated with it
+         * If check_option, the return of this is dependent on the SHOW_x_VARIANTS option
          */
         bool has_itype_variant( bool check_option = true ) const;
 
         /**
-         * The gun variant associated with this item
+         * The variant associated with this item
          */
         const itype_variant_data &itype_variant() const;
 
         /**
-         * Set the gun variant of this item
+         * Set the variant of this item
          */
         void set_itype_variant( const std::string &variant );
 
@@ -2516,13 +2526,15 @@ class item : public visitable
          * @param carrier is used for UPS and bionic power for tools
          * @param include_linked Add cable-linked vehicles' ammo to the ammo count
          */
-        int ammo_remaining( const Character *carrier = nullptr, bool include_linked = false ) const;
+        int ammo_remaining( const map &here, const Character *carrier = nullptr,
+                            bool include_linked = false ) const;
         int ammo_remaining( bool include_linked ) const;
 
 
     private:
         units::energy energy_per_second() const;
-        int ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier = nullptr,
+        int ammo_remaining( const map &here, const std::set<ammotype> &ammo,
+                            const Character *carrier = nullptr,
                             bool include_linked = false ) const;
     public:
 
@@ -2581,6 +2593,7 @@ class item : public visitable
          * @return amount of ammo consumed which will be between 0 and qty
          */
         int ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier );
+        int ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, Character *carrier );
 
         /**
          * Consume energy (if available) and return the amount of energy that was consumed
@@ -2592,6 +2605,9 @@ class item : public visitable
          * @return amount of energy consumed which will be between 0 kJ and qty+1 kJ
          */
         units::energy energy_consume( units::energy qty, const tripoint_bub_ms &pos, Character *carrier,
+                                      float fuel_efficiency = -1.0 );
+        units::energy energy_consume( units::energy qty, map *here, const tripoint_bub_ms &pos,
+                                      Character *carrier,
                                       float fuel_efficiency = -1.0 );
 
         /**
@@ -3029,14 +3045,18 @@ class item : public visitable
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX ) override;
 
-        /** returns a list of pointers to all top-level items that are not mods */
+        /** returns a list of pointers to all top-level items in standard pockets */
         std::list<const item *> all_items_top() const;
-        /** returns a list of pointers to all top-level items that are not mods */
+        /** returns a list of pointers to all top-level items in standard pockets */
         std::list<item *> all_items_top();
-        /** returns a list of pointers to all top-level items */
+        /** returns a list of pointers to all top-level items in container-like pockets */
+        std::list<const item *> all_items_container_top() const;
+        /** returns a list of pointers to all top-level items in container-like pockets */
+        std::list<item *> all_items_container_top();
+        /** returns a list of pointers to all top-level items in pk_type pockets only */
         std::list<const item *> all_items_top( pocket_type pk_type ) const;
         /**
-         * Return a list of pointers to all top-level items.
+         * Return a list of pointers to all top-level items in pk_type pockets only
          * If unloading is true ignore items in pockets flagged not to be unloaded.
          */
         std::list<item *> all_items_top( pocket_type pk_type, bool unloading = false );

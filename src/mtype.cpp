@@ -1,22 +1,28 @@
 #include "mtype.h"
 
 #include <algorithm>
-#include <array>
 #include <cmath>
 #include <unordered_map>
 
 #include "behavior_strategy.h"
 #include "creature.h"
+#include "enums.h"
 #include "field_type.h"
+#include "game_constants.h"
 #include "item.h"
 #include "itype.h"
 #include "mod_manager.h"
-#include "mondeath.h"
 #include "monstergenerator.h"
 #include "output.h"
+#include "point.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
-#include "weakpoint.h"
+
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 
 static const harvest_id harvest_list_human( "human" );
 

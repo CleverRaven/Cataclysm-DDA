@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_COORDINATE_CONVERSIONS_H
 #define CATA_SRC_COORDINATE_CONVERSIONS_H
 
-#include "map_scale_constants.h"
 #include "point.h"
 
 /**

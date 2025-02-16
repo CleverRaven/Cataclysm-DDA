@@ -1,19 +1,26 @@
-#include <list>
 #include <memory>
+#include <ostream>
+#include <string>
 
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
 #include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "lightmap.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
+#include "memory_fast.h"
+#include "npc.h"
 #include "options_helpers.h"
 #include "overmapbuffer.h"
 #include "player_helpers.h"
+#include "point.h"
 #include "type_id.h"
+#include "weather_type.h"
 
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_darkness( "darkness" );

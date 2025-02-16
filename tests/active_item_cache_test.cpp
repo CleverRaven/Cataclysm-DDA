@@ -2,11 +2,13 @@
 
 #include "calendar.h"
 #include "cata_catch.h"
-#include "game_constants.h"
+#include "coordinates.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "point.h"
+#include "type_id.h"
 
 static const itype_id itype_firecracker_act( "firecracker_act" );
 

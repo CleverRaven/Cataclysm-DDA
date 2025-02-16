@@ -56,8 +56,10 @@
 #include "mapbuffer.h"
 #include "mapgen_functions.h"
 #include "martialarts.h"
+#include "math_parser_type.h"
 #include "messages.h"
 #include "mission.h"
+#include "mongroup.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -919,11 +921,13 @@ static void tell_veh_stop_following()
 
 static void assign_veh_to_follow()
 {
+    map &here = get_map();
+
     Character &player_character = get_player_character();
-    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
+    for( wrapped_vehicle &veh : here.get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( player_character ) ) {
-            v->activate_animal_follow();
+            v->activate_animal_follow( here );
         }
     }
 }
@@ -4129,6 +4133,10 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
         target_types++;
         search_type = "npc";
     }
+    if( jo.has_member( "species" ) ) {
+        target_types++;
+        search_type = "species";
+    }
     if( jo.has_member( "trap" ) ) {
         target_types++;
         search_type = "trap";
@@ -4140,7 +4148,7 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
     if( target_types == 1 ) {
         search_target = get_str_or_var( jo.get_member( search_type.value() ), search_type.value(), true );
     } else if( target_types > 1 ) {
-        jo.throw_error( "Can only have one of terrain, furniture, field, monster, trap, zone, or npc." );
+        jo.throw_error( "Can only have one of terrain, furniture, field, monster, species, trap, zone, or npc." );
     }
 
     var_info var = read_var_info( jo.get_object( member ) );
@@ -4217,6 +4225,17 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                     Creature *tmp_critter = get_creature_tracker().creature_at( here.get_abs( search_loc ) );
                     if( tmp_critter != nullptr && tmp_critter->is_monster() &&
                         ( tmp_critter->as_monster()->type->id.c_str() == cur_search_target ||
+                          cur_search_target.empty() ) ) {
+                        target_pos = here.get_abs( search_loc );
+                        found = true;
+                        g->despawn_nonlocal_monsters();
+                        break;
+                    }
+                } else if( search_type.value() == "species" ) {
+                    Creature *tmp_critter = get_creature_tracker().creature_at( here.get_abs( search_loc ) );
+                    const species_id species_target( cur_search_target );
+                    if( tmp_critter != nullptr && tmp_critter->is_monster() &&
+                        ( tmp_critter->as_monster()->in_species( species_target ) ||
                           cur_search_target.empty() ) ) {
                         target_pos = here.get_abs( search_loc );
                         found = true;
@@ -7090,7 +7109,7 @@ talk_effect_fun_t::func f_reveal_map( const JsonObject &jo, std::string_view mem
     dbl_or_var radius = get_dbl_or_var( jo, "radius", false, 0 );
 
     return [ radius, target_var ]( dialogue & d ) {
-        tripoint_abs_omt omt = get_tripoint_omt_from_var( target_var, d, false );
+        tripoint_abs_omt omt = project_to<coords::omt>( get_tripoint_ms_from_var( target_var, d, false ) );
         overmap_buffer.reveal( omt, radius.evaluate( d ) );
     };
 }
@@ -7350,7 +7369,6 @@ parsers = {
     { "u_learn_recipe", "npc_learn_recipe", jarg::member, &talk_effect_fun::f_learn_recipe },
     { "u_forget_recipe", "npc_forget_recipe", jarg::member, &talk_effect_fun::f_forget_recipe },
     { "u_message", "npc_message", jarg::member, &talk_effect_fun::f_message },
-    { "message", "message", jarg::member, &talk_effect_fun::f_message },
     { "u_add_wet", "npc_add_wet", jarg::member | jarg::array, &talk_effect_fun::f_add_wet },
     { "u_assign_activity", "npc_assign_activity", jarg::member, &talk_effect_fun::f_assign_activity },
     { "u_make_sound", "npc_make_sound", jarg::member, &talk_effect_fun::f_make_sound },
@@ -7436,6 +7454,9 @@ parsers = {
     { "u_set_talker", "npc_set_talker", jarg::member, &talk_effect_fun::f_set_talker },
     { "turn_cost", jarg::member, &talk_effect_fun::f_turn_cost },
     { "transform_item", jarg::member, &talk_effect_fun::f_transform_item },
+    // since parser checks all effects in order, having "message" field in any another effect (like in f_roll_remainder)
+    // would cause parser to think it's a "message" effect
+    { "message", "message", jarg::member, &talk_effect_fun::f_message },
 };
 
 void talk_effect_t::parse_sub_effect( const JsonObject &jo, const std::string_view src )

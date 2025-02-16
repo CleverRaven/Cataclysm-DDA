@@ -7,13 +7,14 @@
 #include <utility>
 
 #include "cata_assert.h"
+#include "coordinates.h"
+#include "debug.h"
 #include "enums.h"
 #include "math_defines.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
-#include "units_fwd.h"
 
 bool trigdist;
 
@@ -674,6 +675,15 @@ std::string direction_arrow( const direction dir )
 }
 
 std::string direction_suffix( const tripoint_bub_ms &p, const tripoint_bub_ms &q )
+{
+    int dist = square_dist( p, q );
+    if( dist <= 0 ) {
+        return std::string();
+    }
+    return string_format( "%d%s", dist, trim( direction_name_short( direction_from( p, q ) ) ) );
+}
+
+std::string direction_suffix( const tripoint_abs_ms &p, const tripoint_abs_ms &q )
 {
     int dist = square_dist( p, q );
     if( dist <= 0 ) {
