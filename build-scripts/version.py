@@ -37,7 +37,7 @@ def read_version_h():
             if m := re.search('#define VERSION \"(.+)\"$', version_h):
                 if groups := m.groups():
                     OLDVERSION = groups[0]
-                    log.debug(f"{OLDVERSION=}")
+                    logging.debug(f"{OLDVERSION=}")
                     return OLDVERSION
     except FileNotFoundError:
         pass
