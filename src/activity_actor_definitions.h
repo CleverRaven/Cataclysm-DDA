@@ -2443,8 +2443,7 @@ class pulp_activity_actor : public activity_actor
         // either single tripoint shoved into set, or 3x3 zone around u/npc
         std::set<tripoint_abs_ms> placement;
 
-        // NOLINT(cata-serialize)
-        float float_corpse_damage_accum = 0.0f;
+        float float_corpse_damage_accum = 0.0f; // NOLINT(cata-serialize)
 
         int unpulped_corpses_qty = 0;
         // for tanky monsters
@@ -2476,8 +2475,7 @@ class pulp_activity_actor : public activity_actor
         // how far the splatter goes
         int mess_radius;
         // what `placement` we are currently at
-        // NOLINT(cata-serialize)
-        std::set<tripoint_abs_ms>::const_iterator current_pos_iter;
+        std::set<tripoint_abs_ms>::const_iterator current_pos_iter; // NOLINT(cata-serialize)
 };
 
 class wait_stamina_activity_actor : public activity_actor
