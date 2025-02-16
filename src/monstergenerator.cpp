@@ -2,41 +2,44 @@
 #include "monstergenerator.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <cstdlib>
-#include <limits>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
+#include <unordered_set>
 #include <utility>
 
 #include "assign.h"
-#include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "catacharset.h"
+#include "condition.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
-#include "enum_conversions.h"
+#include "enums.h"
 #include "field_type.h"
+#include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
-#include "json.h"
-#include "make_static.h"
+#include "magic.h"
 #include "mattack_actors.h"
 #include "monattack.h"
-#include "mondeath.h"
 #include "mondefense.h"
 #include "mongroup.h"
+#include "monster.h"
 #include "options.h"
 #include "pathfinding.h"
 #include "rng.h"
-#include "translations.h"
+#include "shearing.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
 #include "weakpoint.h"
+
+struct itype;
 
 static const material_id material_flesh( "flesh" );
 
@@ -993,6 +996,19 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jo_mount_items, was_loaded, "tack", mount_items.tack, itype_id() );
         optional( jo_mount_items, was_loaded, "armor", mount_items.armor, itype_id() );
         optional( jo_mount_items, was_loaded, "storage", mount_items.storage, itype_id() );
+    }
+
+    if( jo.has_array( "revive_forms" ) ) {
+        revive_type foo;
+        for( JsonObject jo_form : jo.get_array( "revive_forms" ) ) {
+            read_condition( jo_form, "condition", foo.condition, true );
+            if( jo_form.has_string( "monster" ) ) {
+                mandatory( jo_form, was_loaded, "monster", foo.revive_mon );
+            } else {
+                mandatory( jo_form, was_loaded, "monster_group", foo.revive_monster_group );
+            }
+            revive_types.push_back( foo );
+        }
     }
 
     optional( jo, was_loaded, "zombify_into", zombify_into, string_id_reader<::mtype> {},

@@ -61,6 +61,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "path_info.h"

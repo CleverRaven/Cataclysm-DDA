@@ -2,16 +2,15 @@
 #ifndef CATA_SRC_TALKER_ITEM_H
 #define CATA_SRC_TALKER_ITEM_H
 
-#include <vector>
+#include <memory>
+#include <string>
 
 #include "coords_fwd.h"
 #include "talker.h"
 #include "type_id.h"
+#include "units_fwd.h"
 
-class item;
-class map;
-
-struct tripoint;
+class item_location;
 
 /*
  * Talker wrapper class for item.
@@ -37,7 +36,6 @@ class talker_item_const: public const_talker_cloner<talker_item_const>
         int posx() const override;
         int posy() const override;
         int posz() const override;
-        tripoint pos() const override;
         tripoint_bub_ms pos_bub() const override;
         tripoint_abs_ms pos_abs() const override;
         tripoint_abs_omt pos_abs_omt() const override;
@@ -60,6 +58,7 @@ class talker_item_const: public const_talker_cloner<talker_item_const>
         int encumbrance_at( bodypart_id & ) const override;
         int get_volume() const override;
         int get_weight() const override;
+        int get_quality( const std::string &, bool strict ) const override;
 
     private:
         const item_location *me_it_const{};

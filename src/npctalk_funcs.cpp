@@ -2,28 +2,27 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <iosfwd>
+#include <cstdint>
 #include <list>
 #include <memory>
-#include <new>
 #include <optional>
+#include <ostream>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "activity_actor_definitions.h"
-#include <activity_handlers.h>
-#include "activity_type.h"
+#include "activity_handlers.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "clzones.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
@@ -37,15 +36,14 @@
 #include "game_inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "line.h"
 #include "magic.h"
 #include "map.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
 #include "mutation.h"
 #include "npc.h"
+#include "npc_opinion.h"
 #include "npctrade.h"
 #include "output.h"
 #include "overmap.h"
@@ -55,7 +53,9 @@
 #include "player_activity.h"
 #include "point.h"
 #include "rng.h"
+#include "simple_pathfinding.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "ui.h"
 #include "viewer.h"
@@ -1071,9 +1071,12 @@ void talk_function::player_weapon_away( npc &/*p*/ )
 
 void talk_function::player_weapon_drop( npc &/*p*/ )
 {
+    map &here = get_map();
+
     Character &player_character = get_player_character();
     item weap = player_character.remove_weapon();
-    drop_on_map( player_character, item_drop_reason::deliberate, {weap}, player_character.pos_bub() );
+    drop_on_map( player_character, item_drop_reason::deliberate, {weap}, &here,
+                 player_character.pos_bub( &here ) );
 }
 
 void talk_function::lead_to_safety( npc &p )

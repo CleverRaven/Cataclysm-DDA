@@ -1791,21 +1791,35 @@ static void teleport_overmap( bool specific_coordinates = false )
                    coord_strings.size() );
             return;
         }
-        std::vector<int> coord_ints;
+        std::vector<std::pair<int, int>> coord_ints;
         for( const std::string &coord_string : coord_strings ) {
-            ret_val<int> parsed_coord = try_parse_integer<int>( coord_string, true );
+            const std::vector<std::string> coord_parts = string_split( coord_string, '\'' );
+            if( coord_parts.empty() || coord_parts.size() > 2 ) {
+                popup( _( "Error interpreting teleport target: "
+                          "expected an integer or two integers separated by \'; got %s" ), coord_string );
+                return;
+            }
+            ret_val<int> parsed_coord = try_parse_integer<int>( coord_parts[0], true );
             if( !parsed_coord.success() ) {
                 popup( _( "Error interpreting teleport target: %s" ), parsed_coord.str() );
                 return;
             }
-            coord_ints.push_back( parsed_coord.value() );
+            int major_coord = parsed_coord.value();
+            int minor_coord = 0;
+            if( coord_parts.size() >= 2 ) {
+                ret_val<int> parsed_coord2 = try_parse_integer<int>( coord_parts[1], true );
+                if( !parsed_coord2.success() ) {
+                    popup( _( "Error interpreting teleport target: %s" ), parsed_coord2.str() );
+                    return;
+                }
+                minor_coord = parsed_coord2.value();
+            }
+            coord_ints.emplace_back( major_coord, minor_coord );
         }
         cata_assert( coord_ints.size() >= 2 );
-        tripoint coord;
-        coord.x = coord_ints[0];
-        coord.y = coord_ints[1];
-        coord.z = coord_ints.size() >= 3 ? coord_ints[2] : 0;
-        where = tripoint_abs_omt( OMAPX * coord.x, OMAPY * coord.y, coord.z );
+        where = tripoint_abs_omt( OMAPX * coord_ints[0].first + coord_ints[0].second,
+                                  OMAPY * coord_ints[1].first + coord_ints[1].second,
+                                  ( coord_ints.size() >= 3 ? coord_ints[2].first : 0 ) );
     } else {
         const std::optional<tripoint_rel_ms> dir_ = choose_direction(
                     _( "Where is the desired overmap?" ) );
@@ -3692,8 +3706,9 @@ static void unlock_all()
 
 static void vehicle_battery_charge()
 {
+    map &here = get_map();
 
-    optional_vpart_position v_part_pos = get_map().veh_at( player_picks_tile() );
+    optional_vpart_position v_part_pos = here.veh_at( player_picks_tile() );
     if( !v_part_pos ) {
         add_msg( m_bad, _( "There's no vehicle there." ) );
         return;
@@ -3708,16 +3723,18 @@ static void vehicle_battery_charge()
     if( !popup.canceled() ) {
         vehicle &veh = v_part_pos->vehicle();
         if( amount >= 0 ) {
-            veh.charge_battery( amount, false );
+            veh.charge_battery( here, amount, false );
         } else {
-            veh.discharge_battery( -amount, false );
+            veh.discharge_battery( here, -amount, false );
         }
     }
 }
 
 static void vehicle_export()
 {
-    if( optional_vpart_position ovp = get_map().veh_at( get_avatar().pos_bub() ) ) {
+    map &here = get_map();
+
+    if( optional_vpart_position ovp = here.veh_at( get_avatar().pos_abs() ) ) {
         cata_path export_dir{ cata_path::root_path::user,  "export_dir" };
         assure_dir_exist( export_dir );
         const std::string text = string_input_popup()
@@ -3728,8 +3745,8 @@ static void vehicle_export()
         try {
             write_to_file( veh_path, [&]( std::ostream & fout ) {
                 JsonOut jsout( fout );
-                ovp->vehicle().refresh();
-                vehicle_prototype::save_vehicle_as_prototype( ovp->vehicle(), jsout );
+                ovp->vehicle().refresh( );
+                vehicle_prototype::save_vehicle_as_prototype( here, ovp->vehicle(), jsout );
             } );
         } catch( const std::exception &err ) {
             debugmsg( _( "Failed to export vehicle: %s" ), err.what() );

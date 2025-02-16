@@ -10,7 +10,6 @@
 
 #include "calendar.h"
 #include "coordinates.h"
-#include "point.h"
 #include "type_id.h"
 
 class JsonObject;

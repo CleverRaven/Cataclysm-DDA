@@ -201,6 +201,8 @@ audio now works on curses mode, not just tiles mode
 Render WORN overlays for ablative pockets
 Add unloading hotkey to AIM menu
 Skip Default Backgrounds
+Add part bonus to rotor diameter in thrust calculations
+Revivification by mon_group
 
 
 ## Content:
@@ -427,6 +429,9 @@ Added a small kindergarten
 Add Hazelnut Milk, Walnut Milk, and add them to various recipes a la crepes.
 Add the menorah and small candles to put in it
 adds three new lore log snippets for the player to find in smartphones or laptops
+Add an electric rechargeable lighter
+Adds marshmallow fluff and fluffernutters
+Gunstore Overhaul
 
 
 ## Interface:
@@ -577,6 +582,11 @@ Focus the default selection in query popups
 Don't hardcode help text: Zones Manager
 Match ImGui `inherit_base_colors`
 Don't hardcode help text: Overmap filter popup
+Don't hardcode help text: List Items filter popup
+Zone manager will expand to match a wider sidebar.
+Add numpad keybinds for panning uilists
+Optionally allows a specific overmap tile to be specified for the debug 'Teleport - to specific overmap' function.
+Add options to sort item list by item name
 
 
 ## Mods:
@@ -988,6 +998,18 @@ Add missing missions to sky island clear missions EOC
 [Aftershock] You need a combat License to buy a combat suit from the outfitter
 [MoM] Differentiate XEDRA lab-made and makeshift inferno grenades, add `pyrokinetic matrix crystal bomb`
 Aftershock: Add ETC firmware gunmods to Caseless military weapons.
+Add more goblin fruits to XE
+[XE] Boann will use her magic against those who attack her.
+XE: Dreamsmith will learn casings if they are a shooter
+[Aftershock] Make UICA chit ATM-compatible
+Aftershock: Add manhole terrain to exoplanet
+[Xedra Evolved/Sky Island] Elemental fae are at home on the island
+[Aftershock] Add the Salvor Fabricator to the Shuttlepad Camp
+[MoM] Add Apportation teleportation power
+[MoM] Item Gateway Power
+Adds a new recessed rail tile with the NOCOLLIDE flag, and replaces the rail which cross the road with recessed rails.
+Moves the rail lines used by the railroad mapgen closer and adds junctions
+Add lucky/unlucky traits to Crazy Cata
 
 
 ## Balance:
@@ -1532,6 +1554,13 @@ electronic storage overhaul migration fix
 Require "Dirt Floor" to be built on dirt with a shovel
 Pathfinding: Avoid NPCs falling down to open air
 fix map cache item/EOC
+clear items in npc_test
+Trading: NPC no longer accept items that would be deleted.
+Fix vehicle parts being unrepairable after removing from vehicle
+fix query popup selector not wrapping
+implement (R)eading e-book requirements, fix etransfer_rate segfault
+chapters are character-mapped for unique books
+Prevent item::charges_per_weight to return overflowed values
 
 
 ## Performance:
@@ -1711,6 +1740,10 @@ monstergroup name field changed to id
 Shotgun shell dispersion refactor
 electronic storage overhaul
 remove legacy electronic storage code + small e-storage fixes
+Send debug messages to Windows debugger
+Add starting_cash field to professions JSON
+Vending Machines can optionally use your Bank Balance
+Magic Infrastructure: Add failure_chance field
 
 ## Build:
 Support Mac arm64 build

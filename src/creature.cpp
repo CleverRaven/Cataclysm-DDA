@@ -35,13 +35,11 @@
 #include "explosion.h"
 #include "field.h"
 #include "flat_set.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_location.h"
-#include "json_error.h"
 #include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
@@ -49,23 +47,23 @@
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "mattack_common.h"
 #include "mdarray.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "point.h"
 #include "projectile.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "talker.h"
 #include "talker_avatar.h"
-#include "talker_character.h"
 #include "talker_monster.h"
 #include "talker_npc.h"
 #include "translation.h"
@@ -208,6 +206,11 @@ tripoint_bub_ms Creature::pos_bub() const
     return get_map().get_bub( location );
 }
 
+tripoint_bub_ms Creature::pos_bub( map *here ) const
+{
+    return here->get_bub( location );
+}
+
 void Creature::setpos( const tripoint_bub_ms &p, bool check_gravity/* = true*/ )
 {
     const tripoint_abs_ms old_loc = pos_abs();
@@ -228,6 +231,16 @@ void Creature::setpos( map *here, const tripoint_bub_ms &p, bool check_gravity/*
     }
 }
 
+void Creature::setpos( const tripoint_abs_ms &p, bool check_gravity/* = true*/ )
+{
+    const tripoint_abs_ms old_loc = pos_abs();
+    set_pos_abs_only( p );
+    on_move( old_loc );
+    if( check_gravity ) {
+        gravity_check();
+    }
+}
+
 bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) const
 {
     map &here = get_map();
@@ -241,7 +254,7 @@ bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) con
     vehicle &veh = vp_there->vehicle();
 
     std::vector<vehicle_part *> cargo_parts;
-    cargo_parts = veh.get_parts_at( here.get_bub( loc ), "CARGO", part_status_flag::any );
+    cargo_parts = veh.get_parts_at( loc, "CARGO", part_status_flag::any );
 
     units::volume capacity = 0_ml;
     units::volume free_cargo = 0_ml;
@@ -256,7 +269,7 @@ bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) con
     }
     if( capacity > 0_ml ) {
         // First, we'll try to squeeze in. Open-topped vehicle parts have more room to step over cargo.
-        if( !veh.enclosed_at( here.get_bub( loc ) ) ) {
+        if( !veh.enclosed_at( loc ) ) {
             free_cargo *= 1.2;
         }
         const creature_size size = get_size();
@@ -668,10 +681,10 @@ bool Creature::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) c
 
 // Helper function to check if potential area of effect of a weapon overlaps vehicle
 // Maybe TODO: If this is too slow, precalculate a bounding box and clip the tested area to it
-static bool overlaps_vehicle( const std::set<tripoint_bub_ms> &veh_area, const tripoint_bub_ms &pos,
+static bool overlaps_vehicle( const std::set<tripoint_abs_ms> &veh_area, const tripoint_abs_ms &pos,
                               const int area )
 {
-    for( const tripoint_bub_ms &tmp : tripoint_range<tripoint_bub_ms>( pos - tripoint( area, area, 0 ),
+    for( const tripoint_abs_ms &tmp : tripoint_range<tripoint_abs_ms>( pos - tripoint( area, area, 0 ),
             pos + tripoint( area - 1, area - 1, 0 ) ) ) {
         if( veh_area.count( tmp ) > 0 ) {
             return true;
@@ -813,7 +826,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             continue; // Handle this late so that boo_hoo++ can happen
         }
         // Expensive check for proximity to vehicle
-        if( self_area_iff && overlaps_vehicle( in_veh->get_points(), m->pos_bub(), area ) ) {
+        if( self_area_iff && overlaps_vehicle( in_veh->get_points(), m->pos_abs(), area ) ) {
             continue;
         }
 
@@ -1940,7 +1953,7 @@ void Creature::schedule_effect_removal( const efftype_id &eff_id, const bodypart
 }
 void Creature::schedule_effect_removal( const efftype_id &eff_id )
 {
-    return schedule_effect_removal( eff_id, bodypart_str_id::NULL_ID() );
+    schedule_effect_removal( eff_id, bodypart_str_id::NULL_ID() );
 }
 
 bool Creature::has_effect( const efftype_id &eff_id, const bodypart_id &bp ) const
@@ -3423,44 +3436,44 @@ void Creature::adjust_taken_damage_by_enchantments_post_absorbed( damage_unit &d
 
 void Creature::add_msg_if_player( const translation &msg ) const
 {
-    return add_msg_if_player( msg.translated() );
+    add_msg_if_player( msg.translated() );
 }
 
 void Creature::add_msg_if_player( const game_message_params &params, const translation &msg ) const
 {
-    return add_msg_if_player( params, msg.translated() );
+    add_msg_if_player( params, msg.translated() );
 }
 
 void Creature::add_msg_if_npc( const translation &msg ) const
 {
-    return add_msg_if_npc( msg.translated() );
+    add_msg_if_npc( msg.translated() );
 }
 
 void Creature::add_msg_if_npc( const game_message_params &params, const translation &msg ) const
 {
-    return add_msg_if_npc( params, msg.translated() );
+    add_msg_if_npc( params, msg.translated() );
 }
 
 void Creature::add_msg_player_or_npc( const translation &pc, const translation &npc ) const
 {
-    return add_msg_player_or_npc( pc.translated(), npc.translated() );
+    add_msg_player_or_npc( pc.translated(), npc.translated() );
 }
 
 void Creature::add_msg_player_or_npc( const game_message_params &params, const translation &pc,
                                       const translation &npc ) const
 {
-    return add_msg_player_or_npc( params, pc.translated(), npc.translated() );
+    add_msg_player_or_npc( params, pc.translated(), npc.translated() );
 }
 
 void Creature::add_msg_player_or_say( const translation &pc, const translation &npc ) const
 {
-    return add_msg_player_or_say( pc.translated(), npc.translated() );
+    add_msg_player_or_say( pc.translated(), npc.translated() );
 }
 
 void Creature::add_msg_player_or_say( const game_message_params &params, const translation &pc,
                                       const translation &npc ) const
 {
-    return add_msg_player_or_say( params, pc.translated(), npc.translated() );
+    add_msg_player_or_say( params, pc.translated(), npc.translated() );
 }
 
 std::vector <int> Creature::dispersion_for_even_chance_of_good_hit = { {

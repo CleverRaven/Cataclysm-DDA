@@ -4,30 +4,31 @@
 
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <optional>
 #include <set>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "coords_fwd.h"
 #include "enums.h"
 #include "item_pocket.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
-#include "units_fwd.h"
+#include "units.h"
 #include "visitable.h"
 
 class Character;
+class JsonObject;
 class JsonOut;
 class item;
 class item_location;
 class iteminfo_query;
 class map;
 struct iteminfo;
-struct tripoint;
 
 /// NEW!ness to player, if they seen such item already
 enum class content_newness {
@@ -122,10 +123,14 @@ class item_contents
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top( pocket_type pk_type ) const;
 
-        /** returns a list of pointers to all top-level items that are not mods */
+        /** returns a list of pointers to all top-level items in standard pockets */
         std::list<item *> all_items_top();
-        /** returns a list of pointers to all top-level items that are not mods */
+        /** returns a list of pointers to all top-level items in standard pockets */
         std::list<const item *> all_items_top() const;
+        /** returns a list of pointers to all top-level items in container-like pockets */
+        std::list<item *> all_items_container_top();
+        /** returns a list of pointers to all top-level items in container-like pockets */
+        std::list<const item *> all_items_container_top() const;
 
         /** returns a list of pointers to all visible or remembered content items that are not mods */
         std::list<item *> all_known_contents();
@@ -328,6 +333,7 @@ class item_contents
         void heat_up();
         /** Return the amount of ammo consumed. */
         int ammo_consume( int qty, const tripoint_bub_ms &pos, float fuel_efficiency = -1.0 );
+        int ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, float fuel_efficiency = -1.0 );
         item *magazine_current();
         std::set<ammotype> ammo_types() const;
         int ammo_capacity( const ammotype &ammo ) const;

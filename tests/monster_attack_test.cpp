@@ -1,32 +1,35 @@
 #include <array>
-#include <iosfwd>
+#include <functional>
+#include <map>
+#include <memory>
+#include <string>
+#include <vector>
 
-#include "cached_options.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
 #include "character.h"
 #include "character_martial_arts.h"
+#include "coordinates.h"
 #include "creature.h"
-#include "line.h"
+#include "effect.h"
+#include "game.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "martialarts.h"
-#include "mattack_actors.h"
 #include "mattack_common.h"
 #include "messages.h"
-#include "monattack.h"
 #include "monster.h"
 #include "mtype.h"
 #include "options_helpers.h"
+#include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "test_statistics.h"
 #include "type_id.h"
+#include "units.h"
 #include "weather.h"
 #include "weather_type.h"
-#include "game.h"
-#include "units.h"
 
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_grabbed( "grabbed" );

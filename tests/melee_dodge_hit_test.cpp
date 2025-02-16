@@ -1,21 +1,17 @@
-#include <iosfwd>
 #include <list>
-#include <memory>
+#include <string>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "creature.h"
-#include "creature_tracker.h"
 #include "flag.h"
-#include "game.h"
 #include "item.h"
+#include "item_location.h"
 #include "map_helpers.h"
-#include "monattack.h"
 #include "monster.h"
 #include "mtype.h"
 #include "player_helpers.h"
-#include "point.h"
 #include "type_id.h"
 
 static const itype_id itype_roller_shoes_on( "roller_shoes_on" );

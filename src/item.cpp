@@ -19,6 +19,7 @@
 #include <unordered_set>
 #include <utility>
 
+#include "activity_actor_definitions.h"
 #include "ammo.h"
 #include "ascii_art.h"
 #include "avatar.h"
@@ -308,6 +309,8 @@ item::item() : bday( calendar::start_of_cataclysm )
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
 {
+    map &here = get_map();
+
     contents = item_contents( type->pockets );
     if( type->countdown_interval > 0_seconds ) {
         countdown_point = calendar::turn + type->countdown_interval;
@@ -398,8 +401,8 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         last_temp_check = bday;
 
     } else if( type->tool ) {
-        if( ammo_remaining() && !ammo_types().empty() ) {
-            ammo_set( ammo_default(), ammo_remaining() );
+        if( ammo_remaining( here ) && !ammo_types().empty() ) {
+            ammo_set( ammo_default(), ammo_remaining( here ) );
         }
     }
 
@@ -1359,6 +1362,7 @@ void item::update_modified_pockets()
 
 int item::charges_per_volume( const units::volume &vol, bool suppress_warning ) const
 {
+    int64_t ret;
     if( count_by_charges() ) {
         if( type->volume == 0_ml ) {
             if( !suppress_warning ) {
@@ -1368,7 +1372,7 @@ int item::charges_per_volume( const units::volume &vol, bool suppress_warning ) 
         }
         // Type cast to prevent integer overflow with large volume containers like the cargo
         // dimension
-        return vol * static_cast<int64_t>( type->stack_size ) / type->volume;
+        ret = vol * static_cast<int64_t>( type->stack_size ) / type->volume;
     } else {
         units::volume my_volume = volume();
         if( my_volume == 0_ml ) {
@@ -1377,30 +1381,24 @@ int item::charges_per_volume( const units::volume &vol, bool suppress_warning ) 
             }
             return INFINITE_CHARGES;
         }
-        return vol / my_volume;
+        ret = vol / my_volume;
     }
+    return std::min( ret, static_cast<int64_t>( INFINITE_CHARGES ) );
 }
 
 int item::charges_per_weight( const units::mass &m, bool suppress_warning ) const
 {
-    if( count_by_charges() ) {
-        if( type->weight == 0_gram ) {
-            if( !suppress_warning ) {
-                debugmsg( "Item '%s' with zero weight", tname() );
-            }
-            return INFINITE_CHARGES;
+    int64_t ret;
+    units::mass my_weight = count_by_charges() ? type->weight : weight();
+    if( my_weight == 0_gram ) {
+        if( !suppress_warning ) {
+            debugmsg( "Item '%s' with zero weight", tname() );
         }
-        return m / type->weight;
+        ret = INFINITE_CHARGES;
     } else {
-        units::mass my_weight = weight();
-        if( my_weight == 0_gram ) {
-            if( !suppress_warning ) {
-                debugmsg( "Item '%s' with zero weight", tname() );
-            }
-            return INFINITE_CHARGES;
-        }
-        return m / my_weight;
+        ret = m / my_weight;
     }
+    return std::min( ret, static_cast<int64_t>( INFINITE_CHARGES ) );
 }
 
 bool item::display_stacked_with( const item &rhs, bool check_components ) const
@@ -1508,14 +1506,13 @@ bool _stacks_weapon_mods( item const &lhs, item const &rhs )
 
 bool _stacks_location_hint( item const &lhs, item const &rhs )
 {
-    static const std::string omt_loc_var = "spawn_location_omt";
-    const tripoint_abs_omt this_loc( lhs.get_var( omt_loc_var, tripoint_abs_omt::max ) );
-    const tripoint_abs_omt that_loc( rhs.get_var( omt_loc_var, tripoint_abs_omt::max ) );
+    static const std::string omt_loc_var = "spawn_location";
+    const tripoint_abs_ms this_loc( lhs.get_var( omt_loc_var, tripoint_abs_ms::max ) );
+    const tripoint_abs_ms that_loc( rhs.get_var( omt_loc_var, tripoint_abs_ms::max ) );
     if( this_loc == that_loc ) {
         return true;
-    } else if( this_loc != tripoint_abs_omt::max && that_loc != tripoint_abs_omt::max ) {
-        const tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().get_abs(
-                                               get_player_character().pos_bub() ) ) );
+    } else if( this_loc != tripoint_abs_ms::max && that_loc != tripoint_abs_ms::max ) {
+        const tripoint_abs_ms player_loc( get_player_character().pos_abs() );
         const int this_dist = rl_dist( player_loc, this_loc );
         const int that_dist = rl_dist( player_loc, that_loc );
         static const auto get_bucket = []( const int dist ) {
@@ -1730,7 +1727,7 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     bits.set( tname::segments::UPS, _stacks_ups( *this, rhs ) );
     // Guns that differ only by dirt/shot_counter can still stack,
     // but other item_vars such as label/note will prevent stacking
-    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt", "ethereal", "last_act_by_char_id" };
+    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location", "ethereal", "last_act_by_char_id" };
     bits.set( tname::segments::TRAITS, template_traits == rhs.template_traits );
     bits.set( tname::segments::VARS, map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) );
     bits.set( tname::segments::ETHEREAL, _stacks_ethereal( *this, rhs ) );
@@ -1909,13 +1906,13 @@ double item::get_var( const std::string &name, const double default_value ) cons
     return result;
 }
 
-void item::set_var( const std::string &name, const tripoint_abs_omt &value )
+void item::set_var( const std::string &name, const tripoint_abs_ms &value )
 {
     item_vars[name] = value.to_string();
 }
 
-tripoint_abs_omt item::get_var( const std::string &name,
-                                const tripoint_abs_omt &default_value ) const
+tripoint_abs_ms item::get_var( const std::string &name,
+                               const tripoint_abs_ms &default_value ) const
 {
     const auto it = item_vars.find( name );
     if( it == item_vars.end() ) {
@@ -1925,7 +1922,7 @@ tripoint_abs_omt item::get_var( const std::string &name,
     // todo: has to read both "(0,0,0)" and "0,0,0" formats for now, clean up after 0.I
     // first is produced by tripoint::to_string, second was old custom format
     if( it->second[0] == '(' ) {
-        return tripoint_abs_omt{tripoint::from_string( it->second )};
+        return tripoint_abs_ms{tripoint::from_string( it->second )};
     }
 
     std::vector<std::string> values = string_split( it->second, ',' );
@@ -1939,9 +1936,9 @@ tripoint_abs_omt item::get_var( const std::string &name,
             return 0;
         }
     };
-    return tripoint_abs_omt( convert_or_error( values[0] ),
-                             convert_or_error( values[1] ),
-                             convert_or_error( values[2] ) );
+    return tripoint_abs_ms( convert_or_error( values[0] ),
+                            convert_or_error( values[1] ),
+                            convert_or_error( values[2] ) );
 }
 
 void item::set_var( const std::string &name, const std::string &value )
@@ -3002,6 +2999,8 @@ void item::magazine_info( std::vector<iteminfo> &info, const iteminfo_query *par
 void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /* batch */,
                       bool /* debug */ ) const
 {
+    map &here = get_map();
+
     // Skip this section for guns and items without ammo data
     if( is_gun() || !has_ammo_data() ||
         !parts->test( iteminfo_parts::AMMO_REMAINING_OR_TYPES ) ) {
@@ -3012,9 +3011,9 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     if( !ammo.damage.empty() || ammo.force_stat_display ) {
         if( is_ammo() ) {
             info.emplace_back( "AMMO", _( "<bold>Ammunition type</bold>: " ), ammo_type()->name() );
-        } else if( ammo_remaining() > 0 ) {
+        } else if( ammo_remaining( here ) > 0 ) {
             info.emplace_back( "AMMO", _( "<bold>Ammunition</bold>: " ),
-                               ammo_data()->nname( ammo_remaining() ) );
+                               ammo_data()->nname( ammo_remaining( here ) ) );
         }
 
         const std::string space = "  ";
@@ -3145,6 +3144,8 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminfo_query *parts,
                      int /* batch */, bool /* debug */ ) const
 {
+    map &here = get_map();
+
     const std::string space = "  ";
     const islot_gun &gun = *mod->type->gun;
     const Skill &skill = *mod->gun_skill();
@@ -3154,7 +3155,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     const item *loaded_mod = mod;
     item tmp;
     const itype *curammo = nullptr;
-    if( mod->ammo_required() && !mod->ammo_remaining() ) {
+    if( mod->ammo_required() && !mod->ammo_remaining( here ) ) {
         tmp = *mod;
         if( tmp.ammo_types().size() == 1 && *tmp.ammo_types().begin() == ammotype::NULL_ID() ) {
             itype_id default_bore_type_id = itype_id::NULL_ID();
@@ -3416,7 +3417,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         const bool is_default_fire_mode = loaded_mod->gun_current_mode().tname() == "DEFAULT";
         //if empty, use the temporary gun loaded with default ammo
         const item::sound_data data = ( mod->ammo_required() &&
-                                        !mod->ammo_remaining() ) ? tmp.gun_noise( is_default_fire_mode ) : loaded_mod->gun_noise(
+                                        !mod->ammo_remaining( here ) ) ? tmp.gun_noise( is_default_fire_mode ) : loaded_mod->gun_noise(
                                           is_default_fire_mode );
         const int loudness = data.volume;
         info.emplace_back( "GUN", _( "Loudness with current fire mode: " ), "", iteminfo::lower_is_better,
@@ -3459,7 +3460,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( mod->has_ammo_data() && parts->test( iteminfo_parts::AMMO_REMAINING ) ) {
         info.emplace_back( "AMMO", _( "Ammunition: " ), string_format( "<stat>%s</stat>",
-                           mod->ammo_data()->nname( mod->ammo_remaining() ) ) );
+                           mod->ammo_data()->nname( mod->ammo_remaining( here ) ) ) );
     }
 
     if( mod->ammo_required() > 1 && parts->test( iteminfo_parts::AMMO_TO_FIRE ) ) {
@@ -4792,6 +4793,7 @@ void item::battery_info( std::vector<iteminfo> &info, const iteminfo_query * /*p
 void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
                       bool /*debug*/ ) const
 {
+    map &here = get_map();
     avatar &player_character = get_avatar();
 
     if( !is_tool() ) {
@@ -4801,7 +4803,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     insert_separation_line( info );
     if( !ammo_types().empty() && parts->test( iteminfo_parts::TOOL_CHARGES ) ) {
         info.emplace_back( "TOOL", string_format( _( "<bold>Charges</bold>: %d" ),
-                           ammo_remaining() ) );
+                           ammo_remaining( here ) ) );
     }
 
     if( !magazine_integral() ) {
@@ -4880,10 +4882,11 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         if( has_ammo_data() ) {
             // Candle items that use ammo instead of charges
             // The capacity should never be zero but clang complains about it
-            percent_left = 100 * ammo_remaining() / std::max( ammo_capacity( ammo_data()->ammo->type ), 1 );
+            percent_left = 100 * ammo_remaining( here ) / std::max( ammo_capacity( ammo_data()->ammo->type ),
+                           1 );
         } else if( type->maximum_charges() > 0 ) {
             // Candle items that use charges instead of ammo
-            percent_left = 100 * ammo_remaining() / type->maximum_charges();
+            percent_left = 100 * ammo_remaining( here ) / type->maximum_charges();
         }
 
         std::string feedback;
@@ -6995,6 +6998,7 @@ std::string item::display_money( unsigned int quantity, unsigned int total,
 
 std::string item::display_name( unsigned int quantity ) const
 {
+    map &here = get_map();
     std::string name = tname( quantity );
     std::string sidetxt;
     std::string amt;
@@ -7022,7 +7026,7 @@ std::string item::display_name( unsigned int quantity ) const
     } else if( magazine_current() ) {
         show_amt = true;
         const item *mag = magazine_current();
-        amount = ammo_remaining();
+        amount = ammo_remaining( here );
         const itype *adata = mag->ammo_data();
         if( adata ) {
             max_amount = mag->ammo_capacity( adata->ammo->type );
@@ -7032,11 +7036,11 @@ std::string item::display_name( unsigned int quantity ) const
         }
     } else if( is_tool() && has_flag( flag_USES_NEARBY_AMMO ) ) {
         show_amt = true;
-        amount = ammo_remaining( player_character.as_character() );
+        amount = ammo_remaining( here, player_character.as_character() );
     } else if( !ammo_types().empty() ) {
         // anything that can be reloaded including tools, magazines, guns and auxiliary gunmods
         // but excluding bows etc., which have ammo, but can't be reloaded
-        amount = ammo_remaining();
+        amount = ammo_remaining( here );
         const itype *adata = ammo_data();
         if( adata ) {
             max_amount = ammo_capacity( adata->ammo->type );
@@ -7137,7 +7141,7 @@ std::string item::display_name( unsigned int quantity ) const
     // HACK: This is a hack to prevent possible crashing when displaying maps as items during character creation
     if( is_map() && calendar::turn != calendar::turn_zero ) {
         tripoint_abs_omt map_pos_omt =
-            get_var( "reveal_map_center_omt", player_character.pos_abs_omt() );
+            project_to<coords::omt>( get_var( "reveal_map_center", player_character.pos_abs() ) );
         tripoint_abs_sm map_pos =
             project_to<coords::sm>( map_pos_omt );
         const city *c = overmap_buffer.closest_city( map_pos ).city;
@@ -7184,6 +7188,7 @@ int item::price( bool practical ) const
 
 int item::price_no_contents( bool practical, std::optional<int> price_override ) const
 {
+    map &here = get_map();
     if( rotten() ) {
         return 0;
     }
@@ -7200,7 +7205,7 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
 
     } else if( is_tool() && type->tool->max_charges != 0 ) {
         // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
-        price *= ammo_remaining() / static_cast< double >( std::max( type->charges_default(), 1 ) );
+        price *= ammo_remaining( here ) / static_cast< double >( std::max( type->charges_default(), 1 ) );
 
     }
 
@@ -7235,6 +7240,7 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
 // TODO: MATERIALS add a density field to materials.json
 units::mass item::weight( bool include_contents, bool integral ) const
 {
+    map &here = get_map();
     if( is_null() ) {
         return 0_gram;
     }
@@ -7316,7 +7322,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
     // if this is an ammo belt add the weight of any implicitly contained linkages
     if( type->magazine && type->magazine->linkage ) {
         item links( *type->magazine->linkage );
-        links.charges = ammo_remaining();
+        links.charges = ammo_remaining( here );
         ret += links.weight();
     }
 
@@ -8215,6 +8221,11 @@ bool item::is_power_armor() const
     return t->power_armor;
 }
 
+int item::max_worn() const
+{
+    return type->max_worn;
+}
+
 int item::get_avg_encumber( const Character &p, encumber_flags flags ) const
 {
     const islot_armor *t = find_armor_data();
@@ -8830,6 +8841,12 @@ bool item::is_estorage() const
     return contents.has_pocket_type( pocket_type::E_FILE_STORAGE );
 }
 
+bool item::is_estorage_usable( const Character &who ) const
+{
+    return is_estorage() && is_browsed() && efile_activity_actor::edevice_has_use( this ) &&
+           ammo_sufficient( &who );
+}
+
 bool item::is_estorable() const
 {
     return has_flag( flag_E_STORABLE ) || is_book();
@@ -8851,7 +8868,7 @@ void item::set_browsed( bool browsed )
 
 bool item::is_ecopiable() const
 {
-    return has_flag( flag_E_COPIABLE ) || ( is_book() && get_chapters() == 0 );
+    return has_flag( flag_E_COPIABLE ) || ( is_book() && !type->book->generic );
 }
 
 bool item::efiles_all_browsed() const
@@ -10256,6 +10273,11 @@ bool item::is_irremovable() const
     return has_flag( flag_IRREMOVABLE );
 }
 
+bool item::is_identifiable() const
+{
+    return is_book();
+}
+
 bool item::is_broken() const
 {
     return has_flag( flag_ITEM_BROKEN ) || has_fault_flag( std::string( "ITEM_BROKEN" ) );
@@ -10770,22 +10792,34 @@ int item::get_chapters() const
 
 int item::get_remaining_chapters( const Character &u ) const
 {
-    // NOLINTNEXTLINE(cata-translate-string-literal)
-    const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
-    return get_var( var, get_chapters() );
+    const itype_id &type = typeId();
+    if( is_book() && type->book->generic ) {
+        // NOLINTNEXTLINE(cata-translate-string-literal)
+        const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
+        return get_var( var, get_chapters() );
+    }
+    const std::map<itype_id, int> &book_chapters = u.book_chapters;
+    auto find_chapters = book_chapters.find( type );
+    if( find_chapters == book_chapters.end() ) {
+        return get_chapters();
+    }
+    return find_chapters->second;
 }
 
-void item::mark_chapter_as_read( const Character &u )
+void item::mark_chapter_as_read( Character &u )
 {
-    // NOLINTNEXTLINE(cata-translate-string-literal)
-    const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
-    if( type->book && type->book->chapters == 0 ) {
-        // books without chapters will always have remaining chapters == 0, so we don't need to store them
-        erase_var( var );
+    // books without chapters will always have remaining chapters == 0, so we don't need to store them
+    if( is_book() && get_chapters() == 0 ) {
         return;
     }
-    const int remain = std::max( 0, get_remaining_chapters( u ) - 1 );
-    set_var( var, remain );
+    if( is_book() && type->book->generic ) {
+        // NOLINTNEXTLINE(cata-translate-string-literal)
+        const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
+        const int remain = std::max( 0, get_remaining_chapters( u ) - 1 );
+        set_var( var, remain );
+        return;
+    }
+    u.book_chapters[typeId()] = std::max( 0, get_remaining_chapters( u ) - 1 );
 }
 
 std::set<recipe_id> item::get_saved_recipes() const
@@ -11111,7 +11145,9 @@ units::mass item::gun_base_weight() const
 }
 int item::gun_recoil( const Character &p, bool bipod, bool ideal_strength ) const
 {
-    if( !is_gun() || ( ammo_required() && !ammo_remaining() ) ) {
+    map &here = get_map();
+
+    if( !is_gun() || ( ammo_required() && !ammo_remaining( here ) ) ) {
         return 0;
     }
 
@@ -11201,9 +11237,11 @@ int item::gun_range( const Character *p ) const
 
 int item::shots_remaining( const Character *carrier ) const
 {
+    map &here = get_map();
+
     int ret = 1000; // Arbitrary large number for things that do not require ammo.
     if( ammo_required() ) {
-        ret = std::min( ammo_remaining( carrier, true ) / ammo_required(), ret );
+        ret = std::min( ammo_remaining( here,  carrier, true ) / ammo_required(), ret );
     }
     if( get_gun_energy_drain() > 0_kJ ) {
         ret = std::min( static_cast<int>( energy_remaining( carrier ) / get_gun_energy_drain() ), ret );
@@ -11211,7 +11249,7 @@ int item::shots_remaining( const Character *carrier ) const
     return ret;
 }
 
-int item::ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier,
+int item::ammo_remaining( const map &here, const std::set<ammotype> &ammo, const Character *carrier,
                           const bool include_linked ) const
 {
     const bool is_tool_with_carrier = carrier != nullptr && is_tool();
@@ -11227,17 +11265,17 @@ int item::ammo_remaining( const std::set<ammotype> &ammo, const Character *carri
     // Magazine in the item
     const item *mag = magazine_current();
     if( mag ) {
-        ret += mag->ammo_remaining();
+        ret += mag->ammo_remaining( here );
     }
 
     // Cable connections
     if( include_linked && link_length() >= 0 && link().efficiency >= MIN_LINK_EFFICIENCY ) {
         if( link().t_veh ) {
-            ret += link().t_veh->connected_battery_power_level().first;
+            ret += link().t_veh->connected_battery_power_level( here ).first;
         } else {
-            const optional_vpart_position vp = get_map().veh_at( link().t_abs_pos );
+            const optional_vpart_position vp = here.veh_at( link().t_abs_pos );
             if( vp ) {
-                ret += vp->vehicle().connected_battery_power_level().first;
+                ret += vp->vehicle().connected_battery_power_level( here ).first;
             }
         }
     }
@@ -11278,15 +11316,17 @@ int item::ammo_remaining( const std::set<ammotype> &ammo, const Character *carri
 
     return ret;
 }
-int item::ammo_remaining( const Character *carrier, const bool include_linked ) const
+int item::ammo_remaining( const map &here, const Character *carrier,
+                          const bool include_linked ) const
 {
     std::set<ammotype> ammo = ammo_types();
-    return ammo_remaining( ammo, carrier, include_linked );
+    return ammo_remaining( here, ammo, carrier, include_linked );
 }
 
 int item::ammo_remaining( const bool include_linked ) const
 {
-    return ammo_remaining( nullptr, include_linked );
+    map &here = get_map();
+    return ammo_remaining( here, nullptr, include_linked );
 }
 
 bool item::uses_energy() const
@@ -11351,23 +11391,27 @@ units::energy item::energy_remaining( const Character *carrier, bool ignoreExter
 
 int item::remaining_ammo_capacity() const
 {
+    map &here = get_map();
+
     if( ammo_types().empty() ) {
         return 0;
     }
 
     const itype *loaded_ammo = ammo_data();
     if( loaded_ammo == nullptr ) {
-        return ammo_capacity( item::find_type( ammo_default() )->ammo->type ) - ammo_remaining();
+        return ammo_capacity( item::find_type( ammo_default() )->ammo->type ) - ammo_remaining( here );
     } else {
-        return ammo_capacity( loaded_ammo->ammo->type ) - ammo_remaining();
+        return ammo_capacity( loaded_ammo->ammo->type ) - ammo_remaining( here );
     }
 }
 
 int item::ammo_capacity( const ammotype &ammo, bool include_linked ) const
 {
+    map &here = get_map();
+
     const item *mag = magazine_current();
     if( include_linked && has_link_data() ) {
-        return link().t_veh ? link().t_veh->connected_battery_power_level().second : 0;
+        return link().t_veh ? link().t_veh->connected_battery_power_level( here ).second : 0;
     } else if( mag ) {
         return mag->ammo_capacity( ammo );
     } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
@@ -11419,8 +11463,10 @@ void item::handle_liquid_or_spill( Character &guy, const item *avoid )
 
 bool item::ammo_sufficient( const Character *carrier, int qty ) const
 {
+    map &here = get_map();
+
     if( count_by_charges() ) {
-        return ammo_remaining( carrier, true ) >= qty;
+        return ammo_remaining( here, carrier, true ) >= qty;
     }
 
     if( is_comestible() ) {
@@ -11442,6 +11488,11 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
 
 int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier )
 {
+    return item::ammo_consume( qty, &get_map(), pos, carrier );
+}
+
+int item::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, Character *carrier )
+{
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
         return 0;
@@ -11452,7 +11503,7 @@ int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier 
     if( is_tool_with_carrier && has_flag( flag_USES_NEARBY_AMMO ) ) {
         const ammotype ammo = ammo_type();
         if( !ammo.is_null() ) {
-            const inventory &carrier_inventory = carrier->crafting_inventory();
+            const inventory &carrier_inventory = carrier->crafting_inventory( here );
             itype_id ammo_type = ammo->default_ammotype();
             const int charges_avalable = carrier_inventory.charges_of( ammo_type, INT_MAX );
 
@@ -11468,18 +11519,18 @@ int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier 
     // Consume power from appliances/vehicles connected with cables
     if( has_link_data() ) {
         if( link().t_veh && link().efficiency >= MIN_LINK_EFFICIENCY ) {
-            qty = link().t_veh->discharge_battery( qty, true );
+            qty = link().t_veh->discharge_battery( *here, qty, true );
         } else {
-            const optional_vpart_position vp = get_map().veh_at( link().t_abs_pos );
+            const optional_vpart_position vp = here->veh_at( link().t_abs_pos );
             if( vp ) {
-                qty = vp->vehicle().discharge_battery( qty, true );
+                qty = vp->vehicle().discharge_battery( *here, qty, true );
             }
         }
     }
 
     // Consume charges loaded in the item or its magazines
     if( is_magazine() || uses_magazine() ) {
-        qty -= contents.ammo_consume( qty, pos );
+        qty -= contents.ammo_consume( qty, here, pos );
         if( ammo_capacity( ammo_battery ) == 0 && carrier != nullptr ) {
             carrier->invalidate_weight_carried_cache();
         }
@@ -11527,6 +11578,13 @@ units::energy item::energy_consume( units::energy qty, const tripoint_bub_ms &po
                                     Character *carrier,
                                     float fuel_efficiency )
 {
+    return item::energy_consume( qty, &get_map(), pos, carrier, fuel_efficiency );
+}
+
+units::energy item::energy_consume( units::energy qty, map *here, const tripoint_bub_ms &pos,
+                                    Character *carrier,
+                                    float fuel_efficiency )
+{
     if( qty < 0_kJ ) {
         debugmsg( "Cannot consume negative quantity of energy for %s", tname() );
         return 0_kJ;
@@ -11536,7 +11594,7 @@ units::energy item::energy_consume( units::energy qty, const tripoint_bub_ms &po
 
     // Consume battery(ammo) and other fuel (if allowed)
     if( is_battery() || fuel_efficiency >= 0 ) {
-        int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), pos, fuel_efficiency );
+        int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), here, pos, fuel_efficiency );
         qty -= units::from_kilojoule( static_cast<std::int64_t>( consumed_kj ) );
         // Either we're out of juice or truncating the value above means we didn't drain quite enough.
         // In the latter case at least this will bump up energy enough to satisfy the remainder,
@@ -11546,7 +11604,7 @@ units::energy item::energy_consume( units::energy qty, const tripoint_bub_ms &po
         // which potentially allows it to burn less fuel next time.
         // Do we want an implicit 1kJ battery in the generator to smooth things out?
         if( qty > energy ) {
-            int64_t residual_drain = contents.ammo_consume( 1, pos, fuel_efficiency );
+            int64_t residual_drain = contents.ammo_consume( 1, here, pos, fuel_efficiency );
             energy += units::from_kilojoule( residual_drain );
         }
         if( qty > energy ) {
@@ -11560,7 +11618,7 @@ units::energy item::energy_consume( units::energy qty, const tripoint_bub_ms &po
 
     // Consume energy from contained magazine
     if( magazine_current() ) {
-        qty -= magazine_current()->energy_consume( qty, pos, carrier );
+        qty -= magazine_current()->energy_consume( qty, here, pos, carrier );
     }
 
     // Consume UPS energy from various sources
@@ -11674,6 +11732,8 @@ itype_id item::ammo_current() const
 
 const item &item::loaded_ammo() const
 {
+    map &here = get_map();
+
     const item *mag = magazine_current();
     if( mag ) {
         return mag->loaded_ammo();
@@ -11691,7 +11751,7 @@ const item &item::loaded_ammo() const
         }
     }
 
-    if( is_gun() && ammo_remaining() != 0 ) {
+    if( is_gun() && ammo_remaining( here ) != 0 ) {
         return contents.first_ammo();
     }
     return null_item_reference();
@@ -11936,6 +11996,8 @@ item *item::gunmod_find_by_flag( const flag_id &flag )
 
 ret_val<void> item::is_gunmod_compatible( const item &mod ) const
 {
+    map &here = get_map();
+
     if( !mod.is_gunmod() ) {
         debugmsg( "Tried checking compatibility of non-gunmod" );
         return ret_val<void>::make_failure();
@@ -11983,7 +12045,7 @@ ret_val<void> item::is_gunmod_compatible( const item &mod ) const
                  mod.type->gunmod->location.name() == "mechanism" ||
                  mod.type->gunmod->location.name() == "loading port" ||
                  mod.type->gunmod->location.name() == "bore" ) &&
-               ( ammo_remaining() > 0 || magazine_current() ) ) {
+               ( ammo_remaining( here ) > 0 || magazine_current() ) ) {
         return ret_val<void>::make_failure( _( "must be unloaded before installing this mod" ) );
 
     } else if( gunmod_find( itype_stock_none ) &&
@@ -12212,6 +12274,8 @@ int item::reload_option::moves() const
 
 void item::reload_option::qty( int val )
 {
+    map &here = get_map();
+
     bool ammo_in_container = ammo->is_ammo_container();
     bool ammo_in_liquid_container = ammo->is_watertight_container();
     item &ammo_obj = ( ammo_in_container || ammo_in_liquid_container ) ?
@@ -12243,7 +12307,7 @@ void item::reload_option::qty( int val )
     bool ammo_by_charges = ammo_obj.is_ammo() || ammo_in_liquid_container;
     int available_ammo;
     if( ammo->has_flag( flag_SPEEDLOADER ) || ammo->has_flag( flag_SPEEDLOADER_CLIP ) ) {
-        available_ammo = ammo_obj.ammo_remaining();
+        available_ammo = ammo_obj.ammo_remaining( here );
     } else {
         available_ammo = ammo_by_charges ? ammo_obj.charges : ammo_obj.count();
     }
@@ -12278,6 +12342,8 @@ void item::casings_handle( const std::function<bool( item & )> &func )
 
 bool item::reload( Character &u, item_location ammo, int qty )
 {
+    map &here = get_map();
+
     if( qty <= 0 ) {
         debugmsg( "Tried to reload zero or less charges" );
         return false;
@@ -12303,7 +12369,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
     if( is_watertight_container() && ammo->made_of_from_type( phase_id::LIQUID ) ) {
         limit = get_remaining_capacity_for_liquid( *ammo );
     } else if( ammo->is_ammo() ) {
-        limit = ammo_capacity( ammo->ammo_type() ) - ammo_remaining();
+        limit = ammo_capacity( ammo->ammo_type() ) - ammo_remaining( here );
     }
 
     if( ammo->ammo_type() == ammo_plutonium ) {
@@ -13710,7 +13776,7 @@ void item::overwrite_relic( const relic &nrelic )
 
 bool item::use_relic( Character &guy, const tripoint_bub_ms &pos )
 {
-    return relic_data->activate( guy, pos.raw() );
+    return relic_data->activate( guy, pos );
 }
 
 void item::process_relic( Character *carrier, const tripoint_bub_ms &pos )
@@ -14052,6 +14118,8 @@ ret_val<void> item::link_to( const optional_vpart_position &first_linked_vp,
 
 ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state link_type )
 {
+    map &here = get_map();
+
     if( !can_link_up() ) {
         return ret_val<void>::make_failure( _( "The %s doesn't have a cable!" ), type_name() );
     }
@@ -14061,7 +14129,7 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
     if( link_type == link_state::vehicle_tow ) {
         if( veh.has_tow_attached() || veh.is_towed() || veh.is_towing() ) {
             return ret_val<void>::make_failure( _( "That vehicle already has a tow-line attached." ) );
-        } else if( !veh.is_external_part( veh.mount_to_tripoint( mount ) ) ) {
+        } else if( !veh.is_external_part( mount ) ) {
             return ret_val<void>::make_failure( _( "You can't attach a tow-line to an internal part." ) );
         } else {
             const int part_at = veh.part_at( veh.coord_translate( mount ) );
@@ -14097,7 +14165,7 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
         link().source = bio_link ? link_state::bio_cable : link_state::no_link;
         link().target = link_type;
         link().t_veh = veh.get_safe_reference();
-        link().t_abs_pos = get_map().get_abs( link().t_veh->pos_bub() );
+        link().t_abs_pos = link().t_veh->pos_abs();
         link().t_mount = mount;
         link().s_bub_pos = tripoint_bub_ms::min; // Forces the item to check the length during process_link.
 
@@ -14112,7 +14180,7 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
         return ret_val<void>::make_failure();
     }
     if( !link().t_veh ) {
-        vehicle *found_veh = vehicle::find_vehicle( link().t_abs_pos );
+        vehicle *found_veh = vehicle::find_vehicle( here, link().t_abs_pos );
         if( found_veh ) {
             link().t_veh = found_veh->get_safe_reference();
         } else {
@@ -14177,13 +14245,13 @@ ret_val<void> item::link_to( vehicle &veh, const point_rel_ms &mount, link_state
     vehicle_part prev_veh_part( vpid, item( *this ) );
     prev_veh_part.target.first = prev_part_target.first;
     prev_veh_part.target.second = prev_part_target.second;
-    prev_veh->install_part( prev_mount, std::move( prev_veh_part ) );
+    prev_veh->install_part( here, prev_mount, std::move( prev_veh_part ) );
     prev_veh->precalc_mounts( 1, prev_veh->pivot_rotation[1], prev_veh->pivot_anchor[1] );
 
     vehicle_part sel_veh_part( vpid, item( *this ) );
     sel_veh_part.target.first = sel_part_target.first;
     sel_veh_part.target.second = sel_part_target.second;
-    veh.install_part( mount, std::move( sel_veh_part ) );
+    veh.install_part( here, mount, std::move( sel_veh_part ) );
     veh.precalc_mounts( 1, veh.pivot_rotation[1], veh.pivot_anchor[1] );
 
     if( link_type == link_state::vehicle_tow ) {
@@ -14330,7 +14398,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
 
     // Re-establish vehicle pointer if it got lost or if this item just got loaded.
     if( !link().t_veh ) {
-        vehicle *found_veh = vehicle::find_vehicle( link().t_abs_pos );
+        vehicle *found_veh = vehicle::find_vehicle( here, link().t_abs_pos );
         if( !found_veh ) {
             return reset_link( true, carrier, -2, true, pos );
         }
@@ -14402,8 +14470,8 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
     link().last_processed = calendar::turn;
 
     // Set the new absolute position to the vehicle's origin.
-    tripoint_bub_ms t_veh_bub_pos = t_veh->pos_bub();
-    tripoint_abs_ms new_t_abs_pos = here.get_abs( t_veh_bub_pos );
+    tripoint_abs_ms new_t_abs_pos = t_veh->pos_abs();;
+    tripoint_bub_ms t_veh_bub_pos = here.get_bub( new_t_abs_pos );;
     if( link().t_abs_pos != new_t_abs_pos ) {
         link().t_abs_pos = new_t_abs_pos;
         length_check_needed = true;
@@ -14446,6 +14514,8 @@ bool item::process_link( map &here, Character *carrier, const tripoint_bub_ms &p
 
 int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
 {
+    map &here = get_map();
+
     if( !has_link_data() || link().charge_rate == 0 || link().charge_interval < 1 ) {
         return 0;
     }
@@ -14458,8 +14528,8 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
     }
 
     const bool power_in = link().charge_rate > 0;
-    if( power_in ? ammo_remaining() >= ammo_capacity( ammo_battery ) :
-        ammo_remaining() <= 0 ) {
+    if( power_in ? ammo_remaining( here ) >= ammo_capacity( ammo_battery ) :
+        ammo_remaining( here ) <= 0 ) {
         return 0;
     }
 
@@ -14477,22 +14547,22 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
                          ( turns_elapsed * 1.0f / link().charge_interval ) * link().charge_interval;
 
     if( power_in ) {
-        const int battery_deficit = linked_veh.discharge_battery( transfer_total, true );
+        const int battery_deficit = linked_veh.discharge_battery( here, transfer_total, true );
         // Around 85% efficient by default; a few of the discharges don't actually recharge
         if( battery_deficit == 0 && ( !short_time_passed || rng_float( 0.0, 1.0 ) <= link().efficiency ) ) {
-            ammo_set( itype_battery, ammo_remaining() + transfer_total );
+            ammo_set( itype_battery, ammo_remaining( here ) + transfer_total );
         }
     } else {
         // Around 85% efficient by default; a few of the discharges don't actually charge
         if( !short_time_passed || rng_float( 0.0, 1.0 ) <= link().efficiency ) {
-            const int battery_surplus = linked_veh.charge_battery( transfer_total, true );
+            const int battery_surplus = linked_veh.charge_battery( here, transfer_total, true );
             if( battery_surplus == 0 ) {
-                ammo_set( itype_battery, ammo_remaining() - transfer_total );
+                ammo_set( itype_battery, ammo_remaining( here ) - transfer_total );
             }
         } else {
-            const std::pair<int, int> linked_levels = linked_veh.connected_battery_power_level();
+            const std::pair<int, int> linked_levels = linked_veh.connected_battery_power_level( here );
             if( linked_levels.first < linked_levels.second ) {
-                ammo_set( itype_battery, ammo_remaining() - transfer_total );
+                ammo_set( itype_battery, ammo_remaining( here ) - transfer_total );
             }
         }
     }
@@ -14610,6 +14680,8 @@ units::energy item::energy_per_second() const
 
 bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
 {
+    map &here = get_map();
+
     // FIXME: remove this once power armors don't need to be TOOL_ARMOR anymore
     if( is_power_armor() && carrier && carrier->can_interface_armor() && carrier->has_power() ) {
         return false;
@@ -14618,7 +14690,7 @@ bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
     // if insufficient available charges shutdown the tool
     if( ( type->tool->power_draw > 0_W || type->tool->turns_per_charge > 0 ) &&
         ( ( uses_energy() && energy_remaining( carrier ) < energy_per_second() ) ||
-          ( !uses_energy() && ammo_remaining( carrier, true ) == 0 ) ) ) {
+          ( !uses_energy() && ammo_remaining( here, carrier, true ) == 0 ) ) ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }
@@ -15690,6 +15762,16 @@ std::list<const item *> item::all_items_top() const
 std::list<item *> item::all_items_top()
 {
     return contents.all_items_top();
+}
+
+std::list<const item *> item::all_items_container_top() const
+{
+    return contents.all_items_container_top();
+}
+
+std::list<item *> item::all_items_container_top()
+{
+    return contents.all_items_container_top();
 }
 
 std::list<const item *> item::all_items_top( pocket_type pk_type ) const

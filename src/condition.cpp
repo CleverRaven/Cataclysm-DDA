@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <array>
 #include <climits>
-#include <cmath>
 #include <cstddef>
 #include <functional>
 #include <map>
@@ -11,7 +10,6 @@
 #include <optional>
 #include <queue>
 #include <set>
-#include <stdexcept>
 #include <string>
 #include <type_traits>
 #include <unordered_map>
@@ -22,11 +20,13 @@
 
 #include "action.h"
 #include "avatar.h"
+#include "basecamp.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "character.h"
+#include "character_id.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "dialogue_helpers.h"
@@ -37,22 +37,24 @@
 #include "faction.h"
 #include "field.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
+#include "game_constants.h"
 #include "generic_factory.h"
 #include "global_vars.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_location.h"
-#include "json_error.h"
-#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "math_parser.h"
 #include "math_parser_type.h"
+#include "memory_fast.h"
+#include "messages.h"
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -60,6 +62,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "popup.h"
@@ -80,8 +83,7 @@
 #include "widget.h"
 #include "worldfactory.h"
 
-class Creature;
-class basecamp;
+// IWYU pragma: no_forward_declare cardinal_direction // need its enum_traits
 class recipe;
 struct mapgen_arguments;
 
@@ -406,16 +408,6 @@ tripoint_abs_ms get_tripoint_ms_from_var( std::optional<var_info> var, const_dia
     tripoint_abs_ms pt = convert_tripoint_from_var<tripoint_abs_ms>( var, d, is_npc );
     if( pt.is_invalid() ) {
         return get_map().get_abs( d.const_actor( is_npc )->pos_bub() );
-    }
-    return pt;
-}
-
-tripoint_abs_omt get_tripoint_omt_from_var( std::optional<var_info> var, const_dialogue const &d,
-        bool is_npc )
-{
-    tripoint_abs_omt pt = convert_tripoint_from_var<tripoint_abs_omt>( var, d, is_npc );
-    if( pt.is_invalid() ) {
-        return coords::project_to<coords::omt>( get_map().get_abs( d.const_actor( is_npc )->pos_bub() ) );
     }
     return pt;
 }
@@ -2421,6 +2413,7 @@ namespace
 std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals = {
     { "age", &talker::set_age },
     { "anger", &talker::set_anger },
+    { "cash", &talker::set_cash },
     { "dexterity_base", &talker::set_dex_max },
     { "dexterity_bonus", &talker::set_dex_bonus },
     { "exp", &talker::set_kill_xp },

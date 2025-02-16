@@ -2,15 +2,17 @@
 #ifndef CATA_SRC_MOOD_FACE_H
 #define CATA_SRC_MOOD_FACE_H
 
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "type_id.h"
 
 class JsonObject;
-class JsonOut;
+class mood_face_value;
 template<typename T>
 class generic_factory;
-class mood_face_value;
 
 class mood_face
 {

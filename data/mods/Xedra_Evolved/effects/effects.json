@@ -1372,6 +1372,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_homullus_prevented_death",
+    "name": [ "Transferred Essence" ],
+    "desc": [
+      "You have transferred your essence into a human, saving yourself at the expense of their being.  It will take some time until you can do this again."
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "telepathic_ignorance",
     "//": "id is hardcoded, used by the Homullus spell A Face in the Crowd",
     "name": [ "" ],
@@ -2430,6 +2438,22 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_trow_no_eating_or_sleep",
+    "//": "Hidden effect, used to give you no metabolism or sleep gain while mining",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": -1 },
+          { "value": "THIRST", "multiply": -1 },
+          { "value": "SLEEPINESS", "multiply": -1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "called_daffodil",
     "name": [ "Called the daffodil" ],
     "desc": [ "You recently called some daffodils.  You need to wait a day before you can call more." ]
@@ -3081,5 +3105,13 @@
     "max_intensity": 1,
     "show_in_info": true,
     "enchantments": [ { "hit_you_effect": [ { "id": "xedra_monster_erosion_attack" } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "//": "Required to make Boann banish monsters.  Without it, she will aim the banish at herself every time.",
+    "id": "boann_retaliation_mark",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "show_in_info": false
   }
 ]

@@ -4,11 +4,17 @@
 
 
 #include <optional>
+#include <set>
+#include <string>
+#include <string_view>
 #include <vector>
 
 #include "dialogue_helpers.h"
-#include "enum_bitset.h"
 #include "type_id.h"
+
+class JsonObject;
+class JsonOut;
+template <typename T> struct enum_traits;
 
 enum class magic_energy_type : int {
     hp,
@@ -45,6 +51,7 @@ class magic_type
         std::optional<jmath_func_id> exp_for_level_formula_id;
 
         std::optional<jmath_func_id> casting_xp_formula_id;
+        std::optional<jmath_func_id> failure_chance_formula_id;
         std::optional<magic_energy_type> energy_source;
         std::set<std::string> cannot_cast_flags; // string flags
         std::optional<std::string> cannot_cast_message;

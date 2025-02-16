@@ -1,7 +1,5 @@
 #include "monexamine.h"
 
-#include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
@@ -11,9 +9,11 @@
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -29,9 +29,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
-#include "npc.h"
 #include "output.h"
-#include "player_activity.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -608,6 +606,8 @@ bool Character::can_mount( const monster &critter ) const
 
 bool monexamine::pet_menu( monster &z )
 {
+    map &here = get_map();
+
     enum choices {
         swap_pos = 0,
         push_monster,
@@ -762,7 +762,7 @@ bool monexamine::pet_menu( monster &z )
         int max_charge = type.magazine->capacity;
         float charge_percent;
         if( z.battery_item ) {
-            charge_percent = static_cast<float>( z.battery_item->ammo_remaining() ) / max_charge * 100;
+            charge_percent = static_cast<float>( z.battery_item->ammo_remaining( here ) ) / max_charge * 100;
         } else {
             charge_percent = 0.0;
         }

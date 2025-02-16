@@ -8,6 +8,7 @@
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
     "e_port": "camera",
+    "etransfer_rate": "20 MB",
     "melee_damage": { "bash": 1 },
     "variables": { "browsed": "true" }
   },
@@ -208,18 +209,19 @@
     "copy-from": "abstract_tablet",
     "type": "TOOL",
     "name": { "str": "e-ink tablet PC" },
-    "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
+    "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, they are extremely useful tools.  Runs on conventional batteries.",
     "//": "amazon kindle, LIONX 6300mAh battery 42 ml",
     "weight": "158 g",
     "volume": "137 ml",
     "longest_side": "158 mm",
     "price": "85 USD",
-    "price_postapoc": "10 cent",
+    "price_postapoc": "10 USD",
     "material": [ { "type": "aluminum", "portion": 3 }, { "type": "plastic", "portion": 1 } ],
     "symbol": ";",
     "color": "blue",
     "use_action": [
       "E_FILE_DEVICE",
+      "EBOOKSAVE",
       {
         "type": "transform",
         "menu_text": "Turn on the screen",
@@ -298,6 +300,23 @@
     "//": "Based on https://www.amazon.com/dp/B015CH1PJU"
   },
   {
+    "id": "usb_drive_older",
+    "copy-from": "usb_drive",
+    "type": "TOOL",
+    "name": { "str": "older USB drive" },
+    "description": "A USB thumb drive.  Maybe a decade out of date, but still useful for holding electronic data.",
+    "pocket_data": [
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0,
+        "ememory_max": "32 GB"
+      }
+    ]
+  },
+  {
     "id": "portable_hard_drive",
     "copy-from": "abstract_usb_drive",
     "type": "TOOL",
@@ -341,6 +360,23 @@
         "max_contains_weight": "1 g",
         "weight_multiplier": 0.0,
         "ememory_max": "64 GB"
+      }
+    ]
+  },
+  {
+    "id": "memory_card_older",
+    "copy-from": "memory_card",
+    "type": "TOOL",
+    "name": { "str": "older memory card" },
+    "description": "A memory card.  Maybe a decade out of date, but can still be used to store data.",
+    "pocket_data": [
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0,
+        "ememory_max": "16 GB"
       }
     ]
   },

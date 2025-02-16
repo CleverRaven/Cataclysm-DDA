@@ -1,6 +1,8 @@
-#include <iosfwd>
+#include <string>
+#include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"

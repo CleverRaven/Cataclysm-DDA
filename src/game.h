@@ -21,17 +21,16 @@
 #include "character.h"
 #include "character_id.h"
 #include "color.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
-#include "game_constants.h"
 #include "global_vars.h"
 #include "item_location.h"
+#include "map_scale_constants.h"
 #include "memory_fast.h"
 #include "overmap_ui.h"
 #include "pimpl.h"
-#include "point.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "weather.h"
@@ -65,8 +64,6 @@ enum safe_mode_type {
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
 };
 
-enum action_id : int;
-
 class JsonValue;
 class achievements_tracker;
 class avatar;
@@ -97,6 +94,7 @@ class ui_adaptor;
 class uilist;
 class vehicle;
 class viewer;
+enum action_id : int;
 struct special_game;
 struct visibility_variables;
 template <typename Tripoint> class tripoint_range;
@@ -522,6 +520,8 @@ class game
         bool revive_corpse( const tripoint_bub_ms &p, item &it );
         // same as above, but with relaxed placement radius.
         bool revive_corpse( const tripoint_bub_ms &p, item &it, int radius );
+        // evaluate what monster it should be, if necessary
+        void assing_revive_form( item &it, tripoint_bub_ms p );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
         void save_cyborg( item *cyborg, const tripoint_bub_ms &couch_pos, Character &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
@@ -886,7 +886,8 @@ class game
 
         game::vmenu_ret list_items( const std::vector<map_item_stack> &item_list );
         std::vector<map_item_stack> find_nearby_items( int iRadius );
-        void reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort );
+        void reset_item_list_state( const catacurses::window &window, int height,
+                                    list_item_sort_mode sortMode );
 
         game::vmenu_ret list_monsters( const std::vector<Creature *> &monster_list );
 

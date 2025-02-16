@@ -217,7 +217,7 @@
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -28 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
-    "weapon_category": [ "POLEARMS", "SPEARS" ],
+    "weapon_category": [ "SPEARS" ],
     "melee_damage": { "bash": 4, "stab": 26 }
   },
   {
@@ -713,7 +713,7 @@
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "POLEARMS" ],
+    "weapon_category": [ "SPEARS" ],
     "category": "weapons",
     "melee_damage": { "bash": 9, "stab": 28 }
   },

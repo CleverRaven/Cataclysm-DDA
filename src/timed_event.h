@@ -3,10 +3,15 @@
 #define CATA_SRC_TIMED_EVENT_H
 
 #include <list>
+#include <string>
 
 #include "calendar.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
+#include "point.h"
 #include "submap.h"
+
+class JsonArray;
+class JsonOut;
 
 enum class timed_event_type : int {
     NONE,

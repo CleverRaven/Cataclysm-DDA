@@ -22,7 +22,7 @@
             "CLOUD_OF_STEAM_SYLPH",
             "CREATE_LIGHT_SYLPH",
             "SYLPH_MASSIVE_LIGHTNING_BLAST",
-            "WIND_BLOWS_WILLOW_BENDS",
+            "WIND_BLOWS_WILLOW_BENDS_SYLPH",
             "SYLPH_WIND_TRANSLOCATION",
             "SYLPH_CULTIVATE_GOBLIN_FRUIT",
             "PARACLESIAN_MAKE_GOSSAMER"
@@ -49,7 +49,8 @@
             { "u_at_om_location": "sylph_genius_loci_NW" },
             { "u_at_om_location": "sylph_genius_loci_NE" },
             { "u_at_om_location": "sylph_genius_loci_SW" },
-            { "u_at_om_location": "sylph_genius_loci_SE" }
+            { "u_at_om_location": "sylph_genius_loci_SE" },
+            { "test_eoc": "EOC_CONDITION_SKY_ISLAND_ON_THE_ISLAND" }
           ]
         }
       ]
@@ -78,7 +79,7 @@
         { "math": [ "u_spell_level('sylph_crash_of_lightning') < dex_to_level(1)" ] },
         { "math": [ "u_spell_level('sylph_massive_lightning_bolt_spell') < int_to_level(1)" ] },
         { "math": [ "u_spell_level('sylph_wind_translocation_spell') < dex_to_level(1)" ] },
-        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus') < 25" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus_sylph') < 25" ] },
         { "math": [ "u_spell_level('sylph_cultivate_goblin_fruit') < dex_to_level(1)" ] },
         { "math": [ "u_spell_level('paraclesian_spell_make_gossamer') < 8" ] }
       ]
@@ -375,8 +376,8 @@
     "id": "EOC_LEVELER_SLYPH_WIND_BLOWS_WILLOW_BENDS",
     "condition": {
       "and": [
-        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus') >= 0" ] },
-        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus') < 25" ] }
+        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus_sylph') >= 0" ] },
+        { "math": [ "u_spell_level('paraclesian_spell_dodge_bonus_sylph') < 25" ] }
       ]
     },
     "effect": [
@@ -384,7 +385,7 @@
         "u_message": "Your time spent among the blowing winds has increased your facility with your fae magicks.",
         "type": "good"
       },
-      { "math": [ "u_spell_exp('paraclesian_spell_dodge_bonus')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+      { "math": [ "u_spell_exp('paraclesian_spell_dodge_bonus_sylph')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_SYLPH_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },

@@ -9,29 +9,29 @@
 #include <iterator>
 #include <list>
 #include <memory>
-#include <ostream>
 #include <string>
-#include <unordered_map>
 
 #include "behavior.h"
 #include "bionics.h"
-#include "cached_options.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "creature_tracker.h"
+#include "damage.h"
 #include "debug.h"
+#include "effect.h"
+#include "enums.h"
 #include "field.h"
 #include "field_type.h"
 #include "game.h"
-#include "game_constants.h"
+#include "item.h"
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "mattack_common.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -41,16 +41,15 @@
 #include "options.h"
 #include "pathfinding.h"
 #include "pimpl.h"
+#include "point.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "submap.h"
 #include "tileray.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
-#include "veh_type.h"
 #include "vehicle.h"
 #include "viewer.h"
 #include "vpart_position.h"
@@ -947,7 +946,7 @@ void monster::move()
     const std::optional<vpart_reference> vp_boardable = ovp.part_with_feature( "BOARDABLE", true );
     if( vp_boardable && friendly != 0 ) {
         const vehicle &veh = vp_boardable->vehicle();
-        if( veh.is_moving() && veh.get_monster( vp_boardable->part_index() ) ) {
+        if( veh.is_moving() && veh.get_monster( here,  vp_boardable->part_index() ) ) {
             moves = 0;
             return; // don't move if friendly and passenger in a moving vehicle
         }
@@ -1800,11 +1799,14 @@ bool monster::attack_at( const tripoint_bub_ms &p )
 static tripoint_bub_ms find_closest_stair( const tripoint_bub_ms &near_this,
         const ter_furn_flag stair_type )
 {
-    map &here = get_map();
-    for( const tripoint_bub_ms &candidate : closest_points_first( near_this, 10 ) ) {
-        if( here.has_flag( stair_type, candidate ) ) {
-            return candidate;
-        }
+    const map &here = get_map();
+    std::optional<tripoint_bub_ms> candidate = find_point_closest_first( near_this, 0, 10, [&here,
+    stair_type]( const tripoint_bub_ms & candidate ) {
+        return here.has_flag( stair_type, candidate );
+    } );
+
+    if( candidate != std::nullopt ) {
+        return *candidate;
     }
     // we didn't find it
     return near_this;
@@ -2400,7 +2402,7 @@ void monster::shove_vehicle( const tripoint_bub_ms &remote_destination,
         optional_vpart_position vp = here.veh_at( nearby_destination );
         if( vp ) {
             vehicle &veh = vp->vehicle();
-            const units::mass veh_mass = veh.total_mass();
+            const units::mass veh_mass = veh.total_mass( here );
             int shove_moves_minimal = 0;
             int shove_veh_mass_moves_factor = 0;
             int shove_velocity = 0;
@@ -2460,7 +2462,7 @@ void monster::shove_vehicle( const tripoint_bub_ms &remote_destination,
                     }
                     here.move_vehicle( veh, shove_destination, veh.face );
                 }
-                veh.move = tileray( destination_delta.xy().raw() );
+                veh.move = tileray( destination_delta.xy() );
                 veh.smash( here, shove_damage_min, shove_damage_max, 0.10F );
             }
         }

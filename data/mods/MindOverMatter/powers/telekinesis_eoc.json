@@ -22,12 +22,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR",
+    "condition": "u_is_avatar",
     "effect": {
       "run_eoc_selector": [ "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PUSH", "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PULL" ],
       "names": [ "Push", "Pull" ],
       "keys": [ "1", "2" ],
       "descriptions": [ "Shove a target away from you.", "Grab a target and pull them towards you." ]
-    }
+    },
+    "false_effect": { "u_cast_spell": { "id": "telekinetic_force_shove_away_target" }, "targeted": true }
   },
   {
     "type": "effect_on_condition",

@@ -2,6 +2,9 @@
 
 #include <algorithm>
 
+#include "lightmap.h"
+#include "shadowcasting.h"
+
 level_cache::level_cache()
 {
     const int map_dimensions = MAPSIZE_X * MAPSIZE_Y;

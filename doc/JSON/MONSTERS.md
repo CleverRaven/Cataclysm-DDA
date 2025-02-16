@@ -108,6 +108,7 @@ Property                 | Description
 `absorb_material`        | (array of string) For monsters with the `ABSORB_ITEMS` special attack. Specifies the types of materials that the monster will seek to absorb. Items with multiple materials will be matched as long as it is made of at least one of the materials in this list. If not specified the monster will absorb all materials.
 `no_absorb_material`        | (array of string) For monsters with the `ABSORB_ITEMS` special attack. Specifies the types of materials that the monster is unable to absorb. This takes precedence over absorb_material; even if the monster is whitelisted for this material, it cannot do so if any of its materials are found here. If not specified, there are no limits placed on what was whitelisted.
 `split_move_cost`        | (int) For monsters with the `SPLIT` special attack. Determines the move cost when splitting into a copy of itself.
+`revive_forms`           | (array of objects) allows to define conditional monster revival, see explanation below
 
 Properties in the above tables are explained in more detail in the sections below.
 
@@ -556,6 +557,24 @@ Field          | Description
 
 When defined the monster's unpulped corpse will rise, zombifying into the defined (different) monster. For mutated animals (including giant arthropods) the `mon_meat_cocoon` line of monsters should be defined, depending on the monster's weight:
 No cocoon below 10 kg; 10 - 35 kg monsters zombify into the tiny cocoon; 36 - 100 kg monsters turn into the small cocoon; 101 - 300 kg monsters turn into the medium cocoon; 301+ kg monsters turn into a large cocoon.
+
+## "revive_forms"
+
+Advanced form of `zombify_into`, allows to specify reviving into different monsters depending on condition;
+
+```c++
+    "revive_forms": [
+      {
+        // condition as dialogue condition, but with neither alpha nor beta talkers
+        // instead context variables `loc` (location of corpse) and `corpse_damage` are exposed
+        // can be omitted, in this case condition would be assumed to always be TRUE
+        "condition": { "map_terrain_with_flag": "SWIMMABLE", "loc": { "context_val": "loc" } },
+        // either `monster` or `monster_group` should be used
+        "monster": "pseudo_debug_mon"
+        "monster_group": "GROUP_ANIMALPOUND_CATS"
+      }
+    ],
+```
 
 ## "baby_flags"
 (Array, optional)

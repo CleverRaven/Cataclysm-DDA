@@ -74,6 +74,7 @@
         "topic": "SKYISLAND_UPGRADE"
       },
       { "text": "Empower the warp obelisk.", "topic": "SKYISLAND_UPGRADES_RAIDS" },
+      { "text": "Make the island more hospitable.", "topic": "SKYISLAND_UPGRADES_TERRAFORM" },
       { "text": "Upgrade expeditions.", "topic": "SKYISLAND_UPGRADES_FEATURES" },
       { "text": "Construction options.", "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE" },
       { "text": "I need your services.", "topic": "SKYISLAND_SERVICES" },
@@ -244,6 +245,24 @@
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_security5" } ],
         "topic": "SKYISLAND_UPGRADES_RAIDS"
+      },
+      { "text": "Nevermind.", "topic": "SKYISLAND_UPGRADE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "SKYISLAND_UPGRADES_TERRAFORM",
+    "//": "The more an upgrade makes it easier to spend a long time on the island, the more expensive it must be.",
+    "//2": "The player must always have reasons to prefer doing expeditions to staying on the island.",
+    "dynamic_line": "There are many ways that the island could be made more hospitable for you.",
+    "responses": [
+      {
+        "text": "Unlock: Personal Sunblock",
+        "condition": {
+          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_sunblock" } }, { "not": { "u_has_trait": "mut_skyisland_sunblock" } } ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_sunblock" } ],
+        "topic": "SKYISLAND_UPGRADES_TERRAFORM"
       },
       { "text": "Nevermind.", "topic": "SKYISLAND_UPGRADE" }
     ]

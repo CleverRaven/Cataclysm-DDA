@@ -796,7 +796,7 @@
     "description": "Smoking is bad, but damn it's badass.  You deal more damage and shoot more accurately when you smoke.",
     "enchantments": [
       { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 } ] },
-      { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "WEAPON_DISPERSION", "multiply": 0.25 } ] }
+      { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ] }
     ]
   },
   {
@@ -1131,9 +1131,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You cannot forget anything at all, ever.  This makes your skills rustproof, grant you the ability to memorize books for you to read in your head later and make you able to store mental images so detailled it's almost as if you were taking pictures with your mind.",
+    "description": "You cannot forget anything at all, ever.  This grants you the ability to memorize books for you to read in your head later and makes you able to store mental images so detailled it's almost as if you were taking pictures with your mind.",
     "category": [ "perk" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SKILL_RUST_RESIST", "add": 100 } ] } ],
     "integrated_armor": [ "integrated_memory" ]
   },
   {

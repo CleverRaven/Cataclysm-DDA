@@ -9,6 +9,7 @@
     "price": "2 kUSD",
     "price_postapoc": "25 USD",
     "material": [ "plastic", "aluminum" ],
+    "etransfer_rate": "45 MB",
     "looks_like": "cell_phone",
     "symbol": ";",
     "color": "light_green",
@@ -699,7 +700,7 @@
       "USES_BIONIC_POWER"
     ],
     "charges_per_use": 1,
-    "qualities": [ [ "HACK", 2 ] ]
+    "qualities": [ [ "HACK", 4 ] ]
   },
   {
     "id": "afs_internal_battery_compartment",

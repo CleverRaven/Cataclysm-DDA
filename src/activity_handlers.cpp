@@ -40,6 +40,7 @@
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -625,8 +626,9 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                           corpse.in_species( species_HUMAN ) ||
                           corpse.in_species( species_FERAL );
 
-    // applies to all butchery actions except for dissections
-    if( is_human && action != butcher_type::DISSECT && !you.okay_with_eating_humans() ) {
+    // applies to all butchery actions except for dissections or dismemberment
+    if( is_human && action != butcher_type::DISSECT && !you.okay_with_eating_humans() &&
+        action != butcher_type::DISMEMBER ) {
         //first determine if the butcherer has the dissect_humans proficiency.
         if( you.has_proficiency( proficiency_prof_dissect_humans ) ) {
             //if it's player doing the butchery, ask them first.
@@ -1128,11 +1130,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         }
         // RIP AND TEAR
         if( action == butcher_type::DISMEMBER ) {
-            if( entry.type == harvest_drop_flesh ) {
-                roll /= 6;
-            } else {
-                continue;
-            }
+            roll = 0;
         }
         // field dressing ignores skin, flesh, and blood
         if( action == butcher_type::FIELD_DRESS ) {
@@ -1239,7 +1237,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                 // TODO: smarter NPC liquid handling
                 // If we're not bleeding the animal we don't care about the blood being wasted
                 if( you.is_npc() || action != butcher_type::BLEED ) {
-                    drop_on_map( you, item_drop_reason::deliberate, { obj }, you.pos_bub() );
+                    drop_on_map( you, item_drop_reason::deliberate, { obj }, &here, you.pos_bub( &here ) );
                 } else {
                     liquid_handler::handle_all_liquid( obj, 1 );
                 }
@@ -1395,7 +1393,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     // therefore operations on this activity's targets and values may be invalidated.
     // reveal hidden items / hidden content
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
-        action != butcher_type::BLEED ) {
+        action != butcher_type::BLEED && action != butcher_type:: DISMEMBER ) {
         for( item *content : corpse_item->all_items_top( pocket_type::CONTAINER ) ) {
             if( ( roll_butchery_dissect( round( you.get_average_skill_level( skill_survival ) ), you.dex_cur,
                                          tool_quality ) + 10 ) * 5 > rng( 0, 100 ) ) {
@@ -1667,11 +1665,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                     veh = &vp->vehicle();
                     part = act_ref.values[4];
                     if( source_veh &&
-                        source_veh->fuel_left( liquid.typeId(), ( veh ? std::function<bool( const vehicle_part & )> { [&]( const vehicle_part & pa )
+                        source_veh->fuel_left( here, liquid.typeId(), ( veh ? std::function<bool( const vehicle_part & )> { [&]( const vehicle_part & pa )
                 {
                     return &veh->part( part ) != &pa;
                     }
-                                                                                                                    } : return_true<const vehicle_part &> ) ) <= 0 ) {
+                                                                                                                          } : return_true<const vehicle_part &> ) ) <= 0 ) {
                         act_ref.set_to_null();
                         return;
                     }
@@ -1711,11 +1709,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
             case liquid_source_type::VEHICLE:
                 if( part_num != -1 ) {
                     const vehicle_part &pt = source_veh->part( part_num );
-                    if( pt.is_leaking() && !pt.ammo_remaining() ) {
+                    if( pt.is_leaking() && !pt.ammo_remaining( here ) ) {
                         act_ref.set_to_null(); // leaky tank spilled while we were transferring
                         return;
                     }
-                    source_veh->drain( part_num, removed_charges );
+                    source_veh->drain( here, part_num, removed_charges );
                     liquid.charges = veh_charges - removed_charges;
                     // If there's no liquid left in this tank we're done, otherwise
                     // we need to update our liquid serialization to reflect how
@@ -1730,11 +1728,12 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                         act_ref.str_values[0] = serialize( liquid );
                     }
                 } else {
-                    source_veh->drain( liquid.typeId(), removed_charges, ( veh ? std::function<bool( vehicle_part & )> { [&]( vehicle_part & pa )
+                    source_veh->drain( here, liquid.typeId(), removed_charges,
+                                       ( veh ? std::function<bool( vehicle_part & )> { [&]( vehicle_part & pa )
                     {
                         return &veh->part( part ) != &pa;
                     }
-                                                                                                                       } : return_true<vehicle_part &> ) );
+                                                                                     } : return_true<vehicle_part &> ) );
                 }
                 break;
             case liquid_source_type::MAP_ITEM:
@@ -1905,6 +1904,8 @@ void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
 
 void activity_handlers::start_fire_finish( player_activity *act, Character *you )
 {
+    map &here = get_map();
+
     static const std::string iuse_name_string( "firestarter" );
 
     item &it = *act->targets.front();
@@ -1928,7 +1929,7 @@ void activity_handlers::start_fire_finish( player_activity *act, Character *you 
 
     you->practice( skill_survival, act->index, 5 );
 
-    firestarter_actor::resolve_firestarter_use( you, get_map().get_bub( act->placement ) );
+    firestarter_actor::resolve_firestarter_use( you, &here, here.get_bub( act->placement ) );
     act->set_to_null();
 }
 
@@ -2003,7 +2004,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
 
     you->mod_moves( -you->get_moves() );
     const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-    const float light = actor->light_mod( you->pos_bub() );
+    const float light = actor->light_mod( &here, you->pos_bub( &here ) );
     act->moves_left -= light * 100;
     if( light < 0.1 ) {
         add_msg( m_bad, _( "There is not enough sunlight to start a fire now.  You stop trying." ) );
@@ -2145,7 +2146,7 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
     const optional_vpart_position vp = here.veh_at( here.get_bub( tripoint_abs_ms( act->values[0],
                                        act->values[1],
                                        you->posz() ) ) );
-    veh_interact::complete_vehicle( *you );
+    veh_interact::complete_vehicle( here, *you );
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
     // is to be examined again.
@@ -2191,14 +2192,16 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, Character *you
     // to 10 watt (suspicious claims from some manufacturers) sustained output.
     // It takes 2.4 minutes to produce 1kj at just slightly under 7 watts (25 kj per hour)
     // time-based instead of speed based because it's a sustained activity
+    map &here = get_map();
+
     item &hand_crank_item = *act->targets.front();
 
     int time_to_crank = to_seconds<int>( 144_seconds );
     // Modify for weariness
     time_to_crank /= you->exertion_adjusted_move_multiplier( act->exertion_level() );
     if( calendar::once_every( time_duration::from_seconds( time_to_crank ) ) ) {
-        if( hand_crank_item.ammo_capacity( ammo_battery ) > hand_crank_item.ammo_remaining() ) {
-            hand_crank_item.ammo_set( itype_battery, hand_crank_item.ammo_remaining() + 1 );
+        if( hand_crank_item.ammo_capacity( ammo_battery ) > hand_crank_item.ammo_remaining( here ) ) {
+            hand_crank_item.ammo_set( itype_battery, hand_crank_item.ammo_remaining( here ) + 1 );
         } else {
             act->moves_left = 0;
             add_msg( m_info, _( "You've charged the battery completely." ) );
@@ -2216,6 +2219,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, Character *you )
     //Using a vibrator takes time (10 minutes), not speed
     //Linear increase in morale during action with a small boost at end
     //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
+    map &here = get_map();
     item &vibrator_item = *act->targets.front();
 
     if( you->encumb( bodypart_id( "mouth" ) ) >= 30 ) {
@@ -2224,10 +2228,10 @@ void activity_handlers::vibe_do_turn( player_activity *act, Character *you )
     }
 
     if( calendar::once_every( 1_minutes ) ) {
-        if( vibrator_item.ammo_remaining( you ) > 0 ) {
+        if( vibrator_item.ammo_remaining( here, you ) > 0 ) {
             vibrator_item.ammo_consume( 1, you->pos_bub(), you );
             you->add_morale( morale_feeling_good, 3, 40 );
-            if( vibrator_item.ammo_remaining( you ) == 0 ) {
+            if( vibrator_item.ammo_remaining( here, you ) == 0 ) {
                 add_msg( m_info, _( "The %s runs out of batteries." ), vibrator_item.tname() );
             }
         } else {
@@ -2275,7 +2279,7 @@ void activity_handlers::start_engines_finish( player_activity *act, Character *y
                 !veh->is_engine_type( vp, itype_animal ) ) {
                 non_muscle_attempted++;
             }
-            if( veh->start_engine( vp ) ) {
+            if( veh->start_engine( here, vp ) ) {
                 started++;
                 if( !veh->is_engine_type( vp, itype_muscle ) &&
                     !veh->is_engine_type( vp, itype_animal ) ) {
@@ -2392,11 +2396,11 @@ struct weldrig_hack {
     weldrig_hack() : part( std::nullopt ) { }
 
     bool init( const player_activity &act ) {
+        map &here = get_map();
         if( act.coords.empty() || act.str_values.size() < 2 ) {
             return false;
         }
 
-        const map &here = get_map();
         const optional_vpart_position vp = here.veh_at( here.get_bub( act.coords[0] ) );
         if( !vp ) {
             return false;
@@ -2404,11 +2408,13 @@ struct weldrig_hack {
 
         itype_id tool_id( act.get_str_value( 1, "" ) );
         pseudo = item( tool_id, calendar::turn );
-        part = vp->part_with_tool( tool_id );
+        part = vp->part_with_tool( here, tool_id );
         return part.has_value();
     }
 
     item &get_item() {
+        map &here = get_map();
+
         if( !part ) {
             // null item should be handled just fine
             return null_item_reference();
@@ -2433,7 +2439,7 @@ struct weldrig_hack {
                       mag.typeId().str(), pseudo.typeId().str() );
             return null_item_reference();
         }
-        pseudo.ammo_set( itype_battery, part->vehicle().drain( itype_battery,
+        pseudo.ammo_set( itype_battery, part->vehicle().drain( here,  itype_battery,
                          pseudo.ammo_capacity( ammo_battery ),
                          return_true< vehicle_part &>, false ) ); // no cable loss since all of this is virtual
         return pseudo;
@@ -2444,7 +2450,9 @@ struct weldrig_hack {
             return;
         }
 
-        part->vehicle().charge_battery( pseudo.ammo_remaining(),
+        map &here = get_map();
+
+        part->vehicle().charge_battery( here, pseudo.ammo_remaining( here ),
                                         false ); // return unused charges without cable loss
     }
 
@@ -2460,6 +2468,7 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
 
 void repair_item_finish( player_activity *act, Character *you, bool no_menu )
 {
+    map &here = get_map();
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     repeat_type repeat = static_cast<repeat_type>( act->get_value( 0,
                          static_cast<int>( repeat_type::INIT ) ) );
@@ -2627,7 +2636,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
             ammo_name = item::nname( used_tool->ammo_current() );
         }
 
-        int ammo_remaining = used_tool->ammo_remaining( you, true );
+        int ammo_remaining = used_tool->ammo_remaining( here, you, true );
 
         std::set<itype_id> valid_entries = actor->get_valid_repair_materials( fix );
         const inventory &crafting_inv = you->crafting_inventory();

@@ -7,6 +7,7 @@
 #include <utility>
 
 #include "basecamp.h"
+#include "debug.h"
 #include "mapdata.h"
 #include "tileray.h"
 #include "trap.h"
@@ -208,10 +209,10 @@ void submap::rotate( int turns )
         return;
     }
 
-    const auto rotate_point = [turns]( const point & p ) {
+    const auto rotate_point = [turns]( const point_sm_ms & p ) {
         return p.rotate( turns, { SEEX, SEEY } );
     };
-    const auto rotate_point_ccw = [turns]( const point & p ) {
+    const auto rotate_point_ccw = [turns]( const point_sm_ms & p ) {
         return p.rotate( 4 - turns, { SEEX, SEEY } );
     };
 
@@ -219,14 +220,14 @@ void submap::rotate( int turns )
         // Swap horizontal stripes.
         for( int j = 0, je = SEEY / 2; j < je; ++j ) {
             for( int i = j, ie = SEEX - j; i < ie; ++i ) {
-                m->swap_soa_tile( { i, j }, point_sm_ms( rotate_point( { i, j } ) ) );
+                m->swap_soa_tile( { i, j }, rotate_point( { i, j } ) );
             }
         }
         // Swap vertical stripes so that they don't overlap with
         // the already swapped horizontals.
         for( int i = 0, ie = SEEX / 2; i < ie; ++i ) {
             for( int j = i + 1, je = SEEY - i - 1; j < je; ++j ) {
-                m->swap_soa_tile( { i, j }, point_sm_ms( rotate_point( { i, j } ) ) );
+                m->swap_soa_tile( { i, j }, rotate_point( { i, j } ) );
             }
         }
     } else {
@@ -238,7 +239,7 @@ void submap::rotate( int turns )
                 // 0123 -> 3120 -> 3102 -> 3012
                 for( int k = 0; k < 3; ++k ) {
                     p = pp;
-                    pp = point_sm_ms( rotate_point_ccw( pp.raw() ) );
+                    pp = rotate_point_ccw( pp );
                     m->swap_soa_tile( p, pp );
                 }
             }
@@ -248,15 +249,15 @@ void submap::rotate( int turns )
     active_items.rotate_locations( turns, { SEEX, SEEY } );
 
     for( submap::cosmetic_t &elem : cosmetics ) {
-        elem.pos = point_sm_ms( rotate_point( elem.pos.raw() ) );
+        elem.pos = rotate_point( elem.pos );
     }
 
     for( spawn_point &elem : spawns ) {
-        elem.pos = point_sm_ms( rotate_point( elem.pos.raw() ) );
+        elem.pos = rotate_point( elem.pos );
     }
 
     for( auto &elem : vehicles ) {
-        const point_sm_ms new_pos = point_sm_ms( rotate_point( elem->pos.raw() ) );
+        const point_sm_ms new_pos = rotate_point( elem->pos );
 
         elem->pos = new_pos;
         // turn the steering wheel, vehicle::turn does not actually
@@ -269,7 +270,7 @@ void submap::rotate( int turns )
 
     std::map<point_sm_ms, computer> rot_comp;
     for( auto &elem : computers ) {
-        rot_comp.emplace( rotate_point( elem.first.raw() ), elem.second );
+        rot_comp.emplace( rotate_point( elem.first ), elem.second );
     }
     computers = rot_comp;
 }

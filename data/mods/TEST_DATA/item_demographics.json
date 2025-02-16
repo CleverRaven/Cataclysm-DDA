@@ -633,6 +633,7 @@
             "m9": 1,
             "px4": 1,
             "rifle_9mm": 1,
+            "rugerpcc": 1,
             "smg_9mm": 1,
             "sten": 1,
             "tec9": 1,
@@ -661,6 +662,7 @@
             "1911-22": 1,
             "henry_golden_boy": 1,
             "marlin_9a": 1,
+            "marlin60": 1,
             "rifle_22": 1,
             "ruger_1022": 1,
             "ruger_lcr_22": 1,
@@ -674,7 +676,8 @@
             "ruger_mk4": 1,
             "rough_rider_pistol": 1,
             "rough_rider_pistol_9": 1,
-            "rossi_gallery": 1
+            "rossi_gallery": 1,
+            "sw617": 1
           }
         },
         {
@@ -1001,6 +1004,7 @@
             "surv_six_shooter": 1,
             "sw_500": 1,
             "sw_610": 1,
+            "sw617": 1,
             "sw_619": 1,
             "sw629": 1,
             "TDI_10": 1,
@@ -1097,6 +1101,7 @@
             "m4_cqbr": 1,
             "m60": 1,
             "m60_semi": 1,
+            "marlin60": 1,
             "marlin_9a": 1,
             "mdrx": 1,
             "mdrx_223": 1,
@@ -1150,6 +1155,7 @@
             "ruger_arr": 1,
             "ruger_m77": 1,
             "ruger_mini": 1,
+            "rugerpcc": 1,
             "ruger_pr": 1,
             "savage_111f": 1,
             "savage112": 1,

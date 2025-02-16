@@ -187,6 +187,16 @@
           { "item": "33naval_ball", "container-item": "box_medium_wood", "prob": 50, "charges": 200, "sealed": true }
         ],
         "prob": 20
+      },
+      {
+        "collection": [
+          { "item": "khuunaofaai", "prob": 100, "count": [ 1, 2 ] },
+          { "item": "exodii_khuunaofaai_mag_firework", "prob": 100, "count": [ 3, 4 ] },
+          { "item": "exodii_khuunaofaai_mag_incendiary", "prob": 50, "count": [ 1, 2 ] },
+          { "item": "exodii_khuunaofaai_mag_corrosive", "prob": 50, "count": [ 1, 2 ] },
+          { "item": "exodii_khuunaofaai_mag_adhesive", "prob": 50, "count": [ 1, 2 ] }
+        ],
+        "prob": 25
       }
     ]
   },

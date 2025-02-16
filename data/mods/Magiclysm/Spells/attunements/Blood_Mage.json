@@ -33,7 +33,8 @@
     "volume": "1 ml",
     "symbol": "o",
     "color": "white",
-    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "max_worn": 1,
     "relic_data": {
       "passive_effects": [
         {
