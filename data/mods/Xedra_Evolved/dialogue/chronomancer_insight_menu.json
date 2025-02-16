@@ -31,7 +31,14 @@
         "topic": "TALK_CHRONOMANCER_SPELL_MENU_SELECT"
       },
       {
-        "condition": { "math": [ "u_spell_level('xedra_chronomancer_time_bubble') <= 1" ] },
+        "condition": {
+              "and": [
+                { "math": [ "u_spell_level('xedra_chronomancer_time_bubble') > 0" ] },
+                { "math": [ "u_spell_level('xedra_chronomancer_time_bubble') < xedra_chronomancer_level(1) " ] }
+              ]
+            }
+          }
+        ],
         "text": "Level [<spell_name:xedra_chronomancer_time_bubble>]",
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_time_bubble')*5" ] },
