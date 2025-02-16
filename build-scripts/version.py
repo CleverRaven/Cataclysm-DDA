@@ -18,10 +18,6 @@ import re
 import os
 import subprocess
 import sys
-if sys.version_info.major < 3 and sys.version_info.minor < 8:
-    raise SystemExit(
-        f"Version {sys.version_info.major}.{sys.version_info.mintor}"
-        "not supported, 3.8 or later")
 
 VERSION = VERSION_STRING = ARTIFACT = TIMESTAMP = None
 
