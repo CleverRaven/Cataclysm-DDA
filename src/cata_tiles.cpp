@@ -287,7 +287,7 @@ tileset::find_tile_type_by_season( const std::string &id, season_type season ) c
     }
     const tileset::season_tile_value &res = iter->second;
     if( res.season_tile ) {
-        return *res.season_tile;
+        return res.season_tile;
     } else if( res.default_tile ) { // can skip this check, but just in case
         return tile_lookup_res( iter->first, *res.default_tile );
     }

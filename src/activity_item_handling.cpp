@@ -446,7 +446,7 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
 {
     map &here = get_map();
 
-    return put_into_vehicle_or_drop( you, reason, items, &here, you.pos_bub( &here ) );
+    put_into_vehicle_or_drop( you, reason, items, &here, you.pos_bub( &here ) );
 }
 
 void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
@@ -986,7 +986,7 @@ static bool are_requirements_nearby(
     if( !found_welder ) {
         for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1,
                 PICKUP_RANGE - 1 ) ) {
-            const std::optional<vpart_reference> &vp = here.veh_at( elem ).part_with_tool( itype_welder );
+            const std::optional<vpart_reference> &vp = here.veh_at( elem ).part_with_tool( here, itype_welder );
 
             if( vp ) {
                 const int veh_battery = vp->vehicle().fuel_left( here, itype_battery );
@@ -2459,7 +2459,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                             moved_something = true;
                         }
                     }
-                    if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
+                    if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining( ) == 0 ) {
                         if( vpr_src ) {
                             vpr_src->vehicle().remove_item( vpr_src->part(), it->first );
                         } else {

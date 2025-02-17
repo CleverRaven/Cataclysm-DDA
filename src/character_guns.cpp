@@ -67,13 +67,13 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         }
 
         // Do not consider empty mags unless specified
-        if( node->is_magazine() && !node->ammo_remaining() && !empty ) {
+        if( node->is_magazine() && !node->ammo_remaining( ) && !empty ) {
             return VisitResponse::SKIP;
         }
 
         if( node->has_flag( flag_SPEEDLOADER ) && obj.magazine_integral() ) {
             // Can't reload with empty speedloaders
-            if( !node->ammo_remaining() ) {
+            if( !node->ammo_remaining( ) ) {
                 return VisitResponse::SKIP;
             }
             // All speedloaders are accepted.

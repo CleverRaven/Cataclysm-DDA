@@ -268,10 +268,10 @@ class selection_column_preset : public inventory_selector_preset
             if( item->is_money() ) {
                 cata_assert( available_count == entry.get_stack_size() );
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                    res += item->display_money( available_count, item->ammo_remaining(),
+                    res += item->display_money( available_count, item->ammo_remaining( ),
                                                 entry.get_selected_charges() );
                 } else {
-                    res += item->display_money( available_count, item->ammo_remaining() );
+                    res += item->display_money( available_count, item->ammo_remaining( ) );
                 }
             } else {
                 res += item->display_name( available_count );
@@ -724,7 +724,7 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
     size_t count = entry.get_stack_size();
     std::string disp_name;
     if( entry.any_item()->is_money() ) {
-        disp_name = entry.any_item()->display_money( count, entry.any_item()->ammo_remaining() );
+        disp_name = entry.any_item()->display_money( count, entry.any_item()->ammo_remaining( ) );
     } else if( entry.is_collation_header() && entry.any_item()->count_by_charges() ) {
         item temp( *entry.any_item() );
         temp.charges = entry.get_total_charges();
@@ -3445,7 +3445,7 @@ void ammo_inventory_selector::set_all_entries_chosen_count()
                     item::reload_option tmp_opt( &u, loc, it );
                     int count = entry->get_available_count();
                     if( it->has_flag( flag_SPEEDLOADER ) || it->has_flag( flag_SPEEDLOADER_CLIP ) ) {
-                        count = it->ammo_remaining();
+                        count = it->ammo_remaining( );
                     }
                     tmp_opt.qty( count );
                     entry->chosen_count = tmp_opt.qty();

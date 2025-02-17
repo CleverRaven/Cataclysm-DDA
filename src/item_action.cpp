@@ -185,7 +185,7 @@ item_action_map item_action_generator::map_actions_to_items( Character &you,
                     continue; // Other item consumes less charges
                 }
 
-                if( found->second->ammo_remaining() > actual_item->ammo_remaining() ) {
+                if( found->second->ammo_remaining( ) > actual_item->ammo_remaining( ) ) {
                     better = true; // Items with less charges preferred
                 }
             }

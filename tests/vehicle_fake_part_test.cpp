@@ -120,7 +120,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
          */
         for( const vpart_reference &vp : veh->get_avail_parts( "OPENABLE" ) ) {
             REQUIRE( !vp.part().is_fake );
-            veh->open( vp.part_index() );
+            veh->open( here, vp.part_index() );
         }
         // include inactive fakes since the vehicle isn't rotated
         bool tested_a_fake = false;
@@ -132,7 +132,7 @@ TEST_CASE( "ensure_fake_parts_enable_on_turn", "[vehicle] [vehicle_fake]" )
         }
         REQUIRE( tested_a_fake );
         for( const vpart_reference &vp : veh->get_avail_parts( "OPENABLE" ) ) {
-            veh->close( vp.part_index() );
+            veh->close( here, vp.part_index() );
         }
         for( const vpart_reference &vp : veh->get_all_parts_with_fakes( true ) ) {
             if( vp.info().has_flag( "OPENABLE" ) ) {
@@ -379,7 +379,7 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
     // First get the doors to a known good state.
     for( const vpart_reference &vp : veh->get_avail_parts( "OPENABLE" ) ) {
         REQUIRE( !vp.part().is_fake );
-        veh->close( vp.part_index() );
+        veh->close( here, vp.part_index() );
     }
 
     // Then scan through all the openables including fakes and assert that we can open them.
@@ -388,12 +388,12 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
         if( vp.info().has_flag( "OPENABLE" ) && vp.part().is_fake ) {
             fakes_tested++;
             REQUIRE( !vp.part().open );
-            CHECK( can_interact_at( ACTION_OPEN, vp.pos_bub( &here ) ) );
+            CHECK( can_interact_at( ACTION_OPEN, vp.pos_bub( here ) ) );
             int part_to_open = veh->next_part_to_open( vp.part_index() );
             // This should be the same part for this use case since there are no curtains etc.
             REQUIRE( part_to_open == static_cast<int>( vp.part_index() ) );
             // Using open_all_at because it will usually be from outside the vehicle.
-            veh->open_all_at( part_to_open );
+            veh->open_all_at( here, part_to_open );
             CHECK( vp.part().open );
             CHECK( veh->part( vp.part().fake_part_to ).open );
         }
@@ -404,7 +404,7 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
     // Then open them all back up.
     for( const vpart_reference &vp : veh->get_avail_parts( "OPENABLE" ) ) {
         REQUIRE( !vp.part().is_fake );
-        veh->open( vp.part_index() );
+        veh->open( here, vp.part_index() );
         REQUIRE( vp.part().open );
         if( !vp.part().has_fake ) {
             continue;
@@ -434,12 +434,12 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
         if( vp.info().has_flag( "OPENABLE" ) && vp.part().is_fake ) {
             fakes_tested++;
             CHECK( vp.part().open );
-            CHECK( can_interact_at( ACTION_CLOSE, vp.pos_bub( &here ) ) );
+            CHECK( can_interact_at( ACTION_CLOSE, vp.pos_bub( here ) ) );
             int part_to_close = veh->next_part_to_close( vp.part_index() );
             // This should be the same part for this use case since there are no curtains etc.
             REQUIRE( part_to_close == static_cast<int>( vp.part_index() ) );
             // Using open_all_at because it will usually be from outside the vehicle.
-            veh->close( part_to_close );
+            veh->close( here, part_to_close );
             CHECK( !vp.part().open );
             CHECK( !veh->part( vp.part().fake_part_to ).open );
         }

@@ -826,7 +826,7 @@ void debug_menu::wishmonster( const std::optional<tripoint_bub_ms> &p )
         wmenu.query();
         if( wmenu.ret >= 0 ) {
             const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
-            if( std::optional<tripoint_bub_ms> spawn = p ? p.value() : g->look_around() ) {
+            if( std::optional<tripoint_bub_ms> spawn = p.has_value() ? p : g->look_around() ) {
                 int num_spawned = 0;
                 for( const tripoint_bub_ms &destination : closest_points_first( *spawn, cb.group ) ) {
                     monster *const mon = g->place_critter_at( mon_type, destination );

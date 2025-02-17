@@ -389,7 +389,7 @@ static bool handle_vehicle_target( Character &player_character, item &liquid,
     if( target.veh == nullptr ) {
         return false;
     }
-    auto sel = [&]( const vehicle_part & pt ) {
+    auto sel = [&]( const map &, const vehicle_part & pt ) {
         return pt.is_tank() && pt.can_reload( liquid );
     };
 

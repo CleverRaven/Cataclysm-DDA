@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <iterator>
 #include <list>
+#include <memory>
 #include <optional>
 #include <ostream>
 #include <string>
@@ -841,16 +842,16 @@ void item_location::deserialize( const JsonObject &obj )
             // character item locations were assumed to be on g->u
             who_id = get_player_character().getID();
         }
-        ptr.reset( new impl::item_on_person( who_id, idx ) );
+        ptr = std::make_shared<impl::item_on_person>( who_id, idx );
 
     } else if( type == "map" ) {
-        ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) );
+        ptr = std::make_shared<impl::item_on_map>( map_cursor( pos ), idx );
 
     } else if( type == "vehicle" ) {
         vehicle *const veh = veh_pointer_or_null( get_map().veh_at( pos ) );
         int part = obj.get_int( "part" );
         if( veh && part >= 0 && part < veh->part_count() ) {
-            ptr.reset( new impl::item_on_vehicle( vehicle_cursor( *veh, part ), idx ) );
+            ptr = std::make_shared<impl::item_on_vehicle>( vehicle_cursor( *veh, part ), idx );
         }
     } else if( type == "in_container" ) {
         item_location parent;
@@ -858,18 +859,18 @@ void item_location::deserialize( const JsonObject &obj )
         if( !parent.ptr->valid() ) {
             if( parent == nowhere ) {
                 debugmsg( "parent location doesn't exist.  Item_location has lost its target over a save/load cycle." );
-                ptr.reset( new impl::nowhere );
+                ptr = std::make_shared<impl::nowhere>( );
                 return;
             }
             debugmsg( "parent location does not point to valid item" );
-            ptr.reset( new impl::item_on_map( map_cursor( parent.pos_bub() ), idx ) ); // drop on ground
+            ptr = std::make_shared<impl::item_on_map>( map_cursor( parent.pos_bub() ), idx ); // drop on ground
             return;
         }
         const std::list<item *> parent_contents = parent->all_items_container_top();
         if( idx > -1 && idx < static_cast<int>( parent_contents.size() ) ) {
             auto iter = parent_contents.begin();
             std::advance( iter, idx );
-            ptr.reset( new impl::item_in_container( parent, *iter ) );
+            ptr = std::make_shared<impl::item_in_container>( parent, *iter );
         } else {
             // probably pointing to the wrong item
             debugmsg( "contents index greater than contents size" );
@@ -1059,7 +1060,7 @@ void item_location::remove_item()
         return;
     }
     ptr->remove_item();
-    ptr.reset( new impl::nowhere() );
+    ptr = std::make_shared<impl::nowhere>( );
 }
 
 void item_location::on_contents_changed()

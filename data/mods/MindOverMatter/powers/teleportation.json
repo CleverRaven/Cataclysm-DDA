@@ -601,7 +601,7 @@
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
-    "effect_str": "EOC_TELEPORT_ITEM_GATEWAY_PRE_CHECK",
+    "effect_str": "EOC_TELEPORT_RELOCATION_PRE_CHECK",
     "shape": "blast",
     "base_energy_cost": 6000,
     "final_energy_cost": 3500,

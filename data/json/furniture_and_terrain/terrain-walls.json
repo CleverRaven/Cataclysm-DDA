@@ -1789,6 +1789,7 @@
     "copy-from": "t_abstract_wall_earthen",
     "name": "solid earth",
     "description": "A wall of solid earth.",
+    "extend": { "flags": [ "NATURAL_UNDERGROUND" ] },
     "delete": { "flags": [ "AUTO_WALL_SYMBOL" ] },
     "roof": "t_dirt",
     "bash": {
@@ -1808,6 +1809,7 @@
     "name": "solid rock",
     "description": "A wall of solid rock, could be full of all kinds of interesting things.  Best grab your pickaxe or equivalent digging implement, and strike the earth!",
     "color": "white",
+    "extend": { "flags": [ "NATURAL_UNDERGROUND" ] },
     "delete": { "flags": [ "AUTO_WALL_SYMBOL" ] },
     "roof": "t_rock_floor_no_roof",
     "bash": {

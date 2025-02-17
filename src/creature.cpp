@@ -1953,7 +1953,7 @@ void Creature::schedule_effect_removal( const efftype_id &eff_id, const bodypart
 }
 void Creature::schedule_effect_removal( const efftype_id &eff_id )
 {
-    return schedule_effect_removal( eff_id, bodypart_str_id::NULL_ID() );
+    schedule_effect_removal( eff_id, bodypart_str_id::NULL_ID() );
 }
 
 bool Creature::has_effect( const efftype_id &eff_id, const bodypart_id &bp ) const
@@ -3436,44 +3436,44 @@ void Creature::adjust_taken_damage_by_enchantments_post_absorbed( damage_unit &d
 
 void Creature::add_msg_if_player( const translation &msg ) const
 {
-    return add_msg_if_player( msg.translated() );
+    add_msg_if_player( msg.translated() );
 }
 
 void Creature::add_msg_if_player( const game_message_params &params, const translation &msg ) const
 {
-    return add_msg_if_player( params, msg.translated() );
+    add_msg_if_player( params, msg.translated() );
 }
 
 void Creature::add_msg_if_npc( const translation &msg ) const
 {
-    return add_msg_if_npc( msg.translated() );
+    add_msg_if_npc( msg.translated() );
 }
 
 void Creature::add_msg_if_npc( const game_message_params &params, const translation &msg ) const
 {
-    return add_msg_if_npc( params, msg.translated() );
+    add_msg_if_npc( params, msg.translated() );
 }
 
 void Creature::add_msg_player_or_npc( const translation &pc, const translation &npc ) const
 {
-    return add_msg_player_or_npc( pc.translated(), npc.translated() );
+    add_msg_player_or_npc( pc.translated(), npc.translated() );
 }
 
 void Creature::add_msg_player_or_npc( const game_message_params &params, const translation &pc,
                                       const translation &npc ) const
 {
-    return add_msg_player_or_npc( params, pc.translated(), npc.translated() );
+    add_msg_player_or_npc( params, pc.translated(), npc.translated() );
 }
 
 void Creature::add_msg_player_or_say( const translation &pc, const translation &npc ) const
 {
-    return add_msg_player_or_say( pc.translated(), npc.translated() );
+    add_msg_player_or_say( pc.translated(), npc.translated() );
 }
 
 void Creature::add_msg_player_or_say( const game_message_params &params, const translation &pc,
                                       const translation &npc ) const
 {
-    return add_msg_player_or_say( params, pc.translated(), npc.translated() );
+    add_msg_player_or_say( params, pc.translated(), npc.translated() );
 }
 
 std::vector <int> Creature::dispersion_for_even_chance_of_good_hit = { {

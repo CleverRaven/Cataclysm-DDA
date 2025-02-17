@@ -1709,7 +1709,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
             case liquid_source_type::VEHICLE:
                 if( part_num != -1 ) {
                     const vehicle_part &pt = source_veh->part( part_num );
-                    if( pt.is_leaking() && !pt.ammo_remaining() ) {
+                    if( pt.is_leaking() && !pt.ammo_remaining( ) ) {
                         act_ref.set_to_null(); // leaky tank spilled while we were transferring
                         return;
                     }
@@ -2198,8 +2198,8 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, Character *you
     // Modify for weariness
     time_to_crank /= you->exertion_adjusted_move_multiplier( act->exertion_level() );
     if( calendar::once_every( time_duration::from_seconds( time_to_crank ) ) ) {
-        if( hand_crank_item.ammo_capacity( ammo_battery ) > hand_crank_item.ammo_remaining() ) {
-            hand_crank_item.ammo_set( itype_battery, hand_crank_item.ammo_remaining() + 1 );
+        if( hand_crank_item.ammo_capacity( ammo_battery ) > hand_crank_item.ammo_remaining( ) ) {
+            hand_crank_item.ammo_set( itype_battery, hand_crank_item.ammo_remaining( ) + 1 );
         } else {
             act->moves_left = 0;
             add_msg( m_info, _( "You've charged the battery completely." ) );
@@ -2276,7 +2276,7 @@ void activity_handlers::start_engines_finish( player_activity *act, Character *y
                 !veh->is_engine_type( vp, itype_animal ) ) {
                 non_muscle_attempted++;
             }
-            if( veh->start_engine( vp ) ) {
+            if( veh->start_engine( here, vp ) ) {
                 started++;
                 if( !veh->is_engine_type( vp, itype_muscle ) &&
                     !veh->is_engine_type( vp, itype_animal ) ) {
@@ -2393,11 +2393,11 @@ struct weldrig_hack {
     weldrig_hack() : part( std::nullopt ) { }
 
     bool init( const player_activity &act ) {
+        map &here = get_map();
         if( act.coords.empty() || act.str_values.size() < 2 ) {
             return false;
         }
 
-        const map &here = get_map();
         const optional_vpart_position vp = here.veh_at( here.get_bub( act.coords[0] ) );
         if( !vp ) {
             return false;
@@ -2405,7 +2405,7 @@ struct weldrig_hack {
 
         itype_id tool_id( act.get_str_value( 1, "" ) );
         pseudo = item( tool_id, calendar::turn );
-        part = vp->part_with_tool( tool_id );
+        part = vp->part_with_tool( here, tool_id );
         return part.has_value();
     }
 
@@ -2449,7 +2449,7 @@ struct weldrig_hack {
 
         map &here = get_map();
 
-        part->vehicle().charge_battery( here, pseudo.ammo_remaining(),
+        part->vehicle().charge_battery( here, pseudo.ammo_remaining( ),
                                         false ); // return unused charges without cable loss
     }
 
@@ -2465,6 +2465,7 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
 
 void repair_item_finish( player_activity *act, Character *you, bool no_menu )
 {
+    map &here = get_map();
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     repeat_type repeat = static_cast<repeat_type>( act->get_value( 0,
                          static_cast<int>( repeat_type::INIT ) ) );
@@ -2632,7 +2633,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
             ammo_name = item::nname( used_tool->ammo_current() );
         }
 
-        int ammo_remaining = used_tool->ammo_remaining( you, true );
+        int ammo_remaining = used_tool->ammo_remaining_linked( here, you );
 
         std::set<itype_id> valid_entries = actor->get_valid_repair_materials( fix );
         const inventory &crafting_inv = you->crafting_inventory();

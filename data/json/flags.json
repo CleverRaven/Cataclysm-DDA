@@ -2686,5 +2686,10 @@
     "id": "BANK_NETWORKED",
     "type": "json_flag",
     "//": "Vending machines with this flag will allow purchasing items with your bank balance."
+  },
+  {
+    "id": "NATURAL_UNDERGROUND",
+    "type": "json_flag",
+    "//": "Wall tiles with this flag occur naturally underground and are not manmade."
   }
 ]

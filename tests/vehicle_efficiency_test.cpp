@@ -129,7 +129,7 @@ static float fuel_percentage_left( vehicle &v, const std::map<itype_id, int> &st
 
         if( ( pt.is_battery() || pt.is_reactor() || pt.is_tank() ) &&
             !pt.ammo_current().is_null() ) {
-            fuel_amount[ pt.ammo_current() ] += pt.ammo_remaining();
+            fuel_amount[ pt.ammo_current() ] += pt.ammo_remaining( );
         }
 
         if( pt.is_engine() && !pt.info().fuel_type.is_null() ) {
@@ -187,10 +187,10 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     // Remove all items from cargo to normalize weight.
     for( const vpart_reference &vp : veh.get_all_parts() ) {
         veh_ptr->get_items( vp.part() ).clear();
-        vp.part().ammo_consume( vp.part().ammo_remaining(), &here, vp.pos_bub( &here ) );
+        vp.part().ammo_consume( vp.part().ammo_remaining( ), &here, vp.pos_bub( here ) );
     }
     for( const vpart_reference &vp : veh.get_avail_parts( "OPENABLE" ) ) {
-        veh.close( vp.part_index() );
+        veh.close( here, vp.part_index() );
     }
 
     veh.refresh_insides();

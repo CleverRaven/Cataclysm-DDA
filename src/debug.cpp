@@ -1426,7 +1426,7 @@ void debug_write_backtrace( std::ostream &out )
     if( !addresses.empty() ) {
         call_addr2line( last_binary_name, addresses );
     }
-    free( funcNames );
+    free( funcNames );  // NOLINT( bugprone-multi-level-implicit-pointer-conversion )
 #   endif
 #endif
 }

@@ -332,7 +332,7 @@ void relic_charge_info::accumulate_charge( item &parent )
             if( current_ammo == itype_id::NULL_ID() ) {
                 current_magazine->ammo_set( current_magazine->ammo_default(), 1 );
             } else {
-                current_magazine->ammo_set( current_ammo, current_magazine->ammo_remaining() + 1 );
+                current_magazine->ammo_set( current_ammo, current_magazine->ammo_remaining( ) + 1 );
             }
         } else {
             charges++;

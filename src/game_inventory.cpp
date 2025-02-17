@@ -1306,7 +1306,7 @@ class gunmod_remove_inventory_preset : public inventory_selector_preset
                   mod.type->gunmod->location.name() == "mechanism" ||
                   mod.type->gunmod->location.name() == "loading port" ||
                   mod.type->gunmod->location.name() == "bore" ) &&
-                ( gun.ammo_remaining() > 0 || gun.magazine_current() ) ) {
+                ( gun.ammo_remaining( ) > 0 || gun.magazine_current() ) ) {
                 return _( "must be unloaded before removing this mod" );
             }
 
@@ -1634,7 +1634,7 @@ drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereade
                  !already_saved.count( loc->typeId() ) );
     } );
 
-    const int available_charges = ereader->ammo_remaining();
+    const int available_charges = ereader->ammo_remaining( );
     auto make_raw_stats = [&available_charges, &ereader](
                               const std::vector<std::pair<item_location, int>> &locs
     ) {
@@ -1765,7 +1765,7 @@ drop_locations game_menus::inv::efile_select( Character &who, item_location &use
         return item::is_efile( loc ) && ( !copying || loc->is_ecopiable() );
     } );
 
-    const int available_charges = to_edevice->ammo_remaining();
+    const int available_charges = to_edevice->ammo_remaining( );
     auto make_raw_stats = [&]( const std::vector<std::pair<item_location, int>> &locs ) {
         std::vector<item_location> efiles;
         efiles.reserve( locs.size() );
@@ -2711,8 +2711,8 @@ static item_location autodoc_internal( Character &you, Character &patient,
                 return it.has_quality( qual_ANESTHESIA );
             } );
             for( const item *anesthesia_item : a_filter ) {
-                if( anesthesia_item->ammo_remaining() >= 1 ) {
-                    drug_count += anesthesia_item->ammo_remaining();
+                if( anesthesia_item->ammo_remaining( ) >= 1 ) {
+                    drug_count += anesthesia_item->ammo_remaining( );
                 }
             }
             hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
@@ -3054,12 +3054,13 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
         bool is_shown( const item_location &loc ) const override {
             // todo: allow to reload a magazine/magazine well from a container pocket on the same item
+            map &here = get_map();
+
             if( loc.parent_item() == target ) {
                 return false;
             }
 
             if( loc->made_of( phase_id::LIQUID ) && loc.where() == item_location::type::map ) {
-                map &here = get_map();
                 if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
                     return false;
                 }
@@ -3069,7 +3070,7 @@ class select_ammo_inventory_preset : public inventory_selector_preset
                 return false;
             }
 
-            if( !empty && loc->is_magazine() && !loc->ammo_remaining() ) {
+            if( !empty && loc->is_magazine() && !loc->ammo_remaining( ) ) {
                 return false;
             }
 
@@ -3077,7 +3078,8 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
             for( item_location &p : opts ) {
                 if( ( loc->has_flag( flag_SPEEDLOADER ) && p->allows_speedloader( loc->typeId() ) &&
-                      loc->ammo_remaining() > 1 && p->ammo_remaining() < 1 ) && p.can_reload_with( loc, true ) ) {
+                      loc->ammo_remaining( ) > 1 && p->ammo_remaining( ) < 1 ) &&
+                    p.can_reload_with( loc, true ) ) {
                     return true;
                 }
 
@@ -3094,16 +3096,16 @@ class select_ammo_inventory_preset : public inventory_selector_preset
             item_location left = lhs.any_item();
             item_location right = rhs.any_item();
 
-            if( left->ammo_remaining() == 0 || right->ammo_remaining() == 0 ) {
-                return ( left->ammo_remaining() != 0 ) > ( right->ammo_remaining() != 0 );
+            if( left->ammo_remaining( ) == 0 || right->ammo_remaining( ) == 0 ) {
+                return ( left->ammo_remaining( ) != 0 ) > ( right->ammo_remaining( ) != 0 );
             }
 
             if( left.obtain_cost( you ) != right.obtain_cost( you ) ) {
                 return left.obtain_cost( you ) < right.obtain_cost( you );
             }
 
-            if( left->ammo_remaining() != right->ammo_remaining() ) {
-                return left->ammo_remaining() > right->ammo_remaining();
+            if( left->ammo_remaining( ) != right->ammo_remaining( ) ) {
+                return left->ammo_remaining( ) > right->ammo_remaining( );
             }
 
             return inventory_selector_preset::sort_compare( lhs, rhs );
