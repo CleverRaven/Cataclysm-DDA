@@ -56,15 +56,12 @@
     "symbol": "ä",
     "name": { "str": "whispering amalgamation" },
     "description": "A smooth, round body skittering around on seven jointed legs, this abomination does not seem to have any sensory organs at all.  When you look at it, you hear faint whispers in the back of your mind.",
-    "melee_skill": 3,
-    "melee_dice": 1,
-    "melee_dice_sides": 5,
     "special_attacks": [
       {
         "id": "psi_whispering_amalgamation_telepathic_whispering",
         "type": "spell",
         "spell_data": { "id": "whispering_amalgamation_telepathic_whispering_spell" },
-        "cooldown": { "math": [ "1 + rand(1)" ] },
+        "cooldown": 2,
         "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": ""
       },
