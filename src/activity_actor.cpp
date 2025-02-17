@@ -8595,7 +8595,7 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
                 unknown_prof = wf.proficiency;
             }
         }
-        time_to_pulp /= wp_known / corpse_mtype->families.families.size() * 2 + 0.75;
+        time_to_pulp *= 1.25 - 0.5 * wp_known / corpse_mtype->families.families.size();
     }
 
     const bool acid_immune = you.is_immune_damage( damage_acid ) ||
@@ -8645,13 +8645,13 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
     float_corpse_damage_accum = corpse_damage - static_cast<int>( corpse_damage ) ;
 
     // Increase damage as we keep smashing ensuring we eventually smash the target.
-    // Slow down the speed if corpse is acid
-    corpse.mod_damage( corpse_damage );
+    corpse.mod_damage( static_cast<int>( corpse_damage ) );
     if( corpse.damage() == corpse.max_damage() ) {
         ++num_corpses;
         corpse.set_flag( flag_PULPED );
     }
 
+    // 19 splatters on average, no matter of the corpse size
     if( one_in( time_to_pulp / 19 ) ) {
         // Splatter some blood around
         // Splatter a bit more randomly, so that it looks cooler
