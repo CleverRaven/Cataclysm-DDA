@@ -46,16 +46,6 @@ jobs:
         echo "IWYU_SRC_DIR=${PWD}/include-what-you-use-src">> "$GITHUB_OUTPUT"
         echo "IWYU_BIN_DIR=${PWD}/iwyu-build/bin">> "$GITHUB_OUTPUT"
     - uses: ammaraskar/gcc-problem-matcher@master
-    - name: create CDDA compilation database
-      run: |
-        cmake -B Cataclysm-DDA/build \
-            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-            -DCMAKE_CXX_COMPILER=$COMPILER \
-            -DCMAKE_BUILD_TYPE="Release" \
-            -DTILES=${TILES:-0} \
-            -DSOUND=${SOUND:-0} \
-            -DLOCALIZE=${LOCALIZE:-0} \
-            Cataclysm-DDA
     - name: determine changed files
       if: ${{ github.event_name == 'pull_request' }}
       uses: actions/github-script@v7
@@ -74,6 +64,19 @@ jobs:
             console.log(path);
           }
           fs.writeFileSync("Cataclysm-DDA/files_changed", files.join('\n') + '\n');
+    - name: create CDDA compilation database
+      run: |
+        cd Cataclysm-DDA
+        cmake -B build \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+            -DCMAKE_CXX_COMPILER=$COMPILER \
+            -DCMAKE_BUILD_TYPE="Release" \
+            -DTILES=${TILES:-0} \
+            -DSOUND=${SOUND:-0} \
+            -DLOCALIZE=${LOCALIZE:-0} \
+            .
+        # and include database too, for get_affected_files.py
+        make includes -j4 --silent TILES=${TILES:-0} SOUND=${SOUND:-0} LOCALIZE=${LOCALIZE:-0}
     - name: run the thing
       env:
         IWYU_SRC_DIR: ${{ steps.build-iwyu.outputs.IWYU_SRC_DIR }}
