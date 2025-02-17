@@ -203,6 +203,7 @@ Add unloading hotkey to AIM menu
 Skip Default Backgrounds
 Add part bonus to rotor diameter in thrust calculations
 Revivification by mon_group
+Minor Riot Damage Tweaks
 
 
 ## Content:
@@ -432,6 +433,7 @@ adds three new lore log snippets for the player to find in smartphones or laptop
 Add an electric rechargeable lighter
 Adds marshmallow fluff and fluffernutters
 Gunstore Overhaul
+Adds large wicker baskets
 
 
 ## Interface:
@@ -1010,6 +1012,10 @@ Aftershock: Add manhole terrain to exoplanet
 Adds a new recessed rail tile with the NOCOLLIDE flag, and replaces the rail which cross the road with recessed rails.
 Moves the rail lines used by the railroad mapgen closer and adds junctions
 Add lucky/unlucky traits to Crazy Cata
+Martial Mastery : Many New Perks.
+Aftershock: Add some more Cyberpunk style gear
+[MoM] Swap the Itzcuauhtli Corps Liaison's wristwatch for a māchīuhpōhualhuaztli ("wrist computer")
+[Xedra Evolved] More seasonal magic
 
 
 ## Balance:
@@ -1561,6 +1567,14 @@ fix query popup selector not wrapping
 implement (R)eading e-book requirements, fix etransfer_rate segfault
 chapters are character-mapped for unique books
 Prevent item::charges_per_weight to return overflowed values
+Make more masks compatible with NVG's
+#79551 Crash calling destructor twice
+fix MISSION_GET_SOFTWARE not finding software
+Fix Chainsmoker having wrong effect on accuracy.
+Fixes a few bugs
+Flawless memory perk is no longer a debuff
+Remove radiation from the nuclear power plant
+Removes electric fields from irradiation plant
 
 
 ## Performance:
@@ -1744,6 +1758,8 @@ Send debug messages to Windows debugger
 Add starting_cash field to professions JSON
 Vending Machines can optionally use your Bank Balance
 Magic Infrastructure: Add failure_chance field
+Add max_worn field, migrate ONLY_ONE flag
+Upgrade clang-tidy to LLVM 18
 
 ## Build:
 Support Mac arm64 build
