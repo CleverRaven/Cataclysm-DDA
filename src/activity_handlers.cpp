@@ -192,12 +192,12 @@ static const furn_str_id furn_f_compost_full( "f_compost_full" );
 static const furn_str_id furn_f_fvat_empty( "f_fvat_empty" );
 static const furn_str_id furn_f_fvat_wood_empty( "f_fvat_wood_empty" );
 static const furn_str_id furn_f_fvat_wood_full( "f_fvat_wood_full" );
-static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
 static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
 static const furn_str_id furn_f_kiln_metal_empty( "f_kiln_metal_empty" );
 static const furn_str_id furn_f_kiln_portable_empty( "f_kiln_portable_empty" );
-static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
+static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
+static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
