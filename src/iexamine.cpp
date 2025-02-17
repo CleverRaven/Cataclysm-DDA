@@ -10,7 +10,6 @@
 #include <iterator>
 #include <map>
 #include <memory>
-#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -3212,18 +3211,6 @@ static void pick_firestarter_and_fire( Character &you, const tripoint_bub_ms &ex
     }
 }
 
-static units::volume total_volume_at_pos( const tripoint_bub_ms &examp )
-{
-    map &here = get_map();
-    map_stack items = here.i_at( examp );
-    units::volume total_volume = 0_ml;
-    for( const item &i : items ) {
-        total_volume += i.volume();
-    }
-
-    return total_volume;
-}
-
 // Highly modified fermenting vat functions
 void iexamine::kiln_empty( Character &you, const tripoint_bub_ms &examp )
 {
@@ -3234,8 +3221,7 @@ void iexamine::kiln_empty( Character &you, const tripoint_bub_ms &examp )
     pick_firestarter_and_fire( you, examp, firestarter_actor::start_type::KILN );
 }
 
-static void kiln_prep_internal( Character &you, const tripoint_bub_ms &examp,
-                                std::reference_wrapper<int> char_charges_ref )
+static int kiln_prep_internal( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
 
@@ -3259,10 +3245,14 @@ static void kiln_prep_internal( Character &you, const tripoint_bub_ms &examp,
         loss = 60 - 2 * skill;
     }
 
-    units::volume total_volume = total_volume_at_pos( examp );
+    map_stack items = here.i_at( examp );
+    units::volume total_volume = 0_ml;
+    for( const item &i : items ) {
+        total_volume += i.volume();
+    }
 
     const itype *char_type = item::find_type( itype_unfinished_charcoal );
-    char_charges_ref.get() = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
+    return char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
 }
 
 bool iexamine::kiln_prep( Character &you, const tripoint_bub_ms &examp )
@@ -3298,8 +3288,7 @@ bool iexamine::kiln_prep( Character &you, const tripoint_bub_ms &examp )
         return false;
     }
 
-    int char_charges = 0;
-    kiln_prep_internal( you, examp, char_charges );
+    int char_charges = kiln_prep_internal( you, examp );
 
     if( char_charges < 1 ) {
         add_msg( _( "The batch in this kiln is too small to yield any charcoal." ) );
@@ -3331,8 +3320,7 @@ bool iexamine::kiln_fire( Character &you, const tripoint_bub_ms &examp )
     here.i_clear( examp );
     here.furn_set( examp, next_kiln_type );
     item result( itype_unfinished_charcoal, calendar::turn );
-    int char_charges = 0;
-    kiln_prep_internal( you, examp, char_charges );
+    int char_charges = kiln_prep_internal( you, examp );
     result.charges = char_charges;
     here.add_item( examp, result );
 
@@ -6609,25 +6597,27 @@ static void smoker_activate( Character &you, const tripoint_bub_ms &examp )
     pick_firestarter_and_fire( you, examp, firestarter_actor::start_type::SMOKER );
 }
 
-static void smoker_prep_internal(
-    const tripoint_bub_ms &examp,
-    item **charcoal_ref,
-    std::reference_wrapper<units::volume> food_volume_ref
+static std::pair<item *, units::volume> smoker_prep_internal(
+    const tripoint_bub_ms &examp
 )
 {
     map &here = get_map();
 
     map_stack items = here.i_at( examp );
 
+    std::pair<item *, units::volume> data;
+
     for( item &it : items ) {
         if( it.has_flag( flag_SMOKABLE ) ) {
-            food_volume_ref.get() += it.volume();
+            data.second += it.volume();
             continue;
         }
         if( it.typeId() == itype_charcoal ) {
-            *charcoal_ref = &it;
+            data.first = &it;
         }
     }
+
+    return data;
 }
 
 bool iexamine::smoker_prep( Character &you, const tripoint_bub_ms &examp )
@@ -6667,9 +6657,9 @@ bool iexamine::smoker_prep( Character &you, const tripoint_bub_ms &examp )
         }
     }
 
-    units::volume food_volume = 0_ml;
-    item *charcoal = nullptr;
-    smoker_prep_internal( examp, &charcoal, food_volume );
+    std::pair<item *, units::volume> prep_data = smoker_prep_internal( examp );
+    item *charcoal = prep_data.first;
+    units::volume food_volume = prep_data.second;
 
     if( food_volume == 0_ml ) {
         add_msg( _( "This rack is empty.  Fill it with raw meat, fish or sausages and try again." ) );
@@ -6726,9 +6716,9 @@ bool iexamine::smoker_fire( Character &you, const tripoint_bub_ms &examp )
         }
     }
 
-    units::volume food_volume = 0_ml;
-    item *charcoal = nullptr;
-    smoker_prep_internal( examp, &charcoal, food_volume );
+    std::pair<item *, units::volume> prep_data = smoker_prep_internal( examp );
+    item *charcoal = prep_data.first;
+    units::volume food_volume = prep_data.second;
 
     int char_charges = get_charcoal_charges( food_volume );
 

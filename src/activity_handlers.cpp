@@ -1940,12 +1940,10 @@ void activity_handlers::start_fire_finish( player_activity *act, Character *you 
 
     firestarter_actor::start_type st = firestarter_actor::start_type::FIRE;
 
-    if( is_smoking_rack || is_kiln ) {
-        if( is_smoking_rack ) {
-            st = firestarter_actor::start_type::SMOKER;
-        } else {
-            st = firestarter_actor::start_type::KILN;
-        }
+    if( is_smoking_rack ) {
+        st = firestarter_actor::start_type::SMOKER;
+    } else if( is_kiln ) {
+        st = firestarter_actor::start_type::KILN;
     }
 
     it.activation_consume( 1, you->pos_bub(), you );

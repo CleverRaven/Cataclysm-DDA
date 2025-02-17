@@ -1464,12 +1464,10 @@ firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character
     const bool is_kiln = f_id == furn_f_kiln_empty ||
                          f_id == furn_f_kiln_metal_empty || f_id == furn_f_kiln_portable_empty;
 
-    if( is_smoking_rack || is_kiln ) {
-        if( is_smoking_rack ) {
-            return iexamine::smoker_prep( p, pos ) ? start_type::SMOKER : start_type::NONE;
-        } else {
-            return iexamine::kiln_prep( p, pos ) ? start_type::SMOKER : start_type::NONE;
-        }
+    if( is_smoking_rack ) {
+        return iexamine::smoker_prep( p, pos ) ? start_type::SMOKER : start_type::NONE;
+    } else if( is_kiln ) {
+        return iexamine::kiln_prep( p, pos ) ? start_type::KILN : start_type::NONE;
     }
 
     if( here->get_field( pos, fd_fire ) ) {
