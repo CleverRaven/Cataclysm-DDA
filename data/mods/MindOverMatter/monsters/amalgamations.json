@@ -71,10 +71,17 @@
       {
         "id": "psi_whispering_amalgamation_apply_mindsight",
         "type": "spell",
-        "spell_data": { "id": "eater_apply_mindsight", "hit_self": true },
+        "spell_data": { "id": "whispering_amalgamation_apply_mindsight", "hit_self": true },
         "cooldown": 1,
         "allow_no_target": true,
-        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "eff_mind_seeing_bonus_30" } } ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            {
+              "or": [ { "not": { "u_has_effect": "eff_mind_seeing_bonus_30" } }, { "not": { "u_has_effect": "eff_mind_seeing_bonus_10" } } ]
+            }
+          ]
+        },
         "monster_message": ""
       }
     ],

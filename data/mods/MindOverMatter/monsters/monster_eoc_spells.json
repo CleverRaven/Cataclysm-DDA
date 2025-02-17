@@ -486,5 +486,29 @@
         "max_radius": 3
       }
     ]
+  },
+  {
+    "type": "SPELL",
+    "id": "whispering_amalgamation_apply_mindsight",
+    "name": { "str": "Eater apply mindsight", "//~": "NO_I18N" },
+    "description": "Add the effect to give the whispering_amalgamation mindsight.",
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_WHISPERING_AMALGAMATION_MINDSIGHT",
+    "shape": "blast",
+    "min_range": 0,
+    "max_range": 0,
+    "min_duration": 900000,
+    "max_duration": 900000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WHISPERING_AMALGAMATION_MINDSIGHT",
+    "effect": [
+      { "u_add_effect": "eff_mind_seeing_bonus_30", "duration": 9000 },
+      { "u_add_effect": "eff_mind_seeing_bonus_10", "duration": 9000 }
+    ]
   }
 ]
