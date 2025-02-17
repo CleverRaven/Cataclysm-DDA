@@ -160,6 +160,11 @@
   },
   {
     "type": "monstergroup",
+    "id": "GROUP_MEATLAB",
+    "monsters": [ { "monster": "mon_amalgamation_telepathic_distractor", "weight": 1, "starts": "28 days" } ]
+  },
+  {
+    "type": "monstergroup",
     "id": "GROUP_NETHER_REALITY_TEAR_FIELD",
     "monsters": [ { "monster": "mon_nether_eater", "weight": 100, "cost_multiplier": 0 } ]
   },

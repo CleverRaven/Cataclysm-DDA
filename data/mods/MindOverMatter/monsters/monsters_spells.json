@@ -1043,6 +1043,22 @@
     "max_damage": 4
   },
   {
+    "id": "whispering_amalgamation_telepathic_whispering_spell",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Telepathic Amalgamation Whispering", "//~": "NO_I18N" },
+    "description": { "str": "Amalgamation whispers into your kmind, distracting you.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile" ],
+    "flags": [ "CONCENTRATE", "NO_PROJECTILE" ],
+    "difficulty": 1,
+    "max_level": 20,
+    "effect": "attack",
+    "effect_str": "effect_whispering_amalgamation_whispers",
+    "shape": "blast",
+    "min_range": 30,
+    "min_duration": 300,
+    "max_duration": 300
+  },
+  {
     "id": "telepathic_shrieking_monster",
     "type": "SPELL",
     "name": { "str": "[Ψ]Telepathic Shrieking Monster", "//~": "NO_I18N" },

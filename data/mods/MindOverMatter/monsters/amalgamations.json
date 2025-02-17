@@ -1,0 +1,37 @@
+[
+  {
+    "type": "MONSTER",
+    "id": "mon_amalgamation_telepathic_distractor",
+    "copy-from": "mon_amalgamation_abstract_small",
+    "symbol": "ä",
+    "name": { "str": "whispering amalgamation" },
+    "description": "A smooth around body skittering around on seven jointed legs, this abominatioon does not seem to have any sensory organs at all.  When you look at it, you hear faint whispers in the back of your mind.",
+    "special_attacks": [
+      {
+        "id": "psi_whispering_amalgamation_telepathic_whispering",
+        "type": "spell",
+        "spell_data": { "id": "whispering_amalgamation_telepathic_whispering_spell" },
+        "cooldown": { "math": [ "1 + rand(2)" ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "math": [ "u_effect_intensity('effect_whispering_amalgamation_whispers') < 5" ] }
+          ]
+        },
+        "monster_message": ""
+      },
+      {
+        "id": "psi_whispering_amalgamation_apply_mindsight",
+        "type": "spell",
+        "spell_data": { "id": "eater_apply_mindsight", "hit_self": true },
+        "cooldown": 1,
+        "allow_no_target": true,
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "eff_mind_seeing_bonus_30" } } ] },
+        "monster_message": ""
+      }
+    ],
+    "vision_day": 5,
+    "tracking_distance": 15,
+    "extend": { "flags": [ "MIND_SEEING", "KEEP_DISTANCE" ] }
+  }
+]
