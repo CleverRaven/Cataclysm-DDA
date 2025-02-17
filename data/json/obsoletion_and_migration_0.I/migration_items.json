@@ -2244,10 +2244,5 @@
     "id": "kiln_done",
     "type": "MIGRATION",
     "replace": "char_kiln"
-  },
-  {
-    "id": "swag_bag",
-    "type": "MIGRATION",
-    "replace": "bag_canvas"
   }
 ]

@@ -765,6 +765,67 @@
     "melee_damage": { "bash": 10 }
   },
   {
+    "id": "briefcase",
+    "type": "ARMOR",
+    "name": { "str": "briefcase" },
+    "description": "Useful for carrying money, documents, or smuggled goods.",
+    "weight": "1700 g",
+    "volume": "15750 ml",
+    "longest_side": "46 cm",
+    "price": "240 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "plastic_shopping_bag",
+    "color": "light_gray",
+    "sided": true,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "50 cm",
+        "moves": 200
+      }
+    ],
+    "material_thickness": 2,
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "id": "case_violin",
+    "type": "ARMOR",
+    "name": { "str": "violin case" },
+    "description": "Useful to carry your precious musical instrument around protected from any harm.",
+    "weight": "2800 g",
+    "volume": "10500 ml",
+    "price": "240 USD",
+    "price_postapoc": "50 cent",
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
+    "material": [ "plastic", "steel", "leather" ],
+    "symbol": "&",
+    "looks_like": "briefcase",
+    "color": "dark_gray",
+    "sided": true,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 200
+      }
+    ],
+    "material_thickness": 5,
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 5 }
+  },
+  {
     "id": "daypack",
     "type": "ARMOR",
     "name": { "str": "daypack" },
@@ -2438,6 +2499,121 @@
         "specifically_covers": [ "torso_hanging_back" ]
       }
     ]
+  },
+  {
+    "id": "straw_basket",
+    "type": "ARMOR",
+    "name": { "str": "straw basket" },
+    "description": "A handmade straw basket.  Carry it with you for extra storage.",
+    "weight": "100 g",
+    "volume": "10500 ml",
+    "price": "2 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "paper" ],
+    "symbol": "[",
+    "looks_like": "plastic_shopping_bag",
+    "color": "light_gray",
+    "sided": true,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "40 cm",
+        "moves": 300
+      }
+    ],
+    "material_thickness": 2,
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 4, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+  },
+  {
+    "id": "suitcase_l",
+    "type": "ARMOR",
+    "name": { "str": "suitcase" },
+    "//": "You drag it along with you, so it taking a hit is Rare.",
+    "description": "A huge wheeled suitcase used mainly for transporting clothes and other possessions during trips, provides a decent amount of storage but hauling it around is neither fast nor comfortable.",
+    "weight": "5000 g",
+    "volume": "115500 ml",
+    "price": "210 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "suitcase_m",
+    "color": "red",
+    "sided": true,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "110 L",
+        "max_contains_weight": "80 kg",
+        "max_item_length": "90 cm",
+        "moves": 300
+      }
+    ],
+    "material_thickness": 3,
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 70, "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "suitcase_m",
+    "type": "ARMOR",
+    "name": { "str": "suitcase" },
+    "description": "A mid-sized wheeled suitcase used mainly for transporting clothes and other possessions during trips, provides a decent amount of storage but hauling it around is not exactly comfortable.",
+    "weight": "3000 g",
+    "volume": "47250 ml",
+    "price": "210 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "briefcase",
+    "color": "blue",
+    "sided": true,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "45 L",
+        "max_contains_weight": "40 kg",
+        "max_item_length": "70 cm",
+        "moves": 250
+      }
+    ],
+    "material_thickness": 3,
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 50, "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "swag_bag",
+    "type": "ARMOR",
+    "name": { "str": "swag bag" },
+    "description": "A large canvas sack, re-purposed for makeshift storage.  Goes well with a striped shirt and a domino mask.",
+    "weight": "415 g",
+    "volume": "1 L",
+    "price": "0 cent",
+    "price_postapoc": "50 cent",
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "duffelbag",
+    "color": "brown",
+    "sided": true,
+    "armor": [
+      { "covers": [ "hand_l", "hand_r" ], "coverage": 5, "encumbrance": 4, "volume_encumber_modifier": 0.5 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 5, "encumbrance": 4, "volume_encumber_modifier": 0.5 }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "15 kg",
+        "max_item_length": "60 cm",
+        "moves": 300
+      }
+    ],
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "travelpack",
