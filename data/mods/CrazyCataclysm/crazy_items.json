@@ -442,6 +442,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "ceramic plate" },
+    "longest_side": "20 cm",
     "description": "A ceramic dinner plate, unremarkable in every way.",
     "symbol": ",",
     "color": "dark_gray",
