@@ -1182,7 +1182,7 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
             }
 
             if( vpi.has_flag( "SHARP" ) ) {
-                critter->bleed();
+                critter->bleed( here );
             } else {
                 sounds::sound( pos, 20, sounds::sound_t::combat, snd, false, "smash_success", "hit_vehicle" );
             }
@@ -1249,7 +1249,7 @@ void vehicle::handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp
 
     Character &player_character = get_player_character();
     const Character *driver = get_driver( *here );
-    const bool seen = player_character.sees( p );
+    const bool seen = player_character.sees( *here, p );
     const bool known = tr.can_see( p, player_character );
     const bool damage_done = vp_wheel.info().durability <= veh_data.damage;
     if( seen && damage_done ) {

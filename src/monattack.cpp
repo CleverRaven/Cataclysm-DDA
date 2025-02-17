@@ -231,20 +231,26 @@ static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 // shared utility functions
 static bool within_visual_range( monster *z, int max_range )
 {
+    const map &here = get_map();
+
     Character &player_character = get_player_character();
-    return !( rl_dist( z->pos_bub(), player_character.pos_bub() ) > max_range ||
-              !z->sees( player_character ) );
+    return !( rl_dist( z->pos_abs(), player_character.pos_abs() ) > max_range ||
+              !z->sees( here, player_character ) );
 }
 
 static bool within_target_range( const monster *const z, const Creature *const target, int range )
 {
+    const map &here = get_map();
+
     return target != nullptr &&
-           rl_dist( z->pos_bub(), target->pos_bub() ) <= range &&
-           z->sees( *target );
+           rl_dist( z->pos_abs(), target->pos_abs() ) <= range &&
+           z->sees( here, *target );
 }
 
 static Creature *sting_get_target( monster *z, float range = 5.0f )
 {
+    const map &here = get_map();
+
     Creature *target = z->attack_target();
 
     if( target == nullptr ) {
@@ -252,12 +258,12 @@ static Creature *sting_get_target( monster *z, float range = 5.0f )
     }
 
     // Can't see/reach target, no attack
-    if( !z->sees( *target ) ||
+    if( !z->sees( here,  *target ) ||
         !get_map().clear_path( z->pos_bub(), target->pos_bub(), range, 1, 100 ) ) {
         return nullptr;
     }
 
-    return rl_dist( z->pos_bub(), target->pos_bub() ) <= range ? target : nullptr;
+    return rl_dist( z->pos_abs(), target->pos_abs() ) <= range ? target : nullptr;
 }
 
 static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, float range )
@@ -599,10 +605,12 @@ bool mattack::browse( monster *z )
 
 bool mattack::shriek( monster *z )
 {
+    const map &here = get_map();
+
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        rl_dist( z->pos_bub(), target->pos_bub() ) > 4 ||
-        !z->sees( *target ) ) {
+        rl_dist( z->pos_abs(), target->pos_abs() ) > 4 ||
+        !z->sees( here, *target ) ) {
         return false;
     }
 
@@ -615,6 +623,8 @@ bool mattack::shriek( monster *z )
 
 bool mattack::shriek_alert( monster *z )
 {
+    const map &here = get_map();
+
     if( !z->can_act() || z->has_effect( effect_shrieking ) ) {
         return false;
     }
@@ -622,7 +632,7 @@ bool mattack::shriek_alert( monster *z )
     Creature *target = z->attack_target();
 
     if( target == nullptr || rl_dist( z->pos_bub(), target->pos_bub() ) > 15 ||
-        !z->sees( *target ) ) {
+        !z->sees( here, *target ) ) {
         return false;
     }
     add_msg_if_player_sees( *z, _( "The %s begins shrieking!" ), z->name() );
@@ -636,6 +646,8 @@ bool mattack::shriek_alert( monster *z )
 
 bool mattack::shriek_stun( monster *z )
 {
+    map &here = get_map();
+
     if( !z->can_act() || !z->has_effect( effect_shrieking ) ) {
         return false;
     }
@@ -649,13 +661,12 @@ bool mattack::shriek_stun( monster *z )
     // Currently the cone is 2D, so don't use it for 3D attacks
     if( dist > 7 ||
         z->posz() != target->posz() ||
-        !z->sees( *target ) ) {
+        !z->sees( here, *target ) ) {
         return false;
     }
 
     units::angle target_angle = coord_to_angle( z->pos_bub(), target->pos_bub() );
     units::angle cone_angle = 20_degrees;
-    map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_bub_ms &cone : here.points_in_radius( z->pos_bub(), 4 ) ) {
         units::angle tile_angle = coord_to_angle( z->pos_bub().raw(), cone.raw() );
@@ -684,12 +695,14 @@ bool mattack::shriek_stun( monster *z )
 
 bool mattack::rattle( monster *z )
 {
+    const map &here = get_map();
+
     // TODO: Let it rattle at non-player friendlies
     const int min_dist = z->friendly != 0 ? 1 : 4;
     Creature *target = &get_player_character();
     // Can't use attack_target - the snake has no target
-    if( rl_dist( z->pos_bub(), target->pos_bub() ) > min_dist ||
-        !z->sees( *target ) ) {
+    if( rl_dist( z->pos_abs(), target->pos_abs() ) > min_dist ||
+        !z->sees( here, *target ) ) {
         return false;
     }
 
@@ -714,7 +727,7 @@ bool mattack::acid( monster *z )
 
     map &here = get_map();
     // Can't see/reach target, no attack
-    if( !z->sees( *target ) ||
+    if( !z->sees( here,  *target ) ||
         !here.clear_path( z->pos_bub(), target->pos_bub(), 10, 1, 100 ) ) {
         return false;
     }
@@ -824,6 +837,8 @@ bool mattack::acid_barf( monster *z )
 
 bool mattack::shockstorm( monster *z )
 {
+    map &here = get_map();
+
     if( !z->can_act() ) {
         return false;
     }
@@ -834,10 +849,9 @@ bool mattack::shockstorm( monster *z )
     }
 
     Character &player_character = get_player_character();
-    bool seen = player_character.sees( *z );
-    map &here = get_map();
+    bool seen = player_character.sees( here, *z );
 
-    bool can_attack = z->sees( *target ) && rl_dist( z->pos_bub(), target->pos_bub() ) <= 12;
+    bool can_attack = z->sees( here, *target ) && rl_dist( z->pos_abs(), target->pos_abs() ) <= 12;
     std::vector<tripoint_bub_ms> path = here.find_clear_path( z->pos_bub(), target->pos_bub() );
     for( const tripoint_bub_ms &point : path ) {
         if( here.impassable( point ) &&
@@ -897,6 +911,8 @@ bool mattack::shocking_reveal( monster *z )
 
 bool mattack::pull_metal_weapon( monster *z )
 {
+    map &here = get_map();
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constants and Configuration
 
@@ -915,7 +931,7 @@ bool mattack::pull_metal_weapon( monster *z )
     }
 
     // Can't see/reach target, no attack
-    if( !z->sees( *target ) || !get_map().clear_path( z->pos_bub(), target->pos_bub(),
+    if( !z->sees( here, *target ) || !here.clear_path( z->pos_bub( here ), target->pos_bub( here ),
             max_distance, 1, 100 ) ) {
         return false;
     }
@@ -960,7 +976,7 @@ bool mattack::pull_metal_weapon( monster *z )
                     dealt_projectile_attack dealt;
                     projectile_attack( dealt, proj, foe->pos_bub(), z->pos_bub(),
                                        dispersion_sources{ 0 }, z );
-                    get_map().add_item( dealt.end_point, pulled_weapon );
+                    here.add_item( dealt.end_point, pulled_weapon );
                     target->add_msg_player_or_npc( m_type, _( "The %s is pulled away from your hands!" ),
                                                    _( "The %s is pulled away from <npcname>'s hands!" ), pulled_weapon.tname() );
                     if( foe->has_activity( ACT_RELOAD ) ) {
@@ -981,21 +997,23 @@ bool mattack::pull_metal_weapon( monster *z )
 
 bool mattack::boomer( monster *z )
 {
+    map &here = get_map();
+
     if( !z->can_act() ) {
         return false;
     }
 
     Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->pos_bub(), target->pos_bub() ) > 3 || !z->sees( *target ) ) {
+    if( target == nullptr || rl_dist( z->pos_abs(), target->pos_abs() ) > 3 ||
+        !z->sees( here, *target ) ) {
         return false;
     }
 
-    map &here = get_map();
     std::vector<tripoint_bub_ms> line = here.find_clear_path( z->pos_bub(), target->pos_bub() );
     // It takes a while
     z->mod_moves( -to_moves<int>( 1_seconds ) * 2.5 );
     Character &player_character = get_player_character();
-    bool u_see = player_character.sees( *z );
+    bool u_see = player_character.sees( here, *z );
     if( u_see ) {
         add_msg( m_warning, _( "The %s spews bile!" ), z->name() );
     }
@@ -1022,21 +1040,23 @@ bool mattack::boomer( monster *z )
 
 bool mattack::boomer_glow( monster *z )
 {
+    map &here = get_map();
+
     if( !z->can_act() ) {
         return false;
     }
 
     Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->pos_bub(), target->pos_bub() ) > 3 || !z->sees( *target ) ) {
+    if( target == nullptr || rl_dist( z->pos_abs(), target->pos_abs() ) > 3 ||
+        !z->sees( here, *target ) ) {
         return false;
     }
 
-    map &here = get_map();
     std::vector<tripoint_bub_ms> line = here.find_clear_path( z->pos_bub(), target->pos_bub() );
     // It takes a while
     z->mod_moves( -to_moves<int>( 1_seconds ) * 2.5 );
     Character &player_character = get_player_character();
-    bool u_see = player_character.sees( *z );
+    bool u_see = player_character.sees( here,  *z );
     if( u_see ) {
         add_msg( m_warning, _( "The %s spews bile!" ), z->name() );
     }
@@ -1069,6 +1089,8 @@ bool mattack::boomer_glow( monster *z )
 
 bool mattack::resurrect( monster *z )
 {
+    map &here = get_map();
+
     // Chance to recover some of our missing speed (yes this will regain
     // loses from being revived ourselves as well).
     // Multiplying by (current base speed / max speed) means that the
@@ -1087,13 +1109,12 @@ bool mattack::resurrect( monster *z )
     }
 
     Character &player_character = get_player_character();
-    bool sees_necromancer = player_character.sees( *z );
+    bool sees_necromancer = player_character.sees( here, *z );
     std::vector<std::pair<tripoint_bub_ms, item *>> corpses;
     // Find all corpses that we can see within 10 tiles.
     int range = 10;
     bool found_eligible_corpse = false;
     int lowest_raise_score = INT_MAX;
-    map &here = get_map();
     // Cache map stats.
     std::unordered_map<tripoint_bub_ms, bool> sees_and_is_empty_cache;
     auto sees_and_is_empty = [&sees_and_is_empty_cache, &z, &here]( const tripoint_bub_ms & T ) {
@@ -1208,7 +1229,7 @@ bool mattack::resurrect( monster *z )
         }
 
         zed->make_ally( *z );
-        if( player_character.sees( *zed ) ) {
+        if( player_character.sees( here, *zed ) ) {
             add_msg( m_warning, _( "A nearby %s rises from the dead!" ), zed->name() );
         } else if( sees_necromancer ) {
             // We saw the necromancer but not the revival
@@ -1537,14 +1558,16 @@ bool mattack::vine( monster *z )
 
 bool mattack::spit_sap( monster *z )
 {
+    const map &here = get_map();
+
     if( !z->can_act() ) {
         return false;
     }
 
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        rl_dist( z->pos_bub(), target->pos_bub() ) > 12 ||
-        !z->sees( *target ) ) {
+        rl_dist( z->pos_abs(), target->pos_abs() ) > 12 ||
+        !z->sees( here, *target ) ) {
         return false;
     }
 
@@ -1681,9 +1704,11 @@ bool mattack::fungus( monster *z )
 
 bool mattack::fungus_corporate( monster *z )
 {
+    const map &here = get_map();
+
     if( x_in_y( 1, 20 ) ) {
         sounds::sound( z->pos_bub(), 10, sounds::sound_t::speech, _( "\"Buy SpOreos™ now!\"" ) );
-        if( get_player_view().sees( *z ) ) {
+        if( get_player_view().sees( here, *z ) ) {
             add_msg( m_warning, _( "Delicious snacks are released from the %s!" ), z->name() );
             get_map().add_item( z->pos_bub(), item( itype_sporeos ) );
         } // only spawns SpOreos if the player is near; can't have the COMMONERS stealing our product from good customers
@@ -1710,9 +1735,10 @@ bool mattack::fungus_haze( monster *z )
 
 bool mattack::fungus_big_blossom( monster *z )
 {
-    bool firealarm = false;
-    const bool u_see = get_player_view().sees( *z );
     map &here = get_map();
+
+    bool firealarm = false;
+    const bool u_see = get_player_view().sees( here, *z );
     // Fungal fire-suppressor! >:D
     for( const tripoint_bub_ms &dest : here.points_in_radius( z->pos_bub(), 6 ) ) {
         if( here.get_field_intensity( dest, fd_fire ) != 0 ) {
@@ -1832,7 +1858,7 @@ bool mattack::fungus_bristle( monster *z )
     Creature *target = z->attack_target();
     if( target == nullptr ||
         !z->is_adjacent( target, true ) ||
-        !z->sees( *target ) ) {
+        !z->sees( here, *target ) ) {
         return false;
     }
 
@@ -2327,7 +2353,9 @@ bool mattack::jackson( monster *z )
 
 bool mattack::dance( monster *z )
 {
-    if( get_player_view().sees( *z ) ) {
+    const map &here = get_map();
+
+    if( get_player_view().sees( here, *z ) ) {
         switch( rng( 1, 10 ) ) {
             case 1:
                 add_msg( m_neutral, _( "The %s swings its arms from side to side!" ), z->name() );
@@ -2367,19 +2395,21 @@ bool mattack::dance( monster *z )
 
 bool mattack::dogthing( monster *z )
 {
+    map &here = get_map();
+
     if( z == nullptr ) {
         // TODO: replace pointers with references
         return false;
     }
 
-    if( !one_in( 3 ) || !get_player_view().sees( *z ) ) {
+    if( !one_in( 3 ) || !get_player_view().sees( here, *z ) ) {
         return false;
     }
 
     add_msg( _( "The %s's head explodes in a mass of roiling tentacles!" ),
              z->name() );
 
-    get_map().add_splash( z->bloodType(), z->pos_bub(), 2, 3 );
+    here.add_splash( z->bloodType(), z->pos_bub(), 2, 3 );
 
     z->friendly = 0;
     z->poly( mon_headless_dog_thing );
@@ -2425,7 +2455,7 @@ bool mattack::nurse_check_up( monster *z )
     map &here = get_map();
     for( Creature *critter : here.get_creatures_in_radius( z->pos_bub(), 6 ) ) {
         Character *tmp_player = dynamic_cast<Character *>( critter );
-        if( tmp_player != nullptr && z->sees( *tmp_player ) &&
+        if( tmp_player != nullptr && z->sees( here, *tmp_player ) &&
             here.clear_path( z->pos_bub(), tmp_player->pos_bub(), 10, 0,
                              100 ) ) { // no need to scan players we can't reach
             if( rl_dist( z->pos_bub(), tmp_player->pos_bub() ) < rl_dist( z->pos_bub(), tmp_pos ) ) {
@@ -2464,8 +2494,9 @@ bool mattack::nurse_check_up( monster *z )
 }
 bool mattack::nurse_assist( monster *z )
 {
+    const map &here = get_map();
 
-    const bool u_see = get_player_view().sees( *z );
+    const bool u_see = get_player_view().sees( here, *z );
 
     if( u_see && one_in( 100 ) ) {
         add_msg( m_info, _( "The %s is scanning its surroundings." ), z->name() );
@@ -2473,14 +2504,13 @@ bool mattack::nurse_assist( monster *z )
 
     bool found_target = false;
     Character *target = nullptr;
-    map &here = get_map();
     tripoint_bub_ms tmp_pos( z->pos_bub() + point( 12, 12 ) );
     for( Creature *critter : here.get_creatures_in_radius( z->pos_bub(), 6 ) ) {
         Character *tmp_player = dynamic_cast<Character *>( critter );
         // No need to scan players we can't reach
-        if( tmp_player != nullptr && z->sees( *tmp_player ) &&
+        if( tmp_player != nullptr && z->sees( here, *tmp_player ) &&
             here.clear_path( z->pos_bub(), tmp_player->pos_bub(), 10, 0, 100 ) ) {
-            if( rl_dist( z->pos_bub(), tmp_player->pos_bub() ) < rl_dist( z->pos_bub(), tmp_pos ) ) {
+            if( rl_dist( z->pos_abs(), tmp_player->pos_abs() ) < rl_dist( z->pos_bub(), tmp_pos ) ) {
                 tmp_pos = tmp_player->pos_bub();
                 target = tmp_player;
                 found_target = true;
@@ -2503,11 +2533,13 @@ bool mattack::nurse_assist( monster *z )
 }
 bool mattack::nurse_operate( monster *z )
 {
+    const map &here = get_map();
+
     if( z->has_effect( effect_dragging ) || z->has_effect( effect_operating ) ) {
         return false;
     }
     Character &player_character = get_player_character();
-    const bool u_see = player_character.sees( *z );
+    const bool u_see = player_character.sees( here, *z );
 
     if( u_see && one_in( 100 ) ) {
         add_msg( m_info, _( "The %s is scanning its surroundings." ), z->name() );
@@ -2528,15 +2560,14 @@ bool mattack::nurse_operate( monster *z )
 
     bool found_target = false;
     Character *target = nullptr;
-    map &here = get_map();
     tripoint_bub_ms tmp_pos( z->pos_bub() + point( 12, 12 ) );
     for( Creature *critter : here.get_creatures_in_radius( z->pos_bub(), 6 ) ) {
         Character *tmp_player = dynamic_cast< Character *>( critter );
         // No need to scan players we can't reach
-        if( tmp_player != nullptr && z->sees( *tmp_player ) &&
+        if( tmp_player != nullptr && z->sees( here, *tmp_player ) &&
             here.clear_path( z->pos_bub(), tmp_player->pos_bub(), 10, 0, 100 ) ) {
             if( tmp_player->has_any_bionic() ) {
-                if( rl_dist( z->pos_bub(), tmp_player->pos_bub() ) < rl_dist( z->pos_bub(), tmp_pos ) ) {
+                if( rl_dist( z->pos_abs(), tmp_player->pos_abs() ) < rl_dist( z->pos_bub(), tmp_pos ) ) {
                     tmp_pos = tmp_player->pos_bub();
                     target = tmp_player;
                     found_target = true;
@@ -2842,6 +2873,7 @@ void mattack::taze( monster *z, Creature *target )
 
 bool mattack::searchlight( monster *z )
 {
+    map &here = get_map();
 
     int max_lamp_count = 3;
     if( z->get_hp() < z->get_hp_max() ) {
@@ -2853,7 +2885,6 @@ bool mattack::searchlight( monster *z )
 
     const point_bub_ms zpos( z->posx(), z->posy() );
 
-    map &here = get_map();
     //this searchlight is not initialized
     if( z->inv.empty() ) {
 
@@ -2950,7 +2981,7 @@ bool mattack::searchlight( monster *z )
 
         for( int i = 0; i < rng( 1, 2 ); i++ ) {
 
-            if( !z->sees( player_character ) ) {
+            if( !z->sees( here,  player_character ) ) {
                 shift = settings.get_var( "SL_DIR", shift );
 
                 switch( shift ) {
@@ -3019,7 +3050,7 @@ bool mattack::searchlight( monster *z )
         }
 
         tripoint_bub_ms t = tripoint_bub_ms( p, z->posz() );
-        if( z->sees( t, false, 0 ) ) {
+        if( z->sees( here, t, false, 0 ) ) {
             settings.set_var( "SL_SPOT_X", p.x() - zpos.x() );
             settings.set_var( "SL_SPOT_Y", p.y() - zpos.y() );
         } else {
@@ -3028,10 +3059,10 @@ bool mattack::searchlight( monster *z )
             // a window covered). If the searchlight cannot see the current location then
             // reset the searchlight to search from itself
             t = tripoint_bub_ms( preshift_p, z->posz() );
-            if( !z->sees( t, false, 0 ) ) {
+            if( !z->sees( here, t, false, 0 ) ) {
                 settings.set_var( "SL_SPOT_X", 0 );
                 settings.set_var( "SL_SPOT_Y", 0 );
-                t = z->pos_bub();
+                t = z->pos_bub( here );
             }
         }
 
@@ -3043,6 +3074,8 @@ bool mattack::searchlight( monster *z )
 
 bool mattack::copbot( monster *z )
 {
+    const map &here = get_map();
+
     Creature *target = z->attack_target();
     if( target == nullptr ) {
         return false;
@@ -3050,7 +3083,7 @@ bool mattack::copbot( monster *z )
 
     // TODO: Make it recognize zeds as human, but ignore animals
     Character *foe = dynamic_cast<Character *>( target );
-    bool sees_u = foe != nullptr && z->sees( *foe );
+    bool sees_u = foe != nullptr && z->sees( here, *foe );
     bool cuffed = foe != nullptr && foe->get_wielded_item() &&
                   foe->get_wielded_item()->typeId() == itype_e_handcuffs;
     // Taze first, then ask questions (simplifies later checks for non-humans)
@@ -3059,7 +3092,8 @@ bool mattack::copbot( monster *z )
         return true;
     }
 
-    if( rl_dist( z->pos_bub(), target->pos_bub() ) > 2 || foe == nullptr || !z->sees( *target ) ) {
+    if( rl_dist( z->pos_abs(), target->pos_abs() ) > 2 || foe == nullptr ||
+        !z->sees( here, *target ) ) {
         if( one_in( 3 ) ) {
             if( sees_u ) {
                 if( foe->unarmed_attack() ) {
@@ -3140,6 +3174,8 @@ bool mattack::generator( monster *z )
 
 bool mattack::upgrade( monster *z )
 {
+    const map &here = get_map();
+
     std::vector<monster *> targets;
     for( monster &zed : g->all_monsters() ) {
         // Check this first because it is a relatively cheap check
@@ -3167,11 +3203,11 @@ bool mattack::upgrade( monster *z )
 
     std::string old_name = target->name();
     viewer &player_view = get_player_view();
-    const bool could_see = player_view.sees( *target );
+    const bool could_see = player_view.sees( here, *target );
     target->hasten_upgrade();
     target->try_upgrade( false );
-    const bool can_see = player_view.sees( *target );
-    if( player_view.sees( *z ) ) {
+    const bool can_see = player_view.sees( here, *target );
+    if( player_view.sees( here, *z ) ) {
         if( could_see ) {
             add_msg( m_warning,
                      //~ %1$s is the name of the zombie upgrading the other, %2$s is the zombie being upgraded.
@@ -3230,12 +3266,14 @@ bool mattack::breathe( monster *z )
 
 bool mattack::brandish( monster *z )
 {
+    const map &here = get_map();
+
     if( z->friendly ) {
         // TODO: handle friendly monsters
         return false;
     }
     // Only brandish if we can see you!
-    if( !z->sees( get_player_character() ) ) {
+    if( !z->sees( here, get_player_character() ) ) {
         return false;
     }
     add_msg( m_warning, _( "He's brandishing a knife!" ) );
@@ -3257,9 +3295,9 @@ bool mattack::flesh_golem( monster *z )
         return false;
     }
 
-    int dist = rl_dist( z->pos_bub(), target->pos_bub() );
+    int dist = rl_dist( z->pos_abs(), target->pos_abs() );
     if( dist > 20 ||
-        !z->sees( *target ) ) {
+        !z->sees( here, *target ) ) {
         return false;
     }
 
@@ -3267,7 +3305,8 @@ bool mattack::flesh_golem( monster *z )
         if( one_in( 12 ) ) {
             z->mod_moves( -to_moves<int>( 2_seconds ) );
             // It doesn't "nearly deafen you" when it roars from the other side of bubble
-            sounds::sound( z->pos_bub(), 80, sounds::sound_t::alert, _( "a terrifying roar!" ), false, "shout",
+            sounds::sound( z->pos_bub( here ), 80, sounds::sound_t::alert, _( "a terrifying roar!" ), false,
+                           "shout",
                            "roar" );
             return true;
         }
@@ -3348,7 +3387,7 @@ bool mattack::absorb_meat( monster *z )
                     z->heal( hp_to_heal, true );
                     here.use_amount( p, 0, current_item.type->get_id(), meat_absorbed );
                 }
-                if( player_character.sees( *z ) ) {
+                if( player_character.sees( here, *z ) ) {
                     add_msg( m_warning, _( "The %1$s absorbs the %2$s, growing larger." ), z->name(),
                              current_item.tname() );
                     add_msg_debug( debugmode::DF_MATTACK, "The %1$s now has %2$s out of %3$s hp", z->name(),
@@ -3375,17 +3414,17 @@ bool mattack::lunge( monster *z )
         return false;
     }
 
-    int dist = rl_dist( z->pos_bub(), target->pos_bub() );
+    int dist = rl_dist( z->pos_abs(), target->pos_abs() );
     if( dist > 20 ||
-        !z->sees( *target ) ) {
+        !z->sees( here, *target ) ) {
         return false;
     }
 
-    bool seen = get_player_view().sees( *z );
+    bool seen = get_player_view().sees( here, *z );
     if( dist > 1 ) {
         if( one_in( 5 ) ) {
             // Out of range
-            if( dist > 4 || !z->sees( *target ) ) {
+            if( dist > 4 || !z->sees( here, *target ) ) {
                 return false;
             }
             z->mod_moves( z->get_speed() * 2.0 );
@@ -3441,16 +3480,18 @@ bool mattack::lunge( monster *z )
 
 bool mattack::blow_whistle( monster *z )
 {
+    const map &here = get_map();
+
     if( z->friendly ) {
         // TODO: handle friendly monsters
         return false;
     }
     // Only blow whistle if we can see you!
-    if( !z->sees( get_player_character() ) ) {
+    if( !z->sees( here, get_player_character() ) ) {
         return false;
     }
     add_msg_if_player_sees( *z, m_warning, _( "The %1$s loudly blows their whistle!" ), z->name() );
-    sounds::sound( z->pos_bub(), 40, sounds::sound_t::alarm, _( "FWEEEET!" ), false, "misc",
+    sounds::sound( z->pos_bub( here ), 40, sounds::sound_t::alarm, _( "FWEEEET!" ), false, "misc",
                    "whistle" );
 
     return true;
@@ -3482,18 +3523,21 @@ bool mattack::parrot( monster *z )
 
 bool mattack::parrot_at_danger( monster *parrot )
 {
-    Creature *other = get_creature_tracker().find_reachable( *parrot, [parrot]( Creature * creature ) {
+    const map &here = get_map();
+
+    Creature *other = get_creature_tracker().find_reachable( *parrot, [parrot,
+    &here]( Creature * creature ) {
         if( !creature->is_hallucination() && one_in( 20 ) ) {
             if( creature->is_avatar() || creature->is_npc() ) {
                 Character *character = creature->as_character();
                 return character->attitude_to( *parrot ) == Creature::Attitude::HOSTILE &&
-                       parrot->sees( *character );
+                       parrot->sees( here, *character );
             } else {
                 monster *monster = creature->as_monster();
                 return ( monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_HATE ||
                          ( monster->anger > 0 &&
                            monster->faction->attitude( parrot->faction ) == mf_attitude::MFA_BY_MOOD ) ) &&
-                       parrot->sees( *monster );
+                       parrot->sees( here, *monster );
             }
         }
         return false;
@@ -3509,21 +3553,23 @@ bool mattack::parrot_at_danger( monster *parrot )
 
 bool mattack::darkman( monster *z )
 {
+    const map &here = get_map();
+
     if( z->friendly ) {
         // TODO: handle friendly monsters
         return false;
     }
     Character &player_character = get_player_character();
-    if( rl_dist( z->pos_bub(), player_character.pos_bub() ) > 40 ) {
+    if( rl_dist( z->pos_abs(), player_character.pos_abs() ) > 40 ) {
         return false;
     }
-    if( monster *const shadow = g->place_critter_around( mon_shadow, z->pos_bub(), 1 ) ) {
+    if( monster *const shadow = g->place_critter_around( mon_shadow, z->pos_bub( here ), 1 ) ) {
         z->mod_moves( -to_moves<int>( 1_seconds ) * 0.1 );
         shadow->make_ally( *z );
         add_msg_if_player_sees( *z, m_warning, _( "A shadow splits from the %s!" ), z->name() );
     }
     // Won't do the combat stuff unless it can see you
-    if( !z->sees( player_character ) ) {
+    if( !z->sees( here, player_character ) ) {
         return true;
     }
     // What do we say?
@@ -3557,8 +3603,10 @@ bool mattack::darkman( monster *z )
 
 bool mattack::slimespring( monster *z )
 {
+    const map &here = get_map();
+
     Character &player_character = get_player_character();
-    if( rl_dist( z->pos_bub(), player_character.pos_bub() ) > 30 ) {
+    if( rl_dist( z->pos_abs(), player_character.pos_abs() ) > 30 ) {
         return false;
     }
 
@@ -3572,7 +3620,8 @@ bool mattack::slimespring( monster *z )
         add_msg( m_good, "%s", SNIPPET.random_from_category( "slime_cheers" ).value_or( translation() ) );
         player_character.remove_effect( effect_social_dissatisfied );
     }
-    if( rl_dist( z->pos_bub(), player_character.pos_bub() ) <= 3 && z->sees( player_character ) ) {
+    if( rl_dist( z->pos_abs(), player_character.pos_abs() ) <= 3 &&
+        z->sees( here, player_character ) ) {
         if( player_character.has_effect( effect_bleed ) ||
             player_character.has_effect( effect_bite ) ) {
             //~ Lowercase is intended: they're small voices.
@@ -3809,10 +3858,12 @@ bool mattack::riotbot( monster *z )
 
 bool mattack::evolve_kill_strike( monster *z )
 {
+    map &here = get_map();
+
     Creature *target = z->attack_target();
     if( target == nullptr ||
         !z->is_adjacent( target, false ) ||
-        !z->sees( *target ) ) {
+        !z->sees( here, *target ) ) {
         return false;
     }
     if( !z->can_act() ) {
@@ -3838,7 +3889,7 @@ bool mattack::evolve_kill_strike( monster *z )
                                        z->name() );
         return true;
     }
-    tripoint_bub_ms const target_pos = target->pos_bub();
+    tripoint_abs_ms const target_pos = target->pos_abs();
     const std::string target_name = target->disp_name();
 
     int damage_dealt = target->deal_damage( z, bodypart_id( "torso" ), damage ).total_damage();
@@ -3856,15 +3907,15 @@ bool mattack::evolve_kill_strike( monster *z )
         return true;
     }
     Character &player_character = get_player_character();
-    if( target->is_dead_state() && g->is_empty( target_pos ) &&
+    if( target->is_dead_state() && g->is_empty( &here, target_pos ) &&
         target->made_of_any( Creature::cmat_flesh ) ) {
         const std::string old_name = z->name();
-        const bool could_see_z = player_character.sees( *z );
+        const bool could_see_z = player_character.sees( here, *z );
         z->allow_upgrade();
         z->try_upgrade( false );
         z->setpos( target_pos );
         const std::string upgrade_name = z->name();
-        const bool can_see_z_upgrade = player_character.sees( *z );
+        const bool can_see_z_upgrade = player_character.sees( here, *z );
         if( could_see_z && can_see_z_upgrade ) {
             add_msg( m_warning, _( "The %1$s burrows within %2$s corpse and a %3$s emerges from the remains!" ),
                      old_name,
@@ -3880,7 +3931,9 @@ bool mattack::evolve_kill_strike( monster *z )
 
 bool mattack::leech_spawner( monster *z )
 {
-    const bool u_see = get_player_view().sees( *z );
+    const map &here = get_map();
+
+    const bool u_see = get_player_view().sees( here, *z );
     std::list<monster *> allies;
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.in_species( species_LEECH_PLANT ) && !( candidate.has_flag( mon_flag_IMMOBILE ) ||
@@ -3894,7 +3947,7 @@ bool mattack::leech_spawner( monster *z )
     const int monsters_spawned = rng( 1, 4 );
     const mtype_id monster_type = one_in( 3 ) ? mon_leech_root_runner : mon_leech_root_drone;
     for( int i = 0; i < monsters_spawned; i++ ) {
-        if( monster *const new_mon = g->place_critter_around( monster_type, z->pos_bub(), 1 ) ) {
+        if( monster *const new_mon = g->place_critter_around( monster_type, z->pos_bub( here ), 1 ) ) {
             if( u_see ) {
                 add_msg( m_warning,
                          _( "An egg pod ruptures and a %s crawls out from the remains!" ), new_mon->name() );
@@ -3933,13 +3986,15 @@ bool mattack::mon_leech_evolution( monster *z )
 
 bool mattack::tindalos_teleport( monster *z )
 {
+    map &here = get_map();
+
     Creature *target = z->attack_target();
     if( target == nullptr ) {
         return false;
     }
     if( one_in( 7 ) ) {
         if( monster *const afterimage = g->place_critter_around( mon_hound_tindalos_afterimage,
-                                        z->pos_bub(),
+                                        z->pos_bub( here ),
                                         1 ) ) {
             z->mod_moves( -to_moves<int>( 1_seconds ) * 1.4 );
             afterimage->make_ally( *z );
@@ -3948,16 +4003,15 @@ bool mattack::tindalos_teleport( monster *z )
                                     _( "The hound's movements chaotically rewind as a living afterimage splits from it!" ) );
         }
     }
-    const int distance_to_target = rl_dist( z->pos_bub(), target->pos_bub() );
-    map &here = get_map();
+    const int distance_to_target = rl_dist( z->pos_abs(), target->pos_abs() );
     if( distance_to_target > 5 ) {
-        const tripoint_bub_ms oldpos = z->pos_bub();
-        for( const tripoint_bub_ms &dest : here.points_in_radius( target->pos_bub(), 4 ) ) {
+        const tripoint_bub_ms oldpos = z->pos_bub( here );
+        for( const tripoint_bub_ms &dest : here.points_in_radius( target->pos_bub( here ), 4 ) ) {
             if( here.is_cornerfloor( dest ) ) {
                 if( g->is_empty( dest ) ) {
-                    z->setpos( dest );
+                    z->setpos( here, dest );
                     // Not teleporting if it means losing sight of our current target
-                    if( z->sees( *target ) ) {
+                    if( z->sees( here, *target ) ) {
                         here.add_field( oldpos, fd_tindalos_rift, 2 );
                         here.add_field( dest, fd_tindalos_rift, 2 );
                         add_msg_if_player_sees( *z, m_bad,
@@ -3968,7 +4022,7 @@ bool mattack::tindalos_teleport( monster *z )
             }
         }
         // couldn't teleport without losing sight of target
-        z->setpos( oldpos );
+        z->setpos( here, oldpos );
         return true;
     }
     return true;
@@ -3976,9 +4030,11 @@ bool mattack::tindalos_teleport( monster *z )
 
 bool mattack::flesh_tendril( monster *z )
 {
+    map &here = get_map();
+
     Creature *target = z->attack_target();
 
-    if( target == nullptr || !z->sees( *target ) ) {
+    if( target == nullptr || !z->sees( here, *target ) ) {
         if( one_in( 70 ) ) {
             add_msg( _( "The floor trembles underneath your feet." ) );
             z->mod_moves( -to_moves<int>( 2_seconds ) );
@@ -3989,7 +4045,7 @@ bool mattack::flesh_tendril( monster *z )
         return false;
     }
 
-    const int distance_to_target = rl_dist( z->pos_bub(), target->pos_bub() );
+    const int distance_to_target = rl_dist( z->pos_abs(), target->pos_abs() );
 
     // the monster summons stuff to fight you
     if( distance_to_target > 3 && one_in( 12 ) ) {
@@ -4000,7 +4056,7 @@ bool mattack::flesh_tendril( monster *z )
         if( monster *const summoned = g->place_critter_around( spawned, z->pos_bub(), 1 ) ) {
             z->mod_moves( -to_moves<int>( 1_seconds ) );
             summoned->make_ally( *z );
-            get_map().propagate_field( z->pos_bub(), fd_gibs_flesh, 75, 1 );
+            here.propagate_field( z->pos_bub( here ), fd_gibs_flesh, 75, 1 );
             add_msg_if_player_sees( *z, m_warning, _( "A %s struggles to pull itself free from the %s!" ),
                                     summoned->name(), z->name() );
         }
@@ -4032,6 +4088,8 @@ bool mattack::flesh_tendril( monster *z )
 
 bool mattack::bio_op_random_biojutsu( monster *z )
 {
+    const map &here = get_map();
+
     int choice = 0;
     bool redo = false;
 
@@ -4042,7 +4100,7 @@ bool mattack::bio_op_random_biojutsu( monster *z )
     Creature *target = z->attack_target();
     if( target == nullptr ||
         !z->is_adjacent( target, false ) ||
-        !z->sees( *target ) ) {
+        !z->sees( here, *target ) ) {
         return false;
     }
 
@@ -4086,11 +4144,11 @@ bool mattack::bio_op_takedown( monster *z )
     // TODO: Allow drop-takedown form above
     if( target == nullptr ||
         !z->is_adjacent( target, false ) ||
-        !z->sees( *target ) ) {
+        !z->sees( here, *target ) ) {
         return false;
     }
 
-    bool seen = get_player_view().sees( *z );
+    bool seen = get_player_view().sees( here, *z );
     Character *foe = dynamic_cast< Character * >( target );
     if( seen ) {
         add_msg( _( "The %1$s mechanically grabs at %2$s!" ), z->name(),
@@ -4196,11 +4254,11 @@ bool mattack::bio_op_impale( monster *z )
     Creature *target = z->attack_target();
     if( target == nullptr ||
         !z->is_adjacent( target, false ) ||
-        !z->sees( *target ) ) {
+        !z->sees( here, *target ) ) {
         return false;
     }
 
-    const bool seen = get_player_view().sees( *z );
+    const bool seen = get_player_view().sees( here, *z );
     Character *foe = dynamic_cast< Character * >( target );
     if( seen ) {
         add_msg( _( "The %1$s mechanically lunges at %2$s!" ), z->name(),
@@ -4267,6 +4325,8 @@ bool mattack::bio_op_impale( monster *z )
 
 bool mattack::bio_op_disarm( monster *z )
 {
+    map &here = get_map();
+
     if( !z->can_act() ) {
         return false;
     }
@@ -4274,11 +4334,11 @@ bool mattack::bio_op_disarm( monster *z )
     Creature *target = z->attack_target();
     if( target == nullptr ||
         !z->is_adjacent( target, false ) ||
-        !z->sees( *target ) ) {
+        !z->sees( here, *target ) ) {
         return false;
     }
 
-    const bool seen = get_player_view().sees( *z );
+    const bool seen = get_player_view().sees( here, *z );
     Character *foe = dynamic_cast< Character * >( target );
 
     // disarm doesn't work on creatures or unarmed targets
@@ -4319,11 +4379,11 @@ bool mattack::bio_op_disarm( monster *z )
 
     if( my_roll >= their_roll && !it->has_flag( flag_NO_UNWIELD ) ) {
         target->add_msg_if_player( m_bad, _( "and throws it to the ground!" ) );
-        tripoint_bub_ms tp = foe->pos_bub() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
-        if( !get_map().can_put_items( tp ) ) {
-            tp = foe->pos_bub();
+        tripoint_bub_ms tp = foe->pos_bub( here ) + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
+        if( !here.can_put_items( tp ) ) {
+            tp = foe->pos_bub( here );
         }
-        get_map().add_item_or_charges( tp, foe->i_rem( &*it ) );
+        here.add_item_or_charges( tp, foe->i_rem( &*it ) );
     } else {
         target->add_msg_if_player( m_good, _( "but you break its grip!" ) );
     }
@@ -4494,6 +4554,8 @@ struct grenade_helper_struct {
 static int grenade_helper( monster *const z, Creature *const target, const int dist,
                            const int moves, std::map<itype_id, grenade_helper_struct> data )
 {
+    const map &here = get_map();
+
     // Can't do anything if we can't act
     if( !z->can_act() ) {
         return 0;
@@ -4533,7 +4595,7 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
     z->ammo[att]--;
 
     // if the player can see it
-    if( get_player_view().sees( *z ) ) {
+    if( get_player_view().sees( here, *z ) ) {
         if( data[att].message.empty() ) {
             add_msg_debug( debugmode::DF_MATTACK, "Invalid ammo message in grenadier special." );
         } else {

@@ -206,28 +206,18 @@ tripoint_bub_ms Creature::pos_bub() const
     return get_map().get_bub( location );
 }
 
-tripoint_bub_ms Creature::pos_bub( map *here ) const
+tripoint_bub_ms Creature::pos_bub( const map &here ) const
 {
-    return here->get_bub( location );
+    return here.get_bub( location );
 }
 
-void Creature::setpos( const tripoint_bub_ms &p, bool check_gravity/* = true*/ )
+void Creature::setpos( map &here, const tripoint_bub_ms &p, bool check_gravity/* = true*/ )
 {
     const tripoint_abs_ms old_loc = pos_abs();
-    set_pos_bub_only( p );
+    set_pos_abs_only( here.get_abs( p ) );
     on_move( old_loc );
     if( check_gravity ) {
-        gravity_check();
-    }
-}
-
-void Creature::setpos( map *here, const tripoint_bub_ms &p, bool check_gravity/* = true*/ )
-{
-    const tripoint_abs_ms old_loc = pos_abs();
-    set_pos_abs_only( here->get_abs( p ) );
-    on_move( old_loc );
-    if( check_gravity ) {
-        gravity_check( here );
+        gravity_check( &here );
     }
 }
 
@@ -241,9 +231,8 @@ void Creature::setpos( const tripoint_abs_ms &p, bool check_gravity/* = true*/ )
     }
 }
 
-bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) const
+bool Creature::will_be_cramped_in_vehicle_tile( map &here, const tripoint_abs_ms &loc ) const
 {
-    map &here = get_map();
     const optional_vpart_position vp_there = here.veh_at( loc );
     if( !vp_there ) {
         return false;
@@ -314,9 +303,9 @@ void Creature::move_to( const tripoint_abs_ms &loc )
     on_move( old_loc );
 }
 
-void Creature::set_pos_bub_only( const tripoint_bub_ms &p )
+void Creature::set_pos_bub_only( const map &here, const tripoint_bub_ms &p )
 {
-    location = get_map().get_abs( p );
+    location = here.get_abs( p );
 }
 
 void Creature::set_pos_abs_only( const tripoint_abs_ms &loc )
@@ -350,9 +339,9 @@ void Creature::reset()
     reset_stats();
 }
 
-void Creature::bleed() const
+void Creature::bleed( map &here ) const
 {
-    get_map().add_splatter( bloodType(), pos_bub() );
+    here.add_splatter( bloodType(), pos_bub( here ) );
 }
 
 void Creature::reset_bonuses()
@@ -417,10 +406,11 @@ bool Creature::is_underwater() const
     return underwater;
 }
 
-bool Creature::is_likely_underwater() const
+bool Creature::is_likely_underwater( const map &here ) const
 {
     return is_underwater() ||
-           ( has_flag( mon_flag_AQUATIC ) && get_map().has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) );
+           ( has_flag( mon_flag_AQUATIC ) &&
+             here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub( here ) ) );
 }
 
 // Detects whether a target is sapient or not (or barely sapient, since ferals count)
@@ -488,7 +478,7 @@ static bool majority_rule( const bool a_vote, const bool b_vote, const bool c_vo
     return ( a_vote + b_vote + c_vote ) > 1;
 }
 
-bool Creature::sees( const Creature &critter ) const
+bool Creature::sees( const map &here, const Creature &critter ) const
 {
     const Character *ch = critter.as_character();
 
@@ -507,9 +497,7 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
 
-    map &here = get_map();
-
-    const int target_range = rl_dist( pos_bub(), critter.pos_bub() );
+    const int target_range = rl_dist( pos_bub( here ), critter.pos_bub( here ) );
     if( target_range > MAX_VIEW_DISTANCE ) {
         return false;
     }
@@ -551,12 +539,12 @@ bool Creature::sees( const Creature &critter ) const
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
     if( target_range <= 1 ) {
-        return ( posz() == critter.posz() || here.sees( pos_bub(), critter.pos_bub(), 1 ) ) &&
+        return ( posz() == critter.posz() || here.sees( pos_bub( here ), critter.pos_bub( here ), 1 ) ) &&
                visible( ch );
     }
 
     // If we cannot see without any of the penalties below, bail now.
-    if( !sees( critter.pos_bub(), critter.is_avatar() ) ) {
+    if( !sees( here, critter.pos_bub( here ), critter.is_avatar() ) ) {
         return false;
     }
 
@@ -567,25 +555,25 @@ bool Creature::sees( const Creature &critter ) const
     }
 
     if( ( target_range > 2 && critter.digging() &&
-          here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, critter.pos_bub() ) ) ||
+          here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, critter.pos_bub( here ) ) ) ||
         ( critter.has_flag( mon_flag_CAMOUFLAGE ) && target_range > this->get_eff_per() ) ||
         ( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ) &&
           target_range > this->get_eff_per() &&
-          ( critter.is_likely_underwater() ||
+          ( critter.is_likely_underwater( here ) ||
             here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos_bub() ) ||
-            ( here.has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER, critter.pos_bub() ) &&
+            ( here.has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER, critter.pos_bub( here ) ) &&
               critter.get_size() < creature_size::medium ) ) ) ||
         ( critter.has_flag( mon_flag_NIGHT_INVISIBILITY ) &&
           here.light_at( critter.pos_bub() ) <= lit_level::LOW ) ||
         critter.has_effect( effect_invisibility ) ||
-        ( !is_likely_underwater() && critter.is_likely_underwater() &&
+        ( !is_likely_underwater( here ) && critter.is_likely_underwater( here ) &&
           majority_rule( critter.has_flag( mon_flag_WATER_CAMOUFLAGE ),
-                         here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos_bub() ),
+                         here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos_bub( here ) ),
                          posz() != critter.posz() ) ) ||
-        ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_HIDE_PLACE, critter.pos_bub() ) &&
+        ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_HIDE_PLACE, critter.pos_bub( here ) ) &&
           !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
              std::abs( posz() - critter.posz() ) <= 1 ) ) ||
-        ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SMALL_HIDE, critter.pos_bub() ) &&
+        ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SMALL_HIDE, critter.pos_bub( here ) ) &&
           critter.has_flag( mon_flag_SMALL_HIDER ) &&
           !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
              std::abs( posz() - critter.posz() ) <= 1 ) ) ) {
@@ -594,8 +582,8 @@ bool Creature::sees( const Creature &critter ) const
     if( ch != nullptr ) {
         if( ch->is_crouching() || ch->has_effect( effect_all_fours ) || ch->is_prone() ||
             posz() != critter.posz() ) {
-            const int coverage = std::max( here.obstacle_coverage( pos_bub(), critter.pos_bub() ),
-                                           here.ledge_coverage( *this, critter.pos_bub() ) );
+            const int coverage = std::max( here.obstacle_coverage( pos_bub(), critter.pos_bub( here ) ),
+                                           here.ledge_coverage( *this, critter.pos_bub( here ) ) );
             if( coverage < 30 ) {
                 return visible( ch );
             }
@@ -637,19 +625,19 @@ bool Creature::sees( const Creature &critter ) const
     return visible( ch );
 }
 
-bool Creature::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) const
+bool Creature::sees( const map &here, const tripoint_bub_ms &t, bool is_avatar,
+                     int range_mod ) const
 {
     if( std::abs( posz() - t.z() ) > fov_3d_z_range ) {
         return false;
     }
 
-    map &here = get_map();
     const int range_cur = sight_range( here.ambient_light_at( t ) );
     const int range_day = sight_range( default_daylight_level() );
     const int range_night = sight_range( 0 );
     const int range_max = std::max( range_day, range_night );
     const int range_min = std::min( range_cur, range_max );
-    const int wanted_range = rl_dist( pos_bub(), t );
+    const int wanted_range = rl_dist( pos_bub( here ), t );
     if( wanted_range <= range_min ||
         ( wanted_range <= range_max &&
           here.ambient_light_at( t ) > here.get_cache_ref( t.z() ).natural_light_level_cache ) ) {
@@ -672,7 +660,7 @@ bool Creature::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) c
             return adj_range >= wanted_range &&
                    here.get_cache_ref( posz() ).seen_cache[posx()][posy()] > LIGHT_TRANSPARENCY_SOLID;
         } else {
-            return here.sees( pos_bub(), t, range );
+            return here.sees( pos_bub( here ), t, range );
         }
     } else {
         return false;
@@ -696,6 +684,8 @@ static bool overlaps_vehicle( const std::set<tripoint_abs_ms> &veh_area, const t
 
 Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area )
 {
+    map &here = get_map();
+
     Creature *target = nullptr;
     Character &player_character = get_player_character();
     tripoint_bub_ms player_pos = player_character.pos_bub();
@@ -708,10 +698,9 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
     bool self_area_iff = false; // Need to check if the target is near the vehicle we're a part of
     bool area_iff = false;      // Need to check distance from target to player
-    bool angle_iff = sees( player_character ); // Need to check if player is in cone to target
-    int pldist = rl_dist( pos_bub(), player_pos );
-    map &here = get_map();
-    vehicle *in_veh = is_fake() ? veh_pointer_or_null( here.veh_at( pos_bub() ) ) : nullptr;
+    bool angle_iff = sees( here, player_character ); // Need to check if player is in cone to target
+    int pldist = rl_dist( pos_bub( here ), player_pos );
+    vehicle *in_veh = is_fake() ? veh_pointer_or_null( here.veh_at( pos_bub( here ) ) ) : nullptr;
     if( pldist < iff_dist && angle_iff ) {
         area_iff = area > 0;
         // Player inside vehicle won't be hit by shots from the roof,
@@ -723,7 +712,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // granularity increases with proximity
             iff_hangle = ( pldist == 2 ? 30_degrees : 60_degrees );
         }
-        u_angle = coord_to_angle( pos_bub(), player_pos );
+        u_angle = coord_to_angle( pos_bub( here ), player_pos );
     }
 
     if( area > 0 && in_veh != nullptr ) {
@@ -743,15 +732,15 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         return false;
     } );
     for( Creature *&m : targets ) {
-        if( !sees( *m ) ) {
+        if( !sees( here, *m ) ) {
             // can't see nor sense it
             if( is_fake() && in_veh ) {
                 // If turret in the vehicle then
                 // Hack: trying yo avoid turret LOS blocking by frames bug by trying to see target from vehicle boundary
                 // Or turret wallhack for turret's car
                 // TODO: to visibility checking another way, probably using 3D FOV
-                std::vector<tripoint_bub_ms> path_to_target = line_to( pos_bub(), m->pos_bub() );
-                path_to_target.insert( path_to_target.begin(), pos_bub() );
+                std::vector<tripoint_bub_ms> path_to_target = line_to( pos_bub( here ), m->pos_bub( here ) );
+                path_to_target.insert( path_to_target.begin(), pos_bub( here ) );
 
                 // Getting point on vehicle boundaries and on line between target and turret
                 bool continueFlag = true;
@@ -765,10 +754,10 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
                     }
                 } while( continueFlag );
 
-                tripoint_bub_ms oldPos = pos_bub();
-                setpos( path_to_target.back() ); //Temporary moving targeting npc on vehicle boundary position
-                bool seesFromVehBound = sees( *m ); // And look from there
-                setpos( oldPos );
+                tripoint_bub_ms oldPos = pos_bub( here );
+                setpos( here, path_to_target.back() ); //Temporary moving targeting npc on vehicle boundary position
+                bool seesFromVehBound = sees( here, *m ); // And look from there
+                setpos( here, oldPos );
                 if( !seesFromVehBound ) {
                     continue;
                 }
@@ -776,7 +765,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
                 continue;
             }
         }
-        int dist = rl_dist( pos_bub(), m->pos_bub() ) + 1; // rl_dist can be 0
+        int dist = rl_dist( pos_abs(), m->pos_abs() ) + 1; // rl_dist can be 0
         if( dist > range + 1 || dist < area ) {
             // Too near or too far
             continue;
@@ -789,11 +778,11 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             continue;
         }
 
-        if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( m->pos_bub() ) ) == in_veh ) {
+        if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( m->pos_bub( here ) ) ) == in_veh ) {
             // No shooting stuff on vehicle we're a part of
             continue;
         }
-        if( area_iff && rl_dist( player_pos, m->pos_bub() ) <= area ) {
+        if( area_iff && rl_dist( player_pos, m->pos_bub( here ) ) <= area ) {
             // Player in AoE
             boo_hoo++;
             continue;
@@ -802,7 +791,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         // only when the target is actually "hostile enough"
         bool maybe_boo = false;
         if( angle_iff ) {
-            units::angle tangle = coord_to_angle( pos_bub(), m->pos_bub() );
+            units::angle tangle = coord_to_angle( pos_abs(), m->pos_abs() );
             units::angle diff = units::fabs( u_angle - tangle );
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360_degrees || diff < iff_hangle ) &&
@@ -992,6 +981,8 @@ double Creature::accuracy_projectile_attack( const int &speed, const double &mis
 void projectile::apply_effects_damage( Creature &target, Creature *source,
                                        const dealt_damage_instance &dealt_dam, bool critical ) const
 {
+    const map &here = get_map();
+
     int dam = dealt_dam.total_damage();
     // Apply ammo effects to target.
     if( proj_effects.count( ammo_effect_TANGLE ) ) {
@@ -1029,7 +1020,7 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
             }
             if( player_character.has_trait( trait_PYROMANIA ) &&
                 !player_character.has_morale( morale_pyromania_startfire ) &&
-                player_character.sees( target ) ) {
+                player_character.sees( here, target ) ) {
                 player_character.add_msg_if_player( m_good,
                                                     _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
                 player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
@@ -1045,7 +1036,7 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
             }
             if( player_character.has_trait( trait_PYROMANIA ) &&
                 !player_character.has_morale( morale_pyromania_startfire ) &&
-                player_character.sees( target ) ) {
+                player_character.sees( here, target ) ) {
                 player_character.add_msg_if_player( m_good,
                                                     _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
                 player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
@@ -1204,8 +1195,10 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
 void Creature::messaging_projectile_attack( const Creature *source,
         const projectile_attack_results &hit_selection, const int total_damage ) const
 {
+    const map &here = get_map();
+
     const viewer &player_view = get_player_view();
-    const bool u_see_this = player_view.sees( *this );
+    const bool u_see_this = player_view.sees( here, *this );
 
     if( u_see_this ) {
         if( hit_selection.damage_mult == 0 ) {
@@ -1275,9 +1268,11 @@ void Creature::messaging_projectile_attack( const Creature *source,
 
 void Creature::print_proj_avoid_msg( Creature *source, viewer &player_view ) const
 {
+    const map &here = get_map();
+
     // "Avoid" rather than "dodge", because it includes removing self from the line of fire
     //  rather than just Matrix-style bullet dodging
-    if( source != nullptr && player_view.sees( *source ) ) {
+    if( source != nullptr && player_view.sees( here, *source ) ) {
         add_msg_player_or_npc(
             m_warning,
             _( "You avoid %s projectile!" ),
@@ -1459,6 +1454,8 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
 void Creature::deal_damage_handle_type( const effect_source &source, const damage_unit &du,
                                         bodypart_id bp, int &damage, int &pain )
 {
+    const map &here = get_map();
+
     // Handles ACIDPROOF, electric immunity etc.
     if( is_immune_damage( du.type ) ) {
         return;
@@ -1483,7 +1480,8 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
 
             Character &player_character = get_player_character();
             if( player_character.has_trait( trait_PYROMANIA ) &&
-                !player_character.has_morale( morale_pyromania_startfire ) && player_character.sees( *this ) ) {
+                !player_character.has_morale( morale_pyromania_startfire ) &&
+                player_character.sees( here, *this ) ) {
                 player_character.add_msg_if_player( m_good,
                                                     _( "You feel a surge of euphoria as flame engulfs %s!" ), this->get_name() );
                 player_character.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
@@ -1527,16 +1525,18 @@ void Creature::heal_bp( bodypart_id /* bp */, int /* dam */ )
 
 void Creature::longpull( const std::string &name, const tripoint_bub_ms &p )
 {
-    if( pos_bub() == p ) {
+    const map &here = get_map();
+
+    if( pos_bub( here ) == p ) {
         add_msg_if_player( _( "You try to pull yourself together." ) );
         return;
     }
 
-    std::vector<tripoint_bub_ms> path = line_to( pos_bub(), p, 0, 0 );
+    std::vector<tripoint_bub_ms> path = line_to( pos_bub( here ), p, 0, 0 );
     Creature *c = nullptr;
     for( const tripoint_bub_ms &path_p : path ) {
         c = get_creature_tracker().creature_at( path_p );
-        if( c == nullptr && get_map().impassable( path_p ) ) {
+        if( c == nullptr && here.impassable( path_p ) ) {
             add_msg_if_player( m_warning, _( "There's an obstacle in the way!" ) );
             return;
         }
@@ -1544,7 +1544,7 @@ void Creature::longpull( const std::string &name, const tripoint_bub_ms &p )
             break;
         }
     }
-    if( c == nullptr || !sees( *c ) ) {
+    if( c == nullptr || !sees( here, *c ) ) {
         // TODO: Latch onto objects?
         add_msg_if_player( m_warning, _( "There's nothing here to latch onto with your %s!" ),
                            name );
@@ -1565,7 +1565,7 @@ void Creature::longpull( const std::string &name, const tripoint_bub_ms &p )
         c->move_to( tripoint_abs_ms( line_to( pos_abs().raw(), c->pos_abs().raw(), 0,
                                               0 ).front() ) );
         c->add_effect( effect_stunned, 1_seconds );
-        sounds::sound( c->pos_bub(), 5, sounds::sound_t::combat, _( "Shhhk!" ) );
+        sounds::sound( c->pos_bub( here ), 5, sounds::sound_t::combat, _( "Shhhk!" ) );
     } else {
         add_msg_if_player( m_bad, _( "%s weight makes it difficult to pull towards you." ),
                            c->disp_name( true, true ) );
@@ -1577,6 +1577,8 @@ void Creature::longpull( const std::string &name, const tripoint_bub_ms &p )
 
 bool Creature::stumble_invis( const Creature &player, const bool stumblemsg )
 {
+    map &here = get_map();
+
     // DEBUG insivibility can't be seen through
     if( player.has_trait( trait_DEBUG_CLOAK ) ) {
         return false;
@@ -1585,17 +1587,16 @@ bool Creature::stumble_invis( const Creature &player, const bool stumblemsg )
         return false;
     }
     if( stumblemsg ) {
-        const bool player_sees = player.sees( *this );
+        const bool player_sees = player.sees( here, *this );
         add_msg( m_bad, _( "%s stumbles into you!" ), player_sees ? this->disp_name( false,
                  true ) : _( "Something" ) );
     }
     add_effect( effect_stumbled_into_invisible, 6_seconds );
-    map &here = get_map();
     // Mark last known location, or extend duration if exists
-    if( here.has_field_at( player.pos_bub(), field_fd_last_known ) ) {
-        here.set_field_age( player.pos_bub(), field_fd_last_known, 0_seconds );
+    if( here.has_field_at( player.pos_bub( here ), field_fd_last_known ) ) {
+        here.set_field_age( player.pos_bub( here ), field_fd_last_known, 0_seconds );
     } else {
-        here.add_field( player.pos_bub(), field_fd_last_known );
+        here.add_field( player.pos_bub( here ), field_fd_last_known );
     }
     moves = 0;
     return true;

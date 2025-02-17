@@ -109,15 +109,15 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
     veh.tags.insert( "IN_CONTROL_OVERRIDE" );
     veh.engine_on = true;
     Character &player_character = get_player_character();
-    player_character.setpos( map_starting_point );
+    player_character.setpos( here, map_starting_point );
 
-    REQUIRE( player_character.pos_bub() == map_starting_point );
-    if( player_character.pos_bub() != map_starting_point ) {
+    REQUIRE( player_character.pos_bub( here ) == map_starting_point );
+    if( player_character.pos_bub( here ) != map_starting_point ) {
         return;
     }
     get_map().board_vehicle( map_starting_point, &player_character );
-    REQUIRE( player_character.pos_bub() == map_starting_point );
-    if( player_character.pos_bub() != map_starting_point ) {
+    REQUIRE( player_character.pos_bub( here ) == map_starting_point );
+    if( player_character.pos_bub( here ) != map_starting_point ) {
         return;
     }
     const int transition_cycle = 3;
@@ -180,7 +180,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
         const int z_change = map_starting_point.z() - player_character.posz();
         here.unboard_vehicle( *vp, &player_character, false );
         here.ter_set( map_starting_point, ter_id( "t_pavement" ) );
-        player_character.setpos( map_starting_point );
+        player_character.setpos( here, map_starting_point );
         if( z_change ) {
             g->vertical_move( z_change, true );
         }
@@ -245,7 +245,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
 
     // Make sure the avatar is out of the way
     Character &player_character = get_player_character();
-    player_character.setpos( map_starting_point + point( 5, 5 ) );
+    player_character.setpos( here, map_starting_point + point( 5, 5 ) );
     vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, 180_degrees, 1, 0 );
 
     REQUIRE( veh_ptr != nullptr );

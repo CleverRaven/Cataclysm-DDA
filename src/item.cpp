@@ -6732,6 +6732,8 @@ void item::on_wield( Character &you )
 
 void item::handle_pickup_ownership( Character &c )
 {
+    const map &here = get_map();
+
     if( is_owned_by( c ) ) {
         return;
     }
@@ -6740,7 +6742,7 @@ void item::handle_pickup_ownership( Character &c )
         set_owner( c );
     } else {
         if( !is_owned_by( c ) && c.is_avatar() ) {
-            const auto sees_stealing = [&c, this]( const Creature & cr ) {
+            const auto sees_stealing = [&c, this, &here]( const Creature & cr ) {
                 const npc *const as_npc = cr.as_npc();
                 const monster *const as_monster = cr.as_monster();
                 bool owned_by = false;
@@ -6749,8 +6751,8 @@ void item::handle_pickup_ownership( Character &c )
                 } else if( as_monster ) {
                     owned_by = is_owned_by( *as_monster );
                 }
-                return &cr != &c && owned_by && rl_dist( cr.pos_bub(), c.pos_bub() ) < MAX_VIEW_DISTANCE &&
-                       cr.sees( c.pos_bub() );
+                return &cr != &c && owned_by && rl_dist( cr.pos_abs(), c.pos_abs() ) < MAX_VIEW_DISTANCE &&
+                       cr.sees( here, c.pos_bub( here ) );
             };
             const auto sort_criteria = []( const Creature * lhs, const Creature * rhs ) {
                 const npc *const lnpc = lhs->as_npc();
@@ -11223,10 +11225,8 @@ int item::gun_range( const Character *p ) const
     return std::max( 0, ret );
 }
 
-int item::shots_remaining( const Character *carrier ) const
+int item::shots_remaining( const map &here, const Character *carrier ) const
 {
-    map &here = get_map();
-
     int ret = 1000; // Arbitrary large number for things that do not require ammo.
     if( ammo_required() ) {
         ret = std::min( ammo_remaining_linked( here,  carrier ) / ammo_required(), ret );
@@ -11468,7 +11468,7 @@ bool item::ammo_sufficient( const Character *carrier, int qty ) const
         return true;
     }
 
-    return shots_remaining( carrier ) >= qty;
+    return shots_remaining( here, carrier ) >= qty;
 }
 
 bool item::ammo_sufficient( const Character *carrier, const std::string &method, int qty ) const

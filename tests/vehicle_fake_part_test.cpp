@@ -357,12 +357,12 @@ TEST_CASE( "fake_parts_are_opaque", "[vehicle][vehicle_fake]" )
     map &here = get_map();
     set_time_to_day();
 
-    REQUIRE( you.sees( you.pos_bub() + point( 10, 10 ) ) );
+    REQUIRE( you.sees( here, you.pos_bub( here ) + point( 10, 10 ) ) );
     vehicle *veh = here.add_vehicle( vehicle_prototype_test_van, test_origin, 315_degrees, 100, 0 );
     REQUIRE( veh != nullptr );
     here.set_seen_cache_dirty( 0 );
     here.build_map_cache( 0 );
-    CHECK( !you.sees( you.pos_bub() + point( 10, 10 ) ) );
+    CHECK( !you.sees( here, you.pos_bub( here ) + point( 10, 10 ) ) );
 }
 
 TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
@@ -388,7 +388,7 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
         if( vp.info().has_flag( "OPENABLE" ) && vp.part().is_fake ) {
             fakes_tested++;
             REQUIRE( !vp.part().open );
-            CHECK( can_interact_at( ACTION_OPEN, vp.pos_bub( here ) ) );
+            CHECK( can_interact_at( ACTION_OPEN, here, vp.pos_bub( here ) ) );
             int part_to_open = veh->next_part_to_open( vp.part_index() );
             // This should be the same part for this use case since there are no curtains etc.
             REQUIRE( part_to_open == static_cast<int>( vp.part_index() ) );
@@ -414,7 +414,7 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
             continue;
         }
         CAPTURE( prev_player_pos );
-        CAPTURE( you.pos_bub() );
+        CAPTURE( you.pos_bub( here ) );
         REQUIRE( veh->can_close( vp.part_index(), you ) );
         REQUIRE( veh->can_close( fake_door.part_index(), you ) );
         you.setpos( vp.pos_abs() );
@@ -425,7 +425,7 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
         you.setpos( fake_door.pos_abs() );
         CHECK( !veh->can_close( vp.part_index(), you ) );
         CHECK( !veh->can_close( fake_door.part_index(), you ) );
-        you.setpos( prev_player_pos );
+        you.setpos( here, prev_player_pos );
     }
 
     // Then scan through all the openables including fakes and assert that we can close them.
@@ -434,7 +434,7 @@ TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
         if( vp.info().has_flag( "OPENABLE" ) && vp.part().is_fake ) {
             fakes_tested++;
             CHECK( vp.part().open );
-            CHECK( can_interact_at( ACTION_CLOSE, vp.pos_bub( here ) ) );
+            CHECK( can_interact_at( ACTION_CLOSE, here, vp.pos_bub( here ) ) );
             int part_to_close = veh->next_part_to_close( vp.part_index() );
             // This should be the same part for this use case since there are no curtains etc.
             REQUIRE( part_to_close == static_cast<int>( vp.part_index() ) );

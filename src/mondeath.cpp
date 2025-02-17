@@ -60,7 +60,7 @@ item_location mdeath::normal( map *here, monster &z )
         const float corpse_damage = 2.5 * overflow_damage / max_hp;
         const bool pulverized = corpse_damage > 5 && overflow_damage > z.get_hp_max();
 
-        z.bleed(); // leave some blood if we have to
+        z.bleed( *here ); // leave some blood if we have to
 
         if( pulverized ) {
             return splatter( here, z );
@@ -85,10 +85,10 @@ static void scatter_chunks( map *here, const itype_id &chunk_name, int chunk_amt
     int placed_chunks = 0;
     while( placed_chunks < chunk_amt ) {
         bool drop_chunks = true;
-        tripoint_bub_ms tarp( z.pos_bub( here ) + point( rng( -distance, distance ),
+        tripoint_bub_ms tarp( z.pos_bub( *here ) + point( rng( -distance, distance ),
                               rng( -distance,
                                    distance ) ) );
-        const std::vector<tripoint_bub_ms> traj = line_to( z.pos_bub( here ), tarp );
+        const std::vector<tripoint_bub_ms> traj = line_to( z.pos_bub( *here ), tarp );
 
         for( size_t j = 0; j < traj.size(); j++ ) {
             tarp = traj[j];
@@ -133,7 +133,7 @@ item_location mdeath::splatter( map *here, monster &z )
     const field_type_id type_gib = z.gibType();
 
     if( gibbable ) {
-        const tripoint_range<tripoint_bub_ms> area = here->points_in_radius( z.pos_bub( here ),
+        const tripoint_range<tripoint_bub_ms> area = here->points_in_radius( z.pos_bub( *here ),
                 1 );
         int number_of_gibs = std::min( std::floor( corpse_damage ) - 1, 1 + max_hp / 5.0f );
 
@@ -192,7 +192,7 @@ item_location mdeath::splatter( map *here, monster &z )
         if( !z.has_eaten_enough() ) {
             corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
         }
-        return here->add_item_ret_loc( z.pos_bub( here ), corpse );
+        return here->add_item_ret_loc( z.pos_bub( *here ), corpse );
     }
     return {};
 }
@@ -224,7 +224,7 @@ void mdeath::broken( map *here, monster &z )
     const float corpse_damage = 2.5 * overflow_damage / max_hp;
     broken_mon.set_damage( static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
 
-    here->add_item_or_charges( z.pos_bub( here ), broken_mon );
+    here->add_item_or_charges( z.pos_bub( *here ), broken_mon );
 
     if( z.type->has_flag( mon_flag_DROPS_AMMO ) ) {
         for( const std::pair<const itype_id, int> &ammo_entry : z.ammo ) {
@@ -247,14 +247,14 @@ void mdeath::broken( map *here, monster &z )
                                 mags.insert( mags.end(), mag );
                                 ammo_count -= mag.type->magazine->capacity;
                             }
-                            here->spawn_items( z.pos_bub( here ), mags );
+                            here->spawn_items( z.pos_bub( *here ), mags );
                             spawned = true;
                             break;
                         }
                     }
                 }
                 if( !spawned ) {
-                    here->spawn_item( z.pos_bub( here ), ammo_entry.first, ammo_entry.second, 1,
+                    here->spawn_item( z.pos_bub( *here ), ammo_entry.first, ammo_entry.second, 1,
                                       calendar::turn );
                 }
             }
@@ -284,5 +284,5 @@ item_location make_mon_corpse( map *here, monster &z, int damageLvl )
     if( !z.has_eaten_enough() ) {
         corpse.set_flag( STATIC( flag_id( "UNDERFED" ) ) );
     }
-    return here->add_item_ret_loc( z.pos_bub( here ), corpse );
+    return here->add_item_ret_loc( z.pos_bub( *here ), corpse );
 }

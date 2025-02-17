@@ -543,7 +543,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             map &here = get_map();
             item *obj = target();
             int mv = ch.item_handling_cost( *obj, true, VEHICLE_HANDLING_PENALTY, qty );
-            mv += 100 * rl_dist( ch.pos_bub( &here ), cur.veh.bub_part_pos( here, cur.part ) );
+            mv += 100 * rl_dist( ch.pos_bub( here ), cur.veh.bub_part_pos( here, cur.part ) );
 
             // TODO: handle unpacking costs
 

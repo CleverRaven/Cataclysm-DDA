@@ -1676,9 +1676,11 @@ drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereade
 drop_locations game_menus::inv::edevice_select( Character &who, item_location &used_edevice,
         bool browse_equals, bool auto_include_used_edevice, bool unusable_only, efile_action action )
 {
+    const map &here = get_map();
+
     const inventory_filter_preset preset( [&]( const item_location & loc ) {
         //make sure this is an edevice before we make edevice calls
-        if( loc->is_estorage() && loc->is_owned_by( who, true ) && who.sees( loc.pos_bub() ) ) {
+        if( loc->is_estorage() && loc->is_owned_by( who, true ) && who.sees( here, loc.pos_bub() ) ) {
             efile_activity_actor::edevice_compatible compat =
                 efile_activity_actor::edevices_compatible( used_edevice, loc );
             bool is_tool_has_charge = !loc->is_tool() || loc->ammo_sufficient( &who );

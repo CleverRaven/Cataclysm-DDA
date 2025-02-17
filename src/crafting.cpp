@@ -506,7 +506,7 @@ bool Character::check_eligible_containers_for_crafting( const recipe &rec, int b
 
         // also check if we're currently in a vehicle that has the necessary storage
         if( charges_to_store > 0 ) {
-            if( optional_vpart_position vp = here.veh_at( pos_bub( &here ) ) ) {
+            if( optional_vpart_position vp = here.veh_at( pos_bub( here ) ) ) {
                 const itype_id &ftype = prod.typeId();
                 int fuel_cap = vp->vehicle().fuel_capacity( here, ftype );
                 int fuel_amnt = vp->vehicle().fuel_left( here, ftype );
@@ -647,7 +647,7 @@ const inventory &Character::crafting_inventory( map *here, const tripoint_bub_ms
 {
     tripoint_bub_ms inv_pos = src_pos;
     if( src_pos == tripoint_bub_ms::zero ) {
-        inv_pos = pos_bub( here );
+        inv_pos = pos_bub( *here );
     }
     if( crafting_cache.valid
         && moves == crafting_cache.moves

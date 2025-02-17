@@ -339,7 +339,9 @@ monster::monster( const mtype_id &id ) : monster()
 
 monster::monster( const mtype_id &id, const tripoint_bub_ms &p ) : monster( id )
 {
-    set_pos_bub_only( p );
+    map &here = get_map();
+
+    set_pos_bub_only( here, p );
     unset_dest();
 }
 
@@ -762,7 +764,9 @@ void monster::try_biosignature()
 
 void monster::spawn( const tripoint_bub_ms &p )
 {
-    set_pos_bub_only( p );
+    map &here = get_map();
+
+    set_pos_bub_only( here, p );
     unset_dest();
 }
 
@@ -921,6 +925,8 @@ std::string monster::speed_description( float mon_speed_rating,
 
 int monster::print_info( const catacurses::window &w, int vStart, int vLines, int column ) const
 {
+    const map &here = get_map();
+
     const int vEnd = vStart + vLines;
     const int max_width = getmaxx( w ) - column - 1;
     std::ostringstream oss;
@@ -943,7 +949,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     vStart += fold_and_print( w, point( column, vStart ), max_width, c_white, oss.str() );
 
     Character &pc = get_player_character();
-    bool sees_player = sees( pc );
+    bool sees_player = sees( here, pc );
     const bool player_knows = !pc.has_trait( trait_INATTENTIVE );
 
     // Hostility indicator on the second line.
@@ -1012,6 +1018,8 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
 void monster::print_info_imgui() const
 {
+    const map &here = get_map();
+
     ImGui::TextUnformatted( get_origin( type->src ).c_str() );
 
     if( debug_mode ) {
@@ -1033,7 +1041,7 @@ void monster::print_info_imgui() const
                         get_effect_status().c_str() );
 
     Character &pc = get_player_character();
-    bool sees_player = sees( pc );
+    bool sees_player = sees( here, pc );
     const bool player_knows = !pc.has_trait( trait_INATTENTIVE );
 
     // Hostility indicator on the second line.
@@ -1092,6 +1100,8 @@ void monster::print_info_imgui() const
 
 std::vector<std::string> monster::extended_description() const
 {
+    const map &here = get_map();
+
     std::vector<std::string> tmp;
     // Reserve the number of elements we know we will need.
     // Likely we will need more, but it's best to leave that to
@@ -1145,7 +1155,7 @@ std::vector<std::string> monster::extended_description() const
         tmp.emplace_back( string_format( _( "<stat>It is %s.</stat>" ), eff ) );
     }
 
-    bool sees_player = sees( pc );
+    bool sees_player = sees( here, pc );
     std::string senses_str = sees_player ? colorize( _( "Can see to your current location" ), c_red ) :
                              colorize( _( "Can't see to your current location" ), c_green );
     tmp.emplace_back( senses_str );
@@ -1559,13 +1569,16 @@ void monster::wander_to( const tripoint_abs_ms &p, int f )
 
 Creature *monster::attack_target()
 {
+    const map &here = get_map();
+
     if( !has_dest() ) {
         return nullptr;
     }
 
     Creature *target = get_creature_tracker().creature_at( get_dest() );
     if( target == nullptr || target == this ||
-        attitude_to( *target ) == Attitude::FRIENDLY || !sees( *target ) || target->is_hallucination() ) {
+        attitude_to( *target ) == Attitude::FRIENDLY || !sees( here,  *target ) ||
+        target->is_hallucination() ) {
         return nullptr;
     }
 
@@ -2078,7 +2091,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
     if( /*This happens sometimes*/ this == &target || !is_adjacent( &target, true ) ) {
         return false;
     }
-    if( !sees( target ) && !target.is_hallucination() ) {
+    if( !sees( here, target ) && !target.is_hallucination() ) {
         debugmsg( "Z-Level view violation: %s tried to attack %s.", disp_name(), target.disp_name() );
         return false;
     }
@@ -2101,9 +2114,9 @@ bool monster::melee_attack( Creature &target, float accuracy )
         add_effect( effect_run, 4_turns );
     }
 
-    const bool u_see_me = player_character.sees( *this );
-    const bool u_see_my_spot = player_character.sees( this->pos_bub() );
-    const bool u_see_target = player_character.sees( target );
+    const bool u_see_me = player_character.sees( here, *this );
+    const bool u_see_my_spot = player_character.sees( here, this->pos_bub( here ) );
+    const bool u_see_target = player_character.sees( here, target );
 
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
     if( !is_hallucination() && type->melee_dice > 0 ) {
@@ -2393,7 +2406,7 @@ bool monster::move_effects( bool )
     }
 
     map &here = get_map();
-    bool u_see_me = get_player_view().sees( *this );
+    bool u_see_me = get_player_view().sees( here, *this );
     if( has_effect( effect_tied ) ) {
         // friendly pet, will stay tied down and obey.
         if( friendly == -1 ) {
@@ -2910,7 +2923,7 @@ void monster::process_turn()
                                "explosion",
                                "default" );
                 Character &player_character = get_player_character();
-                if( player_character.sees( pos_bub() ) ) {
+                if( player_character.sees( here, pos_bub( here ) ) ) {
                     add_msg( m_bad, _( "Lightning strikes the %s!" ), name() );
                     add_msg( m_bad, _( "Your vision goes white!" ) );
                     player_character.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
@@ -2962,7 +2975,7 @@ void monster::die( map *here, Creature *nkiller )
     creature_tracker &creatures = get_creature_tracker();
     if( has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
         // Need to filter out which limb we were grabbing before death
-        for( const tripoint_bub_ms &player_pos : here->points_in_radius( pos_bub( here ), 1,
+        for( const tripoint_bub_ms &player_pos : here->points_in_radius( pos_bub( *here ), 1,
                 0 ) ) {
             Creature *you = creatures.creature_at( here->get_abs( player_pos ) );
             if( !you || !you->has_effect_with_flag( json_flag_GRAB ) ) {
@@ -3097,14 +3110,14 @@ void monster::die( map *here, Creature *nkiller )
             if( corpse ) {
                 corpse->force_insert_item( it, pocket_type::CONTAINER );
             } else {
-                here->add_item_or_charges( pos_bub( here ), it );
+                here->add_item_or_charges( pos_bub( *here ), it );
             }
         }
         for( const item &it : dissectable_inv ) {
             if( corpse ) {
                 corpse->put_in( it, pocket_type::CORPSE );
             } else {
-                here->add_item( pos_bub( here ), it );
+                here->add_item( pos_bub( *here ), it );
             }
         }
     }
@@ -3227,7 +3240,7 @@ void monster::drop_items_on_death( map *here, item *corpse )
     // for non corpses this is much simpler
     if( !corpse ) {
         for( item &it : new_items ) {
-            here->add_item_or_charges( pos_bub( here ), it );
+            here->add_item_or_charges( pos_bub( *here ), it );
         }
         return;
     }
@@ -3305,6 +3318,8 @@ void monster::spawn_dissectables_on_death( item *corpse ) const
 
 void monster::process_one_effect( effect &it, bool is_new )
 {
+    map &here = get_map();
+
     // Monsters don't get trait-based reduction, but they do get effect based reduction
     bool reduced = resists_effect( it );
     const auto get_effect = [&it, is_new]( const std::string & arg, bool reduced ) {
@@ -3354,7 +3369,7 @@ void monster::process_one_effect( effect &it, bool is_new )
                x_in_y( it.get_intensity(), it.get_max_intensity() ) ) {
         // this is for balance only
         it.mod_duration( -rng( 1_turns, it.get_int_dur_factor() / 2 ) );
-        bleed();
+        bleed( here );
         if( id == effect_bleed ) {
             // monsters are simplified so they just take damage from bleeding
             apply_damage( it.get_source().resolve_creature(), bodypart_id( "torso" ), 1 );
@@ -3400,6 +3415,8 @@ void monster::process_one_effect( effect &it, bool is_new )
 
 void monster::process_effects()
 {
+    map &here = get_map();
+
     // Monster only effects
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
@@ -3528,7 +3545,7 @@ void monster::process_effects()
         }
     }
 
-    if( !will_be_cramped_in_vehicle_tile( get_map().get_abs( pos_bub() ) ) ) {
+    if( !will_be_cramped_in_vehicle_tile( here, pos_abs() ) ) {
         remove_effect( effect_cramped_space );
     }
 
@@ -3828,7 +3845,7 @@ void monster::on_hit( map *here, Creature *source, bodypart_id,
                 continue;
             }
 
-            if( here->sees( critter.pos_bub( here ), pos_bub( here ), light ) ) {
+            if( here->sees( critter.pos_bub( *here ), pos_bub( *here ), light ) ) {
                 // Anger trumps fear trumps ennui
                 if( critter.type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
                     critter.anger += 15;

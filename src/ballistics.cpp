@@ -639,8 +639,8 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                 return false;
             }
             // search for creatures in radius 4 around impact site
-            if( rl_dist( z.pos_bub( here ), tp ) <= 4 &&
-                here->sees( z.pos_bub( here ), tp, -1 ) ) {
+            if( rl_dist( z.pos_bub( *here ), tp ) <= 4 &&
+                here->sees( z.pos_bub( *here ), tp, -1 ) ) {
                 // don't hit targets that have already been hit
                 for( auto it : attack.targets_hit ) {
                     if( &z == it.first ) {

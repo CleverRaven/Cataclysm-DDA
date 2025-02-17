@@ -693,7 +693,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             } else {
                 add_msg( _( "You miss." ) );
             }
-        } else if( player_character.sees( *this ) ) {
+        } else if( player_character.sees( here, *this ) ) {
             if( miss_recovery.id != tec_none ) {
                 add_msg_if_npc( miss_recovery.npc_message.translated(), t.disp_name() );
             } else if( stumble_pen >= 60 ) {
@@ -723,7 +723,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     } else {
         melee::melee_stats.hit_count += 1;
         // Remember if we see the monster at start - it may change
-        const bool seen = player_character.sees( t );
+        const bool seen = player_character.sees( here, t );
         // Start of attacks.
         const bool critical_hit = scored_crit( t.dodge_roll(), cur_weap );
         if( critical_hit ) {
@@ -895,7 +895,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             }
 
             // Treat monster as seen if we see it before or after the attack
-            if( seen || player_character.sees( t ) ) {
+            if( seen || player_character.sees( here, t ) ) {
                 std::string message = melee_message( technique, *this, dealt_dam );
                 player_hit_message( this, message, t, dam, critical_hit, technique.id != tec_none,
                                     dealt_dam.wp_hit );
@@ -1720,6 +1720,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
                                    damage_instance &di,
                                    int &move_cost, item_location &cur_weapon )
 {
+    map &here = get_map();
+
     add_msg_debug( debugmode::DF_MELEE, "Chose technique %s\ndmg before tec:", technique.name );
     print_damage_info( di );
     int rep = rng( technique.repeat_min, technique.repeat_max );
@@ -1818,10 +1820,10 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
 
         const tripoint_bub_ms dest{ new_, b.z()};
         if( g->is_empty( dest ) ) {
-            t.setpos( dest );
+            t.setpos( here, dest );
         }
     }
-    map &here = get_map();
+
     if( technique.knockback_dist && !( t.has_flag( mon_flag_IMMOBILE ) ||
                                        t.has_flag( json_flag_CANNOT_MOVE ) ) ) {
         const tripoint_bub_ms prev_pos = t.pos_bub(); // track target startpoint for knockback_follow

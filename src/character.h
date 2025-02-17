@@ -3182,7 +3182,7 @@ class Character : public Creature, public visitable
          *  @param gun item to fire (which does not necessary have to be in the players possession)
          *  @return number of shots actually fired
          */
-        int fire_gun( map *here, const tripoint_bub_ms &target, int shots, item &gun,
+        int fire_gun( map &here, const tripoint_bub_ms &target, int shots, item &gun,
                       item_location ammo = item_location() );
         /** Execute a throw */
         dealt_projectile_attack throw_item( const tripoint_bub_ms &target, const item &to_throw,
@@ -3780,9 +3780,10 @@ class Character : public Creature, public visitable
         void add_known_trap( const tripoint_bub_ms &pos, const trap &t );
 
         // see Creature::sees
-        bool sees( const tripoint_bub_ms &t, bool is_avatar = false, int range_mod = 0 ) const override;
+        bool sees( const map &here, const tripoint_bub_ms &t, bool is_avatar = false,
+                   int range_mod = 0 ) const override;
         // see Creature::sees
-        bool sees( const Creature &critter ) const override;
+        bool sees( const map &here, const Creature &critter ) const override;
         Attitude attitude_to( const Creature &other ) const override;
         virtual npc_attitude get_attitude() const;
 

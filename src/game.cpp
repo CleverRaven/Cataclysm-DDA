@@ -1355,10 +1355,13 @@ void game::load_npcs( map *here )
 
 void game::on_witness_theft( const item &target )
 {
+    const map &here = get_map();
+
     Character &p = get_player_character();
     std::vector<npc *> witnesses;
     for( npc &elem : g->all_npcs() ) {
-        if( rl_dist( elem.pos_bub(), p.pos_bub() ) < MAX_VIEW_DISTANCE && elem.sees( p.pos_bub() ) &&
+        if( rl_dist( elem.pos_bub(), p.pos_bub() ) < MAX_VIEW_DISTANCE &&
+            elem.sees( here, p.pos_bub( here ) ) &&
             target.is_owned_by( elem ) ) {
             witnesses.push_back( &elem );
         }
@@ -1569,7 +1572,7 @@ void game::catch_a_monster( monster *fish, const tripoint_bub_ms &pos, Character
     //spawn the corpse, rotten by a part of the duration
     m.add_item_or_charges( pos, item::make_corpse( fish->type->id, calendar::turn + rng( 0_turns,
                            catch_duration ) ) );
-    if( u.sees( pos ) ) {
+    if( u.sees( here, pos ) ) {
         u.add_msg_if_player( m_good, _( "You caught a %s." ), fish->type->nname() );
     }
     //quietly kill the caught
@@ -1915,7 +1918,7 @@ void game::validate_mounted_npcs()
                 continue;
             }
             mounted_pl->mounted_creature = shared_from( m );
-            mounted_pl->setpos( m.pos_bub() );
+            mounted_pl->setpos( m.pos_abs() );
             mounted_pl->add_effect( effect_riding, 1_turns, true );
             m.mounted_player = mounted_pl;
         }
@@ -2894,6 +2897,8 @@ bool game::try_get_left_click_action( action_id &act, const tripoint_bub_ms &mou
 
 bool game::try_get_right_click_action( action_id &act, const tripoint_bub_ms &mouse_target )
 {
+    const map &here = get_map();
+
     const bool cleared_destination = !destination_preview.empty();
     u.clear_destination();
     destination_preview.clear();
@@ -2908,7 +2913,7 @@ bool game::try_get_right_click_action( action_id &act, const tripoint_bub_ms &mo
     const bool is_adjacent = square_dist( mouse_target.xy(), u.pos_bub().xy() ) <= 1;
     const bool is_self = square_dist( mouse_target.xy(), u.pos_bub().xy() ) <= 0;
     if( const monster *const mon = get_creature_tracker().creature_at<monster>( mouse_target ) ) {
-        if( !u.sees( *mon ) ) {
+        if( !u.sees( here, *mon ) ) {
             add_msg( _( "Nothing relevant here." ) );
             return false;
         }
@@ -4257,6 +4262,8 @@ void game::draw_pixel_minimap( const catacurses::window &w )
 
 void game::draw_critter( const Creature &critter, const tripoint_bub_ms &center )
 {
+    const map &here = get_map();
+
     const int my = POSY + ( critter.posy() - center.y() );
     const int mx = POSX + ( critter.posx() - center.x() );
     if( !is_valid_in_w_terrain( { mx, my } ) ) {
@@ -4264,22 +4271,22 @@ void game::draw_critter( const Creature &critter, const tripoint_bub_ms &center 
     }
     if( critter.posz() != center.z() ) {
         if( critter.posz() == center.z() - 1 &&
-            ( debug_mode || u.sees( critter ) ) &&
-            m.valid_move( critter.pos_bub(), critter.pos_bub() + tripoint::above, false, true ) ) {
+            ( debug_mode || u.sees( here, critter ) ) &&
+            m.valid_move( critter.pos_bub( here ), critter.pos_bub( here ) + tripoint::above, false, true ) ) {
             // Monster is below
             // TODO: Make this show something more informative than just green 'v'
             // TODO: Allow looking at this mon with look command
             init_draw_blink_curses( { critter.pos_bub().xy(), center.z() }, "v", c_green_cyan );
         }
         if( critter.posz() == center.z() + 1 &&
-            ( debug_mode || u.sees( critter ) ) &&
+            ( debug_mode || u.sees( here, critter ) ) &&
             m.valid_move( critter.pos_bub(), critter.pos_bub() + tripoint::below, false, true ) ) {
             // Monster is above
             init_draw_blink_curses( { critter.pos_bub().xy(), center.z() }, "^", c_green_cyan );
         }
         return;
     }
-    if( u.sees( critter ) || &critter == &u ) {
+    if( u.sees( here, critter ) || &critter == &u ) {
         critter.draw( w_terrain, point_bub_ms( center.xy() ), false );
         return;
     }
@@ -4601,6 +4608,8 @@ std::vector<monster *> game::get_fishable_monsters( std::unordered_set<tripoint_
 
 void game::mon_info_update( )
 {
+    const map &here = get_map();
+
     int newseen = 0;
     const int safe_proxy_dist = get_option<int>( "SAFEMODEPROXIMITY" );
     const int iProxyDist = ( safe_proxy_dist <= 0 ) ? MAX_VIEW_DISTANCE :
@@ -4711,7 +4720,7 @@ void game::mon_info_update( )
                                    critter.get_dest() == u.pos_abs() );
             }
             if( need_processing ) {
-                if( index < 8 && critter.sees( get_player_character() ) ) {
+                if( index < 8 && critter.sees( here, get_player_character() ) ) {
                     dangerous[index] = true;
                 }
 
@@ -4750,7 +4759,7 @@ void game::mon_info_update( )
         } else if( p != nullptr ) {
             //Safe mode NPC check
 
-            const int npc_dist = rl_dist( u.pos_bub(), p->pos_bub() );
+            const int npc_dist = rl_dist( u.pos_abs(), p->pos_abs() );
             if( !safemode_empty ) {
                 need_processing = get_safemode().check_monster(
                                       get_safemode().npc_type_name(),
@@ -4897,7 +4906,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
             if( m.impassable( traj[i].xy() ) ) {
-                targ->setpos( traj[i - 1] );
+                targ->setpos( m, traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
                     targ->add_effect( effect_stunned, 1_turns * force_remaining );
@@ -4909,7 +4918,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
                 break;
             } else if( creatures.creature_at( traj[i] ) ) {
-                targ->setpos( traj[i - 1] );
+                targ->setpos( m, traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
                     targ->add_effect( effect_stunned, 1_turns * force_remaining );
@@ -4933,11 +4942,11 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
                 knockback( traj, stun, dam_mult );
                 break;
             }
-            targ->setpos( traj[i] );
+            targ->setpos( m, traj[i] );
             if( m.has_flag( ter_furn_flag::TFLAG_LIQUID, targ->pos_bub() ) && !targ->can_drown() &&
                 !targ->is_dead() ) {
                 targ->die( &here, nullptr );
-                if( u.sees( *targ ) ) {
+                if( u.sees( here, *targ ) ) {
                     add_msg( _( "The %s drowns!" ), targ->name() );
                 }
             }
@@ -4945,7 +4954,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
                 targ->has_flag( mon_flag_AQUATIC ) &&
                 !targ->is_dead() ) {
                 targ->die( &here, nullptr );
-                if( u.sees( *targ ) ) {
+                if( u.sees( here, *targ ) ) {
                     add_msg( _( "The %s flops around and dies!" ), targ->name() );
                 }
             }
@@ -4957,7 +4966,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
             if( m.impassable( traj[i].xy() ) ) { // oops, we hit a wall!
-                targ->setpos( traj[i - 1] );
+                targ->setpos( m, traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
                     targ->add_effect( effect_stunned, 1_turns * force_remaining );
@@ -4983,7 +4992,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
                 break;
             } else if( creatures.creature_at( traj[i] ) ) {
-                targ->setpos( traj[i - 1] );
+                targ->setpos( m, traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
                     add_msg( _( "%s was stunned!" ), targ->get_name() );
@@ -5011,7 +5020,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
                 knockback( traj, stun, dam_mult );
                 break;
             }
-            targ->setpos( traj[i] );
+            targ->setpos( m, traj[i] );
         }
     } else if( u.pos_bub() == tp ) {
         if( stun > 0 ) {
@@ -5023,7 +5032,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
             if( m.impassable( traj[i] ) ) { // oops, we hit a wall!
-                u.setpos( traj[i - 1] );
+                u.setpos( m, traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
                     if( u.has_effect( effect_stunned ) ) {
@@ -5056,7 +5065,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
                 break;
             } else if( creatures.creature_at( traj[i] ) ) {
-                u.setpos( traj[i - 1] );
+                u.setpos( m, traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
                     if( u.has_effect( effect_stunned ) ) {
@@ -5088,7 +5097,7 @@ void game::knockback( std::vector<tripoint_bub_ms> &traj, int stun, int dam_mult
             if( m.has_flag( ter_furn_flag::TFLAG_LIQUID, u.pos_bub() ) && force_remaining == 0 ) {
                 avatar_action::swim( m, u, u.pos_bub() );
             } else {
-                u.setpos( traj[i] );
+                u.setpos( m,  traj[i] );
             }
         }
     }
@@ -5569,13 +5578,13 @@ bool game::swap_critters( Creature &a, Creature &b )
         m.unboard_vehicle( other_npc->pos_bub() );
     }
 
-    tripoint_bub_ms temp = second.pos_bub();
-    second.setpos( first.pos_bub() );
+    tripoint_bub_ms temp = second.pos_bub( m );
+    second.setpos( m, first.pos_bub( m ) );
 
     if( first.is_avatar() ) {
         walk_move( temp );
     } else {
-        first.setpos( temp );
+        first.setpos( m, temp );
         if( m.veh_at( u_or_npc->pos_bub() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
             m.board_vehicle( u_or_npc->pos_bub(), u_or_npc );
         }
@@ -6138,12 +6147,12 @@ void game::examine( bool with_pickup )
     std::optional<tripoint_bub_ms> examp;
     if( with_pickup ) {
         // Examine and/or pick up items
-        examp = choose_adjacent_highlight( _( "Examine terrain, furniture, or items where?" ),
+        examp = choose_adjacent_highlight( here, _( "Examine terrain, furniture, or items where?" ),
                                            _( "There is nothing that can be examined nearby." ),
                                            ACTION_EXAMINE_AND_PICKUP, false );
     } else {
         // Examine but do not pick up items
-        examp = choose_adjacent_highlight( _( "Examine terrain or furniture where?" ),
+        examp = choose_adjacent_highlight( here, _( "Examine terrain or furniture where?" ),
                                            _( "There is nothing that can be examined nearby." ),
                                            ACTION_EXAMINE, false );
     }
@@ -6403,9 +6412,11 @@ bool game::warn_player_maybe_anger_local_faction( bool really_bad_offense,
 
 void game::pickup()
 {
+    map &here = get_map();
+
     // Prompt for which adjacent/current tile to pick up items from
     const std::optional<tripoint_bub_ms> where_ = choose_adjacent_highlight(
-                _( "Pick up items where?" ),
+                here, _( "Pick up items where?" ),
                 _( "There is nothing to pick up nearby." ),
                 ACTION_PICKUP, false );
     if( !where_ ) {
@@ -6467,7 +6478,7 @@ void game::peek( const tripoint_bub_ms &p )
 {
     u.mod_moves( -u.get_speed() * 2 );
     tripoint_bub_ms prev = u.pos_bub();
-    u.setpos( p, false );
+    u.setpos( m, p, false );
     const bool is_same_pos = u.pos_bub() == prev;
     const bool is_standup_peek = is_same_pos && u.is_crouching();
     tripoint_bub_ms center = p;
@@ -6482,7 +6493,7 @@ void game::peek( const tripoint_bub_ms &p )
         u.activate_crouch_mode();
     } else {                // Else is normal peek
         result = look_around( looka_params );
-        u.setpos( prev, false );
+        u.setpos( m, prev, false );
     }
 
     if( result.peek_action ) {
@@ -6507,6 +6518,8 @@ std::optional<tripoint_bub_ms> game::look_debug()
 
 void game::draw_look_around_cursor( const tripoint_bub_ms &lp, const visibility_variables &cache )
 {
+    const map &here = get_map();
+
     if( !liveview.is_enabled() ) {
 #if defined( TILES )
         if( is_draw_tiles_mode() ) {
@@ -6522,7 +6535,7 @@ void game::draw_look_around_cursor( const tripoint_bub_ms &lp, const visibility_
         }
         if( visibility == visibility_type::CLEAR ) {
             const Creature *const creature = get_creature_tracker().creature_at( lp, true );
-            if( creature != nullptr && u.sees( *creature ) ) {
+            if( creature != nullptr && u.sees( here, *creature ) ) {
                 creature->draw( w_terrain, view_center, true );
             } else {
                 m.drawsq( w_terrain, lp, drawsq_params().highlight( true ).center( view_center ) );
@@ -6867,8 +6880,10 @@ void game::print_part_con_info( const tripoint_bub_ms &lp, const catacurses::win
 void game::print_creature_info( const Creature *creature, const catacurses::window &w_look,
                                 const int column, int &line, const int last_line )
 {
+    const map &here = get_map();
+
     int vLines = last_line - line;
-    if( creature != nullptr && ( u.sees( *creature ) || creature == &u ) ) {
+    if( creature != nullptr && ( u.sees( here,  *creature ) || creature == &u ) ) {
         line = creature->print_info( w_look, ++line, vLines, column );
     }
 }
@@ -7740,7 +7755,7 @@ std::optional<std::vector<tripoint_bub_ms>> game::safe_route_to( Character &who,
         const std::function<void( const std::string &msg )> &report ) const
 {
     map &here = get_map();
-    if( !who.sees( target ) ) {
+    if( !who.sees( here, target ) ) {
         report( _( "You can't see the destination." ) );
         return std::nullopt;
     }
@@ -7797,6 +7812,8 @@ look_around_result game::look_around(
     bool select_zone, bool peeking, bool is_moving_zone, const tripoint_bub_ms &end_point,
     bool change_lv )
 {
+    const map &here = get_map();
+
     bVMonsterLookFire = false;
 
     temp_exit_fullscreen();
@@ -7908,7 +7925,7 @@ look_around_result game::look_around(
 
             creature_tracker &creatures = get_creature_tracker();
             monster *const mon = creatures.creature_at<monster>( lp, true );
-            if( mon && u.sees( *mon ) ) {
+            if( mon && u.sees( here, *mon ) ) {
                 std::string mon_name_text = string_format( _( "%s - %s" ),
                                             ctxt.get_desc( "CHANGE_MONSTER_NAME" ),
                                             ctxt.get_action_name( "CHANGE_MONSTER_NAME" ) );
@@ -8022,8 +8039,8 @@ look_around_result game::look_around(
         } else if( action == "TOGGLE_FAST_SCROLL" ) {
             fast_scroll = !fast_scroll;
         } else if( action == "map" ) {
-            uistate.open_menu = [center]() {
-                ui::omap::look_around_map( get_map().get_abs( center ) );
+            uistate.open_menu = [center, &here]() {
+                ui::omap::look_around_map( here.get_abs( center ) );
             };
             break;
         } else if( action == "toggle_pixel_minimap" ) {
@@ -8038,7 +8055,7 @@ look_around_result game::look_around(
             center.z() = clamp( center.z() + dz, min_levz, max_levz );
 
             add_msg_debug( debugmode::DF_GAME, "levx: %d, levy: %d, levz: %d",
-                           get_map().get_abs_sub().x(), get_map().get_abs_sub().y(), center.z() );
+                           here.get_abs_sub().x(), here.get_abs_sub().y(), center.z() );
             u.view_offset.z() = center.z() - u.posz();
             m.invalidate_map_cache( center.z() );
             // Fix player character not visible from above
@@ -8192,6 +8209,8 @@ static void add_item_recursive( std::vector<std::string> &item_order,
 
 std::vector<map_item_stack> game::find_nearby_items( int iRadius )
 {
+    const map &here = get_map();
+
     std::map<std::string, map_item_stack> temp_items;
     std::vector<map_item_stack> ret;
     std::vector<std::string> item_order;
@@ -8202,7 +8221,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
 
     for( tripoint_bub_ms &points_p_it : closest_points_first( u.pos_bub(), iRadius ) ) {
         if( points_p_it.y() >= u.posy() - iRadius && points_p_it.y() <= u.posy() + iRadius &&
-            u.sees( points_p_it ) &&
+            u.sees( here, points_p_it ) &&
             m.sees_some_items( points_p_it, u ) ) {
 
             for( item &elem : m.i_at( points_p_it ) ) {
@@ -9157,6 +9176,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 
 game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list )
 {
+    const map &here = get_map();
+
     const int iInfoHeight = 15;
     const int width = 55;
     int offsetX = 0;
@@ -9302,7 +9323,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     Creature *critter = monster_list[iCurMon];
                     const bool selected = iCurMon == iActive;
                     ++iCurMon;
-                    if( critter->sees( u ) && player_knows ) {
+                    if( critter->sees( here, u ) && player_knows ) {
                         mvwprintz( w_monsters, point( 0, y ), c_yellow, "!" );
                     }
                     bool is_npc = false;
@@ -11189,7 +11210,7 @@ bool game::walk_move( const tripoint_bub_ms &dest_loc, const bool via_ramp,
         start_hauling( oldpos );
     }
 
-    if( u.will_be_cramped_in_vehicle_tile( dest_loc_abs ) ) {
+    if( u.will_be_cramped_in_vehicle_tile( m, dest_loc_abs ) ) {
         if( u.get_size() == creature_size::huge ) {
             add_msg( m_warning, _( "You barely fit in this tiny human vehicle." ) );
         } else if( u.get_total_volume() > u.get_base_volume() ) {
@@ -11360,10 +11381,10 @@ point_rel_sm game::place_player( const tripoint_bub_ms &dest_loc, bool quick )
                             vp1 ) ) {
         u.stop_hauling();
     }
-    u.setpos( dest_loc );
+    u.setpos( m, dest_loc );
     if( u.is_mounted() ) {
         monster *mon = u.mounted_creature.get();
-        mon->setpos( dest_loc );
+        mon->setpos( m, dest_loc );
         mon->process_triggers();
         m.creature_in_field( *mon );
     }
@@ -11682,7 +11703,7 @@ bool game::phasing_move( const tripoint_bub_ms &dest_loc, const bool via_ramp )
         //tunneling costs 250 bionic power per impassable tile
         u.mod_power_level( -( tunneldist * trigger_cost ) );
         u.mod_moves( -to_moves<int>( 1_seconds ) ); //tunneling takes exactly one second
-        u.setpos( dest );
+        u.setpos( m, dest );
 
         if( m.veh_at( u.pos_bub() ).part_with_feature( "BOARDABLE", true ) ) {
             m.board_vehicle( u.pos_bub(), &u );
@@ -11740,7 +11761,7 @@ bool game::phasing_move_enchant( const tripoint_bub_ms &dest_loc, const int phas
             vertical_shift( dest.z() );
         }
 
-        u.setpos( dest );
+        u.setpos( m, dest );
 
         if( m.veh_at( u.pos_bub() ).part_with_feature( "BOARDABLE", true ) ) {
             m.board_vehicle( u.pos_bub(), &u );
@@ -12211,7 +12232,7 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         c->underwater = false;
         // TODO: Check whenever it is actually in the viewport
         // or maybe even just redraw the changed tiles
-        bool seen = is_u || u.sees( *c ); // To avoid redrawing when not seen
+        bool seen = is_u || u.sees( here, *c ); // To avoid redrawing when not seen
         tdir.advance();
         pt.x() = c->posx() + tdir.dx();
         pt.y() = c->posy() + tdir.dy();
@@ -12267,13 +12288,13 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
                 if( is_u ) {
                     update_map( pt.x(), pt.y() );
                 } else {
-                    you->setpos( pt );
+                    you->setpos( m, pt );
                 }
             } else if( !creatures.creature_at( pt ) ) {
                 // Dying monster doesn't always leave an empty tile (blob spawning etc.)
                 // Just don't setpos if it happens - next iteration will do so
                 // or the monster will stop a tile before the unpassable one
-                c->setpos( pt );
+                c->setpos( m, pt );
             }
         } else {
             // Don't zero flvel - count this as slamming both the obstacle and the ground
@@ -12281,7 +12302,7 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
             break;
         }
         range--;
-        if( animate && ( seen || u.sees( *c ) ) ) {
+        if( animate && ( seen || u.sees( here,  *c ) ) ) {
             invalidate_main_ui_adaptor();
             inp_mngr.pump_events();
             ui_manager::redraw_invalidated();
@@ -12669,7 +12690,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             Creature *target = critter.attack_target();
             if( ( target && target->is_avatar() ) || ( !critter.has_effect( effect_ridden ) &&
                     ( critter.is_pet_follow() || critter.has_effect( effect_led_by_leash ) ) &&
-                    !critter.has_effect( effect_tied ) && critter.sees( u ) ) ) {
+                    !critter.has_effect( effect_tied ) && critter.sees( here, u ) ) ) {
                 monsters_following.push_back( &critter );
             }
         }
@@ -12732,14 +12753,14 @@ void game::vertical_move( int movez, bool force, bool peeking )
         if( mon && !mon->mounted_player ) {
             crit_name = mon->get_name();
             if( mon->friendly == -1 ) {
-                mon->setpos( *displace );
+                mon->setpos( m, *displace );
                 add_msg( _( "Your %s moves out of the way for you." ), mon->get_name() );
             } else {
                 player_displace = true;
             }
         }
         if( player_displace ) {
-            u.setpos( *displace );
+            u.setpos( m, *displace );
             u.mod_moves( -to_moves<int>( 1_seconds ) * 0.2 );
             add_msg( _( "You push past %s blocking the way." ), crit_name );
         }
@@ -12747,7 +12768,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     // Now that we know the player's destination position, we can move their mount as well
     if( u.is_mounted() ) {
-        u.mounted_creature->setpos( u.pos_bub() );
+        u.mounted_creature->setpos( m, u.pos_bub( m ) );
     }
 
     // This ugly check is here because of stair teleport bullshit
@@ -13134,7 +13155,7 @@ point_rel_sm game::update_map( int &x, int &y, bool z_level_changed )
 
     if( shift == point_rel_sm::zero ) {
         // adjust player position
-        u.setpos( tripoint_bub_ms( x, y, m.get_abs_sub().z() ) );
+        u.setpos( m, tripoint_bub_ms( x, y, m.get_abs_sub().z() ) );
         if( z_level_changed ) {
             // Update what parts of the world map we can see
             // We may be able to see farther now that the z-level has changed.
@@ -13177,7 +13198,7 @@ point_rel_sm game::update_map( int &x, int &y, bool z_level_changed )
     // Also ensure the player is on current z-level
     // m.get_abs_sub().z should later be removed, when there is no longer such a thing
     // as "current z-level"
-    u.setpos( tripoint_bub_ms( x, y, m.get_abs_sub().z() ) );
+    u.setpos( m, tripoint_bub_ms( x, y, m.get_abs_sub().z() ) );
 
     // Only do the loading after all coordinates have been shifted.
 
@@ -14201,7 +14222,7 @@ void game::climb_down_using( const tripoint_bub_ms &examp, climbing_aid_id aid_i
     float weary_mult = 1.0f / you.exertion_adjusted_move_multiplier( ACTIVE_EXERCISE );
 
     you.mod_moves( -to_moves<int>( 1_seconds + 1_seconds * fall_mod ) * weary_mult );
-    you.setpos( examp, false );
+    you.setpos( here, examp, false );
 
     // Pre-descent message.
     if( !aid.down.msg_before.empty() ) {

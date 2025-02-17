@@ -193,7 +193,7 @@ void timed_event::actualize()
             for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == ter_t_grate ) {
                     here.ter_set( p, ter_t_stairs_down );
-                    if( !saw_grate && player_character.sees( p ) ) {
+                    if( !saw_grate && player_character.sees( here, p ) ) {
                         saw_grate = true;
                     }
                 }

@@ -534,6 +534,7 @@ TEST_CASE( "spell_area_of_effect", "[magic][spell][aoe]" )
 TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack]" )
 {
     // World setup
+    map &here = get_map();
     clear_map();
 
     // Locations for avatar and monster
@@ -548,7 +549,7 @@ TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack
     // Avatar/spellcaster
     avatar &dummy = get_avatar();
     clear_character( dummy );
-    dummy.setpos( dummy_loc );
+    dummy.setpos( here, dummy_loc );
     REQUIRE( dummy.pos_bub() == dummy_loc );
     REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
@@ -600,7 +601,7 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
     avatar &dummy = get_avatar();
     creature_tracker &creatures = get_creature_tracker();
     clear_character( dummy );
-    dummy.setpos( dummy_loc );
+    dummy.setpos( here, dummy_loc );
     REQUIRE( dummy.pos_bub() == dummy_loc );
     REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
