@@ -494,7 +494,7 @@
     "variants": [
       {
         "id": "ruger_1022_auto",
-        "name": { "str": "fulll-auto Ruger Oct-22" },
+        "name": { "str": "full-auto Ruger Oct-22" },
         "description": "A Ruger 10/22 modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto."
       }
     ]
