@@ -2068,6 +2068,11 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 if( current_list_has_unread ) {
                     for( const recipe *const rcp : current ) {
                         uistate.read_recipes.insert( rcp->ident() );
+                        if( rcp->is_nested() ) {
+                            for( const recipe_id &nested : rcp->nested_category_data ) {
+                                uistate.read_recipes.insert( nested );
+                            }
+                        }
                     }
                 } else {
                     for( const recipe *const rcp : available_recipes ) {
