@@ -68,7 +68,6 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
     , map_square( p )
     , strength( s )
     , key( std::move( key ) )
-    , expl_data()
 {
     map_point = project_to<coords::sm>( map_square );
 }
@@ -82,7 +81,6 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
     , strength( s )
     , string_id( std::move( s_id ) )
     , key( std::move( key ) )
-    , expl_data()
 {
     map_point = project_to<coords::sm>( map_square );
 }
@@ -97,7 +95,6 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
     , string_id( std::move( s_id ) )
     , key( std::move( key ) )
     , revert( std::move( sr ) )
-    , expl_data()
 {
     map_point = project_to<coords::sm>( map_square );
 }
