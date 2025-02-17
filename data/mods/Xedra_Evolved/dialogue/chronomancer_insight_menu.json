@@ -10,6 +10,7 @@
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 50" ] },
           { "math": [ "_chronomancer_menu_difficulty = 3" ] },
+          { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_time_bubble')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_time_bubble>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -66,6 +67,7 @@
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 100" ] },
           { "math": [ "_chronomancer_menu_difficulty = 8" ] },
+          { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_entropic_burst')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_entropic_burst>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -95,6 +97,7 @@
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 50" ] },
           { "math": [ "_chronomancer_menu_difficulty = 4" ] },
+          { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_revert_wound')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_revert_wound>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -556,7 +559,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CHRONOMANCER_SPELL_LEVEL_SELECT",
-    "dynamic_line": "<context_val:chronomancer_menu_choice_name>: \"<context_val:chronomancer_menu_choice_description>\"\nSpell Difficulty:<context_val:chronomancer_menu_difficulty>\n<context_val:chronomancer_menu_requirement_description>.\n<context_val:chronomancer_menu_additional_details>",
+    "dynamic_line": "<context_val:chronomancer_menu_choice_name>: \"<context_val:chronomancer_menu_choice_description>\"\nSpell Level:<context_val:chronomancer_spell_level>\n<context_val:chronomancer_menu_requirement_description>.\n<context_val:chronomancer_menu_additional_details>",
     "responses": [
       {
         "text": "Level Power.",
