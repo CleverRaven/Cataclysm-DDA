@@ -24,6 +24,7 @@
 #include "game_constants.h"
 #include "item.h"
 #include "magic.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "mission.h"
 #include "monster.h"

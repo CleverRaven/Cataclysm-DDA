@@ -697,12 +697,15 @@ void game::draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center,
 void game::draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center,
                       const std::vector<tripoint_bub_ms> &points, bool noreveal )
 {
-    if( !u.sees( p ) ) {
-        return;
-    }
+    const map &here = get_map();
 
-    draw_line_curses( *this, center, points, noreveal );
-}
+    if( !u.sees( here, p ) ) {
+        if( !u.sees( p ) ) {
+            return;
+        }
+
+        draw_line_curses( *this, center, points, noreveal );
+    }
 #endif
 
 namespace
@@ -722,35 +725,30 @@ void draw_line_curses( game &g, const std::vector<tripoint_bub_ms> &points )
 } //namespace
 
 #if defined(TILES)
-void game::draw_line( const tripoint_bub_ms &p, const std::vector<tripoint_bub_ms> &points )
-{
+void game::draw_line( const tripoint_bub_ms & p, const std::vector<tripoint_bub_ms> &points ) {
     draw_line_curses( *this, points );
     tilecontext->init_draw_line( p, points, "line_trail", false );
 }
 #else
-void game::draw_line( const tripoint_bub_ms &/*p*/, const std::vector<tripoint_bub_ms> &points )
-{
+void game::draw_line( const tripoint_bub_ms &/*p*/, const std::vector<tripoint_bub_ms> &points ) {
     draw_line_curses( *this, points );
 }
 #endif
 
 #if defined(TILES)
-void game::draw_cursor( const tripoint_bub_ms &p ) const
-{
+void game::draw_cursor( const tripoint_bub_ms & p ) const {
     const tripoint_rel_ms rp = relative_view_pos( *this, p );
     mvwputch_inv( w_terrain, rp.xy().raw(), c_light_green, 'X' );
     tilecontext->init_draw_cursor( p );
 }
 #else
-void game::draw_cursor( const tripoint_bub_ms &p ) const
-{
+void game::draw_cursor( const tripoint_bub_ms & p ) const {
     const tripoint_rel_ms rp = relative_view_pos( *this, p );
     mvwputch_inv( w_terrain, rp.xy().raw(), c_light_green, 'X' );
 }
 #endif
 
-void game::draw_cursor_unobscuring( const tripoint_bub_ms &p ) const
-{
+void game::draw_cursor_unobscuring( const tripoint_bub_ms & p ) const {
     const tripoint_rel_ms rp = relative_view_pos( *this, p );
     mvwputch_inv( w_terrain, ( rp.xy() + point::north_east ).raw(), c_cyan, "↙" );
     mvwputch_inv( w_terrain, ( rp.xy() + point::south_east ).raw(), c_cyan, "↖" );
@@ -762,13 +760,11 @@ void game::draw_cursor_unobscuring( const tripoint_bub_ms &p ) const
 }
 
 #if defined(TILES)
-void game::draw_highlight( const tripoint_bub_ms &p )
-{
+void game::draw_highlight( const tripoint_bub_ms & p ) {
     tilecontext->init_draw_highlight( p );
 }
 #else
-void game::draw_highlight( const tripoint_bub_ms & )
-{
+void game::draw_highlight( const tripoint_bub_ms & ) {
     // Do nothing
 }
 #endif
@@ -787,8 +783,7 @@ void draw_weather_curses( const catacurses::window &win, const weather_printable
 } //namespace
 
 #if defined(TILES)
-void game::draw_weather( const weather_printable &w ) const
-{
+void game::draw_weather( const weather_printable & w ) const {
     if( !use_tiles ) {
         draw_weather_curses( w_terrain, w );
         return;
@@ -797,8 +792,7 @@ void game::draw_weather( const weather_printable &w ) const
     tilecontext->init_draw_weather( w, w.wtype->tiles_animation );
 }
 #else
-void game::draw_weather( const weather_printable &w ) const
-{
+void game::draw_weather( const weather_printable & w ) const {
     draw_weather_curses( w_terrain, w );
 }
 #endif
@@ -831,8 +825,7 @@ void draw_sct_curses( const game &g )
 } //namespace
 
 #if defined(TILES)
-void game::draw_sct() const
-{
+void game::draw_sct() const {
     if( use_tiles ) {
         tilecontext->init_draw_sct();
     } else {
@@ -840,8 +833,7 @@ void game::draw_sct() const
     }
 }
 #else
-void game::draw_sct() const
-{
+void game::draw_sct() const {
     draw_sct_curses( *this );
 }
 #endif
@@ -865,9 +857,8 @@ void draw_zones_curses( const catacurses::window &w, const tripoint_bub_ms &star
 } //namespace
 
 #if defined(TILES)
-void game::draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
-                       const tripoint_rel_ms &offset ) const
-{
+void game::draw_zones( const tripoint_bub_ms & start, const tripoint_bub_ms & end,
+                       const tripoint_rel_ms & offset ) const {
     if( use_tiles ) {
         tilecontext->init_draw_zones( start, end, offset );
     } else {
@@ -875,18 +866,16 @@ void game::draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
     }
 }
 #else
-void game::draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
-                       const tripoint_rel_ms &offset ) const
-{
+void game::draw_zones( const tripoint_bub_ms & start, const tripoint_bub_ms & end,
+                       const tripoint_rel_ms & offset ) const {
     draw_zones_curses( w_terrain, start, end, offset );
 }
 #endif
 
 #if defined(TILES)
-void game::draw_async_anim( const tripoint_bub_ms &p, const std::string &tile_id,
-                            const std::string &ncstr,
-                            const nc_color &nccol )
-{
+void game::draw_async_anim( const tripoint_bub_ms & p, const std::string & tile_id,
+                            const std::string & ncstr,
+                            const nc_color & nccol ) {
     const map &here = get_map();
 
     if( test_mode ) {
@@ -913,9 +902,9 @@ void game::draw_async_anim( const tripoint_bub_ms &p, const std::string &tile_id
     g->invalidate_main_ui_adaptor();
 }
 #else
-void game::draw_async_anim( const tripoint_bub_ms &p, const std::string &, const std::string &ncstr,
-                            const nc_color &nccol )
-{
+void game::draw_async_anim( const tripoint_bub_ms & p, const std::string &,
+                            const std::string & ncstr,
+                            const nc_color & nccol ) {
     if( !ncstr.empty() ) {
         g->init_draw_async_anim_curses( p, ncstr, nccol );
     }
@@ -923,138 +912,118 @@ void game::draw_async_anim( const tripoint_bub_ms &p, const std::string &, const
 #endif
 
 #if defined(TILES)
-void game::draw_radiation_override( const tripoint_bub_ms &p, const int rad )
-{
+void game::draw_radiation_override( const tripoint_bub_ms & p, const int rad ) {
     if( use_tiles ) {
         tilecontext->init_draw_radiation_override( p, rad );
     }
 }
 #else
-void game::draw_radiation_override( const tripoint_bub_ms &, const int )
-{
+void game::draw_radiation_override( const tripoint_bub_ms &, const int ) {
 }
 #endif
 
 #if defined(TILES)
-void game::draw_terrain_override( const tripoint_bub_ms &p, const ter_id &id )
-{
+void game::draw_terrain_override( const tripoint_bub_ms & p, const ter_id & id ) {
     if( use_tiles ) {
         tilecontext->init_draw_terrain_override( p, id );
     }
 }
 #else
-void game::draw_terrain_override( const tripoint_bub_ms &, const ter_id & )
-{
+void game::draw_terrain_override( const tripoint_bub_ms &, const ter_id & ) {
 }
 #endif
 
 #if defined(TILES)
-void game::draw_furniture_override( const tripoint_bub_ms &p, const furn_id &id )
-{
+void game::draw_furniture_override( const tripoint_bub_ms & p, const furn_id & id ) {
     if( use_tiles ) {
         tilecontext->init_draw_furniture_override( p, id );
     }
 }
 #else
-void game::draw_furniture_override( const tripoint_bub_ms &, const furn_id & )
-{
+void game::draw_furniture_override( const tripoint_bub_ms &, const furn_id & ) {
 }
 #endif
 
 #if defined(TILES)
-void game::draw_graffiti_override( const tripoint_bub_ms &p, const bool has )
-{
+void game::draw_graffiti_override( const tripoint_bub_ms & p, const bool has ) {
     if( use_tiles ) {
         tilecontext->init_draw_graffiti_override( p, has );
     }
 }
 #else
-void game::draw_graffiti_override( const tripoint_bub_ms &, const bool )
-{
+void game::draw_graffiti_override( const tripoint_bub_ms &, const bool ) {
 }
 #endif
 
 #if defined(TILES)
-void game::draw_trap_override( const tripoint_bub_ms &p, const trap_id &id )
-{
+void game::draw_trap_override( const tripoint_bub_ms & p, const trap_id & id ) {
     if( use_tiles ) {
         tilecontext->init_draw_trap_override( p, id );
     }
 }
 #else
-void game::draw_trap_override( const tripoint_bub_ms &, const trap_id & )
-{
+void game::draw_trap_override( const tripoint_bub_ms &, const trap_id & ) {
 }
 #endif
 
 #if defined(TILES)
-void game::draw_field_override( const tripoint_bub_ms &p, const field_type_id &id )
-{
+void game::draw_field_override( const tripoint_bub_ms & p, const field_type_id & id ) {
     if( use_tiles ) {
         tilecontext->init_draw_field_override( p, id );
     }
 }
 #else
-void game::draw_field_override( const tripoint_bub_ms &, const field_type_id & )
-{
+void game::draw_field_override( const tripoint_bub_ms &, const field_type_id & ) {
 }
 #endif
 
 #if defined(TILES)
-void game::draw_item_override( const tripoint_bub_ms &p, const itype_id &id, const mtype_id &mid,
-                               const bool hilite )
-{
+void game::draw_item_override( const tripoint_bub_ms & p, const itype_id & id, const mtype_id & mid,
+                               const bool hilite ) {
     if( use_tiles ) {
         tilecontext->init_draw_item_override( p, id, mid, hilite );
     }
 }
 #else
 void game::draw_item_override( const tripoint_bub_ms &, const itype_id &, const mtype_id &,
-                               const bool )
-{
+                               const bool ) {
 }
 #endif
 
 #if defined(TILES)
 void game::draw_vpart_override(
-    const tripoint_bub_ms &p, const vpart_id &id, const int part_mod, const units::angle &veh_dir,
-    const bool hilite, const point_rel_ms &mount )
-{
+    const tripoint_bub_ms & p, const vpart_id & id, const int part_mod, const units::angle & veh_dir,
+    const bool hilite, const point_rel_ms & mount ) {
     if( use_tiles ) {
         tilecontext->init_draw_vpart_override( p, id, part_mod, veh_dir, hilite, mount );
     }
 }
 #else
 void game::draw_vpart_override( const tripoint_bub_ms &, const vpart_id &, const int,
-                                const units::angle &, const bool, const point_rel_ms & )
-{
+                                const units::angle &, const bool, const point_rel_ms & ) {
 }
 #endif
 
 #if defined(TILES)
-void game::draw_below_override( const tripoint_bub_ms &p, const bool draw )
-{
+void game::draw_below_override( const tripoint_bub_ms & p, const bool draw ) {
     if( use_tiles ) {
         tilecontext->init_draw_below_override( p, draw );
     }
 }
 #else
-void game::draw_below_override( const tripoint_bub_ms &, const bool )
-{
+void game::draw_below_override( const tripoint_bub_ms &, const bool ) {
 }
 #endif
 
 #if defined(TILES)
-void game::draw_monster_override( const tripoint_bub_ms &p, const mtype_id &id, const int count,
-                                  const bool more, const Creature::Attitude att )
-{
+void game::draw_monster_override( const tripoint_bub_ms & p, const mtype_id & id, const int count,
+                                  const bool more, const Creature::Attitude att ) {
     if( use_tiles ) {
         tilecontext->init_draw_monster_override( p, id, count, more, att );
     }
 }
 #else
 void game::draw_monster_override( const tripoint_bub_ms &, const mtype_id &, const int,
-                                  const bool, const Creature::Attitude )
-{
+                                  const bool, const Creature::Attitude ) {
 }
 #endif
