@@ -255,7 +255,7 @@
   },
   {
     "id": "wicker_basket_large",
-    "type": "ARMOR",
+    "type": "GENERIC",
     "category": "container",
     "name": { "str": "large wicker basket" },
     "description": "A large handmade straw basket.  Unwieldy but spacious.",
