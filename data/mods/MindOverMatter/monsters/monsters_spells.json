@@ -701,8 +701,10 @@
     "effect_str": "effect_monster_inertial_barrier",
     "extra_effects": [ { "id": "amalgamation_telekinetic_shielder_shield_other_spell_self", "hit_self": true } ],
     "shape": "blast",
-    "min_range": 4500,
-    "max_range": 7500
+    "min_range": 20,
+    "max_range": 20,
+    "min_duration": 4500,
+    "max_duration": 7500
   },
   {
     "type": "SPELL",

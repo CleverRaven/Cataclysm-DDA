@@ -295,13 +295,8 @@
     "apply_message": "A chorus of whispers just below the threshold of understanding fills your mind.",
     "remove_message": "The whispers finally fall silent",
     "show_in_info": true,
-    "max_duration": "8 seconds",
+    "max_duration": "5 seconds",
     "//": "It is deliberate that even if you kill the whispering amalgamation, the whispers can last a few seconds afterwards. Who, or what, is actually doing the whispering?",
-    "max_intensity": 5,
-    "int_add_val": 1,
-    "int_decay_step": -1,
-    "int_decay_tick": 2,
-    "int_decay_remove": true,
     "enchantments": [
       {
         "skills": [

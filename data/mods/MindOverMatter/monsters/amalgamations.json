@@ -39,13 +39,14 @@
         "condition": {
           "and": [
             { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "not": { "npc_has_effect": "effect_monster_inertial_barrier" } },
             { "math": [ "u_effect_intensity('effect_amalgamation_telekinetic_shielder_counter') < 4" ] }
           ]
         },
         "monster_message": "The air around %3$s wavers."
       }
     ],
-    "tracking_distance": 20,
+    "tracking_distance": 15,
     "extend": { "flags": [ "KEEP_DISTANCE" ] }
   },
   {
@@ -63,7 +64,7 @@
         "id": "psi_whispering_amalgamation_telepathic_whispering",
         "type": "spell",
         "spell_data": { "id": "whispering_amalgamation_telepathic_whispering_spell" },
-        "cooldown": { "math": [ "1 + rand(2)" ] },
+        "cooldown": { "math": [ "1 + rand(1)" ] },
         "condition": {
           "and": [
             { "not": { "u_has_flag": "NO_PSIONICS" } },
