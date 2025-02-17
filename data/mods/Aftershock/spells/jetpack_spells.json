@@ -9,7 +9,6 @@
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "EXTRA_EFFECTS_FIRST" ],
     "message": "",
     "effect": "dash",
-    "effect_str": "downed",
     "min_damage": 20,
     "max_damage": 40,
     "shape": "blast",
