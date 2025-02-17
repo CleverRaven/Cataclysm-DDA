@@ -748,7 +748,9 @@
         "condition": {
           "and": [
             { "math": [ "u_spell_level('xedra_chronomancer_rewrite_wound_causality') > 0" ] },
-            { "math": [ "u_spell_level('xedra_chronomancer_rewrite_wound_causality') < xedra_chronomancer_level(1) " ] }
+            {
+              "math": [ "u_spell_level('xedra_chronomancer_rewrite_wound_causality') < xedra_chronomancer_level(1) " ]
+            }
           ]
         },
         "text": "Level [<spell_name:xedra_chronomancer_rewrite_wound_causality>]",
@@ -808,13 +810,17 @@
         "condition": {
           "and": [
             { "math": [ "u_spell_level('xedra_chronomancer_rewrite_equipment_causality') > 0" ] },
-            { "math": [ "u_spell_level('xedra_chronomancer_rewrite_equipment_causality') < xedra_chronomancer_level(1) " ] }
+            {
+              "math": [ "u_spell_level('xedra_chronomancer_rewrite_equipment_causality') < xedra_chronomancer_level(1) " ]
+            }
           ]
         },
         "text": "Level [<spell_name:xedra_chronomancer_rewrite_equipment_causality>]",
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_rewrite_equipment_causality')*5" ] },
-          { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_rewrite_equipment_causality')" ] },
+          {
+            "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_rewrite_equipment_causality')" ]
+          },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_rewrite_equipment_causality>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
