@@ -8460,75 +8460,7 @@ void pulp_activity_actor::start( player_activity &act, Character &you )
     you.recoil = MAX_RECOIL;
     current_pos_iter = placement.begin();
 
-    double pulp_power_bash = 1;
-    mess_radius = 1;
-
-    const std::pair<float, item> pair_bash = you.get_best_weapon_by_damage_type( damage_bash );
-    pulp_power_bash = pair_bash.first;
-    bash_tool = pair_bash.second.display_name();
-
-    if( pair_bash.second.has_flag( flag_MESSY ) || pair_bash.first > 40 ) {
-        mess_radius = 2;
-    }
-
-    const double weight_factor = units::to_kilogram( you.get_weight() ) / 10;
-    const double athletic_factor = std::min( 9.0f, you.get_skill_level( skill_swimming ) + 3 );
-    const int strength_factor = you.get_str() / 2;
-    // stomp deliver about 5000-13000 N of force, beginner boxer deal 2500 N of force in it's punch
-    // ballpark of 13 damage for untrained human vs 30+ for highly trained person of average weight
-    const double pulp_power_stomps = athletic_factor + weight_factor + strength_factor;
-
-    // if no tool is bashy enough, use only stomps
-    // if stomps are too weak, use only bash
-    // if roughly same, use both
-    bash_factor = 0.0f;
-    if( pulp_power_bash < pulp_power_stomps * 0.5 ) {
-        bash_factor = pulp_power_stomps;
-        stomps_only = true;
-    } else if( pulp_power_stomps < pulp_power_bash * 0.5 ) {
-        bash_factor = pulp_power_bash;
-        weapon_only = true;
-    } else {
-        bash_factor = std::max( pulp_power_stomps, pulp_power_bash );
-    }
-
-    add_msg_debug( debugmode::DF_ACTIVITY,
-                   "bash weapon: %s, bash damage: %s, pulp_power_bash: %s, pulp_power_stomps: %s, final bash factor: %s, post bash factor: %s",
-                   pair_bash.second.display_name().c_str(), pair_bash.first, pulp_power_bash, pulp_power_stomps,
-                   bash_factor, std::pow( bash_factor, 1.8f ) );
-
-    bash_factor = std::pow( bash_factor, 1.8f );
-    const std::pair<int, item> pair_cut = you.get_best_tool( qual_BUTCHER );
-    cut_quality = pair_cut.first;
-    if( cut_quality > 5 ) {
-        can_severe_cutting = true;
-        cut_tool = pair_cut.second.display_name();
-    }
-
-    const std::pair<int, item> pair_pry;
-    if( you.max_quality( qual_PRY ) > 0 ) {
-        can_pry_armor = true;
-        const std::pair<int, item> pair_pry = you.get_best_tool( qual_PRY );
-        pry_tool = pair_pry.second.display_name();
-    }
-
-    add_msg_debug( debugmode::DF_ACTIVITY,
-                   "max butcher quality: %s, butcher tool display name: %s, butcher tool quality: %s; max prying quality: %s, prying tool display name: %s, prying tool quality: %s",
-                   you.max_quality( qual_BUTCHER ), pair_cut.second.display_name(), pair_cut.first,
-                   you.max_quality( qual_PRY ), pair_pry.second.display_name(), pair_pry.first );
-
-    pulp_power = bash_factor
-                 * std::sqrt( you.get_skill_level( skill_survival ) + 2 )
-                 * ( can_severe_cutting ? 1 : 0.85 );
-
-    add_msg_debug( debugmode::DF_ACTIVITY, "final pulp_power: %s", pulp_power );
-
-    // since we are trying to depict pulping as more involved than you Isaac Clarke the corpse 100% of time,
-    // we would assume there is some time between attacks, where you try to reach some sweet spot,
-    // cut the part with a knife, or plain rest because you are not athletic enough
-    // REGEN_RATE + 1 purely to prevent you regening all of your stamina in the process + apply muscle strain when it be implemented
-    pulp_effort = get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) + 1;
-
+    pd = g->calculate_character_ability_to_pulp( you );
 }
 
 void pulp_activity_actor::do_turn( player_activity &act, Character &you )
@@ -8571,67 +8503,15 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
 {
     const mtype *corpse_mtype = corpse.get_mtype();
 
-    double pow_factor;
-    if( corpse.get_mtype()->size == creature_size::huge ) {
-        pow_factor = 1.3;
-    } else if( corpse.get_mtype()->size == creature_size::large ) {
-        pow_factor = 1.2;
-    } else {
-        pow_factor = 1;
-    }
+    pd = g->calculate_pulpability( you, *corpse_mtype, pd );
 
-    int time_to_pulp =
-        ( std::pow( units::to_liter( corpse.volume() ), pow_factor ) * 1000 ) / pulp_power;
-
-    std::optional<proficiency_id> unknown_prof;
-    // +25% to pulp time if char knows no weakpoints of monster
-    // -25% if knows all of them
-    if( !corpse_mtype->families.families.empty() ) {
-        float wp_known = 0;
-        for( const weakpoint_family &wf : corpse_mtype->families.families ) {
-            if( you.has_proficiency( wf.proficiency ) ) {
-                ++wp_known;
-            } else if( !unknown_prof.has_value() ) {
-                unknown_prof = wf.proficiency;
-            }
-        }
-        time_to_pulp *= 1.25 - 0.5 * wp_known / corpse_mtype->families.families.size();
-    }
-
-    const bool acid_immune = you.is_immune_damage( damage_acid ) ||
-                             you.is_immune_field( fd_acid );
-    // this corpse is acid, and you are not immune to it
-    bool acid_corpse = corpse_mtype->bloodType().obj().has_acid && !acid_immune;
-
-    // if acid, you prefer to mainly cut corpse instead of bashing it, to not spray acid in your eyes
-    if( acid_corpse ) {
-        time_to_pulp *= ( 300 - cut_quality * 2 ) / 100;
-    }
-
-    // you have a hard time pulling armor to reach important parts of this monster
-
-    if( corpse_mtype->has_flag( mon_flag_PULP_PRYING ) ) {
-        if( can_pry_armor ) {
-            time_to_pulp *= 1.25;
-            used_pry = true;
-        } else {
-            time_to_pulp *= 1.7;
-            couldnt_use_pry = true;
-        }
-    }
-
-    add_msg_debug( debugmode::DF_ACTIVITY,
-                   "Activity: pulping, corpse: %s, time to pulp: %s, bash tool: %s, cut tool: %s, pry tool: %s",
-                   corpse_mtype->id.str(), to_string_writable( time_duration::from_seconds( time_to_pulp ) ),
-                   bash_tool,
-                   cut_tool, pry_tool );
-
-    if( time_to_pulp > 3600 ) {
+    if( !g->can_pulp_corpse( pd ) ) {
         way_too_long_to_pulp = true;
         return false;
     }
 
-    if( time_to_pulp > 600 && !too_long_to_pulp ) {
+    // 10 minutes
+    if( pd.time_to_pulp > 600 && !too_long_to_pulp ) {
         if( you.query_yn( "Pulping one or more corpses in this pile would take too much time.  Continue?" ) ) {
             too_long_to_pulp = true;
         } else {
@@ -8641,7 +8521,7 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
     }
 
     // how much damage you need to deal each second to match expected pulp time
-    const float corpse_damage = 4000.0 / time_to_pulp + float_corpse_damage_accum;
+    const float corpse_damage = 4000.0 / pd.time_to_pulp + float_corpse_damage_accum;
     float_corpse_damage_accum = corpse_damage - static_cast<int>( corpse_damage ) ;
 
     // Increase damage as we keep smashing ensuring we eventually smash the target.
@@ -8652,31 +8532,31 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
     }
 
     // 19 splatters on average, no matter of the corpse size
-    if( one_in( time_to_pulp / 19 ) ) {
+    if( one_in( pd.time_to_pulp / 19 ) ) {
         // Splatter some blood around
         // Splatter a bit more randomly, so that it looks cooler
-        const int radius = acid_corpse ? 0
-                           : mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
+        const int radius = pd.acid_corpse ? 0
+                           : pd.mess_radius + x_in_y( pd.pulp_power, 500 ) + x_in_y( pd.pulp_power, 1000 );
         const tripoint_bub_ms dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
-        const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
+        const field_type_id type_blood = ( pd.mess_radius > 1 && x_in_y( pd.pulp_power, 10000 ) ) ?
                                          corpse.get_mtype()->gibType() :
                                          corpse.get_mtype()->bloodType();
         here.add_splatter_trail( type_blood, pos, dest );
     }
 
-    if( stomps_only ) {
-        you.burn_energy_legs( -pulp_effort );
-    } else if( weapon_only ) {
-        you.burn_energy_arms( -pulp_effort );
+    if( pd.stomps_only ) {
+        you.burn_energy_legs( -pd.pulp_effort );
+    } else if( pd.weapon_only ) {
+        you.burn_energy_arms( -pd.pulp_effort );
     } else {
-        you.burn_energy_all( -pulp_effort );
+        you.burn_energy_all( -pd.pulp_effort );
     }
 
     if( one_in( 128 ) ) {
         you.practice( skill_survival, 1, 2, true );
         you.practice( skill_swimming, 1, 5, true );
-        if( unknown_prof.has_value() ) {
-            you.practice_proficiency( unknown_prof.value(), 5_seconds );
+        if( pd.unknown_prof.has_value() ) {
+            you.practice_proficiency( pd.unknown_prof.value(), 5_seconds );
         }
     }
 
@@ -8721,16 +8601,16 @@ void pulp_activity_actor::send_final_message( Character &you ) const
     }
 
     std::string tools;
-    if( stomps_only ) {
+    if( pd.stomps_only ) {
         tools = string_format( ", with nothing but your %s",
                                you.get_random_body_part_of_type( body_part_type::type::leg )->accusative_multiple );
-    } else if( weapon_only ) {
-        tools = string_format( " with your %s", bash_tool );
+    } else if( pd.weapon_only ) {
+        tools = string_format( " with your %s", pd.bash_tool );
     } else {
-        tools = string_format( " mixing your %s with powerful stomps", bash_tool );
+        tools = string_format( " mixing your %s with powerful stomps", pd.bash_tool );
     }
-    if( can_severe_cutting ) {
-        tools += string_format( " and a trusty %s", cut_tool );
+    if( pd.can_severe_cutting ) {
+        tools += string_format( " and a trusty %s", pd.cut_tool );
     }
 
     std::string skill;
@@ -8742,16 +8622,16 @@ void pulp_activity_actor::send_final_message( Character &you ) const
     } else if( you.get_skill_level( skill_swimming ) < 2 ) {
         skill = "even if your body is not fit";
     } else {
-        skill = "with fast and strong moves";
+        skill = "";
     }
 
     std::string pry = ".";
-    if( pry_tool == bash_tool ) {
+    if( pd.pry_tool == pd.bash_tool ) {
         // use default assignment
-    } else if( used_pry ) {
+    } else if( pd.used_pry ) {
         pry = string_format( ".  You also were lucky to carry %, it helped a lot with more armoured bodies.",
-                             pry_tool );
-    } else if( couldnt_use_pry ) {
+                             pd.pry_tool );
+    } else if( pd.couldnt_use_pry ) {
         pry = string_format( ".  You wish you had anything like a crowbar, you had a really hard time without it." );
     }
 
@@ -8785,24 +8665,23 @@ void pulp_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "num_corpses", num_corpses );
     jsout.member( "placement", placement );
-    jsout.member( "pulp_power", pulp_power );
-    jsout.member( "pulp_effort", pulp_effort );
-    jsout.member( "mess_radius", mess_radius );
+    jsout.member( "pulp_power", pd.pulp_power );
+    jsout.member( "pulp_effort", pd.pulp_effort );
+    jsout.member( "mess_radius", pd.mess_radius );
     jsout.member( "unpulped_corpses_qty", unpulped_corpses_qty );
-    jsout.member( "can_pry_armor", can_pry_armor );
+    jsout.member( "can_pry_armor", pd.can_pry_armor );
     jsout.member( "too_long_to_pulp", too_long_to_pulp );
     jsout.member( "too_long_to_pulp_interrupted", too_long_to_pulp_interrupted );
     jsout.member( "way_too_long_to_pulp", way_too_long_to_pulp );
-    jsout.member( "bash_factor", bash_factor );
-    jsout.member( "cut_quality", cut_quality );
-    jsout.member( "stomps_only", stomps_only );
-    jsout.member( "weapon_only", weapon_only );
-    jsout.member( "can_severe_cutting", can_severe_cutting );
-    jsout.member( "used_pry", used_pry );
-    jsout.member( "couldnt_use_pry", couldnt_use_pry );
-    jsout.member( "bash_tool", bash_tool );
-    jsout.member( "cut_tool", cut_tool );
-    jsout.member( "pry_tool", pry_tool );
+    jsout.member( "cut_quality", pd.cut_quality );
+    jsout.member( "stomps_only", pd.stomps_only );
+    jsout.member( "weapon_only", pd.weapon_only );
+    jsout.member( "can_severe_cutting", pd.can_severe_cutting );
+    jsout.member( "used_pry", pd.used_pry );
+    jsout.member( "couldnt_use_pry", pd.couldnt_use_pry );
+    jsout.member( "bash_tool", pd.bash_tool );
+    jsout.member( "cut_tool", pd.cut_tool );
+    jsout.member( "pry_tool", pd.pry_tool );
 
     jsout.end_object();
 }
@@ -8815,24 +8694,23 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
 
     data.read( "num_corpses", actor.num_corpses );
     data.read( "placement", actor.placement );
-    data.read( "pulp_power", actor.pulp_power );
-    data.read( "pulp_effort", actor.pulp_effort );
-    data.read( "mess_radius", actor.mess_radius );
+    data.read( "pulp_power", actor.pd.pulp_power );
+    data.read( "pulp_effort", actor.pd.pulp_effort );
+    data.read( "mess_radius", actor.pd.mess_radius );
     data.read( "unpulped_corpses_qty", actor.unpulped_corpses_qty );
-    data.read( "can_pry_armor", actor.can_pry_armor );
+    data.read( "can_pry_armor", actor.pd.can_pry_armor );
     data.read( "too_long_to_pulp", actor.too_long_to_pulp );
     data.read( "too_long_to_pulp_interrupted", actor.too_long_to_pulp_interrupted );
     data.read( "way_too_long_to_pulp", actor.way_too_long_to_pulp );
-    data.read( "bash_factor", actor.bash_factor );
-    data.read( "cut_quality", actor.cut_quality );
-    data.read( "stomps_only", actor.stomps_only );
-    data.read( "weapon_only", actor.weapon_only );
-    data.read( "can_severe_cutting", actor.can_severe_cutting );
-    data.read( "used_pry", actor.used_pry );
-    data.read( "couldnt_use_pry", actor.couldnt_use_pry );
-    data.read( "bash_tool", actor.bash_tool );
-    data.read( "cut_tool", actor.cut_tool );
-    data.read( "pry_tool", actor.pry_tool );
+    data.read( "cut_quality", actor.pd.cut_quality );
+    data.read( "stomps_only", actor.pd.stomps_only );
+    data.read( "weapon_only", actor.pd.weapon_only );
+    data.read( "can_severe_cutting", actor.pd.can_severe_cutting );
+    data.read( "used_pry", actor.pd.used_pry );
+    data.read( "couldnt_use_pry", actor.pd.couldnt_use_pry );
+    data.read( "bash_tool", actor.pd.bash_tool );
+    data.read( "cut_tool", actor.pd.cut_tool );
+    data.read( "pry_tool", actor.pd.pry_tool );
 
     return actor.clone();
 }

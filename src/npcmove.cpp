@@ -3945,62 +3945,10 @@ bool npc::find_corpse_to_pulp()
         const item *found = nullptr;
         for( const item &it : items )
         {
-            // Pulp only stuff that revives, but don't pulp acid stuff
-            // That is, if you aren't protected from this stuff!
             if( it.can_revive() ) {
-
                 const mtype &corpse = *it.get_corpse_mon();
-                if( corpse.size > 3 ) {
-
-                    // stripped copy of calculations from pulp_activity_actor::start()
-                    // potentially can be unified in one function, i didn't found how to make it lightweight enough
-                    std::pair<float, item> pair = get_best_weapon_by_damage_type( damage_bash );
-
-                    const double weight_factor = units::to_kilogram( get_weight() ) / 10;
-                    const double athletic_factor = std::min( 9.0f, get_skill_level( skill_swimming ) + 3 );
-                    const int strength_factor = get_str() / 2;
-                    const float pulp_power_stomps = athletic_factor + weight_factor + strength_factor;
-                    const double bash_factor = std::max( pulp_power_stomps, pair.first );
-
-                    const std::pair<int, item> pair_cut = get_best_tool( qual_BUTCHER );
-                    const bool can_severe_cutting = pair_cut.first > 5;
-
-                    double pulp_power = bash_factor *
-                    std::sqrt( get_skill_level( skill_survival ) + 2 ) *
-                    ( can_severe_cutting ? 1 : 0.85 );
-
-                    double pow_factor;
-                    if( corpse.size == creature_size::huge ) {
-                        pow_factor = 1.3;
-                    } else if( corpse.size == creature_size::large ) {
-                        pow_factor = 1.2;
-                    } else {
-                        pow_factor = 1;
-                    }
-
-                    int time_to_pulp =
-                        ( std::pow( units::to_liter( corpse.volume ), pow_factor ) * 1000 ) / pulp_power;
-
-                    if( !corpse.families.families.empty() ) {
-                        float wp_known = 0;
-                        for( const weakpoint_family &wf : corpse.families.families ) {
-                            if( has_proficiency( wf.proficiency ) ) {
-                                ++wp_known;
-                            }
-                        }
-                        time_to_pulp /= wp_known / corpse.families.families.size() * 2 + 0.75;
-                    }
-
-                    const bool acid_immune = is_immune_damage( damage_acid ) || is_immune_field( fd_acid );
-                    const bool acid_corpse = corpse.bloodType().obj().has_acid && !acid_immune;
-                    if( acid_corpse ) {
-                        time_to_pulp *= ( 300 - pair_cut.first * 2 ) / 100;
-                    }
-
-                    if( time_to_pulp > 3600 ) {
-                        continue;
-                    }
-
+                if( g->can_pulp_corpse( *this, corpse ) ) {
+                    continue;
                 }
 
                 found = &it;

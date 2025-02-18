@@ -9689,7 +9689,7 @@ const
 {
     std::pair<float, item> best_weapon = std::make_pair( 0, item() );
 
-    cache_visit_items_with( "best_damage", &item::is_melee, [&best_weapon, this,
+    cache_visit_items_with( "best_damage_" + dmg_type.str(), &item::is_melee, [&best_weapon, this,
                   dmg_type]( const item & it ) {
         damage_instance di;
         roll_damage( dmg_type, false, di, true, it, attack_vector_id::NULL_ID(),
@@ -9704,21 +9704,20 @@ const
     return best_weapon;
 }
 
-std::pair<int, item> Character::get_best_tool( const quality_id quality ) const
+std::pair<int, const item *> Character::get_best_tool( const quality_id quality ) const
 {
     // todo: check edge case of you having bionic tool/mutation,
     // something that max_quality() is aware but max_quality() is not?
-    std::pair<int, item> best_tool = std::make_pair( 0, item() );
 
-    cache_visit_items_with( "best_quality", &item::is_tool, [&best_tool, this,
-                quality]( const item & it ) {
-        int max_qlty = max_quality( quality );
-        if( it.get_quality( quality ) == max_qlty ) {
-            best_tool = std::make_pair( max_qlty, it );
-            return;
-        }
+    const int max_qual = max_quality( quality );
+
+    std::vector<const item *> nit = cache_get_items_with( "best_quality_" + quality.str(), {},
+    [quality, max_qual]( const item & i ) {
+        return i.get_quality( quality ) == max_qual;
     } );
 
+    const item *it = random_entry( nit );
+    const std::pair<int, const item *> best_tool = std::make_pair( max_qual, it );
     return best_tool;
 }
 

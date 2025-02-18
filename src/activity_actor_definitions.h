@@ -15,6 +15,7 @@
 #include "character.h"
 #include "clone_ptr.h"
 #include "contents_change_handler.h"
+#include "game.h"
 #include "handle_liquid.h"
 #include "item.h"
 #include "itype.h"
@@ -40,6 +41,7 @@ class SkillLevel;
 class player_activity;
 
 struct islot_book;
+struct pulp_data;
 
 class aim_activity_actor : public activity_actor
 {
@@ -2413,9 +2415,9 @@ class pulp_activity_actor : public activity_actor
     public:
         pulp_activity_actor() = default;
         explicit pulp_activity_actor( const tripoint_abs_ms placement ) : placement( { placement } ),
-        num_corpses( 0 ), pulp_power( 0 ), pulp_effort( 0 ), mess_radius( 1 ) {}
+        num_corpses( 0 ) {}
         explicit pulp_activity_actor( const std::set<tripoint_abs_ms> &placement ) : placement( placement ),
-            num_corpses( 0 ), pulp_power( 0 ), pulp_effort( 0 ), mess_radius( 1 ) {}
+            num_corpses( 0 ) {}
         const activity_id &get_type() const override {
             static const activity_id ACT_PULP( "ACT_PULP" );
             return ACT_PULP;
@@ -2445,8 +2447,6 @@ class pulp_activity_actor : public activity_actor
         float float_corpse_damage_accum = 0.0f; // NOLINT(cata-serialize)
 
         int unpulped_corpses_qty = 0;
-        // for tanky monsters
-        bool can_pry_armor = false;
 
         // query player if they want to pulp corpses that cost more than 10 minutes to pulp
         bool too_long_to_pulp = false;
@@ -2454,25 +2454,11 @@ class pulp_activity_actor : public activity_actor
         // if corpse cost more than hour to pulp, drop it
         bool way_too_long_to_pulp = false;
 
-        float bash_factor;
-        int cut_quality;
-        // bools for end message
-        bool stomps_only = false;
-        bool weapon_only = false;
-        bool can_severe_cutting = false;
-        bool used_pry = false;
-        bool couldnt_use_pry = false;
-        std::string bash_tool;
-        std::string cut_tool;
-        std::string pry_tool;
         // how many corpses we pulped
-        int num_corpses;
-        // how much damage you deal to corpse every second, average of multiple values
-        float pulp_power;
-        // how much stamina is consumed after each punch
-        float pulp_effort;
-        // how far the splatter goes
-        int mess_radius;
+        int num_corpses = 0;
+
+        pulp_data pd;
+
         // what `placement` we are currently at
         std::set<tripoint_abs_ms>::const_iterator current_pos_iter; // NOLINT(cata-serialize)
 };
