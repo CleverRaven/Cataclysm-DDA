@@ -30,6 +30,12 @@ src/localized_comparator.cpp
 src/main.cpp
 src/map.cpp
 src/mutation_ui.cpp
+src/ncurses_def.cpp
+src/options.cpp
+src/output.cpp
+src/overmap_ui.cpp
+src/ranged.cpp
+src/path_info.cpp
 src/sdltiles.cpp
 src/system_locale.cpp
 # misc files deferred til better days
@@ -39,18 +45,6 @@ src/worldfactory.cpp
 src/mmap_file.cpp
 src/messages.cpp
 # opt-out a good chunk of the codebase for the transition
-src/ncurses_def.cpp
-src/newcharacter.cpp
-src/npctalk.cpp
-src/options.cpp
-src/output.cpp
-src/overmap.cpp
-src/overmap_ui.cpp
-src/overmap_ui.h
-src/overmapbuffer.cpp
-src/panels.cpp
-src/path_info.cpp
-src/ranged.cpp
 src/savegame.cpp
 src/savegame_legacy.cpp
 src/sounds.cpp

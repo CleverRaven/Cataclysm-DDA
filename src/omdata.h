@@ -6,43 +6,43 @@
 #include <climits>
 #include <cstddef>
 #include <cstdint>
-#include <iosfwd>
-#include <list>
-#include <new>
+#include <memory>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "assign.h"
-#include "catacharset.h"
 #include "color.h"
 #include "common_types.h"
 #include "coordinates.h"
 #include "cube_direction.h"
 #include "enum_bitset.h"
+#include "flat_set.h"
+#include "flexbuffer_json.h"
 #include "mapgen_parameter.h"
+#include "memory_fast.h"
 #include "point.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
+class mapgendata;
 class overmap_land_use_code;
 struct MonsterGroup;
 struct city;
 template <typename E> struct enum_traits;
+template <typename T> class generic_factory;
 
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
-class JsonObject;
-class JsonValue;
 class overmap;
 class overmap_connection;
-class overmap_special;
 class overmap_special_batch;
+enum class om_vision_level : int8_t;
 struct mapgen_arguments;
 struct oter_t;
 struct overmap_location;
-
-enum class om_vision_level : int8_t;
 
 inline const overmap_land_use_code_id land_use_code_forest( "forest" );
 inline const overmap_land_use_code_id land_use_code_wetland( "wetland" );
