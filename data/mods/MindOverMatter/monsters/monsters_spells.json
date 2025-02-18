@@ -692,19 +692,38 @@
   {
     "type": "SPELL",
     "id": "amalgamation_telekinetic_shielder_shield_other_spell",
-    "name": { "str": "Inertial Barrier Guardian Amalgamation Shield", "//~": "NO_I18N" },
+    "name": { "str": "Inertial Barrier Guardian Amalgamation Shield Detector", "//~": "NO_I18N" },
     "description": { "str": "Preps for using Inertial Barrier when a hostile target is detected.", "//~": "NO_I18N" },
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN", "RANDOM_DURATION" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "extra_effects": [
+      { "id": "amalgamation_telekinetic_shielder_shield_other_spell_apply_shield" },
+      { "id": "amalgamation_telekinetic_shielder_shield_other_spell_self", "hit_self": true }
+    ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "noise",
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_range": 20,
+    "max_range": 20
+  },
+  {
+    "type": "SPELL",
+    "id": "amalgamation_telekinetic_shielder_shield_other_spell_apply_shield",
+    "name": { "str": "Inertial Barrier Guardian Amalgamation Shield Applicator", "//~": "NO_I18N" },
+    "description": { "str": "The actual power that applies Inertial Barrier to an ally.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "RANDOM_CRITTER", "RANDOM_DURATION" ],
     "valid_targets": [ "ally" ],
     "max_level": 1,
     "effect": "attack",
     "effect_str": "effect_monster_inertial_barrier",
-    "extra_effects": [ { "id": "amalgamation_telekinetic_shielder_shield_other_spell_self", "hit_self": true } ],
     "shape": "blast",
     "min_range": 20,
     "max_range": 20,
     "min_duration": 4500,
-    "max_duration": 7500
+    "max_duration": 7500,
+    "targeted_monster_species": [ "ZOMBIE" ],
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "type": "SPELL",
