@@ -530,7 +530,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_AMALGAMATION_TELEKINETIC_SHIELDER_APPLICATION",
-    "condition": { "math": [ "n_mon_species_nearby('ZOMBIE', 'FERAL', 'radius': 30, 'attitude': 'both') > 0" ] },
+    "condition": { "math": [ "n_mon_species_nearby('ZOMBIE', 'FERAL', 'radius': 20, 'attitude': 'both') > 0" ] },
     "effect": [
       { "npc_cast_spell": { "id": "amalgamation_telekinetic_shielder_shield_other_spell_apply_shield" } },
       { "npc_add_effect": "effect_amalgamation_telekinetic_shielder_counter", "duration": 60 }
