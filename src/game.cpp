@@ -14412,7 +14412,7 @@ bool game::can_pulp_corpse( const Character &you, const mtype &corpse_mtype )
     return can_pulp_corpse( pd );
 }
 
-bool game::can_pulp_corpse( const pulp_data pd )
+bool game::can_pulp_corpse( const pulp_data &pd )
 {
     // if pulping is longer than an hour, this is a hard no
     return pd.time_to_pulp < 3600;

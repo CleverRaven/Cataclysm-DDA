@@ -107,7 +107,6 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "weakpoint.h"
 
 enum class side : int;
 

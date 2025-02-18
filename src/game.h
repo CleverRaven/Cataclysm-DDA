@@ -96,6 +96,7 @@ class vehicle;
 class viewer;
 enum action_id : int;
 struct special_game;
+struct mtype;
 struct visibility_variables;
 template <typename Tripoint> class tripoint_range;
 
@@ -1336,7 +1337,7 @@ class game
         pulp_data calculate_pulpability( const Character &you, const mtype &corpse_mtype );
         pulp_data calculate_pulpability( const Character &you, const mtype &corpse_mtype, pulp_data pd );
         bool can_pulp_corpse( const Character &you, const mtype &corpse_mtype );
-        bool can_pulp_corpse( pulp_data pd );
+        bool can_pulp_corpse( const pulp_data &pd );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources
