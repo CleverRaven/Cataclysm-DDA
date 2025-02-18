@@ -144,7 +144,7 @@
     "id": "EOC_PICK_CHANGELING_WINTER_MAGIC",
     "condition": { "not": { "u_has_trait": "EOC_PICK_CHANGELING_WINTER_MAGIC" } },
     "effect": [
-      { "u_add_trait": "EOC_PICK_CHANGELING_WINTER_MAGIC" },
+      { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_WINTER" },
       { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] }
     ]
   },
