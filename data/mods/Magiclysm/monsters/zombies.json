@@ -165,10 +165,7 @@
     "description": "The air continuously wavers around this zombie's hands and its eyes are a luminous shining blue.  It occasionally gestures at some of the nearby scenery and light warps, like you're looking at it through a kaleidoscope.  You can't tell a difference after it turns to normal, but you still don't want to end up inside it.",
     "copy-from": "mon_zombie_thaumic",
     "melee_damage": [ { "damage_type": "nether", "amount": 5 } ],
-    "attack_effs": [
-      { "id": "effect_thaumic_zombie_magical_disruption", "duration": 25, "chance": 100 },
-      { "id": "effect_disjunction", "duration": 2, "chance": 75 }
-    ],
+    "attack_effs": [ { "id": "effect_thaumic_zombie_magical_disruption", "duration": 25, "chance": 100 } ],
     "relative": {
       "armor": {
         "nether": 500,
@@ -192,6 +189,7 @@
           "monster_message": "%1$s raises both of its hands toward %3$s."
         }
       ]
-    }
+    },
+    "emit_fields": [ { "emit_id": "emit_magic_disjunction", "delay": "2 s" } ]
   }
 ]
