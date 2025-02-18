@@ -10,8 +10,13 @@ translation
 lightmap
 color
 tests/generic_factory_test.cpp
-# scary conditional compilation in these
+# (mildly) scary conditional compilation in these
+src/animation.cpp
+src/bionics_ui.cpp
 src/cata_imgui.cpp
+src/cata_utility.cpp
+src/catacharset.cpp
+src/construction.cpp
 src/debug.cpp
 src/loading_ui.cpp
 src/sdltiles.cpp
@@ -22,23 +27,6 @@ src/mapsharing
 src/worldfactory.cpp
 src/mmap_file.cpp
 # opt-out a good chunk of the codebase for the transition
-src/action.cpp
-src/activity_handlers.cpp
-src/advanced_inv.cpp
-src/advanced_inv_pane.cpp
-src/animation.cpp
-src/avatar_action.cpp
-src/bionics_ui.cpp
-src/bodygraph.cpp
-src/cached_options.cpp
-src/cata_utility.cpp
-src/catacharset.cpp
-src/char_validity_check.cpp
-src/color.cpp
-src/compatibility.cpp
-src/construction.cpp
-src/creature_tracker.cpp
-src/cursesport.cpp
 src/debug_menu.cpp
 src/demangle.cpp
 src/do_turn.cpp
