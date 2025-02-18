@@ -595,6 +595,7 @@
     "name": { "str": "Facultative Breathing" },
     "description": "You do not need to breathe air to live anymore.  It prevents you from being drowned or suffocated and allows you to ignore inhaled gases.",
     "flags": [ "GILLS" ],
+    "cancels": [ "ASTHMA" ],
     "integrated_armor": [ "integrated_nobreathe" ]
   },
   {
