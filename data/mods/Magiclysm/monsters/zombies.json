@@ -118,5 +118,80 @@
       }
     ],
     "luminance": 40
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_queller",
+    "name": { "str": "zombie queller" },
+    "description": "This zombie's ley lines are glowing beneath its skin, but very dimly.  They seem to absorb nearby light.",
+    "copy-from": "mon_zombie_thaumic",
+    "melee_damage": [ { "damage_type": "nether", "amount": 5 } ],
+    "attack_effs": [ { "id": "effect_thaumic_zombie_magical_disruption", "duration": 5, "chance": 100 } ],
+    "relative": {
+      "armor": { "nether": 50, "sonic": 50, "necrotic": 50, "psionic": 50, "electric": 50, "cold": 50, "heat": 50, "light": 50 }
+    },
+    "luminance": 2,
+    "upgrades": { "half_life": 30, "into": "mon_zombie_disruptor" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_disruptor",
+    "name": { "str": "zombie disruptor" },
+    "description": "The light seems to grow dim around this zombie's hands, in contrast to the blue glow of its eyes.  Barely-visible blue paths on its visible skin, like traceries of veins, mark the site of its ley lines.",
+    "copy-from": "mon_zombie_thaumic",
+    "melee_damage": [ { "damage_type": "nether", "amount": 5 } ],
+    "attack_effs": [
+      { "id": "effect_thaumic_zombie_magical_disruption", "duration": 12, "chance": 100 },
+      { "id": "effect_dispel_magic", "duration": 2, "chance": 75 }
+    ],
+    "relative": {
+      "armor": {
+        "nether": 500,
+        "sonic": 500,
+        "necrotic": 500,
+        "psionic": 500,
+        "electric": 500,
+        "cold": 500,
+        "heat": 500,
+        "light": 500
+      }
+    },
+    "upgrades": { "half_life": 30, "into": "mon_zombie_magebreaker" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_magebreaker",
+    "name": { "str": "magebreaker" },
+    "description": "The air continuously wavers around this zombie's hands and its eyes are a luminous shining blue.  It occasionally gestures at some of the nearby scenery and light warps, like you're looking at it through a kaleidoscope.  You can't tell a difference after it turns to normal, but you still don't want to end up inside it.",
+    "copy-from": "mon_zombie_thaumic",
+    "melee_damage": [ { "damage_type": "nether", "amount": 5 } ],
+    "attack_effs": [
+      { "id": "effect_thaumic_zombie_magical_disruption", "duration": 25, "chance": 100 },
+      { "id": "effect_disjunction", "duration": 2, "chance": 75 }
+    ],
+    "relative": {
+      "armor": {
+        "nether": 500,
+        "sonic": 500,
+        "necrotic": 500,
+        "psionic": 500,
+        "electric": 500,
+        "cold": 500,
+        "heat": 500,
+        "light": 500
+      }
+    },
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "magebreaker_spell_disjunction",
+          "type": "spell",
+          "spell_data": { "id": "disjunction_monster", "min_level": 12 },
+          "cooldown": 25,
+          "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+          "monster_message": "%1$s raises both of its hands toward %3$s."
+        }
+      ]
+    }
   }
 ]
