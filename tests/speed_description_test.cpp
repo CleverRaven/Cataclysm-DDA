@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "monster.h"
 #include "mtype.h"
 #include "player_helpers.h"

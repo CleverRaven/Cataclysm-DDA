@@ -7,7 +7,7 @@
 #include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "character_attire.h"
 #include "clzones.h"
