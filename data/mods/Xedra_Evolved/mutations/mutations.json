@@ -749,7 +749,7 @@
     "valid": false,
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "NO_THIRST" ],
     "vitamin_rates": [ [ "vitC", -500 ], [ "iron", -500 ], [ "calcium", -500 ] ],
-    "//": "When weariness can be modified through Json, see if this mutation should make the player immune to it.",
+    "//": "When weariness can be modified through Json, this mutation should make the player immune to it.",
     "enchantments": [
       {
         "values": [
@@ -759,7 +759,8 @@
           { "value": "HUNGER", "multiply": -1 },
           { "value": "THIRST", "multiply": -1 },
           { "value": "METABOLISM", "multiply": -1 }
-        ]
+        ],
+        "ench_effects": [ { "effect": "effect_vampire_bleed_stolen_blood", "intensity": 1 } ]
       }
     ]
   },
