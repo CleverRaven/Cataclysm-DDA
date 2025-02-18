@@ -2244,5 +2244,65 @@
     "id": "kiln_done",
     "type": "MIGRATION",
     "replace": "char_kiln"
+  },
+  {
+    "id": "40x46mm_buckshot_m118",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "40x46mm_buckshot_m199",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "40x46mm_buckshot_m199",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "40x46mm_slug_m118",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "40x46mm_slug_m199",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "40x46mm_flechette_m118",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "40x46mm_flechette_m199",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "bp_40x46mm_buckshot_m199",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "bp_40x46mm_slug_m118",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "bp_40x46mm_slug_m199",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "bp_40x46mm_flechette_m118",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
+  },
+  {
+    "id": "bp_40x46mm_flechette_m199",
+    "type": "MIGRATION",
+    "replace": "40x46mm_m576"
   }
 ]

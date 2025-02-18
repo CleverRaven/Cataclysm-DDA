@@ -506,24 +506,12 @@
           "type": "40x46mm",
           "weight": 1,
           "items": {
-            "40x46mm_buckshot_m118": 1,
-            "40x46mm_buckshot_m199": 1,
-            "40x46mm_flechette_m118": 1,
-            "40x46mm_flechette_m199": 1,
             "40x46mm_hornets_nest_22lr": 1,
             "40x46mm_hornets_nest_410": 1,
             "40x46mm_m1006": 1,
             "40x46mm_m433": 1,
             "40x46mm_m576": 1,
-            "40x46mm_m651": 1,
-            "40x46mm_slug_m118": 1,
-            "40x46mm_slug_m199": 1,
-            "bp_40x46mm_buckshot_m118": 1,
-            "bp_40x46mm_buckshot_m199": 1,
-            "bp_40x46mm_flechette_m118": 1,
-            "bp_40x46mm_flechette_m199": 1,
-            "bp_40x46mm_slug_m118": 1,
-            "bp_40x46mm_slug_m199": 1
+            "40x46mm_m651": 1
           }
         },
         {
