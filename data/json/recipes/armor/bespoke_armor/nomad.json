@@ -22,7 +22,8 @@
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_closures" }
-    ]
+    ],
+    "flags": [ "SECRET" ]
   },
   {
     "result": "xs_helmet_nomad",
