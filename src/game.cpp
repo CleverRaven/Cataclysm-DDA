@@ -14315,14 +14315,14 @@ pulp_data game::calculate_character_ability_to_pulp( const Character &you )
     pd.cut_quality = pair_cut.first;
     if( pd.cut_quality > 5 ) {
         pd.can_severe_cutting = true;
-        pd.cut_tool = pair_cut.second->nname( pair_cut.second->typeId() );
+        pd.cut_tool = item::nname( pair_cut.second->typeId() );
     }
 
     std::pair<int, const item *> pair_pry;
     if( you.max_quality( qual_PRY ) > 0 ) {
         pd.can_pry_armor = true;
         pair_pry = you.get_best_tool( qual_PRY );
-        pd.pry_tool = pair_pry.second->nname( pair_cut.second->typeId() );
+        pd.pry_tool = item::nname( pair_pry.second->typeId() );
     }
 
     add_msg_debug( debugmode::DF_ACTIVITY,
@@ -14367,7 +14367,6 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
     int time_to_pulp =
         ( std::pow( units::to_liter( corpse_mtype.volume ), pow_factor ) * 1000 ) / pd.pulp_power;
 
-    pd.unknown_prof;
     // +25% to pulp time if char knows no weakpoints of monster
     // -25% if knows all of them
     if( !corpse_mtype.families.families.empty() ) {
@@ -14413,7 +14412,7 @@ bool game::can_pulp_corpse( const Character &you, const mtype &corpse_mtype )
     return can_pulp_corpse( pd );
 }
 
-bool game::can_pulp_corpse( pulp_data pd )
+bool game::can_pulp_corpse( const pulp_data pd )
 {
     // if pulping is longer than an hour, this is a hard no
     return pd.time_to_pulp < 3600;

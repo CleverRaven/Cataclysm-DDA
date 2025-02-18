@@ -136,7 +136,6 @@ static const bionic_id bio_radscrubber( "bio_radscrubber" );
 static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_soporific( "bio_soporific" );
 
-static const damage_type_id damage_acid( "acid" );
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 static const damage_type_id damage_cut( "cut" );
@@ -174,11 +173,7 @@ static const itype_id itype_thorazine( "thorazine" );
 
 static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 
-static const quality_id qual_BUTCHER( "BUTCHER" );
-
 static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_survival( "survival" );
-static const skill_id skill_swimming( "swimming" );
 
 static const trait_id trait_IGNORE_SOUND( "IGNORE_SOUND" );
 static const trait_id trait_RETURN_TO_START_POS( "RETURN_TO_START_POS" );
