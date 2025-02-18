@@ -760,8 +760,7 @@
           { "value": "THIRST", "multiply": -1 },
           { "value": "METABOLISM", "multiply": -1 }
         ]
-      },
-      "ench_vampire_bleed_stolen_blood"
+      }
     ]
   },
   {

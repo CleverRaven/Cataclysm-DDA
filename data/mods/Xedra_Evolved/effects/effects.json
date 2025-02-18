@@ -3113,28 +3113,5 @@
     "name": [ "" ],
     "desc": [ "" ],
     "show_in_info": false
-  },
-  {
-    "type": "enchantment",
-    "//": "Makes tier 5 vampires lose stolen blood instead of mundane blood when bleeding.",
-    "//2": "Doesn't affect lesser vampires as they still have both mundane blood and stolen blood, as shown by their mundane blood recovery and by their non-exsanguination when using their stolen blood.",
-    "//3": "A vampire cannot gain nurishment from its own blood, even if it still has some mundane blood.",
-    "id": "ench_vampire_bleed_stolen_blood",
-    "condition": { "u_has_effect": "bleed" },
-    "ench_effects": [ { "effect": "effect_vampire_bleeding_real", "intensity": 1 } ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_vampire_bleeding_real",
-    "show_in_info": false,
-    "vitamins": [
-      { "vitamin": "blood", "rate": [ [ 100, 100 ] ], "tick": [ "1 s" ] },
-      { "vitamin": "redcells", "rate": [ [ 100, 100 ] ], "tick": [ "1 s" ] },
-      {
-        "vitamin": "human_blood_vitamin",
-        "rate": [ [ { "math": [ "u_effect_intensity('bleed') * -10" ] }, { "math": [ "u_effect_intensity('bleed') * -10" ] } ] ],
-        "tick": [ "1 s" ]
-      }
-    ]
   }
 ]
