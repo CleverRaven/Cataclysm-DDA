@@ -526,7 +526,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
                                          std::regex_match( id_s.c_str(), m, wl ) && m.prefix().length() == 0 && m.suffix().length() == 0 );
                 }
                 if( !is_whitelisted ) {
-                    missing.push_back( id_s );
+                    missing.emplace_back( id_s );
                 }
             }
         }

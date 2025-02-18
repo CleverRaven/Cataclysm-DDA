@@ -130,7 +130,7 @@ void test_data::load( const JsonObject &jo )
         std::vector<std::string> new_overmap_terrain_coverage_whitelist;
         jo.read( "overmap_terrain_coverage_whitelist", new_overmap_terrain_coverage_whitelist );
         for( const std::string &o : new_overmap_terrain_coverage_whitelist ) {
-            overmap_terrain_coverage_whitelist.push_back( std::regex( o ) );
+            overmap_terrain_coverage_whitelist.emplace_back( o );
         }
     }
 
