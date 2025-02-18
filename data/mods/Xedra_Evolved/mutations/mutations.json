@@ -759,9 +759,9 @@
           { "value": "HUNGER", "multiply": -1 },
           { "value": "THIRST", "multiply": -1 },
           { "value": "METABOLISM", "multiply": -1 }
-        ],
-        "ench_effects": [ { "effect": "effect_vampire_bleed_stolen_blood", "intensity": 1 } ]
-      }
+        ]
+      },
+      "ench_vampire_bleed_stolen_blood"
     ]
   },
   {
