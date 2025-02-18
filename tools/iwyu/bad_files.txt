@@ -10,6 +10,12 @@ translation
 lightmap
 color
 tests/generic_factory_test.cpp
+# scary conditional compilation in these
+src/cata_imgui.cpp
+src/debug.cpp
+src/loading_ui.cpp
+src/sdltiles.cpp
+src/system_locale.cpp
 # misc files deferred til better days
 src/stats_tracker.cpp
 src/mapsharing
@@ -25,18 +31,14 @@ src/avatar_action.cpp
 src/bionics_ui.cpp
 src/bodygraph.cpp
 src/cached_options.cpp
-src/cata_imgui.cpp
-src/cata_tiles.cpp
 src/cata_utility.cpp
 src/catacharset.cpp
 src/char_validity_check.cpp
 src/color.cpp
 src/compatibility.cpp
 src/construction.cpp
-src/crash.cpp
 src/creature_tracker.cpp
 src/cursesport.cpp
-src/debug.cpp
 src/debug_menu.cpp
 src/demangle.cpp
 src/do_turn.cpp
@@ -60,7 +62,6 @@ src/item.cpp
 src/iuse_software_sokoban.cpp
 src/json.cpp
 src/lightmap.cpp
-src/loading_ui.cpp
 src/localized_comparator.cpp
 src/main.cpp
 src/main_menu.cpp
@@ -84,24 +85,12 @@ src/overmap_ui.h
 src/overmapbuffer.cpp
 src/panels.cpp
 src/path_info.cpp
-src/pixel_minimap.cpp
-src/pixel_minimap_projectors.cpp
 src/ranged.cpp
 src/savegame.cpp
 src/savegame_legacy.cpp
-src/sdl_font.cpp
-src/sdl_gamepad.cpp
-src/sdl_geometry.cpp
-src/sdl_utils.cpp
-src/sdl_wrappers.cpp
-src/sdlsound.cpp
-src/sdltiles.cpp
 src/sounds.cpp
-src/string_editor_window.cpp
 src/string_formatter.cpp
 src/string_id_null_ids.cpp
-src/string_input_popup.cpp
-src/system_locale.cpp
 src/text.cpp
 src/text_style_check_reader.cpp
 src/translation.cpp

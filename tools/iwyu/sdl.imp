@@ -5,6 +5,7 @@
     { include: ['@<(SDL2/)?SDL_endian.h>', "private", "<\\1SDL.h>", "public"] },
     { include: ['@<(SDL2/)?SDL_events.h>', "private", "<\\1SDL.h>", "public"] },
     { include: ['@<(SDL2/)?SDL_error.h>', "private", "<\\1SDL.h>", "public"] },
+    { include: ['@<(SDL2/)?SDL_gamecontroller.h>', "private", "<\\1SDL.h>", "public"] },
     { include: ['@<(SDL2/)?SDL_hints.h>', "private", "<\\1SDL.h>", "public"] },
     { include: ['@<(SDL2/)?SDL_joystick.h>', "private", "<\\1SDL.h>", "public"] },
     { include: ['@<(SDL2/)?SDL_keyboard.h>', "private", "<\\1SDL.h>", "public"] },
