@@ -3,8 +3,10 @@
 #define CATA_SRC_VEH_APPLIANCE_H
 
 #include "coordinates.h"
+#include "cursesdef.h"
 #include "input_context.h"
 #include "player_activity.h"
+#include "ui.h"
 
 class vehicle;
 class ui_adaptor;

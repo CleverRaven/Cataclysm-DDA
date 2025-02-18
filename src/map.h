@@ -45,6 +45,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "vpart_position.h"
 
 #if defined(TILES)
 #include "cata_tiles.h"
