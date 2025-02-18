@@ -18,6 +18,7 @@
 
 #include "activity_actor_definitions.h"
 #include "all_enum_values.h"
+#include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
 #include "enum_conversions.h"
