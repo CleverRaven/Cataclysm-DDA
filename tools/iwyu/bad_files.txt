@@ -21,9 +21,15 @@ src/debug.cpp
 src/editmap.cpp
 src/filesystem.cpp
 src/font_loader.cpp
-src/game.h
-src/handle_action.h
+src/game.cpp
+src/handle_action.cpp
+src/init.cpp
+src/input_context.cpp
 src/loading_ui.cpp
+src/localized_comparator.cpp
+src/main.cpp
+src/map.cpp
+src/mutation_ui.cpp
 src/sdltiles.cpp
 src/system_locale.cpp
 # misc files deferred til better days
@@ -31,29 +37,8 @@ src/stats_tracker.cpp
 src/mapsharing
 src/worldfactory.cpp
 src/mmap_file.cpp
-# opt-out a good chunk of the codebase for the transition
-src/imgui_demo.cpp
-src/init.cpp
-src/input.cpp
-src/input_context.cpp
-src/inventory.cpp
-src/inventory_ui.cpp
-src/item.cpp
-src/iuse_software_sokoban.cpp
-src/json.cpp
-src/lightmap.cpp
-src/localized_comparator.cpp
-src/main.cpp
-src/main_menu.cpp
-src/map.cpp
-src/map_memory.cpp
-src/mapbuffer.cpp
-src/mapgen.cpp
-src/mapsharing.cpp
 src/messages.cpp
-src/mission.cpp
-src/mmap_file.cpp
-src/mutation_ui.cpp
+# opt-out a good chunk of the codebase for the transition
 src/ncurses_def.cpp
 src/newcharacter.cpp
 src/npctalk.cpp
