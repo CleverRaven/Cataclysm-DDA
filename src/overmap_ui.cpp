@@ -46,6 +46,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
+#include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "npc.h"
