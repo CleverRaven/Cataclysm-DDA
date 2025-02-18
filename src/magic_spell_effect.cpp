@@ -38,6 +38,7 @@
 #include "global_vars.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_location.h"
 #include "kill_tracker.h"
 #include "line.h"
 #include "magic.h"
@@ -1211,7 +1212,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster,
                 character_at_target->wear_item( it, false );
             } else if( !character_at_target->has_wield_conflicts( it ) &&
                        !character_at_target->martial_arts_data->keep_hands_free && //No wield if hands free
-                       character_at_target->wield( it ) ) {
+                       character_at_target->wield( item_location( *character_at_target, &it ) ) ) {
                 // nothing to do
             } else {
                 character_at_target->i_add( it );

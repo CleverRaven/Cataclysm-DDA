@@ -639,7 +639,8 @@ void Character::add_profession_items()
             } else if( it.has_flag( json_flag_auto_wield ) ) {
                 it.unset_flag( json_flag_auto_wield );
                 if( !has_wield_conflicts( it ) ) {
-                    wield( it );
+                    // TODO is created, so should be ok
+                    wield_( it );
                     wield_or_wear = &it;
                     success = item_location( *this, wield_or_wear );
                 } else {
@@ -676,7 +677,8 @@ void Character::add_profession_items()
         if( prof_items.size() == 1 ) {
             item last_item = prof_items.front();
             if( !has_wield_conflicts( last_item ) ) {
-                bool success_wield = wield( last_item );
+                // TODO: newly created, so should be ok?
+                bool success_wield = wield_( last_item );
                 if( success_wield ) {
                     prof_items.pop_front();
                 }

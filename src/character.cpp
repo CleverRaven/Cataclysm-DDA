@@ -12972,9 +12972,9 @@ void Character::search_surroundings()
     }
 }
 
-bool Character::wield( item it )
+bool Character::wield_( item it )
 {
-    return wield( item_location( &this, &it ) );
+    return wield( item_location( *this, &it ) );
 }
 
 bool Character::wield( item_location loc )

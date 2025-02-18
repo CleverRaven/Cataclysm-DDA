@@ -2421,7 +2421,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( u.can_wield( *locThisItem ).success() ) {
                         contents_change_handler handler;
                         handler.unseal_pocket_containing( locThisItem );
-                        wield( locThisItem );
+                        u.wield( locThisItem );
                         handler.handle_by( u );
                     } else {
                         add_msg( m_info, "%s", u.can_wield( *locThisItem ).c_str() );

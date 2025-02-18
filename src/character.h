@@ -1864,7 +1864,7 @@ class Character : public Creature, public visitable
         bool gunmod_remove( item &gun, item &mod );
 
         /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/
-        void gunmod_add( item &gun, item &mod );
+        void gunmod_add( item_location gun_loc, item &mod );
 
         /** Starts activity to install toolmod */
         void toolmod_add( item_location tool, item_location mod );
@@ -2373,7 +2373,7 @@ class Character : public Creature, public visitable
          */
         bool wield( item_location loc );
 
-        bool wield( item loc );
+        bool wield_( item loc );
         /**
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded

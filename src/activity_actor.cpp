@@ -5122,7 +5122,7 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
                     holster->tname() )
                 &&
                 // wield the container
-                carrier->wield( *holster.get_item() ) ) {
+                carrier->wield( holster ) ) {
                 holster = carrier->get_wielded_item();
 
                 // and recheck if parent can hold (there should be no parent)
@@ -5407,7 +5407,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     switch( reload_query.ret ) {
         case 1:
             // This case is only reachable if wield_check is true
-            who.wield( reloadable );
+            who.wield( target_loc );
             add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
                      reloadable_name );
             break;

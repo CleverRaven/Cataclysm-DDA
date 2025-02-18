@@ -164,8 +164,9 @@ std::pair<int, int> Character::gunmod_installation_odds( const item_location &gu
     return std::make_pair( roll, risk );
 }
 
-void Character::gunmod_add( item &gun, item &mod )
+void Character::gunmod_add( item_location gun_loc, item &mod )
 {
+    item gun = *gun_loc.get_item();
     if( !gun.is_gunmod_compatible( mod ).success() ) {
         debugmsg( "Tried to add incompatible gunmod" );
         return;
@@ -184,7 +185,7 @@ void Character::gunmod_add( item &gun, item &mod )
     itype_id mod_type = mod.typeId();
     std::string mod_name = mod.tname();
 
-    if( !wield( gun ) ) {
+    if( !wield( gun_loc ) ) {
         add_msg_if_player( _( "You can't wield the %1$s." ), gun.tname() );
         return;
     }

@@ -260,7 +260,8 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
             picked_up = false;
             break;
         case WIELD:
-            picked_up = player_character.wield( newit );
+            //TODO: Newly created, ok
+            picked_up = player_character.wield_( newit );
             break;
         case SPILL:
             if( newit.is_container_empty() ) {
