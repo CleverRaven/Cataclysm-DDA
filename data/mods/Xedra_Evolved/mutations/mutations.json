@@ -846,7 +846,7 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Immortal Iron Mind" },
-    "description": "Your vampiric potency has reinforced your mind beyond what a mortal could ever hope.  You are immune to anything that culd negatively impact your mind.",
+    "description": "Your vampiric potency has reinforced your mind beyond anything a mortal could ever hope.  You are immune to anything that could negatively impact your mind.",
     "//": "There is no difference between this and the Ierde version, so I use that one instead of making a new one to avoid duplicates.  The player isn't supposed to see this anyway.",
     "enchantments": [ "ench_ierde_no_mind_problems" ]
   },
