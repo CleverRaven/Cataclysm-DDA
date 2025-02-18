@@ -231,7 +231,7 @@
     "type": "field_type",
     "intensity_levels": [
       {
-        "name": "",
+        "name": "emptiness",
         "effects": [
           {
             "effect_id": "effect_disjunction",
