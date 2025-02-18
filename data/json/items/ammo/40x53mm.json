@@ -28,7 +28,7 @@
     "damage": { "damage_type": "bullet", "amount": 65 },
     "shot_damage": { "damage_type": "bullet", "amount": 5 },
     "projectile_count": 117,
-    "shot_spread": 840,
+    "shot_spread": 400,
     "recoil": 18750,
     "casing": "40x53mm_m169_casing",
     "effects": [ "SHOT" ]
