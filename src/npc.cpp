@@ -1511,6 +1511,7 @@ void npc::stow_item( item &it )
 
 bool npc::wield( item &it )
 {
+    // TODO: also move to item_location
     // sanity check: exit early if we're trying to wield the current weapon
     // needed for ranged_balance_test
     if( is_wielding( it ) ) {

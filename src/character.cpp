@@ -12972,6 +12972,88 @@ void Character::search_surroundings()
     }
 }
 
+bool Character::wield( item it )
+{
+    return wield( item_location( &this, &it ) );
+}
+
+bool Character::wield( item_location loc )
+{
+    item target = *loc.get_item();
+
+    if( is_wielding( target ) ) {
+        return true;
+    }
+
+    item_location weapon = get_wielded_item();
+    if( weapon && weapon->has_item( target ) ) {
+        add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
+        return false;
+    }
+
+    if( !can_wield( target ).success() ) {
+        return false;
+    }
+
+    bool combine_stacks = weapon && target.can_combine( *weapon );
+    if( !combine_stacks && !unwield() ) {
+        return false;
+    }
+    cached_info.erase( "weapon_value" );
+    if( target.is_null() ) {
+        return true;
+    }
+
+    // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
+    // Worn items (including guns with shoulder straps) are faster but still slower
+    // than a skilled player with a holster.
+    // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
+
+    bool worn = is_worn( target );
+    const int mv = item_handling_cost( target, true,
+                                       is_worn( target ) ? INVENTORY_HANDLING_PENALTY / 2 :
+                                       INVENTORY_HANDLING_PENALTY );
+
+    if( worn ) {
+        target.on_takeoff( *this );
+    }
+
+    add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
+    mod_moves( -mv );
+
+    if( has_item( target ) ) {
+        item removed = i_rem( &target );
+        if( combine_stacks ) {
+            weapon->combine( removed );
+        } else {
+            set_wielded_item( removed );
+            loc.remove_item();
+
+        }
+    } else {
+        if( combine_stacks ) {
+            weapon->combine( target );
+        } else {
+            set_wielded_item( target );
+        }
+    }
+
+    // set_wielded_item invalidates the weapon item_location, so get it again
+    weapon = get_wielded_item();
+    last_item = weapon->typeId();
+    recoil = MAX_RECOIL;
+
+    weapon->on_wield( *this );
+
+    cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
+    get_event_bus().send_with_talker( this, &weapon, e );
+
+    inv->update_invlet( *weapon );
+    inv->update_cache_with_item( *weapon );
+
+    return true;
+}
+
 bool Character::wield_contents( item &container, item *internal_item, bool penalties,
                                 int base_cost )
 {

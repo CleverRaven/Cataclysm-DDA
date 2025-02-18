@@ -1791,6 +1791,7 @@ class Character : public Creature, public visitable
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
          */
+
         bool wield_contents( item &container, item *internal_item = nullptr, bool penalties = true,
                              int base_cost = INVENTORY_HANDLING_PENALTY );
         /** Uses a tool */
@@ -2370,7 +2371,9 @@ class Character : public Creature, public visitable
          * @param target replacement item to wield or null item to remove existing weapon without replacing it
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
-        virtual bool wield( item &target ) = 0;
+        bool wield( item_location loc );
+
+        bool wield( item loc );
         /**
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded
