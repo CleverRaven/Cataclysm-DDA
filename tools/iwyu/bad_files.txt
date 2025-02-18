@@ -18,6 +18,11 @@ src/cata_utility.cpp
 src/catacharset.cpp
 src/construction.cpp
 src/debug.cpp
+src/editmap.cpp
+src/filesystem.cpp
+src/font_loader.cpp
+src/game.h
+src/handle_action.h
 src/loading_ui.cpp
 src/sdltiles.cpp
 src/system_locale.cpp
@@ -27,19 +32,6 @@ src/mapsharing
 src/worldfactory.cpp
 src/mmap_file.cpp
 # opt-out a good chunk of the codebase for the transition
-src/debug_menu.cpp
-src/demangle.cpp
-src/do_turn.cpp
-src/editmap.cpp
-src/emscripten_exception.cpp
-src/event.cpp
-src/filesystem.cpp
-src/flexbuffer_json.cpp
-src/font_loader.cpp
-src/game.cpp
-src/game_ui.cpp
-src/handle_action.cpp
-src/handle_liquid.cpp
 src/imgui_demo.cpp
 src/init.cpp
 src/input.cpp
