@@ -4200,11 +4200,16 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
 
         set_to_air = roof_of_below_tile; //do not add the roof for the tile below if it was already removed
         furn_set( p, furn_str_id::NULL_ID() );
-        // This logic will smash up "soil" and "rock" surfaces when terrain placed on top of it is smashed.
-        // However, this cannot be corrected for here, as mapgen usage of bashing can result in this happening
-        // before the tile below has actually been generated. Thus, this is corrected for after the generation
-        // of the complete generation of the OMT by the post processing in add_tree_tops.
-        ter_set( p, ter_t_open_air );
+        if( ter_below.id == ter_t_soil ) {
+            ter_set( p, ter_t_dirt );
+        } else if( ter_below.id == ter_t_rock ||
+                   ter_below.id == ter_t_rock_blue ||
+                   ter_below.id == ter_t_rock_green ||
+                   ter_below.id == ter_t_rock_red ) {
+            ter_set( p, ter_t_rock_floor_no_roof );
+        } else {
+            ter_set( p, ter_t_open_air );
+        }
     }
 
     if( !tent ) {
@@ -8704,16 +8709,19 @@ void map::add_tree_tops( const tripoint_rel_sm &grid )
             const ter_t &ter_below = sub_below->get_ter( { x, y } ).obj();
             if( ter_below.has_flag( "TREE" ) && ter_below.roof ) {
                 sub_here->set_ter( { x, y }, ter_below.roof.id() );
-            } else if( ter_here.id() == ter_t_open_air ) {
-                if( ter_below.id == ter_t_soil ) {
-                    sub_here->set_ter( {x, y}, ter_t_dirt );
-                } else if( ter_below.id == ter_t_rock ||
-                           ter_below.id == ter_t_rock_blue ||
-                           ter_below.id == ter_t_rock_green ||
-                           ter_below.id == ter_t_rock_red ) {
-                    sub_here->set_ter( {x, y}, ter_t_rock_floor_no_roof );
+            } else
+                // This code is needed to handle bashing during mapgen, because the Z level below
+                // hasn't yet been generated when the bashing occurs.
+                if( ter_here.id() == ter_t_open_air ) {
+                    if( ter_below.id == ter_t_soil ) {
+                        sub_here->set_ter( {x, y}, ter_t_dirt );
+                    } else if( ter_below.id == ter_t_rock ||
+                               ter_below.id == ter_t_rock_blue ||
+                               ter_below.id == ter_t_rock_green ||
+                               ter_below.id == ter_t_rock_red ) {
+                        sub_here->set_ter( {x, y}, ter_t_rock_floor_no_roof );
+                    }
                 }
-            }
         }
     }
 }
