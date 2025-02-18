@@ -207,6 +207,7 @@
     "effect": [
       { "u_message": "You learn a new blood gift.", "popup": true },
       { "run_eocs": "EOC_MIST_FORM_BEFORE_LAST_BREATH" },
+      { "u_lose_effect": "effect_vampire_all_gift_check" },
       { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
       { "u_add_effect": "effect_vampire_recently_learned_blood_gifts", "duration": "5 days" }
     ]
@@ -222,6 +223,7 @@
     ],
     "false_effect": [
       { "u_lose_effect": "effect_vampire_studying_blood_gifts" },
+      { "u_lose_effect": "effect_vampire_all_gift_check" },
       { "u_message": "Your experiments are fruitless.  You'll have to try again." }
     ]
   },

@@ -3113,5 +3113,13 @@
     "name": [ "" ],
     "desc": [ "" ],
     "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "//": "Checks if you have every single vampiric power when trying to learn new ones.",
+    "id": "effect_vampire_all_gift_check",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "show_in_info": false
   }
 ]
