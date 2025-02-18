@@ -1983,14 +1983,14 @@ std::optional<int> iuse::extinguisher( Character *p, item *it, const tripoint_bu
             critter.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
         }
         viewer &player_view = get_player_view();
-        if( player_view.sees( critter ) ) {
+        if( player_view.sees( here, critter ) ) {
             p->add_msg_if_player( _( "The %s is sprayed!" ), critter.name() );
             if( blind ) {
                 p->add_msg_if_player( _( "The %s looks blinded." ), critter.name() );
             }
         }
         if( critter.made_of( phase_id::LIQUID ) ) {
-            if( player_view.sees( critter ) ) {
+            if( player_view.sees( here, critter ) ) {
                 p->add_msg_if_player( _( "The %s is frozen!" ), critter.name() );
             }
             critter.apply_damage( p, bodypart_id( "torso" ), rng( 20, 60 ) );
@@ -2364,7 +2364,7 @@ std::optional<int> iuse::mace( Character *p, item *it, const tripoint_bub_ms & )
             p->add_msg_if_player( _( "The %s recoils in pain!" ), critter.name() );
         }
         viewer &player_view = get_player_view();
-        if( player_view.sees( critter ) ) {
+        if( player_view.sees( here, critter ) ) {
             p->add_msg_if_player( _( "The %s is sprayed!" ), critter.name() );
             if( blind ) {
                 p->add_msg_if_player( _( "The %s looks blinded." ), critter.name() );
@@ -2835,7 +2835,7 @@ std::optional<int> iuse::crowbar( Character *p, item *it, const tripoint_bub_ms 
     map &here = get_map();
     const std::function<bool( const tripoint_bub_ms & )> f =
     [&here, p]( const tripoint_bub_ms & pnt ) {
-        if( pnt == p->pos_bub() ) {
+        if( pnt == p->pos_bub( here ) ) {
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->prying->valid();
@@ -2845,9 +2845,9 @@ std::optional<int> iuse::crowbar( Character *p, item *it, const tripoint_bub_ms 
         return false;
     };
 
-    const std::optional<tripoint_bub_ms> pnt_ = ( pos != p->pos_bub() ) ?
+    const std::optional<tripoint_bub_ms> pnt_ = ( pos != p->pos_bub( here ) ) ?
             pos : choose_adjacent_highlight(
-                _( "Pry where?" ), _( "There is nothing to pry nearby." ), f, false );
+                here, _( "Pry where?" ), _( "There is nothing to pry nearby." ), f, false );
     if( !pnt_ ) {
         return std::nullopt;
     }
@@ -3034,7 +3034,7 @@ std::optional<int> iuse::siphon( Character *p, item *, const tripoint_bub_ms & )
 
     vehicle *v = nullptr;
     bool found_more_than_one = false;
-    for( const tripoint_bub_ms &pos : here.points_in_radius( p->pos_bub(), 1 ) ) {
+    for( const tripoint_bub_ms &pos : here.points_in_radius( p->pos_bub( here ), 1 ) ) {
         const optional_vpart_position vp = here.veh_at( pos );
         if( !vp ) {
             continue;
@@ -3053,7 +3053,7 @@ std::optional<int> iuse::siphon( Character *p, item *, const tripoint_bub_ms & )
     }
     if( found_more_than_one ) {
         std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
-                _( "Siphon from where?" ), _( "There is nothing to siphon from nearby." ), f, false );
+                here, _( "Siphon from where?" ), _( "There is nothing to siphon from nearby." ), f, false );
         if( !pnt_ ) {
             return std::nullopt;
         }
@@ -3237,6 +3237,8 @@ std::optional<int> iuse::pickaxe( Character *p, item *it, const tripoint_bub_ms 
 
 std::optional<int> iuse::geiger( Character *p, item *it, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     int ch = uilist( _( "Geiger counter:" ), {
         _( "Scan yourself or other person" ), _( "Scan the ground" ), _( "Turn continuous scan on" )
     } );
@@ -3247,7 +3249,7 @@ std::optional<int> iuse::geiger( Character *p, item *it, const tripoint_bub_ms &
                 return creatures.creature_at<Character>( pnt ) != nullptr;
             };
 
-            const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight( _( "Scan whom?" ),
+            const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight( here,  _( "Scan whom?" ),
                     _( "There is no one to scan nearby." ), f, false );
             if( !pnt_ ) {
                 return std::nullopt;
@@ -3573,7 +3575,7 @@ std::optional<int> iuse::grenade_inc_act( Character *p, item *, const tripoint_b
     }
 
     avatar &player = get_avatar();
-    if( player.has_trait( trait_PYROMANIA ) && player.sees( pos ) ) {
+    if( player.has_trait( trait_PYROMANIA ) && player.sees( here, pos ) ) {
         player.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
         player.rem_morale( morale_pyromania_nofire );
         add_msg( m_good, _( "Fire…  Good…" ) );
@@ -3592,7 +3594,7 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, const tripoint_bub
             here.add_field( pt, fd_fire, intensity );
         }
         avatar &player = get_avatar();
-        if( player.has_trait( trait_PYROMANIA ) && player.sees( pos ) ) {
+        if( player.has_trait( trait_PYROMANIA ) && player.sees( here, pos ) ) {
             player.add_morale( morale_pyromania_startfire, 15, 15, 8_hours, 6_hours );
             player.rem_morale( morale_pyromania_nofire );
             add_msg( m_good, _( "Fire…  Good…" ) );
@@ -4162,6 +4164,8 @@ std::optional<int> iuse::gasmask( Character *p, item *it, const tripoint_bub_ms 
 
 std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint_bub_ms & )
 {
+    const map &here = get_map();
+
     if( p->is_npc() ) {
         // Long action
         return std::nullopt;
@@ -4181,8 +4185,8 @@ std::optional<int> iuse::portable_game( Character *p, item *it, const tripoint_b
     } else {
         std::string loaded_software = "robot_finds_kitten";
         // number of nearby friends with gaming devices
-        std::vector<npc *> friends_w_game = g->get_npcs_if( [&it, p]( const npc & n ) {
-            return n.is_player_ally() && p->sees( n ) &&
+        std::vector<npc *> friends_w_game = g->get_npcs_if( [&it, p, &here]( const npc & n ) {
+            return n.is_player_ally() && p->sees( here,  n ) &&
                    n.can_hear( p->pos_bub(), p->get_shout_volume() ) &&
             n.has_item_with( [&it]( const item & i ) {
                 return i.typeId() == it->typeId() && i.ammo_sufficient( nullptr );
@@ -4457,6 +4461,8 @@ std::optional<int> iuse::vortex( Character *p, item *it, const tripoint_bub_ms &
 
 std::optional<int> iuse::dog_whistle( Character *p, item *, const tripoint_bub_ms & )
 {
+    const map &here = get_map();
+
     if( !p->is_avatar() ) {
         return std::nullopt;
     }
@@ -4466,8 +4472,8 @@ std::optional<int> iuse::dog_whistle( Character *p, item *, const tripoint_bub_m
     p->add_msg_if_player( _( "You blow your dog whistle." ) );
 
     // Can the Character hear the dog whistle?
-    auto hearing_check = [p]( const Character & who ) -> bool {
-        return !who.is_deaf() && p->sees( who ) &&
+    auto hearing_check = [p, &here]( const Character & who ) -> bool {
+        return !who.is_deaf() && p->sees( here, who ) &&
         who.has_trait( STATIC( trait_id( "THRESH_LUPINE" ) ) );
     };
 
@@ -4498,7 +4504,7 @@ std::optional<int> iuse::dog_whistle( Character *p, item *, const tripoint_bub_m
 
     for( monster &critter : g->all_monsters() ) {
         if( critter.friendly != 0 && critter.has_flag( mon_flag_DOGFOOD ) ) {
-            bool u_see = get_player_view().sees( critter );
+            bool u_see = get_player_view().sees( here, critter );
             if( critter.has_effect( effect_docile ) ) {
                 if( u_see ) {
                     p->add_msg_if_player( _( "Your %s looks ready to attack." ), critter.name() );
@@ -4702,13 +4708,13 @@ std::optional<int> iuse::chop_tree( Character *p, item *it, const tripoint_bub_m
     };
 
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
-                _( "Chop down which tree?" ), _( "There is no tree to chop down nearby." ), f, false );
+                here, _( "Chop down which tree?" ), _( "There is no tree to chop down nearby." ), f, false );
     if( !pnt_ ) {
         return std::nullopt;
     }
     const tripoint_bub_ms &pnt = *pnt_;
     if( !f( pnt ) ) {
-        if( pnt == p->pos_bub() ) {
+        if( pnt == p->pos_bub( here ) ) {
             p->add_msg_if_player( m_info, _( "You're not stern enough to shave yourself with THIS." ) );
         } else {
             p->add_msg_if_player( m_info, _( "You can't chop down that." ) );
@@ -4753,7 +4759,7 @@ std::optional<int> iuse::chop_logs( Character *p, item *it, const tripoint_bub_m
     };
 
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
-                _( "Chop which tree trunk?" ), _( "There is no tree trunk to chop nearby." ), f, false );
+                here, _( "Chop which tree trunk?" ), _( "There is no tree trunk to chop nearby." ), f, false );
     if( !pnt_ ) {
         return std::nullopt;
     }
@@ -4791,7 +4797,7 @@ std::optional<int> iuse::oxytorch( Character *p, item *it, const tripoint_bub_ms
     map &here = get_map();
     const std::function<bool( const tripoint_bub_ms & )> f =
     [&here, p]( const tripoint_bub_ms & pnt ) {
-        if( pnt == p->pos_bub() ) {
+        if( pnt == p->pos_bub( here ) ) {
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->oxytorch->valid();
@@ -4802,7 +4808,7 @@ std::optional<int> iuse::oxytorch( Character *p, item *it, const tripoint_bub_ms
     };
 
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
-                _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false );
+                here, _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false );
     if( !pnt_ ) {
         return std::nullopt;
     }
@@ -4835,7 +4841,7 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint_bub_ms 
     map &here = get_map();
     const std::function<bool( const tripoint_bub_ms & )> f =
     [&here, p]( const tripoint_bub_ms & pnt ) {
-        if( pnt == p->pos_bub() ) {
+        if( pnt == p->pos_bub( here ) ) {
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->hacksaw->valid();
@@ -4846,7 +4852,7 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, const tripoint_bub_ms 
     };
 
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
-                _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false );
+                here, _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false );
     if( !pnt_ ) {
         return std::nullopt;
     }
@@ -4878,7 +4884,7 @@ std::optional<int> iuse::boltcutters( Character *p, item *it, const tripoint_bub
     map &here = get_map();
     const std::function<bool( const tripoint_bub_ms & )> f =
     [&here, p]( const tripoint_bub_ms & pnt ) {
-        if( pnt == p->pos_bub() ) {
+        if( pnt == p->pos_bub( here ) ) {
             return false;
         } else if( here.has_furn( pnt ) ) {
             return here.furn( pnt )->boltcut->valid();
@@ -4889,7 +4895,7 @@ std::optional<int> iuse::boltcutters( Character *p, item *it, const tripoint_bub
     };
 
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
-                _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false );
+                here, _( "Cut up metal where?" ), _( "There is no metal to cut up nearby." ), f, false );
     if( !pnt_ ) {
         return std::nullopt;
     }
@@ -4919,7 +4925,7 @@ std::optional<int> iuse::mop( Character *p, item *, const tripoint_bub_ms & )
     };
 
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
-                _( "Mop where?" ), _( "There is nothing to mop nearby." ), f, false );
+                here, _( "Mop where?" ), _( "There is nothing to mop nearby." ), f, false );
     if( !pnt_ ) {
         return std::nullopt;
     }
@@ -5469,6 +5475,7 @@ bool iuse::robotcontrol_can_target( Character *p, const monster &m )
 
 std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bub_ms & )
 {
+    const map &here = get_map();
 
     bool isComputer = !it->has_flag( flag_MAGICAL );
     int choice = 0;
@@ -5523,7 +5530,7 @@ std::optional<int> iuse::robotcontrol( Character *p, item *it, const tripoint_bu
                     pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
                     tripoint_bub_ms seen_loc;
                     // Show locations of seen robots, center on player if robot is not seen
-                    if( p->sees( candidate ) ) {
+                    if( p->sees( here, candidate ) ) {
                         seen_loc = candidate.pos_bub();
                     } else {
                         seen_loc = p->pos_bub();
@@ -8084,6 +8091,8 @@ int item::contain_monster( const tripoint_bub_ms &target )
 
 std::optional<int> iuse::capture_monster_act( Character *p, item *it, const tripoint_bub_ms &pos )
 {
+    map &here = get_map();
+
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You can't capture a creature mounted." ) );
         return std::nullopt;
@@ -8135,7 +8144,7 @@ std::optional<int> iuse::capture_monster_act( Character *p, item *it, const trip
         };
         const std::string query = string_format( _( "Grab which creature to place in the %s?" ),
                                   it->tname() );
-        const std::optional<tripoint_bub_ms> target_ = choose_adjacent_highlight( query,
+        const std::optional<tripoint_bub_ms> target_ = choose_adjacent_highlight( here, query,
                 _( "There is no creature nearby you can capture." ), adjacent_capturable, false );
         if( !target_ ) {
             p->add_msg_if_player( m_info, _( "You can't use a %s there." ), it->tname() );
@@ -8194,7 +8203,8 @@ heating_requirements heating_requirements_for_weight( const units::mass &frozen,
 static std::optional<std::pair<tripoint_bub_ms, itype_id>> appliance_heater_selector( Character *p )
 {
     map &here = get_map();
-    const std::optional<tripoint_bub_ms> pt = choose_adjacent_highlight( _( "Select an appliance." ),
+    const std::optional<tripoint_bub_ms> pt = choose_adjacent_highlight( here,
+            _( "Select an appliance." ),
             _( "There is no appliance nearby." ), ACTION_EXAMINE, false );
     if( !pt ) {
         p->add_msg_if_player( m_info, _( "You haven't selected any appliance." ) );
@@ -8251,7 +8261,7 @@ heater find_heater( Character *p, item *it )
     if( it->has_flag( flag_PSEUDO ) && it->has_quality( qual_HOTPLATE ) ) {
         pseudo_flag = true;
     }
-    if( here.has_nearby_fire( p->pos_bub( &here ) ) && !it->has_quality( qual_HOTPLATE ) ) {
+    if( here.has_nearby_fire( p->pos_bub( here ) ) && !it->has_quality( qual_HOTPLATE ) ) {
         p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
         return {loc, false, 1, 0, vpt, pseudo_flag};
     } else if( it->has_quality( qual_HOTPLATE ) ) {
@@ -8803,7 +8813,7 @@ std::optional<int> iuse::post_up( Character *p, item *it, const tripoint_bub_ms 
     };
 
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
-                _( "Post to which wall?" ), _( "There is no applicable wall nearby." ), f, false );
+                here, _( "Post to which wall?" ), _( "There is no applicable wall nearby." ), f, false );
     if( !pnt_ ) {
         return std::nullopt;
     }
@@ -8838,9 +8848,11 @@ std::optional<int> iuse::coin_flip( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::play_game( Character *p, item *it, const tripoint_bub_ms & )
 {
+    const map &here = get_map();
+
     if( p->is_avatar() ) {
-        std::vector<npc *> followers = g->get_npcs_if( [p]( const npc & n ) {
-            return n.is_ally( *p ) && p->sees( n ) && n.can_hear( p->pos_bub(), p->get_shout_volume() );
+        std::vector<npc *> followers = g->get_npcs_if( [p, &here]( const npc & n ) {
+            return n.is_ally( *p ) && p->sees( here, n ) && n.can_hear( p->pos_bub(), p->get_shout_volume() );
         } );
         int fcount = followers.size();
         if( fcount > 0 ) {

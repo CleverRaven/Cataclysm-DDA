@@ -1447,7 +1447,7 @@ If you wish for a field effect to do something over time (propagate, interact wi
 void map::player_in_field( Character &you )
 {
     // A copy of the current field for reference. Do not add fields to it, use map::add_field
-    field &curfield = get_field( you.pos_bub( this ) );
+    field &curfield = get_field( you.pos_bub( *this ) );
     // Are we inside?
     bool inside = false;
     // If we are in a vehicle figure out if we are inside (reduces effects usually)
@@ -1515,7 +1515,7 @@ void map::player_in_field( Character &you )
             // Sap does nothing to cars.
             if( !you.in_vehicle ) {
                 // Use up sap.
-                mod_field_intensity( you.pos_bub( this ), ft, -1 );
+                mod_field_intensity( you.pos_bub( *this ), ft, -1 );
             }
         }
         if( ft == fd_sludge ) {

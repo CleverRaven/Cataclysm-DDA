@@ -33,6 +33,7 @@
 #include "json.h"
 #include "line.h"
 #include "make_static.h"
+#include "map.h"
 #include "melee.h"
 #include "messages.h"
 #include "mutation.h"
@@ -321,6 +322,8 @@ Character::wear( item_location item_wear, bool interactive )
 std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, const item &to_wear,
         bool interactive, bool do_calc_encumbrance, bool do_sort_items, bool quiet )
 {
+    const map &here = get_map();
+
     const bool was_deaf = guy.is_deaf();
     const bool supertinymouse = guy.get_size() == creature_size::tiny;
     guy.last_item = to_wear.typeId();
@@ -369,7 +372,7 @@ std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, cons
                                    _( "This %s is too small to wear comfortably!  Maybe it could be refitted." ),
                                    to_wear.tname() );
         }
-    } else if( guy.is_npc() && get_player_view().sees( guy ) && !quiet ) {
+    } else if( guy.is_npc() && get_player_view().sees( here, guy ) && !quiet ) {
         guy.add_msg_if_npc( _( "<npcname> puts on their %s." ), to_wear.tname() );
     }
 
@@ -1874,6 +1877,8 @@ item &outfit::front()
 void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
                             std::list<item> &worn_remains, bool &armor_destroyed )
 {
+    const map &here = get_map();
+
     sub_bodypart_id sbp;
     sub_bodypart_id secondary_sbp;
     // if this body part has sub part locations roll one
@@ -1930,7 +1935,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
         }
 
         if( destroy ) {
-            if( get_player_view().sees( guy ) ) {
+            if( get_player_view().sees( here, guy ) ) {
                 SCT.add( point( guy.posx(), guy.posy() ), direction::NORTH, remove_color_tags( pre_damage_name ),
                          m_neutral, _( "destroyed" ), m_info );
             }

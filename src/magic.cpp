@@ -892,6 +892,8 @@ std::string spell::damage_string( const Character &caster ) const
 
 std::optional<tripoint_bub_ms> spell::select_target( Creature *source )
 {
+    const map &here = get_map();
+
     tripoint_bub_ms target = source->pos_bub();
     bool target_is_valid = false;
     if( range( *source ) > 0 && !is_valid_target( spell_target::none ) &&
@@ -904,7 +906,7 @@ std::optional<tripoint_bub_ms> spell::select_target( Creature *source )
                 if( !trajectory.empty() ) {
                     target = trajectory.back();
                     target_is_valid = is_valid_target( source_avatar, target );
-                    if( !( is_valid_target( spell_target::ground ) || source_avatar.sees( target ) ) ) {
+                    if( !( is_valid_target( spell_target::ground ) || source_avatar.sees( here, target ) ) ) {
                         target_is_valid = false;
                     }
                 } else {
@@ -1043,7 +1045,7 @@ std::vector<tripoint_bub_ms> spell::targetable_locations( const Character &sourc
         }
 
         if( !select_ground ) {
-            if( !source.sees( query ) ) {
+            if( !source.sees( here, query ) ) {
                 // can't target a critter you can't see
                 continue;
             }
@@ -2153,8 +2155,10 @@ int spell::heal( const tripoint_bub_ms &target, Creature &caster ) const
 
 void spell::cast_spell_effect( const tripoint_bub_ms &target ) const
 {
+    map &here = get_map();
+
     avatar fake_avatar;
-    fake_avatar.setpos( target );
+    fake_avatar.setpos( here, target );
 
     get_event_bus().send<event_type::character_casts_spell>( character_id( -1 ),
             this->id(), this->spell_class(),
@@ -2179,8 +2183,10 @@ void spell::cast_spell_effect( Creature &source, const tripoint_bub_ms &target )
 
 void spell::cast_all_effects( const tripoint_bub_ms &target ) const
 {
+    map &here = get_map();
+
     avatar fake_avatar;
-    fake_avatar.setpos( target );
+    fake_avatar.setpos( here, target );
 
     if( has_flag( spell_flag::WONDER ) ) {
         const auto iter = type->additional_spells.begin();
@@ -2252,8 +2258,10 @@ void spell::cast_all_effects( Creature &source, const tripoint_bub_ms &target ) 
 
 void spell::cast_extra_spell_effects( const tripoint_bub_ms &target ) const
 {
+    map &here = get_map();
+
     avatar fake_avatar;
-    fake_avatar.setpos( target );
+    fake_avatar.setpos( here, target );
     for( const fake_spell &extra_spell : type->additional_spells ) {
         spell sp = extra_spell.get_spell( fake_avatar, get_effective_level() );
         sp.cast_all_effects( target );

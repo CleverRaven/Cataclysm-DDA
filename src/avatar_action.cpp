@@ -655,8 +655,8 @@ void avatar_action::swim( map &m, avatar &you, const tripoint_bub_ms &p )
             return;
         }
     }
-    tripoint_abs_ms old_abs_pos = m.get_abs( you.pos_bub() );
-    you.setpos( p );
+    tripoint_abs_ms old_abs_pos = you.pos_abs();
+    you.setpos( m, p );
     g->update_map( you );
 
     cata_event_dispatch::avatar_moves( old_abs_pos, you, m );
@@ -971,6 +971,8 @@ void avatar_action::eat_or_use( avatar &you, item_location loc )
 void avatar_action::plthrow( avatar &you, item_location loc,
                              const std::optional<tripoint_bub_ms> &blind_throw_from_pos )
 {
+    map &here = get_map();
+
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
     if( in_shell ) {
@@ -1061,9 +1063,9 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     // Shift our position to our "peeking" position, so that the UI
     // for picking a throw point lets us target the location we couldn't
     // otherwise see.
-    const tripoint_bub_ms original_player_position = you.pos_bub();
+    const tripoint_abs_ms original_player_position = you.pos_abs();
     if( blind_throw_from_pos ) {
-        you.setpos( *blind_throw_from_pos, false );
+        you.setpos( here, *blind_throw_from_pos, false );
     }
 
     g->temp_exit_fullscreen();

@@ -407,7 +407,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
         g->load_npcs();
 
         CHECK( !dummy.in_vehicle );
-        dummy.setpos( who.pos_bub() );
+        dummy.setpos( who.pos_abs() );
         const auto helpers( dummy.get_crafting_helpers() );
 
         REQUIRE( std::find( helpers.begin(), helpers.end(), &who ) != helpers.end() );
@@ -507,7 +507,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     Character &player_character = get_player_character();
     player_character.toggle_trait( trait_DEBUG_CNF );
-    player_character.setpos( test_origin );
+    player_character.setpos( here, test_origin );
     const recipe &r = rid.obj();
     grant_skills_to_character( player_character, r, offset );
     if( grant_profs ) {
@@ -2375,7 +2375,7 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
     clear_vehicles();
     clear_avatar();
     avatar &player = get_avatar();
-    player.setpos( tripoint_bub_ms( 60, 58, 0 ) );
+    player.setpos( here, tripoint_bub_ms( 60, 58, 0 ) );
     const tripoint_bub_ms veh_pos( 60, 60, 0 );
     const tripoint_bub_ms furn1_pos( 60, 57, 0 );
     const tripoint_bub_ms furn2_pos( 60, 56, 0 );

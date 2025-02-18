@@ -122,7 +122,7 @@ std::vector<item_location> Character::find_ammo( const item &obj, bool empty, in
         for( map_cursor &cursor : map_selector( pos_bub(), radius ) ) {
             find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
         }
-        for( vehicle_cursor &cursor : vehicle_selector( here, pos_bub( &here ), radius ) ) {
+        for( vehicle_cursor &cursor : vehicle_selector( here, pos_bub( here ), radius ) ) {
             find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
         }
     }

@@ -424,7 +424,7 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
 
     std::map<quality_id, int> unmet_reqs;
     inventory inv;
-    inv.form_from_map( p.pos_bub( here ), 1, &p, true, true );
+    inv.form_from_map( p.pos_bub( *here ), 1, &p, true, true );
     for( const auto &quality : qualities_needed ) {
         if( !p.has_quality( quality.first, quality.second ) &&
             !inv.has_quality( quality.first, quality.second ) ) {
@@ -572,7 +572,7 @@ std::optional<int> unpack_actor::use( Character *p, item &it, map *here,
             content.set_flag( flag_FILTHY );
         }
 
-        here->add_item_or_charges( p->pos_bub( here ), content );
+        here->add_item_or_charges( p->pos_bub( *here ), content );
     }
 
     p->i_rem( &it );
@@ -604,14 +604,14 @@ std::optional<int> message_iuse::use( Character *p, item &it,
 }
 
 std::optional<int> message_iuse::use( Character *p, item &it,
-                                      map * /*here*/, const tripoint_bub_ms &pos ) const
+                                      map *here, const tripoint_bub_ms &pos ) const
 {
     if( !p ) {
         return std::nullopt;
     }
 
     // TODO: Use map aware 'sees' when available.
-    if( p->sees( pos ) && !message.empty() ) {
+    if( p->sees( *here, pos ) && !message.empty() ) {
         p->add_msg_if_player( m_info, message.translated(), it.tname() );
     }
 
@@ -909,7 +909,7 @@ std::optional<int> consume_drug_iuse::use( Character *p, item &it, map *here,
         const field_type_id fid = field_type_id( field.first );
         for( int i = 0; i < 3; i++ ) {
             point_rel_ms offset( rng( -2, 2 ), rng( -2, 2 ) );
-            here->add_field( p->pos_bub( here ) + offset, fid, field.second );
+            here->add_field( p->pos_bub( *here ) + offset, fid, field.second );
         }
     }
 
@@ -1026,7 +1026,7 @@ std::optional<int> place_monster_iuse::use( Character *p, item &it, map *here,
     newmon.init_from_item( it );
     if( place_randomly ) {
         // place_critter_around returns the same pointer as its parameter (or null)
-        if( !g->place_critter_around( newmon_ptr, p->pos_bub( here ), 1 ) ) {
+        if( !g->place_critter_around( newmon_ptr, p->pos_bub( *here ), 1 ) ) {
             p->add_msg_if_player( m_info, _( "There is no adjacent square to release the %s in!" ),
                                   newmon.name() );
             return std::nullopt;
@@ -1117,8 +1117,8 @@ std::optional<int> place_npc_iuse::use( Character *p, item &, map *here,
                                         const tripoint_bub_ms & ) const
 {
     const tripoint_range<tripoint_bub_ms> target_range = place_randomly ?
-            points_in_radius( p->pos_bub( here ), radius ) :
-            points_in_radius( choose_adjacent( _( "Place NPC where?" ) ).value_or( p->pos_bub( here ) ), 0 );
+            points_in_radius( p->pos_bub( *here ), radius ) :
+            points_in_radius( choose_adjacent( _( "Place NPC where?" ) ).value_or( p->pos_bub( *here ) ), 0 );
 
     const std::optional<tripoint_bub_ms> target_pos =
     random_point( target_range, [here]( const tripoint_bub_ms & t ) {
@@ -1198,7 +1198,7 @@ static ret_val<tripoint_bub_ms> check_deploy_square( Character *p, item &it,
         return ret_val<tripoint_bub_ms>::make_failure( pos );
     }
     tripoint_bub_ms pnt( pos );
-    if( pos == p->pos_bub( here ) ) {
+    if( pos == p->pos_bub( *here ) ) {
         // TODO: Use map aware 'choose_adjacent' when available, or reject operation if not reality bubble map
         if( const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
             pnt = *pnt_;
@@ -1207,7 +1207,7 @@ static ret_val<tripoint_bub_ms> check_deploy_square( Character *p, item &it,
         }
     }
 
-    if( pnt == p->pos_bub( here ) ) {
+    if( pnt == p->pos_bub( *here ) ) {
         return ret_val<tripoint_bub_ms>::make_failure( pos,
                 _( "You attempt to become one with the %s.  It doesn't work." ), it.tname() );
     }
@@ -1436,14 +1436,14 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, map *here, tri
     }
 
     // checks for fuel are handled by use and the activity, not here
-    if( pos == p.pos_bub( here ) ) {
+    if( pos == p.pos_bub( *here ) ) {
         if( const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
             pos = *pnt_;
         } else {
             return false;
         }
     }
-    if( pos == p.pos_bub( here ) ) {
+    if( pos == p.pos_bub( *here ) ) {
         p.add_msg_if_player( m_info, _( "You would set yourself on fire." ) );
         p.add_msg_if_player( _( "But you're already smokin' hot." ) );
         return false;
@@ -1536,7 +1536,7 @@ ret_val<void> firestarter_actor::can_use( const Character &p, const item &it,
         return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
-    if( need_sunlight && light_mod( here, p.pos_bub( here ) ) <= 0.0f ) {
+    if( need_sunlight && light_mod( here, p.pos_bub( *here ) ) <= 0.0f ) {
         return ret_val<void>::make_failure( _( "You need direct sunlight to light a fire with this." ) );
     }
 
@@ -1594,7 +1594,7 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
 
     tripoint_bub_ms pos = spos;
 
-    float light = light_mod( here, p->pos_bub( here ) );
+    float light = light_mod( here, p->pos_bub( *here ) );
     if( !prep_firestarter_use( *p, here, pos ) ) {
         return std::nullopt;
     }
@@ -2202,7 +2202,7 @@ std::optional<int> fireweapon_off_actor::use( Character *p, item &it,
     if( rng( 0, 10 ) - it.damage_level() > success_chance && !p->is_underwater() ) {
         if( noise > 0 ) {
             if( here == &get_map() ) { // or make 'sound' map aware
-                sounds::sound( p->pos_bub( here ), noise, sounds::sound_t::combat, success_message );
+                sounds::sound( p->pos_bub( *here ), noise, sounds::sound_t::combat, success_message );
             }
         } else {
             p->add_msg_if_player( "%s", success_message );
@@ -2323,7 +2323,7 @@ std::optional<int> manualnoise_actor::use( Character *p, item &, map *here,
     // Uses the moves specified by iuse_actor's definition
     p->mod_moves( -moves );
     if( noise > 0 ) {
-        sounds::sound( p->pos_bub( here ), noise, sounds::sound_t::activity,
+        sounds::sound( p->pos_bub( *here ), noise, sounds::sound_t::activity,
                        noise_message.empty() ? _( "Hsss" ) : noise_message.translated(), true, noise_id, noise_variant );
     }
     p->add_msg_if_player( "%s", use_message );
@@ -2536,15 +2536,16 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
     }
 
     if( morale_effect >= 0 ) {
-        sounds::sound( p->pos_bub( here ), volume, sounds::sound_t::music, desc, true, "musical_instrument",
+        sounds::sound( p->pos_bub( *here ), volume, sounds::sound_t::music, desc, true,
+                       "musical_instrument",
                        it.typeId().str() );
     } else {
-        sounds::sound( p->pos_bub( here ), volume, sounds::sound_t::music, desc, true,
+        sounds::sound( p->pos_bub( *here ), volume, sounds::sound_t::music, desc, true,
                        "musical_instrument_bad",
                        it.typeId().str() );
     }
 
-    if( !p->has_effect( effect_music ) && p->can_hear( p->pos_bub( here ), volume ) ) {
+    if( !p->has_effect( effect_music ) && p->can_hear( p->pos_bub( *here ), volume ) ) {
         // Sound code doesn't describe noises at the player position
         if( desc != "music" ) {
             p->add_msg_if_player( m_info, desc );
@@ -2552,7 +2553,7 @@ std::optional<int> musical_instrument_actor::use( Character *p, item &it,
     }
 
     // We already played the sounds, just handle applying effects now
-    iuse::play_music( p, p->pos_bub( here ), volume, morale_effect, /*play_sounds=*/false );
+    iuse::play_music( p, p->pos_bub( *here ), volume, morale_effect, /*play_sounds=*/false );
 
     return 0;
 }
@@ -3672,7 +3673,7 @@ void heal_actor::load( const JsonObject &obj, const std::string & )
 
 static Character &get_patient( Character &healer, map *here, const tripoint_bub_ms &pos )
 {
-    if( healer.pos_bub( here ) == pos ) {
+    if( healer.pos_bub( *here ) == pos ) {
         return healer;
     }
 
@@ -3814,6 +3815,8 @@ int heal_actor::get_stopbleed_level( const Character &healer ) const
 int heal_actor::finish_using( Character &healer, Character &patient, item &it,
                               bodypart_id healed ) const
 {
+    const map &here = get_map();
+
     float practice_amount = limb_power * 3.0f;
     const int dam = get_heal_value( healer, healed );
     const int cur_hp = patient.get_part_hp_cur( healed );
@@ -3826,7 +3829,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
 
     Character &player_character = get_player_character();
     const bool u_see = healer.is_avatar() || patient.is_avatar() ||
-                       player_character.sees( healer ) || player_character.sees( patient );
+                       player_character.sees( here, healer ) || player_character.sees( here,  patient );
     const bool player_healing_player = healer.is_avatar() && patient.is_avatar();
     // Need a helper here - messages are from healer's point of view
     // but it would be cool if NPCs could use this function too
@@ -5214,7 +5217,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, map *here,
         }
 
         it.update_link_traits();
-        it.process( *here, p, p->pos_bub( here ) );
+        it.process( *here, p, p->pos_bub( *here ) );
         p->mod_moves( -move_cost );
         return 0;
 
@@ -5250,7 +5253,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, map *here,
         it.link().source = link_state::ups;
         loc->set_var( "cable", "plugged_in" );
         it.update_link_traits();
-        it.process( *here, p, p->pos_bub( here ) );
+        it.process( *here, p, p->pos_bub( *here ) );
         p->mod_moves( -move_cost );
         return 0;
 
@@ -5286,7 +5289,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, map *here,
         it.link().source = link_state::solarpack;
         loc->set_var( "cable", "plugged_in" );
         it.update_link_traits();
-        it.process( *here, p, p->pos_bub( here ) );
+        it.process( *here, p, p->pos_bub( *here ) );
         p->mod_moves( -move_cost );
         return 0;
     }
@@ -5304,7 +5307,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         return ovp && ovp->vehicle().avail_linkable_part( ovp->mount_pos(), to_ports ) != -1;
     };
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
-                _( "Attach the cable where?" ),
+                here, _( "Attach the cable where?" ),
                 "", can_link, false, false );
     if( !pnt_ ) {
         p->add_msg_if_player( _( "Never mind." ) );
@@ -5407,7 +5410,7 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
     };
 
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
-                to_towing ? _( "Attach cable to the vehicle that will do the towing." ) :
+                here, to_towing ? _( "Attach cable to the vehicle that will do the towing." ) :
                 _( "Attach cable to the vehicle that will be towed." ), "", can_link, false, false );
     if( !pnt_ ) {
         p->add_msg_if_player( _( "Never mind." ) );
@@ -5533,7 +5536,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
         extended_ptr->link() = extension->link();
     }
     extended_ptr->update_link_traits();
-    extended_ptr->process( *here, p, p->pos_bub( here ) );
+    extended_ptr->process( *here, p, p->pos_bub( *here ) );
 
     if( extended_copy ) {
         // Check if there's another pocket on the same container that can hold the extended item, respecting pocket settings.
@@ -5657,7 +5660,7 @@ std::optional<int> deploy_tent_actor::use( Character *p, item &it, map *here,
     // We place the center of the structure (radius + 1)
     // spaces away from the player.
     // First check there's enough room.
-    const tripoint_bub_ms center = p->pos_bub( here ) + point_rel_ms( ( radius + 1 ) * direction.x(),
+    const tripoint_bub_ms center = p->pos_bub( *here ) + point_rel_ms( ( radius + 1 ) * direction.x(),
                                    ( radius + 1 ) * direction.y() );
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_bub_ms &dest : here->points_in_radius( center, radius ) ) {

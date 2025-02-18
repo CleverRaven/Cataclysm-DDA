@@ -731,7 +731,7 @@ bool vehicle::autodrive_controller::check_drivable( map &here, const tripoint_bu
     // we reach them
     if( pt_omt == data.current_omt ) {
         // driver must see the tile or have seen it before in order to plan a route over it
-        if( !driver.sees( pt ) ) {
+        if( !driver.sees( here, pt ) ) {
             if( !driver.is_avatar() ) {
                 return false;
             }
@@ -753,7 +753,7 @@ bool vehicle::autodrive_controller::check_drivable( map &here, const tripoint_bu
     // check for creatures
     // TODO: padding around monsters
     Creature *critter = get_creature_tracker().creature_at( pt, true );
-    if( critter && driver.sees( *critter ) ) {
+    if( critter && driver.sees( here, *critter ) ) {
         return false;
     }
 
@@ -1174,7 +1174,7 @@ collision_check_result vehicle::autodrive_controller::check_collision_zone( map 
     bool blind = true;
     for( const point_rel_ms &p : data.profile( to_orientation( face_dir.dir() ) ).collision_points ) {
         const tripoint_bub_ms next = data.adjust_z( here, veh_pos + forward_offset + p );
-        if( driver.sees( next ) ) {
+        if( driver.sees( here, next ) ) {
             blind = false;
         }
         // Known quirk: the player does not always see points above or below when driving
@@ -1220,7 +1220,7 @@ collision_check_result vehicle::autodrive_controller::check_collision_zone( map 
     }
     for( const point_rel_ms &p : collision_zone ) {
         const tripoint_bub_ms next = data.adjust_z( here, veh_pos + p );
-        if( !data.is_flying && !driver.sees( next ) ) {
+        if( !data.is_flying && !driver.sees( here, next ) ) {
             return collision_check_result::slow_down;
         }
         if( !check_drivable( here, next ) ) {

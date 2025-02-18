@@ -1623,7 +1623,7 @@ void vehicle::use_harness( int part, map *here, const tripoint_bub_ms &pos )
 
     // TODO: Make 'choose_adjacent_highlight' map aware.
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent_highlight(
-                _( "Where is the creature to harness?" ), _( "There is no creature to harness nearby." ), f,
+                *here, _( "Where is the creature to harness?" ), _( "There is no creature to harness nearby." ), f,
                 false );
     if( !pnt_ ) {
         add_msg( m_info, _( "Never mind." ) );

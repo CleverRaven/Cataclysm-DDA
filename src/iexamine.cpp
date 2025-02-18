@@ -1540,7 +1540,7 @@ void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
                 if( !here.has_flag( ter_furn_flag::TFLAG_ELEVATOR, candidate ) &&
                     here.passable( candidate ) &&
                     creatures.creature_at( candidate ) == nullptr ) {
-                    critter.setpos( candidate );
+                    critter.setpos( here, candidate );
                     break;
                 }
             }
@@ -1566,7 +1566,7 @@ void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
     for( Creature &critter : g->all_creatures() ) {
         auto const eit = std::find( this_elevator.cbegin(), this_elevator.cend(), critter.pos_bub() );
         if( eit != this_elevator.cend() ) {
-            critter.setpos( that_elevator[ std::distance( this_elevator.cbegin(), eit ) ] );
+            critter.setpos( here, that_elevator[ std::distance( this_elevator.cbegin(), eit ) ] );
         }
     }
 
@@ -1806,7 +1806,7 @@ void iexamine::chainfence( Character &you, const tripoint_bub_ms &examp )
     if( you.in_vehicle ) {
         here.unboard_vehicle( you.pos_bub() );
     }
-    you.setpos( examp );
+    you.setpos( here, examp );
     if( examp.x() < HALF_MAPSIZE_X || examp.y() < HALF_MAPSIZE_Y ||
         examp.x() >= HALF_MAPSIZE_X + SEEX || examp.y() >= HALF_MAPSIZE_Y + SEEY ) {
         if( you.is_avatar() ) {
@@ -1839,7 +1839,7 @@ void iexamine::bars( Character &you, const tripoint_bub_ms &examp )
     }
     you.mod_moves( -to_moves<int>( 2_seconds ) );
     add_msg( _( "You slide right between the bars." ) );
-    you.setpos( examp );
+    you.setpos( here, examp );
 }
 
 void iexamine::deployed_furniture( Character &you, const tripoint_bub_ms &pos )
@@ -5791,7 +5791,7 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
             you.remove_effect( effect_bouldering );
             you.assign_activity( glide );
             you.add_effect( effect_gliding, 1_turns, true );
-            you.setpos( examp );
+            you.setpos( here, examp );
             break;
         }
         case ledge_fall_down: {
@@ -5805,7 +5805,7 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
                 if( you.has_effect_with_flag( json_flag_LEVITATION ) ) {
                     you.add_effect( effect_slow_descent, 1_seconds, false );
                 }
-                you.setpos( examp );
+                you.setpos( here, examp );
                 you.gravity_check();
             } else {
                 // Just to highlight the trepidation

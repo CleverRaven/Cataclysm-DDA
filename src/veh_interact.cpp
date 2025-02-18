@@ -206,7 +206,7 @@ void orient_part( map &here, vehicle *veh, const vpart_info &vpinfo, int partnum
         point_rel_ms copied_placement = *part_placement;
         offset = offset + copied_placement;
     }
-    player_character.view_offset = offset - player_character.pos_bub( &here );
+    player_character.view_offset = offset - player_character.pos_bub( here );
 
     point_rel_ms delta;
     do {

@@ -235,7 +235,9 @@ int max_aoe_size( const std::set<ammo_effect_str_id> &tags )
 void multi_projectile_hit_message( Creature *critter, int hit_count, int damage_taken,
                                    const std::string &projectile_name )
 {
-    if( hit_count > 0 && get_player_character().sees( *critter ) ) {
+    const map &here = get_map();
+
+    if( hit_count > 0 && get_player_character().sees( here, *critter ) ) {
         // Building a phrase to summarize the fragment effects.
         // Target, Number of impacts, total amount of damage, proportion of deflected fragments.
         std::map<int, std::string> impact_count_descriptions = {

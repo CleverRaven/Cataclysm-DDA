@@ -446,7 +446,7 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
 {
     map &here = get_map();
 
-    put_into_vehicle_or_drop( you, reason, items, &here, you.pos_bub( &here ) );
+    put_into_vehicle_or_drop( you, reason, items, &here, you.pos_bub( here ) );
 }
 
 void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
@@ -3109,8 +3109,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
                     for( const tripoint_bub_ms &point_elem :
                          here.points_in_radius( src_loc, /*radius=*/PICKUP_RANGE - 1, /*radiusz=*/0 ) ) {
                         // we don't want to place the components where they could interfere with our ( or someone else's ) construction spots
-                        if( !you.sees( point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
-                                                         point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
+                        if( !you.sees( here, point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
+                                                               point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
                             continue;
                         }
                         candidates.push_back( point_elem );
