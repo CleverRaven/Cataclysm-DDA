@@ -510,5 +510,48 @@
       { "u_add_effect": "eff_mind_seeing_bonus_30", "duration": 9000 },
       { "u_add_effect": "eff_mind_seeing_bonus_10", "duration": 9000 }
     ]
+  },
+  {
+    "type": "SPELL",
+    "id": "amalgamation_telekinetic_shielder_shield_other_spell",
+    "name": { "str": "Inertial Barrier Guardian Amalgamation Shield Detector", "//~": "NO_I18N" },
+    "description": { "str": "Preps for using Inertial Barrier when a hostile target is detected.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "extra_effects": [ { "id": "amalgamation_telekinetic_shielder_shield_other_spell_apply_shield" } ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AMALGAMATION_TELEKINETIC_SHIELDER_APPLICATION",
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_range": 20,
+    "max_range": 20
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AMALGAMATION_TELEKINETIC_SHIELDER_APPLICATION",
+    "condition": { "math": [ "n_mon_species_nearby('ZOMBIE', 'FERAL', 'radius': 30, 'attitude': 'both') > 0" ] },
+    "effect": [
+      { "npc_cast_spell": { "id": "amalgamation_telekinetic_shielder_shield_other_spell_apply_shield" } },
+      { "npc_add_effect": "effect_amalgamation_telekinetic_shielder_counter", "duration": 60 }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "amalgamation_telekinetic_shielder_shield_other_spell_apply_shield",
+    "name": { "str": "Inertial Barrier Guardian Amalgamation Shield Applicator", "//~": "NO_I18N" },
+    "description": { "str": "The actual power that applies Inertial Barrier to an ally.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "RANDOM_CRITTER", "RANDOM_DURATION" ],
+    "valid_targets": [ "ally" ],
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "effect_monster_inertial_barrier",
+    "shape": "blast",
+    "min_range": 20,
+    "max_range": 20,
+    "min_duration": 4500,
+    "max_duration": 7500,
+    "targeted_monster_species": [ "ZOMBIE", "FERAL" ],
+    "ignored_monster_species": [ "PSI_NULL" ]
   }
 ]

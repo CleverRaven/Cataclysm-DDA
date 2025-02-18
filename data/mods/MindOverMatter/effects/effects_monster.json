@@ -268,6 +268,7 @@
     "desc": [ "A barrier of telekinetic force is protecting you." ],
     "show_in_info": true,
     "flags": [ "TELEKIN_SHIELD" ],
+    "removes_effects": [ "effect_monster_inertial_barrier" ],
     "enchantments": [
       {
         "incoming_damage_mod": [
