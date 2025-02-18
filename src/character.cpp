@@ -12981,6 +12981,7 @@ bool Character::wield( item_location loc )
 {
     if( !loc ) {
         add_msg_if_player( _( "No item." ) );
+        return false;
     }
     item it = *loc.get_item();
 
