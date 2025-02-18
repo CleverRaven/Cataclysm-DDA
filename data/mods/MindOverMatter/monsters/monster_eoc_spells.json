@@ -522,6 +522,7 @@
     "max_level": 1,
     "effect": "effect_on_condition",
     "effect_str": "EOC_AMALGAMATION_TELEKINETIC_SHIELDER_APPLICATION",
+    "shape": "blast",
     "min_damage": 0,
     "max_damage": 0,
     "min_range": 20,
