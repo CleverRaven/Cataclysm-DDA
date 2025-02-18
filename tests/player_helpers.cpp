@@ -205,7 +205,7 @@ void arm_shooter( Character &shooter, const itype_id &gun_type,
     for( const itype_id &mod : mods ) {
         gun->put_in( item( mod ), pocket_type::MOD );
     }
-    shooter.wield( *gun );
+    shooter.wield_new( *gun );
 }
 
 void clear_avatar()

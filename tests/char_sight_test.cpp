@@ -85,7 +85,7 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
 
     SECTION( "wielding a bright lamp" ) {
         item lamp( itype_atomic_lamp );
-        dummy.wield( lamp );
+        dummy.wield_new( lamp );
         REQUIRE( dummy.active_light() == Approx( 15.0f ) );
 
         // 1.0 is LIGHT_AMBIENT_LIT or brighter

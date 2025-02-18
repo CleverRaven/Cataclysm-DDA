@@ -656,7 +656,7 @@ void talker_character::i_add_or_drop( item &new_item, bool force_equip )
         } else if( !me_chr->has_wield_conflicts( new_item ) &&
                    !me_chr->martial_arts_data->keep_hands_free && //No wield if hands free
                    // TODO: newly created, so OK
-                   me_chr->wield_( new_item ) ) {
+                   me_chr->wield_new( new_item ) ) {
             return;
         }
     }

@@ -12972,35 +12972,39 @@ void Character::search_surroundings()
     }
 }
 
-bool Character::wield_( item it )
+bool Character::wield_new( item it )
 {
     return wield( item_location( *this, &it ) );
 }
 
 bool Character::wield( item_location loc )
 {
-    item target = *loc.get_item();
+    if( !loc ) {
+        add_msg_if_player( _( "No item." ) );
+    }
+    item it = *loc.get_item();
 
-    if( is_wielding( target ) ) {
+
+    if( is_wielding( it ) ) {
         return true;
     }
 
     item_location weapon = get_wielded_item();
-    if( weapon && weapon->has_item( target ) ) {
+    if( weapon && weapon->has_item( it ) ) {
         add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
         return false;
     }
 
-    if( !can_wield( target ).success() ) {
+    if( !can_wield( it ).success() ) {
         return false;
     }
 
-    bool combine_stacks = weapon && target.can_combine( *weapon );
+    bool combine_stacks = weapon && it.can_combine( *weapon );
     if( !combine_stacks && !unwield() ) {
         return false;
     }
     cached_info.erase( "weapon_value" );
-    if( target.is_null() ) {
+    if( it.is_null() ) {
         return true;
     }
 
@@ -13009,34 +13013,36 @@ bool Character::wield( item_location loc )
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
-    bool worn = is_worn( target );
-    const int mv = item_handling_cost( target, true,
-                                       is_worn( target ) ? INVENTORY_HANDLING_PENALTY / 2 :
+    bool worn = is_worn( it );
+    const int mv = item_handling_cost( it, true,
+                                       is_worn( it ) ? INVENTORY_HANDLING_PENALTY / 2 :
                                        INVENTORY_HANDLING_PENALTY );
 
     if( worn ) {
-        target.on_takeoff( *this );
+        it.on_takeoff( *this );
     }
 
     add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
     mod_moves( -mv );
 
-    if( has_item( target ) ) {
-        item removed = i_rem( &target );
+    if( has_item( it ) ) {
+        // item removed = i_rem( &target );
         if( combine_stacks ) {
-            weapon->combine( removed );
+            weapon->combine( it );
         } else {
-            set_wielded_item( removed );
-            loc.remove_item();
+            set_wielded_item( it );
+
 
         }
     } else {
         if( combine_stacks ) {
-            weapon->combine( target );
+            weapon->combine( it );
         } else {
-            set_wielded_item( target );
+            set_wielded_item( it );
         }
     }
+
+    loc.remove_item();
 
     // set_wielded_item invalidates the weapon item_location, so get it again
     weapon = get_wielded_item();

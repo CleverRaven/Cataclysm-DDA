@@ -102,7 +102,7 @@ TEST_CASE( "Glass_portion_breakability", "[material] [slow]" )
     REQUIRE( mostly_steel.get_base_material().id == material_steel );
 
     SECTION( "Throwing pipe made mostly of glass, 8 STR" ) {
-        REQUIRE( dude.wield( mostly_glass ) );
+        REQUIRE( dude.wield_new( mostly_glass ) );
         int shatter_count = 0;
         for( int i = 0; i < num_iters; i++ ) {
             dealt_projectile_attack atk = dude.throw_item( target_pos, *dude.get_wielded_item() );
@@ -115,7 +115,7 @@ TEST_CASE( "Glass_portion_breakability", "[material] [slow]" )
     }
 
     SECTION( "Throwing pipe made mostly of steel, 8 STR" ) {
-        REQUIRE( dude.wield( mostly_steel ) );
+        REQUIRE( dude.wield_new( mostly_steel ) );
         int shatter_count = 0;
         for( int i = 0; i < num_iters; i++ ) {
             dealt_projectile_attack atk = dude.throw_item( target_pos, *dude.get_wielded_item() );

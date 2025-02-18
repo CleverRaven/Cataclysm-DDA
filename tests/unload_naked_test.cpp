@@ -33,7 +33,7 @@ TEST_CASE( "unload_revolver_naked_one_bullet", "[unload][nonmagzine]" )
 
     // wield the revolver
     REQUIRE( !player_character.is_armed( ) );
-    REQUIRE( player_character.wield( revolver ) );
+    REQUIRE( player_character.wield_new( revolver ) );
     REQUIRE( player_character.is_armed( ) );
 
     CHECK( player_character.get_wielded_item()->ammo_remaining( ) == 1 );
@@ -68,7 +68,7 @@ TEST_CASE( "unload_revolver_naked_fully_loaded", "[unload][nonmagzine]" )
 
     // wield the revolver
     REQUIRE( !player_character.is_armed( ) );
-    REQUIRE( player_character.wield( revolver ) );
+    REQUIRE( player_character.wield_new( revolver ) );
     REQUIRE( player_character.is_armed( ) );
 
     CHECK( player_character.get_wielded_item()->remaining_ammo_capacity() == 0 );

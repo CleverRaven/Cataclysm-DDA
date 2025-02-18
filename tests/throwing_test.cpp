@@ -105,7 +105,7 @@ static void test_throwing_player_versus(
         you.set_moves( 1000 );
         you.set_stamina( you.get_stamina_max() );
 
-        you.wield( it );
+        you.wield_new( it );
         monster &mon = spawn_test_monster( mon_id, monster_start, false );
         mon.set_moves( 0 );
 
@@ -277,7 +277,7 @@ static void test_player_kills_monster(
 
             you.mod_moves( you.get_speed() );
             while( you.get_moves() > 0 ) {
-                you.wield( it );
+                you.wield_new( it );
                 you.throw_item( mon.pos_bub(), it );
                 you.remove_weapon();
                 ++num_items;
@@ -319,7 +319,7 @@ TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing],[ba
 
     item thrown( itype_throwing_stick, calendar::turn, 10 );
     REQUIRE( thrown.charges > 1 );
-    you.wield( thrown );
+    you.wield_new( thrown );
     int initial_moves = -1;
     while( thrown.charges > 0 ) {
         const int cost = throw_cost( you, thrown );

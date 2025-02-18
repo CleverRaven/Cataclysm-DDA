@@ -2373,7 +2373,7 @@ class Character : public Creature, public visitable
          */
         bool wield( item_location loc );
 
-        bool wield_( item loc );
+        bool wield_new( item loc );
         /**
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded

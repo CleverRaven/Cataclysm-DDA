@@ -931,7 +931,7 @@ static void reload_a_revolver( Character &dummy, item &gun, item &ammo )
             dummy.i_add( *dummy.get_wielded_item() );
             dummy.remove_weapon();
         }
-        dummy.wield( gun );
+        dummy.wield_new( gun );
     }
     while( dummy.get_wielded_item()->remaining_ammo_capacity() > 0 ) {
         g->reload_weapon( false );
@@ -1106,7 +1106,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
     item backpack( itype_bigback );
     dummy.wear_item( backpack );
     item canteen( itype_2lcanteen );
-    REQUIRE( dummy.wield( canteen ) ) ;
+    REQUIRE( dummy.wield_new( canteen ) ) ;
 
     item_location ammo_jug = dummy.i_add( item( itype_jug_plastic ) );
     ammo_jug->put_in( item( itype_water_clean, calendar::turn_zero, 2 ),

@@ -328,7 +328,7 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
 
                 if( comp.typeId() == big_comp && !has_wield_conflicts( comp ) ) {
                     // TODO: newly created, so should be ok
-                    wield_( comp );
+                    wield_new( comp );
                 } else {
                     get_map().add_item_or_charges( pos_bub(), comp );
                 }

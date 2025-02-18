@@ -4159,7 +4159,7 @@ bool npc::wield_better_weapon()
                    evaluate_weapon( *better_weapon, can_use_gun, use_silent ) );
 
     // TODO: as far as I can tell its always from the inventory
-    bool wield_success = wield_( *better_weapon );
+    bool wield_success = wield_new( *better_weapon );
     if( !wield_success ) {
         debugmsg( "NPC failed to wield better weapon %s", better_weapon->tname() );
         return false;

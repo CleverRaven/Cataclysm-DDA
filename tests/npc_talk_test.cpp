@@ -783,7 +783,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
 
     d.add_topic( "TALK_TEST_ITEM_WIELDED" );
     item_location loc = player_character.i_add( item( itype_knife_huge ) );
-    CHECK( player_character.wield( *loc ) );
+    CHECK( player_character.wield_new( *loc ) );
     gen_response_lines( d, 2 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text ==
@@ -799,7 +799,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
         return it.typeId() == itype_bottle_glass;
     } );
     REQUIRE( !glass_bottles.empty() );
-    REQUIRE( player_character.wield( *glass_bottles.front() ) );
+    REQUIRE( player_character.wield_new( *glass_bottles.front() ) );
     effects = d.responses[14].success;
     effects.apply( d );
     CHECK_FALSE( has_item( player_character, itype_bottle_plastic, 1 ) );
