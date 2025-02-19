@@ -694,7 +694,6 @@ CBMs can be defined like this:
                             // Comestibles with any material of junk food (id: "junk") default to 0. All other comestibles default to 2 when unspecified.
                             // Can't drop fun below 0, unless the comestible also has the "NEGATIVE_MONOTONY_OK" flag.
 "calories" : 0,             // Hunger satisfied (in kcal)
-"nutrition" : 0,            // Hunger satisfied (OBSOLETE)
 "tool" : "apparatus",       // Tool required to be eaten/drank
 "charges" : 4,              // Number of uses when spawned
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
@@ -708,7 +707,7 @@ CBMs can be defined like this:
   { "type": "flesh", "portion": 3 }, // See Generic Item attributes for type and portion details
   { "type": "wheat", "portion": 5 }
 ],
-"primary_material": "meat",       // What the primary material ID is. Materials determine specific heat.
+"primary_material": "meat",       // Overwrites generic item "material" field. Materials determine specific heat.
 "rot_spawn": {                    // Defines what creature would be spawned when this item rots away. Primarily used for eggs
   "group": "GROUP_EGG_CHICKEN",   // id of monster group that would be spawned. Cannot be used with "monster"
   "monster": "mon_moose_calf",    // id of a monster that would be spawned. Cannot be used with "group"
