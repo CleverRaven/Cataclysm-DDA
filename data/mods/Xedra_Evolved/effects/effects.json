@@ -558,7 +558,7 @@
     "type": "effect_type",
     "id": "eyegleam_craft_in_darkness",
     "rating": "good",
-    "flags": [ "CRAFT_IN_DARKNESS" ]
+    "flags": [ "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ]
   },
   {
     "type": "effect_type",
@@ -3110,6 +3110,14 @@
     "type": "effect_type",
     "//": "Required to make Boann banish monsters.  Without it, she will aim the banish at herself every time.",
     "id": "boann_retaliation_mark",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "//": "Checks if you have every single vampiric power when trying to learn new ones.",
+    "id": "effect_vampire_all_gift_check",
     "name": [ "" ],
     "desc": [ "" ],
     "show_in_info": false

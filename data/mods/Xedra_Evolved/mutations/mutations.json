@@ -595,6 +595,7 @@
     "name": { "str": "Facultative Breathing" },
     "description": "You do not need to breathe air to live anymore.  It prevents you from being drowned or suffocated and allows you to ignore inhaled gases.",
     "flags": [ "GILLS" ],
+    "cancels": [ "ASTHMA" ],
     "integrated_armor": [ "integrated_nobreathe" ]
   },
   {
@@ -748,7 +749,7 @@
     "valid": false,
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "NO_THIRST" ],
     "vitamin_rates": [ [ "vitC", -500 ], [ "iron", -500 ], [ "calcium", -500 ] ],
-    "//": "When weariness can be modified through Json, see if this mutation should make the player immune to it.",
+    "//": "When weariness can be modified through Json, this mutation should make the player immune to it.",
     "enchantments": [
       {
         "values": [
@@ -845,7 +846,7 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Immortal Iron Mind" },
-    "description": "Your vampiric potency has reinforced your mind beyond what a mortal could ever hope.  You are immune to anything that culd negatively impact your mind.",
+    "description": "Your vampiric potency has reinforced your mind beyond anything a mortal could ever hope.  You are immune to anything that could negatively impact your mind.",
     "//": "There is no difference between this and the Ierde version, so I use that one instead of making a new one to avoid duplicates.  The player isn't supposed to see this anyway.",
     "enchantments": [ "ench_ierde_no_mind_problems" ]
   },
