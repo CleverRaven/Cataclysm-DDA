@@ -189,7 +189,7 @@
     "id": "changeling_summer_bonus_stamina_near_enemies_spell",
     "type": "SPELL",
     "name": "A Fire in the Blood",
-    "description": "Infuse the energy of the summer sun into your youself, preparing for battle.  Your stamina will regenerate faster in proportion to the number of adjacent enemies, and you will have an easier time dodging enemy attacks.  In the winter the glamour <color_yellow>is less effective</color>.",
+    "description": "Infuse the energy of the summer sun into your yourself, preparing for battle.  Your stamina will regenerate faster in proportion to the number of adjacent enemies, and you will have an easier time dodging enemy attacks.  In the winter the glamour <color_yellow>is less effective</color>.",
     "message": "",
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_summer",
