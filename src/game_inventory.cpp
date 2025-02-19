@@ -589,7 +589,7 @@ class pickup_inventory_preset : public inventory_selector_preset
             if( ignore_liquidcont && loc.where() == item_location::type::map &&
                 !loc->made_of( phase_id::SOLID ) ) {
                 map &here = get_map();
-                if( here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
+                if( here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub( here ) ) ) {
                     return false;
                 }
             }
@@ -791,12 +791,14 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
+            map &here = get_map();
+
             const item &med = *loc;
 
             if(
                 ( loc->made_of_from_type( phase_id::LIQUID ) &&
                   loc.where() != item_location::type::container ) &&
-                !get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
+                !here.has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub( here ) ) ) {
                 return _( "Can't drink spilt liquids." );
             }
             if(
@@ -1680,7 +1682,7 @@ drop_locations game_menus::inv::edevice_select( Character &who, item_location &u
 
     const inventory_filter_preset preset( [&]( const item_location & loc ) {
         //make sure this is an edevice before we make edevice calls
-        if( loc->is_estorage() && loc->is_owned_by( who, true ) && who.sees( here, loc.pos_bub() ) ) {
+        if( loc->is_estorage() && loc->is_owned_by( who, true ) && who.sees( here, loc.pos_bub( here ) ) ) {
             efile_activity_actor::edevice_compatible compat =
                 efile_activity_actor::edevices_compatible( used_edevice, loc );
             bool is_tool_has_charge = !loc->is_tool() || loc->ammo_sufficient( &who );
@@ -3063,7 +3065,7 @@ class select_ammo_inventory_preset : public inventory_selector_preset
             }
 
             if( loc->made_of( phase_id::LIQUID ) && loc.where() == item_location::type::map ) {
-                if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
+                if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub( here ) ) ) {
                     return false;
                 }
             }

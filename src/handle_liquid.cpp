@@ -326,6 +326,8 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
 static bool get_liquid_target( item_location &liquid, const item *const source, const int radius,
                                liquid_dest_opt &target )
 {
+    const map &here = get_map();
+
     const tripoint_bub_ms *source_pos = nullptr;
     const vehicle *source_veh = nullptr;
     const monster *source_mon = nullptr;
@@ -336,7 +338,7 @@ static bool get_liquid_target( item_location &liquid, const item *const source, 
             // intentionally empty
             break;
         case item_location::type::map:
-            pos = liquid.pos_bub();
+            pos = liquid.pos_bub( here );
             source_pos = &pos;
             break;
         case item_location::type::vehicle:
@@ -430,6 +432,8 @@ static bool check_liquid( item &liquid )
 
 bool perform_liquid_transfer( item_location &liquid, liquid_dest_opt &target )
 {
+    map &here = get_map();
+
     if( !check_liquid( *liquid ) ) {
         // "canceled by the user" because we *can* not handle it.
         return false;
@@ -445,7 +449,7 @@ bool perform_liquid_transfer( item_location &liquid, liquid_dest_opt &target )
             return true;
         } else if( liquid.where() == item_location::type::map ) {
             player_character.assign_activity( ACT_FILL_LIQUID );
-            serialize_liquid_source( player_character.activity, liquid.pos_bub(), *liquid );
+            serialize_liquid_source( player_character.activity, liquid.pos_bub( here ), *liquid );
             return true;
         } else {
             return false;

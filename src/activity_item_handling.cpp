@@ -3788,8 +3788,8 @@ int get_auto_consume_moves( Character &you, const bool food )
 
     if( best_comestible ) {
         //The moves it takes you to walk there and back.
-        int consume_moves = 2 * you.run_cost( 100, false ) * std::max( rl_dist( you.pos_bub(),
-                            best_comestible.pos_bub() ), 1 );
+        int consume_moves = 2 * you.run_cost( 100, false ) * std::max( rl_dist( you.pos_abs(),
+                            best_comestible.pos_abs() ), 1 );
         consume_moves += to_moves<int>( you.get_consume_time( *best_comestible ) );
 
         you.consume( best_comestible );

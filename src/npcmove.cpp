@@ -453,6 +453,8 @@ bool npc::could_move_onto( const tripoint_bub_ms &p ) const
 
 std::vector<sphere> npc::find_dangerous_explosives() const
 {
+    const map &here = get_map();
+
     std::vector<sphere> result;
 
     const auto active_items = get_map().get_active_items_in_radius( pos_bub(), MAX_VIEW_DISTANCE,
@@ -468,7 +470,7 @@ std::vector<sphere> npc::find_dangerous_explosives() const
         const explosion_iuse *actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
         const int safe_range = actor->explosion.safe_range();
 
-        if( rl_dist( pos_bub(), elem.pos_bub() ) >= safe_range ) {
+        if( rl_dist( pos_abs(), elem.pos_abs() ) >= safe_range ) {
             continue;   // Far enough.
         }
 
@@ -478,7 +480,7 @@ std::vector<sphere> npc::find_dangerous_explosives() const
             continue;   // Consider only imminent dangers.
         }
 
-        result.emplace_back( elem.pos_bub().raw(), safe_range );
+        result.emplace_back( elem.pos_bub( here ).raw(), safe_range );
     }
 
     return result;
@@ -3990,13 +3992,14 @@ bool npc::find_corpse_to_pulp()
 
     if( corpse == nullptr ) {
         // If we're following the player, don't wander off to pulp corpses
-        const tripoint_bub_ms around = is_walking_with() ? player_character.pos_bub() : pos_bub();
+        const tripoint_bub_ms around = is_walking_with() ? player_character.pos_bub( here ) : pos_bub(
+                                           here );
         for( const item_location &location : here.get_active_items_in_radius( around, range,
                 special_item_type::corpse ) ) {
-            corpse = check_tile( location.pos_bub() );
+            corpse = check_tile( location.pos_bub( here ) );
 
             if( corpse != nullptr ) {
-                pulp_location = here.get_abs( location.pos_bub() );
+                pulp_location = location.pos_abs();
                 break;
             }
 

@@ -1241,10 +1241,10 @@ bool item_contents::spill_contents( map *here, const tripoint_bub_ms &pos )
     return spilled;
 }
 
-void item_contents::overflow( const tripoint_bub_ms &pos, const item_location &loc )
+void item_contents::overflow( map &here, const tripoint_bub_ms &pos, const item_location &loc )
 {
     for( item_pocket &pocket : contents ) {
-        pocket.overflow( pos, loc );
+        pocket.overflow( here, pos, loc );
     }
 }
 
@@ -1275,7 +1275,7 @@ int item_contents::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos,
             }
             // assuming only one mag
             item &mag = pocket.front();
-            const int res = mag.ammo_consume( qty, here, pos, nullptr );
+            const int res = mag.ammo_consume( qty, *here, pos, nullptr );
             if( res && mag.ammo_remaining( ) == 0 ) {
                 if( mag.has_flag( STATIC( flag_id( "MAG_DESTROY" ) ) ) ) {
                     pocket.remove_item( mag );

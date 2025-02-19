@@ -793,6 +793,8 @@ TEST_CASE( "EOC_stored_condition_test", "[eoc]" )
 
 TEST_CASE( "dialogue_copy", "[eoc]" )
 {
+    map &here = get_map();
+
     standard_npc dude;
     dialogue d( get_talker_for( get_avatar() ), get_talker_for( &dude ) );
     dialogue d_copy( d );
@@ -802,7 +804,7 @@ TEST_CASE( "dialogue_copy", "[eoc]" )
 
     item hammer( itype_hammer );
     item_location hloc( map_cursor( tripoint_bub_ms::zero ), &hammer );
-    computer comp( "test_computer", 0, tripoint_bub_ms::zero );
+    computer comp( "test_computer", 0, here, tripoint_bub_ms::zero );
     dialogue d2( get_talker_for( hloc ), get_talker_for( comp ) );
     dialogue d2_copy( d2 );
     d2_copy.set_value( "suppress", "1" );
@@ -819,6 +821,8 @@ TEST_CASE( "dialogue_copy", "[eoc]" )
 
 TEST_CASE( "EOC_meta_test", "[eoc]" )
 {
+    map &here = get_map();
+
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
@@ -826,7 +830,7 @@ TEST_CASE( "EOC_meta_test", "[eoc]" )
     monster zombie( mon_zombie );
     item hammer( itype_hammer );
     item_location hloc( map_cursor( tripoint_bub_ms::zero ), &hammer );
-    computer comp( "test_computer", 0, tripoint_bub_ms::zero );
+    computer comp( "test_computer", 0, here, tripoint_bub_ms::zero );
 
     dialogue d_empty( std::make_unique<talker>(), std::make_unique<talker>() );
     dialogue d_avatar( get_talker_for( get_avatar() ), std::make_unique<talker>() );

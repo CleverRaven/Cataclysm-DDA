@@ -670,6 +670,8 @@ ret_val<void> Character::can_drop( const item &it ) const
 
 void Character::drop_invalid_inventory()
 {
+    map &here = get_map();
+
     if( cache_inventory_is_valid ) {
         return;
     }
@@ -678,7 +680,7 @@ void Character::drop_invalid_inventory()
         const item &it = stack->front();
         if( it.made_of( phase_id::LIQUID ) ) {
             dropped_liquid = true;
-            get_map().add_item_or_charges( pos_bub(), it );
+            here.add_item_or_charges( pos_bub( here ), it );
             // must be last
             i_rem( &it );
         }
@@ -689,7 +691,7 @@ void Character::drop_invalid_inventory()
 
     item_location weap = get_wielded_item();
     if( weap ) {
-        weap.overflow();
+        weap.overflow( here );
     }
     worn.overflow( *this );
     cache_inventory_is_valid = true;

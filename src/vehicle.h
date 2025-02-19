@@ -1867,7 +1867,7 @@ class vehicle
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
          */
-        void make_active( map &here, item_location &loc );
+        void make_active( item_location &loc );
         /**
          * Try to add an item to part's cargo.
          * @return iterator to added item or std::nullopt if it can't be put here (not a cargo part, adding
