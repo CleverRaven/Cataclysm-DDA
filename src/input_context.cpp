@@ -548,74 +548,49 @@ static void rotate_direction_cw( int &dx, int &dy )
     dy = dir_num / 3 - 1;
 }
 
-std::optional<tripoint_rel_ms> input_context::get_direction_rel_ms( const std::string &action )
-const
+template <class tripo>
+static std::optional<tripo> get_direction_trip( const std::string &action, bool iso_mode )
 {
-    static const auto noop = static_cast<tripoint_rel_ms( * )( tripoint_rel_ms )>( [](
-    tripoint_rel_ms p ) {
+    static const auto noop = static_cast<tripo( * )( tripo )>( []( tripo p ) {
         return p;
     } );
-    static const auto rotate = static_cast<tripoint_rel_ms( * )( tripoint_rel_ms )>( [](
-    tripoint_rel_ms p ) {
+    static const auto rotate = static_cast<tripo( * )( tripo )>( []( tripo p ) {
         rotate_direction_cw( p.x(), p.y() );
         return p;
     } );
     const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
 
     if( action == "UP" ) {
-        return transform( tripoint_rel_ms::north );
+        return transform( tripo::north );
     } else if( action == "DOWN" ) {
-        return transform( tripoint_rel_ms::south );
+        return transform( tripo::south );
     } else if( action == "LEFT" ) {
-        return transform( tripoint_rel_ms::west );
+        return transform( tripo::west );
     } else if( action == "RIGHT" ) {
-        return transform( tripoint_rel_ms::east );
+        return transform( tripo::east );
     } else if( action == "LEFTUP" ) {
-        return transform( tripoint_rel_ms::north_west );
+        return transform( tripo::north_west );
     } else if( action == "RIGHTUP" ) {
-        return transform( tripoint_rel_ms::north_east );
+        return transform( tripo::north_east );
     } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint_rel_ms::south_west );
+        return transform( tripo::south_west );
     } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint_rel_ms::south_east );
+        return transform( tripo::south_east );
     } else {
         return std::nullopt;
     }
 }
 
+std::optional<tripoint_rel_ms> input_context::get_direction_rel_ms( const std::string &action )
+const
+{
+    return get_direction_trip<tripoint_rel_ms>( action, iso_mode );
+}
+
 std::optional<tripoint_rel_omt> input_context::get_direction_rel_omt( const std::string &action )
 const
 {
-    static const auto noop = static_cast<tripoint_rel_omt( * )( tripoint_rel_omt )>( [](
-    tripoint_rel_omt p ) {
-        return p;
-    } );
-    static const auto rotate = static_cast<tripoint_rel_omt( * )( tripoint_rel_omt )>( [](
-    tripoint_rel_omt p ) {
-        rotate_direction_cw( p.x(), p.y() );
-        return p;
-    } );
-    const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
-
-    if( action == "UP" ) {
-        return transform( tripoint_rel_omt::north );
-    } else if( action == "DOWN" ) {
-        return transform( tripoint_rel_omt::south );
-    } else if( action == "LEFT" ) {
-        return transform( tripoint_rel_omt::west );
-    } else if( action == "RIGHT" ) {
-        return transform( tripoint_rel_omt::east );
-    } else if( action == "LEFTUP" ) {
-        return transform( tripoint_rel_omt::north_west );
-    } else if( action == "RIGHTUP" ) {
-        return transform( tripoint_rel_omt::north_east );
-    } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint_rel_omt::south_west );
-    } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint_rel_omt::south_east );
-    } else {
-        return std::nullopt;
-    }
+    return get_direction_trip<tripoint_rel_omt>( action, iso_mode );
 }
 
 // Custom set of hotkeys that explicitly don't include the hardcoded
