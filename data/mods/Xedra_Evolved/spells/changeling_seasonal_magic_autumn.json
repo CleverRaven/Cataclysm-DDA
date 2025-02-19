@@ -153,7 +153,7 @@
     "id": "changeling_autumn_create_confusion_mist_spell",
     "type": "SPELL",
     "name": "Lost in the Mists",
-    "description": "Call up an obscuring mist, rendering anything inside insensate and incapable of navigating or determining their location.  Those inside the fog will wander, blind and deaf, until the glamour fades or they somehow find their way outside of its area.  The effected area is <color_yellow>reduced</color> in the spring.",
+    "description": "Call up an obscuring mist, rendering anything inside insensate and incapable of navigating or determining their location.  Those inside the fog will wander, blind and deaf, until the glamour fades or they somehow find their way outside of its area.  The affected area is <color_yellow>reduced</color> in the spring.",
     "message": "With a gesture, a mist begins to rise.",
     "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION", "IGNORE_WALLS" ],
     "magic_type": "xe_fey_seasonal_magick_autumn",
