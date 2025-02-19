@@ -391,7 +391,7 @@ static bool mx_helicopter( map &m, const tripoint_abs_sm &abs_sub )
             case 3:
                 // Full clown car
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
-                    const tripoint_bub_ms pos = vp.pos_bub( &m );
+                    const tripoint_bub_ms pos = vp.pos_bub( m );
                     // Spawn pilots in seats with controls.CTRL_ELECTRONIC
                     if( controls_at( wreckage, pos ) ) {
                         m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), pos.z(), 1, true );
@@ -405,7 +405,7 @@ static bool mx_helicopter( map &m, const tripoint_abs_sm &abs_sub )
             case 5:
                 // 2/3rds clown car
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
-                    const tripoint_bub_ms pos = vp.pos_bub( &m );
+                    const tripoint_bub_ms pos = vp.pos_bub( m );
                     // Spawn pilots in seats with controls.
                     if( controls_at( wreckage, pos ) ) {
                         m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), pos.z(), 1, true );
@@ -418,7 +418,7 @@ static bool mx_helicopter( map &m, const tripoint_abs_sm &abs_sub )
             case 6:
                 // Just pilots
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
-                    const tripoint_bub_ms pos = vp.pos_bub( &m );
+                    const tripoint_bub_ms pos = vp.pos_bub( m );
                     m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), pos.z(), 1, true );
                     delete_items_at_mount( *wreckage, vp.mount_pos() ); // delete corpse items
                 }

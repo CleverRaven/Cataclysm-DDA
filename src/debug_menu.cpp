@@ -841,7 +841,7 @@ static void monster_edit_menu()
         }
         case D_TELE: {
             if( tripoint_abs_ms newpos = player_picks_tile(); newpos != get_avatar().pos_abs() ) {
-                critter->setpos( get_map().get_bub( newpos ) );
+                critter->setpos( newpos );
             }
             break;
         }
@@ -2311,6 +2311,8 @@ static faction *select_faction()
 
 static void character_edit_menu()
 {
+    map &here = get_map();
+
     std::vector< tripoint_bub_ms > locations;
     uilist charmenu;
     charmenu.title = _( "Edit which character?" );
@@ -2632,10 +2634,10 @@ static void character_edit_menu()
             break;
         case D_TELE: {
             if( const std::optional<tripoint_bub_ms> newpos = g->look_around() ) {
-                you.setpos( *newpos );
+                you.setpos( here, *newpos );
                 if( you.is_avatar() ) {
                     if( you.is_mounted() ) {
-                        you.mounted_creature->setpos( *newpos );
+                        you.mounted_creature->setpos( here, *newpos );
                     }
                     g->update_map( player_character );
                 }
@@ -3195,12 +3197,14 @@ static void debug_menu_spawn_vehicle()
 
 static void display_talk_topic()
 {
+    const map &here = get_map();
+
     avatar &a = get_avatar();
     int menu_ind = 0;
     uilist npc_menu;
     npc_menu.text = _( "Choose NPC to hold topic:" );
     std::vector<npc *> visible_npcs = g->get_npcs_if( [&]( const npc & n ) {
-        return a.sees( n );
+        return a.sees( here, n );
     } );
     int npc_count = static_cast<int>( visible_npcs.size() );
     if( npc_count > 0 ) {

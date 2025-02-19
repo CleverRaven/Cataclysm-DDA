@@ -49,6 +49,7 @@ chkjson*
 debug.log
 logg.txt
 json_formatter
+*.output
 
 # Visual Studio files
 *.code-workspace

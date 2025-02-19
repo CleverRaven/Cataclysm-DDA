@@ -184,9 +184,11 @@ void spell_effect::short_range_teleport( const spell &sp, Creature &caster,
 
 static void swap_pos( Creature &caster, const tripoint_bub_ms &target )
 {
+    map &here = get_map();
+
     Creature *const critter = get_creature_tracker().creature_at<Creature>( target );
-    critter->setpos( caster.pos_bub() );
-    caster.setpos( target );
+    critter->setpos( caster.pos_abs() );
+    caster.setpos( here, target );
 
     //update map in case a monster swapped positions with the player
     Character &you = get_player_character();
@@ -956,12 +958,14 @@ static std::pair<field, tripoint_bub_ms> spell_remove_field( const spell &sp,
 static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint_bub_ms>
         &fd_fatigue_field, Creature &caster )
 {
+    const map &here = get_map();
+
     for( const std::pair<const field_type_id, field_entry> &fd : std::get<0>
          ( fd_fatigue_field ) ) {
         const int &intensity = fd.second.get_field_intensity();
         const translation &intensity_name = fd.second.get_intensity_level().name;
         const tripoint_bub_ms &field_position = std::get<1>( fd_fatigue_field );
-        const bool sees_field = caster.sees( field_position );
+        const bool sees_field = caster.sees( here, field_position );
 
         switch( intensity ) {
             case 1:
@@ -986,7 +990,7 @@ static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint_bub_
             case 3:
                 std::string message_prefix = "A nearby";
 
-                if( caster.sees( field_position ) ) {
+                if( caster.sees( here, field_position ) ) {
                     message_prefix = "The";
                 }
 
@@ -1061,8 +1065,10 @@ void spell_effect::area_push( const spell &sp, Creature &caster, const tripoint_
 static void character_push_effects( Creature *caster, Character &guy, tripoint_bub_ms &push_dest,
                                     const int push_distance, const std::vector<tripoint_bub_ms> &push_vec )
 {
+    map &here = get_map();
+
     int dist_left = std::abs( push_distance );
-    tripoint_bub_ms old_pushed_point = guy.pos_bub();
+    tripoint_bub_ms old_pushed_point = guy.pos_bub( here );
     for( const tripoint_bub_ms &pushed_point : push_vec ) {
         if( get_map().impassable( pushed_point ) ) {
             guy.hurtall( dist_left * 4, caster );
@@ -1076,7 +1082,7 @@ static void character_push_effects( Creature *caster, Character &guy, tripoint_b
             old_pushed_point = pushed_point;
         }
     }
-    guy.setpos( push_dest );
+    guy.setpos( here, push_dest );
 }
 
 void spell_effect::directed_push( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
@@ -1153,7 +1159,7 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
                             old_pushed_push_point = pushed_push_point;
                         }
                     }
-                    mon->setpos( push_dest );
+                    mon->setpos( here, push_dest );
                 } else if( guy ) {
                     character_push_effects( &caster, *guy, push_dest, push_distance, push_vec );
                 }

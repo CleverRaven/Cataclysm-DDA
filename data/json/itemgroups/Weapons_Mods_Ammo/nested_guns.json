@@ -71,9 +71,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock_22", "charges": [ 0, 15 ] },
-      { "item": "glock40mag", "charges": [ 0, 15 ] },
-      { "item": "glock40mag", "charges": [ 0, 15 ], "prob": 50 },
+      { "item": "glock_22", "charges": [ 0, 15 ], "ammo-item": "40sw" },
+      { "item": "glock40mag", "ammo-item": "40sw" },
+      { "item": "glock40mag", "ammo-item": "40sw", "prob": 50 },
       { "group": "on_hand_40" }
     ]
   },

@@ -380,6 +380,8 @@ bool aim_activity_actor::check_gun_ability_to_shoot( Character &who, item &it )
 
 void aim_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     if( !who.is_avatar() ) {
         debugmsg( "ACT_AIM not implemented for NPCs" );
         aborted = true;
@@ -389,7 +391,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     avatar &you = get_avatar();
 
     item_location weapon = get_weapon();
-    if( !weapon || !avatar_action::can_fire_weapon( you, get_map(), *weapon ) ) {
+    if( !weapon || !avatar_action::can_fire_weapon( you, here, *weapon ) ) {
         aborted = true;
         act.moves_left = 0;
         return;
@@ -398,7 +400,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     gun_mode gun = weapon->gun_current_mode();
     // We need to make sure RAS weapon is loaded/reloaded in case the aim activity was temp. suspended
     // therefore the order of evaluation matters here
-    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() && !reload_loc ) {
+    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining( ) && !reload_loc ) {
         if( !load_RAS_weapon() ) {
             aborted = true;
             act.moves_left = 0;
@@ -452,7 +454,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     }
 
     gun_mode gun = weapon->gun_current_mode();
-    who.fire_gun( &here, fin_trajectory.back(), gun.qty, *gun, reload_loc );
+    who.fire_gun( here, fin_trajectory.back(), gun.qty, *gun, reload_loc );
 
     if( !get_option<bool>( "AIM_AFTER_FIRING" ) ) {
         restore_view();
@@ -592,7 +594,7 @@ void aim_activity_actor::unload_RAS_weapon()
 
     gun_mode gun = weapon->gun_current_mode();
     if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        if( gun->ammo_remaining() ) {
+        if( gun->ammo_remaining( ) ) {
             item_location loc = item_location( you, gun.target );
             you.unload( loc, true );
         }
@@ -768,7 +770,7 @@ bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
     // Character::gunmod_remove
     // Remove one of them before making gunmod_unload take time
     item_location loc = item_location( who, &gunmod );
-    return !( gunmod.ammo_remaining() && !who.unload( loc, true ) );
+    return !( gunmod.ammo_remaining( ) && !who.unload( loc, true ) );
 }
 
 void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, item &mod )
@@ -995,7 +997,7 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
 
         const std::vector<const item *> writing_tools_filter =
         p.crafting_inventory().items_with( [&]( const item & it ) {
-            return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_remaining() >= it.ammo_required() ;
+            return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_remaining( ) >= it.ammo_required() ;
         } );
 
         std::vector<tool_comp> writing_tools;
@@ -1978,13 +1980,15 @@ bool read_activity_actor::player_readma( avatar &you )
 
 bool read_activity_actor::npc_read( npc &learner )
 {
+    map &here = get_map();
+
     const cata::value_ptr<islot_book> &islotbook = book->type->book;
     const skill_id &skill = islotbook->skill;
 
     // NPCs don't need to identify the book or learn recipes yet.
     // NPCs don't read to other NPCs yet.
     const bool display_messages = learner.get_fac_id() == faction_your_followers &&
-                                  get_player_character().sees( learner );
+                                  get_player_character().sees( here, learner );
 
     const int book_fun = learner.book_fun_for( *book, learner );
     if( book_fun != 0 ) {
@@ -2730,6 +2734,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
 std::optional<tripoint_bub_ms> lockpick_activity_actor::select_location( avatar &you )
 {
+    map &here = get_map();
+
     if( you.cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -2746,7 +2752,8 @@ std::optional<tripoint_bub_ms> lockpick_activity_actor::select_location( avatar 
     };
 
     std::optional<tripoint_bub_ms> target = choose_adjacent_highlight(
-            _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), is_pickable, false );
+            here, _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), is_pickable,
+            false );
     if( !target ) {
         return std::nullopt;
     }
@@ -4055,7 +4062,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         who.add_msg_if_player( _( "You unload your %s." ), it.tname() );
     }
 
-    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
+    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining( ) == 0 ) {
         target.remove_item();
     }
 
@@ -5405,7 +5412,10 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     switch( reload_query.ret ) {
         case 1:
             // This case is only reachable if wield_check is true
-            who.wield( reloadable );
+
+            if( who.wield( reloadable ) ) {
+                loc.remove_item();
+            }
             add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
                      reloadable_name );
             break;
@@ -7913,7 +7923,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
 
-                            if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
+                            if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining( ) == 0 ) {
                                 if( this_veh != nullptr ) {
                                     vehicle_part &vp_this = this_veh->part( this_part );
                                     this_veh->remove_item( vp_this, it->first );
@@ -8128,7 +8138,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
         if( vp.info().location != "structure" ) {
             continue;
         }
-        if( invalid_pos( vp.pos_bub( &here ) ) ) {
+        if( invalid_pos( vp.pos_bub( here ) ) ) {
             p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
             here.destroy_vehicle( veh );
             return false;
@@ -8225,12 +8235,13 @@ std::unique_ptr<activity_actor> vehicle_unfolding_activity_actor::deserialize( J
 
 int heat_activity_actor::get_available_heater( Character &p, item_location &loc ) const
 {
-    map &here = get_map();
+    const map &here = get_map();
+
     int available_heater = 0;
     if( !loc->has_no_links() ) {
         available_heater = loc->link().t_veh->connected_battery_power_level( here ).first;
     } else if( !loc->has_flag( flag_USE_UPS ) ) {
-        available_heater = loc->ammo_remaining();
+        available_heater = loc->ammo_remaining( );
     } else if( loc->has_flag( flag_USE_UPS ) ) {
         available_heater = units::to_kilojoule( p.available_ups() );
     }

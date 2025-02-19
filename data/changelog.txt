@@ -203,6 +203,8 @@ Add unloading hotkey to AIM menu
 Skip Default Backgrounds
 Add part bonus to rotor diameter in thrust calculations
 Revivification by mon_group
+Ask to wield container if parent container is too small to insert items
+Improve blood placement on Riot Damage
 
 
 ## Content:
@@ -432,6 +434,12 @@ adds three new lore log snippets for the player to find in smartphones or laptop
 Add an electric rechargeable lighter
 Adds marshmallow fluff and fluffernutters
 Gunstore Overhaul
+Add radishes and seeds
+Riot damage in cities
+Another new Exodii Gun: the Khuunäöfaai ordnance cannon, a long range incendiary and chemical weapon.
+Adds new rails vehicles
+Add in pride/pronoun pins
+Add in the guns S&W 617, Ruger PCC, and Marlin Model 60
 
 
 ## Interface:
@@ -587,6 +595,8 @@ Zone manager will expand to match a wider sidebar.
 Add numpad keybinds for panning uilists
 Optionally allows a specific overmap tile to be specified for the debug 'Teleport - to specific overmap' function.
 Add options to sort item list by item name
+Dont show liquids from held or worn container
+Don't hardcode help text: Autopickup Manager
 
 
 ## Mods:
@@ -1010,6 +1020,9 @@ Aftershock: Add manhole terrain to exoplanet
 Adds a new recessed rail tile with the NOCOLLIDE flag, and replaces the rail which cross the road with recessed rails.
 Moves the rail lines used by the railroad mapgen closer and adds junctions
 Add lucky/unlucky traits to Crazy Cata
+Sky Island vampire compatibility
+[Aftershock] Update and Expand Hacking System
+[Xedra Evolved] Add seasonal magic for changelings
 
 
 ## Balance:
@@ -1147,6 +1160,8 @@ Thermal electric gear power draw reduction + medium battery for TE suit
 make charcoal kiln place-able
 Set disassembly range to crafting range: 6
 Mutating with an installed bionic that conflicts results in damage
+Removed morale penalties and rare drops from dismemberment
+`Uncaring` characters can socialize with NPCs but they don't like it
 
 
 ## Bugfixes:
@@ -1561,6 +1576,12 @@ fix query popup selector not wrapping
 implement (R)eading e-book requirements, fix etransfer_rate segfault
 chapters are character-mapped for unique books
 Prevent item::charges_per_weight to return overflowed values
+fix E_FILE_STORAGE item location serialization
+fix map cache segfault, remove omt tripoints from map items' operations
+prevent storing multiple copies of the same book
+fix segfault when trying to insert items into container not carried
+Fix Riot Damage not applying properly to structures multiple z-levels tall
+Audit Overmap Terrains for correct application of Riot Damage
 
 
 ## Performance:
@@ -1744,6 +1765,11 @@ Send debug messages to Windows debugger
 Add starting_cash field to professions JSON
 Vending Machines can optionally use your Bank Balance
 Magic Infrastructure: Add failure_chance field
+Allow EOCs to read item tool qualities
+Magic Infrastructure: Make magic_type spell fail chance still affected by spell specific flags
+Allow EOCs to assign the character cash value
+Allow extending/deleting connect_groups/connects_to/rotates_to
+Make spell difficulty accessible in math
 
 ## Build:
 Support Mac arm64 build
@@ -1776,6 +1802,7 @@ Fixes potential artifact poisoning route in CI
 Update vcpkg commit to new mainline, remove portfile override
 Improve ccache performance with age based eviction instead of coarse size limits.
 Fix CMake Linux VCPKG build
+Initial support for GNU Make for Windows
 
 
 ## I18N and A11Y:

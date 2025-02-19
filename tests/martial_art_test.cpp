@@ -7,7 +7,7 @@
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character_martial_arts.h"
 #include "coordinates.h"
 #include "creature.h"

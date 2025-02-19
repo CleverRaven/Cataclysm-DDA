@@ -1399,23 +1399,27 @@ conditional_t::func f_is_furniture( bool is_npc )
 
 conditional_t::func f_player_see( bool is_npc )
 {
-    return [is_npc]( const_dialogue const & d ) {
+    const map &here = get_map();
+
+    return [is_npc, &here]( const_dialogue const & d ) {
         const Creature *c = d.const_actor( is_npc )->get_const_creature();
         if( c ) {
-            return get_player_view().sees( *c );
+            return get_player_view().sees( here, *c );
         } else {
-            return get_player_view().sees( d.const_actor( is_npc )->pos_bub() );
+            return get_player_view().sees( here,  d.const_actor( is_npc )->pos_bub() );
         }
     };
 }
 
 conditional_t::func f_see_opposite( bool is_npc )
 {
-    return [is_npc]( const_dialogue const & d ) {
+    const map &here = get_map();
+
+    return [is_npc, &here]( const_dialogue const & d ) {
         if( d.const_actor( is_npc )->get_const_creature() &&
             d.const_actor( !is_npc )->get_const_creature() ) {
             return d.const_actor( is_npc )->get_const_creature()->sees(
-                       *d.const_actor( !is_npc )->get_const_creature() );
+                       here, *d.const_actor( !is_npc )->get_const_creature() );
         } else {
             return false;
         }

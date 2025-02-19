@@ -775,7 +775,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     const level_cache &map_cache = here.get_cache( target.z() );
 
     Character &player_character = get_player_character();
-    const std::string u_see_msg = player_character.sees( target ) ? _( "yes" ) : _( "no" );
+    const std::string u_see_msg = player_character.sees( here, target ) ? _( "yes" ) : _( "no" );
     mvwprintw( w_info, point( 1, off++ ), _( "dist: %d u_see: %s veh: %s scent: %d" ),
                rl_dist( player_character.pos_bub(), target ), u_see_msg, veh_msg, get_scent().get( target ) ); // 6
     mvwprintw( w_info, point( 1, off++ ), _( "sight_range: %d, noon_sight_range: %d," ),

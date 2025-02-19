@@ -1309,11 +1309,12 @@ std::function<bool( const item & )> recipe::get_component_filter(
     std::function<bool( const item & )> magazine_filter = return_true<item>;
     if( has_flag( "NEED_FULL_MAGAZINE" ) ) {
         magazine_filter = []( const item & component ) {
-            if( component.ammo_remaining() == 0 ) {
+            if( component.ammo_remaining( ) == 0 ) {
                 return false;
             }
             return !component.is_magazine() ||
-                   ( component.ammo_remaining() >= component.ammo_capacity( component.ammo_data()->ammo->type ) );
+                   ( component.ammo_remaining( ) >= component.ammo_capacity(
+                         component.ammo_data()->ammo->type ) );
         };
     }
 

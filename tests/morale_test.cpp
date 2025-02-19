@@ -218,6 +218,7 @@ TEST_CASE( "player_morale_killed_innocent_affected_by_prozac", "[player_morale]"
 
 TEST_CASE( "player_morale_murdered_innocent", "[player_morale]" )
 {
+    map &here = get_map();
     clear_avatar();
     Character &player = get_player_character();
     player_morale &m = *player.morale;
@@ -226,7 +227,7 @@ TEST_CASE( "player_morale_murdered_innocent", "[player_morale]" )
     // Innocent as could be.
     faction_id lapin( "lapin" );
     innocent.set_fac( lapin );
-    innocent.setpos( next_to );
+    innocent.setpos( here, next_to );
     innocent.set_all_parts_hp_cur( 1 );
     CHECK( m.get_total_positive_value() == 0 );
     CHECK( m.get_total_negative_value() == 0 );
@@ -242,6 +243,7 @@ TEST_CASE( "player_morale_murdered_innocent", "[player_morale]" )
 
 TEST_CASE( "player_morale_kills_hostile_bandit", "[player_morale]" )
 {
+    map &here = get_map();
     clear_avatar();
     Character &player = get_player_character();
     player_morale &m = *player.morale;
@@ -250,7 +252,7 @@ TEST_CASE( "player_morale_kills_hostile_bandit", "[player_morale]" )
     // Always-hostile
     faction_id hells_raiders( "hells_raiders" );
     badguy.set_fac( hells_raiders );
-    badguy.setpos( next_to );
+    badguy.setpos( here, next_to );
     badguy.set_all_parts_hp_cur( 1 );
     CHECK( m.get_total_positive_value() == 0 );
     CHECK( m.get_total_negative_value() == 0 );
@@ -279,12 +281,12 @@ TEST_CASE( "player_morale_ranged_kill_of_unaware_hostile_bandit", "[player_moral
     CHECK( m.get_total_positive_value() == 0 );
     CHECK( m.get_total_negative_value() == 0 );
     CHECK( badguy.guaranteed_hostile() == true );
-    CHECK( badguy.sees( player.pos_bub() ) == false );
+    CHECK( badguy.sees( here,  player.pos_bub( here ) ) == false );
     for( size_t loop = 0; loop < 1000; loop++ ) {
         player.set_body();
         arm_shooter( player, itype_shotgun_s );
         player.recoil = 0;
-        player.fire_gun( &here, bandit_pos, 1, *player.get_wielded_item() );
+        player.fire_gun( here, bandit_pos, 1, *player.get_wielded_item() );
         if( badguy.is_dead_state() ) {
             break;
         }

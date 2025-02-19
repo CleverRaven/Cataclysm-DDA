@@ -223,7 +223,7 @@ void veh_app_interact::draw_info( map &here )
 
     // Onboard battery power
     if( !veh->batteries.empty() ) {
-        std::pair<int, int> battery = veh->battery_power_level();
+        std::pair<int, int> battery = veh->battery_power_level( );
         nc_color batt_col = c_yellow;
         if( battery.second > 0 ) {
             batt_col = battery.first == 0 ? c_light_red :
@@ -307,10 +307,10 @@ void veh_app_interact::draw_info( map &here )
     wnoutrefresh( w_info );
 }
 
-bool veh_app_interact::can_refill()
+bool veh_app_interact::can_refill( )
 {
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        if( vpr.part().can_reload() ) {
+        if( vpr.part().can_reload( ) ) {
             return true;
         }
     }
@@ -347,7 +347,7 @@ static vehicle_part *pick_part( const std::vector<vehicle_part *> &parts,
                 !vpr->get_base().empty() ) {
                 units::volume mult = 250_ml / item::find_type(
                                          vpr->ammo_current() )->stack_size;
-                double vcur = to_liter( vpr->ammo_remaining() * mult );
+                double vcur = to_liter( vpr->ammo_remaining( ) * mult );
                 double vmax = to_liter( vpr->ammo_capacity( vpr->get_base().only_item().ammo_type() ) * mult );
                 //~ Vehicle part name, capacity (current/max L) and name of contents
                 enttxt = string_format( _( "%1$s (%2$.1f/%3$.1fL %4$s)" ), vname, round_up( vcur, 1 ),
@@ -367,11 +367,11 @@ static vehicle_part *pick_part( const std::vector<vehicle_part *> &parts,
     return pt;
 }
 
-void veh_app_interact::refill()
+void veh_app_interact::refill( )
 {
     std::vector<vehicle_part *> ptlist;
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        if( vpr.part().can_reload() ) {
+        if( vpr.part().can_reload( ) ) {
             ptlist.emplace_back( &vpr.part() );
         }
     }
@@ -559,9 +559,9 @@ void veh_app_interact::populate_app_actions( map &here )
     /******************** General actions ********************/
     // Refill
     app_actions.emplace_back( [this]() {
-        refill();
+        refill( );
     } );
-    imenu.addentry( -1, can_refill(), ctxt.keys_bound_to( "REFILL" ).front(),
+    imenu.addentry( -1, can_refill( ), ctxt.keys_bound_to( "REFILL" ).front(),
                     ctxt.get_action_name( "REFILL" ) );
     // Siphon
     app_actions.emplace_back( [&here, this]() {

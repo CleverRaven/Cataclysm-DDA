@@ -1721,7 +1721,6 @@
     "description": "A bone from some creature or other, inhabited by benevolent spirits.",
     "color": "white",
     "price": "0 cent",
-    "material": [ "bone" ],
     "weight": "225 g",
     "symbol": "%",
     "price_postapoc": "10 cent",

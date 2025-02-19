@@ -31,7 +31,7 @@ class nc_color;
 
 struct partial_con {
     int counter = 0;
-    std::list<item> components = {};
+    std::list<item> components;
     construction_id id = construction_id( -1 );
 };
 

@@ -54,7 +54,7 @@ const std::string leak_marker = "<color_red>*</color>";
 
 class veh_interact
 {
-        using part_selector = std::function<bool( const vehicle_part &pt )>;
+        using part_selector = std::function<bool( const map &here, const vehicle_part &pt )>;
 
     public:
         static player_activity run( map &here,  vehicle &veh, const point_rel_ms &p );
@@ -148,7 +148,7 @@ class veh_interact
 
         int part_at( const point_rel_ms &d );
         void move_cursor( map &here, const point_rel_ms &d, int dstart_at = 0 );
-        task_reason cant_do( char mode );
+        task_reason cant_do( const map &here,  char mode );
         bool can_potentially_install( const vpart_info &vpart );
         /** Move index (parameter pos) according to input action:
          * (up or down, single step or whole page).
@@ -180,7 +180,7 @@ class veh_interact
         // Returns true if exiting the screen
         bool do_unload( map &here );
         void do_assign_crew( map &here );
-        void do_relabel();
+        void do_relabel( const map &here );
         /*@}*/
 
         /**
@@ -194,7 +194,7 @@ class veh_interact
         void display_veh( map &here );
         void display_stats( map &here ) const;
         void display_name();
-        void display_mode();
+        void display_mode( const map &here );
         void display_list( size_t pos, const std::vector<const vpart_info *> &list, int header = 0 );
         void display_details( const vpart_info *part );
 
@@ -228,14 +228,14 @@ class veh_interact
         };
         std::vector<part_option> overview_opts;
         std::map<std::string, std::function<void( const catacurses::window &, int )>> overview_headers;
-        using overview_enable_t = std::function<bool( const vehicle_part &pt )>;
-        using overview_action_t = std::function<void( vehicle_part &pt )>;
+        using overview_enable_t = std::function<bool( const map &here, const vehicle_part &pt )>;
+        using overview_action_t = std::function<void( map &here, vehicle_part &pt )>;
         overview_enable_t overview_enable;
         overview_action_t overview_action;
         int overview_pos = -1;
 
         void calc_overview( map &here );
-        void display_overview();
+        void display_overview( const map &here );
         /**
          * Display overview of parts, optionally with interactive selection of one part
          *

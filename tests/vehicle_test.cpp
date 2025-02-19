@@ -75,7 +75,7 @@ TEST_CASE( "destroy_grabbed_vehicle_section", "[vehicle]" )
         map &here = get_map();
         const tripoint_bub_ms test_origin( 60, 60, 0 );
         avatar &player_character = get_avatar();
-        player_character.setpos( test_origin );
+        player_character.setpos( here, test_origin );
         const tripoint_bub_ms vehicle_origin = test_origin + tripoint::south_east;
         vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_bicycle, vehicle_origin, -90_degrees,
                                              0, 0 );
@@ -132,20 +132,20 @@ TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
     REQUIRE( player_character.in_vehicle );
     REQUIRE( veh_ptr->engines.size() == 1 );
 
-    vehicle_part &pedel = veh_ptr->part( veh_ptr->engines[ 0 ] );
+    vehicle_part &pedal = veh_ptr->part( veh_ptr->engines[ 0 ] );
 
     SECTION( "when the pedal has 1/4 hp" ) {
-        veh_ptr->set_hp( pedel, pedel.hp() * 0.25, true );
+        veh_ptr->set_hp( pedal, pedal.hp() * 0.25, true );
         // Try starting the engine 100 time because it is random that a combustion engine does fails
         for( int i = 0; i < 100 ; i++ ) {
-            CHECK( veh_ptr->start_engine( pedel ) );
+            CHECK( veh_ptr->start_engine( here, pedal ) );
         }
     }
 
     SECTION( "when the pedal has 0 hp" ) {
-        veh_ptr->set_hp( pedel, 0, true );
+        veh_ptr->set_hp( pedal, 0, true );
 
-        CHECK_FALSE( veh_ptr->start_engine( pedel ) );
+        CHECK_FALSE( veh_ptr->start_engine( here, pedal ) );
     }
 
     here.detach_vehicle( veh_ptr );
@@ -762,7 +762,7 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE_FALSE( player_character.in_vehicle );
-    player_character.setpos( tripoint_bub_ms::zero );
+    player_character.setpos( here, tripoint_bub_ms::zero );
 
     const tripoint_bub_ms map_starting_point( 60, 60, 0 );
     vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 100, 0, false );

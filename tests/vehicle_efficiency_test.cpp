@@ -39,6 +39,7 @@ static const itype_id itype_battery( "battery" );
 
 static void clear_game( const ter_id &terrain )
 {
+    map &here = get_map();
     // Set to turn 0 to prevent solars from producing power
     calendar::turn = calendar::turn_zero;
     clear_creatures();
@@ -48,7 +49,7 @@ static void clear_game( const ter_id &terrain )
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE_FALSE( player_character.in_vehicle );
-    player_character.setpos( tripoint_bub_ms::zero );
+    player_character.setpos( here, tripoint_bub_ms::zero );
     // Blind the player to avoid needless drawing-related overhead
     player_character.add_effect( effect_blind, 1_turns, true );
 
@@ -129,7 +130,7 @@ static float fuel_percentage_left( vehicle &v, const std::map<itype_id, int> &st
 
         if( ( pt.is_battery() || pt.is_reactor() || pt.is_tank() ) &&
             !pt.ammo_current().is_null() ) {
-            fuel_amount[ pt.ammo_current() ] += pt.ammo_remaining();
+            fuel_amount[ pt.ammo_current() ] += pt.ammo_remaining( );
         }
 
         if( pt.is_engine() && !pt.info().fuel_type.is_null() ) {
@@ -187,10 +188,10 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     // Remove all items from cargo to normalize weight.
     for( const vpart_reference &vp : veh.get_all_parts() ) {
         veh_ptr->get_items( vp.part() ).clear();
-        vp.part().ammo_consume( vp.part().ammo_remaining(), &here, vp.pos_bub( &here ) );
+        vp.part().ammo_consume( vp.part().ammo_remaining( ), &here, vp.pos_bub( here ) );
     }
     for( const vpart_reference &vp : veh.get_avail_parts( "OPENABLE" ) ) {
-        veh.close( vp.part_index() );
+        veh.close( here, vp.part_index() );
     }
 
     veh.refresh_insides();

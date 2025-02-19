@@ -209,7 +209,7 @@ bool leap_actor::call( monster &z ) const
                            "Distance %d larger than previous best %d, candidate discarded", cur_dist, best );
             break;
         }
-        if( !z.sees( dest ) ) {
+        if( !z.sees( here, dest ) ) {
             add_msg_debug( debugmode::DF_MATTACK, "Can't see destination, candidate discarded" );
             continue;
         }
@@ -247,9 +247,9 @@ bool leap_actor::call( monster &z ) const
     z.mod_moves( -move_cost );
     viewer &player_view = get_player_view();
     const tripoint_bub_ms chosen = random_entry( options );
-    bool seen = player_view.sees( z ); // We can see them jump...
-    z.setpos( chosen );
-    seen |= player_view.sees( z ); // ... or we can see them land
+    bool seen = player_view.sees( here, z ); // We can see them jump...
+    z.setpos( here, chosen );
+    seen |= player_view.sees( here, z ); // ... or we can see them land
     if( seen && get_option<bool>( "LOG_MONSTER_MOVEMENT" ) ) {
         add_msg( message, z.name() );
     }
@@ -460,6 +460,8 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
 
 Creature *melee_actor::find_target( monster &z ) const
 {
+    const map &here = get_map();
+
     if( !z.can_act() ) {
         return nullptr;
     }
@@ -471,8 +473,8 @@ Creature *melee_actor::find_target( monster &z ) const
     }
 
     if( range > 1 ) {
-        if( !z.sees( *target ) ||
-            !get_map().clear_path( z.pos_bub(), target->pos_bub(), range, 1, 200 ) ) {
+        if( !z.sees( here, *target ) ||
+            !here.clear_path( z.pos_bub( here ), target->pos_bub( here ), range, 1, 200 ) ) {
             return nullptr;
         }
 
@@ -485,16 +487,17 @@ Creature *melee_actor::find_target( monster &z ) const
 
 int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) const
 {
+    map &here = get_map();
+
     // Something went wrong
     if( !target ) {
         return -1;
     }
     // Handle some messaging in-grab
     game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
-    const std::string mon_name = get_player_character().sees( z.pos_bub() ) ?
+    const std::string mon_name = get_player_character().sees( here, z.pos_bub( here ) ) ?
                                  z.disp_name( false, true ) : _( "Something" );
     Character *foe = target->as_character();
-    map &here = get_map();
 
     int eff_grab_strength = grab_data.grab_strength == -1 ? z.get_grab_strength() :
                             grab_data.grab_strength;
@@ -571,7 +574,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
             }
 
             // Don't try to fall mid pull
-            target->setpos( pt, false );
+            target->setpos( here, pt, false );
             pull_range--;
             if( animate ) {
                 g->invalidate_main_ui_adaptor();
@@ -656,12 +659,12 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                     if( foe->in_vehicle ) {
                         here.unboard_vehicle( foe->pos_bub() );
                     }
-                    foe->setpos( zpt );
+                    foe->setpos( here, zpt );
                     if( !foe->in_vehicle && here.veh_at( zpt ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
                         here.board_vehicle( zpt, foe );
                     }
                 } else {
-                    zz->setpos( zpt );
+                    zz->setpos( here, zpt );
                 }
                 target->add_msg_player_or_npc( m_bad, _( "You are dragged behind the %s!" ),
                                                _( "<npcname> gets dragged behind the %s!" ), z.name() );
@@ -711,7 +714,7 @@ bool melee_actor::call( monster &z ) const
 
     z.mod_moves( -move_cost );
 
-    const std::string mon_name = get_player_character().sees( z.pos_bub() ) ?
+    const std::string mon_name = get_player_character().sees( here, z.pos_bub( here ) ) ?
                                  z.disp_name( false, true ) : _( "Something" );
 
     // Add always-applied self effects
@@ -956,6 +959,8 @@ bool melee_actor::call( monster &z ) const
 
 void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const
 {
+    const map &here = get_map();
+
     if( target.is_avatar() ) {
         sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume( z.pos_bub() ),
                                  sfx::get_heard_angle( z.pos_bub() ) );
@@ -965,7 +970,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
                                  Creature::Attitude::FRIENDLY ?
                                  m_bad : m_neutral;
     const bodypart_id &bp = dealt.bp_hit ;
-    const std::string mon_name = get_player_character().sees( z.pos_bub() ) ?
+    const std::string mon_name = get_player_character().sees( here, z.pos_bub( here ) ) ?
                                  z.disp_name( false, true ) : _( "Something" );
     target.add_msg_player_or_npc( msg_type, hit_dmg_u,
                                   get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? hit_dmg_npc : translation(),
@@ -1139,6 +1144,8 @@ int gun_actor::get_max_range()  const
 
 bool gun_actor::call( monster &z ) const
 {
+    map &here = get_map();
+
     Creature *target;
     tripoint_bub_ms aim_at;
     bool untargeted = false;
@@ -1166,16 +1173,16 @@ bool gun_actor::call( monster &z ) const
             }
             return false;
         }
-        aim_at = target->pos_bub();
+        aim_at = target->pos_bub( here );
     } else {
         target = z.attack_target();
-        aim_at = target ? target->pos_bub() : tripoint_bub_ms::zero;
-        if( !target || !z.sees( *target ) || ( !target->is_monster() && !z.aggro_character ) ) {
+        aim_at = target ? target->pos_bub( here ) : tripoint_bub_ms::zero;
+        if( !target || !z.sees( here, *target ) || ( !target->is_monster() && !z.aggro_character ) ) {
             if( !target_moving_vehicles ) {
                 return false;
             }
             untargeted = true; // no living targets, try to find moving car parts
-            const std::set<tripoint_bub_ms> moving_veh_parts = get_map()
+            const std::set<tripoint_bub_ms> moving_veh_parts = here
                     .get_moving_vehicle_targets( z, get_max_range() );
             if( moving_veh_parts.empty() ) {
                 return false;

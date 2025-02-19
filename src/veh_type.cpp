@@ -1029,7 +1029,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     }
     if( has_flag( "TURRET" ) ) {
         class::item base( base_item );
-        if( base.ammo_required() && !base.ammo_remaining() ) {
+        if( base.ammo_required() && !base.ammo_remaining( ) ) {
             itype_id default_ammo = base.magazine_current() ? base.common_ammo_default() : base.ammo_default();
             if( !default_ammo.is_null() ) {
                 base.ammo_set( default_ammo );
@@ -1389,7 +1389,8 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
     }
 }
 
-void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &json )
+void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh,
+        JsonOut &json )
 {
     static const std::string part_location_structure( "structure" );
     json.start_object();
@@ -1458,14 +1459,14 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
         json.member( "parts" );
         json.start_array();
         for( const vehicle_part *vp : vp_pos.second ) {
-            if( vp->is_tank() && vp->ammo_remaining() ) {
+            if( vp->is_tank() && vp->ammo_remaining( ) ) {
                 json.start_object();
                 json.member( "part" );
                 print_vp_with_variant( *vp );
                 json.member( "fuel", vp->ammo_current().str() );
                 json.end_object();
                 continue;
-            } else if( vp->is_turret() && vp->ammo_remaining() ) {
+            } else if( vp->is_turret() && vp->ammo_remaining( ) ) {
                 json.start_object();
                 json.member( "part" );
                 print_vp_with_variant( *vp );
@@ -1473,7 +1474,7 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
                 json.member( "ammo_types", vp->ammo_current().str() );
                 json.member( "ammo_qty" );
                 json.start_array();
-                int ammo_qty = vp->ammo_remaining();
+                int ammo_qty = vp->ammo_remaining( );
                 json.write( ammo_qty );
                 json.write( ammo_qty );
                 json.end_array();

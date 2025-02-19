@@ -4049,6 +4049,14 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
+    "result": "wicker_basket_large",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 m",
+    "components": [ [ [ "withered", 12 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
     "result": "straw_doll",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

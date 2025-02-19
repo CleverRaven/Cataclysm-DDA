@@ -2036,8 +2036,14 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         } else if( action == "TOGGLE_RECIPE_UNREAD" && selection_ok( current, line, true ) ) {
             const recipe_id rcp = current[line]->ident();
             if( uistate.read_recipes.count( rcp ) ) {
+                for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                    uistate.read_recipes.erase( nested_rcp );
+                }
                 uistate.read_recipes.erase( rcp );
             } else {
+                for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                    uistate.read_recipes.insert( nested_rcp );
+                }
                 uistate.read_recipes.insert( rcp );
             }
             recalc_unread = highlight_unread_recipes;
@@ -2045,6 +2051,15 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         } else if( action == "MARK_ALL_RECIPES_READ" ) {
             bool current_list_has_unread = false;
             for( const recipe *const rcp : current ) {
+                for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                    if( !uistate.read_recipes.count( nested_rcp->ident() ) ) {
+                        current_list_has_unread = true;
+                        break;
+                    }
+                    if( current_list_has_unread ) {
+                        break;
+                    }
+                }
                 if( !uistate.read_recipes.count( rcp->ident() ) ) {
                     current_list_has_unread = true;
                     break;
@@ -2067,10 +2082,16 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             if( query_yn( query_str ) ) {
                 if( current_list_has_unread ) {
                     for( const recipe *const rcp : current ) {
+                        for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                            uistate.read_recipes.insert( nested_rcp->ident() );
+                        }
                         uistate.read_recipes.insert( rcp->ident() );
                     }
                 } else {
                     for( const recipe *const rcp : available_recipes ) {
+                        for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                            uistate.read_recipes.insert( nested_rcp->ident() );
+                        }
                         uistate.read_recipes.insert( rcp->ident() );
                     }
                 }

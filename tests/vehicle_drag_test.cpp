@@ -25,6 +25,7 @@ static const efftype_id effect_blind( "blind" );
 
 static void clear_game_drag( const ter_id &terrain )
 {
+    map &here = get_map();
     // Set to turn 0 to prevent solars from producing power
     calendar::turn = calendar::turn_zero;
     clear_creatures();
@@ -33,7 +34,7 @@ static void clear_game_drag( const ter_id &terrain )
     Character &player_character = get_player_character();
     // Move player somewhere safe
     CHECK( !player_character.in_vehicle );
-    player_character.setpos( tripoint_bub_ms::zero );
+    player_character.setpos( here, tripoint_bub_ms::zero );
     // Blind the player to avoid needless drawing-related overhead
     player_character.add_effect( effect_blind, 1_turns, true );
     // Make sure the ST is 8 so that muscle powered results are consistent
@@ -41,7 +42,6 @@ static void clear_game_drag( const ter_id &terrain )
 
     build_test_map( terrain );
 
-    map &here = get_map();
     // hard force a rebuild of caches
     here.shift( point_rel_sm::south );
     here.shift( point_rel_sm::north );
@@ -49,9 +49,10 @@ static void clear_game_drag( const ter_id &terrain )
 
 static vehicle *setup_drag_test( const vproto_id &veh_id )
 {
+    map &here = get_map();
     clear_vehicles();
     const tripoint_bub_ms map_starting_point( 60, 60, 0 );
-    vehicle *veh_ptr = get_map().add_vehicle( veh_id, map_starting_point, -90_degrees, 0, 0 );
+    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 0, 0 );
 
     REQUIRE( veh_ptr != nullptr );
     if( veh_ptr == nullptr ) {
@@ -68,7 +69,7 @@ static vehicle *setup_drag_test( const vproto_id &veh_id )
     const auto doors = veh_ptr->get_avail_parts( "OPENABLE" );
     for( const vpart_reference &vp :  doors ) {
         const size_t door = vp.part_index();
-        veh_ptr->close( door );
+        veh_ptr->close( here, door );
     }
 
     veh_ptr->refresh_insides();

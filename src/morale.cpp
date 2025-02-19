@@ -292,31 +292,31 @@ player_morale::player_morale() :
 
     mutations[trait_OPTIMISTIC] =
     mutation_data( [set_optimist]( player_morale * pm ) {
-        return set_optimist( pm, 9 );
+        set_optimist( pm, 9 );
     },
     [set_optimist]( player_morale * pm ) {
-        return set_optimist( pm, 0 );
+        set_optimist( pm, 0 );
     } );
     mutations[trait_BADTEMPER] =
     mutation_data( [set_badtemper]( player_morale * pm ) {
-        return set_badtemper( pm, -9 );
+        set_badtemper( pm, -9 );
     },
     [set_badtemper]( player_morale * pm ) {
-        return set_badtemper( pm, 0 );
+        set_badtemper( pm, 0 );
     } );
     mutations[trait_NUMB] =
     mutation_data( [set_numb]( player_morale * pm ) {
-        return set_numb( pm, -1 );
+        set_numb( pm, -1 );
     },
     [set_numb]( player_morale * pm ) {
-        return set_numb( pm, 0 );
+        set_numb( pm, 0 );
     } );
     mutations[trait_STYLISH] =
     mutation_data( [set_stylish]( player_morale * pm ) {
-        return set_stylish( pm, true );
+        set_stylish( pm, true );
     },
     [set_stylish]( player_morale * pm ) {
-        return set_stylish( pm, false );
+        set_stylish( pm, false );
     } );
     mutations[trait_FLOWERS]       = mutation_data( update_constrained );
     mutations[trait_ROOTS1]        = mutation_data( update_constrained );

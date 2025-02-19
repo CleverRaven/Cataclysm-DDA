@@ -162,7 +162,9 @@ dealt_damage_instance talker_character_const::deal_damage( Creature *source, bod
 
 void talker_character::set_pos( tripoint_bub_ms new_pos )
 {
-    me_chr->setpos( new_pos );
+    map &here = get_map();
+
+    me_chr->setpos( here, new_pos );
 }
 
 void talker_character::set_str_max( int value )
@@ -914,7 +916,9 @@ bool talker_character_const::can_see() const
 
 bool talker_character_const::can_see_location( const tripoint_bub_ms &pos ) const
 {
-    return me_chr_const->sees( pos );
+    const map &here = get_map();
+
+    return me_chr_const->sees( here, pos );
 }
 
 void talker_character::set_sleepiness( int amount )

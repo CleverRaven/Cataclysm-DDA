@@ -236,6 +236,8 @@ class user_turn
 
 input_context game::get_player_input( std::string &action )
 {
+    const map &here = get_map();
+
     input_context ctxt;
     if( uquit == QUIT_WATCH ) {
         ctxt = input_context( "DEFAULTMODE", keyboard_mode::keycode );
@@ -371,10 +373,10 @@ input_context game::get_player_input( std::string &action )
                     const direction oCurDir = iter->getDirection();
                     const int width = utf8_width( iter->getText() );
                     for( int i = 0; i < width; ++i ) {
-                        tripoint_bub_ms tmp( iter->getPosX() + i, iter->getPosY(), get_map().get_abs_sub().z() );
+                        tripoint_bub_ms tmp( iter->getPosX() + i, iter->getPosY(), here.get_abs_sub().z() );
                         const Creature *critter = creatures.creature_at( tmp, true );
 
-                        if( critter != nullptr && u.sees( *critter ) ) {
+                        if( critter != nullptr && u.sees( here, *critter ) ) {
                             i = -1;
                             int iPos = iter->getStep() + iter->getStepOffset();
                             for( auto iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2 ) {
@@ -569,13 +571,15 @@ static void pldrive( const tripoint_rel_ms &p )
 
 static void pldrive( point_rel_ms d )
 {
-    return pldrive( tripoint_rel_ms( d, 0 ) );
+    pldrive( tripoint_rel_ms( d, 0 ) );
 }
 
 static void open()
 {
+    map &here = get_map();
+
     avatar &player_character = get_avatar();
-    const std::optional<tripoint_bub_ms> openp_ = choose_adjacent_highlight( _( "Open where?" ),
+    const std::optional<tripoint_bub_ms> openp_ = choose_adjacent_highlight( here, _( "Open where?" ),
             pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
             ACTION_OPEN, false );
 
@@ -583,7 +587,6 @@ static void open()
         return;
     }
     const tripoint_bub_ms openp = *openp_;
-    map &here = get_map();
 
     player_character.mod_moves( -to_moves<int>( 1_seconds ) );
 
@@ -603,7 +606,7 @@ static void open()
             const std::string part_name = veh->part( openable ).name();
             bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
-                veh->open( openable );
+                veh->open( here, openable );
                 //~ %1$s - vehicle name, %2$s - part name
                 player_character.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh->name, part_name );
             } else {
@@ -616,7 +619,7 @@ static void open()
                     add_msg( m_info, _( "That %s can only be opened from the inside." ), part_name );
                     player_character.mod_moves( to_moves<int>( 1_seconds ) );
                 } else {
-                    veh->open_all_at( openable );
+                    veh->open_all_at( here, openable );
                     //~ %1$s - vehicle name, %2$s - part name
                     player_character.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh->name, part_name );
                 }
@@ -660,8 +663,10 @@ static void open()
 
 static void close()
 {
+    map &here = get_map();
+
     if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_highlight(
-                _( "Close where?" ),
+                here, _( "Close where?" ),
                 pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
                 ACTION_CLOSE, false ) ) {
         doors::close_door( get_map(), get_player_character(), *pnt );
@@ -2472,7 +2477,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_SMASH:
             if( has_vehicle_control( player_character ) ) {
-                handbrake();
+                handbrake( here );
             } else {
                 smash();
             }
@@ -3098,6 +3103,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
 bool game::handle_action()
 {
+    map &here = get_map();
+
     std::string action;
     input_context ctxt;
     action_id act = ACTION_NULL;
@@ -3177,7 +3184,7 @@ bool game::handle_action()
             // No auto-move actions have or can be set at this point.
             player_character.clear_destination();
             destination_preview.clear();
-            act = handle_action_menu();
+            act = handle_action_menu( here );
             if( act == ACTION_NULL ) {
                 return false;
             }
@@ -3224,7 +3231,7 @@ bool game::handle_action()
             if( !mouse_pos ) {
                 return false;
             }
-            if( !player_character.sees( *mouse_pos ) ) {
+            if( !player_character.sees( here, *mouse_pos ) ) {
                 // Not clicked in visible terrain
                 return false;
             }

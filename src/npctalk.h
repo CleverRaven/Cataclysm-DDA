@@ -18,10 +18,10 @@ namespace talk_function
 {
 
 struct teach_domain {
-    skill_id skill = skill_id();
-    matype_id style = matype_id();
-    spell_id spell = spell_id();
-    proficiency_id prof = proficiency_id();
+    skill_id skill;
+    matype_id style;
+    spell_id spell;
+    proficiency_id prof;
 };
 
 void nothing( npc & );

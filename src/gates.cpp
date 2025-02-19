@@ -241,7 +241,7 @@ void gates::open_gate( const tripoint_bub_ms &pos )
         }
     }
 
-    if( get_player_view().sees( pos ) ) {
+    if( get_player_view().sees( here, pos ) ) {
         if( open ) {
             add_msg( gate.open_message );
         } else if( close ) {
@@ -304,7 +304,7 @@ void doors::close_door( map &m, Creature &who, const tripoint_bub_ms &closep )
             }
             Character *ch = who.as_character();
             if( ch && veh->can_close( closable, *ch ) ) {
-                veh->close( closable );
+                veh->close( m, closable );
                 //~ %1$s - vehicle name, %2$s - part name
                 who.add_msg_if_player( _( "You close the %1$s's %2$s." ), veh->name, veh->part( closable ).name() );
                 didit = true;
@@ -394,7 +394,7 @@ bool doors::forced_door_closing( const tripoint_bub_ms &p,
     const tripoint_bub_ms displace = pos.value();
     //knockback trajectory requires the line be flipped
     const tripoint_bub_ms kbp( -displace.x() + x * 2, -displace.y() + y * 2, displace.z() );
-    const bool can_see = u.sees( kbp );
+    const bool can_see = u.sees( m, kbp );
     creature_tracker &creatures = get_creature_tracker();
     Character *npc_or_player = creatures.creature_at<Character>( p, false );
     if( npc_or_player != nullptr ) {

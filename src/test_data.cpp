@@ -4,9 +4,10 @@
 #include "generic_factory.h"
 #include "pocket_type.h"  // IWYU pragma: keep // need full type to read from json
 
+// Define the static class varaibles
 std::set<itype_id> test_data::legacy_to_hit;
 std::set<itype_id> test_data::known_bad;
-std::unordered_set<oter_type_id> test_data::overmap_terrain_coverage_whitelist;
+std::vector<std::regex> test_data::overmap_terrain_coverage_whitelist;
 std::map<vproto_id, std::vector<double>> test_data::drag_data;
 std::map<vproto_id, efficiency_data> test_data::eff_data;
 std::map<itype_id, double> test_data::expected_dps;
@@ -126,10 +127,10 @@ void test_data::load( const JsonObject &jo )
     }
 
     if( jo.has_array( "overmap_terrain_coverage_whitelist" ) ) {
-        std::unordered_set<oter_type_str_id> new_overmap_terrain_coverage_whitelist;
+        std::vector<std::string> new_overmap_terrain_coverage_whitelist;
         jo.read( "overmap_terrain_coverage_whitelist", new_overmap_terrain_coverage_whitelist );
-        for( const oter_type_str_id &o : new_overmap_terrain_coverage_whitelist ) {
-            overmap_terrain_coverage_whitelist.insert( o.id() );
+        for( const std::string &o : new_overmap_terrain_coverage_whitelist ) {
+            overmap_terrain_coverage_whitelist.emplace_back( o );
         }
     }
 

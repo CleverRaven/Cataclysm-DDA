@@ -10,6 +10,7 @@
 #include <optional>
 #include <stdexcept>
 #include <unordered_set>
+#include <variant>
 
 #include "ammo.h"
 #include "assign.h"
@@ -349,6 +350,9 @@ void Item_factory::finalize_pre( itype &obj )
     // for ammo and comestibles stack size defaults to count of initial charges
     // Set max stack size to 200 to prevent integer overflow
     if( obj.count_by_charges() ) {
+        if( obj.comestible ) {
+            obj.stack_size = obj.comestible->stack_size;
+        }
         if( obj.stack_size == 0 ) {
             obj.stack_size = obj.charges_default();
         } else if( obj.stack_size > 200 ) {
@@ -392,7 +396,16 @@ void Item_factory::finalize_pre( itype &obj )
 
     // Finalize vitamins in food
     if( obj.comestible ) {
+        // The value here is in kcal, but is stored as simply calories
+        obj.comestible->default_nutrition.calories *= 1000;
         obj.comestible->default_nutrition.finalize_vitamins();
+
+        if( !obj.comestible->primary_material.is_null() ) {
+            obj.materials.clear();
+            obj.materials.emplace( obj.comestible->primary_material, 1 );
+            obj.mat_portion_total = 1;
+            obj.default_mat = obj.comestible->primary_material;
+        }
 
         bool is_not_boring = false;
         float specific_heat_solid = 0.0f;
@@ -409,7 +422,7 @@ void Item_factory::finalize_pre( itype &obj )
             is_not_boring = is_not_boring || m == material_junk;
         };
 
-        for( const std::pair <const material_id, int> &pair : obj.comestible->materials ) {
+        for( const std::pair <const material_id, int> &pair : obj.materials ) {
             add_spi( pair.first, pair.second );
         }
 
@@ -2803,6 +2816,25 @@ void Item_factory::load_wheel( const JsonObject &jo, const std::string &src )
     }
 }
 
+void Item_factory::load_comestible( const JsonObject &jo, const std::string &src )
+{
+    itype def;
+    if( load_definition( jo, src, def ) ) {
+        if( def.was_loaded ) {
+            if( def.comestible ) {
+                def.comestible->was_loaded = true;
+            } else {
+                def.comestible = cata::make_value<islot_comestible>();
+                def.comestible->was_loaded = true;
+            }
+        } else {
+            def.comestible = cata::make_value<islot_comestible>();
+        }
+        def.comestible->load( jo );
+        load_basic_info( jo, def, src );
+    }
+}
+
 void itype_variant_data::deserialize( const JsonObject &jo )
 {
     load( jo );
@@ -3318,156 +3350,75 @@ void Item_factory::load_ememory_size( const JsonObject &jo, itype &def )
     assign( jo, "ememory_size", def.ememory_size );
 }
 
-void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std::string &src )
+/**
+ * Loads vitamin JSON for generic_factory
+ * Format must be an array of array-pairs: [[a,b],[c,d]]
+ * where a/c are string_id, b/d are int OR vitamin_units::mass string
+ */
+class vitamins_reader : public generic_typed_reader<vitamins_reader>
 {
-    bool strict = src == "dda";
-
-    JsonObject relative = jo.get_object( "relative" );
-    JsonObject proportional = jo.get_object( "proportional" );
-    relative.allow_omitted_members();
-    proportional.allow_omitted_members();
-
-    // !slot.comesttype.empty() for was_loaded - we don't have a proper was_loaded, but
-    // if it's been loaded before, this should have a value. If it's not, we'll catch it later.
-    mandatory( jo, !slot.comesttype.empty(), "comestible_type", slot.comesttype );
-    assign( jo, "tool", slot.tool, strict );
-    assign( jo, "charges", slot.def_charges, strict, 1 );
-    assign( jo, "quench", slot.quench, strict );
-    assign( jo, "fun", slot.fun, strict );
-    assign( jo, "stim", slot.stim, strict );
-    assign( jo, "sleepiness_mod", slot.sleepiness_mod, strict );
-    assign( jo, "healthy", slot.healthy, strict );
-    assign( jo, "parasites", slot.parasites, strict, 0 );
-    assign( jo, "freezing_point", slot.freeze_point, strict );
-    assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
-    assign( jo, "cooks_like", slot.cooks_like, strict );
-    assign( jo, "smoking_result", slot.smoking_result, strict );
-    assign( jo, "petfood", slot.petfood, strict );
-
-    for( const JsonObject jsobj : jo.get_array( "contamination" ) ) {
-        slot.contamination.emplace( diseasetype_id( jsobj.get_string( "disease" ) ),
-                                    static_cast<float>( jsobj.get_float( "probability" ) ) );
-    }
-
-    if( jo.has_member( "primary_material" ) ) {
-        material_id mat( jo.get_string( "primary_material" ) );
-        // Overwrite the materials (set by copy-from)
-        slot.materials.clear();
-        slot.materials.emplace( mat, 1 );
-    } else if( jo.has_member( "material" ) ) {
-        // Overwrite the materials (set by copy-from)
-        slot.materials.clear();
-
-        if( jo.has_array( "material" ) && jo.get_array( "material" ).test_object() ) {
-            for( JsonObject m : jo.get_array( "material" ) ) {
-                const material_id mat_id( m.get_string( "type" ) );
-                int portion = m.get_int( "portion", 1 );
-                slot.materials.emplace( mat_id, portion );
-            }
-        } else {
-            for( const std::string &m : jo.get_tags( "material" ) ) {
-                slot.materials.emplace( m, 1 );
-            }
-        }
-    }
-
-    assign( jo, "monotony_penalty", slot.monotony_penalty, strict );
-    assign( jo, "addiction_potential", slot.default_addict_potential, strict );
-    if( jo.has_member( "addiction_type" ) ) {
-        slot.addictions.clear();
-        if( jo.has_string( "addiction_type" ) ) {
-            slot.addictions.emplace( addiction_id( jo.get_string( "addiction_type" ) ),
-                                     slot.default_addict_potential );
-        } else { //"addiction_type" is an array
-            for( JsonValue jval : jo.get_array( "addiction_type" ) ) {
-                if( jval.test_string() ) {
-                    slot.addictions.emplace( addiction_id( jval.get_string() ), slot.default_addict_potential );
-                } else { //nested object with addiction + potential
-                    JsonObject jobj = jval.get_object();
-                    slot.addictions.emplace( addiction_id( jobj.get_string( "addiction" ) ),
-                                             jobj.get_int( "potential" ) );
+    public:
+        std::pair<vitamin_id, std::variant<int, vitamin_units::mass>> get_next(
+        const JsonValue &val ) const {
+            if( val.test_array() ) {
+                JsonArray arr = val.get_array();
+                if( arr.size() == 2 ) {
+                    vitamin_id vit( arr[0].get_string() );
+                    if( arr[1].test_int() ) {
+                        return std::pair( vit, std::variant<int, vitamin_units::mass>( arr[1].get_int() ) );
+                    } else {
+                        vitamin_units::mass val = read_from_json_string( arr[1], vitamin_units::mass_units );
+                        return std::pair( vit, std::variant<int, vitamin_units::mass>( val ) );
+                    }
+                } else {
+                    arr.throw_error( "vitamins reader read array without exactly two entries" );
                 }
             }
+            val.throw_error( "vitamins reader read non-array" );
         }
-    } else if( jo.has_member( "addiction_potential" ) ) {
-        // copy-from'd while only changing the general potential, so assign new potential to all addictions
-        for( std::pair<const addiction_id, int> &add : slot.addictions ) {
-            add.second = slot.default_addict_potential;
-        }
-    }
+};
 
-    bool got_calories = false;
+void islot_comestible::load( const JsonObject &jo )
+{
+    std::string src = "dda";
 
-    if( jo.has_member( "calories" ) ) {
-        // The value here is in kcal, but is stored as simply calories
-        slot.default_nutrition.calories = 1000 * jo.get_int( "calories" );
-        got_calories = true;
+    mandatory( jo, was_loaded, "comestible_type", comesttype );
+    optional( jo, was_loaded, "tool", tool, itype_id::NULL_ID() );
+    optional( jo, was_loaded, "charges", def_charges, 0 );
+    optional( jo, was_loaded, "stack_size", stack_size );
+    optional( jo, was_loaded, "quench", quench );
+    optional( jo, was_loaded, "fun", fun );
+    optional( jo, was_loaded, "stim", stim );
+    optional( jo, was_loaded, "sleepiness_mod", sleepiness_mod );
+    optional( jo, was_loaded, "healthy", healthy );
+    optional( jo, was_loaded, "parasites", parasites );
+    optional( jo, was_loaded, "freezing_point", freeze_point );
+    optional( jo, was_loaded, "spoils_in", spoils );
+    optional( jo, was_loaded, "cooks_like", cooks_like );
+    optional( jo, was_loaded, "smoking_result", smoking_result );
+    optional( jo, was_loaded, "petfood", petfood );
+    optional( jo, was_loaded, "monotony_penalty", monotony_penalty, -1 );
+    optional( jo, was_loaded, "calories", default_nutrition.calories );
 
-    } else if( relative.has_member( "calories" ) ) {
-        // The value here is in kcal, but is stored as simply calories
-        slot.default_nutrition.calories += 1000 * relative.get_int( "calories" );
-        got_calories = true;
+    optional( jo, was_loaded, "contamination", contamination,
+              weighted_string_id_reader<diseasetype_id, float> {1.0} );
+    optional( jo, was_loaded, "primary_material", primary_material, material_id::NULL_ID() );
+    optional( jo, was_loaded, "vitamins", default_nutrition.vitamins_,
+              vitamins_reader {} );
+    optional( jo, was_loaded, "addiction_potential", default_addict_potential );
 
-    } else if( proportional.has_member( "calories" ) ) {
-        // The value here is in kcal, but is stored as simply calories
-        slot.default_nutrition.calories *= proportional.get_float( "calories" );
-        got_calories = true;
-
-    } else if( jo.has_member( "nutrition" ) ) {
-        // The value here is in kcal, but is stored as simply calories
-        slot.default_nutrition.calories = jo.get_int( "nutrition" ) * islot_comestible::kcal_per_nutr *
-                                          1000;
-    }
+    optional( jo, was_loaded, "addiction_type", addictions,
+              weighted_string_id_reader<addiction_id, int> {default_addict_potential} );
 
     for( JsonValue jv : jo.get_array( "consumption_effect_on_conditions" ) ) {
-        slot.consumption_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        consumption_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
+    optional( jo, was_loaded, "rot_spawn", rot_spawn );
+}
 
-    if( jo.has_member( "nutrition" ) && got_calories ) {
-        jo.throw_error_at( "nutrition", "cannot specify both nutrition and calories" );
-    }
-
-    // any specification of vitamins suppresses use of material defaults @see Item_factory::finalize
-    if( jo.has_array( "vitamins" ) ) {
-        slot.default_nutrition.clear_vitamins();
-        slot.default_nutrition.finalized = false;
-        for( JsonArray pair : jo.get_array( "vitamins" ) ) {
-            vitamin_id vit( pair.get_string( 0 ) );
-            if( pair.has_int( 1 ) ) {
-                slot.default_nutrition.set_vitamin( vit, pair.get_int( 1 ) );
-            } else {
-                vitamin_units::mass val = read_from_json_string( pair[1], vitamin_units::mass_units );
-                slot.default_nutrition.set_vitamin( vit, val );
-            }
-        }
-
-    } else if( relative.has_array( "vitamins" ) ) {
-        for( JsonArray pair : relative.get_array( "vitamins" ) ) {
-            vitamin_id vit( pair.get_string( 0 ) );
-            if( pair.has_int( 1 ) ) {
-                slot.default_nutrition.add_vitamin( vit, pair.get_int( 1 ) );
-            } else {
-                vitamin_units::mass val = read_from_json_string( pair[1], vitamin_units::mass_units );
-                slot.default_nutrition.add_vitamin( vit, val );
-            }
-        }
-    }
-
-    if( jo.has_object( "rot_spawn" ) ) {
-        JsonObject jo_rot = jo.get_object( "rot_spawn" );
-        if( jo_rot.has_string( "monster" ) ) {
-            slot.rot_spawn_monster = mtype_id( jo_rot.get_string( "monster" ) );
-            slot.rot_spawn_group = mongroup_id::NULL_ID();
-            load_min_max( slot.rot_spawn_monster_amount, jo_rot, "amount" );
-        }
-        if( jo_rot.has_string( "group" ) ) {
-            slot.rot_spawn_group = mongroup_id( jo_rot.get_string( "group" ) );
-            slot.rot_spawn_monster = mtype_id::NULL_ID();
-        }
-        if( jo_rot.has_int( "chance" ) ) {
-            assign( jo_rot, "chance", slot.rot_spawn_chance, strict, 0, 100 );
-        }
-    }
+void islot_comestible::deserialize( const JsonObject &jo )
+{
+    load( jo );
 }
 
 void islot_brewable::load( const JsonObject &jo )
@@ -3502,16 +3453,6 @@ void islot_compostable::load( const JsonObject &jo )
 void islot_compostable::deserialize( const JsonObject &jo )
 {
     load( jo );
-}
-
-void Item_factory::load_comestible( const JsonObject &jo, const std::string &src )
-{
-    itype def;
-    if( load_definition( jo, src, def ) ) {
-        assign( jo, "stack_size", def.stack_size, src == "dda", 1 );
-        load_slot( def.comestible, jo, src );
-        load_basic_info( jo, def, src );
-    }
 }
 
 void islot_seed::load( const JsonObject &jo )
@@ -3598,7 +3539,6 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
             slot.add_mod.emplace( gunmod_location( curr.get_string( 0 ) ), curr.get_int( 1 ) );
         }
     }
-
     assign( jo, "is_bayonet", slot.is_bayonet );
     assign( jo, "blacklist_mod", slot.blacklist_mod );
     assign( jo, "blacklist_slot", slot.blacklist_slot );
@@ -4319,33 +4259,16 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.color = color_from_string( jo.get_string( "color" ) );
     }
 
-    if( jo.has_member( "material" ) ) {
-        def.materials.clear();
-        def.mat_portion_total = 0;
-        auto add_mat = [&def]( const material_id & m, int portion ) {
-            const auto res = def.materials.emplace( m, portion );
-            if( res.second ) {
-                def.mat_portion_total += portion;
-            }
-        };
-        bool first = true;
-        if( jo.has_array( "material" ) && jo.get_array( "material" ).test_object() ) {
-            for( JsonObject mat : jo.get_array( "material" ) ) {
-                add_mat( material_id( mat.get_string( "type" ) ), mat.get_int( "portion", 1 ) );
-                if( first ) {
-                    def.default_mat = material_id( mat.get_string( "type" ) );
-                    first = false;
-                }
-            }
-        } else {
-            for( const std::string &mat : jo.get_tags( "material" ) ) {
-                add_mat( material_id( mat ), 1 );
-                if( first ) {
-                    def.default_mat = material_id( mat );
-                    first = false;
-                }
-            }
+    optional( jo, def.was_loaded, "material", def.materials,
+              weighted_string_id_reader<material_id, int> {1} );
+    bool first_pair = true;
+    def.mat_portion_total = 0;
+    for( const std::pair<const string_id<material_type>, int> &pair : def.materials ) {
+        if( first_pair ) {
+            def.default_mat = pair.first;
+            first_pair = false;
         }
+        def.mat_portion_total += pair.second;
     }
 
     if( jo.has_member( "chat_topics" ) ) {
