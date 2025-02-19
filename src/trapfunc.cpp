@@ -1573,17 +1573,6 @@ bool trapfunc::cast_spell( const tripoint_bub_ms &p, Creature *critter, item * )
         if( !tr.has_flag( json_flag_UNCONSUMED ) ) {
             here.remove_trap( p );
         }
-        if( tr.has_flag( json_flag_PROXIMITY ) ) {
-            // remove all traps in 3-3 area area
-            for( int x = p.x() - 1; x <= p.x() + 1; x++ ) {
-                for( int y = p.y() - 1; y <= p.y() + 1; y++ ) {
-                    tripoint_bub_ms pt( x, y, p.z() );
-                    if( here.tr_at( pt ).loadid == tr.loadid ) {
-                        here.remove_trap( pt );
-                    }
-                }
-            }
-        }
         // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
         trap_spell.cast_all_effects( dummy, p );
         trap_spell.make_sound( p, get_player_character() );
