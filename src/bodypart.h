@@ -279,7 +279,6 @@ struct body_part_type {
         //Morale parameters
         float hot_morale_mod = 0.0f;
         float cold_morale_mod = 0.0f;
-        float stylish_bonus = 0.0f;
         int squeamish_penalty = 0;
         bool feels_discomfort = true;
 

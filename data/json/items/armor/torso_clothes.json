@@ -543,7 +543,7 @@
     "warmth": 25,
     "material_thickness": 1.5,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "FANCY", "OUTER" ]
+    "flags": [ "VARSIZE", "OUTER" ]
   },
   {
     "id": "cheerleader_dress",
@@ -642,7 +642,7 @@
     "color": "pink",
     "warmth": 10,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [ { "encumbrance": 7, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
@@ -709,7 +709,7 @@
     ],
     "warmth": 10,
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE" ]
   },
   {
     "id": "dress_wedding",
@@ -726,7 +726,7 @@
     "color": "white",
     "warmth": 16,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "SUPER_FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       { "coverage": 90, "covers": [ "torso" ], "encumbrance": 12 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 }
@@ -783,7 +783,7 @@
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "SUPER_FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [ { "encumbrance": 14, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
@@ -1625,7 +1625,7 @@
     "looks_like": "dress",
     "color": "yellow",
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       { "coverage": 65, "covers": [ "torso" ] },
       {

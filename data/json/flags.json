@@ -450,13 +450,6 @@
     "info": "<info>Only one</info> item can be worn on this clothing layer."
   },
   {
-    "id": "FANCY",
-    "type": "json_flag",
-    "//": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
-    "info": "This clothing is <info>fancy</info>.",
-    "conflicts": [ "SUPER_FANCY" ]
-  },
-  {
     "id": "FIRE",
     "type": "json_flag",
     "info": "This item counts as <color_red>fire</color> for crafting purposes."
@@ -934,13 +927,6 @@
     "type": "json_flag",
     "//": "Prevents glaring when in sunlight.",
     "info": "This clothing keeps the <info>glare</info> out of your eyes."
-  },
-  {
-    "id": "SUPER_FANCY",
-    "type": "json_flag",
-    "//": "Gives an additional moral bonus over FANCY if the player has the Stylish trait.",
-    "info": "This clothing is <info>very fancy</info>.",
-    "conflicts": [ "FANCY" ]
   },
   {
     "id": "SWIM_GOGGLES",

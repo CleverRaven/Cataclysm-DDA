@@ -1219,16 +1219,6 @@
   },
   {
     "type": "mutation",
-    "id": "STYLISH",
-    "name": { "str": "Stylish" },
-    "points": 2,
-    "description": "Practicality is far less important than style.  Your morale is improved by wearing fashionable and attractive clothing.",
-    "starting_trait": true,
-    "random_at_chargen": false,
-    "valid": false
-  },
-  {
-    "type": "mutation",
     "id": "LIGHTSTEP",
     "name": { "str": "Light Step" },
     "points": 1,

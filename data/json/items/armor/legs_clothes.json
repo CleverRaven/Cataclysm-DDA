@@ -396,7 +396,7 @@
     "warmth": 15,
     "material_thickness": 0.8,
     "//": "Mediumweight 12 oz denim jeans.",
-    "flags": [ "VARSIZE", "POCKETS", "FANCY" ],
+    "flags": [ "VARSIZE", "POCKETS" ],
     "armor": [ { "encumbrance": [ 8, 12 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
     "snippet_category": [
       {
