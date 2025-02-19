@@ -468,35 +468,5 @@
     "category": "currency",
     "name": { "str": "50 Cent coin" },
     "description": "A fifty-cent coin, featuring a portrait of famed rapper 50 Cent.  On the back is the date of minting, and the G-Unit symbol."
-  },
-  {
-    "id": "ruger_1022",
-    "copy-from": "ruger_1022",
-    "type": "GUN",
-    "variant_type": "gun",
-    "name": { "str": "varmint rifle" },
-    "description": "A lightweight and modular pistol caliber hunting carbine, firing the low power .22 LR cartridge.  Before the Cataclysm, a mix of high customizability, cheap ammunition, and low recoil made this a very popular varmint rifle among civilian shooters.",
-    "variants": [
-      {
-        "id": "ruger_1022",
-        "name": { "str": "Ruger Oct-22" },
-        "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger Oct-22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing."
-      }
-    ]
-  },
-  {
-    "id": "ruger_1022_auto",
-    "copy-from": "ruger_1022_auto",
-    "type": "GUN",
-    "name": "full-auto varmint rifle",
-    "description": "A handy and lightweight rifle, modified to fire semi and full auto.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "ruger_1022_auto",
-        "name": { "str": "full-auto Ruger Oct-22" },
-        "description": "A Ruger 10/22 modified post-Cataclysm to selective fire.  While the .22 round isn't very powerful, full auto makes it a lot more effective, and still easily controllable in full auto."
-      }
-    ]
   }
 ]
