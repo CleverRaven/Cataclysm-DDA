@@ -150,7 +150,7 @@ class item_location::impl::nowhere : public item_location::impl
             return type::invalid;
         }
 
-        tripoint_bub_ms pos_bub( const map &here ) const override {
+        tripoint_bub_ms pos_bub( const map & ) const override {
             debugmsg( "invalid use of nowhere item_location" );
             return tripoint_bub_ms::min;
         }
