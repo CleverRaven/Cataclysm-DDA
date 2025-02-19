@@ -21,7 +21,7 @@
     "//2": "This group is for a set of tailoring manuals and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "SUS_tailoring_bookcase", "count": [ 0, 2 ], "prob": 40 },
+      { "group": "SUS_tailoring_bookcase", "count": [ 0, 2 ], "prob": 40 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
     ]
@@ -49,7 +49,7 @@
     "//2": "This group is for a set of mechanical engineering textbooks and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "SUS_engineering_bookcase", "count": [ 0, 4 ], "prob": 40 },
+      { "group": "SUS_engineering_bookcase", "count": [ 0, 4 ], "prob": 40 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
     ]
@@ -78,7 +78,7 @@
     "//2": "This group is for a set of crafts manuals and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "SUS_crafts_bookcase", "count": [ 0, 2 ], "prob": 30 },
+      { "group": "SUS_crafts_bookcase", "count": [ 0, 2 ], "prob": 30 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
     ]
@@ -112,7 +112,7 @@
     "//2": "This group is for a set of manuals and references for historical manufacturing techniques.",
     "subtype": "collection",
     "entries": [
-      { "item": "SUS_historical_manufacturing_bookcase", "count": [ 0, 1 ], "prob": 30 },
+      { "group": "SUS_historical_manufacturing_bookcase", "count": [ 0, 1 ], "prob": 30 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
     ]
@@ -148,7 +148,7 @@
     "//2": "This group is for a set of electronics textbooks and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "SUS_electronics_bookcase", "count": [ 0, 2 ], "prob": 30 },
+      { "group": "SUS_electronics_bookcase", "count": [ 0, 2 ], "prob": 30 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
     ]
@@ -175,7 +175,7 @@
     "//2": "This group is for a set of computer science and programming textbooks and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "SUS_computers_bookcase", "count": [ 1, 4 ], "prob": 30 },
+      { "group": "SUS_computers_bookcase", "count": [ 1, 4 ], "prob": 30 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
     ]
@@ -202,7 +202,7 @@
     "//2": "This group is for a set of chemistry textbooks and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "SUS_chemistry_bookcase", "count": [ 0, 2 ], "prob": 20 },
+      { "group": "SUS_chemistry_bookcase", "count": [ 0, 2 ], "prob": 20 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
     ]
@@ -234,7 +234,7 @@
     "//2": "This group is for a set of cooking manuals and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "SUS_cooking_bookcase", "count": [ 0, 3 ], "prob": 30 },
+      { "group": "SUS_cooking_bookcase", "count": [ 0, 3 ], "prob": 30 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
     ]
@@ -260,7 +260,7 @@
     "entries": [
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },
-      { "item": "SUS_medicine_bookcase", "count": [ 0, 2 ], "prob": 30 }
+      { "group": "SUS_medicine_bookcase", "count": [ 0, 2 ], "prob": 30 }
     ]
   },
   {
@@ -285,7 +285,7 @@
     "entries": [
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },
-      { "item": "SUS_business_bookcase", "count": [ 0, 1 ], "prob": 20 }
+      { "group": "SUS_business_bookcase", "count": [ 0, 1 ], "prob": 20 }
     ]
   },
   {
@@ -313,7 +313,7 @@
     "entries": [
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },
-      { "item": "SUS_bushcraft_bookcase", "count": [ 0, 1 ], "prob": 20 }
+      { "group": "SUS_bushcraft_bookcase", "count": [ 0, 1 ], "prob": 20 }
     ]
   },
   {
