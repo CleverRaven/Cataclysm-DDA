@@ -600,66 +600,6 @@
     ]
   },
   {
-    "id": "wicker_basket_large",
-    "type": "ARMOR",
-    "name": { "str": "large wicker basket" },
-    "description": "A large handmade straw basket.  Unwieldy but spacious.",
-    "weight": "400 g",
-    "volume": "52500 ml",
-    "price": "2 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "dry_plant" ],
-    "symbol": ")",
-    "looks_like": "straw_basket",
-    "color": "light_gray",
-    "armor": [
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 5, "encumbrance": [ 50, 50 ] },
-      { "covers": [ "hand_l", "hand_r" ], "coverage": 5, "encumbrance": [ 50, 50 ] }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "30 kg",
-        "max_item_length": "80 cm",
-        "moves": 300
-      }
-    ],
-    "material_thickness": 2,
-    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "WATER_FRIENDLY", "BELTED" ]
-  },
-  {
-    "id": "basket_laundry",
-    "type": "ARMOR",
-    "name": { "str": "laundry basket" },
-    "description": "A plastic basket meant for storing and hauling clothing.",
-    "weight": "680 g",
-    "volume": "52500 ml",
-    "price": "75 cent",
-    "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
-    "symbol": ")",
-    "looks_like": "plastic_shopping_bag",
-    "color": "light_gray",
-    "armor": [
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 5, "encumbrance": [ 50, 50 ] },
-      { "covers": [ "hand_l", "hand_r" ], "coverage": 5, "encumbrance": [ 50, 50 ] }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "12 kg",
-        "max_item_length": "80 cm",
-        "moves": 300
-      }
-    ],
-    "material_thickness": 2,
-    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NO_SALVAGE" ]
-  },
-  {
     "id": "bigback",
     "type": "ARMOR",
     "name": { "str": "high-volume rucksack" },
