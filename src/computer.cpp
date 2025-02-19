@@ -7,7 +7,6 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
-#include "game.h"
 #include "json.h"
 #include "map.h"
 #include "output.h"
