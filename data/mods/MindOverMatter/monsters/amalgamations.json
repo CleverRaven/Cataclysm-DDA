@@ -39,11 +39,10 @@
         "condition": {
           "and": [
             { "not": { "u_has_flag": "NO_PSIONICS" } },
-            { "not": { "npc_has_effect": "effect_monster_inertial_barrier" } },
             { "math": [ "u_effect_intensity('effect_amalgamation_telekinetic_shielder_counter') < 4" ] }
           ]
         },
-        "monster_message": "The air around %3$s wavers."
+        "monster_message": "%1$s waves its three appendages in the air."
       }
     ],
     "tracking_distance": 8,
