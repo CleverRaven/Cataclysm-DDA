@@ -236,18 +236,11 @@
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "LEEL",
-        " EE ",
-        "y   ",
-        "O   "
+        "¤@@¤",
+        " @@ ",
+        "D   "
       ],
-      "palettes": [ "house_w_nest_palette" ],
-      "items": {
-        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
-        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
-        "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
-        "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
-      }
+      "palettes": [ "domestic_general_and_variant_palette" ]
     }
   },
   {
@@ -258,19 +251,13 @@
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "O   L",
-        "O  EE",
-        "B  EE",
-        "    L",
+        "D   ¤",
+        "D  @@",
+        "h  @@",
+        "    ¤",
         "     "
       ],
-      "palettes": [ "house_w_nest_palette" ],
-      "items": {
-        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
-        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
-        "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
-        "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
-      }
+      "palettes": [ "domestic_general_and_variant_palette" ]
     }
   }
 ]
