@@ -77,14 +77,14 @@ std::vector<std::string> talker_character_const::get_grammatical_genders() const
     return me_chr_const->get_grammatical_genders();
 }
 
-int talker_character_const::posx() const
+int talker_character_const::posx( const map &here ) const
 {
-    return me_chr_const->posx();
+    return me_chr_const->posx( here );
 }
 
-int talker_character_const::posy() const
+int talker_character_const::posy( const map &here ) const
 {
-    return me_chr_const->posy();
+    return me_chr_const->posy( here );
 }
 
 int talker_character_const::posz() const
@@ -92,9 +92,9 @@ int talker_character_const::posz() const
     return me_chr_const->posz();
 }
 
-tripoint_bub_ms talker_character_const::pos_bub() const
+tripoint_bub_ms talker_character_const::pos_bub( const map &here ) const
 {
-    return me_chr_const->pos_bub();
+    return me_chr_const->pos_bub( here );
 }
 
 tripoint_abs_ms talker_character_const::pos_abs() const

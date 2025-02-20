@@ -1936,7 +1936,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
 
         if( destroy ) {
             if( get_player_view().sees( here, guy ) ) {
-                SCT.add( point( guy.posx(), guy.posy() ), direction::NORTH, remove_color_tags( pre_damage_name ),
+                SCT.add( guy.pos_bub( here ).xy().raw(), direction::NORTH, remove_color_tags( pre_damage_name ),
                          m_neutral, _( "destroyed" ), m_info );
             }
             destroyed_armor_msg( guy, pre_damage_name );

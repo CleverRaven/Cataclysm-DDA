@@ -1242,6 +1242,8 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
 
 TEST_CASE( "npc_arithmetic", "[npc_talk]" )
 {
+    map &here = get_map();
+
     dialogue d;
     npc &beta = prep_test( d );
     Character &player_character = get_avatar();
@@ -1334,12 +1336,12 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     // "Sets pos_x to 14."
     effects = d.responses[ 12 ].success;
     effects.apply( d );
-    CHECK( player_character.posx() == -1 );
+    CHECK( player_character.posx( here ) == -1 );
 
     // "Sets pos_y to 15."
     effects = d.responses[ 13 ].success;
     effects.apply( d );
-    CHECK( player_character.posy() == -2 );
+    CHECK( player_character.posy( here ) == -2 );
 
     // "Sets pos_z to 16."
     effects = d.responses[ 14 ].success;

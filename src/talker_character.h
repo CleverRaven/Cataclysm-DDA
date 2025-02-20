@@ -13,6 +13,8 @@
 #include "type_id.h"
 #include "units_fwd.h"
 
+class map;
+
 /*
  * Talker wrapper class for const Character access.
  * Should never be invoked directly.  Only talker_avatar and talker_npc are really valid.
@@ -40,10 +42,10 @@ class talker_character_const: virtual public const_talker
         character_id getID() const override;
         bool is_male() const override;
         std::vector<std::string> get_grammatical_genders() const override;
-        int posx() const override;
-        int posy() const override;
+        int posx( const map &here ) const override;
+        int posy( const map &here ) const override;
         int posz() const override;
-        tripoint_bub_ms pos_bub() const override;
+        tripoint_bub_ms pos_bub( const map &here ) const override;
         tripoint_abs_ms pos_abs() const override;
         tripoint_abs_omt pos_abs_omt() const override;
         int get_cur_hp( const bodypart_id &bp ) const override;
