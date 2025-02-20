@@ -13,8 +13,6 @@
 #include "type_id.h"
 #include "units_fwd.h"
 
-class map;
-
 /*
  * Talker wrapper class for const Character access.
  * Should never be invoked directly.  Only talker_avatar and talker_npc are really valid.

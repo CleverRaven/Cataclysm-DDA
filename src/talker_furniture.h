@@ -9,7 +9,6 @@
 #include "talker.h"
 
 class computer;
-class map;
 
 /*
  * Talker wrapper class for furniture

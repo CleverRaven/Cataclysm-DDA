@@ -11,7 +11,6 @@
 #include "units_fwd.h"
 
 class item_location;
-class map;
 
 /*
  * Talker wrapper class for item.

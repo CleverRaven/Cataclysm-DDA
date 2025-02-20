@@ -26,7 +26,6 @@
 #include "mutation.h"
 #include "output.h"
 #include "pimpl.h"
-#include "point.h"
 #include "rng.h"
 #include "subbodypart.h"
 #include "translation.h"

@@ -11,8 +11,6 @@
 #include "talker.h"
 #include "type_id.h"
 
-class map;
-
 /*
  * Talker wrapper class for monster.
  */
