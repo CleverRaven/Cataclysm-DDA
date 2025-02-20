@@ -205,6 +205,7 @@ Add part bonus to rotor diameter in thrust calculations
 Revivification by mon_group
 Ask to wield container if parent container is too small to insert items
 Improve blood placement on Riot Damage
+Minor Riot Damage Tweaks
 
 
 ## Content:
@@ -440,6 +441,7 @@ Another new Exodii Gun: the Khuunäöfaai ordnance cannon, a long range incendia
 Adds new rails vehicles
 Add in pride/pronoun pins
 Add in the guns S&W 617, Ruger PCC, and Marlin Model 60
+Adds large wicker baskets
 
 
 ## Interface:
@@ -1023,6 +1025,10 @@ Add lucky/unlucky traits to Crazy Cata
 Sky Island vampire compatibility
 [Aftershock] Update and Expand Hacking System
 [Xedra Evolved] Add seasonal magic for changelings
+Martial Mastery : Many New Perks.
+Aftershock: Add some more Cyberpunk style gear
+[MoM] Swap the Itzcuauhtli Corps Liaison's wristwatch for a māchīuhpōhualhuaztli ("wrist computer")
+[Xedra Evolved] More seasonal magic
 
 
 ## Balance:
@@ -1582,6 +1588,14 @@ prevent storing multiple copies of the same book
 fix segfault when trying to insert items into container not carried
 Fix Riot Damage not applying properly to structures multiple z-levels tall
 Audit Overmap Terrains for correct application of Riot Damage
+Make more masks compatible with NVG's
+#79551 Crash calling destructor twice
+fix MISSION_GET_SOFTWARE not finding software
+Fix Chainsmoker having wrong effect on accuracy.
+Fixes a few bugs
+Flawless memory perk is no longer a debuff
+Remove radiation from the nuclear power plant
+Removes electric fields from irradiation plant
 
 
 ## Performance:
@@ -1770,6 +1784,8 @@ Magic Infrastructure: Make magic_type spell fail chance still affected by spell 
 Allow EOCs to assign the character cash value
 Allow extending/deleting connect_groups/connects_to/rotates_to
 Make spell difficulty accessible in math
+Add max_worn field, migrate ONLY_ONE flag
+Upgrade clang-tidy to LLVM 18
 
 ## Build:
 Support Mac arm64 build
