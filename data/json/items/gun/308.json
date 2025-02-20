@@ -325,7 +325,7 @@
     "variants": [
       {
         "id": "scar_h_mk20",
-        "name": { "str": "FN SCAR-H MK 20 SSR" },
+        "name": { "str_sp": "FN SCAR-H MK 20 SSR" },
         "description": "Sniper Support Rifle, this semi-auto variant of SCAR-H is designed for a long-range precision application, to be used by dedicated marksman.  Includes extended barrel, bipod, and a few additional attachment for greater comfort of a user."
       }
     ],
