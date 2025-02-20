@@ -13016,13 +13016,30 @@ bool Character::wield( item_location loc )
     item it = *loc.get_item();
 
 
-    if( is_wielding( it ) ) {
-        return true;
+    if( u.has_wield_conflicts( *loc ) ) {
+        const bool is_unwielding = u.is_wielding( *loc );
+        const auto ret = u.can_unwield( *loc );
+
+        if( !ret.success() ) {
+            add_msg_if_player( m_info, "%s", ret.c_str() );
+        }
+
+        if( !u.unwield() ) {
+            return;
+        }
+
+        if( is_unwielding ) {
+            if( !u.martial_arts_data->selected_is_none() ) {
+                u.martial_arts_data->martialart_use_message( u );
+            }
+            return;
+        }
     }
 
     item_location weapon = get_wielded_item();
     if( weapon && weapon->has_item( it ) ) {
-        add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
+        add_msg_if_player( m_info,
+                           _( "You need to put the bag away before trying to wield something from it." ) );
         return false;
     }
 
@@ -13057,7 +13074,6 @@ bool Character::wield( item_location loc )
     mod_moves( -mv );
 
     if( has_item( it ) ) {
-        // item removed = i_rem( &target );
         if( combine_stacks ) {
             weapon->combine( it );
         } else {
@@ -13073,6 +13089,7 @@ bool Character::wield( item_location loc )
         }
     }
 
+
     loc.remove_item();
 
     // set_wielded_item invalidates the weapon item_location, so get it again
@@ -13084,6 +13101,11 @@ bool Character::wield( item_location loc )
 
     cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
     get_event_bus().send_with_talker( this, &weapon, e );
+
+    if( is_npc() ) {
+        add_msg_if_player_sees( this, m_info, _( "<npcname> wields a %s." ),  weapon->tname() );
+        invalidate_range_cache();
+    }
 
     inv->update_invlet( *weapon );
     inv->update_cache_with_item( *weapon );
