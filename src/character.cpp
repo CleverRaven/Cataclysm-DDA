@@ -13051,9 +13051,10 @@ bool Character::wield( item_location loc )
     if( !combine_stacks && !unwield() ) {
         return false;
     }
+
     cached_info.erase( "weapon_value" );
     if( it.is_null() ) {
-        debugmsg( "does this ever trigger?" )
+        debugmsg( "does this ever trigger?" );
         return true;
     }
 
