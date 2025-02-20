@@ -555,7 +555,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
                 }
             };
             for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 5 ) ) {
-                if( player_character.sees( p ) ) {
+                if( player_character.sees( here, p ) ) {
                     if( here.has_items( p ) && here.accessible_items( p ) ) {
                         count_items( here.i_at( p ) );
                     }

@@ -290,6 +290,7 @@ void advanced_inventory::init()
 
 void advanced_inventory::print_items( side p, bool active )
 {
+    map &here = get_map();
     advanced_inventory_pane &pane = panes[p];
     const auto &items = pane.items;
     const catacurses::window &window = pane.window;
@@ -362,7 +363,7 @@ void advanced_inventory::print_items( side p, bool active )
             } else if( pane.in_vehicle() ) {
                 maxvolume = s.get_vehicle_stack().max_volume();
             } else {
-                maxvolume = get_map().max_volume( s.pos );
+                maxvolume = here.max_volume( s.pos );
             }
             formatted_head = string_format( "%3.1f %s  %s/%s %s",
                                             convert_weight( pane.in_vehicle() ? s.weight_veh : s.weight ),
@@ -474,7 +475,7 @@ void advanced_inventory::print_items( side p, bool active )
             // TODO: transition to the item_location system used for the normal inventory
             unsigned int charges_total = 0;
             for( const item_location &item : sitem.items ) {
-                charges_total += item->ammo_remaining();
+                charges_total += item->ammo_remaining( );
             }
             if( stolen ) {
                 item_name = string_format( "%s %s", stolen_string, it.display_money( sitem.items.size(),
@@ -914,11 +915,14 @@ bool advanced_inventory::fill_lists_with_pane_items( Character &player_character
             continue;
         }
         for( const item_location &it : listit.items ) {
+
+            // do not move liquids or gases
+            if( ( it->made_of_from_type( phase_id::LIQUID ) && !it->is_frozen_liquid() ) ||
+                it->made_of_from_type( phase_id::GAS ) ) {
+                continue;
+            }
             if( dpane.get_area() == AIM_INVENTORY ) {
-                if( ( it->made_of_from_type( phase_id::LIQUID ) && !it->is_frozen_liquid() ) ||
-                    it->made_of_from_type( phase_id::GAS ) ) {
-                    continue;
-                }
+
                 if( !player_character.can_stash_partial( *it ) ) {
                     continue;
                 }
@@ -1814,29 +1818,23 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
 }
 
 bool advanced_inventory::action_unload( advanced_inv_listitem *sitem,
-                                        advanced_inventory_pane &spane )
+                                        advanced_inventory_pane &spane, advanced_inventory_pane &dpane )
 {
     avatar &u = get_avatar();
-    item_location loc;
-    if( spane.get_area() == AIM_CONTAINER && spane.container->can_unload() ) {
-        loc = spane.container;
-    } else if( sitem && sitem->items.front()->can_unload() ) {
-        if( sitem -> contents_count > 0 ) {
-            loc = sitem->items.front();
-        } else {
-            popup_getkey( _( "%1$s is already empty." ), sitem->items.front()->display_name() );
-        }
+    item_location src = spane.container;
+    item_location dest = dpane.container;
 
+    if( !src && sitem ) {
+        src = sitem->items.front();
     } else {
-        popup_getkey( _( "%1$s can't be unloaded." ), sitem->items.front()->display_name() );
+        add_msg( m_info, _( "Nothing to unload." ) );
         return false;
     }
 
-    if( loc != item_location::nowhere && !loc->is_container_empty() ) {
-        do_return_entry();
-        return u.unload( loc );;
-    }
-    return false;
+    do_return_entry();
+    // always exit to proc do_return_entry, even when no activity was assigned
+    exit = true;
+    return u.unload( src, false, dest );
 }
 
 void advanced_inventory::display()
@@ -2049,8 +2047,7 @@ void advanced_inventory::display()
                 action_examine( sitem, spane );
             }
         } else if( action == "UNLOAD_CONTAINER" ) {
-            recalc = exit = action_unload( sitem, spane );
-
+            recalc = action_unload( sitem, spane, dpane );
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "PAGE_DOWN" ) {
@@ -2247,7 +2244,9 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Check volume, this should work the same for inventory, map and vehicles, but not for worn
     if( destarea != AIM_WORN && destarea != AIM_WIELD ) {
         const units::volume free_volume = panes[dest].free_volume( squares[destarea] );
-        const int room_for = it.charges_per_volume( free_volume );
+        const units::mass free_mass = panes[dest].free_weight_capacity();
+        const int room_for = std::min( it.charges_per_volume( free_volume ),
+                                       it.charges_per_weight( free_mass ) );
         if( room_for <= 0 ) {
             if( destarea == AIM_INVENTORY ) {
                 popup_getkey( _( "You have no space for the %s." ), it.tname() );
@@ -2300,7 +2299,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     if( destarea == AIM_WORN ) {
         const itype_id &id = sitem.items.front()->typeId();
         // how many slots are available for the item?
-        const int slots_available = MAX_WORN_PER_TYPE - player_character.amount_worn( id );
+        const int slots_available = id->max_worn - player_character.amount_worn( id );
         // base the amount to equip on amount of slots available
         amount = std::min( slots_available, input_amount );
     }

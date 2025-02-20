@@ -729,32 +729,6 @@
   },
   {
     "type": "TOOL",
-    "id": "usb_drive",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "USB drive" },
-    "description": "A USB thumb drive.  Useful for holding software.",
-    "price": "12 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "plastic", "aluminum" ],
-    "weight": "4536 mg",
-    "volume": "4 ml",
-    "longest_side": "5 cm",
-    "pocket_data": [
-      { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" },
-      {
-        "pocket_type": "EBOOK",
-        "rigid": true,
-        "max_contains_volume": "1 ml",
-        "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0
-      }
-    ],
-    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "//": "Based on https://www.amazon.com/dp/B015CH1PJU"
-  },
-  {
-    "type": "TOOL",
     "id": "usb_drive_nano",
     "symbol": ",",
     "color": "white",
@@ -2228,68 +2202,6 @@
     "material": [ "steel" ],
     "weight": "50 g",
     "volume": "50 ml"
-  },
-  {
-    "type": "GENERIC",
-    "id": "memory_card",
-    "name": { "str": "memory card" },
-    "description": "A memory card, can be used to store data.",
-    "looks_like": "mobile_memory_card",
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": ",",
-    "color": "white",
-    "price": "10 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
-    "ascii_picture": "memory_card",
-    "flags": [ "MC_MOBILE" ],
-    "pocket_data": [
-      {
-        "pocket_type": "EBOOK",
-        "rigid": true,
-        "max_contains_volume": "1 ml",
-        "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0
-      }
-    ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "memory_card_unread",
-    "copy-from": "memory_card",
-    "name": { "str": "memory card (unread)", "str_pl": "memory cards (unread)" },
-    "description": "A memory card, can be used to store data.  Looks like it has been in use, might be worth taking a look.",
-    "memory_card": {
-      "data_chance": 0.875,
-      "on_read_convert_to": "memory_card",
-      "photos_chance": 0.33,
-      "photos_amount": 30,
-      "songs_chance": 0.33,
-      "songs_amount": 15,
-      "recipes_chance": 0.33,
-      "recipes_amount": 3,
-      "recipes_categories": [ "CC_AMMO", "CC_ARMOR", "CC_CHEM", "CC_ELECTRONIC", "CC_FOOD", "CC_WEAPON" ],
-      "recipes_level_max": 5
-    },
-    "pocket_data": [  ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "memory_card_science",
-    "copy-from": "memory_card",
-    "name": { "str": "memory card (XEDRA)", "str_pl": "memory cards (XEDRA)" },
-    "description": "A memory card, can be used to store data.  This one has a label on which is written 'XEDRA' followed by a long string of numbers.",
-    "memory_card": {
-      "data_chance": 1.0,
-      "on_read_convert_to": "memory_card",
-      "recipes_chance": 1.0,
-      "recipes_amount": 3,
-      "recipes_categories": [ "CC_CHEM" ],
-      "recipes_level_min": 6,
-      "secret_recipes": true
-    },
-    "pocket_data": [  ]
   },
   {
     "type": "GENERIC",

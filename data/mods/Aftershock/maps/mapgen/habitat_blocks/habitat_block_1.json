@@ -39,7 +39,7 @@
         "afs_light_param_palette"
       ],
       "furniture": { "1": "f_washer", "2": "f_dryer", "3": "f_atm" },
-      "vendingmachines": { "V": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true } },
+      "vendingmachines": { "V": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true, "networked": true } },
       "place_monster": [
         { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 20 },
         { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 24, 47 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 20 }

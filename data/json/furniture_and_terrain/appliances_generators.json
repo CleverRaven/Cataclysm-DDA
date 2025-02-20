@@ -38,7 +38,7 @@
     "power": "8 W",
     "epower": "7000 W",
     "item": "diesel_generator",
-    "breaks_into": [ { "item": "military_generator", "damage": 4 } ],
+    "breaks_into": [ { "item": "diesel_generator", "damage": 4 } ],
     "damage_reduction": { "all": 60 },
     "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
   },

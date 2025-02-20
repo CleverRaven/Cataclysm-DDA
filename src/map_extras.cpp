@@ -1,56 +1,45 @@
 #include "map_extras.h"
 
-#include <algorithm>
 #include <array>
 #include <cstdlib>
 #include <functional>
 #include <map>
-#include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "auto_note.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "cellular_automata.h"
 #include "character_id.h"
-#include "city.h"
-#include "colony.h"
 #include "coordinates.h"
-#include "creature_tracker.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "field_type.h"
+#include "flexbuffer_json.h"
 #include "fungal_effects.h"
-#include "game.h"
-#include "game_constants.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
-#include "json.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
-#include "mongroup.h"
-#include "options.h"
-#include "overmap.h"
+#include "omdata.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "regional_settings.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sets_intersect.h"
 #include "string_formatter.h"
-#include "string_id.h"
-#include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
@@ -373,25 +362,24 @@ static bool mx_helicopter( map &m, const tripoint_abs_sm &abs_sub )
         // we can rotate it and calculate its bounding box, but don't place it on the map.
         vehicle veh( crashed_hull );
         veh.turn( dir1 );
-        // Get the bounding box, centered on mount(0,0), move the wreckage forward/backward
-        // half it's length so that it spawns more over the center of the debris area
+        // Find where the center of the vehicle is and adjust the spawn position to get it centered in the
+        // debris area.
         const bounding_box bbox = veh.get_bounding_box();
-        const point_rel_ms length( std::abs( bbox.p2.x() - bbox.p1.x() ),
-                                   std::abs( bbox.p2.y() - bbox.p1.y() ) );
-        const point_rel_ms offset( veh.dir_vec().x * length.x() / 2, veh.dir_vec().y * length.y() / 2 );
-        const point_rel_ms min( std::abs( bbox.p1.x() ), std::abs( bbox.p1.y() ) );
-        const int x_max = SEEX * 2 - bbox.p2.x() - 1;
-        const int y_max = SEEY * 2 - bbox.p2.y() - 1;
 
+        point_rel_ms center_offset = {( bbox.p1.x() + bbox.p2.x() ) / 2, ( bbox.p1.y() + bbox.p2.y() ) / 2};
         // Clamp x1 & y1 such that no parts of the vehicle extend over the border of the submap.
-        wreckage_pos = { clamp( c.x() + offset.x(), min.x(), x_max ), clamp( c.y() + offset.y(), min.y(), y_max ), abs_sub.z()};
+
+        wreckage_pos = { clamp( c.x() - center_offset.x(), std::abs( bbox.p1.x() ), SEEX * 2 - 1 - std::abs( bbox.p2.x() ) ),
+                         clamp( c.y() - center_offset.y(), std::abs( bbox.p1.y() ), SEEY * 2 - 1 - std::abs( bbox.p2.y() ) ),
+                         abs_sub.z()
+                       };
     }
 
     vehicle *wreckage = m.add_vehicle( crashed_hull, wreckage_pos, dir1, rng( 1, 33 ), 1 );
 
-    const auto controls_at = []( vehicle * wreckage, const tripoint_bub_ms & pos ) {
-        return !wreckage->get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() ||
-               !wreckage->get_parts_at( pos, "CTRL_ELECTRONIC", part_status_flag::any ).empty();
+    const auto controls_at = [&m]( vehicle * wreckage, const tripoint_bub_ms & pos ) {
+        return !wreckage->get_parts_at( &m, pos, "CONTROLS", part_status_flag::any ).empty() ||
+               !wreckage->get_parts_at( &m, pos, "CTRL_ELECTRONIC", part_status_flag::any ).empty();
     };
 
     if( wreckage != nullptr ) {
@@ -403,7 +391,7 @@ static bool mx_helicopter( map &m, const tripoint_abs_sm &abs_sub )
             case 3:
                 // Full clown car
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
-                    const tripoint_bub_ms pos = vp.pos_bub();
+                    const tripoint_bub_ms pos = vp.pos_bub( m );
                     // Spawn pilots in seats with controls.CTRL_ELECTRONIC
                     if( controls_at( wreckage, pos ) ) {
                         m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), pos.z(), 1, true );
@@ -417,7 +405,7 @@ static bool mx_helicopter( map &m, const tripoint_abs_sm &abs_sub )
             case 5:
                 // 2/3rds clown car
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
-                    const tripoint_bub_ms pos = vp.pos_bub();
+                    const tripoint_bub_ms pos = vp.pos_bub( m );
                     // Spawn pilots in seats with controls.
                     if( controls_at( wreckage, pos ) ) {
                         m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), pos.z(), 1, true );
@@ -430,7 +418,7 @@ static bool mx_helicopter( map &m, const tripoint_abs_sm &abs_sub )
             case 6:
                 // Just pilots
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
-                    const tripoint_bub_ms pos = vp.pos_bub();
+                    const tripoint_bub_ms pos = vp.pos_bub( m );
                     m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), pos.z(), 1, true );
                     delete_items_at_mount( *wreckage, vp.mount_pos() ); // delete corpse items
                 }

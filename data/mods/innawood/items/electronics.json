@@ -68,6 +68,7 @@
     "material": [ "steel", "copper", "plastic" ],
     "symbol": ";",
     "ammo": [ "battery" ],
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "300 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

@@ -4,13 +4,14 @@
 
 #include <vector>
 
-#include "coords_fwd.h"
-#include "cuboid_rectangle.h"
+#include "coordinates.h"
 #include "item_location.h"
 #include "point.h"
 #include "units.h"
 
 class Character;
+class JsonObject;
+class JsonOut;
 class item;
 
 namespace Pickup
@@ -48,14 +49,5 @@ enum from_where : int {
 void autopickup( const tripoint_bub_ms &p );
 /** Determines the cost of moving an item by a character. */
 int cost_to_move_item( const Character &who, const item &it );
-
-struct pickup_rect : inclusive_rectangle<point> {
-    pickup_rect() = default;
-    pickup_rect( const point &P_MIN, const point &P_MAX ) : inclusive_rectangle( P_MIN, P_MAX ) {}
-    int cur_it;
-    static std::vector<pickup_rect> list;
-    static pickup_rect *find_by_coordinate( const point &p );
-};
-
 } // namespace Pickup
 #endif // CATA_SRC_PICKUP_H

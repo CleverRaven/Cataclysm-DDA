@@ -126,7 +126,8 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 0, 23 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 24, 47 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 48, 71 ] },
-        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 72, 95 ] }
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "exodii", "x": [ 72, 95 ], "y": [ 72, 95 ] },
+        { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 22, 23 ], "y": [ 83, 84 ] }
       ],
       "faction_owner": [
         { "id": "exodii", "x": [ 0, 23 ], "y": [ 0, 23 ] },
@@ -237,7 +238,7 @@
         "..........#######|cCcc__W__||~~~iiiiiii;;i|L_______________ɱRRRRRRRRRɱ_/____ɱ|       ;;   !!....",
         "..........#######|||||]]|mm|~~~~iiiiiii;;i|_______W____________________/__UU||       ;;   !.....",
         "..........######lj       ;;j~~~iikiiiii;;n|G__________________________//_||||        ;;  !!.....",
-        "...........###jjjw     ~~;;~~~iiiiiiiii;;i|________________ɱRRRRRRRRRɱ/__|c          ;;  !......",
+        "...........###jjjw     ~~;;~~~iiiiiiiii;;Q|________________ɱRRRRRRRRRɱ/__|c          ;;  !......",
         "............#!lj     ~~~~[[~~iikiiikiii;;i|___________________/////___/__|C       S  ;;  !......",
         ".............!!!!!!|[~~~~[[~iiiiiiiiiii;;i|____________W__/////___/////__|C          ;;  !......",
         "...................][~~~~;;iiikiiiiikii;;i||______________/LcCCccCcCcɱ___|c          ;;  !......",

@@ -2,22 +2,23 @@
 #ifndef CATA_SRC_ITEM_LOCATION_H
 #define CATA_SRC_ITEM_LOCATION_H
 
+#include <list>
 #include <memory>
 #include <string>
+#include <utility>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "units_fwd.h"
 
 class Character;
 class JsonObject;
 class JsonOut;
+class const_talker;
 class item;
 class item_pocket;
 class map_cursor;
-class vehicle_cursor;
 class talker;
-class const_talker;
-struct tripoint;
+class vehicle_cursor;
 template<typename T> class ret_val;
 
 /**
@@ -163,6 +164,13 @@ class item_location
          */
         bool can_reload_with( const item_location &ammo, bool now ) const;
 
+        /**
+        * returns the item's level of the specified quality.
+        * @param quality the name of quality to check the level of
+        * @param boiling true if the item is required to be empty to have the boiling quality
+        */
+        int get_quality( const std::string &quality, bool strict ) const;
+
     private:
         class impl;
 
@@ -171,4 +179,8 @@ class item_location
 std::unique_ptr<talker> get_talker_for( item_location &it );
 std::unique_ptr<const_talker> get_const_talker_for( const item_location &it );
 std::unique_ptr<talker> get_talker_for( item_location *it );
+
+using drop_location = std::pair<item_location, int>;
+using drop_locations = std::list<drop_location>;
+
 #endif // CATA_SRC_ITEM_LOCATION_H

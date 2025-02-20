@@ -604,14 +604,15 @@
     "connects_to": "DIRT",
     "move_cost": 2,
     "roof": "t_shingle_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "DIGGABLE" ],
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "DIGGABLE" ],
     "bash": {
-      "sound": "SMASH!",
+      "sound": "thump",
       "ter_set": "t_null",
-      "str_min": 50,
-      "str_max": 400,
-      "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "str_min": 1,
+      "str_max": 6,
+      "sound_vol": 8,
+      "sound_fail_vol": 8,
+      "items": [ { "item": "material_soil", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -629,11 +630,12 @@
     "roof": "t_thatch_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "DIGGABLE" ],
     "bash": {
-      "sound": "SMASH!",
+      "sound": "thump",
       "ter_set": "t_null",
-      "str_min": 50,
-      "str_max": 400,
-      "str_min_supported": 100,
+      "str_min": 5,
+      "str_max": 15,
+      "sound_vol": 8,
+      "sound_fail_vol": 8,
       "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "straw_pile", "count": [ 5, 10 ] } ]
     }
   },

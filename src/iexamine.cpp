@@ -1,9 +1,12 @@
 #include "iexamine.h"
 
 #include <algorithm>
+#include <array>
 #include <climits>
 #include <cmath>
 #include <cstdio>
+#include <cstdlib>
+#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -12,7 +15,6 @@
 #include <utility>
 
 #include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "ammo.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -21,7 +23,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "color.h"
 #include "construction.h"
 #include "construction_group.h"
@@ -35,6 +36,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "faction.h"
 #include "field_type.h"
 #include "flag.h"
 #include "fungal_effects.h"
@@ -44,26 +46,29 @@
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_components.h"
 #include "item_location.h"
-#include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "line.h"
 #include "magic.h"
 #include "magic_teleporter_list.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "map_selector.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mission_companion.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "omdata.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -72,13 +77,14 @@
 #include "player_activity.h"
 #include "point.h"
 #include "recipe.h"
-#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "tileray.h"
 #include "timed_event.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "try_parse_integer.h"
@@ -92,6 +98,7 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 #include "weather.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );
@@ -1049,7 +1056,6 @@ class atm_menu
 
         //!Move money from bank account onto cash card.
         bool do_withdraw_money() {
-
             std::vector<item *> cash_cards_on_hand = you.cache_get_items_with( "is_cash_card",
                     &item::is_cash_card );
             if( cash_cards_on_hand.empty() ) {
@@ -1070,8 +1076,8 @@ class atm_menu
             int remaining = amount;
 
             std::sort( cash_cards_on_hand.begin(), cash_cards_on_hand.end(), []( item * one, item * two ) {
-                int balance_one = one->ammo_remaining();
-                int balance_two = two->ammo_remaining();
+                int balance_one = one->ammo_remaining( );
+                int balance_two = two->ammo_remaining( );
                 return balance_one > balance_two;
             } );
 
@@ -1079,10 +1085,10 @@ class atm_menu
                 if( inserted == amount ) {
                     break;
                 }
-                int max_cap = cc->ammo_capacity( ammo_money ) - cc->ammo_remaining();
+                int max_cap = cc->ammo_capacity( ammo_money ) - cc->ammo_remaining( );
                 int to_insert = std::min( max_cap, remaining );
                 // insert whatever there's room for + the old balance.
-                cc->ammo_set( cc->ammo_default(), to_insert + cc->ammo_remaining() );
+                cc->ammo_set( cc->ammo_default(), to_insert + cc->ammo_remaining( ) );
                 inserted += to_insert;
                 remaining -= to_insert;
             }
@@ -1118,7 +1124,7 @@ class atm_menu
                 }
                 dst = *std::max_element( cash_cards.begin(), cash_cards.end(), []( const item * a,
                 const item * b ) {
-                    return a->ammo_remaining() < b->ammo_remaining();
+                    return a->ammo_remaining( ) < b->ammo_remaining( );
                 } );
                 if( !query_yn( _( "Exchange all paper bills and coins in inventory?" ) ) ) {
                     return false;
@@ -1140,7 +1146,7 @@ class atm_menu
             you.mod_moves( -std::max( 100, you.get_moves() ) );
             int value = units::to_cent( cash_item->type->price );
             value *= 0.99;  // subtract fee
-            if( value > dst->ammo_capacity( ammo_money ) - dst->ammo_remaining() ) {
+            if( value > dst->ammo_capacity( ammo_money ) - dst->ammo_remaining( ) ) {
                 popup( _( "Destination card is full." ) );
                 return false;
             }
@@ -1149,7 +1155,7 @@ class atm_menu
             } else {
                 item_location( you, cash_item ).remove_item();
             }
-            dst->ammo_set( dst->ammo_default(), dst->ammo_remaining() + value );
+            dst->ammo_set( dst->ammo_default(), dst->ammo_remaining( ) + value );
             you.assign_activity( ACT_ATM, 0, exchange_cash );
             you.activity.targets.emplace_back( you, dst );
             return true;
@@ -1176,7 +1182,7 @@ class atm_menu
             }
 
             for( item *i : cash_cards_on_hand ) {
-                if( i == dst || i->ammo_remaining() <= 0 || i->typeId() != itype_cash_card ) {
+                if( i == dst || i->ammo_remaining( ) <= 0 || i->typeId() != itype_cash_card ) {
                     continue;
                 }
                 if( you.get_moves() < 0 ) {
@@ -1188,11 +1194,11 @@ class atm_menu
                     break;
                 }
                 // should we check for max capacity here?
-                if( i->ammo_remaining() > dst->ammo_capacity( ammo_money ) - dst->ammo_remaining() ) {
+                if( i->ammo_remaining( ) > dst->ammo_capacity( ammo_money ) - dst->ammo_remaining( ) ) {
                     popup( _( "Destination card is full." ) );
                     return false;
                 }
-                dst->ammo_set( dst->ammo_default(), i->ammo_remaining() + dst->ammo_remaining() );
+                dst->ammo_set( dst->ammo_default(), i->ammo_remaining( ) + dst->ammo_remaining( ) );
                 i->ammo_set( i->ammo_default(), 0 );
                 you.mod_moves( -to_moves<int>( 1_seconds ) * 0.1 );
             }
@@ -1221,6 +1227,12 @@ void iexamine::vending( Character &you, const tripoint_bub_ms &examp )
     constexpr int moves_cost = to_moves<int>( 5_seconds );
     int money = you.charges_of( itype_cash_card );
     map_stack vend_items = get_map().i_at( examp );
+
+    bool use_bank = get_map().has_flag_furn( "BANK_NETWORKED", examp );
+
+    if( use_bank ) {
+        money = you.cash + you.charges_of( itype_cash_card );
+    }
 
     if( vend_items.empty() ) {
         add_msg( m_info, _( "The vending machine is empty." ) );
@@ -1375,7 +1387,13 @@ void iexamine::vending( Character &you, const tripoint_bub_ms &examp )
             }
 
             money -= iprice;
-            you.use_charges( itype_cash_card, iprice );
+
+            if( iprice < you.charges_of( itype_cash_card ) ) {
+                // necessary to check just your cash card charges here because aftershock charges your cards first then your bank
+                you.use_charges( itype_cash_card, iprice );
+            } else if( use_bank ) {
+                you.cash -= iprice;
+            }
             you.i_add_or_drop( *cur_item );
 
             vend_items.erase( cur_item );
@@ -1522,7 +1540,7 @@ void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
                 if( !here.has_flag( ter_furn_flag::TFLAG_ELEVATOR, candidate ) &&
                     here.passable( candidate ) &&
                     creatures.creature_at( candidate ) == nullptr ) {
-                    critter.setpos( candidate );
+                    critter.setpos( here, candidate );
                     break;
                 }
             }
@@ -1548,15 +1566,15 @@ void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
     for( Creature &critter : g->all_creatures() ) {
         auto const eit = std::find( this_elevator.cbegin(), this_elevator.cend(), critter.pos_bub() );
         if( eit != this_elevator.cend() ) {
-            critter.setpos( that_elevator[ std::distance( this_elevator.cbegin(), eit ) ] );
+            critter.setpos( here, that_elevator[ std::distance( this_elevator.cbegin(), eit ) ] );
         }
     }
 
     for( vehicle *v : vehs.v ) {
-        tripoint_bub_ms const p = _rotate_point_sm( { v->pos_bub().xy(), movez},
+        tripoint_bub_ms const p = _rotate_point_sm( { v->pos_bub( here ).xy(), movez},
                                   erot,
                                   sm_orig );
-        here.displace_vehicle( *v, p - v->pos_bub() );
+        here.displace_vehicle( *v, p - v->pos_bub( here ) );
         v->turn( erot * 90_degrees );
         v->face = tileray( v->turn_dir );
         v->precalc_mounts( 0, v->turn_dir, v->pivot_anchor[0] );
@@ -1788,7 +1806,7 @@ void iexamine::chainfence( Character &you, const tripoint_bub_ms &examp )
     if( you.in_vehicle ) {
         here.unboard_vehicle( you.pos_bub() );
     }
-    you.setpos( examp );
+    you.setpos( here, examp );
     if( examp.x() < HALF_MAPSIZE_X || examp.y() < HALF_MAPSIZE_Y ||
         examp.x() >= HALF_MAPSIZE_X + SEEX || examp.y() >= HALF_MAPSIZE_Y + SEEY ) {
         if( you.is_avatar() ) {
@@ -1821,7 +1839,7 @@ void iexamine::bars( Character &you, const tripoint_bub_ms &examp )
     }
     you.mod_moves( -to_moves<int>( 2_seconds ) );
     add_msg( _( "You slide right between the bars." ) );
-    you.setpos( examp );
+    you.setpos( here, examp );
 }
 
 void iexamine::deployed_furniture( Character &you, const tripoint_bub_ms &pos )
@@ -2052,7 +2070,7 @@ void iexamine::locked_object( Character &you, const tripoint_bub_ms &examp )
     // Check if the locked thing is a lockable door part.
     if( veh ) {
         std::vector<vehicle_part *> parts_at_target = veh->vehicle().get_parts_at(
-                    examp, "LOCKABLE_DOOR", part_status_flag::available );
+                    &here, examp, "LOCKABLE_DOOR", part_status_flag::available );
         if( !parts_at_target.empty() ) {
             locked_part = veh->vehicle().next_part_to_unlock(
                               veh->vehicle().index_of_part( parts_at_target.front() ) );
@@ -2121,7 +2139,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint_bub_ms &ex
 
     if( veh ) {
         const std::vector<vehicle_part *> parts_at_target = veh->vehicle().get_parts_at(
-                    examp, "LOCKABLE_DOOR", part_status_flag::available );
+                    &here, examp, "LOCKABLE_DOOR", part_status_flag::available );
         if( !parts_at_target.empty() ) {
             locked_part = veh->vehicle().next_part_to_unlock(
                               veh->vehicle().index_of_part( parts_at_target.front() ) );
@@ -5120,7 +5138,7 @@ static void reload_furniture( Character &you, const tripoint_bub_ms &examp, bool
 
 void iexamine::reload_furniture( Character &you, const tripoint_bub_ms &examp )
 {
-    return reload_furniture( you, examp, true );
+    reload_furniture( you, examp, true );
 }
 
 void iexamine::curtains( Character &you, const tripoint_bub_ms &examp )
@@ -5445,7 +5463,6 @@ static void turnOnSelectedPump( const tripoint_bub_ms &p, int number,
 
 void iexamine::pay_gas( Character &you, const tripoint_bub_ms &examp )
 {
-
     int choice = -1;
     const int buy_gas = 1;
     const int choose_pump = 2;
@@ -5614,14 +5631,14 @@ void iexamine::pay_gas( Character &you, const tripoint_bub_ms &examp )
         // getGasPricePerLiter( platinum_discount) min price to avoid exploit
         int amount_money = amount_fuel * getGasPricePerLiter( 3 ) / 1000.0f;
         std::sort( cash_cards.begin(), cash_cards.end(), []( item * l, const item * r ) {
-            return l->ammo_remaining() > r->ammo_remaining();
+            return l->ammo_remaining( ) > r->ammo_remaining( );
         } );
         for( item * const &cc : cash_cards ) {
             if( amount_money == 0 ) {
                 break;
             }
             const int transfer = std::min( amount_money, cc->remaining_ammo_capacity() );
-            cc->ammo_set( cc->ammo_default(), transfer + cc->ammo_remaining() );
+            cc->ammo_set( cc->ammo_default(), transfer + cc->ammo_remaining( ) );
             amount_money -= transfer;
         }
         if( amount_money ) {
@@ -5774,7 +5791,7 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
             you.remove_effect( effect_bouldering );
             you.assign_activity( glide );
             you.add_effect( effect_gliding, 1_turns, true );
-            you.setpos( examp );
+            you.setpos( here, examp );
             break;
         }
         case ledge_fall_down: {
@@ -5788,7 +5805,7 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
                 if( you.has_effect_with_flag( json_flag_LEVITATION ) ) {
                     you.add_effect( effect_slow_descent, 1_seconds, false );
                 }
-                you.setpos( examp );
+                you.setpos( here, examp );
                 you.gravity_check();
             } else {
                 // Just to highlight the trepidation
@@ -5915,6 +5932,7 @@ inline void popup_player_or_npc( Character &you, const char *player_mes, const c
 
 void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
 {
+    map &here = get_map();
     enum options {
         INSTALL_CBM,
         UNINSTALL_CBM,
@@ -6003,7 +6021,7 @@ void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
     std::vector<item> arm_splints;
     std::vector<item> leg_splints;
 
-    for( const item &supplies : get_map().i_at( examp ) ) {
+    for( const item &supplies : here.i_at( examp ) ) {
         if( supplies.typeId() == itype_arm_splint ) {
             arm_splints.push_back( supplies );
         }
@@ -6040,7 +6058,7 @@ void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
             return it.has_quality( qual_ANESTHESIA );
         } );
         for( const item *anesthesia_item : a_filter ) {
-            if( anesthesia_item->ammo_remaining() >= 1 ) {
+            if( anesthesia_item->ammo_remaining( ) >= 1 ) {
                 anesth_kit.emplace_back( anesthesia_item->typeId(), 1 );
             }
         }
@@ -6169,7 +6187,7 @@ void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
                 int quantity = 1;
                 if( part == bodypart_id( "arm_l" ) || part == bodypart_id( "arm_r" ) ) {
                     if( !arm_splints.empty() ) {
-                        for( const item &it : get_map().use_amount( examp, 1, itype_arm_splint, quantity ) ) {
+                        for( const item &it : here.use_amount( examp, 1, itype_arm_splint, quantity ) ) {
                             patient.wear_item( it, false );
                         }
                     } else {
@@ -6178,7 +6196,7 @@ void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
                     }
                 } else if( part == bodypart_id( "leg_l" ) || part == bodypart_id( "leg_r" ) ) {
                     if( !leg_splints.empty() ) {
-                        for( const item &it : get_map().use_amount( examp, 1, itype_leg_splint, quantity ) ) {
+                        for( const item &it : here.use_amount( examp, 1, itype_leg_splint, quantity ) ) {
                             patient.wear_item( it, false );
                         }
                     } else {

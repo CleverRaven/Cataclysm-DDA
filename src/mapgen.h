@@ -456,7 +456,7 @@ class mapgen_function_json_base
                                              const std::string &outer_context ) const;
         bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                              const JsonObject &jso ) const;
-        size_t calc_index( const point &p ) const;
+        size_t calc_index( const point_rel_ms &p ) const;
         ret_val<void> has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &offset ) const;
 
         void add_placement_coords_to( std::unordered_set<point_rel_ms> & ) const;
@@ -509,7 +509,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const override;
         mapgen_function_json( const JsonObject &jsobj, dbl_or_var w,
                               const std::string &context,
-                              const point &grid_offset, const point &grid_total );
+                              const point_rel_omt &grid_offset, const point_rel_omt &grid_total );
         ~mapgen_function_json() override = default;
 
         cata::value_ptr<mapgen_value<ter_id>> fill_ter;
@@ -597,9 +597,10 @@ class update_mapgen
  * Load mapgen function of any type from a json object
  */
 std::shared_ptr<mapgen_function> load_mapgen_function( const JsonObject &jio,
-        const std::string &id_base, const point &offset, const point &total );
+        const std::string &id_base, const point_rel_omt &offset, const point_rel_omt &total );
 void load_and_add_mapgen_function(
-    const JsonObject &jio, const std::string &id_base, const point &offset, const point &total );
+    const JsonObject &jio, const std::string &id_base, const point_rel_omt &offset,
+    const point_rel_omt &total );
 /*
  * Load the above directly from a file via init, as opposed to riders attached to overmap_terrain. Added check
  * for oter_mapgen / oter_mapgen_weights key, multiple possible ( i.e., [ "house_w_1", "duplex" ] )

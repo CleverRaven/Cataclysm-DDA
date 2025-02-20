@@ -17,7 +17,8 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "100 L", "max_contains_weight": "500 kg", "moves": 300 } ],
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "BELTED", "ONLY_ONE", "LEAK_DAM" ],
+    "flags": [ "BELTED", "LEAK_DAM" ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 30, "covers": [ "torso" ] } ]
   },
   {
@@ -110,13 +111,7 @@
     "flags": [ "WATCH", "BELTED", "STURDY", "WATER_FRIENDLY" ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": [
-      "EINKTABLETPC",
-      "EBOOKREAD",
-      "ELECTRICSTORAGE",
-      "PORTABLE_GAME",
-      { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
-    ],
+    "use_action": [ "E_FILE_DEVICE", "EBOOKSAVE", "PORTABLE_GAME", { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -125,13 +120,15 @@
         "default_magazine": "medium_battery_cell"
       },
       {
-        "pocket_type": "EBOOK",
+        "pocket_type": "E_FILE_STORAGE",
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0
+        "weight_multiplier": 0.0,
+        "ememory_max": "1 TB"
       }
-    ]
+    ],
+    "qualities": [ [ "HACK", 1 ] ]
   },
   {
     "id": "xl_jeans",
@@ -190,7 +187,8 @@
     "color": "light_gray",
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ],
+    "flags": [ "FRAGILE", "OUTER", "SOLARPACK" ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": 12, "coverage": 40, "covers": [ "torso" ] } ],
     "melee_damage": { "bash": 10 }
   },
@@ -209,7 +207,8 @@
     "material_thickness": 1,
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.3,
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ],
+    "flags": [ "FRAGILE", "OUTER", "SOLARPACK_ON" ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "torso" ] } ],
     "melee_damage": { "bash": 4 }
   },

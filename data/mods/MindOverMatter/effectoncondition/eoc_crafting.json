@@ -108,5 +108,22 @@
       ]
     },
     "effect": [ { "math": [ "u_proficiency('prof_psionic_minimum_requirements', 'format': 'percent', 'direct': true) += 100" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MOM_GAME_ONGOING_GRANT_PYROKINETIC_CRAFTING_PROFICIENCY",
+    "recurrence": 1,
+    "condition": { "u_has_trait": "PYROKINETIC" },
+    "deactivate_condition": {
+      "or": [
+        { "u_has_proficiency": "prof_psionic_minimum_requirements_pyrokinesis" },
+        { "not": { "u_has_trait": "PYROKINETIC" } }
+      ]
+    },
+    "effect": [
+      {
+        "math": [ "u_proficiency('prof_psionic_minimum_requirements_pyrokinesis', 'format': 'percent', 'direct': true) += 100" ]
+      }
+    ]
   }
 ]

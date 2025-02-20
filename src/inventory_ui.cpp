@@ -268,10 +268,10 @@ class selection_column_preset : public inventory_selector_preset
             if( item->is_money() ) {
                 cata_assert( available_count == entry.get_stack_size() );
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                    res += item->display_money( available_count, item->ammo_remaining(),
+                    res += item->display_money( available_count, item->ammo_remaining( ),
                                                 entry.get_selected_charges() );
                 } else {
-                    res += item->display_money( available_count, item->ammo_remaining() );
+                    res += item->display_money( available_count, item->ammo_remaining( ) );
                 }
             } else {
                 res += item->display_name( available_count );
@@ -724,7 +724,7 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
     size_t count = entry.get_stack_size();
     std::string disp_name;
     if( entry.any_item()->is_money() ) {
-        disp_name = entry.any_item()->display_money( count, entry.any_item()->ammo_remaining() );
+        disp_name = entry.any_item()->display_money( count, entry.any_item()->ammo_remaining( ) );
     } else if( entry.is_collation_header() && entry.any_item()->count_by_charges() ) {
         item temp( *entry.any_item() );
         temp.charges = entry.get_total_charges();
@@ -2073,11 +2073,23 @@ void inventory_selector::add_contained_gunmods( Character &you, item &gun )
 
 void inventory_selector::add_contained_ebooks( item_location &container )
 {
-    if( !container->is_ebook_storage() ) {
+    if( !container->is_estorage() ) {
         return;
     }
 
     for( item *it : container->get_contents().ebooks() ) {
+        item_location child( container, it );
+        add_entry( own_inv_column, std::vector<item_location>( 1, child ) );
+    }
+}
+
+void inventory_selector::add_contained_efiles( item_location &container )
+{
+    if( !container->is_estorage() ) {
+        return;
+    }
+
+    for( item *it : container->efiles() ) {
         item_location child( container, it );
         add_entry( own_inv_column, std::vector<item_location>( 1, child ) );
     }
@@ -2996,6 +3008,34 @@ void inventory_column::cycle_hide_override()
     uistate.hide_entries_override = hide_entries_override;
 }
 
+void inventory_column::remove_duplicate_itypes( bool include_variants )
+{
+    std::set<itype_id> item_types;
+    std::set<std::string> variant_types;
+    std::vector<item_location> held_locs;
+
+    auto audit_entries = [&]( inventory_column::entries_t &audited_entries ) {
+        for( inventory_entry inv_entry : audited_entries ) {
+            for( item_location &loc : inv_entry.locations ) {
+                itype_id item_id = loc->typeId();
+                std::string variant_id = loc->has_itype_variant() ? loc->itype_variant().id : "";
+                if( !item_types.count( item_id ) || ( include_variants && !variant_types.count( variant_id ) ) ) {
+                    held_locs.emplace_back( loc );
+                }
+                item_types.insert( item_id );
+                variant_types.insert( variant_id );
+            }
+        }
+    };
+    //sort out duplicates, clear list, then reconstruct entries
+    audit_entries( entries );
+    audit_entries( entries_hidden );
+    clear();
+    for( item_location &loc : held_locs ) {
+        add_entry( inventory_entry( { loc } ) );
+    }
+}
+
 void selection_column::cycle_hide_override()
 {
     // never hide entries
@@ -3405,7 +3445,7 @@ void ammo_inventory_selector::set_all_entries_chosen_count()
                     item::reload_option tmp_opt( &u, loc, it );
                     int count = entry->get_available_count();
                     if( it->has_flag( flag_SPEEDLOADER ) || it->has_flag( flag_SPEEDLOADER_CLIP ) ) {
-                        count = it->ammo_remaining();
+                        count = it->ammo_remaining( );
                     }
                     tmp_opt.qty( count );
                     entry->chosen_count = tmp_opt.qty();
@@ -4630,4 +4670,11 @@ input_context const *trade_selector::get_ctxt() const
 void inventory_selector::categorize_map_items( bool toggle )
 {
     _categorize_map_items = toggle;
+}
+
+void inventory_selector::remove_duplicate_itypes( bool include_variants )
+{
+    for( inventory_column *&column : columns ) {
+        column->remove_duplicate_itypes( include_variants );
+    }
 }

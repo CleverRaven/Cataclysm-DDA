@@ -2,11 +2,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_TELEPATH_SHIELD_INITIATE",
-    "condition": { "not": { "u_has_effect": "effect_telepathic_psi_armor" } },
+    "condition": { "not": { "u_has_effect": "effect_afs_telepathic_psi_armor" } },
     "effect": [
       { "u_message": "You begin shielding your thoughts.", "type": "good" },
       { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE" },
-      { "u_add_effect": "effect_telepathic_psi_armor", "duration": "PERMANENT" },
+      { "u_add_effect": "effect_afs_telepathic_psi_armor", "duration": "PERMANENT" },
       {
         "run_eocs": "EOC_AFS_TELEPATH_SHIELD_MAINTENANCE",
         "time_in_future": [
@@ -22,13 +22,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_TELEPATH_REMOVE_TELEPATHIC_SHIELD",
-    "condition": { "u_has_effect": "effect_telepathic_psi_armor" },
-    "effect": [ { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_telepathic_psi_armor" } ]
+    "condition": { "u_has_effect": "effect_afs_telepathic_psi_armor" },
+    "effect": [ { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_afs_telepathic_psi_armor" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_TELEPATH_SHIELD_MAINTENANCE",
-    "condition": { "u_has_effect": "effect_telepathic_psi_armor" },
+    "condition": { "u_has_effect": "effect_afs_telepathic_psi_armor" },
     "effect": [
       { "math": [ "u_spell_exp('afs_telepathic_shield')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "math": [ "u_latest_channeled_power_difficulty = 2" ] },
@@ -54,11 +54,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_TELEPATH_SENSE_MINDS_INITIATE",
-    "condition": { "not": { "u_has_effect": "effect_telepath_sense_minds" } },
+    "condition": { "not": { "u_has_effect": "effect_afs_telepath_sense_minds" } },
     "effect": [
       { "u_message": "You reach out with your powers, looking for nearby minds.", "type": "good" },
       { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE" },
-      { "u_add_effect": "effect_telepath_sense_minds", "duration": "PERMANENT" },
+      { "u_add_effect": "effect_afs_telepath_sense_minds", "duration": "PERMANENT" },
       {
         "run_eocs": "EOC_AFS_TELEPATH_SENSE_MINDS_MAINTENANCE",
         "time_in_future": [
@@ -74,13 +74,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_TELEPATH_REMOVE_SENSE_MINDS",
-    "condition": { "u_has_effect": "effect_telepath_sense_minds" },
-    "effect": [ { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_telepath_sense_minds" } ]
+    "condition": { "u_has_effect": "effect_afs_telepath_sense_minds" },
+    "effect": [ { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_afs_telepath_sense_minds" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_TELEPATH_SENSE_MINDS_MAINTENANCE",
-    "condition": { "u_has_effect": "effect_telepath_sense_minds" },
+    "condition": { "u_has_effect": "effect_afs_telepath_sense_minds" },
     "effect": [
       { "math": [ "u_spell_exp('afs_telepathic_mind_sense')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "math": [ "u_latest_channeled_power_difficulty = 3" ] },
@@ -106,11 +106,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_TELEPATH_SUGGESTION_INITIATE",
-    "condition": { "not": { "u_has_effect": "effect_telepathic_suggestion" } },
+    "condition": { "not": { "u_has_effect": "effect_afs_telepathic_suggestion" } },
     "effect": [
       { "u_message": "You prepare to subtly influence others' thoughts.", "type": "good" },
       { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_PLUS_ONE" },
-      { "u_add_effect": "effect_telepathic_suggestion", "duration": "PERMANENT" },
+      { "u_add_effect": "effect_afs_telepathic_suggestion", "duration": "PERMANENT" },
       {
         "run_eocs": "EOC_AFS_TELEPATH_SUGGESTION_MAINTENANCE",
         "time_in_future": [
@@ -128,13 +128,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_TELEPATH_REMOVE_TELEPATHIC_SUGGESTION",
-    "condition": { "u_has_effect": "effect_telepathic_suggestion" },
-    "effect": [ { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_telepathic_suggestion" } ]
+    "condition": { "u_has_effect": "effect_afs_telepathic_suggestion" },
+    "effect": [ { "run_eocs": "EOC_AFS_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_afs_telepathic_suggestion" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_AFS_TELEPATH_SUGGESTION_MAINTENANCE",
-    "condition": { "u_has_effect": "effect_telepathic_suggestion" },
+    "condition": { "u_has_effect": "effect_afs_telepathic_suggestion" },
     "effect": [
       { "math": [ "u_spell_exp('afs_telepathic_suggestion')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "math": [ "u_latest_channeled_power_difficulty = 4" ] },

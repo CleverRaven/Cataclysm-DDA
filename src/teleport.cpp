@@ -1,10 +1,12 @@
 #include "teleport.h"
 
 #include <cmath>
+#include <functional>
 #include <memory>
 #include <string>
+#include <vector>
 
-#include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
@@ -18,13 +20,14 @@
 #include "explosion.h"
 #include "game.h"
 #include "map.h"
+#include "map_scale_constants.h"
 #include "messages.h"
 #include "point.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
+#include "units.h"
 #include "viewer.h"
-#include "map_iterator.h"
 
 static const efftype_id effect_teleglow( "teleglow" );
 
@@ -121,7 +124,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
                     add_msg( m_bad, _( "You die after teleporting into a solid." ) );
                 }
             }
-            critter.check_dead_state();
+            critter.check_dead_state( &here );
         }
     }
     //update pos
@@ -168,7 +171,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
             if( tfrag_attempts-- < 1 ) {
                 if( p && display_message ) {
                     p->add_msg_player_or_npc( m_warning, _( "You flicker." ), _( "<npcname> flickers." ) );
-                } else if( get_player_view().sees( critter ) && display_message ) {
+                } else if( get_player_view().sees( here, critter ) && display_message ) {
                     add_msg( _( "%1$s flickers." ), critter.disp_name() );
                 }
                 return false;
@@ -183,7 +186,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
             if( force ) {
                 //this should only happen through debug menu, so this won't affect the player.
                 poor_soul->apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
-                poor_soul->check_dead_state();
+                poor_soul->check_dead_state( &here );
             } else if( safe ) {
                 if( c_is_u && display_message ) {
                     add_msg( m_bad, _( "You cannot teleport safely." ) );
@@ -203,7 +206,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
                                                   poor_soul->disp_name() );
                     }
                 } else {
-                    if( get_player_view().sees( *poor_soul ) ) {
+                    if( get_player_view().sees( here, *poor_soul ) ) {
                         if( display_message ) {
                             add_msg( m_warning,
                                      _( "%1$s collides with %2$s mid teleport, and they are both knocked away by a violent explosion of energy!" ),
@@ -229,7 +232,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
                             static_cast<float>( poor_soul->get_part_hp_max( bp_id ) ) / static_cast<float>( rng( 6, 12 ) );
                         poor_soul->apply_damage( nullptr, bp_id, damage_to_deal );
                     }
-                    poor_soul->check_dead_state();
+                    poor_soul->check_dead_state( &here );
                 }
             }
         }
@@ -247,7 +250,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
                 static_cast<float>( critter.get_part_hp_max( bp_id ) ) / static_cast<float>( rng( 6, 12 ) );
             critter.apply_damage( nullptr, bp_id, damage_to_deal );
         }
-        critter.check_dead_state();
+        critter.check_dead_state( &here );
     }
     //player and npc exclusive teleporting effects
     if( p && add_teleglow ) {

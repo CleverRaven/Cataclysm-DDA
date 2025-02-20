@@ -181,7 +181,7 @@
     "id": "EOC_TELEPORT_LOCI_ESTABLISHMENT_INITIATE",
     "condition": { "not": { "u_has_effect": "effect_teleport_loci_establishment" } },
     "effect": [
-      { "u_message": "You are prepared to displace your attackers.", "type": "good" },
+      { "u_message": "You've established a locus to return to later.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_location_variable": { "u_val": "teleporter_loci_establishment_loc" }, "min_radius": 0, "max_radius": 0 },
       { "u_add_effect": "effect_teleport_loci_establishment", "duration": "PERMANENT" },

@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
-#include <cstdlib>
 #include <map>
 #include <memory>
 #include <set>
@@ -13,10 +12,10 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "item.h"
 #include "itype.h"
-#include "line.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
@@ -40,6 +39,7 @@ static const itype_id itype_battery( "battery" );
 
 static void clear_game( const ter_id &terrain )
 {
+    map &here = get_map();
     // Set to turn 0 to prevent solars from producing power
     calendar::turn = calendar::turn_zero;
     clear_creatures();
@@ -49,7 +49,7 @@ static void clear_game( const ter_id &terrain )
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE_FALSE( player_character.in_vehicle );
-    player_character.setpos( tripoint_bub_ms::zero );
+    player_character.setpos( here, tripoint_bub_ms::zero );
     // Blind the player to avoid needless drawing-related overhead
     player_character.add_effect( effect_blind, 1_turns, true );
 
@@ -130,7 +130,7 @@ static float fuel_percentage_left( vehicle &v, const std::map<itype_id, int> &st
 
         if( ( pt.is_battery() || pt.is_reactor() || pt.is_tank() ) &&
             !pt.ammo_current().is_null() ) {
-            fuel_amount[ pt.ammo_current() ] += pt.ammo_remaining();
+            fuel_amount[ pt.ammo_current() ] += pt.ammo_remaining( );
         }
 
         if( pt.is_engine() && !pt.info().fuel_type.is_null() ) {
@@ -188,18 +188,18 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     // Remove all items from cargo to normalize weight.
     for( const vpart_reference &vp : veh.get_all_parts() ) {
         veh_ptr->get_items( vp.part() ).clear();
-        vp.part().ammo_consume( vp.part().ammo_remaining(), vp.pos_bub() );
+        vp.part().ammo_consume( vp.part().ammo_remaining( ), &here, vp.pos_bub( here ) );
     }
     for( const vpart_reference &vp : veh.get_avail_parts( "OPENABLE" ) ) {
-        veh.close( vp.part_index() );
+        veh.close( here, vp.part_index() );
     }
 
     veh.refresh_insides();
 
     if( test_mass ) {
-        CHECK( to_gram( veh.total_mass() ) == expected_mass );
+        CHECK( to_gram( veh.total_mass( here ) ) == expected_mass );
     }
-    expected_mass = to_gram( veh.total_mass() );
+    expected_mass = to_gram( veh.total_mass( here ) );
     veh.check_falling_or_floating();
     REQUIRE( !veh.is_in_water() );
     const auto &starting_fuel = set_vehicle_fuel( veh, fuel_level );
@@ -208,12 +208,12 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     const float starting_fuel_per = fuel_percentage_left( veh, starting_fuel );
     REQUIRE( std::abs( starting_fuel_per - 1.0f ) < 0.001f );
 
-    const tripoint_bub_ms starting_point = veh.pos_bub();
+    const tripoint_bub_ms starting_point = veh.pos_bub( here );
     veh.tags.insert( "IN_CONTROL_OVERRIDE" );
     veh.engine_on = true;
 
     const int sign = in_reverse ? -1 : 1;
-    const int target_velocity = sign * std::min( 50 * 100, veh.safe_ground_velocity( false ) );
+    const int target_velocity = sign * std::min( 50 * 100, veh.safe_ground_velocity( here, false ) );
     veh.cruise_velocity = target_velocity;
     // If we aren't testing repeated cold starts, start the vehicle at cruising velocity.
     // Otherwise changing the amount of fuel in the tank perturbs the test results.
@@ -224,20 +224,20 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     int tiles_travelled = 0;
     int cycles_left = cycle_limit;
     bool accelerating = true;
-    CHECK( veh.safe_velocity() > 0 );
-    while( veh.engine_on && veh.safe_velocity() > 0 && cycles_left > 0 ) {
+    CHECK( veh.safe_velocity( here ) > 0 );
+    while( veh.engine_on && veh.safe_velocity( here ) > 0 && cycles_left > 0 ) {
         cycles_left--;
         here.vehmove();
-        veh.idle( true );
+        veh.idle( here, true );
         // If the vehicle starts skidding, the effects become random and test is RUINED
         REQUIRE( !veh.skidding );
-        for( const tripoint_bub_ms &pos : veh.get_points() ) {
-            REQUIRE( here.ter( pos ) );
+        for( const tripoint_abs_ms &pos : veh.get_points() ) {
+            REQUIRE( here.ter( here.get_bub( pos ) ) );
         }
         // How much it moved
-        tiles_travelled += square_dist( starting_point, veh.pos_bub() );
+        tiles_travelled += square_dist( starting_point, veh.pos_bub( here ) );
         // Bring it back to starting point to prevent it from leaving the map
-        const tripoint_rel_ms displacement = starting_point - veh.pos_bub();
+        const tripoint_rel_ms displacement = starting_point - veh.pos_bub( here );
         here.displace_vehicle( veh, displacement );
         if( reset_velocity_turn < 0 ) {
             continue;

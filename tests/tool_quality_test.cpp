@@ -1,7 +1,17 @@
-#include "avatar.h"
+#include <climits>
+#include <map>
+#include <string>
+#include <vector>
+
 #include "cata_catch.h"
+#include "character.h"
+#include "character_attire.h"
+#include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "ret_val.h"
 #include "type_id.h"
 
 static const itype_id itype_UPS_ON( "UPS_ON" );
@@ -109,11 +119,11 @@ TEST_CASE( "battery-powered_tool_qualities", "[tool][battery][quality]" )
     WHEN( "tool has a battery with zero charge" ) {
         // Get a dead battery
         battery.ammo_set( battery.ammo_default(), 0 );
-        REQUIRE( battery.ammo_remaining() == 0 );
+        REQUIRE( battery.ammo_remaining( ) == 0 );
         // Install the battery in the drill
         drill.put_in( battery, pocket_type::MAGAZINE_WELL );
         REQUIRE( drill.magazine_current() );
-        REQUIRE( drill.ammo_remaining() == 0 );
+        REQUIRE( drill.ammo_remaining( ) == 0 );
 
         // Screwing should work, but drilling should not
         THEN( "inherent qualities can be used" ) {
@@ -128,11 +138,11 @@ TEST_CASE( "battery-powered_tool_qualities", "[tool][battery][quality]" )
         // Get a battery with exactly enough charge for one use
         int bat_charges = drill.type->charges_to_use();
         battery.ammo_set( battery.ammo_default(), bat_charges );
-        REQUIRE( battery.ammo_remaining() == bat_charges );
+        REQUIRE( battery.ammo_remaining( ) == bat_charges );
         // Install the battery in the drill
         drill.put_in( battery, pocket_type::MAGAZINE_WELL );
         REQUIRE( drill.magazine_current() );
-        REQUIRE( drill.ammo_remaining() == bat_charges );
+        REQUIRE( drill.ammo_remaining( ) == bat_charges );
 
         // Ensure there is enough charge
         REQUIRE( drill.type->charges_to_use() <= bat_charges );
@@ -148,11 +158,11 @@ TEST_CASE( "battery-powered_tool_qualities", "[tool][battery][quality]" )
         // Get a battery with too few charges by 1
         int bat_charges = drill.type->charges_to_use() - 1;
         battery.ammo_set( battery.ammo_default(), bat_charges );
-        REQUIRE( battery.ammo_remaining() == bat_charges );
+        REQUIRE( battery.ammo_remaining( ) == bat_charges );
         // Install the battery in the drill
         drill.put_in( battery, pocket_type::MAGAZINE_WELL );
         REQUIRE( drill.magazine_current() );
-        REQUIRE( drill.ammo_remaining() == bat_charges );
+        REQUIRE( drill.ammo_remaining( ) == bat_charges );
 
         // Ensure there is not enough charge
         REQUIRE( drill.type->charges_to_use() > bat_charges );
@@ -184,7 +194,7 @@ TEST_CASE( "battery-powered_tool_qualities", "[tool][battery][quality]" )
             int bat_charges = drill->type->charges_to_use();
             REQUIRE( bat_charges > 0 );
             bat_cell->ammo_set( bat_cell->ammo_default(), bat_charges );
-            REQUIRE( bat_cell->ammo_remaining() == bat_charges );
+            REQUIRE( bat_cell->ammo_remaining( ) == bat_charges );
             // Install heavy battery into UPS
             REQUIRE( ups->put_in( *bat_cell, pocket_type::MAGAZINE_WELL ).success() );
             REQUIRE( ups->ammo_remaining( &they ) == bat_charges );

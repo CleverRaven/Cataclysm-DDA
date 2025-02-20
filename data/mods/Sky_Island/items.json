@@ -71,12 +71,12 @@
       "OVERSIZE",
       "PADDED",
       "ONE_PER_LAYER",
-      "ONLY_ONE",
       "UNBREAKABLE",
       "SEMITANGIBLE",
       "AURA",
       "TARDIS"
     ],
+    "max_worn": 1,
     "warmth": 0,
     "weight": "400 g",
     "volume": "2000 ml",
@@ -543,5 +543,36 @@
     "material": [ "stone" ],
     "symbol": "y",
     "color": "green"
+  },
+  {
+    "id": "sky_island_sunblock",
+    "type": "ARMOR",
+    "name": { "str": "Personal Sunblock" },
+    "description": "The island is protecting you against the sun as long as you are on it.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "material": [ "alien_resin" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "RAIN_PROTECT",
+      "SUN_GLASSES",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "max_worn": 1,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
   }
 ]

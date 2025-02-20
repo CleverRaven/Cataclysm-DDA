@@ -2,11 +2,11 @@
 #ifndef CATA_SRC_IEXAMINE_H
 #define CATA_SRC_IEXAMINE_H
 
-#include <iosfwd>
+#include <algorithm>
 #include <list>
 #include <memory>
 #include <optional>
-#include <set>
+#include <string>
 #include <tuple>
 #include <vector>
 
@@ -14,13 +14,12 @@
 #include "ret_val.h"
 #include "type_id.h"
 
-class item;
-class JsonObject;
 class Character;
+class JsonObject;
+class item;
 class time_point;
 class vpart_reference;
 struct itype;
-struct tripoint;
 
 using seed_tuple = std::tuple<itype_id, std::string, int>;
 

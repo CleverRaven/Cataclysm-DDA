@@ -34,22 +34,22 @@
         ".|1111=      ||::|::||||",
         ".|1111=ò|  |Ñ|566|665||.",
         "|||||||||]]|||666|666||.",
-        "|ë,=  ],    ,||||||||||.",
-        "|ëË=  ]      %||ÑÑÑ = ||",
-        "||==  |  Í|   ]_    = Ï=",
-        "|    ,|==||,, ]_    = Ï=",
-        "|    ,|,ík|  =|| ,, =ïÏ=",
-        "||    |  l|   1| ,, = Ï=",
-        "|,   ,||!||  =||    = Ï=",
+        "|q,=  ],    ,||||||||||.",
+        "|qË=  ]      %||ÑÑÑ = ||",
+        "||==  |  Í|   ]_    = q=",
+        "|    ,|==||,, ]_    = q=",
+        "|    ,|,ík|  =|| ,, =ïq=",
+        "||    |  l|   1| ,, = q=",
+        "|,   ,||!||  =||    = q=",
         "|23|23|.,!ú,, 1|    = ||",
         "|||||||||||  ||||  ||||.",
-        ".|  |,sss,]  |ÑÑ ,, ÑÑ|.",
+        ".|q |,sss,]  |ÑÑ ,, ÑÑ|.",
         ".|qó=     ]  |Ñ,    ,Ñ|.",
         ".|, =     |||||||   ||||",
         ".| ||!!||Ñ|..|,  ,,  ,|.",
         ".|!|0  0|||..|  ====  ||",
         ".|,      ,|..| ||jÄ|| | ",
-        ".||00  00||,,|||ä,,ä||||",
+        ".||00  00||,,|||q,,q||||",
         "..|||]]|||...4||||||||..",
         "..|7á  á7|...4..........",
         "..|8 ,, 8|..............",
@@ -62,6 +62,50 @@
         "........................"
       ],
       "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
+      "place_zones": [
+        { "type": "LOOT_ITEM_GROUP", "filter": "NC_AUGUSTMOON_DOCTOR_stock", "faction": "mercurial", "x": 2, "y": [ 31, 32 ] },
+        { "type": "LOOT_UNSORTED", "faction": "mercurial", "x": 2, "y": [ 31, 32 ] },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "afs_augustmoon_tool_trader",
+          "faction": "UICA",
+          "x": 1,
+          "y": [ 22, 23 ]
+        },
+        { "type": "LOOT_UNSORTED", "faction": "UICA", "x": 1, "y": [ 22, 23 ] },
+        { "type": "LOOT_ITEM_GROUP", "filter": "afs_augustmoon_outfitter", "faction": "UICA", "x": 16, "y": 37 },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "afs_augustmoon_outfitter_military",
+          "faction": "UICA",
+          "x": 19,
+          "y": 37
+        },
+        { "type": "LOOT_UNSORTED", "faction": "UICA", "x": 16, "y": 37 },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "afs_augustmoon_guntrader",
+          "faction": "UICA",
+          "x": 22,
+          "y": [ 24, 26 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "afs_augustmoon_guntrader_military",
+          "faction": "UICA",
+          "x": 22,
+          "y": [ 27, 28 ]
+        },
+        { "type": "LOOT_UNSORTED", "faction": "UICA", "x": 22, "y": [ 24, 28 ] },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_AUGUSTMOON_shipping_stock",
+          "faction": "UICA",
+          "x": 9,
+          "y": [ 26, 27 ]
+        },
+        { "type": "LOOT_UNSORTED", "faction": "UICA", "x": 9, "y": [ 26, 27 ] }
+      ],
       "place_nested": [
         { "chunks": [ "augustmoon_concourse_vending1" ], "x": 0, "y": 0 },
         { "chunks": [ "augustmoon_concourse_vending2" ], "x": 0, "y": 24 }
@@ -90,16 +134,10 @@
         "Ï": "f_rack",
         "é": "f_bookcase",
         "Ó": "f_rack",
-        "ë": "f_rack",
         "Á": "f_screenmirror_working",
         "8": "f_autodoc_couch",
         "Ñ": "f_vending_reinforced",
         "á": "f_neuralnet_inserter"
-      },
-      "items": {
-        "Ï": { "item": "afs_civilian_armory", "chance": 100, "repeat": [ 3, 4 ] },
-        "ë": { "item": "afs_augustmoon_tool_trader", "chance": 100, "repeat": [ 10, 24 ] },
-        "ä": { "item": "afs_augustmoon_outfitter", "chance": 100, "repeat": [ 3, 4 ] }
       },
       "npcs": {
         "í": { "class": "augustmoon_shipping_chief" },
@@ -378,9 +416,9 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "1": "t_metal_floor", "2": "t_metal_floor", "3": "t_metal_floor" },
       "vendingmachines": {
-        "1": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true },
-        "2": { "item_group": "afs_vending_ballistic_ammo", "reinforced": true, "powered": true },
-        "3": { "item_group": "afs_vending_medicine", "reinforced": true, "powered": true }
+        "1": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true, "networked": true },
+        "2": { "item_group": "afs_vending_ballistic_ammo", "reinforced": true, "powered": true, "networked": true },
+        "3": { "item_group": "afs_vending_medicine", "reinforced": true, "powered": true, "networked": true }
       }
     }
   },
@@ -419,9 +457,9 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "1": "t_metal_floor", "2": "t_metal_floor", "3": "t_metal_floor" },
       "vendingmachines": {
-        "1": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true },
-        "2": { "item_group": "afs_vending_ballistic_ammo", "reinforced": true, "powered": true },
-        "3": { "item_group": "afs_vending_energy_ammo", "reinforced": true, "powered": true }
+        "1": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true, "networked": true },
+        "2": { "item_group": "afs_vending_ballistic_ammo", "reinforced": true, "powered": true, "networked": true },
+        "3": { "item_group": "afs_vending_energy_ammo", "reinforced": true, "powered": true, "networked": true }
       }
     }
   },

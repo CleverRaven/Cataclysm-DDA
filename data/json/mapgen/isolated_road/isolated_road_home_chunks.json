@@ -153,7 +153,7 @@
         "Gddddddddddddddd........",
         "G........ddddddd........",
         "G........ddddddd........",
-        "G........ddddddd........",
+        "G........ddddddd......ϟ.",
         "Gddddddddddddddd........",
         "Gdddddddddddddd.........",
         "Gddddddddddddd..........",
@@ -173,6 +173,7 @@
         { "monster": "mon_turret_artisans", "x": 2, "y": 23, "chance": 100 },
         { "monster": "mon_turret_artisans", "x": 23, "y": 2, "chance": 100 }
       ],
+      "furniture": { "ϟ": "f_bulletin" },
       "faction_owner": [ { "id": "isolated_artisans", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }
   },

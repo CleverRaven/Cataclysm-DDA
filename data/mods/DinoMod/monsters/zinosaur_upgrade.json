@@ -2795,7 +2795,8 @@
     "looks_like": "mon_zpinosaurus",
     "description": "Monstrous columns of dense bone lifting enormous, sharp, pointed teeth dripping with black goo.  There is a ridge of long spikes on the back.",
     "volume": "1000 L",
-    "weight": "1000 kg",
+    "weight": "15000 kg",
+    "//": "When large volumes are fixed this should be 15000 L",
     "bodytype": "elephant",
     "speed": 35,
     "attack_cost": 35,
@@ -3069,8 +3070,8 @@
     "copy-from": "mon_sallimimus",
     "description": "Monstrous columns of dense bone lifting a twisted bony beak dripping with black goo.  Long, sharp claws extend from its hands",
     "volume": "1000 L",
-    "weight": "1000 kg",
-    "//": "When large weights and volumes are fixed this should be 4000 L and 4000 kg",
+    "weight": "4000 kg",
+    "//": "When large volumes are fixed this should be 4000 L",
     "speed": 100,
     "melee_skill": 3,
     "melee_dice": 3,
@@ -4785,7 +4786,8 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
-    "weight": "1000 kg"
+    "weight": "4000 kg",
+    "//": "When large volumes are fixed this should be 3500 L"
   },
   {
     "type": "MONSTER",
@@ -5002,7 +5004,8 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
-    "weight": "1000 kg"
+    "weight": "4400 kg",
+    "//": "When large volumes are fixed this should be 3850 L"
   },
   {
     "type": "MONSTER",
@@ -5047,7 +5050,7 @@
       { "id": "cut_throat" },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
-    "volume": "1000 L",
+    "volume": "875 L",
     "weight": "1000 kg"
   },
   {
@@ -5094,7 +5097,8 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
-    "weight": "1000 kg"
+    "weight": "40000 kg",
+    "//": "When large volumes are fixed this should be 35000 L"
   },
   {
     "type": "MONSTER",
@@ -5140,7 +5144,8 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
-    "weight": "1000 kg"
+    "weight": "8000 kg",
+    "//": "When large volumes are fixed this should be 7000 L"
   },
   {
     "type": "MONSTER",
@@ -5186,7 +5191,8 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
-    "weight": "1000 kg"
+    "weight": "2500 kg",
+    "//": "When large volumes are fixed this should be 2200 L"
   },
   {
     "type": "MONSTER",
@@ -5232,7 +5238,8 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
-    "weight": "1000 kg"
+    "weight": "5000 kg",
+    "//": "When large volumes are fixed this should be 4400 L"
   },
   {
     "type": "MONSTER",
@@ -5300,7 +5307,8 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "volume": "1000 L",
-    "weight": "1000 kg"
+    "weight": "2500 kg",
+    "//": "When large volumes are fixed this should be 2200 L"
   },
   {
     "type": "MONSTER",

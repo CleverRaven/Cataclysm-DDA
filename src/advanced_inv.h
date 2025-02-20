@@ -131,7 +131,8 @@ class advanced_inventory
 
         void action_examine( advanced_inv_listitem *sitem, advanced_inventory_pane &spane );
 
-        bool action_unload( advanced_inv_listitem *sitem, advanced_inventory_pane &spane );
+        bool action_unload( advanced_inv_listitem *sitem, advanced_inventory_pane &spane,
+                            advanced_inventory_pane &dpane );
 
         // store/load settings (such as index, filter, etc)
         void save_settings( bool only_panes );
