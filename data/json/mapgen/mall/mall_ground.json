@@ -180,8 +180,8 @@
       },
       "item": { "¤": { "item": "movie_poster", "chance": 100 } },
       "place_items": [
-        { "item": "floor_trash", "x": [ 20, 23 ], "y": [ 8, 19 ], "chance": 10 },
-        { "item": "floor_trash", "x": [ 20, 23 ], "y": [ 21, 23 ], "chance": 10 },
+        { "item": "SUS_trash_floor", "x": [ 20, 23 ], "y": [ 8, 19 ], "chance": 10 },
+        { "item": "SUS_trash_floor", "x": [ 20, 23 ], "y": [ 21, 23 ], "chance": 10 },
         { "item": "cash_register_random", "x": 55, "y": [ 9, 11 ], "chance": 100 },
         { "item": "cash_register_random", "x": [ 48, 50 ], "y": 13, "chance": 100 },
         { "item": "cash_register_random", "x": [ 51, 53 ], "y": 13, "chance": 100 }
@@ -286,7 +286,7 @@
         "}": "f_bench"
       },
       "place_items": [
-        { "item": "floor_trash", "x": [ 20, 23 ], "y": [ 0, 8 ], "chance": 10 },
+        { "item": "SUS_trash_floor", "x": [ 20, 23 ], "y": [ 0, 8 ], "chance": 10 },
         { "item": "cash_register_random", "x": [ 59, 62 ], "y": 12, "chance": 100 },
         { "item": "cash_register_random", "x": [ 45, 47 ], "y": 18, "chance": 100 },
         { "item": "cash_register_random", "x": [ 48, 50 ], "y": 18, "chance": 100 },

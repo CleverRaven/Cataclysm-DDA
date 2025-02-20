@@ -275,7 +275,7 @@
             "subtype": "collection",
             "entries": [
               { "item": "null", "prob": 600 },
-              { "group": "floor_trash", "prob": 2 },
+              { "group": "SUS_trash_floor", "prob": 2 },
               { "group": "farm_supply_floor_surprises", "prob": 1 }
             ]
           },
@@ -286,7 +286,7 @@
             "subtype": "collection",
             "entries": [
               { "item": "null", "prob": 600 },
-              { "group": "floor_trash", "prob": 2 },
+              { "group": "SUS_trash_floor", "prob": 2 },
               { "group": "farm_supply_floor_surprises", "prob": 1 }
             ]
           },
@@ -721,7 +721,7 @@
             "subtype": "collection",
             "entries": [
               { "item": "null", "prob": 500 },
-              { "group": "floor_trash", "prob": 2 },
+              { "group": "SUS_trash_floor", "prob": 2 },
               { "group": "ammo_casings", "prob": 1 },
               { "group": "farm_supply_floor_surprises", "prob": 1 }
             ]
@@ -733,7 +733,7 @@
             "subtype": "collection",
             "entries": [
               { "item": "null", "prob": 500 },
-              { "group": "floor_trash", "prob": 2 },
+              { "group": "SUS_trash_floor", "prob": 2 },
               { "group": "ammo_casings", "prob": 1 },
               { "group": "farm_supply_floor_surprises", "prob": 1 }
             ]

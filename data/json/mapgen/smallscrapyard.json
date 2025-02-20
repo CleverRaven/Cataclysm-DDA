@@ -290,10 +290,10 @@
         "{": "f_bigmirror_b"
       },
       "place_items": [
-        { "chance": 50, "item": "bar_trash", "x": 9, "y": 18 },
-        { "chance": 50, "item": "bar_trash", "x": 20, "y": 16 },
-        { "chance": 50, "item": "bar_trash", "x": 3, "y": 8 },
-        { "chance": 50, "item": "bar_trash", "x": 15, "y": 4 },
+        { "chance": 50, "item": "SUS_trash_floor", "x": 9, "y": 18 },
+        { "chance": 50, "item": "SUS_trash_floor", "x": 20, "y": 16 },
+        { "chance": 50, "item": "SUS_trash_floor", "x": 3, "y": 8 },
+        { "chance": 50, "item": "SUS_trash_floor", "x": 15, "y": 4 },
         { "chance": 35, "item": "hardware_plumbing", "x": 14, "y": 21 },
         { "chance": 35, "item": "hardware_plumbing", "x": 2, "y": 16 },
         { "chance": 35, "item": "hardware_plumbing", "x": 16, "y": 8 }

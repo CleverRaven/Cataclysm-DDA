@@ -298,7 +298,7 @@
           { "item": "hatstore_accessories", "chance": 100 },
           { "item": "shoestore_shoes", "chance": 100 }
         ],
-        "Y": { "item": "floor_trash", "chance": 100, "repeat": [ 1, 2 ] }
+        "Y": { "item": "SUS_trash_floor", "chance": 100, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 1, 23 ], "repeat": [ 7, 9 ] } ]
     }
@@ -366,7 +366,7 @@
           { "item": "shoestore_shoes", "chance": 100 }
         ],
         "K": { "item": "shoestore_shoes", "chance": 100, "repeat": [ 1, 2 ] },
-        "Y": { "item": "floor_trash", "chance": 100, "repeat": [ 1, 2 ] },
+        "Y": { "item": "SUS_trash_floor", "chance": 100, "repeat": [ 1, 2 ] },
         "T": { "item": "hatstore_accessories", "chance": 100, "repeat": [ 1, 2 ] },
         "!": [
           { "item": "hatstore_accessories", "chance": 30, "repeat": [ 1, 2 ] },
@@ -636,7 +636,7 @@
       "items": {
         "K": { "item": "cell_shop", "chance": 50 },
         "M": { "item": "jewelry_accessories", "chance": 50 },
-        "Y": { "item": "floor_trash", "chance": 70, "repeat": [ 1, 2 ] }
+        "Y": { "item": "SUS_trash_floor", "chance": 70, "repeat": [ 1, 2 ] }
       }
     }
   },
@@ -1111,7 +1111,7 @@
           { "item": "coffee_condiments", "chance": 20, "repeat": [ 2, 4 ] },
           { "item": "coffee_prep", "chance": 20, "repeat": [ 2, 4 ] }
         ],
-        "Y": { "item": "coffee_trash", "chance": 30, "repeat": [ 2, 4 ] },
+        "Y": { "item": "SUS_trash_trashcan_commercial", "chance": 30, "repeat": [ 2, 4 ] },
         "Q": { "item": "coffee_display_2", "chance": 30, "repeat": [ 2, 4 ] },
         "S": { "item": "office_paper", "chance": 20 },
         "I": { "item": "office", "chance": 20 },

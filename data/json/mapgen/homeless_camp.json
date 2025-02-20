@@ -48,7 +48,7 @@
       "?": [
         { "item": "gear_homeless", "chance": 3 },
         { "item": "camping", "chance": 3 },
-        { "item": "bar_trash", "chance": 2 },
+        { "item": "SUS_trash_floor", "chance": 2 },
         { "item": "misc_smoking", "chance": 2 },
         { "item": "alcohol", "chance": 4 },
         { "item": "foodintincan", "chance": 3, "repeat": [ 1, 3 ] },

@@ -200,7 +200,7 @@
         "~": { "item": "vehicle_scrapped", "chance": 3 }
       },
       "place_loot": [
-        { "group": "bar_trash", "chance": 50, "repeat": 2, "x": 11, "y": 70 },
+        { "group": "SUS_trash_floor", "chance": 50, "repeat": 2, "x": 11, "y": 70 },
         { "group": "tools_blacksmith", "chance": 60, "repeat": 4, "x": 26, "y": [ 68, 70 ] },
         { "group": "tools_mechanic", "chance": 60, "repeat": 2, "x": 26, "y": [ 66, 67 ] },
         { "group": "tools_home", "chance": 60, "repeat": 4, "x": 24, "y": [ 66, 68 ] },
