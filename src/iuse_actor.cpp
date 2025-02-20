@@ -46,6 +46,7 @@
 #include "game.h"
 #include "game_inventory.h"
 #include "generic_factory.h"
+#include "iexamine.h"
 #include "global_vars.h"
 #include "inventory.h"
 #include "item.h"
@@ -88,6 +89,7 @@
 #include "talker.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "ui.h"
 #include "units_utility.h"
 #include "value_ptr.h"
@@ -128,6 +130,12 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
+
+static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
+static const furn_str_id furn_f_kiln_metal_empty( "f_kiln_metal_empty" );
+static const furn_str_id furn_f_kiln_portable_empty( "f_kiln_portable_empty" );
+static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
+static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 
@@ -1428,11 +1436,12 @@ std::unique_ptr<iuse_actor> firestarter_actor::clone() const
     return std::make_unique<firestarter_actor>( *this );
 }
 
-bool firestarter_actor::prep_firestarter_use( const Character &p, map *here, tripoint_bub_ms &pos )
+firestarter_actor::start_type firestarter_actor::prep_firestarter_use( Character &p,
+        map *here, tripoint_bub_ms &pos )
 {
     if( here != &get_map() ) { // Unless 'choose_adjacent' gets map aware.
         debugmsg( "Usage outside reality bubble is not supported" );
-        return false;
+        return start_type::NONE;
     }
 
     // checks for fuel are handled by use and the activity, not here
@@ -1440,18 +1449,31 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, map *here, tri
         if( const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
             pos = *pnt_;
         } else {
-            return false;
+            return start_type::NONE;
         }
     }
     if( pos == p.pos_bub( *here ) ) {
         p.add_msg_if_player( m_info, _( "You would set yourself on fire." ) );
         p.add_msg_if_player( _( "But you're already smokin' hot." ) );
-        return false;
+        return start_type::NONE;
     }
+
+    const furn_id &f_id = here->furn( pos );
+    const bool is_smoking_rack = f_id == furn_f_metal_smoking_rack ||
+                                 f_id == furn_f_smoking_rack;
+    const bool is_kiln = f_id == furn_f_kiln_empty ||
+                         f_id == furn_f_kiln_metal_empty || f_id == furn_f_kiln_portable_empty;
+
+    if( is_smoking_rack ) {
+        return iexamine::smoker_prep( p, pos ) ? start_type::SMOKER : start_type::NONE;
+    } else if( is_kiln ) {
+        return iexamine::kiln_prep( p, pos ) ? start_type::KILN : start_type::NONE;
+    }
+
     if( here->get_field( pos, fd_fire ) ) {
         // check if there's already a fire
         p.add_msg_if_player( m_info, _( "There is already a fire." ) );
-        return false;
+        return start_type::NONE;
     }
     // check if there's a fire fuel source spot
     bool target_is_firewood = false;
@@ -1466,7 +1488,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, map *here, tri
     }
     if( target_is_firewood ) {
         if( !query_yn( _( "Do you really want to burn your firewood source?" ) ) ) {
-            return false;
+            return start_type::NONE;
         }
     }
     // Check for an adjacent fire container
@@ -1481,7 +1503,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, map *here, tri
         }
         if( here->has_flag_furn( "FIRE_CONTAINER", query ) ) {
             if( !query_yn( _( "Are you sure you want to start fire here?  There's a fireplace adjacent." ) ) ) {
-                return false;
+                return start_type::NONE;
             } else {
                 // Don't ask multiple times if they say no and there are multiple fireplaces
                 break;
@@ -1495,15 +1517,19 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, map *here, tri
             has_unactivated_brazier = true;
         }
     }
-    return !has_unactivated_brazier ||
-           query_yn(
-               _( "There's a brazier there but you haven't set it up to contain the fire.  Continue?" ) );
+    if( has_unactivated_brazier &&
+        !query_yn(
+            _( "There's a brazier there but you haven't set it up to contain the fire.  Continue?" ) ) ) {
+        return start_type::NONE;
+    }
+
+    return start_type::FIRE;
 }
 
 void firestarter_actor::resolve_firestarter_use( Character *p, map *here,
-        const tripoint_bub_ms &pos )
+        const tripoint_bub_ms &pos, start_type st )
 {
-    if( here->add_field( pos, fd_fire, 1, 10_minutes ) ) {
+    if( firestarter_actor::resolve_start( p, here, pos, st ) ) {
         if( !p->has_trait( trait_PYROMANIA ) ) {
             p->add_msg_if_player( _( "You successfully light a fire." ) );
         } else {
@@ -1516,6 +1542,22 @@ void firestarter_actor::resolve_firestarter_use( Character *p, map *here,
                 p->rem_morale( morale_pyromania_nofire );
             }
         }
+    }
+}
+
+bool firestarter_actor::resolve_start( Character *p, map *here,
+                                       const tripoint_bub_ms &pos, start_type type )
+{
+    switch( type ) {
+        case start_type::FIRE:
+            return here->add_field( pos, fd_fire, 1, 10_minutes );
+        case start_type::SMOKER:
+            return iexamine::smoker_fire( *p, pos );
+        case start_type::KILN:
+            return iexamine::kiln_fire( *p, pos );
+        case start_type::NONE:
+        default:
+            return false;
     }
 }
 
@@ -1595,7 +1637,8 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
     tripoint_bub_ms pos = spos;
 
     float light = light_mod( here, p->pos_bub( *here ) );
-    if( !prep_firestarter_use( *p, here, pos ) ) {
+    start_type st = prep_firestarter_use( *p, here, pos );
+    if( st == start_type::NONE ) {
         return std::nullopt;
     }
 
@@ -1618,7 +1661,7 @@ std::optional<int> firestarter_actor::use( Character *p, item &it,
                               minutes );
     } else if( moves < to_moves<int>( 2_turns ) && here->is_flammable( pos ) ) {
         // If less than 2 turns, don't start a long action
-        resolve_firestarter_use( p, here,  pos );
+        resolve_firestarter_use( p, here,  pos, st );
         p->mod_moves( -moves );
         return 1;
     }

@@ -192,7 +192,12 @@ static const furn_str_id furn_f_compost_full( "f_compost_full" );
 static const furn_str_id furn_f_fvat_empty( "f_fvat_empty" );
 static const furn_str_id furn_f_fvat_wood_empty( "f_fvat_wood_empty" );
 static const furn_str_id furn_f_fvat_wood_full( "f_fvat_wood_full" );
+static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
+static const furn_str_id furn_f_kiln_metal_empty( "f_kiln_metal_empty" );
+static const furn_str_id furn_f_kiln_portable_empty( "f_kiln_portable_empty" );
+static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
 static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
+static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
@@ -1927,11 +1932,27 @@ void activity_handlers::start_fire_finish( player_activity *act, Character *you 
         return;
     }
 
-    it.activation_consume( 1, you->pos_bub(), you );
-
     you->practice( skill_survival, act->index, 5 );
 
-    firestarter_actor::resolve_firestarter_use( you, &here, here.get_bub( act->placement ) );
+    const furn_id &f_id = here.furn( here.get_bub( act->placement ) );
+    const bool is_smoking_rack = f_id == furn_f_metal_smoking_rack ||
+                                 f_id == furn_f_smoking_rack;
+    const bool is_kiln = f_id == furn_f_kiln_empty ||
+                         f_id == furn_f_kiln_metal_empty || f_id == furn_f_kiln_portable_empty;
+
+    firestarter_actor::start_type st = firestarter_actor::start_type::FIRE;
+
+    if( is_smoking_rack ) {
+        st = firestarter_actor::start_type::SMOKER;
+    } else if( is_kiln ) {
+        st = firestarter_actor::start_type::KILN;
+    }
+
+    it.activation_consume( 1, you->pos_bub(), you );
+
+    firestarter_actor::resolve_firestarter_use( you, &here, here.get_bub( act->placement ),
+            st );
+
     act->set_to_null();
 }
 
@@ -1966,7 +1987,12 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
     }
 
     item &firestarter = *act->targets.front();
-    if( firestarter.has_flag( flag_REQUIRES_TINDER ) ) {
+
+    const furn_id f_id = here.furn( here.get_bub( act->placement ) );
+    const bool is_smoker = f_id == furn_f_smoking_rack ||
+                           f_id == furn_f_metal_smoking_rack;
+
+    if( firestarter.has_flag( flag_REQUIRES_TINDER ) && !is_smoker ) {
         if( !here.tinder_at( where ) ) {
             inventory_filter_preset preset( []( const item_location & loc ) {
                 return loc->has_flag( flag_TINDER );
