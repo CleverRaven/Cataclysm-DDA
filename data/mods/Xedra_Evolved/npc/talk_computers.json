@@ -2,7 +2,7 @@
   {
     "type": "talk_topic",
     "id": "OFFWORLD_ACQUISITIONS_ASSETS_COMPUTER_MAIN",
-    "dynamic_line": "&This computer still has power, but the screen displays a simple message: \"ERROR, access denied.  Assets storage is restricted to approriate personnel.\"  A panel below the screen seems ready to accept some sort of id.",
+    "dynamic_line": "&This computer still has power, but the screen displays a simple message: \"ERROR, access denied.  Assets storage is restricted to appropriate personnel.\"  A panel below the screen seems ready to accept some sort of id.",
     "responses": [
       {
         "text": "Swipe credentials.",
