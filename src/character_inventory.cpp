@@ -215,7 +215,7 @@ item_location Character::try_add( item it, const item *avoid, const item *origin
     bool wielded = false;
     if( pocket.second == nullptr ) {
         // TODO: probably ok
-        if( !has_weapon() && allow_wield && wield( item_location( *this, &it ) ) ) {
+        if( !has_weapon() && allow_wield && wield_new( it ) ) {
             ret = item_location( *this, &weapon );
             wielded = true;
         } else {
