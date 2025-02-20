@@ -26,13 +26,9 @@ static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_took_prozac( "took_prozac" );
 
 static const itype_id itype_boots( "boots" );
-static const itype_id itype_dress_wedding( "dress_wedding" );
-static const itype_id itype_heels( "heels" );
 static const itype_id itype_legpouch( "legpouch" );
-static const itype_id itype_sf_watch( "sf_watch" );
 static const itype_id itype_shotgun_s( "shotgun_s" );
 static const itype_id itype_tinfoil_hat( "tinfoil_hat" );
-static const itype_id itype_veil_wedding( "veil_wedding" );
 
 static const morale_type morale_book( "morale_book" );
 static const morale_type morale_food_bad( "morale_food_bad" );
