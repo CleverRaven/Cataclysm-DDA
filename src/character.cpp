@@ -13017,7 +13017,8 @@ bool Character::wield( item_location loc )
 
     // for [w] -> unwield
     if( has_wield_conflicts( *loc ) ) {
-        const bool is_unwielding = is_wielding( it );
+        // for some reason &it != &weapon in is_wielding(it)
+        const bool is_unwielding = is_wielding( *loc );
         const auto ret = can_unwield( it );
 
         if( !ret.success() ) {
@@ -13036,6 +13037,7 @@ bool Character::wield( item_location loc )
         }
     }
 
+    // should probably rename since there is 'item character::weapon'
     item_location weapon = get_wielded_item();
     if( weapon && weapon->has_item( it ) ) {
         add_msg_if_player( m_info,
