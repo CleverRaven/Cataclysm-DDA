@@ -297,15 +297,6 @@
   {
     "id": "fd_nullifying_field",
     "type": "field_type",
-    "immune_mtypes": [
-      "mon_zombie_thaumic",
-      "mon_zombie_leyspark",
-      "mon_zombie_levinbolt",
-      "mon_zombie_manastorm",
-      "mon_zombie_queller",
-      "mon_zombie_disruptor",
-      "mon_zombie_magebreaker"
-    ],
     "intensity_levels": [
       {
         "name": "emptiness",
