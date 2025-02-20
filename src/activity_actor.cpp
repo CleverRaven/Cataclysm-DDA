@@ -454,7 +454,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     }
 
     gun_mode gun = weapon->gun_current_mode();
-    who.fire_gun( &here, fin_trajectory.back(), gun.qty, *gun, reload_loc );
+    who.fire_gun( here, fin_trajectory.back(), gun.qty, *gun, reload_loc );
 
     if( !get_option<bool>( "AIM_AFTER_FIRING" ) ) {
         restore_view();
@@ -566,7 +566,7 @@ bool aim_activity_actor::load_RAS_weapon()
         {
             return false;
         }
-        if( square_dist( you.pos_bub(), you.ammo_location.pos_bub() ) > 1 )
+        if( square_dist( you.pos_abs(), you.ammo_location.pos_abs() ) > 1 )
         {
             return false;
         }
@@ -850,6 +850,8 @@ static int hack_level( const Character &who, item_location &tool )
 
 static hack_result hack_attempt( Character &who, item_location &tool )
 {
+    map &here = get_map();
+
     // TODO: Remove this once player -> Character migration is complete
     {
         who.practice( skill_computer, 20 );
@@ -861,10 +863,10 @@ static hack_result hack_attempt( Character &who, item_location &tool )
     int success = std::ceil( normal_roll( hack_level( who, tool ), hack_stddev ) );
     if( success < 0 ) {
         who.add_msg_if_player( _( "You cause a short circuit!" ) );
-        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
+        tool->ammo_consume( tool->ammo_required(), here, tool.pos_bub( here ), &who );
 
         if( success <= -5 ) {
-            tool->ammo_consume( ( tool->ammo_required() * 2 ), tool.pos_bub(), &who );
+            tool->ammo_consume( ( tool->ammo_required() * 2 ), here, tool.pos_bub( here ), &who );
         }
         return hack_result::FAIL;
     } else if( success < 6 ) {
@@ -1182,6 +1184,8 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
 
 void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
+    map &here = get_map();
+
     std::string method = "HACKSAW";
 
     if( !veh_pos.has_value() ) {
@@ -1192,7 +1196,7 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
                 ammo_consumed *= iter->second;
             }
 
-            tool->ammo_consume( ammo_consumed, tool.pos_bub(), &who );
+            tool->ammo_consume( ammo_consumed, here, tool.pos_bub( here ), &who );
             sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
             if( calendar::once_every( 1_minutes ) ) {
                 //~ Sound of a metal sawing tool at work!
@@ -1980,13 +1984,15 @@ bool read_activity_actor::player_readma( avatar &you )
 
 bool read_activity_actor::npc_read( npc &learner )
 {
+    map &here = get_map();
+
     const cata::value_ptr<islot_book> &islotbook = book->type->book;
     const skill_id &skill = islotbook->skill;
 
     // NPCs don't need to identify the book or learn recipes yet.
     // NPCs don't read to other NPCs yet.
     const bool display_messages = learner.get_fac_id() == faction_your_followers &&
-                                  get_player_character().sees( learner );
+                                  get_player_character().sees( here, learner );
 
     const int book_fun = learner.book_fun_for( *book, learner );
     if( book_fun != 0 ) {
@@ -2215,7 +2221,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             continue;
         }
         // Spill out any invalid contents first
-        target.overflow();
+        target.overflow( here );
 
         item &leftovers = *target;
         // Make a copy to be put in the destination location
@@ -2237,7 +2243,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 
         // This is for hauling across zlevels, remove when going up and down stairs
         // is no longer teleportation
-        const tripoint_bub_ms src = target.pos_bub();
+        const tripoint_bub_ms src = target.pos_bub( here );
         const int distance = src.z() == dest.z() ? std::max( rl_dist( src, dest ), 1 ) : 1;
         // Yuck, I'm sticking weariness scaling based on activity level here
         const float weary_mult = who.exertion_adjusted_move_multiplier( exertion_level() );
@@ -2422,8 +2428,10 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
 
 void boltcutting_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
+    map &here = get_map();
+
     if( tool->ammo_sufficient( &who ) ) {
-        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
+        tool->ammo_consume( tool->ammo_required(), here, tool.pos_bub( here ), &who );
     } else {
         if( who.is_avatar() ) {
             who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
@@ -2732,6 +2740,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
 std::optional<tripoint_bub_ms> lockpick_activity_actor::select_location( avatar &you )
 {
+    map &here = get_map();
+
     if( you.cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -2748,7 +2758,8 @@ std::optional<tripoint_bub_ms> lockpick_activity_actor::select_location( avatar 
     };
 
     std::optional<tripoint_bub_ms> target = choose_adjacent_highlight(
-            _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), is_pickable, false );
+            here, _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), is_pickable,
+            false );
     if( !target ) {
         return std::nullopt;
     }
@@ -3037,6 +3048,8 @@ void efile_activity_actor::start( player_activity &act, Character &who )
 
 void efile_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     auto edevice_reduce_charge = [&]( item_location & edevice ) {
         if( calendar::once_every( charge_time( action_type ) ) ) {
             if( !edevice->ammo_sufficient( &who ) ) {
@@ -3045,7 +3058,7 @@ void efile_activity_actor::do_turn( player_activity &act, Character &who )
                                                    edevice->display_name() ) );
                 return false;
             }
-            edevice->ammo_consume( edevice->ammo_required(), edevice.pos_bub(), &who );
+            edevice->ammo_consume( edevice->ammo_required(), here, edevice.pos_bub( here ), &who );
             add_msg_debug( debugmode::DF_ACT_EBOOK, "%s power check", edevice->display_name() );
         }
         return true;
@@ -4102,7 +4115,7 @@ bool craft_activity_actor::check_if_craft_okay( item_location &craft_item, Chara
     item *craft = craft_item.get_item();
 
     // item_location::get_item() will return nullptr if the item is lost
-    if( !craft || square_dist( craft_item.pos_bub(), crafter.pos_bub() ) > 1 ) {
+    if( !craft || square_dist( craft_item.pos_abs(), crafter.pos_abs() ) > 1 ) {
         crafter.add_msg_player_or_npc(
             _( "You no longer have the in progress craft in your possession.  "
                "You stop crafting.  "
@@ -4138,6 +4151,8 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
 {
+    map &here = get_map();
+
     if( !check_if_craft_okay( craft_item, crafter ) ) {
         act.set_to_null();
         return;
@@ -4147,7 +4162,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     item &craft = *craft_item.get_item();
 
     const std::optional<tripoint_bub_ms> location = craft_item.where() == item_location::type::character
-            ? std::optional<tripoint_bub_ms>() : std::optional<tripoint_bub_ms>( craft_item.pos_bub() );
+            ? std::optional<tripoint_bub_ms>() : std::optional<tripoint_bub_ms>( craft_item.pos_bub( here ) );
     const recipe &rec = craft.get_making();
     if( !use_cached_workbench_multiplier ) {
         cached_workbench_multiplier = crafter.workbench_crafting_speed_multiplier( craft, location );
@@ -5073,7 +5088,7 @@ static bool is_bulk_load( const item_location &lhs, const item_location &rhs )
                 break;
             case item_location::type::map:
             case item_location::type::vehicle:
-                return lhs.pos_bub() == rhs.pos_bub();
+                return lhs.pos_abs() == rhs.pos_abs();
                 break;
             default:
                 break;
@@ -5332,6 +5347,8 @@ void reload_activity_actor::make_reload_sound( Character &who, item &reloadable 
 
 void reload_activity_actor::finish( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     act.set_to_null();
     if( !can_reload() ) {
         return;
@@ -5407,7 +5424,10 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     switch( reload_query.ret ) {
         case 1:
             // This case is only reachable if wield_check is true
-            who.wield( target_loc );
+
+            if( who.wield( target_loc ) ) {
+                loc.remove_item();
+            }
             add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
                      reloadable_name );
             break;
@@ -5419,7 +5439,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
                                                   _( "The %s no longer fits in your inventory so you drop it instead." ),
                                                   reloadable_name );
             }
-            get_map().add_item_or_charges( loc.pos_bub(), reloadable );
+            here.add_item_or_charges( loc.pos_bub( here ), reloadable );
             loc.remove_item();
             break;
     }
@@ -5743,6 +5763,8 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
 
 void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     if( !check_if_disassemble_okay( target, who ) ) {
         act.set_to_null();
         return;
@@ -5752,7 +5774,7 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
     item &craft = *target;
 
     const std::optional<tripoint_bub_ms> location = target.where() == item_location::type::character
-            ? std::optional<tripoint_bub_ms>() : std::optional<tripoint_bub_ms>( target.pos_bub() );
+            ? std::optional<tripoint_bub_ms>() : std::optional<tripoint_bub_ms>( target.pos_bub( here ) );
     if( !use_cached_workbench_multiplier ) {
         cached_workbench_multiplier = who.workbench_crafting_speed_multiplier( craft, location );
         use_cached_workbench_multiplier = true;
@@ -5876,8 +5898,10 @@ void oxytorch_activity_actor::start( player_activity &act, Character &who )
 
 void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
+    map &here = get_map();
+
     if( tool->ammo_sufficient( &who ) ) {
-        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
+        tool->ammo_consume( tool->ammo_required(), here, tool.pos_bub( here ), &who );
         sfx::play_activity_sound( "tool", "oxytorch", sfx::get_heard_volume( target ) );
         if( calendar::once_every( 2_turns ) ) {
             sounds::sound( target, 10, sounds::sound_t::destructive_activity, _( "hissssssssss!" ) );
@@ -6340,6 +6364,8 @@ void prying_activity_actor::start( player_activity &act, Character &who )
 
 void prying_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
+    map &here = get_map();
+
     std::string method = "CROWBAR";
 
     if( tool->ammo_sufficient( &who, method ) ) {
@@ -6348,7 +6374,7 @@ void prying_activity_actor::do_turn( player_activity &/*act*/, Character &who )
         if( iter != tool->type->ammo_scale.end() ) {
             ammo_consumed *= iter->second;
         }
-        tool->ammo_consume( ammo_consumed, tool.pos_bub(), &who );
+        tool->ammo_consume( ammo_consumed, here, tool.pos_bub( here ), &who );
         if( prying_nails ) {
             sfx::play_activity_sound( "tool", "hammer", sfx::get_heard_volume( target ) );
         }
@@ -7172,6 +7198,8 @@ void firstaid_activity_actor::start( player_activity &act, Character & )
 
 void firstaid_activity_actor::finish( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     static const std::string iuse_name_string( "heal" );
 
     item_location it = act.targets.front();
@@ -7211,12 +7239,12 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
         it.remove_item();
     } else if( used_tool->is_medication() ) {
         if( !it->count_by_charges() ||
-            it->use_charges( it->typeId(), charges_consumed, used, it.pos_bub() ) ) {
+            it->use_charges( it->typeId(), charges_consumed, used, it.pos_bub( here ) ) ) {
             it.remove_item();
         }
     } else if( used_tool->is_tool() ) {
         if( used_tool->type->charges_to_use() ) {
-            it->activation_consume( charges_consumed, it.pos_bub(), &who );
+            it->activation_consume( charges_consumed, it.pos_bub( here ), &who );
         }
     }
 
@@ -8324,7 +8352,7 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
             here.veh_at( h.vpt ).value().vehicle().discharge_battery( here, requirements.ammo *
                     h.heating_effect );
         } else {
-            h.loc->activation_consume( requirements.ammo, h.loc.pos_bub(), &p );
+            h.loc->activation_consume( requirements.ammo, h.loc.pos_bub( here ), &p );
         }
     }
     p.add_msg_if_player( m_good, _( "You heated your items." ) );

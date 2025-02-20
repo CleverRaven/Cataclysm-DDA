@@ -9,6 +9,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
+#include "map.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -190,7 +191,9 @@ int talker_monster_const::get_grab_strength() const
 
 bool talker_monster_const::can_see_location( const tripoint_bub_ms &pos ) const
 {
-    return me_mon_const->sees( pos );
+    const map &here = get_map();
+
+    return me_mon_const->sees( here, pos );
 }
 
 int talker_monster_const::get_volume() const

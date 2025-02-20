@@ -323,7 +323,7 @@ int turret_data::fire( Character &c, map *here, const tripoint_bub_ms &target )
     gun_mode mode = base()->gun_current_mode();
 
     prepare_fire( c );
-    shots = c.fire_gun( here, target, mode.qty, *mode );
+    shots = c.fire_gun( *here, target, mode.qty, *mode );
     post_fire( here, c, shots );
     return shots;
 }
@@ -585,7 +585,7 @@ npc &vehicle_part::get_targeting_npc( vehicle &veh )
         brain.name = string_format( _( "The %s turret" ), get_base().tname( 1 ) );
         brain.set_skill_level( get_base().gun_skill(), 8 );
     }
-    cpu.brain->setpos( veh.bub_part_pos( here, *this ) );
+    cpu.brain->setpos( here, veh.bub_part_pos( here, *this ) );
     cpu.brain->recalc_sight_limits();
     return *cpu.brain;
 }
@@ -631,7 +631,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     }
 
     Character &player_character = get_player_character();
-    const bool u_see = player_character.sees( pos );
+    const bool u_see = player_character.sees( here, pos );
     const bool u_hear = !player_character.is_deaf();
     // The current target of the turret.
     auto &target = pt.target;

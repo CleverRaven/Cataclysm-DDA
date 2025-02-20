@@ -36,10 +36,12 @@ static const vproto_id vehicle_prototype_solar_panel_test( "solar_panel_test" );
 // TODO: Move this into player_helpers to avoid character include.
 static void reset_player()
 {
+    map &here = get_map();
+
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE( !player_character.in_vehicle );
-    player_character.setpos( tripoint_bub_ms::zero );
+    player_character.setpos( here, tripoint_bub_ms::zero );
     // Blind the player to avoid needless drawing-related overhead
     player_character.add_effect( effect_blind, 1_turns, true );
 }

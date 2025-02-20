@@ -496,9 +496,20 @@ class firestarter_actor : public iuse_actor
          */
         bool need_sunlight = false;
 
-        static bool prep_firestarter_use( const Character &p, map *here, tripoint_bub_ms &pos );
+        enum class start_type : int {
+            NONE,
+            FIRE,
+            SMOKER,
+            KILN,
+        };
+
+        static start_type prep_firestarter_use( Character &p, map *here, tripoint_bub_ms &pos );
         /** Player here isn't const because pyromaniacs gain a mood boost from it */
-        static void resolve_firestarter_use( Character *p, map *here, const tripoint_bub_ms &pos );
+        static void resolve_firestarter_use( Character *p, map *here, const tripoint_bub_ms &pos,
+                                             start_type st );
+
+        static bool resolve_start( Character *p, map *here, const tripoint_bub_ms &pos, start_type type );
+
         /** Modifier on speed - higher is better, 0 means it won't work. */
         float light_mod( map *here, const tripoint_bub_ms &pos ) const;
         /** Checks quality of fuel on the tile and interpolates move cost based on that. */

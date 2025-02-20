@@ -922,11 +922,13 @@ void talk_function::deny_personal_info( npc &p )
 
 void talk_function::hostile( npc &p )
 {
+    const map &here = get_map();
+
     if( p.get_attitude() == NPCATT_KILL ) {
         return;
     }
 
-    if( p.sees( get_player_character() ) ) {
+    if( p.sees( here, get_player_character() ) ) {
         add_msg( _( "%s turns hostile!" ), p.get_name() );
     }
 
@@ -1076,7 +1078,7 @@ void talk_function::player_weapon_drop( npc &/*p*/ )
     Character &player_character = get_player_character();
     item weap = player_character.remove_weapon();
     drop_on_map( player_character, item_drop_reason::deliberate, {weap}, &here,
-                 player_character.pos_bub( &here ) );
+                 player_character.pos_bub( here ) );
 }
 
 void talk_function::lead_to_safety( npc &p )
@@ -1247,11 +1249,13 @@ void talk_function::start_training_gen( Character &teacher, std::vector<Characte
 
 npc *pick_follower()
 {
+    const map &here = get_map();
+
     std::vector<npc *> followers;
     std::vector<tripoint_bub_ms> locations;
 
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_player_ally() && get_player_view().sees( guy ) ) {
+        if( guy.is_player_ally() && get_player_view().sees( here, guy ) ) {
             followers.push_back( &guy );
             locations.push_back( guy.pos_bub() );
         }

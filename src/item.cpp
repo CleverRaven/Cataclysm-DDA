@@ -6732,6 +6732,8 @@ void item::on_wield( Character &you )
 
 void item::handle_pickup_ownership( Character &c )
 {
+    const map &here = get_map();
+
     if( is_owned_by( c ) ) {
         return;
     }
@@ -6740,7 +6742,7 @@ void item::handle_pickup_ownership( Character &c )
         set_owner( c );
     } else {
         if( !is_owned_by( c ) && c.is_avatar() ) {
-            const auto sees_stealing = [&c, this]( const Creature & cr ) {
+            const auto sees_stealing = [&c, this, &here]( const Creature & cr ) {
                 const npc *const as_npc = cr.as_npc();
                 const monster *const as_monster = cr.as_monster();
                 bool owned_by = false;
@@ -6749,8 +6751,8 @@ void item::handle_pickup_ownership( Character &c )
                 } else if( as_monster ) {
                     owned_by = is_owned_by( *as_monster );
                 }
-                return &cr != &c && owned_by && rl_dist( cr.pos_bub(), c.pos_bub() ) < MAX_VIEW_DISTANCE &&
-                       cr.sees( c.pos_bub() );
+                return &cr != &c && owned_by && rl_dist( cr.pos_abs(), c.pos_abs() ) < MAX_VIEW_DISTANCE &&
+                       cr.sees( here, c.pos_bub( here ) );
             };
             const auto sort_criteria = []( const Creature * lhs, const Creature * rhs ) {
                 const npc *const lnpc = lhs->as_npc();
@@ -10739,9 +10741,9 @@ bool item::spill_open_pockets( Character &guy, const item *avoid )
     return contents.spill_open_pockets( guy, avoid );
 }
 
-void item::overflow( const tripoint_bub_ms &pos, const item_location &loc )
+void item::overflow( map &here, const tripoint_bub_ms &pos, const item_location &loc )
 {
-    contents.overflow( pos, loc );
+    contents.overflow( here, pos, loc );
 }
 
 book_proficiency_bonuses item::get_book_proficiency_bonuses() const
@@ -11223,10 +11225,8 @@ int item::gun_range( const Character *p ) const
     return std::max( 0, ret );
 }
 
-int item::shots_remaining( const Character *carrier ) const
+int item::shots_remaining( const map &here, const Character *carrier ) const
 {
-    map &here = get_map();
-
     int ret = 1000; // Arbitrary large number for things that do not require ammo.
     if( ammo_required() ) {
         ret = std::min( ammo_remaining_linked( here,  carrier ) / ammo_required(), ret );
@@ -11468,7 +11468,7 @@ bool item::ammo_sufficient( const Character *carrier, int qty ) const
         return true;
     }
 
-    return shots_remaining( carrier ) >= qty;
+    return shots_remaining( here, carrier ) >= qty;
 }
 
 bool item::ammo_sufficient( const Character *carrier, const std::string &method, int qty ) const
@@ -11483,10 +11483,10 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
 
 int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier )
 {
-    return item::ammo_consume( qty, &get_map(), pos, carrier );
+    return item::ammo_consume( qty, get_map(), pos, carrier );
 }
 
-int item::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, Character *carrier )
+int item::ammo_consume( int qty, map &here, const tripoint_bub_ms &pos, Character *carrier )
 {
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
@@ -11498,7 +11498,7 @@ int item::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, Characte
     if( is_tool_with_carrier && has_flag( flag_USES_NEARBY_AMMO ) ) {
         const ammotype ammo = ammo_type();
         if( !ammo.is_null() ) {
-            const inventory &carrier_inventory = carrier->crafting_inventory( here );
+            const inventory &carrier_inventory = carrier->crafting_inventory( &here );
             itype_id ammo_type = ammo->default_ammotype();
             const int charges_avalable = carrier_inventory.charges_of( ammo_type, INT_MAX );
 
@@ -11514,18 +11514,18 @@ int item::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, Characte
     // Consume power from appliances/vehicles connected with cables
     if( has_link_data() ) {
         if( link().t_veh && link().efficiency >= MIN_LINK_EFFICIENCY ) {
-            qty = link().t_veh->discharge_battery( *here, qty, true );
+            qty = link().t_veh->discharge_battery( here, qty, true );
         } else {
-            const optional_vpart_position vp = here->veh_at( link().t_abs_pos );
+            const optional_vpart_position vp = here.veh_at( link().t_abs_pos );
             if( vp ) {
-                qty = vp->vehicle().discharge_battery( *here, qty, true );
+                qty = vp->vehicle().discharge_battery( here, qty, true );
             }
         }
     }
 
     // Consume charges loaded in the item or its magazines
     if( is_magazine() || uses_magazine() ) {
-        qty -= contents.ammo_consume( qty, here, pos );
+        qty -= contents.ammo_consume( qty, &here, pos );
         if( ammo_capacity( ammo_battery ) == 0 && carrier != nullptr ) {
             carrier->invalidate_weight_carried_cache();
         }
@@ -16017,4 +16017,17 @@ void disp_mod_by_barrel::deserialize( const JsonObject &jo )
 {
     mandatory( jo, false, "barrel_length", barrel_length );
     mandatory( jo, false, "dispersion", dispersion_modifier );
+}
+
+void rot_spawn_data::load( const JsonObject &jo )
+{
+    optional( jo, false, "monster", rot_spawn_monster, mtype_id::NULL_ID() );
+    optional( jo, false, "group", rot_spawn_group, mongroup_id::NULL_ID() );
+    optional( jo, false, "chance", rot_spawn_chance );
+    optional( jo, false, "amount", rot_spawn_monster_amount, {1, 1} );
+}
+
+void rot_spawn_data::deserialize( const JsonObject &jo )
+{
+    load( jo );
 }

@@ -189,6 +189,8 @@ int npc_attack_spell::base_time_penalty( const npc &source ) const
 npc_attack_rating npc_attack_spell::evaluate_tripoint(
     const npc &source, const Creature *target, const tripoint_bub_ms &location ) const
 {
+    const map &here = get_map();
+
     const spell &attack_spell = source.magic->get_spell( attack_spell_id );
 
     double total_potential = 0;
@@ -210,7 +212,7 @@ npc_attack_rating npc_attack_spell::evaluate_tripoint(
 
         const Creature::Attitude att = source.attitude_to( *critter );
         int damage = 0;
-        if( source.sees( *critter ) ) {
+        if( source.sees( here, *critter ) ) {
             damage = attack_spell.dps( source, *critter );
         }
         const int distance_to_me = rl_dist( source.pos_bub(), potential_target );

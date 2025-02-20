@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <map>
 #include <optional>
+#include <regex>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -108,7 +109,7 @@ class test_data
         static std::set<itype_id> legacy_to_hit;
         // TODO: remove when all known bad items got fixed
         static std::set<itype_id> known_bad;
-        static std::unordered_set<oter_type_id> overmap_terrain_coverage_whitelist;
+        static std::vector<std::regex> overmap_terrain_coverage_whitelist;
         static std::map<vproto_id, std::vector<double>> drag_data;
         static std::map<vproto_id, efficiency_data> eff_data;
         static std::map<itype_id, double> expected_dps;

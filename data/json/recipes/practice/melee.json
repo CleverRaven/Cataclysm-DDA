@@ -464,7 +464,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "cutting", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_hand_axes_familiar", "time_multiplier": 1.5, "skill_penalty": 0 } ],
-    "tools": [ [ [ "basic_axes", 1, "LIST" ], [ "real_axes", 1, "LIST" ] ] ]
+    "tools": [ [ [ "handaxes_axes", 1, "LIST" ] ] ]
   },
   {
     "id": "prac_cutting_int_hand_axe",
@@ -483,7 +483,7 @@
       { "proficiency": "prof_hand_axes_familiar", "required": true },
       { "proficiency": "prof_hand_axes_pro", "time_multiplier": 2, "skill_penalty": 0 }
     ],
-    "tools": [ [ [ "real_axes", 1, "LIST" ] ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
+    "tools": [ [ [ "handaxes_axes", 1, "LIST" ] ], [ "pseudo_training_dummy_light", "pseudo_training_dummy_heavy" ] ]
   },
   {
     "id": "prac_bashing_beg_great_hammer",

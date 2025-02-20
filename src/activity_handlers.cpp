@@ -192,7 +192,12 @@ static const furn_str_id furn_f_compost_full( "f_compost_full" );
 static const furn_str_id furn_f_fvat_empty( "f_fvat_empty" );
 static const furn_str_id furn_f_fvat_wood_empty( "f_fvat_wood_empty" );
 static const furn_str_id furn_f_fvat_wood_full( "f_fvat_wood_full" );
+static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
+static const furn_str_id furn_f_kiln_metal_empty( "f_kiln_metal_empty" );
+static const furn_str_id furn_f_kiln_portable_empty( "f_kiln_portable_empty" );
+static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
 static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
+static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
@@ -479,6 +484,8 @@ void activity_handlers::butcher_do_turn( player_activity *act, Character * )
 
 static bool do_cannibalism_piss_people_off( Character &you )
 {
+    const map &here = get_map();
+
     if( !you.is_avatar() ) {
         return true; // NPCs dont accidentally cause player hate
     }
@@ -489,7 +496,7 @@ static bool do_cannibalism_piss_people_off( Character &you )
     }
 
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_active() && guy.sees( you ) && !guy.okay_with_eating_humans() ) {
+        if( guy.is_active() && guy.sees( here, you ) && !guy.okay_with_eating_humans() ) {
             guy.say( _( "<swear!>?  Are you butchering them?  That's not okay, <fuck_you>." ) );
             // massive opinion penalty
             guy.op_of_u.trust -= 5;
@@ -1237,7 +1244,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                 // TODO: smarter NPC liquid handling
                 // If we're not bleeding the animal we don't care about the blood being wasted
                 if( you.is_npc() || action != butcher_type::BLEED ) {
-                    drop_on_map( you, item_drop_reason::deliberate, { obj }, &here, you.pos_bub( &here ) );
+                    drop_on_map( you, item_drop_reason::deliberate, { obj }, &here, you.pos_bub( here ) );
                 } else {
                     liquid_handler::handle_all_liquid( obj, 1 );
                 }
@@ -1428,6 +1435,8 @@ static void butchery_quarter( item *corpse_item, const Character &you )
 
 void activity_handlers::butcher_finish( player_activity *act, Character *you )
 {
+    map &here = get_map();
+
     // No targets means we are done
     if( act->targets.empty() ) {
         act->set_to_null();
@@ -1459,7 +1468,7 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
 
     // Dump items from the "container" before destroying it.
     // Presumably, the character would be doing this while setting up for butchering.
-    corpse_item.spill_contents( target.pos_bub() );
+    corpse_item.spill_contents( &here, target.pos_bub( here ) );
     corpse_item.erase_var( butcher_progress_var( action ) );
 
     if( action == butcher_type::QUARTER ) {
@@ -1468,7 +1477,6 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
         return;
     }
 
-    map &here = get_map();
     if( action == butcher_type::DISMEMBER ) {
         here.add_splatter( type_gib, you->pos_bub(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
     }
@@ -1925,11 +1933,27 @@ void activity_handlers::start_fire_finish( player_activity *act, Character *you 
         return;
     }
 
-    it.activation_consume( 1, you->pos_bub(), you );
-
     you->practice( skill_survival, act->index, 5 );
 
-    firestarter_actor::resolve_firestarter_use( you, &here, here.get_bub( act->placement ) );
+    const furn_id &f_id = here.furn( here.get_bub( act->placement ) );
+    const bool is_smoking_rack = f_id == furn_f_metal_smoking_rack ||
+                                 f_id == furn_f_smoking_rack;
+    const bool is_kiln = f_id == furn_f_kiln_empty ||
+                         f_id == furn_f_kiln_metal_empty || f_id == furn_f_kiln_portable_empty;
+
+    firestarter_actor::start_type st = firestarter_actor::start_type::FIRE;
+
+    if( is_smoking_rack ) {
+        st = firestarter_actor::start_type::SMOKER;
+    } else if( is_kiln ) {
+        st = firestarter_actor::start_type::KILN;
+    }
+
+    it.activation_consume( 1, you->pos_bub(), you );
+
+    firestarter_actor::resolve_firestarter_use( you, &here, here.get_bub( act->placement ),
+            st );
+
     act->set_to_null();
 }
 
@@ -1964,7 +1988,12 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
     }
 
     item &firestarter = *act->targets.front();
-    if( firestarter.has_flag( flag_REQUIRES_TINDER ) ) {
+
+    const furn_id f_id = here.furn( here.get_bub( act->placement ) );
+    const bool is_smoker = f_id == furn_f_smoking_rack ||
+                           f_id == furn_f_metal_smoking_rack;
+
+    if( firestarter.has_flag( flag_REQUIRES_TINDER ) && !is_smoker ) {
         if( !here.tinder_at( where ) ) {
             inventory_filter_preset preset( []( const item_location & loc ) {
                 return loc->has_flag( flag_TINDER );
@@ -2004,7 +2033,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
 
     you->mod_moves( -you->get_moves() );
     const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-    const float light = actor->light_mod( &here, you->pos_bub( &here ) );
+    const float light = actor->light_mod( &here, you->pos_bub( here ) );
     act->moves_left -= light * 100;
     if( light < 0.1 ) {
         add_msg( m_bad, _( "There is not enough sunlight to start a fire now.  You stop trying." ) );
@@ -2531,7 +2560,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
 
         if( attempt != repair_item_actor::AS_CANT ) {
             if( ploc && ploc->where() == item_location::type::map ) {
-                used_tool->ammo_consume( used_tool->ammo_required(), ploc->pos_bub(), you );
+                used_tool->ammo_consume( used_tool->ammo_required(), ploc->pos_bub( here ), you );
             } else {
                 you->consume_charges( *used_tool, used_tool->ammo_required() );
             }
@@ -3103,6 +3132,8 @@ void activity_handlers::socialize_finish( player_activity *act, Character *you )
 
 void activity_handlers::operation_do_turn( player_activity *act, Character *you )
 {
+    const map &here = get_map();
+
     /**
     - values[0]: Difficulty
     - values[1]: success
@@ -3122,7 +3153,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
     const bionic_id bid( act->str_values[cbm_id] );
     const bool autodoc = act->str_values[is_autodoc] == "true";
     Character &player_character = get_player_character();
-    const bool u_see = player_character.sees( you->pos_bub() ) &&
+    const bool u_see = player_character.sees( here, you->pos_bub( here ) ) &&
                        ( !player_character.has_effect( effect_narcosis ) ||
                          player_character.has_bionic( bio_painkiller ) ||
                          player_character.has_flag( json_flag_PAIN_IMMUNE ) );
@@ -3135,8 +3166,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
     const time_duration message_freq = difficulty * 2_minutes;
     time_duration time_left = time_duration::from_moves( act->moves_left );
 
-    map &here = get_map();
-    if( autodoc && here.inbounds( you->pos_bub() ) ) {
+    if( autodoc && here.inbounds( you->pos_bub( here ) ) ) {
         const std::list<tripoint_bub_ms> autodocs = here.find_furnitures_with_flag_in_radius(
                     you->pos_bub(), 1,
                     ter_furn_flag::TFLAG_AUTODOC );

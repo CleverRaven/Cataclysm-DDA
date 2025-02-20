@@ -510,7 +510,7 @@ static void shoot_monster( const itype_id &gun_type, const std::vector<itype_id>
         shooter->recoil = 0;
         monster &mon = spawn_test_monster( monster_type, monster_pos, false );
         const int prev_HP = mon.get_hp();
-        shooter->fire_gun( &here, monster_pos, 1, *shooter->get_wielded_item() );
+        shooter->fire_gun( here, monster_pos, 1, *shooter->get_wielded_item() );
         damage.add( prev_HP - mon.get_hp() );
         if( other_checks ) {
             other_check_success += other_checks( *shooter, mon );

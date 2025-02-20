@@ -25,7 +25,7 @@
       "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "effects": [ { "id": "synth_blood_perf", "duration": 28800 } ],
-      "vitamins": [ [ "blood", 2500, 2500 ], [ "redcells", 2500, 2500 ] ]
+      "vitamins": [ [ "blood", 2500 ], [ "redcells", 2500 ] ]
     },
     "vitamins": [ [ "meat_allergen", 1 ] ]
   },

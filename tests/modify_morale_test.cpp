@@ -131,7 +131,7 @@ TEST_CASE( "dining_with_table_and_chair", "[food][modify_morale][table][chair]" 
     avatar dummy;
     dummy.set_body();
     const tripoint_bub_ms avatar_pos( 60, 60, 0 );
-    dummy.setpos( avatar_pos );
+    dummy.setpos( here, avatar_pos );
     dummy.worn.wear_item( dummy, item( itype_backpack ), false, false );
 
     // Morale bonus only applies to unspoiled food that is not junk

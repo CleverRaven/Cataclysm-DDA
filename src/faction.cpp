@@ -24,6 +24,7 @@
 #include "input_context.h"
 #include "line.h"
 #include "localized_comparator.h"
+#include "map.h"
 #include "map_scale_constants.h"
 #include "memory_fast.h"
 #include "mission_companion.h"
@@ -657,6 +658,8 @@ std::string npc::get_current_status() const
 
 int npc::faction_display( const catacurses::window &fac_w, const int width ) const
 {
+    const map &here = get_map();
+
     int retval = 0;
     int y = 2;
     const nc_color col = c_white;
@@ -723,8 +726,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     bool guy_has_radio = cache_has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     // is the NPC even in the same area as the player?
     if( rl_dist( player_abspos, pos_abs_omt() ) > 3 ||
-        ( rl_dist( player_character.pos_bub(), pos_bub() ) > SEEX * 2 ||
-          !player_character.sees( pos_bub() ) ) ) {
+        ( rl_dist( player_character.pos_abs(), pos_abs() ) > SEEX * 2 ||
+          !player_character.sees( here, pos_bub( here ) ) ) ) {
         if( u_has_radio && guy_has_radio ) {
             if( !( player_character.posz() >= 0 && posz() >= 0 ) &&
                 !( player_character.posz() == posz() ) ) {

@@ -324,6 +324,8 @@ static void eff_fun_rat( Character &u, effect &it )
 }
 static void eff_fun_bleed( Character &u, effect &it )
 {
+    map &here = get_map();
+
     if( u.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         return;
     }
@@ -374,7 +376,7 @@ static void eff_fun_bleed( Character &u, effect &it )
                 }
                 suffer_string = iter->second;
             }
-            u.bleed();
+            u.bleed( here );
             bodypart_id bp = it.get_bp();
             // piece together the final displayed message here instead of inline, for readability's sake
             // format the chosen string with the relevant variables to make it human-readable, then translate everything we have so far
@@ -676,7 +678,7 @@ static void eff_fun_teleglow( Character &u, effect &it )
                 for( const MonsterGroupResult &mgr : spawn_details ) {
                     g->place_critter_at( mgr.id, dest );
                 }
-                if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
+                if( uistate.distraction_hostile_spotted && player_character.sees( here, dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
                     add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
@@ -1330,7 +1332,7 @@ void Character::hardcoded_effects( effect &it )
                 for( const MonsterGroupResult &mgr : spawn_details ) {
                     g->place_critter_at( mgr.id, dest );
                 }
-                if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
+                if( uistate.distraction_hostile_spotted && player_character.sees( here, dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
                     add_msg_if_player( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );

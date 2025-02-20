@@ -77,7 +77,7 @@ void mdefense::zapback( monster &m, Creature *const source,
         return;
     }
 
-    if( get_player_view().sees( source->pos_bub() ) ) {
+    if( get_player_view().sees( here, source->pos_bub( here ) ) ) {
         const game_message_type msg_type = source->is_avatar() ? m_bad : m_info;
         add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
                  m.name(), source->disp_name() );
@@ -95,6 +95,8 @@ void mdefense::zapback( monster &m, Creature *const source,
 void mdefense::acidsplash( monster &m, Creature *const source,
                            dealt_projectile_attack const *const proj )
 {
+    const map &here = get_map();
+
     if( source == nullptr ) {
         return;
     }
@@ -127,7 +129,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     }
 
     // Don't splatter directly on the `m`, that doesn't work well
-    std::vector<tripoint_bub_ms> pts = closest_points_first( source->pos_bub(), 1 );
+    std::vector<tripoint_bub_ms> pts = closest_points_first( source->pos_bub( here ), 1 );
     pts.erase( std::remove( pts.begin(), pts.end(), m.pos_bub() ), pts.end() );
 
     projectile prj;
@@ -139,16 +141,18 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     dealt_projectile_attack atk;
     for( size_t i = 0; i < num_drops; i++ ) {
         const tripoint_bub_ms &target = random_entry( pts );
-        projectile_attack( atk, prj, m.pos_bub(), target, dispersion_sources{ 1200 }, &m );
+        projectile_attack( atk, prj, m.pos_bub( here ), target, dispersion_sources{ 1200 }, &m );
     }
 
-    if( get_player_view().sees( m.pos_bub() ) ) {
+    if( get_player_view().sees( here, m.pos_bub( here ) ) ) {
         add_msg( m_warning, _( "Acid sprays out of %s as it is hit!" ), m.disp_name() );
     }
 }
 
 void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile_attack *proj )
 {
+    const map &here = get_map();
+
     // No return fire for untargeted projectiles, i.e. from explosions.
     if( source == nullptr ) {
         return;
@@ -177,7 +181,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     }
 
     // No return fire if attacker is seen
-    if( m.sees( *source ) ) {
+    if( m.sees( here, *source ) ) {
         return;
     }
 

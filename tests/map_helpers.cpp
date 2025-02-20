@@ -165,9 +165,10 @@ void clear_map( int zmin, int zmax )
 
 void clear_map_and_put_player_underground()
 {
+    map &here = get_map();
     clear_map();
     // Make sure the player doesn't block the path of the monster being tested.
-    get_player_character().setpos( tripoint_bub_ms{ 0, 0, -2 } );
+    get_player_character().setpos( here, tripoint_bub_ms{ 0, 0, -2 } );
 }
 
 monster &spawn_test_monster( const std::string &monster_type, const tripoint_bub_ms &start,

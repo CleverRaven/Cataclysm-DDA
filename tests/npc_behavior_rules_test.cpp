@@ -39,6 +39,7 @@ static const vproto_id vehicle_prototype_locked_as_hell_car( "locked_as_hell_car
 static shared_ptr_fast<npc> setup_generic_rules_test( ally_rule rule_to_test,
         update_mapgen_id update_mapgen_id_to_apply )
 {
+    map &here = get_map();
     clear_map();
     clear_vehicles();
     clear_avatar();
@@ -49,7 +50,7 @@ static shared_ptr_fast<npc> setup_generic_rules_test( ally_rule rule_to_test,
     overmap_buffer.insert_npc( guy );
     g->load_npcs();
     clear_character( *guy );
-    guy->setpos( next_to );
+    guy->setpos( here, next_to );
     talk_function::follow( *guy );
     // rules don't work unless they're an ally.
     REQUIRE( guy->is_player_ally() );
@@ -234,7 +235,7 @@ TEST_CASE( "NPC-rules-avoid-locks", "[npc_rules]" )
     REQUIRE( ( door_lock->is_available() && door_lock->locked ) );
 
 
-    test_subject->setpos( car_door_unlock_pos );
+    test_subject->setpos( here, car_door_unlock_pos );
     here.board_vehicle( car_door_unlock_pos, &*test_subject );
 
     CHECK( doors::can_unlock_door( here, *test_subject, car_door_pos ) );

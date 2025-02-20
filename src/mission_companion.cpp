@@ -2612,6 +2612,8 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc_ptr>
 npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required_skills,
         bool silent_failure )
 {
+    const map &here = get_map();
+
     Character &player_character = get_player_character();
     std::vector<npc_ptr> available;
     std::optional<basecamp *> bcp = overmap_buffer.find_camp(
@@ -2626,8 +2628,8 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
         // get non-assigned visible followers
         if( player_character.posz() == guy->posz() && !guy->has_companion_mission() &&
             !guy->is_travelling() &&
-            ( rl_dist( player_character.pos_bub(), guy->pos_bub() ) <= SEEX * 2 ) &&
-            player_character.sees( guy->pos_bub() ) ) {
+            ( rl_dist( player_character.pos_abs(), guy->pos_abs() ) <= SEEX * 2 ) &&
+            player_character.sees( here, guy->pos_bub( here ) ) ) {
             available.push_back( guy );
         } else if( bcp ) {
             basecamp *player_camp = *bcp;

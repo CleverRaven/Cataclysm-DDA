@@ -124,7 +124,7 @@ static int running_steps( Character &they, const ter_str_id &terrain = ter_t_pav
         last_moves = they.get_moves();
     }
     // Reset to starting position
-    they.setpos( left );
+    they.setpos( here, left );
     return steps;
 }
 

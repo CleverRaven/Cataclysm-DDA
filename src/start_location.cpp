@@ -522,7 +522,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
         }
     }
 
-    you.setpos( best_spot );
+    you.setpos( here, best_spot );
 
     if( !found_good_spot ) {
         debugmsg( "Could not find a good starting place for character" );

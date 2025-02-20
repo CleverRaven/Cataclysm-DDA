@@ -341,6 +341,8 @@ static void check_npc_movement( const tripoint_bub_ms &origin )
 
 static npc *make_companion( const tripoint_bub_ms &npc_pos )
 {
+    map &here = get_map();
+
     shared_ptr_fast<npc> guy = make_shared_fast<npc>();
     guy->normalize();
     guy->randomize();
@@ -350,7 +352,7 @@ static npc *make_companion( const tripoint_bub_ms &npc_pos )
     guy->companion_mission_role_id.clear();
     guy->guard_pos = std::nullopt;
     clear_character( *guy );
-    guy->setpos( npc_pos );
+    guy->setpos( here, npc_pos );
     talk_function::follow( *guy );
 
     return get_creature_tracker().creature_at<npc>( npc_pos );

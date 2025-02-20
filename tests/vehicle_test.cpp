@@ -75,7 +75,7 @@ TEST_CASE( "destroy_grabbed_vehicle_section", "[vehicle]" )
         map &here = get_map();
         const tripoint_bub_ms test_origin( 60, 60, 0 );
         avatar &player_character = get_avatar();
-        player_character.setpos( test_origin );
+        player_character.setpos( here, test_origin );
         const tripoint_bub_ms vehicle_origin = test_origin + tripoint::south_east;
         vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_bicycle, vehicle_origin, -90_degrees,
                                              0, 0 );
@@ -762,7 +762,7 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE_FALSE( player_character.in_vehicle );
-    player_character.setpos( tripoint_bub_ms::zero );
+    player_character.setpos( here, tripoint_bub_ms::zero );
 
     const tripoint_bub_ms map_starting_point( 60, 60, 0 );
     vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 100, 0, false );
