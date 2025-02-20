@@ -8317,13 +8317,14 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     int dam = dealt_dams.total_damage();
 
     const tripoint_bub_ms pos = pos_bub( here );
-    const tripoint_bub_ms source_pos = source->pos_bub( here );
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
     if( dam > 0 && get_player_view().sees( here, pos ) ) {
         g->draw_hit_player( *this, dam );
 
         if( is_avatar() && source ) {
+            const tripoint_bub_ms source_pos = source->pos_bub( here );
+
             //monster hits player melee
             SCT.add( pos.xy().raw(),
                      direction_from( point::zero, point( pos.x() - source_pos.x(), pos.y() - source_pos.y() ) ),

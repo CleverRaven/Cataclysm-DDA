@@ -488,8 +488,8 @@ Creature *melee_actor::find_target( monster &z ) const
 int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) const
 {
     map &here = get_map();
-    const tripoint_bub_ms monster_pos = z.pos_bub( here );
-    const tripoint_bub_ms target_pos = target->pos_bub( here );
+    tripoint_bub_ms monster_pos = z.pos_bub( here );
+    tripoint_bub_ms target_pos = target->pos_bub( here );
 
     // Something went wrong
     if( !target ) {
@@ -566,17 +566,20 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
 
             if( foe != nullptr ) {
                 if( foe->in_vehicle ) {
-                    here.unboard_vehicle( foe->pos_bub( here ) );
+                    here.unboard_vehicle( target_pos );
                 }
 
                 if( foe->is_avatar() && ( pt.x() < HALF_MAPSIZE_X || pt.y() < HALF_MAPSIZE_Y ||
                                           pt.x() >= HALF_MAPSIZE_X + SEEX || pt.y() >= HALF_MAPSIZE_Y + SEEY ) ) {
                     g->update_map( pt.x(), pt.y() );
+                    monster_pos = z.pos_bub( here );
+                    target_pos = target->pos_bub( here );
                 }
             }
 
             // Don't try to fall mid pull
             target->setpos( here, pt, false );
+            target_pos = pt;
             pull_range--;
             if( animate ) {
                 g->invalidate_main_ui_adaptor();
@@ -594,6 +597,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
         // The monster might drag a target that's not on it's z level
         // So if they leave them on open air, make them fall
         target->gravity_check();
+        target_pos = target->pos_bub( here );
         here.creature_on_trap( *target );
 
         target->add_msg_player_or_npc( msg_type, grab_data.pull_msg_u, grab_data.pull_msg_npc, mon_name,
@@ -649,6 +653,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                 monster *zz = target->as_monster();
                 tripoint_bub_ms zpt = monster_pos;
                 z.move_to( target_square, false, false, grab_data.drag_movecost_mod );
+                monster_pos = target_square;
                 if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
                     return 0;
                 }
@@ -659,14 +664,16 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                 }
                 if( foe != nullptr ) {
                     if( foe->in_vehicle ) {
-                        here.unboard_vehicle( foe->pos_bub( here ) );
+                        here.unboard_vehicle( target_pos );
                     }
                     foe->setpos( here, zpt );
+                    target_pos = zpt;
                     if( !foe->in_vehicle && here.veh_at( zpt ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
                         here.board_vehicle( zpt, foe );
                     }
                 } else {
                     zz->setpos( here, zpt );
+                    target_pos = zpt;
                 }
                 target->add_msg_player_or_npc( m_bad, _( "You are dragged behind the %s!" ),
                                                _( "<npcname> gets dragged behind the %s!" ), z.name() );

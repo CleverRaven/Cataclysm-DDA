@@ -483,7 +483,7 @@ bool Creature::sees( const map &here, const Creature &critter ) const
     const Character *ch = critter.as_character();
 
     const tripoint_bub_ms pos = pos_bub( here );
-    const tripoint_bub_ms critter_pos = pos_bub( here );
+    const tripoint_bub_ms critter_pos = critter.pos_bub( here );
 
     // Creatures always see themselves (simplifies drawing).
     if( &critter == this ) {

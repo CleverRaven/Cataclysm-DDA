@@ -1659,7 +1659,7 @@ conditional_t::func f_is_driving( bool is_npc )
 
     return [is_npc, &here]( const_dialogue const & d ) {
         const_talker const *actor = d.const_actor( is_npc );
-        if( const optional_vpart_position &vp = here.veh_at( actor->pos_bub( here ) ) ) {
+        if( const optional_vpart_position &vp = here.veh_at( actor->pos_abs( ) ) ) {
             return vp->vehicle().is_moving() && actor->is_in_control_of( vp->vehicle() );
         }
         return false;
@@ -2424,11 +2424,6 @@ conditional_t::get_get_dbl( std::string_view checked_value, char scope )
         return[is_npc]( const_dialogue const & d ) {
             return static_cast<double>( d.const_actor( is_npc )->posy( get_map() ) );
         };
-
-    } else if( checked_value == "pos_z" ) {
-        return[is_npc]( const_dialogue const & d ) {
-            return static_cast<double>( d.const_actor( is_npc )->posz() );
-        };
     }
     throw math::syntax_error( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
 }
@@ -2494,7 +2489,7 @@ conditional_t::get_set_dbl( std::string_view checked_value, char scope )
     } else if( checked_value == "pos_z" ) {
         return [is_npc]( dialogue & d, double input ) {
             tripoint_abs_ms const tr = d.actor( is_npc )->pos_abs();
-            d.actor( is_npc )->set_pos( tripoint_abs_ms( tr.xy(), input ) );
+            d.actor( is_npc )->set_pos( tripoint_abs_ms( tr.xy(), static_cast<int>( input ) ) );
         };
     } else if( checked_value == "power" ) {
         return [is_npc]( dialogue & d, double input ) {
