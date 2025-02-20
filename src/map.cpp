@@ -1551,8 +1551,8 @@ bool map::displace_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const bool 
             const tripoint_bub_ms part_pos = veh.bub_part_pos( *this, prt );
             if( psg == nullptr ) {
                 debugmsg( "Empty passenger for part #%d at %s player at %s?",
-                          prt, part_pos.to_string(),
-                          player_character.pos_bub( *this ).to_string() );
+                          prt, part_pos.to_string_writable(),
+                          player_character.pos_bub( *this ).to_string_writable() );
                 veh.part( prt ).remove_flag( vp_flag::passenger_flag );
                 r.moved = true;
                 continue;
@@ -1560,8 +1560,8 @@ bool map::displace_vehicle( vehicle &veh, const tripoint_rel_ms &dp, const bool 
 
             if( psg->pos_bub() != part_pos ) {
                 add_msg_debug( debugmode::DF_MAP, "Part/passenger position mismatch: part #%d at %s "
-                               "passenger at %s", prt, part_pos.to_string(),
-                               psg->pos_bub( *this ).to_string() );
+                               "passenger at %s", prt, part_pos.to_string_writable(),
+                               psg->pos_bub( *this ).to_string_writable() );
             }
             const vehicle_part &veh_part = veh.part( prt );
 
