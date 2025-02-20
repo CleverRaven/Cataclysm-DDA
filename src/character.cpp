@@ -13077,52 +13077,7 @@ bool Character::wield( item_location loc, bool remove_old )
 
     if( worn ) {
         loc->on_takeoff( *this );
-
-        // not sure why game::wield had these extra steps
-        /*
-        auto ret = u.can_takeoff( *loc.get_item() );
-        if( !ret.success() ) {
-            add_msg( m_info, "%s", ret.c_str() );
-            return;
-        }
-        int item_pos = u.get_item_position( loc.get_item() );
-        if( item_pos != INT_MIN ) {
-            worn_index = Character::worn_position_to_index( item_pos );
-        }*/
     }
-
-    // continuation from above
-    /*if( !u.wield( to_wield, obtain_cost ) ) {
-        switch( location_type ) {
-            case item_location::type::container:
-                // this will not cause things to spill, as it is inside another item
-                loc = loc.obtain( u );
-                wield( loc );
-                break;
-            case item_location::type::character:
-                if( worn_index != INT_MIN ) {
-                    u.worn.insert_item_at_index( to_wield, worn_index );
-                } else {
-                    u.i_add( to_wield, true, nullptr, loc.get_item() );
-                }
-                break;
-            case item_location::type::map:
-                m.add_item( pos, to_wield );
-                break;
-            case item_location::type::vehicle: {
-                const std::optional<vpart_reference> ovp = m.veh_at( pos ).cargo();
-                // If we fail to return the item to the vehicle for some reason, add it to the map instead.
-                if( !ovp || !ovp->vehicle().add_item( here, ovp->part(), to_wield ) ) {
-                    m.add_item( pos, to_wield );
-                }
-                break;
-            }
-            case item_location::type::invalid:
-                debugmsg( "Failed wield from invalid item location" );
-                break;
-        }
-    }
-    */
 
     add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
     mod_moves( -mv );
