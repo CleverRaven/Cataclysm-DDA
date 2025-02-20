@@ -2900,6 +2900,18 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_chronomancy_field",
+    "name": [ "Chronomancy Field" ],
+    "desc": [
+      "You have engaged some of your temporal abilities and any kills you make while this is active will grant you insight."
+    ],
+    "apply_message": "You gain an increased awareness of the 4th dimension and how it interacts with the universe.",
+    "remove_message": "Your awareness of the 4th dimension fades.",
+    "rating": "good",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "effect_xedra_time_freeze",
     "name": [ "Frozen in Time" ],
     "desc": [ "You are completely frozen in time." ],
