@@ -2371,7 +2371,7 @@ class Character : public Creature, public visitable
          * @param target replacement item to wield or null item to remove existing weapon without replacing it
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
-        bool wield( item_location loc );
+        bool wield( item_location loc, bool remove_old = true );
 
         bool wield_new( item it );
         /**

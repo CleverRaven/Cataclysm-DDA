@@ -13004,25 +13004,26 @@ void Character::search_surroundings()
 
 bool Character::wield_new( item it )
 {
-    return wield( item_location( *this, &it ) );
+    return wield( item_location( *this, &it, /*remove_old=*/false ) );
 }
 
-bool Character::wield( item_location loc )
+bool Character::wield( item_location loc, bool remove_old )
 {
     if( !loc ) {
         add_msg_if_player( _( "No item." ) );
         return false;
     }
-    item it = *loc.get_item();
 
     // for [w] -> unwield
     if( has_wield_conflicts( *loc ) ) {
-        // for some reason &it != &weapon in is_wielding(it)
         const bool is_unwielding = is_wielding( *loc );
-        const auto ret = can_unwield( it );
+        const auto ret = can_unwield( *loc );
 
         if( !ret.success() ) {
             add_msg_if_player( m_info, "%s", ret.c_str() );
+
+            //wasn't present before, but if you cannot unwield the old item, no need to go further
+            return false;
         }
 
         if( !unwield() ) {
@@ -13039,25 +13040,29 @@ bool Character::wield( item_location loc )
 
     // should probably rename since there is 'item character::weapon'
     item_location weapon = get_wielded_item();
-    if( weapon && weapon->has_item( it ) ) {
+    if( weapon && weapon->has_item( *loc ) ) {
         add_msg_if_player( m_info,
                            _( "You need to put the bag away before trying to wield something from it." ) );
         return false;
     }
 
-    if( !can_wield( it ).success() ) {
+    if( !can_wield( *loc ).success() ) {
         return false;
     }
 
-    bool combine_stacks = weapon && it.can_combine( *weapon );
+    bool combine_stacks = weapon && loc->can_combine( *weapon );
     if( !combine_stacks && !unwield() ) {
         return false;
     }
 
     cached_info.erase( "weapon_value" );
-    if( it.is_null() ) {
+    if( loc == item_location::nowhere ) {
         debugmsg( "does this ever trigger?" );
         return true;
+    }
+
+    if( is_avatar() && !avatar_action::check_stealing( *this, *loc ) ) {
+        return false;
     }
 
     // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
@@ -13065,25 +13070,73 @@ bool Character::wield( item_location loc )
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
-    bool worn = is_worn( it );
-    const int mv = item_handling_cost( it, true,
-                                       is_worn( it ) ? INVENTORY_HANDLING_PENALTY / 2 :
+    bool worn = is_worn( *loc );
+    const int mv = item_handling_cost( *loc, true,
+                                       is_worn( *loc ) ? INVENTORY_HANDLING_PENALTY / 2 :
                                        INVENTORY_HANDLING_PENALTY );
 
     if( worn ) {
-        it.on_takeoff( *this );
+        loc->on_takeoff( *this );
+
+        // not sure why game::wield had these extra steps
+        /*
+        auto ret = u.can_takeoff( *loc.get_item() );
+        if( !ret.success() ) {
+            add_msg( m_info, "%s", ret.c_str() );
+            return;
+        }
+        int item_pos = u.get_item_position( loc.get_item() );
+        if( item_pos != INT_MIN ) {
+            worn_index = Character::worn_position_to_index( item_pos );
+        }*/
     }
+
+    // continuation from above
+    /*if( !u.wield( to_wield, obtain_cost ) ) {
+        switch( location_type ) {
+            case item_location::type::container:
+                // this will not cause things to spill, as it is inside another item
+                loc = loc.obtain( u );
+                wield( loc );
+                break;
+            case item_location::type::character:
+                if( worn_index != INT_MIN ) {
+                    u.worn.insert_item_at_index( to_wield, worn_index );
+                } else {
+                    u.i_add( to_wield, true, nullptr, loc.get_item() );
+                }
+                break;
+            case item_location::type::map:
+                m.add_item( pos, to_wield );
+                break;
+            case item_location::type::vehicle: {
+                const std::optional<vpart_reference> ovp = m.veh_at( pos ).cargo();
+                // If we fail to return the item to the vehicle for some reason, add it to the map instead.
+                if( !ovp || !ovp->vehicle().add_item( here, ovp->part(), to_wield ) ) {
+                    m.add_item( pos, to_wield );
+                }
+                break;
+            }
+            case item_location::type::invalid:
+                debugmsg( "Failed wield from invalid item location" );
+                break;
+        }
+    }
+    */
 
     add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
     mod_moves( -mv );
 
     if( combine_stacks ) {
-        weapon->combine( it );
+        weapon->combine( *loc );
     } else {
-        set_wielded_item( it );
+        set_wielded_item( *loc );
     }
 
-    loc.remove_item();
+    if( remove_old ) {
+        loc.remove_item();
+    }
+
 
     // set_wielded_item invalidates the weapon item_location, so get it again
     weapon = get_wielded_item();
