@@ -13133,7 +13133,7 @@ bool Character::wield( item_location loc, bool remove_old )
         set_wielded_item( *loc );
     }
 
-    if( remove_old ) {
+    if( remove_old && loc ) {
         loc.remove_item();
     }
 
