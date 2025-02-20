@@ -1,0 +1,29 @@
+[
+  {
+    "type": "npc",
+    "id": "salvor_camp_solo",
+    "//": "A generic mercenary for decorative purposes.",
+    "name_suffix": "mercenary",
+    "class": "NC_AFS_SOLO",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_SALVOR_CAMP_SOLO",
+    "faction": "independents"
+  },
+  {
+    "id": "TALK_SALVOR_CAMP_SOLO",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "&<mypronoun> looks you up and down, sizing you up.",
+      "What do you want?",
+      "You lost or something?",
+      "Like what you see?",
+      "&<mypronoun> simply ignores you as they flick a spent cigarette into the snow.",
+      "Mind your own business.",
+      "&<mypronoun> gives you a dismissive look.",
+      "Piss off.",
+      "I'm not here to chat.  What do you want?"
+    ],
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  }
+]

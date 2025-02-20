@@ -695,7 +695,7 @@ static void load_overmap_terrain_mapgens( const JsonObject &jo, const std::strin
     if( jo.has_array( jsonkey ) ) {
         for( JsonObject jio : jo.get_array( jsonkey ) ) {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
-            load_and_add_mapgen_function( jio, fmapkey, point::zero, point( 1, 1 ) );
+            load_and_add_mapgen_function( jio, fmapkey, point_rel_omt::zero, point_rel_omt( 1, 1 ) );
         }
     }
 }
@@ -729,6 +729,7 @@ std::string enum_to_string<oter_flags>( oter_flags data )
         case oter_flags::ocean_shore: return "OCEAN_SHORE";
         case oter_flags::ravine: return "RAVINE";
         case oter_flags::ravine_edge: return "RAVINE_EDGE";
+        case oter_flags::pp_generate_riot_damage: return "PP_GENERATE_RIOT_DAMAGE";
         case oter_flags::generic_loot: return "GENERIC_LOOT";
         case oter_flags::risk_extreme: return "RISK_EXTREME";
         case oter_flags::risk_high: return "RISK_HIGH";

@@ -1,7 +1,5 @@
 #include <array>
-#include <iosfwd>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
@@ -10,11 +8,13 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "game.h"
-#include "game_constants.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "monster.h"
 #include "point.h"
 #include "tileray.h"
@@ -109,15 +109,15 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
     veh.tags.insert( "IN_CONTROL_OVERRIDE" );
     veh.engine_on = true;
     Character &player_character = get_player_character();
-    player_character.setpos( map_starting_point );
+    player_character.setpos( here, map_starting_point );
 
-    REQUIRE( player_character.pos_bub() == map_starting_point );
-    if( player_character.pos_bub() != map_starting_point ) {
+    REQUIRE( player_character.pos_bub( here ) == map_starting_point );
+    if( player_character.pos_bub( here ) != map_starting_point ) {
         return;
     }
     get_map().board_vehicle( map_starting_point, &player_character );
-    REQUIRE( player_character.pos_bub() == map_starting_point );
-    if( player_character.pos_bub() != map_starting_point ) {
+    REQUIRE( player_character.pos_bub( here ) == map_starting_point );
+    if( player_character.pos_bub( here ) != map_starting_point ) {
         return;
     }
     const int transition_cycle = 3;
@@ -128,18 +128,18 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
     const int target_velocity = 400;
     veh.cruise_velocity = target_velocity;
     veh.velocity = target_velocity;
-    CHECK( veh.safe_velocity() > 0 );
+    CHECK( veh.safe_velocity( here ) > 0 );
     int cycles = 0;
     const int target_z = use_ramp ? ( up ? 1 : -1 ) : 0;
 
-    std::set<tripoint_bub_ms> vpts = veh.get_points();
-    while( veh.engine_on && veh.safe_velocity() > 0 && cycles < 10 ) {
+    std::set<tripoint_abs_ms> vpts = veh.get_points();
+    while( veh.engine_on && veh.safe_velocity( here ) > 0 && cycles < 10 ) {
         clear_creatures();
         CAPTURE( cycles );
-        for( const tripoint_bub_ms &checkpt : vpts ) {
+        for( const tripoint_abs_ms &checkpt : vpts ) {
             int partnum = 0;
-            vehicle *check_veh = here.veh_at_internal( checkpt, partnum );
-            CAPTURE( veh_ptr->pos_bub() );
+            vehicle *check_veh = here.veh_at_internal( here.get_bub( checkpt ), partnum );
+            CAPTURE( veh_ptr->pos_bub( here ) );
             CAPTURE( veh_ptr->face.dir() );
             CAPTURE( checkpt );
             CHECK( check_veh == veh_ptr );
@@ -149,8 +149,8 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
         CHECK( veh.velocity == target_velocity );
         // If the vehicle starts skidding, the effects become random and test is RUINED
         REQUIRE( !veh.skidding );
-        for( const tripoint_bub_ms &pos : veh.get_points() ) {
-            REQUIRE( here.ter( pos ) );
+        for( const tripoint_abs_ms &pos : veh.get_points() ) {
+            REQUIRE( here.ter( here.get_bub( pos ) ) );
         }
         for( const vpart_reference &vp : veh.get_all_parts() ) {
             if( vp.info().location != "structure" ) {
@@ -158,7 +158,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
             }
             const point_rel_ms &pmount = vp.mount_pos();
             CAPTURE( pmount );
-            const tripoint_bub_ms &ppos = vp.pos_bub();
+            const tripoint_bub_ms &ppos = vp.pos_bub( here );
             CAPTURE( ppos );
             if( cycles > ( transition_cycle - pmount.x() ) ) {
                 CHECK( ppos.z() == target_z );
@@ -180,7 +180,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
         const int z_change = map_starting_point.z() - player_character.posz();
         here.unboard_vehicle( *vp, &player_character, false );
         here.ter_set( map_starting_point, ter_id( "t_pavement" ) );
-        player_character.setpos( map_starting_point );
+        player_character.setpos( here, map_starting_point );
         if( z_change ) {
             g->vertical_move( z_change, true );
         }
@@ -245,7 +245,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
 
     // Make sure the avatar is out of the way
     Character &player_character = get_player_character();
-    player_character.setpos( map_starting_point + point( 5, 5 ) );
+    player_character.setpos( here, map_starting_point + point( 5, 5 ) );
     vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, 180_degrees, 1, 0 );
 
     REQUIRE( veh_ptr != nullptr );
@@ -263,10 +263,10 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     const int target_velocity = 800;
     veh.cruise_velocity = target_velocity;
     veh.velocity = target_velocity;
-    CHECK( veh.safe_velocity() > 0 );
+    CHECK( veh.safe_velocity( here ) > 0 );
 
     std::vector<vehicle_part *> all_parts;
-    for( const tripoint_bub_ms &pos : veh.get_points() ) {
+    for( const tripoint_abs_ms &pos : veh.get_points() ) {
         for( vehicle_part *prt : veh.get_parts_at( pos, "", part_status_flag::any ) ) {
             all_parts.push_back( prt );
             if( drop_pos && prt->mount.x() < 0 ) {
@@ -280,7 +280,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     }
     std::set<int> z_span;
     for( vehicle_part *prt : all_parts ) {
-        z_span.insert( veh.bub_part_pos( *prt ).z() );
+        z_span.insert( veh.abs_part_pos( *prt ).z() );
     }
     REQUIRE( z_span.size() > 1 );
 
@@ -306,10 +306,10 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
 
     here.vehmove();
     for( vehicle_part *prt : all_parts ) {
-        CHECK( veh.bub_part_pos( *prt ).z() == 0 );
+        CHECK( veh.abs_part_pos( *prt ).z() == 0 );
     }
     CHECK( dmon.posz() == 0 );
-    CHECK( veh.pos_bub().z() == 0 );
+    CHECK( veh.pos_abs().z() == 0 );
 }
 
 static void test_leveling( const std::string &type )

@@ -36,5 +36,27 @@
     "id": "EOC_SKY_ISLAND_CLIMATE_RESET",
     "condition": { "u_has_trait": "mut_skyisland_temperature_adaptation" },
     "effect": [ "next_weather" ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_skyisland_sunblock",
+    "name": { "str": "Personal Sunblock" },
+    "points": 0,
+    "description": "As long as you are on the island, the sun cannot affect you.",
+    "valid": false,
+    "player_display": false,
+    "purifiable": false,
+    "enchantments": [ { "condition": { "not": { "u_has_trait": "awayfromhome" } }, "mutations": [ "mut_skyisland_sunblock_real" ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_skyisland_sunblock_real",
+    "name": { "str": "Personal sunblock real" },
+    "points": 0,
+    "description": "As long as you are on the island, the sun cannot affect you.",
+    "valid": false,
+    "player_display": false,
+    "purifiable": false,
+    "integrated_armor": [ "sky_island_sunblock" ]
   }
 ]

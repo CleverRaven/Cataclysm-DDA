@@ -1,6 +1,13 @@
 #include "item_tname.h"
 
+#include <algorithm>
+#include <array>
+#include <iomanip>
+#include <iterator>
+#include <memory>
+#include <optional>
 #include <set>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -9,6 +16,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "fault.h"
 #include "flag.h"
@@ -21,13 +29,15 @@
 #include "map.h"
 #include "mutation.h"
 #include "options.h"
-#include "point.h"
 #include "recipe.h"
 #include "relic.h"
 #include "string_formatter.h"
+#include "translation.h"
+#include "translation_cache.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 static const flag_id json_flag_HINT_THE_LOCATION( "HINT_THE_LOCATION" );
 
@@ -291,8 +301,9 @@ std::string food_traits( item const &it, unsigned int /* quantity */,
 std::string location_hint( item const &it, unsigned int /* quantity */,
                            segment_bitset const &/* segments */ )
 {
-    if( it.has_flag( json_flag_HINT_THE_LOCATION ) && it.has_var( "spawn_location_omt" ) ) {
-        tripoint_abs_omt loc( it.get_var( "spawn_location_omt", tripoint_abs_omt::zero ) );
+    if( it.has_flag( json_flag_HINT_THE_LOCATION ) && it.has_var( "spawn_location" ) ) {
+        tripoint_abs_omt loc( coords::project_to<coords::omt>(
+                                  it.get_var( "spawn_location", tripoint_abs_ms::zero ) ) );
         tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().get_abs(
                                          get_avatar().pos_bub() ) ) );
         int dist = rl_dist( player_loc, loc );

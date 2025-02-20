@@ -7,10 +7,10 @@
 #include <utility>
 
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "localized_comparator.h"
-#include "enums.h"
 #include "options.h"
 
 const float book_proficiency_bonus::default_time_factor = 0.5f;

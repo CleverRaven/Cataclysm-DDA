@@ -1,14 +1,20 @@
-#include <iosfwd>
 #include <memory>
+#include <optional>
 #include <string>
 
 #include "avatar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
+#include "dialogue_helpers.h"
 #include "game.h"
 #include "magic.h"
+#include "magic_type.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
+#include "npc.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -528,6 +534,7 @@ TEST_CASE( "spell_area_of_effect", "[magic][spell][aoe]" )
 TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack]" )
 {
     // World setup
+    map &here = get_map();
     clear_map();
 
     // Locations for avatar and monster
@@ -542,7 +549,7 @@ TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack
     // Avatar/spellcaster
     avatar &dummy = get_avatar();
     clear_character( dummy );
-    dummy.setpos( dummy_loc );
+    dummy.setpos( here, dummy_loc );
     REQUIRE( dummy.pos_bub() == dummy_loc );
     REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
@@ -583,6 +590,8 @@ TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack
 // spell_effect::spawn_summoned_monster
 TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
 {
+    map &here = get_map();
+
     clear_map();
 
     // Avatar/spellcaster and summoned mummy locations
@@ -592,7 +601,7 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
     avatar &dummy = get_avatar();
     creature_tracker &creatures = get_creature_tracker();
     clear_character( dummy );
-    dummy.setpos( dummy_loc );
+    dummy.setpos( here, dummy_loc );
     REQUIRE( dummy.pos_bub() == dummy_loc );
     REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
@@ -607,7 +616,7 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
     CHECK( g->num_creatures() == 2 );
 
     //kill the ghost
-    creatures.creature_at( mummy_loc )->die( nullptr );
+    creatures.creature_at( mummy_loc )->die( &here, nullptr );
     g->cleanup_dead();
 
     //a corpse was not created
@@ -625,7 +634,7 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
     CHECK( g->num_creatures() == 2 );
 
     //kill the mummy
-    creatures.creature_at( mummy_loc )->die( nullptr );
+    creatures.creature_at( mummy_loc )->die( &here, nullptr );
     g->cleanup_dead();
 
     //a corpse was created

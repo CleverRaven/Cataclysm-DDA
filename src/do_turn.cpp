@@ -267,6 +267,9 @@ void monmove()
     avatar &u = get_avatar();
 
     for( monster &critter : g->all_monsters() ) {
+        if( !m.inbounds( critter.pos_abs() ) ) {
+            continue;
+        }
         // Critters in impassable tiles get pushed away, unless it's not impassable for them
         if( !critter.is_dead() && ( m.impassable( critter.pos_bub() ) &&
                                     !m.get_impassable_field_at( critter.pos_bub() ).has_value() ) &&
@@ -279,16 +282,16 @@ void monmove()
                            critter.name(),
                            critter.posx(), critter.posy(), critter.posz(), m.tername( critter.pos_bub() ) );
             bool okay = false;
-            for( const tripoint_bub_ms &dest : m.points_in_radius( critter.pos_bub(), 3 ) ) {
+            for( const tripoint_bub_ms &dest : m.points_in_radius( critter.pos_bub( m ), 3 ) ) {
                 if( critter.can_move_to( dest ) && g->is_empty( dest ) ) {
-                    critter.setpos( dest );
+                    critter.setpos( m, dest );
                     okay = true;
                     break;
                 }
             }
             if( !okay ) {
                 // die of "natural" cause (overpopulation is natural)
-                critter.die( nullptr );
+                critter.die( &m, nullptr );
             }
         }
 

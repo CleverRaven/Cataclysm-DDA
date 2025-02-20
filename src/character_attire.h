@@ -38,9 +38,6 @@ class player_morale;
 struct bodygraph_info;
 struct damage_unit;
 
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
-
 struct item_penalties {
     std::vector<bodypart_id> body_parts_with_stacking_penalty;
     std::vector<bodypart_id> body_parts_with_out_of_order_penalty;

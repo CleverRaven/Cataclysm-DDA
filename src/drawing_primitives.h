@@ -6,7 +6,6 @@
 
 #include "coords_fwd.h"
 
-struct point;
 struct rl_vec2d;
 
 void draw_line( const std::function<void( const point_bub_ms & )> &set, const point_bub_ms &p1,

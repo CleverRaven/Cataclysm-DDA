@@ -558,7 +558,7 @@
     "type": "effect_type",
     "id": "eyegleam_craft_in_darkness",
     "rating": "good",
-    "flags": [ "CRAFT_IN_DARKNESS" ]
+    "flags": [ "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ]
   },
   {
     "type": "effect_type",
@@ -1368,6 +1368,14 @@
           }
         ]
       }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_homullus_prevented_death",
+    "name": [ "Transferred Essence" ],
+    "desc": [
+      "You have transferred your essence into a human, saving yourself at the expense of their being.  It will take some time until you can do this again."
     ]
   },
   {
@@ -2430,6 +2438,22 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_trow_no_eating_or_sleep",
+    "//": "Hidden effect, used to give you no metabolism or sleep gain while mining",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": -1 },
+          { "value": "THIRST", "multiply": -1 },
+          { "value": "SLEEPINESS", "multiply": -1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "called_daffodil",
     "name": [ "Called the daffodil" ],
     "desc": [ "You recently called some daffodils.  You need to wait a day before you can call more." ]
@@ -2876,6 +2900,18 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_chronomancy_field",
+    "name": [ "Chronomancy Field" ],
+    "desc": [
+      "You have engaged some of your temporal abilities and any kills you make while this is active will grant you insight."
+    ],
+    "apply_message": "You gain an increased awareness of the 4th dimension and how it interacts with the universe.",
+    "remove_message": "Your awareness of the 4th dimension fades.",
+    "rating": "good",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "effect_xedra_time_freeze",
     "name": [ "Frozen in Time" ],
     "desc": [ "You are completely frozen in time." ],
@@ -3081,5 +3117,21 @@
     "max_intensity": 1,
     "show_in_info": true,
     "enchantments": [ { "hit_you_effect": [ { "id": "xedra_monster_erosion_attack" } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "//": "Required to make Boann banish monsters.  Without it, she will aim the banish at herself every time.",
+    "id": "boann_retaliation_mark",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "//": "Checks if you have every single vampiric power when trying to learn new ones.",
+    "id": "effect_vampire_all_gift_check",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "show_in_info": false
   }
 ]

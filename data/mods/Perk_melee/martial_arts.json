@@ -48,6 +48,7 @@
         "description": "Successful blocking has left you in a favorable position.",
         "melee_allowed": true,
         "buff_duration": 2,
+        "required_char_flags": [ "MELEE_PERK_RIPOSTE" ],
         "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
       }
     ],
@@ -59,9 +60,9 @@
         "false_effect": { "u_lose_effect": "perk_blind_check" }
       }
     ],
-    "onhit_eocs": [ "EOC_PERK_SPEND_INSIGHT" ],
-    "onkill_eocs": [ "EOC_PERK_TWILIGHT_FORM" ],
-    "onmove_eocs": [ "EOC_PERK_MOMENTUM_2" ],
+    "onhit_eocs": [ "EOC_PERK_SPEND_INSIGHT", "EOC_PERK_PRESSURE_STRIKES_SCHEDULE" ],
+    "onkill_eocs": [ "EOC_PERK_TWILIGHT_FORM", "EOC_PERK_tempo_zoning" ],
+    "onmove_eocs": [ "EOC_PERK_MOMENTUM_2", "EOC_PERK_duelist_insert_reach" ],
     "ondodge_eocs": [
       {
         "id": "EOC_PERK_DODGE_RETREAT",
@@ -83,7 +84,8 @@
         "id": "EOC_PERK_CAREFREE_STANCE",
         "condition": { "u_has_flag": "MELEE_PERK_CAREFREE_STANCE" },
         "effect": { "run_eocs": "EOC_CLEAR_BUFFS" }
-      }
+      },
+      "EOC_CLEAR_MOMENTUM_DUELIST"
     ],
     "techniques": [
       "tec_perk_stagger_strike",
@@ -100,6 +102,8 @@
       "tec_perk_knife_finisher",
       "tec_perk_make_way",
       "tec_perk_estocada",
+      "tec_perk_duelist_lunge",
+      "tec_perk_duelist_combo",
       "tec_perk_staff_kick"
     ]
   }

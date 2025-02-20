@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <bitset>
 #include <climits>
 #include <functional>
 #include <iterator>
@@ -19,6 +18,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
@@ -30,19 +30,17 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "line.h"
 #include "map.h"
 #include "map_selector.h"
 #include "options.h"
 #include "pimpl.h"
 #include "pocket_type.h"
-#include "point.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "units_fwd.h"
+#include "units.h"
 #include "vehicle.h"
 #include "visitable.h"
 #include "vpart_position.h"
@@ -672,6 +670,8 @@ ret_val<void> Character::can_drop( const item &it ) const
 
 void Character::drop_invalid_inventory()
 {
+    map &here = get_map();
+
     if( cache_inventory_is_valid ) {
         return;
     }
@@ -680,7 +680,7 @@ void Character::drop_invalid_inventory()
         const item &it = stack->front();
         if( it.made_of( phase_id::LIQUID ) ) {
             dropped_liquid = true;
-            get_map().add_item_or_charges( pos_bub(), it );
+            here.add_item_or_charges( pos_bub( here ), it );
             // must be last
             i_rem( &it );
         }
@@ -691,7 +691,7 @@ void Character::drop_invalid_inventory()
 
     item_location weap = get_wielded_item();
     if( weap ) {
-        weap.overflow();
+        weap.overflow( here );
     }
     worn.overflow( *this );
     cache_inventory_is_valid = true;

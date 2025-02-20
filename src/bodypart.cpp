@@ -11,12 +11,9 @@
 #include "body_part_set.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
 #include "json.h"
-#include "json_error.h"
 #include "localized_comparator.h"
 #include "rng.h"
 #include "subbodypart.h"
@@ -401,7 +398,6 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
 
     optional( jo, was_loaded, "feels_discomfort", feels_discomfort, true );
 
-    optional( jo, was_loaded, "stylish_bonus", stylish_bonus, 0 );
     optional( jo, was_loaded, "squeamish_penalty", squeamish_penalty, 0 );
 
     optional( jo, was_loaded, "bionic_slots", bionic_slots_, 0 );

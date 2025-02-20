@@ -1,22 +1,42 @@
 #include <algorithm>
-#include <cmath>
+#include <array>
 #include <cstdlib>
+#include <functional>
+#include <map>
+#include <memory>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "addiction.h"
 #include "avatar_action.h"
-#include "creature.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "catacharset.h"
 #include "character.h"
 #include "character_modifier.h"
+#include "color.h"
+#include "coordinates.h"
+#include "creature.h"
+#include "cursesdef.h"
 #include "display.h"
 #include "effect.h"
 #include "flag.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "output.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "translation.h"
+#include "translations.h"
+#include "type_id.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "weather.h"
+
+class avatar;
 
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );

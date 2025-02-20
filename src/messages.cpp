@@ -10,6 +10,7 @@
 #include "game.h"
 #include "input_context.h"
 #include "json.h"
+#include "map.h"
 #include "output.h"
 #include "panels.h"
 #include "point.h"
@@ -1003,14 +1004,18 @@ void add_msg( const game_message_params &params, std::string msg )
 
 void add_msg_if_player_sees( const tripoint_bub_ms &target, std::string msg )
 {
-    if( get_player_view().sees( target ) ) {
+    const map &here = get_map();
+
+    if( get_player_view().sees( here, target ) ) {
         Messages::add_msg( std::move( msg ) );
     }
 }
 
 void add_msg_if_player_sees( const Creature &target, std::string msg )
 {
-    if( get_player_view().sees( target ) ) {
+    const map &here = get_map();
+
+    if( get_player_view().sees( here, target ) ) {
         Messages::add_msg( std::move( msg ) );
     }
 }
@@ -1018,7 +1023,9 @@ void add_msg_if_player_sees( const Creature &target, std::string msg )
 void add_msg_if_player_sees( const tripoint_bub_ms &target, const game_message_params &params,
                              std::string msg )
 {
-    if( get_player_view().sees( target ) ) {
+    const map &here = get_map();
+
+    if( get_player_view().sees( here, target ) ) {
         Messages::add_msg( params, std::move( msg ) );
     }
 }
@@ -1026,7 +1033,9 @@ void add_msg_if_player_sees( const tripoint_bub_ms &target, const game_message_p
 void add_msg_if_player_sees( const Creature &target, const game_message_params &params,
                              std::string msg )
 {
-    if( get_player_view().sees( target ) ) {
+    const map &here = get_map();
+
+    if( get_player_view().sees( here, target ) ) {
         Messages::add_msg( params, std::move( msg ) );
     }
 }

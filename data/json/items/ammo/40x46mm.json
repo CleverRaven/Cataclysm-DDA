@@ -54,8 +54,11 @@
     "ascii_picture": "40x46mm_m576",
     "weight": "120 g",
     "range": 12,
-    "damage": { "damage_type": "bullet", "amount": 28 },
-    "recoil": 1000,
+    "damage": { "damage_type": "bullet", "amount": 30 },
+    "shot_damage": { "damage_type": "bullet", "amount": 7 },
+    "projectile_count": 20,
+    "shot_spread": 500,
+    "recoil": 900,
     "casing": "40x46mm_m199_casing",
     "extend": { "effects": [ "SHOT", "NOGIB" ] }
   },
@@ -71,132 +74,6 @@
     "drop": "gasbomb_act",
     "casing": "40x46mm_m195_casing",
     "extend": { "effects": [ "NO_EMBED" ] }
-  },
-  {
-    "id": "40x46mm_buckshot_m118",
-    "copy-from": "40x46mm_buckshot_m199",
-    "type": "AMMO",
-    "name": { "str_sp": "40x46mm M118 buckshot, reloaded" },
-    "description": "An improvised 40x46mm buckshot load somewhat resembling M576, loaded into a M118 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.",
-    "ascii_picture": "40x46mm_improvised",
-    "casing": "40x46mm_m118_casing"
-  },
-  {
-    "id": "40x46mm_buckshot_m199",
-    "copy-from": "40x46mm_m576",
-    "type": "AMMO",
-    "name": { "str_sp": "40x46mm M199 buckshot, reloaded" },
-    "description": "An improvised 40x46mm buckshot load somewhat resembling M576, loaded into a M199 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.",
-    "ascii_picture": "40x46mm_improvised",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "40x46mm_slug_m118",
-    "copy-from": "40x46mm_grenade",
-    "type": "AMMO",
-    "name": { "str": "40x46mm M118 slug, reloaded", "str_pl": "40x46mm M118 slugs, reloaded" },
-    "description": "An improvised 40x46mm load resembling a shotgun slug, loaded into a M118 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.",
-    "ascii_picture": "40x46mm_improvised",
-    "weight": "120 g",
-    "damage": { "damage_type": "bullet", "amount": 25, "armor_penetration": 3 },
-    "casing": "40x46mm_m118_casing",
-    "proportional": { "price": 0.7, "dispersion": 1.1 }
-  },
-  {
-    "id": "40x46mm_slug_m199",
-    "copy-from": "40x46mm_slug_m118",
-    "type": "AMMO",
-    "name": { "str": "40x46mm M199 slug, reloaded", "str_pl": "40x46mm M199 slugs, reloaded" },
-    "description": "An improvised 40x46mm load resembling a shotgun slug, loaded into a M199 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.",
-    "ascii_picture": "40x46mm_improvised",
-    "casing": "40x46mm_m199_casing"
-  },
-  {
-    "id": "40x46mm_flechette_m118",
-    "copy-from": "40x46mm_buckshot_m118",
-    "type": "AMMO",
-    "name": { "str_sp": "40x46mm M118 flechette, reloaded" },
-    "description": "An improvised 40x46mm flechette load containing 10 steel darts, loaded into a M118 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.",
-    "ascii_picture": "40x46mm_improvised",
-    "damage": { "damage_type": "bullet", "amount": 22, "armor_penetration": 6 },
-    "delete": { "effects": [ "NOGIB" ] }
-  },
-  {
-    "id": "40x46mm_flechette_m199",
-    "copy-from": "40x46mm_flechette_m118",
-    "type": "AMMO",
-    "name": { "str_sp": "40x46mm M199 flechette, reloaded" },
-    "description": "An improvised 40x46mm flechette load containing 10 steel darts, loaded into a M199 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.",
-    "ascii_picture": "40x46mm_improvised",
-    "casing": "40x46mm_m199_casing"
-  },
-  {
-    "id": "bp_40x46mm_buckshot_m118",
-    "copy-from": "bp_40x46mm_buckshot_m199",
-    "type": "AMMO",
-    "name": { "str_sp": "40x46mm M118 buckshot, black powder" },
-    "description": "An improvised 40x46mm buckshot load somewhat resembling M576, loaded into a M118 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.",
-    "ascii_picture": "40x46mm_improvised",
-    "casing": "40x46mm_m118_casing"
-  },
-  {
-    "id": "bp_40x46mm_buckshot_m199",
-    "copy-from": "40x46mm_m576",
-    "type": "AMMO",
-    "name": { "str_sp": "40x46mm M199 buckshot, black powder" },
-    "description": "An improvised 40x46mm buckshot load somewhat resembling M576, loaded into a M199 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.",
-    "ascii_picture": "40x46mm_improvised",
-    "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
-      "recoil": 0.76,
-      "dispersion": 1.2
-    },
-    "extend": { "effects": [ "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "bp_40x46mm_slug_m118",
-    "copy-from": "40x46mm_grenade",
-    "type": "AMMO",
-    "name": { "str": "40x46mm M118 slug, black powder", "str_pl": "40x46mm M118 slugs, black powder" },
-    "description": "An improvised 40x46mm load resembling a shotgun slug, loaded into a M118 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.",
-    "ascii_picture": "40x46mm_improvised",
-    "damage": { "damage_type": "bullet", "amount": 21, "armor_penetration": 1 },
-    "weight": "120 g",
-    "proportional": { "price": 0.3, "recoil": 0.76, "dispersion": 1.2 },
-    "casing": "40x46mm_m118_casing",
-    "extend": { "effects": [ "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "bp_40x46mm_slug_m199",
-    "copy-from": "bp_40x46mm_slug_m118",
-    "type": "AMMO",
-    "name": { "str": "40x46mm M199 slug, black powder", "str_pl": "40x46mm M199 slugs, black powder" },
-    "description": "An improvised 40x46mm load resembling a shotgun slug, loaded into a M199 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.",
-    "ascii_picture": "40x46mm_improvised",
-    "casing": "40x46mm_m199_casing"
-  },
-  {
-    "id": "bp_40x46mm_flechette_m118",
-    "copy-from": "bp_40x46mm_buckshot_m118",
-    "type": "AMMO",
-    "name": { "str_sp": "40x46mm M118 flechette, black powder" },
-    "description": "An improvised 40x46mm flechette load containing 10 steel darts, loaded into a M118 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.",
-    "ascii_picture": "40x46mm_improvised",
-    "damage": { "damage_type": "bullet", "amount": 19, "armor_penetration": 3 },
-    "delete": { "effects": [ "NOGIB" ] }
-  },
-  {
-    "id": "bp_40x46mm_flechette_m199",
-    "copy-from": "bp_40x46mm_flechette_m118",
-    "type": "AMMO",
-    "name": { "str_sp": "40x46mm M199 flechette, black powder" },
-    "description": "An improvised 40x46mm flechette load containing 10 steel darts, loaded into a M199 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.",
-    "ascii_picture": "40x46mm_improvised",
-    "casing": "40x46mm_m199_casing"
   },
   {
     "id": "40x46mm_hornets_nest_22lr",

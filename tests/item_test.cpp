@@ -1,27 +1,42 @@
-#include "cata_catch.h"
-#include "item.h"
-
+#include <array>
 #include <cmath>
+#include <functional>
 #include <initializer_list>
 #include <limits>
+#include <list>
+#include <map>
 #include <memory>
+#include <optional>
+#include <set>
+#include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
 #include "avatar_action.h"
+#include "bodypart.h"
 #include "calendar.h"
+#include "cata_catch.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "flag.h"
 #include "game.h"
+#include "item.h"
 #include "item_category.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
+#include "material.h"
 #include "math_defines.h"
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
+#include "point.h"
 #include "ret_val.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
 #include "test_data.h"
 #include "type_id.h"
 #include "units.h"
@@ -364,8 +379,8 @@ TEST_CASE( "item_variables_round-trip_accurately", "[item]" )
     CHECK( i.get_var( "A", 0 ) == 17 );
     i.set_var( "B", 0.125 );
     CHECK( i.get_var( "B", 0.0 ) == 0.125 );
-    i.set_var( "C", tripoint_abs_omt( 2, 3, 4 ) );
-    CHECK( i.get_var( "C", tripoint_abs_omt::zero ) == tripoint_abs_omt( 2, 3, 4 ) );
+    i.set_var( "C", tripoint_abs_ms( 2, 3, 4 ) );
+    CHECK( i.get_var( "C", tripoint_abs_ms::zero ) == tripoint_abs_ms( 2, 3, 4 ) );
 }
 
 TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" )

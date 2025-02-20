@@ -1,10 +1,13 @@
+#include <string>
+
 #include "calendar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "item.h"
 #include "map.h"
-#include "point.h"
 #include "type_id.h"
+#include "units.h"
 #include "weather.h"
 
 static const flag_id json_flag_FROZEN( "FROZEN" );

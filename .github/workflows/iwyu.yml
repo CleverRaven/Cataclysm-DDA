@@ -1,0 +1,100 @@
+name: IWYU (include-what-you-use)
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+    types: [opened, reopened, synchronize, ready_for_review]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'tools/iwyu/**'
+      - '**/CMakeLists.txt'
+      - '.github/workflows/iwyu.yml'
+
+# We only care about the latest revision of a PR, so cancel all previous instances.
+concurrency:
+  group: iwyu-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  run:
+    runs-on: ubuntu-24.04
+    env:
+        COMPILER: clang++-19
+    steps:
+    - name: install LLVM 19
+      run: |
+          sudo apt install llvm-19 llvm-19-dev llvm-19-tools clang-19 clang-tidy-19 clang-tools-19 libclang-19-dev
+          sudo apt install python3-pip ninja-build cmake
+    - name: checkout IWYU repository
+      uses: actions/checkout@v4
+      with:
+        repository: include-what-you-use/include-what-you-use
+        path: include-what-you-use-src
+        ref: clang_19
+    - name: checkout own repository
+      uses: actions/checkout@v4
+      with:
+        path: Cataclysm-DDA
+    - name: build IWYU
+      id: build-iwyu
+      run: |
+        cmake -B iwyu-build -DCMAKE_PREFIX_PATH=/usr/lib/llvm-19 include-what-you-use-src
+        cmake --build iwyu-build --parallel 4
+        echo "IWYU_SRC_DIR=${PWD}/include-what-you-use-src">> "$GITHUB_OUTPUT"
+        echo "IWYU_BIN_DIR=${PWD}/iwyu-build/bin">> "$GITHUB_OUTPUT"
+    - uses: ammaraskar/gcc-problem-matcher@master
+    - name: determine changed files
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: actions/github-script@v7
+      with:
+        script: |
+          var fs = require('fs');
+          const response = await github.paginate(github.rest.pulls.listFiles,
+            {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            }
+          );
+          const files = response.map(x => x.filename);
+          for (const path of files) {
+            console.log(path);
+          }
+          fs.writeFileSync("Cataclysm-DDA/files_changed", files.join('\n') + '\n');
+    - name: create CDDA compilation database
+      run: |
+        cd Cataclysm-DDA
+        cmake -B build \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+            -DCMAKE_CXX_COMPILER=$COMPILER \
+            -DCMAKE_BUILD_TYPE="Release" \
+            -DTILES=${TILES:-0} \
+            -DSOUND=${SOUND:-0} \
+            -DLOCALIZE=${LOCALIZE:-0} \
+            .
+        # and include database too, for get_affected_files.py
+        make includes -j4 --silent TILES=${TILES:-0} SOUND=${SOUND:-0} LOCALIZE=${LOCALIZE:-0}
+    - name: run the thing
+      env:
+        IWYU_SRC_DIR: ${{ steps.build-iwyu.outputs.IWYU_SRC_DIR }}
+        IWYU_BIN_DIR: ${{ steps.build-iwyu.outputs.IWYU_BIN_DIR }}
+      run: |
+        PATH="${PATH}:${IWYU_BIN_DIR}"
+        cd Cataclysm-DDA
+
+        CHECK_ALL=no
+        if [[ -f ./files_changed ]]; then
+            CHECK_ALL=$( cat ./files_changed | grep -E -i 'tools/iwyu|github/iwyu.yml|CMakeLists.txt|build-scripts/get_affected_files.py' && echo yes || echo no )
+        fi
+        if [[ "${CHECK_ALL}" = "no" ]] && [[ -f ./files_changed ]]; then
+            FILES_LIST=$( python3 build-scripts/get_affected_files.py --changed-files-list ./files_changed )
+        else
+            FILES_LIST=$( find src/ tests/ -maxdepth 1 -name '*.cpp' | sort )
+        fi
+        FILES_LIST=$( printf "%s\n" ${FILES_LIST[@]} | grep -v -f tools/iwyu/bad_files.txt )
+
+        python ${IWYU_SRC_DIR}/iwyu_tool.py ${FILES_LIST} -p build --output-format clang --jobs 4  -- -Xiwyu "--mapping_file=${PWD}/tools/iwyu/cata.imp" -Xiwyu --cxx17ns -Xiwyu --comment_style=long -Xiwyu --max_line_length=1000 -Xiwyu --error=1
+

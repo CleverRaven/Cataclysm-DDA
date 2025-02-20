@@ -13,7 +13,7 @@
 #include <sstream>
 #include <string>
 #include <string_view>
-#include <type_traits>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -30,10 +30,10 @@
 #include "display.h"
 #include "flag.h"
 #include "flat_set.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "game_inventory.h"
+#include "generic_factory.h"
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
@@ -44,11 +44,14 @@
 #include "item_location.h"
 #include "itype.h"
 #include "localized_comparator.h"
+#include "magic_enchantment.h"
 #include "options.h"
 #include "output.h"
+#include "pimpl.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -2033,8 +2036,14 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         } else if( action == "TOGGLE_RECIPE_UNREAD" && selection_ok( current, line, true ) ) {
             const recipe_id rcp = current[line]->ident();
             if( uistate.read_recipes.count( rcp ) ) {
+                for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                    uistate.read_recipes.erase( nested_rcp );
+                }
                 uistate.read_recipes.erase( rcp );
             } else {
+                for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                    uistate.read_recipes.insert( nested_rcp );
+                }
                 uistate.read_recipes.insert( rcp );
             }
             recalc_unread = highlight_unread_recipes;
@@ -2042,6 +2051,15 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         } else if( action == "MARK_ALL_RECIPES_READ" ) {
             bool current_list_has_unread = false;
             for( const recipe *const rcp : current ) {
+                for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                    if( !uistate.read_recipes.count( nested_rcp->ident() ) ) {
+                        current_list_has_unread = true;
+                        break;
+                    }
+                    if( current_list_has_unread ) {
+                        break;
+                    }
+                }
                 if( !uistate.read_recipes.count( rcp->ident() ) ) {
                     current_list_has_unread = true;
                     break;
@@ -2064,10 +2082,16 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             if( query_yn( query_str ) ) {
                 if( current_list_has_unread ) {
                     for( const recipe *const rcp : current ) {
+                        for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                            uistate.read_recipes.insert( nested_rcp->ident() );
+                        }
                         uistate.read_recipes.insert( rcp->ident() );
                     }
                 } else {
                     for( const recipe *const rcp : available_recipes ) {
+                        for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                            uistate.read_recipes.insert( nested_rcp->ident() );
+                        }
                         uistate.read_recipes.insert( rcp->ident() );
                     }
                 }

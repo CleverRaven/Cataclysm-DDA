@@ -263,6 +263,16 @@
   },
   {
     "type": "effect_type",
+    "id": "smart_targeted",
+    "max_duration": "1 seconds"
+  },
+  {
+    "type": "effect_type",
+    "id": "vahagan_fired_at",
+    "max_duration": "1 seconds"
+  },
+  {
+    "type": "effect_type",
     "id": "afs_combat_stims",
     "name": [ "Combat Stimulants" ],
     "desc": [ "You are under the effects of powerful military combat stimulants" ],

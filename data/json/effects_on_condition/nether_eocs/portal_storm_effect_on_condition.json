@@ -2,19 +2,16 @@
   {
     "type": "effect_on_condition",
     "id": "scenario_strong_portal_storm_base",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": { "math": [ "ps_base_str = 10" ] }
   },
   {
     "type": "effect_on_condition",
     "id": "scenario_strong_portal_storm",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "math": [ "ps_base_str = 15" ] }, { "run_eocs": "EOC_CAUSE_PORTAL_STORM" }, { "math": [ "ps_base_str = 1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "scenario_quick_portal_storm",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "math": [ "ps_min_woc = time(' 1 d')" ] }, { "math": [ "ps_max_woc = time(' 2 d')" ] } ]
   },
   {

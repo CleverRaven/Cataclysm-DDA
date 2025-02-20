@@ -1,19 +1,38 @@
-#include "cata_catch.h"
-#include "map.h"
-
+#include <cstddef>
+#include <functional>
 #include <memory>
+#include <optional>
+#include <ostream>
+#include <set>
+#include <string>
 #include <vector>
 
+#include "active_item_cache.h"
 #include "avatar.h"
+#include "calendar.h"
+#include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "coordinates.h"
+#include "cuboid_rectangle.h"
 #include "enums.h"
-#include "itype.h"
 #include "game.h"
-#include "game_constants.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
+#include "itype.h"
+#include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
+#include "map_selector.h"
+#include "monster.h"
+#include "pocket_type.h"
 #include "point.h"
+#include "ret_val.h"
 #include "submap.h"
 #include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
+#include "weather.h"
 
 static const itype_id itype_almond_milk( "almond_milk" );
 static const itype_id itype_bag_plastic( "bag_plastic" );
@@ -73,7 +92,7 @@ TEST_CASE( "destroy_grabbed_furniture" )
     GIVEN( "Furniture grabbed by the player" ) {
         const tripoint_bub_ms test_origin( 60, 60, 0 );
         map &here = get_map();
-        player_character.setpos( test_origin );
+        player_character.setpos( here, test_origin );
         const tripoint_bub_ms grab_point = test_origin + tripoint::east;
         here.furn_set( grab_point, furn_id( "f_chair" ) );
         player_character.grab( object_type::FURNITURE, tripoint_rel_ms::east );
@@ -271,10 +290,10 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
 
 TEST_CASE( "active_monster_drops", "[active_item][map]" )
 {
-    clear_map();
-    get_avatar().setpos( tripoint_bub_ms::zero );
-    tripoint_bub_ms start_loc = get_avatar().pos_bub() + tripoint::east;
     map &here = get_map();
+    clear_map();
+    get_avatar().setpos( here, tripoint_bub_ms::zero );
+    tripoint_bub_ms start_loc = get_avatar().pos_bub( here ) + tripoint::east;
     restore_on_out_of_scope restore_temp(
         get_weather().forced_temperature );
     get_weather().forced_temperature = units::from_celsius( 21 );
@@ -295,7 +314,7 @@ TEST_CASE( "active_monster_drops", "[active_item][map]" )
     zombo.no_extra_death_drops = true;
     zombo.inv.emplace_back( bag_plastic );
     calendar::turn += time_duration::from_seconds( cookie.processing_speed() + 1 );
-    zombo.die( nullptr );
+    zombo.die( &here, nullptr );
     REQUIRE( here.i_at( start_loc ).size() == 1 );
     item &dropped_bag = here.i_at( start_loc ).begin()->only_item();
 

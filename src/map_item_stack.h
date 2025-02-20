@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_MAP_ITEM_STACK_H
 #define CATA_SRC_MAP_ITEM_STACK_H
 
-#include <iosfwd>
+#include <string>
 #include <vector>
 
 #include "coordinates.h"
@@ -39,7 +39,13 @@ class map_item_stack
         // through all older item groups for a match.
         void add_at_pos( const item *it, const tripoint_rel_ms &pos );
 
-        static bool map_item_stack_sort( const map_item_stack &lhs, const map_item_stack &rhs );
+        static bool compare_item_names( const map_item_stack &lhs,
+                                        const map_item_stack &rhs );
+        static bool map_item_stack_sort_category_distance( const map_item_stack &lhs,
+                const map_item_stack &rhs );
+        static bool map_item_stack_sort_category_name( const map_item_stack &lhs,
+                const map_item_stack &rhs );
+        static bool map_item_stack_sort_name( const map_item_stack &lhs, const map_item_stack &rhs );
 };
 
 std::vector<map_item_stack> filter_item_stacks( const std::vector<map_item_stack> &stack,

@@ -1427,7 +1427,6 @@
               { "item": "jeans", "prob": 40, "damage": [ 1, 4 ] },
               { "item": "pants", "variant": "pants_black", "prob": 20, "damage": [ 1, 4 ] },
               { "item": "pants", "variant": "pants_brown", "prob": 15, "damage": [ 1, 4 ] },
-              { "item": "pants", "variant": "pants_coffee", "prob": 15, "damage": [ 1, 4 ] },
               { "item": "pants_leather", "prob": 10, "damage": [ 1, 4 ] }
             ]
           },

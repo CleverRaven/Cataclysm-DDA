@@ -34,8 +34,6 @@
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
-#include "field_type.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
@@ -47,41 +45,36 @@
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
-#include "line.h"
 #include "map.h"
 #include "map_memory.h"
-#include "mapdata.h"
+#include "map_scale_constants.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "move_mode.h"
-#include "mutation.h"
 #include "npc.h"
+#include "npc_opinion.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pimpl.h"
+#include "point.h"
 #include "profession.h"
 #include "ranged.h"
 #include "recipe.h"
 #include "ret_val.h"
 #include "rng.h"
-#include "scenario.h"
 #include "skill.h"
-#include "sleep.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "talker.h"
 #include "talker_avatar.h"
 #include "timed_event.h"
 #include "translations.h"
-#include "trap.h"
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
 #include "value_ptr.h"
-#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -688,11 +681,11 @@ void avatar::grab( object_type grab_type_new, const tripoint_rel_ms &grab_point_
         map &m = get_map();
         if( gtype == object_type::VEHICLE ) {
             if( const optional_vpart_position ovp = m.veh_at( pos_bub() + gpoint ) ) {
-                for( const tripoint_bub_ms &target : ovp->vehicle().get_points() ) {
+                for( const tripoint_abs_ms &target : ovp->vehicle().get_points() ) {
                     if( erase ) {
-                        memorize_clear_decoration( m.get_abs( target ), /* prefix = */ "vp_" );
+                        memorize_clear_decoration( target, /* prefix = */ "vp_" );
                     }
-                    m.memory_cache_dec_set_dirty( target, true );
+                    m.memory_cache_dec_set_dirty( m.get_bub( target ), true );
                 }
             }
         } else if( gtype != object_type::NONE ) {
@@ -730,7 +723,7 @@ void avatar::identify( const item &item )
     if( has_identified( item.typeId() ) ) {
         return;
     }
-    if( !item.is_book() ) {
+    if( !item.is_identifiable() ) {
         debugmsg( "tried to identify non-book item" );
         return;
     }

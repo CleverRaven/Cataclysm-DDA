@@ -1,13 +1,23 @@
+#include <array>
+#include <memory>
+#include <vector>
+
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "mapgen_helpers.h"
 #include "npc.h"
 #include "overmapbuffer.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 static const string_id<npc_template> npc_template_test_npc_trader( "test_npc_trader" );
 static const string_id<npc_template> npc_template_thug( "thug" );
@@ -64,7 +74,7 @@ TEST_CASE( "mapgen_remove_npcs" )
         clear_map();
         clear_avatar();
         tripoint_bub_ms const start_loc( HALF_MAPSIZE_X + SEEX - 2, HALF_MAPSIZE_Y + SEEY - 1, 0 );
-        get_avatar().setpos( start_loc );
+        get_avatar().setpos( here, start_loc );
         clear_npcs();
         set_time( calendar::turn_zero + 12_hours );
 
@@ -80,7 +90,7 @@ TEST_CASE( "mapgen_remove_npcs" )
         place_npc_and_check( here, loc2, update_mapgen_test_update_place_npc,
                              npc_template_test_npc_trader );
         REQUIRE( overmap_buffer.get_npcs_near_omt( omt2, 0 ).size() == 1 );
-        REQUIRE( get_avatar().sees( loc, true ) );
+        REQUIRE( get_avatar().sees( here, loc, true ) );
 
         WHEN( "removing NPC" ) {
             remove_npc_and_check( here, loc, update_mapgen_test_update_remove_npc,

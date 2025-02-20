@@ -548,7 +548,8 @@
     "longest_side": "25 cm",
     "ammo": [ "battery" ],
     "melee_damage": { "electric": 10 },
-    "flags": [ "MORPHIC", "ONLY_ONE", "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED" ],
+    "max_worn": 1,
+    "flags": [ "MORPHIC", "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED" ],
     "use_action": [
       {
         "target": "inventor_electric_fist_act",

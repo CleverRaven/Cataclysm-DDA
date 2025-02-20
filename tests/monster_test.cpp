@@ -1,26 +1,27 @@
-#include <algorithm>
 #include <cmath>
 #include <filesystem>
+#include <fstream>
 #include <functional>
 #include <map>
 #include <memory>
-#include <optional>
 #include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "cata_utility.h"
+#include "avatar.h"
+#include "calendar.h"
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
 #include "character.h"
-#include "filesystem.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "game.h"
-#include "game_constants.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_scale_constants.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
@@ -95,6 +96,7 @@ static std::ostream &operator<<( std::ostream &os, const std::vector<track> &vec
  **/
 static int can_catch_player( const std::string &monster_type, const tripoint &direction_of_flight )
 {
+    map &here = get_map();
     clear_map();
     REQUIRE( g->num_creatures() == 1 ); // the player
     Character &test_player = get_player_character();
@@ -104,7 +106,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     } );
 
     const tripoint_bub_ms center{ 65, 65, 0 };
-    test_player.setpos( center );
+    test_player.setpos( here, center );
     test_player.set_moves( 0 );
     // Give the player a head start.
     const tripoint_bub_ms monster_start = { -10 * direction_of_flight + test_player.pos_bub()
@@ -121,25 +123,25 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     for( int turn = 0; turn < 1000; ++turn ) {
         test_player.mod_moves( target_speed );
         while( test_player.get_moves() >= 0 ) {
-            test_player.setpos( test_player.pos_bub() + direction_of_flight );
+            test_player.setpos( test_player.pos_abs() + direction_of_flight );
             if( test_player.posx() < SEEX * static_cast<int>( MAPSIZE / 2 ) ||
                 test_player.posy() < SEEY * static_cast<int>( MAPSIZE / 2 ) ||
                 test_player.posx() >= SEEX * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ||
                 test_player.posy() >= SEEY * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ) {
                 tripoint_rel_ms offset = center - test_player.pos_bub();
-                test_player.setpos( center );
-                test_monster.setpos( test_monster.pos_bub() + offset );
+                test_player.setpos( here, center );
+                test_monster.setpos( test_monster.pos_abs() + offset );
                 // Verify that only the player and one monster are present.
                 REQUIRE( g->num_creatures() == 2 );
             }
-            const int move_cost = get_map().combined_movecost(
+            const int move_cost = here.combined_movecost(
                                       test_player.pos_bub(), test_player.pos_bub() + direction_of_flight, nullptr, 0 );
             tracker.push_back( {'p', move_cost, rl_dist( test_monster.pos_bub(), test_player.pos_bub() ),
                                 test_player.pos_bub().raw()
                                } );
             test_player.mod_moves( -move_cost );
         }
-        get_map().clear_traps();
+        here.clear_traps();
         test_monster.set_dest( test_player.pos_abs() );
         test_monster.mod_moves( monster_speed );
         while( test_monster.get_moves() >= 0 ) {

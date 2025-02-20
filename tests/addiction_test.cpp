@@ -1,8 +1,16 @@
 #include "addiction.h"
+
+#include <algorithm>
+#include <map>
+#include <memory>
+
 #include "cata_catch.h"
 #include "character.h"
+#include "enums.h"
+#include "item.h"
 #include "itype.h"
 #include "player_helpers.h"
+#include "value_ptr.h"
 
 static const addiction_id addiction_alcohol( "alcohol" );
 static const addiction_id addiction_amphetamine( "amphetamine" );
