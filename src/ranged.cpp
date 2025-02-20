@@ -1119,7 +1119,7 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
         }
 
         const int required = gun.ammo_required();
-        if( gun.ammo_consume( required, &here, pos_bub( here ), this ) != required ) {
+        if( gun.ammo_consume( required, here, pos_bub( here ), this ) != required ) {
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname() );
             break;
         }

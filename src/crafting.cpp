@@ -2157,7 +2157,7 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
             it.spill_contents( *this );
         }
         // todo: make a proper solution that overflows with the proper item_location
-        it.overflow( pos_bub() );
+        it.overflow( m, pos_bub( m ) );
     }
     empty_buckets( *this );
     return ret;
@@ -2809,7 +2809,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
     // Get the proper recipe - the one for disassembly, not assembly
     const requirement_data dis_requirements = dis.disassembly_requirements();
-    const tripoint_bub_ms loc = target.pos_bub();
+    const tripoint_bub_ms loc = target.pos_bub( here );
 
     // Get the item to disassemble, and make a copy to keep its data (damage/components)
     // after the original has been removed.

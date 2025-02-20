@@ -313,7 +313,7 @@ class item_contents
         bool spill_contents( const tripoint_bub_ms &pos );
         bool spill_contents( map *here, const tripoint_bub_ms &pos );
         /** Spill items that don't fit in the container. */
-        void overflow( const tripoint_bub_ms &pos, const item_location &loc );
+        void overflow( map &here, const tripoint_bub_ms &pos, const item_location &loc );
         void clear_items();
         /** Clear all items from magazine type pockets. */
         void clear_magazines();

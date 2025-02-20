@@ -5902,10 +5902,10 @@ void vehicle::idle( map &here, bool on_map )
     for( vehicle_part *turret : turrets() ) {
         item_location base = turret_query( *turret ).base();
         // Notify player about status of a turret if they're on the same tile
-        if( player_at_controls || player_character.pos_bub( here ) == base.pos_bub() ) {
-            base->process( here, &player_character, base.pos_bub() );
+        if( player_at_controls || player_character.pos_abs( ) == base.pos_abs() ) {
+            base->process( here, &player_character, base.pos_bub( here ) );
         } else {
-            base->process( here, nullptr, base.pos_bub() );
+            base->process( here, nullptr, base.pos_bub( here ) );
         }
     }
 }
@@ -6010,10 +6010,10 @@ void vehicle::disable_smart_controller_if_needed()
     }
 }
 
-void vehicle::make_active( map &here, item_location &loc )
+void vehicle::make_active( item_location &loc )
 {
     item &target = *loc;
-    auto cargo_parts = get_parts_at( &here, loc.pos_bub(), "CARGO", part_status_flag::any );
+    auto cargo_parts = get_parts_at( loc.pos_abs(), "CARGO", part_status_flag::any );
     if( cargo_parts.empty() ) {
         return;
     }

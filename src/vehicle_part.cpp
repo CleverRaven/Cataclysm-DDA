@@ -367,7 +367,7 @@ int vehicle_part::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos )
         }
         return res;
     }
-    return base.ammo_consume( qty, here, pos, nullptr );
+    return base.ammo_consume( qty, *here, pos, nullptr );
 }
 
 units::energy vehicle_part::consume_energy( const itype_id &ftype, units::energy wanted_energy )

@@ -2555,15 +2555,17 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
 
 std::optional<int> iuse::water_tablets( Character *p, item *it, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
 
-    item_location obj = g->inv_map_splice( []( const item_location & e ) {
+    item_location obj = g->inv_map_splice( [&here]( const item_location & e ) {
         return ( !e->empty() && e->has_item_with( []( const item & it ) {
             return it.typeId() == itype_water;
         } ) ) || ( e->typeId() == itype_water &&
-                   get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, e.pos_bub() ) );
+                   here.has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, e.pos_bub( here ) ) );
     }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
 
     if( !obj ) {
@@ -5015,11 +5017,13 @@ std::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const s
  */
 static bool heat_item( Character &p )
 {
-    item_location loc = g->inv_map_splice( []( const item_location & itm ) {
+    map &here = get_map();
+
+    item_location loc = g->inv_map_splice( [&here]( const item_location & itm ) {
         return itm->has_temperature() && !itm->has_own_flag( flag_HOT ) &&
                ( !itm->made_of_from_type( phase_id::LIQUID ) ||
                  itm.where() == item_location::type::container ||
-                 get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, itm.pos_bub() ) );
+                 here.has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, itm.pos_bub( here ) ) );
     }, _( "Heat up what?" ), 1, _( "You don't have any appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
@@ -8333,6 +8337,8 @@ heater find_heater( Character *p, item *it )
 
 static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_items )
 {
+    map &here = get_map();
+
     p->inv->restack( *p );
     heater h = find_heater( p, it );
     if( h.available_heater == -1 ) {
@@ -8347,11 +8353,11 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
     units::mass frozen_weight = 0_gram;
     units::mass not_frozen_weight = 0_gram;
     if( multiple == false ) {
-        item_location loc = g->inv_map_splice( []( const item_location & itm ) {
+        item_location loc = g->inv_map_splice( [&here]( const item_location & itm ) {
             return itm->has_temperature() && !itm->has_own_flag( flag_HOT ) &&
                    ( !itm->made_of_from_type( phase_id::LIQUID ) ||
                      itm.where() == item_location::type::container ||
-                     get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, itm.pos_bub() ) );
+                     here.has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, itm.pos_bub( here ) ) );
         }, _( "Heat up what?" ), 1, _( "You don't have any appropriate food to heat up." ) );
         if( !loc ) {
             return false;

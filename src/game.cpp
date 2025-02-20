@@ -10470,7 +10470,7 @@ void game::wield( item_location loc )
     // Can't use loc.obtain() here because that would cause things to spill.
     item to_wield = *loc.get_item();
     item_location::type location_type = loc.where();
-    tripoint_bub_ms pos = loc.pos_bub();
+    tripoint_bub_ms pos = loc.pos_bub( here );
     const int obtain_cost = loc.obtain_cost( u );
     int worn_index = INT_MIN;
 

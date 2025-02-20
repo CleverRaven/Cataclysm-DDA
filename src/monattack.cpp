@@ -1127,7 +1127,7 @@ bool mattack::resurrect( monster *z )
     };
     for( item_location &location : here.get_active_items_in_radius( z->pos_bub(), range,
             special_item_type::corpse ) ) {
-        const tripoint_bub_ms &p = location.pos_bub();
+        const tripoint_bub_ms &p = location.pos_bub( here );
         item &i = *location;
         const mtype *mt = i.get_mtype();
         if( !( i.can_revive() && i.active && mt->has_flag( mon_flag_REVIVES ) &&

@@ -1611,11 +1611,13 @@ bool iexamine::can_hack( Character &you )
 
 bool iexamine::try_start_hacking( Character &you, const tripoint_bub_ms &examp )
 {
+    map &here = get_map();
+
     if( !can_hack( you ) ) {
         return false;
     } else {
         item_location hacking_tool = item_location{you, &you.best_item_with_quality( qual_HACK )};
-        hacking_tool->ammo_consume( hacking_tool->ammo_required(), hacking_tool.pos_bub(), &you );
+        hacking_tool->ammo_consume( hacking_tool->ammo_required(), hacking_tool.pos_bub( here ), &you );
         you.assign_activity( hacking_activity_actor( hacking_tool ) );
         you.activity.placement = get_map().get_abs( examp );
         return true;
@@ -4691,7 +4693,7 @@ void iexamine::tree_maple( Character &you, const tripoint_bub_ms &examp )
     map &here = get_map();
     item_location spile_loc = g->inv_map_splice( [&here]( const item_location & it ) {
         return it->get_quality_nonrecursive( qual_TREE_TAP ) > 0 &&
-               !( here.ter( it.pos_bub() ) == ter_t_tree_maple_tapped );
+               !( here.ter( it.pos_bub( here ) ) == ter_t_tree_maple_tapped );
     }, _( "Use which tapping tool?" ), PICKUP_RANGE, _( "You don't have a tapping tool at hand." ) );
 
     item *spile = spile_loc.get_item();
@@ -5196,7 +5198,7 @@ static void reload_furniture( Character &you, const tripoint_bub_ms &examp, bool
     you.mod_moves( -you.item_handling_cost( moved ) );
     std::list<item>used;
     if( opt.ammo.get_item()->use_charges( opt_type->get_id(), amount, used,
-                                          opt.ammo.pos_bub() ) ) {
+                                          opt.ammo.pos_bub( here ) ) ) {
         opt.ammo.remove_item();
     }
 
@@ -6932,7 +6934,7 @@ static void smoker_load_food( Character &you, const tripoint_bub_ms &examp,
     units::volume vol = remaining_capacity;
     for( const drop_location &dloc : locs ) {
         item_location original = dloc.first;
-        original.overflow();
+        original.overflow( here );
         item copy( *original );
         if( copy.count_by_charges() ) {
             copy.charges = clamp( copy.charges_per_volume( vol ), 1, dloc.second );

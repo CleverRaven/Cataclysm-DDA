@@ -2010,7 +2010,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
              cut.get_item()->tname() );
 
     const item_location::type cut_type = cut.where();
-    const tripoint_bub_ms pos = cut.pos_bub();
+    const tripoint_bub_ms pos = cut.pos_bub( here );
     const bool filthy = cut.get_item()->is_filthy();
 
     // Clean up before removing the item.
@@ -3490,7 +3490,7 @@ static bool damage_item( Character &pl, item_location &fix )
                 if( it->has_flag( flag_NO_DROP ) ) {
                     continue;
                 }
-                put_into_vehicle_or_drop( pl, item_drop_reason::tumbling, { *it }, &here, fix.pos_bub() );
+                put_into_vehicle_or_drop( pl, item_drop_reason::tumbling, { *it }, &here, fix.pos_bub( here ) );
             }
             fix.remove_item();
         }

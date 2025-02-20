@@ -749,11 +749,11 @@ void advanced_inventory::recalc_pane( side p )
     if( pane.container &&
         pane.container_base_loc >= AIM_SOUTHWEST && pane.container_base_loc <= AIM_ALL ) {
 
-        const tripoint_rel_ms offset = player_character.pos_bub() - pane.container.pos_bub();
+        const tripoint_rel_ms offset = player_character.pos_abs() - pane.container.pos_abs();
 
         // If container is no longer adjacent or on the player's z-level, nullify it.
         if( std::abs( offset.x() ) > 1 || std::abs( offset.y() ) > 1 ||
-            player_character.posz() != pane.container.pos_bub().z() ) {
+            player_character.posz() != pane.container.pos_abs().z() ) {
 
             pane.container = item_location::nowhere;
             pane.container_base_loc = NUM_AIM_LOCATIONS;

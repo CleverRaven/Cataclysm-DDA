@@ -493,8 +493,9 @@ void Pickup::pick_info::deserialize( const JsonObject &jsobj )
 
 void Pickup::pick_info::set_src( const item_location &src_ )
 {
+    const map &here = get_map(); // TODO: Change src_pos to absolute?
     // item_location of source may become invalid after the item is moved, so save the information separately.
-    src_pos = src_.pos_bub();
+    src_pos = src_.pos_bub( here );
     src_container = src_.parent_item();
     src_type = src_.where();
 }

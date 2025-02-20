@@ -3778,6 +3778,8 @@ std::pair<size_t, std::string> basecamp::farm_action( const point_rel_omt &dir, 
 void basecamp::start_farm_op( const point_rel_omt &dir, const mission_id &miss_id,
                               float exertion_level )
 {
+    map &here = get_map();
+
     farm_ops op = farm_ops::plow;
     if( miss_id.id == Camp_Plow ) {
         op = farm_ops::plow;
@@ -3818,7 +3820,7 @@ void basecamp::start_farm_op( const point_rel_omt &dir, const mission_id &miss_i
             for( std::pair<item_location, int> &seeds : seed_selection ) {
                 size_t num_seeds = seeds.second;
                 item_location seed = seeds.first;
-                seed.overflow();
+                seed.overflow( here );
                 if( seed->count_by_charges() ) {
                     seed->charges = num_seeds;
                 }

@@ -10741,9 +10741,9 @@ bool item::spill_open_pockets( Character &guy, const item *avoid )
     return contents.spill_open_pockets( guy, avoid );
 }
 
-void item::overflow( const tripoint_bub_ms &pos, const item_location &loc )
+void item::overflow( map &here, const tripoint_bub_ms &pos, const item_location &loc )
 {
-    contents.overflow( pos, loc );
+    contents.overflow( here, pos, loc );
 }
 
 book_proficiency_bonuses item::get_book_proficiency_bonuses() const
@@ -11483,10 +11483,10 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
 
 int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier )
 {
-    return item::ammo_consume( qty, &get_map(), pos, carrier );
+    return item::ammo_consume( qty, get_map(), pos, carrier );
 }
 
-int item::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, Character *carrier )
+int item::ammo_consume( int qty, map &here, const tripoint_bub_ms &pos, Character *carrier )
 {
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
@@ -11498,7 +11498,7 @@ int item::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, Characte
     if( is_tool_with_carrier && has_flag( flag_USES_NEARBY_AMMO ) ) {
         const ammotype ammo = ammo_type();
         if( !ammo.is_null() ) {
-            const inventory &carrier_inventory = carrier->crafting_inventory( here );
+            const inventory &carrier_inventory = carrier->crafting_inventory( &here );
             itype_id ammo_type = ammo->default_ammotype();
             const int charges_avalable = carrier_inventory.charges_of( ammo_type, INT_MAX );
 
@@ -11514,18 +11514,18 @@ int item::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, Characte
     // Consume power from appliances/vehicles connected with cables
     if( has_link_data() ) {
         if( link().t_veh && link().efficiency >= MIN_LINK_EFFICIENCY ) {
-            qty = link().t_veh->discharge_battery( *here, qty, true );
+            qty = link().t_veh->discharge_battery( here, qty, true );
         } else {
-            const optional_vpart_position vp = here->veh_at( link().t_abs_pos );
+            const optional_vpart_position vp = here.veh_at( link().t_abs_pos );
             if( vp ) {
-                qty = vp->vehicle().discharge_battery( *here, qty, true );
+                qty = vp->vehicle().discharge_battery( here, qty, true );
             }
         }
     }
 
     // Consume charges loaded in the item or its magazines
     if( is_magazine() || uses_magazine() ) {
-        qty -= contents.ammo_consume( qty, here, pos );
+        qty -= contents.ammo_consume( qty, &here, pos );
         if( ammo_capacity( ammo_battery ) == 0 && carrier != nullptr ) {
             carrier->invalidate_weight_carried_cache();
         }

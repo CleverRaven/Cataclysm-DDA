@@ -95,7 +95,8 @@ class item_location::impl
         virtual item_pocket *parent_pocket() const {
             return nullptr;
         }
-        virtual tripoint_bub_ms pos_bub() const = 0;
+        virtual tripoint_bub_ms pos_bub( const map &here ) const = 0;
+        virtual tripoint_abs_ms pos_abs() const = 0;
         virtual Character *carrier() const = 0;
         virtual const vehicle_cursor *veh_cursor() const {
             return nullptr;
@@ -149,9 +150,14 @@ class item_location::impl::nowhere : public item_location::impl
             return type::invalid;
         }
 
-        tripoint_bub_ms pos_bub() const override {
+        tripoint_bub_ms pos_bub( const map & ) const override {
             debugmsg( "invalid use of nowhere item_location" );
             return tripoint_bub_ms::min;
+        }
+
+        tripoint_abs_ms pos_abs() const override {
+            debugmsg( "invalid use of nowhere item_location" );
+            return tripoint_abs_ms::min;
         }
 
         Character *carrier() const override {
@@ -216,7 +222,7 @@ class item_location::impl::item_on_map : public item_location::impl
         void serialize( JsonOut &js ) const override {
             js.start_object();
             js.member( "type", "map" );
-            js.member( "pos", pos_bub() );
+            js.member( "position", pos_abs() );
             js.member( "idx", find_index( cur, target() ) );
             js.end_object();
         }
@@ -229,8 +235,12 @@ class item_location::impl::item_on_map : public item_location::impl
             return type::map;
         }
 
-        tripoint_bub_ms pos_bub() const override {
-            return cur.pos_bub();
+        tripoint_bub_ms pos_bub( const map &here ) const override {
+            return cur.pos_bub( here );
+        }
+
+        tripoint_abs_ms pos_abs() const override {
+            return cur.pos_abs();
         }
 
         Character *carrier() const override {
@@ -355,11 +365,18 @@ class item_location::impl::item_on_person : public item_location::impl
             return type::character;
         }
 
-        tripoint_bub_ms pos_bub() const override {
+        tripoint_bub_ms pos_bub( const map &here ) const override {
             if( !ensure_who_unpacked() ) {
                 return tripoint_bub_ms::zero;
             }
-            return who->pos_bub();
+            return who->pos_bub( here );
+        }
+
+        tripoint_abs_ms pos_abs() const override {
+            if( !ensure_who_unpacked() ) {
+                return tripoint_abs_ms::invalid;
+            }
+            return who->pos_abs();
         }
 
         Character *carrier() const override {
@@ -475,7 +492,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         void serialize( JsonOut &js ) const override {
             js.start_object();
             js.member( "type", "vehicle" );
-            js.member( "pos", pos_bub() );
+            js.member( "position", pos_abs() );
             js.member( "part", cur.part );
             if( target() != &cur.veh.part( cur.part ).base ) {
                 js.member( "idx", find_index( cur, target() ) );
@@ -491,9 +508,12 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             return type::vehicle;
         }
 
-        tripoint_bub_ms pos_bub() const override {
-            map &here = get_map();
+        tripoint_bub_ms pos_bub( const map &here ) const override {
             return cur.veh.bub_part_pos( here, cur.part );
+        }
+
+        tripoint_abs_ms pos_abs() const override {
+            return cur.veh.abs_part_pos( cur.part );
         }
 
         Character *carrier() const override {
@@ -567,7 +587,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         void make_active( item_location &head ) {
-            cur.veh.make_active( get_map(), head );
+            cur.veh.make_active( head );
         }
 
         units::volume volume_capacity() const override {
@@ -668,8 +688,12 @@ class item_location::impl::item_in_container : public item_location::impl
             return container.where_recursive();
         }
 
-        tripoint_bub_ms pos_bub() const override {
-            return container.pos_bub();
+        tripoint_bub_ms pos_bub( const map &here ) const override {
+            return container.pos_bub( here );
+        }
+
+        tripoint_abs_ms pos_abs() const override {
+            return container.pos_abs();
         }
 
         void remove_item() override {
@@ -825,13 +849,20 @@ void item_location::serialize( JsonOut &js ) const
 
 void item_location::deserialize( const JsonObject &obj )
 {
+    const map &here = get_map();
+
     std::string type = obj.get_string( "type" );
 
     int idx = -1;
-    tripoint_bub_ms pos = tripoint_bub_ms::invalid;
+    tripoint_bub_ms pos_ = tripoint_bub_ms::invalid;
+    tripoint_abs_ms position = tripoint_abs_ms::invalid;
 
     obj.read( "idx", idx );
-    obj.read( "pos", pos );
+    if( !obj.read( "position", position ) ) {
+        // Save compatibility for change made 2025-02-19
+        obj.read( "pos", pos_ );
+        position = here.get_abs( pos_ );
+    }
 
     if( type == "character" ) {
         character_id who_id;
@@ -845,10 +876,10 @@ void item_location::deserialize( const JsonObject &obj )
         ptr = std::make_shared<impl::item_on_person>( who_id, idx );
 
     } else if( type == "map" ) {
-        ptr = std::make_shared<impl::item_on_map>( map_cursor( pos ), idx );
+        ptr = std::make_shared<impl::item_on_map>( map_cursor( position ), idx );
 
     } else if( type == "vehicle" ) {
-        vehicle *const veh = veh_pointer_or_null( get_map().veh_at( pos ) );
+        vehicle *const veh = veh_pointer_or_null( here.veh_at( position ) );
         int part = obj.get_int( "part" );
         if( veh && part >= 0 && part < veh->part_count() ) {
             ptr = std::make_shared<impl::item_on_vehicle>( vehicle_cursor( *veh, part ), idx );
@@ -863,7 +894,7 @@ void item_location::deserialize( const JsonObject &obj )
                 return;
             }
             debugmsg( "parent location does not point to valid item" );
-            ptr = std::make_shared<impl::item_on_map>( map_cursor( parent.pos_bub() ), idx ); // drop on ground
+            ptr = std::make_shared<impl::item_on_map>( map_cursor( parent.pos_abs() ), idx ); // drop on ground
             return;
         }
         const std::list<item *> parent_contents = parent->all_items_container_top();
@@ -1014,9 +1045,9 @@ bool item_location::eventually_contains( item_location loc ) const
     return false;
 }
 
-void item_location::overflow()
+void item_location::overflow( map &here )
 {
-    get_item()->overflow( pos_bub(), *this );
+    get_item()->overflow( here, pos_bub( here ), *this );
 }
 
 item_location::type item_location::where() const
@@ -1029,9 +1060,14 @@ item_location::type item_location::where_recursive() const
     return ptr->where_recursive();
 }
 
-tripoint_bub_ms item_location::pos_bub() const
+tripoint_bub_ms item_location::pos_bub( const map &here ) const
 {
-    return ptr->pos_bub();
+    return ptr->pos_bub( here );
+}
+
+tripoint_abs_ms item_location::pos_abs() const
+{
+    return ptr->pos_abs();
 }
 
 std::string item_location::describe( const Character *ch ) const
