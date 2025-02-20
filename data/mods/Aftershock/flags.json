@@ -10,6 +10,11 @@
     "info": "This item is an access card for ancient police locations."
   },
   {
+    "id": "OLD_MERCURIAL_CARD",
+    "type": "json_flag",
+    "info": "This item is an access card for ancient Mercurial locations."
+  },
+  {
     "id": "HEAVY_TOOL",
     "type": "json_flag"
   },
@@ -19,13 +24,33 @@
     "info": "You are immune to telepathy."
   },
   {
+    "id": "TELEKIN_SHIELD",
+    "type": "json_flag",
+    "//": "Immune to telekinetic damage"
+  },
+  {
+    "id": "TELEKIN_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to telekinetic damage"
+  },
+  {
+    "id": "SHIELD_GENERATOR",
+    "type": "json_flag",
+    "info": "This item is capable of projecting a Riemann protective shield."
+  },
+  {
     "id": "HIVE_MIND",
     "type": "monster_flag",
     "//": "This monster is part of a hive mind"
   },
   {
-    "id": "TEEP_IMMUNE",
-    "type": "monster_flag",
-    "//": "Immune to telepathic damage"
+    "id": "ACTIVE_HACK_TOOL",
+    "type": "json_flag",
+    "//": "This tool is being used to perform hacking operations."
+  },
+  {
+    "id": "HACK_NO_CHARGE",
+    "type": "json_flag",
+    "//": "This Hacking tool does not consume energy."
   }
 ]

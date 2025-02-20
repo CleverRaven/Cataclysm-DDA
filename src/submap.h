@@ -4,12 +4,13 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <iosfwd>
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "active_item_cache.h"
@@ -20,22 +21,24 @@
 #include "compatibility.h"
 #include "computer.h"
 #include "construction.h"
-#include "coordinate_constants.h"
+#include "coordinates.h"
 #include "field.h"
-#include "game_constants.h"
 #include "item.h"
+#include "map_scale_constants.h"
+#include "mapdata.h"
 #include "mapgen.h"
 #include "mdarray.h"
 #include "point.h"
 #include "trap.h"
 #include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 
+// IWYU pragma: no_forward_declare vehicle // behind unique_ptr
+// IWYU pragma: no_forward_declare basecamp // behind unique_ptr
 class JsonOut;
+class JsonValue;
 class map;
-class vehicle;
-struct furn_t;
-struct ter_t;
 
 struct spawn_point {
     point_sm_ms pos;
@@ -47,7 +50,7 @@ struct spawn_point {
     std::optional<std::string> name;
     spawn_data data;
     explicit spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0,
-                          point_sm_ms P = point_sm_ms_zero,
+                          point_sm_ms P = point_sm_ms::zero,
                           int FAC = -1, int MIS = -1, bool F = false,
                           const std::optional<std::string> &N = std::nullopt, const spawn_data &SD = spawn_data() ) :
         pos( P ), count( C ), type( T ), faction_id( FAC ),

@@ -2,32 +2,40 @@
 
 #include <algorithm>
 #include <memory>
-#include <new>
 
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "construction.h"
+#include "creature.h"
+#include "debug.h"
+#include "dialogue.h"
 #include "effect_on_condition.h"
-#include "field.h"
+#include "event.h"
 #include "event_bus.h"
+#include "field.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
+#include "magic.h"
 #include "map.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "talker.h"
+#include "translation.h"
 #include "translations.h"
 #include "ui.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "weather.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
@@ -66,7 +74,7 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
     type( t ), moves_total( turns ), moves_left( turns ),
     index( Index ),
     position( pos ), name( name_in ),
-    placement( tripoint_min )
+    placement( tripoint_abs_ms::min )
 {
     if( type != ACT_NULL ) {
         for( const distraction_type dt : type->default_ignored_distractions() ) {
@@ -185,7 +193,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
 
         if( type == ACT_BUILD ) {
             partial_con *pc =
-                get_map().partial_con_at( get_map().bub_from_abs( u.activity.placement ) );
+                get_map().partial_con_at( get_map().get_bub( u.activity.placement ) );
             if( pc ) {
                 int counter = std::min( pc->counter, 10000000 );
                 const int percentage = counter / 100000;

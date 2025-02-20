@@ -108,5 +108,18 @@
       "You are in a field where the scarecrows come to life and chase you with knives.",
       "You are in a house where the paintings change every time you look away, showing your worst fears."
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "snippet_drained_by_lilit",
+    "text": [
+      "You dream of falling through darkness.",
+      "You dream of whistling winds as you stand on a mountaintop.",
+      "You dream of the moon growing larger and larger, filling the sky.",
+      "You dream of walking through the forest and suddenly seeing an owl fly past you, so close you could touch it.",
+      "You dream of something sitting on your chest, suffocating you.",
+      "You dream of slipping under dark water, none of your attempts to swim keeping you afloat.",
+      "You dream of standing in a dark room, being buffeted by silent wings."
+    ]
   }
 ]

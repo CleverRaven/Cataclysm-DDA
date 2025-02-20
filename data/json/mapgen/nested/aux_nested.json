@@ -153,6 +153,18 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "1x1_fence_barbed",
+    "object": { "mapgensize": [ 1, 1 ], "terrain": { " ": "t_fence_barbed" } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_fence_barbed_above",
+    "object": { "mapgensize": [ 1, 1 ], "place_nested": [ { "chunks": [ "1x1_fence_barbed" ], "x": 0, "y": 0, "z": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "1x1_boarded_up",
     "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "boarded_up", "x": 0, "y": 0 } ] }
   },
@@ -172,6 +184,11 @@
         "valid_terrain": [ "t_window_domestic", "t_window_no_curtains", "t_window_open", "t_window_no_curtains_open", "t_curtains" ]
       }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "glass_door_wall_2_floor",
+    "terrain": [ { "result": "t_floor", "valid_terrain": [ "t_wall_glass", "t_door_glass_c" ] } ]
   },
   {
     "type": "ter_furn_transform",
@@ -375,6 +392,18 @@
     "//": "A nested map bash damage.",
     "nested_mapgen_id": "1x1_bash",
     "object": { "mapgensize": [ 1, 1 ], "set": [ { "point": "bash", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_burn",
+    "object": { "mapgensize": [ 1, 1 ], "set": [ { "point": "burn", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_bash_burn",
+    "object": { "mapgensize": [ 1, 1 ], "set": [ { "point": "bash", "x": 0, "y": 0 }, { "point": "burn", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",

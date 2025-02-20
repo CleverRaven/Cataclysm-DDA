@@ -3,9 +3,8 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_3" ],
-    "weight": 300,
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
         "____,____,____,____,____",
         "____,____,____,____,____",
@@ -32,19 +31,19 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
-        "c": "t_linoleum_gray",
+        "c": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "+": "t_door_c",
         ",": "t_pavement_y",
         ".": "t_grass",
         "=": "t_sidewalk",
-        "G": "t_linoleum_gray",
+        "G": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "O": "t_window",
         "_": "t_pavement",
-        "b": "t_linoleum_gray",
-        "l": "t_linoleum_white",
-        "t": "t_linoleum_gray",
+        "b": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "l": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "4": "t_gutter_downspout"
       },
       "furniture": {
@@ -74,7 +73,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_roof_3" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [

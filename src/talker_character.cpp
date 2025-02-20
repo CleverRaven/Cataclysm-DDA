@@ -1,32 +1,56 @@
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstddef>
+#include <functional>
+#include <list>
+#include <map>
 #include <memory>
+#include <optional>
+#include <set>
+#include <tuple>
+#include <unordered_set>
+#include <utility>
 
-#include "avatar.h"
+#include "addiction.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "coordinates.h"
+#include "creature.h"
+#include "damage.h"
+#include "debug.h"
 #include "effect.h"
+#include "faction.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "magic.h"
+#include "map.h"
+#include "martialarts.h"
+#include "messages.h"
 #include "npc.h"
 #include "npctalk.h"
+#include "output.h"
 #include "pimpl.h"
 #include "player_activity.h"
-#include "point.h"
+#include "proficiency.h"
+#include "ret_val.h"
 #include "skill.h"
+#include "string_formatter.h"
 #include "talker_character.h"
+#include "translation.h"
+#include "translations.h"
+#include "units.h"
 #include "vehicle.h"
 #include "weather.h"
 
-class time_duration;
+struct bionic;
 
 static const flag_id json_flag_FIT( "FIT" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
-
-talker_character::talker_character( Character *new_me )
-{
-    me_chr = new_me;
-    me_chr_const = new_me;
-}
 
 std::string talker_character_const::disp_name() const
 {
@@ -68,24 +92,19 @@ int talker_character_const::posz() const
     return me_chr_const->posz();
 }
 
-tripoint talker_character_const::pos() const
+tripoint_bub_ms talker_character_const::pos_bub() const
 {
-    return me_chr_const->pos();
+    return me_chr_const->pos_bub();
 }
 
-tripoint_abs_ms talker_character_const::global_pos() const
+tripoint_abs_ms talker_character_const::pos_abs() const
 {
-    return me_chr_const->get_location();
+    return me_chr_const->pos_abs();
 }
 
-tripoint_abs_omt talker_character_const::global_omt_location() const
+tripoint_abs_omt talker_character_const::pos_abs_omt() const
 {
-    return me_chr_const->global_omt_location();
-}
-
-void talker_character::set_pos( tripoint new_pos )
-{
-    me_chr->setpos( new_pos );
+    return me_chr_const->pos_abs_omt();
 }
 
 int talker_character_const::get_cur_hp( const bodypart_id &bp ) const
@@ -130,10 +149,22 @@ int talker_character_const::attack_speed() const
     return me_chr_const->attack_speed( cur_weap );
 }
 
+int talker_character_const::get_speed() const
+{
+    return me_chr_const->get_speed();
+}
+
 dealt_damage_instance talker_character_const::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &dam ) const
 {
     return source->deal_damage( source, bp, dam );
+}
+
+void talker_character::set_pos( tripoint_bub_ms new_pos )
+{
+    map &here = get_map();
+
+    me_chr->setpos( here, new_pos );
 }
 
 void talker_character::set_str_max( int value )
@@ -174,6 +205,11 @@ void talker_character::set_int_bonus( int value )
 void talker_character::set_per_bonus( int value )
 {
     me_chr->mod_per_bonus( value );
+}
+
+void talker_character::set_cash( int value )
+{
+    me_chr->cash = value;
 }
 
 int talker_character_const::get_str_max() const
@@ -421,6 +457,14 @@ int talker_character_const::get_spell_exp( const spell_id &spell_name ) const
     return me_chr_const->magic->get_spell( spell_name ).xp();
 }
 
+int talker_character_const::get_spell_difficulty( const spell_id &spell_name ) const
+{
+    if( !me_chr_const->magic->knows_spell( spell_name ) ) {
+        return spell_name->get_difficulty( *me_chr_const );
+    }
+    return me_chr_const->magic->get_spell( spell_name ).get_difficulty( *me_chr_const );
+}
+
 int talker_character_const::get_spell_count( const trait_id &school ) const
 {
     int count = 0;
@@ -594,7 +638,7 @@ std::vector<const item *> talker_character_const::const_items_with( const
 }
 
 std::vector<item *> talker_character::items_with( const std::function<bool( const item & )>
-        &filter ) const
+        &filter )
 {
     return me_chr->items_with( filter );
 }
@@ -641,9 +685,9 @@ bool talker_character_const::can_stash_weapon() const
     return me_chr_const->can_pickVolume( *me_chr_const->get_wielded_item() );
 }
 
-bool talker_character_const::has_stolen_item( const talker &guy ) const
+bool talker_character_const::has_stolen_item( const_talker const &guy ) const
 {
-    const Character *owner = guy.get_character();
+    const Character *owner = guy.get_const_character();
     if( owner ) {
         for( const item *&elem : me_chr_const->inv_dump() ) {
             if( elem->is_old_owner( *owner, true ) ) {
@@ -731,7 +775,9 @@ void talker_character::set_thirst( int value )
 
 bool talker_character_const::is_in_control_of( const vehicle &veh ) const
 {
-    return veh.player_in_control( *me_chr_const );
+    map &here = get_map();
+
+    return veh.player_in_control( here, *me_chr_const );
 }
 
 void talker_character::shout( const std::string &speech, bool order )
@@ -868,9 +914,11 @@ bool talker_character_const::can_see() const
                                           me_chr_const->has_flag( json_flag_SEESLEEP ) );
 }
 
-bool talker_character_const::can_see_location( const tripoint &pos ) const
+bool talker_character_const::can_see_location( const tripoint_bub_ms &pos ) const
 {
-    return me_chr_const->sees( pos );
+    const map &here = get_map();
+
+    return me_chr_const->sees( here, pos );
 }
 
 void talker_character::set_sleepiness( int amount )
@@ -881,6 +929,11 @@ void talker_character::set_sleepiness( int amount )
 void talker_character::mod_daily_health( int amount, int cap )
 {
     me_chr->mod_daily_health( amount, cap );
+}
+
+void talker_character::mod_livestyle( int amount )
+{
+    me_chr->mod_livestyle( amount );
 }
 
 int talker_character_const::morale_cur() const
@@ -917,6 +970,11 @@ void talker_character::remove_morale( const morale_type &old_morale )
 int talker_character_const::focus_cur() const
 {
     return me_chr_const->get_focus();
+}
+
+int talker_character_const::focus_effective_cur() const
+{
+    return me_chr_const->get_effective_focus();
 }
 
 void talker_character::mod_focus( int amount )
@@ -1018,6 +1076,11 @@ void talker_character::set_age( int amount )
 int talker_character_const::get_age() const
 {
     return me_chr_const->age();
+}
+
+int talker_character_const::get_ugliness() const
+{
+    return me_chr_const->ugliness();
 }
 
 int talker_character_const::get_bmi_permil() const
@@ -1130,19 +1193,19 @@ std::vector<spell_id> talker_character_const::spells_teacheable() const
     return me_chr_const->spells_offered_to( nullptr );
 }
 
-std::vector<skill_id> talker_character_const::skills_offered_to( const talker &student ) const
+std::vector<skill_id> talker_character_const::skills_offered_to( const_talker const &student ) const
 {
-    if( student.get_character() ) {
-        return me_chr_const->skills_offered_to( student.get_character() );
+    if( student.get_const_character() ) {
+        return me_chr_const->skills_offered_to( student.get_const_character() );
     } else {
         return {};
     }
 }
 
-std::string talker_character_const::skill_training_text( const talker &student,
+std::string talker_character_const::skill_training_text( const_talker const &student,
         const skill_id &skill ) const
 {
-    const Character *pupil = student.get_character();
+    Character const *pupil = student.get_const_character();
     if( !pupil ) {
         return "";
     }
@@ -1163,19 +1226,19 @@ std::string talker_character_const::skill_training_text( const talker &student,
 }
 
 std::vector<proficiency_id> talker_character_const::proficiencies_offered_to(
-    const talker &student ) const
+    const_talker const &student ) const
 {
-    if( student.get_character() ) {
-        return me_chr_const->proficiencies_offered_to( student.get_character() );
+    if( student.get_const_character() ) {
+        return me_chr_const->proficiencies_offered_to( student.get_const_character() );
     } else {
         return {};
     }
 }
 
-std::string talker_character_const::proficiency_training_text( const talker &student,
+std::string talker_character_const::proficiency_training_text( const_talker const &student,
         const proficiency_id &proficiency ) const
 {
-    const Character *pupil = student.get_character();
+    Character const *pupil = student.get_const_character();
     if( !pupil ) {
         return "";
     }
@@ -1198,40 +1261,42 @@ std::string talker_character_const::proficiency_training_text( const talker &stu
     return string_format( _( "%s: (%2.0f%%) -> (%s)" ), name, pct_before, after_str );
 }
 
-std::vector<matype_id> talker_character_const::styles_offered_to( const talker &student ) const
+std::vector<matype_id> talker_character_const::styles_offered_to( const_talker const &student )
+const
 {
-    if( student.get_character() ) {
-        return me_chr_const->styles_offered_to( student.get_character() );
+    if( student.get_const_character() ) {
+        return me_chr_const->styles_offered_to( student.get_const_character() );
     } else {
         return {};
     }
 }
 
-std::string talker_character_const::style_training_text( const talker &student,
+std::string talker_character_const::style_training_text( const_talker const &student,
         const matype_id &style ) const
 {
-    if( !student.get_character() ) {
+    if( !student.get_const_character() ) {
         return "";
     } else if( !me_chr_const->is_npc() ||
-               me_chr_const->as_npc()->is_ally( *student.get_character() ) ) {
+               me_chr_const->as_npc()->is_ally( *student.get_const_character() ) ) {
         return string_format( "%s", style.obj().name );
     } else {
         return string_format( _( "%s ( cost $%d )" ), style.obj().name, 8 );
     }
 }
 
-std::vector<spell_id> talker_character_const::spells_offered_to( talker &student ) const
+std::vector<spell_id> talker_character_const::spells_offered_to( const_talker const &student ) const
 {
-    if( student.get_character() ) {
-        return me_chr_const->spells_offered_to( student.get_character() );
+    if( student.get_const_character() ) {
+        return me_chr_const->spells_offered_to( student.get_const_character() );
     } else {
         return {};
     }
 }
 
-std::string talker_character_const::spell_training_text( talker &student, const spell_id &sp ) const
+std::string talker_character_const::spell_training_text( const_talker const &student,
+        const spell_id &sp ) const
 {
-    Character *pupil = student.get_character();
+    Character const *pupil = student.get_const_character();
     if( !pupil ) {
         return "";
     }
@@ -1273,45 +1338,52 @@ std::string talker_character_const::spell_seminar_text( const spell_id &s ) cons
     return s->name.translated();
 }
 
-std::vector<bodypart_id> talker_character::get_all_body_parts( get_body_part_flags flags ) const
+std::vector<bodypart_id> talker_character_const::get_all_body_parts( get_body_part_flags flags )
+const
 {
-    return me_chr->get_all_body_parts( flags );
+    return me_chr_const->get_all_body_parts( flags );
 }
 
-int talker_character::get_part_hp_cur( const bodypart_id &id ) const
+int talker_character_const::get_part_hp_cur( const bodypart_id &id ) const
 {
-    return me_chr->get_part_hp_cur( id );
+    return me_chr_const->get_part_hp_cur( id );
 }
 
-int talker_character::get_part_hp_max( const bodypart_id &id ) const
+int talker_character_const::get_part_hp_max( const bodypart_id &id ) const
 {
-    return me_chr->get_part_hp_max( id );
+    return me_chr_const->get_part_hp_max( id );
 }
 
-void talker_character::set_part_hp_cur( const bodypart_id &id, int set ) const
+void talker_character::set_part_hp_cur( const bodypart_id &id, int set )
 {
     me_chr->set_part_hp_cur( id, set );
 }
 
-void talker_character::set_all_parts_hp_cur( int set ) const
+void talker_character::set_all_parts_hp_cur( int set )
 {
     me_chr->set_all_parts_hp_cur( set );
 }
 
-bool talker_character::get_is_alive() const
+bool talker_character_const::get_is_alive() const
 {
-    return !me_chr->is_dead_state();
+    return !me_chr_const->is_dead_state();
 }
 
-void talker_character::die()
+bool talker_character_const::is_warm() const
 {
-    me_chr->die( nullptr );
+    return me_chr_const->is_warm();
 }
 
-matec_id talker_character::get_random_technique( Creature &t, bool crit,
+void talker_character::die( map *here )
+{
+    me_chr->die( here, nullptr );
+}
+
+matec_id talker_character_const::get_random_technique( Creature const &t, bool crit,
         bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist ) const
 {
-    return std::get<0>( me_chr->pick_technique( t, me_chr->used_weapon(), crit, dodge_counter,
+    return std::get<0>( me_chr_const->pick_technique( t, me_chr_const->used_weapon(), crit,
+                        dodge_counter,
                         block_counter,
                         blacklist ) );
 }
@@ -1322,12 +1394,12 @@ void talker_character::attack_target( Creature &t, bool allow_special,
     me_chr->melee_attack( t, allow_special, force_technique, allow_unarmed, forced_movecost );
 }
 
-void talker_character::learn_martial_art( const matype_id &id ) const
+void talker_character::learn_martial_art( const matype_id &id )
 {
     me_chr->martial_arts_data->add_martialart( id );
 }
 
-void talker_character::forget_martial_art( const matype_id &id ) const
+void talker_character::forget_martial_art( const matype_id &id )
 {
     me_chr->martial_arts_data->clear_style( id );
 }

@@ -8,7 +8,7 @@
   },
   {
     "copy-from": "mon_fetch_child",
-    "id": "mon_renfield",
+    "id": "mon_fetch_child",
     "type": "MONSTER",
     "death_drops": "fetch_child_death_drops"
   }

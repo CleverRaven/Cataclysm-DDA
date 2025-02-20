@@ -19,7 +19,7 @@
       "g": "t_bridge",
       "_": "t_pavement",
       "y": "t_pavement_y",
-      "`": "t_hole",
+      "`": "t_open_air",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "0": "t_window_empty",
@@ -51,7 +51,7 @@
       "?": "f_sofa",
       "t": "f_table",
       "^": "f_indoor_plant",
-      "x": "f_safe_l"
+      "x": "f_e_safe_l"
     },
     "toilets": { ";": {  } },
     "items": { "d": { "item": "office", "chance": 70 } }

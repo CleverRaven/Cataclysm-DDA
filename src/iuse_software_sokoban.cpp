@@ -246,6 +246,7 @@ int sokoban_game::start_game()
         draw_border( w_sokoban, BORDER_COLOR, _( "Sokoban" ), hilite( c_white ) );
 
         std::vector<std::string> shortcuts;
+        shortcuts.reserve( 5 );
         shortcuts.emplace_back( _( "<+> next" ) ); // '+': next
         shortcuts.emplace_back( _( "<-> prev" ) ); // '-': prev
         shortcuts.emplace_back( _( "<r>eset" ) ); // 'r': reset
@@ -302,9 +303,9 @@ int sokoban_game::start_game()
         }
 
         bMoved = false;
-        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            iDirX = vec->x;
-            iDirY = vec->y;
+        if( const std::optional<tripoint_rel_ms> vec = ctxt.get_direction_rel_ms( action ) ) {
+            iDirX = vec->x();
+            iDirY = vec->y();
             bMoved = true;
         } else if( action == "QUIT" ) {
             return iScore;

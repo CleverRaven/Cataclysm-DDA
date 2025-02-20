@@ -20,6 +20,7 @@
 #include "memory_fast.h"
 #include "omdata.h"
 #include "overmap_types.h"
+#include "simple_pathfinding.h"
 #include "type_id.h"
 
 class basecamp;
@@ -196,6 +197,12 @@ class overmapbuffer
         void delete_extra( const tripoint_abs_omt &p );
         bool is_explored( const tripoint_abs_omt &p );
         void toggle_explored( const tripoint_abs_omt &p );
+        // compare origin_pos with a limit
+        bool distance_limit( int distance, const tripoint_abs_omt &origin_pos,
+                             const tripoint_abs_omt &picked_pos );
+        // same as distance_limit, used to draw a border, to visualize the limit
+        bool distance_limit_line( int distance, const tripoint_abs_omt &origin_pos,
+                                  const tripoint_abs_omt &picked_pos );
         om_vision_level seen( const tripoint_abs_omt &p );
         bool seen_more_than( const tripoint_abs_omt &p, om_vision_level test );
         void set_seen( const tripoint_abs_omt &p, om_vision_level seen );
@@ -361,7 +368,7 @@ class overmapbuffer
         bool reveal( const tripoint_abs_omt &center, int radius );
         bool reveal( const tripoint_abs_omt &center, int radius,
                      const std::function<bool( const oter_id & )> &filter );
-        std::vector<tripoint_abs_omt> get_travel_path(
+        pf::simple_path<tripoint_abs_omt> get_travel_path(
             const tripoint_abs_omt &src, const tripoint_abs_omt &dest, const overmap_path_params &params );
         bool reveal_route( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
                            int radius = 0, bool road_only = false );
@@ -382,7 +389,7 @@ class overmapbuffer
          * within the overmap (for use with overmap APIs).
          * get_existing_om_global will not create a new overmap and
          * if the requested overmap does not yet exist it returns
-         * { nullptr, tripoint_zero }.
+         * { nullptr tripoint::zero }.
          * get_om_global creates a new overmap if needed.
          */
         overmap_with_local_coords get_existing_om_global( const point_abs_omt &p );

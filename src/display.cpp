@@ -5,11 +5,12 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <tuple>
-#include <type_traits>
 #include <vector>
 
 #include "avatar.h"
+#include "basecamp.h"
 #include "bodygraph.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -17,6 +18,7 @@
 #include "creature.h"
 #include "debug.h"
 #include "effect.h"
+#include "faction.h"
 #include "game.h"
 #include "game_constants.h"
 #include "make_static.h"
@@ -43,6 +45,7 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_type.h"
+#include "widget.h"
 
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -76,8 +79,8 @@ static std::array<disp_bodygraph_cache, 5> disp_bg_cache = { {
 
 disp_overmap_cache::disp_overmap_cache()
 {
-    _center = overmap::invalid_tripoint;
-    _mission = overmap::invalid_tripoint;
+    _center = tripoint_abs_omt::invalid;
+    _mission = tripoint_abs_omt::invalid;
     _width = 0;
 }
 
@@ -140,7 +143,7 @@ std::string display::get_temp( const Character &u )
     std::string temp;
     if( u.cache_has_item_with( json_flag_THERMOMETER ) ||
         u.has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) ) ) {
-        temp = print_temperature( get_weather().get_temperature( u.pos() ) );
+        temp = print_temperature( get_weather().get_temperature( u.pos_bub() ) );
     }
     if( temp.empty() ) {
         return "-";
@@ -249,7 +252,7 @@ std::string display::sundial_text_color( const Character &u, int width )
     const int azm_pos = static_cast<int>( std::round( azm / scale ) ) - 1;
     const int night_h = h >= h_dawn + 12 ? h - ( h_dawn + 12 ) : h + ( 12 - h_dawn );
     std::string ret = "[";
-    if( g->is_sheltered( u.pos() ) ) {
+    if( g->is_sheltered( u.pos_bub() ) ) {
         ret += ( width > 0 ? std::string( width, '?' ) : "" );
     } else {
         for( int i = 0; i < width; i++ ) {
@@ -813,6 +816,31 @@ std::pair<std::string, nc_color> display::pain_text_color( const Character &u )
     return std::make_pair( pain_string, pain_color );
 }
 
+std::pair<std::string, nc_color> display::faction_text( const Character &u )
+{
+    std::string display_name = _( "None" );
+    nc_color display_color = c_white;
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( u.pos_abs_omt().xy() );
+    if( !bcp ) {
+        return std::pair( display_name, display_color );
+    }
+    basecamp *actual_camp = *bcp;
+    const faction_id &owner = actual_camp->get_owner();
+    if( owner->limited_area_claim && u.pos_abs_omt() != actual_camp->camp_omt_pos() ) {
+        return std::pair( display_name, display_color );
+    }
+    display_name = owner->name;
+    // TODO: Make this magic number into a constant
+    if( owner->likes_u < -10 ) {
+        display_color = c_red;
+    } else if( u.get_faction()->id == owner ) {
+        display_color = c_blue;
+    } else if( owner->likes_u > 10 ) {
+        display_color = c_green;
+    }
+    return std::pair( display_name, display_color );
+}
+
 nc_color display::bodytemp_color( const Character &u, const bodypart_id &bp )
 {
     nc_color color = c_light_gray; // default
@@ -904,6 +932,8 @@ std::string display::vehicle_azimuth_text( const Character &u )
 
 std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Character &u )
 {
+    map &here = get_map();
+
     // Defaults in case no vehicle is found
     std::string vel_text;
     nc_color vel_color = c_light_gray;
@@ -921,7 +951,7 @@ std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Chara
         const std::string units = get_option<std::string> ( "USE_METRIC_SPEEDS" );
         vel_text = string_format( "%d < %d %s", target, current, units );
 
-        const float strain = veh->strain();
+        const float strain = veh->strain( here );
         if( strain <= 0 ) {
             vel_color = c_light_blue;
         } else if( strain <= 0.2 ) {
@@ -937,6 +967,8 @@ std::pair<std::string, nc_color> display::vehicle_cruise_text_color( const Chara
 
 std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const Character &u )
 {
+    map &here = get_map();
+
     // Defaults in case no vehicle is found
     std::string fuel_text;
     nc_color fuel_color = c_light_gray;
@@ -954,8 +986,8 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
                 fuel_type = vp.fuel_current();
             }
         }
-        int max_fuel = veh->fuel_capacity( fuel_type );
-        int cur_fuel = veh->fuel_left( fuel_type );
+        int max_fuel = veh->fuel_capacity( here, fuel_type );
+        int cur_fuel = veh->fuel_left( here, fuel_type );
         if( max_fuel != 0 ) {
             int percent = cur_fuel * 100 / max_fuel;
             // Simple percent indicator, yellow under 25%, red under 10%
@@ -1139,7 +1171,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     map &here = get_map();
 
     // Map is roughly centered around this point
-    const tripoint_abs_omt &center_xyz = u.global_omt_location();
+    const tripoint_abs_omt &center_xyz = u.pos_abs_omt();
     const tripoint_abs_omt &mission_xyz = u.get_active_mission_target();
     // Retrieve cached string instead of constantly rebuilding it
     if( disp_om_cache.is_valid_for( center_xyz, mission_xyz, width ) ) {
@@ -1155,7 +1187,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     oter_display_options opts( center_xyz,
                                u.overmap_modified_sight_range( g->light_level( u.posz() ) ) );
     opts.showhordes = true;
-    if( mission_xyz != overmap::invalid_tripoint ) {
+    if( !mission_xyz.is_invalid() ) {
         opts.mission_target = mission_xyz;
     }
     opts.mission_inbounds = ( mission_xyz.x() >= center_xyz.x() + left &&
@@ -1214,7 +1246,7 @@ std::string display::current_position_text( const tripoint_abs_omt &loc )
 point display::mission_arrow_offset( const avatar &you, int width, int height )
 {
     // FIXME: Use tripoint for curs
-    const point_abs_omt curs = you.global_omt_location().xy();
+    const point_abs_omt curs = you.pos_abs_omt().xy();
     const tripoint_abs_omt targ = you.get_active_mission_target();
     const point mid( width / 2, height / 2 );
 
@@ -1239,7 +1271,7 @@ point display::mission_arrow_offset( const avatar &you, int width, int height )
         }
     } else {
         // For non-vertical slope, calculate where it intersects the edge of the map
-        point arrow( point_north_west );
+        point arrow( point::north_west );
         if( std::fabs( slope ) >= 1. ) {
             // If target to the north or south, arrow on top or bottom edge of minimap
             if( targ.y() > curs.y() ) {
@@ -1467,7 +1499,7 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
 
 std::pair<std::string, nc_color> display::weather_text_color( const Character &u )
 {
-    if( u.pos().z < 0 ) {
+    if( u.posz() < 0 ) {
         return std::make_pair( _( "Underground" ), c_light_gray );
     } else {
         weather_manager &weather = get_weather();
@@ -1479,10 +1511,10 @@ std::pair<std::string, nc_color> display::weather_text_color( const Character &u
 
 std::pair<std::string, nc_color> display::wind_text_color( const Character &u )
 {
-    const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
+    const oter_id &cur_om_ter = overmap_buffer.ter( u.pos_abs_omt() );
     weather_manager &weather = get_weather();
     double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
-                                            u.get_location(), weather.winddirection, g->is_sheltered( u.pos() ) );
+                                            u.pos_abs(), weather.winddirection, g->is_sheltered( u.pos_bub() ) );
 
     // Wind descriptor followed by a directional arrow
     const std::string wind_text = get_wind_desc( windpower ) + " " + get_wind_arrow(

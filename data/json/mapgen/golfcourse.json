@@ -7,7 +7,6 @@
       [ "golfcourse_01", "golfcourse_11", "golfcourse_21", "golfcourse_31" ],
       [ "golfcourse_02", "golfcourse_12", "golfcourse_22", "golfcourse_32" ]
     ],
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -86,7 +85,7 @@
       ],
       "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 72, 95 ], "y": [ 24, 47 ], "repeat": [ 0, 4 ] } ],
-      "palettes": [ "parametrized_walls_palette", "parametrized_carpets_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette", "parametrized_carpets_palette" ],
       "terrain": {
         "4": [ [ "t_region_shrub_decorative", 12 ], "t_region_tree_shade", [ "t_region_groundcover_forest", 3 ] ],
         "+": "t_door_c",
@@ -103,9 +102,9 @@
         ".": "t_region_grass",
         "o": "t_sand",
         ",": "t_floor",
-        " ": "t_linoleum_gray",
-        "T": "t_linoleum_gray",
-        "S": "t_linoleum_gray",
+        " ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "&": "t_region_grass",
         "v": "t_grass_golf",
         "g": "t_grass_golf",

@@ -268,10 +268,10 @@ class selection_column_preset : public inventory_selector_preset
             if( item->is_money() ) {
                 cata_assert( available_count == entry.get_stack_size() );
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                    res += item->display_money( available_count, item->ammo_remaining(),
+                    res += item->display_money( available_count, item->ammo_remaining( ),
                                                 entry.get_selected_charges() );
                 } else {
-                    res += item->display_money( available_count, item->ammo_remaining() );
+                    res += item->display_money( available_count, item->ammo_remaining( ) );
                 }
             } else {
                 res += item->display_name( available_count );
@@ -724,7 +724,7 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
     size_t count = entry.get_stack_size();
     std::string disp_name;
     if( entry.any_item()->is_money() ) {
-        disp_name = entry.any_item()->display_money( count, entry.any_item()->ammo_remaining() );
+        disp_name = entry.any_item()->display_money( count, entry.any_item()->ammo_remaining( ) );
     } else if( entry.is_collation_header() && entry.any_item()->count_by_charges() ) {
         item temp( *entry.any_item() );
         temp.charges = entry.get_total_charges();
@@ -1308,7 +1308,7 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
             return !e.is_collated() &&
                    e.get_category_ptr() == entry.get_category_ptr() &&
                    entry_item.where() == found_entry_item.where() &&
-                   entry_item.position() == found_entry_item.position() &&
+                   entry_item.pos_abs() == found_entry_item.pos_abs() &&
                    entry_item.parent_item() == found_entry_item.parent_item() &&
                    entry_item->is_collapsed() == found_entry_item->is_collapsed() &&
                    entry_item->link_length() == found_entry_item->link_length() &&
@@ -1670,9 +1670,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                                      &entry );
 
         if( selected && visible_cells() > 1 ) {
-            for( int hx = x1; hx < hx_max; ++hx ) {
-                mvwputch( win, point( hx, yy ), h_white, ' ' );
-            }
+            mvwhline( win, point( x1, yy ), h_white, ' ', hx_max - x1 );
         }
 
         cata_assert( entry.denial.has_value() );
@@ -1875,7 +1873,7 @@ void selection_column::on_change( const inventory_entry &entry )
     }
 }
 const item_category *inventory_selector::naturalize_category( const item_category &category,
-        const tripoint &pos )
+        const tripoint_bub_ms &pos )
 {
     const auto find_cat_by_id = [ this ]( const item_category_id & id ) {
         const auto iter = std::find_if( categories.begin(),
@@ -1885,10 +1883,10 @@ const item_category *inventory_selector::naturalize_category( const item_categor
         return iter != categories.end() ? &*iter : nullptr;
     };
 
-    const int dist = rl_dist( u.pos(), pos );
+    const int dist = rl_dist( u.pos_bub(), pos );
 
     if( dist != 0 ) {
-        const std::string suffix = direction_suffix( u.pos(), pos );
+        const std::string suffix = direction_suffix( u.pos_bub(), pos );
         const item_category_id id = item_category_id( string_format( "%s_%s", category.get_id().c_str(),
                                     suffix.c_str() ) );
 
@@ -2075,11 +2073,23 @@ void inventory_selector::add_contained_gunmods( Character &you, item &gun )
 
 void inventory_selector::add_contained_ebooks( item_location &container )
 {
-    if( !container->is_ebook_storage() ) {
+    if( !container->is_estorage() ) {
         return;
     }
 
     for( item *it : container->get_contents().ebooks() ) {
+        item_location child( container, it );
+        add_entry( own_inv_column, std::vector<item_location>( 1, child ) );
+    }
+}
+
+void inventory_selector::add_contained_efiles( item_location &container )
+{
+    if( !container->is_estorage() ) {
+        return;
+    }
+
+    for( item *it : container->efiles() ) {
         item_location child( container, it );
         add_entry( own_inv_column, std::vector<item_location>( 1, child ) );
     }
@@ -2111,7 +2121,7 @@ void inventory_selector::add_character_ebooks( Character &character )
     }
 }
 
-void inventory_selector::add_map_items( const tripoint &target )
+void inventory_selector::add_map_items( const tripoint_bub_ms &target )
 {
     map &here = get_map();
     if( here.accessible_items( target ) ) {
@@ -2124,7 +2134,7 @@ void inventory_selector::add_map_items( const tripoint &target )
     }
 }
 
-void inventory_selector::add_vehicle_items( const tripoint &target )
+void inventory_selector::add_vehicle_items( const tripoint_bub_ms &target )
 {
     const std::optional<vpart_reference> ovp = get_map().veh_at( target ).cargo();
     if( !ovp ) {
@@ -2140,7 +2150,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     } );
 }
 
-void inventory_selector::_add_map_items( tripoint const &target, item_category const &cat,
+void inventory_selector::_add_map_items( tripoint_bub_ms const &target, item_category const &cat,
         item_stack &items, std::function<item_location( item & )> const &floc )
 {
     bool const hierarchy = _uimode == uimode::hierarchy;
@@ -2166,9 +2176,10 @@ void inventory_selector::add_nearby_items( int radius )
 {
     if( radius >= 0 ) {
         map &here = get_map();
-        for( const tripoint &pos : closest_points_first( u.pos(), radius ) ) {
+        for( const tripoint_bub_ms &pos : closest_points_first( u.pos_bub(), radius ) ) {
             // can not reach this -> can not access its contents
-            if( u.pos() != pos && !here.clear_path( u.pos(), pos, rl_dist( u.pos(), pos ), 1, 100 ) ) {
+            if( u.pos_bub() != pos &&
+                !here.clear_path( u.pos_bub(), pos, rl_dist( u.pos_bub(), pos ), 1, 100 ) ) {
                 continue;
             }
             add_map_items( pos );
@@ -2177,13 +2188,13 @@ void inventory_selector::add_nearby_items( int radius )
     }
 }
 
-void inventory_selector::add_remote_map_items( tinymap *remote_map, const tripoint &target )
+void inventory_selector::add_remote_map_items( tinymap *remote_map, const tripoint_omt_ms &target )
 {
     map_stack items = remote_map->i_at( target );
-    const std::string name = to_upper_case( remote_map->name( tripoint_omt_ms( target ) ) );
+    const std::string name = to_upper_case( remote_map->name( target ) );
     const item_category map_cat( name, no_translation( name ), translation(), 100 );
-    _add_map_items( target, map_cat, items, [target]( item & it ) {
-        return item_location( map_cursor( tripoint_bub_ms( target ) ), &it );
+    _add_map_items( rebase_bub( target ), map_cat, items, [target]( item & it ) {
+        return item_location( map_cursor( rebase_bub( target ) ), &it );
     } );
 }
 
@@ -2192,7 +2203,7 @@ void inventory_selector::add_basecamp_items( const basecamp &camp )
     std::unordered_set<tripoint_abs_ms> tiles = camp.get_storage_tiles();
     map &here = get_map();
     for( tripoint_abs_ms tile : tiles ) {
-        add_map_items( here.bub_from_abs( tile ).raw() );
+        add_map_items( here.get_bub( tile ) );
     }
 }
 
@@ -2509,7 +2520,7 @@ void inventory_selector::draw_header( const catacurses::window &w ) const
                     hint );
 
     int const bottom = border + get_header_height();
-    mvwhline( w, point( border, bottom ), LINE_OXOX, getmaxx( w ) - 2 * border );
+    mvwhline( w, point( border, bottom ), BORDER_COLOR, LINE_OXOX, getmaxx( w ) - 2 * border );
 
     if( display_stats ) {
         size_t y = border;
@@ -2779,8 +2790,10 @@ void inventory_selector::draw_frame( const catacurses::window &w ) const
     draw_border( w );
 
     const int y = border + get_header_height();
+    wattron( w, BORDER_COLOR );
     mvwhline( w, point( 0, y ), LINE_XXXO, 1 );
     mvwhline( w, point( getmaxx( w ) - border, y ), LINE_XOXX, 1 );
+    wattroff( w, BORDER_COLOR );
 }
 
 std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode m ) const
@@ -2823,10 +2836,12 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
             const int y = getmaxy( w ) - border;
 
             mvwprintz( w, point( x1, y ), footer.second, footer.first );
-            mvwputch( w, point( x1 - 1, y ), c_light_gray, ' ' );
-            mvwputch( w, point( x2 + 1, y ), c_light_gray, ' ' );
-            mvwputch( w, point( x1 - 2, y ), c_light_gray, LINE_XOXX );
-            mvwputch( w, point( x2 + 2, y ), c_light_gray, LINE_XXXO );
+            wattron( w, c_light_gray );
+            mvwaddch( w, point( x1 - 1, y ), ' ' );
+            mvwaddch( w, point( x2 + 1, y ), ' ' );
+            mvwaddch( w, point( x1 - 2, y ), LINE_XOXX );
+            mvwaddch( w, point( x2 + 2, y ), LINE_XXXO );
+            wattroff( w, c_light_gray );
         }
     }
 }
@@ -2991,6 +3006,34 @@ void inventory_column::cycle_hide_override()
         hide_entries_override = false;
     }
     uistate.hide_entries_override = hide_entries_override;
+}
+
+void inventory_column::remove_duplicate_itypes( bool include_variants )
+{
+    std::set<itype_id> item_types;
+    std::set<std::string> variant_types;
+    std::vector<item_location> held_locs;
+
+    auto audit_entries = [&]( inventory_column::entries_t &audited_entries ) {
+        for( inventory_entry inv_entry : audited_entries ) {
+            for( item_location &loc : inv_entry.locations ) {
+                itype_id item_id = loc->typeId();
+                std::string variant_id = loc->has_itype_variant() ? loc->itype_variant().id : "";
+                if( !item_types.count( item_id ) || ( include_variants && !variant_types.count( variant_id ) ) ) {
+                    held_locs.emplace_back( loc );
+                }
+                item_types.insert( item_id );
+                variant_types.insert( variant_id );
+            }
+        }
+    };
+    //sort out duplicates, clear list, then reconstruct entries
+    audit_entries( entries );
+    audit_entries( entries_hidden );
+    clear();
+    for( item_location &loc : held_locs ) {
+        add_entry( inventory_entry( { loc } ) );
+    }
 }
 
 void selection_column::cycle_hide_override()
@@ -3161,6 +3204,8 @@ void inventory_selector::_categorize( inventory_column &col )
 
 void inventory_selector::_uncategorize( inventory_column &col )
 {
+    const map &here = get_map();
+
     for( inventory_entry *entry : col.get_entries( return_item, true ) ) {
         // find the topmost parent of the entry's item and categorize it by that
         // to form the hierarchy
@@ -3173,7 +3218,7 @@ void inventory_selector::_uncategorize( inventory_column &col )
         if( ancestor.where() != item_location::type::character ) {
             const std::string name = to_upper_case( remove_color_tags( ancestor.describe() ) );
             const item_category map_cat( name, no_translation( name ), translation(), 100 );
-            custom_category = naturalize_category( map_cat, ancestor.position() );
+            custom_category = naturalize_category( map_cat, ancestor.pos_bub( here ) );
         } else {
             custom_category = wielded_worn_category( ancestor, u );
         }
@@ -3402,7 +3447,7 @@ void ammo_inventory_selector::set_all_entries_chosen_count()
                     item::reload_option tmp_opt( &u, loc, it );
                     int count = entry->get_available_count();
                     if( it->has_flag( flag_SPEEDLOADER ) || it->has_flag( flag_SPEEDLOADER_CLIP ) ) {
-                        count = it->ammo_remaining();
+                        count = it->ammo_remaining( );
                     }
                     tmp_opt.qty( count );
                     entry->chosen_count = tmp_opt.qty();
@@ -4167,7 +4212,7 @@ inventory_selector::stats inventory_insert_selector::get_raw_stats() const
 }
 
 pickup_selector::pickup_selector( Character &p, const inventory_selector_preset &preset,
-                                  const std::string &selection_column_title, const std::optional<tripoint> &where ) :
+                                  const std::string &selection_column_title, const std::optional<tripoint_bub_ms> &where ) :
     inventory_multiselector( p, preset, selection_column_title ), where( where )
 {
     ctxt.register_action( "WEAR" );
@@ -4290,7 +4335,11 @@ void pickup_selector::reopen_menu()
 {
     // copy the member variables to still be valid on call
     uistate.open_menu = [where = where, to_use = to_use]() {
-        get_player_character().pick_up( game_menus::inv::pickup( where, to_use ) );
+        std::optional<tripoint_bub_ms> temp;
+        if( where.has_value() ) {
+            temp = tripoint_bub_ms( where.value() );
+        }
+        get_player_character().pick_up( game_menus::inv::pickup( temp, to_use ) );
     };
 }
 
@@ -4374,7 +4423,7 @@ void inventory_examiner::force_max_window_size()
 {
     constexpr int border_width = 1;
     _fixed_size = { TERMX / 3 + 2 * border_width, TERMY };
-    _fixed_origin = point_zero;
+    _fixed_origin = point::zero;
 }
 
 int inventory_examiner::execute()
@@ -4623,4 +4672,11 @@ input_context const *trade_selector::get_ctxt() const
 void inventory_selector::categorize_map_items( bool toggle )
 {
     _categorize_map_items = toggle;
+}
+
+void inventory_selector::remove_duplicate_itypes( bool include_variants )
+{
+    for( inventory_column *&column : columns ) {
+        column->remove_duplicate_itypes( include_variants );
+    }
 }

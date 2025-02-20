@@ -1,14 +1,35 @@
+#include <algorithm>
+#include <list>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
+
 #include "avatar.h"
+#include "bodypart.h"
+#include "character.h"
 #include "character_martial_arts.h"
-#include "make_static.h"
-#include "martialarts.h"
+#include "inventory.h"
+#include "item.h"
 #include "mutation.h"
+#include "npc_opinion.h"
 #include "options.h"
+#include "pimpl.h"
+#include "player_activity.h"
 #include "player_difficulty.h"
 #include "profession.h"
+#include "proficiency.h"
 #include "skill.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "type_id.h"
 
 static const damage_type_id damage_bash( "bash" );
+
+static const itype_id itype_bat( "bat" );
+static const itype_id itype_knife_combat( "knife_combat" );
+static const itype_id itype_machete( "machete" );
 
 static const profession_id profession_unemployed( "unemployed" );
 
@@ -39,7 +60,7 @@ void player_difficulty::npc_from_avatar( const avatar &u, npc &dummy )
     dummy.hobbies = u.hobbies;
 
     // set mutations
-    for( const trait_id &t : u.get_mutations( true ) ) {
+    for( const trait_id &t : u.get_functioning_mutations( true ) ) {
         dummy.set_mutation( t );
     }
 
@@ -180,9 +201,9 @@ double player_difficulty::calc_dps_value( const Character &u )
 {
     // check against the big three
     // efficient early weapons you can easily get access to
-    item early_piercing = item( "knife_combat" );
-    item early_cutting = item( "machete" );
-    item early_bashing = item( "bat" );
+    item early_piercing = item( itype_knife_combat );
+    item early_cutting = item( itype_machete );
+    item early_bashing = item( itype_bat );
 
     double baseline = std::max( u.weapon_value( early_piercing ),
                                 u.weapon_value( early_cutting ) );

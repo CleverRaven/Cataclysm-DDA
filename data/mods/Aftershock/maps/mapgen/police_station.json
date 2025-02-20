@@ -35,7 +35,8 @@
         "afs_habitat_structure",
         "afs_habitat_exterior",
         "afs_habitat_residential_furnishing",
-        "afs_enforcer_station_a1_parrameter_palette"
+        "afs_enforcer_station_a1_parrameter_palette",
+        "afs_light_param_palette"
       ],
       "terrain": {
         "1": "t_door_metal_locked",
@@ -106,7 +107,8 @@
         "afs_habitat_exterior",
         "afs_habitat_residential_furnishing",
         "afs_habitat_life_support",
-        "afs_enforcer_station_a1_parrameter_palette"
+        "afs_enforcer_station_a1_parrameter_palette",
+        "afs_light_param_palette"
       ],
       "terrain": { "1": "t_door_metal_locked", "2": "t_afs_enforcer_card_reader", " ": "t_open_air" },
       "furniture": {
@@ -187,8 +189,7 @@
       "enemies": {
         "type": "nested_mapgen_id",
         "default": { "distribution": [ "afs_enforcer_station_a1_floor1_moxies", "afs_enforcer_station_a1_floor1_robots" ] }
-      },
-      "lightstatus": { "type": "nested_mapgen_id", "default": { "distribution": [ "afs_map_lights_on", "null" ] } }
+      }
     }
   },
   {

@@ -2,8 +2,8 @@
   {
     "id": "blood_mage_healing",
     "type": "SPELL",
-    "name": "Blood Mage Healing Effect",
-    "description": "Heals the caster.",
+    "name": { "str": "Blood Mage Healing Effect", "//~": "NO_I18N" },
+    "description": { "str": "Heals the caster.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "min_damage": -1,
     "max_damage": -1,
@@ -14,8 +14,11 @@
   {
     "id": "boreal_mage_cold_damage",
     "type": "SPELL",
-    "name": "Boreal Mage Cold Damage",
-    "description": "AoE cold attack around the player.  If you are seeing this spell, you have debugged it in.",
+    "name": { "str": "Boreal Mage Cold Damage", "//~": "NO_I18N" },
+    "description": {
+      "str": "AoE cold attack around the player.  If you are seeing this spell, you have debugged it in.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "SPLIT_DAMAGE" ],
     "effect": "attack",
@@ -29,8 +32,8 @@
   {
     "type": "SPELL",
     "id": "FIRE_ELEMENTAL_BURNBACK",
-    "name": "Fire Elemental Burnback",
-    "description": "The burnback effect from the Fire Elemental Attunement.",
+    "name": { "str": "Fire Elemental Burnback", "//~": "NO_I18N" },
+    "description": { "str": "The burnback effect from the Fire Elemental Attunement.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "blast",
     "min_damage": 5,
@@ -44,8 +47,8 @@
   {
     "type": "SPELL",
     "id": "GAIAS_CHOSEN_THORNS",
-    "name": "Gaia's Chosen Thorns",
-    "description": "The thorns effect from the Gaia's Chosen Attunement.",
+    "name": { "str": "Gaia's Chosen Thorns", "//~": "NO_I18N" },
+    "description": { "str": "The thorns effect from the Gaia's Chosen Attunement.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "blast",
     "flags": [ "SILENT", "RANDOM_DAMAGE", "SPLIT_DAMAGE" ],
@@ -59,8 +62,8 @@
   {
     "id": "glacier_mage_attack",
     "type": "SPELL",
-    "name": "Glacier Mage Attack",
-    "description": "Deal some damage to a monster you attack.",
+    "name": { "str": "Glacier Mage Attack", "//~": "NO_I18N" },
+    "description": { "str": "Deal some damage to a monster you attack.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
@@ -77,8 +80,8 @@
   {
     "id": "glacier_mage_bash_damage",
     "type": "SPELL",
-    "name": "Glacier Mage Bash AoE",
-    "description": "Deal some bash damage around the player.",
+    "name": { "str": "Glacier Mage Bash AoE", "//~": "NO_I18N" },
+    "description": { "str": "Deal some bash damage around the player.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
@@ -92,8 +95,8 @@
   {
     "id": "golemancer_block",
     "type": "SPELL",
-    "name": "Golemancer's block",
-    "description": "Block huge damage in the next 1 second.",
+    "name": { "str": "Golemancer's block", "//~": "NO_I18N" },
+    "description": { "str": "Block huge damage in the next 1 second.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "golemancer_block",
@@ -105,8 +108,8 @@
   {
     "type": "SPELL",
     "id": "ICE_ELEMENTAL_COLD_DAMAGE",
-    "name": "Ice Elemental Cold Damage",
-    "description": "The cold damage effect from the Ice Elemental Attunement.",
+    "name": { "str": "Ice Elemental Cold Damage", "//~": "NO_I18N" },
+    "description": { "str": "The cold damage effect from the Ice Elemental Attunement.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "blast",
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "SPLIT_DAMAGE" ],
@@ -120,8 +123,8 @@
   {
     "id": "permafrost_mage_moves_substract",
     "type": "SPELL",
-    "name": "Permafrost Mage Moves Subtract",
-    "description": "Subtract some moves from monster that attack you.",
+    "name": { "str": "Permafrost Mage Moves Subtract", "//~": "NO_I18N" },
+    "description": { "str": "Subtract some moves from monster that attack you.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
@@ -134,8 +137,8 @@
   {
     "id": "radiation_mage_clairvoyance",
     "type": "SPELL",
-    "name": "Radiation Mage Clairvoyance",
-    "description": "Emit clairvoyance around the player.",
+    "name": { "str": "Radiation Mage Clairvoyance", "//~": "NO_I18N" },
+    "description": { "str": "Emit clairvoyance around the player.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "ally", "hostile", "ground", "self" ],
@@ -149,8 +152,11 @@
   {
     "id": "mind_read",
     "type": "SPELL",
-    "name": "Mind Reading",
-    "description": "You can predict some movements of your enemies (just slowdown in fact).  If you are seeing this spell, you have debugged it in.",
+    "name": { "str": "Mind Reading", "//~": "NO_I18N" },
+    "description": {
+      "str": "You can predict some movements of your enemies (just slowdown in fact).  If you are seeing this spell, you have debugged it in.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
@@ -166,8 +172,11 @@
   {
     "id": "soul_pressure",
     "type": "SPELL",
-    "name": "Soul Pressure",
-    "description": "This is a spell that represents the Soulfire putting a burning pressure on nearby opponents.  If you are seeing this spell, you have debugged it in.",
+    "name": { "str": "Soul Pressure", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is a spell that represents the Soulfire putting a burning pressure on nearby opponents.  If you are seeing this spell, you have debugged it in.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "SPLIT_DAMAGE" ],
     "effect": "attack",
@@ -184,8 +193,8 @@
   {
     "type": "SPELL",
     "id": "STORM_ELEMENTAL_ZAPBACK",
-    "name": "Storm Elemental Zapback",
-    "description": "The zapback effect from the Storm Elemental Attunement.",
+    "name": { "str": "Storm Elemental Zapback", "//~": "NO_I18N" },
+    "description": { "str": "The zapback effect from the Storm Elemental Attunement.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "blast",
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
@@ -199,8 +208,8 @@
   {
     "id": "solar_blinding",
     "type": "SPELL",
-    "name": "Solar Blinding",
-    "description": "Make your enemies blind for a short time.",
+    "name": { "str": "Solar Blinding", "//~": "NO_I18N" },
+    "description": { "str": "Make your enemies blind for a short time.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
@@ -217,8 +226,8 @@
   {
     "id": "tundra_mage_aoe",
     "type": "SPELL",
-    "name": "Tundra Mage Slowdown DoT AoE",
-    "description": "Deal some cold DoT around the player, and slowdown monsters nearby.",
+    "name": { "str": "Tundra Mage Slowdown DoT AoE", "//~": "NO_I18N" },
+    "description": { "str": "Deal some cold DoT around the player, and slowdown monsters nearby.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "SPLIT_DAMAGE" ],
     "effect": "attack",
@@ -235,8 +244,8 @@
   {
     "id": "void_claws",
     "type": "SPELL",
-    "name": "Void Claws",
-    "description": "This is a spell that causes a DoT effect whenever you hit.",
+    "name": { "str": "Void Claws", "//~": "NO_I18N" },
+    "description": { "str": "This is a spell that causes a DoT effect whenever you hit.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "SPLIT_DAMAGE" ],
     "effect": "attack",
@@ -254,8 +263,8 @@
   {
     "id": "wither_mage_withering",
     "type": "SPELL",
-    "name": "Withering",
-    "description": "Give some stats when you attack your enemies.",
+    "name": { "str": "Withering", "//~": "NO_I18N" },
+    "description": { "str": "Give some stats when you attack your enemies.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "withering_eff",
@@ -267,8 +276,8 @@
   {
     "id": "wither_mage_bio_damage",
     "type": "SPELL",
-    "name": "Wither Mage bio DoT AoE",
-    "description": "Deal some toxic DoT around the player.",
+    "name": { "str": "Wither Mage bio DoT AoE", "//~": "NO_I18N" },
+    "description": { "str": "Deal some toxic DoT around the player.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "SPLIT_DAMAGE" ],
     "effect": "attack",

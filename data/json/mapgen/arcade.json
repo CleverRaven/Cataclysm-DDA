@@ -1,6 +1,6 @@
 [
   {
-    "name": "GROUP_ARCADE",
+    "id": "GROUP_ARCADE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_null", "weight": 400 }, { "monster": "mon_zombie_child", "weight": 600, "pack_size": [ 2, 5 ] } ]
   },
@@ -8,7 +8,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_arcade" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -25,12 +24,12 @@
         ".#F               |S %#.",
         ".#F               ||+|#.",
         ".#F  FF     FF        #.",
-        ".#F  FF  F  FF    ||  #.",
-        ".#F  FF  F  FF    |  T#.",
-        ".#F  FF     FF    |  T#.",
-        ".#F               |  T#.",
-        ".#F    x x x      |  T#.",
-        ".#FFFFFx x xFFFF  |B T#.",
+        ".#F  FF  F  FF    cc  #.",
+        ".#F  FF  F  FF    c  T#.",
+        ".#F  FF     FF    c  T#.",
+        ".#F               c  T#.",
+        ".#F    x x x      c  T#.",
+        ".#FFFFFx x xFFFF  cB T#.",
         ".######################.",
         ".....................4..",
         "........................",
@@ -51,7 +50,7 @@
         "s": "t_sidewalk",
         "4": "t_gutter_downspout"
       },
-      "furniture": { "#": "f_counter", "F": "f_arcade_machine", "S": "f_sink", "B": "f_stool", "T": "f_locker", "x": "f_pinball_machine" },
+      "furniture": { "c": "f_counter", "F": "f_arcade_machine", "S": "f_sink", "B": "f_stool", "T": "f_locker", "x": "f_pinball_machine" },
       "toilets": { "%": {  } },
       "vendingmachines": { "l": { "item_group": "vending_drink", "lootable": true }, "m": { "item_group": "vending_food", "lootable": true } },
       "place_items": [
@@ -65,7 +64,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "s_arcade_roof",
-    "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

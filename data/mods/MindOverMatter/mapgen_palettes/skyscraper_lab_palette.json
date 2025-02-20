@@ -10,6 +10,7 @@
         }
       }
     },
+    "palettes": [ "parametrized_highrise_walls_palette" ],
     "terrain": {
       "*": "t_null",
       " ": "t_open_air",
@@ -38,8 +39,6 @@
       "s": "t_sidewalk",
       "V": "t_reinforced_glass",
       "w": "t_window",
-      "-": "t_brick_wall",
-      "|": "t_brick_wall",
       "¥": "t_card_science"
     },
     "furniture": {
@@ -65,7 +64,13 @@
       "t": "f_table",
       "T": "f_toilet",
       "x": "f_console_broken",
-      "X": "f_generator_broken",
+      "X": [
+        [ "f_generator_broken", 25 ],
+        [ "f_portable_generator", 5 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "y": "f_locker",
       "Y": "f_rack_coat"
     },

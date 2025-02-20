@@ -13,6 +13,18 @@
   },
   {
     "type": "jmath_function",
+    "id": "xedra_chronomancer_level",
+    "num_args": 1,
+    "return": "(2 * u_val('intelligence') ) * (_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xedra_chron_spell_calc",
+    "num_args": 3,
+    "return": " ((_0 * _1) + _2) * scaling_factor(u_val('intelligence'))"
+  },
+  {
+    "type": "jmath_function",
     "id": "spell_time",
     "num_args": 1,
     "//": "used to transform the variable time (the smallest measure is 1 second) to the spell time (the smallest measure is 1 move, 1 second = 100 moves)",
@@ -20,10 +32,94 @@
   },
   {
     "type": "jmath_function",
-    "id": "spell_exp_diff",
+    "id": "xedra_chronomancer_formula_get_level",
     "num_args": 1,
-    "//": "accept the spell level, return a difference in experience between spell's current level and the next level",
-    "return": "spell_exp_for_level(_0 + 1) - spell_exp_for_level(_0)"
+    "return": "( sqrt( ( 2 / 375 ) * _0 + 0.25 )  ) - 0.5"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xedra_chronomancer_formula_exp_for_level",
+    "num_args": 1,
+    "return": "375 * 0.5 * _0 * (_0 + 1)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xedra_dream_formula_get_level",
+    "num_args": 1,
+    "return": "_0 / 300"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xedra_dream_formula_exp_for_level",
+    "num_args": 1,
+    "return": "_0 * 300"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xedra_dream_casting_xp_formula",
+    "num_args": 0,
+    "return": "100"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_spring_failure_chance",
+    "num_args": 0,
+    "return": "global_what_is_the_season == 3 ? max(xe_fey_seasonal_magick_spring_failure_chance_actual(), 0.05) : xe_fey_seasonal_magick_spring_failure_chance_actual()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_spring_failure_chance_actual",
+    "//": "This and below separations are necessary to keep the 'You cannot go below 5% chance to fail in the opposite season' logic",
+    "num_args": 0,
+    "return": "(0.15 + (global_what_is_the_season == 2 ? 0.15 : 0 ) + (global_what_is_the_season == 3 ? 0.35 : 0 ) + (global_what_is_the_season == 4 ? 0.15 : 0 ) + (u_spell_difficulty(_spell_id) * 0.09 ) + xe_fey_magick_mana_penalty() ) - ( (u_skill('deduction') * 0.06) + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.04) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_summer_failure_chance",
+    "num_args": 0,
+    "return": "global_what_is_the_season == 4 ? max(xe_fey_seasonal_magick_summer_failure_chance_actual(), 0.05) : xe_fey_seasonal_magick_summer_failure_chance_actual()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_summer_failure_chance_actual",
+    "num_args": 0,
+    "return": "(0.15 + (global_what_is_the_season == 1 ? 0.15 : 0 ) + (global_what_is_the_season == 3 ? 0.15 : 0 ) + (global_what_is_the_season == 4 ? 0.35 : 0 ) + (u_spell_difficulty(_spell_id) * 0.09 ) + xe_fey_magick_mana_penalty() ) - ( (u_skill('deduction') * 0.06) + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 0.04) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_autumn_failure_chance",
+    "num_args": 0,
+    "return": "global_what_is_the_season == 1 ? max(xe_fey_seasonal_magick_autumn_failure_chance_actual(), 0.05) : xe_fey_seasonal_magick_autumn_failure_chance_actual()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_autumn_failure_chance_actual",
+    "num_args": 0,
+    "return": "(0.15 + (global_what_is_the_season == 1 ? 0.35 : 0 ) + (global_what_is_the_season == 2 ? 0.15 : 0 ) + (global_what_is_the_season == 4 ? 0.15 : 0 ) + (u_spell_difficulty(_spell_id) * 0.09 ) + xe_fey_magick_mana_penalty() ) - ( (u_skill('deduction') * 0.06) + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.04) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_winter_failure_chance",
+    "num_args": 0,
+    "return": "global_what_is_the_season == 2 ? max(xe_fey_seasonal_magick_winter_failure_chance_actual(), 0.05) : xe_fey_seasonal_magick_winter_failure_chance_actual()"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_seasonal_magick_winter_failure_chance_actual",
+    "num_args": 0,
+    "return": "(0.15 + (global_what_is_the_season == 1 ? 0.15 : 0 ) + (global_what_is_the_season == 2 ? 0.35 : 0 ) + (global_what_is_the_season == 3 ? 0.15 : 0 ) + (u_spell_difficulty(_spell_id) * 0.09 ) + xe_fey_magick_mana_penalty() ) - ( (u_skill('deduction') * 0.06) + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.04) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_magick_mana_penalty",
+    "num_args": 0,
+    "return": "u_val('mana') < (u_val('mana_max') / 2) ? xe_fey_magick_mana_penalty_secondary() : 0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xe_fey_magick_mana_penalty_secondary",
+    "num_args": 0,
+    "return": "(1 - ( u_val('mana') / u_val('mana_max') ) - 0.2) / 1.5"
   },
   {
     "type": "jmath_function",
@@ -68,6 +164,12 @@
     "id": "paraclesian_passive_spell_exp",
     "num_args": 1,
     "return": "u_skill('deduction') * 100 + _0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "xedra_chron_toggled_spell_count",
+    "num_args": 0,
+    "return": "( u_effect_intensity('effect_xedra_chronomancer_chronal_accel') > 0 ? 1 : 0 ) + ( u_effect_intensity('effect_xedra_chronomancer_destabilizing_strikes') > 0 ? 1 : 0 ) + ( u_effect_intensity('effect_xedra_chronomancer_stabilize_timeline') > 0 ? 1 : 0 ) + ( u_effect_intensity('effect_xedra_chronomancer_reverse_entropy') > 0 ? 1 : 0 ) + ( u_effect_intensity('effect_xedra_chronomancer_stable_timeloop') > 0 ? 1 : 0 )"
   },
   {
     "type": "jmath_function",
@@ -149,5 +251,18 @@
     "id": "selkie_has_weather_mastery",
     "num_args": 0,
     "return": "1 + (u_has_trait('SELKIE_CHANGE_WEATHER_MASTER') * 1.5)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "lilin_has_ruach_efficiency",
+    "num_args": 0,
+    "return": "1 - min( ( (u_has_trait('LILIN_RUACH_EFFICIENCY') * 0.15) + (u_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * 0.15) + ( u_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * max( ( (u_vitamin('lilin_ruach_vitamin') - 3500 ) / 12000 ), 0) ) ), 0.33)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "lilin_has_ruach_efficiency_beta",
+    "//": "For use when the lilit is the beta talker of the spell EoC, such as when it's targeting someone else",
+    "num_args": 0,
+    "return": "1 - min( ( (n_has_trait('LILIN_RUACH_EFFICIENCY') * 0.15) + (n_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * 0.15) + ( n_has_trait('LILIN_RUACH_EFFICIENCY_UPGRADE') * max( ( (n_vitamin('lilin_ruach_vitamin') - 3500 ) / 12000 ), 0) ) ), 0.33)"
   }
 ]

@@ -7,6 +7,7 @@
 #include <utility>
 
 #include "basecamp.h"
+#include "debug.h"
 #include "mapdata.h"
 #include "tileray.h"
 #include "trap.h"
@@ -16,8 +17,6 @@
 static furn_id f_null;
 
 static const furn_str_id furn_f_console( "f_console" );
-
-static const trap_str_id tr_ledge( "tr_ledge" );
 
 void maptile_soa::swap_soa_tile( const point_sm_ms &p1, const point_sm_ms &p2 )
 {
@@ -196,8 +195,7 @@ bool submap::contains_vehicle( vehicle *veh )
 
 bool submap::is_open_air( const point_sm_ms &p ) const
 {
-    const ter_id &t = get_ter( p );
-    return t->trap == tr_ledge;
+    return get_ter( p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR );
 }
 
 void submap::rotate( int turns )
@@ -211,10 +209,10 @@ void submap::rotate( int turns )
         return;
     }
 
-    const auto rotate_point = [turns]( const point & p ) {
+    const auto rotate_point = [turns]( const point_sm_ms & p ) {
         return p.rotate( turns, { SEEX, SEEY } );
     };
-    const auto rotate_point_ccw = [turns]( const point & p ) {
+    const auto rotate_point_ccw = [turns]( const point_sm_ms & p ) {
         return p.rotate( 4 - turns, { SEEX, SEEY } );
     };
 
@@ -222,14 +220,14 @@ void submap::rotate( int turns )
         // Swap horizontal stripes.
         for( int j = 0, je = SEEY / 2; j < je; ++j ) {
             for( int i = j, ie = SEEX - j; i < ie; ++i ) {
-                m->swap_soa_tile( { i, j }, point_sm_ms( rotate_point( { i, j } ) ) );
+                m->swap_soa_tile( { i, j }, rotate_point( { i, j } ) );
             }
         }
         // Swap vertical stripes so that they don't overlap with
         // the already swapped horizontals.
         for( int i = 0, ie = SEEX / 2; i < ie; ++i ) {
             for( int j = i + 1, je = SEEY - i - 1; j < je; ++j ) {
-                m->swap_soa_tile( { i, j }, point_sm_ms( rotate_point( { i, j } ) ) );
+                m->swap_soa_tile( { i, j }, rotate_point( { i, j } ) );
             }
         }
     } else {
@@ -241,7 +239,7 @@ void submap::rotate( int turns )
                 // 0123 -> 3120 -> 3102 -> 3012
                 for( int k = 0; k < 3; ++k ) {
                     p = pp;
-                    pp = point_sm_ms( rotate_point_ccw( pp.raw() ) );
+                    pp = rotate_point_ccw( pp );
                     m->swap_soa_tile( p, pp );
                 }
             }
@@ -251,17 +249,17 @@ void submap::rotate( int turns )
     active_items.rotate_locations( turns, { SEEX, SEEY } );
 
     for( submap::cosmetic_t &elem : cosmetics ) {
-        elem.pos = point_sm_ms( rotate_point( elem.pos.raw() ) );
+        elem.pos = rotate_point( elem.pos );
     }
 
     for( spawn_point &elem : spawns ) {
-        elem.pos = point_sm_ms( rotate_point( elem.pos.raw() ) );
+        elem.pos = rotate_point( elem.pos );
     }
 
     for( auto &elem : vehicles ) {
-        const point_sm_ms new_pos = point_sm_ms( rotate_point( elem->pos ) );
+        const point_sm_ms new_pos = rotate_point( elem->pos );
 
-        elem->pos = new_pos.raw();
+        elem->pos = new_pos;
         // turn the steering wheel, vehicle::turn does not actually
         // move the vehicle.
         elem->turn( turns * 90_degrees );
@@ -272,7 +270,7 @@ void submap::rotate( int turns )
 
     std::map<point_sm_ms, computer> rot_comp;
     for( auto &elem : computers ) {
-        rot_comp.emplace( rotate_point( elem.first.raw() ), elem.second );
+        rot_comp.emplace( rotate_point( elem.first ), elem.second );
     }
     computers = rot_comp;
 }
@@ -326,7 +324,7 @@ void submap::revert_submap( submap &sr )
     reverted = true;
     if( sr.is_uniform() ) {
         m.reset();
-        set_all_ter( sr.get_ter( point_sm_ms_zero ), true );
+        set_all_ter( sr.get_ter( point_sm_ms::zero ), true );
         return;
     }
 

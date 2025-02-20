@@ -2,16 +2,18 @@
 #ifndef CATA_SRC_HELP_H
 #define CATA_SRC_HELP_H
 
-#include <iosfwd>
 #include <map>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "cuboid_rectangle.h"
+#include "point.h"
+#include "translation.h"
 
-class JsonArray;
-class translation;
+class JsonObject;
+struct input_event;
+
 namespace catacurses
 {
 class window;
@@ -20,16 +22,19 @@ class window;
 class help
 {
     public:
-        void load();
+        static void load( const JsonObject &jo, const std::string &src );
+        static void reset();
         void display_help() const;
-
     private:
-        void deserialize( const JsonArray &ja );
+        void load_object( const JsonObject &jo, const std::string &src );
+        void reset_instance();
         std::map<int, inclusive_rectangle<point>> draw_menu( const catacurses::window &win,
-                                               int selected ) const;
+                                               int selected, std::map<int, input_event> &hotkeys ) const;
         static std::string get_note_colors();
         static std::string get_dir_grid();
-
+        // Modifier for each mods order
+        int current_order_start = 0;
+        std::string current_src;
         std::map<int, std::pair<translation, std::vector<translation>>> help_texts;
 };
 

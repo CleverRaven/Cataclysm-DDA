@@ -79,7 +79,9 @@
         "xe_mana_graph_layout",
         "xe_mana_pool_layout",
         "vampire_blood_levels",
-        "ruach_counter_meter"
+        "ruach_counter_meter_block",
+        "ruach_counter_numbers_block",
+        "ruach_counter_graph_block"
       ]
     }
   },
@@ -94,7 +96,9 @@
         "xe_mana_graph_layout",
         "xe_mana_pool_layout",
         "vampire_blood_levels",
-        "ruach_counter_meter"
+        "ruach_counter_meter_block",
+        "ruach_counter_numbers_block",
+        "ruach_counter_graph_block"
       ]
     }
   },
@@ -109,7 +113,9 @@
         "xe_mana_graph_layout",
         "xe_mana_pool_layout",
         "vampire_blood_levels",
-        "ruach_counter_meter"
+        "ruach_counter_meter_block",
+        "ruach_counter_numbers_block",
+        "ruach_counter_graph_block"
       ]
     }
   },
@@ -124,7 +130,9 @@
         "xe_mana_graph_layout",
         "xe_mana_pool_layout",
         "vampire_blood_levels",
-        "ruach_counter_meter"
+        "ruach_counter_meter_block",
+        "ruach_counter_numbers_block",
+        "ruach_counter_graph_block"
       ]
     }
   },
@@ -139,7 +147,9 @@
         "xe_mana_graph_layout",
         "xe_mana_pool_layout",
         "vampire_blood_levels",
-        "ruach_counter_meter"
+        "ruach_counter_meter_block",
+        "ruach_counter_numbers_block",
+        "ruach_counter_graph_block"
       ]
     }
   },
@@ -226,7 +236,9 @@
         "xe_spacebar_mana_numbers_block",
         "xe_spacebar_mana_bar_block",
         "vampire_blood_levels",
-        "spacebar_ruach_counter_block"
+        "spacebar_ruach_counter_block",
+        "spacebar_ruach_numbers_block",
+        "spacebar_ruach_graph_block"
       ]
     }
   },

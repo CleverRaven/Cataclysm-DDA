@@ -9,7 +9,7 @@
     "color": "green",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH" ],
+    "flags": [ "TRANSPARENT", "TRANSPARENT_FLOOR", "FLAMMABLE_ASH" ],
     "bash": { "str_min": 4, "str_max": 60, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_null" }
   },
   {
@@ -18,7 +18,7 @@
     "looks_like": "t_triffid_wood_wall",
     "name": "solid wood wall",
     "description": "A solid wall of naturally grown wood.  Likely very flammable.",
-    "symbol": "LINE_OXOX",
+    "symbol": "#",
     "color": "brown",
     "move_cost": 0,
     "coverage": 100,
@@ -77,5 +77,21 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "splinter", "count": [ 2, 5 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_moving_sh_druid",
+    "//": "Exists to prevent spamming the fountain of the depths spell and only having one tile transform back.",
+    "name": "flowing shallow water",
+    "description": "The streaming water isn't too deep here.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is, although probably safer than stagnant water.",
+    "looks_like": "t_water_moving_sh",
+    "symbol": "~",
+    "color": "light_blue",
+    "move_cost": 6,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "CURRENT", "SHALLOW_WATER" ],
+    "connect_groups": "WATER",
+    "connects_to": "WATER",
+    "liquid_source": { "id": "water" },
+    "examine_action": "water_source"
   }
 ]

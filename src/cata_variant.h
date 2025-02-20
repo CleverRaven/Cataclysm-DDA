@@ -21,9 +21,8 @@
 
 class JsonOut;
 class JsonValue;
-template <typename E> struct enum_traits;
-
 enum class mutagen_technique : int;
+template <typename E> struct enum_traits;
 
 namespace debug_menu
 {

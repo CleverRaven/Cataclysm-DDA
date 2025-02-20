@@ -9,12 +9,13 @@
 #include <vector>
 
 #include "calendar.h"
-#include "point.h"
+#include "coordinates.h"
 #include "type_id.h"
 
 class JsonObject;
 class JsonOut;
 class JsonValue;
+class map;
 class talker;
 
 enum computer_action {
@@ -119,7 +120,8 @@ struct computer_failure {
 class computer
 {
     public:
-        computer( const std::string &new_name, int new_security, tripoint new_loc );
+        computer( const std::string &new_name, int new_security, map &here, tripoint_bub_ms new_loc );
+        computer( const std::string &new_name, int new_security, tripoint_abs_ms new_loc );
 
         // Initialization
         void set_security( int Security );
@@ -137,7 +139,7 @@ class computer
         void deserialize( const JsonValue &jv );
 
         friend class computer_session;
-        tripoint loc;
+        tripoint_abs_ms loc;
         // "Jon's Computer", "Lab 6E77-B Terminal Omega"
         std::string name;
         // Linked to a mission?

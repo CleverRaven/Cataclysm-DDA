@@ -6,10 +6,37 @@
     "looks_like": "mon_cougar",
     "name": { "//~": "Named after the American folkloric monster.", "str": "hidebehind" },
     "description": "Even looking directly at this cougar and knowing that it is there, a part of your brain simply refuses to see it.  It flickers in and out of sight in a way that makes your eyes hurt, and if you turn your attention away from it even for a moment, it disappears completely.",
-    "vision_night": 18,
     "morale": 80,
+    "//vision_mindsight": "25",
     "//": "Extended flags are from telepathic suggestion that the hidebehind is not there.",
-    "extend": { "flags": [ "CAMOUFLAGE", "NIGHT_INVISIBILITY" ] }
+    "extend": {
+      "special_attacks": [
+        {
+          "id": "psi_hidebehind_obscurity_activate",
+          "type": "spell",
+          "spell_data": { "id": "hidebehind_apply_obscurity_power" },
+          "cooldown": { "math": [ "5 + rand(10)" ] },
+          "condition": {
+            "and": [
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
+              { "not": { "u_has_effect": "telepathic_ignorance_self" } },
+              { "not": { "npc_has_effect": "telepathic_ignorance" } }
+            ]
+          },
+          "monster_message": ""
+        },
+        {
+          "id": "psi_hidebehind_apply_mindsight",
+          "type": "spell",
+          "spell_data": { "id": "hidebehind_apply_mindsight", "hit_self": true },
+          "cooldown": 1,
+          "allow_no_target": true,
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "eff_mind_seeing_bonus_20" } } ] },
+          "monster_message": ""
+        }
+      ],
+      "flags": [ "MIND_SEEING" ]
+    }
   },
   {
     "id": "mon_bandersnatch",
@@ -433,5 +460,43 @@
       "EATS"
     ],
     "armor": { "bash": 8, "cut": 10, "electric": 1 }
+  },
+  {
+    "id": "mon_hellhound",
+    "copy-from": "mon_dog",
+    "type": "MONSTER",
+    "looks_like": "mon_dog",
+    "name": { "str": "hellhound" },
+    "description": "This once-average Labrador mixed-breed dog has clearly gone feral.  Though it likely still instinctively trusts humans, it's probably far from domestic by now.  The air around it wavers like the haze over summer asphalt.",
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 }, { "damage_type": "heat", "amount": 5 } ],
+    "aggression": 4,
+    "morale": 40,
+    "emit_fields": [ { "emit_id": "emit_hot_air2_blast", "delay": "4 s" } ],
+    "reproduction": { "baby_type": { "baby_monster_group": "GROUP_REPRODUCTION_DOG_HELLHOUND_BABIES" }, "baby_count": 4, "baby_timer": 270 },
+    "//": "FIXME: For some reason, extending special attacks does not work",
+    "special_attacks": [
+      [ "EAT_FOOD", 100 ],
+      [ "PARROT_AT_DANGER", 0 ],
+      {
+        "id": "psi_hellhound_breathe_fire",
+        "type": "spell",
+        "spell_data": { "id": "pyrokin_flamethrower_hellhound_monster", "min_level": 5 },
+        "cooldown": { "math": [ "9 + rand(18)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "monster_message": "%1$s barks out a stream of flame!"
+      }
+    ],
+    "extend": { "flags": [ "FIREPROOF" ], "armor": { "heat": 999 } }
+  },
+  {
+    "id": "mon_hellhound_pup",
+    "copy-from": "mon_dog_pup",
+    "type": "MONSTER",
+    "looks_like": "mon_dog_pup",
+    "name": { "str": "hellpup" },
+    "description": "An adorable, defenseless Labrador puppy.  Much safer to tame than an adult dog.  Its breath is very hot.",
+    "melee_damage": [ { "damage_type": "cut", "amount": 1 }, { "damage_type": "heat", "amount": 3 } ],
+    "upgrades": { "age_grow": 42, "into": "mon_hellhound" },
+    "armor": { "heat": 50 }
   }
 ]

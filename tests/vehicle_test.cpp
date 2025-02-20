@@ -1,34 +1,50 @@
+#include <algorithm>
+#include <cstddef>
+#include <functional>
 #include <optional>
+#include <string>
+#include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "coordinate_constants.h"
-#include "damage.h"
+#include "character_attire.h"
+#include "coordinates.h"
+#include "debug.h"
 #include "enums.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "activity_actor_definitions.h"
+#include "map_scale_constants.h"
+#include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 #include "veh_appliance.h"
-#include "vehicle.h"
 #include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
+
+class activity_actor;
 
 static const damage_type_id damage_pure( "pure" );
 
+static const itype_id itype_debug_backpack( "debug_backpack" );
 static const itype_id itype_folded_bicycle( "folded_bicycle" );
 static const itype_id itype_folded_inflatable_boat( "folded_inflatable_boat" );
 static const itype_id itype_folded_wheelchair_generic( "folded_wheelchair_generic" );
 static const itype_id itype_hand_pump( "hand_pump" );
+static const itype_id itype_jeans( "jeans" );
 
 static const itype_id itype_test_extension_cable( "test_extension_cable" );
 static const itype_id itype_test_power_cord( "test_power_cord" );
+static const itype_id itype_test_standing_lamp( "test_standing_lamp" );
 
 static const vpart_id vpart_ap_test_standing_lamp( "ap_test_standing_lamp" );
 static const vpart_id vpart_bike_rack( "bike_rack" );
@@ -59,21 +75,21 @@ TEST_CASE( "destroy_grabbed_vehicle_section", "[vehicle]" )
         map &here = get_map();
         const tripoint_bub_ms test_origin( 60, 60, 0 );
         avatar &player_character = get_avatar();
-        player_character.setpos( test_origin );
-        const tripoint_bub_ms vehicle_origin = test_origin + tripoint_south_east;
+        player_character.setpos( here, test_origin );
+        const tripoint_bub_ms vehicle_origin = test_origin + tripoint::south_east;
         vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_bicycle, vehicle_origin, -90_degrees,
                                              0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        tripoint_bub_ms grab_point = test_origin + tripoint_east;
-        player_character.grab( object_type::VEHICLE, tripoint_rel_ms_east );
+        tripoint_bub_ms grab_point = test_origin + tripoint::east;
+        player_character.grab( object_type::VEHICLE, tripoint_rel_ms::east );
         REQUIRE( player_character.get_grab_type() == object_type::VEHICLE );
-        REQUIRE( player_character.grab_point == tripoint_rel_ms_east );
+        REQUIRE( player_character.grab_point == tripoint_rel_ms::east );
         WHEN( "The vehicle section grabbed by the player is destroyed" ) {
             here.destroy( grab_point );
-            REQUIRE( veh_ptr->get_parts_at( grab_point, "", part_status_flag::available ).empty() );
+            REQUIRE( veh_ptr->get_parts_at( &here, grab_point, "", part_status_flag::available ).empty() );
             THEN( "The player's grab is released" ) {
                 CHECK( player_character.get_grab_type() == object_type::NONE );
-                CHECK( player_character.grab_point == tripoint_rel_ms_zero );
+                CHECK( player_character.grab_point == tripoint_rel_ms::zero );
             }
         }
     }
@@ -81,15 +97,16 @@ TEST_CASE( "destroy_grabbed_vehicle_section", "[vehicle]" )
 
 TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
 {
+    map &here = get_map();
     clear_map();
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     const tripoint_bub_ms vehicle_origin = test_origin;
-    vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_bicycle, vehicle_origin, 0_degrees,
-                       0, 0 );
+    vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_bicycle, vehicle_origin, 0_degrees,
+                                         0, 0 );
     REQUIRE( veh_ptr != nullptr );
 
-    const tripoint_bub_ms pos = vehicle_origin + tripoint_west;
-    const std::optional<vpart_reference> ovp_cargo = get_map().veh_at( pos ).cargo();
+    const tripoint_bub_ms pos = vehicle_origin + tripoint::west;
+    const std::optional<vpart_reference> ovp_cargo = here.veh_at( pos ).cargo();
     REQUIRE( ovp_cargo );
     //Must not be broken yet
     REQUIRE( !ovp_cargo->part().is_broken() );
@@ -98,8 +115,8 @@ TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
     //Now it must be broken
     REQUIRE( ovp_cargo->part().is_broken() );
     //Now part is really broken, adding an item should fail
-    const item itm2 = item( "jeans" );
-    REQUIRE( !veh_ptr->add_item( ovp_cargo->part(), itm2 ) );
+    const item itm2 = item( itype_jeans );
+    REQUIRE( !veh_ptr->add_item( here, ovp_cargo->part(), itm2 ) );
 }
 
 TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
@@ -115,20 +132,20 @@ TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
     REQUIRE( player_character.in_vehicle );
     REQUIRE( veh_ptr->engines.size() == 1 );
 
-    vehicle_part &pedel = veh_ptr->part( veh_ptr->engines[ 0 ] );
+    vehicle_part &pedal = veh_ptr->part( veh_ptr->engines[ 0 ] );
 
     SECTION( "when the pedal has 1/4 hp" ) {
-        veh_ptr->set_hp( pedel, pedel.hp() * 0.25, true );
+        veh_ptr->set_hp( pedal, pedal.hp() * 0.25, true );
         // Try starting the engine 100 time because it is random that a combustion engine does fails
         for( int i = 0; i < 100 ; i++ ) {
-            CHECK( veh_ptr->start_engine( pedel ) );
+            CHECK( veh_ptr->start_engine( here, pedal ) );
         }
     }
 
     SECTION( "when the pedal has 0 hp" ) {
-        veh_ptr->set_hp( pedel, 0, true );
+        veh_ptr->set_hp( pedal, 0, true );
 
-        CHECK_FALSE( veh_ptr->start_engine( pedel ) );
+        CHECK_FALSE( veh_ptr->start_engine( here, pedal ) );
     }
 
     here.detach_vehicle( veh_ptr );
@@ -158,7 +175,7 @@ static void complete_activity( Character &u, const activity_actor &act )
 
 static void spawn_tools_nearby( map &m, Character &u, const vehicle_preset &veh_preset )
 {
-    map_stack spot = m.i_at( u.pos_bub() + tripoint_north );
+    map_stack spot = m.i_at( u.pos_bub() + tripoint::north );
     for( const itype_id &tool_itype_id : veh_preset.tool_itype_ids ) {
         spot.insert( item( tool_itype_id ) );
     }
@@ -167,7 +184,7 @@ static void spawn_tools_nearby( map &m, Character &u, const vehicle_preset &veh_
 
 static void clear_spawned_tools( map &m, Character &u )
 {
-    m.i_at( u.pos_bub() + tripoint_north ).clear();
+    m.i_at( u.pos_bub() + tripoint::north ).clear();
     u.invalidate_crafting_inventory();
 }
 
@@ -180,7 +197,7 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     clear_map();
     clear_vehicles( &m );
 
-    u.worn.wear_item( u, item( "debug_backpack" ), false, false );
+    u.worn.wear_item( u, item( itype_debug_backpack ), false, false );
 
     item veh_item( veh_preset.vehicle_itype_id );
 
@@ -201,7 +218,7 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
             complete_activity( u, vehicle_unfolding_activity_actor( veh_item ) );
 
             // should have no value because avatar has no required tool to unfold
-            REQUIRE( !m.veh_at( u.get_location() ).has_value() );
+            REQUIRE( !m.veh_at( u.pos_abs() ).has_value() );
 
             // the folded item should drop and needs to be deleted from the map
             map_stack map_items = m.i_at( u.pos_bub() );
@@ -217,7 +234,7 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     clear_spawned_tools( m, u );
 
     // should succeed now avatar has hand_pump
-    optional_vpart_position ovp = m.veh_at( u.get_location() );
+    optional_vpart_position ovp = m.veh_at( u.pos_abs() );
     REQUIRE( ovp.has_value() );
 
     // set damage/degradation on every part
@@ -236,7 +253,7 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     clear_spawned_tools( m, u );
 
     // should have no value as vehicle is now folded into item
-    REQUIRE( !m.veh_at( u.get_location() ).has_value() );
+    REQUIRE( !m.veh_at( u.pos_abs() ).has_value() );
 
     // copy the player-folded vehicle item and delete it from the map
     map_stack map_items = m.i_at( u.pos_bub() );
@@ -254,7 +271,7 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     complete_activity( u, vehicle_unfolding_activity_actor( player_folded_veh ) );
     clear_spawned_tools( m, u );
 
-    optional_vpart_position ovp_unfolded = m.veh_at( u.get_location() );
+    optional_vpart_position ovp_unfolded = m.veh_at( u.pos_abs() );
     REQUIRE( ovp_unfolded.has_value() );
 
     // verify the damage/degradation roundtripped via serialization on every part
@@ -322,24 +339,24 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
     map &m = get_map();
     Character &u = get_player_character();
 
-    u.worn.wear_item( u, item( "debug_backpack" ), false, false );
+    u.worn.wear_item( u, item( itype_debug_backpack ), false, false );
 
     item veh_item( preset.folded_vehicle_item );
 
     // unfold fresh item factory item
     complete_activity( u, vehicle_unfolding_activity_actor( veh_item ) );
 
-    optional_vpart_position ovp = m.veh_at( u.get_location() );
+    optional_vpart_position ovp = m.veh_at( u.pos_abs() );
     REQUIRE( ovp.has_value() );
 
-    // don't actually need point_north but damage_all filters out direct damage
+    // don't actually need point_rel_ms::north but damage_all filters out direct damage
     // do some damage so it is transferred when folding
-    ovp->vehicle().damage_all( 100, 100, damage_pure, ovp->mount() + point_north );
+    ovp->vehicle().damage_all( m, 100, 100, damage_pure, ovp->mount_pos() + point_rel_ms::north );
 
     // fold vehicle into an item
     complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
 
-    ovp = m.veh_at( u.get_location() );
+    ovp = m.veh_at( u.pos_abs() );
     REQUIRE( !ovp.has_value() );
 
     // copy the player-folded vehicle item and delete it from the map
@@ -354,7 +371,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 
     complete_activity( u, vehicle_unfolding_activity_actor( player_folded_veh ) );
 
-    ovp = m.veh_at( u.get_location() );
+    ovp = m.veh_at( u.pos_abs() );
     REQUIRE( ovp.has_value() );
 
     int part_damage_before = 0;
@@ -367,7 +384,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 
     complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
 
-    ovp = m.veh_at( u.get_location() );
+    ovp = m.veh_at( u.pos_abs() );
     REQUIRE( !ovp.has_value() );
     map_items = m.i_at( u.pos_bub() );
     REQUIRE( map_items.size() == 1 );
@@ -383,7 +400,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 
     // unfold and check extra damage gets distributed into vehicleparts
     complete_activity( u, vehicle_unfolding_activity_actor( player_folded_veh ) );
-    ovp = m.veh_at( u.get_location() );
+    ovp = m.veh_at( u.pos_abs() );
     REQUIRE( ovp.has_value() );
 
     // add up damage on all parts
@@ -400,7 +417,7 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 
     complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
 
-    REQUIRE( !m.veh_at( u.get_location() ) );
+    REQUIRE( !m.veh_at( u.pos_abs() ) );
     map_items = m.i_at( u.pos_bub() );
     REQUIRE( map_items.size() == 1 );
     player_folded_veh = map_items.only_item();
@@ -445,14 +462,14 @@ TEST_CASE( "power_cable_stretch_disconnect" )
     map &m = get_map();
     Character &player_character = get_player_character();
     const int max_displacement = 50;
-    const std::optional<item> stand_lamp1( "test_standing_lamp" );
-    const std::optional<item> stand_lamp2( "test_standing_lamp" );
+    const std::optional<item> stand_lamp1( itype_test_standing_lamp );
+    const std::optional<item> stand_lamp2( itype_test_standing_lamp );
 
     const tripoint_bub_ms app1_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
     const tripoint_bub_ms app2_pos( app1_pos + tripoint( 2, 2, 0 ) );
 
-    place_appliance( app1_pos, vpart_ap_test_standing_lamp, player_character, stand_lamp1 );
-    place_appliance( app2_pos, vpart_ap_test_standing_lamp, player_character, stand_lamp2 );
+    place_appliance( m, app1_pos, vpart_ap_test_standing_lamp, player_character, stand_lamp1 );
+    place_appliance( m, app2_pos, vpart_ap_test_standing_lamp, player_character, stand_lamp2 );
 
     optional_vpart_position app1_part = m.veh_at( app1_pos );
     optional_vpart_position app2_part = m.veh_at( app2_pos );
@@ -475,32 +492,32 @@ TEST_CASE( "power_cable_stretch_disconnect" )
 
         WHEN( "displacing first appliance to the left" ) {
             for( int i = 0;
-                 rl_dist( m.getglobal( app1.pos_bub() ), m.getglobal( app2.pos_bub() ) ) <= max_dist &&
+                 rl_dist( app1.pos_abs(), app2.pos_abs() ) <= max_dist &&
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app1, tripoint_rel_ms_west );
-                app1.part_removal_cleanup();
-                app2.part_removal_cleanup();
+                m.displace_vehicle( app1, tripoint_rel_ms::west );
+                app1.part_removal_cleanup( m );
+                app2.part_removal_cleanup( m );
             }
-            CAPTURE( m.getglobal( app1.pos_bub() ) );
-            CAPTURE( m.getglobal( app2.pos_bub() ) );
+            CAPTURE( app1.pos_abs() );
+            CAPTURE( app2.pos_abs() );
             CHECK( app1.part_count() == 1 );
             CHECK( app2.part_count() == 1 );
         }
 
         WHEN( "displacing second appliance to the right" ) {
             for( int i = 0;
-                 rl_dist( m.getglobal( app1.pos_bub() ), m.getglobal( app2.pos_bub() ) ) <= max_dist &&
+                 rl_dist( app1.pos_abs(), app2.pos_abs() ) <= max_dist &&
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app2, tripoint_rel_ms_east );
-                app1.part_removal_cleanup();
-                app2.part_removal_cleanup();
+                m.displace_vehicle( app2, tripoint_rel_ms::east );
+                app1.part_removal_cleanup( m );
+                app2.part_removal_cleanup( m );
             }
-            CAPTURE( m.getglobal( app1.pos_bub() ) );
-            CAPTURE( m.getglobal( app2.pos_bub() ) );
+            CAPTURE( app1.pos_abs() );
+            CAPTURE( app2.pos_abs() );
             CHECK( app1.part_count() == 1 );
             CHECK( app2.part_count() == 1 );
         }
@@ -518,32 +535,32 @@ TEST_CASE( "power_cable_stretch_disconnect" )
 
         WHEN( "displacing first appliance to the left" ) {
             for( int i = 0;
-                 rl_dist( m.getglobal( app1.pos_bub() ), m.getglobal( app2.pos_bub() ) ) <= max_dist &&
+                 rl_dist( app1.pos_abs(), app2.pos_abs() ) <= max_dist &&
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app1, tripoint_rel_ms_west );
-                app1.part_removal_cleanup();
-                app2.part_removal_cleanup();
+                m.displace_vehicle( app1, tripoint_rel_ms::west );
+                app1.part_removal_cleanup( m );
+                app2.part_removal_cleanup( m );
             }
-            CAPTURE( m.getglobal( app1.pos_bub() ) );
-            CAPTURE( m.getglobal( app2.pos_bub() ) );
+            CAPTURE( app1.pos_abs() );
+            CAPTURE( app2.pos_abs() );
             CHECK( app1.part_count() == 1 );
             CHECK( app2.part_count() == 1 );
         }
 
         WHEN( "displacing second appliance to the right" ) {
             for( int i = 0;
-                 rl_dist( m.getglobal( app1.pos_bub() ), m.getglobal( app2.pos_bub() ) ) <= max_dist &&
+                 rl_dist( app1.pos_abs(), app2.pos_abs() ) <= max_dist &&
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app2, tripoint_rel_ms_east );
-                app1.part_removal_cleanup();
-                app2.part_removal_cleanup();
+                m.displace_vehicle( app2, tripoint_rel_ms::east );
+                app1.part_removal_cleanup( m );
+                app2.part_removal_cleanup( m );
             }
-            CAPTURE( m.getglobal( app1.pos_bub() ) );
-            CAPTURE( m.getglobal( app2.pos_bub() ) );
+            CAPTURE( app1.pos_abs() );
+            CAPTURE( app2.pos_abs() );
             CHECK( app1.part_count() == 1 );
             CHECK( app2.part_count() == 1 );
         }
@@ -563,7 +580,7 @@ struct rack_activation {
 struct rack_preset {
     std::vector<vproto_id> vehicles;            // vehicles to spawn, index matching positions/facings
     std::vector<tripoint_bub_ms> positions;     // spawned vehicle position
-    std::vector<point_bub_ms> install_racks;    // install racks on first vehicle at these mounts
+    std::vector<point_rel_ms> install_racks;    // install racks on first vehicle at these mounts
     std::vector<units::angle> facings;          // spawned vehicle facing
     std::vector<rack_activation> rack_orders;   // racking orders
     std::vector<rack_activation> unrack_orders; // unracking orders
@@ -589,13 +606,13 @@ static void rack_check( const rack_preset &preset )
         vehicle *veh_ptr = m.add_vehicle( preset.vehicles[i], preset.positions[i],
                                           preset.facings[i], 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        veh_ptr->refresh();
+        veh_ptr->refresh( );
         vehs.push_back( veh_ptr );
         veh_names.push_back( veh_ptr->name );
     }
 
-    for( const point_bub_ms &rack_pos : preset.install_racks ) {
-        vehs[0]->install_part( rack_pos.raw(), vpart_bike_rack );
+    for( const point_rel_ms &rack_pos : preset.install_racks ) {
+        vehs[0]->install_part( m, rack_pos, vpart_bike_rack );
     }
 
     for( const rack_activation &rack_act : preset.rack_orders ) {
@@ -604,7 +621,7 @@ static void rack_check( const rack_preset &preset )
         vehicle &racking_veh = *vehs[rack_act.racking_vehicle_index];
         vehicle &racked_veh = *vehs[rack_act.racked_vehicle_index];
 
-        const std::vector<vehicle_part *> rack_parts = racking_veh.get_parts_at( rack_act.rack_pos.raw(),
+        const std::vector<vehicle_part *> rack_parts = racking_veh.get_parts_at( &m, rack_act.rack_pos,
                 "BIKE_RACK_VEH",
                 part_status_flag::available );
         REQUIRE( rack_parts.size() == 1 );
@@ -612,7 +629,7 @@ static void rack_check( const rack_preset &preset )
         REQUIRE( rack_idx >= 0 );
         CAPTURE( rack_idx );
 
-        const auto rackables = racking_veh.find_vehicles_to_rack( rack_idx );
+        const auto rackables = racking_veh.find_vehicles_to_rack( &m, rack_idx );
         REQUIRE( !rackables.empty() );
 
         const auto this_rackable = std::find_if( rackables.begin(), rackables.end(),
@@ -652,7 +669,7 @@ static void rack_check( const rack_preset &preset )
         const optional_vpart_position ovp_racked = m.veh_at( rack_act.rack_pos );
         REQUIRE( ovp_racked.has_value() );
 
-        const auto rack_parts = ovp_racked->vehicle().get_parts_at( rack_act.rack_pos,
+        const auto rack_parts = ovp_racked->vehicle().get_parts_at( &m, rack_act.rack_pos,
                                 "BIKE_RACK_VEH", part_status_flag::available );
         REQUIRE( rack_parts.size() == 1 );
         const int rack_idx = ovp_racked->vehicle().index_of_part( rack_parts[0] );
@@ -694,8 +711,8 @@ TEST_CASE( "Racking_and_unracking_tests", "[vehicle][bikerack]" )
         // basic test; rack bike on car, unrack it, everything should succeed
         {
             { vehicle_prototype_car, vehicle_prototype_bicycle },
-            { tripoint_bub_ms_zero,         tripoint_bub_ms( -4, 0, 0 ) },
-            { point_bub_ms( -3, -1 ), point_bub_ms( -3, 0 ), point_bub_ms( -3, 1 ), point_bub_ms( -3, 2 ) },
+            { tripoint_bub_ms::zero,         tripoint_bub_ms( -4, 0, 0 ) },
+            { { -3, -1 }, { -3, 0}, { -3, 1}, { -3, 2}},
             { 0_degrees,             90_degrees },
 
             { { 0, tripoint_bub_ms( -3, -1, 0 ), 1, false } }, // rack bicycle to car
@@ -705,8 +722,8 @@ TEST_CASE( "Racking_and_unracking_tests", "[vehicle][bikerack]" )
         // racking vehicles with same name on ( potentially ) same rack should expect failures
         {
             { vehicle_prototype_car, vehicle_prototype_wheelchair, vehicle_prototype_wheelchair },
-            { tripoint_bub_ms_zero,         tripoint_bub_ms( -4, 0, 0 ),         tripoint_bub_ms( -4, 1, 0 )         },
-            { point_bub_ms( -3, -1 ), point_bub_ms( -3, 0 ), point_bub_ms( -3, 1 ), point_bub_ms( -3, 2 ) },
+            { tripoint_bub_ms::zero,         tripoint_bub_ms( -4, 0, 0 ),         tripoint_bub_ms( -4, 1, 0 )         },
+            { { -3, -1 }, { -3, 0}, { -3, 1}, { -3, 2}},
             { 0_degrees,             0_degrees,                    0_degrees                    },
 
             // rack both wheelchairs to car, second rack activation should fail with debugmsg
@@ -741,13 +758,13 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
 {
     clear_avatar();
     clear_map();
+    map &here = get_map();
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE_FALSE( player_character.in_vehicle );
-    player_character.setpos( tripoint_zero );
+    player_character.setpos( here, tripoint_bub_ms::zero );
 
     const tripoint_bub_ms map_starting_point( 60, 60, 0 );
-    map &here = get_map();
     vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 100, 0, false );
 
     REQUIRE( veh_ptr != nullptr );
@@ -755,7 +772,7 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
     vehicle &veh = *veh_ptr;
     if( !extra_part.is_null() ) {
         vehicle_part vp( extra_part, item( extra_part->base_item ) );
-        const int part_index = veh.install_part( point_zero, std::move( vp ) );
+        const int part_index = veh.install_part( here, point_rel_ms::zero, std::move( vp ) );
         REQUIRE( part_index >= 0 );
     }
 
@@ -763,19 +780,19 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
     veh.is_following = true;
     veh.is_patrolling = false;
     veh.engine_on = true;
-    veh.refresh();
+    veh.refresh( );
 
     int turns_left = 10;
     int tiles_travelled = 0;
-    const tripoint_bub_ms starting_point = veh.pos_bub();
+    const tripoint_bub_ms starting_point = veh.pos_bub( here );
     while( veh.engine_on && turns_left > 0 ) {
         turns_left--;
         here.vehmove();
-        veh.idle( true );
+        veh.idle( here, true );
         // How much it moved
-        tiles_travelled += square_dist( starting_point, veh.pos_bub() );
+        tiles_travelled += square_dist( starting_point, veh.pos_bub( here ) );
         // Bring it back to starting point to prevent it from leaving the map
-        const tripoint_rel_ms displacement = starting_point - veh.pos_bub();
+        const tripoint_rel_ms displacement = starting_point - veh.pos_bub( here );
         here.displace_vehicle( veh, displacement );
     }
     return tiles_travelled;

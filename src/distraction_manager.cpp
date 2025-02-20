@@ -1,6 +1,5 @@
 #include "distraction_manager.h"
 
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -67,7 +66,7 @@ void distraction_manager_gui::show()
                                        iOffset );
 
         w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                       iOffset + point_south_east );
+                                       iOffset + point::south_east );
 
         w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
                                 iOffset + point( 1, iHeaderHeight + 1 ) );
@@ -89,38 +88,30 @@ void distraction_manager_gui::show()
     ui.on_redraw( [&]( const ui_adaptor & ) {
         // Draw border
         draw_border( w_border, BORDER_COLOR, _( "Distractions manager" ) );
-        mvwputch( w_border, point( 0, iHeaderHeight - 1 ), c_light_gray, LINE_XXXO );
-        mvwputch( w_border, point( 79, iHeaderHeight - 1 ), c_light_gray, LINE_XOXX );
-        mvwputch( w_border, point( 61, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
+        wattron( w_border, c_light_gray );
+        mvwaddch( w_border, point( 0, iHeaderHeight - 1 ), LINE_XXXO );
+        mvwaddch( w_border, point( 79, iHeaderHeight - 1 ), LINE_XOXX );
+        mvwaddch( w_border, point( 61, FULL_SCREEN_HEIGHT - 1 ), LINE_XXOX );
+        wattroff( w_border, c_light_gray );
         wnoutrefresh( w_border );
 
         // Draw header
         werase( w_header );
-        fold_and_print( w_header, point_zero, getmaxx( w_header ), c_white,
+        fold_and_print( w_header, point::zero, getmaxx( w_header ), c_white,
                         _( get_configurable_distractions()[currentLine].description.c_str() ) );
 
         // Draw horizontal line and corner pieces of the table
-        for( int x = 0; x < 78; x++ ) {
-            if( x == 60 ) {
-                mvwputch( w_header, point( x, iHeaderHeight - 2 ), c_light_gray, LINE_OXXX );
-                mvwputch( w_header, point( x, iHeaderHeight - 1 ), c_light_gray, LINE_XOXO );
-            } else {
-                mvwputch( w_header, point( x, iHeaderHeight - 2 ), c_light_gray, LINE_OXOX );
-            }
-        }
+        wattron( w_header, c_light_gray );
+        mvwhline( w_header, point( 0, iHeaderHeight - 2 ), LINE_OXOX, 78 );
+        mvwaddch( w_header, point( 60, iHeaderHeight - 2 ), LINE_OXXX );
+        mvwaddch( w_header, point( 60, iHeaderHeight - 1 ), LINE_XOXO );
+        wattroff( w_header, c_light_gray );
 
         wnoutrefresh( w_header );
 
         // Clear table
-        for( int y = 0; y < iContentHeight; y++ ) {
-            for( int x = 0; x < 79; x++ ) {
-                if( x == 60 ) {
-                    mvwputch( w, point( x, y ), c_light_gray, LINE_XOXO );
-                } else {
-                    mvwputch( w, point( x, y ), c_black, ' ' );
-                }
-            }
-        }
+        mvwrectf( w, point::zero, c_black, ' ', 79, iContentHeight );
+        mvwvline( w, point( 60, 0 ), c_light_gray, LINE_XOXO, iContentHeight ) ;
 
         draw_scrollbar( w_border, currentLine, iContentHeight, number_of_distractions, point( 0,
                         iHeaderHeight + 1 ) );

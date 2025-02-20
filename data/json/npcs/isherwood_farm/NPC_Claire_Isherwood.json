@@ -362,7 +362,6 @@
         "om_terrain": "cabin_isherwood",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 20,
         "min_distance": 8
       },
       "update_mapgen": { "place_monster": [ { "monster": "mon_cat_isherwood", "pack_size": [ 3, 6 ], "x": 20, "y": 22, "target": true } ] },

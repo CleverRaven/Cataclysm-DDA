@@ -248,7 +248,9 @@
       { "item": "moons_tears_estoc", "prob": 20 },
       { "item": "moons_tears_spear", "prob": 30 },
       { "item": "moons_tears_battleaxe", "prob": 20 },
-      { "item": "moons_tears_katana", "prob": 20 }
+      { "item": "moons_tears_katana", "prob": 20 },
+      { "item": "treesung_spear", "prob": 3 },
+      { "item": "treesung_pike", "prob": 3 }
     ]
   },
   {
@@ -261,6 +263,19 @@
       { "item": "banner_angry_darkness", "prob": 20 },
       { "item": "banner_starry_wisdom", "prob": 20 },
       { "item": "banner_thunderous_rush", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bannerlord_armor",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mt_chainmail_arms", "prob": 45 },
+      { "item": "mt_chainmail_hood", "prob": 45 },
+      { "item": "mt_chainmail_hands", "prob": 45 },
+      { "item": "mt_chainmail_legs", "prob": 45 },
+      { "item": "mt_chainmail_vest", "prob": 45 },
+      { "item": "mt_chainmail_feet", "prob": 45 }
     ]
   },
   {
@@ -288,7 +303,9 @@
       { "item": "moons_tears_mace", "prob": 20 },
       { "item": "moons_tears_scimitar", "prob": 20 },
       { "item": "moons_tears_spear", "prob": 20 },
-      { "item": "moons_tears_battleaxe", "prob": 20 }
+      { "item": "moons_tears_battleaxe", "prob": 20 },
+      { "item": "treesung_mace", "prob": 3 },
+      { "item": "treesung_warhammer", "prob": 3 }
     ]
   },
   {
@@ -354,7 +371,8 @@
       { "item": "moons_tears_broadsword", "prob": 20 },
       { "item": "moons_tears_arming_sword", "prob": 20 },
       { "item": "moons_tears_estoc", "prob": 20 },
-      { "item": "moons_tears_katana", "prob": 20 }
+      { "item": "moons_tears_katana", "prob": 20 },
+      { "item": "treesung_mace", "prob": 3 }
     ]
   },
   {

@@ -3,25 +3,21 @@
 #define CATA_SRC_MISSION_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
-#include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "character_id.h"
-#include "coords_fwd.h"
-#include "dialogue.h"
+#include "coordinates.h"
+#include "dialogue_helpers.h"
 #include "enums.h"
-#include "game_constants.h"
 #include "npc_favor.h"
-#include "omdata.h"
-#include "overmap.h"
-#include "talker.h"
-#include "translations.h"
+#include "point.h"
+#include "translation.h"
 #include "type_id.h"
 
 class Creature;
@@ -33,9 +29,10 @@ class item;
 class mission;
 class npc;
 class overmapbuffer;
+struct const_dialogue;
+struct dialogue;
+struct oter_type_t;
 template<typename T> struct enum_traits;
-
-enum npc_mission : int;
 
 namespace debug_menu
 {
@@ -159,7 +156,7 @@ tripoint_abs_omt target_om_ter( const std::string &omter, int reveal_rad, missio
                                 bool must_see, int target_z = 0 );
 tripoint_abs_omt target_om_ter_random(
     const std::string &omter, int reveal_rad, mission *miss, bool must_see, int range,
-    tripoint_abs_omt loc = overmap::invalid_tripoint );
+    tripoint_abs_omt loc = tripoint_abs_omt::invalid );
 void set_reveal( const std::string &terrain,
                  std::vector<std::function<void( mission *miss )>> &funcs );
 void set_reveal_any( const JsonArray &ja,
@@ -229,7 +226,7 @@ struct mission_type {
         std::map<std::string, translation> dialogue;
 
         // A dynamic goal condition invoked by MGOAL_CONDITION.
-        std::function<bool( struct dialogue & )> goal_condition;
+        std::function<bool( const_dialogue const & )> goal_condition;
 
         mission_type() = default;
 

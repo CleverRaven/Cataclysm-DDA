@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "cs_internet_cafe" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -32,13 +31,13 @@
         "  ####################  ",
         "   4                    "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         ",": "t_floor",
-        ".": "t_linoleum_gray",
-        "t": "t_linoleum_gray",
-        "S": "t_linoleum_gray",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "s": "t_sidewalk",
         "D": "t_door_c",
         "g": "t_wall_glass_alarm",
@@ -81,8 +80,8 @@
         "  -..................-  ",
         "  -........=.........-  ",
         "  -.#######ggg##.....-  ",
-        "  -.#kkk#cPcccP#.....-  ",
-        "  -.#kkk#,,Y,,cg.....-  ",
+        "  -.#k,k#cPcccP#.....-  ",
+        "  -.#,,,#,,Y,,cg.....-  ",
         "  -.#,,,#,,,,,y#.....-  ",
         "  -.##D####D####.....-  ",
         "  -.#L,,,,,,,CC#.....-  ",
@@ -100,7 +99,10 @@
       ],
       "palettes": [ "roof_palette", "parametrized_walls_palette" ],
       "terrain": { ",": "t_thconc_floor", "D": "t_door_locked", "g": "t_wall_glass_alarm", "&": "t_flat_roof", "=": "t_flat_roof" },
-      "furniture": { "P": "f_console_broken", "k": "f_generator_broken" },
+      "furniture": {
+        "P": "f_console_broken",
+        "k": [ [ "f_generator_broken", 35 ], [ "f_diesel_generator", 5 ], [ "f_12000_gasoline_generator", 5 ] ]
+      },
       "place_loot": [ { "item": "television", "x": 14, "y": 9, "chance": 100 }, { "item": "stepladder", "x": 5, "y": 10, "chance": 100 } ],
       "items": {
         "c": { "item": "electronics", "chance": 40 },

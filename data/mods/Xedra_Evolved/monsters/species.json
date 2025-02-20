@@ -1,8 +1,22 @@
 [
   {
     "type": "SPECIES",
+    "id": "FISH",
+    "description": "a fish",
+    "fear_triggers": [ "HURT", "FRIEND_ATTACKED" ],
+    "bleeds": "fd_blood",
+    "flags": [ "EVIL_EYE_IMMUNE_MONSTER" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "CHANGELING",
     "description": "a creature from under the hill",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "CHANGELING_NOBLE",
+    "description": "one of the leaders of the people under the hill",
     "fear_triggers": [ "HURT" ]
   },
   {

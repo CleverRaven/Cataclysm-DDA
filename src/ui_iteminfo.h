@@ -3,12 +3,10 @@
 #define CATA_SRC_UI_ITEMINFO_H
 
 #include "cata_imgui.h"
+#include "imgui/imgui.h"
 #include "input_context.h"
 #include "output.h"
-#include "imgui/imgui.h"
-
-void draw_item_info_imgui( cataimgui::window &window, item_info_data &data, int width,
-                           cataimgui::scroll &s );
+#include "point.h"
 
 class iteminfo_window : public cataimgui::window
 {

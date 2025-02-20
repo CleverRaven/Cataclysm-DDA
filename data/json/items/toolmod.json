@@ -39,9 +39,12 @@
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
     "pocket_mods": [
-      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "small_storage_battery", "battery_car", "battery_motorbike" ] }
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "small_storage_battery", "medium_storage_battery", "battery_car", "battery_motorbike" ]
+      }
     ],
-    "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "battery_car", "battery_motorbike" ] ] ]
+    "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "medium_storage_battery", "battery_car", "battery_motorbike" ] ] ]
   },
   {
     "id": "pseudo_magazine_mod",
@@ -89,8 +92,8 @@
     "copy-from": "mod_battery",
     "type": "TOOLMOD",
     "category": "spare_parts",
-    "name": { "str": "heavy battery mod" },
-    "description": "A battery compartment mod that allows the use of heavy batteries in tools that otherwise could not.",
+    "name": { "str": "tool battery mod" },
+    "description": "A battery compartment mod that allows the use of tool batteries in tools that otherwise could not.",
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
     "pocket_mods": [

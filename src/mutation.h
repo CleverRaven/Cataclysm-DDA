@@ -2,38 +2,37 @@
 #ifndef CATA_SRC_MUTATION_H
 #define CATA_SRC_MUTATION_H
 
-#include <climits>
-#include <iosfwd>
+#include <functional>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
-#include <unordered_map>
+#include <string_view>
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
-#include "character.h"
 #include "damage.h"
-#include "hash_utils.h"
-#include "magic.h"
+#include "enums.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "sleep.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 
+class Character;
 class JsonArray;
 class JsonObject;
+class JsonOut;
+class JsonValue;
 class Trait_group;
 class item;
 class nc_color;
+struct const_dialogue;
 struct dream;
-
-enum game_message_type : int;
-
 template <typename E> struct enum_traits;
 
 extern std::vector<dream> dreams;
@@ -114,7 +113,7 @@ struct mut_personality_score {
 struct reflex_activation_data {
 
     /**What variable controls the activation*/
-    std::function<bool( dialogue & )>trigger;
+    std::function<bool( const_dialogue const & )>trigger;
 
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
@@ -198,6 +197,8 @@ struct mutation_branch {
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;
+        // By default startingtrait = true traits can be randomly assigned, this allows that to be reversed.
+        bool random_at_chargen = true;
         bool activated     = false;
         translation activation_msg;
         // Should it activate as soon as it is gained?
@@ -349,9 +350,6 @@ struct mutation_branch {
         std::set<sub_bodypart_str_id> remove_rigid_subparts;
         // item flags that allow wearing gear even if its body part is restricted
         std::set<flag_id> allowed_items;
-        // Mutation stat mods
-        /** Key pair is <active: bool, mod type: "STR"> */
-        std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> mods;
         std::map<bodypart_str_id, resistances> armor; // Modifiers to protection values
         std::vector<itype_id> integrated_armor; // Armor pseudo-items that are put on by this mutation
         std::vector<matype_id>

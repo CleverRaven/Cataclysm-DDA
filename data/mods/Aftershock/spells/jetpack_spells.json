@@ -9,7 +9,6 @@
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "EXTRA_EFFECTS_FIRST" ],
     "message": "",
     "effect": "dash",
-    "effect_str": "downed",
     "min_damage": 20,
     "max_damage": 40,
     "shape": "blast",
@@ -23,8 +22,11 @@
   {
     "id": "rocket_jump_levitate",
     "type": "SPELL",
-    "name": { "str": "Rocket Jump Levitation" },
-    "description": "Chained before a rocket jump.  Grants a brief instant of levitation to simulate a rocket pack-s limited flying ability.",
+    "name": { "str": "Rocket Jump Levitation", "//~": "NO_I18N" },
+    "description": {
+      "str": "Chained before a rocket jump.  Grants a brief instant of levitation to simulate a rocket pack-s limited flying ability.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "flags": [ "NO_HANDS", "NO_LEGS" ],
     "effect": "attack",

@@ -1,21 +1,39 @@
-#include "catch/catch.hpp"
+#include <list>
+#include <memory>
+#include <optional>
 
+#include "calendar.h"
+#include "cata_catch.h"
+#include "character.h"
+#include "character_id.h"
+#include "coordinates.h"
 #include "creature_tracker.h"
 #include "flag.h"
 #include "game.h"
+#include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "monster.h"
 #include "npc.h"
 #include "npc_attack.h"
-#include "npc_class.h"
 #include "options_helpers.h"
+#include "overmap_ui.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
+#include "point.h"
+#include "ret_val.h"
+#include "type_id.h"
+
+class Creature;
 
 static const faction_id faction_your_followers( "your_followers" );
 
 static const itype_id itype_combat_exoskeleton_medium( "combat_exoskeleton_medium" );
 static const itype_id itype_combat_exoskeleton_medium_on( "combat_exoskeleton_medium_on" );
+static const itype_id itype_heavy_battery_cell( "heavy_battery_cell" );
 static const itype_id itype_knife_large( "knife_large" );
+static const itype_id itype_modular_m16a4( "modular_m16a4" );
 static const itype_id itype_rock( "rock" );
 static const itype_id itype_wearable_light( "wearable_light" );
 
@@ -32,14 +50,15 @@ namespace npc_attack_setup
 {
 static npc &spawn_main_npc()
 {
+    map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
-    get_player_character().setpos( { main_npc_start, -1 } );
+    get_player_character().setpos( here, { main_npc_start, -1 } );
     REQUIRE( creatures.creature_at<Creature>( main_npc_start_tripoint ) == nullptr );
-    const character_id model_id = get_map().place_npc( main_npc_start, npc_template_test_talker );
+    const character_id model_id = here.place_npc( main_npc_start, npc_template_test_talker );
 
     npc &model_npc = *g->find_npc( model_id );
     clear_character( model_npc );
-    model_npc.setpos( main_npc_start_tripoint );
+    model_npc.setpos( here, main_npc_start_tripoint );
 
     g->load_npcs();
 
@@ -52,7 +71,7 @@ static npc &respawn_main_npc()
 {
     npc *guy = get_creature_tracker().creature_at<npc>( main_npc_start_tripoint );
     if( guy ) {
-        guy->die( nullptr );
+        guy->die( &get_map(), nullptr );
     }
     return spawn_main_npc();
 }
@@ -65,7 +84,9 @@ static monster *spawn_zombie_at_range( const int range )
 
 TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
 {
-    get_player_character().setpos( main_npc_start_tripoint );
+    map &here = get_map();
+
+    get_player_character().setpos( here, main_npc_start_tripoint );
     clear_map_and_put_player_underground();
     clear_vehicles();
     scoped_weather_override sunny_weather( weather_sunny );
@@ -77,7 +98,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
         monster *zombie = npc_attack_setup::spawn_zombie_at_range( 1 );
 
         WHEN( "NPC only has a large knife" ) {
-            item weapon( "knife_large" );
+            item weapon( itype_knife_large );
             main_npc.set_wielded_item( weapon );
             REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_large );
 
@@ -93,7 +114,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
             }
         }
         WHEN( "NPC only has an m16a4" ) {
-            arm_shooter( main_npc, "modular_m16a4" );
+            arm_shooter( main_npc, itype_modular_m16a4 );
 
             WHEN( "NPC is allowed to use loud ranged weapons" ) {
                 main_npc.rules.set_flag( ally_rule::use_guns );
@@ -136,7 +157,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
             }
         }
         WHEN( "NPC only has a bunch of rocks" ) {
-            item weapon( "rock" );
+            item weapon( itype_rock );
             main_npc.set_wielded_item( weapon );
             REQUIRE( main_npc.get_wielded_item()->typeId() == itype_rock );
 
@@ -148,9 +169,8 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
             }
         }
         WHEN( "NPC has an exoskeleton" ) {
-
             main_npc.clear_worn();
-            item armor( "combat_exoskeleton_medium" );
+            item armor( itype_combat_exoskeleton_medium );
             std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
             item &worn_armor = **wear_success;
 
@@ -161,11 +181,11 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
 
             WHEN( "NPC has a battery for their armor" ) {
 
-                item battery = item( "heavy_battery_cell" );
+                item battery = item( itype_heavy_battery_cell );
                 battery.ammo_set( battery.ammo_default() );
                 worn_armor.put_in( battery, pocket_type::MAGAZINE_WELL );
 
-                REQUIRE( worn_armor.ammo_remaining() > 0 );
+                REQUIRE( worn_armor.ammo_remaining( ) > 0 );
 
                 THEN( "NPC activates their exoskeleton successfully" ) {
 
@@ -189,7 +209,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
         WHEN( "NPC has a headlamp" ) {
             main_npc.clear_worn();
 
-            item headlamp( "wearable_light" );
+            item headlamp( itype_wearable_light );
             std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( headlamp );
             REQUIRE( wear_success );
 
@@ -208,7 +228,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
         monster *zombie = npc_attack_setup::spawn_zombie_at_range( 5 );
 
         WHEN( "NPC only has a large knife" ) {
-            item weapon( "knife_large" );
+            item weapon( itype_knife_large );
             main_npc.set_wielded_item( weapon );
             REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_large );
 
@@ -225,7 +245,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
         }
 
         WHEN( "NPC only has a bunch of rocks" ) {
-            item weapon( "rock", calendar::turn, 5 );
+            item weapon( itype_rock, calendar::turn, 5 );
             main_npc.set_wielded_item( weapon );
             REQUIRE( main_npc.get_wielded_item()->typeId() == itype_rock );
 
@@ -242,7 +262,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
         monster *zombie_far = npc_attack_setup::spawn_zombie_at_range( 8 );
 
         WHEN( "NPC only has a large knife" ) {
-            item weapon( "knife_large" );
+            item weapon( itype_knife_large );
             main_npc.set_wielded_item( weapon );
             REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_large );
 
@@ -292,7 +312,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
     }
     GIVEN( "There is no zombie nearby. " ) {
         WHEN( "NPC is wearing active exoskeleton. " ) {
-            item armor( "combat_exoskeleton_medium_on" );
+            item armor( itype_combat_exoskeleton_medium_on );
             armor.activate();
             std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
             REQUIRE( wear_success );

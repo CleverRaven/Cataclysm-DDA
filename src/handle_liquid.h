@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_HANDLE_LIQUID_H
 #define CATA_SRC_HANDLE_LIQUID_H
 
+#include "coordinates.h"
 #include "item_location.h"
 #include "item_stack.h"
 #include "map.h"
@@ -22,7 +23,7 @@ enum liquid_dest : int {
 
 struct liquid_dest_opt {
     liquid_dest dest_opt = LD_NULL;
-    tripoint pos;
+    tripoint_bub_ms pos;
     item_location item_loc;
     vehicle *veh = nullptr;
 };
@@ -88,13 +89,13 @@ bool can_handle_liquid( const item &liquid );
  * indicates they want to handle it.
  */
 bool handle_liquid( item &liquid, const item *source = nullptr, int radius = 0,
-                    const tripoint *source_pos = nullptr,
+                    const tripoint_bub_ms *source_pos = nullptr,
                     const vehicle *source_veh = nullptr, int part_num = -1,
                     const monster *source_mon = nullptr );
 bool handle_liquid( item_location &liquid, const item *source = nullptr, int radius = 0 );
 
 /* Not to be used directly. Use liquid_handler::handle_liquid instead. */
-bool perform_liquid_transfer( item &liquid, const tripoint *source_pos,
+bool perform_liquid_transfer( item &liquid, const tripoint_bub_ms *source_pos,
                               const vehicle *source_veh, int part_num,
                               const monster * /*source_mon*/, liquid_dest_opt &target );
 bool perform_liquid_transfer( item_location &liquid, liquid_dest_opt &target );

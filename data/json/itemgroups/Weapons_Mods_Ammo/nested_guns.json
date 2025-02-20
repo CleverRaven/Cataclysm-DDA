@@ -71,9 +71,9 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "glock_22", "charges": [ 0, 15 ] },
-      { "item": "glock40mag", "charges": [ 0, 15 ] },
-      { "item": "glock40mag", "charges": [ 0, 15 ], "prob": 50 },
+      { "item": "glock_22", "charges": [ 0, 15 ], "ammo-item": "40sw" },
+      { "item": "glock40mag", "ammo-item": "40sw" },
+      { "item": "glock40mag", "ammo-item": "40sw", "prob": 50 },
       { "group": "on_hand_40" }
     ]
   },
@@ -266,6 +266,14 @@
       { "item": "ruger1022mag", "prob": 50 },
       { "group": "on_hand_22" }
     ]
+  },
+  {
+    "id": "nested_marlin60",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "marlin60", "charges": [ 0, 14 ] }, { "group": "on_hand_22" } ]
   },
   {
     "id": "nested_sw_610",
@@ -735,6 +743,14 @@
     "entries": [ { "item": "rough_rider_pistol_9", "charges": [ 0, 6 ] }, { "group": "on_hand_22" } ]
   },
   {
+    "id": "nested_sw617",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "sw617", "charges": [ 0, 10 ] }, { "group": "on_hand_22" } ]
+  },
+  {
     "id": "nested_sig_40",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -993,19 +1009,6 @@
       { "item": "8x40_10_mag" },
       { "item": "8x40_10_mag", "prob": 50 },
       { "group": "on_hand_8x40" }
-    ]
-  },
-  {
-    "id": "nested_m1911-460",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "m1911-460", "charges": [ 0, 7 ] },
-      { "item": "m1911mag" },
-      { "item": "m1911mag", "prob": 50 },
-      { "group": "on_hand_460" }
     ]
   },
   {
@@ -1422,6 +1425,19 @@
     "ammo": 100,
     "entries": [
       { "item": "ksub2000", "charges": [ 0, 15 ] },
+      { "item": "glockmag" },
+      { "item": "glockmag", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_rugerpcc",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "rugerpcc", "charges": [ 0, 15 ] },
       { "item": "glockmag" },
       { "item": "glockmag", "prob": 50 },
       { "group": "on_hand_9mm" }

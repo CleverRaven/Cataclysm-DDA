@@ -11,7 +11,7 @@
 # output more reasonable, but the cumulative tally does include smaller
 # versions not listed.
 #
-# See also doc/COMPILING/COMPILER_SUPPORT.md
+# See also doc/c++/COMPILER_SUPPORT.md
 
 import csv
 import re
@@ -39,6 +39,8 @@ replacement = {
     'OS X Mountain Lion': (10, 8),
     'mac OS X Leopard': (10, 6),
     'mac OS X Tiger': (10, 4),
+    'mac OS X Jaguar': (10, 2),
+    'mac OS X Panther': (10, 3),
     'Other': (0,)
 }
 

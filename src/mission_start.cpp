@@ -1,8 +1,10 @@
 #include "mission.h" // IWYU pragma: associated
 
+#include <array>
+#include <cstddef>
 #include <memory>
-#include <new>
 #include <optional>
+#include <set>
 #include <vector>
 
 #include "avatar.h"
@@ -10,41 +12,38 @@
 #include "computer.h"
 #include "coordinates.h"
 #include "debug.h"
-#include "enum_traits.h"
+#include "dialogue.h"
 #include "game.h"
-#include "game_constants.h"
 #include "item.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "npc.h"
-#include "omdata.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "translations.h"
-#include "units.h"
 
 static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_console( "f_console" );
 static const furn_str_id furn_f_console_broken( "f_console_broken" );
 static const furn_str_id furn_f_dresser( "f_dresser" );
 
-static const itype_id itype_software_hacking( "software_hacking" );
-static const itype_id itype_software_math( "software_math" );
+static const itype_id itype_safe_box( "safe_box" );
 static const itype_id itype_software_medical( "software_medical" );
 static const itype_id itype_software_useless( "software_useless" );
+static const itype_id itype_usb_drive( "usb_drive" );
 
 static const mission_type_id
 mission_MISSION_GET_ZOMBIE_BLOOD_ANAL( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
 
 static const npc_class_id NC_DOCTOR( "NC_DOCTOR" );
-static const npc_class_id NC_HACKER( "NC_HACKER" );
-static const npc_class_id NC_SCIENTIST( "NC_SCIENTIST" );
 
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_wall_metal( "t_wall_metal" );
@@ -63,8 +62,8 @@ void mission_start::kill_nemesis( mission * )
     // Pick an area for the nemesis to spawn
 
     // Force z = 0 for overmapbuffer::find_random. (spawning on a rooftop is valid!)
-    const tripoint_abs_omt center = { get_player_character().global_omt_location().xy(), 0 };
-    tripoint_abs_omt site = overmap::invalid_tripoint;
+    const tripoint_abs_omt center = { get_player_character().pos_abs_omt().xy(), 0 };
+    tripoint_abs_omt site = tripoint_abs_omt::invalid;
 
     static const std::array<float, 3> attempts_multipliers {1.0f, 1.5f, 2.f};
 
@@ -76,7 +75,7 @@ void mission_start::kill_nemesis( mission * )
         }
         int range = rng( 40, 80 ) * attempts_multipliers[attempt - 1];
         site = overmap_buffer.find_random( center, "field", range, false );
-    } while( site == overmap::invalid_tripoint );
+    } while( site.is_invalid() );
     overmap_buffer.add_nemesis( site );
 }
 
@@ -152,20 +151,16 @@ void mission_start::place_npc_software( mission *miss )
         debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
         return;
     }
-    get_player_character().i_add( item( "usb_drive", calendar::turn_zero ) );
+    get_player_character().i_add( item( itype_usb_drive, calendar::turn_zero ) );
     add_msg( _( "%s gave you a USB drive." ), dev->get_name() );
 
     std::string type = "house";
 
-    if( dev->myclass == NC_HACKER ) {
-        miss->item_id = itype_software_hacking;
-    } else if( dev->myclass == NC_DOCTOR ) {
+    if( dev->myclass == NC_DOCTOR ) {
         miss->item_id = itype_software_medical;
         static const std::set<std::string> pharmacies = { "s_pharm", "s_pharm_1" };
         type = random_entry( pharmacies );
         miss->follow_up = mission_MISSION_GET_ZOMBIE_BLOOD_ANAL;
-    } else if( dev->myclass == NC_SCIENTIST ) {
-        miss->item_id = itype_software_math;
     } else {
         miss->item_id = itype_software_useless;
     }
@@ -174,7 +169,7 @@ void mission_start::place_npc_software( mission *miss )
     if( type == "house" ) {
         place = mission_util::random_house_in_closest_city();
     } else {
-        place = overmap_buffer.find_closest( dev->global_omt_location(), type, 0, false );
+        place = overmap_buffer.find_closest( dev->pos_abs_omt(), type, 0, false );
     }
     miss->target = place;
     overmap_buffer.reveal( place, 6 );
@@ -208,13 +203,13 @@ void mission_start::place_deposit_box( mission *miss )
     // Npc joins you
     p->set_attitude( NPCATT_FOLLOW );
     tripoint_abs_omt site =
-        overmap_buffer.find_closest( p->global_omt_location(), "bank", 0, false );
-    if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( p->global_omt_location(), "office_tower_1", 0, false );
+        overmap_buffer.find_closest( p->pos_abs_omt(), "bank", 0, false );
+    if( site.is_invalid() ) {
+        site = overmap_buffer.find_closest( p->pos_abs_omt(), "office_tower_1", 0, false );
     }
 
-    if( site == overmap::invalid_tripoint ) {
-        site = p->global_omt_location();
+    if( site.is_invalid() ) {
+        site = p->pos_abs_omt();
         debugmsg( "Couldn't find a place for deposit box" );
     }
 
@@ -236,13 +231,13 @@ void mission_start::place_deposit_box( mission *miss )
     }
     const tripoint_omt_ms fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), site.z() );
     const tripoint_omt_ms comppoint = random_entry( valid, fallback );
-    compmap.spawn_item( comppoint, "safe_box" );
+    compmap.spawn_item( comppoint, itype_safe_box );
     compmap.save();
 }
 
 void mission_start::find_safety( mission *miss )
 {
-    const tripoint_abs_omt place = get_player_character().global_omt_location();
+    const tripoint_abs_omt place = get_player_character().pos_abs_omt();
     for( int radius = 0; radius <= 20; radius++ ) {
         for( int dist = 0 - radius; dist <= radius; dist++ ) {
             int offset = rng( 0, 3 ); // Randomizes the direction we check first
@@ -323,7 +318,7 @@ void mission_start::reveal_refugee_center( mission *miss )
     }
 
     const tripoint_abs_omt source_road = overmap_buffer.find_closest(
-            get_player_character().global_omt_location(), "road",
+            get_player_character().pos_abs_omt(), "road",
             3, false );
     const tripoint_abs_omt dest_road = overmap_buffer.find_closest( *target_pos, "road", 3, false );
 
@@ -376,7 +371,7 @@ void mission_start::create_lab_console( mission *miss )
 {
     Character &player_character = get_player_character();
     // Pick a lab that has spaces on z = -1: e.g., in hidden labs.
-    tripoint_abs_omt loc = player_character.global_omt_location();
+    tripoint_abs_omt loc = player_character.pos_abs_omt();
     loc.z() = -1;
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, "lab", 0, false );
 
@@ -385,14 +380,14 @@ void mission_start::create_lab_console( mission *miss )
 
     // Target the lab entrance.
     const tripoint_abs_omt target = mission_util::target_closest_lab_entrance( place, 2, miss );
-    mission_util::reveal_road( player_character.global_omt_location(), target, overmap_buffer );
+    mission_util::reveal_road( player_character.pos_abs_omt(), target, overmap_buffer );
 }
 
 void mission_start::create_hidden_lab_console( mission *miss )
 {
     Character &player_character = get_player_character();
     // Pick a hidden lab entrance.
-    tripoint_abs_omt loc = player_character.global_omt_location();
+    tripoint_abs_omt loc = player_character.pos_abs_omt();
     loc.z() = -1;
     tripoint_abs_omt place = overmap_buffer.find_closest( loc, "basement_hidden_lab_stairs", 0, false );
     place.z() = -2;  // then go down 1 z-level to place consoles.
@@ -402,14 +397,14 @@ void mission_start::create_hidden_lab_console( mission *miss )
 
     // Target the lab entrance.
     const tripoint_abs_omt target = mission_util::target_closest_lab_entrance( place, 2, miss );
-    mission_util::reveal_road( player_character.global_omt_location(), target, overmap_buffer );
+    mission_util::reveal_road( player_character.pos_abs_omt(), target, overmap_buffer );
 }
 
 void mission_start::create_ice_lab_console( mission *miss )
 {
     Character &player_character = get_player_character();
     // Pick an ice lab with spaces on z = -4.
-    tripoint_abs_omt loc = player_character.global_omt_location();
+    tripoint_abs_omt loc = player_character.pos_abs_omt();
     loc.z() = -4;
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, "ice_lab", 0, false );
 
@@ -418,5 +413,5 @@ void mission_start::create_ice_lab_console( mission *miss )
 
     // Target the lab entrance.
     const tripoint_abs_omt target = mission_util::target_closest_lab_entrance( place, 2, miss );
-    mission_util::reveal_road( player_character.global_omt_location(), target, overmap_buffer );
+    mission_util::reveal_road( player_character.pos_abs_omt(), target, overmap_buffer );
 }

@@ -1,13 +1,15 @@
 #include "math_parser_jmath.h"
 
+#include <map>
 #include <string>
 #include <string_view>
 
-#include "condition.h"
 #include "dialogue.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "math_parser.h"
 #include "math_parser_diag.h"
+#include "string_formatter.h"
 
 namespace
 {
@@ -52,7 +54,7 @@ void jmath_func::load( JsonObject const &jo, const std::string_view /*src*/ )
     optional( jo, was_loaded, "num_args", num_params );
     optional( jo, was_loaded, "return", _str );
 
-    for( auto const &iter : get_all_diag_eval_funcs() ) {
+    for( auto const &iter : get_all_diag_funcs() ) {
         if( std::string const idstr = id.str(); iter.first == idstr ) {
             jo.throw_error( string_format(
                                 R"(jmath function "%s" shadows a built-in function with the same name.  You must rename it.)",
@@ -69,16 +71,16 @@ void jmath_func::finalize()
     }
 }
 
-double jmath_func::eval( dialogue &d ) const
+double jmath_func::eval( const_dialogue const &d ) const
 {
     return _exp.eval( d );
 }
 
-double jmath_func::eval( dialogue &d, std::vector<double> const &params ) const
+double jmath_func::eval( const_dialogue const &d, std::vector<double> const &params ) const
 {
-    dialogue d_next( d );
+    const_dialogue d_next( d );
     for( std::vector<double>::size_type i = 0; i < params.size(); i++ ) {
-        write_var_value( var_type::context, "npctalk_var_" + std::to_string( i ), &d_next, params[i] );
+        d_next.set_value( std::to_string( i ), string_format( "%g", params[i] ) );
     }
 
     return eval( d_next );

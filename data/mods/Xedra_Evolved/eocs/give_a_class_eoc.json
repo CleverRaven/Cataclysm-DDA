@@ -11,8 +11,9 @@
             { "math": [ "u_has_trait('INVENTOR') + u_has_trait('DREAMSMITH') == 0" ] }
           ]
         },
-        { "math": [ "magic_potential", ">", "0" ] },
-        { "not": { "u_has_trait": "DREAMLESS" } }
+        { "math": [ "magic_potential > 0" ] },
+        { "not": { "u_has_trait": "DREAMLESS" } },
+        { "test_eoc": "EOC_CONDITION_BANNED_DREAM_MAGIC_TRAITS" }
       ]
     }
   },
@@ -27,24 +28,24 @@
           "and": [
             { "not": { "u_has_trait": "EATER" } },
             { "not": { "u_has_trait": "DREAMER" } },
-            { "math": [ "allow_sequence", "==", "1" ] },
-            { "math": [ "eater_dreamer_sequence", "==", "0" ] },
-            { "math": [ "inventor_dreamsmith_sequence", "==", "0" ] }
+            { "math": [ "allow_sequence == 1" ] },
+            { "math": [ "eater_dreamer_sequence == 0" ] },
+            { "math": [ "inventor_dreamsmith_sequence == 0" ] }
           ]
         },
-        "then": [ { "math": [ "allow_sequence", "=", "0" ] }, { "math": [ "eater_dreamer_sequence", "++" ] } ]
+        "then": [ { "math": [ "allow_sequence = 0" ] }, { "math": [ "eater_dreamer_sequence++" ] } ]
       },
       {
         "if": {
           "and": [
             { "not": { "u_has_trait": "INVENTOR" } },
             { "not": { "u_has_trait": "DREAMSMITH" } },
-            { "math": [ "allow_sequence", "==", "1" ] },
-            { "math": [ "eater_dreamer_sequence", "==", "0" ] },
-            { "math": [ "inventor_dreamsmith_sequence", "==", "0" ] }
+            { "math": [ "allow_sequence == 1" ] },
+            { "math": [ "eater_dreamer_sequence == 0" ] },
+            { "math": [ "inventor_dreamsmith_sequence == 0" ] }
           ]
         },
-        "then": [ { "math": [ "allow_sequence", "=", "0" ] }, { "math": [ "inventor_dreamsmith_sequence", "++" ] } ]
+        "then": [ { "math": [ "allow_sequence = 0" ] }, { "math": [ "inventor_dreamsmith_sequence++" ] } ]
       }
     ]
   },
@@ -52,15 +53,11 @@
     "type": "effect_on_condition",
     "id": "EOC_XE_MAGIC_BAD_DREAMS",
     "recurrence": [ "30 m", "2 h" ],
-    "deactivate_condition": {
-      "and": [ { "math": [ "eater_dreamer_sequence", "<", "-1" ] }, { "math": [ "inventor_dreamsmith_sequence", "<", "-1" ] } ]
-    },
+    "deactivate_condition": { "and": [ { "math": [ "eater_dreamer_sequence < -1" ] }, { "math": [ "inventor_dreamsmith_sequence < -1" ] } ] },
     "condition": {
       "and": [
         { "u_has_effect": "sleep" },
-        {
-          "or": [ { "math": [ "eater_dreamer_sequence", ">", "0" ] }, { "math": [ "inventor_dreamsmith_sequence", ">", "0" ] } ]
-        }
+        { "or": [ { "math": [ "eater_dreamer_sequence > 0" ] }, { "math": [ "inventor_dreamsmith_sequence > 0" ] } ] }
       ]
     },
     "effect": [ { "u_message": "XE_BAD_DREAMS", "type": "bad", "snippet": true } ]
@@ -70,12 +67,12 @@
     "id": "EOC_XE_MAGIC_SEQUENCE_EATER_DREAMER_COUNTER",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
-    "condition": { "math": [ "eater_dreamer_sequence", ">", "0" ] },
+    "condition": { "math": [ "eater_dreamer_sequence > 0" ] },
     "effect": [
       {
         "if": { "and": [ { "not": { "u_has_trait": "EATER" } }, { "not": { "u_has_trait": "DREAMER" } } ] },
         "then": [
-          { "math": [ "eater_dreamer_sequence", "++" ] },
+          { "math": [ "eater_dreamer_sequence++" ] },
           {
             "switch": { "math": [ "eater_dreamer_sequence" ] },
             "cases": [
@@ -119,14 +116,14 @@
                   { "run_eocs": [ "EOC_XE_RUN_RIDDLE" ] },
                   { "run_eocs": [ "EOC_XE_RUN_RIDDLE" ] },
                   { "run_eocs": [ "EOC_XE_RUN_RIDDLE_EATER_DREAMER" ] },
-                  { "math": [ "eater_dreamer_sequence", "=", "-99999" ] },
-                  { "math": [ "magic_potential", "=", "0" ] }
+                  { "math": [ "eater_dreamer_sequence = -99999" ] },
+                  { "math": [ "magic_potential = 0" ] }
                 ]
               }
             ]
           }
         ],
-        "else": [ { "math": [ "eater_dreamer_sequence", "=", "-99999" ] }, { "math": [ "magic_potential", "=", "0" ] } ]
+        "else": [ { "math": [ "eater_dreamer_sequence = -99999" ] }, { "math": [ "magic_potential = 0" ] } ]
       }
     ]
   },
@@ -135,9 +132,9 @@
     "id": "EOC_XE_MAGIC_SEQUENCE_INVENTOR_DREAMSMITH_COUNTER",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
-    "condition": { "math": [ "inventor_dreamsmith_sequence", ">", "0" ] },
+    "condition": { "math": [ "inventor_dreamsmith_sequence > 0" ] },
     "effect": [
-      { "math": [ "inventor_dreamsmith_sequence", "++" ] },
+      { "math": [ "inventor_dreamsmith_sequence++" ] },
       {
         "if": { "and": [ { "not": { "u_has_trait": "INVENTOR" } }, { "not": { "u_has_trait": "DREAMSMITH" } } ] },
         "then": [
@@ -146,7 +143,7 @@
             "cases": [
               {
                 "case": 2,
-                "effect": { "u_message": "It happens again.  Otherworldy nightmares haunt you.", "type": "mixed", "popup": true }
+                "effect": { "u_message": "It happens again.  Otherworldly nightmares haunt you.", "type": "mixed", "popup": true }
               },
               {
                 "case": 3,
@@ -172,14 +169,68 @@
                   { "run_eocs": [ "EOC_XE_RUN_RIDDLE" ] },
                   { "run_eocs": [ "EOC_XE_RUN_RIDDLE" ] },
                   { "run_eocs": [ "EOC_XE_RUN_RIDDLE_INVENTOR_DREAMSMITH" ] },
-                  { "math": [ "inventor_dreamsmith_sequence", "=", "-99999" ] }
+                  { "math": [ "inventor_dreamsmith_sequence = -99999" ] }
                 ]
               }
             ]
           }
         ],
-        "else": [ { "math": [ "inventor_dreamsmith_sequence", "=", "-99999" ] }, { "math": [ "magic_potential", "=", "-1" ] } ]
+        "else": [ { "math": [ "inventor_dreamsmith_sequence = -99999" ] }, { "math": [ "magic_potential = -1" ] } ]
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_REMOVE_DREAM_MAGIC",
+    "effect": [
+      { "u_lose_trait": "DREAMER" },
+      { "u_lose_trait": "DREAMSMITH" },
+      { "u_lose_trait": "EATER" },
+      { "u_lose_trait": "INVENTOR" },
+      { "u_mutate_towards": "DREAMLESS", "category": "ANY", "use_vitamins": false },
+      { "u_forget_recipe": "CC_XEDRA", "subcategory": "CSC_XEDRA_ARMOR" },
+      { "u_forget_recipe": "inventor_research_energy_1", "//": "CSC_XEDRA_RESEARCH start" },
+      { "u_forget_recipe": "inventor_research_energy_2" },
+      { "u_forget_recipe": "inventor_research_energy_3" },
+      { "u_forget_recipe": "inventor_research_base_2" },
+      { "u_forget_recipe": "inventor_research_base_3" },
+      { "u_forget_recipe": "inventor_research_ai_1" },
+      { "u_forget_recipe": "inventor_research_dimension_1" },
+      { "u_forget_recipe": "dreamsmith_research" },
+      { "u_forget_recipe": "CC_XEDRA", "subcategory": "CSC_XEDRA_ROBOTS" },
+      { "u_forget_recipe": "CC_XEDRA", "subcategory": "CSC_XEDRA_TOOLS" },
+      { "u_forget_recipe": "CC_XEDRA", "subcategory": "CSC_XEDRA_WEAPONS" },
+      { "u_forget_recipe": "trinket_damage", "//": "CSC_XEDRA_MISC start" },
+      { "u_forget_recipe": "trinket_range" },
+      { "u_forget_recipe": "trinket_sound" },
+      { "u_forget_recipe": "choke_wideshot" },
+      { "u_forget_recipe": "mod_inv_pistol_booster" },
+      { "u_forget_recipe": "stunning_qr_trap" },
+      { "u_forget_recipe": "stunning_arg_trap" },
+      { "u_forget_recipe": "inventor_light_minus_cell" },
+      { "u_forget_recipe": "inventor_light_cell" },
+      { "u_forget_recipe": "inventor_medium_cell" },
+      { "u_forget_recipe": "inventor_heavy_cell" },
+      { "u_forget_recipe": "inventor_lasmod_mega_capasitor" },
+      { "u_forget_recipe": "inventor_lasmod_adv_adv_cooler" },
+      { "u_forget_recipe": "inventor_lasmod_recuperator" },
+      { "u_forget_recipe": "inventor_lasmod_mega_everything" },
+      { "u_forget_recipe": "inventor_lasmod_more_capacitors" },
+      { "u_forget_recipe": "inventor_lasmod_close_range" },
+      { "u_forget_recipe": "inventor_lasmod_long_range" },
+      { "u_forget_recipe": "inventor_lasmod_capasitor" },
+      { "u_forget_recipe": "inventor_lasmod_energy_safe" },
+      { "u_forget_recipe": "inventor_lasmod_adv_cooler" },
+      { "u_forget_recipe": "inventor_lasmod_radiator" },
+      { "u_forget_recipe": "inventor_lasmod_chonky_radiator" },
+      { "u_forget_recipe": "inventor_lasmod_spooky_heat_sink" },
+      { "u_forget_recipe": "dreamdross_lump" },
+      { "u_forget_recipe": "forged_dreamstuff_ingot" },
+      { "u_forget_recipe": "dreamforged_nail" },
+      { "u_forget_recipe": "software_math_inventor", "//": "Are these even recipes?" },
+      { "u_forget_recipe": "software_electronics_reference_inventor" },
+      { "u_forget_recipe": "nre_recorder_inventor" },
+      { "u_forget_recipe": "teleporter_inventor" }
     ]
   }
 ]

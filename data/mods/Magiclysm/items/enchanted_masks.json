@@ -3,8 +3,8 @@
     "abstract": "mmask",
     "type": "TOOL_ARMOR",
     "category": "armor",
-    "name": "magic mask",
-    "description": "A generic magic mask.",
+    "name": { "str": "magic mask", "//~": "NO_I18N" },
+    "description": { "str": "A generic magic mask.", "//~": "NO_I18N" },
     "weight": "442 g",
     "volume": "750 ml",
     "price": "2 kUSD",
@@ -39,7 +39,7 @@
     "copy-from": "mmask",
     "environmental_protection": 6,
     "material": [ "steel", "leather" ],
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "ZOOM", "NORMAL", "SKINTIGHT" ],
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "ZOOM", "NORMAL", "SKINTIGHT" ],
     "qualities": [ [ "GLARE", 1 ] ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "multiply": 0.25 } ] } ]

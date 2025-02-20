@@ -9,8 +9,8 @@
     "avoidance": 99,
     "difficulty": 99,
     "trap_radius": 2,
-    "action": "spell",
+    "action": "eocs",
     "flags": [ "UNCONSUMED", "UNDODGEABLE" ],
-    "spell_data": { "id": "escape_pod" }
+    "eocs": [ "EOC_ESCAPE_POD_CHAIR" ]
   }
 ]

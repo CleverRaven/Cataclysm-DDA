@@ -103,7 +103,7 @@
   {
     "id": "ALLOWS_BODY_BLOCK",
     "type": "json_flag",
-    "info": "This item <info>allows to block with your body</info> when wielded as a weapon."
+    "info": "This item <info>won't prevent you from blocking with your body, such as arms or legs</info> when wielded as a weapon."
   },
   {
     "id": "ALLOWS_NATURAL_ATTACKS",
@@ -445,21 +445,9 @@
     "type": "json_flag"
   },
   {
-    "id": "ONLY_ONE",
-    "type": "json_flag",
-    "info": "You can wear <info>only one</info>."
-  },
-  {
     "id": "ONE_PER_LAYER",
     "type": "json_flag",
     "info": "<info>Only one</info> item can be worn on this clothing layer."
-  },
-  {
-    "id": "FANCY",
-    "type": "json_flag",
-    "//": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
-    "info": "This clothing is <info>fancy</info>.",
-    "conflicts": [ "SUPER_FANCY" ]
   },
   {
     "id": "FIRE",
@@ -592,6 +580,11 @@
     "info": "You could probably <color_brown>plant</color> these."
   },
   {
+    "id": "POST_UP",
+    "type": "json_flag",
+    "info": "This item can be put up on a wall, like a poster."
+  },
+  {
     "id": "MELTS",
     "type": "json_flag",
     "info": "This food <neutral>melts when not in a very cold climate</neutral>, and tastes much <good>better</good> when <color_light_cyan>frozen</color>."
@@ -660,9 +653,14 @@
     "//": "Designates a food that is usually undesirable but gives a morale bonus to characters with predator mutations."
   },
   {
-    "id": "PRESERVE_SPAWN_OMT",
+    "id": "PRESERVE_SPAWN_LOC",
     "type": "json_flag",
-    "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
+    "//": "This item will store the tripoint_abs_ms it spawned in the 'spawn_location' var"
+  },
+  {
+    "id": "HINT_THE_LOCATION",
+    "type": "json_flag",
+    "//": "Same as PRESERVE_SPAWN_LOC, but also shows a snippet of how far the character from the `spawn_location`: 1 OMT or less is `(from here)`, less than 6 OMT is `(from nearby)`, less than 30 OMT is `(from this area)`, anything more is (from far away)"
   },
   {
     "id": "PROVIDES_TECHNIQUES",
@@ -931,13 +929,6 @@
     "info": "This clothing keeps the <info>glare</info> out of your eyes."
   },
   {
-    "id": "SUPER_FANCY",
-    "type": "json_flag",
-    "//": "Gives an additional moral bonus over FANCY if the player has the Stylish trait.",
-    "info": "This clothing is <info>very fancy</info>.",
-    "conflicts": [ "FANCY" ]
-  },
-  {
     "id": "SWIM_GOGGLES",
     "type": "json_flag",
     "//": "Allows you to see much further under water.",
@@ -1045,6 +1036,11 @@
     "id": "WONT_TRAIN_MARKSMANSHIP",
     "type": "json_flag",
     "//": "This gun wont train marksmanship when fired.  Used in Aftershock smart guns."
+  },
+  {
+    "id": "GENE_TECH",
+    "type": "json_flag",
+    "//": "Used in Aftershock gene editing."
   },
   {
     "id": "NANOFAB_REPAIR",
@@ -1546,10 +1542,6 @@
     "info": "This is <info>naturally sized to the body</info>."
   },
   {
-    "id": "IR_EFFECT",
-    "type": "json_flag"
-  },
-  {
     "id": "IS_ARMOR",
     "type": "json_flag"
   },
@@ -1619,6 +1611,11 @@
     "id": "MUNDANE",
     "//": "For items that have relic data but aren't actually magic",
     "info": "This item is designed to have special effects",
+    "type": "json_flag"
+  },
+  {
+    "id": "RELIC_PINK",
+    "//": "For items that do not have relic data, but intended to be magical; changes the color of item to pink",
     "type": "json_flag"
   },
   {
@@ -2164,8 +2161,8 @@
   {
     "id": "BATTERY_HEAVY",
     "type": "json_flag",
-    "info": "This item fits in items that use heavy batteries.",
-    "name": "heavy battery"
+    "info": "This item fits in items that use tool batteries.",
+    "name": "tool battery"
   },
   {
     "id": "METHANOL_TANK",
@@ -2294,6 +2291,11 @@
     "inherit": false
   },
   {
+    "id": "ENERGY_SHIELD",
+    "type": "json_flag",
+    "info": "This piece of armor is an energy barrier and will break after absorbing a certain amount of damage."
+  },
+  {
     "id": "ROBOFAC_ROBOT_MEDIUM",
     "type": "json_flag",
     "info": "A medium drone sold by Hub 01."
@@ -2335,6 +2337,41 @@
   {
     "id": "ELECTRONIC",
     "type": "json_flag"
+  },
+  {
+    "id": "E_FILE_DEVICE",
+    "type": "json_flag",
+    "//": "Any item that can handle electronic files"
+  },
+  {
+    "id": "E_STORABLE",
+    "type": "json_flag",
+    "//": "Any item that can be an electronic file"
+  },
+  {
+    "id": "E_COPIABLE",
+    "type": "json_flag",
+    "//": "Any item that can be electronically copied and scanned"
+  },
+  {
+    "id": "E_FILE_COLLECTION",
+    "type": "json_flag",
+    "//": "Any item that represents a collection of electronic files; this is to avoid making a file system for electronic devices"
+  },
+  {
+    "id": "E_FILE_DEVICE_UNREAD",
+    "type": "json_flag",
+    "//": "Any item that can handle electronic files but hasn't been read yet"
+  },
+  {
+    "id": "VIEW_RECIPES",
+    "type": "json_flag",
+    "//": "Any item that can display a list of contained recipes"
+  },
+  {
+    "id": "VIEW_PHOTOS",
+    "type": "json_flag",
+    "//": "Any item that can display a list of contained photos"
   },
   {
     "id": "AFS_CS_LOCKER_CARD",
@@ -2462,6 +2499,11 @@
     "id": "ROOTS3",
     "type": "json_flag",
     "info": "The character has extensive roots, which helps with the TREE_COMMUNION mutation."
+  },
+  {
+    "id": "VINE_RAPPEL",
+    "type": "json_flag",
+    "info": "The character can use vines to safely rappel down sheer drops."
   },
   {
     "id": "ANIMALDISCORD",
@@ -2597,5 +2639,43 @@
     "id": "CRAFT_IN_DARKNESS",
     "type": "json_flag",
     "info": "You can craft at 100% speed in any level of light."
+  },
+  {
+    "id": "CANNOT_ATTACK",
+    "type": "json_flag",
+    "//": "Creatures and players with this flag cannot attack (includes any spellcasting)."
+  },
+  {
+    "id": "CANNOT_MOVE",
+    "type": "json_flag",
+    "//": "Creatures and players with this flag cannot naturally move."
+  },
+  {
+    "id": "CANNOT_TAKE_DAMAGE",
+    "type": "json_flag"
+  },
+  {
+    "id": "CANNOT_CHANGE_TEMPERATURE",
+    "type": "json_flag"
+  },
+  {
+    "id": "FREEZE_EFFECTS",
+    "type": "json_flag",
+    "//": "Creatures with this flag will not have their effects change in duration except for the effects that contain this flag."
+  },
+  {
+    "id": "CANNOT_GAIN_EFFECTS",
+    "type": "json_flag",
+    "//": "Creatures with this flag will not gain any new effects or gain extra time on their current ones."
+  },
+  {
+    "id": "BANK_NETWORKED",
+    "type": "json_flag",
+    "//": "Vending machines with this flag will allow purchasing items with your bank balance."
+  },
+  {
+    "id": "NATURAL_UNDERGROUND",
+    "type": "json_flag",
+    "//": "Wall tiles with this flag occur naturally underground and are not manmade."
   }
 ]

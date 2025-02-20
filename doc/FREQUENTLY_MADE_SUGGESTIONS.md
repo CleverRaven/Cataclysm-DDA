@@ -142,12 +142,23 @@ Currently it’s way too easy to accumulate NPC followers and end up becoming ef
 #### Psychic powers: mod only
 
 Not happening, it simply doesn’t fit the theme of the game.
-However, Mind Over Matter is distributed with the game, and adds psychic powers. See [MAGIC.md](MAGIC.md) for more info.
+However, Mind Over Matter is distributed with the game, and adds psychic powers. See [MAGIC.md](JSON/MAGIC.md) for more info.
 
 #### Magic powers: mod only
 
 Not happening, it simply doesn’t fit the theme of the game.
-However, the Magiclysm mod is distributed with the game and is very extensible in JSON to support other systems of magic, such as Mind Over Matter. This infrastructure is also used with EOC's and activated mutations in the base game. See [MAGIC.md](MAGIC.md) for more info.
+However, the Magiclysm mod is distributed with the game and is very extensible in JSON to support other systems of magic, such as Mind Over Matter. This infrastructure is also used with EOC's and activated mutations in the base game. See [MAGIC.md](JSON/MAGIC.md) for more info.
+
+#### Remove skill rust: no
+
+First things first: 99% of people ask to remove skill rust because their informations is based on very outdated information. Skill rust is a very old mechanic; it was added before Cataclysm DDA, by Whales, in Cataclysm. While I do not know why it was added in the first place, it was pretty terrible - you could level your skill now, but not being able to use it in crafting a few hours after, purely because the skill was rusted.
+But not now. Skill rust was changed over the years to be a **purely positive mechanic**:
+- Skills were divided into theoretical and practical levels, and a lot of functions were revisited to use the theoretical level, and increasing the practical level while having theory brings additional xp. Rust, meanwhile, is limited by only 1 ***practical*** level and grants even more free xp when restored;
+- Skills overall were made floats, which means the difference between skill level 3 and skill level 2.99 is only 0.01, not an entire 1 level;
+- The UI was changed to ensure the reptilian brain of ours will not associate skill rust with red numbers (because red = bad)
+and skill rust impact (and benefit) would be even stronger once #67580 is implemented fully.
+This combined, the only way I can see someone wanting to remove skill rust is purely because of rumors from people not familiar with the changes, that are based themselves either on their outdated experience or from incorrect rumors they were told.
+- To further clarify, if someone uses a mod to remove skill rust their character will level skills slower than a character experiencing skill rust.
 
 #### Poop and related bodily functions: NO
 No, just no, not even in a mod.
@@ -256,6 +267,24 @@ When this happens (which will be a while, it’s pretty invasive and complicated
 Some people want to play as a robot, or an android, or a brain in a jar piloting a robotic body, or as a dog.  The developers want to allow people to do all of that.  Unfortunately, there's a lot of changes that need to be made to get from the current state of the code to that highly desirable end-point.  Some changes have already been made, but there's nothing really visible yet.
 
 As of 2024, there have been some very exciting changes to how we handle characters, allowing them to have non-humanoid limb configurations. This is useful for if trying to play as say, an intelligent dog, as dogs typically have four legs and no arms. However the work is still ongoing, and not yet ready for a general release. Much of the foundational work can be seen in the currently named "Work in Progress Limb Stuff" mod which ships with the game.
+
+#### Losing limb in combat: sure, but character gonna die (almost always)
+
+Often I see people asking when will combat be so dangerous that you will be able to lose your beloved arm or leg. Bullet points:
+
+Main ways to lose a limb are:
+
+You have so badly damaged/infected limb that your doctor/surgeon has no other way to save it but by cutting it - you have pretty high chances of survival, maybe even a guarantee if it's a faction doctor or you invest heavily in your own camp having a good surgeon with a tools reqired;
+
+The second way is in a fight, as a result of a devastating, critical attack that deals an immense amount of damage to your limb - after all, arms and legs are not noodles; it requires a lot of force for the bone to be cut or for the shoulder to be detached. This, of course, would be followed by a massive pain shock from your beloved body part being detached, blood loss of immense intensity, and realization that whoever did this to you is still alive and trying to murder you. Because of all the aforementioned things, your chances of surviving such an event are close to zero unless you have the help of your dear comrade(s) (better to have a medic by occasion).
+
+There are sure other ways, more technical, like mutating your arm into a crab claw or replacing it with a bionic drill, but that's another story.
+
+In summary, the main things that stop us from introducing limb loss are, at first, a lack of NPC intelligence so they can help you if you experienced this loss, and second, a lot of our stuff is missing being tied to limb scores (something that you should have decreased because you have no limb). This is the main reason all limb stuff currently exists in a separate mod and is not part of the game.
+
+NB: This talks specifically about average human experience; mutants are less limited to this (though a mouse or bear mutant would lose the limb in pretty similar fashion).
+
+NB2: Please do not try to make it via EoC.
 
 #### Bring back ICBM launch: Mod only
 

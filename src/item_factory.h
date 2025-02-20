@@ -3,12 +3,13 @@
 #define CATA_SRC_ITEM_FACTORY_H
 
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -242,13 +243,6 @@ class Item_factory
         const itype *find_template( const itype_id &id ) const;
 
         /**
-         * Add a passed in itype to the collection of item types.
-         * If the item type overrides an existing type, the existing type is deleted first.
-         * @param def The new item type, must not be null.
-         */
-        void add_item_type( const itype &def );
-
-        /**
          * Check if an iuse is known to the Item_factory.
          * @param type Iuse type id.
          */
@@ -307,6 +301,10 @@ class Item_factory
         void load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
                         const std::string &src );
 
+        /**
+        * Load ememory_size, which is automatically calculated for books
+        */
+        void load_ememory_size( const JsonObject &jo, itype &def );
         /**
          * Load item the item slot if present in json.
          * Checks whether the json object has a member of the given name and if so, loads the item

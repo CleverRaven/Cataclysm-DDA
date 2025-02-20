@@ -13,13 +13,10 @@
 #include "debug.h"
 #include "dialogue.h"
 #include "effect_on_condition.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
 #include "item.h"
 #include "json.h"
-#include "json_error.h"
 #include "make_static.h"
 #include "monster.h"
 #include "mtype.h"
@@ -437,9 +434,9 @@ void damage_type::ondamage_effects( Creature *source, Creature *target, bodypart
         dialogue d( source == nullptr ? nullptr : get_talker_for( source ),
                     target == nullptr ? nullptr : get_talker_for( target ) );
 
-        d.set_value( "npctalk_var_damage_taken", std::to_string( damage_taken ) );
-        d.set_value( "npctalk_var_total_damage", std::to_string( total_damage ) );
-        d.set_value( "npctalk_var_bp", bp.str() );
+        d.set_value( "damage_taken", std::to_string( damage_taken ) );
+        d.set_value( "total_damage", std::to_string( total_damage ) );
+        d.set_value( "bp", bp.str() );
 
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );

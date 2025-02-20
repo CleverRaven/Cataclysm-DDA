@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_VITAMIN_H
 #define CATA_SRC_VITAMIN_H
 
-#include <iosfwd>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -11,9 +11,8 @@
 
 #include "calendar.h"
 #include "stomach.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
-#include "units.h"
 
 class JsonObject;
 template <typename T> struct enum_traits;

@@ -4,16 +4,15 @@
 #include <array>
 #include <memory>
 
-#include "options.h"
 #include "cached_options.h"
+#include "cata_imgui.h"
 #include "catacharset.h"
+#include "color.h"
+#include "imgui/imgui.h"
 #include "input_context.h"
 #include "output.h"
+#include "string_formatter.h"
 #include "ui_manager.h"
-#include "ui.h"
-#include "cata_imgui.h"
-#include "imgui/imgui.h"
-#include "color.h"
 
 class query_popup_impl : public cataimgui::window
 {
@@ -55,6 +54,7 @@ class query_popup_impl : public cataimgui::window
 
 void query_popup_impl::draw_controls()
 {
+    ImGui::SetNavCursorVisible( true );
     mouse_selected_option = -1;
 
     for( const std::string &line : parent->folded_msg ) {
@@ -317,16 +317,13 @@ query_popup::result query_popup::query_once()
     if( cancel ) {
         ctxt.register_action( "QUIT" );
     }
-#if defined(WIN32) || defined(TILES)
-    ctxt.set_timeout( 50 );
-#endif
 
     result res;
     // Assign outside construction of `res` to ensure execution order
     res.wait_input = !anykey;
     do {
         ui_manager::redraw();
-        res.action = ctxt.handle_input();
+        res.action = ctxt.handle_input( 50 );
         res.evt = ctxt.get_raw_input();
 
         // If we're tracking mouse movement

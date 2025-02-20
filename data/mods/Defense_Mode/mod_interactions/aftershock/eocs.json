@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "DEFENSE_MODE_WAVE_SPAWN_AFTERSHOCK",
-    "condition": { "math": [ "aftershock_allowed", "==", "1" ] },
+    "condition": { "math": [ "aftershock_allowed == 1" ] },
     "effect": [
       {
         "u_spawn_monster": "AFS_GROUP_DM",

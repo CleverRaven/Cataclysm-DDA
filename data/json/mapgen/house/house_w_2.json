@@ -32,7 +32,6 @@
         "...ssssss..............."
       ],
       "palettes": [ "house_w_foundation_palette" ],
-      "terrain": { "#": "t_adobe_brick_wall" },
       "nested": {
         "1": { "chunks": [ [ "bedroom_4x4_adult_1_N", 20 ] ] },
         "2": {

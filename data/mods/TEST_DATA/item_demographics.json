@@ -506,24 +506,12 @@
           "type": "40x46mm",
           "weight": 1,
           "items": {
-            "40x46mm_buckshot_m118": 1,
-            "40x46mm_buckshot_m199": 1,
-            "40x46mm_flechette_m118": 1,
-            "40x46mm_flechette_m199": 1,
             "40x46mm_hornets_nest_22lr": 1,
             "40x46mm_hornets_nest_410": 1,
             "40x46mm_m1006": 1,
             "40x46mm_m433": 1,
             "40x46mm_m576": 1,
-            "40x46mm_m651": 1,
-            "40x46mm_slug_m118": 1,
-            "40x46mm_slug_m199": 1,
-            "bp_40x46mm_buckshot_m118": 1,
-            "bp_40x46mm_buckshot_m199": 1,
-            "bp_40x46mm_flechette_m118": 1,
-            "bp_40x46mm_flechette_m199": 1,
-            "bp_40x46mm_slug_m118": 1,
-            "bp_40x46mm_slug_m199": 1
+            "40x46mm_m651": 1
           }
         },
         {
@@ -565,18 +553,6 @@
             "reloaded_4570_low": 1,
             "reloaded_4570_pen": 1,
             "reloaded_4570_sp": 1
-          }
-        },
-        {
-          "type": "460",
-          "weight": 1,
-          "items": {
-            "460_fmj": 1,
-            "460_rowland": 1,
-            "bp_460_fmj": 1,
-            "bp_460_rowland": 1,
-            "reloaded_460_fmj": 1,
-            "reloaded_460_rowland": 1
           }
         },
         { "type": "46", "weight": 1, "items": { "46mm": 1, "bp_46mm": 1, "reloaded_46mm": 1 } },
@@ -645,6 +621,7 @@
             "m9": 1,
             "px4": 1,
             "rifle_9mm": 1,
+            "rugerpcc": 1,
             "smg_9mm": 1,
             "sten": 1,
             "tec9": 1,
@@ -673,6 +650,7 @@
             "1911-22": 1,
             "henry_golden_boy": 1,
             "marlin_9a": 1,
+            "marlin60": 1,
             "rifle_22": 1,
             "ruger_1022": 1,
             "ruger_lcr_22": 1,
@@ -686,7 +664,8 @@
             "ruger_mk4": 1,
             "rough_rider_pistol": 1,
             "rough_rider_pistol_9": 1,
-            "rossi_gallery": 1
+            "rossi_gallery": 1,
+            "sw617": 1
           }
         },
         {
@@ -901,7 +880,6 @@
             "bfr": 1,
             "sharps": 1,
             "hk_mp7": 1,
-            "m1911-460": 1,
             "m107a1": 1,
             "m2browning": 1,
             "as50": 1,
@@ -978,7 +956,6 @@
             "m18": 1,
             "m1911": 1,
             "m1911_10": 1,
-            "m1911-460": 1,
             "m1911a1_38super": 1,
             "m9": 1,
             "makarov": 1,
@@ -1015,6 +992,7 @@
             "surv_six_shooter": 1,
             "sw_500": 1,
             "sw_610": 1,
+            "sw617": 1,
             "sw_619": 1,
             "sw629": 1,
             "TDI_10": 1,
@@ -1111,6 +1089,7 @@
             "m4_cqbr": 1,
             "m60": 1,
             "m60_semi": 1,
+            "marlin60": 1,
             "marlin_9a": 1,
             "mdrx": 1,
             "mdrx_223": 1,
@@ -1164,6 +1143,7 @@
             "ruger_arr": 1,
             "ruger_m77": 1,
             "ruger_mini": 1,
+            "rugerpcc": 1,
             "ruger_pr": 1,
             "savage_111f": 1,
             "savage112": 1,

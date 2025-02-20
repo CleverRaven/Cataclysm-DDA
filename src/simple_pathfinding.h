@@ -2,12 +2,13 @@
 #ifndef CATA_SRC_SIMPLE_PATHFINDING_H
 #define CATA_SRC_SIMPLE_PATHFINDING_H
 
+#include <cstddef>
 #include <functional>
 #include <optional>
+#include <type_traits>
 #include <vector>
 
 #include "coords_fwd.h"
-#include "enums.h"
 #include "omdata.h"
 #include "point.h"
 
@@ -43,7 +44,12 @@ struct directed_path {
  */
 template<typename Point>
 struct simple_path {
+    //points along the path, typically starting with the last point of the path
     std::vector<Point> points;
+    //total distance of the path, possibly measured in tiles/meters depending on the pathing operation
+    int dist;
+    //total cost of the path, possibly measured in seconds depending on the scoring function
+    int cost;
 };
 
 // Data structure returned by a node scoring function.

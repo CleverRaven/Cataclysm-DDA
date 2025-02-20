@@ -4,7 +4,6 @@
 
 #include <functional>
 #include <map>
-#include <memory>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -13,15 +12,14 @@
 
 #include "dialogue.h"
 #include "dialogue_helpers.h"
-#include "event.h"
 #include "event_subscriber.h"
 #include "type_id.h"
 
 class Character;
 class JsonObject;
 class JsonValue;
-class talker;
 class time_duration;
+enum class event_type : int;
 struct effect_on_condition;
 template <typename E> struct enum_traits;
 template <typename T> class generic_factory;
@@ -29,10 +27,8 @@ template <typename T> class generic_factory;
 enum eoc_type {
     ACTIVATION,
     RECURRING,
-    SCENARIO_SPECIFIC,
     AVATAR_DEATH,
     NPC_DEATH,
-    OM_MOVE,
     PREVENT_DEATH,
     EVENT,
     NUM_EOC_TYPES
@@ -61,8 +57,8 @@ struct effect_on_condition {
         effect_on_condition_id id;
         std::vector<std::pair<effect_on_condition_id, mod_id>> src;
         eoc_type type;
-        std::function<bool( dialogue & )> condition;
-        std::function<bool( dialogue & )> deactivate_condition;
+        std::function<bool( const_dialogue const & )> condition;
+        std::function<bool( const_dialogue const & )> deactivate_condition;
         talk_effect_t true_effect;
         talk_effect_t false_effect;
         bool has_deactivate_condition = false;
@@ -71,8 +67,8 @@ struct effect_on_condition {
         event_type required_event;
         duration_or_var recurrence;
         bool activate( dialogue &d, bool require_callstack_check = true ) const;
-        bool check_deactivate( dialogue &d ) const;
-        bool test_condition( dialogue &d ) const;
+        bool check_deactivate( const_dialogue const &d ) const;
+        bool test_condition( const_dialogue const &d ) const;
         void apply_true_effects( dialogue &d ) const;
         void load( const JsonObject &jo, std::string_view src );
         void finalize();
@@ -114,8 +110,6 @@ void write_global_eocs_to_file();
 void prevent_death();
 /** Run all avatar death eocs */
 void avatar_death();
-/** Run all OM_MOVE eocs */
-void om_move();
 } // namespace effect_on_conditions
 
 template<>

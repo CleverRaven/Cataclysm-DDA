@@ -1,40 +1,59 @@
 #include "veh_shape.h"
 
-#include "animation.h"
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <utility>
+
 #include "avatar.h"
 #include "cached_options.h"
+#include "cata_scope_helpers.h"
+#include "color.h"
+#include "debug.h"
 #include "game.h"
+#include "input_enums.h"
+#include "map.h"
+#include "map_scale_constants.h"
+#include "memory_fast.h"
 #include "options.h"
 #include "output.h"
 #include "player_activity.h"
+#include "point.h"
+#include "ret_val.h"
+#include "translations.h"
+#include "ui.h"
+#include "ui_manager.h"
+#include "units.h"
 #include "veh_type.h"
 #include "veh_utils.h"
-#include "ui_manager.h"
+#include "vehicle.h"
+#include "vpart_range.h"
 
-veh_shape::veh_shape( vehicle &vehicle ): veh( vehicle ) { }
+veh_shape::veh_shape( map &here, vehicle &vehicle ): veh( vehicle ), here( here ) { }
 
 player_activity veh_shape::start( const tripoint_bub_ms &pos )
 {
+    map &temp = here; // Work around to get 'here' to be accepted into the lambda list
     avatar &you = get_avatar();
-    on_out_of_scope cleanup( []() {
-        get_map().invalidate_map_cache( get_avatar().view_offset.z() );
+    on_out_of_scope cleanup( [&temp]() {
+        temp.invalidate_map_cache( get_avatar().view_offset.z() );
     } );
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope view_offset_prev( you.view_offset );
 
     cursor_allowed.clear();
     for( const vpart_reference &part : veh.get_all_parts() ) {
-        cursor_allowed.insert( tripoint_bub_ms( part.pos() ) );
+        cursor_allowed.insert( part.pos_bub( here ) );
     }
 
     if( !set_cursor_pos( pos ) ) {
         debugmsg( "failed to set cursor at given part" );
-        set_cursor_pos( tripoint_bub_ms( veh.global_part_pos3( 0 ) ) );
+        set_cursor_pos( veh.bub_part_pos( here, 0 ) );
     }
 
     const auto target_ui_cb = make_shared_fast<game::draw_callback_t>(
     [&]() {
         const avatar &you = get_avatar();
-        g->draw_cursor_unobscuring( you.pos_bub() + you.view_offset );
+        g->draw_cursor_unobscuring( you.pos_bub( here ) + you.view_offset );
     } );
     g->add_draw_callback( target_ui_cb );
     ui_adaptor ui;
@@ -87,7 +106,7 @@ std::vector<vpart_reference> veh_shape::parts_under_cursor() const
     // TODO: tons of methods getting parts from vehicle but all of them seem inadequate?
     for( int part_idx = 0; part_idx < veh.part_count_real(); part_idx++ ) {
         const vehicle_part &p = veh.part( part_idx );
-        if( veh.bub_part_pos( p ) == get_cursor_pos() && !p.is_fake ) {
+        if( veh.bub_part_pos( here, p ) == get_cursor_pos() && !p.is_fake ) {
             res.emplace_back( veh, part_idx );
         }
     }
@@ -141,7 +160,7 @@ void veh_shape::change_part_shape( vpart_reference vpr ) const
             .keep_menu_open()
             .skip_locked_check()
             .skip_theft_check()
-            .location( veh.global_part_pos3( part ) )
+            .location( veh.bub_part_pos( here, part ).raw() )
             .select( part.variant == vvid )
             .desc( _( "Confirm to save or exit to revert" ) )
             .symbol( vv.get_symbol_curses( 0_degrees, false ) )
@@ -196,7 +215,7 @@ bool veh_shape::set_cursor_pos( const tripoint_bub_ms &new_pos )
     }
 
     if( z != cursor_pos.z() ) {
-        get_map().invalidate_map_cache( z );
+        here.invalidate_map_cache( z );
     }
     cursor_pos = target_pos;
     you.view_offset = cursor_pos - you.pos_bub();
@@ -206,9 +225,9 @@ bool veh_shape::set_cursor_pos( const tripoint_bub_ms &new_pos )
 bool veh_shape::handle_cursor_movement( const std::string &action )
 {
     if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
-        tripoint edge_scroll = g->mouse_edge_scrolling_terrain( ctxt );
+        tripoint_rel_ms edge_scroll = g->mouse_edge_scrolling_terrain( ctxt );
         set_cursor_pos( get_cursor_pos() + edge_scroll );
-    } else if( const std::optional<tripoint> delta = ctxt.get_direction( action ) ) {
+    } else if( const std::optional<tripoint_rel_ms> delta = ctxt.get_direction_rel_ms( action ) ) {
         set_cursor_pos( get_cursor_pos() + *delta ); // move cursor with directional keys
     } else if( action == "zoom_in" ) {
         g->zoom_in();
@@ -223,9 +242,9 @@ bool veh_shape::handle_cursor_movement( const std::string &action )
             set_cursor_pos( *mouse_pos );
         }
     } else if( action == "LEVEL_UP" ) {
-        set_cursor_pos( get_cursor_pos() + tripoint_above );
+        set_cursor_pos( get_cursor_pos() + tripoint::above );
     } else if( action == "LEVEL_DOWN" ) {
-        set_cursor_pos( get_cursor_pos() + tripoint_below );
+        set_cursor_pos( get_cursor_pos() + tripoint::below );
     } else {
         return false;
     }

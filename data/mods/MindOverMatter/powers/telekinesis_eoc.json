@@ -22,12 +22,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR",
+    "condition": "u_is_avatar",
     "effect": {
       "run_eoc_selector": [ "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PUSH", "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PULL" ],
       "names": [ "Push", "Pull" ],
       "keys": [ "1", "2" ],
       "descriptions": [ "Shove a target away from you.", "Grab a target and pull them towards you." ]
-    }
+    },
+    "false_effect": { "u_cast_spell": { "id": "telekinetic_force_shove_away_target" }, "targeted": true }
   },
   {
     "type": "effect_on_condition",
@@ -43,9 +45,9 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEKINETIC_FORCE_SHOVE_PUSH_CHECKER",
     "effect": [
-      { "math": [ "u_telekinesis_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-      { "math": [ "u_telekinesis_power_level", "=", "n_spell_level('telekinetic_push')" ] },
-      { "math": [ "u_nether_attunement_telekinesis_scaling", "=", "n_nether_attunement_power_scaling" ] },
+      { "math": [ "u_telekinesis_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_telekinesis_power_level = n_spell_level('telekinetic_push')" ] },
+      { "math": [ "u_nether_attunement_telekinesis_scaling = n_nether_attunement_power_scaling" ] },
       {
         "math": [
           "u_weight_ratio",
@@ -53,10 +55,10 @@
           "(((u_telekinesis_power_level * 25) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 10) / (u_weight() / 1000000)"
         ]
       },
-      { "math": [ "u_telekinesis_shove_spell_level", "=", "clamp(((u_weight_ratio - 1) * 2), 0, 30)" ] },
+      { "math": [ "u_telekinesis_shove_spell_level = clamp(((u_weight_ratio - 1) * 2), 0, 30)" ] },
       { "u_location_variable": { "context_val": "loc" } },
       {
-        "if": { "math": [ "u_telekinesis_shove_spell_level", "<", "1" ] },
+        "if": { "math": [ "u_telekinesis_shove_spell_level < 1" ] },
         "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
         "else": [
           {
@@ -83,9 +85,9 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEKINETIC_FORCE_SHOVE_PULL_CHECKER",
     "effect": [
-      { "math": [ "u_telekinesis_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-      { "math": [ "u_telekinesis_power_level", "=", "n_spell_level('telekinetic_push')" ] },
-      { "math": [ "u_nether_attunement_telekinesis_scaling", "=", "n_nether_attunement_power_scaling" ] },
+      { "math": [ "u_telekinesis_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_telekinesis_power_level = n_spell_level('telekinetic_push')" ] },
+      { "math": [ "u_nether_attunement_telekinesis_scaling = n_nether_attunement_power_scaling" ] },
       {
         "math": [
           "u_weight_ratio",
@@ -93,10 +95,10 @@
           "(((u_telekinesis_power_level * 25) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 10) / (u_weight() / 1000000)"
         ]
       },
-      { "math": [ "u_telekinesis_pull_spell_level", "=", "clamp(((u_weight_ratio - 1) * 2), 0, 30)" ] },
+      { "math": [ "u_telekinesis_pull_spell_level = clamp(((u_weight_ratio - 1) * 2), 0, 30)" ] },
       { "u_location_variable": { "context_val": "loc" } },
       {
-        "if": { "math": [ "u_telekinesis_pull_spell_level", "<", "1" ] },
+        "if": { "math": [ "u_telekinesis_pull_spell_level < 1" ] },
         "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
         "else": [
           {
@@ -107,14 +109,6 @@
           { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" }
         ]
       }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TELEKIN_WAVE_FORCE",
-    "effect": [
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } },
-      { "u_cast_spell": { "id": "telekinetic_wave_wonder", "hit_self": true } }
     ]
   },
   {
@@ -143,9 +137,9 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_PUSH_CHECKER",
     "effect": [
-      { "math": [ "u_telekinesis_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-      { "math": [ "u_telekinesis_power_level", "=", "n_spell_level('telekinetic_move_large_weight')" ] },
-      { "math": [ "u_nether_attunement_telekinesis_scaling", "=", "n_nether_attunement_power_scaling" ] },
+      { "math": [ "u_telekinesis_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_telekinesis_power_level = n_spell_level('telekinetic_move_large_weight')" ] },
+      { "math": [ "u_nether_attunement_telekinesis_scaling = n_nether_attunement_power_scaling" ] },
       {
         "math": [
           "u_weight_ratio",
@@ -153,10 +147,10 @@
           "(((u_telekinesis_power_level * 150) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 100) / (u_weight() / 1000000)"
         ]
       },
-      { "math": [ "u_telekinesis_shove_spell_level", "=", "clamp(((u_weight_ratio - 1) * 2), 0, 20)" ] },
+      { "math": [ "u_telekinesis_shove_spell_level = clamp(((u_weight_ratio - 1) * 2), 0, 20)" ] },
       { "u_location_variable": { "context_val": "loc" } },
       {
-        "if": { "math": [ "u_telekinesis_shove_spell_level", "<", "1" ] },
+        "if": { "math": [ "u_telekinesis_shove_spell_level < 1" ] },
         "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
         "else": [
           {
@@ -173,9 +167,9 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_PULL_CHECKER",
     "effect": [
-      { "math": [ "u_telekinesis_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-      { "math": [ "u_telekinesis_power_level", "=", "n_spell_level('telekinetic_move_large_weight')" ] },
-      { "math": [ "u_nether_attunement_telekinesis_scaling", "=", "n_nether_attunement_power_scaling" ] },
+      { "math": [ "u_telekinesis_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_telekinesis_power_level = n_spell_level('telekinetic_move_large_weight')" ] },
+      { "math": [ "u_nether_attunement_telekinesis_scaling = n_nether_attunement_power_scaling" ] },
       {
         "math": [
           "u_weight_ratio",
@@ -183,10 +177,10 @@
           "(((u_telekinesis_power_level * 150) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 100) / (u_weight() / 1000000)"
         ]
       },
-      { "math": [ "u_telekinesis_pull_spell_level", "=", "clamp(((u_weight_ratio - 1) * 2), 0, 20)" ] },
+      { "math": [ "u_telekinesis_pull_spell_level = clamp(((u_weight_ratio - 1) * 2), 0, 20)" ] },
       { "u_location_variable": { "context_val": "loc" } },
       {
-        "if": { "math": [ "u_telekinesis_pull_spell_level", "<", "1" ] },
+        "if": { "math": [ "u_telekinesis_pull_spell_level < 1" ] },
         "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
         "else": [
           {

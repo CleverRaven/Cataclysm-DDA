@@ -8,8 +8,8 @@
   {
     "id": "xedra_weak_healing",
     "type": "SPELL",
-    "name": "Weak healing",
-    "description": "Heal 1 HP.  Used in various enchantments.  You can see it only in debug.",
+    "name": { "str": "Weak healing", "//~": "NO_I18N" },
+    "description": { "str": "Heal 1 HP.  Used in various enchantments.  You can see it only in debug.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "min_damage": -1,
     "max_damage": -1,
@@ -29,7 +29,7 @@
     "id": "EXP_BASH",
     "has": "WIELD",
     "condition": "ALWAYS",
-    "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_val('exp') / 750" ] } } ]
+    "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "u_val('exp') / 750" ] } } ]
   },
   {
     "type": "enchantment",
@@ -57,23 +57,23 @@
     "id": "WOLF_SLEDGE",
     "has": "WIELD",
     "condition": "ALWAYS",
-    "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_skill('deduction')" ] } } ]
+    "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "u_skill('deduction')" ] } } ]
   },
   {
     "type": "enchantment",
     "id": "DREAM_DAGGER",
     "has": "WIELD",
     "condition": "ALWAYS",
-    "values": [ { "value": "ITEM_DAMAGE_CUT", "add": { "math": [ "u_val('mana_max')/100" ] } } ]
+    "melee_damage_bonus": [ { "type": "cut", "add": { "math": [ "u_val('mana_max')/100" ] } } ]
   },
   {
     "type": "enchantment",
     "id": "SALAMANDER_SUMMON_WHIP",
     "has": "WIELD",
     "condition": "ALWAYS",
-    "values": [
+    "melee_damage_bonus": [
       {
-        "value": "ITEM_DAMAGE_HEAT",
+        "type": "heat",
         "add": { "math": [ "(5 + (u_spell_level('salamander_flaming_whip_spell') * 1) * (scaling_factor(u_val('dexterity') ) ) )" ] }
       }
     ]

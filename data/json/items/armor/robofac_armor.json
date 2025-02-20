@@ -365,7 +365,7 @@
     "looks_like": "tac_fullhelmet",
     "description": "Heavy duty hooded headwear for the true frontier explorer.  The visor has been lowered over the eyes, and is drawing moderate power to provide full infra-red scanning, allowing you to see warm blooded creatures in the dark.  Activate to turn the visor off again.",
     "copy-from": "robofac_head_rig",
-    "extend": { "flags": [ "IR_EFFECT" ] },
+    "relic_data": { "passive_effects": [ { "id": "THERMAL_VISION_GOOD" } ] },
     "power_draw": "1 W",
     "revert_to": "robofac_head_rig",
     "use_action": [

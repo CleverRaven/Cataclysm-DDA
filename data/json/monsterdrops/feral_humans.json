@@ -668,34 +668,19 @@
     "magazine": 100,
     "ammo": 0,
     "entries": [
-      { "distribution": [ { "group": "clothing_soldier_broken_armor_set", "prob": 100, "damage": [ 2, 4 ] } ] },
+      {
+        "distribution": [
+          { "group": "clothing_soldier_set", "prob": 65, "damage": [ 0, 3 ] },
+          { "group": "clothing_soldier_winter_set", "prob": 35, "damage": [ 0, 3 ] }
+        ]
+      },
+      { "group": "infantry_common_gear_feral" },
       { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 20 },
       { "group": "military_patrol_food" },
-      { "distribution": [ { "group": "infantry_officer_gear" }, { "group": "infantry_medical_gear" } ], "prob": 25 },
+      { "distribution": [ { "group": "infantry_officer_gear" }, { "group": "infantry_medical_gear" } ], "prob": 40 },
       { "group": "wallets", "prob": 10 },
       { "group": "pocket_cigar", "prob": 15 },
       { "group": "misc_smoking_legal", "prob": 30 },
-      { "item": "e_tool", "prob": 15, "damage": [ 1, 4 ] },
-      {
-        "distribution": [
-          { "item": "mask_gas", "charges": [ 0, 100 ], "prob": 25, "damage": [ 1, 4 ] },
-          {
-            "item": "mask_gas",
-            "charges": [ 0, 100 ],
-            "contents-group": "gasmask_inserts_in_use",
-            "prob": 25,
-            "damage": [ 1, 4 ]
-          },
-          { "group": "gasmask_bag_full", "prob": 25, "damage": [ 1, 4 ] },
-          { "group": "gasmask_bag_used", "prob": 60, "damage": [ 1, 4 ] }
-        ],
-        "prob": 5
-      },
-      { "item": "two_way_radio", "prob": 15, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
-      { "group": "infantry_knives", "prob": 100, "damage": [ 2, 4 ] },
-      { "item": "stanag30", "prob": 50, "charges": 0 },
-      { "item": "stanag30ranger", "prob": 1, "charges": 0 },
-      { "item": "stanag30", "prob": 50, "charges": 0 },
       { "item": "dog_tag", "prob": 40 }
     ]
   },
@@ -839,22 +824,6 @@
       { "item": "p320mag_17rd_9x19mm", "prob": 50, "charges": 0 },
       { "item": "p320mag_17rd_9x19mm", "prob": 50, "charges": 0 },
       { "item": "dog_tag", "prob": 20 }
-    ]
-  },
-  {
-    "id": "feral_archaelogist_death_drops",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [
-      { "group": "clothing_outdoor_set", "prob": 100, "damage": [ 1, 4 ] },
-      { "group": "socks_unisex", "prob": 100, "damage": [ 1, 4 ] },
-      { "group": "archeology_tools", "prob": 30, "damage": [ 0, 2 ] },
-      { "group": "scarfs_unisex", "prob": 10, "damage": [ 1, 4 ] },
-      { "group": "clothing_work_gloves", "prob": 10, "damage": [ 1, 4 ] },
-      { "group": "clothing_work_hat", "prob": 10, "damage": [ 1, 4 ] },
-      { "group": "accesories_personal_unisex", "prob": 5, "damage": [ 1, 4 ] },
-      { "item": "shovel", "prob": 100, "damage": [ 0, 2 ] },
-      { "item": "bullwhip", "prob": 3, "damage": [ 0, 2 ] }
     ]
   },
   {

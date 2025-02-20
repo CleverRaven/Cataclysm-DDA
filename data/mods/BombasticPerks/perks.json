@@ -304,7 +304,7 @@
     "description": "You've gotten pretty good at sneaking up on people.  When you have no allies within 20 squares, enemies' vision detection range is reduced by 15%.",
     "enchantments": [
       {
-        "condition": { "math": [ "u_characters_nearby('radius': 20, 'attitude': 'allies')", "==", "0" ] },
+        "condition": { "math": [ "u_characters_nearby('radius': 20, 'attitude': 'allies') == 0" ] },
         "values": [ { "value": "STEALTH_MODIFIER", "add": 15 } ]
       }
     ]
@@ -413,7 +413,26 @@
     "purifiable": false,
     "valid": false,
     "description": "Ever since the apocalypse you get a funny feeling during storms and have trouble trusting small appliances.  You usually have a pretty good idea where they are though.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_ELECTRIC", "add": 4.0 } ] } ]
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "special_vision": [
+          {
+            "condition": { "test_eoc": "EOC_IS_ELECTRIC" },
+            "distance": 4,
+            "precise": true,
+            "descriptions": [
+              {
+                "id": "electric_creature_sense",
+                "symbol": "?",
+                "color": "c_cyan",
+                "text": "You sense something emitting electricity here."
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -437,7 +456,8 @@
             }
           ]
         },
-        "values": [ { "value": "POWER_TRICKLE", "add": 250000 }, { "value": "ITEM_DAMAGE_ELEC", "add": 3 } ]
+        "values": [ { "value": "POWER_TRICKLE", "add": 250000 } ],
+        "melee_damage_bonus": [ { "type": "electric", "add": 3 } ]
       }
     ]
   },
@@ -776,7 +796,7 @@
     "description": "Smoking is bad, but damn it's badass.  You deal more damage and shoot more accurately when you smoke.",
     "enchantments": [
       { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 } ] },
-      { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "WEAPON_DISPERSION", "multiply": 0.25 } ] }
+      { "condition": { "u_has_effect": "cig" }, "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ] }
     ]
   },
   {
@@ -810,7 +830,7 @@
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_armor('bash', 'arm_r') * u_attack_speed() / 200" ] } } ]
+        "melee_damage_bonus": [ { "type": "bash", "add": { "math": [ "u_armor('bash', 'arm_r') * u_attack_speed() / 200" ] } } ]
       }
     ]
   },
@@ -1111,9 +1131,8 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You cannot forget anything at all, ever.  This makes your skills rustproof, grant you the ability to memorize books for you to read in your head later and make you able to store mental images so detailled it's almost as if you were taking pictures with your mind.",
+    "description": "You cannot forget anything at all, ever.  This grants you the ability to memorize books for you to read in your head later and makes you able to store mental images so detailled it's almost as if you were taking pictures with your mind.",
     "category": [ "perk" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SKILL_RUST_RESIST", "add": 100 } ] } ],
     "integrated_armor": [ "integrated_memory" ]
   },
   {

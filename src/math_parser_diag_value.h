@@ -4,6 +4,7 @@
 
 #include <string>
 #include <string_view>
+#include <type_traits>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -11,15 +12,16 @@
 #include "dialogue_helpers.h"
 #include "math_parser.h"
 
-class math_exp;
-struct dialogue;
+struct const_dialogue;
 struct diag_value;
+
 using diag_array = std::vector<diag_value>;
 
 // https://stackoverflow.com/a/45896101
 // *INDENT-OFF*
 template <class T, class U>
 struct is_one_of;
+
 template <class T, class... Ts>
 // NOLINTNEXTLINE(cata-avoid-alternative-tokens) broken check
 struct is_one_of<T, std::variant<Ts...>> : std::bool_constant<( std::is_same_v<T, Ts> || ... )> {};
@@ -58,20 +60,20 @@ struct diag_value {
     bool is_array() const;
     bool is_empty() const;
 
-    // these functions can be used at parse time if the parameter needs
+    // These functions can be used at parse time if the parameter needs
     // to be of exactly this type with no conversion.
-    // These throw so they should *NOT* be used at runtime.
+    // These throw a math::syntax_error for type mismatches
     double dbl() const;
     std::string_view str() const;
     diag_array const &array() const;
     var_info var() const;
 
-    // evaluate and possibly convert the parameter to this type.
-    // These do not throw and they're meant to be used at runtime
-    double dbl( dialogue const &d ) const;
-    std::string str( dialogue const &d ) const;
-    var_info var( dialogue const &/* d */ ) const;
-    diag_array const &array( dialogue const &/* d */ ) const;
+    // Evaluate and possibly convert the parameter to this type.
+    // These throw a math::runtime_error for failed conversions
+    double dbl( const_dialogue const &d ) const;
+    std::string str( const_dialogue const &d ) const;
+    var_info var( const_dialogue const &/* d */ ) const;
+    diag_array const &array( const_dialogue const &/* d */ ) const;
 
     impl_t data;
 };

@@ -248,12 +248,16 @@ std::string action_ident( action_id act )
             return "mend";
         case ACTION_THROW:
             return "throw";
+        case ACTION_THROW_WIELDED:
+            return "throw_wielded";
         case ACTION_FIRE:
             return "fire";
         case ACTION_FIRE_BURST:
             return "fire_burst";
         case ACTION_CAST_SPELL:
             return "cast_spell";
+        case ACTION_RECAST_SPELL:
+            return "recast_spell";
         case ACTION_SELECT_FIRE_MODE:
             return "select_fire_mode";
         case ACTION_SELECT_DEFAULT_AMMO:
@@ -556,21 +560,21 @@ std::optional<std::string> press_x_if_bound( action_id act )
 action_id get_movement_action_from_delta( const tripoint_rel_ms &d, const iso_rotate rot )
 {
     const bool iso_mode = rot == iso_rotate::yes && g->is_tileset_isometric();
-    if( d.xy() == point_rel_ms( point_north ) ) {
+    if( d.xy() == point_rel_ms::north ) {
         return iso_mode ? ACTION_MOVE_FORTH_LEFT : ACTION_MOVE_FORTH;
-    } else if( d.xy() == point_rel_ms( point_north_east ) ) {
+    } else if( d.xy() == point_rel_ms::north_east ) {
         return iso_mode ? ACTION_MOVE_FORTH : ACTION_MOVE_FORTH_RIGHT;
-    } else if( d.xy() == point_rel_ms( point_east ) ) {
+    } else if( d.xy() == point_rel_ms::east ) {
         return iso_mode ? ACTION_MOVE_FORTH_RIGHT : ACTION_MOVE_RIGHT;
-    } else if( d.xy() == point_rel_ms( point_south_east ) ) {
+    } else if( d.xy() == point_rel_ms::south_east ) {
         return iso_mode ? ACTION_MOVE_RIGHT : ACTION_MOVE_BACK_RIGHT;
-    } else if( d.xy() == point_rel_ms( point_south ) ) {
+    } else if( d.xy() == point_rel_ms::south ) {
         return iso_mode ? ACTION_MOVE_BACK_RIGHT : ACTION_MOVE_BACK;
-    } else if( d.xy() == point_rel_ms( point_south_west ) ) {
+    } else if( d.xy() == point_rel_ms::south_west ) {
         return iso_mode ? ACTION_MOVE_BACK : ACTION_MOVE_BACK_LEFT;
-    } else if( d.xy() == point_rel_ms( point_west ) ) {
+    } else if( d.xy() == point_rel_ms::west ) {
         return iso_mode ? ACTION_MOVE_BACK_LEFT : ACTION_MOVE_LEFT;
-    } else if( d.xy() == point_rel_ms( point_north_west ) ) {
+    } else if( d.xy() == point_rel_ms::north_west ) {
         return iso_mode ? ACTION_MOVE_LEFT : ACTION_MOVE_FORTH_LEFT;
     }
 
@@ -586,33 +590,28 @@ action_id get_movement_action_from_delta( const tripoint_rel_ms &d, const iso_ro
     return ACTION_NULL;
 }
 
-point get_delta_from_movement_action( const action_id act, const iso_rotate rot )
-{
-    return get_delta_from_movement_action_rel_ms( act, rot ).raw();
-}
-
-point_rel_ms get_delta_from_movement_action_rel_ms( const action_id act, const iso_rotate rot )
+point_rel_ms get_delta_from_movement_action( const action_id act, const iso_rotate rot )
 {
     const bool iso_mode = rot == iso_rotate::yes && g->is_tileset_isometric();
     switch( act ) {
         case ACTION_MOVE_FORTH:
-            return iso_mode ? point_rel_ms( point_north_east ) : point_rel_ms( point_north );
+            return iso_mode ? point_rel_ms::north_east : point_rel_ms::north;
         case ACTION_MOVE_FORTH_RIGHT:
-            return iso_mode ? point_rel_ms( point_east ) : point_rel_ms( point_north_east );
+            return iso_mode ? point_rel_ms::east : point_rel_ms::north_east;
         case ACTION_MOVE_RIGHT:
-            return iso_mode ? point_rel_ms( point_south_east ) : point_rel_ms( point_east );
+            return iso_mode ? point_rel_ms::south_east : point_rel_ms::east;
         case ACTION_MOVE_BACK_RIGHT:
-            return iso_mode ? point_rel_ms( point_south ) : point_rel_ms( point_south_east );
+            return iso_mode ? point_rel_ms::south : point_rel_ms::south_east;
         case ACTION_MOVE_BACK:
-            return iso_mode ? point_rel_ms( point_south_west ) : point_rel_ms( point_south );
+            return iso_mode ? point_rel_ms::south_west : point_rel_ms::south;
         case ACTION_MOVE_BACK_LEFT:
-            return iso_mode ? point_rel_ms( point_west ) : point_rel_ms( point_south_west );
+            return iso_mode ? point_rel_ms::west : point_rel_ms::south_west;
         case ACTION_MOVE_LEFT:
-            return iso_mode ? point_rel_ms( point_north_west ) : point_rel_ms( point_west );
+            return iso_mode ? point_rel_ms::north_west : point_rel_ms::west;
         case ACTION_MOVE_FORTH_LEFT:
-            return iso_mode ? point_rel_ms( point_north ) : point_rel_ms( point_north_west );
+            return iso_mode ? point_rel_ms::north : point_rel_ms::north_west;
         default:
-            return point_rel_ms( point_zero );
+            return point_rel_ms::zero;
     }
 }
 
@@ -629,9 +628,9 @@ std::optional<input_event> hotkey_for_action( const action_id action,
     }
 }
 
-bool can_butcher_at( const tripoint_bub_ms &p )
+bool can_butcher_at( map &here, const tripoint_bub_ms &p )
 {
-    map_stack items = get_map().i_at( p );
+    map_stack items = here.i_at( p );
     // Early exit when there's definitely nothing to butcher
     if( items.empty() ) {
         return false;
@@ -656,13 +655,12 @@ bool can_butcher_at( const tripoint_bub_ms &p )
     return has_corpse || has_item;
 }
 
-bool can_move_vertical_at( const tripoint_bub_ms &p, int movez )
+bool can_move_vertical_at( const map &here, const tripoint_bub_ms &p, int movez )
 {
     if( p.z() + movez < -OVERMAP_DEPTH || p.z() + movez > OVERMAP_HEIGHT ) {
         return false;
     }
     Character &player_character = get_player_character();
-    map &here = get_map();
     // TODO: unify this with game::move_vertical
     if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
         here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
@@ -681,9 +679,8 @@ bool can_move_vertical_at( const tripoint_bub_ms &p, int movez )
     }
 }
 
-bool can_examine_at( const tripoint_bub_ms &p, bool with_pickup )
+bool can_examine_at( map &here, const tripoint_bub_ms &p, bool with_pickup )
 {
-    map &here = get_map();
     if( here.veh_at( p ) ) {
         return true;
     }
@@ -714,9 +711,8 @@ bool can_examine_at( const tripoint_bub_ms &p, bool with_pickup )
     return here.can_see_trap_at( p, get_player_character() );
 }
 
-static bool can_pickup_at( const tripoint_bub_ms &p )
+static bool can_pickup_at( map &here, const tripoint_bub_ms &p )
 {
-    map &here = get_map();
     if( const std::optional<vpart_reference> ovp = here.veh_at( p ).cargo() ) {
         if( !ovp->items().empty() ) {
             return true;
@@ -727,9 +723,11 @@ static bool can_pickup_at( const tripoint_bub_ms &p )
            here.has_items( p );
 }
 
-bool can_interact_at( action_id action, const tripoint_bub_ms &p )
+bool can_interact_at( action_id action, map &here, const tripoint_bub_ms &p )
 {
-    map &here = get_map();
+    if( here.impassable_field_at( p ) ) {
+        return false;
+    }
     tripoint_bub_ms player_pos = get_player_character().pos_bub();
     switch( action ) {
         case ACTION_OPEN:
@@ -742,25 +740,25 @@ bool can_interact_at( action_id action, const tripoint_bub_ms &p )
                    here.close_door( p, !here.is_outside( player_pos ), true );
         }
         case ACTION_BUTCHER:
-            return can_butcher_at( p );
+            return can_butcher_at( here, p );
         case ACTION_MOVE_UP:
-            return can_move_vertical_at( p, 1 );
+            return can_move_vertical_at( here, p, 1 );
         case ACTION_MOVE_DOWN:
-            return can_move_vertical_at( p, -1 );
+            return can_move_vertical_at( here, p, -1 );
         case ACTION_EXAMINE:
-            return can_examine_at( p, false );
+            return can_examine_at( here, p, false );
         case ACTION_EXAMINE_AND_PICKUP:
-            return can_examine_at( p, true );
+            return can_examine_at( here, p, true );
         case ACTION_PICKUP:
-            return can_pickup_at( p );
+            return can_pickup_at( here, p );
         default:
             return false;
     }
 
-    return can_interact_at( action, p );
+    return can_interact_at( action, here, p );
 }
 
-action_id handle_action_menu()
+action_id handle_action_menu( map &here )
 {
     const input_context ctxt = get_default_mode_input_context();
     std::string catgname;
@@ -779,7 +777,7 @@ action_id handle_action_menu()
 
     Character &player_character = get_player_character();
     // Check if we're in a potential combat situation, if so, sort a few actions to the top.
-    if( !player_character.get_hostile_creatures( 60 ).empty() ) {
+    if( !player_character.get_hostile_creatures( MAX_VIEW_DISTANCE ).empty() ) {
         // Only prioritize movement options if we're not driving.
         if( !player_character.controlling_vehicle ) {
             action_weightings[ACTION_CYCLE_MOVE] = 400;
@@ -805,7 +803,6 @@ action_id handle_action_menu()
         action_weightings[ACTION_TOGGLE_PRONE] = 300;
     }
 
-    map &here = get_map();
     // Check if we're on a vehicle, if so, vehicle controls should be top.
     if( here.veh_at( player_character.pos_bub() ) ) {
         // Make it 300 to prioritize it before examining the vehicle.
@@ -817,24 +814,24 @@ action_id handle_action_menu()
     for( const tripoint_bub_ms &pos : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
         if( pos != player_character.pos_bub() ) {
             // Check for actions that work on nearby tiles
-            if( can_interact_at( ACTION_OPEN, pos ) ) {
+            if( can_interact_at( ACTION_OPEN, here, pos ) ) {
                 action_weightings[ACTION_OPEN] = 200;
             }
-            if( can_interact_at( ACTION_CLOSE, pos ) ) {
+            if( can_interact_at( ACTION_CLOSE, here, pos ) ) {
                 action_weightings[ACTION_CLOSE] = 200;
             }
-            if( can_interact_at( ACTION_EXAMINE, pos ) ) {
+            if( can_interact_at( ACTION_EXAMINE, here, pos ) ) {
                 action_weightings[ACTION_EXAMINE] = 200;
             }
         } else {
             // Check for actions that work on own tile only
-            if( can_interact_at( ACTION_BUTCHER, pos ) ) {
+            if( can_interact_at( ACTION_BUTCHER, here, pos ) ) {
                 action_weightings[ACTION_BUTCHER] = 200;
             }
-            if( can_interact_at( ACTION_MOVE_UP, pos ) ) {
+            if( can_interact_at( ACTION_MOVE_UP, here, pos ) ) {
                 action_weightings[ACTION_MOVE_UP] = 200;
             }
-            if( can_interact_at( ACTION_MOVE_DOWN, pos ) ) {
+            if( can_interact_at( ACTION_MOVE_DOWN, here, pos ) ) {
                 action_weightings[ACTION_MOVE_DOWN] = 200;
             }
         }
@@ -974,9 +971,11 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_RELOAD_WEAPON );
             REGISTER_ACTION( ACTION_RELOAD_WIELDED );
             REGISTER_ACTION( ACTION_CAST_SPELL );
+            REGISTER_ACTION( ACTION_RECAST_SPELL );
             REGISTER_ACTION( ACTION_SELECT_FIRE_MODE );
             REGISTER_ACTION( ACTION_SELECT_DEFAULT_AMMO );
             REGISTER_ACTION( ACTION_THROW );
+            REGISTER_ACTION( ACTION_THROW_WIELDED );
             REGISTER_ACTION( ACTION_FIRE_BURST );
             REGISTER_ACTION( ACTION_PICK_STYLE );
             REGISTER_ACTION( ACTION_TOGGLE_AUTO_TRAVEL_MODE );
@@ -1103,17 +1102,7 @@ action_id handle_main_menu()
     }
 }
 
-std::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
-{
-    std::optional<tripoint_rel_ms> ret = choose_direction_rel_ms( message, allow_vertical );
-    if( ret.has_value() ) {
-        return ret->raw();
-    } else {
-        return std::nullopt;
-    }
-}
-
-std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &message,
+std::optional<tripoint_rel_ms> choose_direction( const std::string &message,
         const bool allow_vertical, const bool allow_mouse, const int timeout,
         const std::function<std::pair<bool, std::optional<tripoint_rel_ms>>(
             const input_context &ctxt, const std::string &action )> &action_cb )
@@ -1160,11 +1149,11 @@ std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &messa
             }
             return vec;
         } else if( action == "pause" ) {
-            return tripoint_rel_ms( tripoint_zero );
+            return tripoint_rel_ms::zero;
         } else if( action == "LEVEL_UP" ) {
-            return tripoint_rel_ms( tripoint_above );
+            return tripoint_rel_ms::above;
         } else if( action == "LEVEL_DOWN" ) {
-            return tripoint_rel_ms( tripoint_below );
+            return tripoint_rel_ms::below;
         } else if( action == "QUIT" ) {
             done = true;
         }
@@ -1184,27 +1173,10 @@ std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &messa
     return std::nullopt;
 }
 
-std::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
-{
-    return choose_adjacent( get_player_character().pos(), message, allow_vertical );
-}
-
-std::optional<tripoint_bub_ms> choose_adjacent_bub( const std::string &message,
+std::optional<tripoint_bub_ms> choose_adjacent( const std::string &message,
         const bool allow_vertical )
 {
     return choose_adjacent( get_player_character().pos_bub(), message, allow_vertical );
-}
-
-std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string &message,
-        bool allow_vertical )
-{
-    const std::optional<tripoint_bub_ms> dir = choose_adjacent(
-                tripoint_bub_ms( pos ), message, allow_vertical );
-    if( dir.has_value() ) {
-        return dir->raw();
-    } else {
-        return std::nullopt;
-    }
 }
 
 std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
@@ -1212,12 +1184,12 @@ std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
         const std::function<std::pair<bool, std::optional<tripoint_bub_ms>>(
             const input_context &ctxt, const std::string &action )> &action_cb )
 {
-    const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms(
+    const std::optional<tripoint_rel_ms> dir = choose_direction(
                 message, allow_vertical, /*allow_mouse=*/true, timeout,
     [&]( const input_context & ctxt, const std::string & action ) {
         if( action == "SELECT" ) {
             const std::optional<tripoint_bub_ms> mouse_pos = ctxt.get_coordinates(
-                        g->w_terrain, g->ter_view_p.xy(), true );
+                        g->w_terrain, g->ter_view_p.raw().xy(), true );
             if( mouse_pos ) {
                 const tripoint_rel_ms vec = *mouse_pos - pos;
                 if( vec.x() >= -1 && vec.x() <= 1
@@ -1244,90 +1216,33 @@ std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
     }
 }
 
-std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+std::optional<tripoint_bub_ms> choose_adjacent_highlight( map &here, const std::string &message,
         const std::string &failure_message, const action_id action,
         const bool allow_vertical, const bool allow_autoselect )
 {
-    const std::function<bool( const tripoint & )> f = [&action]( const tripoint & p ) {
-        return can_interact_at( action, tripoint_bub_ms( p ) );
+    const std::function<bool( const tripoint_bub_ms & )> f = [&action,
+    &here]( const tripoint_bub_ms & p ) {
+        return can_interact_at( action, here, p );
     };
-    return choose_adjacent_highlight( message, failure_message, f, allow_vertical, allow_autoselect );
+    return choose_adjacent_highlight( here, message, failure_message, f, allow_vertical,
+                                      allow_autoselect );
 }
 
-std::optional<tripoint_bub_ms> choose_adjacent_highlight_bub_ms( const std::string &message,
-        const std::string &failure_message, const action_id action,
-        const bool allow_vertical, const bool allow_autoselect )
-{
-    const std::function<bool( const tripoint_bub_ms & )> f = [&action]( const tripoint_bub_ms & p ) {
-        return can_interact_at( action, p );
-    };
-    return choose_adjacent_highlight( message, failure_message, f, allow_vertical, allow_autoselect );
-}
-
-std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
-        const bool allow_vertical, const bool allow_autoselect )
-{
-    return choose_adjacent_highlight( get_avatar().pos(), message, failure_message, allowed,
-                                      allow_vertical, allow_autoselect );
-}
-
-std::optional<tripoint_bub_ms> choose_adjacent_highlight( const std::string &message,
+std::optional<tripoint_bub_ms> choose_adjacent_highlight( map &here, const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint_bub_ms & )> &allowed,
         const bool allow_vertical, const bool allow_autoselect )
 {
-    return choose_adjacent_highlight( get_avatar().pos_bub(), message, failure_message, allowed,
+    return choose_adjacent_highlight( here, get_avatar().pos_bub( here ), message, failure_message,
+                                      allowed,
                                       allow_vertical, allow_autoselect );
 }
 
-std::optional<tripoint> choose_adjacent_highlight( const tripoint &pos, const std::string &message,
-        const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
-        bool allow_vertical, bool allow_autoselect )
-{
-    std::vector<tripoint_bub_ms> valid;
-    map &here = get_map();
-    if( allowed ) {
-        for( const tripoint_bub_ms &pos : here.points_in_radius( tripoint_bub_ms( pos ), 1 ) ) {
-            if( allowed( pos.raw() ) ) {
-                valid.emplace_back( pos );
-            }
-        }
-    }
-
-    const bool auto_select = allow_autoselect && get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" );
-    if( valid.empty() && auto_select ) {
-        add_msg( failure_message );
-        return std::nullopt;
-    } else if( valid.size() == 1 && auto_select ) {
-        return valid.back().raw();
-    }
-
-    shared_ptr_fast<game::draw_callback_t> hilite_cb;
-    if( !valid.empty() ) {
-        hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
-            for( const tripoint_bub_ms &pos : valid ) {
-                here.drawsq( g->w_terrain, pos, drawsq_params().highlight( true ) );
-            }
-        } );
-        g->add_draw_callback( hilite_cb );
-    }
-
-    const std::optional<tripoint_bub_ms> chosen = choose_adjacent( tripoint_bub_ms( pos ), message,
-            allow_vertical );
-    if( std::find( valid.begin(), valid.end(), chosen ) != valid.end() ) {
-        return std::optional<tripoint>( chosen.value().raw() );
-    }
-
-    return std::nullopt;
-}
-
-std::optional<tripoint_bub_ms> choose_adjacent_highlight( const tripoint_bub_ms &pos,
+std::optional<tripoint_bub_ms> choose_adjacent_highlight( map &here, const tripoint_bub_ms &pos,
         const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint_bub_ms & )> &allowed,
         bool allow_vertical, bool allow_autoselect )
 {
     std::vector<tripoint_bub_ms> valid;
-    map &here = get_map();
     if( allowed ) {
         for( const tripoint_bub_ms &pos : here.points_in_radius( pos, 1 ) ) {
             if( allowed( pos ) ) {

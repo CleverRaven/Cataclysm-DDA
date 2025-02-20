@@ -3,25 +3,41 @@
     "type": "keybinding",
     "id": "UILIST.UP",
     "name": "Pan up",
-    "bindings": [ { "input_method": "keyboard_any", "key": "UP" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "UP" },
+      { "input_method": "keyboard_any", "key": "8" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_8" }
+    ]
   },
   {
     "type": "keybinding",
     "id": "UILIST.DOWN",
     "name": "Pan down",
-    "bindings": [ { "input_method": "keyboard_any", "key": "DOWN" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "DOWN" },
+      { "input_method": "keyboard_any", "key": "2" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_2" }
+    ]
   },
   {
     "type": "keybinding",
     "id": "UILIST.LEFT",
     "name": "Pan left",
-    "bindings": [ { "input_method": "keyboard_any", "key": "LEFT" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "LEFT" },
+      { "input_method": "keyboard_any", "key": "4" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_4" }
+    ]
   },
   {
     "type": "keybinding",
     "id": "UILIST.RIGHT",
     "name": "Pan right",
-    "bindings": [ { "input_method": "keyboard_any", "key": "RIGHT" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "RIGHT" },
+      { "input_method": "keyboard_any", "key": "6" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_6" }
+    ]
   },
   {
     "type": "keybinding",
@@ -1249,6 +1265,13 @@
   },
   {
     "type": "keybinding",
+    "id": "REVEAL_MAP",
+    "category": "OVERMAP",
+    "name": "Reveal map",
+    "bindings": [ { "input_method": "keyboard_any", "key": "r" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "MODIFY_HORDE",
     "category": "OVERMAP",
     "name": "Modify existing horde or place new one",
@@ -1672,6 +1695,17 @@
     "id": "RANDOMIZE",
     "category": "NEW_CHAR_PROFESSIONS",
     "name": "Randomize profession",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RANDOMIZE",
+    "category": "NEW_CHAR_TRAITS",
+    "name": "Randomize trait",
     "bindings": [
       { "input_method": "keyboard_char", "key": "*" },
       { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
@@ -2297,55 +2331,35 @@
     "name": "Center view",
     "category": "DEFAULTMODE",
     "id": "center",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": ":" },
-      { "input_method": "keyboard_code", "key": ";", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "JOY_8" }
-    ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_8" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view north",
     "category": "DEFAULTMODE",
     "id": "shift_n",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": "K" },
-      { "input_method": "keyboard_code", "key": "k", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "JOY_21" }
-    ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_21" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view east",
     "category": "DEFAULTMODE",
     "id": "shift_e",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": "L" },
-      { "input_method": "keyboard_code", "key": "l", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "JOY_22" }
-    ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_22" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view south",
     "category": "DEFAULTMODE",
     "id": "shift_s",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": "J" },
-      { "input_method": "keyboard_code", "key": "j", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "JOY_23" }
-    ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_23" } ]
   },
   {
     "type": "keybinding",
     "name": "Move view west",
     "category": "DEFAULTMODE",
     "id": "shift_w",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": "H" },
-      { "input_method": "keyboard_code", "key": "h", "mod": [ "shift" ] },
-      { "input_method": "gamepad", "key": "JOY_24" }
-    ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_24" } ]
   },
   {
     "type": "keybinding",
@@ -2599,10 +2613,22 @@
   },
   {
     "type": "keybinding",
+    "name": "Throw wielded item",
+    "category": "DEFAULTMODE",
+    "id": "throw_wielded"
+  },
+  {
+    "type": "keybinding",
     "name": "Blind throw item",
     "category": "LOOK",
     "id": "throw_blind",
     "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Blind throw wielded item",
+    "category": "LOOK",
+    "id": "throw_blind_wielded"
   },
   {
     "type": "keybinding",
@@ -3250,6 +3276,12 @@
     "name": "Supernatural abilities",
     "category": "DEFAULTMODE",
     "bindings": [ { "input_method": "keyboard_any", "key": "]" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "recast_spell",
+    "name": "Repeat last supernatural ability",
+    "category": "DEFAULTMODE"
   },
   {
     "type": "keybinding",
@@ -3974,6 +4006,13 @@
     "category": "ADVANCED_INVENTORY",
     "name": "Examine items in container",
     "bindings": [ { "input_method": "keyboard_any", "key": "o" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "UNLOAD_CONTAINER",
+    "category": "ADVANCED_INVENTORY",
+    "name": "Unload item from container",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" }, { "input_method": "keyboard_any", "key": "U" } ]
   },
   {
     "type": "keybinding",
@@ -4853,6 +4892,48 @@
       { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "s" },
       { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "y" }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_MONSTER_GROUP",
+    "category": "SCORES_UI",
+    "name": "Toggle monster group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_NPC_GROUP",
+    "category": "SCORES_UI",
+    "name": "Toggle NPC group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "n" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_GENERAL_INFO_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle general info group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_BUFFS_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle buffs group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "b" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_TECHNIQUES_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle techniques group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_WEAPONS_GROUP",
+    "category": "MA_DETAILS_UI",
+    "name": "Toggle weapons group",
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
   },
   {
     "type": "keybinding",

@@ -1,24 +1,23 @@
-#include <memory>
-
-#include "character_id.h"
-#include "item.h"
-#include "itype.h"
-#include "magic.h"
-#include "npc.h"
-#include "pimpl.h"
-#include "point.h"
 #include "talker_item.h"
-#include "vehicle.h"
+
+#include <optional>
+#include <vector>
+
+#include "bodypart.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "coordinates.h"
+#include "debug.h"
+#include "item.h"
+#include "item_location.h"
+#include "itype.h"
+#include "map.h"
+#include "messages.h"
+#include "units.h"
 
 static const ammotype ammo_battery( "battery" );
 
 static const itype_id itype_battery( "battery" );
-
-talker_item::talker_item( item_location *new_me )
-{
-    me_it = new_me;
-    me_it_const = new_me;
-}
 
 std::string talker_item_const::disp_name() const
 {
@@ -32,32 +31,38 @@ std::string talker_item_const::get_name() const
 
 int talker_item_const::posx() const
 {
-    return me_it_const->position().x;
+    const map &here = get_map();
+
+    return me_it_const->pos_bub( here ).x();
 }
 
 int talker_item_const::posy() const
 {
-    return me_it_const->position().y;
+    const map &here = get_map();
+
+    return me_it_const->pos_bub( here ).y();
 }
 
 int talker_item_const::posz() const
 {
-    return me_it_const->position().z;
+    return me_it_const->pos_abs().z();
 }
 
-tripoint talker_item_const::pos() const
+tripoint_bub_ms talker_item_const::pos_bub() const
 {
-    return me_it_const->position();
+    const map &here = get_map();
+
+    return me_it_const->pos_bub( here );
 }
 
-tripoint_abs_ms talker_item_const::global_pos() const
+tripoint_abs_ms talker_item_const::pos_abs() const
 {
-    return get_map().getglobal( me_it_const->pos_bub() );
+    return me_it_const->pos_abs();
 }
 
-tripoint_abs_omt talker_item_const::global_omt_location() const
+tripoint_abs_omt talker_item_const::pos_abs_omt() const
 {
-    return get_player_character().global_omt_location();
+    return get_player_character().pos_abs_omt();
 }
 
 std::optional<std::string> talker_item_const::maybe_get_value( const std::string &var_name ) const
@@ -73,12 +78,12 @@ bool talker_item_const::has_flag( const flag_id &f ) const
     return me_it_const->get_item()->has_flag( f );
 }
 
-std::vector<std::string> talker_item_const::get_topics( bool )
+std::vector<std::string> talker_item_const::get_topics( bool ) const
 {
     return me_it_const->get_item()->typeId()->chat_topics;
 }
 
-bool talker_item_const::will_talk_to_u( const Character &you, bool )
+bool talker_item_const::will_talk_to_u( const Character &you, bool ) const
 {
     return !you.is_dead_state();
 }
@@ -88,6 +93,11 @@ int talker_item_const::get_cur_hp( const bodypart_id & ) const
     return me_it_const->get_item()->max_damage() - me_it_const->get_item()->damage();
 }
 
+int talker_item_const::get_degradation() const
+{
+    return me_it_const->get_item()->degradation();
+}
+
 int talker_item_const::get_hp_max( const bodypart_id & ) const
 {
     return me_it_const->get_item()->max_damage();
@@ -95,7 +105,7 @@ int talker_item_const::get_hp_max( const bodypart_id & ) const
 
 units::energy talker_item_const::power_cur() const
 {
-    return 1_mJ * me_it_const->get_item()->ammo_remaining();
+    return 1_mJ * me_it_const->get_item()->ammo_remaining( );
 }
 
 units::energy talker_item_const::power_max() const
@@ -130,6 +140,11 @@ int talker_item_const::get_weight() const
     return units::to_milligram( me_it_const->get_item()->weight() );
 }
 
+int talker_item_const::get_quality( const std::string &quality, bool strict ) const
+{
+    return me_it_const->get_quality( quality, strict );
+}
+
 void talker_item::set_value( const std::string &var_name, const std::string &value )
 {
     me_it->get_item()->set_var( var_name, value );
@@ -143,15 +158,20 @@ void talker_item::remove_value( const std::string &var_name )
 void talker_item::set_power_cur( units::energy value )
 {
     me_it->get_item()->ammo_set( itype_battery, clamp( static_cast<int>( value.value() ), 0,
-                                 me_it_const->get_item()->ammo_capacity( ammo_battery ) ) );
+                                 me_it->get_item()->ammo_capacity( ammo_battery ) ) );
 }
 
-void talker_item::set_all_parts_hp_cur( int set ) const
+void talker_item::set_all_parts_hp_cur( int set )
 {
     me_it->get_item()->set_damage( me_it->get_item()->max_damage() - set );
 }
 
-void talker_item::die()
+void talker_item::set_degradation( int set )
+{
+    me_it->get_item()->set_degradation( set );
+}
+
+void talker_item::die( map * )
 {
     me_it->remove_item();
 }

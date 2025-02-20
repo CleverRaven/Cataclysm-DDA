@@ -9,7 +9,6 @@
     "volume": "725 ml",
     "price": "60 USD",
     "price_postapoc": "0 cent",
-    "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": "|",
     "color": "pink",
@@ -46,12 +45,10 @@
     "longest_side": "37 cm",
     "price": "12 USD",
     "price_postapoc": "5 cent",
-    "to_hit": -1,
     "color": "blue",
     "symbol": "/",
     "material": [ "plastic" ],
-    "flags": [ "NONCONDUCTIVE", "FLOTATION" ],
-    "melee_damage": { "bash": 4 }
+    "flags": [ "NONCONDUCTIVE", "FLOTATION" ]
   },
   {
     "id": "shuttlecock",
@@ -66,8 +63,7 @@
     "price_postapoc": "0 cent",
     "material": [ "rubber", "plastic" ],
     "symbol": "-",
-    "color": "white",
-    "to_hit": -5
+    "color": "white"
   },
   {
     "id": "golf_tee",
@@ -97,9 +93,7 @@
     "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "symbol": "*",
-    "color": "white",
-    "to_hit": -3,
-    "melee_damage": { "bash": 5 }
+    "color": "white"
   },
   {
     "type": "AMMO",
@@ -117,14 +111,12 @@
     "weight": "170 g",
     "volume": "250 ml",
     "longest_side": "57 mm",
-    "damage": { "damage_type": "bash", "amount": 8 },
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
-    "to_hit": -3,
     "recovery_chance": 98,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
-    "melee_damage": { "bash": 8 }
+    "thrown_damage": [ { "damage_type": "bash", "amount": 3 } ]
   },
   {
     "type": "GENERIC",
@@ -161,10 +153,9 @@
     "range": 12,
     "dispersion": 12,
     "loudness": 0,
-    "to_hit": 3,
     "recovery_chance": 99,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
-    "thrown_damage": [ { "damage_type": "bash", "amount": 6 } ]
+    "thrown_damage": [ { "damage_type": "bash", "amount": 3 } ]
   },
   {
     "type": "GENERIC",
@@ -179,9 +170,7 @@
     "material": [ { "type": "leather", "portion": 9 }, { "type": "rubber" } ],
     "weight": "400 g",
     "volume": "750 ml",
-    "longest_side": "29 cm",
-    "to_hit": -1,
-    "melee_damage": { "bash": 4 }
+    "longest_side": "29 cm"
   },
   {
     "type": "GENERIC",
@@ -196,9 +185,7 @@
     "material": [ "rubber" ],
     "weight": "800 g",
     "volume": "1 L",
-    "longest_side": "239 mm",
-    "to_hit": -1,
-    "melee_damage": { "bash": 6 }
+    "longest_side": "239 mm"
   },
   {
     "type": "GENERIC",
@@ -213,9 +200,7 @@
     "material": [ "rubber" ],
     "weight": "260 g",
     "volume": "1 L",
-    "longest_side": "26 cm",
-    "to_hit": -1,
-    "melee_damage": { "bash": 4 }
+    "longest_side": "26 cm"
   },
   {
     "type": "TOOL",

@@ -2,25 +2,25 @@
 #ifndef CATA_SRC_START_LOCATION_H
 #define CATA_SRC_START_LOCATION_H
 
+#include <climits>
 #include <cstddef>
-#include <iosfwd>
 #include <set>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "assign.h"
 #include "common_types.h"
 #include "coords_fwd.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "translations.h"
+#include "map_scale_constants.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
 class avatar;
-struct city;
 class tinymap;
+enum class ot_match_type : int;
+struct city;
 
 struct start_location_placement_constraints {
     numeric_interval<int> city_size{ 0, INT_MAX };
@@ -52,7 +52,7 @@ class start_location
         /**
          * Find a suitable start location on the overmap.
          * @return Global, absolute overmap terrain coordinates where the player should spawn.
-         * It may return `overmap::invalid_tripoint` if no suitable starting location could be found
+         * It may return `tripoint_abs_omt::invalid` if no suitable starting location could be found
          * in the world.
          */
         std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
@@ -60,7 +60,7 @@ class start_location
         /**
          * Find a suitable start location on the overmap in specific city.
          * @return Global, absolute overmap terrain coordinates where the player should spawn.
-         * It may return `overmap::invalid_tripoint` if no suitable starting location could be found
+         * It may return `tripoint_abs_omt::invalid` if no suitable starting location could be found
          * in the world.
          */
         std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>

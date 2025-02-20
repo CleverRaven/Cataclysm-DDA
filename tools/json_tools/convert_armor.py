@@ -154,7 +154,7 @@ def get_armor_data(jo):
     # This will be done again in the recursive function
     # But we do it here for an early return on no data
     read_armor_data(jo, dat)
-    if("armor" not in jo and
+    if ("armor" not in jo and
        (len(dat) == 0 or (len(dat) == 1 and "material" in dat))):
         return dict()
 
@@ -274,7 +274,7 @@ def gen_new(path):
 
             for key in transferred_keys:
                 if key != "material" and key in jo:
-                    del(jo[key])
+                    del jo[key]
 
         return json_data if change else None
 

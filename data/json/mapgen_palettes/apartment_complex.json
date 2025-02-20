@@ -4,10 +4,6 @@
     "id": "apt_complex",
     "//": "Used by apartment complexes and multi-unit housings",
     "parameters": {
-      "wall_type": {
-        "type": "ter_str_id",
-        "default": { "distribution": [ [ "t_rock_wall", 1 ], [ "t_concrete_wall", 2 ], [ "t_strconc_wall", 2 ], [ "t_brick_wall", 5 ] ] }
-      },
       "railing_type": {
         "type": "ter_str_id",
         "default": {
@@ -32,12 +28,12 @@
         }
       }
     },
+    "palettes": [ "parametrized_walls_palette" ],
     "terrain": {
       "/": "t_null",
       ".": "t_open_air",
       "*": [ [ "t_door_locked_peep", 2 ], "t_door_locked_alarm", [ "t_door_locked_interior", 10 ], "t_door_c" ],
       "=": { "param": "railing_type", "fallback": "t_concrete_railing" },
-      "#": { "param": "wall_type", "fallback": "t_brick_wall" },
       "~": { "param": "floor_type", "fallback": "t_linoleum_white" },
       "'": "t_linoleum_gray",
       "`": "t_thconc_floor",

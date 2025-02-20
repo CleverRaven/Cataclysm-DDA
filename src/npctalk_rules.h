@@ -3,24 +3,17 @@
 #define CATA_SRC_NPCTALK_RULES_H
 
 #include <algorithm>
-#include <array>
-#include <cmath>
-#include <cstddef>
-#include <iterator>
-#include <list>
 #include <map>
-#include <memory>
-#include <ostream>
 #include <string>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
 
 #include "cata_imgui.h"
-#include "dialogue.h"
-#include "npctalk.h"
-#include "ui_manager.h"
+#include "game_constants.h"
 #include "imgui/imgui.h"
+#include "translations.h"
+
+class input_context;
+class npc;
+struct input_event;
 
 class follower_rules_ui
 {
@@ -48,8 +41,12 @@ class follower_rules_ui_impl : public cataimgui::window
         bool setup_button( int &button_num, std::string &label, bool should_color );
         bool setup_table_button( int &button_num, std::string &label, bool should_color );
 
-        size_t window_width = str_width_to_pixels( TERMX ) / 2;
-        size_t window_height = str_height_to_pixels( TERMY ) / 2;
+        float window_width = std::clamp( float( str_width_to_pixels( EVEN_MINIMUM_TERM_WIDTH ) ),
+                                         ImGui::GetMainViewport()->Size.x / 2,
+                                         ImGui::GetMainViewport()->Size.x );
+        float window_height = std::clamp( float( str_height_to_pixels( EVEN_MINIMUM_TERM_HEIGHT ) ),
+                                          ImGui::GetMainViewport()->Size.y / 2,
+                                          ImGui::GetMainViewport()->Size.y );
 
         // makes a checkbox for the rule
         template<typename T>

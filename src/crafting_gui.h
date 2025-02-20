@@ -3,6 +3,7 @@
 #define CATA_SRC_CRAFTING_GUI_H
 
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -10,7 +11,9 @@
 
 class Character;
 class JsonObject;
+class inventory;
 class recipe;
+class recipe_subset;
 
 /**
  * Open crafting menu where user selects who will craft what (the crafter & the recipe).
@@ -21,7 +24,10 @@ class recipe;
  * Return: if recipe * is not nullptr, then Character * is not nullptr either.
  */
 std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &batch_size_out,
-        const recipe_id &goto_recipe, Character *crafter, std::string filterstring = "" );
+        const recipe_id &goto_recipe, Character *crafter, std::string filterstring = "",
+        bool camp_crafting = false, inventory *inventory_override = nullptr );
+std::pair<std::vector<const recipe *>, bool> recipes_from_cat( const recipe_subset
+        &available_recipes, const crafting_category_id &cat, const std::string &subcat );
 
 void load_recipe_category( const JsonObject &jsobj, const std::string &src );
 void reset_recipe_categories();

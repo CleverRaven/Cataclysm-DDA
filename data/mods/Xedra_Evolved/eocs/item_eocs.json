@@ -17,17 +17,17 @@
     "id": "EOC_READ_LOCAL_FILES_XEDRA",
     "condition": {
       "and": [
-        { "math": [ "u_skill('computer')", ">=", "2" ] },
+        { "math": [ "u_skill('computer') >= 2" ] },
         { "roll_contested": { "math": [ "u_skill('deduction')" ] }, "difficulty": 12 }
       ]
     },
-    "effect": [ { "u_message": "local_files_xedra", "snippet": true, "same_snippet": true, "popup": true } ],
+    "effect": [ { "u_message": "local_files_xedra", "snippet": true, "same_snippet": true, "popup": true, "store_in_lore": true } ],
     "false_effect": [ { "u_message": "You found nothing interesting." } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_WOLF_SLEDGE_TRHOW",
-    "condition": { "math": [ "u_val('stamina')", ">=", "3000" ] },
+    "condition": { "math": [ "u_val('stamina') >= 3000" ] },
     "effect": [
       {
         "u_run_inv_eocs": "all",
@@ -54,5 +54,10 @@
     "required_event": "character_casts_spell",
     "condition": { "or": [ { "compare_string": [ "rip_ticket", { "context_val": "spell" } ] } ] },
     "effect": [ { "u_consume_item": "rip_ticket" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DAGWOOD",
+    "effect": [ { "u_cast_spell": { "id": "cosmic_dagwood_regeneration" } } ]
   }
 ]

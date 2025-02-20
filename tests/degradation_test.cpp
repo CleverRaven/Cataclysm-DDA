@@ -1,20 +1,29 @@
+#include <cstddef>
+#include <functional>
 #include <string>
+#include <vector>
 
 #include "activity_handlers.h"
+#include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "coordinates.h"
 #include "flag.h"
 #include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
 #include "itype.h"
-#include "iuse_actor.h"
 #include "iuse.h"
-#include "map_helpers.h"
 #include "map.h"
+#include "map_helpers.h"
+#include "map_scale_constants.h"
+#include "map_selector.h"
+#include "player_activity.h"
 #include "player_helpers.h"
-#include "vehicle.h"
-#include "veh_utils.h"
-#include "veh_type.h"
-#include "vpart_position.h"
-#include "vpart_range.h"
+#include "pocket_type.h"
+#include "point.h"
+#include "ret_val.h"
+#include "type_id.h"
 
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 
@@ -268,7 +277,7 @@ TEST_CASE( "Repairing_degraded_items", "[item][degradation]" )
     // Setup map
     clear_map();
     set_time_to_day();
-    REQUIRE( static_cast<int>( get_map().light_at( spawn_pos.raw() ) ) > 2 );
+    REQUIRE( static_cast<int>( get_map().light_at( spawn_pos ) ) > 2 );
 
     GIVEN( "Item with normal degradation" ) {
         Character &u = get_player_character();
@@ -663,7 +672,7 @@ TEST_CASE( "refit_item_inside_spillable_container", "[item][repair][container]" 
     clear_avatar();
     clear_map();
     set_time_to_day();
-    REQUIRE( static_cast<int>( get_map().light_at( spawn_pos.raw() ) ) > 2 );
+    REQUIRE( static_cast<int>( get_map().light_at( spawn_pos ) ) > 2 );
 
     Character &u = get_player_character();
     u.set_skill_level( skill_tailor, 10 );

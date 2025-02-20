@@ -28,6 +28,7 @@
       { "coverage": 80, "covers": [ "head" ], "specifically_covers": [ "head_forehead" ] },
       { "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_ear_l", "head_ear_r" ] }
     ],
+    "flags": [ "RAINPROOF", "PADDED" ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -587,7 +588,7 @@
         ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_forehead", "head_crown", "head_ear_l", "head_ear_r" ],
-        "encumbrance": 5,
+        "encumbrance": 50,
         "coverage": 100
       },
       {
@@ -2187,7 +2188,8 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "flags": [ "STURDY", "CONDUCTIVE" ],
+    "max_worn": 1,
     "melee_damage": { "bash": 3 }
   },
   {
@@ -2457,7 +2459,8 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "flags": [ "STURDY", "CONDUCTIVE" ],
+    "max_worn": 1,
     "melee_damage": { "bash": 8 }
   },
   {
@@ -2687,7 +2690,8 @@
     "warmth": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "flags": [ "STURDY", "CONDUCTIVE" ],
+    "max_worn": 1,
     "melee_damage": { "bash": 8 }
   },
   {

@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <optional>
+#include <string>
 
 #include "action.h"
 #include "avatar.h"
@@ -11,29 +12,39 @@
 #include "debug.h"
 #include "game.h"
 #include "item.h"
+#include "item_location.h"
 #include "loading_ui.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapdata.h"
+#include "omdata.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "profession.h"
 #include "scent_map.h"
+#include "stomach.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
+#include "units.h"
 #include "weather.h"
 
 static const furn_str_id furn_f_rack( "f_rack" );
 
+static const itype_id itype_boxer_shorts( "boxer_shorts" );
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_flashlight( "flashlight" );
 static const itype_id itype_flashlight_on( "flashlight_on" );
 static const itype_id itype_grenade_act( "grenade_act" );
+static const itype_id itype_jeans( "jeans" );
+static const itype_id itype_longshirt( "longshirt" );
+static const itype_id itype_sneakers( "sneakers" );
+static const itype_id itype_socks( "socks" );
 static const itype_id itype_water_clean( "water_clean" );
 
 static const overmap_special_id overmap_special_tutorial( "tutorial" );
@@ -163,11 +174,11 @@ bool tutorial_game::init()
     starting_om.place_special_forced( overmap_special_tutorial, lp, om_direction::type::north );
     starting_om.clear_mon_groups();
 
-    player_character.wear_item( item( "boxer_shorts" ), false );
-    player_character.wear_item( item( "jeans" ), false );
-    player_character.wear_item( item( "longshirt" ), false );
-    player_character.wear_item( item( "socks" ), false );
-    player_character.wear_item( item( "sneakers" ), false );
+    player_character.wear_item( item( itype_boxer_shorts ), false );
+    player_character.wear_item( item( itype_jeans ), false );
+    player_character.wear_item( item( itype_longshirt ), false );
+    player_character.wear_item( item( itype_socks ), false );
+    player_character.wear_item( item( itype_sneakers ), false );
 
     player_character.set_skill_level( skill_gun, 5 );
     player_character.set_skill_level( skill_melee, 5 );
@@ -182,6 +193,8 @@ bool tutorial_game::init()
 
 void tutorial_game::per_turn()
 {
+    map &here = get_map();
+
     // note that add_message does nothing if the message was already shown
     add_message( tut_lesson::LESSON_INTRO );
     add_message( tut_lesson::LESSON_MOVE );
@@ -209,7 +222,6 @@ void tutorial_game::per_turn()
         add_message( tut_lesson::LESSON_RESTORE_STAMINA );
     }
 
-    map &here = get_map();
     if( !tutorials_seen[tut_lesson::LESSON_BUTCHER] ) {
         for( const item &it : here.i_at( player_character.pos_bub().xy() ) ) {
             if( it.is_corpse() ) {

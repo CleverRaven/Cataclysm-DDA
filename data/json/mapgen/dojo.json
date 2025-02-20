@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "dojo" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -32,7 +31,7 @@
         "  #S_'.y.'_T|.<|XXXXX#  ",
         "  ####################  "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         "x": "t_region_groundcover_urban",
@@ -43,9 +42,9 @@
         "-": "t_pavement",
         "Á": "t_pavement",
         ".": "t_floor",
-        "_": "t_linoleum_gray",
-        "S": "t_linoleum_gray",
-        "T": "t_linoleum_gray",
+        "_": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "g": "t_wall_glass",
         "s": "t_sidewalk",
         "4": "t_gutter_downspout",
@@ -167,7 +166,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "dojo_1" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -196,7 +194,7 @@
         "  ##################### ",
         "                        "
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         " ": "t_region_groundcover_urban",
         "1": "t_region_groundcover_urban",
@@ -205,15 +203,15 @@
         "A": "t_region_soil",
         "'": "t_door_c",
         ".": "t_floor",
-        ",": "t_linoleum_white",
-        "B": "t_linoleum_white",
-        "c": "t_linoleum_white",
-        "E": "t_linoleum_white",
-        "e": "t_linoleum_white",
-        "U": "t_linoleum_white",
-        "L": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "T": "t_linoleum_white",
+        ",": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "c": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "E": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "e": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "U": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "L": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "O": "t_window_domestic",
         "g": "t_wall_glass",
         "!": "t_wall_log",

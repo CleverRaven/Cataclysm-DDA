@@ -20,12 +20,6 @@
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] }
   },
   {
-    "id": "fake_arcfurnace",
-    "copy-from": "fake_item",
-    "type": "TOOL",
-    "name": { "str": "arc furnace" }
-  },
-  {
     "id": "spinwheelitem",
     "copy-from": "fake_item",
     "type": "TOOL",
@@ -51,7 +45,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "fake_item",
     "name": { "str": "WearMan" },
-    "description": "A set of speakers implanted into your skull, that can recieve local radiowaves and play downloaded music at a concert hall quality.  It comes with \"Rubik's Mickse\" preloaded.  Activate it to start playing some tunes.",
+    "description": "A set of speakers implanted into your skull, that can receive local radiowaves and play downloaded music at a concert hall quality.  It comes with \"Rubik's Mickse\" preloaded.  Activate it to start playing some tunes.",
     "use_action": [
       {
         "target": "internal_mp3_music",
@@ -71,7 +65,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "fake_item",
     "name": { "str": "WearMan" },
-    "description": "A set of speakers implanted into your skull, that can recieve local radiowaves and play downloaded music at a concert hall quality.  It is currently playing \"Rubik's Mickse\".  Activate it to find the Spirit of the Radio.",
+    "description": "A set of speakers implanted into your skull, that can receive local radiowaves and play downloaded music at a concert hall quality.  It is currently playing \"Rubik's Mickse\".  Activate it to find the Spirit of the Radio.",
     "use_action": [
       {
         "target": "internal_mp3_radio",
@@ -94,7 +88,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "fake_item",
     "name": { "str": "WearMan" },
-    "description": "A set of speakers implanted into your skull, that can recieve local radiowaves and play downloaded music at a concert hall quality.  It is currently playing \"Rubik's Mickse\".  Activate it to turn it off.",
+    "description": "A set of speakers implanted into your skull, that can receive local radiowaves and play downloaded music at a concert hall quality.  It is currently playing \"Rubik's Mickse\".  Activate it to turn it off.",
     "use_action": [
       "RADIO_ON",
       {
@@ -119,14 +113,17 @@
     "name": { "str": "Integrated AR System" },
     "description": "Extremely thin lenses provides user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
     "charges_per_use": 1,
-    "use_action": [ "CAMERA", "PORTABLE_GAME", "EINKTABLETPC", "ELECTRICSTORAGE", "EBOOKSAVE", "EBOOKREAD" ],
+    "use_action": [ "CAMERA", "PORTABLE_GAME", "EBOOKSAVE", "E_FILE_DEVICE" ],
+    "etransfer_rate": "140 MB",
+    "e_port": "phone",
     "pocket_data": [
       {
-        "pocket_type": "EBOOK",
+        "pocket_type": "E_FILE_STORAGE",
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0
+        "weight_multiplier": 0.0,
+        "ememory_max": "2 TB"
       }
     ],
     "flags": [
@@ -248,7 +245,7 @@
     "id": "fake_arc_furnace",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
-    "name": { "str": "industrial arc furnace" }
+    "name": { "str": "arc furnace" }
   },
   {
     "id": "fake_beverly_shear",
@@ -482,6 +479,14 @@
     "charges_per_use": 20
   },
   {
+    "id": "debug_item_search",
+    "name": { "str": "debug item search", "//~": "NO_I18N" },
+    "type": "GENERIC",
+    "symbol": "?",
+    "description": { "str": "This is a dummy item used by item search.  You should never see it outside of debug.", "//~": "NO_I18N" },
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
+  },
+  {
     "id": "fake_dynamite_50lbs",
     "//": "This is used exclusively in the rescue mission for Barry to blow a hole in the scout tower.",
     "type": "TOOL",
@@ -493,8 +498,8 @@
     },
     "weight": "22680 g",
     "volume": "15020 ml",
-    "price": 6000,
-    "price_postapoc": 1000,
+    "price": "60 USD",
+    "price_postapoc": "10 USD",
     "to_hit": -3,
     "material": [ { "type": "tnt", "portion": 95 }, { "type": "paper", "portion": 5 } ],
     "symbol": "*",

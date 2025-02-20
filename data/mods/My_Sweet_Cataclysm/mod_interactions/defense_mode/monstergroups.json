@@ -1,6 +1,6 @@
 [
   {
-    "name": "GROUP_SWEET_HORDE",
+    "id": "GROUP_SWEET_HORDE",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_marshmallow_guy_dm" },

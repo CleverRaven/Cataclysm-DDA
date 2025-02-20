@@ -39,7 +39,10 @@
       "bunker_shop_b_south": "solid_earth",
       "bunker_shop_b_east": "solid_earth",
       "bunker_shop_b_west": "solid_earth",
-      "megastore_parking": "omt_obsolete"
+      "megastore_parking_north": "s_lot_no_sidewalk_north",
+      "megastore_parking_east": "s_lot_no_sidewalk_east",
+      "megastore_parking_south": "s_lot_no_sidewalk_south",
+      "megastore_parking_west": "s_lot_no_sidewalk_west"
     }
   },
   {
@@ -127,6 +130,16 @@
       "trailerparksmall2_roof_west": "omt_obsolete",
       "trailerparksmall2_south": "omt_obsolete",
       "trailerparksmall2_west": "omt_obsolete"
+    }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.I",
+    "oter_ids": {
+      "full_basic_lab_roof_north": "full_mutagen_lab_roof",
+      "full_basic_lab_roof_east": "full_mutagen_lab_roof",
+      "full_basic_lab_roof_south": "full_mutagen_lab_roof",
+      "full_basic_lab_roof_west": "full_mutagen_lab_roof"
     }
   },
   {
@@ -258,5 +271,167 @@
       "farm_lot_wire_turn_v_open_south": "farmland_straight_south",
       "farm_lot_wire_turn_v_open_west": "farmland_straight_west"
     }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.I",
+    "oter_ids": {
+      "rock": "empty_rock",
+      "slimepit_top": "slimepit_z0_north",
+      "slimepit_bottom": "slimepit_z-1_north",
+      "slimepit": "slimepit_z-2_north",
+      "slimepit_down": "slimepit_z0_north"
+    }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.I",
+    "oter_ids": {
+      "s_gun": "s_gun_a",
+      "s_gun_north": "s_gun_a_north",
+      "s_gun_east": "s_gun_a_east",
+      "s_gun_south": "s_gun_a_south",
+      "s_gun_west": "s_gun_a_west",
+      "s_gun_looted": "s_gun_a",
+      "s_gun_looted_north": "s_gun_a_north",
+      "s_gun_looted_east": "s_gun_a_east",
+      "s_gun_looted_south": "s_gun_a_south",
+      "s_gun_looted_west": "s_gun_a_west",
+      "s_gun_roof": "s_gun_a_roof",
+      "s_gun_roof_north": "s_gun_a_roof_north",
+      "s_gun_roof_east": "s_gun_a_roof_east",
+      "s_gun_roof_south": "s_gun_a_roof_south",
+      "s_gun_roof_west": "s_gun_a_roof_west",
+      "s_gun_upper_roof": "s_gun_a_roof",
+      "s_gun_upper_roof_north": "s_gun_a_roof_north",
+      "s_gun_upper_roof_east": "s_gun_a_roof_east",
+      "s_gun_upper_roof_south": "s_gun_a_roof_south",
+      "s_gun_upper_roof_west": "s_gun_a_roof_west",
+      "s_gun_1": "s_gun_a",
+      "s_gun_1_north": "s_gun_a_north",
+      "s_gun_1_east": "s_gun_a_east",
+      "s_gun_1_south": "s_gun_a_south",
+      "s_gun_1_west": "s_gun_a_west",
+      "s_gun_roof_1": "s_gun_a_roof",
+      "s_gun_roof_1_north": "s_gun_a_roof_north",
+      "s_gun_roof_1_east": "s_gun_a_roof_east",
+      "s_gun_roof_1_south": "s_gun_a_roof_south",
+      "s_gun_roof_1_west": "s_gun_a_roof_west",
+      "s_gun_upper_roof_1": "s_gun_a_roof",
+      "s_gun_upper_roof_1_north": "s_gun_a_roof_north",
+      "s_gun_upper_roof_1_east": "s_gun_a_roof_east",
+      "s_gun_upper_roof_1_south": "s_gun_a_roof_south",
+      "s_gun_upper_roof_1_west": "s_gun_a_roof_west",
+      "s_gun_2": "s_gun_a",
+      "s_gun_2_north": "s_gun_a_north",
+      "s_gun_2_east": "s_gun_a_east",
+      "s_gun_2_south": "s_gun_a_south",
+      "s_gun_2_west": "s_gun_a_west",
+      "s_gun_3": "s_gun_a",
+      "s_gun_3_north": "s_gun_a_north",
+      "s_gun_3_east": "s_gun_a_east",
+      "s_gun_3_south": "s_gun_a_south",
+      "s_gun_3_west": "s_gun_a_west",
+      "s_gun_3_looted": "s_gun_a",
+      "s_gun_3_looted_north": "s_gun_a_north",
+      "s_gun_3_looted_east": "s_gun_a_east",
+      "s_gun_3_looted_south": "s_gun_a_south",
+      "s_gun_3_looted_west": "s_gun_a_west",
+      "s_gun_roof_3": "s_gun_a_roof",
+      "s_gun_roof_3_north": "s_gun_a_roof_north",
+      "s_gun_roof_3_east": "s_gun_a_roof_east",
+      "s_gun_roof_3_south": "s_gun_a_roof_south",
+      "s_gun_roof_3_west": "s_gun_a_roof_west",
+      "s_gun_4": "s_gun_a",
+      "s_gun_4_north": "s_gun_a_north",
+      "s_gun_4_east": "s_gun_a_east",
+      "s_gun_4_south": "s_gun_a_south",
+      "s_gun_4_west": "s_gun_a_west",
+      "s_gun_4_looted": "s_gun_a",
+      "s_gun_4_looted_north": "s_gun_a_north",
+      "s_gun_4_looted_east": "s_gun_a_east",
+      "s_gun_4_looted_south": "s_gun_a_south",
+      "s_gun_4_looted_west": "s_gun_a_west",
+      "s_gun_roof_4": "s_gun_a_roof",
+      "s_gun_roof_4_north": "s_gun_a_roof_north",
+      "s_gun_roof_4_east": "s_gun_a_roof_east",
+      "s_gun_roof_4_south": "s_gun_a_roof_south",
+      "s_gun_roof_4_west": "s_gun_a_roof_west",
+      "s_gunstore": "s_gun_a",
+      "s_gunstore_north": "s_gun_a_north",
+      "s_gunstore_east": "s_gun_a_east",
+      "s_gunstore_south": "s_gun_a_south",
+      "s_gunstore_west": "s_gun_a_west",
+      "s_gun_2ndfloor_4": "s_gun_a",
+      "s_gun_2ndfloor_4_north": "s_gun_a_north",
+      "s_gun_2ndfloor_4_east": "s_gun_a_east",
+      "s_gun_2ndfloor_4_south": "s_gun_a_south",
+      "s_gun_2ndfloor_4_west": "s_gun_a_west",
+      "s_gunstore_2ndfloor": "s_gun_a",
+      "s_gunstore_2ndfloor_north": "s_gun_a_north",
+      "s_gunstore_2ndfloor_east": "s_gun_a_east",
+      "s_gunstore_2ndfloor_south": "s_gun_a_south",
+      "s_gunstore_2ndfloor_west": "s_gun_a_west",
+      "s_gunstore_roof": "s_gun_a_roof",
+      "s_gunstore_roof_north": "s_gun_a_roof_north",
+      "s_gunstore_roof_east": "s_gun_a_roof_east",
+      "s_gunstore_roof_south": "s_gun_a_roof_south",
+      "s_gunstore_roof_west": "s_gun_a_roof_west",
+      "s_gunstore_looted": "s_gun_a",
+      "s_gunstore_looted_north": "s_gun_a_north",
+      "s_gunstore_looted_east": "s_gun_a_east",
+      "s_gunstore_looted_south": "s_gun_a_south",
+      "s_gunstore_looted_west": "s_gun_a_west"
+    }
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "s_gun",
+    "new_id": "s_gun_a"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "s_gun_looted",
+    "new_id": "s_gun_a"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "s_gun_1",
+    "new_id": "s_gun_a"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "s_gun_2",
+    "new_id": "s_gun_a"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "s_gun_3",
+    "new_id": "s_gun_a"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "s_gun_3_looted",
+    "new_id": "s_gun_a"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "s_gun_4",
+    "new_id": "s_gun_a"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "s_gun_4_looted",
+    "new_id": "s_gun_a"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "s_gunstore",
+    "new_id": "s_gun_a"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "s_gunstore_looted",
+    "new_id": "s_gun_a"
   }
 ]

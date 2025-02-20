@@ -2,21 +2,20 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <ostream>
+#include <unordered_set>
 
 #include "achievement.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
-#include "map_extras.h"
 #include "mission.h"
 #include "mutation.h"
 #include "options.h"
-#include "past_games_info.h"
 #include "past_achievements_info.h"
 #include "profession.h"
 #include "rng.h"
 #include "start_location.h"
-#include "string_id.h"
 #include "translations.h"
 
 static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
@@ -373,7 +372,9 @@ void scen_blacklist::load( const JsonObject &jo, const std::string_view )
 void scen_blacklist::finalize()
 {
     std::vector<string_id<scenario>> all_scens;
-    for( const scenario &scen : scenario::get_all() ) {
+    std::vector<scenario> all_scenarios = scenario::get_all();
+    all_scens.reserve( all_scenarios.size() );
+    for( const scenario &scen : all_scenarios ) {
         all_scens.emplace_back( scen.ident() );
     }
     for( const string_id<scenario> &sc : sc_blacklist.scenarios ) {

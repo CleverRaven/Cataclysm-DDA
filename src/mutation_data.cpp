@@ -1,11 +1,13 @@
 #include "mutation.h" // IWYU pragma: associated
 
+#include <algorithm>
 #include <cstdlib>
 #include <map>
 #include <memory>
 #include <set>
 #include <stdexcept>
 #include <type_traits>
+#include <unordered_map>
 #include <vector>
 
 #include "assign.h"
@@ -15,16 +17,19 @@
 #include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "localized_comparator.h"
-#include "magic.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
 #include "memory_fast.h"
 #include "npc.h"
 #include "string_formatter.h"
 #include "trait_group.h"
 #include "translations.h"
+#include "ui.h"
+#include "weighted_list.h"
 
 static const mutation_category_id mutation_category_ANY( "ANY" );
 
@@ -311,6 +316,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
     optional( jo, was_loaded, "visibility", visibility, 0 );
     optional( jo, was_loaded, "ugliness", ugliness, 0 );
     optional( jo, was_loaded, "starting_trait", startingtrait, false );
+    optional( jo, was_loaded, "random_at_chargen", random_at_chargen, true );
     optional( jo, was_loaded, "mixed_effect", mixed_effect, false );
     optional( jo, was_loaded, "active", activated, false );
     optional( jo, was_loaded, "starts_active", starts_active, false );
@@ -679,7 +685,7 @@ void mutation_branch::check_consistency()
                 debugmsg( "mutation %s transform uses undefined target %s", mid.c_str(), tid.c_str() );
             }
         }
-        for( const std::pair<species_id, int> elem : an_id ) {
+        for( const std::pair<const species_id, int> &elem : an_id ) {
             if( !elem.first.is_valid() ) {
                 debugmsg( "mutation %s refers to undefined species id %s", mid.c_str(), elem.first.c_str() );
             }
@@ -1150,6 +1156,7 @@ shared_ptr_fast<Trait_group> mutation_branch::get_group( const
 std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names()
 {
     std::vector<trait_group::Trait_group_tag> rval;
+    rval.reserve( trait_groups.size() );
     for( auto &group : trait_groups ) {
         rval.push_back( group.first );
     }

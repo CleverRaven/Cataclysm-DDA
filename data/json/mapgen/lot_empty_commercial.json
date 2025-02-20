@@ -432,15 +432,15 @@
         "  ..d..d..d..d..d..d..  ",
         "  dddddddddddddddddddd  ",
         "  ..d..d..d..d..d..d..  ",
-        "  .||||||||||||||||||.  ",
+        "  .##################.  ",
         "                        ",
         "                        "
       ],
+      "palettes": [ "parametrized_walls_palette" ],
       "terrain": {
         ".": [ [ "t_concrete", 7 ], [ "t_region_groundcover_barren", 3 ] ],
         " ": "t_region_groundcover_urban",
-        "d": [ [ "t_concrete", 7 ], [ "t_region_groundcover_barren", 1 ] ],
-        "|": "t_concrete_wall"
+        "d": [ [ "t_concrete", 7 ], [ "t_region_groundcover_barren", 1 ] ]
       },
       "furniture": {  },
       "place_items": [

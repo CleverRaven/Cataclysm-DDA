@@ -39,13 +39,20 @@
     "extras": "build",
     "mondensity": 2,
     "see_cost": "high",
-    "flags": [ "RISK_HIGH", "GENERIC_LOOT" ]
+    "flags": [ "RISK_HIGH", "GENERIC_LOOT", "PP_GENERATE_RIOT_DAMAGE" ]
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_city_building",
     "copy-from": "generic_city_building_no_sidewalk",
     "extend": { "flags": [ "SIDEWALK" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_city_building_roof",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "extend": { "flags": [ "SIDEWALK" ] },
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -56,19 +63,7 @@
     "vision_levels": "always_full",
     "see_cost": "opaque",
     "travel_cost_type": "impassable",
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "deep_rock",
-    "//": "Ugly placeholder solution to differentiate between subway tunnels, remove if per-special connection subtyping is implemented.",
-    "name": "solid rock",
-    "looks_like": "empty_rock",
-    "sym": "%",
-    "color": "dark_gray",
-    "vision_levels": "always_full",
-    "see_cost": "opaque",
-    "travel_cost_type": "impassable",
+    "uniform_terrain": "t_soil",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -86,7 +81,8 @@
     "copy-from": "generic_city_building",
     "name": "garage roof",
     "sym": "O",
-    "color": "white"
+    "color": "white",
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -655,8 +651,7 @@
     "name": "incomplete cabin roof",
     "sym": "+",
     "color": "light_green",
-    "see_cost": "none",
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -677,7 +672,8 @@
     "sym": ".",
     "color": "blue",
     "see_cost": "none",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "WATER" ]
   },
   {
     "type": "overmap_terrain",
@@ -687,7 +683,8 @@
     "sym": ".",
     "color": "light_blue",
     "see_cost": "none",
-    "mondensity": 1
+    "mondensity": 1,
+    "flags": [ "WATER" ]
   },
   {
     "type": "overmap_terrain",
@@ -797,7 +794,8 @@
     "name": "desolate barn",
     "sym": "B",
     "color": "brown",
-    "extend": { "flags": [ "RISK_LOW", "SOURCE_SAFETY" ] }
+    "extend": { "flags": [ "RISK_LOW", "SOURCE_SAFETY" ] },
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
@@ -829,6 +827,15 @@
     "id": "ws_giant_sinkhole_2",
     "copy-from": "generic_giant_sinkhole",
     "name": "giant sinkhole base"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "outcrop",
+    "name": "outcrop",
+    "vision_levels": "natural_outcropping",
+    "sym": "O",
+    "color": "brown",
+    "see_cost": "spaced_high"
   },
   {
     "type": "overmap_terrain",

@@ -12,6 +12,7 @@
 #include "coords_fwd.h"
 
 class input_context;
+class map;
 struct input_event;
 
 /**
@@ -176,6 +177,8 @@ enum action_id : int {
     ACTION_MEND,
     /** Open the throw menu */
     ACTION_THROW,
+    /** Throw the currently wielded item */
+    ACTION_THROW_WIELDED,
     /** Fire the wielded weapon, or open fire menu if none */
     ACTION_FIRE,
     /** Burst-fire the current weapon */
@@ -186,6 +189,8 @@ enum action_id : int {
     ACTION_SELECT_DEFAULT_AMMO,
     /** Cast a spell (only if any spells are known) */
     ACTION_CAST_SPELL,
+    /** Recast last spell */
+    ACTION_RECAST_SPELL,
     /** Open the insert-item menu */
     ACTION_INSERT_ITEM,
     /** Unload container in a given direction */
@@ -472,15 +477,10 @@ bool can_action_change_worldstate( action_id act );
  *            exits with the return value set to the tripoint, or std::nullopt
  *            if the tripoint is not a valid adjacent location.
  */
-// TODO: Get rid of untyped overload and rename _bub when the profile is free.
-std::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical = false );
-std::optional<tripoint_bub_ms> choose_adjacent_bub( const std::string &message,
-        bool allow_vertical = false );
-// TODO: Get rid of untyped overload.
-std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string &message,
+std::optional<tripoint_bub_ms> choose_adjacent( const std::string &message,
         bool allow_vertical = false );
 std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
-        const std::string &message, bool allow_vertical = false, int timeout = -1,
+        const std::string &message, bool allow_vertical = false, int timeout = 50,
         const std::function<std::pair<bool, std::optional<tripoint_bub_ms>>(
             const input_context &ctxt, const std::string &action )> &action_cb = nullptr );
 
@@ -505,11 +505,8 @@ std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
  *            exits with the return value set to the tripoint, or std::nullopt
  *            if the tripoint is not a valid direction.
  */
-// TODO: Get rid of untyped version and typed name extension.
-std::optional<tripoint> choose_direction( const std::string &message,
-        bool allow_vertical = false );
-std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &message,
-        bool allow_vertical = false, bool allow_mouse = false, int timeout = -1,
+std::optional<tripoint_rel_ms> choose_direction( const std::string &message,
+        bool allow_vertical = false, bool allow_mouse = false, int timeout = 50,
         const std::function<std::pair<bool, std::optional<tripoint_rel_ms>>(
             const input_context &ctxt, const std::string &action )> &action_cb = nullptr );
 
@@ -529,11 +526,7 @@ std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &messa
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  * @param[in] allow_autoselect Automatically select location if there's only one valid option and the appropriate setting is enabled
  */
-// TODO: Get rid of untyped version and change name of typed one.
-std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, action_id action,
-        bool allow_vertical = false, bool allow_autoselect = true );
-std::optional<tripoint_bub_ms> choose_adjacent_highlight_bub_ms( const std::string &message,
+std::optional<tripoint_bub_ms> choose_adjacent_highlight( map &here, const std::string &message,
         const std::string &failure_message, action_id action,
         bool allow_vertical = false, bool allow_autoselect = true );
 
@@ -554,18 +547,10 @@ std::optional<tripoint_bub_ms> choose_adjacent_highlight_bub_ms( const std::stri
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  * @param[in] allow_autoselect Automatically select location if there's only one valid option and the appropriate setting is enabled
  */
-// TODO: Get rid of untyped overload.
-std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
-        bool allow_vertical = false, bool allow_autoselect = true );
-std::optional<tripoint_bub_ms> choose_adjacent_highlight( const std::string &message,
+std::optional<tripoint_bub_ms> choose_adjacent_highlight( map &here, const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint_bub_ms & )> &allowed,
         bool allow_vertical = false, bool allow_autoselect = true );
-// TODO: Get rid of untyped overload.
-std::optional<tripoint> choose_adjacent_highlight( const tripoint &pos, const std::string &message,
-        const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
-        bool allow_vertical = false, bool allow_autoselect = true );
-std::optional<tripoint_bub_ms> choose_adjacent_highlight( const tripoint_bub_ms &pos,
+std::optional<tripoint_bub_ms> choose_adjacent_highlight( map &here, const tripoint_bub_ms &pos,
         const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint_bub_ms & )> &allowed,
         bool allow_vertical = false, bool allow_autoselect = true );
@@ -605,9 +590,7 @@ enum class iso_rotate : int {
 action_id get_movement_action_from_delta( const tripoint_rel_ms &d, iso_rotate rot );
 
 // Helper function to convert movement action to coordinate delta point
-// TODO: Remove untyped overload and rename typed version.
-point get_delta_from_movement_action( action_id act, iso_rotate rot );
-point_rel_ms get_delta_from_movement_action_rel_ms( action_id act, iso_rotate rot );
+point_rel_ms get_delta_from_movement_action( action_id act, iso_rotate rot );
 
 /**
  * Show the action menu
@@ -617,7 +600,7 @@ point_rel_ms get_delta_from_movement_action_rel_ms( action_id act, iso_rotate ro
  *
  * @returns action_id ID of action requested by user at menu.
  */
-action_id handle_action_menu();
+action_id handle_action_menu( map &here );
 
 /**
  * Show in-game main menu
@@ -642,7 +625,7 @@ action_id handle_main_menu();
  * @param p Point to perform test at
  * @returns true if movement is possible in the indicated direction
  */
-bool can_interact_at( action_id action, const tripoint_bub_ms &p );
+bool can_interact_at( action_id action, map &here, const tripoint_bub_ms &p );
 
 /**
  * Test whether it is possible to perform butcher action
@@ -656,7 +639,7 @@ bool can_interact_at( action_id action, const tripoint_bub_ms &p );
  * @param p Point to perform the test at
  * @returns true if there is a corpse or item that can be disassembled at a point, otherwise false
  */
-bool can_butcher_at( const tripoint_bub_ms &p );
+bool can_butcher_at( map &here, const tripoint_bub_ms &p );
 
 /**
  * Test whether vertical movement is possible
@@ -672,7 +655,7 @@ bool can_butcher_at( const tripoint_bub_ms &p );
  * @param movez Direction to move. -1 for down, all other values for up
  * @returns true if movement is possible in the indicated direction, otherwise false
  */
-bool can_move_vertical_at( const tripoint_bub_ms &p, int movez );
+bool can_move_vertical_at( const map &here, const tripoint_bub_ms &p, int movez );
 
 /**
  * Test whether examine is possible
@@ -686,6 +669,6 @@ bool can_move_vertical_at( const tripoint_bub_ms &p, int movez );
  * @param with_pickup True if the presence of items to pick up is sufficient eligibility
  * @returns true if the examine action is possible at this point, otherwise false
  */
-bool can_examine_at( const tripoint_bub_ms &p, bool with_pickup = false );
+bool can_examine_at( map &here,  const tripoint_bub_ms &p, bool with_pickup = false );
 
 #endif // CATA_SRC_ACTION_H

@@ -9,15 +9,11 @@
       "TALK_GODCO_Tom_Help"
     ],
     "responses": [
-      {
-        "text": "What's your story?",
-        "topic": "TALK_GODCO_Tom_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
-      },
+      { "text": "What's your story?", "topic": "TALK_GODCO_Tom_Story", "condition": { "math": [ "n_npc_value() >= 3" ] } },
       {
         "text": "Let's talk about your goals.",
         "topic": "TALK_GODCO_Tom_Goal",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       }
     ]
   },
@@ -28,27 +24,27 @@
       {
         "text": "Tell me about yourself.",
         "topic": "TALK_GODCO_Tom_Background",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "Tell me about your family.",
         "topic": "TALK_GODCO_Tom_Family",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "Tell me about the community.",
         "topic": "TALK_GODCO_Tom_Community",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "What's your story?",
         "topic": "TALK_GODCO_Tom_Story",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       },
       {
         "text": "Let's talk about your goals.",
         "topic": "TALK_GODCO_Tom_Goal",
-        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+        "condition": { "math": [ "n_npc_value() >= 3" ] }
       }
     ]
   },
@@ -57,9 +53,9 @@
     "id": "TALK_GODCO_Tom_1",
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
-      "yes": "What the <swear> are you?  Get the <swear> away from me!",
+      "yes": "What the hell are you?  Get away from me!",
       "no": {
-        "math": [ "n_npc_anger()", ">=", "5" ],
+        "math": [ "n_npc_anger() >= 5" ],
         "yes": "It's you again <u_name>, you have some nerve coming around after what you've done.",
         "no": {
           "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_tom" } ],
@@ -87,7 +83,7 @@
         "text": "Hi Tom, got a minute?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_tom" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -98,7 +94,7 @@
         "text": "Hi Tom, got a minute?",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_tom" } ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
@@ -109,7 +105,7 @@
         "text": "Hey, Tom.  <end_talking_leave>",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "math": [ "n_npc_anger() < 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
@@ -119,14 +115,14 @@
         "text": "Alright, alright, I'll leave you be.",
         "condition": {
           "and": [
-            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "math": [ "n_npc_anger() >= 5" ] },
             { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_DONE"
       },
       {
-        "text": "Alright, alright, chill the <swear> out, I'm leaving!",
+        "text": "Alright, alright, chill out, I'm leaving!",
         "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] },
         "topic": "TALK_DONE"
       }
@@ -201,7 +197,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Tom_Family",
-    "dynamic_line": "All of us are here; me, Felicity, and Olwen.  We're so <swear> lucky, I feel like crying tears of joy every time I see them.",
+    "dynamic_line": "All of us are here; me, Felicity, and Olwen.  We're so lucky, I feel like crying tears of joy every time I see them.",
     "responses": [
       { "text": "Could you tell me about Felicity?", "topic": "TALK_GODCO_Tom_Felicity" },
       { "text": "Could you tell me about Olwen?", "topic": "TALK_GODCO_Tom_Olwen" },
@@ -240,7 +236,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Tom_Goal",
-    "dynamic_line": "I want to find out the truth and preserve the past for the following generation, so that they'll know some of what <swear> happened.",
+    "dynamic_line": "I want to find out the truth and preserve the past for the following generation, so that they'll know some of what happened.",
     "responses": [
       { "text": "Any progress?", "topic": "TALK_GODCO_Tom_Goal1" },
       {

@@ -5,13 +5,14 @@
 #include <algorithm>
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
+#include <string_view>
 #include <unordered_set>
 #include <vector>
 
+#include "input_context.h"
 #include "recipe.h"
 #include "type_id.h"
 
@@ -148,6 +149,11 @@ class recipe_subset
             tool,
             quality,
             quality_result,
+            length,
+            volume,
+            mass,
+            covers,
+            layer,
             description_result,
             proficiency,
             difficulty,
@@ -205,6 +211,7 @@ class recipe_subset
         std::map<const recipe *, int> difficulties;
         std::map<crafting_category_id, std::set<const recipe *>> category;
         std::map<itype_id, std::set<const recipe *>> component;
+        mutable input_context ctxt;
 };
 
 void serialize( const recipe_subset &value, JsonOut &jsout );

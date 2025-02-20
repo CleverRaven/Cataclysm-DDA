@@ -2,45 +2,47 @@
 #ifndef CATA_SRC_ITYPE_H
 #define CATA_SRC_ITYPE_H
 
-#include <array>
 #include <cstddef>
-#include <iosfwd>
 #include <map>
 #include <memory>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <tuple>
+#include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "color.h" // nc_color
+#include "coords_fwd.h"
 #include "damage.h"
 #include "enums.h" // point
 #include "explosion.h"
 #include "game_constants.h"
+#include "item.h"
 #include "item_pocket.h"
 #include "iuse.h" // use_function
 #include "mapdata.h"
 #include "proficiency.h"
 #include "relic.h"
 #include "stomach.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 
+// IWYU pragma: no_forward_declare std::hash
+class Character;
 class Item_factory;
 class JsonObject;
-class item;
-struct tripoint;
+class Trait_group;
+class map;
 template <typename E> struct enum_traits;
-
-enum art_effect_active : int;
-enum art_charge : int;
-enum art_charge_req : int;
-enum art_effect_passive : int;
 
 class gun_modifier_data
 {
@@ -111,16 +113,41 @@ struct islot_tool {
 
     float fuel_efficiency = -1.0f;
 
+    //ememory transferred per second
+    units::ememory etransfer_rate = 0_KB;
+
     std::vector<int> rand_charges;
+    //type of edevice connection
+    std::string e_port;
+    //list of edevice types NOT supported for high speed file transfer
+    std::vector<std::string> e_ports_banned;
 };
 
 constexpr float base_metabolic_rate =
     2500.0f;  // kcal / day, standard average for human male, but game does not differentiate genders here.
 
+struct rot_spawn_data {
+    /** The monster (or monster group, mutually exclusive) that is drawn from when the item rots away */
+    mtype_id rot_spawn_monster = mtype_id::NULL_ID();
+    mongroup_id rot_spawn_group = mongroup_id::NULL_ID();
+    /** Chance the above monster spawns*/
+    float rot_spawn_chance;
+    /** Range of monsters spawned */
+    std::pair<int, int> rot_spawn_monster_amount;
+
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
+};
+
 struct islot_comestible {
     public:
         friend Item_factory;
         friend item;
+
+        bool was_loaded = false;
+        void load( const JsonObject &jo );
+        void deserialize( const JsonObject &jo );
+
         /** subtype, e.g. FOOD, DRINK, MED */
         std::string comesttype;
 
@@ -130,12 +157,11 @@ struct islot_comestible {
         /** Defaults # of charges (drugs, loaf of bread? etc) */
         int def_charges = 0;
 
+        /** # of uses in the given volume; defaults to charge count if not provided */
+        int stack_size = 0;
+
         /** effect on character thirst (may be negative) */
         int quench = 0;
-
-        /** Nutrition values to use for this type when they aren't calculated from
-         * components */
-        nutrients default_nutrition;
 
         /** Time until becomes rotten at standard temperature, or zero if never spoils */
         time_duration spoils = 0_turns;
@@ -154,6 +180,19 @@ struct islot_comestible {
 
         /** Reference to item that will be received after smoking current item */
         itype_id smoking_result;
+
+        /*
+        * For the few rare cases where default nutrition needs to be accessible. Prefer using
+        * default_character_compute_effective_nutrients unless absolutely necessary.
+        */
+        nutrients default_nutrition_read_only() const {
+            return default_nutrition;
+        }
+
+        /** For the one case where default nutrition needs to be overridden. */
+        void set_default_nutrition( nutrients new_nutrition ) {
+            default_nutrition = std::move( new_nutrition );
+        };
 
         /** TODO: add documentation */
         int healthy = 0;
@@ -174,7 +213,8 @@ struct islot_comestible {
         std::map<diseasetype_id, float> contamination;
 
         // Materials to generate the below
-        std::map<material_id, int> materials;
+        material_id primary_material =
+            material_id::NULL_ID(); //TO-DO: this overrides materials and shouldn't be necessary
         //** specific heats in J/(g K) and latent heat in J/g */
         float specific_heat_liquid = 4.186f;
         float specific_heat_solid = 2.108f;
@@ -195,15 +235,13 @@ struct islot_comestible {
         }
 
         /** The monster that is drawn from when the item rots away */
-        mtype_id rot_spawn_monster = mtype_id::NULL_ID();
-        mongroup_id rot_spawn_group = mongroup_id::NULL_ID();
-
-        /** Chance the above monster spawns*/
-        int rot_spawn_chance = 10;
-
-        std::pair<int, int> rot_spawn_monster_amount = {1, 1};
+        rot_spawn_data rot_spawn;
 
     private:
+        /** Nutrition values to use for this type when they aren't calculated from
+         * components */
+        nutrients default_nutrition;
+
         /** effect on morale when consuming */
         int fun = 0;
 
@@ -402,6 +440,12 @@ struct islot_armor {
          */
         int warmth = 0;
         /**
+         * The max health of an energy shield type armor.  Value is completely ignored if the
+         * ENERGY_SHIELD flag is not set.  This value and "energy_shield_hp" are then stored
+         * through item variables so that they might be manipulated with EOCS and magic.
+         */
+        int max_energy_shield_hp = 0;
+        /**
          * Whether this is a power armor item.
          */
         bool power_armor = false;
@@ -537,6 +581,11 @@ struct islot_book {
      * "To read" means getting 1 skill point, not all of them.
      */
     time_duration time = 0_turns;
+    /**
+     * This book counts chapters by item instance instead of by type
+     * (i.e. this book represents a generic variety of books, like "book of essays")
+     */
+    bool generic = false;
     /**
      * Fun books have chapters; after all are read, the book is less fun.
      */
@@ -910,6 +959,9 @@ struct islot_gunmod : common_ranged_data {
     /** Modifies base strength required */
     int min_str_required_mod = 0;
 
+    /** Modifies base strength required if user is prone */
+    int min_str_required_mod_if_prone = 0;
+
     /** Additional gunmod slots to add to the gun */
     std::map<gunmod_location, int> add_mod;
 
@@ -1006,10 +1058,6 @@ struct islot_ammo : common_ranged_data {
      * Number of projectiles fired per round, e.g. shotgun shot.
      */
     int count = 1;
-    /**
-     * Whether this multi-projectile shot has its effects applied to all projectiles
-     */
-    bool multi_projectile_effects = false;
     /**
      * Spread/dispersion between projectiles fired from the same round.
      */
@@ -1251,6 +1299,8 @@ struct itype {
         units::mass weight = 0_gram;
         /** Weight difference with the part it replaces for mods (defaults to weight) */
         units::mass integral_weight = -1_gram;
+        /** Electronic memory size of item */
+        units::ememory ememory_size = 0_KB;
 
         std::vector<std::pair<itype_id, mod_id>> src;
 
@@ -1357,6 +1407,9 @@ struct itype {
         // itemgroup used to generate the recipes within nanofabricator templates.
         item_group_id nanofab_template_group;
 
+        // list of traits.
+        string_id<Trait_group> trait_group;
+
         // used for corpses placed by mapgen
         mtype_id source_monster = mtype_id::NULL_ID();
     private:
@@ -1453,6 +1506,9 @@ struct itype {
         * Efficiency of solar energy conversion for solarpacks.
         */
         float solar_efficiency = 0.0f;
+
+        // Max amount of this type that can be worn.
+        int max_worn = MAX_WORN_PER_TYPE;
 
     private:
         /** maximum amount of damage to a non- count_by_charges item */
@@ -1559,11 +1615,17 @@ struct itype {
         const use_function *get_use( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
+        // TODO: Replace usage of map less overload.
         std::optional<int> invoke( Character *p, item &it,
-                                   const tripoint &pos ) const; // Picks first method or returns 0
-        std::optional<int> invoke( Character *p, item &it, const tripoint &pos,
+                                   const tripoint_bub_ms &pos ) const; // Picks first method or returns 0
+        std::optional<int> invoke( Character *p, item &it,
+                                   map *here, const tripoint_bub_ms &pos ) const; // Picks first method or returns 0
+        // TODO: Replace usage of map less overload.
+        std::optional<int> invoke( Character *p, item &it, const tripoint_bub_ms &pos,
                                    const std::string &iuse_name ) const;
-        int tick( Character *p, item &it, const tripoint &pos ) const;
+        std::optional<int> invoke( Character *p, item &it, map *here, const tripoint_bub_ms &pos,
+                                   const std::string &iuse_name ) const;
+        int tick( Character *p, item &it, const tripoint_bub_ms &pos ) const;
 
         virtual ~itype() = default;
 

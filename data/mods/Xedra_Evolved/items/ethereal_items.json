@@ -14,13 +14,13 @@
       "AURA",
       "SEMITANGIBLE",
       "OVERSIZE",
-      "ONLY_ONE",
       "TRADER_AVOID",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
     "armor": [
       {
@@ -46,13 +46,13 @@
       "AURA",
       "SEMITANGIBLE",
       "OVERSIZE",
-      "ONLY_ONE",
       "TRADER_AVOID",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
+    "max_worn": 1,
     "relic_data": {
       "passive_effects": [
         {
@@ -87,13 +87,19 @@
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID", "SHEATH_SWORD" ],
+    "flags": [
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "SHEATH_SWORD",
+      "RELIC_PINK"
+    ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 10 } ] } ]
-    },
     "category": "weapons",
-    "melee_damage": { "bash": 2, "stab": 31 }
+    "melee_damage": { "bash": 2, "stab": 31, "cold": 10 }
   },
   {
     "id": "dagger_dreamdross",
@@ -127,7 +133,8 @@
     "material": [ "dreamstuff" ],
     "warmth": 0,
     "material_thickness": 5,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "PADDED", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
+    "flags": [ "OVERSIZE", "PERSONAL", "PADDED", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 5,
@@ -147,7 +154,8 @@
     "symbol": "o",
     "color": "white",
     "material": [ "dreamstuff" ],
-    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "max_worn": 1,
     "relic_data": {
       "passive_effects": [
         {
@@ -229,12 +237,12 @@
       "AURA",
       "SEMITANGIBLE",
       "OVERSIZE",
-      "ONLY_ONE",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
       "ALLOWS_NATURAL_ATTACKS"
     ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_r" ] } ],
     "use_action": { "type": "effect_on_conditions", "description": "Jump.", "effect_on_conditions": [ "EOC_WINCH_TELEPORT" ] }
   },
@@ -276,18 +284,8 @@
       }
     ],
     "material_thickness": 0.1,
-    "flags": [
-      "BELTED",
-      "TRADER_AVOID",
-      "WATERPROOF",
-      "STURDY",
-      "OVERSIZE",
-      "NO_TAKEOFF",
-      "ONLY_ONE",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "ZERO_WEIGHT"
-    ],
+    "flags": [ "BELTED", "TRADER_AVOID", "WATERPROOF", "STURDY", "OVERSIZE", "NO_TAKEOFF", "NO_REPAIR", "NO_SALVAGE", "ZERO_WEIGHT" ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
@@ -324,8 +322,8 @@
     "id": "undine_waters_map",
     "type": "GENERIC",
     "category": "maps",
-    "name": { "str": "undine waters map" },
-    "description": "The item for .",
+    "name": { "str": "undine waters map", "//~": "NO_I18N" },
+    "description": { "str": "The item for .", "//~": "NO_I18N" },
     "weight": "30 g",
     "volume": "250 ml",
     "flags": [ "PAPER_SHAPED" ],
@@ -375,9 +373,6 @@
     ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 0 } ] } ]
-    },
     "melee_damage": { "bash": 1 }
   },
   {
@@ -394,7 +389,8 @@
     "warmth": 5,
     "material_thickness": 0.6,
     "environmental_protection": 2,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "ZERO_WEIGHT", "NO_DROP", "STURDY", "PADDED" ],
+    "flags": [ "OVERSIZE", "PERSONAL", "ZERO_WEIGHT", "NO_DROP", "STURDY", "PADDED" ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 20,
@@ -410,9 +406,13 @@
           "values": [
             { "value": "ATTACK_SPEED", "multiply": -0.2 },
             { "value": "FORCEFIELD", "add": 0.1 },
-            { "value": "PAIN_REMOVE", "add": 45 },
-            { "value": "ITEM_DAMAGE_BASH", "add": 10 }
+            { "value": "PAIN_REMOVE", "add": 45 }
           ]
+        },
+        {
+          "has": "WORN",
+          "condition": { "not": "u_has_weapon" },
+          "melee_damage_bonus": [ { "type": "bash", "add": 10 } ]
         }
       ]
     }
@@ -422,8 +422,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -444,8 +444,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -466,8 +466,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -488,8 +488,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -510,8 +510,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -532,8 +532,8 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "category": "maps",
-    "name": "ierde map",
-    "description": "This is a magical map that, if everything works correctly, you'll never actually see.",
+    "name": { "str": "ierde map", "//~": "NO_I18N" },
+    "description": { "str": "This is a magical map that, if everything works correctly, you'll never actually see.", "//~": "NO_I18N" },
     "color": "brown",
     "use_action": {
       "type": "reveal_map",
@@ -548,5 +548,14 @@
       ],
       "message": "The earth reveals its secrets."
     }
+  },
+  {
+    "id": "changeling_summer_sunglasses",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "Under the Noonday Sun" },
+    "description": { "str": "You are protected from extremely bright lights." },
+    "qualities": [ [ "GLARE", 1 ] ],
+    "extend": { "flags": [ "SEMITANGIBLE", "INTEGRATED", "FLASH_PROTECTION", "SUN_GLASSES" ] }
   }
 ]

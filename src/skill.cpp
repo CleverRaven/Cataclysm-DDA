@@ -2,19 +2,19 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstddef>
+#include <cstdlib>
 #include <iterator>
 #include <utility>
 
-#include "cata_utility.h"
 #include "debug.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "item.h"
-#include "json.h"
 #include "options.h"
 #include "recipe.h"
 #include "rng.h"
-#include "translations.h"
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_bashing( "bashing" );
@@ -116,9 +116,7 @@ void Skill::reset()
 
 void Skill::load_skill( const JsonObject &jsobj )
 {
-    // TEMPORARY until 0.G: Remove "ident" support
-    skill_id ident = skill_id( jsobj.has_string( "ident" ) ? jsobj.get_string( "ident" ) :
-                               jsobj.get_string( "id" ) );
+    skill_id ident = skill_id( jsobj.get_string( "id" ) );
     skills.erase( std::remove_if( begin( skills ), end( skills ), [&]( const Skill & s ) {
         return s._ident == ident;
     } ), end( skills ) );
@@ -198,10 +196,7 @@ const SkillDisplayType &skill_displayType_id::obj() const
 
 void SkillDisplayType::load( const JsonObject &jsobj )
 {
-    // TEMPORARY until 0.G: Remove "ident" support
-    skill_displayType_id ident = skill_displayType_id(
-                                     jsobj.has_string( "ident" ) ? jsobj.get_string( "ident" ) :
-                                     jsobj.get_string( "id" ) );
+    skill_displayType_id ident = skill_displayType_id( jsobj.get_string( "id" ) );
     skillTypes.erase( std::remove_if( begin( skillTypes ),
     end( skillTypes ), [&]( const SkillDisplayType & s ) {
         return s._ident == ident;

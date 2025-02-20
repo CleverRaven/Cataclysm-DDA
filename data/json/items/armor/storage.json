@@ -121,6 +121,7 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 40,
+        "holster": true,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       },
       {
@@ -129,6 +130,7 @@
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 40,
+        "holster": true,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       },
       {
@@ -200,7 +202,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ],
+    "flags": [ "BELTED", "WATERPROOF", "OVERSIZE" ],
+    "max_worn": 1,
     "armor": [
       { "encumbrance": [ 10, 40 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ]
@@ -339,7 +342,8 @@
       }
     ],
     "use_action": [ { "type": "attach_molle", "size": 4 }, { "type": "detach_molle" } ],
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE" ],
+    "flags": [ "BELTED", "WATERPROOF" ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": 10,
@@ -412,6 +416,20 @@
         "max_contains_weight": "30 kg",
         "max_item_length": "40 cm",
         "moves": 300
+      },
+      {
+        "//": "tucked against back",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "150 cm",
+        "min_item_length": "60 cm",
+        "moves": 200,
+        "extra_encumbrance": 10,
+        "description": "Tucked between your back and the backpack.",
+        "ripoff": 3,
+        "transparent": true
       }
     ],
     "warmth": 9,
@@ -575,40 +593,11 @@
     ],
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ],
+    "flags": [ "BELTED", "WATERPROOF", "OVERSIZE" ],
+    "max_worn": 1,
     "armor": [
       { "encumbrance": [ 10, 55 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ]
-  },
-  {
-    "id": "basket_laundry",
-    "type": "ARMOR",
-    "name": { "str": "laundry basket" },
-    "description": "A plastic basket meant for storing and hauling clothing.",
-    "weight": "680 g",
-    "volume": "52500 ml",
-    "price": "75 cent",
-    "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
-    "symbol": ")",
-    "looks_like": "plastic_shopping_bag",
-    "color": "light_gray",
-    "armor": [
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 5, "encumbrance": [ 50, 50 ] },
-      { "covers": [ "hand_l", "hand_r" ], "coverage": 5, "encumbrance": [ 50, 50 ] }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "50 kg",
-        "max_item_length": "80 cm",
-        "moves": 300
-      }
-    ],
-    "material_thickness": 2,
-    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NO_SALVAGE" ]
   },
   {
     "id": "bigback",
@@ -687,7 +676,8 @@
     ],
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ],
+    "flags": [ "BELTED", "WATERPROOF", "OVERSIZE" ],
+    "max_worn": 1,
     "armor": [
       { "encumbrance": [ 16, 65 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ]
@@ -2271,7 +2261,7 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [
       {
         "encumbrance": 2,

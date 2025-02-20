@@ -2,13 +2,21 @@
   {
     "type": "mutation",
     "id": "perk_sight_beyond_sight_active",
-    "name": { "str": "Sight Beyond Sight Active" },
+    "name": { "str": "Sight Beyond Sight Active", "//~": "NO_I18N" },
     "points": 0,
     "player_display": false,
-    "description": "Your Sight Beyond Sight is active.  You should never see this.",
+    "description": { "str": "Your Sight Beyond Sight is active.  You should never see this.", "//~": "NO_I18N" },
     "enchantments": [
       {
-        "values": [ { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } } ]
+        "special_vision": [
+          {
+            "condition": {
+              "or": [ { "npc_has_species": "HORROR" }, { "npc_has_species": "NETHER" }, { "npc_has_species": "nether_player_hate" } ]
+            },
+            "distance": { "math": [ "u_val('perception') + u_val('intelligence')" ] },
+            "descriptions": [ { "id": "nether_creature_sense", "symbol": "?", "color": "c_pink", "text": "You sense an otherworldy danger here." } ]
+          }
+        ]
       }
     ],
     "flags": [ "BLIND" ]

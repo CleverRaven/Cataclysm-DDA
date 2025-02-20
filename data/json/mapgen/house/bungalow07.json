@@ -2,11 +2,10 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow07",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [
-        "domestic_general_and_variant_palette",
+        "domestic_general_construction_and_variant_palette",
         "standard_domestic_lino_bathroom",
         "standard_domestic_landscaping_palette",
         "parametrized_carpets_palette"
@@ -53,7 +52,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow07_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "fill_ter": "t_shingle_flat_roof",

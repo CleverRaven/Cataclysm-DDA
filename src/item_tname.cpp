@@ -1,6 +1,13 @@
 #include "item_tname.h"
 
+#include <algorithm>
+#include <array>
+#include <iomanip>
+#include <iterator>
+#include <memory>
+#include <optional>
 #include <set>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -9,6 +16,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "fault.h"
 #include "flag.h"
@@ -19,15 +27,19 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
+#include "mutation.h"
 #include "options.h"
-#include "point.h"
 #include "recipe.h"
 #include "relic.h"
 #include "string_formatter.h"
+#include "translation.h"
+#include "translation_cache.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
+static const flag_id json_flag_HINT_THE_LOCATION( "HINT_THE_LOCATION" );
 
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_disassembly( "disassembly" );
@@ -289,9 +301,10 @@ std::string food_traits( item const &it, unsigned int /* quantity */,
 std::string location_hint( item const &it, unsigned int /* quantity */,
                            segment_bitset const &/* segments */ )
 {
-    if( it.has_var( "spawn_location_omt" ) ) {
-        tripoint_abs_omt loc( it.get_var( "spawn_location_omt", tripoint_zero ) );
-        tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().getglobal(
+    if( it.has_flag( json_flag_HINT_THE_LOCATION ) && it.has_var( "spawn_location" ) ) {
+        tripoint_abs_omt loc( coords::project_to<coords::omt>(
+                                  it.get_var( "spawn_location", tripoint_abs_ms::zero ) ) );
+        tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().get_abs(
                                          get_avatar().pos_bub() ) ) );
         int dist = rl_dist( player_loc, loc );
         if( dist < 1 ) {
@@ -433,6 +446,7 @@ std::string vars( item const &it, unsigned int /* quantity */,
         }
         ret += string_format( " (%s)", item::nname( itype_id( it.get_var( "NANOFAB_ITEM_ID" ) ) ) );
     }
+
     if( it.already_used_by_player( get_avatar() ) ) {
         ret += _( " (used)" );
     }
@@ -440,6 +454,23 @@ std::string vars( item const &it, unsigned int /* quantity */,
         ret += _( " (plugged in)" );
     }
     return ret;
+}
+
+
+std::string traits( item const &it, unsigned int /* quantity */,
+                    segment_bitset const &/* segments */ )
+{
+    std::string ret;
+    if( it.has_flag( flag_GENE_TECH ) && it.template_traits.size() == 1 ) {
+        if( it.has_flag( flag_NANOFAB_TEMPLATE_SINGLE_USE ) ) {
+            //~ Single-use descriptor for nanofab templates. %s = name of resulting item. The leading space is intentional.
+            ret += string_format( _( " (SINGLE USE %s)" ), it.template_traits.front()->name() );
+        } else {
+            ret += string_format( " (%s)", it.template_traits.front()->name() );
+        }
+    }
+    return ret;
+
 }
 
 std::string segment_broken( item const &it, unsigned int /* quantity */,
@@ -523,7 +554,7 @@ std::string weapon_mods( item const &it, unsigned int /* quantity */,
         modtext += _( "pistol " );
     }
     if( it.has_flag( flag_DIAMOND ) ) {
-        modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
+        modtext += pgettext( "Adjective, as in diamond katana", "diamond " );
     }
     return modtext;
 }
@@ -544,6 +575,32 @@ std::string category( item const &it, unsigned int quantity,
                             ? it.color_in_inventory( &get_avatar() )
                             : c_magenta;
     return colorize( it.get_category_of_contents().name_noun( quantity ), color );
+}
+
+std::string ememory( item const &it, unsigned int /* quantity */,
+                     segment_bitset const &/* segments */ )
+{
+    if( it.is_estorage() && !it.is_broken() ) {
+        if( it.is_browsed() ) {
+            units::ememory remain_mem = it.remaining_ememory();
+            units::ememory total_mem = it.total_ememory();
+            double ratio = static_cast<double>( remain_mem.value() ) / static_cast<double>( total_mem.value() );
+            nc_color ememory_color;
+            if( ratio > 0.66f ) {
+                ememory_color = c_light_green;
+            } else if( ratio > 0.33f ) {
+                ememory_color = c_yellow;
+            } else {
+                ememory_color = c_light_red;
+            }
+            std::string out_of = remain_mem == total_mem ? units::display( remain_mem ) :
+                                 string_format( "%s/%s", units::display( remain_mem ), units::display( total_mem ) );
+            return string_format( _( " (%s free)" ), colorize( out_of, ememory_color ) );
+        } else {
+            return colorize( _( " (unbrowsed)" ), c_dark_gray );
+        }
+    }
+    return {};
 }
 
 // function type that prints an element of tname::segments
@@ -581,6 +638,7 @@ constexpr std::array<decl_f_print_segment *, num_segments> get_segs_array()
     arr[static_cast<size_t>( tname::segments::BROKEN ) ] = segment_broken;
     arr[static_cast<size_t>( tname::segments::CBM_STATUS ) ] = cbm_status;
     arr[static_cast<size_t>( tname::segments::UPS ) ] = ups;
+    arr[static_cast<size_t>( tname::segments::TRAITS ) ] = traits;
     arr[static_cast<size_t>( tname::segments::TAGS ) ] = tags;
     arr[static_cast<size_t>( tname::segments::VARS ) ] = vars;
     arr[static_cast<size_t>( tname::segments::WETNESS ) ] = wetness;
@@ -591,6 +649,7 @@ constexpr std::array<decl_f_print_segment *, num_segments> get_segs_array()
     arr[static_cast<size_t>( tname::segments::LINK ) ] = noop;
     arr[static_cast<size_t>( tname::segments::TECHNIQUES ) ] = noop;
     arr[static_cast<size_t>( tname::segments::CONTENTS ) ] = contents;
+    arr[static_cast<size_t>( tname::segments::EMEMORY )] = ememory;
 
     return arr;
 }
@@ -609,13 +668,154 @@ static_assert( all_segments_have_printers(),
                "every element of tname::segments (up to tname::segments::last_segment) "
                "must map to a printer in segs_array" );
 
+
+namespace io
+{
+template<>
+std::string enum_to_string<tname::segments>( tname::segments seg )
+{
+    switch( seg ) {
+        // *INDENT-OFF*
+        case tname::segments::FAULTS: return "FAULTS";
+        case tname::segments::DIRT: return "DIRT";
+        case tname::segments::OVERHEAT: return "OVERHEAT";
+        case tname::segments::FAVORITE_PRE: return "FAVORITE_PRE";
+        case tname::segments::DURABILITY: return "DURABILITY";
+        case tname::segments::WHEEL_DIAMETER: return "WHEEL_DIAMETER";
+        case tname::segments::BURN: return "BURN";
+        case tname::segments::WEAPON_MODS: return "WEAPON_MODS";
+        case tname::segments::CUSTOM_ITEM_PREFIX: return "CUSTOM_ITEM_PREFIX";
+        case tname::segments::TYPE: return "TYPE";
+        case tname::segments::CATEGORY: return "CATEGORY";
+        case tname::segments::CUSTOM_ITEM_SUFFIX: return "CUSTOM_ITEM_SUFFIX";
+        case tname::segments::MODS: return "MODS";
+        case tname::segments::CRAFT: return "CRAFT";
+        case tname::segments::WHITEBLACKLIST: return "WHITEBLACKLIST";
+        case tname::segments::CHARGES: return "CHARGES";
+        case tname::segments::FOOD_TRAITS: return "FOOD_TRAITS";
+        case tname::segments::FOOD_STATUS: return "FOOD_STATUS";
+        case tname::segments::FOOD_IRRADIATED: return "FOOD_IRRADIATED";
+        case tname::segments::TEMPERATURE: return "TEMPERATURE";
+        case tname::segments::LOCATION_HINT: return "LOCATION_HINT";
+        case tname::segments::CLOTHING_SIZE: return "CLOTHING_SIZE";
+        case tname::segments::ETHEREAL: return "ETHEREAL";
+        case tname::segments::FILTHY: return "FILTHY";
+        case tname::segments::BROKEN: return "BROKEN";
+        case tname::segments::CBM_STATUS: return "CBM_STATUS";
+        case tname::segments::UPS: return "UPS";
+        case tname::segments::TAGS: return "TAGS";
+        case tname::segments::VARS: return "VARS";
+        case tname::segments::WETNESS: return "WETNESS";
+        case tname::segments::ACTIVE: return "ACTIVE";
+        case tname::segments::SEALED: return "SEALED";
+        case tname::segments::FAVORITE_POST: return "FAVORITE_POST";
+        case tname::segments::RELIC: return "RELIC";
+        case tname::segments::LINK: return "LINK";
+        case tname::segments::TECHNIQUES: return "TECHNIQUES";
+        case tname::segments::CONTENTS: return "CONTENTS";
+        case tname::segments::last_segment: return "last_segment";
+        case tname::segments::VARIANT: return "VARIANT";
+        case tname::segments::COMPONENTS: return "COMPONENTS";
+        case tname::segments::CORPSE: return "CORPSE";
+        case tname::segments::CONTENTS_FULL: return "CONTENTS_FULL";
+        case tname::segments::CONTENTS_ABREV: return "CONTENTS_ABBREV";
+        case tname::segments::CONTENTS_COUNT: return "CONTENTS_COUNT";
+        case tname::segments::FOOD_PERISHABLE: return "FOOD_PERISHABLE";
+        case tname::segments::EMEMORY: return "EMEMORY";
+        case tname::segments::last: return "last";
+        default:
+        // *INDENT-ON*
+            break;
+    }
+    return {};
+}
+
+} // namespace io
+
+namespace
+{
+
+constexpr tname::segments fixed_pos_segments = tname::segments::CONTENTS;
+static_assert( fixed_pos_segments <= tname::segments::last_segment );
+
+using tname_array = std::array<int, static_cast<std::size_t>( fixed_pos_segments )>;
+struct segment_order {
+    constexpr explicit segment_order( tname_array const &arr_ ) : arr( &arr_ ) {};
+    constexpr bool operator()( tname::segments lhs, tname::segments rhs ) const {
+        return arr->at( static_cast<std::size_t>( lhs ) ) <
+               arr->at( static_cast<std::size_t>( rhs ) );
+    }
+
+    tname_array const *arr;
+};
+
+std::optional<std::size_t> str_to_segment_idx( std::string const &str )
+{
+    if( std::optional<tname::segments> ret = io::string_to_enum_optional<tname::segments>( str );
+        ret && ret < fixed_pos_segments ) {
+
+        return static_cast<std::size_t>( *ret );
+    }
+
+    return {};
+}
+
+} // namespace
 namespace tname
 {
 std::string print_segment( tname::segments segment, item const &it, unsigned int quantity,
                            segment_bitset const &segments )
 {
     static std::array<decl_f_print_segment *, num_segments> const arr = get_segs_array();
-    size_t const idx = static_cast<size_t>( segment );
+    std::size_t const idx = static_cast<std::size_t>( segment );
     return ( *arr.at( idx ) )( it, quantity, segments );
+}
+
+tname_set const &get_tname_set()
+{
+    static tname_set tns;
+    static int lang_ver = INVALID_LANGUAGE_VERSION;
+    if( int const cur_lang_ver = detail::get_current_language_version(); lang_ver != cur_lang_ver ) {
+        lang_ver = cur_lang_ver;
+        tns.clear();
+        for( std::size_t i = 0; i < static_cast<std::size_t>( fixed_pos_segments ); i++ ) {
+            tns.emplace_back( static_cast<tname::segments>( i ) );
+        }
+
+        //~ You can use this string to change the order of item name segments. The default order is:
+        //~ FAULTS DIRT OVERHEAT FAVORITE_PRE DURABILITY WHEEL_DIAMETER BURN WEAPON_MODS
+        //~ CUSTOM_ITEM_PREFIX TYPE CATEGORY CUSTOM_ITEM_SUFFIX MODS CRAFT WHITEBLACKLIST CHARGES
+        //~ FOOD_TRAITS FOOD_STATUS FOOD_IRRADIATED TEMPERATURE LOCATION_HINT CLOTHING_SIZE ETHEREAL
+        //~ FILTHY BROKEN CBM_STATUS UPS TAGS VARS WETNESS ACTIVE SEALED FAVORITE_POST RELIC LINK
+        //~ TECHNIQUES
+        //~ --
+        //~ refer to io::enum_to_string<tname::segments> for an updated list
+        std::string order_i18n( _( "tname_segments_order" ) );
+        if( order_i18n != "tname_segments_order" ) {
+            std::stringstream ss( order_i18n );
+            std::istream_iterator<std::string> begin( ss );
+            std::istream_iterator<std::string> end;
+            std::vector<std::string> tokens( begin, end );
+
+            tname_array tna;
+            tna.fill( 999 );
+            int cur_order = 0;
+            for( std::string const &s : tokens ) {
+                if( std::optional<std::size_t> idx = str_to_segment_idx( s ); idx ) {
+                    tna[*idx] = cur_order++;
+                } else {
+                    DebugLog( D_WARNING, D_MAIN ) << "Ignoring tname segment " << std::quoted( s ) << std::endl;
+                }
+            }
+
+            std::stable_sort( tns.begin(), tns.end(), segment_order( tna ) );
+        }
+        for( std::size_t i = static_cast<std::size_t>( fixed_pos_segments );
+             i < static_cast<std::size_t>( tname::segments::last_segment ); i++ ) {
+            tns.emplace_back( static_cast<tname::segments>( i ) );
+        }
+    }
+
+    return tns;
 }
 } // namespace tname
