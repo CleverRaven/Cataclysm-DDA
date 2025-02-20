@@ -44,7 +44,7 @@ static void wield_check_from_inv( avatar &guy, const itype_id &item_name, const 
 
     guy.set_moves( 1000 );
     const int old_moves = guy.get_moves();
-    REQUIRE( guy.wield_new( item_loc ) );
+    REQUIRE( guy.wield( item_loc ) );
     CAPTURE( guy.get_wielded_item()->typeId() );
     int move_cost = old_moves - guy.get_moves();
 
