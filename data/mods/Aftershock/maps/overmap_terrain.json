@@ -613,5 +613,15 @@
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Cafe",
+    "id": [ "afs_cafe_a1_floor_1", "afs_cafe_a1_floor_2" ],
+    "sym": "c",
+    "color": "green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]
