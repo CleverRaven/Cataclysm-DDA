@@ -4180,7 +4180,7 @@ bool npc::wield_better_weapon()
     add_msg_debug( debugmode::DF_NPC, "Wielding %s at value %.1f", better_weapon->type->get_id().str(),
                    evaluate_weapon( *better_weapon, can_use_gun, use_silent ) );
 
-    // TODO: as far as I can tell its always from the inventory
+    // Always returns true, but future proof
     bool wield_success = wield_new( *better_weapon );
     if( !wield_success ) {
         debugmsg( "NPC failed to wield better weapon %s", better_weapon->tname() );

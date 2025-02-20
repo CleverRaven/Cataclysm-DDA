@@ -214,7 +214,6 @@ item_location Character::try_add( item it, const item *avoid, const item *origin
     item_location ret = item_location::nowhere;
     bool wielded = false;
     if( pocket.second == nullptr ) {
-        // TODO: probably ok
         if( !has_weapon() && allow_wield && wield_new( it ) ) {
             ret = item_location( *this, &weapon );
             wielded = true;
@@ -314,7 +313,7 @@ item_location Character::try_add( item it, int &copies_remaining, const item *av
         pocket.second->on_contents_changed();
     }
     // TODO: probably cant just do this
-    if( copies_remaining > 0 && allow_wield && !has_weapon() && wield( item_location( *this, &it ) ) ) {
+    if( copies_remaining > 0 && allow_wield && !has_weapon() && wield_new( it ) ) {
         copies_remaining--;
         if( !first_item_added ) {
             first_item_added = item_location( *this, &weapon );
@@ -335,8 +334,7 @@ item_location Character::i_add( item it, bool /* should_stack */, const item *av
     item_location added = try_add( it, avoid, original_inventory_item, allow_wield,
                                    ignore_pkt_settings );
     if( added == item_location::nowhere ) {
-        // TODO: probably cant just do this
-        if( !allow_wield || !wield( item_location( *this, &it ) ) ) {
+        if( !allow_wield || !wield_new( it ) ) {
             if( allow_drop ) {
                 return item_location( map_cursor( pos_abs() ), &get_map().add_item_or_charges( pos_bub(),
                                       it ) );
@@ -368,7 +366,7 @@ item_location Character::i_add( item it, int &copies_remaining,
                                    ignore_pkt_settings );
     if( copies_remaining > 0 ) {
         // TODO: probably cant just do this
-        if( allow_wield && wield( item_location( *this, &it ) ) ) {
+        if( allow_wield && wield_new( it ) ) {
             copies_remaining--;
             added = added ? added : item_location( *this, &weapon );
         }

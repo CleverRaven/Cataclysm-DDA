@@ -1513,7 +1513,6 @@ void npc::stow_item( item &it )
     }
 }
 
-// TODO: implement npc specific calls
 /*
 bool npc::wield( item &it )
 {

@@ -639,7 +639,6 @@ void Character::add_profession_items()
             } else if( it.has_flag( json_flag_auto_wield ) ) {
                 it.unset_flag( json_flag_auto_wield );
                 if( !has_wield_conflicts( it ) ) {
-                    // TODO is created, so should be ok
                     wield_new( it );
                     wield_or_wear = &it;
                     success = item_location( *this, wield_or_wear );
