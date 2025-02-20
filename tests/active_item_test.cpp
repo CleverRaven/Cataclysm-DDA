@@ -42,7 +42,7 @@ TEST_CASE( "active_items_processed_regularly", "[active_item]" )
     item_location inventory_item = player_character.try_add( active_item );
     REQUIRE( inventory_item != item_location::nowhere );
 
-    bool wield_success = player_character.wield_new( inventory_item );
+    bool wield_success = player_character.wield_new( active_item );
     REQUIRE( wield_success );
 
     here.add_item( player_character.pos_bub(), active_item );
