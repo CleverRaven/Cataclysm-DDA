@@ -3,7 +3,7 @@
     "id": "afs_25mm_shot",
     "type": "AMMO",
     "name": { "str_sp": "25mm canister shot" },
-    "description": "A 25mm round with a canister shot load, deals devastating damage against moderately armored foes within mid to close range.  Relatively low tech and affordable when compared to other 25mm grenades, these are often fielded by frontier outfits due to their adequate performance in anti-drone and close quarters combat.",
+    "description": "A 25mm round with a canister shot load, deals devastating damage against lightly armored foes within mid to close range.  Relatively low tech and affordable when compared to other 25mm grenades, these are often fielded by frontier outfits due to their adequate performance in anti-drone and close quarters combat.",
     "weight": "130 g",
     "volume": "230 ml",
     "price": "80 USD",
@@ -18,7 +18,7 @@
     "projectile_count": 15,
     "//": "Shot at point blank its about as effective as a 7.50mm rifle round",
     "damage": { "damage_type": "bullet", "amount": 60 },
-    "shot_damage": { "damage_type": "bullet", "amount": 80, "armor_penetration": 30 },
+    "shot_damage": { "damage_type": "bullet", "amount": 16, "armor_penetration": 15 },
     "dispersion": 75,
     "recoil": 2200,
     "effects": [ "NEVER_MISFIRES" ]

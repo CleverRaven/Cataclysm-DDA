@@ -56,9 +56,7 @@ This table contains every single ranged weapon in the mod and is to be used for 
 
 ## Monster Armor and HP breakpoints 
 
-Monster and player armor should be understood to exist in the following categories: unarmored(0), Light Armor(1), Medium(2), Heavy(5), Vehicle/Structure(7+). Monsters and wearable armor pieces should belong to a single armor category (no mix matching E.X. Light melee armor combined with heavy ballistic armor ), if you desire monsters to be weaker against certain attack types, you should use weakpoint sets to achieve this. Armor pieces for players and NPCs should generally be ablative, either using the energy shield functionality or by having the "FRAGILE" flag.
-
-Armor definitions should have the following defensive ratings, multiplied by the armor factor of the category they belong to:
+Monster and player armor should be understood to exist in the following categories: unarmored, Light Armor, Medium, Heavy, and Vehicle/Structure. Armor definitions should have the following defensive ratings:
 
 | Armor   | Cut | Bash | Ballistic | Laser | Plasma | Electric |
 |---------|-----|------|-----------|-------|--------|----------|
@@ -67,6 +65,7 @@ Armor definitions should have the following defensive ratings, multiplied by the
 | Heavy   | 50  | 37   | 60        | 30    | 20     |    10    |
 | Vehicle | 70  | 50   | 90        | 70    | 50     |    25    |
 
+Monsters and wearable armor pieces should belong to a single armor category (no mix matching E.X. Light melee armor combined with heavy ballistic armor ), if you desire monsters to be weaker against certain attack types, you should use weakpoint sets to achieve this. Armor pieces for players and NPCs should generally be ablative, either using the energy shield functionality or by having the `FRAGILE` flag.
 
 The following should apply based on the monster type:
 
