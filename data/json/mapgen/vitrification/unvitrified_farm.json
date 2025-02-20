@@ -34,6 +34,7 @@
       "palettes": [ "domestic_general_and_variant_palette", "parametrized_linoleum_palette", "standard_domestic_landscaping_palette" ],
       "terrain": {
         ".": "t_region_groundcover_urban",
+        ",": "t_linoleum_white",
         "[": "t_region_groundcover_urban",
         "]": "t_region_groundcover_urban",
         "!": "t_fence",
@@ -101,6 +102,8 @@
       "palettes": [ "domestic_general_and_variant_palette" ],
       "terrain": {
         "-": "t_open_air",
+        "~": "t_thconc_floor",
+        ",": "t_linoleum_white",
         "_": "t_floor",
         "H": "t_floor",
         "s": "t_screened_porch_wall",
@@ -238,6 +241,7 @@
       "rows": [
         "¤@@¤",
         " @@ ",
+        "y   ",
         "D   "
       ],
       "palettes": [ "domestic_general_and_variant_palette" ]

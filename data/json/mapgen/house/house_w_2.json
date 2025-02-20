@@ -6,8 +6,8 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "..%%ùù%%%G```%%%ùù%%....",
-        "..%!```!``````!```!%....",
+        "..%%ùù%%%p```%%%ùù%%....",
+        "..%µ```µ``````µ```µ%....",
         "...````````````````.....",
         "..##o#o###+###o##o##....",
         "..#0    |  T|§  è  #....",
@@ -32,7 +32,7 @@
         "...``````..............."
       ],
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette" ],
-      "terrain": { "!": "t_column" },
+      "terrain": { "µ": "t_column", "ù": "t_region_groundcover_urban" },
       "furniture": { "ù": "f_region_weed" },
       "nested": {
         "0": { "chunks": [ [ "bedroom_4x4_adult_1_N", 20 ] ] },

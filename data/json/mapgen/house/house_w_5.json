@@ -7,7 +7,7 @@
       "fill_ter": "t_floor",
       "rows": [
         "...[....``G......``.``..",
-        ".[...%!````!%..[.``.``..",
+        ".[...%µ````µ%..[.``.``..",
         "....%````````%...``.``u.",
         "..##oo##*####o###£££££##",
         "..#è      |yà  #~~~~~~u#",
@@ -32,7 +32,13 @@
         "..%.````................"
       ],
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette" ],
-      "terrain": { "!": "t_column", "£": "t_door_metal_locked", "U": "t_thconc_floor" },
+      "terrain": {
+        "µ": "t_column",
+        "£": "t_door_metal_locked",
+        "U": "t_thconc_floor",
+        "~": "t_thconc_floor",
+        "ù": "t_region_groundcover_urban"
+      },
       "furniture": { "ù": "f_region_weed" },
       "place_vehicles": [
         { "vehicle": "showroom_small_vehicles", "x": 17, "y": 7, "rotation": 270, "chance": 20, "status": 0 },

@@ -32,7 +32,7 @@
         "[..####o###o##o####....."
       ],
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette" ],
-      "terrain": { "!": "t_column" },
+      "terrain": { "ù": "t_region_groundcover_urban" },
       "furniture": { "ù": "f_region_weed" },
       "nested": {
         "&": {

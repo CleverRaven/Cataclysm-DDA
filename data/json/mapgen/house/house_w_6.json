@@ -6,9 +6,9 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "..........G``%..........",
+        "..........p``%..........",
         "...[..%%%%%``%%%%%......",
-        "......!~~~~~~~~~~!..[...",
+        "......µ~~~~~~~~~~µ..[...",
         ".[..[.~~~~~~~~~~~~....[.",
         "....%%~~~~~~~~jjj~%%....",
         "....##oo##o**##ooo##....",
@@ -32,7 +32,7 @@
         "........................"
       ],
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette" ],
-      "terrain": { "!": "t_column", "~": "t_thconc_floor", "j": "t_thconc_floor" },
+      "terrain": { "µ": "t_column", "~": "t_thconc_floor", "j": "t_thconc_floor", "ù": "t_region_groundcover_urban" },
       "furniture": { "ù": "f_region_weed" },
       "nested": {
         "&": { "chunks": [ [ "diningroom_5x5_N_S", 50 ], [ "diningroom_5x5_E_W", 50 ] ] },
@@ -99,7 +99,7 @@
         "------------------------"
       ],
       "palettes": [ "domestic_general_and_variant_palette" ],
-      "terrain": { ".": "t_open_air", "%": "t_shingle_flat_roof" },
+      "terrain": { "-": "t_open_air", "%": "t_shingle_flat_roof" },
       "nested": {
         "&": {
           "chunks": [

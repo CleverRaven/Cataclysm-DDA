@@ -13,7 +13,7 @@
         "y   ",
         "D   "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -30,7 +30,7 @@
         "  hI",
         "DT  "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -47,7 +47,7 @@
         "y @@",
         "D   "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -64,7 +64,7 @@
         " @  ",
         "¤@  "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -81,7 +81,7 @@
         "y   ",
         "D   "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "standard_domestic_palette" ],
       "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
@@ -99,7 +99,7 @@
         " == ",
         " == "
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "parametrized_carpets_nest_palette" ],
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ],
       "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
@@ -117,7 +117,7 @@
         "    ",
         " Ia "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "standard_domestic_palette" ],
       "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
@@ -135,7 +135,7 @@
         "    ",
         " bT "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "standard_domestic_palette" ],
       "flags": [ "ERASE_FURNITURE_BEFORE_PLACING_TERRAIN", "ERASE_TRAP_BEFORE_PLACING_TERRAIN", "ALLOW_TERRAIN_UNDER_ITEMS" ]
     }
   },
@@ -153,7 +153,7 @@
         "  @@",
         "T  ¤"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -170,7 +170,7 @@
         "==@@",
         "   D"
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -187,7 +187,7 @@
         "a @@",
         "   D"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -204,7 +204,7 @@
         "T @@",
         "   D"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -221,7 +221,7 @@
         "@@ y",
         "¤   "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -238,7 +238,7 @@
         "@@==",
         "D   "
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -255,7 +255,7 @@
         "@@ I",
         "D   "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -272,7 +272,7 @@
         "@@ b",
         "D   "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -289,7 +289,7 @@
         " @@ ",
         "¤@@¤"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -306,7 +306,7 @@
         " @@ ",
         "D@@D"
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -323,7 +323,7 @@
         " @@ ",
         "D@@D"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -340,7 +340,7 @@
         " @@ ",
         "D@@D"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -357,7 +357,7 @@
         " @@ ",
         " @@ "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -374,7 +374,7 @@
         "D   ",
         " RE "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -391,7 +391,7 @@
         "E @@",
         " D  "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -408,7 +408,7 @@
         "@@ R",
         "  D "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -426,7 +426,7 @@
         "Ih   ",
         "I  DD"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -444,7 +444,7 @@
         " @@  ",
         "¤@@¤ "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -462,7 +462,7 @@
         "¤    ",
         "DDy  "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -480,7 +480,7 @@
         "h  @@",
         "II  ¤"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -498,7 +498,7 @@
         " h  T",
         " II  "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -516,7 +516,7 @@
         "  @ T",
         "D @¤ "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -534,7 +534,7 @@
         "y   R",
         "DEy  "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -552,7 +552,7 @@
         "y   R",
         "RET  "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -570,7 +570,7 @@
         " hhh ",
         "     "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -588,7 +588,7 @@
         " hsh ",
         "y    "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -607,7 +607,7 @@
         "y hsh ",
         "      "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -626,7 +626,7 @@
         " hsh y",
         "      "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -645,7 +645,7 @@
         " hhhh ",
         "      "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -664,7 +664,7 @@
         "      ",
         " yIIy "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -683,7 +683,7 @@
         " hhhh ",
         "      "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -702,7 +702,7 @@
         " hssh ",
         "      "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -721,7 +721,7 @@
         " hhhh ",
         "y    a"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -740,7 +740,7 @@
         " hssh ",
         "Y    y"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -759,7 +759,7 @@
       ],
       "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_kitchen" ]
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen" ]
     }
   },
   {
@@ -778,7 +778,7 @@
       ],
       "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_kitchen" ]
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen" ]
     }
   },
   {
@@ -796,7 +796,7 @@
         "     "
       ],
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_kitchen" ]
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen" ]
     }
   },
   {
@@ -814,7 +814,7 @@
         "     "
       ],
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_kitchen" ]
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen" ]
     }
   },
   {
@@ -832,7 +832,7 @@
         "     "
       ],
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_kitchen" ]
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen" ]
     }
   },
   {
@@ -850,7 +850,7 @@
         "     "
       ],
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_kitchen" ]
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen" ]
     }
   },
   {
@@ -868,7 +868,7 @@
         "     "
       ],
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_kitchen" ]
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen" ]
     }
   },
   {
@@ -886,7 +886,7 @@
         "     "
       ],
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_kitchen" ]
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen" ]
     }
   },
   {
@@ -904,7 +904,7 @@
         "341 2"
       ],
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 4 } ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_kitchen" ]
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen" ]
     }
   },
   {
@@ -922,7 +922,7 @@
         "74 23"
       ],
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 4 } ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_kitchen" ]
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen" ]
     }
   },
   {
@@ -938,7 +938,7 @@
         "E l ",
         " HHH"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -954,7 +954,7 @@
         " == ",
         "RRRR"
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -970,7 +970,7 @@
         "====",
         "HHHT"
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "parametrized_carpets_nest_palette" ]
+      "palettes": [ "standard_domestic_palette", "parametrized_carpets_nest_palette" ]
     }
   },
   {
@@ -986,7 +986,7 @@
         "R l ",
         "RHHH"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1002,7 +1002,7 @@
         "E   ",
         " xxx"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1018,7 +1018,7 @@
         "eee ",
         "    "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1035,7 +1035,7 @@
         "    ",
         "    "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1052,7 +1052,7 @@
         "    ",
         "    "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1069,7 +1069,7 @@
         "    ",
         "    "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1086,7 +1086,7 @@
         "    ",
         "    "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "standard_domestic_palette" ],
       "items": {
         "s": [
           { "item": "dishes_dining", "chance": 30 },
@@ -1112,7 +1112,7 @@
         "    ",
         "    "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1129,7 +1129,7 @@
         "    ",
         "    "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1146,7 +1146,7 @@
         "    ",
         "    "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1164,7 +1164,7 @@
         "     ",
         "TEsE "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1182,7 +1182,7 @@
         "     ",
         "yHHHs"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1200,7 +1200,7 @@
         "E s H",
         "    y"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1218,7 +1218,7 @@
         "H l E",
         "s   y"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1236,7 +1236,7 @@
         "     ",
         " xxx "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1254,7 +1254,7 @@
         "H    ",
         " HHH "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1272,7 +1272,7 @@
         "x   H",
         "     "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1290,7 +1290,7 @@
         "H   x",
         " HHl "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1305,7 +1305,7 @@
         "RR",
         "E "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1320,7 +1320,7 @@
         "E ",
         "R "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1335,7 +1335,7 @@
         " E",
         "TR"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1350,7 +1350,7 @@
         "PP",
         "  "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1365,7 +1365,7 @@
         "  ",
         "PP"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1380,7 +1380,7 @@
         "P ",
         "P "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1395,7 +1395,7 @@
         " P",
         " P"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1411,7 +1411,7 @@
         "RE ",
         "R  "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1427,7 +1427,7 @@
         " ER",
         "  R"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1443,7 +1443,7 @@
         " h ",
         "y  "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1459,7 +1459,7 @@
         "Ih ",
         "I y"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1475,7 +1475,7 @@
         "h  ",
         "  y"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1491,7 +1491,7 @@
         "   ",
         "Ell"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1507,7 +1507,7 @@
         "   ",
         "HHH"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1523,7 +1523,7 @@
         "s H",
         "E H"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1539,7 +1539,7 @@
         " A ",
         "   "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1555,7 +1555,7 @@
         " AN",
         "  N"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1571,7 +1571,7 @@
         " A ",
         "NNN"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1587,7 +1587,7 @@
         "NA ",
         "N  "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1603,7 +1603,7 @@
         " h ",
         "   "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1619,7 +1619,7 @@
         " hI",
         "  I"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1635,7 +1635,7 @@
         " h ",
         "III"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1651,7 +1651,7 @@
         "Ih ",
         "I  "
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1667,7 +1667,7 @@
         " @ ",
         "¤@¤"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1683,7 +1683,7 @@
         "¤  ",
         "@@y"
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ]
+      "palettes": [ "standard_domestic_palette" ]
     }
   },
   {
@@ -1793,7 +1793,7 @@
         "||||||"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
+      "palettes": [ "standard_domestic_palette" ],
       "terrain": {
         "|": "t_wall_metal_corrugated",
         "+": "t_door_metal_pickable",
