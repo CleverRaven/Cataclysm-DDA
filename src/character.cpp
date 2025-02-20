@@ -13004,7 +13004,7 @@ void Character::search_surroundings()
 
 bool Character::wield_new( item it )
 {
-    return wield( item_location( *this, &it, /*remove_old=*/false ) );
+    return wield( item_location( *this, &it ), /*remove_old=*/false );
 }
 
 bool Character::wield( item_location loc, bool remove_old )
