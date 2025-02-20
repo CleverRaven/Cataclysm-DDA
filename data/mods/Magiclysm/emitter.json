@@ -94,5 +94,12 @@
     "field": "fd_hot_air4",
     "intensity": 3,
     "qty": 100
+  },
+  {
+    "id": "emit_magic_disjunction",
+    "type": "emit",
+    "field": "effect_disjunction",
+    "intensity": 1,
+    "qty": 50
   }
 ]
