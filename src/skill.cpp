@@ -131,11 +131,15 @@ void Skill::load_skill( const JsonObject &jsobj )
     }
     std::map<int, translation> level_descriptions_theory;
     std::map<int, translation> level_descriptions_practice;
-    for( JsonObject jo : jsobj.get_object( "level_descriptions_theory" ) ) {
-        level_descriptions_theory.emplace( jo.str(), jo.get_string( jo.str() ) );
+    for( JsonObject jo : jsobj.get_array( "level_descriptions_theory" ) ) {
+        translation desc;
+        jo.read( "description", desc );
+        level_descriptions_theory.emplace( jo.get_int( "level" ), desc );
     }
-    for( JsonObject jo : jsobj.get_object( "level_descriptions_practice" ) ) {
-        level_descriptions_practice.emplace( jo.str(), jo.get_string( jo.str() ) );
+    for( JsonObject jo : jsobj.get_array( "level_descriptions_practice" ) ) {
+        translation desc;
+        jo.read( "description", desc );
+        level_descriptions_practice.emplace( jo.get_int( "level" ), desc );
     }
     time_info_t time_to_attack;
     if( jsobj.has_object( "time_to_attack" ) ) {

@@ -14,20 +14,6 @@
     "id": "computer",
     "name": { "str": "computers" },
     "description": "Your skill in accessing and manipulating computers.  Higher levels can allow a user to navigate complex software systems and even bypass their security.",
-    "level_description_theory": {
-      "0": "You have no clue where is a power button.",
-      "1": "You can open browser and search images.  Were able to, at least.",
-      "2": "foo",
-      "3": "bar",
-      "4": "xyz"
-    },
-    "level_descriptions_practice": {
-      "0": "You have no clue where is a power button (but practically).",
-      "1": "You can open browser and search images.  Were able to, at least (but practically).",
-      "2": "foo (but practically)",
-      "3": "bar (but practically)",
-      "4": "xyz (but practically)"
-    },
     "display_category": "display_interaction",
     "sort_rank": 24000
   },
