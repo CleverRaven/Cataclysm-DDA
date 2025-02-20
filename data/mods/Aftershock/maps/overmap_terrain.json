@@ -619,7 +619,7 @@
     "name": "Cafe",
     "id": [ "afs_cafe_a1_floor_1", "afs_cafe_a1_floor_2" ],
     "sym": "c",
-    "color": "light_green",
+    "color": "light_cyan",
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -629,7 +629,17 @@
     "name": "Saloon",
     "id": [ "afs_saloon_1_floor_1", "afs_saloon_1_floor_2" ],
     "sym": "s",
-    "color": "light_green",
+    "color": "light_cyan",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Garage",
+    "id": [ "afs_garage_a1_floor_1", "afs_garage_a1_floor_2" ],
+    "sym": "g",
+    "color": "yellow",
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]

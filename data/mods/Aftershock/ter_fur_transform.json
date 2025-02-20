@@ -93,7 +93,8 @@
     "id": "afs_lights_on",
     "terrain": [
       { "result": "t_metal_floor_olight", "valid_terrain": [ "t_metal_floor_olight_inactive" ] },
-      { "result": "t_linoleum_whitefloor_olight", "valid_terrain": [ "t_linoleum_white_olight_inactive" ] }
+      { "result": "t_linoleum_whitefloor_olight", "valid_terrain": [ "t_linoleum_white_olight_inactive" ] },
+      { "result": "t_thconc_floor_olight", "valid_terrain": [ "t_thconc_floor_olight_inactive" ] }
     ]
   },
   {
