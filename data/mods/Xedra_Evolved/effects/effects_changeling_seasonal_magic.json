@@ -345,6 +345,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_winter_silence",
+    "name": [ "Frozen Tongue" ],
+    "desc": [ "Your tongue feels like solid ice." ],
+    "remove_message": "The icy feeling on your tongue vanishes.",
+    "flags": [ "MUTE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_frozen_breath",
     "name": [ "Chilled" ],
     "desc": [ "Your movements are slowed." ],
