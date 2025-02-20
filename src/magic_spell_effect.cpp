@@ -38,7 +38,6 @@
 #include "global_vars.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_location.h"
 #include "kill_tracker.h"
 #include "line.h"
 #include "magic.h"
