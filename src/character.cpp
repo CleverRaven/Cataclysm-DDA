@@ -13016,21 +13016,21 @@ bool Character::wield( item_location loc )
     item it = *loc.get_item();
 
 
-    if( u.has_wield_conflicts( *loc ) ) {
-        const bool is_unwielding = u.is_wielding( *loc );
-        const auto ret = u.can_unwield( *loc );
+    if( has_wield_conflicts( *loc ) ) {
+        const bool is_unwielding = is_wielding( *loc );
+        const auto ret = can_unwield( *loc );
 
         if( !ret.success() ) {
             add_msg_if_player( m_info, "%s", ret.c_str() );
         }
 
-        if( !u.unwield() ) {
+        if( !unwield() ) {
             return;
         }
 
         if( is_unwielding ) {
-            if( !u.martial_arts_data->selected_is_none() ) {
-                u.martial_arts_data->martialart_use_message( u );
+            if( !martial_arts_data->selected_is_none() ) {
+                martial_arts_data->martialart_use_message( u );
             }
             return;
         }
