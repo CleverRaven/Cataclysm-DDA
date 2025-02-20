@@ -398,7 +398,6 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
 
     optional( jo, was_loaded, "feels_discomfort", feels_discomfort, true );
 
-    optional( jo, was_loaded, "stylish_bonus", stylish_bonus, 0 );
     optional( jo, was_loaded, "squeamish_penalty", squeamish_penalty, 0 );
 
     optional( jo, was_loaded, "bionic_slots", bionic_slots_, 0 );

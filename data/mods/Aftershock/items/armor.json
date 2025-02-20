@@ -62,7 +62,7 @@
     "color": "dark_gray",
     "warmth": 30,
     "material_thickness": 3,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY" ],
+    "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "STURDY" ],
     "relic_data": {
       "passive_effects": [
         {

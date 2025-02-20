@@ -431,8 +431,6 @@ std::vector<std::string> clothing_flags_description( const item &worn_item, cons
         { flag_SUN_GLASSES, translate_marker( "It keeps the sun out of your eyes." ) },
         { flag_WATERPROOF, translate_marker( "It is waterproof." ) },
         { flag_WATER_FRIENDLY, translate_marker( "It is water friendly." ) },
-        { flag_FANCY, translate_marker( "It looks fancy." ) },
-        { flag_SUPER_FANCY, translate_marker( "It looks really fancy." ) },
         { flag_FLOTATION, translate_marker( "You will not drown today." ) },
         { flag_OVERSIZE, translate_marker( "It is very bulky." ) },
         { flag_SWIM_GOGGLES, translate_marker( "It helps you to see clearly underwater." ) },

@@ -132,7 +132,7 @@
     "price_postapoc": "27 USD 50 cent",
     "material": [ "fae_fur" ],
     "color": "brown_red",
-    "flags": [ "OVERSIZE", "HOOD", "BELTED", "RAINPROOF", "FANCY" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "RAINPROOF" ],
     "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
@@ -169,7 +169,7 @@
     "material_thickness": 2,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
     "id": "xl_coat_glimmer_fur",
@@ -349,7 +349,7 @@
     "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "sleeveless_duster_glimmer_fur",
@@ -487,8 +487,7 @@
         "layers": [ "BELTED" ],
         "//warmth": 20
       }
-    ],
-    "extend": { "flags": [ "FANCY" ] }
+    ]
   },
   {
     "id": "gambeson_pants_gossamer",
@@ -509,8 +508,7 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ],
-    "extend": { "flags": [ "FANCY" ] }
+    ]
   },
   {
     "id": "gambeson_hood_gossamer",
@@ -533,8 +531,7 @@
         "coverage": 100,
         "encumbrance_modifiers": [ "WELL_SUPPORTED" ]
       }
-    ],
-    "extend": { "flags": [ "FANCY" ] }
+    ]
   },
   {
     "id": "mt_chainmail_arms",

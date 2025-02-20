@@ -26,13 +26,9 @@ static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_took_prozac( "took_prozac" );
 
 static const itype_id itype_boots( "boots" );
-static const itype_id itype_dress_wedding( "dress_wedding" );
-static const itype_id itype_heels( "heels" );
 static const itype_id itype_legpouch( "legpouch" );
-static const itype_id itype_sf_watch( "sf_watch" );
 static const itype_id itype_shotgun_s( "shotgun_s" );
 static const itype_id itype_tinfoil_hat( "tinfoil_hat" );
-static const itype_id itype_veil_wedding( "veil_wedding" );
 
 static const morale_type morale_book( "morale_book" );
 static const morale_type morale_food_bad( "morale_food_bad" );
@@ -52,7 +48,6 @@ static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_OPTIMISTIC( "OPTIMISTIC" );
 static const trait_id trait_PLANT( "PLANT" );
 static const trait_id trait_ROOTS1( "ROOTS1" );
-static const trait_id trait_STYLISH( "STYLISH" );
 
 TEST_CASE( "player_morale_empty", "[player_morale]" )
 {
@@ -293,65 +288,6 @@ TEST_CASE( "player_morale_ranged_kill_of_unaware_hostile_bandit", "[player_moral
     }
     CHECK( badguy.is_dead_state() == true );
     REQUIRE( m.get_total_negative_value() == 0 );
-}
-
-TEST_CASE( "player_morale_fancy_clothes", "[player_morale]" )
-{
-    player_morale m;
-
-    GIVEN( "a set of super fancy bride's clothes" ) {
-        const item dress_wedding( itype_dress_wedding, calendar::turn_zero ); // legs, torso | 8 + 2 | 10
-        const item veil_wedding( itype_veil_wedding, calendar::turn_zero );   // eyes, mouth | 4 + 2 | 6
-        const item heels( itype_heels, calendar::turn_zero );      // not super fancy, feet  | 1     | 1
-
-        m.on_item_wear( dress_wedding );
-        m.on_item_wear( veil_wedding );
-        m.on_item_wear( heels );
-
-        WHEN( "not a stylish person" ) {
-            THEN( "just don't care (even if man)" ) {
-                CHECK( m.get_level() == 0 );
-            }
-        }
-
-        WHEN( "a stylish person" ) {
-            m.on_mutation_gain( trait_STYLISH );
-
-            CHECK( m.get_level() == 17 );
-
-            AND_WHEN( "gets naked" ) {
-                m.on_item_takeoff( heels ); // the queen took off her sandal ...
-                CHECK( m.get_level() == 16 );
-                m.on_item_takeoff( veil_wedding );
-                CHECK( m.get_level() == 10 );
-                m.on_item_takeoff( dress_wedding );
-                CHECK( m.get_level() == 0 );
-            }
-            AND_WHEN( "wearing yet another wedding gown" ) {
-                m.on_item_wear( dress_wedding );
-                THEN( "it adds nothing" ) {
-                    CHECK( m.get_level() == 17 );
-
-                    AND_WHEN( "taking it off" ) {
-                        THEN( "your fanciness remains the same" ) {
-                            CHECK( m.get_level() == 17 );
-                        }
-                    }
-                }
-            }
-            AND_WHEN( "tries to be even fancier" ) {
-                const item watch( itype_sf_watch, calendar::turn_zero );
-                m.on_item_wear( watch );
-                THEN( "there's a limit" ) {
-                    CHECK( m.get_level() == 20 );
-                }
-            }
-            AND_WHEN( "not anymore" ) {
-                m.on_mutation_loss( trait_STYLISH );
-                CHECK( m.get_level() == 0 );
-            }
-        }
-    }
 }
 
 TEST_CASE( "player_morale_masochist", "[player_morale]" )
