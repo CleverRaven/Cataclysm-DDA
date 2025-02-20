@@ -13015,24 +13015,24 @@ bool Character::wield( item_location loc )
     }
     item it = *loc.get_item();
 
-
+    // for [w] -> unwield
     if( has_wield_conflicts( *loc ) ) {
-        const bool is_unwielding = is_wielding( *loc );
-        const auto ret = can_unwield( *loc );
+        const bool is_unwielding = is_wielding( it );
+        const auto ret = can_unwield( it );
 
         if( !ret.success() ) {
             add_msg_if_player( m_info, "%s", ret.c_str() );
         }
 
         if( !unwield() ) {
-            return;
+            return false;
         }
 
         if( is_unwielding ) {
             if( !martial_arts_data->selected_is_none() ) {
-                martial_arts_data->martialart_use_message( u );
+                martial_arts_data->martialart_use_message( *this );
             }
-            return;
+            return true;
         }
     }
 
@@ -13053,6 +13053,7 @@ bool Character::wield( item_location loc )
     }
     cached_info.erase( "weapon_value" );
     if( it.is_null() ) {
+        debugmsg( "does this ever trigger?" )
         return true;
     }
 
@@ -13073,22 +13074,11 @@ bool Character::wield( item_location loc )
     add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
     mod_moves( -mv );
 
-    if( has_item( it ) ) {
-        if( combine_stacks ) {
-            weapon->combine( it );
-        } else {
-            set_wielded_item( it );
-
-
-        }
+    if( combine_stacks ) {
+        weapon->combine( it );
     } else {
-        if( combine_stacks ) {
-            weapon->combine( it );
-        } else {
-            set_wielded_item( it );
-        }
+        set_wielded_item( it );
     }
-
 
     loc.remove_item();
 
@@ -13103,8 +13093,8 @@ bool Character::wield( item_location loc )
     get_event_bus().send_with_talker( this, &weapon, e );
 
     if( is_npc() ) {
-        add_msg_if_player_sees( this, m_info, _( "<npcname> wields a %s." ),  weapon->tname() );
-        invalidate_range_cache();
+        add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),  weapon->tname() );
+        as_npc()-> invalidate_range_cache();
     }
 
     inv->update_invlet( *weapon );
