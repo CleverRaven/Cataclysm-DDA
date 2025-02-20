@@ -10,7 +10,12 @@
         { "u_has_trait": "CHANGELING_MAGIC" },
         {
           "not": {
-            "u_has_any_trait": [ "SEASONAL_MAGIC_SPRING", "SEASONAL_MAGIC_SUMMER", "SEASONAL_MAGIC_AUTUMN", "SEASONAL_MAGIC_WINTER" ]
+            "u_has_any_trait": [
+              "CHANGELING_SEASONAL_MAGIC_SPRING",
+              "CHANGELING_SEASONAL_MAGIC_SUMMER",
+              "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+              "CHANGELING_SEASONAL_MAGIC_WINTER"
+            ]
           }
         }
       ]
