@@ -13021,8 +13021,6 @@ bool Character::wield( item_location loc, bool remove_old )
 
         if( !ret.success() ) {
             add_msg_if_player( m_info, "%s", ret.c_str() );
-
-            //wasn't present before, but if you cannot unwield the old item, no need to go further
             return false;
         }
 
@@ -13038,9 +13036,8 @@ bool Character::wield( item_location loc, bool remove_old )
         }
     }
 
-    // should probably rename since there is 'item character::weapon'
-    item_location weapon = get_wielded_item();
-    if( weapon && weapon->has_item( *loc ) ) {
+    item_location wielded = get_wielded_item();
+    if( wielded && wielded->has_item( *loc ) ) {
         add_msg_if_player( m_info,
                            _( "You need to put the bag away before trying to wield something from it." ) );
         return false;
@@ -13050,7 +13047,7 @@ bool Character::wield( item_location loc, bool remove_old )
         return false;
     }
 
-    bool combine_stacks = weapon && loc->can_combine( *weapon );
+    bool combine_stacks = wielded && loc->can_combine( *wielded );
     if( !combine_stacks && !unwield() ) {
         return false;
     }
@@ -13083,7 +13080,7 @@ bool Character::wield( item_location loc, bool remove_old )
     mod_moves( -mv );
 
     if( combine_stacks ) {
-        weapon->combine( *loc );
+        wielded->combine( *loc );
     } else {
         set_wielded_item( *loc );
     }
@@ -13094,22 +13091,22 @@ bool Character::wield( item_location loc, bool remove_old )
 
 
     // set_wielded_item invalidates the weapon item_location, so get it again
-    weapon = get_wielded_item();
-    last_item = weapon->typeId();
+    wielded = get_wielded_item();
+    last_item = wielded->typeId();
     recoil = MAX_RECOIL;
 
-    weapon->on_wield( *this );
+    wielded->on_wield( *this );
 
     cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
-    get_event_bus().send_with_talker( this, &weapon, e );
+    get_event_bus().send_with_talker( this, &wielded, e );
 
     if( is_npc() ) {
-        add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),  weapon->tname() );
+        add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),  wielded->tname() );
         as_npc()-> invalidate_range_cache();
     }
 
-    inv->update_invlet( *weapon );
-    inv->update_cache_with_item( *weapon );
+    inv->update_invlet( *wielded );
+    inv->update_cache_with_item( *wielded );
 
     return true;
 }
