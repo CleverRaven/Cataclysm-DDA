@@ -2366,7 +2366,7 @@ conditional_t::get_get_dbl( std::string_view checked_value, char scope )
     const bool is_npc = scope == 'n';
 
     if( auto iter = f_get_vals.find( checked_value ); iter != f_get_vals.end() ) {
-        return [is_npc, func = iter->second ]( const_dialogue const & d ) {
+        return [is_npc, func = iter->second]( const_dialogue const & d ) {
             return ( d.const_actor( is_npc )->*func )();
         };
 
@@ -2416,8 +2416,20 @@ conditional_t::get_get_dbl( std::string_view checked_value, char scope )
             // Energy in milijoule
             return static_cast<double>( d.const_actor( is_npc )->power_max().value() );
         };
-    }
+    } else if( checked_value == "pos_x" ) {
+        return[is_npc]( const_dialogue const & d ) {
+            return static_cast<double>( d.const_actor( is_npc )->posx( get_map() ) );
+        };
+    } else if( checked_value == "pos_y" ) {
+        return[is_npc]( const_dialogue const & d ) {
+            return static_cast<double>( d.const_actor( is_npc )->posy( get_map() ) );
+        };
 
+    } else if( checked_value == "pos_z" ) {
+        return[is_npc]( const_dialogue const & d ) {
+            return static_cast<double>( d.const_actor( is_npc )->posz() );
+        };
+    }
     throw math::syntax_error( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
 }
 
@@ -2468,6 +2480,16 @@ conditional_t::get_set_dbl( std::string_view checked_value, char scope )
     } else if( checked_value == "sold" ) {
         return [is_npc]( dialogue & d, double input ) {
             d.actor( is_npc )->add_sold( input - d.actor( is_npc )->sold() );
+        };
+    } else if( checked_value == "pos_x" ) {
+        return [is_npc]( dialogue & d, double input ) {
+            tripoint_bub_ms const tr = d.actor( is_npc )->pos_bub( get_map() );
+            d.actor( is_npc )->set_pos( tripoint_bub_ms( static_cast<int>( input ), tr.y(), tr.z() ) );
+        };
+    } else if( checked_value == "pos_y" ) {
+        return [is_npc]( dialogue & d, double input ) {
+            tripoint_bub_ms const tr = d.actor( is_npc )->pos_bub( get_map() );
+            d.actor( is_npc )->set_pos( tripoint_bub_ms( tr.x(), static_cast<int>( input ), tr.z() ) );
         };
     } else if( checked_value == "pos_z" ) {
         return [is_npc]( dialogue & d, double input ) {
