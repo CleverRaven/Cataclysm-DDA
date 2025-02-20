@@ -619,7 +619,17 @@
     "name": "Cafe",
     "id": [ "afs_cafe_a1_floor_1", "afs_cafe_a1_floor_2" ],
     "sym": "c",
-    "color": "green",
+    "color": "light_green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Saloon",
+    "id": [ "afs_saloon_1_floor_1", "afs_saloon_1_floor_2" ],
+    "sym": "s",
+    "color": "light_green",
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
