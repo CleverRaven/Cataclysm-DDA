@@ -16,7 +16,7 @@
     ],
     "level_descriptions_practice": [
       { "level": 0, "description": "You're not used to talking to people." },
-      { "level": 1, "description": "You're an average." },
+      { "level": 1, "description": "You rarely offend people by accident." },
       { "level": 3, "description": "You can communicate your ideas well." },
       { "level": 5, "description": "You can make friends easily and drive a hard bargain." },
       { "level": 9, "description": "You could sell ocean water to a hermit crab." }
@@ -240,7 +240,7 @@
     ],
     "level_descriptions_practice": [
       { "level": 0, "description": "You'd burn a PB&J, somehow." },
-      { "level": 1, "description": "You can bake an egg." },
+      { "level": 1, "description": "You can boil an egg." },
       { "level": 3, "description": "You can cook a variety of recipes." },
       { "level": 5, "description": "You can cook most recipes with ease." },
       { "level": 7, "description": "You'd win a neighborhood bake-off." },
@@ -332,7 +332,7 @@
       { "level": 1, "description": "You can craft extremely basic electronics like flashlights." },
       {
         "level": 3,
-        "description": "You can craft most basic electronics and set up an at-home power grid with ease."
+        "description": "You can craft some electrical gadgets and set up an at-home power grid without major fire hazards."
       },
       { "level": 5, "description": "You can craft a variety of useful electronics." },
       { "level": 9, "description": "You can craft any electrical device you can think of." }
@@ -559,20 +559,20 @@
     "level_descriptions_theory": [
       {
         "level": 0,
-        "description": "You've managed to avoid gym class your whole life and barely know how to throw a rock. Impressive."
+        "description": "You've managed to avoid gym class your whole life and barely know how to throw a rock.  Impressive."
       },
       {
         "level": 1,
-        "description": "You know how to throw things. Which is good, since that's an inherent skill of being human."
+        "description": "You know how to throw things.  Which is good, since that's an inherent skill of being human."
       },
       { "level": 3, "description": "You know how to throw stuff with reasonable accuracy." },
       { "level": 5, "description": "You know proper form and methods for throwing accurately." },
-      { "level": 9, "description": "You could teach sports. The ones that involve throwing stuff anyway." }
+      { "level": 9, "description": "You could teach sports.  The ones that involve throwing stuff anyway." }
     ],
     "level_descriptions_practice": [
       {
         "level": 0,
-        "description": "You're lucky if you don't drop the thing you're throwing at your feet. Be extra careful with grenades."
+        "description": "You're lucky if you don't drop the thing you're throwing at your feet.  Be extra careful with grenades."
       },
       {
         "level": 1,
