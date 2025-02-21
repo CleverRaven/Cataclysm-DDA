@@ -24,7 +24,7 @@
         " /2......3.3.3.......l/ ",
         " ///////cjjjjj/!/!//!// ",
         " /FFUUU/...,..../,^/,^/ ",
-        " /..,..!......../.n/.n/ ",
+        " /..,..!.......%/.n/.n/ ",
         " //44UU/FFj55jUU/~n/~// ",
         "  //##/////##/////////  ",
         "  ℗/℗℗/℗℗℗/℗℗/℗ 1       ",
@@ -37,7 +37,8 @@
       "items": {
         "y": { "item": "dinnerware", "repeat": [ 1, 3 ], "chance": 60 },
         "4": { "item": "afs_stored_meals", "chance": 100, "repeat": [ 1, 2 ] },
-        "F": { "item": "afs_cheap_drinks", "chance": 10, "repeat": [ 1, 5 ] }
+        "F": { "item": "afs_cheap_drinks", "chance": 10, "repeat": [ 1, 5 ] },
+        "%": { "item": "afs_tools_space_emergency", "chance": 40 }
       },
       "place_item": [
         { "item": "glass", "x": 9, "y": 16, "chance": 40 },

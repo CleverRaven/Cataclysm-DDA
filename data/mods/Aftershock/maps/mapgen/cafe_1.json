@@ -18,7 +18,7 @@
         "©¢¢¢   ¢   ¢ ©//...j,j/ ",
         " ¢¢      ¢¢  4=h.,.c.j/ ",
         "   ¢¢  ¢ ¢  ©4=y.../.â/ ",
-        "    ¢¢¢¢¢ ¢¢©4=h.../../ ",
+        "    ¢¢¢¢¢ ¢¢©4=h.../%./ ",
         "  ¢¢¢¢  ¢¢¢ ¢©//!/!//!/ ",
         " ¢¢¢  †††††† ©/*,/,*/./ ",
         "©¢¢  ¢¢     ©©/n~/~n/.# ",
@@ -38,7 +38,8 @@
         "á": { "item": "afs_coffee_containers", "chance": 80, "repeat": [ 1, 5 ] },
         "y": { "item": "afs_coffee_containers", "chance": 30 },
         "j": { "item": "afs_coffee_containers", "chance": 20 },
-        "â": { "item": "afs_cafe_rack", "chance": 60, "repeat": [ 5, 12 ] }
+        "â": { "item": "afs_cafe_rack", "chance": 60, "repeat": [ 5, 12 ] },
+        "%": { "item": "afs_tools_space_emergency", "chance": 40 }
       },
       "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 20 } ],
       "place_vehicles": [
