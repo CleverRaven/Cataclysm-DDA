@@ -598,7 +598,8 @@ inline void mandatory( const JsonObject &jo, const bool was_loaded, const std::s
  * The compiler will construct the appropriate one of these based on if the
  * type can support the operations being done.
  * So, it defaults to the false_type, but if it can use the *= operator
- * against a float, it then supports proportional, and the handle_proportional
+ * against a float OR defines member function handle_proportional (not both!),
+ * it then supports proportional, and the handle_proportional
  * template that isn't just a dummy is constructed.
  * Similarly, if it can use a += operator against it's own type, the non-dummy
  * handle_relative template is constructed.
@@ -607,8 +608,15 @@ template<typename T, typename = std::void_t<>>
 struct supports_proportional : std::false_type { };
 
 template<typename T>
-struct supports_proportional<T, std::void_t<decltype( std::declval<T &>() *= std::declval<float>() )>> :
-std::true_type {};
+struct supports_proportional<T, std::void_t<decltype( std::declval<T &>() *= std::declval<float>() )
+>> : std::true_type {};
+
+template<typename T, typename = std::void_t<>>
+struct supports_proportional_handler : std::false_type {};
+
+template<typename T>
+struct supports_proportional_handler<T, std::void_t<decltype( &T::handle_proportional )
+>> : std::true_type {};
 
 template<typename T, typename = std::void_t<>>
 struct supports_relative : std::false_type { };
@@ -668,8 +676,8 @@ static_assert( !supports_proportional<DebugLevel>::value, "enums should not supp
 // Dummy template:
 // Warn if it's trying to use proportional where it cannot, but otherwise just
 // return.
-template < typename MemberType, std::enable_if_t < !supports_proportional<MemberType>::value > * =
-           nullptr >
+template < typename MemberType, std::enable_if_t < !supports_proportional<MemberType>::value &&
+           !supports_proportional_handler<MemberType>::value > * = nullptr >
 inline bool handle_proportional( const JsonObject &jo, const std::string_view name, MemberType & )
 {
     if( jo.has_object( "proportional" ) ) {
@@ -710,6 +718,27 @@ inline bool handle_proportional( const JsonObject &jo, const std::string_view na
         } else {
             jo.throw_error_at( name, str_cat( "Invalid scalar for ", name ) );
         }
+    }
+    return false;
+}
+
+//handles proportional for a class/struct with member function handle_proportional
+template<typename MemberType, std::enable_if_t<supports_proportional_handler<MemberType>::value>* = nullptr>
+inline bool handle_proportional( const JsonObject &jo, const std::string_view name,
+                                 MemberType &member )
+{
+    if( jo.has_object( "proportional" ) ) {
+        JsonObject proportional = jo.get_object( "proportional" );
+        proportional.allow_omitted_members();
+        // We need to check this here, otherwise we get problems with unvisited members
+        if( !proportional.has_member( name ) ) {
+            return false;
+        }
+        bool handled = member.handle_proportional( proportional.get_member( name ) );
+        if( !handled ) {
+            jo.throw_error_at( name, str_cat( "Invalid scalar for ", name ) );
+        }
+        return handled;
     }
     return false;
 }
