@@ -39,7 +39,7 @@
     "copy-from": "mmask",
     "environmental_protection": 6,
     "material": [ "steel", "leather" ],
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "ZOOM", "NORMAL", "SKINTIGHT" ],
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "ZOOM", "NORMAL", "SKINTIGHT" ],
     "qualities": [ [ "GLARE", 1 ] ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "multiply": 0.25 } ] } ]

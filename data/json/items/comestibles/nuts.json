@@ -5,7 +5,7 @@
     "name": { "str_sp": "pine nuts" },
     "weight": "15 g",
     "color": "brown",
-    "spoils_in": 1080,
+    "spoils_in": "45 days",
     "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",

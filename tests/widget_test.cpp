@@ -1,24 +1,53 @@
-#include "catch/catch.hpp"
+#include <array>
+#include <clocale>
+#include <cmath>
+#include <functional>
+#include <list>
+#include <locale>
+#include <memory>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <vector>
 
+#include "activity_tracker.h"
+#include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
+#include "character_attire.h"
+#include "coordinates.h"
+#include "effect.h"
 #include "game.h"
 #include "game_constants.h"
-#include "player_helpers.h"
+#include "item.h"
+#include "magic.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "mission.h"
 #include "monster.h"
-#include "morale.h"
-#include "overmapbuffer.h"
 #include "options_helpers.h"
+#include "overmap.h"
+#include "overmap_ui.h"
+#include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player_helpers.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "translation.h"
+#include "type_id.h"
+#include "units.h"
 #include "weather.h"
 #include "weather_type.h"
 #include "widget.h"
 
-#include <clocale>
-
 // Needed for screen scraping
 #if defined(TILES)
+#include <cstddef>
+
+#include "cursesdef.h"
 #include "cursesport.h"
 #endif
 
@@ -1671,6 +1700,8 @@ TEST_CASE( "moon_and_lighting_widgets", "[widget]" )
 
 TEST_CASE( "compass_widget", "[widget][compass]" )
 {
+    const map &here = get_map();
+
     const int sidebar_width = 36;
     widget c5s_N = widget_test_compass_N.obj();
     widget c5s_N_nowidth = widget_test_compass_N_nowidth.obj();
@@ -1705,7 +1736,7 @@ TEST_CASE( "compass_widget", "[widget][compass]" )
         set_time( calendar::turn_zero + 12_hours );
         monster &mon1 = spawn_test_monster( "mon_test_CBM", northeast );
         g->mon_info_update();
-        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.sees( here, mon1 ) );
         REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTHEAST )].size()
                  == 1 );
         CHECK( c5s_N.layout( ava, sidebar_width ) ==
@@ -1727,7 +1758,7 @@ TEST_CASE( "compass_widget", "[widget][compass]" )
         set_time( calendar::turn_zero + 12_hours );
         monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
         g->mon_info_update();
-        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.sees( here,  mon1 ) );
         REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
                  1 );
         CHECK( c5s_N.layout( ava, sidebar_width ) ==
@@ -1752,9 +1783,9 @@ TEST_CASE( "compass_widget", "[widget][compass]" )
         monster &mon2 = spawn_test_monster( "mon_test_CBM", north + tripoint( 0, -1, 0 ) );
         monster &mon3 = spawn_test_monster( "mon_test_CBM", north + tripoint( 0, -2, 0 ) );
         g->mon_info_update();
-        REQUIRE( ava.sees( mon1 ) );
-        REQUIRE( ava.sees( mon2 ) );
-        REQUIRE( ava.sees( mon3 ) );
+        REQUIRE( ava.sees( here, mon1 ) );
+        REQUIRE( ava.sees( here, mon2 ) );
+        REQUIRE( ava.sees( here,  mon3 ) );
         REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
                  1 );
         CHECK( c5s_N.layout( ava, sidebar_width ) ==
@@ -1779,9 +1810,9 @@ TEST_CASE( "compass_widget", "[widget][compass]" )
         monster &mon2 = spawn_test_monster( "mon_test_bovine", north + tripoint( 0, -1, 0 ) );
         monster &mon3 = spawn_test_monster( "mon_test_shearable", north + tripoint( 0, -2, 0 ) );
         g->mon_info_update();
-        REQUIRE( ava.sees( mon1 ) );
-        REQUIRE( ava.sees( mon2 ) );
-        REQUIRE( ava.sees( mon3 ) );
+        REQUIRE( ava.sees( here, mon1 ) );
+        REQUIRE( ava.sees( here,  mon2 ) );
+        REQUIRE( ava.sees( here,  mon3 ) );
         REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
                  3 );
         CHECK( c5s_N.layout( ava, sidebar_width ) ==
@@ -1915,6 +1946,7 @@ TEST_CASE( "layout_widgets_in_columns", "[widget][layout][columns]" )
 
 TEST_CASE( "widgets_showing_weather_conditions", "[widget][weather]" )
 {
+    map &here = get_map();
     widget weather_w = widget_test_weather_text.obj();
 
     avatar &ava = get_avatar();
@@ -1948,7 +1980,7 @@ TEST_CASE( "widgets_showing_weather_conditions", "[widget][weather]" )
         }
 
         SECTION( "cannot see weather when underground" ) {
-            ava.setpos( tripoint_bub_ms::zero + tripoint::below );
+            ava.setpos( here, tripoint_bub_ms::zero + tripoint::below );
             CHECK( weather_w.layout( ava ) == "Weather: <color_c_light_gray>Underground</color>" );
         }
     }
@@ -2094,6 +2126,7 @@ static int get_height_from_widget_factory( const widget_id &id )
 // Use the compass legend as a proof-of-concept
 TEST_CASE( "Dynamic_height_for_multiline_widgets", "[widget]" )
 {
+    const map &here = get_map();
     const int sidebar_width = 36;
     widget c5s_legend3 = widget_test_compass_legend_3.obj();
 
@@ -2115,7 +2148,7 @@ TEST_CASE( "Dynamic_height_for_multiline_widgets", "[widget]" )
         set_time( calendar::turn_zero + 12_hours );
         monster &mon1 = spawn_test_monster( "mon_test_CBM", north );
         g->mon_info_update();
-        REQUIRE( ava.sees( mon1 ) );
+        REQUIRE( ava.sees( here, mon1 ) );
         REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
                  1 );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
@@ -2130,8 +2163,8 @@ TEST_CASE( "Dynamic_height_for_multiline_widgets", "[widget]" )
         //NOLINTNEXTLINE(cata-use-named-point-constants)
         monster &mon2 = spawn_test_monster( "mon_test_bovine", north + tripoint( 0, -1, 0 ) );
         g->mon_info_update();
-        REQUIRE( ava.sees( mon1 ) );
-        REQUIRE( ava.sees( mon2 ) );
+        REQUIRE( ava.sees( here, mon1 ) );
+        REQUIRE( ava.sees( here, mon2 ) );
         REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
                  2 );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
@@ -2148,9 +2181,9 @@ TEST_CASE( "Dynamic_height_for_multiline_widgets", "[widget]" )
         monster &mon2 = spawn_test_monster( "mon_test_bovine", north + tripoint( 0, -1, 0 ) );
         monster &mon3 = spawn_test_monster( "mon_test_shearable", north + tripoint( 0, -2, 0 ) );
         g->mon_info_update();
-        REQUIRE( ava.sees( mon1 ) );
-        REQUIRE( ava.sees( mon2 ) );
-        REQUIRE( ava.sees( mon3 ) );
+        REQUIRE( ava.sees( here, mon1 ) );
+        REQUIRE( ava.sees( here, mon2 ) );
+        REQUIRE( ava.sees( here, mon3 ) );
         REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
                  3 );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==

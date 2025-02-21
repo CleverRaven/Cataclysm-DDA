@@ -1,8 +1,8 @@
-#include <sstream>
+#include <string>
 
 #include "cata_catch.h"
 #include "distribution.h"
-#include "json.h"
+#include "flexbuffer_json.h"
 #include "json_loader.h"
 
 TEST_CASE( "poisson_distribution", "[distribution]" )

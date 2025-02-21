@@ -2,12 +2,13 @@
 #ifndef CATA_SRC_MTYPE_H
 #define CATA_SRC_MTYPE_H
 
-#include <iosfwd>
-#include <array>
+#include <functional>
 #include <map>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "behavior.h"
@@ -15,23 +16,28 @@
 #include "color.h"
 #include "damage.h"
 #include "enum_bitset.h"
-#include "enums.h"
 #include "magic.h"
 #include "mattack_common.h"
 #include "pathfinding.h"
 #include "shearing.h"
-#include "speed_description.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h" // IWYU pragma: keep
 #include "weakpoint.h"
 
 class Creature;
 class monster;
-struct dealt_projectile_attack;
-template <typename E> struct enum_traits;
-
 enum class creature_size : int;
+enum class phase_id : int;
+
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
+struct const_dialogue;
+struct dealt_projectile_attack;
+struct point;
+template <typename E> struct enum_traits;
 
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
@@ -171,6 +177,7 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_PLASTIC,
        mon_flag_POISON,
        mon_flag_PRIORITIZE_TARGETS,
+       mon_flag_PULP_PRYING,
        mon_flag_PUSH_MON,
        mon_flag_PUSH_VEH,
        mon_flag_QUEEN,

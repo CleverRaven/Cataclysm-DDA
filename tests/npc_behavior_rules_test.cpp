@@ -1,43 +1,27 @@
-#include <map>
 #include <memory>
 #include <optional>
-#include <set>
-#include <sstream>
 #include <string>
-#include <utility>
 #include <vector>
 
-#include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "common_types.h"
-#include "creature_tracker.h"
-#include "faction.h"
-#include "field.h"
-#include "field_type.h"
+#include "coordinates.h"
 #include "game.h"
 #include "gates.h"
-#include "line.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_iterator.h"
 #include "mapgen_helpers.h"
 #include "memory_fast.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "overmapbuffer.h"
-#include "pathfinding.h"
-#include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
-#include "test_data.h"
-#include "text_snippets.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
-#include "veh_type.h"
 #include "vehicle.h"
-#include "vpart_position.h"
-
-class Creature;
 
 static const furn_str_id furn_f_chair( "f_chair" );
 
@@ -55,6 +39,7 @@ static const vproto_id vehicle_prototype_locked_as_hell_car( "locked_as_hell_car
 static shared_ptr_fast<npc> setup_generic_rules_test( ally_rule rule_to_test,
         update_mapgen_id update_mapgen_id_to_apply )
 {
+    map &here = get_map();
     clear_map();
     clear_vehicles();
     clear_avatar();
@@ -65,7 +50,7 @@ static shared_ptr_fast<npc> setup_generic_rules_test( ally_rule rule_to_test,
     overmap_buffer.insert_npc( guy );
     g->load_npcs();
     clear_character( *guy );
-    guy->setpos( next_to );
+    guy->setpos( here, next_to );
     talk_function::follow( *guy );
     // rules don't work unless they're an ally.
     REQUIRE( guy->is_player_ally() );
@@ -232,7 +217,7 @@ TEST_CASE( "NPC-rules-avoid-locks", "[npc_rules]" )
 
     // vehicle is a 5x5 grid, car_door_pos is the only door/exit
     std::vector<vehicle_part *> door_parts_at_target = test_vehicle->get_parts_at(
-                car_door_pos, "LOCKABLE_DOOR", part_status_flag::available );
+                &here, car_door_pos, "LOCKABLE_DOOR", part_status_flag::available );
     REQUIRE( !door_parts_at_target.empty() );
     vehicle_part *door = door_parts_at_target.front();
     // The door must be closed for the lock to be effective.
@@ -242,7 +227,7 @@ TEST_CASE( "NPC-rules-avoid-locks", "[npc_rules]" )
 
     // NOTE: The door lock is a separate part. We must ensure both the door exists and the door lock exists for this test.
     std::vector<vehicle_part *> door_lock_parts_at_target = test_vehicle->get_parts_at(
-                car_door_pos, "DOOR_LOCKING", part_status_flag::available );
+                &here, car_door_pos, "DOOR_LOCKING", part_status_flag::available );
     REQUIRE( !door_lock_parts_at_target.empty() );
     vehicle_part *door_lock = door_lock_parts_at_target.front();
     door_lock->locked = true;
@@ -250,7 +235,7 @@ TEST_CASE( "NPC-rules-avoid-locks", "[npc_rules]" )
     REQUIRE( ( door_lock->is_available() && door_lock->locked ) );
 
 
-    test_subject->setpos( car_door_unlock_pos );
+    test_subject->setpos( here, car_door_unlock_pos );
     here.board_vehicle( car_door_unlock_pos, &*test_subject );
 
     CHECK( doors::can_unlock_door( here, *test_subject, car_door_pos ) );

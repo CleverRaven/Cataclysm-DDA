@@ -8,10 +8,11 @@
 #include <vector>
 
 #include "coordinates.h"
+#include "item_pocket.h"
+#include "point.h"
 #include "safe_reference.h"
 
 class item;
-class item_pocket;
 
 // A struct used to uniquely identify an item within a submap or vehicle.
 struct item_reference {

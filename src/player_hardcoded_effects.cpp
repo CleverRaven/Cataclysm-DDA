@@ -2,15 +2,21 @@
 #include <array>
 #include <cstdlib>
 #include <functional>
+#include <iterator>
+#include <list>
+#include <map>
 #include <memory>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "activity_handlers.h"
-#include "activity_type.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "effect.h"
@@ -20,7 +26,10 @@
 #include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input.h"
+#include "item.h"
+#include "item_location.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -28,18 +37,22 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "mongroup.h"
-#include "monster.h"
 #include "player_activity.h"
+#include "point.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "teleport.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
 #include "uistate.h"
 #include "units.h"
 #include "vitamin.h"
 #include "weather.h"
+#include "weighted_list.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 
@@ -311,6 +324,8 @@ static void eff_fun_rat( Character &u, effect &it )
 }
 static void eff_fun_bleed( Character &u, effect &it )
 {
+    map &here = get_map();
+
     if( u.has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         return;
     }
@@ -361,7 +376,7 @@ static void eff_fun_bleed( Character &u, effect &it )
                 }
                 suffer_string = iter->second;
             }
-            u.bleed();
+            u.bleed( here );
             bodypart_id bp = it.get_bp();
             // piece together the final displayed message here instead of inline, for readability's sake
             // format the chosen string with the relevant variables to make it human-readable, then translate everything we have so far
@@ -663,7 +678,7 @@ static void eff_fun_teleglow( Character &u, effect &it )
                 for( const MonsterGroupResult &mgr : spawn_details ) {
                     g->place_critter_at( mgr.id, dest );
                 }
-                if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
+                if( uistate.distraction_hostile_spotted && player_character.sees( here, dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
                     add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
@@ -1317,7 +1332,7 @@ void Character::hardcoded_effects( effect &it )
                 for( const MonsterGroupResult &mgr : spawn_details ) {
                     g->place_critter_at( mgr.id, dest );
                 }
-                if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
+                if( uistate.distraction_hostile_spotted && player_character.sees( here, dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
                     add_msg_if_player( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );

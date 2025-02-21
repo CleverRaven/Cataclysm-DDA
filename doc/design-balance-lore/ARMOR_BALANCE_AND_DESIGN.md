@@ -567,10 +567,7 @@ HOOD             | Keeps head warm if nothing on it
 POCKETS          | Keeps hands warm if they are free
 BLOCK_WHILE_WORN | Can be used to block with while worn
 COLLAR           | Keeps mouth warm if not heavily encumbered
-ONLY_ONE         | Only one of this item can be worn
 ONE_PER_LAYER    | Only one item can be worn on this clothing layer
-FANCY            | Clothing is impractically fancy, (like a top hat)
-SUPER_FANCY      | Even more fancy than fancy
 FILTHY           | Disgusting dirty clothes
 FRAGILE          | Breaks fast
 

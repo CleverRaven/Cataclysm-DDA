@@ -250,8 +250,7 @@
     },
     "nested": {
       "o": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
-      ":": { "chunks": [ [ "destroyed_glass_door_wall", 80 ], [ "null", 20 ] ] },
-      " ": { "chunks": [ [ "bile_field", 5 ], [ "trash", 5 ], [ "null", 90 ] ] }
+      ":": { "chunks": [ [ "destroyed_glass_door_wall", 80 ], [ "null", 20 ] ] }
     }
   }
 ]

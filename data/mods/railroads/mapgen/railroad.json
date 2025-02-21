@@ -30,6 +30,10 @@
         "  .-x---x-.  .-x---x-.  ",
         "  .^X^^^X^.  .^X^^^X^.  "
       ],
+      "place_vehicles": [
+        { "vehicle": "motorized_draisine_6seats", "x": 7, "y": 100, "chance": 40, "rotation": 90 },
+        { "vehicle": "motorized_draisine_2seats", "x": 18, "y": 100, "chance": 40, "rotation": 90 }
+      ],
       "palettes": [ "railroad_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -65,6 +69,10 @@
         "  .^X^^^X^.  .^X^^^X^.  ",
         "  .-x---x-.  .-x---x-.  ",
         "  .^X^^^X^.  .^X^^^X^.  "
+      ],
+      "place_vehicles": [
+        { "vehicle": "train_car_passenger_small", "x": 7, "y": 20, "chance": 3, "rotation": 90 },
+        { "vehicle": "train_diesel_locomotive", "x": 18, "y": 20, "chance": 3, "rotation": 90 }
       ],
       "palettes": [ "railroad_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]

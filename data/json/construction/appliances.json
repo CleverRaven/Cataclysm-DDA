@@ -302,6 +302,18 @@
   },
   {
     "type": "construction",
+    "id": "app_arc_furnace",
+    "group": "place_arc_furnace",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "arc_furnace", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_glassblowers_crucible",
     "group": "place_glassblowers_crucible",
     "category": "APPLIANCE",

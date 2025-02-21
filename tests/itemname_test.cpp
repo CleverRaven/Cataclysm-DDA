@@ -1,10 +1,10 @@
-#include <iosfwd>
 #include <set>
 #include <string>
 
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "color.h"
 #include "flag.h"
 #include "item.h"
 #include "player_helpers.h"
@@ -158,7 +158,7 @@ TEST_CASE( "display_name_includes_item_contents", "[item][display_name][contents
     // Insert one arrow
     quiver.put_in( arrow, pocket_type::CONTAINER );
     // Expect 1 arrow remaining and displayed
-    CHECK( quiver.ammo_remaining() == 10 );
+    CHECK( quiver.ammo_remaining( ) == 10 );
     std::string const arrow_color = get_tag_from_color( arrow.color_in_inventory() );
     std::string const color_end_tag = "</color>";
     CHECK( quiver.display_name() ==

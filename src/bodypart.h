@@ -65,8 +65,6 @@ struct enum_traits<body_part> {
     static constexpr body_part last = body_part::num_bp;
 };
 
-enum class side : int;
-
 // Drench cache
 enum water_tolerance {
     WT_IGNORED = 0,
@@ -281,7 +279,6 @@ struct body_part_type {
         //Morale parameters
         float hot_morale_mod = 0.0f;
         float cold_morale_mod = 0.0f;
-        float stylish_bonus = 0.0f;
         int squeamish_penalty = 0;
         bool feels_discomfort = true;
 

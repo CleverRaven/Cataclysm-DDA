@@ -208,5 +208,45 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_fail_to_feed", "fault_double_feed" ],
     "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_sr77_45mag" ] } ],
     "melee_damage": { "bash": 10 }
+  },
+  {
+    "id": "afs_vahagn_smartgun",
+    "copy-from": "rifle_semi",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "Wraitheon Vahagn 10XR" },
+    "description": "The legendary apex of smartgun technology, believed to be an urban legend by most.  Bleeding-edge targeting systems allow it to track up 10 distinct targets simultaneously, with every trigger pull delivering a burst of two 7.5mm microjet darts to each target with a precision that is best described as supernatural.  One needs only to point the weapon in the general direction of the enemy, and the Vahagn will do the rest.\n\nProhibitive cost and complexity kept this weapon from ever seeing the light of day, and only a handful of prototypes are believed to exist within the black market.  Finding one here can only mean that corporate forces beyond the ordinary have made Salus IV their battleground.",
+    "weight": "3800 g",
+    "volume": "4300 ml",
+    "longest_side": "830 mm",
+    "price": "2350 kUSD",
+    "to_hit": -1,
+    "material": [ "superalloy", "plastic" ],
+    "modes": [ [ "DEFAULT", "SMART TRACK", 2 ] ],
+    "built_in_mods": [ "afs_smart_scope" ],
+    "skill": "smartgun",
+    "symbol": "(",
+    "color": "red",
+    "ammo": [ "afs_7.50mm_smart" ],
+    "dispersion": 0,
+    "durability": 9,
+    "blackpowder_tolerance": 0,
+    "min_cycle_recoil": 0,
+    "handling": 25,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "afs_vahagn_smartgun_mag" ]
+      }
+    ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "sights mount", 1 ], [ "sling", 1 ], [ "underbarrel", 1 ] ],
+    "melee_damage": { "bash": 12 },
+    "flags": [ "NEVER_JAMS", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
+    "ammo_effects": [ "VAHAGN" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_smart_gun" } ] },
+    "weapon_category": [ "AUTOMATIC_RIFLES" ]
   }
 ]

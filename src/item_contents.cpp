@@ -1,24 +1,29 @@
 #include "item_contents.h"
 
 #include <algorithm>
+#include <cmath>
+#include <cstdint>
+#include <initializer_list>
 #include <iterator>
 #include <map>
+#include <numeric>
 #include <string>
+#include <tuple>
 #include <type_traits>
 
 #include "avatar.h"
 #include "cata_imgui.h"
 #include "character.h"
 #include "color.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "imgui/imgui.h"
 #include "input.h"
-#include "input_popup.h"
 #include "input_context.h"
+#include "input_enums.h"
+#include "input_popup.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
@@ -31,8 +36,8 @@
 #include "make_static.h"
 #include "map.h"
 #include "output.h"
-#include "point.h"
 #include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
@@ -1236,10 +1241,10 @@ bool item_contents::spill_contents( map *here, const tripoint_bub_ms &pos )
     return spilled;
 }
 
-void item_contents::overflow( const tripoint_bub_ms &pos, const item_location &loc )
+void item_contents::overflow( map &here, const tripoint_bub_ms &pos, const item_location &loc )
 {
     for( item_pocket &pocket : contents ) {
-        pocket.overflow( pos, loc );
+        pocket.overflow( here, pos, loc );
     }
 }
 
@@ -1270,8 +1275,8 @@ int item_contents::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos,
             }
             // assuming only one mag
             item &mag = pocket.front();
-            const int res = mag.ammo_consume( qty, here, pos, nullptr );
-            if( res && mag.ammo_remaining() == 0 ) {
+            const int res = mag.ammo_consume( qty, *here, pos, nullptr );
+            if( res && mag.ammo_remaining( ) == 0 ) {
                 if( mag.has_flag( STATIC( flag_id( "MAG_DESTROY" ) ) ) ) {
                     pocket.remove_item( mag );
                 } else if( mag.has_flag( STATIC( flag_id( "MAG_EJECT" ) ) ) ) {
@@ -1777,6 +1782,20 @@ std::list<const item *> item_contents::all_items_top() const
 {
     return all_items_top( []( const item_pocket & pocket ) {
         return pocket.is_standard_type();
+    } );
+}
+
+std::list<const item *> item_contents::all_items_container_top() const
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_container_like_type();
+    } );
+}
+
+std::list<item *> item_contents::all_items_container_top()
+{
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_container_like_type();
     } );
 }
 

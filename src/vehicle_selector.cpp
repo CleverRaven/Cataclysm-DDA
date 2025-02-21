@@ -2,14 +2,14 @@
 
 #include <optional>
 
+#include "coordinates.h"
 #include "map.h"
-#include "point.h"
 #include "vpart_position.h"
 
-vehicle_selector::vehicle_selector( const tripoint_bub_ms &pos, int radius, bool accessible,
+vehicle_selector::vehicle_selector( map &here, const tripoint_bub_ms &pos, int radius,
+                                    bool accessible,
                                     bool visibility_only )
 {
-    map &here = get_map();
     for( const tripoint_bub_ms &e : closest_points_first( pos, radius ) ) {
         if( !accessible ||
             ( visibility_only ? here.sees( pos, e, radius ) : here.clear_path( pos, e, radius, 1, 100 ) ) ) {
@@ -20,10 +20,10 @@ vehicle_selector::vehicle_selector( const tripoint_bub_ms &pos, int radius, bool
     }
 }
 
-vehicle_selector::vehicle_selector( const tripoint_bub_ms &pos, int radius, bool accessible,
+vehicle_selector::vehicle_selector( map &here, const tripoint_bub_ms &pos, int radius,
+                                    bool accessible,
                                     const vehicle &ignore )
 {
-    map &here = get_map();
     for( const tripoint_bub_ms &e : closest_points_first( pos, radius ) ) {
         if( !accessible || here.clear_path( pos, e, radius, 1, 100 ) ) {
             if( const optional_vpart_position vp = here.veh_at( e ) ) {

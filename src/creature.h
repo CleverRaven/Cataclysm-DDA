@@ -14,20 +14,19 @@
 #include <string>
 #include <type_traits>
 #include <unordered_map>
-#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "character_id.h"
 #include "compatibility.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
 #include "pimpl.h"
-#include "point.h"
 #include "string_formatter.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -37,12 +36,12 @@
 class Character;
 class JsonObject;
 class JsonOut;
-class anatomy;
 class avatar;
 class body_part_set;
-class character_id;
+class const_talker;
 class effect;
 class effects_map;
+class enchant_cache;
 class field;
 class field_entry;
 class item;
@@ -51,8 +50,13 @@ class monster;
 class nc_color;
 class npc;
 class talker;
-class const_talker;
 class translation;
+
+namespace enchant_vals
+{
+enum class mod : int;
+}  // namespace enchant_vals
+
 namespace catacurses
 {
 class window;
@@ -306,7 +310,7 @@ class Creature : public viewer
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
         tripoint_bub_ms pos_bub() const;
-        tripoint_bub_ms pos_bub( map *here ) const;
+        tripoint_bub_ms pos_bub( const map &here ) const;
         inline int posx() const {
             return pos_bub().x();
         }
@@ -318,12 +322,11 @@ class Creature : public viewer
         }
         virtual void gravity_check();
         virtual void gravity_check( map *here );
-        void setpos( const tripoint_bub_ms &p, bool check_gravity = true );
-        void setpos( map *here, const tripoint_bub_ms &p, bool check_gravity = true );
+        void setpos( map &here, const tripoint_bub_ms &p, bool check_gravity = true );
         void setpos( const tripoint_abs_ms &p, bool check_gravity = true );
 
         /** Checks if the creature fits confortably into a given tile. */
-        bool will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) const;
+        bool will_be_cramped_in_vehicle_tile( map &here, const tripoint_abs_ms &loc ) const;
         /** Moves the creature to the given location and calls the on_move() handler. */
         void move_to( const tripoint_abs_ms &loc );
 
@@ -338,7 +341,7 @@ class Creature : public viewer
         /** Handles stat and bonus reset. */
         virtual void reset();
         /** Adds an appropriate blood splatter. */
-        virtual void bleed() const;
+        virtual void bleed( map &here ) const;
         /** Empty function. Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual void die( map *here, Creature *killer ) = 0;
 
@@ -393,8 +396,9 @@ class Creature : public viewer
          * the other monster is visible.
          */
         /*@{*/
-        bool sees( const Creature &critter ) const override;
-        bool sees( const tripoint_bub_ms &t, bool is_avatar = false, int range_mod = 0 ) const override;
+        bool sees( const map &here, const Creature &critter ) const override;
+        bool sees( const map &here, const tripoint_bub_ms &t, bool is_avatar = false,
+                   int range_mod = 0 ) const override;
         /*@}*/
 
         /**
@@ -546,7 +550,8 @@ class Creature : public viewer
         virtual bool is_on_ground() const = 0;
         bool cant_do_underwater( bool msg = true ) const;
         virtual bool is_underwater() const;
-        bool is_likely_underwater() const; // Should eventually be virtual, although not pure
+        bool is_likely_underwater( const map &here )
+        const; // Should eventually be virtual, although not pure
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
         virtual bool in_species( const species_id & ) const;
 
@@ -793,7 +798,7 @@ class Creature : public viewer
         tripoint_abs_ms location;
     protected:
         // Sets the creature's position without any side-effects.
-        void set_pos_bub_only( const tripoint_bub_ms &p );
+        void set_pos_bub_only( const map &here, const tripoint_bub_ms &p );
         // Sets the creature's position without any side-effects.
         void set_pos_abs_only( const tripoint_abs_ms &loc );
         // Invoked when the creature's position changes.

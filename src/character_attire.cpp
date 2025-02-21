@@ -24,8 +24,6 @@
 #include "event_bus.h"
 #include "fire.h"
 #include "flag.h"
-#include "flat_set.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "inventory.h"
@@ -33,10 +31,9 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
-#include "json_error.h"
 #include "line.h"
-#include "magic_enchantment.h"
 #include "make_static.h"
+#include "map.h"
 #include "melee.h"
 #include "messages.h"
 #include "mutation.h"
@@ -243,9 +240,9 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
         }
     }
 
-    if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
+    if( amount_worn( it.typeId() ) >= it.max_worn() ) {
         return ret_val<void>::make_failure( _( "Can't wear %1$i or more %2$s at once." ),
-                                            MAX_WORN_PER_TYPE + 1, it.tname( MAX_WORN_PER_TYPE + 1 ) );
+                                            it.max_worn() + 1, it.tname( it.max_worn() + 1 ) );
     }
 
     return ret_val<void>::make_success();
@@ -325,6 +322,8 @@ Character::wear( item_location item_wear, bool interactive )
 std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, const item &to_wear,
         bool interactive, bool do_calc_encumbrance, bool do_sort_items, bool quiet )
 {
+    const map &here = get_map();
+
     const bool was_deaf = guy.is_deaf();
     const bool supertinymouse = guy.get_size() == creature_size::tiny;
     guy.last_item = to_wear.typeId();
@@ -373,7 +372,7 @@ std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, cons
                                    _( "This %s is too small to wear comfortably!  Maybe it could be refitted." ),
                                    to_wear.tname() );
         }
-    } else if( guy.is_npc() && get_player_view().sees( guy ) && !quiet ) {
+    } else if( guy.is_npc() && get_player_view().sees( here, guy ) && !quiet ) {
         guy.add_msg_if_npc( _( "<npcname> puts on their %s." ), to_wear.tname() );
     }
 
@@ -1336,7 +1335,7 @@ static ret_val<void> test_only_one_conflicts( const item &clothing, const item &
         return ret;
     };
 
-    if( i.has_flag( flag_ONLY_ONE ) && i.typeId() == clothing.typeId() ) {
+    if( i.max_worn() == 1 && i.typeId() == clothing.typeId() ) {
         return ret_val<void>::make_failure( _( "Can't wear more than one %s!" ), clothing.tname() );
     }
 
@@ -1878,6 +1877,8 @@ item &outfit::front()
 void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
                             std::list<item> &worn_remains, bool &armor_destroyed )
 {
+    const map &here = get_map();
+
     sub_bodypart_id sbp;
     sub_bodypart_id secondary_sbp;
     // if this body part has sub part locations roll one
@@ -1934,7 +1935,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
         }
 
         if( destroy ) {
-            if( get_player_view().sees( guy ) ) {
+            if( get_player_view().sees( here, guy ) ) {
                 SCT.add( point( guy.posx(), guy.posy() ), direction::NORTH, remove_color_tags( pre_damage_name ),
                          m_neutral, _( "destroyed" ), m_info );
             }
@@ -2056,7 +2057,7 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
             options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
                                               guns.front()->tname(),
                                               clothing.type_name(),
-                                              guns.front()->ammo_remaining() ) );
+                                              guns.front()->ammo_remaining( ) ) );
 
             actions.emplace_back( [&] { guy.invoke_item( &clothing, "holster" ); } );
 
@@ -2122,8 +2123,10 @@ void outfit::best_pocket( Character &guy, const item &it, const item *avoid,
 
 void outfit::overflow( Character &guy )
 {
+    map &here = get_map();
+
     for( item_location &clothing : top_items_loc( guy ) ) {
-        clothing.overflow();
+        clothing.overflow( here );
     }
 }
 

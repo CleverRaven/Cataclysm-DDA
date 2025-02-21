@@ -602,7 +602,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint_bub_ms> pts, const C
 
         // form from vehicle
         if( optional_vpart_position vp = m.veh_at( p ) ) {
-            vp->form_inventory( *this );
+            vp->form_inventory( m, *this );
         }
     }
     pts.clear();

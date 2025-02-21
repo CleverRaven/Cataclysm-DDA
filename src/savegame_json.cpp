@@ -3496,7 +3496,7 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "fuel_remainder", fuel_remainder );
     data.read( "fuel_used_last_turn", fuel_used_last_turn );
 
-    refresh();
+    refresh( );
 
     point p;
     zone_data zd;
@@ -3540,6 +3540,7 @@ void vehicle::deserialize_parts( const JsonArray &data )
 
 void vehicle::serialize( JsonOut &json ) const
 {
+    map &here = get_map();
     json.start_object();
     json.member( "type", type );
     json.member( "posx", pos.x() );
@@ -3583,7 +3584,7 @@ void vehicle::serialize( JsonOut &json ) const
     if( is_towed() ) {
         vehicle *tower = tow_data.get_towed_by();
         if( tower ) {
-            other_tow_temp_point = tower->bub_part_pos( tower->get_tow_part() );
+            other_tow_temp_point = tower->bub_part_pos( here, tower->get_tow_part() );
         }
     }
     json.member( "other_tow_point", other_tow_temp_point );
@@ -5299,7 +5300,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                 point_sm_ms loc;
                 computers_json.next_value().read( loc );
                 auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100,
-                                                      tripoint_bub_ms::zero ) ).first;
+                                                      tripoint_abs_ms::invalid ) ).first;
                 computers_json.next_value().read( new_comp_it->second );
             }
         }

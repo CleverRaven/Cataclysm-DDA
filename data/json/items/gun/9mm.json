@@ -453,7 +453,7 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Glock carbine" },
+    "name": { "str": "folding Glock carbine" },
     "description": "With its claim to fame being its ease of portability when compared to other conventional rifles and carbines, this is a uniquely-designed pistol caliber carbine sporting an integral folding mechanism and chambered for 9x19mm cartridges, making use of regular Glock compatible magazines.  With its mechanism engaged, the barrel assembly swings rearwards and causes the firearm to fold to half its regular length, packing up into a very compact package with ergonomics unfortunately having to take a backseat to allow for the weapon's extreme portability.  With a mainly polymer constructed receiver, the carbine is relatively light and incredibly transportable when fully folded.",
     "variant_type": "gun",
     "variants": [
@@ -1305,5 +1305,61 @@
       }
     ],
     "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "rugerpcc",
+    "looks_like": "modular_ar15",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "Glock carbine" },
+    "description": "A lightweight pistol caliber carbine, chambered in 9mm and accepting Glock magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rugerpcc",
+        "name": { "str": "Ruger PCC" },
+        "description": "The Ruger PCC is a pistol caliber carbine, made by Ruger.  It's quite commonplace, thanks to its low recoil, reliability, and use of readily available magazines."
+      }
+    ],
+    "weight": "3084 g",
+    "volume": "2264 ml",
+    "longest_side": "879 mm",
+    "barrel_length": "409 mm",
+    "price": "779 USD",
+    "price_postapoc": "10 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "good" },
+    "material": [ "steel", "plastic", "aluminum" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "9mm" ],
+    "skill": "rifle",
+    "range": 6,
+    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
+    "dispersion": 180,
+    "durability": 8,
+    "min_cycle_recoil": 450,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "stock accessory", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "//": "Assuming glock magwell, the other magwell for Ruger magazines can be added with the ruger pistol",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
+      }
+    ],
+    "melee_damage": { "bash": 8 }
   }
 ]

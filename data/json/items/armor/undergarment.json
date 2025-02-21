@@ -693,7 +693,7 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "corset_loose", "menu_text": "Loosen" },
-    "flags": [ "VARSIZE", "FANCY", "SKINTIGHT" ],
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
       { "encumbrance": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 70 },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100 }

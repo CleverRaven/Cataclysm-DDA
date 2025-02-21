@@ -61,6 +61,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
@@ -2784,30 +2785,30 @@ static void CheckMessages()
 
                         if( dx != 0 || dy != 0 ) {
                             // Check for actions that work on nearby tiles
-                            //if( can_interact_at( ACTION_OPEN, pos ) ) {
+                            //if( can_interact_at( ACTION_OPEN, here, pos ) ) {
                             // don't bother with open since user can just walk into target
                             //}
-                            if( can_interact_at( ACTION_CLOSE, bub_pos ) ) {
+                            if( can_interact_at( ACTION_CLOSE, here, bub_pos ) ) {
                                 actions.insert( ACTION_CLOSE );
                             }
-                            if( can_interact_at( ACTION_EXAMINE, bub_pos ) ) {
+                            if( can_interact_at( ACTION_EXAMINE, here, bub_pos ) ) {
                                 actions.insert( ACTION_EXAMINE );
                             }
                         } else {
                             // Check for actions that work on own tile only
-                            if( can_interact_at( ACTION_BUTCHER, bub_pos ) ) {
+                            if( can_interact_at( ACTION_BUTCHER, here, bub_pos ) ) {
                                 actions.insert( ACTION_BUTCHER );
                             } else {
                                 actions_remove.insert( ACTION_BUTCHER );
                             }
 
-                            if( can_interact_at( ACTION_MOVE_UP, bub_pos ) ) {
+                            if( can_interact_at( ACTION_MOVE_UP, here, bub_pos ) ) {
                                 actions.insert( ACTION_MOVE_UP );
                             } else {
                                 actions_remove.insert( ACTION_MOVE_UP );
                             }
 
-                            if( can_interact_at( ACTION_MOVE_DOWN, bub_pos ) ) {
+                            if( can_interact_at( ACTION_MOVE_DOWN, here, bub_pos ) ) {
                                 actions.insert( ACTION_MOVE_DOWN );
                             } else {
                                 actions_remove.insert( ACTION_MOVE_DOWN );
@@ -2815,7 +2816,7 @@ static void CheckMessages()
                         }
 
                         // Check for actions that work on nearby tiles and own tile
-                        if( can_interact_at( ACTION_PICKUP, bub_pos ) ) {
+                        if( can_interact_at( ACTION_PICKUP, here, bub_pos ) ) {
                             actions.insert( ACTION_PICKUP );
                         }
                     }
@@ -3268,7 +3269,7 @@ static void CheckMessages()
 
 #if defined(__ANDROID__)
             case SDL_FINGERMOTION:
-                if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 1 ) {
+                if( ev.tfinger.fingerId == 0 ) {
                     if( !is_quick_shortcut_touch ) {
                         update_finger_repeat_delay();
                     }
@@ -3292,16 +3293,16 @@ static void CheckMessages()
                         }
                     }
 
-                } else if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 2 ) {
+                } else if( ev.tfinger.fingerId == 1 ) {
                     second_finger_curr_x = ev.tfinger.x * WindowWidth;
                     second_finger_curr_y = ev.tfinger.y * WindowHeight;
-                } else if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 3 ) {
+                } else if( ev.tfinger.fingerId == 2 ) {
                     third_finger_curr_x = ev.tfinger.x * WindowWidth;
                     third_finger_curr_y = ev.tfinger.y * WindowHeight;
                 }
                 break;
             case SDL_FINGERDOWN:
-                if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 1 ) {
+                if( ev.tfinger.fingerId == 0 ) {
                     finger_down_x = finger_curr_x = ev.tfinger.x * WindowWidth;
                     finger_down_y = finger_curr_y = ev.tfinger.y * WindowHeight;
                     finger_down_time = ticks;
@@ -3312,19 +3313,23 @@ static void CheckMessages()
                     }
                     ui_manager::redraw_invalidated();
                     needupdate = true; // ensure virtual joystick and quick shortcuts redraw as we interact
-                } else if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 2 && !is_quick_shortcut_touch ) {
-                    second_finger_down_x = second_finger_curr_x = ev.tfinger.x * WindowWidth;
-                    second_finger_down_y = second_finger_curr_y = ev.tfinger.y * WindowHeight;
-                    is_two_finger_touch = true;
-                } else if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 3 && !is_quick_shortcut_touch ) {
-                    third_finger_down_x = third_finger_curr_x = ev.tfinger.x * WindowWidth;
-                    third_finger_down_y = third_finger_curr_y = ev.tfinger.y * WindowHeight;
-                    is_three_finger_touch = true;
-                    is_two_finger_touch = false;
+                } else if( ev.tfinger.fingerId == 1 ) {
+                    if( !is_quick_shortcut_touch ) {
+                        second_finger_down_x = second_finger_curr_x = ev.tfinger.x * WindowWidth;
+                        second_finger_down_y = second_finger_curr_y = ev.tfinger.y * WindowHeight;
+                        is_two_finger_touch = true;
+                    }
+                } else if( ev.tfinger.fingerId == 2 ) {
+                    if( !is_quick_shortcut_touch ) {
+                        third_finger_down_x = third_finger_curr_x = ev.tfinger.x * WindowWidth;
+                        third_finger_down_y = third_finger_curr_y = ev.tfinger.y * WindowHeight;
+                        is_three_finger_touch = true;
+                        is_two_finger_touch = false;
+                    }
                 }
                 break;
             case SDL_FINGERUP:
-                if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 1 ) {
+                if( ev.tfinger.fingerId == 0 ) {
                     finger_curr_x = ev.tfinger.x * WindowWidth;
                     finger_curr_y = ev.tfinger.y * WindowHeight;
                     if( is_quick_shortcut_touch ) {
@@ -3493,16 +3498,20 @@ static void CheckMessages()
                     needupdate = true; // ensure virtual joystick and quick shortcuts are updated properly
                     ui_manager::redraw_invalidated();
                     refresh_display(); // as above, but actually redraw it now as well
-                } else if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 2 && is_two_finger_touch ) {
-                    // on second finger release, just remember the x/y position so we can calculate delta once first finger is done
-                    // is_two_finger_touch will be reset when first finger lifts (see above)
-                    second_finger_curr_x = ev.tfinger.x * WindowWidth;
-                    second_finger_curr_y = ev.tfinger.y * WindowHeight;
-                } else if( SDL_GetNumTouchFingers( ev.tfinger.touchId ) == 3 && is_three_finger_touch ) {
-                    // on third finger release, just remember the x/y position so we can calculate delta once first finger is done
-                    // is_three_finger_touch will be reset when first finger lifts (see above)
-                    third_finger_curr_x = ev.tfinger.x * WindowWidth;
-                    third_finger_curr_y = ev.tfinger.y * WindowHeight;
+                } else if( ev.tfinger.fingerId == 1 ) {
+                    if( is_two_finger_touch ) {
+                        // on second finger release, just remember the x/y position so we can calculate delta once first finger is done
+                        // is_two_finger_touch will be reset when first finger lifts (see above)
+                        second_finger_curr_x = ev.tfinger.x * WindowWidth;
+                        second_finger_curr_y = ev.tfinger.y * WindowHeight;
+                    }
+                } else if( ev.tfinger.fingerId == 2 ) {
+                    if( is_three_finger_touch ) {
+                        // on third finger release, just remember the x/y position so we can calculate delta once first finger is done
+                        // is_three_finger_touch will be reset when first finger lifts (see above)
+                        third_finger_curr_x = ev.tfinger.x * WindowWidth;
+                        third_finger_curr_y = ev.tfinger.y * WindowHeight;
+                    }
                 }
 
                 break;

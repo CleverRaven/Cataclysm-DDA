@@ -122,8 +122,7 @@
         "encumbrance": 2
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 80 }
-    ],
-    "extend": { "flags": [ "FANCY" ] }
+    ]
   },
   {
     "id": "sleeveless_tunic_gossamer",
@@ -150,8 +149,7 @@
         "encumbrance": 2
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 80 }
-    ],
-    "extend": { "flags": [ "FANCY" ] }
+    ]
   },
   {
     "id": "doublet_gossamer",
@@ -163,8 +161,7 @@
     "color": "white",
     "material": [ "fae_cotton" ],
     "valid_mods": [  ],
-    "armor": [ { "encumbrance": 4, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ],
-    "extend": { "flags": [ "FANCY" ] }
+    "armor": [ { "encumbrance": 4, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "dress_gossamer",
@@ -197,8 +194,7 @@
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
     "material": [ "fae_cotton" ],
-    "armor": [ { "encumbrance": 3, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
-    "extend": { "flags": [ "FANCY" ] }
+    "armor": [ { "encumbrance": 3, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "jacket_light_gossamer",
@@ -213,7 +209,7 @@
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 3, 5 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 3, 3 ] }
     ],
-    "flags": [ "VARSIZE", "POCKETS", "FANCY", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
     "id": "robe_wizard_gossamer",
@@ -289,8 +285,7 @@
         "max_item_length": "13 cm",
         "moves": 120
       }
-    ],
-    "extend": { "flags": [ "FANCY" ] }
+    ]
   },
   {
     "id": "gloves_light_gossamer",
@@ -301,8 +296,7 @@
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
     "material": [ "fae_cotton" ],
-    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
-    "extend": { "flags": [ "FANCY" ] }
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "loincloth_gossamer",
@@ -312,8 +306,7 @@
     "description": "A gossamer covering for your loins, for when you want to feel like you're wearing moonbeams.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
-    "extend": { "flags": [ "FANCY" ] }
+    "material": [ "fae_cotton" ]
   },
   {
     "id": "pants_gossamer",
@@ -340,8 +333,7 @@
         "moves": 80
       }
     ],
-    "armor": [ { "encumbrance": [ 5, 7 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
-    "extend": { "flags": [ "FANCY" ] }
+    "armor": [ { "encumbrance": [ 5, 7 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "pants_no_pocket_gossamer",
@@ -353,8 +345,7 @@
     "color": "white",
     "material": [ "fae_cotton" ],
     "pocket_data": [  ],
-    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ],
-    "extend": { "flags": [ "FANCY" ] }
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "skirt_gossamer",
@@ -365,8 +356,7 @@
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
     "material": [ "fae_cotton" ],
-    "pocket_data": [  ],
-    "extend": { "flags": [ "FANCY" ] }
+    "pocket_data": [  ]
   },
   {
     "id": "skirt_long_gossamer",
@@ -376,8 +366,7 @@
     "description": "A long gossamer skirt that shimmers like a woven rainbow.  It's warmer and more fashionable than a shorter gossamer skirt.",
     "proportional": { "weight": 0.6666, "price": 2 },
     "color": "white",
-    "material": [ "fae_cotton" ],
-    "extend": { "flags": [ "FANCY" ] }
+    "material": [ "fae_cotton" ]
   },
   {
     "id": "socks_gossamer",
@@ -386,8 +375,7 @@
     "name": { "str": "pair of gossamer socks", "str_pl": "pairs of gossamer socks" },
     "description": "Gossamer socks.  Whether your shoes are made of leather or canvas or moonlight or nightmares, they'll keep your feet from rubbing in them.",
     "proportional": { "weight": 0.6666, "price": 2 },
-    "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
-    "extend": { "flags": [ "FANCY" ] }
+    "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "stockings_gossamer",
@@ -407,8 +395,7 @@
         "encumbrance": 3
       },
       { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 60 }
-    ],
-    "extend": { "flags": [ "FANCY" ] }
+    ]
   },
   {
     "id": "slippers_gossamer",

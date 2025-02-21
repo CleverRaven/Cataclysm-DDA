@@ -546,9 +546,9 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         } else {
             door_name = veh1->part( dpart ).name();
             if( outside_vehicle ) {
-                veh1->open_all_at( dpart );
+                veh1->open_all_at( m, dpart );
             } else {
-                veh1->open( dpart );
+                veh1->open( m, dpart );
             }
             //~ %1$s - vehicle name, %2$s - part name
             you.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
@@ -655,8 +655,8 @@ void avatar_action::swim( map &m, avatar &you, const tripoint_bub_ms &p )
             return;
         }
     }
-    tripoint_abs_ms old_abs_pos = m.get_abs( you.pos_bub() );
-    you.setpos( p );
+    tripoint_abs_ms old_abs_pos = you.pos_abs();
+    you.setpos( m, p );
     g->update_map( you );
 
     cata_event_dispatch::avatar_moves( old_abs_pos, you, m );
@@ -948,12 +948,14 @@ void avatar_action::eat( avatar &you, item_location &loc,
                          const std::string &consume_menu_filter,
                          activity_id type )
 {
+    map &here = get_map();
+
     if( !loc ) {
         you.cancel_activity();
         add_msg( _( "Never mind." ) );
         return;
     }
-    loc.overflow();
+    loc.overflow( here );
     you.assign_activity( consume_activity_actor( loc, consume_menu_selections,
                          consume_menu_selected_items, consume_menu_filter, type ) );
     you.last_item = item( *loc ).typeId();
@@ -971,6 +973,8 @@ void avatar_action::eat_or_use( avatar &you, item_location loc )
 void avatar_action::plthrow( avatar &you, item_location loc,
                              const std::optional<tripoint_bub_ms> &blind_throw_from_pos )
 {
+    map &here = get_map();
+
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
     if( in_shell ) {
@@ -1061,9 +1065,9 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     // Shift our position to our "peeking" position, so that the UI
     // for picking a throw point lets us target the location we couldn't
     // otherwise see.
-    const tripoint_bub_ms original_player_position = you.pos_bub();
+    const tripoint_abs_ms original_player_position = you.pos_abs();
     if( blind_throw_from_pos ) {
-        you.setpos( *blind_throw_from_pos, false );
+        you.setpos( here, *blind_throw_from_pos, false );
     }
 
     g->temp_exit_fullscreen();
@@ -1125,6 +1129,8 @@ void avatar_action::use_item( avatar &you )
 
 void avatar_action::use_item( avatar &you, item_location &loc, std::string const &method )
 {
+    map &here = get_map();
+
     if( you.has_effect( effect_incorporeal ) ) {
         you.add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
         return;
@@ -1146,7 +1152,7 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
         return;
     }
 
-    loc.overflow();
+    loc.overflow( here );
 
     if( loc->is_comestible() && loc->is_frozen_liquid() ) {
         add_msg( _( "Try as you might, you can't consume frozen liquids." ) );

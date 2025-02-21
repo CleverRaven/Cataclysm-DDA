@@ -932,12 +932,22 @@
     "id": "MISSION_GODCO_KATHERINE_1",
     "type": "mission_definition",
     "name": { "str": "Fishy Business" },
-    "description": "Find three cans of tuna for Katherine.",
-    "goal": "MGOAL_FIND_ITEM",
-    "item": "can_tuna",
+    "description": "Find three cans of sardines, tuna, or salmon for Katherine.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "u_has_items_sum": [ { "item": "can_sardine", "amount": 3 }, { "item": "can_tuna", "amount": 3 }, { "item": "can_salmon", "amount": 3 } ]
+    },
     "difficulty": 6,
     "value": 0,
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 3 } ], "opinion": { "value": 1 } },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "icon", "count": 3 },
+        {
+          "u_consume_item_sum": [ { "item": "can_sardine", "amount": 3 }, { "item": "can_tuna", "amount": 3 }, { "item": "can_salmon", "amount": 3 } ]
+        }
+      ],
+      "opinion": { "value": 1 }
+    },
     "fail": { "opinion": { "anger": 1 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
