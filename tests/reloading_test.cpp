@@ -928,7 +928,7 @@ static void reload_a_revolver( Character &dummy, item &gun, item &ammo )
     if( !dummy.is_wielding( gun ) ) {
         if( dummy.has_weapon() ) {
             // to avoid dispose_option in player::unwield()
-            dummy.i_add( *dummy.get_wielded_item() );
+            // dummy.i_add( *dummy.get_wielded_item() );
             dummy.remove_weapon();
         }
         dummy.wield_new( gun );
@@ -985,11 +985,19 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
             REQUIRE( gun2.can_reload_with( ammo, false ) );
             WHEN( "the player triggers auto reload until the first revolver is full" ) {
                 reload_a_revolver( dummy, *dummy.get_wielded_item(), *ammo );
+                THEN( "no activity is generated" ) {
+                    CHECK( !dummy.activity );
+                }
                 WHEN( "the player triggers auto reload until the second revolver is full" ) {
                     reload_a_revolver( dummy, *gun2, *ammo );
+                    THEN( "no activity is generated" ) {
+                        CAPTURE( dummy.activity.activity_id );
+                        CHECK( !dummy.activity );
+                    }
                     WHEN( "the player triggers auto reload again" ) {
                         g->reload_weapon( false );
                         THEN( "no activity is generated" ) {
+                            CAPTURE( dummy.activity.activity_id );
                             CHECK( !dummy.activity );
                         }
                     }

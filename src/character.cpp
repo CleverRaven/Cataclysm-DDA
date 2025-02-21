@@ -13053,10 +13053,6 @@ bool Character::wield( item_location loc, bool remove_old )
     }
 
     cached_info.erase( "weapon_value" );
-    if( loc == item_location::nowhere ) {
-        debugmsg( "does this ever trigger?" );
-        return true;
-    }
 
     if( is_avatar() && !avatar_action::check_stealing( *this, *loc ) ) {
         return false;

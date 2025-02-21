@@ -2077,7 +2077,7 @@ class Character : public Creature, public visitable
          * @original_inventory_item set if the item was already in the characters inventory (wielded, worn, in different pocket) and is being moved.
          * @avoid is the item to not put @it into
          */
-        item_location i_add( item it, bool should_stack = true, const item *avoid = nullptr,
+        item_location i_add( const item &it, bool should_stack = true, const item *avoid = nullptr,
                              const item *original_inventory_item = nullptr, bool allow_drop = true,
                              bool allow_wield = true, bool ignore_pkt_settings = false );
         item_location i_add( item it, int &copies_remaining, bool should_stack = true,
@@ -2088,7 +2088,7 @@ class Character : public Creature, public visitable
         item_location try_add( item it, const item *avoid = nullptr,
                                const item *original_inventory_item = nullptr, bool allow_wield = true,
                                bool ignore_pkt_settings = false );
-        item_location try_add( item it, int &copies_remaining, const item *avoid = nullptr,
+        item_location try_add( const item &it, int &copies_remaining, const item *avoid = nullptr,
                                const item *original_inventory_item = nullptr, bool allow_wield = true,
                                bool ignore_pkt_settings = false );
 
@@ -2367,12 +2367,19 @@ class Character : public Creature, public visitable
         bool has_wield_conflicts( const item &it ) const;
 
         /**
-         * Removes currently wielded item (if any) and replaces it with the target item.
-         * @param target replacement item to wield or null item to remove existing weapon without replacing it
+         * Removes currently wielded item (if any) and replaces it with the item from item_location
+         * If remove_old is not set to false, also remove item from the old location.
+         * @param loc replacement item to wield or null item to remove existing weapon without replacing it
+         * @param remove_old optional, if false it does not remove item from the old location.
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
         bool wield( item_location loc, bool remove_old = true );
 
+        /**
+         * Wield a newly created item, unwielding currently wielded item (if any). If it is an existing item, use @ref wield instead.
+         * @param it item to be wielded.
+         * @return whether both removal and replacement were successful (they are performed atomically)
+         */
         bool wield_new( item it );
         /**
          * Check player capable of unwielding an item.
