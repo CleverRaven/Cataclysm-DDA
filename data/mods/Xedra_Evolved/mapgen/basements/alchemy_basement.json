@@ -16,7 +16,16 @@
         "......"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { ".": "t_floor", "B": "t_floor", "h": "t_floor", "C": "t_floor", "a": "t_floor", "T": "t_floor", "b": "t_floor" },
+      "terrain": {
+        ".": "t_thconc_floor",
+        "B": "t_thconc_floor",
+        "f": "t_thconc_floor",
+        "h": "t_thconc_floor",
+        "C": "t_thconc_floor",
+        "a": "t_thconc_floor",
+        "T": "t_thconc_floor",
+        "b": "t_thconc_floor"
+      },
       "furniture": {
         "a": "f_alembic",
         "h": "f_stool",
@@ -53,7 +62,16 @@
         "......"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { ".": "t_floor", "B": "t_floor", "h": "t_floor", "C": "t_floor", "a": "t_floor", "T": "t_floor", "b": "t_floor" },
+      "terrain": {
+        ".": "t_thconc_floor",
+        "B": "t_thconc_floor",
+        "f": "t_thconc_floor",
+        "h": "t_thconc_floor",
+        "C": "t_thconc_floor",
+        "a": "t_thconc_floor",
+        "T": "t_thconc_floor",
+        "b": "t_thconc_floor"
+      },
       "furniture": {
         "a": "f_alembic",
         "h": "f_stool",
