@@ -189,6 +189,15 @@
     "locations": [ "land" ]
   },
   {
+    "type": "city_building",
+    "id": "afs_ev_station",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_ev_station_a1_floor_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_ev_station_a1_floor_2_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
     "id": "afs_enclosed_park",
     "type": "city_building",
     "overmaps": [

@@ -53,6 +53,7 @@
         "afs_enforcer_station_1": 100,
         "afs_garage_1": 100,
         "afs_garage_2": 100,
+        "afs_ev_station": 100,
         "afs_exosuit_garage_1": 100,
         "afs_exosuit_garage_2": 100
       }

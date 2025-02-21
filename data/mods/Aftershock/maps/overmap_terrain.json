@@ -643,5 +643,15 @@
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "EV Charging Station",
+    "id": [ "afs_ev_station_a1_floor_1", "afs_ev_station_a1_floor_2" ],
+    "sym": "e",
+    "color": "light_blue",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]
