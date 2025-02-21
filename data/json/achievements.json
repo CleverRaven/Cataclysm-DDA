@@ -36,13 +36,6 @@
     "requirements": [ { "event_statistic": "num_avatar_robot_kills", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ]
   },
   {
-    "id": "achievement_kill_in_first_minute",
-    "type": "achievement",
-    "name": "Rude awakening",
-    "time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" },
-    "requirements": [ { "event_statistic": "num_avatar_monster_kills", "is": ">=", "target": 1 } ]
-  },
-  {
     "id": "achievement_kill_10_monsters",
     "type": "achievement",
     "name": { "str": "Decamate", "//~": "Pun on 'deca-' prefix for 10 and 'decimate', with it's meaning for killing" },
