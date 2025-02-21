@@ -1059,8 +1059,6 @@ TEST_CASE( "npc_test_tags", "[npc_talk]" )
 
 TEST_CASE( "npc_compare_int", "[npc_talk]" )
 {
-    map &here = get_map();
-
     calendar::turn = calendar::turn_zero;
     calendar::start_of_cataclysm = calendar::turn_zero;
     calendar::start_of_game = calendar::turn_zero;
@@ -1242,7 +1240,6 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
 
 TEST_CASE( "npc_arithmetic", "[npc_talk]" )
 {
-    map &here = get_map();
     tripoint_abs_ms pos;
 
     dialogue d;
