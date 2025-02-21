@@ -13067,20 +13067,14 @@ bool Character::wield( item_location loc, bool remove_old )
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
-    const bool worn = is_worn( *loc );
-    add_msg_debug( debugmode::DF_AVATAR, "%s worn", worn ? "is" : "is not" );
-    // const int mv = item_handling_cost( *loc, true,
-    //                                    worn ? INVENTORY_HANDLING_PENALTY / 2 :
-    //                                    INVENTORY_HANDLING_PENALTY );
+    bool worn = is_worn( *loc );
     const int mv = loc.obtain_cost( *this );
 
     if( worn ) {
         loc->on_takeoff( *this );
     }
 
-    add_msg_debug( debugmode::DF_AVATAR, "item_handling_cost: %d moves", mv );
-    add_msg_debug( debugmode::DF_AVATAR, "target.obtain_cost took %d moves",
-                   loc.obtain_cost( *this ) );
+    add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
     mod_moves( -mv );
 
     if( combine_stacks ) {
