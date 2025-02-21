@@ -468,7 +468,7 @@
         "miss_msg_u": "%s launches a barbed tentacle at you, but you dodge!",
         "miss_msg_npc": "%s launches a barbed tentacle at <npcname>, but they dodge!",
         "no_dmg_msg_u": "%s launches a barbed tentacle at you, but it fails to embed!",
-        "no_dmg_msg_npc": "%s launches a barbed tentacle at you, but it fails to embed!"
+        "no_dmg_msg_npc": "%s launches a barbed tentacle at <npcname>, but it fails to embed!"
       }
     ],
     "dodge": 0,
