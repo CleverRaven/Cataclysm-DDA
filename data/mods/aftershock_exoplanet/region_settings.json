@@ -54,6 +54,7 @@
         "afs_garage_1": 100,
         "afs_garage_2": 100,
         "afs_ev_station": 100,
+        "afs_aerodrone_landing_pad": 100,
         "afs_exosuit_garage_1": 100,
         "afs_exosuit_garage_2": 100
       }

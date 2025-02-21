@@ -653,5 +653,15 @@
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Aerodrone Landing Pad",
+    "id": [ "afs_aerodrone_landing_pad_a1_floor_1", "afs_aerodrone_landing_pad_a1_floor_2" ],
+    "sym": "H",
+    "color": "light_blue",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]
