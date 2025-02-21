@@ -637,7 +637,7 @@
   {
     "type": "overmap_terrain",
     "name": "Garage",
-    "id": [ "afs_garage_a1_floor_1", "afs_garage_a1_floor_2" ],
+    "id": [ "afs_garage_a1_floor_1", "afs_garage_a1_floor_2", "afs_garage_2_a1_floor_1", "afs_garage_2_a1_floor_2" ],
     "sym": "g",
     "color": "yellow",
     "see_cost": "high",
