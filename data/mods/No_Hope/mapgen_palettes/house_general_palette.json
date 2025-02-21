@@ -1,29 +1,66 @@
 [
   {
     "type": "palette",
+    "id": "domestic_general_construction_and_variant_palette",
+    "//": "This palette is split from domestic_general_and_variant_palette because the construction palette needs more consideration than the other palettes",
+    "parameters": {
+      "construction_palette": {
+        "type": "palette_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [ [ "standard_domestic_construction_palette", 100 ], [ "domestic_general_and_variant_palette", 9900 ] ]
+        }
+      }
+    },
+    "palettes": [ { "param": "construction_palette" } ]
+  },
+  {
+    "type": "palette",
+    "id": "domestic_general_and_variant_palette",
+    "//": "Standard variant distribution for homes: General: 90%, Abandoned: 5%, Construction: 1.00%, Survivor: 2%, Hoarder: 2%",
+    "//2": "Changes to standard_domestic_palette may also need applying to standard_domestic_abandoned_palette & standard_domestic_construction_palette.",
+    "parameters": {
+      "variant_palette": {
+        "type": "palette_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "standard_domestic_migration_palette", 9000 ],
+            [ "standard_domestic_abandoned_palette", 200 ],
+            [ "house_hoarder_palette", 200 ],
+            [ "house_survivor_palette", 200 ]
+          ]
+        }
+      }
+    },
+    "palettes": [ { "param": "variant_palette" }, "parametrized_walls_palette", "no_hope_damage_palette" ]
+  },
+  {
+    "type": "palette",
     "id": "standard_domestic_migration_palette",
-    "//": "Adjusts vanilla weights to make houses messier and more damaged.",
+    "//": "Palette to replace most standard_domestic_palette use that adds a random level of pre-cata tidyness and post-cata damage.",
     "parameters": {
       "tidyness_palette": {
         "type": "palette_id",
         "scope": "overmap_special",
-        "//": "Null here represents tidy",
-        "default": {
-          "distribution": [ [ "null_palette", 1 ], [ "standard_domestic_untidy_palette", 39 ], [ "standard_domestic_messy_palette", 60 ] ]
-        }
+        "default": { "distribution": [ [ "standard_domestic_untidy_palette", 40 ], [ "standard_domestic_messy_palette", 60 ] ] }
       },
       "damage_palette": {
         "type": "palette_id",
         "scope": "overmap_special",
-        "//": "Null here represents untouched",
-        "default": {
-          "distribution": [ [ "null_palette", 1 ], [ "standard_domestic_damage_palette", 39 ], [ "standard_domestic_damage_large_palette", 60 ] ]
-        }
+        "default": { "distribution": [ [ "standard_domestic_damage_palette", 40 ], [ "standard_domestic_damage_large_palette", 60 ] ] }
+      },
+      "alarm_palette": {
+        "type": "palette_id",
+        "scope": "overmap_special",
+        "//": "Determines if house has alarm",
+        "default": { "distribution": [ [ "domestic_alarm_palette", 1 ], [ "domestic_locked_palette", 3 ] ] }
       }
     },
     "palettes": [
       "standard_domestic_palette",
       { "param": "damage_palette" },
+      { "param": "alarm_palette" },
       { "param": "tidyness_palette" },
       "parametrized_walls_palette"
     ]
@@ -247,10 +284,6 @@
         { "item": "games", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "allsporting", "chance": 5 }
       ]
-    },
-    "nested": {
-      "o": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
-      ":": { "chunks": [ [ "destroyed_glass_door_wall", 80 ], [ "null", 20 ] ] }
     }
   }
 ]
