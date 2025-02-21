@@ -1,0 +1,17 @@
+[
+  {
+    "type": "BOOK",
+    "id": "alchemy_recipe_extra_str_aspirin",
+    "copy-from": "schematics_generic",
+    "looks_like": "spell_scroll_crystallize_mana",
+    "name": { "str_sp": "scribbled notes (eXtra strength aspirin)" },
+    "description": "An handwritten set of notes detailing an alchemical recipe for extra strength aspirin.  The active ingredient is apparently hallucinogenic, which is certainly one way to stop from feeling pain.",
+    "skill": "chemistry",
+    "required_level": 2,
+    "max_level": 2,
+    "intelligence": 10,
+    "time": "45 m",
+    "symbol": "ç",
+    "color": "light_green"
+  }
+]
