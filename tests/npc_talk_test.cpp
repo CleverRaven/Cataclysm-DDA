@@ -1142,7 +1142,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     get_weather().weather_precise->humidity = 16;
     get_weather().weather_precise->pressure = 17;
     get_weather().clear_temp_cache();
-    player_character.setpos( here, tripoint_bub_ms{ -1, -2, -3 } );
+    player_character.setpos( tripoint_abs_ms{ -1, -2, -3 } );
     player_character.set_pain( 21 );
     player_character.add_bionic( bio_power_storage );
     player_character.set_power_level( 22_mJ );
@@ -1243,6 +1243,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
 TEST_CASE( "npc_arithmetic", "[npc_talk]" )
 {
     map &here = get_map();
+    tripoint_abs_ms pos;
 
     dialogue d;
     npc &beta = prep_test( d );
@@ -1333,17 +1334,19 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( static_cast<int>( player_character.get_skill_level( skill ) ) == 10 );
 
-    // "Sets pos_x to 14."
+    // "Move character position one tile west."
+    pos = player_character.pos_abs();
     effects = d.responses[ 12 ].success;
     effects.apply( d );
-    CHECK( player_character.posx( here ) == -1 );
+    CHECK( player_character.pos_abs().x() == pos.x() - 1 );
 
-    // "Sets pos_y to 15."
+    // "Move character position two tiles north."
+    pos = player_character.pos_abs();
     effects = d.responses[ 13 ].success;
     effects.apply( d );
-    CHECK( player_character.posy( here ) == -2 );
+    CHECK( player_character.pos_abs().y() == pos.y() + 2 );
 
-    // "Sets pos_z to 16."
+    // "Sets character z level to -3."
     effects = d.responses[ 14 ].success;
     effects.apply( d );
     CHECK( player_character.posz() == -3 );

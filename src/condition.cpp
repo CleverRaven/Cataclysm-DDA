@@ -2418,11 +2418,11 @@ conditional_t::get_get_dbl( std::string_view checked_value, char scope )
         };
     } else if( checked_value == "pos_x" ) {
         return[is_npc]( const_dialogue const & d ) {
-            return static_cast<double>( d.const_actor( is_npc )->posx( get_map() ) );
+            return static_cast<double>( d.const_actor( is_npc )->pos_abs().x() );
         };
     } else if( checked_value == "pos_y" ) {
         return[is_npc]( const_dialogue const & d ) {
-            return static_cast<double>( d.const_actor( is_npc )->posy( get_map() ) );
+            return static_cast<double>( d.const_actor( is_npc )->pos_abs( ).y() );
         };
     }
     throw math::syntax_error( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
@@ -2478,13 +2478,13 @@ conditional_t::get_set_dbl( std::string_view checked_value, char scope )
         };
     } else if( checked_value == "pos_x" ) {
         return [is_npc]( dialogue & d, double input ) {
-            tripoint_bub_ms const tr = d.actor( is_npc )->pos_bub( get_map() );
-            d.actor( is_npc )->set_pos( tripoint_bub_ms( static_cast<int>( input ), tr.y(), tr.z() ) );
+            tripoint_abs_ms const tr = d.actor( is_npc )->pos_abs();
+            d.actor( is_npc )->set_pos( tripoint_abs_ms( static_cast<int>( input ), tr.y(), tr.z() ) );
         };
     } else if( checked_value == "pos_y" ) {
         return [is_npc]( dialogue & d, double input ) {
-            tripoint_bub_ms const tr = d.actor( is_npc )->pos_bub( get_map() );
-            d.actor( is_npc )->set_pos( tripoint_bub_ms( tr.x(), static_cast<int>( input ), tr.z() ) );
+            tripoint_abs_ms const tr = d.actor( is_npc )->pos_abs();
+            d.actor( is_npc )->set_pos( tripoint_abs_ms( tr.x(), static_cast<int>( input ), tr.z() ) );
         };
     } else if( checked_value == "pos_z" ) {
         return [is_npc]( dialogue & d, double input ) {

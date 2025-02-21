@@ -234,6 +234,7 @@ class talker_character: virtual public talker
         }
 
         void set_pos( tripoint_bub_ms new_pos ) override;
+        void set_pos( tripoint_abs_ms new_pos ) override;
 
         // stats, skills, traits, bionics, and magic
         void set_str_max( int value ) override;

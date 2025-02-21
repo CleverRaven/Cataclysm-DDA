@@ -489,6 +489,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
 {
     map &here = get_map();
     tripoint_bub_ms monster_pos = z.pos_bub( here );
+    // Note that target has the 'aliases' of foe and zz
     tripoint_bub_ms target_pos = target->pos_bub( here );
 
     // Something went wrong

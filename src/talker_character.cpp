@@ -167,6 +167,11 @@ void talker_character::set_pos( tripoint_bub_ms new_pos )
     me_chr->setpos( here, new_pos );
 }
 
+void talker_character::set_pos( tripoint_abs_ms new_pos )
+{
+    me_chr->setpos( new_pos );
+}
+
 void talker_character::set_str_max( int value )
 {
     me_chr->str_max = value;
