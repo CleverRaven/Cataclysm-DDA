@@ -19,8 +19,8 @@
         "item": "corpse_ash",
         "prob": 15,
         "container-item": "null",
-        "entry-wrapper": "bag_zipper",
-        "count": [ 200, 1520 ]
+        "entry-wrapper": "jug_plastic",
+        "count": [ 5, 10 ]
       },
       {
         "item": "wild_herbs",
@@ -38,7 +38,6 @@
       { "item": "scrap_dreamdross", "prob": 50, "count": [ 1, 4 ] },
       { "item": "water_clean", "prob": 90, "charges": [ 1, -1 ], "container-item": "bottle_plastic", "sealed": false },
       { "item": "bleach", "prob": 20, "charges": [ 1, -1 ] },
-      { "item": "ammonia_liquid", "prob": 50, "charges": [ 6, -1 ] },
       { "item": "chem_washing_soda", "prob": 15, "charges": [ 1, -1 ] },
       { "item": "chem_baking_soda", "prob": 25, "charges": [ 1, -1 ] },
       { "item": "chem_ethanol", "prob": 40, "charges": [ 250, -1 ] },
