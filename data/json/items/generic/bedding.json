@@ -287,7 +287,7 @@
     "price": "4 USD 25 cent",
     "price_postapoc": "10 cent",
     "material": [ "plastic" ],
-    "//": "https://www.lomo.co.uk/products/emergency-foil-blanket-sliver-10-pack/"
+    "//": "https://www.lomo.co.uk/products/emergency-foil-blanket-sliver-10-pack/",
     "weight": "50 g",
     "volume": "200 ml",
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "SOFT" ],
