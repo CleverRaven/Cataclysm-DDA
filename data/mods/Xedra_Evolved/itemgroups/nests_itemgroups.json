@@ -89,7 +89,15 @@
     "id": "alchemical_recipes_tier_one",
     "items": [
       { "item": "alchemy_recipe_extra_str_aspirin", "prob": 1 },
-      { "item": "alchemy_recipe_small_blessing_brigit", "prob": 1 }
+      { "item": "alchemy_recipe_small_blessing_brigit", "prob": 1 },
+      { "item": "alchemy_recipe_blackout_rage_drink", "prob": 1 },
+      { "item": "alchemy_recipe_sixdust", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "alchemical_recipes_tier_two",
+    "items": [ { "item": "alchemy_recipe_prophets_lsd", "prob": 1 } ]
   }
 ]
