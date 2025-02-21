@@ -369,11 +369,13 @@
     "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones more appropriate for basements.  Symbols still open for use: ! $ % & _ = ~ - ? / , and more",
     "//1": "Starting from 'a' this palette overwrites the standard_domestic_palette, any new additions to standard_domestic_palette need to be added after any additions to standard_domestic_basement_palette should be added before",
     "terrain": {
+      " ": "t_soil",
       "^": "t_soil",
       "#": "t_concrete_wall",
       "|": "t_concrete_wall",
       ".": "t_thconc_floor",
       "!": "t_thconc_floor",
+      "+": [ [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
       "c": "t_thconc_floor",
       "u": "t_thconc_floor",
       "Â": "t_thconc_floor",
@@ -444,15 +446,28 @@
       "Ø": "t_thconc_floor",
       "Æ": "t_thconc_floor",
       "ʭ": "t_thconc_floor",
-      "é": "t_thconc_floor"
+      "é": "t_thconc_floor",
+      "â": "t_thconc_floor"
     },
     "furniture": {
       "!": "f_locker",
+      "â": "f_home_furnace",
       "c": "f_exercise",
       "u": [ "f_ergometer", "f_ergometer_mechanical" ],
       "Â": [ "f_treadmill", "f_treadmill_mechanical" ],
       "Ö": [ [ "f_crate_c", 2 ], [ "f_crate_o", 3 ] ],
-      "X": "f_punching_bag"
+      "X": "f_punching_bag",
+      "a": "f_fireplace",
+      "A": "f_stool",
+      "F": "f_home_furnace",
+      "J": "f_counter",
+      "S": "f_sink",
+      "U": "f_utility_shelf",
+      "W": "f_washer",
+      "Z": "f_dryer",
+      "8": "f_counter",
+      "9": "f_shower",
+      "g": [ "f_water_heater", "f_water_heater_family" ]
     }
   },
   {
