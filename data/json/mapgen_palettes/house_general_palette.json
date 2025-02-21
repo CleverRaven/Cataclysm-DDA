@@ -369,6 +369,7 @@
     "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to overwrite certain common symbols with ones more appropriate for basements.  Symbols still open for use: ! $ % & _ = ~ - ? / , and more",
     "//1": "Starting from 'a' this palette overwrites the standard_domestic_palette, any new additions to standard_domestic_palette need to be added after any additions to standard_domestic_basement_palette should be added before",
     "terrain": {
+      "<": "t_stairs_up",
       " ": "t_soil",
       "^": "t_soil",
       "#": "t_concrete_wall",
