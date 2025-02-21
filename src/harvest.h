@@ -2,19 +2,18 @@
 #ifndef CATA_SRC_HARVEST_H
 #define CATA_SRC_HARVEST_H
 
-#include <iosfwd>
-#include <list>
-#include <map>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
 class butchery_requirements;
+template <typename T> class generic_factory;
 
 using butchery_requirements_id = string_id<butchery_requirements>;
 

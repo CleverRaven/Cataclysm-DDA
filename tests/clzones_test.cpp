@@ -1,18 +1,26 @@
-#include <iosfwd>
+#include <optional>
+#include <string>
 #include <vector>
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_catch.h"
 #include "clzones.h"
+#include "coordinates.h"
 #include "item.h"
-#include "item_category.h"
+#include "item_pocket.h"
+#include "map.h"
 #include "map_helpers.h"
+#include "player_activity.h"
 #include "player_helpers.h"
 #include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "units.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 
@@ -97,13 +105,13 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
 
     item ammo_belt = item( itype_belt223, calendar::turn );
     ammo_belt.ammo_set( ammo_belt.ammo_default() );
-    int belt_ammo_count_before_unload = ammo_belt.ammo_remaining();
+    int belt_ammo_count_before_unload = ammo_belt.ammo_remaining( );
 
     REQUIRE( belt_ammo_count_before_unload > 0 );
 
     WHEN( "unloading ammo belts using UNLOAD_ALL " ) {
         if( in_vehicle ) {
-            vp->vehicle().add_item( vp->part(), ammo_belt );
+            vp->vehicle().add_item( here, vp->part(), ammo_belt );
         } else {
             here.add_item_or_charges( tripoint_bub_ms( tripoint::east ), ammo_belt );
         }

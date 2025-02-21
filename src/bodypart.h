@@ -28,7 +28,6 @@ struct localized_comparator;
 template <typename E> struct enum_traits;
 template <typename T> class generic_factory;
 
-using bodypart_str_id = string_id<body_part_type>;
 using bodypart_id = int_id<body_part_type>;
 
 extern const bodypart_str_id body_part_head;
@@ -65,8 +64,6 @@ template<>
 struct enum_traits<body_part> {
     static constexpr body_part last = body_part::num_bp;
 };
-
-enum class side : int;
 
 // Drench cache
 enum water_tolerance {
@@ -282,7 +279,6 @@ struct body_part_type {
         //Morale parameters
         float hot_morale_mod = 0.0f;
         float cold_morale_mod = 0.0f;
-        float stylish_bonus = 0.0f;
         int squeamish_penalty = 0;
         bool feels_discomfort = true;
 

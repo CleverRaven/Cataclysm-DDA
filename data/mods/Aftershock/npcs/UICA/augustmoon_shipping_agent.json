@@ -20,14 +20,14 @@
     "worn_override": "NC_UICA_PORT_CREW_worn",
     "carry_override": "EMPTY_GROUP",
     "weapon_override": "EMPTY_GROUP",
-    "shopkeeper_item_group": [ { "group": "NC_AUGUSTMOON_shipping_stock", "rigid": true }, { "group": "augustmoon_shop_money", "rigid": true } ]
+    "shopkeeper_item_group": [ { "group": "NC_AUGUSTMOON_shipping_stock", "rigid": true } ]
   },
   {
     "type": "item_group",
     "id": "NC_AUGUSTMOON_shipping_stock",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "afs_shuttle_radiobeacon", "count": [ 4, 10 ] } ]
+    "entries": [ { "item": "afs_shuttle_radiobeacon", "count": [ 4, 10 ] }, { "group": "augustmoon_shop_money" } ]
   },
   {
     "id": "TALK_AUGUSTMOON_SHIPPING_CHIEF",

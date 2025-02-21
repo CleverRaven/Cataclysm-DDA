@@ -21,7 +21,7 @@
     "worn_override": "NC_AUGUSTMOON_DOCTOR_worn",
     "carry_override": "EMPTY_GROUP",
     "weapon_override": "EMPTY_GROUP",
-    "shopkeeper_item_group": [ { "group": "NC_AUGUSTMOON_DOCTOR_stock", "rigid": true }, { "group": "augustmoon_shop_money", "rigid": true } ],
+    "shopkeeper_item_group": [ { "group": "NC_AUGUSTMOON_DOCTOR_stock", "rigid": true } ],
     "shopkeeper_price_rules": [ { "group": "NC_AUGUSTMOON_DOCTOR_stock", "fixed_adj": 0 } ],
     "skills": [
       {
@@ -47,7 +47,8 @@
       { "item": "afs_painkiller", "prob": 100, "count": [ 3, 10 ] },
       { "item": "medical_tape", "charges": 30 },
       { "group": "quikclot_bag_plastic_5", "count": [ 4, 8 ] },
-      { "group": "drugs_analgesic", "prob": 100, "count": [ 2, 4 ] }
+      { "group": "drugs_analgesic", "prob": 100, "count": [ 2, 4 ] },
+      { "group": "augustmoon_shop_money" }
     ]
   },
   {

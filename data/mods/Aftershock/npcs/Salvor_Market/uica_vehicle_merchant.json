@@ -24,7 +24,7 @@
       { "skill": "electronics", "bonus": { "rng": [ 4, 6 ] } },
       { "skill": "mechanics", "bonus": { "rng": [ 4, 6 ] } }
     ],
-    "shopkeeper_item_group": [ { "group": "afs_vehicle_merchant", "rigid": true }, { "group": "augustmoon_shop_money", "rigid": true } ],
+    "shopkeeper_item_group": [ { "group": "afs_vehicle_merchant", "rigid": true } ],
     "shopkeeper_price_rules": [
       { "group": "afs_vehicle_merchant", "markup": 80, "condition": { "not": { "u_has_trait": "BKGR_EARTH" } } },
       { "group": "afs_vehicle_merchant", "markup": 65, "condition": { "u_has_trait": "BKGR_EARTH" } },
@@ -59,7 +59,8 @@
       { "group": "afs_vehicle_merchant_frames" },
       { "group": "afs_vehicle_merchant_controls" },
       { "group": "afs_vehicle_merchant_cargo" },
-      { "group": "afs_vehicle_merchant_batteries" }
+      { "group": "afs_vehicle_merchant_batteries" },
+      { "group": "augustmoon_shop_money" }
     ]
   },
   {

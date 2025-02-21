@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+#include "coordinates.h"
 #include "item_location.h"
 #include "point.h"
 #include "units.h"

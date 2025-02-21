@@ -15,6 +15,7 @@
 #include "character.h"
 #include "clone_ptr.h"
 #include "contents_change_handler.h"
+#include "game.h"
 #include "handle_liquid.h"
 #include "item.h"
 #include "itype.h"
@@ -40,6 +41,7 @@ class SkillLevel;
 class player_activity;
 
 struct islot_book;
+struct pulp_data;
 
 class aim_activity_actor : public activity_actor
 {
@@ -54,7 +56,7 @@ class aim_activity_actor : public activity_actor
         bool should_unload_RAS = false;
         bool snap_to_target = false;
         /* Item location for RAS weapon reload */
-        item_location reload_loc = item_location();
+        item_location reload_loc;
         bool shifting_view = false;
         tripoint_rel_ms initial_view_offset;
         /** Target UI requested to abort aiming */
@@ -852,10 +854,11 @@ class efile_activity_actor : public activity_actor
         /** Returns the effective electronic transfer rate with `external_transfer_rate` factored in */
         static units::ememory current_etransfer_rate( Character &who, const efile_transfer &transfer,
                 const item_location &efile );
-        /** Returns all e-files on this device that are in the filter_files list
-        @param filter_files list of e-files to use, usually selected_files */
+        /** Returns all e-files on this device that are in the filter_files list,
+        * and removes matching efiles from filter_files list
+        * @param filter_files list of e-files to use, usually selected_files */
         static std::vector<item_location> filter_edevice_efiles( const item_location &edevice,
-                const std::vector<item_location> &filter_files );
+                std::vector<item_location> &filter_files );
         /** Returns the most optimal estorage (if needed) for improving transfer speed given the two edevices provided */
         static item_location find_external_transfer_estorage( Character &p,
                 const item_location &efile, const item_location &ed1, const item_location &ed2 );
@@ -872,15 +875,16 @@ class efile_activity_actor : public activity_actor
     private:
         item_location used_edevice;
         std::vector<item_location> target_edevices;
+        /** Held for combo activity */
+        std::vector<item_location> target_edevices_copy;
+        /** e-files that have yet to be processed, across all devices */
         std::vector<item_location> selected_efiles;
         efile_action action_type = EF_INVALID;
         efile_combo combo_type = COMBO_NONE;
-        /** contents copy of currently processed e-device */
+        /** e-files currently processed on current e-device */
         std::vector<item_location> currently_processed_efiles;
-        /** iterator pointing to next e-file to process */
-        std::vector<item_location>::iterator next_efile;
-        /** iterator pointing to next e-device to process */
-        std::vector<item_location>::iterator next_edevice;
+        /** How many e-devices this activity started with. */
+        int target_edevices_count = 0;
         /** How many e-devices this activity has successfully processed so far. */
         int processed_edevices = 0;
         /** How many e-devices this activity has failed to process so far. */
@@ -913,6 +917,9 @@ class efile_activity_actor : public activity_actor
 
         item_location &get_currently_processed_edevice();
         item_location &get_currently_processed_efile();
+        bool processed_edevices_remain() const;
+        bool processed_efiles_remain() const;
+
         /** Segway to the next player activity for a combo type */
         void combo_next_activity( Character &who );
         time_duration charge_time( efile_action action_type );
@@ -1423,8 +1430,8 @@ class milk_activity_actor : public activity_actor
 
     private:
         int total_moves {};
-        std::vector<tripoint_abs_ms> monster_coords {};
-        std::vector<std::string> string_values {};
+        std::vector<tripoint_abs_ms> monster_coords;
+        std::vector<std::string> string_values;
 };
 
 class shearing_activity_actor : public activity_actor
@@ -2407,36 +2414,53 @@ class pulp_activity_actor : public activity_actor
 {
     public:
         pulp_activity_actor() = default;
-        explicit pulp_activity_actor( const tripoint_abs_ms placement,
-                                      const bool pulp_acid = false ) : placement( { placement } ),
-        num_corpses( 0 ), pulp_acid( pulp_acid ) {}
-        explicit pulp_activity_actor( const std::set<tripoint_abs_ms> &placement,
-                                      const bool pulp_acid = false ) : placement( placement ), num_corpses( 0 ), pulp_acid( pulp_acid ) {}
+        explicit pulp_activity_actor( const tripoint_abs_ms placement ) : placement( { placement } ),
+        num_corpses( 0 ) {}
+        explicit pulp_activity_actor( const std::set<tripoint_abs_ms> &placement ) : placement( placement ),
+            num_corpses( 0 ) {}
         const activity_id &get_type() const override {
             static const activity_id ACT_PULP( "ACT_PULP" );
             return ACT_PULP;
         }
 
-        void start( player_activity &act, Character &who ) override;
+        void start( player_activity &act, Character &you ) override;
         void do_turn( player_activity &act, Character &you ) override;
+        bool punch_corpse_once( item &corpse, Character &you, tripoint_bub_ms pos, map &here );
         void finish( player_activity &, Character & ) override;
 
+        void send_final_message( Character &you ) const;
+
         std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<pulp_activity_actor>( *this );
+            auto plp = std::make_unique<pulp_activity_actor>( *this );
+            plp.get()->current_pos_iter = plp.get()->placement.begin();
+            return plp;
         }
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
-        bool can_resume_with_internal( const activity_actor &other,
-                                       const Character &/*who*/ ) const override {
-            const pulp_activity_actor &actor = static_cast<const pulp_activity_actor &>( other );
-            return actor.pulp_acid == pulp_acid;
-        }
+        // tripoints with corpses we need to pulp;
+        // either single tripoint shoved into set, or 3x3 zone around u/npc
         std::set<tripoint_abs_ms> placement;
-        int num_corpses;
-        bool pulp_acid;
+
+        float float_corpse_damage_accum = 0.0f; // NOLINT(cata-serialize)
+
+        int unpulped_corpses_qty = 0;
+
+        // query player if they want to pulp corpses that cost more than 10 minutes to pulp
+        bool too_long_to_pulp = false;
+        bool too_long_to_pulp_interrupted = false;
+        // if corpse cost more than hour to pulp, drop it
+        bool way_too_long_to_pulp = false;
+
+        // how many corpses we pulped
+        int num_corpses = 0;
+
+        pulp_data pd;
+
+        // what `placement` we are currently at
+        std::set<tripoint_abs_ms>::const_iterator current_pos_iter; // NOLINT(cata-serialize)
 };
 
 class wait_stamina_activity_actor : public activity_actor

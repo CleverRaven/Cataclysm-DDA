@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <functional>
+#include <initializer_list>
 #include <iosfwd>
 #include <map>
 #include <memory>
@@ -12,13 +13,14 @@
 
 #include "cata_path.h"
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "filesystem.h"
 #include "flag.h"
 #include "flat_set.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "input_context.h"
 #include "input_popup.h"
@@ -149,6 +151,8 @@ static void empty_autopickup_target( item *what, tripoint_bub_ms where )
  */
 static std::vector<item_location> get_autopickup_items( item_location &from )
 {
+    map &here = get_map();
+
     item *container_item = from.get_item();
     // items sealed in containers should never be unsealed by auto pickup
     bool force_pick_container = container_item->any_pockets_sealed();
@@ -177,7 +181,7 @@ static std::vector<item_location> get_autopickup_items( item_location &from )
             if( !force_pick_container ) {
                 if( item_entry->is_container() ) {
                     // whitelisted containers should exclude contained blacklisted items
-                    empty_autopickup_target( item_entry, from.pos_bub() );
+                    empty_autopickup_target( item_entry, from.pos_bub( here ) );
                 } else if( item_entry->made_of_from_type( phase_id::LIQUID ) ) {
                     // liquid items should never be picked up without container
                     force_pick_container = true;
@@ -326,6 +330,29 @@ void user_interface::show()
     bool bLeftColumn = true;
     int iStartPos = 0;
     Character &player_character = get_player_character();
+    bStuffChanged = false;
+    input_context ctxt( "AUTO_PICKUP" );
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    if( tabs.size() > 1 ) {
+        ctxt.register_action( "NEXT_TAB" );
+    }
+    ctxt.register_action( "ADD_RULE" );
+    ctxt.register_action( "REMOVE_RULE" );
+    ctxt.register_action( "COPY_RULE" );
+    ctxt.register_action( "ENABLE_RULE" );
+    ctxt.register_action( "DISABLE_RULE" );
+    ctxt.register_action( "MOVE_RULE_UP" );
+    ctxt.register_action( "MOVE_RULE_DOWN" );
+    ctxt.register_action( "TEST_RULE" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "SWITCH_AUTO_PICKUP_OPTION" );
+    const bool allow_swapping = tabs.size() == 2;
+    if( allow_swapping ) {
+        ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
+    }
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         // Redraw the border
@@ -344,22 +371,17 @@ void user_interface::show()
         wnoutrefresh( w_border );
 
         // Redraw the header
-        int tmpx = 0;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<A>dd" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<R>emove" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<C>opy" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<M>ove" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<D>isable" ) ) + 2;
-        if( !player_character.name.empty() ) {
-            shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<T>est" ) );
-        }
-        tmpx = 0;
-        tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
-                                _( "<+-> Move up/down" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
-                                _( "<Enter>-Edit" ) ) + 2;
-        shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green, _( "<Tab>-Switch Page" ) );
+        int locx = 0;
+        const std::string autopickup_enabled_text = _( "Auto pickup enabled:" );
+        mvwprintz( w_header, point( locx, 0 ), c_white, autopickup_enabled_text );
+        locx += utf8_width( autopickup_enabled_text );
+        locx += shortcut_print( w_header, point( locx + 1, 0 ),
+                                ( get_option<bool>( "AUTO_PICKUP" ) ? c_light_green : c_light_red ), c_white,
+                                ( get_option<bool>( "AUTO_PICKUP" ) ? _( "True" ) : _( "False" ) ) );
+        std::string desc_2 = string_format( "%s", ctxt.get_desc( "HELP_KEYBINDINGS",
+                                            _( "Display keybindings" ) ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_header, point( 0, 1 ), 0, c_white, desc_2 );
 
         wattron( w_header, c_light_gray );
         mvwhline( w_header, point( 0,  2 ), LINE_OXOX, 78 );
@@ -375,20 +397,11 @@ void user_interface::show()
         mvwprintz( w_header, point( 52, 3 ), c_white, _( "Inc/Exc" ) );
 
         rule_list &cur_rules = tabs[iTab].new_rules;
-        int locx = 17;
+        locx = 17;
         for( size_t i = 0; i < tabs.size(); i++ ) {
             const nc_color color = iTab == i ? hilite( c_white ) : c_white;
             locx += shortcut_print( w_header, point( locx, 2 ), c_white, color, tabs[i].title ) + 1;
         }
-
-        locx = 55;
-        mvwprintz( w_header, point( locx, 0 ), c_white, _( "Auto pickup enabled:" ) );
-        locx += shortcut_print( w_header, point( locx, 1 ),
-                                get_option<bool>( "AUTO_PICKUP" ) ? c_light_green : c_light_red, c_white,
-                                get_option<bool>( "AUTO_PICKUP" ) ? _( "True" ) : _( "False" ) );
-        locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
-        locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, _( "<S>witch" ) );
-        shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
 
         wnoutrefresh( w_header );
 
@@ -431,32 +444,6 @@ void user_interface::show()
 
         wnoutrefresh( w );
     } );
-
-    bStuffChanged = false;
-    input_context ctxt( "AUTO_PICKUP" );
-    ctxt.register_navigate_ui_list();
-    ctxt.register_leftright();
-    ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "QUIT" );
-    if( tabs.size() > 1 ) {
-        ctxt.register_action( "NEXT_TAB" );
-        ctxt.register_action( "PREV_TAB" );
-    }
-    ctxt.register_action( "ADD_RULE" );
-    ctxt.register_action( "REMOVE_RULE" );
-    ctxt.register_action( "COPY_RULE" );
-    ctxt.register_action( "ENABLE_RULE" );
-    ctxt.register_action( "DISABLE_RULE" );
-    ctxt.register_action( "MOVE_RULE_UP" );
-    ctxt.register_action( "MOVE_RULE_DOWN" );
-    ctxt.register_action( "TEST_RULE" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "SWITCH_AUTO_PICKUP_OPTION" );
-
-    const bool allow_swapping = tabs.size() == 2;
-    if( allow_swapping ) {
-        ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
-    }
 
     while( true ) {
         rule_list &cur_rules = tabs[iTab].new_rules;

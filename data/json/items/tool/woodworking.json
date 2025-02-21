@@ -327,7 +327,6 @@
     "qualities": [ [ "CUT", 1 ], [ "AXE", 2 ], [ "BUTCHER", -30 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
     "melee_damage": { "bash": 12, "cut": 24 }
   },
   {
@@ -593,7 +592,6 @@
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "AXE", 1 ], [ "BUTCHER", -70 ], [ "HAMMER", 1 ] ],
     "flags": [ "BELT_CLIP", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
     "melee_damage": { "bash": 8, "cut": 14 }
   },
   {

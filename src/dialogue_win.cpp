@@ -1,8 +1,11 @@
 #include "dialogue_win.h"
 
+#include <array>
 #include <string>
 #include <vector>
 
+#include "catacharset.h"
+#include "debug.h"
 #include "input_context.h"
 #include "output.h"
 #include "point.h"

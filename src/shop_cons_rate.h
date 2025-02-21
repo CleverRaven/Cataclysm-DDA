@@ -2,11 +2,19 @@
 #ifndef CATA_SRC_SHOP_CONS_RATE_H
 #define CATA_SRC_SHOP_CONS_RATE_H
 
+#include <functional>
+#include <string>
+#include <string_view>
+#include <vector>
+
 #include "generic_factory.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 
 class JsonObject;
+class JsonValue;
+class item;
 class npc;
 struct const_dialogue;
 

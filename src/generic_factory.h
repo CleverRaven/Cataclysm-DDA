@@ -4,25 +4,34 @@
 
 #include <algorithm>
 #include <bitset>
+#include <cstddef>
+#include <cstdint>
+#include <list>
+#include <map>
 #include <set>
+#include <string>
+#include <string_view>
+#include <type_traits>
+#include <typeinfo>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
-#include "assign.h"
 #include "cached_options.h"
-#include "catacharset.h"
 #include "cata_scope_helpers.h"
-#include "cata_type_traits.h"
+#include "cata_utility.h"
 #include "debug.h"
-#include "enum_bitset.h"
+#include "demangle.h"
+#include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "init.h"
 #include "int_id.h"
-#include "json.h"
 #include "mod_tracker.h"
-#include "output.h"
+#include "string_formatter.h"
 #include "string_id.h"
 #include "units.h"
-#include "wcwidth.h"
+
+template <typename E> class enum_bitset;
 
 /**
 A generic class to store objects identified by a `string_id`.
@@ -111,9 +120,6 @@ const my_class &string_id<my_class>::obj() const
 
 \endcode
 */
-
-template<typename T>
-class string_id_reader;
 
 template<typename T>
 class generic_factory
@@ -901,6 +907,23 @@ struct handler<std::vector<T>> {
     }
     static constexpr bool is_container = true;
 };
+
+template<typename Key, typename Val>
+struct handler<std::map<Key, Val>> {
+    void clear( std::map<Key, Val> &container ) const {
+        container.clear();
+    }
+    void insert( std::map<Key, Val> &container, const std::pair<Key, Val> &data ) const {
+        container.emplace( data );
+    }
+    void erase( std::map<Key, Val> &container, const std::pair<Key, Val> &data ) const {
+        const auto iter = container.find( data.first );
+        if( iter != container.end() ) {
+            container.erase( iter );
+        }
+    }
+    static constexpr bool is_container = true;
+};
 } // namespace reader_detail
 
 /**
@@ -1248,6 +1271,58 @@ class string_id_reader : public generic_typed_reader<string_id_reader<T>>
 public:
     string_id<T> get_next( std::string &&str ) const {
         return string_id<T>( std::move( str ) );
+    }
+};
+
+/**
+ * Loads std::pair of [K = string_id, V = int/float] values from JSON -- usually into an std::map
+ * Accepted formats for elements in an array:
+ * 1. A named key/value pair object: "addiction_type": [ { "addiction": "caffeine", "potential": 3 } ]
+ * 2. A key/value pair array: "addiction_type": [ [ "caffeine", 3 ] ]
+ * 3. A single value: "addiction_type": [ "caffeine" ]
+ * A single value can also be provided outside of an array, e.g. "addiction_type": "caffeine"
+ * For single values, weights are assigned default_weight
+ */
+template<typename K, typename V>
+class weighted_string_id_reader : public generic_typed_reader<weighted_string_id_reader<K, V>>
+{
+public:
+    V default_weight;
+    explicit weighted_string_id_reader( V default_weight ) : default_weight( default_weight ) {};
+
+    std::pair<K, V> get_next( const JsonValue &val ) const {
+        if( val.test_object() ) {
+            JsonObject inline_pair = val.get_object();
+            if( !( inline_pair.size() == 1 || inline_pair.size() == 2 ) ) {
+                inline_pair.throw_error( "weighted_string_id_reader failed to read object" );
+            }
+            K pair_key;
+            V pair_val = default_weight;
+            for( JsonMember mem : inline_pair ) {
+                if( mem.test_string() ) {
+                    pair_key = K( std::move( mem.get_string() ) );
+                } else if( mem.test_float() ) {
+                    pair_val = static_cast<V>( mem.get_float() );
+                } else {
+                    inline_pair.throw_error( "weighted_string_id_reader found unexpected value in object" );
+                }
+            }
+            return std::pair<K, V>( pair_key, pair_val );
+        } else if( val.test_array() ) {
+            JsonArray arr = val.get_array();
+            if( arr.size() != 2 ) {
+                arr.throw_error( "weighted_string_id_reader read array without exactly two entries" );
+            }
+            return std::pair<K, V>(
+                       K( std::move( arr[0].get_string() ) ),
+                       static_cast<V>( arr[1].get_float() ) );
+        } else {
+            if( val.test_string() ) {
+                return std::pair<K, V>(
+                           K( std::move( val.get_string() ) ), default_weight );
+            }
+            val.throw_error( "weighted_string_id_reader provided with invalid string_id" );
+        }
     }
 };
 

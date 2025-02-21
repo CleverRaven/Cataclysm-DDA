@@ -15,7 +15,7 @@
     "warmth": 40,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "OVERSIZE", "HOOD", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "OVERSIZE", "HOOD", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 20, "coverage": 70, "covers": [ "mouth" ] } ]
   },
   {

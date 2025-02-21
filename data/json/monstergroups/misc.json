@@ -476,25 +476,6 @@
   },
   {
     "type": "monstergroup",
-    "id": "GROUP_NUCLEAR_PLANT_BEASTS",
-    "is_animal": true,
-    "monsters": [
-      { "monster": "mon_bat", "weight": 600, "cost_multiplier": 5, "pack_size": [ 6, 32 ] },
-      { "monster": "mon_mole_cricket", "weight": 60, "cost_multiplier": 3 },
-      { "monster": "mon_woodlouse", "weight": 60, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_stag_beetle_larva", "weight": 40, "cost_multiplier": 5 },
-      { "group": "GROUP_CENTIPEDE", "weight": 200 },
-      { "monster": "mon_sewer_snake", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_sewer_rat", "weight": 50, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
-      { "group": "GROUP_SLUG", "weight": 50 },
-      { "monster": "mon_sludge_crawler", "weight": 25 },
-      { "monster": "mon_zombie_mancroc", "weight": 100, "starts": "180 hours" },
-      { "monster": "mon_gastro_bufo", "weight": 5, "cost_multiplier": 3, "starts": "15 days" },
-      { "group": "GROUP_MUTAFROGS_SEWER", "weight": 100 }
-    ]
-  },
-  {
-    "type": "monstergroup",
     "id": "GROUP_BEEKEEPER",
     "monsters": [ { "monster": "mon_beekeeper", "cost_multiplier": 0 } ]
   },

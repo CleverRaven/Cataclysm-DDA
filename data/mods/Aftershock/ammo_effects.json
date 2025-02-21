@@ -57,5 +57,11 @@
     "type": "ammo_effect",
     "always_cast_spell": true,
     "spell_data": { "id": "spell_fusion_fan" }
+  },
+  {
+    "id": "VAHAGN",
+    "type": "ammo_effect",
+    "always_cast_spell": true,
+    "spell_data": { "id": "spell_vahagn" }
   }
 ]

@@ -10,18 +10,18 @@
 #include <string>
 #include <tuple>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "clzones.h"
-#include "colony.h"
 #include "construction.h"
+#include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -45,6 +45,7 @@
 #include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
@@ -183,9 +184,6 @@ struct act_item {
 };
 
 // TODO: Deliberately unified with multidrop. Unify further.
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<std::pair<item_location, int>>;
-
 static bool same_type( const std::list<item> &items )
 {
     return std::all_of( items.begin(), items.end(), [&items]( const item & it ) {
@@ -219,14 +217,14 @@ static bool handle_spillable_contents( Character &c, item &it, map &m )
 static void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<item> &items,
                               const vpart_reference &vpr )
 {
+    map &here = get_map();
     if( items.empty() ) {
         return;
     }
     c.invalidate_weight_carried_cache();
     vehicle_part &vp = vpr.part();
     vehicle &veh = vpr.vehicle();
-    const tripoint_bub_ms where = veh.bub_part_pos( vp );
-    map &here = get_map();
+    const tripoint_bub_ms where = veh.bub_part_pos( here, vp );
     int items_did_not_fit_count = 0;
     int into_vehicle_count = 0;
     const std::string part_name = vp.info().name();
@@ -242,12 +240,12 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
             it.charges = 0;
         }
 
-        if( veh.add_item( vp, it ) ) {
+        if( veh.add_item( here, vp, it ) ) {
             into_vehicle_count += it.count();
         } else {
             if( it.count_by_charges() ) {
                 // Maybe we can add a few charges in the trunk and the rest on the ground.
-                const int charges_added = veh.add_charges( vp, it );
+                const int charges_added = veh.add_charges( here, vp, it );
                 it.mod_charges( -charges_added );
                 into_vehicle_count += charges_added;
             }
@@ -341,14 +339,13 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
 
 std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
                                         const std::list<item> &items,
-                                        const tripoint_bub_ms &where )
+                                        map *here, const tripoint_bub_ms &where )
 {
     if( items.empty() ) {
         return {};
     }
-    map &here = get_map();
-    const std::string ter_name = here.name( where );
-    const bool can_move_there = here.passable( where );
+    const std::string ter_name = here->name( where );
+    const bool can_move_there = here->passable( where );
 
     if( same_type( items ) ) {
         const item &it = items.front();
@@ -433,8 +430,8 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
     }
     std::vector<item_location> items_dropped;
     for( const item &it : items ) {
-        item &dropped_item = here.add_item_or_charges( where, it );
-        items_dropped.emplace_back( map_cursor( where ), &dropped_item );
+        item &dropped_item = here->add_item_or_charges( where, it );
+        items_dropped.emplace_back( map_cursor( here, where ), &dropped_item );
         item( it ).handle_pickup_ownership( you );
     }
 
@@ -447,20 +444,21 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
 void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
                                const std::list<item> &items )
 {
-    return put_into_vehicle_or_drop( you, reason, items, you.pos_bub() );
+    map &here = get_map();
+
+    put_into_vehicle_or_drop( you, reason, items, &here, you.pos_bub( here ) );
 }
 
 void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
                                const std::list<item> &items,
-                               const tripoint_bub_ms &where, bool force_ground )
+                               map *here, const tripoint_bub_ms &where, bool force_ground )
 {
-    map &here = get_map();
-    const std::optional<vpart_reference> vp = here.veh_at( where ).cargo();
+    const std::optional<vpart_reference> vp = here->veh_at( where ).cargo();
     if( vp && !force_ground ) {
         put_into_vehicle( you, reason, items, *vp );
         return;
     }
-    drop_on_map( you, reason, items, where );
+    drop_on_map( you, reason, items, here, where );
 }
 
 static double get_capacity_fraction( int capacity, int volume )
@@ -589,8 +587,8 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     // so , NPCs can remove the last part on a position, then there is no vehicle there anymore,
     // for someone else who stored that position at the start of their activity.
     // so we may need to go looking a bit further afield to find it , at activities end.
-    for( const tripoint_bub_ms &pt : veh->get_points( true ) ) {
-        you.activity.coord_set.insert( here.get_abs( pt ) );
+    for( const tripoint_abs_ms &pt : veh->get_points( true ) ) {
+        you.activity.coord_set.insert( pt );
     }
     // values[0]
     you.activity.values.push_back( here.get_abs( src_loc ).x() );
@@ -641,7 +639,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
         } else if( activity_to_restore == ACT_FETCH_REQUIRED ) {
             it.set_var( "activity_var", you.name );
         }
-        put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, dest );
+        put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, &here, dest );
         // Remove from map or vehicle.
         if( vpr_src ) {
             vpr_src->vehicle().remove_item( vpr_src->part(), &it );
@@ -653,7 +651,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     // If we didn't pick up a whole stack, put the remainder back where it came from.
     if( leftovers.charges > 0 ) {
         if( vpr_src ) {
-            if( !vpr_src->vehicle().add_item( vpr_src->part(), leftovers ) ) {
+            if( !vpr_src->vehicle().add_item( here, vpr_src->part(), leftovers ) ) {
                 debugmsg( "SortLoot: Source vehicle failed to receive leftover charges." );
             }
         } else {
@@ -988,10 +986,10 @@ static bool are_requirements_nearby(
     if( !found_welder ) {
         for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1,
                 PICKUP_RANGE - 1 ) ) {
-            const std::optional<vpart_reference> &vp = here.veh_at( elem ).part_with_tool( itype_welder );
+            const std::optional<vpart_reference> &vp = here.veh_at( elem ).part_with_tool( here, itype_welder );
 
             if( vp ) {
-                const int veh_battery = vp->vehicle().fuel_left( itype_battery );
+                const int veh_battery = vp->vehicle().fuel_left( here, itype_battery );
 
                 item welder( itype_welder, calendar::turn_zero );
                 welder.charges = veh_battery;
@@ -1024,7 +1022,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         // if the vehicle is moving or player is controlling it.
-        if( std::abs( veh->velocity ) > 100 || veh->player_in_control( player_character ) ) {
+        if( std::abs( veh->velocity ) > 100 || veh->player_in_control( here, player_character ) ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         for( const npc &guy : g->all_npcs() ) {
@@ -1058,7 +1056,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         if( act == ACT_VEHICLE_DECONSTRUCTION ) {
             // find out if there is a vehicle part here we can remove.
             std::vector<vehicle_part *> parts =
-                veh->get_parts_at( src_loc, "", part_status_flag::any );
+                veh->get_parts_at( &here, src_loc, "", part_status_flag::any );
             for( vehicle_part *part_elem : parts ) {
                 const int vpindex = veh->index_of_part( part_elem, true );
                 // if part is not on this vehicle, or if its attached to another part that needs to be removed first.
@@ -1101,7 +1099,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             }
         } else if( act == ACT_VEHICLE_REPAIR ) {
             // find out if there is a vehicle part here we can repair.
-            std::vector<vehicle_part *> parts = veh->get_parts_at( src_loc, "", part_status_flag::any );
+            std::vector<vehicle_part *> parts = veh->get_parts_at( &here, src_loc, "", part_status_flag::any );
             for( vehicle_part *part_elem : parts ) {
                 const vpart_info &vpinfo = part_elem->info();
                 int vpindex = veh->index_of_part( part_elem, true );
@@ -1851,7 +1849,7 @@ static bool tidy_activity( Character &you, const tripoint_bub_ms &src_loc,
         for( item *inv_elem : you.inv_dump() ) {
             if( inv_elem->has_var( "activity_var" ) ) {
                 inv_elem->erase_var( "activity_var" );
-                put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { *inv_elem }, src_loc );
+                put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { *inv_elem }, &here, src_loc );
                 you.i_rem( inv_elem );
             }
         }
@@ -2419,7 +2417,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                                     if( it->first->type->magazine->linkage ) {
                                         item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
                                         if( vpr_src ) {
-                                            vpr_src->vehicle().add_item( vpr_src->part(), link );
+                                            vpr_src->vehicle().add_item( here, vpr_src->part(), link );
                                         } else {
                                             here.add_item_or_charges( src_loc, link );
                                         }
@@ -2461,7 +2459,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                             moved_something = true;
                         }
                     }
-                    if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
+                    if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining( ) == 0 ) {
                         if( vpr_src ) {
                             vpr_src->vehicle().remove_item( vpr_src->part(), it->first );
                         } else {
@@ -3111,8 +3109,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
                     for( const tripoint_bub_ms &point_elem :
                          here.points_in_radius( src_loc, /*radius=*/PICKUP_RANGE - 1, /*radiusz=*/0 ) ) {
                         // we don't want to place the components where they could interfere with our ( or someone else's ) construction spots
-                        if( !you.sees( point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
-                                                         point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
+                        if( !you.sees( here, point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
+                                                               point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
                             continue;
                         }
                         candidates.push_back( point_elem );
@@ -3790,8 +3788,8 @@ int get_auto_consume_moves( Character &you, const bool food )
 
     if( best_comestible ) {
         //The moves it takes you to walk there and back.
-        int consume_moves = 2 * you.run_cost( 100, false ) * std::max( rl_dist( you.pos_bub(),
-                            best_comestible.pos_bub() ), 1 );
+        int consume_moves = 2 * you.run_cost( 100, false ) * std::max( rl_dist( you.pos_abs(),
+                            best_comestible.pos_abs() ), 1 );
         consume_moves += to_moves<int>( you.get_consume_time( *best_comestible ) );
 
         you.consume( best_comestible );
@@ -3809,8 +3807,7 @@ int get_auto_consume_moves( Character &you, const bool food )
 bool try_fuel_fire( player_activity &act, Character &you, const bool starting_fire )
 {
     const tripoint_bub_ms pos = you.pos_bub();
-    std::vector<tripoint_bub_ms> adjacent = closest_points_first( pos, PICKUP_RANGE );
-    adjacent.erase( adjacent.begin() );
+    std::vector<tripoint_bub_ms> adjacent = closest_points_first( pos, 1, PICKUP_RANGE );
 
     map &here = get_map();
     std::optional<tripoint_bub_ms> best_fire =

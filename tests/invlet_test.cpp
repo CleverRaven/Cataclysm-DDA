@@ -1,16 +1,19 @@
 #include <cstddef>
-#include <functional>
-#include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -752,12 +755,13 @@ static void merge_invlet_test( avatar &dummy, inventory_location from )
 
 TEST_CASE( "Inventory_letter_test", "[.invlet]" )
 {
+    map &here = get_map();
     avatar &dummy = get_avatar();
     const tripoint_bub_ms spot( 60, 60, 0 );
     clear_map();
-    dummy.setpos( spot );
-    get_map().ter_set( spot, ter_id( "t_dirt" ) );
-    get_map().furn_set( spot, furn_id( "f_null" ) );
+    dummy.setpos( here, spot );
+    here.ter_set( spot, ter_id( "t_dirt" ) );
+    here.furn_set( spot, furn_id( "f_null" ) );
 
     invlet_test_autoletter_off( "Picking up items from the ground", dummy, GROUND, INVENTORY );
     invlet_test_autoletter_off( "Wearing items from the ground", dummy, GROUND, WORN );
