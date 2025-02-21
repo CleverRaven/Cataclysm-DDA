@@ -3186,7 +3186,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
             if( !bps.empty() ) {
                 for( const bodypart_id &bp : bps ) {
                     you->add_effect( effect_bleed,  1_minutes * difficulty, bp, true, 1 );
-                    you->apply_damage( nullptr, bp, 20 * difficulty );
+                    you->apply_damage( nullptr, bp, damage_instance( damage_type::CUT, 20 * difficulty ) );
 
                     if( u_see ) {
                         you->add_msg_player_or_npc( m_bad, _( "Your %s is ripped open." ),
@@ -3199,7 +3199,8 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
                 }
             } else {
                 you->add_effect( effect_bleed,  1_minutes * difficulty, bodypart_str_id::NULL_ID(), true, 1 );
-                you->apply_damage( nullptr, bodypart_id( "torso" ), 20 * difficulty );
+                you->apply_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::CUT,
+                                   20 * difficulty ) );
             }
         }
     }
