@@ -87,6 +87,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "alchemical_recipes_tier_one",
-    "items": [ { "item": "alchemy_recipe_extra_str_aspirin", "prob": 1 } ]
+    "items": [
+      { "item": "alchemy_recipe_extra_str_aspirin", "prob": 1 },
+      { "item": "alchemy_recipe_small_blessing_brigit", "prob": 1 }
+    ]
   }
 ]

@@ -13,5 +13,20 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green"
+  },
+  {
+    "type": "BOOK",
+    "id": "alchemy_recipe_small_blessing_brigit",
+    "copy-from": "schematics_generic",
+    "looks_like": "spell_scroll_crystallize_mana",
+    "name": { "str_sp": "scribbled notes (small blessing of Brigit)" },
+    "description": "An handwritten set of notes detailing an alchemical recipe for a pill to cure minor illnesses.  You're not looking forward to getting that royal jelly now that you've seen what the bees are like lately.",
+    "skill": "chemistry",
+    "required_level": 2,
+    "max_level": 2,
+    "intelligence": 10,
+    "time": "45 m",
+    "symbol": "ç",
+    "color": "light_green"
   }
 ]

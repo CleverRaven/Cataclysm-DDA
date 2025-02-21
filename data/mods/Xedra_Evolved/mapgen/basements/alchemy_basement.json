@@ -47,13 +47,13 @@
       "rows": [
         "bb..CC",
         "b.....",
-        "..BB..",
-        ".hBBT.",
+        "..ff..",
+        ".hffT.",
         "...a..",
         "......"
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { ".": "t_floor", "B": "t_floor", "C": "t_floor", "a": "t_floor", "T": "t_floor", "b": "t_floor" },
+      "terrain": { ".": "t_floor", "B": "t_floor", "h": "t_floor", "C": "t_floor", "a": "t_floor", "T": "t_floor", "b": "t_floor" },
       "furniture": {
         "a": "f_alembic",
         "h": "f_stool",
@@ -67,7 +67,7 @@
       },
       "place_item": [ { "item": "chemistry_set", "x": 2, "y": 2, "chance": 50 } ],
       "items": {
-        "B": [ { "item": "alchemical_materials", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "f": [ { "item": "alchemical_materials", "chance": 50, "repeat": [ 1, 2 ] } ],
         "C": [ { "item": "alchemical_materials", "chance": 60, "repeat": [ 3, 6 ] } ],
         "b": [ { "item": "alchemical_recipes", "chance": 75 }, { "item": "hedge_magic_books", "chance": 2 } ]
       }
