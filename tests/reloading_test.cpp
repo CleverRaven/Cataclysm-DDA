@@ -923,19 +923,22 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     REQUIRE( gun.remaining_ammo_capacity() == 0 );
 }
 
-static void reload_a_revolver( Character &dummy, item &gun, item &ammo )
+static void reload_a_revolver( Character &dummy, item_location gun, item &ammo )
 {
-    if( !dummy.is_wielding( gun ) ) {
+    if( !dummy.is_wielding( *gun ) ) {
         if( dummy.has_weapon() ) {
             // to avoid dispose_option in player::unwield()
-            // dummy.i_add( *dummy.get_wielded_item() );
+            dummy.i_add( *dummy.get_wielded_item() );
             dummy.remove_weapon();
         }
-        dummy.wield_new( gun );
+        bool success = dummy.wield( gun, false );
+        CHECK( success );
+        CHECK( dummy.is_wielding( *gun ) );
+        CHECK( !dummy.activity );
     }
     while( dummy.get_wielded_item()->remaining_ammo_capacity() > 0 ) {
         g->reload_weapon( false );
-        REQUIRE( dummy.activity );
+        CHECK( dummy.activity );
         process_activity( dummy );
         CAPTURE( dummy.get_wielded_item()->typeId() );
         CAPTURE( ammo.typeId() );
@@ -965,13 +968,14 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
     GIVEN( "a player armed with a revolver and ammo for it" ) {
         item_location ammo = dummy.i_add( item( itype_40sw, calendar::turn_zero, 100 ) );
         REQUIRE( ammo->is_ammo() );
+        REQUIRE( ammo->charges == 100 );
 
         dummy.set_wielded_item( item( itype_sw_610, calendar::turn_zero, 0 ) );
         REQUIRE( dummy.get_wielded_item()->ammo_remaining( ) == 0 );
         REQUIRE( dummy.get_wielded_item().can_reload_with( ammo, false ) );
 
         WHEN( "the player triggers auto reload until the revolver is full" ) {
-            reload_a_revolver( dummy, *dummy.get_wielded_item(), *ammo );
+            reload_a_revolver( dummy, dummy.get_wielded_item(), *ammo );
             WHEN( "the player triggers auto reload again" ) {
                 g->reload_weapon( false );
                 THEN( "no activity is generated" ) {
@@ -982,22 +986,28 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         GIVEN( "the player has another gun with ammo" ) {
             item_location gun2 = dummy.i_add( item( itype_sw_610, calendar::turn_zero, 0 ) );
             REQUIRE( gun2->ammo_remaining( ) == 0 );
+            REQUIRE( ammo->charges >= gun2->ammo_capacity( ammo->ammo_type() ) );
             REQUIRE( gun2.can_reload_with( ammo, false ) );
             WHEN( "the player triggers auto reload until the first revolver is full" ) {
-                reload_a_revolver( dummy, *dummy.get_wielded_item(), *ammo );
+                reload_a_revolver( dummy, dummy.get_wielded_item(), *ammo );
+                gun2 = dummy.get_wielded_item();
                 THEN( "no activity is generated" ) {
                     CHECK( !dummy.activity );
                 }
                 WHEN( "the player triggers auto reload until the second revolver is full" ) {
-                    reload_a_revolver( dummy, *gun2, *ammo );
+
+                    reload_a_revolver( dummy, gun2, *ammo );
+                    REQUIRE( gun2->ammo_remaining( ) == gun2->ammo_capacity( ammo->ammo_type() ) );
+
                     THEN( "no activity is generated" ) {
-                        CAPTURE( dummy.activity.activity_id );
+                        CAPTURE( dummy.activity.id() );
                         CHECK( !dummy.activity );
                     }
                     WHEN( "the player triggers auto reload again" ) {
+                        CAPTURE( gun2->ammo_remaining( ) );
                         g->reload_weapon( false );
                         THEN( "no activity is generated" ) {
-                            CAPTURE( dummy.activity.activity_id );
+                            CAPTURE( dummy.activity.id() );
                             CHECK( !dummy.activity );
                         }
                     }

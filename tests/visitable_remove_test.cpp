@@ -158,9 +158,8 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         }
 
         WHEN( "one of the bottles is wielded" ) {
-            // bottles plus backpack
-            CAPTURE( p.all_items_loc().size() )
-            p.wield( p.all_items_loc().last() );
+            CAPTURE( p.all_items_loc().size() );
+            p.wield( p.all_items_loc().back() );
             REQUIRE( p.get_wielded_item()->typeId() == container_id );
             REQUIRE( count_items( p, container_id ) == count );
             REQUIRE( count_items( p, liquid_id ) == count );
