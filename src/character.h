@@ -2964,6 +2964,10 @@ class Character : public Creature, public visitable
         // Uses up charges
         bool use_charges_if_avail( const itype_id &it, int quantity );
 
+        std::pair<float, item> get_best_weapon_by_damage_type( damage_type_id dmg_type ) const;
+
+        std::pair<int, const item *> get_best_tool( quality_id quality ) const;
+
         /**
         * Available ups from all sources
         * Sum of mech, bionic UPS and UPS

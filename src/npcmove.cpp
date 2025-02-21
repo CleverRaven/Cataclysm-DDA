@@ -3956,13 +3956,10 @@ bool npc::find_corpse_to_pulp()
         const item *found = nullptr;
         for( const item &it : items )
         {
-            // Pulp only stuff that revives, but don't pulp acid stuff
-            // That is, if you aren't protected from this stuff!
             if( it.can_revive() ) {
-                // If the first encountered corpse bleeds something dangerous then
-                // it is not safe to bash.
-                if( is_dangerous_field( field_entry( it.get_mtype()->bloodType(), 1, 0_turns ) ) ) {
-                    return nullptr;
+                const mtype &corpse = *it.get_corpse_mon();
+                if( g->can_pulp_corpse( *this, corpse ) ) {
+                    continue;
                 }
 
                 found = &it;

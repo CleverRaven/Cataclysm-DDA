@@ -340,11 +340,13 @@ static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
+static const quality_id qual_PRY( "PRY" );
 
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_survival( "survival" );
+static const skill_id skill_swimming( "swimming" );
 
 static const species_id species_PLANT( "PLANT" );
 
@@ -14287,6 +14289,154 @@ void game::climb_down_using( const tripoint_bub_ms &examp, climbing_aid_id aid_i
             you.add_msg_if_player( _( "You climb down and dive underwater." ) );
         }
     }
+}
+
+pulp_data game::calculate_character_ability_to_pulp( const Character &you )
+{
+    pulp_data pd;
+
+    double pulp_power_bash = 1;
+
+    const std::pair<float, item> pair_bash = you.get_best_weapon_by_damage_type( damage_bash );
+    pulp_power_bash = pair_bash.first;
+    pd.bash_tool = pair_bash.second.display_name();
+
+    if( pair_bash.second.has_flag( flag_MESSY ) || pair_bash.first > 40 ) {
+        pd.mess_radius = 2;
+    }
+
+    const double weight_factor = units::to_kilogram( you.get_weight() ) / 10;
+    const double athletic_factor = std::min( 9.0f, you.get_skill_level( skill_swimming ) + 3 );
+    const int strength_factor = you.get_str() / 2;
+    // stomp deliver about 5000-13000 N of force, beginner boxer deal 2500 N of force in it's punch
+    // ballpark of 13 damage for untrained human vs 30+ for highly trained person of average weight
+    const double pulp_power_stomps = athletic_factor + weight_factor + strength_factor;
+
+    // if no tool is bashy enough, use only stomps
+    // if stomps are too weak, use only bash
+    // if roughly same, use both
+    float bash_factor = 0.0;
+    if( pulp_power_bash < pulp_power_stomps * 0.5 ) {
+        bash_factor = pulp_power_stomps;
+        pd.stomps_only = true;
+    } else if( pulp_power_stomps < pulp_power_bash * 0.5 ) {
+        bash_factor = pulp_power_bash;
+        pd.weapon_only = true;
+    } else {
+        bash_factor = std::max( pulp_power_stomps, pulp_power_bash );
+    }
+
+    add_msg_debug( debugmode::DF_ACTIVITY,
+                   "you: %s, bash weapon: %s, bash damage: %s, pulp_power_bash: %s, pulp_power_stomps: %s",
+                   you.name.c_str(), pair_bash.second.display_name().c_str(), pair_bash.first, pulp_power_bash,
+                   pulp_power_stomps, bash_factor );
+
+    bash_factor = std::pow( bash_factor, 1.8f );
+    std::pair<int, const item *> pair_cut = you.get_best_tool( qual_BUTCHER );
+    pd.cut_quality = pair_cut.first;
+    if( pd.cut_quality > 5 ) {
+        pd.can_severe_cutting = true;
+        pd.cut_tool = item::nname( pair_cut.second->typeId() );
+    }
+
+    std::pair<int, const item *> pair_pry;
+    if( you.max_quality( qual_PRY ) > 0 ) {
+        pd.can_pry_armor = true;
+        pair_pry = you.get_best_tool( qual_PRY );
+        pd.pry_tool = item::nname( pair_pry.second->typeId() );
+    }
+
+    add_msg_debug( debugmode::DF_ACTIVITY,
+                   "final bash factor: %s, butcher tool name: %s, butcher tool quality: %s, prying tool name (if used): %s",
+                   bash_factor, pd.cut_tool, pd.cut_quality, pd.pry_tool );
+
+    pd.pulp_power = bash_factor
+                    * std::sqrt( you.get_skill_level( skill_survival ) + 2 )
+                    * ( pd.can_severe_cutting ? 1 : 0.85 );
+
+    add_msg_debug( debugmode::DF_ACTIVITY, "final pulp_power: %s", pd.pulp_power );
+
+    // since we are trying to depict pulping as more involved than you Isaac Clarke the corpse 100% of time,
+    // we would assume there is some time between attacks, where you try to reach some sweet spot,
+    // cut the part with a knife, or plain rest because you are not athletic enough
+    // REGEN_RATE + 1 purely to prevent you regening all of your stamina in the process + apply muscle strain when it be implemented
+    pd.pulp_effort = get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) + 1;
+
+    return pd;
+}
+
+pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse_mtype )
+{
+    pulp_data pd = calculate_character_ability_to_pulp( you );
+
+    return calculate_pulpability( you, corpse_mtype, pd );
+}
+
+pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse_mtype,
+                                       pulp_data pd )
+{
+    double pow_factor;
+    if( corpse_mtype.size == creature_size::huge ) {
+        pow_factor = 1.2;
+    } else if( corpse_mtype.size == creature_size::large ) {
+        pow_factor = 1.1;
+    } else {
+        pow_factor = 1;
+    }
+
+    // in seconds
+    int time_to_pulp =
+        ( std::pow( units::to_liter( corpse_mtype.volume ), pow_factor ) * 1000 ) / pd.pulp_power;
+
+    // +25% to pulp time if char knows no weakpoints of monster
+    // -25% if knows all of them
+    if( !corpse_mtype.families.families.empty() ) {
+        float wp_known = 0;
+        for( const weakpoint_family &wf : corpse_mtype.families.families ) {
+            if( you.has_proficiency( wf.proficiency ) ) {
+                ++wp_known;
+            } else if( !pd.unknown_prof.has_value() ) {
+                pd.unknown_prof = wf.proficiency;
+            }
+        }
+        time_to_pulp *= 1.25 - 0.5 * wp_known / corpse_mtype.families.families.size();
+    }
+
+    const bool acid_immune = you.is_immune_damage( damage_acid ) ||
+                             you.is_immune_field( fd_acid );
+    // this corpse is acid, and you are not immune to it
+    pd.acid_corpse = corpse_mtype.bloodType().obj().has_acid && !acid_immune;
+
+    // if acid, you prefer to mainly cut corpse instead of bashing it, to not spray acid in your eyes
+    if( pd.acid_corpse ) {
+        time_to_pulp *= ( 300 - pd.cut_quality * 2 ) / 100;
+    }
+
+    // you have a hard time pulling armor to reach important parts of this monster
+    if( corpse_mtype.has_flag( mon_flag_PULP_PRYING ) ) {
+        if( pd.can_pry_armor ) {
+            time_to_pulp *= 1.25;
+        } else {
+            time_to_pulp *= 1.7;
+        }
+    }
+
+    pd.time_to_pulp = time_to_pulp;
+
+    return pd;
+}
+
+bool game::can_pulp_corpse( const Character &you, const mtype &corpse_mtype )
+{
+    pulp_data pd = calculate_pulpability( you, corpse_mtype );
+
+    return can_pulp_corpse( pd );
+}
+
+bool game::can_pulp_corpse( const pulp_data &pd )
+{
+    // if pulping is longer than an hour, this is a hard no
+    return pd.time_to_pulp < 3600;
 }
 
 namespace cata_event_dispatch

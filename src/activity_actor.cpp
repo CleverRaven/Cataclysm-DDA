@@ -177,11 +177,6 @@ static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
 
 static const ammotype ammo_plutonium( "plutonium" );
 
-static const damage_type_id damage_acid( "acid" );
-static const damage_type_id damage_bash( "bash" );
-static const damage_type_id damage_cut( "cut" );
-static const damage_type_id damage_stab( "stab" );
-
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_gliding( "gliding" );
@@ -261,6 +256,7 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
+static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_traps( "traps" );
 
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -8478,127 +8474,211 @@ std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
-void pulp_activity_actor::start( player_activity &act, Character & )
+void pulp_activity_actor::start( player_activity &act, Character &you )
 {
+    // indefinitely long so activity won't end until we pulp all the corpses
+    // we then end the activity manually
     act.moves_total = calendar::INDEFINITELY_LONG;
     act.moves_left = calendar::INDEFINITELY_LONG;
+    you.recoil = MAX_RECOIL;
+    current_pos_iter = placement.begin();
+
+    pd = g->calculate_character_ability_to_pulp( you );
 }
 
 void pulp_activity_actor::do_turn( player_activity &act, Character &you )
 {
     map &here = get_map();
 
-    const item_location weapon = you.get_wielded_item();
-    int weap_cut = 0;
-    int weap_stab = 0;
-    int weap_bash = 0;
-    int mess_radius = 1;
+    bool processed_all = true;
+    tripoint_bub_ms pos = here.get_bub( *current_pos_iter );
+    map_stack corpse_pile = here.i_at( pos );
+    for( item &corpse : corpse_pile ) {
+        if( !corpse.is_corpse() || !corpse.can_revive() ) {
+            // Don't smash non-rezing corpses or random items
+            continue;
+        }
 
-    if( weapon ) {
-        // FIXME: Hardcoded damage types
-        weap_cut = weapon->damage_melee( damage_cut );
-        weap_stab = weapon->damage_melee( damage_stab );
-        weap_bash = weapon->damage_melee( damage_bash );
-        if( weapon->has_flag( flag_MESSY ) ) {
-            mess_radius = 2;
+        if( corpse.damage() < corpse.max_damage() ) {
+            bool can_pulp = punch_corpse_once( corpse, you, pos, here );
+            if( !can_pulp ) {
+                ++unpulped_corpses_qty;
+                continue;
+            }
+            processed_all = false;
+            break;
         }
     }
 
-    // Stabbing weapons are a lot less effective at pulping
-    const int cut_power = std::max( weap_cut, weap_stab / 2 );
+    if( current_pos_iter == placement.end() ) {
+        // no more locations to pulp
+        act.moves_total = 0;
+        act.moves_left = 0;
+    }
+    if( processed_all ) {
+        // smashed all possible corpses, moving to next tile
+        current_pos_iter++;
+    }
+}
 
-    ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( you.get_arm_str() + weap_bash ) * ( cut_power + 1.0f ) );
-    float pulp_effort = you.str_cur + weap_bash;
+bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
+        tripoint_bub_ms pos, map &here )
+{
+    const mtype *corpse_mtype = corpse.get_mtype();
 
-    // Multiplier to get the chance right + some bonus for survival skill
-    pulp_power *= 40 + you.get_skill_level( skill_survival ) * 5;
+    pd = g->calculate_pulpability( you, *corpse_mtype, pd );
 
-    int moves = 0;
-    for( auto pos_iter = placement.cbegin(); pos_iter != placement.end();/*left - out*/ ) {
-        const tripoint_bub_ms &pos = here.get_bub( *pos_iter );
-        map_stack corpse_pile = here.i_at( pos );
-        for( item &corpse : corpse_pile ) {
-            if( !corpse.is_corpse() || !corpse.can_revive() ) {
-                // Don't smash non-rezing corpses
-                continue;
-            }
+    if( !g->can_pulp_corpse( pd ) ) {
+        way_too_long_to_pulp = true;
+        return false;
+    }
 
-            const mtype *corpse_mtype = corpse.get_mtype();
-            const bool acid_immune = you.is_immune_damage( damage_acid ) ||
-                                     you.is_immune_field( fd_acid );
-            if( !pulp_acid && corpse_mtype->bloodType().obj().has_acid  && !acid_immune ) {
-                //don't smash acid zombies when auto pulping unprotected
-                continue;
-            }
-            while( corpse.damage() < corpse.max_damage() ) {
-                // Increase damage as we keep smashing ensuring we eventually smash the target.
-                if( x_in_y( pulp_power, corpse.volume() / 250_ml ) ) {
-                    corpse.inc_damage();
-                    if( corpse.damage() == corpse.max_damage() ) {
-                        num_corpses++;
-                    }
-                }
-
-                if( x_in_y( pulp_power, corpse.volume() / 250_ml ) ) {
-                    // Splatter some blood around
-                    // Splatter a bit more randomly, so that it looks cooler
-                    const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
-                    const tripoint_bub_ms dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
-                    const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
-                                                     corpse.get_mtype()->gibType() :
-                                                     corpse.get_mtype()->bloodType();
-                    here.add_splatter_trail( type_blood, pos, dest );
-                }
-
-                // mixture of isaac clarke stomps and swinging your weapon
-                you.burn_energy_all( -pulp_effort );
-                you.recoil = MAX_RECOIL;
-
-                if( one_in( 4 ) ) {
-                    // Smashing may not be butchery, but it involves some zombie anatomy
-                    you.practice( skill_survival, 2, 2 );
-                }
-
-                float stamina_ratio = static_cast<float>( you.get_stamina() ) / you.get_stamina_max();
-                moves += to_moves<int>( 6_seconds ) / std::max( 0.25f,
-                         stamina_ratio ) * you.exertion_adjusted_move_multiplier( act.exertion_level() );
-                if( stamina_ratio < 0.33 || you.is_npc() ) {
-                    you.set_moves( std::min( 0, you.get_moves() - moves ) );
-                    return;
-                }
-                if( moves >= you.get_moves() ) {
-                    // Enough for this turn;
-                    you.set_moves( you.get_moves() - moves );
-                    return;
-                }
-            }
-            corpse.set_flag( flag_PULPED );
+    // 10 minutes
+    if( pd.time_to_pulp > 600 && !too_long_to_pulp ) {
+        if( you.query_yn( "Pulping one or more corpses in this pile would take too much time.  Continue?" ) ) {
+            too_long_to_pulp = true;
+        } else {
+            too_long_to_pulp_interrupted = true;
+            return false;
         }
-        //Upon reach here, we have cleared one maptile
-        pos_iter = placement.erase( pos_iter );
     }
 
-    // If we reach this, all corpses have been pulped, finish the activity
-    act.moves_left = 0;
-    if( num_corpses == 0 ) {
-        you.add_msg_if_player( m_bad, _( "The corpse moved before you could finish smashing it!" ) );
-        return;
+    // how much damage you need to deal each second to match expected pulp time
+    const float corpse_damage = 4000.0 / pd.time_to_pulp + float_corpse_damage_accum;
+    float_corpse_damage_accum = corpse_damage - static_cast<int>( corpse_damage ) ;
+
+    // Increase damage as we keep smashing ensuring we eventually smash the target.
+    corpse.mod_damage( static_cast<int>( corpse_damage ) );
+    if( corpse.damage() == corpse.max_damage() ) {
+        ++num_corpses;
+        corpse.set_flag( flag_PULPED );
     }
-    // TODO: Factor in how long it took to do the smashing.
-    you.add_msg_player_or_npc( n_gettext( "The corpse is thoroughly pulped.",
-                                          "The corpses are thoroughly pulped.", num_corpses ),
-                               n_gettext( "<npcname> finished pulping the corpse.",
-                                          "<npcname> finished pulping the corpses.", num_corpses ) );
+
+    // 19 splatters on average, no matter of the corpse size
+    if( one_in( pd.time_to_pulp / 19 ) ) {
+        // Splatter some blood around
+        // Splatter a bit more randomly, so that it looks cooler
+        const int radius = pd.acid_corpse ? 0
+                           : pd.mess_radius + x_in_y( pd.pulp_power, 500 ) + x_in_y( pd.pulp_power, 1000 );
+        const tripoint_bub_ms dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
+        const field_type_id type_blood = ( pd.mess_radius > 1 && x_in_y( pd.pulp_power, 10000 ) ) ?
+                                         corpse.get_mtype()->gibType() :
+                                         corpse.get_mtype()->bloodType();
+        here.add_splatter_trail( type_blood, pos, dest );
+    }
+
+    if( pd.stomps_only ) {
+        you.burn_energy_legs( -pd.pulp_effort );
+    } else if( pd.weapon_only ) {
+        you.burn_energy_arms( -pd.pulp_effort );
+    } else {
+        you.burn_energy_all( -pd.pulp_effort );
+    }
+
+    if( one_in( 128 ) ) {
+        you.practice( skill_survival, 1, 2, true );
+        you.practice( skill_swimming, 1, 5, true );
+        if( pd.unknown_prof.has_value() ) {
+            you.practice_proficiency( pd.unknown_prof.value(), 5_seconds );
+        }
+    }
+
+    return true;
 }
 
 void pulp_activity_actor::finish( player_activity &act, Character &you )
 {
+    act.moves_left = 0;
+
+    send_final_message( you );
+
     if( you.is_npc() ) {
         you.as_npc()->revert_after_activity();
         you.as_npc()->pulp_location.reset();
     } else {
         act.set_to_null();
+    }
+}
+
+void pulp_activity_actor::send_final_message( Character &you ) const
+{
+
+    if( way_too_long_to_pulp && num_corpses == 0 ) {
+        you.add_msg_player_or_npc( n_gettext(
+                                       _( "You cannot pulp this corpse, for you have no tool heavy enough to deal with it quickly." ),
+                                       _( "You cannot pulp these corpses, for you have no tool heavy enough to deal with it quickly." ),
+                                       unpulped_corpses_qty ),
+                                   n_gettext(
+                                       _( "<npcname> cannot pulp this corpse without a heavier tool." ),
+                                       _( "<npcname> cannot pulp these corpses without a heavier tool." ),
+                                       unpulped_corpses_qty ) );
+        return;
+    }
+
+    if( too_long_to_pulp_interrupted && num_corpses == 0 ) {
+        you.add_msg_if_player( n_gettext(
+                                   _( "You interrupted pulping of this corpse, for you have no tool heavy enough to deal with it quickly." ),
+                                   _( "You interrupted pulping of these corpses, for you have no tool heavy enough to deal with it quickly." ),
+                                   unpulped_corpses_qty ) );
+        return;
+    }
+
+    std::string tools;
+    if( pd.stomps_only ) {
+        tools = string_format( ", with nothing but your %s",
+                               you.get_random_body_part_of_type( body_part_type::type::leg )->accusative_multiple );
+    } else if( pd.weapon_only ) {
+        tools = string_format( " with your %s", pd.bash_tool );
+    } else {
+        tools = string_format( " mixing your %s with powerful stomps", pd.bash_tool );
+    }
+    if( pd.can_severe_cutting ) {
+        tools += string_format( " and a trusty %s", pd.cut_tool );
+    }
+
+    std::string skill;
+    if( you.get_skill_level( skill_survival ) < 2 ) {
+        skill = string_format( "even if your moves still lack the experience" );
+        if( you.get_skill_level( skill_swimming ) < 2 ) {
+            skill += " and your body is not fit";
+        }
+    } else if( you.get_skill_level( skill_swimming ) < 2 ) {
+        skill = "even if your body is not fit";
+    } else {
+        skill = "";
+    }
+
+    std::string pry = ".";
+    if( pd.pry_tool == pd.bash_tool ) {
+        // use default assignment
+    } else if( pd.used_pry ) {
+        pry = string_format( ".  You also were lucky to carry %, it helped a lot with more armoured bodies.",
+                             pd.pry_tool );
+    } else if( pd.couldnt_use_pry ) {
+        pry = string_format( ".  You wish you had anything like a crowbar, you had a really hard time without it." );
+    }
+
+    you.add_msg_player_or_npc(
+        //~ %1$s is message about tools used in pulping, %2$s is a note if your skill is too low (optional, can be empty),
+        //~ 3$s is message about you using/not being able to use prying tool (optional, can be `.`).
+        //~ see pulp_activity_actor::send_final_message() for full context
+        n_gettext( "You finished pulping the corpse%1$s, %2$s%3$s",
+                   "You finished pulping the corpses%1$s, %2$s%3$s", unpulped_corpses_qty ),
+        n_gettext( "<npcname> finished pulping the corpse.",
+                   "<npcname> finished pulping the corpses.", unpulped_corpses_qty ),
+        tools, skill, pry
+    );
+
+    if( way_too_long_to_pulp ) {
+        you.add_msg_player_or_npc(
+            n_gettext( "You left one corpse unpulped, for you have no tool heavy enough to deal with it.",
+                       "You left some corpses unpulped, for you have no tool heavy enough to deal with it.",
+                       unpulped_corpses_qty ),
+            n_gettext( "<npcname> left one corpse unpulped, for %1$s has no tool heavy enough to deal with it.",
+                       "<npcname> left some corpses unpulped, for %1$s has no tool heavy enough to deal with it.",
+                       unpulped_corpses_qty ),
+            you.male ? pgettext( "npc", "he" ) : pgettext( "npc", "she" )
+        );
     }
 }
 
@@ -8608,7 +8688,23 @@ void pulp_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "num_corpses", num_corpses );
     jsout.member( "placement", placement );
-    jsout.member( "pulp_acid", pulp_acid );
+    jsout.member( "pulp_power", pd.pulp_power );
+    jsout.member( "pulp_effort", pd.pulp_effort );
+    jsout.member( "mess_radius", pd.mess_radius );
+    jsout.member( "unpulped_corpses_qty", unpulped_corpses_qty );
+    jsout.member( "can_pry_armor", pd.can_pry_armor );
+    jsout.member( "too_long_to_pulp", too_long_to_pulp );
+    jsout.member( "too_long_to_pulp_interrupted", too_long_to_pulp_interrupted );
+    jsout.member( "way_too_long_to_pulp", way_too_long_to_pulp );
+    jsout.member( "cut_quality", pd.cut_quality );
+    jsout.member( "stomps_only", pd.stomps_only );
+    jsout.member( "weapon_only", pd.weapon_only );
+    jsout.member( "can_severe_cutting", pd.can_severe_cutting );
+    jsout.member( "used_pry", pd.used_pry );
+    jsout.member( "couldnt_use_pry", pd.couldnt_use_pry );
+    jsout.member( "bash_tool", pd.bash_tool );
+    jsout.member( "cut_tool", pd.cut_tool );
+    jsout.member( "pry_tool", pd.pry_tool );
 
     jsout.end_object();
 }
@@ -8621,7 +8717,23 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
 
     data.read( "num_corpses", actor.num_corpses );
     data.read( "placement", actor.placement );
-    data.read( "pulp_acid", actor.pulp_acid );
+    data.read( "pulp_power", actor.pd.pulp_power );
+    data.read( "pulp_effort", actor.pd.pulp_effort );
+    data.read( "mess_radius", actor.pd.mess_radius );
+    data.read( "unpulped_corpses_qty", actor.unpulped_corpses_qty );
+    data.read( "can_pry_armor", actor.pd.can_pry_armor );
+    data.read( "too_long_to_pulp", actor.too_long_to_pulp );
+    data.read( "too_long_to_pulp_interrupted", actor.too_long_to_pulp_interrupted );
+    data.read( "way_too_long_to_pulp", actor.way_too_long_to_pulp );
+    data.read( "cut_quality", actor.pd.cut_quality );
+    data.read( "stomps_only", actor.pd.stomps_only );
+    data.read( "weapon_only", actor.pd.weapon_only );
+    data.read( "can_severe_cutting", actor.pd.can_severe_cutting );
+    data.read( "used_pry", actor.pd.used_pry );
+    data.read( "couldnt_use_pry", actor.pd.couldnt_use_pry );
+    data.read( "bash_tool", actor.pd.bash_tool );
+    data.read( "cut_tool", actor.pd.cut_tool );
+    data.read( "pry_tool", actor.pd.pry_tool );
 
     return actor.clone();
 }
