@@ -488,6 +488,6 @@
     "id": "afs_coffee_containers",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "ceramic_mug",  50 ], [ "thermos", 50 ] ]
+    "items": [ [ "ceramic_mug", 50 ], [ "thermos", 50 ] ]
   }
 ]

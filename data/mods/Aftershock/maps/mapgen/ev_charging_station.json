@@ -32,18 +32,10 @@
         "     ©©    ©©  ©©  ©©©  "
       ],
       "palettes": [ "afs_habitat_structure", "afs_habitat_exterior" ],
-      "terrain": {
-        "1": "t_sidewalk",
-        "2": "t_sidewalk",
-        "3": "t_sidewalk"
-      },
-      "furniture": {
-        "1": "f_screenmirror",
-        "2": "f_capacitor",
-        "3": "f_ev_charger"
-      },
+      "terrain": { "1": "t_sidewalk", "2": "t_sidewalk", "3": "t_sidewalk" },
+      "furniture": { "1": "f_screenmirror", "2": "f_capacitor", "3": "f_ev_charger" },
       "vendingmachines": { "4": { "item_group": "plut_cell_vending", "reinforced": true, "powered": true, "networked": true } },
-      "place_vehicles": [ 
+      "place_vehicles": [
         { "vehicle": "atomic_city_cars", "x": 8, "y": 16, "rotation": 90, "chance": 5, "status": 1 },
         { "vehicle": "atomic_city_cars", "x": 15, "y": 6, "rotation": 270, "chance": 5, "status": 1 }
       ],
