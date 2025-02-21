@@ -134,6 +134,7 @@
     "magazine": 50,
     "container-item": "bag_garbage",
     "on_overflow": "spill",
+    "subtype": "collection",
     "items": [
       { "item": "plastic_shopping_bag", "prob": 35 },
       { "item": "bum_wine", "prob": 5 },
@@ -214,6 +215,7 @@
     "id": "SUS_trash_forest_manmade",
     "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
     "//2": "This group is for forests without manmade trash",
+    "subtype": "collection",
     "items": [
       { "item": "twig", "prob": 100, "count": [ 5, 40 ] },
       { "item": "rock", "prob": 80, "count": [ 1, 3 ] },
@@ -244,6 +246,7 @@
     "id": "SUS_trash_forest_manmade",
     "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
     "//2": "This group is for forests with manmade trash in",
+    "subtype": "collection",
     "items": [
       { "item": "twig", "prob": 100, "count": [ 5, 40 ] },
       { "item": "rock", "prob": 80, "count": [ 1, 3 ] },
@@ -317,10 +320,77 @@
     ]
   },
   {
-    "id": "SUS_trash_workbench",
+    "id": "SUS_trash_metal",
     "type": "item_group",
     "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
-    "//2": "This group is for trash on or around workbenches or equivalent objects",
+    "//2": "This group is for metal trash, for use in other item groups or around metalworking areas",
+    "subtype": "collection",
+    "items": [
+      { "item": "nuts_bolts", "prob": 20, "charges": [ 1, 3 ], "container-item": "box_small" },
+      { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 5 },
+      { "item": "wrapper_foil_roll", "prob": 2 },
+      { "item": "bottle_glass", "prob": 50 },
+      { "item": "bottle_plastic", "prob": 70 },
+      { "item": "can_drink", "prob": 60 },
+      { "item": "flyer", "prob": 30 },
+      { "item": "box_small", "prob": 30 },
+      { "item": "cotton_patchwork", "prob": 20 },
+      { "item": "bag_plastic", "prob": 20 },
+      { "item": "news_regional", "prob": 15 },
+      { "item": "mag_news", "prob": 15 }
+    ]
+  },
+  {
+    "id": "SUS_trash_wood",
+    "type": "item_group",
+    "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
+    "//2": "This group is for wooden trash, for use in other item groups or around woodworking areas",
+    "subtype": "collection",
+    "items": [
+      { "item": "nuts_bolts", "prob": 20, "charges": [ 1, 3 ], "container-item": "box_small" },
+      { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 5 },
+      { "item": "wrapper_foil_roll", "prob": 2 },
+      { "item": "bottle_glass", "prob": 50 },
+      { "item": "bottle_plastic", "prob": 70 },
+      { "item": "can_drink", "prob": 60 },
+      { "item": "flyer", "prob": 30 },
+      { "item": "box_small", "prob": 30 },
+      { "item": "cotton_patchwork", "prob": 20 },
+      { "item": "bag_plastic", "prob": 20 },
+      { "item": "news_regional", "prob": 15 },
+      { "item": "mag_news", "prob": 15 }
+    ]
+  },
+  {
+    "id": "SUS_trash_electrical",
+    "type": "item_group",
+    "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
+    "//2": "This group is for electrical trash, for use in other item groups or power infrastructure / workbenches",
+    "subtype": "collection",
+    "items": [
+      { "item": "nuts_bolts", "prob": 20, "charges": [ 1, 3 ], "container-item": "box_small" },
+      { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 5 },
+      { "item": "wrapper_foil_roll", "prob": 2 },
+      { "item": "bottle_glass", "prob": 50 },
+      { "item": "bottle_plastic", "prob": 70 },
+      { "item": "can_drink", "prob": 60 },
+      { "item": "flyer", "prob": 30 },
+      { "item": "box_small", "prob": 30 },
+      { "item": "cotton_patchwork", "prob": 20 },
+      { "item": "bag_plastic", "prob": 20 },
+      { "item": "news_regional", "prob": 15 },
+      { "item": "mag_news", "prob": 15 }
+    ]
+  },
+  {
+    "id": "SUS_trash_plumbing",
+    "type": "item_group",
+    "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
+    "//2": "This group is for plumbing trash, for use in other item groups or around plumbing areas",
+    "subtype": "collection",
     "items": [
       { "item": "nuts_bolts", "prob": 20, "charges": [ 1, 3 ], "container-item": "box_small" },
       { "item": "wrapper", "prob": 50 },
@@ -373,6 +443,7 @@
   {
     "type": "item_group",
     "id": "temp_here_for_reasons",
+    "subtype": "collection",
     "ammo": 50,
     "magazine": 100,
     "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
@@ -475,7 +546,7 @@
   {
     "id": "SUS_trash_trashcan_public",
     "type": "item_group",
-    "subtype": "distribution",
+    "subtype": "collection",
     "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
     "//2": "This group is for trashcans that are in public, contaiend in a trash bag",
     "entries": [
@@ -495,6 +566,7 @@
   {
     "id": "SUS_trash_trashcan_commercial",
     "type": "item_group",
+    "subtype": "collection",
     "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
     "//2": "This group is for trashcans that are in commercial areas, contaiend in a trash bag",
     "items": [
@@ -514,7 +586,7 @@
   {
     "id": "fast_trash",
     "type": "item_group",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "cup_plastic", "prob": 50 },
       { "item": "wrapper", "prob": 50 },
@@ -531,6 +603,7 @@
   {
     "type": "item_group",
     "id": "SUS_trash_roof",
+    "subtype": "collection",
     "ammo": 20,
     "magazine": 50,
     "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
