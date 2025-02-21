@@ -997,14 +997,17 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                 WHEN( "the player triggers auto reload until the second revolver is full" ) {
 
                     reload_a_revolver( dummy, gun2, *ammo );
+                    gun2 = dummy.get_wielded_item();
                     REQUIRE( gun2->ammo_remaining( ) == gun2->ammo_capacity( ammo->ammo_type() ) );
 
                     THEN( "no activity is generated" ) {
                         CAPTURE( dummy.activity.id() );
                         CHECK( !dummy.activity );
                     }
+                    gun2 = dummy.get_wielded_item();
                     WHEN( "the player triggers auto reload again" ) {
-                        CAPTURE( gun2->ammo_remaining( ) );
+                        REQUIRE(!dummy.activity);
+                        CAPTURE( dummy.get_wielded_item()->ammo_remaining( ) );
                         g->reload_weapon( false );
                         THEN( "no activity is generated" ) {
                             CAPTURE( dummy.activity.id() );
