@@ -426,10 +426,11 @@
       "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
       "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
       "!": "t_region_groundcover_urban",
+      "&": "t_region_groundcover_urban",
       "_": "t_pavement",
       "`": "t_concrete"
     },
-    "furniture": { "!": "f_region_flower" }
+    "furniture": { "!": [ [ "f_region_flower", 4 ], "f_region_weed" ], "&": "f_region_weed" }
   },
   {
     "type": "palette",
