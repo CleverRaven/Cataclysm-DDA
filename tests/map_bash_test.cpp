@@ -202,7 +202,7 @@ static void shoot_at_terrain( std::function<void()> &setup, npc &shooter,
         aim_pos = wall_pos;
     }
 
-    int num_trials = 10;
+    int num_trials = 20;
     int broken_count = 0;
     for( int i = 0; i < num_trials; i++ ) {
         // Place a terrain
@@ -224,9 +224,9 @@ static void shoot_at_terrain( std::function<void()> &setup, npc &shooter,
         broken_count += here.ter( wall_pos ) != id;
     }
     if( expected_to_break ) {
-        CHECK( broken_count > 0.7 * num_trials );
+        CHECK( broken_count > 0.8 * num_trials );
     } else {
-        CHECK( broken_count < 0.3 * num_trials );
+        CHECK( broken_count < 0.2 * num_trials );
     }
 
 }
@@ -239,13 +239,19 @@ TEST_CASE( "shooting_at_terrain", "[rng][map][bash][ranged]" )
     standard_npc shooter( "Shooter", { 10, 10, 0 } );
     shooter.set_body();
     shooter.worn.wear_item( shooter, item( itype_backpack ), false, false );
+    SECTION( "birdshot vs brick wall near" ) {
+        std::function<void()> setup = [&shooter]() {
+            arm_shooter( shooter, itype_mossberg_590, {}, itype_shot_bird );
+        };
+        shoot_at_terrain( setup, shooter, "t_brick_wall",
+                          shooter.pos_bub() + point::east, false );
+    }
     // Broken. See https://github.com/CleverRaven/Cataclysm-DDA/issues/79770
     //SECTION( "birdshot vs adobe wall point blank" ) {
     //    shoot_at_terrain( shooter, itype_mossberg_590, itype_shot_bird,
     //                      "t_adobe_brick_wall", shooter.pos_bub() + point::east, false );
     //}
     SECTION( "birdshot vs adobe wall near" ) {
-        //arm_shooter( shooter, gun, {}, ammo );
         std::function<void()> setup = [&shooter]() {
             arm_shooter( shooter, itype_mossberg_590, {}, itype_shot_bird );
         };
