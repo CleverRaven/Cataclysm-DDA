@@ -3,12 +3,11 @@
 #include <climits>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <cstdlib>
-#include <iosfwd>
 #include <iterator>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <queue>
 #include <set>
@@ -21,13 +20,14 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_martial_arts.h"
-#include "colony.h"
 #include "color.h"
+#include "condition.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
@@ -35,7 +35,9 @@
 #include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "global_vars.h"
 #include "item.h"
+#include "item_group.h"
 #include "kill_tracker.h"
 #include "line.h"
 #include "magic.h"
@@ -44,11 +46,11 @@
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "monstergenerator.h"
-#include "morale.h"
 #include "mtype.h"
 #include "npc.h"
 #include "overmapbuffer.h"
@@ -58,13 +60,17 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "teleport.h"
 #include "timed_event.h"
 #include "translations.h"
+#include "trap.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+class translation;
 
 static const efftype_id effect_teleglow( "teleglow" );
 
@@ -96,15 +102,16 @@ static const trait_id trait_PYROMANIA( "PYROMANIA" );
 namespace spell_detail
 {
 struct line_iterable {
-    const std::vector<point> &delta_line;
-    point cur_origin;
-    point delta;
+    const std::vector<point_rel_ms> &delta_line;
+    point_rel_ms cur_origin;
+    point_rel_ms delta;
     size_t index;
 
-    line_iterable( const point &origin, const point &delta, const std::vector<point> &dline )
+    line_iterable( const point_rel_ms &origin, const point_rel_ms &delta,
+                   const std::vector<point_rel_ms> &dline )
         : delta_line( dline ), cur_origin( origin ), delta( delta ), index( 0 ) {}
 
-    point get() const {
+    point_rel_ms get() const {
         return cur_origin + delta_line[index];
     }
     // Move forward along point set, wrap around and move origin forward if necessary
@@ -117,28 +124,30 @@ struct line_iterable {
         cur_origin = cur_origin - delta * ( index == 0 );
         index = ( index + delta_line.size() - 1 ) % delta_line.size();
     }
-    void reset( const point &origin ) {
+    void reset( const point_rel_ms &origin ) {
         cur_origin = origin;
         index = 0;
     }
 };
 // Orientation of point C relative to line AB
-static int side_of( const point &a, const point &b, const point &c )
+static int side_of( const point_rel_ms &a, const point_rel_ms &b, const point_rel_ms &c )
 {
-    int cross = ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x );
+    int cross = ( b.x() - a.x() ) * ( c.y() - a.y() ) - ( b.y() - a.y() ) * ( c.x() - a.x() );
     return ( cross > 0 ) - ( cross < 0 );
 }
 // Tests if point c is between or on lines (a0, a0 + d) and (a1, a1 + d)
-static bool between_or_on( const point &a0, const point &a1, const point &d, const point &c )
+static bool between_or_on( const point_rel_ms &a0, const point_rel_ms &a1, const point_rel_ms &d,
+                           const point_rel_ms &c )
 {
     return side_of( a0, a0 + d, c ) != 1 && side_of( a1, a1 + d, c ) != -1;
 }
 // Builds line until obstructed or outside of region bound by near and far lines. Stores result in set
 static void build_line( spell_detail::line_iterable line, const tripoint_bub_ms &source,
-                        const point &delta, const point &delta_perp, bool ( *test )( const tripoint_bub_ms & ),
+                        const point_rel_ms &delta, const point_rel_ms &delta_perp,
+                        bool ( *test )( const tripoint_bub_ms & ),
                         std::set<tripoint_bub_ms> &result )
 {
-    while( between_or_on( point::zero, delta, delta_perp, line.get() ) ) {
+    while( between_or_on( point_rel_ms::zero, delta, delta_perp, line.get() ) ) {
         if( !test( source + line.get() ) ) {
             break;
         }
@@ -175,9 +184,11 @@ void spell_effect::short_range_teleport( const spell &sp, Creature &caster,
 
 static void swap_pos( Creature &caster, const tripoint_bub_ms &target )
 {
+    map &here = get_map();
+
     Creature *const critter = get_creature_tracker().creature_at<Creature>( target );
-    critter->setpos( caster.pos_bub() );
-    caster.setpos( target );
+    critter->setpos( caster.pos_abs() );
+    caster.setpos( here, target );
 
     //update map in case a monster swapped positions with the player
     Character &you = get_player_character();
@@ -298,43 +309,44 @@ static bool test_passable( const tripoint_bub_ms &p )
 std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parameters &params,
         const tripoint_bub_ms &source, const tripoint_bub_ms &target )
 {
-    const point delta = ( target - source ).xy().raw();
-    const int dist = square_dist( point::zero, delta );
+    const point_rel_ms delta = ( target - source ).xy();
+    const int dist = square_dist( point_rel_ms::zero, delta );
     // Early out to prevent unnecessary calculations
     if( dist == 0 ) {
         return std::set<tripoint_bub_ms>();
     }
     // Clockwise Perpendicular of Delta vector
-    const point delta_perp( -delta.y, delta.x );
+    const point_rel_ms delta_perp( -delta.y(), delta.x() );
 
-    const point abs_delta = delta.abs();
+    const point_rel_ms abs_delta = delta.abs();
     // Primary axis of delta vector
-    const point axis_delta = abs_delta.x > abs_delta.y ? point( delta.x, 0 ) : point( 0, delta.y );
+    const point_rel_ms axis_delta = abs_delta.x() > abs_delta.y() ? point_rel_ms( delta.x(),
+                                    0 ) : point_rel_ms( 0, delta.y() );
     // Clockwise Perpendicular of axis vector
-    const point cw_perp_axis( -axis_delta.y, axis_delta.x );
-    const point unit_cw_perp_axis( sgn( cw_perp_axis.x ), sgn( cw_perp_axis.y ) );
+    const point_rel_ms cw_perp_axis( -axis_delta.y(), axis_delta.x() );
+    const point_rel_ms unit_cw_perp_axis( sgn( cw_perp_axis.x() ), sgn( cw_perp_axis.y() ) );
     // bias leg length toward cw side if uneven
     int ccw_len = params.aoe_radius / 2;
     int cw_len = params.aoe_radius - ccw_len;
 
     if( !trigdist ) {
-        ccw_len = ( ccw_len * ( abs_delta.x + abs_delta.y ) ) / dist;
-        cw_len = ( cw_len * ( abs_delta.x + abs_delta.y ) ) / dist;
+        ccw_len = ( ccw_len * ( abs_delta.x() + abs_delta.y() ) ) / dist;
+        cw_len = ( cw_len * ( abs_delta.x() + abs_delta.y() ) ) / dist;
     }
 
     // is delta aligned with, cw, or ccw of primary axis
-    int delta_side = spell_detail::side_of( point::zero, axis_delta, delta );
+    int delta_side = spell_detail::side_of( point_rel_ms::zero, axis_delta, delta );
 
     bool ( *test )( const tripoint_bub_ms & ) = params.ignore_walls ? test_always_true : test_passable;
 
     // Canonical path from source to target, offset to local space
-    std::vector<point> path_to_target = line_to( point::zero, delta );
+    std::vector<point_rel_ms> path_to_target = line_to( point_rel_ms::zero, delta );
     // Remove endpoint,
     path_to_target.pop_back();
     // and insert startpoint. Path is now prepared for wrapped iteration
-    path_to_target.insert( path_to_target.begin(), point::zero );
+    path_to_target.insert( path_to_target.begin(), point_rel_ms::zero );
 
-    spell_detail::line_iterable base_line( point::zero, delta, path_to_target );
+    spell_detail::line_iterable base_line( point_rel_ms::zero, delta, path_to_target );
 
     std::set<tripoint_bub_ms> result;
 
@@ -344,7 +356,7 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
     // Add cw and ccw legs
     if( delta_side == 0 ) { // delta is already axis aligned, only need straight lines
         // cw leg
-        for( const point &p : line_to( point::zero, unit_cw_perp_axis * cw_len ) ) {
+        for( const point_rel_ms &p : line_to( point_rel_ms::zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
             if( !test( source + p ) ) {
                 break;
@@ -353,7 +365,7 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
         }
         // ccw leg
-        for( const point &p : line_to( point::zero, unit_cw_perp_axis * -ccw_len ) ) {
+        for( const point_rel_ms &p : line_to( point_rel_ms::zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
             if( !test( source + p ) ) {
                 break;
@@ -363,11 +375,11 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
         }
     } else if( delta_side == 1 ) { // delta is cw of primary axis
         // ccw leg is behind perp axis
-        for( const point &p : line_to( point::zero, unit_cw_perp_axis * -ccw_len ) ) {
+        for( const point_rel_ms &p : line_to( point_rel_ms::zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
 
             // forward until in
-            while( spell_detail::side_of( point::zero, delta_perp, base_line.get() ) == 1 ) {
+            while( spell_detail::side_of( point_rel_ms::zero, delta_perp, base_line.get() ) == 1 ) {
                 base_line.next();
             }
             if( !test( source + p ) ) {
@@ -376,11 +388,11 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
         }
         // cw leg is before perp axis
-        for( const point &p : line_to( point::zero, unit_cw_perp_axis * cw_len ) ) {
+        for( const point_rel_ms &p : line_to( point_rel_ms::zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
 
             // move back
-            while( spell_detail::side_of( point::zero, delta_perp, base_line.get() ) != 1 ) {
+            while( spell_detail::side_of( point_rel_ms::zero, delta_perp, base_line.get() ) != 1 ) {
                 base_line.prev();
             }
             base_line.next();
@@ -391,11 +403,11 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
         }
     } else if( delta_side == -1 ) { // delta is ccw of primary axis
         // ccw leg is before perp axis
-        for( const point &p : line_to( point::zero, unit_cw_perp_axis * -ccw_len ) ) {
+        for( const point_rel_ms &p : line_to( point_rel_ms::zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
 
             // move back
-            while( spell_detail::side_of( point::zero, delta_perp, base_line.get() ) != 1 ) {
+            while( spell_detail::side_of( point_rel_ms::zero, delta_perp, base_line.get() ) != 1 ) {
                 base_line.prev();
             }
             base_line.next();
@@ -405,11 +417,11 @@ std::set<tripoint_bub_ms> spell_effect::spell_effect_line( const override_parame
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
         }
         // cw leg is behind perp axis
-        for( const point &p : line_to( point::zero, unit_cw_perp_axis * cw_len ) ) {
+        for( const point_rel_ms &p : line_to( point_rel_ms::zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
 
             // forward until in
-            while( spell_detail::side_of( point::zero, delta_perp, base_line.get() ) == 1 ) {
+            while( spell_detail::side_of( point_rel_ms::zero, delta_perp, base_line.get() ) == 1 ) {
                 base_line.next();
             }
             if( !test( source + p ) ) {
@@ -585,7 +597,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                         val.amount = roll_remainder( val.amount / multishot );
                     }
                     for( int i = 0; i < multishot; ++i ) {
-                        cr->deal_projectile_attack( cr, atk, atk.missed_by, true );
+                        cr->deal_projectile_attack( &here, cr, atk, atk.missed_by, true );
                     }
                 } else if( sp.has_flag( spell_flag::SPLIT_DAMAGE ) ) {
                     int amount_of_bp = target_bdpts.size();
@@ -603,7 +615,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                         }
                     }
                 } else {
-                    cr->deal_projectile_attack( &caster, atk, atk.missed_by, true );
+                    cr->deal_projectile_attack( &here, &caster, atk, atk.missed_by, true );
                 }
             }
 
@@ -613,7 +625,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                         val.amount = cr->get_hp() * sp.damage( caster ) / 100.0;
                     }
                 }
-                cr->deal_projectile_attack( &caster, atk, atk.missed_by, true );
+                cr->deal_projectile_attack( &here, &caster, atk, atk.missed_by, true );
             }
         } else if( sp.damage( caster ) < 0 ) {
             sp.heal( target, caster );
@@ -946,12 +958,14 @@ static std::pair<field, tripoint_bub_ms> spell_remove_field( const spell &sp,
 static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint_bub_ms>
         &fd_fatigue_field, Creature &caster )
 {
+    const map &here = get_map();
+
     for( const std::pair<const field_type_id, field_entry> &fd : std::get<0>
          ( fd_fatigue_field ) ) {
         const int &intensity = fd.second.get_field_intensity();
         const translation &intensity_name = fd.second.get_intensity_level().name;
         const tripoint_bub_ms &field_position = std::get<1>( fd_fatigue_field );
-        const bool sees_field = caster.sees( field_position );
+        const bool sees_field = caster.sees( here, field_position );
 
         switch( intensity ) {
             case 1:
@@ -976,7 +990,7 @@ static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint_bub_
             case 3:
                 std::string message_prefix = "A nearby";
 
-                if( caster.sees( field_position ) ) {
+                if( caster.sees( here, field_position ) ) {
                     message_prefix = "The";
                 }
 
@@ -1051,8 +1065,10 @@ void spell_effect::area_push( const spell &sp, Creature &caster, const tripoint_
 static void character_push_effects( Creature *caster, Character &guy, tripoint_bub_ms &push_dest,
                                     const int push_distance, const std::vector<tripoint_bub_ms> &push_vec )
 {
+    map &here = get_map();
+
     int dist_left = std::abs( push_distance );
-    tripoint_bub_ms old_pushed_point = guy.pos_bub();
+    tripoint_bub_ms old_pushed_point = guy.pos_bub( here );
     for( const tripoint_bub_ms &pushed_point : push_vec ) {
         if( get_map().impassable( pushed_point ) ) {
             guy.hurtall( dist_left * 4, caster );
@@ -1066,7 +1082,7 @@ static void character_push_effects( Creature *caster, Character &guy, tripoint_b
             old_pushed_point = pushed_point;
         }
     }
-    guy.setpos( push_dest );
+    guy.setpos( here, push_dest );
 }
 
 void spell_effect::directed_push( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
@@ -1143,7 +1159,7 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
                             old_pushed_push_point = pushed_push_point;
                         }
                     }
-                    mon->setpos( push_dest );
+                    mon->setpos( here, push_dest );
                 } else if( guy ) {
                     character_push_effects( &caster, *guy, push_dest, push_distance, push_vec );
                 }
@@ -1383,9 +1399,9 @@ void spell_effect::recharge_vehicle( const spell &sp, Creature &caster,
     }
     vehicle &veh = v_part_pos->vehicle();
     if( sp.damage( caster ) >= 0 ) {
-        veh.charge_battery( sp.damage( caster ), false );
+        veh.charge_battery( here, sp.damage( caster ), false );
     } else {
-        veh.discharge_battery( -sp.damage( caster ), false );
+        veh.discharge_battery( here, -sp.damage( caster ), false );
     }
 }
 
@@ -1817,6 +1833,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint_bub_m
 
 void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
 {
+    class map &here = get_map(); // "map" is overridden by a spell_effect operation...
     int total_dam = sp.damage( caster );
     if( total_dam <= 0 ) {
         debugmsg( "ERROR: Banishment has negative or 0 damage value" );
@@ -1884,7 +1901,7 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
         caster.add_msg_if_player( m_good, string_format( _( "%s banished." ), mon->name() ) );
         // banished monsters take their stuff with them
         mon->death_drops = false;
-        mon->die( &caster );
+        mon->die( &here, &caster );
     }
 }
 

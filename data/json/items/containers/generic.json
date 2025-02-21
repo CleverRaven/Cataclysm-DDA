@@ -226,5 +226,56 @@
         "sealed_data": { "spoil_multiplier": 0.5 }
       }
     ]
+  },
+  {
+    "id": "basket_laundry",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "laundry basket" },
+    "description": "A plastic basket meant for storing and hauling clothing.",
+    "weight": "680 g",
+    "volume": "52500 ml",
+    "price": "75 cent",
+    "price_postapoc": "10 cent",
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "looks_like": "plastic_shopping_bag",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "12 kg",
+        "max_item_length": "80 cm",
+        "moves": 300
+      }
+    ],
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "wicker_basket_large",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "large wicker basket" },
+    "description": "A large handmade straw basket.  Unwieldy but spacious.",
+    "weight": "400 g",
+    "volume": "52500 ml",
+    "price": "2 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "dry_plant" ],
+    "symbol": ")",
+    "looks_like": "straw_basket",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "80 cm",
+        "moves": 300
+      }
+    ]
   }
 ]

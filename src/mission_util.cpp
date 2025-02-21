@@ -1,10 +1,9 @@
-#include <algorithm>
 #include <functional>
-#include <iosfwd>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
+#include <string_view>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -12,15 +11,17 @@
 #include "cata_assert.h"
 #include "character.h"
 #include "city.h"
-#include "coordinates.h"
 #include "condition.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "game.h"
-#include "json.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapgen_functions.h"
 #include "messages.h"
 #include "mission.h"
@@ -121,7 +122,6 @@ tripoint_abs_omt mission_util::reveal_om_ter( const std::string &omter, int reve
  */
 static tripoint_abs_omt random_house_in_city( const city_reference &cref )
 {
-    // TODO: fix point types
     const tripoint_abs_omt city_center_omt =
         project_to<coords::omt>( cref.abs_sm_pos );
     std::vector<tripoint_abs_omt> valid;
@@ -180,7 +180,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     tripoint_abs_omt target_pos = tripoint_abs_omt::invalid;
 
     if( params.target_var.has_value() ) {
-        return project_to<coords::omt>( get_tripoint_from_var( params.target_var.value(), d, false ) );
+        return project_to<coords::omt>( get_tripoint_ms_from_var( params.target_var, d, false ) );
     }
 
     omt_find_params find_params;

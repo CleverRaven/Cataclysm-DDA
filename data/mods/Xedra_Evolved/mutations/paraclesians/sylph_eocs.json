@@ -177,7 +177,7 @@
         { "and": [ "u_is_outside", { "math": [ "u_val('pos_z') >= 1" ] } ] }
       ]
     },
-    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_sylph", "use_item_group": true, "suppress_message": true },
     "false_effect": [
       {
         "u_message": "You must have a strong enough wind or be above ground level to call forth a goblin fruit.",

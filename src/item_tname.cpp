@@ -1,6 +1,13 @@
 #include "item_tname.h"
 
+#include <algorithm>
+#include <array>
+#include <iomanip>
+#include <iterator>
+#include <memory>
+#include <optional>
 #include <set>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -9,6 +16,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "fault.h"
 #include "flag.h"
@@ -21,13 +29,15 @@
 #include "map.h"
 #include "mutation.h"
 #include "options.h"
-#include "point.h"
 #include "recipe.h"
 #include "relic.h"
 #include "string_formatter.h"
+#include "translation.h"
+#include "translation_cache.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 static const flag_id json_flag_HINT_THE_LOCATION( "HINT_THE_LOCATION" );
 
@@ -291,8 +301,9 @@ std::string food_traits( item const &it, unsigned int /* quantity */,
 std::string location_hint( item const &it, unsigned int /* quantity */,
                            segment_bitset const &/* segments */ )
 {
-    if( it.has_flag( json_flag_HINT_THE_LOCATION ) && it.has_var( "spawn_location_omt" ) ) {
-        tripoint_abs_omt loc( it.get_var( "spawn_location_omt", tripoint_abs_omt::zero ) );
+    if( it.has_flag( json_flag_HINT_THE_LOCATION ) && it.has_var( "spawn_location" ) ) {
+        tripoint_abs_omt loc( coords::project_to<coords::omt>(
+                                  it.get_var( "spawn_location", tripoint_abs_ms::zero ) ) );
         tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().get_abs(
                                          get_avatar().pos_bub() ) ) );
         int dist = rl_dist( player_loc, loc );
@@ -566,6 +577,32 @@ std::string category( item const &it, unsigned int quantity,
     return colorize( it.get_category_of_contents().name_noun( quantity ), color );
 }
 
+std::string ememory( item const &it, unsigned int /* quantity */,
+                     segment_bitset const &/* segments */ )
+{
+    if( it.is_estorage() && !it.is_broken() ) {
+        if( it.is_browsed() ) {
+            units::ememory remain_mem = it.remaining_ememory();
+            units::ememory total_mem = it.total_ememory();
+            double ratio = static_cast<double>( remain_mem.value() ) / static_cast<double>( total_mem.value() );
+            nc_color ememory_color;
+            if( ratio > 0.66f ) {
+                ememory_color = c_light_green;
+            } else if( ratio > 0.33f ) {
+                ememory_color = c_yellow;
+            } else {
+                ememory_color = c_light_red;
+            }
+            std::string out_of = remain_mem == total_mem ? units::display( remain_mem ) :
+                                 string_format( "%s/%s", units::display( remain_mem ), units::display( total_mem ) );
+            return string_format( _( " (%s free)" ), colorize( out_of, ememory_color ) );
+        } else {
+            return colorize( _( " (unbrowsed)" ), c_dark_gray );
+        }
+    }
+    return {};
+}
+
 // function type that prints an element of tname::segments
 using decl_f_print_segment = std::string( item const &it, unsigned int quantity,
                              segment_bitset const &segments );
@@ -612,6 +649,7 @@ constexpr std::array<decl_f_print_segment *, num_segments> get_segs_array()
     arr[static_cast<size_t>( tname::segments::LINK ) ] = noop;
     arr[static_cast<size_t>( tname::segments::TECHNIQUES ) ] = noop;
     arr[static_cast<size_t>( tname::segments::CONTENTS ) ] = contents;
+    arr[static_cast<size_t>( tname::segments::EMEMORY )] = ememory;
 
     return arr;
 }
@@ -683,6 +721,7 @@ std::string enum_to_string<tname::segments>( tname::segments seg )
         case tname::segments::CONTENTS_ABREV: return "CONTENTS_ABBREV";
         case tname::segments::CONTENTS_COUNT: return "CONTENTS_COUNT";
         case tname::segments::FOOD_PERISHABLE: return "FOOD_PERISHABLE";
+        case tname::segments::EMEMORY: return "EMEMORY";
         case tname::segments::last: return "last";
         default:
         // *INDENT-ON*

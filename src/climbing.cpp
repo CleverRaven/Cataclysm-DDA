@@ -1,19 +1,14 @@
 #include "climbing.h"
 
 #include <cstdint>
-#include <memory>
-#include <set>
 #include <utility>
 
 #include "cata_utility.h"
 #include "character.h"
 #include "creature_tracker.h"
 #include "debug.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
-#include "json_error.h"
 #include "map.h"
 #include "vpart_position.h"
 
@@ -219,7 +214,7 @@ void climbing_aid::down_t::deserialize( const JsonObject &jo )
                 jo.throw_error( str_cat( "failed to read optional member \"menu_hotkey\"" ) );
             }
         }
-        if( menu_hotkey_str.length() ) {
+        if( !menu_hotkey_str.empty() ) {
             menu_hotkey = std::uint8_t( menu_hotkey_str[ 0 ] );
         }
 

@@ -38,5 +38,27 @@
     "dispersion": 60,
     "recoil": 150,
     "extend": { "effects": [ "COOKOFF" ], "flags": [ "CASELESS_ROUNDS" ] }
+  },
+  {
+    "id": "afs_7.50mm_smart",
+    "type": "AMMO",
+    "name": { "str_sp": "7.50mm SDART" },
+    "description": "High precision 7.50mm microjet darts for use in smart weaponry.  These low velocity rounds can adjust mid-flight to exploit weaknesses in the target's defenses.",
+    "//": "tiny guided rockets.",
+    "weight": "18 g",
+    "volume": "14 ml",
+    "price": "875 USD",
+    "material": [ "superalloy", "powder", "plastic" ],
+    "symbol": "=",
+    "color": "pink",
+    "count": 80,
+    "ammo_type": "afs_7.50mm_smart",
+    "range": 110,
+    "stack_size": 1,
+    "recoil": 100,
+    "effects": [ "NEVER_MISFIRES", "CASELESS_ROUNDS" ],
+    "damage": { "damage_type": "bullet", "amount": 35, "armor_penetration": 5 },
+    "critical_multiplier": 10,
+    "dispersion": 0
   }
 ]

@@ -12,10 +12,7 @@
 #include <map>
 #include <optional>
 #include <set>
-#include <sstream>
 #include <string>
-#include <string_view>
-#include <type_traits>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -27,8 +24,8 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
-#include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
@@ -36,22 +33,20 @@
 #include "contents_change_handler.h"
 #include "coordinates.h"
 #include "craft_command.h"
-#include "crafting_gui.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
-#include "field_type.h"
 #include "fault.h"
+#include "field_type.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
-#include "game_inventory.h"
 #include "gates.h"
 #include "gun_mode.h"
 #include "handle_liquid.h"
@@ -66,21 +61,21 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "json.h"
-#include "json_error.h"
-#include "line.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap_ui.h"
 #include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -88,18 +83,17 @@
 #include "point.h"
 #include "ranged.h"
 #include "recipe.h"
-#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "safe_reference.h"
 #include "shearing.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translation.h"
 #include "translations.h"
-#include "trap.h"
-#include "try_parse_integer.h"
+#include "type_id.h"
 #include "ui.h"
 #include "uistate.h"
 #include "units.h"
@@ -125,12 +119,12 @@ static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
-static const activity_id ACT_DATA_HANDLING( "ACT_DATA_HANDLING" );
 static const activity_id ACT_DISABLE( "ACT_DISABLE" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_EBOOKSAVE( "ACT_EBOOKSAVE" );
+static const activity_id ACT_E_FILE( "ACT_E_FILE" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_FURNITURE_MOVE( "ACT_FURNITURE_MOVE" );
@@ -183,11 +177,6 @@ static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
 
 static const ammotype ammo_plutonium( "plutonium" );
 
-static const damage_type_id damage_acid( "acid" );
-static const damage_type_id damage_bash( "bash" );
-static const damage_type_id damage_cut( "cut" );
-static const damage_type_id damage_stab( "stab" );
-
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_gliding( "gliding" );
@@ -221,6 +210,8 @@ static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_disassembly( "disassembly" );
+static const itype_id itype_efile_junk( "efile_junk" );
+static const itype_id itype_efile_photos( "efile_photos" );
 static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_paper( "paper" );
@@ -265,6 +256,7 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
+static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_traps( "traps" );
 
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -384,6 +376,8 @@ bool aim_activity_actor::check_gun_ability_to_shoot( Character &who, item &it )
 
 void aim_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     if( !who.is_avatar() ) {
         debugmsg( "ACT_AIM not implemented for NPCs" );
         aborted = true;
@@ -393,7 +387,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     avatar &you = get_avatar();
 
     item_location weapon = get_weapon();
-    if( !weapon || !avatar_action::can_fire_weapon( you, get_map(), *weapon ) ) {
+    if( !weapon || !avatar_action::can_fire_weapon( you, here, *weapon ) ) {
         aborted = true;
         act.moves_left = 0;
         return;
@@ -402,7 +396,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     gun_mode gun = weapon->gun_current_mode();
     // We need to make sure RAS weapon is loaded/reloaded in case the aim activity was temp. suspended
     // therefore the order of evaluation matters here
-    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() && !reload_loc ) {
+    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining( ) && !reload_loc ) {
         if( !load_RAS_weapon() ) {
             aborted = true;
             act.moves_left = 0;
@@ -436,6 +430,8 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
 
 void aim_activity_actor::finish( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     act.set_to_null();
     item_location weapon = get_weapon();
     if( !weapon ) {
@@ -454,7 +450,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     }
 
     gun_mode gun = weapon->gun_current_mode();
-    who.fire_gun( fin_trajectory.back(), gun.qty, *gun, reload_loc );
+    who.fire_gun( here, fin_trajectory.back(), gun.qty, *gun, reload_loc );
 
     if( !get_option<bool>( "AIM_AFTER_FIRING" ) ) {
         restore_view();
@@ -566,7 +562,7 @@ bool aim_activity_actor::load_RAS_weapon()
         {
             return false;
         }
-        if( square_dist( you.pos_bub(), you.ammo_location.pos_bub() ) > 1 )
+        if( square_dist( you.pos_abs(), you.ammo_location.pos_abs() ) > 1 )
         {
             return false;
         }
@@ -594,7 +590,7 @@ void aim_activity_actor::unload_RAS_weapon()
 
     gun_mode gun = weapon->gun_current_mode();
     if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        if( gun->ammo_remaining() ) {
+        if( gun->ammo_remaining( ) ) {
             item_location loc = item_location( you, gun.target );
             you.unload( loc, true );
         }
@@ -624,13 +620,15 @@ void autodrive_activity_actor::start( player_activity &, Character &who )
 
 void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     if( who.in_vehicle && who.controlling_vehicle && player_vehicle ) {
         if( who.get_moves() <= 0 ) {
             // out of moves? the driver's not doing anything this turn
             // (but the vehicle will continue moving)
             return;
         }
-        switch( player_vehicle->do_autodrive( who ) ) {
+        switch( player_vehicle->do_autodrive( here, who ) ) {
             case autodrive_result::ok:
                 if( who.get_moves() > 0 ) {
                     // if do_autodrive() didn't eat up all our moves, end the turn
@@ -768,7 +766,7 @@ bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
     // Character::gunmod_remove
     // Remove one of them before making gunmod_unload take time
     item_location loc = item_location( who, &gunmod );
-    return !( gunmod.ammo_remaining() && !who.unload( loc, true ) );
+    return !( gunmod.ammo_remaining( ) && !who.unload( loc, true ) );
 }
 
 void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, item &mod )
@@ -848,6 +846,8 @@ static int hack_level( const Character &who, item_location &tool )
 
 static hack_result hack_attempt( Character &who, item_location &tool )
 {
+    map &here = get_map();
+
     // TODO: Remove this once player -> Character migration is complete
     {
         who.practice( skill_computer, 20 );
@@ -859,10 +859,10 @@ static hack_result hack_attempt( Character &who, item_location &tool )
     int success = std::ceil( normal_roll( hack_level( who, tool ), hack_stddev ) );
     if( success < 0 ) {
         who.add_msg_if_player( _( "You cause a short circuit!" ) );
-        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
+        tool->ammo_consume( tool->ammo_required(), here, tool.pos_bub( here ), &who );
 
         if( success <= -5 ) {
-            tool->ammo_consume( ( tool->ammo_required() * 2 ), tool.pos_bub(), &who );
+            tool->ammo_consume( ( tool->ammo_required() * 2 ), here, tool.pos_bub( here ), &who );
         }
         return hack_result::FAIL;
     } else if( success < 6 ) {
@@ -995,7 +995,7 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
 
         const std::vector<const item *> writing_tools_filter =
         p.crafting_inventory().items_with( [&]( const item & it ) {
-            return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_remaining() >= it.ammo_required() ;
+            return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_remaining( ) >= it.ammo_required() ;
         } );
 
         std::vector<tool_comp> writing_tools;
@@ -1032,231 +1032,6 @@ std::unique_ptr<activity_actor> bookbinder_copy_activity_actor::deserialize( Jso
     jsobj.read( "rec_id", actor.rec_id );
     jsobj.read( "pages", actor.pages );
 
-    return actor.clone();
-}
-
-data_handling_activity_actor::data_handling_activity_actor(
-    const item_location &recorder, const std::vector<item_location> &targets )
-    : recorder( recorder ), targets( targets ) {}
-
-static int get_quality_from_string( const std::string_view s )
-{
-    const ret_val<int> try_quality = try_parse_integer<int>( s, false );
-    if( try_quality.success() ) {
-        return try_quality.value();
-    } else {
-        debugmsg( "Error parsing photo quality: %s", try_quality.str() );
-        return 0;
-    }
-}
-
-void data_handling_activity_actor::start( player_activity &act, Character & )
-{
-    act.moves_left = act.moves_total = targets.size() * to_moves<int>( time_per_card );
-}
-
-void data_handling_activity_actor::do_turn( player_activity &act, Character &p )
-{
-    if( !recorder || !recorder->ammo_sufficient( &p ) ) {
-        p.cancel_activity();
-        p.add_msg_if_player( m_warning, _( "%s appears to have no energy." ), recorder->display_name() );
-        return;
-    }
-    if( calendar::once_every( 5_minutes ) ) {
-        recorder->ammo_consume( recorder->type->charges_to_use(), p.pos_bub(), &p );
-    }
-    time_until_next_card -= 1_seconds;
-    if( time_until_next_card > 0_seconds ) {
-        return; // not yet
-    }
-    item &eink = *recorder;
-    item &mc = *targets.back();
-    targets.pop_back();
-    if( targets.empty() ) {
-        act.moves_left = 0;
-    }
-    time_until_next_card = time_per_card;
-    handled_cards++;
-
-    if( mc.has_var( "MC_EXTENDED_PHOTOS" ) ) {
-        std::vector<item::extended_photo_def> extended_photos;
-        try {
-            mc.read_extended_photos( extended_photos, "MC_EXTENDED_PHOTOS", false );
-            eink.read_extended_photos( extended_photos, "EIPC_EXTENDED_PHOTOS", true );
-            eink.write_extended_photos( extended_photos, "EIPC_EXTENDED_PHOTOS" );
-            downloaded_extended_photos++;
-        } catch( const JsonError &e ) {
-            debugmsg( "Error card reading photos (loaded photos = %i) : %s", extended_photos.size(),
-                      e.c_str() );
-        }
-    }
-
-    const std::string monster_photos = mc.get_var( "MC_MONSTER_PHOTOS" );
-    if( !monster_photos.empty() ) {
-        downloaded_monster_photos++;
-        std::string photos = eink.get_var( "EINK_MONSTER_PHOTOS" );
-        if( photos.empty() ) {
-            eink.set_var( "EINK_MONSTER_PHOTOS", monster_photos );
-        } else {
-            std::istringstream f( monster_photos );
-            std::string s;
-            while( getline( f, s, ',' ) ) {
-                if( s.empty() ) {
-                    continue;
-                }
-                const std::string mtype = s;
-                getline( f, s, ',' );
-                const int quality = get_quality_from_string( s );
-
-                const size_t eink_strpos = photos.find( "," + mtype + "," );
-
-                if( eink_strpos == std::string::npos ) {
-                    photos += mtype + "," + string_format( "%d", quality ) + ",";
-                } else {
-                    const size_t strqpos = eink_strpos + mtype.size() + 2;
-                    const size_t next_comma = photos.find( ',', strqpos );
-                    const int old_quality =
-                        get_quality_from_string( photos.substr( strqpos, next_comma ) );
-
-                    if( quality > old_quality ) {
-                        const std::string quality_s = string_format( "%d", quality );
-                        cata_assert( quality_s.size() == 1 );
-                        photos[strqpos] = quality_s.front();
-                    }
-                }
-
-            }
-            eink.set_var( "EINK_MONSTER_PHOTOS", photos );
-        }
-    }
-    const memory_card_info *mmd = mc.type->memory_card_data ? &*mc.type->memory_card_data : nullptr;
-    const bool failed_encrypted = mmd && mmd->data_chance < rng_float( 0.0, 1.0 );
-    if( mmd && mmd->on_read_convert_to.is_valid() ) {
-        mc.clear_vars();
-        mc.unset_flags();
-        mc.convert( mmd->on_read_convert_to );
-    } // mc is invalid past this point
-    if( !mmd || failed_encrypted ) {
-        encrypted_cards += failed_encrypted ? 1 : 0;
-        return;
-    }
-    if( mmd->photos_chance >= rng_float( 0.0, 1.0 ) ) {
-        const int new_photos = rng( 1, mmd->photos_amount );
-        eink.set_var( "EIPC_PHOTOS", eink.get_var( "EIPC_PHOTOS", 0 ) + new_photos );
-        downloaded_photos += new_photos;
-    }
-    if( mmd->songs_chance >= rng_float( 0.0, 1.0 ) ) {
-        const int new_songs = rng( 1, mmd->songs_amount );
-        eink.set_var( "EIPC_MUSIC", eink.get_var( "EIPC_MUSIC", 0 ) + new_songs );
-        downloaded_songs += new_songs;
-    }
-    if( mmd->recipes_chance >= rng_float( 0.0, 1.0 ) ) {
-        std::set<recipe_id> saved_recipes = eink.get_saved_recipes();
-        std::set<recipe_id> candidates;
-        for( const auto& [rid, r] : recipe_dict ) {
-            if( r.never_learn || r.obsolete || mmd->recipes_categories.count( r.category ) == 0 ||
-                saved_recipes.count( rid ) ||
-                r.difficulty > mmd->recipes_level_max || r.difficulty < mmd->recipes_level_min ||
-                ( r.has_flag( "SECRET" ) && !mmd->secret_recipes ) ) {
-                continue;
-            }
-            candidates.emplace( rid );
-        }
-
-        const int recipe_num = rng( 1, mmd->recipes_amount );
-        for( int i = 0; i < recipe_num && !candidates.empty(); i++ ) {
-            const recipe_id rid = random_entry_removed( candidates );
-            if( saved_recipes.emplace( rid ).second ) {
-                downloaded_recipes.emplace_back( rid );
-            } else {
-                debugmsg( "failed saving '%s' to '%s'", rid.str(), eink.display_name() );
-            }
-        }
-        eink.set_saved_recipes( saved_recipes );
-    }
-}
-
-static void print_data_handling_tally( Character &who, int encrypted_cards, int photos, int songs,
-                                       const std::vector<recipe_id> &recipes, int extended_photos, int monster_photos )
-{
-    if( !recipes.empty() ) {
-        who.add_msg_if_player( m_good, _( "Downloaded %d %s: %s." ), recipes.size(),
-                               n_gettext( "recipe", "recipes", recipes.size() ),
-        enumerate_as_string( recipes, []( const recipe_id & rid ) {
-            return rid->result_name();
-        } ) );
-    }
-    if( monster_photos > 0 ) {
-        who.add_msg_if_player( m_good, _( "You have updated your monster collection." ) );
-    }
-    if( extended_photos > 0 ) {
-        who.add_msg_if_player( m_good, _( "You have downloaded your photos." ) );
-    }
-    if( encrypted_cards > 0 ) {
-        who.add_msg_if_player( m_bad, _( "%d %s appeared to be encrypted or corrupted." ),
-                               encrypted_cards, n_gettext( "card", "cards", encrypted_cards ) );
-    }
-    if( photos > 0 && who.is_avatar() ) {
-        who.add_msg_if_player( m_good, _( "Downloaded %d new %s." ),
-                               photos, n_gettext( "photo", "photos", photos ) );
-    }
-    if( songs > 0 && who.is_avatar() ) {
-        who.add_msg_if_player( m_good, _( "Downloaded %d new %s." ),
-                               songs, n_gettext( "song", "songs", songs ) );
-    }
-    if( !( photos || songs || monster_photos || extended_photos || !recipes.empty() ) ) {
-        who.add_msg_if_player( m_warning, _( "No new data has been discovered." ) );
-    }
-}
-
-void data_handling_activity_actor::canceled( player_activity &act, Character &p )
-{
-    print_data_handling_tally( p, encrypted_cards, downloaded_photos, downloaded_songs,
-                               downloaded_recipes, downloaded_extended_photos, downloaded_monster_photos );
-    p.add_msg_if_player( m_info, _( "You stop downloading data after %d %s." ),
-                         handled_cards, n_gettext( "card", "cards", handled_cards ) );
-    act.set_to_null();
-}
-
-void data_handling_activity_actor::finish( player_activity &act, Character &p )
-{
-    print_data_handling_tally( p, encrypted_cards, downloaded_photos, downloaded_songs,
-                               downloaded_recipes, downloaded_extended_photos, downloaded_monster_photos );
-    p.add_msg_if_player( m_info, _( "You finish downloading data from %d %s." ),
-                         handled_cards, n_gettext( "card", "cards", handled_cards ) );
-    act.set_to_null();
-}
-
-void data_handling_activity_actor::serialize( JsonOut &jsout ) const
-{
-    jsout.start_object();
-    jsout.member( "recorder", recorder );
-    jsout.member( "targets", targets );
-    jsout.member( "time_until_next_action", time_until_next_card );
-    jsout.member( "handled_cards", handled_cards );
-    jsout.member( "encrypted_cards", encrypted_cards );
-    jsout.member( "downloaded_photos", downloaded_photos );
-    jsout.member( "downloaded_songs", downloaded_songs );
-    jsout.member( "downloaded_recipes", downloaded_recipes );
-    jsout.member( "downloaded_extended_photos", downloaded_extended_photos );
-    jsout.member( "downloaded_monster_photos", downloaded_monster_photos );
-    jsout.end_object();
-}
-
-std::unique_ptr<activity_actor> data_handling_activity_actor::deserialize( JsonValue &jsin )
-{
-    data_handling_activity_actor actor;
-    JsonObject jsobj = jsin.get_object();
-    jsobj.read( "recorder", actor.recorder );
-    jsobj.read( "targets", actor.targets );
-    jsobj.read( "time_until_next_action", actor.time_until_next_card );
-    jsobj.read( "handled_cards", actor.handled_cards );
-    jsobj.read( "encrypted_cards", actor.encrypted_cards );
-    jsobj.read( "downloaded_photos", actor.downloaded_photos );
-    jsobj.read( "downloaded_songs", actor.downloaded_songs );
-    jsobj.read( "downloaded_recipes", actor.downloaded_recipes );
-    jsobj.read( "downloaded_extended_photos", actor.downloaded_extended_photos );
-    jsobj.read( "downloaded_monster_photos", actor.downloaded_monster_photos );
     return actor.clone();
 }
 
@@ -1301,12 +1076,12 @@ void hotwire_car_activity_actor::finish( player_activity &act, Character &who )
     } else if( skill > rng( 0, 4 ) ) {
         // Soft fail
         who.add_msg_if_player( _( "You found a wire that looks like the right one." ) );
-        veh.is_alarm_on = veh.has_security_working();
+        veh.is_alarm_on = veh.has_security_working( here );
         veh.is_locked = false;
     } else if( !veh.is_alarm_on ) {
         // Hard fail
         who.add_msg_if_player( _( "The red wire always starts the engine, doesn't it?" ) );
-        veh.is_alarm_on = veh.has_security_working();
+        veh.is_alarm_on = veh.has_security_working( here );
     } else {
         // Already failed
         who.add_msg_if_player(
@@ -1405,6 +1180,8 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
 
 void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
+    map &here = get_map();
+
     std::string method = "HACKSAW";
 
     if( !veh_pos.has_value() ) {
@@ -1415,7 +1192,7 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
                 ammo_consumed *= iter->second;
             }
 
-            tool->ammo_consume( ammo_consumed, tool.pos_bub(), &who );
+            tool->ammo_consume( ammo_consumed, here, tool.pos_bub( here ), &who );
             sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
             if( calendar::once_every( 1_minutes ) ) {
                 //~ Sound of a metal sawing tool at work!
@@ -1438,7 +1215,7 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
             return;
         }
         vehicle &veh = vp->vehicle();
-        if( vehicle::use_vehicle_tool( veh, veh_pos.value(), type.value(), true ) ) {
+        if( vehicle::use_vehicle_tool( veh, &here, veh_pos.value(), type.value(), true ) ) {
             sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
             if( calendar::once_every( 1_minutes ) ) {
                 //~ Sound of a metal sawing tool at work!
@@ -1576,8 +1353,9 @@ bikerack_racking_activity_actor::bikerack_racking_activity_actor( const vehicle 
         const vehicle &racked_vehicle, const std::vector<int> &racks )
     : racks( racks )
 {
-    parent_vehicle_pos = parent_vehicle.bub_part_pos( 0 );
-    racked_vehicle_pos = racked_vehicle.bub_part_pos( 0 );
+    map &here = get_map();
+    parent_vehicle_pos = parent_vehicle.bub_part_pos( here,  0 );
+    racked_vehicle_pos = racked_vehicle.bub_part_pos( here, 0 );
 }
 
 void bikerack_racking_activity_actor::start( player_activity &act, Character & )
@@ -1607,7 +1385,7 @@ void bikerack_racking_activity_actor::finish( player_activity &act, Character & 
     vehicle &parent_veh = ovp_parent->vehicle();
     vehicle &racked_veh = ovp_racked->vehicle();
 
-    if( !parent_veh.merge_rackable_vehicle( &racked_veh, racks ) ) {
+    if( !parent_veh.merge_rackable_vehicle( &here, &racked_veh, racks ) ) {
         debugmsg( "racking actor failed: failed racking %s on %s, racks: [%s].",
                   racked_veh.name, parent_veh.name, enumerate_ints_to_string( racks ) );
     }
@@ -1802,7 +1580,8 @@ bikerack_unracking_activity_actor::bikerack_unracking_activity_actor( const vehi
         const std::vector<int> &parts, const std::vector<int> &racks )
     : parts( parts ), racks( racks )
 {
-    parent_vehicle_pos = parent_vehicle.bub_part_pos( 0 );
+    map &here = get_map();
+    parent_vehicle_pos = parent_vehicle.bub_part_pos( here,  0 );
 }
 
 void bikerack_unracking_activity_actor::start( player_activity &act, Character & )
@@ -1813,7 +1592,9 @@ void bikerack_unracking_activity_actor::start( player_activity &act, Character &
 
 void bikerack_unracking_activity_actor::finish( player_activity &act, Character & )
 {
-    const optional_vpart_position ovp = get_map().veh_at( parent_vehicle_pos );
+    map &here = get_map();
+
+    const optional_vpart_position ovp = here.veh_at( parent_vehicle_pos );
     if( !ovp ) {
         debugmsg( "unracking actor lost vehicle." );
         act.set_to_null();
@@ -1822,7 +1603,7 @@ void bikerack_unracking_activity_actor::finish( player_activity &act, Character 
 
     vehicle &parent_vehicle = ovp->vehicle();
 
-    if( !parent_vehicle.remove_carried_vehicle( parts, racks ) ) {
+    if( !parent_vehicle.remove_carried_vehicle( here, parts, racks ) ) {
         debugmsg( "unracking actor failed on %s, parts: [%s], racks: [%s]", parent_vehicle.name,
                   enumerate_ints_to_string( parts ), enumerate_ints_to_string( racks ) );
     }
@@ -2199,13 +1980,15 @@ bool read_activity_actor::player_readma( avatar &you )
 
 bool read_activity_actor::npc_read( npc &learner )
 {
+    map &here = get_map();
+
     const cata::value_ptr<islot_book> &islotbook = book->type->book;
     const skill_id &skill = islotbook->skill;
 
     // NPCs don't need to identify the book or learn recipes yet.
     // NPCs don't read to other NPCs yet.
     const bool display_messages = learner.get_fac_id() == faction_your_followers &&
-                                  get_player_character().sees( learner );
+                                  get_player_character().sees( here, learner );
 
     const int book_fun = learner.book_fun_for( *book, learner );
     if( book_fun != 0 ) {
@@ -2414,6 +2197,8 @@ std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonValue &jsi
 
 void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     const tripoint_bub_ms dest = relative_destination + who.pos_bub();
 
     while( who.get_moves() > 0 && !target_items.empty() ) {
@@ -2432,7 +2217,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             continue;
         }
         // Spill out any invalid contents first
-        target.overflow();
+        target.overflow( here );
 
         item &leftovers = *target;
         // Make a copy to be put in the destination location
@@ -2454,16 +2239,16 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 
         // This is for hauling across zlevels, remove when going up and down stairs
         // is no longer teleportation
-        const tripoint_bub_ms src = target.pos_bub();
+        const tripoint_bub_ms src = target.pos_bub( here );
         const int distance = src.z() == dest.z() ? std::max( rl_dist( src, dest ), 1 ) : 1;
         // Yuck, I'm sticking weariness scaling based on activity level here
         const float weary_mult = who.exertion_adjusted_move_multiplier( exertion_level() );
         who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance / weary_mult );
         if( to_vehicle ) {
-            put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
+            put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, &here, dest );
         } else {
             std::vector<item_location> dropped_items = drop_on_map( who, item_drop_reason::deliberate, { newit },
-                    dest );
+                    &here, dest );
             if( hauling_mode ) {
                 who.haul_list.insert( who.haul_list.end(), dropped_items.begin(), dropped_items.end() );
             }
@@ -2478,7 +2263,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         // Nuke the current activity, leaving the backlog alone.
         act.set_to_null();
         if( hauling_mode ) {
-            std::vector<item_location> haulable_items = get_map().get_haulable_items( who.pos_bub() );
+            std::vector<item_location> haulable_items = here.get_haulable_items( who.pos_bub() );
             bool overflow = who.trim_haul_list( haulable_items );
             if( who.is_hauling() && haulable_items.empty() ) {
                 who.stop_hauling();
@@ -2639,8 +2424,10 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
 
 void boltcutting_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
+    map &here = get_map();
+
     if( tool->ammo_sufficient( &who ) ) {
-        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
+        tool->ammo_consume( tool->ammo_required(), here, tool.pos_bub( here ), &who );
     } else {
         if( who.is_avatar() ) {
             who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
@@ -2815,7 +2602,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
     if( veh ) {
         std::vector<vehicle_part *> parts_at_target = veh->vehicle().get_parts_at(
-                    target, "LOCKABLE_DOOR", part_status_flag::available );
+                    &here, target, "LOCKABLE_DOOR", part_status_flag::available );
         if( !parts_at_target.empty() ) {
             locked_part = veh->vehicle().next_part_to_unlock(
                               veh->vehicle().index_of_part( parts_at_target.front() ) );
@@ -2949,6 +2736,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
 std::optional<tripoint_bub_ms> lockpick_activity_actor::select_location( avatar &you )
 {
+    map &here = get_map();
+
     if( you.cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -2965,7 +2754,8 @@ std::optional<tripoint_bub_ms> lockpick_activity_actor::select_location( avatar 
     };
 
     std::optional<tripoint_bub_ms> target = choose_adjacent_highlight(
-            _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), is_pickable, false );
+            here, _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), is_pickable,
+            false );
     if( !target ) {
         return std::nullopt;
     }
@@ -3019,7 +2809,7 @@ int ebooksave_activity_actor::total_pages(
 {
     int pages = 0;
     for( const item_location &book : books ) {
-        pages += pages_in_book( book->typeId() );
+        pages += item::pages_in_book( *book->type );
     }
     return pages;
 }
@@ -3050,7 +2840,7 @@ void ebooksave_activity_actor::start_scanning_next_book( player_activity &act )
         return;
     }
     const item_location &current_book = books.back();
-    const int pages_in_current_book = pages_in_book( current_book->typeId() );
+    const int pages_in_current_book = item::pages_in_book( *current_book->type );
     turns_left_on_current_book = to_turns<int>( pages_in_current_book * time_per_page );
     act.moves_left = to_moves<int>( required_time( books ) );
 }
@@ -3096,9 +2886,9 @@ void ebooksave_activity_actor::completed_scanning_current_book( player_activity 
     item_location scanned_book = books.back();
     books.pop_back();
     if( scanned_book ) {
-        ereader->put_in( *scanned_book, pocket_type::EBOOK );
+        ereader->put_in( *scanned_book, pocket_type::E_FILE_STORAGE );
         if( who.is_avatar() ) {
-            if( !who.has_identified( scanned_book->typeId() ) ) {
+            if( scanned_book->is_identifiable() && !who.has_identified( scanned_book->typeId() ) ) {
                 who.identify( *scanned_book );
             }
         }
@@ -3166,6 +2956,641 @@ std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonValue
     return actor.clone();
 }
 
+namespace io
+{
+template<>
+std::string enum_to_string<efile_action>( efile_action data )
+{
+    return efile_activity_actor::efile_action_name( data );
+}
+template<>
+std::string enum_to_string<efile_combo>( efile_combo data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case efile_combo::COMBO_MOVE_ONTO_BROWSE: return "COMBO_MOVE_ONTO_BROWSE";
+        case efile_combo::COMBO_NONE: return "COMBO_NONE";
+            // *INDENT-ON*
+        default:
+            cata_fatal( "Invalid based_on_type in enum_to_string" );
+    }
+}
+} // namespace io
+
+bool efile_activity_actor::processed_edevices_remain() const
+{
+    return target_edevices.empty();
+}
+
+bool  efile_activity_actor::processed_efiles_remain() const
+{
+    return currently_processed_efiles.empty();
+}
+
+item_location &efile_activity_actor::get_currently_processed_edevice()
+{
+    return target_edevices.back();
+}
+
+item_location &efile_activity_actor::get_currently_processed_efile()
+{
+    return currently_processed_efiles.back();
+}
+void efile_activity_actor::start( player_activity &act, Character &who )
+{
+    if( combo_type == COMBO_MOVE_ONTO_BROWSE ) {
+        target_edevices_copy = target_edevices;
+    }
+    //handle combo move e-device (browsing may have included used e-device)
+    if( action_type == EF_MOVE_ONTO_THIS ) {
+        auto i = target_edevices.begin();
+        while( i != target_edevices.end() ) {
+            if( *i == used_edevice ) {
+                i = target_edevices.erase( i );
+                break;
+            } else {
+                i++;
+            }
+        }
+    }
+    for( item_location &i : target_edevices ) {
+        if( !i->has_pocket_type( pocket_type::E_FILE_STORAGE ) ) {
+            debugmsg( "invalid item %s provided to efile activity; must have \"E_FILE_STORAGE\" pocket",
+                      i->tname() );
+        }
+        add_msg_debug( debugmode::DF_ACT_EBOOK, "initialized with edevice %s with %d efiles",
+                       i->display_name(), i->efiles().size() );
+    }
+    //only skip if loaded through deserialization
+    if( !started_processing ) {
+        started_processing = true;
+        computer_low_skill = who.get_skill_level( skill_computer ) < 1;
+    }
+
+    if( !processed_edevices_remain() ) {
+        const time_duration total_time = total_processing_time( used_edevice, target_edevices,
+                                         selected_efiles, action_type, who, computer_low_skill );
+        act.moves_total = to_moves<int>( total_time );
+        target_edevices_count = target_edevices.size();
+        add_msg_debug( debugmode::DF_ACT_EBOOK, "total processing moves: %d",
+                       act.moves_total );
+    } else {
+        act.moves_total = 0;
+        done_processing = true;
+        add_msg_debug( debugmode::DF_ACT_EBOOK, "no e-devices found to process!" );
+    }
+    act.moves_left = act.moves_total;
+}
+
+void efile_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    map &here = get_map();
+
+    auto edevice_reduce_charge = [&]( item_location & edevice ) {
+        if( calendar::once_every( charge_time( action_type ) ) ) {
+            if( !edevice->ammo_sufficient( &who ) ) {
+                add_msg_if_player_sees(
+                    who, m_warning, string_format( _( "The %s ran out of batteries!" ),
+                                                   edevice->display_name() ) );
+                return false;
+            }
+            edevice->ammo_consume( edevice->ammo_required(), here, edevice.pos_bub( here ), &who );
+            add_msg_debug( debugmode::DF_ACT_EBOOK, "%s power check", edevice->display_name() );
+        }
+        return true;
+    };
+
+    //check for zero devices selected, for combo call
+    if( act.moves_left > 0 ) {
+        //if an e-device was booted, make sure it still exists
+        if( !!turns_left_on_current_edevice ) {
+            if( !used_edevice || !edevice_reduce_charge( used_edevice ) ) {
+                //if the used device runs out of power or is missing, fail all remaining devices
+                do {
+                    failed_processing_current_edevice();
+                } while( !done_processing );
+            } else {
+                item_location next_edevice = get_currently_processed_edevice();
+                if( !next_edevice || !edevice_reduce_charge( next_edevice ) ) {
+                    failed_processing_current_edevice();
+                }
+            }
+        }
+    }
+    //done check (handles return)
+    if( done_processing ) {
+        act.moves_left = 0;
+        add_msg_debug( debugmode::DF_ACT_EBOOK, "efile_transfer completed through done_processing" );
+        return;
+    }
+    //computer practice
+    if( one_in( 3 ) && computer_low_skill ) {
+        if( who.practice( skill_computer, 1 ) ) {
+            computer_low_skill = false;
+        }
+    }
+
+    if( !next_edevice_booted ) {
+        if( !turns_left_on_current_edevice ) {
+            start_processing_next_edevice(); //only sets if device exists
+        }
+        ( *turns_left_on_current_edevice )--;
+        if( turns_left_on_current_edevice == 0 ) {
+            next_edevice_booted = true;
+            start_processing_next_efile( act, who ); //sets turns_left_file if file exists
+        }
+    }
+    if( next_edevice_booted ) { //should not be an "else" because files start processing in same turn
+        //current file exists check
+        if( !get_currently_processed_efile() ) {
+            failed_processing_current_efile( act, who );
+        } else if( turns_left_on_current_efile > 0 ) {
+            turns_left_on_current_efile--;
+        }
+        if( turns_left_on_current_efile == 0 ) {
+            completed_processing_current_efile( act, who );
+            start_processing_next_efile( act, who );
+        }
+
+    }
+}
+
+void efile_activity_actor::start_processing_next_edevice()
+{
+    item_location &current_edevice = get_currently_processed_edevice();
+    const time_duration process_time = device_bootup_time;
+    bool ignore_filter = efile_action_is_from( action_type );
+    if( current_edevice ) {
+        turns_left_on_current_edevice = to_turns<int>( process_time );
+        item_location &edevice_filter = ignore_filter ? used_edevice : current_edevice;
+        currently_processed_efiles = ignore_filter ? selected_efiles :
+                                     filter_edevice_efiles( edevice_filter, selected_efiles );
+    }
+    add_msg_debug( debugmode::DF_ACT_EBOOK, string_format( "started processing edevice %s",
+                   current_edevice->display_name() ) );
+}
+
+void efile_activity_actor::start_processing_next_efile( player_activity &/*act*/, Character &who )
+{
+    if( !processed_efiles_remain() ) {
+        //separate for easy debugging
+        item_location &current_efile = get_currently_processed_efile();
+        item_location &current_edevice = get_currently_processed_edevice();
+        efile_transfer transfer( used_edevice, current_edevice );
+        time_duration transfer_time = efile_processing_time( current_efile, transfer, action_type, who,
+                                      computer_low_skill );
+        turns_left_on_current_efile = to_turns<int>( transfer_time );
+        add_msg_debug( debugmode::DF_ACT_EBOOK, string_format( "started processing efile %s",
+                       current_efile->display_name() ) );
+    } else {
+        completed_processing_current_edevice();
+    }
+}
+
+void efile_activity_actor::completed_processing_current_edevice()
+{
+    if( action_type == EF_BROWSE ) {
+        get_currently_processed_edevice()->set_browsed( true );
+    }
+    processed_edevices++;
+    add_msg_debug( debugmode::DF_ACT_EBOOK, string_format( "completed processing edevice %s",
+                   get_currently_processed_edevice()->display_name() ) );
+
+    next_edevice_booted = false;
+    turns_left_on_current_edevice.reset();
+    target_edevices.pop_back();
+    if( processed_edevices_remain() ) {
+        done_processing = true;
+    }
+}
+
+void efile_activity_actor::completed_processing_current_efile( player_activity &/*act*/,
+        Character &who )
+{
+    item_location &current_edevice = get_currently_processed_edevice();
+    item_location current_efile = get_currently_processed_efile();
+    efile_transfer current_transfer( used_edevice, current_edevice );
+
+    auto remove_efile = []( item_location & edevice, const item & efile_remove ) {
+        edevice->get_contents().remove_items_if( [&efile_remove]( item & efile ) {
+            return &efile == &efile_remove;
+        } );
+    };
+    auto add_efile = [&current_transfer]( item_location & edevice,
+    item & efile, bool copy ) {
+        if( !efile_skip_copy( current_transfer, efile ) ) {
+            item &added_efile = efile;
+            if( copy ) {
+                const item &new_efile = efile;
+                added_efile = new_efile;
+            }
+            //instead of moving the recipe e-file, instead try to combine it with an existing one
+            if( added_efile.typeId()->memory_card_data ) {
+                item *edevice_recipe_catalog = edevice->get_recipe_catalog();
+                if( edevice_recipe_catalog != nullptr ) {
+                    std::set<recipe_id> merged_catalogs = edevice_recipe_catalog->get_saved_recipes();
+                    for( const auto &recipe : added_efile.get_saved_recipes() ) {
+                        merged_catalogs.emplace( recipe );
+                    }
+                    edevice_recipe_catalog->set_saved_recipes( merged_catalogs );
+                    return;
+                }
+            } else if( added_efile.typeId() == itype_efile_photos ) {
+                const std::function<bool( const item &i )> filter = []( const item & i ) {
+                    return i.typeId() == itype_efile_photos;
+                };
+                item *edevice_photos = edevice->get_contents().get_item_with( filter );
+                if( edevice_photos != nullptr ) {
+                    std::vector<item::extended_photo_def> extended_photos;
+                    edevice_photos->read_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS", false );
+                    added_efile.read_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS", true );
+                    edevice_photos->write_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS" );
+                    return;
+                }
+
+            }
+            edevice->get_contents().insert_item( added_efile, pocket_type::E_FILE_STORAGE );
+        }
+    };
+
+    add_msg_if_player_sees( who, m_info, string_format( _( "%s %s %s." ),
+                            who.disp_name( false, true ), efile_action_name( action_type, true, false ),
+                            current_efile->display_name() ) );
+    switch( action_type ) {
+        case EF_BROWSE:
+            if( current_efile->typeId() == itype_efile_junk ) {
+                remove_efile( current_edevice, *current_efile );
+                break;
+            }
+            if( current_efile->get_recipe_catalog() != nullptr ) {
+                if( current_efile->get_saved_recipes().empty() ) {
+                    current_efile->generate_recipes();
+                }
+            }
+            current_efile->set_browsed( true );
+            break;
+        case EF_MOVE_ONTO_THIS:
+            add_efile( used_edevice, *current_efile, false );
+            remove_efile( current_edevice, *current_efile );
+            break;
+        case EF_MOVE_FROM_THIS:
+            add_efile( current_edevice, *current_efile, false );
+            remove_efile( used_edevice, *current_efile );
+            break;
+        case EF_COPY_ONTO_THIS:
+            add_efile( used_edevice, *current_efile, true );
+            break;
+        case EF_COPY_FROM_THIS:
+            add_efile( current_edevice, *current_efile, true );
+            break;
+        case EF_WIPE:
+            remove_efile( current_edevice, *current_efile );
+            break;
+        default:
+            break;
+    }
+    processed_efiles++;
+    currently_processed_efiles.pop_back();
+}
+
+void efile_activity_actor::failed_processing_current_edevice()
+{
+    failed_edevices++;
+
+    turns_left_on_current_edevice.reset();
+    next_edevice_booted = false;
+    target_edevices.pop_back();
+    if( processed_edevices_remain() ) {
+        done_processing = true;
+    }
+}
+
+void efile_activity_actor::failed_processing_current_efile( player_activity &act,
+        Character &who )
+{
+    turns_left_on_current_edevice.reset();
+    start_processing_next_efile( act, who );
+}
+
+void efile_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    std::string action_name = efile_action_name( action_type, true, true );
+    int total_edevices = target_edevices_count;
+    if( total_edevices == 0 && processed_edevices == 0 ) {
+        add_msg_if_player_sees( who, m_info, _( "No devices needed to be processed." ) );
+    } else if( processed_edevices == 0 ) {
+        add_msg_if_player_sees( who, m_warning, _( "You failed to %s %d device(s)." ),
+                                efile_action_name( action_type, false, true ), total_edevices );
+    } else {
+        add_msg_if_player_sees( who, m_good, _( "You successfully %s %d/%d device(s)." ),
+                                action_name, processed_edevices, total_edevices );
+    }
+    combo_next_activity( who );
+}
+
+std::vector<item_location> efile_activity_actor::filter_edevice_efiles(
+    const item_location &edevice, std::vector<item_location> &filter_files )
+{
+    std::vector<item_location> filtered_efiles;
+    std::vector<item_location>::iterator it = filter_files.begin();
+    while( it != filter_files.end() ) {
+        if( it->parent_item() == edevice ) {
+            filtered_efiles.emplace_back( *it );
+            it = filter_files.erase( it );
+        } else {
+            it++;
+        }
+    }
+    return filtered_efiles;
+}
+
+item_location efile_activity_actor::find_external_transfer_estorage( Character &p,
+        const item_location &efile, const item_location &ed1, const item_location &ed2 )
+{
+    item_location fastest_edevice;
+    if( edevices_compatible( ed1, ed2 ) == ECOMPAT_FAST ) {
+        return fastest_edevice;
+    }
+    units::ememory largest_efile_size = efile->ememory_size();
+    //search for fastest, large-enough, browsed, non-tool, estorage device in radius or on person
+    units::ememory fastest_rate = 0_KB;
+    const std::function<bool( const item *it, const item * )> func = [&]( const item * it,
+    const item * ) {
+        return it->is_browsed() &&
+               !edevice_has_use( it ) && //is not a usable e-device (e.g. a USB drive)
+               it->is_estorage() &&
+               it->remaining_ememory() >= largest_efile_size &&
+               it->is_tool();
+    };
+    std::vector<item_location> nearby_etds = p.nearby( func, PICKUP_RANGE );
+    for( item_location &loc : nearby_etds ) {
+        if( loc->type->tool->etransfer_rate > fastest_rate ) {
+            fastest_edevice = loc;
+        }
+    }
+    return fastest_edevice;
+}
+
+bool efile_activity_actor::edevice_has_use( const item *edevice )
+{
+    return edevice->type->can_use( "E_FILE_DEVICE" );
+}
+
+efile_activity_actor::edevice_compatible efile_activity_actor::edevices_compatible(
+    const item_location &ed1, const item_location &ed2 )
+{
+    return edevices_compatible( *ed1.get_item(), *ed2.get_item() );
+}
+
+efile_activity_actor::edevice_compatible efile_activity_actor::edevices_compatible(
+    const item &ed1, const item &ed2 )
+{
+    if( !ed1.is_tool() || !ed2.is_tool() ) {
+        return efile_activity_actor::ECOMPAT_NONE;
+    }
+    std::string &port1 = ed1.type->tool->e_port;
+    std::string &port2 = ed2.type->tool->e_port;
+    if( port1 == port2 ) {
+        return efile_activity_actor::ECOMPAT_SLOW;
+    }
+    std::vector<std::string> &banned1 = ed1.type->tool->e_ports_banned;
+    std::vector<std::string> &banned2 = ed2.type->tool->e_ports_banned;
+    for( std::string &ban : banned1 ) {
+        if( ban == port2 ) {
+            return efile_activity_actor::ECOMPAT_NONE;
+        }
+    }
+    for( std::string &ban : banned2 ) {
+        if( ban == port1 ) {
+            return efile_activity_actor::ECOMPAT_NONE;
+        }
+    }
+    return efile_activity_actor::ECOMPAT_FAST;
+}
+
+void efile_activity_actor::combo_next_activity( Character &who )
+{
+    efile_combo new_combo = COMBO_NONE;
+    efile_action new_action = EF_INVALID;
+    std::vector<item_location> all_updated_files;
+
+    if( combo_type == COMBO_MOVE_ONTO_BROWSE ) {
+        for( item_location &edevice : target_edevices_copy ) {
+            for( item *efile : edevice->efiles() ) {
+                all_updated_files.emplace_back( edevice, efile );
+            }
+        }
+
+        units::ememory total_ememory;
+        for( item_location &edevice : target_edevices_copy ) {
+            if( edevice->is_browsed() ) {
+                for( item *efile : edevice->efiles() ) {
+                    total_ememory += efile->ememory_size();
+                }
+            }
+        }
+        if( total_ememory <= used_edevice->remaining_ememory() ) {
+            new_action = EF_MOVE_ONTO_THIS;
+        } else {
+            add_msg_if_player_sees( who, m_warning,
+                                    _( "File size exceeds available memory; canceling file move." ) );
+        }
+    }
+    if( new_action != EF_INVALID ) {
+        const efile_activity_actor new_activity( used_edevice, target_edevices_copy,
+                all_updated_files, new_action, new_combo );
+        who.assign_activity( player_activity( new_activity ) );
+    }
+}
+
+time_duration efile_activity_actor::charge_time( efile_action action_type )
+{
+    if( action_type == EF_BROWSE ) {
+        return charge_per_browse_time;
+    }
+    return charge_per_transfer_time;
+}
+
+void efile_activity_actor::canceled( player_activity &act, Character &who )
+{
+    if( who.is_avatar() ) {
+        add_msg( m_info, _( "You stop processing the remaining devices." ) );
+    } else {
+        add_msg_if_player_sees( who, _( "%s stops processing devices." ),
+                                who.disp_name( false, true ) );
+    }
+    act.set_to_null();
+}
+
+void efile_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "used_edevice", used_edevice );
+    jsout.member( "target_edevices", target_edevices );
+    jsout.member( "target_edevices_copy", target_edevices_copy );
+    jsout.member( "action_type", action_type );
+    jsout.member( "combo_type", combo_type );
+    jsout.member( "selected_efiles", selected_efiles );
+    jsout.member( "currently_processed_efiles", currently_processed_efiles );
+    jsout.member( "target_edevices_count", target_edevices_count );
+    jsout.member( "processed_edevices", processed_edevices );
+    jsout.member( "failed_edevices", failed_edevices );
+    jsout.member( "processed_efiles", processed_efiles );
+    jsout.member( "failed_efiles", failed_efiles );
+    jsout.member( "started_processing", started_processing );
+    jsout.member( "done_processing", done_processing );
+    jsout.member( "next_edevice_booted", next_edevice_booted );
+    jsout.member( "computer_low_skill", computer_low_skill );
+    jsout.member( "turns_left_on_current_edevice", turns_left_on_current_edevice );
+    jsout.member( "turns_left_on_current_efile", turns_left_on_current_efile );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> efile_activity_actor::deserialize( JsonValue &jsin )
+{
+    efile_activity_actor actor = efile_activity_actor();
+
+    JsonObject data = jsin.get_object();
+    data.read( "used_edevice", actor.used_edevice );
+    data.read( "target_edevices", actor.target_edevices );
+    data.read( "target_edevices_copy", actor.target_edevices_copy );
+    data.read( "turns_left_on_current_edevice", actor.turns_left_on_current_edevice );
+    data.read( "action_type", actor.action_type );
+    data.read( "combo_type", actor.combo_type );
+    data.read( "target_edevices_count", actor.target_edevices_count );
+    data.read( "processed_edevices", actor.processed_edevices );
+    data.read( "selected_efiles", actor.selected_efiles );
+    data.read( "currently_processed_efiles", actor.currently_processed_efiles );
+    data.read( "failed_edevices", actor.failed_edevices );
+    data.read( "processed_efiles", actor.processed_efiles );
+    data.read( "failed_efiles", actor.failed_efiles );
+    data.read( "started_processing", actor.started_processing );
+    data.read( "done_processing", actor.done_processing );
+    data.read( "next_edevice_booted", actor.next_edevice_booted );
+    data.read( "computer_low_skill", actor.computer_low_skill );
+    data.read( "turns_left_on_current_efile", actor.turns_left_on_current_efile );
+    return actor.clone();
+}
+
+time_duration efile_activity_actor::total_processing_time(
+    const item_location &used_edevice, const std::vector<item_location> &currently_processed_edevices,
+    const std::vector<item_location> &selected_efiles,
+    efile_action action_type, Character &who, bool computer_low_skill )
+{
+    time_duration total_time = device_bootup_time * currently_processed_edevices.size();
+    for( const item_location &edevice : currently_processed_edevices ) {
+        for( const item_location &efile : selected_efiles ) {
+            efile_transfer transfer( used_edevice, edevice );
+            total_time += efile_processing_time( efile, transfer, action_type, who, computer_low_skill );
+        }
+    }
+
+    return total_time;
+}
+
+time_duration efile_activity_actor::efile_processing_time( const item_location &efile,
+        const efile_transfer &transfer, efile_action action_type, Character &who, bool computer_low_skill )
+{
+    time_duration processing_time;
+    if( action_type == EF_BROWSE ) {
+        processing_time = time_per_browsed_efile;
+    } else if( action_type == EF_WIPE ) {
+        processing_time = 1_seconds + ( efile->ememory_size() / local_etransfer_rate ) * 1_seconds;
+    } else if( efile_skip_copy( transfer, *efile ) ) {
+        return 1_seconds;
+    } else {
+        //otherwise, this is a basic file transfer
+        processing_time = 1_seconds + ( efile->ememory_size() / current_etransfer_rate(
+                                            who, transfer, efile ) ) * 1_seconds;
+    }
+    if( computer_low_skill ) {
+        processing_time *= 3;
+    }
+    return processing_time;
+}
+
+units::ememory efile_activity_actor::current_etransfer_rate( Character &who,
+        const efile_transfer &transfer, const item_location &efile )
+{
+    const item_location &target_edevice = transfer.target_edevice;
+    const item_location &used_edevice = transfer.used_edevice;
+    const item_location &external_transfer_edevice =
+        find_external_transfer_estorage( who, efile, target_edevice, used_edevice );
+
+    auto get_etransfer_rate = []( const item_location & loc ) {
+        units::ememory rate = loc->type->tool->etransfer_rate;
+        if( rate == 0_KB ) {
+            debugmsg( "%s is candidate for transferring e-files but has no etransfer_rate", loc->tname() );
+            rate = 1_KB;
+        }
+        return rate;
+    };
+
+    units::ememory used_rate = get_etransfer_rate( used_edevice );
+    units::ememory target_rate = get_etransfer_rate( target_edevice );
+    units::ememory external_transfer_rate = external_transfer_edevice ?
+                                            get_etransfer_rate( external_transfer_edevice ) / 2 : 0_KB;
+    units::ememory slow_transfer_rate = 1_MB; //bluetooth
+
+    units::ememory final_rate = std::min( used_rate, target_rate );
+
+    edevice_compatible compat = edevices_compatible( used_edevice, target_edevice );
+    if( compat == ECOMPAT_FAST ) {
+        //do nothing
+    } else if( compat == ECOMPAT_SLOW ) {
+        if( external_transfer_rate > slow_transfer_rate ) {
+            final_rate = external_transfer_rate;
+        } else {
+            final_rate = slow_transfer_rate; //bluetooth
+        }
+    } else {
+        debugmsg( "incompatible devices %s, %s provided to efile_activity_actor",
+                  used_edevice->display_name(), target_edevice->display_name() );
+    }
+    return final_rate;
+}
+
+std::string efile_activity_actor::efile_action_name( efile_action action_type, bool past_tense,
+        bool extended )
+{
+    std::vector<std::string> base_names = { _( "browse" ), _( "read" ), _( "move" ), _( "move" ), _( "copy" ), _( "copy" ), _( "wipe" ) };
+    std::vector<std::string> past_names = { _( "browsed" ), _( "read" ), _( "moved" ), _( "moved" ), _( "copied" ), _( "copied" ), _( "wiped" ) };
+    std::vector<std::string> extensions = { "", "", _( " files onto" ), _( " files off of" ), _( " files onto" ), _( " files off of" ), "" };
+    std::string name_output;
+    past_tense ? name_output += past_names[action_type] : name_output += base_names[action_type];
+    if( extended ) {
+        name_output += extensions[action_type];
+    }
+    return name_output;
+}
+
+bool efile_activity_actor::efile_action_exclude_used( efile_action action_type )
+{
+    return action_type == EF_MOVE_FROM_THIS || action_type == EF_COPY_FROM_THIS ||
+           action_type == EF_MOVE_ONTO_THIS || action_type == EF_COPY_ONTO_THIS;
+}
+
+bool efile_activity_actor::efile_action_is_from( efile_action action_type )
+{
+    return action_type == EF_MOVE_FROM_THIS || action_type == EF_COPY_FROM_THIS;
+}
+
+bool efile_activity_actor::efile_skip_copy( const efile_transfer &transfer, const item &efile )
+{
+    auto check_for_file = [&efile]( const item_location & edevice ) {
+        for( const item *i : edevice->efiles() ) {
+            if( i->typeId() == efile.typeId() ) {
+                return true;
+            }
+        }
+        return false;
+    };
+    if( efile.is_ecopiable() && !efile.has_flag( flag_E_FILE_COLLECTION ) ) {
+        return check_for_file( transfer.used_edevice ) && check_for_file( transfer.target_edevice );
+    }
+    return false;
+}
 void migration_cancel_activity_actor::do_turn( player_activity &act, Character &who )
 {
     // Stop the activity
@@ -3641,7 +4066,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         who.add_msg_if_player( _( "You unload your %s." ), it.tname() );
     }
 
-    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
+    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining( ) == 0 ) {
         target.remove_item();
     }
 
@@ -3686,7 +4111,7 @@ bool craft_activity_actor::check_if_craft_okay( item_location &craft_item, Chara
     item *craft = craft_item.get_item();
 
     // item_location::get_item() will return nullptr if the item is lost
-    if( !craft || square_dist( craft_item.pos_bub(), crafter.pos_bub() ) > 1 ) {
+    if( !craft || square_dist( craft_item.pos_abs(), crafter.pos_abs() ) > 1 ) {
         crafter.add_msg_player_or_npc(
             _( "You no longer have the in progress craft in your possession.  "
                "You stop crafting.  "
@@ -3722,6 +4147,8 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
 {
+    map &here = get_map();
+
     if( !check_if_craft_okay( craft_item, crafter ) ) {
         act.set_to_null();
         return;
@@ -3731,7 +4158,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     item &craft = *craft_item.get_item();
 
     const std::optional<tripoint_bub_ms> location = craft_item.where() == item_location::type::character
-            ? std::optional<tripoint_bub_ms>() : std::optional<tripoint_bub_ms>( craft_item.pos_bub() );
+            ? std::optional<tripoint_bub_ms>() : std::optional<tripoint_bub_ms>( craft_item.pos_bub( here ) );
     const recipe &rec = craft.get_making();
     if( !use_cached_workbench_multiplier ) {
         cached_workbench_multiplier = crafter.workbench_crafting_speed_multiplier( craft, location );
@@ -3871,8 +4298,9 @@ void craft_activity_actor::canceled( player_activity &/*act*/, Character &/*who*
         return;
     }
     const recipe item_recipe = craft->get_making();
-    // practice recipe items with no components can be safely removed
-    if( item_recipe.category->is_practice && craft->components.empty() ) {
+    // recipe items with no components and results/result_eocs can be safely removed
+    if( item_recipe.result() == itype_id::NULL_ID() && item_recipe.result_eocs.empty() &&
+        craft->components.empty() ) {
         craft_item.remove_item();
     }
 }
@@ -4268,10 +4696,11 @@ void drop_or_stash_item_info::deserialize( const JsonObject &jsobj )
 
 void drop_activity_actor::do_turn( player_activity &, Character &who )
 {
+    map &here = get_map();
     const tripoint_bub_ms pos = placement + who.pos_bub();
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
                               obtain_activity_items( items, handler, who, current_bulk_unload ),
-                              pos, force_ground );
+                              &here, pos, force_ground );
     // Cancel activity if items is empty. Otherwise, we modified in place and we will continue
     // to resolve the drop next turn. This is different from the pickup logic which creates
     // a brand new activity every turn and cancels the old activity
@@ -4655,7 +5084,7 @@ static bool is_bulk_load( const item_location &lhs, const item_location &rhs )
                 break;
             case item_location::type::map:
             case item_location::type::vehicle:
-                return lhs.pos_bub() == rhs.pos_bub();
+                return lhs.pos_abs() == rhs.pos_abs();
                 break;
             default:
                 break;
@@ -4699,6 +5128,20 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
         }
         ret = holster.parents_can_contain_recursive( &it );
         if( !ret.success() ) {
+            if( carrier != nullptr && carrier->is_avatar() && query_yn(
+                    _( "The parent container does not have enough space to fit more items.  Would you like to first wield %s to fit more?" ),
+                    holster->tname() )
+                &&
+                // wield the container
+                carrier->wield( *holster.get_item() ) ) {
+                holster = carrier->get_wielded_item();
+
+                // and recheck if parent can hold (there should be no parent)
+                ret = holster.parents_can_contain_recursive( &it );
+
+            }
+        }
+        if( !ret.success() ) {
             return ret;
         }
 
@@ -4712,6 +5155,20 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
     ret_val<int> max_parent_charges = holster.max_charges_by_parent_recursive( it );
     if( !max_parent_charges.success() ) {
         return ret_val<void>::make_failure( max_parent_charges.str() );
+    } else if( carrier != nullptr && carrier->is_avatar() &&
+               max_parent_charges.value() < holstered_item.second ) {
+        // if you cannot fit all items because parent container is too small
+        if( query_yn(
+                _( "The parent container does not have enough space to fit more than %i %s.  Would you like to first wield %s to fit more?" ),
+                max_parent_charges.value(), it.tname( max_parent_charges.value() ), holster->tname() )
+            &&
+            // wield the container
+            carrier->wield( *holster.get_item() ) ) {
+            holster = carrier->get_wielded_item();
+
+            // and recalc max_parent_charges
+            max_parent_charges = holster.max_charges_by_parent_recursive( it );
+        }
     }
     int charges_to_insert = std::min( holstered_item.second, max_parent_charges.value() );
     *charges_added = holster->fill_with( it, charges_to_insert, /*unseal_pockets=*/true,
@@ -4886,6 +5343,8 @@ void reload_activity_actor::make_reload_sound( Character &who, item &reloadable 
 
 void reload_activity_actor::finish( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     act.set_to_null();
     if( !can_reload() ) {
         return;
@@ -4961,7 +5420,10 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     switch( reload_query.ret ) {
         case 1:
             // This case is only reachable if wield_check is true
-            who.wield( reloadable );
+
+            if( who.wield( reloadable ) ) {
+                loc.remove_item();
+            }
             add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
                      reloadable_name );
             break;
@@ -4973,7 +5435,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
                                                   _( "The %s no longer fits in your inventory so you drop it instead." ),
                                                   reloadable_name );
             }
-            get_map().add_item_or_charges( loc.pos_bub(), reloadable );
+            here.add_item_or_charges( loc.pos_bub( here ), reloadable );
             loc.remove_item();
             break;
     }
@@ -5297,6 +5759,8 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
 
 void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     if( !check_if_disassemble_okay( target, who ) ) {
         act.set_to_null();
         return;
@@ -5306,7 +5770,7 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
     item &craft = *target;
 
     const std::optional<tripoint_bub_ms> location = target.where() == item_location::type::character
-            ? std::optional<tripoint_bub_ms>() : std::optional<tripoint_bub_ms>( target.pos_bub() );
+            ? std::optional<tripoint_bub_ms>() : std::optional<tripoint_bub_ms>( target.pos_bub( here ) );
     if( !use_cached_workbench_multiplier ) {
         cached_workbench_multiplier = who.workbench_crafting_speed_multiplier( craft, location );
         use_cached_workbench_multiplier = true;
@@ -5430,8 +5894,10 @@ void oxytorch_activity_actor::start( player_activity &act, Character &who )
 
 void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
+    map &here = get_map();
+
     if( tool->ammo_sufficient( &who ) ) {
-        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
+        tool->ammo_consume( tool->ammo_required(), here, tool.pos_bub( here ), &who );
         sfx::play_activity_sound( "tool", "oxytorch", sfx::get_heard_volume( target ) );
         if( calendar::once_every( 2_turns ) ) {
             sounds::sound( target, 10, sounds::sound_t::destructive_activity, _( "hissssssssss!" ) );
@@ -5894,6 +6360,8 @@ void prying_activity_actor::start( player_activity &act, Character &who )
 
 void prying_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
+    map &here = get_map();
+
     std::string method = "CROWBAR";
 
     if( tool->ammo_sufficient( &who, method ) ) {
@@ -5902,7 +6370,7 @@ void prying_activity_actor::do_turn( player_activity &/*act*/, Character &who )
         if( iter != tool->type->ammo_scale.end() ) {
             ammo_consumed *= iter->second;
         }
-        tool->ammo_consume( ammo_consumed, tool.pos_bub(), &who );
+        tool->ammo_consume( ammo_consumed, here, tool.pos_bub( here ), &who );
         if( prying_nails ) {
             sfx::play_activity_sound( "tool", "hammer", sfx::get_heard_volume( target ) );
         }
@@ -6726,6 +7194,8 @@ void firstaid_activity_actor::start( player_activity &act, Character & )
 
 void firstaid_activity_actor::finish( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     static const std::string iuse_name_string( "heal" );
 
     item_location it = act.targets.front();
@@ -6765,12 +7235,12 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
         it.remove_item();
     } else if( used_tool->is_medication() ) {
         if( !it->count_by_charges() ||
-            it->use_charges( it->typeId(), charges_consumed, used, it.pos_bub() ) ) {
+            it->use_charges( it->typeId(), charges_consumed, used, it.pos_bub( here ) ) ) {
             it.remove_item();
         }
     } else if( used_tool->is_tool() ) {
         if( used_tool->type->charges_to_use() ) {
-            it->activation_consume( charges_consumed, it.pos_bub(), &who );
+            it->activation_consume( charges_consumed, it.pos_bub( here ), &who );
         }
     }
 
@@ -7189,7 +7659,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     if( it.made_of_from_type( phase_id::SOLID ) ) {
         you.mod_moves( -activity_handlers::move_cost( it, src, dest ) );
 
-        put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, dest );
+        put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, &here, dest );
         // Remove from map or vehicle.
         if( src_veh ) {
             vehicle_part &vp_src = src_veh->part( src_part );
@@ -7203,7 +7673,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     if( leftovers.charges > 0 ) {
         if( src_veh ) {
             vehicle_part &vp_src = src_veh->part( src_part );
-            if( !src_veh->add_item( vp_src, leftovers ) ) {
+            if( !src_veh->add_item( here, vp_src, leftovers ) ) {
                 debugmsg( "SortLoot: Source vehicle failed to receive leftover charges." );
             }
         } else {
@@ -7460,7 +7930,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                                     item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
                                     if( this_veh != nullptr ) {
                                         vehicle_part &vp_this = this_veh->part( this_part );
-                                        this_veh->add_item( vp_this, link );
+                                        this_veh->add_item( here, vp_this, link );
                                     } else {
                                         here.add_item_or_charges( src_loc, link );
                                     }
@@ -7469,7 +7939,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
 
-                            if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
+                            if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining( ) == 0 ) {
                                 if( this_veh != nullptr ) {
                                     vehicle_part &vp_this = this_veh->part( this_part );
                                     this_veh->remove_item( vp_this, it->first );
@@ -7582,14 +8052,14 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
     for( const vpart_reference &vpr : veh.get_any_parts( VPFLAG_CARGO ) ) {
         vehicle_stack cargo = vpr.items();
         for( const item &elem : cargo ) {
-            here.add_item_or_charges( veh.pos_bub(), elem );
+            here.add_item_or_charges( veh.pos_bub( here ), elem );
         }
         cargo.clear();
     }
 
-    veh.unboard_all();
+    veh.unboard_all( here );
     p.add_msg_if_player( _( "You fold the %s." ), veh.name );
-    here.add_item_or_charges( veh.pos_bub(), veh.get_folded_item() );
+    here.add_item_or_charges( veh.pos_bub( here ), veh.get_folded_item( here ) );
     here.destroy_vehicle( &veh );
 
     return true;
@@ -7597,8 +8067,9 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
 
 vehicle_folding_activity_actor::vehicle_folding_activity_actor( const vehicle &target )
 {
+    map &here = get_map();
     folding_time = target.folding_time();
-    target_pos = target.bub_part_pos( 0 );
+    target_pos = target.bub_part_pos( here,  0 );
 }
 
 void vehicle_folding_activity_actor::start( player_activity &act, Character &p )
@@ -7671,7 +8142,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
         here.destroy_vehicle( veh );
         return false;
     }
-    const bool cant_float = !veh->can_float();
+    const bool cant_float = !veh->can_float( here );
     const auto invalid_pos = [&here, &cant_float]( const tripoint_bub_ms & p ) {
         return ( cant_float && here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) )
                || here.veh_at( p )
@@ -7683,7 +8154,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
         if( vp.info().location != "structure" ) {
             continue;
         }
-        if( invalid_pos( vp.pos_bub() ) ) {
+        if( invalid_pos( vp.pos_bub( here ) ) ) {
             p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
             here.destroy_vehicle( veh );
             return false;
@@ -7780,11 +8251,13 @@ std::unique_ptr<activity_actor> vehicle_unfolding_activity_actor::deserialize( J
 
 int heat_activity_actor::get_available_heater( Character &p, item_location &loc ) const
 {
+    const map &here = get_map();
+
     int available_heater = 0;
     if( !loc->has_no_links() ) {
-        available_heater = loc->link().t_veh->connected_battery_power_level().first;
+        available_heater = loc->link().t_veh->connected_battery_power_level( here ).first;
     } else if( !loc->has_flag( flag_USE_UPS ) ) {
-        available_heater = loc->ammo_remaining();
+        available_heater = loc->ammo_remaining( );
     } else if( loc->has_flag( flag_USE_UPS ) ) {
         available_heater = units::to_kilojoule( p.available_ups() );
     }
@@ -7799,18 +8272,20 @@ void heat_activity_actor::start( player_activity &act, Character & )
 
 void heat_activity_actor::do_turn( player_activity &act, Character &p )
 {
+    map &here = get_map();
+
     // use a hack in use_vehicle_tool vehicle_use.cpp
     if( !act.coords.empty() ) {
         h.vpt = act.coords[0];
     }
-    std::optional<vpart_position> vp = get_map().veh_at( h.vpt );
+    std::optional<vpart_position> vp = here.veh_at( h.vpt );
     if( h.pseudo_flag ) {
         if( !vp ) {
             p.add_msg_if_player( _( "You can't find the appliance any more." ) );
             act.set_to_null();
             return;
         }
-        if( vp.value().vehicle().connected_battery_power_level().first < requirements.ammo *
+        if( vp.value().vehicle().connected_battery_power_level( here ).first < requirements.ammo *
             h.heating_effect ) {
             p.add_msg_if_player( _( "You need more energy to heat these items." ) );
             act.set_to_null();
@@ -7839,6 +8314,8 @@ void heat_activity_actor::do_turn( player_activity &act, Character &p )
 
 void heat_activity_actor::finish( player_activity &act, Character &p )
 {
+    map &here = get_map();
+
     for( drop_location &ait : to_heat ) {
         item_location cold_item = ait.first;
         if( cold_item->count_by_charges() ) {
@@ -7868,10 +8345,10 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
     }
     if( h.consume_flag ) {
         if( h.pseudo_flag ) {
-            get_map().veh_at( h.vpt ).value().vehicle().discharge_battery( requirements.ammo *
+            here.veh_at( h.vpt ).value().vehicle().discharge_battery( here, requirements.ammo *
                     h.heating_effect );
         } else {
-            h.loc->activation_consume( requirements.ammo, h.loc.pos_bub(), &p );
+            h.loc->activation_consume( requirements.ammo, h.loc.pos_bub( here ), &p );
         }
     }
     p.add_msg_if_player( m_good, _( "You heated your items." ) );
@@ -7997,127 +8474,211 @@ std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
-void pulp_activity_actor::start( player_activity &act, Character & )
+void pulp_activity_actor::start( player_activity &act, Character &you )
 {
+    // indefinitely long so activity won't end until we pulp all the corpses
+    // we then end the activity manually
     act.moves_total = calendar::INDEFINITELY_LONG;
     act.moves_left = calendar::INDEFINITELY_LONG;
+    you.recoil = MAX_RECOIL;
+    current_pos_iter = placement.begin();
+
+    pd = g->calculate_character_ability_to_pulp( you );
 }
 
 void pulp_activity_actor::do_turn( player_activity &act, Character &you )
 {
     map &here = get_map();
 
-    const item_location weapon = you.get_wielded_item();
-    int weap_cut = 0;
-    int weap_stab = 0;
-    int weap_bash = 0;
-    int mess_radius = 1;
+    bool processed_all = true;
+    tripoint_bub_ms pos = here.get_bub( *current_pos_iter );
+    map_stack corpse_pile = here.i_at( pos );
+    for( item &corpse : corpse_pile ) {
+        if( !corpse.is_corpse() || !corpse.can_revive() ) {
+            // Don't smash non-rezing corpses or random items
+            continue;
+        }
 
-    if( weapon ) {
-        // FIXME: Hardcoded damage types
-        weap_cut = weapon->damage_melee( damage_cut );
-        weap_stab = weapon->damage_melee( damage_stab );
-        weap_bash = weapon->damage_melee( damage_bash );
-        if( weapon->has_flag( flag_MESSY ) ) {
-            mess_radius = 2;
+        if( corpse.damage() < corpse.max_damage() ) {
+            bool can_pulp = punch_corpse_once( corpse, you, pos, here );
+            if( !can_pulp ) {
+                ++unpulped_corpses_qty;
+                continue;
+            }
+            processed_all = false;
+            break;
         }
     }
 
-    // Stabbing weapons are a lot less effective at pulping
-    const int cut_power = std::max( weap_cut, weap_stab / 2 );
+    if( current_pos_iter == placement.end() ) {
+        // no more locations to pulp
+        act.moves_total = 0;
+        act.moves_left = 0;
+    }
+    if( processed_all ) {
+        // smashed all possible corpses, moving to next tile
+        current_pos_iter++;
+    }
+}
 
-    ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( you.get_arm_str() + weap_bash ) * ( cut_power + 1.0f ) );
-    float pulp_effort = you.str_cur + weap_bash;
+bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
+        tripoint_bub_ms pos, map &here )
+{
+    const mtype *corpse_mtype = corpse.get_mtype();
 
-    // Multiplier to get the chance right + some bonus for survival skill
-    pulp_power *= 40 + you.get_skill_level( skill_survival ) * 5;
+    pd = g->calculate_pulpability( you, *corpse_mtype, pd );
 
-    int moves = 0;
-    for( auto pos_iter = placement.cbegin(); pos_iter != placement.end();/*left - out*/ ) {
-        const tripoint_bub_ms &pos = here.get_bub( *pos_iter );
-        map_stack corpse_pile = here.i_at( pos );
-        for( item &corpse : corpse_pile ) {
-            if( !corpse.is_corpse() || !corpse.can_revive() ) {
-                // Don't smash non-rezing corpses
-                continue;
-            }
+    if( !g->can_pulp_corpse( pd ) ) {
+        way_too_long_to_pulp = true;
+        return false;
+    }
 
-            const mtype *corpse_mtype = corpse.get_mtype();
-            const bool acid_immune = you.is_immune_damage( damage_acid ) ||
-                                     you.is_immune_field( fd_acid );
-            if( !pulp_acid && corpse_mtype->bloodType().obj().has_acid  && !acid_immune ) {
-                //don't smash acid zombies when auto pulping unprotected
-                continue;
-            }
-            while( corpse.damage() < corpse.max_damage() ) {
-                // Increase damage as we keep smashing ensuring we eventually smash the target.
-                if( x_in_y( pulp_power, corpse.volume() / 250_ml ) ) {
-                    corpse.inc_damage();
-                    if( corpse.damage() == corpse.max_damage() ) {
-                        num_corpses++;
-                    }
-                }
-
-                if( x_in_y( pulp_power, corpse.volume() / 250_ml ) ) {
-                    // Splatter some blood around
-                    // Splatter a bit more randomly, so that it looks cooler
-                    const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
-                    const tripoint_bub_ms dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
-                    const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
-                                                     corpse.get_mtype()->gibType() :
-                                                     corpse.get_mtype()->bloodType();
-                    here.add_splatter_trail( type_blood, pos, dest );
-                }
-
-                // mixture of isaac clarke stomps and swinging your weapon
-                you.burn_energy_all( -pulp_effort );
-                you.recoil = MAX_RECOIL;
-
-                if( one_in( 4 ) ) {
-                    // Smashing may not be butchery, but it involves some zombie anatomy
-                    you.practice( skill_survival, 2, 2 );
-                }
-
-                float stamina_ratio = static_cast<float>( you.get_stamina() ) / you.get_stamina_max();
-                moves += to_moves<int>( 6_seconds ) / std::max( 0.25f,
-                         stamina_ratio ) * you.exertion_adjusted_move_multiplier( act.exertion_level() );
-                if( stamina_ratio < 0.33 || you.is_npc() ) {
-                    you.set_moves( std::min( 0, you.get_moves() - moves ) );
-                    return;
-                }
-                if( moves >= you.get_moves() ) {
-                    // Enough for this turn;
-                    you.set_moves( you.get_moves() - moves );
-                    return;
-                }
-            }
-            corpse.set_flag( flag_PULPED );
+    // 10 minutes
+    if( pd.time_to_pulp > 600 && !too_long_to_pulp ) {
+        if( you.query_yn( "Pulping one or more corpses in this pile would take too much time.  Continue?" ) ) {
+            too_long_to_pulp = true;
+        } else {
+            too_long_to_pulp_interrupted = true;
+            return false;
         }
-        //Upon reach here, we have cleared one maptile
-        pos_iter = placement.erase( pos_iter );
     }
 
-    // If we reach this, all corpses have been pulped, finish the activity
-    act.moves_left = 0;
-    if( num_corpses == 0 ) {
-        you.add_msg_if_player( m_bad, _( "The corpse moved before you could finish smashing it!" ) );
-        return;
+    // how much damage you need to deal each second to match expected pulp time
+    const float corpse_damage = 4000.0 / pd.time_to_pulp + float_corpse_damage_accum;
+    float_corpse_damage_accum = corpse_damage - static_cast<int>( corpse_damage ) ;
+
+    // Increase damage as we keep smashing ensuring we eventually smash the target.
+    corpse.mod_damage( static_cast<int>( corpse_damage ) );
+    if( corpse.damage() == corpse.max_damage() ) {
+        ++num_corpses;
+        corpse.set_flag( flag_PULPED );
     }
-    // TODO: Factor in how long it took to do the smashing.
-    you.add_msg_player_or_npc( n_gettext( "The corpse is thoroughly pulped.",
-                                          "The corpses are thoroughly pulped.", num_corpses ),
-                               n_gettext( "<npcname> finished pulping the corpse.",
-                                          "<npcname> finished pulping the corpses.", num_corpses ) );
+
+    // 19 splatters on average, no matter of the corpse size
+    if( one_in( pd.time_to_pulp / 19 ) ) {
+        // Splatter some blood around
+        // Splatter a bit more randomly, so that it looks cooler
+        const int radius = pd.acid_corpse ? 0
+                           : pd.mess_radius + x_in_y( pd.pulp_power, 500 ) + x_in_y( pd.pulp_power, 1000 );
+        const tripoint_bub_ms dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
+        const field_type_id type_blood = ( pd.mess_radius > 1 && x_in_y( pd.pulp_power, 10000 ) ) ?
+                                         corpse.get_mtype()->gibType() :
+                                         corpse.get_mtype()->bloodType();
+        here.add_splatter_trail( type_blood, pos, dest );
+    }
+
+    if( pd.stomps_only ) {
+        you.burn_energy_legs( -pd.pulp_effort );
+    } else if( pd.weapon_only ) {
+        you.burn_energy_arms( -pd.pulp_effort );
+    } else {
+        you.burn_energy_all( -pd.pulp_effort );
+    }
+
+    if( one_in( 128 ) ) {
+        you.practice( skill_survival, 1, 2, true );
+        you.practice( skill_swimming, 1, 5, true );
+        if( pd.unknown_prof.has_value() ) {
+            you.practice_proficiency( pd.unknown_prof.value(), 5_seconds );
+        }
+    }
+
+    return true;
 }
 
 void pulp_activity_actor::finish( player_activity &act, Character &you )
 {
+    act.moves_left = 0;
+
+    send_final_message( you );
+
     if( you.is_npc() ) {
         you.as_npc()->revert_after_activity();
         you.as_npc()->pulp_location.reset();
     } else {
         act.set_to_null();
+    }
+}
+
+void pulp_activity_actor::send_final_message( Character &you ) const
+{
+
+    if( way_too_long_to_pulp && num_corpses == 0 ) {
+        you.add_msg_player_or_npc( n_gettext(
+                                       _( "You cannot pulp this corpse, for you have no tool heavy enough to deal with it quickly." ),
+                                       _( "You cannot pulp these corpses, for you have no tool heavy enough to deal with it quickly." ),
+                                       unpulped_corpses_qty ),
+                                   n_gettext(
+                                       _( "<npcname> cannot pulp this corpse without a heavier tool." ),
+                                       _( "<npcname> cannot pulp these corpses without a heavier tool." ),
+                                       unpulped_corpses_qty ) );
+        return;
+    }
+
+    if( too_long_to_pulp_interrupted && num_corpses == 0 ) {
+        you.add_msg_if_player( n_gettext(
+                                   _( "You interrupted pulping of this corpse, for you have no tool heavy enough to deal with it quickly." ),
+                                   _( "You interrupted pulping of these corpses, for you have no tool heavy enough to deal with it quickly." ),
+                                   unpulped_corpses_qty ) );
+        return;
+    }
+
+    std::string tools;
+    if( pd.stomps_only ) {
+        tools = string_format( ", with nothing but your %s",
+                               you.get_random_body_part_of_type( body_part_type::type::leg )->accusative_multiple );
+    } else if( pd.weapon_only ) {
+        tools = string_format( " with your %s", pd.bash_tool );
+    } else {
+        tools = string_format( " mixing your %s with powerful stomps", pd.bash_tool );
+    }
+    if( pd.can_severe_cutting ) {
+        tools += string_format( " and a trusty %s", pd.cut_tool );
+    }
+
+    std::string skill;
+    if( you.get_skill_level( skill_survival ) < 2 ) {
+        skill = string_format( "even if your moves still lack the experience" );
+        if( you.get_skill_level( skill_swimming ) < 2 ) {
+            skill += " and your body is not fit";
+        }
+    } else if( you.get_skill_level( skill_swimming ) < 2 ) {
+        skill = "even if your body is not fit";
+    } else {
+        skill = "";
+    }
+
+    std::string pry = ".";
+    if( pd.pry_tool == pd.bash_tool ) {
+        // use default assignment
+    } else if( pd.used_pry ) {
+        pry = string_format( ".  You also were lucky to carry %, it helped a lot with more armoured bodies.",
+                             pd.pry_tool );
+    } else if( pd.couldnt_use_pry ) {
+        pry = string_format( ".  You wish you had anything like a crowbar, you had a really hard time without it." );
+    }
+
+    you.add_msg_player_or_npc(
+        //~ %1$s is message about tools used in pulping, %2$s is a note if your skill is too low (optional, can be empty),
+        //~ 3$s is message about you using/not being able to use prying tool (optional, can be `.`).
+        //~ see pulp_activity_actor::send_final_message() for full context
+        n_gettext( "You finished pulping the corpse%1$s, %2$s%3$s",
+                   "You finished pulping the corpses%1$s, %2$s%3$s", unpulped_corpses_qty ),
+        n_gettext( "<npcname> finished pulping the corpse.",
+                   "<npcname> finished pulping the corpses.", unpulped_corpses_qty ),
+        tools, skill, pry
+    );
+
+    if( way_too_long_to_pulp ) {
+        you.add_msg_player_or_npc(
+            n_gettext( "You left one corpse unpulped, for you have no tool heavy enough to deal with it.",
+                       "You left some corpses unpulped, for you have no tool heavy enough to deal with it.",
+                       unpulped_corpses_qty ),
+            n_gettext( "<npcname> left one corpse unpulped, for %1$s has no tool heavy enough to deal with it.",
+                       "<npcname> left some corpses unpulped, for %1$s has no tool heavy enough to deal with it.",
+                       unpulped_corpses_qty ),
+            you.male ? pgettext( "npc", "he" ) : pgettext( "npc", "she" )
+        );
     }
 }
 
@@ -8127,7 +8688,23 @@ void pulp_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "num_corpses", num_corpses );
     jsout.member( "placement", placement );
-    jsout.member( "pulp_acid", pulp_acid );
+    jsout.member( "pulp_power", pd.pulp_power );
+    jsout.member( "pulp_effort", pd.pulp_effort );
+    jsout.member( "mess_radius", pd.mess_radius );
+    jsout.member( "unpulped_corpses_qty", unpulped_corpses_qty );
+    jsout.member( "can_pry_armor", pd.can_pry_armor );
+    jsout.member( "too_long_to_pulp", too_long_to_pulp );
+    jsout.member( "too_long_to_pulp_interrupted", too_long_to_pulp_interrupted );
+    jsout.member( "way_too_long_to_pulp", way_too_long_to_pulp );
+    jsout.member( "cut_quality", pd.cut_quality );
+    jsout.member( "stomps_only", pd.stomps_only );
+    jsout.member( "weapon_only", pd.weapon_only );
+    jsout.member( "can_severe_cutting", pd.can_severe_cutting );
+    jsout.member( "used_pry", pd.used_pry );
+    jsout.member( "couldnt_use_pry", pd.couldnt_use_pry );
+    jsout.member( "bash_tool", pd.bash_tool );
+    jsout.member( "cut_tool", pd.cut_tool );
+    jsout.member( "pry_tool", pd.pry_tool );
 
     jsout.end_object();
 }
@@ -8140,7 +8717,23 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
 
     data.read( "num_corpses", actor.num_corpses );
     data.read( "placement", actor.placement );
-    data.read( "pulp_acid", actor.pulp_acid );
+    data.read( "pulp_power", actor.pd.pulp_power );
+    data.read( "pulp_effort", actor.pd.pulp_effort );
+    data.read( "mess_radius", actor.pd.mess_radius );
+    data.read( "unpulped_corpses_qty", actor.unpulped_corpses_qty );
+    data.read( "can_pry_armor", actor.pd.can_pry_armor );
+    data.read( "too_long_to_pulp", actor.too_long_to_pulp );
+    data.read( "too_long_to_pulp_interrupted", actor.too_long_to_pulp_interrupted );
+    data.read( "way_too_long_to_pulp", actor.way_too_long_to_pulp );
+    data.read( "cut_quality", actor.pd.cut_quality );
+    data.read( "stomps_only", actor.pd.stomps_only );
+    data.read( "weapon_only", actor.pd.weapon_only );
+    data.read( "can_severe_cutting", actor.pd.can_severe_cutting );
+    data.read( "used_pry", actor.pd.used_pry );
+    data.read( "couldnt_use_pry", actor.pd.couldnt_use_pry );
+    data.read( "bash_tool", actor.pd.bash_tool );
+    data.read( "cut_tool", actor.pd.cut_tool );
+    data.read( "pry_tool", actor.pd.pry_tool );
 
     return actor.clone();
 }
@@ -8213,10 +8806,10 @@ deserialize_functions = {
     { ACT_CONSUME, &consume_activity_actor::deserialize },
     { ACT_CRACKING, &safecracking_activity_actor::deserialize },
     { ACT_CRAFT, &craft_activity_actor::deserialize },
-    { ACT_DATA_HANDLING, &data_handling_activity_actor::deserialize },
     { ACT_DISABLE, &disable_activity_actor::deserialize },
     { ACT_DISASSEMBLE, &disassemble_activity_actor::deserialize },
     { ACT_DROP, &drop_activity_actor::deserialize },
+    { ACT_E_FILE, &efile_activity_actor::deserialize },
     { ACT_EBOOKSAVE, &ebooksave_activity_actor::deserialize },
     { ACT_FIRSTAID, &firstaid_activity_actor::deserialize },
     { ACT_FORAGE, &forage_activity_actor::deserialize },

@@ -2,31 +2,16 @@
 #ifndef CATA_SRC_TALKER_CHARACTER_H
 #define CATA_SRC_TALKER_CHARACTER_H
 
-#include <functional>
-#include <iosfwd>
-#include <list>
+#include <string>
 #include <vector>
 
+#include "bodypart.h"
 #include "character.h"
 #include "coords_fwd.h"
-#include "npc.h"
+#include "enums.h"
 #include "talker.h"
 #include "type_id.h"
-
-class character_id;
-class faction;
-class item;
-
-class time_duration;
-class vehicle;
-struct tripoint;
-
-struct mutation_variant;
-
-namespace npc_factions
-{
-enum class relationship : int;
-} // namespace npc_factions
+#include "units_fwd.h"
 
 /*
  * Talker wrapper class for const Character access.
@@ -58,7 +43,6 @@ class talker_character_const: virtual public const_talker
         int posx() const override;
         int posy() const override;
         int posz() const override;
-        tripoint pos() const override;
         tripoint_bub_ms pos_bub() const override;
         tripoint_abs_ms pos_abs() const override;
         tripoint_abs_omt pos_abs_omt() const override;
@@ -112,6 +96,7 @@ class talker_character_const: virtual public const_talker
         int get_spell_level( const trait_id & ) const override;
         int get_spell_level( const spell_id & ) const override;
         int get_spell_exp( const spell_id & ) const override;
+        int get_spell_difficulty( const spell_id & ) const override;
         int get_highest_spell_level() const override;
         int get_spell_count( const trait_id & ) const override;
         int get_spell_sum( const trait_id &school, int min_level ) const override;
@@ -193,6 +178,7 @@ class talker_character_const: virtual public const_talker
         bool can_see_location( const tripoint_bub_ms &pos ) const override;
         int morale_cur() const override;
         int focus_cur() const override;
+        int focus_effective_cur() const override;
         int get_rad() const override;
         int get_stim() const override;
         int get_addiction_intensity( const addiction_id &add_id ) const override;
@@ -258,6 +244,7 @@ class talker_character: virtual public talker
         void set_dex_bonus( int value ) override;
         void set_int_bonus( int value ) override;
         void set_per_bonus( int value ) override;
+        void set_cash( int value ) override;
         void set_power_cur( units::energy value ) override;
         void set_mana_cur( int value ) override;
         void set_spell_level( const spell_id &, int ) override;
@@ -323,7 +310,7 @@ class talker_character: virtual public talker
         void remove_bionic( const bionic_id &old_bionic ) override;
         void set_all_parts_hp_cur( int ) override;
         void set_part_hp_cur( const bodypart_id &id, int set ) override;
-        void die() override;
+        void die( map *here ) override;
         void attack_target( Creature &t, bool allow_special, const matec_id &force_technique,
                             bool allow_unarmed, int forced_movecost ) override;
         void learn_martial_art( const matype_id &id ) override;

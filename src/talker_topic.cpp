@@ -1,6 +1,5 @@
 #include <memory>
 
-#include "npc.h"
 #include "talker_topic.h"
 
 std::vector<std::string> talker_topic_const::get_topics( bool ) const

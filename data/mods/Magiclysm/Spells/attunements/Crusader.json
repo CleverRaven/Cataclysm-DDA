@@ -25,13 +25,13 @@
       "BELTED",
       "RESTRICT_HANDS",
       "BLOCK_WHILE_WORN",
-      "ONLY_ONE",
       "UNBREAKABLE_MELEE",
       "NONCONDUCTIVE",
       "NO_REPAIR",
       "NO_SALVAGE",
       "TRADER_AVOID"
     ],
+    "max_worn": 1,
     "relic_data": {
       "passive_effects": [
         {

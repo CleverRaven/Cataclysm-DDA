@@ -75,7 +75,7 @@ else
         includes
 
     tidyable_cpp_files="$( \
-        ( test -f ./files_changed && ( build-scripts/get_affected_files.py ./files_changed ) ) || \
+        ( test -f ./files_changed && ( build-scripts/get_affected_files.py --changed-files-list ./files_changed ) ) || \
         echo unknown )"
 
     tidyable_cpp_files="$(echo -n "$tidyable_cpp_files" | grep -v third-party || true)"

@@ -4,13 +4,13 @@
 
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
+#include <string>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "coords_fwd.h"
@@ -18,21 +18,21 @@
 #include "flat_set.h"
 #include "pocket_type.h"
 #include "ret_val.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
 
 class Character;
+class JsonArray;
 class JsonObject;
 class JsonOut;
 class item;
 class item_location;
+class map;
 class pocket_data;
 struct iteminfo;
-struct itype;
-struct tripoint;
-class map;
 
 class item_pocket
 {
@@ -154,8 +154,10 @@ class item_pocket
         bool allows_speedloader( const itype_id &speedloader_id ) const;
 
         // is this pocket one of the standard types?
-        // exceptions are MOD, CORPSE, SOFTWARE, MIGRATION, etc.
+        // exceptions are MOD, CORPSE, MIGRATION, etc.
         bool is_standard_type() const;
+        // is this pocket a type that acts like a container in its underlying implementation?
+        bool is_container_like_type() const;
 
         bool is_forbidden() const;
 
@@ -290,8 +292,9 @@ class item_pocket
         std::optional<item> remove_item( const item &it );
         std::optional<item> remove_item( const item_location &it );
         // spills any contents that can't fit into the pocket, largest items first
-        void overflow( const tripoint_bub_ms &pos, const item_location &loc );
+        void overflow( map &here, const tripoint_bub_ms &pos, const item_location &loc );
         bool spill_contents( const tripoint_bub_ms &pos );
+        bool spill_contents( map *here, const tripoint_bub_ms &pos );
         void on_pickup( Character &guy, item *avoid = nullptr );
         void on_contents_changed();
         void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );
@@ -513,6 +516,8 @@ class pocket_data
         bool open_container = false;
         // items in this pocket pass their flags to the parent item
         bool inherits_flags = false;
+        // max amount of electronic memory held
+        units::ememory ememory_max = 0_KB;
         // the contents of the pocket are visible
         bool transparent = false;
 

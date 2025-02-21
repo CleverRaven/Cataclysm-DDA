@@ -6,5 +6,29 @@
     "required_event": "game_load",
     "condition": { "not": { "u_has_trait": "LILIN_TRAITS" } },
     "effect": [ { "u_lose_effect": "effect_lilin_no_ruach" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIAN_WIND_BLOWS_MUTATION_DIVIDER",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "u_has_trait": "WIND_BLOWS_WILLOW_BENDS" },
+    "effect": [
+      {
+        "if": { "u_has_trait": "ARVORE" },
+        "then": [
+          { "math": [ "u_migration_spell_level", "=", "u_spell_level('paraclesian_spell_dodge_bonus')" ] },
+          { "u_lose_trait": "WIND_BLOWS_WILLOW_BENDS" },
+          { "u_add_trait": "WIND_BLOWS_WILLOW_BENDS_ARVORE" },
+          { "math": [ "paraclesian_spell_dodge_bonus_arvore", "=", "u_migration_spell_level" ] }
+        ],
+        "else": [
+          { "math": [ "u_migration_spell_level", "=", "u_spell_level('paraclesian_spell_dodge_bonus')" ] },
+          { "u_lose_trait": "WIND_BLOWS_WILLOW_BENDS" },
+          { "u_add_trait": "WIND_BLOWS_WILLOW_BENDS_SYLPH" },
+          { "math": [ "paraclesian_spell_dodge_bonus_sylph", "=", "u_migration_spell_level" ] }
+        ]
+      }
+    ]
   }
 ]

@@ -83,6 +83,18 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_TRIFFID_NEUTRALITY",
+    "name": { "str": "Pact of the Green" },
+    "description": "You are in tune with the forest and the triffids will allow you safe passage in their lands, so long as you do not harm them.",
+    "purifiable": false,
+    "valid": false,
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "anger_relations": [ [ "PLANT", -100 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "GREENSTRIDE",
     "name": { "str": "Greenstride" },
     "purifiable": false,
@@ -663,7 +675,7 @@
     "visibility": 3,
     "ugliness": 1,
     "prereqs": [ "GREENSTRIDE" ],
-    "prereqs2": [ "WIND_BLOWS_WILLOW_BENDS" ],
+    "prereqs2": [ "WIND_BLOWS_WILLOW_BENDS_ARVORE" ],
     "description": "Like green wood, you can bend your limbs easily.  You gain a +4 bonus to Dexterity.",
     "category": [ "ARVORE" ],
     "types": [ "DEX" ],

@@ -49,6 +49,7 @@
         }
       }
     },
+    "palettes": [ "parametrized_walls_palette" ],
     "toilets": { "t": {  } },
     "furniture": {
       "a": "f_fireplace",

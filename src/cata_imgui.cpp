@@ -428,6 +428,9 @@ void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
         b.AddRanges( io.Fonts->GetGlyphRangesDefault() );
         AddGlyphRangesFromCLDR( &b, lang );
         AddGlyphRangesMisc( &b );
+        if( get_option<bool>( "IMGUI_LOAD_CHINESE" ) ) {
+            b.AddRanges( io.Fonts->GetGlyphRangesChineseFull() );
+        }
         ImVector<ImWchar> ranges;
         b.BuildRanges( &ranges );
 
@@ -1087,7 +1090,7 @@ static void inherit_base_colors()
     ImGuiStyle &style = ImGui::GetStyle();
 
     style.Colors[ImGuiCol_Text] = c_white;
-    style.Colors[ImGuiCol_TextDisabled] = c_dark_gray;
+    style.Colors[ImGuiCol_TextDisabled] = c_unset;
     style.Colors[ImGuiCol_WindowBg] = c_black;
     style.Colors[ImGuiCol_ChildBg] = c_black;
     style.Colors[ImGuiCol_PopupBg] = c_black;
@@ -1097,7 +1100,7 @@ static void inherit_base_colors()
     style.Colors[ImGuiCol_FrameBgHovered] = c_black;
     style.Colors[ImGuiCol_FrameBgActive] = c_dark_gray;
     style.Colors[ImGuiCol_TitleBg] = c_dark_gray;
-    style.Colors[ImGuiCol_TitleBgActive] = c_light_blue;
+    style.Colors[ImGuiCol_TitleBgActive] = c_black;
     style.Colors[ImGuiCol_TitleBgCollapsed] = c_dark_gray;
     style.Colors[ImGuiCol_MenuBarBg] = c_black;
     style.Colors[ImGuiCol_ScrollbarBg] = c_black;
@@ -1110,7 +1113,7 @@ static void inherit_base_colors()
     style.Colors[ImGuiCol_Button] = c_dark_gray;
     style.Colors[ImGuiCol_ButtonHovered] = c_dark_gray;
     style.Colors[ImGuiCol_ButtonActive] = c_blue;
-    style.Colors[ImGuiCol_Header] = c_blue;
+    style.Colors[ImGuiCol_Header] = h_blue;
     style.Colors[ImGuiCol_HeaderHovered] = c_black;
     style.Colors[ImGuiCol_HeaderActive] = c_dark_gray;
     style.Colors[ImGuiCol_Separator] = c_dark_gray;

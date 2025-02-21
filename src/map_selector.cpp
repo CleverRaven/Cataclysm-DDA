@@ -5,12 +5,13 @@
 #include <optional>
 #include <vector>
 
-#include "game_constants.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "rng.h"
 
 class game;
+
 // NOLINTNEXTLINE(cata-static-declarations)
 extern std::unique_ptr<game> g;
 
@@ -78,10 +79,25 @@ std::optional<tripoint_bub_ms> random_point( const tripoint_range<tripoint_bub_m
 map_cursor::map_cursor( const tripoint_bub_ms &pos ) : pos_abs_( g ? get_map().get_abs(
                 pos ) : tripoint_abs_ms::zero ), pos_bub_( g ? tripoint_bub_ms::zero : pos ) { }
 
+map_cursor::map_cursor( map *here, const tripoint_bub_ms &pos ) : pos_abs_( g ? here->get_abs(
+                pos ) : tripoint_abs_ms::zero ), pos_bub_( g ? tripoint_bub_ms::zero : pos )
+{
+}
+
 map_cursor::map_cursor( const tripoint_abs_ms &pos ) : pos_abs_( pos ),
     pos_bub_( tripoint_bub_ms::zero ) { }
 
-tripoint_bub_ms map_cursor::pos() const
+tripoint_bub_ms map_cursor::pos_bub() const
 {
     return g ? get_map().get_bub( pos_abs_ ) : pos_bub_;
+}
+
+tripoint_bub_ms map_cursor::pos_bub( const map &here ) const
+{
+    return g ? here.get_bub( pos_abs_ ) : pos_bub_;
+}
+
+tripoint_abs_ms map_cursor::pos_abs() const
+{
+    return g ? pos_abs_ : tripoint_abs_ms::invalid;
 }

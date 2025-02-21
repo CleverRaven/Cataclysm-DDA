@@ -10,6 +10,7 @@
 #include "bodypart.h"
 #include "character.h"
 #include "character_attire.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "enums.h"
 #include "flag.h"
@@ -23,7 +24,6 @@
 #include "material.h"
 #include "memorial_logger.h"
 #include "mutation.h"
-#include "npc.h"
 #include "output.h"
 #include "pimpl.h"
 #include "point.h"
@@ -34,9 +34,6 @@
 #include "type_id.h"
 #include "units.h"
 #include "viewer.h"
-
-struct weakpoint;
-struct weakpoint_attack;
 
 static const bionic_id bio_ads( "bio_ads" );
 
@@ -291,6 +288,8 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
 bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_bodypart_id &bp,
                                        int roll )
 {
+    const map &here = get_map();
+
     item::cover_type ctype = item::get_cover_type( du.type );
 
     for( item_pocket *const pocket : armor.get_all_ablative_pockets() ) {
@@ -359,7 +358,7 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
                 if( damaged == item::armor_status::DESTROYED ) {
                     //the plate is damaged like normal armor but also ends up destroyed
                     describe_damage( du, ablative_armor );
-                    if( get_player_view().sees( *this ) ) {
+                    if( get_player_view().sees( here, *this ) ) {
                         SCT.add( point( posx(), posy() ), direction::NORTH, remove_color_tags( ablative_armor.tname() ),
                                  m_neutral, _( "destroyed" ), m_info );
                     }

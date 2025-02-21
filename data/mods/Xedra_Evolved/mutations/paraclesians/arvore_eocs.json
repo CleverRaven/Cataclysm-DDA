@@ -95,6 +95,26 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_LOSE_PACT_OF_GREEN_IF_ATTACKING_TRIFFID",
+    "eoc_type": "EVENT",
+    "required_event": "monster_takes_damage",
+    "condition": { "and": [ { "u_has_species": "PLANT" }, "has_beta" ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_ARVORE_LOSE_PACT_OF_GREEN_IF_ATTACKING_TRIFFID_2",
+            "condition": {
+              "and": [ { "npc_has_trait": "ARVORE_TRIFFID_NEUTRALITY" }, { "not": { "npc_has_trait": "effect_arvore_attacked_a_triffid" } } ]
+            },
+            "effect": [ { "npc_add_effect": "effect_arvore_attacked_a_triffid", "duration": { "math": [ "10800 + rand(43200)" ] } } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_BRIARS_SELECTOR",
     "effect": [
       {
@@ -376,7 +396,7 @@
         { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
       ]
     },
-    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_arvore", "use_item_group": true, "suppress_message": true },
     "false_effect": [ { "u_message": "You must be surrounded by the wild to call forth a goblin fruit.", "type": "bad" } ]
   },
   {

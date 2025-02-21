@@ -1534,5 +1534,29 @@
     "calories": 180,
     "fun": 3,
     "vitamins": [ [ "calcium", 6 ], [ "iron", 4 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "marshmallow_fluff",
+    "//": "Based on https://www.target.com/p/marshmallow-fluff-frosting-16oz/-/A-14773337",
+    "name": { "str_sp": "marshmallow fluff" },
+    "weight": "11 g",
+    "color": "white",
+    "spoils_in": "90 days",
+    "container": "jar_glass_sealed",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "calories": 40,
+    "description": "Delicious and creamy delight, half of the famous Fluffernutter.",
+    "price": "2 USD 99 cent",
+    "price_postapoc": "10 USD",
+    "material": [ "junk", "egg" ],
+    "sealed": true,
+    "volume": "500 ml",
+    "phase": "liquid",
+    "charges": 40,
+    "fun": 10,
+    "flags": [ "USE_EAT_VERB" ],
+    "vitamins": [ [ "junk_allergen", 1 ], [ "egg_allergen", 1 ] ]
   }
 ]

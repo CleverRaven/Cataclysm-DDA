@@ -139,15 +139,23 @@ static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_chem_ethanol( "chem_ethanol" );
 static const itype_id fuel_type_gasoline( "gasoline" );
 static const itype_id fuel_type_motor_oil( "motor_oil" );
+static const itype_id itype_camera( "camera" );
+static const itype_id itype_camera_pro( "camera_pro" );
+static const itype_id itype_efile_photos( "efile_photos" );
+static const itype_id itype_efile_recipes( "efile_recipes" );
+static const itype_id itype_eink_tablet_pc( "eink_tablet_pc" );
 static const itype_id itype_internal_battery_compartment( "internal_battery_compartment" );
 static const itype_id itype_internal_ethanol_tank( "internal_ethanol_tank" );
 static const itype_id itype_internal_gasoline_tank( "internal_gasoline_tank" );
 static const itype_id itype_internal_oil_tank( "internal_oil_tank" );
+static const itype_id itype_laptop( "laptop" );
 static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
+static const itype_id itype_memory_card( "memory_card" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_radio( "radio" );
 static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_rock( "rock" );
+static const itype_id itype_smart_phone( "smart_phone" );
 static const itype_id itype_steel_chunk( "steel_chunk" );
 static const itype_id itype_usb_drive( "usb_drive" );
 
@@ -1104,6 +1112,7 @@ void Character::load( const JsonObject &data )
     data.read( "male", male );
     data.read( "cash", cash );
     data.read( "recoil", recoil );
+    data.read( "book_chapters", book_chapters );
     data.read( "in_vehicle", in_vehicle );
     data.read( "last_sleep_check", last_sleep_check );
     if( data.read( "id", tmpid ) && tmpid.is_valid() ) {
@@ -1481,6 +1490,7 @@ void Character::store( JsonOut &json ) const
 
     json.member( "cash", cash );
     json.member( "recoil", recoil );
+    json.member( "book_chapters", book_chapters );
     json.member( "in_vehicle", in_vehicle );
     json.member( "id", getID() );
 
@@ -2058,10 +2068,10 @@ void npc::load( const JsonObject &data )
 
     // TEMPORARY Remove if branch after 0.G (keep else branch)
     if( !data.has_member( "location" ) ) {
-        point submap_coords;
+        point_abs_sm submap_coords;
         data.read( "submap_coords", submap_coords );
         const tripoint_bub_ms pos = read_legacy_creature_pos( data );
-        set_pos_abs_only( tripoint_abs_ms( project_to<coords::ms>( point_abs_sm( submap_coords ) ),
+        set_pos_abs_only( tripoint_abs_ms( project_to<coords::ms>( submap_coords ),
                                            0 ) + tripoint( pos.x() % SEEX, pos.y() % SEEY, pos.z() ) );
         std::optional<tripoint_bub_ms> opt;
         if( data.read( "last_player_seen_pos", opt ) && opt ) {
@@ -2070,16 +2080,17 @@ void npc::load( const JsonObject &data )
         if( data.read( "pulp_location", opt ) && opt ) {
             pulp_location = pos_abs() + ( *opt - pos );
         }
-        tripoint tmp;
-        if( data.read( "guardx", tmp.x ) && data.read( "guardy", tmp.y ) && data.read( "guardz", tmp.z ) &&
-            tmp != tripoint::min ) {
-            guard_pos = tripoint_abs_ms( tmp );
+        tripoint_abs_ms tmp;
+        if( data.read( "guardx", tmp.x() ) && data.read( "guardy", tmp.y() ) &&
+            data.read( "guardz", tmp.z() ) &&
+            tmp != tripoint_abs_ms::min ) {
+            guard_pos = tmp;
         }
-        if( data.read( "chair_pos", tmp ) && tmp != tripoint::min ) {
-            chair_pos = tripoint_abs_ms( tmp );
+        if( data.read( "chair_pos", tmp ) && tmp != tripoint_abs_ms::min ) {
+            chair_pos = tmp;
         }
-        if( data.read( "wander_pos", tmp ) && tmp != tripoint::min ) {
-            wander_pos = tripoint_abs_ms( tmp );
+        if( data.read( "wander_pos", tmp ) && tmp != tripoint_abs_ms::min ) {
+            wander_pos = tmp;
         }
     } else {
         data.read( "last_player_seen_pos", last_player_seen_pos );
@@ -2440,9 +2451,9 @@ void monster::load( const JsonObject &data )
         data.read( "wandy", wand.y() );
         data.read( "wandz", wand.z() );
         wander_pos = get_map().get_abs( wand );
-        tripoint destination;
+        tripoint_rel_ms destination;
         data.read( "destination", destination );
-        if( destination != tripoint::zero ) {
+        if( destination != tripoint_rel_ms::zero ) {
             goal = pos_abs() + destination;
         }
     }
@@ -3102,7 +3113,7 @@ void item::migrate_content_item( const item &contained )
         put_in( contained, pocket_type::MOD );
     } else if( typeId() == itype_usb_drive ) {
         // as of this migration, only usb_drive has any software in it.
-        put_in( contained, pocket_type::SOFTWARE );
+        put_in( contained, pocket_type::E_FILE_STORAGE );
     } else if( contents.insert_item( contained, pocket_type::MAGAZINE ).success() ||
                contents.insert_item( contained, pocket_type::MAGAZINE_WELL ).success() ) {
         // left intentionally blank
@@ -3126,30 +3137,33 @@ void item::deserialize( const JsonObject &data )
     archive.allow_omitted_members();
     data.copy_visited_members( archive );
 
-    // first half of the if statement is for migration to nested containers. remove after 0.F
-    if( data.has_array( "contents" ) ) {
-        std::list<item> items;
-        data.read( "contents", items );
-        for( const item &it : items ) {
-            migrate_content_item( it );
-        }
-    } else if( data.has_object( "contents" ) ) { // non-empty contents
+    //*** ITEM MIGRATION (remove in O.I) ***
+    if( data.has_object( "contents" ) ) {
         item_contents read_contents;
         data.read( "contents", read_contents );
-
         contents.read_mods( read_contents );
         update_modified_pockets();
         contents.combine( read_contents, false, true, false, true );
 
-        if( data.has_object( "contents" ) ) {
-            JsonObject tested = data.get_object( "contents" );
-            tested.allow_omitted_members();
-            if( tested.has_array( "items" ) ) {
-                // migration for nested containers. leave until after 0.F
-                std::list<item> items;
-                tested.read( "items", items );
-                for( const item &it : items ) {
-                    migrate_content_item( it );
+        //migrate SOFTWARE pocket
+        auto pockets_e_legacy = []( item_pocket const & pocket ) {
+            return pocket.is_type( pocket_type::SOFTWARE );
+        };
+        auto pockets_new_efile = []( item_pocket const & pocket ) {
+            return pocket.is_type( pocket_type::E_FILE_STORAGE );
+        };
+        std::vector<item_pocket *> pockets = contents.get_pockets( pockets_new_efile );
+        item_pocket *new_efile_storage = !pockets.empty() ? pockets.front() : nullptr;
+
+        for( item_pocket *pocket : contents.get_pockets( pockets_e_legacy ) ) {
+            for( const item *it : pocket->all_items_top() ) {
+                if( new_efile_storage == nullptr ) {
+                    debugmsg( "efile storage pocket needed for item: %s", tname() );
+                } else {
+                    std::optional<item> removed_item = pocket->remove_item( *it );
+                    if( removed_item ) {
+                        new_efile_storage->add( *removed_item );
+                    }
                 }
             }
         }
@@ -3158,6 +3172,30 @@ void item::deserialize( const JsonObject &data )
         contents = item_contents( type->pockets );
     }
 
+    std::set<itype_id> migrated_edevice_itypes = { itype_camera, itype_camera_pro,
+                                                   itype_laptop, itype_eink_tablet_pc, itype_smart_phone, itype_memory_card, itype_usb_drive
+                                                 };
+    if( migrated_edevice_itypes.find( typeId() ) != migrated_edevice_itypes.end() ) {
+        //move recipes to E_FILE_STORAGE
+        item *recipe_catalog = get_recipe_catalog();
+        std::set<recipe_id> recipes = get_saved_recipes();
+        if( !recipes.empty() && recipe_catalog == nullptr ) {
+            item new_recipe_catalog( itype_efile_recipes );
+            new_recipe_catalog.set_saved_recipes( recipes );
+            put_in( new_recipe_catalog, pocket_type::E_FILE_STORAGE );
+        }
+        //move photos to E_FILE_STORAGE
+        std::vector<item::extended_photo_def> extended_photos;
+        read_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS", true );
+        read_extended_photos( extended_photos, "MC_EXTENDED_PHOTOS", true );
+        read_extended_photos( extended_photos, "EIPC_EXTENDED_PHOTOS", true );
+        item *photo_gallery = get_photo_gallery();
+        if( !extended_photos.empty() && photo_gallery == nullptr ) {
+            item new_photo_gallery( itype_efile_photos );
+            new_photo_gallery.write_extended_photos( extended_photos, "CAMERA_EXTENDED_PHOTOS" );
+            put_in( new_photo_gallery, pocket_type::E_FILE_STORAGE );
+        }
+    }
     if( !has_itype_variant( false ) && can_have_itype_variant() ) {
         if( possible_itype_variant( typeId().str() ) ) {
             set_itype_variant( typeId().str() );
@@ -3165,16 +3203,7 @@ void item::deserialize( const JsonObject &data )
             select_itype_variant();
         }
     }
-
     update_inherited_flags();
-
-    // 2023-03-26 remove in 0.H, remnants of reinforcing
-    damage_ = std::clamp( damage_, 0, max_damage() );
-    degradation_ = std::clamp( degradation_, 0, max_damage() );
-
-    // 2023-03-26 remove in 0.H, accurizing is obsolete
-    faults.erase( STATIC( fault_id( "fault_gun_unaccurized" ) ) );
-    faults.erase( STATIC( fault_id( "fault_gun_damaged" ) ) );
 }
 
 void item::serialize( JsonOut &json ) const
@@ -3467,7 +3496,7 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "fuel_remainder", fuel_remainder );
     data.read( "fuel_used_last_turn", fuel_used_last_turn );
 
-    refresh();
+    refresh( );
 
     point p;
     zone_data zd;
@@ -3511,6 +3540,7 @@ void vehicle::deserialize_parts( const JsonArray &data )
 
 void vehicle::serialize( JsonOut &json ) const
 {
+    map &here = get_map();
     json.start_object();
     json.member( "type", type );
     json.member( "posx", pos.x() );
@@ -3554,7 +3584,7 @@ void vehicle::serialize( JsonOut &json ) const
     if( is_towed() ) {
         vehicle *tower = tow_data.get_towed_by();
         if( tower ) {
-            other_tow_temp_point = tower->bub_part_pos( tower->get_tow_part() );
+            other_tow_temp_point = tower->bub_part_pos( here, tower->get_tow_part() );
         }
     }
     json.member( "other_tow_point", other_tow_temp_point );
@@ -5117,7 +5147,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                 if( it.is_emissive() ) {
                     update_lum_add( p, it );
                 }
-                active_items.add( it, point_sm_ms( p ) );
+                active_items.add( it, p );
             }
         }
     } else if( member_name == "traps" ) {
@@ -5125,15 +5155,16 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         for( JsonArray trap_entry : traps_json ) {
             int i = trap_entry.next_int();
             int j = trap_entry.next_int();
-            const point p( i, j );
+            const point_sm_ms p( i, j );
             // TODO: jsin should support returning an id like jsin.get_id<trap>()
             const trap_str_id trid( trap_entry.next_string() );
-            m->trp[p.x][p.y] = trid.id();
+            m->trp[p.x()][p.y()] = trid.id();
             if( trap_entry.has_more() ) {
                 std::optional<std::string> trap_item_type = std::nullopt;
                 trap_entry.read_next( trap_item_type );
                 if( trap_item_type.has_value() ) {
-                    const_cast<trap &>( m->trp[p.x][p.y].obj() ).set_trap_data( itype_id( trap_item_type.value() ) );
+                    const_cast<trap &>( m->trp[p.x()][p.y()].obj() ).set_trap_data( itype_id(
+                                trap_item_type.value() ) );
                 }
             }
             if( trap_entry.size() > 4 ) {
@@ -5215,7 +5246,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             int count = spawn_entry.next_int();
             int i = spawn_entry.next_int();
             int j = spawn_entry.next_int();
-            const point p( i, j );
+            const point_sm_ms p( i, j );
             int faction_id = spawn_entry.next_int();
             int mission_id = spawn_entry.next_int();
             bool friendly = spawn_entry.next_bool();
@@ -5224,7 +5255,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             if( spawn_entry.has_more() ) {
                 spawn_entry.throw_error( "Too many values for spawn" );
             }
-            spawn_point tmp( type, count, point_sm_ms( p ), faction_id, mission_id, friendly, name );
+            spawn_point tmp( type, count, p, faction_id, mission_id, friendly, name );
             spawns.push_back( tmp );
         }
     } else if( member_name == "vehicles" ) {
@@ -5266,10 +5297,10 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         if( jv.test_array() ) {
             JsonArray computers_json = jv;
             while( computers_json.has_more() ) {
-                point loc;
+                point_sm_ms loc;
                 computers_json.next_value().read( loc );
                 auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100,
-                                                      tripoint_bub_ms::zero ) ).first;
+                                                      tripoint_abs_ms::invalid ) ).first;
                 computers_json.next_value().read( new_comp_it->second );
             }
         }

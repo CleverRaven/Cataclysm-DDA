@@ -1,0 +1,190 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_UICA_VEHICLE_MERCHANT",
+    "name": { "str": "garage clerk" },
+    "job_description": "Vehicle Garage Clerk",
+    "common": false,
+    "traits": [
+      { "trait": "BKGR_EARTH" },
+      { "group": "BG_survival_story_POLICE" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "NC_UICA_GROUND_ENGINEER_worn",
+    "carry_override": "NC_UICA_GROUND_ENGINEER_carry",
+    "weapon_override": "EMPTY_GROUP",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "mechanics", "bonus": { "rng": [ 4, 6 ] } }
+    ],
+    "shopkeeper_item_group": [ { "group": "afs_vehicle_merchant", "rigid": true } ],
+    "shopkeeper_price_rules": [
+      { "group": "afs_vehicle_merchant", "markup": 80, "condition": { "not": { "u_has_trait": "BKGR_EARTH" } } },
+      { "group": "afs_vehicle_merchant", "markup": 65, "condition": { "u_has_trait": "BKGR_EARTH" } },
+      { "group": "afs_vehicle_merchant_fuel", "markup": 2.5, "condition": { "not": { "u_has_trait": "BKGR_EARTH" } } },
+      { "group": "afs_vehicle_merchant_fuel", "markup": 1.75, "condition": { "u_has_trait": "BKGR_EARTH" } }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "uica_vehicle_merchant",
+    "name_unique": "Artemis Burton",
+    "name_suffix": "garage clerk",
+    "gender": "male",
+    "class": "NC_UICA_VEHICLE_MERCHANT",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_UICA_VEHICLE_MERCHANT",
+    "faction": "UICA"
+  },
+  {
+    "type": "item_group",
+    "id": "afs_vehicle_merchant",
+    "subtype": "collection",
+    "items": [
+      { "group": "afs_vehicle_merchant_fuel" },
+      { "group": "afs_vehicle_merchant_wheels" },
+      { "group": "afs_vehicle_merchant_utilities" },
+      { "group": "afs_vehicle_merchant_seating" },
+      { "group": "afs_vehicle_merchant_plating" },
+      { "group": "afs_vehicle_merchant_motors" },
+      { "group": "afs_vehicle_merchant_lights" },
+      { "group": "afs_vehicle_merchant_frames" },
+      { "group": "afs_vehicle_merchant_controls" },
+      { "group": "afs_vehicle_merchant_cargo" },
+      { "group": "afs_vehicle_merchant_batteries" },
+      { "group": "augustmoon_shop_money" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_vehicle_merchant_wheels",
+    "subtype": "collection",
+    "items": [
+      { "item": "wheel_mount_light", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "wheel_mount_medium", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "wheel_mount_heavy", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "wheel_motorbike", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "wheel", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "wheel_armor", "prob": 50, "count": [ 1, 4 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_vehicle_merchant_utilities",
+    "subtype": "collection",
+    "items": [
+      { "item": "recharge_station", "prob": 50 },
+      { "item": "battery_charger", "prob": 50 },
+      { "item": "heattank", "prob": 60, "count": [ 1, 7 ] },
+      { "item": "turret_mount", "prob": 30, "count": [ 1, 2 ] },
+      { "item": "workbench", "prob": 70, "count": [ 1, 3 ] },
+      { "item": "solar_panel", "prob": 70, "count": [ 3, 12 ] },
+      { "item": "reinforced_solar_panel", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "solar_panel_v2", "prob": 20, "count": [ 2, 7 ] },
+      { "item": "beeper", "prob": 20, "count": [ 1, 6 ] },
+      { "item": "stereo", "prob": 20, "count": [ 1, 6 ] },
+      { "item": "v_motorcycle_kickstand_item", "prob": 20, "count": [ 1, 8 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_vehicle_merchant_seating",
+    "subtype": "collection",
+    "items": [ { "item": "seat", "prob": 60, "count": [ 3, 8 ] }, { "item": "seat_bench", "prob": 40, "count": [ 3, 8 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_vehicle_merchant_plating",
+    "subtype": "collection",
+    "items": [
+      { "item": "sheet_metal", "prob": 80, "count": [ 5, 15 ] },
+      { "item": "steel_plate", "prob": 60, "count": [ 5, 15 ] },
+      { "item": "mil_plate", "prob": 30, "count": [ 1, 8 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_vehicle_merchant_motors",
+    "subtype": "collection",
+    "items": [
+      { "item": "motor", "prob": 30 },
+      { "item": "motor_enhanced", "prob": 10 },
+      { "item": "motor_super", "prob": 5 },
+      { "item": "motor_large", "prob": 40 },
+      { "item": "motor_small", "prob": 20 },
+      { "item": "motor_tiny", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_vehicle_merchant_lights",
+    "subtype": "collection",
+    "items": [
+      { "item": "car_headlight", "prob": 60, "count": [ 5, 12 ] },
+      { "item": "motorcycle_headlight", "prob": 50, "count": [ 3, 7 ] },
+      { "item": "headlight_reinforced", "prob": 20, "count": [ 1, 3 ] },
+      { "item": "floodlight", "prob": 10, "count": [ 1, 3 ] },
+      { "item": "directed_floodlight", "prob": 10, "count": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_vehicle_merchant_frames",
+    "subtype": "collection",
+    "items": [
+      { "item": "xlframe", "prob": 40, "count": [ 2, 8 ] },
+      { "item": "frame", "prob": 60, "count": [ 7, 18 ] },
+      { "item": "hdframe", "prob": 30, "count": [ 3, 15 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_vehicle_merchant_controls",
+    "subtype": "collection",
+    "items": [
+      { "item": "camera_control", "prob": 20 },
+      { "item": "omnicamera", "prob": 20, "count": [ 3, 7 ] },
+      { "item": "omnicamera_reinforced", "prob": 10, "count": [ 1, 4 ] },
+      { "item": "vehicle_controls", "prob": 60, "count": [ 3, 8 ] },
+      { "item": "vehicle_dashboard", "prob": 40, "count": [ 3, 7 ] },
+      { "item": "electronics_controls", "prob": 40, "count": [ 2, 5 ] },
+      { "item": "turret_controls", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_vehicle_merchant_cargo",
+    "subtype": "collection",
+    "items": [
+      { "item": "cargo_lock", "prob": 30, "count": [ 3, 7 ] },
+      { "item": "cargo_rack", "prob": 40, "count": [ 3, 8 ] },
+      { "item": "cargo_aisle", "prob": 40, "count": [ 3, 7 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_vehicle_merchant_batteries",
+    "subtype": "collection",
+    "ammo": 100,
+    "items": [
+      { "item": "large_storage_battery", "prob": 10 },
+      { "item": "storage_battery", "prob": 30, "count": [ 1, 4 ] },
+      { "item": "medium_storage_battery", "prob": 40, "count": [ 3, 8 ] },
+      { "item": "small_storage_battery", "prob": 50, "count": [ 5, 15 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_vehicle_merchant_fuel",
+    "subtype": "collection",
+    "items": [ { "item": "plut_cell", "count": [ 1, 3 ] } ]
+  }
+]

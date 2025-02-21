@@ -1,11 +1,7 @@
 #include "flag.h"
 
 #include "debug.h"
-#include "flexbuffer_json-inl.h"
-#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
-#include "json_error.h"
 #include "type_id.h"
 
 const flag_id flag_ABLATIVE_LARGE( "ABLATIVE_LARGE" );
@@ -118,9 +114,11 @@ const flag_id flag_EXO_PSU_PLATE( "EXO_PSU_PLATE" );
 const flag_id flag_EXO_SMALL_GADGET( "EXO_SMALL_GADGET" );
 const flag_id flag_EXO_TORSO_PLATE( "EXO_TORSO_PLATE" );
 const flag_id flag_EXO_UNDERLAYER( "EXO_UNDERLAYER" );
+const flag_id flag_E_COPIABLE( "E_COPIABLE" );
+const flag_id flag_E_FILE_COLLECTION( "E_FILE_COLLECTION" );
+const flag_id flag_E_STORABLE( "E_STORABLE" );
 const flag_id flag_FAKE_MILL( "FAKE_MILL" );
 const flag_id flag_FAKE_SMOKE( "FAKE_SMOKE" );
-const flag_id flag_FANCY( "FANCY" );
 const flag_id flag_FELINE( "FELINE" );
 const flag_id flag_FERTILIZER( "FERTILIZER" );
 const flag_id flag_FIELD_DRESS( "FIELD_DRESS" );
@@ -234,7 +232,6 @@ const flag_id flag_NPC_THROWN( "NPC_THROWN" );
 const flag_id flag_NPC_THROW_NOW( "NPC_THROW_NOW" );
 const flag_id flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 const flag_id flag_OLD_CURRENCY( "OLD_CURRENCY" );
-const flag_id flag_ONLY_ONE( "ONLY_ONE" );
 const flag_id flag_ORGANIC( "ORGANIC" );
 const flag_id flag_OUTER( "OUTER" );
 const flag_id flag_OVERSIZE( "OVERSIZE" );
@@ -329,7 +326,6 @@ const flag_id flag_STR_DRAW( "STR_DRAW" );
 const flag_id flag_STR_RELOAD( "STR_RELOAD" );
 const flag_id flag_STURDY( "STURDY" );
 const flag_id flag_SUN_GLASSES( "SUN_GLASSES" );
-const flag_id flag_SUPER_FANCY( "SUPER_FANCY" );
 const flag_id flag_SWIM_GOGGLES( "SWIM_GOGGLES" );
 const flag_id flag_TACK( "TACK" );
 const flag_id flag_TANGLE( "TANGLE" );

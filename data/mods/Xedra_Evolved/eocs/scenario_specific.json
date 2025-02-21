@@ -2,20 +2,17 @@
   {
     "type": "effect_on_condition",
     "id": "scenario_once_bitten",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "u_add_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "scenario_lilin_starting_ruach",
     "//": "Starts you off with some ruach so you don't begin starving immediately",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [ { "math": [ "u_vitamin('lilin_ruach_vitamin')", "+=", "rng(550,850) " ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "scenario_paraclesian_birth",
-    "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       { "math": [ "u_vitamin('mutagen')", "+=", "550" ] },
       { "if": { "u_has_trait": "IERDE" }, "then": { "math": [ "u_vitamin('mutagen_earthkin')", "+=", "550 " ] } },

@@ -2,15 +2,15 @@
 #ifndef CATA_TESTS_PLAYER_HELPERS_H
 #define CATA_TESTS_PLAYER_HELPERS_H
 
-#include <iosfwd>
+#include <string>
 #include <vector>
 
 #include "coords_fwd.h"
-#include "npc.h"
+#include "type_id.h"
 
-class item;
 class Character;
-struct point;
+class item;
+class npc;
 
 int get_remaining_charges( const itype_id &tool_id );
 bool player_has_item_of_type( const itype_id &id );
@@ -18,7 +18,7 @@ bool character_has_item_with_var_val( const Character &they, const std::string &
                                       const std::string &val );
 void clear_character( Character &, bool skip_nutrition = false );
 void clear_avatar();
-void process_activity( Character &dummy );
+void process_activity( Character &dummy, bool pass_time = false );
 
 npc &spawn_npc( const point_bub_ms &, const std::string &npc_class );
 
