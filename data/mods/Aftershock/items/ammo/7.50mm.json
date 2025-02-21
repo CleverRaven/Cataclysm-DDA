@@ -20,7 +20,7 @@
     "extend": { "effects": [ "COOKOFF" ], "flags": [ "CASELESS_ROUNDS" ] }
   },
   {
-    "id": "afs_7.50mm_caseless",
+    "id": "afs_7.50mm_ap_caseless",
     "type": "AMMO",
     "name": { "str_sp": "7.50mm AP caseless" },
     "description": "Armor piercing 7.50mm ammunition with a tungsten carbide penetrator.  These rounds are designed to defeat body armor and other hard targets, but have reduced stopping power against unarmored targets.",
