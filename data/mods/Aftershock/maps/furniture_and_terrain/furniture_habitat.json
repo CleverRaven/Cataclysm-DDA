@@ -628,6 +628,28 @@
   },
   {
     "type": "furniture",
+    "id": "f_security_panel_10",
+    "name": "security override panel",
+    "copy-from": "f_security_panel",
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_unlock_afs_security_panel_10",
+          "effect": [
+            { "math": [ "_t_delay = time('20 m')" ] },
+            {
+              "run_eocs": "EOC_start_lock_hack",
+              "variables": { "furn_pos": { "context_val": "pos" }, "t_delay": { "context_val": "t_delay" }, "difficulty": "10", "t_radius": "10" },
+              "alpha_talker": "avatar"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_security_panel_locked",
     "name": "burnt out security override panel",
     "symbol": "e",

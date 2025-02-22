@@ -153,6 +153,60 @@
     "locations": [ "land" ]
   },
   {
+    "type": "city_building",
+    "id": "afs_cafe_1",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_cafe_a1_floor_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_cafe_a1_floor_2_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
+    "type": "city_building",
+    "id": "afs_saloon_1",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_saloon_1_floor_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_saloon_1_floor_2_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
+    "type": "city_building",
+    "id": "afs_garage_1",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_garage_a1_floor_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_garage_a1_floor_2_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
+    "type": "city_building",
+    "id": "afs_garage_2",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_garage_2_a1_floor_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_garage_2_a1_floor_2_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
+    "type": "city_building",
+    "id": "afs_ev_station",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_ev_station_a1_floor_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_ev_station_a1_floor_2_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
+    "type": "city_building",
+    "id": "afs_aerodrone_landing_pad",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_aerodrone_landing_pad_a1_floor_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_aerodrone_landing_pad_a1_floor_2_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
     "id": "afs_enclosed_park",
     "type": "city_building",
     "overmaps": [

@@ -57,6 +57,18 @@
   },
   {
     "type": "item_group",
+    "id": "afs_cafe_rack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "afs_caffex", "prob": 5 },
+      { "item": "instant_coffee", "prob": 50, "container-item": "afs_foil_bag" },
+      { "item": "sugar", "prob": 40, "container-item": "afs_foil_bag" },
+      { "item": "artificial_sweetener", "prob": 40, "container-item": "afs_foil_bag" },
+      { "item": "cinnamon", "prob": 20, "container-item": "afs_foil_bag" }
+    ]
+  },
+  {
+    "type": "item_group",
     "subtype": "distribution",
     "id": "afs_stored_meals",
     "//": "Meals that require little to no preparation before eating.",

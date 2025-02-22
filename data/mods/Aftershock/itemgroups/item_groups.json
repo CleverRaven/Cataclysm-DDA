@@ -483,5 +483,11 @@
     "subtype": "distribution",
     "//": "Refers directly to the existing evidence group but we can add whatever we want to layer on top of that.",
     "entries": [ { "group": "cop_evidence" } ]
+  },
+  {
+    "id": "afs_coffee_containers",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "ceramic_mug", 50 ], [ "thermos", 50 ] ]
   }
 ]
