@@ -120,7 +120,7 @@
     "price": "1 kUSD 250 USD",
     "to_hit": -1,
     "material": [ "superalloy", "plastic" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -7 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 2 ] ],
     "symbol": "(",
     "color": "dark_gray",

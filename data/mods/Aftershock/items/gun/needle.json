@@ -53,7 +53,7 @@
     "material": [ "ceramic" ],
     "symbol": "(",
     "range": 8,
-    "ranged_damage": { "damage_type": "bullet", "amount": 4 },
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "color": "dark_gray",
     "ammo": [ "3x35" ],
     "skill": "pistol",
