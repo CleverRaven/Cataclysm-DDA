@@ -106,6 +106,7 @@
     "healthy": -7,
     "fun": 30,
     "addiction_potential": 15,
+    "vitamins": [ [ "vit_mme", 200 ] ],
     "addiction_type": [ "amphetamine", { "addiction": "opiate", "potential": 10 } ],
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
