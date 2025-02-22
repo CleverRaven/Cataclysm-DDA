@@ -571,9 +571,11 @@ inline void mandatory( const JsonObject &jo, const bool was_loaded, const std::s
     if( !jo.read( name, member ) ) {
         if( !was_loaded ) {
             if( jo.has_member( name ) ) {
-                jo.throw_error( str_cat( "failed to read mandatory member \"", name, "\"" ) );
+                jo.throw_error( str_cat( "object beginning at next line failed to read mandatory member \"", name,
+                                         "\"" ) );
             } else {
-                jo.throw_error( str_cat( "missing mandatory member \"", name, "\"" ) );
+                jo.throw_error( str_cat( "object beginning at next line missing mandatory member \"", name,
+                                         "\"" ) );
             }
         }
     }
@@ -585,9 +587,11 @@ inline void mandatory( const JsonObject &jo, const bool was_loaded, const std::s
     if( !reader( jo, name, member, was_loaded ) ) {
         if( !was_loaded ) {
             if( jo.has_member( name ) ) {
-                jo.throw_error( str_cat( "failed to read mandatory member \"", name, "\"" ) );
+                jo.throw_error( str_cat( "object beginning at next line failed to read mandatory member \"", name,
+                                         "\"" ) );
             } else {
-                jo.throw_error( str_cat( "missing mandatory member \"", name, "\"" ) );
+                jo.throw_error( str_cat( "object beginning at next line missing mandatory member \"", name,
+                                         "\"" ) );
             }
         }
     }
