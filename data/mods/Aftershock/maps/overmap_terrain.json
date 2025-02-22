@@ -673,5 +673,15 @@
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Sporting Goods",
+    "id": [ "afs_sporting_goods_store_a1_floor_1", "afs_sporting_goods_store_a1_floor_2" ],
+    "sym": "S",
+    "color": "cyan",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]

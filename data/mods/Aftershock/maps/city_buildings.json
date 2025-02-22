@@ -163,6 +163,15 @@
   },
   {
     "type": "city_building",
+    "id": "afs_sporting_goods_store",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_sporting_goods_store_a1_floor_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_sporting_goods_store_a1_floor_2_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
+    "type": "city_building",
     "id": "afs_cafe_1",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "afs_cafe_a1_floor_1_north" },
