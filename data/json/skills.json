@@ -209,7 +209,7 @@
         "level": 5,
         "description": "You can easily craft useful, if junky weapons and armor, but nothing too complex."
       },
-      { "level": 7, "description": "You're can craft even complex objects without fail." },
+      { "level": 7, "description": "You can craft even complex objects without fail." },
       {
         "level": 9,
         "description": "You have created many things with your hands and you should have little issue crafting anything."
@@ -605,7 +605,7 @@
         "level": 3,
         "description": "You've learned enough to avoid overswinging and falling off balance if you miss."
       },
-      { "level": 5, "description": "Whether self-taught or trained you've learned quite a lot about fighting." },
+      { "level": 5, "description": "Whether self-taught or trained, you've learned quite a lot about fighting." },
       { "level": 9, "description": "You could teach a platoon of medieval soldiers how to fight in a war." }
     ],
     "level_descriptions_practice": [
@@ -693,7 +693,7 @@
       { "level": 1, "description": "You can usually get a decent cut when chopping." },
       { "level": 3, "description": "You can reliably keep good edge alignment when slicing." },
       { "level": 5, "description": "You're a fairly skilled swordsman." },
-      { "level": 9, "description": "With your skill, In another life you could duel a samurai." }
+      { "level": 9, "description": "With your skill, in another life you could duel a samurai." }
     ],
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
   },
