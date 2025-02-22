@@ -683,5 +683,15 @@
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Urban Farm",
+    "id": [ "afs_small_urban_farm_a1_floor_1", "afs_small_urban_farm_a1_floor_2", "afs_small_urban_farm_a1_floor_3" ],
+    "sym": "F",
+    "color": "green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]

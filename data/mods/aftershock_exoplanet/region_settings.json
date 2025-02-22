@@ -50,6 +50,7 @@
         "afs_clothing_store": 400,
         "afs_sporting_goods_store": 400,
         "afs_city_urban_farm_small": 300,
+        "afs_small_urban_farm_ground": 300,
         "afs_cafe_1": 300,
         "afs_saloon_1": 300,
         "afs_enforcer_station_1": 100,
