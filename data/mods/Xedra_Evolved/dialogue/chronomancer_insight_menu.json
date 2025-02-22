@@ -9,7 +9,7 @@
         "condition": { "math": [ "u_spell_level('xedra_chronomancer_time_bubble') <= 0" ] },
         "text": "Learn [<spell_name:xedra_chronomancer_time_bubble>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = 30" ] },
+          { "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_time_bubble')" ] },
           { "math": [ "_chronomancer_menu_difficulty = 3" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_time_bubble>",
@@ -41,7 +41,7 @@
         "text": "Level [<spell_name:xedra_chronomancer_time_bubble>]",
         "//": "Insight cost is difficulty x spell level for all chronomancy spells.",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_time_bubble')*3" ] },
+          { "math": [ "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_time_bubble') * u_spell_difficulty('xedra_chronomancer_time_bubble')" ] },
           { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_time_bubble')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_time_bubble>",
