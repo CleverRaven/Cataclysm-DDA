@@ -77,7 +77,7 @@
         "monster_message": "The ground around %1$s starts eroding into nothingness."
       }
     ],
-    "extend": { "flags": [ "STABILIZED_TIMELINE","PULP_PRYING" ] },
+    "extend": { "flags": [ "STABILIZED_TIMELINE", "PULP_PRYING" ] },
     "upgrades": false
   }
 ]
