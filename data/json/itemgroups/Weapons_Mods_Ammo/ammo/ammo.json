@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "ammo_common_boxed",
     "//": "Ammo that spawns inside of boxes, with no loose ammo with it.  Meant mainly for gunstores.",
-"//1": "Weighted very weirdly as it accounts for the average round count, as some ammo like .22 LR more commonly comes in larger boxes than something like 556",
+    "//1": "Weighted very weirdly as it accounts for the average round count, as some ammo like .22 LR more commonly comes in larger boxes than something like 556",
     "subtype": "distribution",
     "entries": [
       { "group": "boxed_9mm", "prob": 5730 },
