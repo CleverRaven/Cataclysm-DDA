@@ -74,7 +74,9 @@
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 80" ] },
           { "math": [ "_chronomancer_menu_difficulty = 8" ] },
-          { "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_entropic_burst')" ] },
+          {
+            "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_entropic_burst')" ]
+          },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_entropic_burst>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -850,7 +852,9 @@
         "condition": { "math": [ "u_spell_level('xedra_chronomancer_rewrite_equipment_causality') <= 0" ] },
         "text": "Learn [<spell_name:xedra_chronomancer_rewrite_equipment_causality>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_rewrite_equipment_causality" ] },
+          {
+            "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_rewrite_equipment_causality" ]
+          },
           { "math": [ "_chronomancer_menu_difficulty = 6" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_rewrite_equipment_causality>",
