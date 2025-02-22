@@ -46,6 +46,7 @@
               "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_time_bubble') * u_spell_difficulty('xedra_chronomancer_time_bubble')"
             ]
           },
+          { "math": [ "_chronomancer_menu_difficulty = 3" ] },
           { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_time_bubble')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_time_bubble>",
@@ -73,7 +74,7 @@
         "effect": [
           { "math": [ "u_chronomancer_menu_insight_cost = 80" ] },
           { "math": [ "_chronomancer_menu_difficulty = 8" ] },
-          { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_entropic_burst')" ] },
+          { "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_entropic_burst')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_entropic_burst>",
             "target_var": { "context_val": "chronomancer_menu_choice_name" }
@@ -106,7 +107,12 @@
         },
         "text": "Level [<spell_name:xedra_chronomancer_entropic_burst>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_entropic_burst')*8" ] },
+          {
+            "math": [
+              "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_entropic_burst') * u_spell_difficulty('xedra_chronomancer_entropic_burst')"
+            ]
+          },
+          { "math": [ "_chronomancer_menu_difficulty = 8" ] },
           { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_entropic_burst')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_entropic_burst>",
@@ -132,7 +138,7 @@
         "condition": { "math": [ "u_spell_level('xedra_chronomancer_revert_wound') <= 0" ] },
         "text": "Learn [<spell_name:xedra_chronomancer_revert_wound>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = 40" ] },
+          { "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_revert_wound" ] },
           { "math": [ "_chronomancer_menu_difficulty = 4" ] },
           { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_revert_wound')" ] },
           {
@@ -164,7 +170,12 @@
         },
         "text": "Level [<spell_name:xedra_chronomancer_revert_wound>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_revert_wound')*4" ] },
+          {
+            "math": [
+              "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_revert_wound') * u_spell_difficulty('xedra_chronomancer_revert_wound')"
+            ]
+          },
+          { "math": [ "_chronomancer_menu_difficulty = 4" ] },
           { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_revert_wound')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_revert_wound>",
@@ -190,7 +201,7 @@
         "condition": { "math": [ "u_spell_level('xedra_chronomancer_time_loop') <= 0" ] },
         "text": "Learn [<spell_name:xedra_chronomancer_time_loop>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = 50" ] },
+          { "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_time_loop" ] },
           { "math": [ "_chronomancer_menu_difficulty = 5" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_time_loop>",
@@ -221,7 +232,12 @@
         },
         "text": "Level [<spell_name:xedra_chronomancer_time_loop>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_time_loop')*5" ] },
+          {
+            "math": [
+              "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_time_loop') * u_spell_difficulty('xedra_chronomancer_time_lo')"
+            ]
+          },
+          { "math": [ "_chronomancer_menu_difficulty = 5" ] },
           { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_time_loop')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_time_loop>",
@@ -248,7 +264,7 @@
         "text": "Learn [<spell_name:xedra_chronomancer_time_stop>]",
         "//": "Difficulty 10 spells will have normal insight costs multiplied by 1.5.",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = 150" ] },
+          { "math": [ "u_chronomancer_menu_insight_cost = 15 * u_spell_difficulty('xedra_chronomancer_time_stop" ] },
           { "math": [ "_chronomancer_menu_difficulty = 10" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_time_stop>",
@@ -283,7 +299,12 @@
         "text": "Level [<spell_name:xedra_chronomancer_time_stop>]",
         "//": "Difficulty 10 spells will have normal insight costs multiplied by 1.5.",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_time_stop')*15" ] },
+          {
+            "math": [
+              "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_time_stop') * u_spell_difficulty('xedra_chronomancer_time_stop') * 1.5"
+            ]
+          },
+          { "math": [ "_chronomancer_menu_difficulty = 10" ] },
           { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_time_stop')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_time_stop>",
@@ -309,7 +330,7 @@
         "condition": { "math": [ "u_spell_level('xedra_chronomancer_revert_location') <= 0" ] },
         "text": "Learn [<spell_name:xedra_chronomancer_revert_location>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = 80" ] },
+          { "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_revert_location" ] },
           { "math": [ "_chronomancer_menu_difficulty = 8" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_revert_location>",
@@ -348,7 +369,12 @@
         },
         "text": "Level [<spell_name:xedra_chronomancer_revert_location>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_revert_location')*8" ] },
+          {
+            "math": [
+              "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_revert_location') * u_spell_difficulty('xedra_chronomancer_revert_location')"
+            ]
+          },
+          { "math": [ "_chronomancer_menu_difficulty = 8" ] },
           { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_revert_location')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_revert_location>",
@@ -374,7 +400,7 @@
         "condition": { "math": [ "u_spell_level('xedra_chronomancer_cement_time') <= 0" ] },
         "text": "Learn [<spell_name:xedra_chronomancer_cement_time>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = 150" ] },
+          { "math": [ "u_chronomancer_menu_insight_cost = 15 * u_spell_difficulty('xedra_chronomancer_cement_time" ] },
           { "math": [ "_chronomancer_menu_difficulty = 10" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_cement_time>",
@@ -413,7 +439,12 @@
         },
         "text": "Level [<spell_name:xedra_chronomancer_cement_time>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_cement_time')*15" ] },
+          {
+            "math": [
+              "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_cement_time') * u_spell_difficulty('xedra_chronomancer_cement_time') * 1.5"
+            ]
+          },
+          { "math": [ "_chronomancer_menu_difficulty = 10" ] },
           { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_cement_time')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_cement_time>",
@@ -439,7 +470,7 @@
         "condition": { "math": [ "u_spell_level('xedra_chronomancer_chronal_acceleration') <= 0" ] },
         "text": "Learn [<spell_name:xedra_chronomancer_chronal_acceleration>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = 80" ] },
+          { "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_chronal_acceleration" ] },
           { "math": [ "_chronomancer_menu_difficulty = 8" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_chronal_acceleration>",
@@ -470,7 +501,12 @@
         },
         "text": "Level [<spell_name:xedra_chronomancer_chronal_acceleration>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_chronal_acceleration')*8" ] },
+          {
+            "math": [
+              "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_chronal_acceleration') * u_spell_difficulty('xedra_chronomancer_chronal_acceleration')"
+            ]
+          },
+          { "math": [ "_chronomancer_menu_difficulty = 8" ] },
           { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_chronal_acceleration')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_chronal_acceleration>",
@@ -496,7 +532,7 @@
         "condition": { "math": [ "u_spell_level('xedra_chronomancer_stable_loop') <= 0" ] },
         "text": "Learn [<spell_name:xedra_chronomancer_stable_loop>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = 50" ] },
+          { "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_stable_loop" ] },
           { "math": [ "_chronomancer_menu_difficulty = 5" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_stable_loop>",
@@ -530,7 +566,12 @@
         },
         "text": "Level [<spell_name:xedra_chronomancer_stable_loop>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_stable_loop')*5" ] },
+          {
+            "math": [
+              "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_stable_loop') * u_spell_difficulty('xedra_chronomancer_stable_loop')"
+            ]
+          },
+          { "math": [ "_chronomancer_menu_difficulty = 5" ] },
           { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_stable_loop')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_stable_loop>",
@@ -556,7 +597,7 @@
         "condition": { "math": [ "u_spell_level('xedra_chronomancer_destabilizing_strikes') <= 0" ] },
         "text": "Learn [<spell_name:xedra_chronomancer_destabilizing_strikes>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = 60" ] },
+          { "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_destabilizing_strikes" ] },
           { "math": [ "_chronomancer_menu_difficulty = 6" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_destabilizing_strikes>",
@@ -587,7 +628,12 @@
         },
         "text": "Level [<spell_name:xedra_chronomancer_destabilizing_strikes>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_destabilizing_strikes')*6" ] },
+          {
+            "math": [
+              "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_destabilizing_strikes') * u_spell_difficulty('xedra_chronomancer_destabilizing_strikes')"
+            ]
+          },
+          { "math": [ "_chronomancer_menu_difficulty = 6" ] },
           { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_destabilizing_strikes')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_destabilizing_strikes>",
@@ -613,7 +659,7 @@
         "condition": { "math": [ "u_spell_level('xedra_chronomancer_stabilize_timeline') <= 0" ] },
         "text": "Learn [<spell_name:xedra_chronomancer_stabilize_timeline>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = 30" ] },
+          { "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_stabilize_timeline" ] },
           { "math": [ "_chronomancer_menu_difficulty = 3" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_stabilize_timeline>",
@@ -644,7 +690,12 @@
         },
         "text": "Level [<spell_name:xedra_chronomancer_stabilize_timeline>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_stabilize_timeline')*3" ] },
+          {
+            "math": [
+              "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_stabilize_timeline') * u_spell_difficulty('xedra_chronomancer_stabilize_timeline')"
+            ]
+          },
+          { "math": [ "_chronomancer_menu_difficulty = 3" ] },
           { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_stabilize_timeline')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_stabilize_timeline>",
@@ -670,7 +721,7 @@
         "condition": { "math": [ "u_spell_level('xedra_chronomancer_reverse_entropy') <= 0" ] },
         "text": "Learn [<spell_name:xedra_chronomancer_reverse_entropy>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = 30" ] },
+          { "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_reverse_entropy" ] },
           { "math": [ "_chronomancer_menu_difficulty = 3" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_reverse_entropy>",
@@ -701,7 +752,12 @@
         },
         "text": "Level [<spell_name:xedra_chronomancer_reverse_entropy>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_reverse_entropy')*3" ] },
+          {
+            "math": [
+              "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_reverse_entropy') * u_spell_difficulty('xedra_chronomancer_reverse_entropy')"
+            ]
+          },
+          { "math": [ "_chronomancer_menu_difficulty = 3" ] },
           { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_reverse_entropy')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_reverse_entropy>",
@@ -727,7 +783,7 @@
         "condition": { "math": [ "u_spell_level('xedra_chronomancer_rewrite_wound_causality') <= 0" ] },
         "text": "Learn [<spell_name:xedra_chronomancer_rewrite_wound_causality>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = 60" ] },
+          { "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_rewrite_wound_causality" ] },
           { "math": [ "_chronomancer_menu_difficulty = 6" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_rewrite_wound_causality>",
@@ -763,7 +819,12 @@
         },
         "text": "Level [<spell_name:xedra_chronomancer_rewrite_wound_causality>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_rewrite_wound_causality')*6" ] },
+          {
+            "math": [
+              "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_rewrite_wound_causality') * u_spell_difficulty('xedra_chronomancer_rewrite_wound_causality')"
+            ]
+          },
+          { "math": [ "_chronomancer_menu_difficulty = 6" ] },
           { "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_rewrite_wound_causality')" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_rewrite_wound_causality>",
@@ -789,7 +850,7 @@
         "condition": { "math": [ "u_spell_level('xedra_chronomancer_rewrite_equipment_causality') <= 0" ] },
         "text": "Learn [<spell_name:xedra_chronomancer_rewrite_equipment_causality>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = 60" ] },
+          { "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_rewrite_equipment_causality" ] },
           { "math": [ "_chronomancer_menu_difficulty = 6" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_rewrite_equipment_causality>",
@@ -825,7 +886,12 @@
         },
         "text": "Level [<spell_name:xedra_chronomancer_rewrite_equipment_causality>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_rewrite_equipment_causality')*6" ] },
+          {
+            "math": [
+              "u_chronomancer_menu_insight_cost = u_spell_level('xedra_chronomancer_rewrite_equipment_causality') * u_spell_difficulty('xedra_chronomancer_rewrite_equipment_causality')"
+            ]
+          },
+          { "math": [ "_chronomancer_menu_difficulty = 6" ] },
           {
             "math": [ "_chronomancer_spell_level = u_spell_level('xedra_chronomancer_rewrite_equipment_causality')" ]
           },
