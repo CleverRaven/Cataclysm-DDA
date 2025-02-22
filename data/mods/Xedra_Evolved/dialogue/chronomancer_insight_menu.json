@@ -785,7 +785,9 @@
         "condition": { "math": [ "u_spell_level('xedra_chronomancer_rewrite_wound_causality') <= 0" ] },
         "text": "Learn [<spell_name:xedra_chronomancer_rewrite_wound_causality>]",
         "effect": [
-          { "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_rewrite_wound_causality')" ] },
+          {
+            "math": [ "u_chronomancer_menu_insight_cost = 10 * u_spell_difficulty('xedra_chronomancer_rewrite_wound_causality')" ]
+          },
           { "math": [ "_chronomancer_menu_difficulty = 6" ] },
           {
             "set_string_var": "<spell_name:xedra_chronomancer_rewrite_wound_causality>",
