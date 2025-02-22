@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <csignal>
 #include <cstdint>
 #include <exception>
@@ -40,7 +41,6 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "city.h"
-#include "clzones.h"
 #include "color.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
@@ -48,7 +48,6 @@
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "imgui_demo.h"
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "dialogue_helpers.h"
@@ -62,14 +61,14 @@
 #include "faction.h"
 #include "filesystem.h"
 #include "game.h"
-#include "game_constants.h"
 #include "game_inventory.h"
 #include "global_vars.h"
+#include "imgui_demo.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
 #include "json.h"
@@ -78,6 +77,7 @@
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapgen.h"
 #include "mapgendata.h"
 #include "martialarts.h"
@@ -90,6 +90,7 @@
 #include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "npc_opinion.h"
 #include "npctalk.h"
 #include "omdata.h"
 #include "options.h"
@@ -119,8 +120,8 @@
 #include "try_parse_integer.h"
 #include "type_id.h"
 #include "ui.h"
-#include "uistate.h"
 #include "ui_manager.h"
+#include "uistate.h"
 #include "units.h"
 #include "units_utility.h"
 #include "veh_type.h"

@@ -38,6 +38,7 @@
 #include "sdltiles.h" // IWYU pragma: keep
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "ui.h"
 #include "ui_manager.h"
 #include "unicode.h"
 #include "units_utility.h"

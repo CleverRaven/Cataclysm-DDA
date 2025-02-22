@@ -613,5 +613,55 @@
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Cafe",
+    "id": [ "afs_cafe_a1_floor_1", "afs_cafe_a1_floor_2" ],
+    "sym": "c",
+    "color": "light_cyan",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Saloon",
+    "id": [ "afs_saloon_1_floor_1", "afs_saloon_1_floor_2" ],
+    "sym": "s",
+    "color": "light_cyan",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Garage",
+    "id": [ "afs_garage_a1_floor_1", "afs_garage_a1_floor_2", "afs_garage_2_a1_floor_1", "afs_garage_2_a1_floor_2" ],
+    "sym": "g",
+    "color": "yellow",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "EV Charging Station",
+    "id": [ "afs_ev_station_a1_floor_1", "afs_ev_station_a1_floor_2" ],
+    "sym": "e",
+    "color": "light_blue",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Aerodrone Landing Pad",
+    "id": [ "afs_aerodrone_landing_pad_a1_floor_1", "afs_aerodrone_landing_pad_a1_floor_2" ],
+    "sym": "H",
+    "color": "light_blue",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]

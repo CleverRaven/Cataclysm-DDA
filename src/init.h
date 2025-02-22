@@ -11,12 +11,11 @@
 #include <utility>
 #include <vector>
 
+#include "cata_path.h"
 #include "memory_fast.h"
-#include "path_info.h"
 
 class JsonObject;
 class JsonValue;
-struct json_source_location;
 
 /**
  * This class is used to load (and unload) the dynamic

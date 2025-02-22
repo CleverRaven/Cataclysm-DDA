@@ -1,7 +1,10 @@
 #include "try_parse_integer.h"
 
+#include <locale>
 #include <sstream>
+#include <string>
 
+#include "string_formatter.h"
 #include "translations.h"
 
 template<typename T>

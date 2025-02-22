@@ -10,14 +10,15 @@
 #include <set>
 #include <tuple>
 
-#include "avatar.h"
 #include "bodypart.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "damage.h"
 #include "debug.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "explosion.h"
 #include "field.h"
@@ -26,6 +27,7 @@
 #include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "material.h"
 #include "messages.h"

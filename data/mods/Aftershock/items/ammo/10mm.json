@@ -1,5 +1,6 @@
 [
   {
+    "//": "10mm ammo is used exclusively in Light weapons.",
     "id": "afs_10mm_caseless_FMJ",
     "type": "AMMO",
     "name": { "str_sp": "10mm FMJ caseless" },
@@ -14,7 +15,7 @@
     "stack_size": 40,
     "ammo_type": "afs_10mm",
     "range": 14,
-    "damage": { "damage_type": "bullet", "amount": 29, "armor_penetration": 4 },
+    "damage": { "damage_type": "bullet", "amount": 21, "armor_penetration": 15 },
     "dispersion": 60,
     "recoil": 650,
     "extend": { "effects": [ "COOKOFF" ], "flags": [ "CASELESS_ROUNDS" ] }
@@ -55,7 +56,7 @@
     "stack_size": 42,
     "ammo_type": "afs_10mm_smart",
     "range": 14,
-    "damage": { "damage_type": "bullet", "amount": 20, "armor_penetration": 10 },
+    "damage": { "damage_type": "bullet", "amount": 20, "armor_penetration": 15 },
     "dispersion": 0,
     "recoil": 600,
     "critical_multiplier": 4,

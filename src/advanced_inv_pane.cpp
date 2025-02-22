@@ -3,7 +3,6 @@
 #include <cstddef>
 #include <iterator>
 #include <list>
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -13,6 +12,7 @@
 #include "cata_assert.h"
 #include "character.h"
 #include "character_attire.h"
+#include "enums.h"
 #include "flag.h"
 #include "item.h"
 #include "item_search.h"

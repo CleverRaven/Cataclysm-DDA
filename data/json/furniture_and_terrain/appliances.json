@@ -14,6 +14,13 @@
     "extend": { "flags": [ "APPLIANCE" ] }
   },
   {
+    "type": "vehicle_part",
+    "id": "ap_workbench_with_recharger",
+    "name": "kitchen station",
+    "copy-from": "workbench_with_recharger",
+    "extend": { "flags": [ "APPLIANCE" ] }
+  },
+  {
     "id": "ap_oven",
     "name": { "str": "oven" },
     "categories": [ "utility" ],

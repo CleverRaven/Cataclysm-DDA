@@ -55,7 +55,7 @@
       },
       {
         "result": "f_security_panel_locked",
-        "valid_furniture": [ "f_security_panel" ],
+        "valid_furniture": [ "f_security_panel", "f_security_panel_10" ],
         "message": "You trip the security failsafe and the panel fries it's own electronics."
       },
       {
@@ -93,7 +93,8 @@
     "id": "afs_lights_on",
     "terrain": [
       { "result": "t_metal_floor_olight", "valid_terrain": [ "t_metal_floor_olight_inactive" ] },
-      { "result": "t_linoleum_whitefloor_olight", "valid_terrain": [ "t_linoleum_white_olight_inactive" ] }
+      { "result": "t_linoleum_whitefloor_olight", "valid_terrain": [ "t_linoleum_white_olight_inactive" ] },
+      { "result": "t_thconc_floor_olight", "valid_terrain": [ "t_thconc_floor_olight_inactive" ] }
     ]
   },
   {

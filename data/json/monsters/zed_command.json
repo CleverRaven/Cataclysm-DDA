@@ -19,7 +19,7 @@
     "harvest": "mr_bones",
     "fungalize_into": "mon_skeleton_dusted",
     "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 24, "electric": 3 },
-    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ] }
+    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ], "flags": [ "PULP_PRYING" ] }
   },
   {
     "id": "mon_skeleton_necro",
@@ -37,6 +37,6 @@
     "harvest": "mr_bones",
     "fungalize_into": "mon_skeleton_brute_dusted",
     "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 24, "electric": 3 },
-    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ] }
+    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ], "flags": [ "PULP_PRYING" ] }
   }
 ]

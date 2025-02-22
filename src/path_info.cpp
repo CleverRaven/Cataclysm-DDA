@@ -10,6 +10,7 @@
 #include "options.h"
 #include "rng.h"
 #include "system_locale.h"
+#include "translations.h"
 
 #if defined(_WIN32)
 #include <windows.h>

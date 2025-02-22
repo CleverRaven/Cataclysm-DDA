@@ -15,6 +15,7 @@
     "category": "veh_parts",
     "price": "200 USD",
     "price_postapoc": "1 USD",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_table_fancy" },
     "melee_damage": { "bash": 6 }
   },
   {
@@ -23,6 +24,7 @@
     "name": { "str": "wooden table" },
     "description": "A crude wooden table.",
     "weight": "10071 g",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_table" },
     "copy-from": "v_table"
   },
   {
@@ -37,6 +39,7 @@
     "material": [ "wood", "steel" ],
     "price": "120 USD",
     "copy-from": "v_table",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_workbench" },
     "melee_damage": { "bash": 8 }
   },
   {
@@ -48,6 +51,7 @@
     "flags": [ "TRADER_AVOID" ],
     "price": "400 USD",
     "price_postapoc": "1 USD",
+    "use_action": { "type": "deploy_appliance", "base": "workbench_with_recharger" },
     "copy-from": "workbench"
   }
 ]

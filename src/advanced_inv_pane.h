@@ -4,7 +4,6 @@
 
 #include <array>
 #include <functional>
-#include <map>
 #include <string>
 #include <vector>
 
@@ -16,8 +15,6 @@
 
 class item;
 struct advanced_inv_pane_save_state;
-
-enum aim_location : char;
 
 enum advanced_inv_sortby {
     SORTBY_NONE,

@@ -37,7 +37,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "QUEEN", "PATH_AVOID_DANGER", "EATS" ],
+    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "QUEEN", "PATH_AVOID_DANGER", "PULP_PRYING", "EATS" ],
     "armor": { "bash": 20, "cut": 30, "bullet": 24 }
   },
   {
@@ -1053,7 +1053,7 @@
     "fear_triggers": [ "FIRE" ],
     "upgrades": { "age_grow": 42, "into": "mon_crayfish_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD" ],
+    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "PULP_PRYING", "ARTHROPOD_BLOOD" ],
     "armor": { "cut": 8, "bullet": 6 }
   },
   {
@@ -1132,7 +1132,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER", "EATS" ],
+    "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER", "PULP_PRYING", "EATS" ],
     "armor": { "bash": 10, "cut": 18, "bullet": 14 }
   },
   {

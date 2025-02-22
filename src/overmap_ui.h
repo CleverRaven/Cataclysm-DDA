@@ -2,26 +2,30 @@
 #ifndef CATA_SRC_OVERMAP_UI_H
 #define CATA_SRC_OVERMAP_UI_H
 
-#include "avatar.h"
-#include "coords_fwd.h"
+#include <stddef.h>
+#include <climits>
+#include <memory>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <tuple>
+#include <vector>
+
+#include "city.h"
+#include "coordinates.h"
 #include "input_context.h"
-#include "regional_settings.h"
+#include "map_scale_constants.h"
+#include "point.h"
 #include "string_id.h"
-#include "ui_manager.h"
+
+class ui_adaptor;
 
 constexpr int RANDOM_CITY_ENTRY = INT_MIN;
 
-class uilist;
-
-namespace catacurses
-{
-class window;
-} // namespace catacurses
-
-class input_context;
 class nc_color;
-
+class uilist;
 struct weather_type;
+
 using weather_type_id = string_id<weather_type>;
 
 namespace ui

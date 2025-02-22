@@ -45,6 +45,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "vpart_position.h"
 
 #if defined(TILES)
 #include "cata_tiles.h"
@@ -66,7 +67,6 @@ class field_entry;
 class item_location;
 class mapgendata;
 class monster;
-class optional_vpart_position;
 class relic_procgen_data;
 class submap;
 class vehicle;

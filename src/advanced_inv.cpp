@@ -2,10 +2,10 @@
 
 #include <algorithm>
 #include <climits>
-#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
+#include <functional>
 #include <initializer_list>
 #include <iterator>
 #include <list>
@@ -13,12 +13,12 @@
 #include <optional>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "advanced_inv_listitem.h"
 #include "advanced_inv_pagination.h"
 #include "auto_pickup.h"
@@ -38,13 +38,13 @@
 #include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
-#include "input_enums.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "itype.h"
 #include "localized_comparator.h"
 #include "map.h"
 #include "messages.h"
@@ -54,7 +54,6 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
-#include "popup.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"

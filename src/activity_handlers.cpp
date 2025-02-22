@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
-#include <cstdint>
 #include <cstdlib>
 #include <iterator>
 #include <memory>
@@ -15,11 +14,10 @@
 #include <string>
 #include <type_traits>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 
 #include "activity_actor.h"
-#include "activity_type.h"
-#include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
@@ -32,7 +30,6 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
-#include "colony.h"
 #include "color.h"
 #include "construction.h"
 #include "coordinates.h"
@@ -40,14 +37,13 @@
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "fault.h"
-#include "field_type.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -59,39 +55,39 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
-#include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "line.h"
 #include "magic.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "npc_opinion.h"
 #include "omdata.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
-#include "recipe.h"
-#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
@@ -104,8 +100,6 @@
 #include "vpart_position.h"
 #include "weakpoint.h"
 #include "weather.h"
-
-enum class creature_size : int;
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

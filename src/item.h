@@ -4,14 +4,14 @@
 
 #include <algorithm>
 #include <climits>
+#include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
+#include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -19,32 +19,33 @@
 #include "calendar.h"
 #include "cata_lazy.h"
 #include "cata_utility.h"
-#include "compatibility.h"
 #include "coordinates.h"
+#include "craft_command.h"
 #include "enums.h"
 #include "gun_mode.h"
 #include "io_tags.h"
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "item_tname.h"
 #include "material.h"
+#include "point.h"
 #include "requirements.h"
+#include "rng.h"
 #include "safe_reference.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
-#include "vpart_position.h"
-#include "rng.h"
+
 class Character;
 class Creature;
 class JsonObject;
 class JsonOut;
 class book_proficiency_bonuses;
-class enchantment;
 class enchant_cache;
-class faction;
+class enchantment;
 class gun_type_type;
 class gunmod_location;
 class item;
@@ -52,24 +53,20 @@ class iteminfo_query;
 class map;
 class monster;
 class nc_color;
-enum class pocket_type;
+class optional_vpart_position;
 class recipe;
 class relic;
-struct part_material;
+class vehicle;
+enum class pocket_type;
 struct armor_portion_data;
-struct itype_variant_data;
 struct islot_comestible;
 struct itype;
-struct item_comp;
-template<typename CompType>
-struct comp_selection;
-struct tool_comp;
+struct itype_variant_data;
 struct mtype;
-struct tripoint;
+struct part_material;
 template<typename T>
 class ret_val;
 template <typename T> struct enum_traits;
-class vehicle;
 
 namespace enchant_vals
 {
@@ -77,20 +74,15 @@ enum class mod : int;
 } // namespace enchant_vals
 
 using bodytype_id = std::string;
-class item_category;
-struct islot_armor;
-struct use_function;
-
-enum art_effect_passive : int;
-enum class side : int;
 class body_part_set;
-class map;
+class item_category;
+enum class side : int;
+enum clothing_mod_type : int;
 struct damage_instance;
 struct damage_unit;
 struct fire_data;
-enum class link_state : int;
-
-enum clothing_mod_type : int;
+struct islot_armor;
+struct use_function;
 
 struct light_emission {
     unsigned short luminance;

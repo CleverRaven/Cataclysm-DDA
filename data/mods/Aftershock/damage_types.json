@@ -18,6 +18,25 @@
     "ablative_info": { "order": 307, "show_type": true }
   },
   {
+    "id": "afs_laser",
+    "type": "damage_type",
+    "physical": true,
+    "magic_color": "red",
+    "name": "Laser",
+    "derived_from": [ "heat", 1 ]
+  },
+  {
+    "id": "afs_laser",
+    "type": "damage_info_order",
+    "info_display": "basic",
+    "verb": "laser",
+    "bionic_info": { "order": 393, "show_type": true },
+    "protection_info": { "order": 293, "show_type": true },
+    "pet_prot_info": { "order": 293, "show_type": true },
+    "melee_combat_info": { "order": 393, "show_type": true },
+    "ablative_info": { "order": 293, "show_type": true }
+  },
+  {
     "id": "afs_heat_melee",
     "type": "damage_type",
     "melee_only": true,

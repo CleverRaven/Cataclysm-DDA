@@ -48,7 +48,13 @@
         "afs_astrobiology_lab": 400,
         "afs_general_store_1": 400,
         "afs_city_urban_farm_small": 300,
+        "afs_cafe_1": 300,
+        "afs_saloon_1": 300,
         "afs_enforcer_station_1": 100,
+        "afs_garage_1": 100,
+        "afs_garage_2": 100,
+        "afs_ev_station": 100,
+        "afs_aerodrone_landing_pad": 100,
         "afs_exosuit_garage_1": 100,
         "afs_exosuit_garage_2": 100
       }

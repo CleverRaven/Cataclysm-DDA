@@ -68,6 +68,7 @@
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
+#include "condition.h"
 #include "computer.h"
 #include "computer_session.h"
 #include "construction.h"

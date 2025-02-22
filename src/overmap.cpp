@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cstring>
 #include <exception>
+#include <list>
 #include <memory>
 #include <numeric>
 #include <optional>
@@ -15,11 +16,12 @@
 #include <vector>
 
 #include "all_enum_values.h"
+#include "assign.h"
 #include "auto_note.h"
 #include "avatar.h"
-#include "assign.h"
 #include "cached_options.h"
 #include "cata_assert.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "cata_views.h"
 #include "catacharset.h"
@@ -27,18 +29,24 @@
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "distribution.h"
 #include "effect_on_condition.h"
+#include "enum_conversions.h"
 #include "flood_fill.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "line.h"
+#include "map.h"
+#include "map_extras.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
+#include "math_defines.h"
 #include "messages.h"
+#include "mod_tracker.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
@@ -57,8 +65,10 @@
 #include "sets_intersect.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "weighted_list.h"
 
 static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
 static const mongroup_id GROUP_OCEAN_DEEP( "GROUP_OCEAN_DEEP" );
@@ -128,8 +138,6 @@ static const overmap_location_id overmap_location_land( "land" );
 static const overmap_location_id overmap_location_swamp( "swamp" );
 
 static const species_id species_ZOMBIE( "ZOMBIE" );
-
-class map_extra;
 
 #define dbg(x) DebugLog((x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 

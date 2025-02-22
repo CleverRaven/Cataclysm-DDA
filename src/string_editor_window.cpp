@@ -1,18 +1,28 @@
 #include "string_editor_window.h"
 
+#include <algorithm>
+#include <cstddef>
+#include <cstdint>
+#include <iterator>
+#include <vector>
+
 #if defined(TILES)
 #include "sdl_wrappers.h"
 #endif
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
+
 #include "cata_utility.h"
 #include "options.h"
 #endif
 
+#include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "output.h"
 #include "ui_manager.h"
 #include "unicode.h"

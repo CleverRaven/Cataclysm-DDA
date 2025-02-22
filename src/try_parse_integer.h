@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_TRY_PARSE_INTEGER_H
 #define CATA_SRC_TRY_PARSE_INTEGER_H
 
+#include <string_view>
+
 #include "ret_val.h"
 
 /**

@@ -18,6 +18,7 @@
 
 #include "activity_actor_definitions.h"
 #include "all_enum_values.h"
+#include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
 #include "enum_conversions.h"
@@ -46,6 +47,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
+#include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "npc.h"
