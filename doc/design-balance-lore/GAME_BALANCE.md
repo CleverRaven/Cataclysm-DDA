@@ -91,7 +91,7 @@ Minimum dice: 1 (predictable damage; black cat, Atlantic cod, blank body, feral 
 
 Standard dice: 2 (minimal variation; zombie, giant wasp, wolf)
 
-Higher risk: 3 (higher day one threat; dissoluted devourer, tough zombie )
+Higher risk: 3 (higher day one threat; dissolving devourer, tough zombie )
 
 High risk: 4 (dangerous threat; hulk, zombie predator, mi-go)
 
