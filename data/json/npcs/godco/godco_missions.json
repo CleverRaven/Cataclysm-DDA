@@ -33,7 +33,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,
-    "item": "jar_3l_glass_sealed", 
+    "item": "jar_3l_glass_sealed",
     "count": 30,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GODCO_COOK_FOOD_3",
