@@ -614,7 +614,7 @@
     "dissect": "dissect_insect_sample_small",
     "upgrades": { "age_grow": 45, "into_group": "GROUP_CENTIPEDE_GIANT" },
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "CLIMBS", "SEES", "GRABS", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE" ],
+    "flags": [ "CLIMBS", "SEES", "GRABS", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "PULP_PRYING" ],
     "armor": { "bash": 10, "cut": 25, "stab": 14, "bullet": 12 }
   },
   {
@@ -769,7 +769,18 @@
     "harvest": "arachnid_centipede_mega",
     "dissect": "dissect_insect_sample_large",
     "zombify_into": "mon_meat_cocoon_large",
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_DANGER", "DESTROYS", "PUSH_MON", "PUSH_VEH" ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "KEENNOSE",
+      "HEARS",
+      "GOODHEARING",
+      "PATH_AVOID_DANGER",
+      "DESTROYS",
+      "PUSH_MON",
+      "PUSH_VEH",
+      "PULP_PRYING"
+    ],
     "armor": { "bash": 25, "cut": 35, "stab": 15, "bullet": 45, "electric": 3 }
   },
   {
@@ -2453,7 +2464,7 @@
     "special_attacks": [ [ "EAT_FOOD", 30 ], [ "BROWSE", 90 ], [ "EAT_CARRION", 90 ] ],
     "fungalize_into": "mon_ant_fungus",
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "EATS", "PULP_PRYING" ],
     "armor": { "bash": 5, "cut": 10, "bullet": 8, "electric": 1 }
   },
   {
@@ -2506,7 +2517,18 @@
     "harvest": "arachnid_acid",
     "dissect": "dissect_insect_sample_single",
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "EATS" ],
+    "flags": [
+      "ACIDPROOF",
+      "CLIMBS",
+      "HEARS",
+      "POISON",
+      "SEES",
+      "SMELLS",
+      "PATH_AVOID_FIRE",
+      "PATH_AVOID_FALL",
+      "EATS",
+      "PULP_PRYING"
+    ],
     "armor": { "bash": 6, "cut": 10, "bullet": 8, "electric": 2 }
   },
   {
@@ -2564,7 +2586,18 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_ant_fungus",
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "QUEEN", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "BASHES" ],
+    "flags": [
+      "ACIDPROOF",
+      "CLIMBS",
+      "HEARS",
+      "QUEEN",
+      "SEES",
+      "SMELLS",
+      "PATH_AVOID_FIRE",
+      "PATH_AVOID_FALL",
+      "BASHES",
+      "PULP_PRYING"
+    ],
     "armor": { "bash": 8, "cut": 10, "bullet": 8, "electric": 1 }
   },
   {
@@ -2604,7 +2637,18 @@
     "dissect": "dissect_insect_sample_single",
     "zombify_into": "mon_meat_cocoon_small",
     "upgrades": { "age_grow": 42, "into": "mon_ant_acid_soldier_mega" },
-    "flags": [ "ACIDPROOF", "SHORTACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "flags": [
+      "ACIDPROOF",
+      "SHORTACIDTRAIL",
+      "CLIMBS",
+      "HEARS",
+      "POISON",
+      "SEES",
+      "SMELLS",
+      "PATH_AVOID_FIRE",
+      "PATH_AVOID_FALL",
+      "PULP_PRYING"
+    ],
     "armor": { "bash": 12, "cut": 14, "bullet": 11, "electric": 1 }
   },
   {
@@ -2687,7 +2731,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_ant_fungus",
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SMELLS", "QUEEN", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "BASHES" ],
+    "flags": [ "SMELLS", "QUEEN", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "BASHES", "PULP_PRYING" ],
     "armor": { "bash": 8, "cut": 10, "bullet": 8, "electric": 1 }
   },
   {
@@ -2727,7 +2771,7 @@
     "fungalize_into": "mon_ant_fungus",
     "upgrades": { "age_grow": 42, "into": "mon_ant_soldier_mega" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "PULP_PRYING" ],
     "armor": { "bash": 10, "cut": 12, "bullet": 10, "electric": 2 }
   },
   {
@@ -3000,7 +3044,7 @@
     ],
     "upgrades": { "age_grow": 42, "into": "mon_mantis_mega" },
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "flags": [ "SEES", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "PULP_PRYING" ],
     "armor": { "bash": 10, "cut": 16, "bullet": 13, "electric": 2 }
   },
   {
@@ -3112,7 +3156,7 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "SEES", "CAN_DIG", "BORES", "PUSH_VEH", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER", "SMELLS" ],
+    "flags": [ "SEES", "CAN_DIG", "BORES", "PUSH_VEH", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER", "SMELLS", "PULP_PRYING" ],
     "armor": { "bash": 15, "cut": 18, "bullet": 20, "electric": 2 }
   },
   {
@@ -3170,7 +3214,7 @@
         "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_FIRE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_FIRE", "PULP_PRYING" ],
     "zombify_into": "mon_meat_cocoon_small",
     "upgrades": { "age_grow": 42, "into": "mon_lady_bug_giant" },
     "armor": { "bash": 3, "cut": 10, "bullet": 15, "electric": 3 }
@@ -3215,7 +3259,7 @@
         "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "PATH_AVOID_FIRE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "PATH_AVOID_FIRE", "PULP_PRYING" ],
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
     "zombify_into": "mon_meat_cocoon_large",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_beetle" ],
@@ -3450,6 +3494,7 @@
       "PUSH_VEH",
       "PET_WONT_FOLLOW",
       "PET_MOUNTABLE",
+      "PULP_PRYING",
       "EATS"
     ],
     "armor": { "bash": 60, "cut": 72, "acid": 18, "heat": 8, "bullet": 50 }
@@ -3966,7 +4011,7 @@
     "fear_triggers": [ "FIRE", "HURT" ],
     "zombify_into": "mon_meat_cocoon_small",
     "special_attacks": [ [ "GRAZE", 100 ] ],
-    "flags": [ "SEES", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER", "SMELLS", "EATS" ],
+    "flags": [ "SEES", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER", "SMELLS", "EATS", "PULP_PRYING" ],
     "armor": { "bash": 15, "cut": 18, "bullet": 20, "electric": 2 }
   },
   {
