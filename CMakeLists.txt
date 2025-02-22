@@ -36,7 +36,6 @@ option(TESTS "Compile Cata's tests" "ON")
 set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING
         "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
 set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
-set(GIT_BINARY "" CACHE STRING "Git binary name or path.")
 set(GETTEXT_MSGFMT_BINARY "" CACHE FILEPATH "msgfmt binary name or path.")
 
 if (TESTS)
@@ -55,23 +54,14 @@ endif ()
 
 add_definitions(-DCMAKE)
 
-# Retrieve version from git into GIT_VERSION and creates VERSION.txt
-execute_process(COMMAND ${CMAKE_COMMAND}
-    -DGIT_BINARY=${GIT_BINARY}
-    -P ${CMAKE_SOURCE_DIR}/src/version.cmake
+find_package(Python3 COMPONENTS Interpreter)
+
+# Retrieve version from git. Creates src/version.h and VERSION.txt
+execute_process(COMMAND ${Python3_EXECUTABLE} build-scripts/version.py
     ERROR_VARIABLE GIT_VERSION
     ERROR_STRIP_TRAILING_WHITESPACE
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
-
-if (GIT_VERSION)
-    message(STATUS "${PROJECT_NAME} build version is: ${GIT_VERSION}")
-    add_definitions(-DGIT_VERSION)
-else()
-    message(WARNING "Git binary not found. Build version will be set to NULL. Install Git package
-    or use -DGIT_BINARY to set path to git binary.")
-    set(VERSION "NULL")
-endif ()
 
 #OS Check Placeholders. Will be used for BINDIST
 if ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
@@ -139,17 +129,6 @@ if (NOT LANGUAGES)
     ru sr tr uk_UA zh_CN zh_TW)
 endif ()
 
-if (GIT_BINARY)
-    set(GIT_EXECUTABLE ${GIT_BINARY})
-else ()
-    find_package(Git)
-    if (NOT GIT_FOUND)
-        message(WARNING
-            "Git binary not found. Build version will be set to NULL. \
-             Install Git package or use -DGIT_BINARY to set path to git binary.")
-    endif ()
-endif ()
-
 # Can't compile curses and tiles build's at same time
 if (TILES)
     set(CURSES OFF)
@@ -203,7 +182,6 @@ else ()
     message(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}")
 endif ()
 
-message(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
 message(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}")
 message(STATUS "TILES                         : ${TILES}")
 message(STATUS "CURSES                        : ${CURSES}")
