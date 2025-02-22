@@ -3415,7 +3415,7 @@
     "weight": "1000 g",
     "volume": "4 L",
     "price": "65 USD",
-    "price_postapoc": 10 USD,
+    "price_postapoc": "10 USD",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "duffelbag",
