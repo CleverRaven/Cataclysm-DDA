@@ -663,5 +663,15 @@
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Clothing Store",
+    "id": [ "afs_clothing_store_a1_floor_1", "afs_clothing_store_a1_floor_2" ],
+    "sym": "c",
+    "color": "light_green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]
