@@ -1,9 +1,10 @@
 #include "overmapbuffer.h"
 
 #include <algorithm>
-#include <climits>
+#include <cmath>
+#include <cstdlib>
 #include <iterator>
-#include <list>
+#include <limits>
 #include <map>
 #include <optional>
 #include <string>
@@ -17,13 +18,11 @@
 #include "character_id.h"
 #include "city.h"
 #include "color.h"
-#include "common_types.h"
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
-#include "game_constants.h"
 #include "line.h"
 #include "map.h"
 #include "memory_fast.h"
@@ -31,6 +30,7 @@
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
+#include "omdata.h"
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_types.h"
@@ -41,8 +41,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "vehicle.h"
-
-class map_extra;
 
 static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
 static const oter_type_str_id oter_type_bridgehead_ramp( "bridgehead_ramp" );

@@ -23,7 +23,6 @@
 #include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
-#include "vpart_position.h"
 
 static const itype_id itype_UPS_ON( "UPS_ON" );
 static const itype_id itype_battery_ups( "battery_ups" );

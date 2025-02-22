@@ -9,7 +9,6 @@
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
-#include "vpart_position.h"
 
 static const nested_mapgen_id
 nested_mapgen_test_nested_place_shopping_cart( "test_nested_place_shopping_cart" );

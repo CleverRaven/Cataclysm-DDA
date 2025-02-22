@@ -3,30 +3,36 @@
 #include <chrono>
 #include <exception>
 #include <filesystem>
+#include <functional>
 #include <set>
 #include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "input.h"
 #include "json.h"
 #include "map.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
+#include "point.h"
 #include "popup.h"
 #include "string_formatter.h"
 #include "submap.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui_manager.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 class game;
+
 // NOLINTNEXTLINE(cata-static-declarations)
 extern std::unique_ptr<game> g;
 // NOLINTNEXTLINE(cata-static-declarations)
