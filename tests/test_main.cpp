@@ -345,7 +345,7 @@ int main( int argc, const char *argv[] )
                  ( "[CataclysmDDA] (TBW)" )
                  | Opt( limit_debug_level, "number" )
                  ["--set-debug-level-mask"]
-                 ( "[CataclysmDDA] Limit debug level (read src/debug.h)" )
+                 ( "[CataclysmDDA] Set debug level bitmask - see `enum DebugLevel` in src/debug.h for individual bits definition" )
                  ;
     session.cli( cli );
 
