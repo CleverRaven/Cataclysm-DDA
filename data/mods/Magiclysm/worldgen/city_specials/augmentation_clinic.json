@@ -134,7 +134,7 @@
       "items": {
         "B": { "item": "hospital_bed", "chance": 60 },
         "β": { "item": "magical_reagents", "chance": 65, "repeat": [ 1, 3 ] },
-        "R": { "item": "trash", "chance": 50 },
+        "R": { "item": "SUS_trash_trashcan", "chance": 50 },
         "o": { "item": "waitingroom", "chance": 25 },
         "e": { "item": "fridge", "chance": 80, "repeat": [ 1, 3 ] },
         "f": { "item": "office_paper", "chance": 90 },

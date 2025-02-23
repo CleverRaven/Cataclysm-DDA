@@ -179,9 +179,9 @@
       "vendingmachines": { "z": { "item_group": "vending_drink", "lootable": true }, "X": { "item_group": "vending_food", "lootable": true } },
       "toilets": { "j": {  } },
       "items": {
-        "y": { "item": "trash", "chance": 30, "repeat": [ 2, 3 ] },
-        "B": { "item": "trash", "chance": 30, "repeat": [ 2, 3 ] },
-        "Y": { "item": "trash", "chance": 30, "repeat": [ 2, 3 ] },
+        "y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 3 ] },
+        "B": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 3 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 3 ] },
         "v": { "item": "vault", "chance": 30, "repeat": [ 2, 3 ] },
         "r": { "item": "SUS_office_desk", "chance": 30 },
         "Z": { "item": "SUS_office_desk", "chance": 30 },

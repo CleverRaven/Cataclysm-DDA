@@ -7,7 +7,7 @@
         { "chance": 85, "repeat": [ 1, 6 ], "item": "smoke_shop", "x": 21, "y": [ 5, 6 ] },
         { "chance": 85, "repeat": [ 1, 6 ], "item": "smoke_shop", "x": 21, "y": 3 },
         { "chance": 85, "repeat": [ 1, 6 ], "item": "smoke_shop", "x": 13, "y": [ 2, 4 ] },
-        { "chance": 65, "item": "trash", "x": [ 8, 9 ], "y": 20 },
+        { "chance": 65, "item": "SUS_trash_dumpster", "x": [ 8, 9 ], "y": 20 },
         { "chance": 65, "item": "cubical_office", "x": 18, "y": 21 },
         { "chance": 85, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": 3, "y": 17 },
         { "chance": 45, "item": "jackets", "x": 14, "y": 20 },

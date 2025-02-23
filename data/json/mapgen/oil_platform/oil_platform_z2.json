@@ -153,7 +153,7 @@
           { "item": "tools_science", "chance": 1, "repeat": [ 0, 1 ] },
           { "item": "hardware_trash", "chance": 15 },
           { "item": "hospital_lab", "chance": 2, "repeat": [ 0, 1 ] },
-          { "item": "trash", "chance": 10, "repeat": [ 0, 2 ] },
+          { "item": "SUS_trash_floor", "chance": 10, "repeat": [ 0, 2 ] },
           { "item": "metal_workshop", "chance": 2 }
         ],
         "K": [

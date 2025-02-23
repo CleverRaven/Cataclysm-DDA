@@ -74,9 +74,9 @@
       ],
       "d": { "item": "SUS_office_desk", "chance": 33 },
       "i": { "item": "SUS_office_filing_cabinet", "chance": 25 },
-      "a": { "item": "trash", "chance": 66, "repeat": [ 1, 3 ] },
-      "A": { "item": "trash", "chance": 66, "repeat": [ 1, 3 ] },
-      "D": { "item": "trash", "chance": 80, "repeat": [ 4, 8 ] }
+      "a": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 3 ] },
+      "A": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 3 ] },
+      "D": { "item": "SUS_trash_dumpster", "chance": 80, "repeat": [ 4, 8 ] }
     },
     "toilets": { "T": {  } },
     "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },

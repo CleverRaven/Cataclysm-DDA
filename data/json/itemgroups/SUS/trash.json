@@ -5,7 +5,7 @@
     "subtype": "distribution",
     "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
     "//2": "This group is for randomizing between heavy and light amount of trash that you'd find on the floor in a building",
-    "items": [ {  }, { "group": "SUS_trash_floor_light", "prob": 75 }, { "group": "SUS_trash_floor_light", "prob": 25 } ]
+    "items": [ { "group": "SUS_trash_floor_light", "prob": 75 }, { "group": "SUS_trash_floor_light", "prob": 25 } ]
   },
   {
     "id": "SUS_trash_floor_light",
@@ -427,7 +427,7 @@
     "items": [
       { "group": "trash_domestic", "count": [ 0, 35 ] },
       { "group": "trash_cart", "count": [ 0, 10 ] },
-      { "group": "trash", "count": [ 0, 15 ] }
+      { "group": "SUS_trash_floor", "count": [ 0, 15 ] }
     ]
   },
   {
@@ -506,7 +506,7 @@
     ]
   },
   {
-    "id": "DONE",
+    "id": "DONE0",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
@@ -526,7 +526,7 @@
     ]
   },
   {
-    "id": "DONE",
+    "id": "DONE1",
     "type": "item_group",
     "items": [
       { "item": "cup_plastic", "prob": 40 },
@@ -548,7 +548,7 @@
     "type": "item_group",
     "subtype": "collection",
     "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
-    "//2": "This group is for trashcans that are in public, contaiend in a trash bag",
+    "//2": "This group is for trashcans that are in public, contained in a trash bag",
     "entries": [
       { "item": "wrapper", "prob": 17 },
       { "item": "wrapper_foil", "prob": 1 },
@@ -584,7 +584,7 @@
     ]
   },
   {
-    "id": "fast_trash",
+    "id": "DONE2",
     "type": "item_group",
     "subtype": "collection",
     "entries": [

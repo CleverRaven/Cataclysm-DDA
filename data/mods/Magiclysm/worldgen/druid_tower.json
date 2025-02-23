@@ -219,7 +219,7 @@
         ],
         "5": [ { "item": "SUS_bathroom_sink", "chance": 80 } ],
         "P": [ { "item": "SUS_bathroom_cabinet", "chance": 60 } ],
-        "%": { "item": "trash", "chance": 25, "repeat": [ 1, 2 ] }
+        "%": { "item": "SUS_trash_floor", "chance": 25, "repeat": [ 1, 2 ] }
       },
       "toilets": { ";": {  } },
       "place_monster": [
@@ -278,7 +278,7 @@
           { "item": "druid_items", "chance": 15 },
           { "item": "magical_reagents", "chance": 25, "repeat": [ 2, 4 ] }
         ],
-        "%": { "item": "trash", "chance": 25, "repeat": [ 1, 2 ] },
+        "%": { "item": "SUS_trash_floor", "chance": 25, "repeat": [ 1, 2 ] },
         "Đ": [
           { "item": "magic_shop_clothes", "chance": 60, "repeat": [ 1, 2 ] },
           { "item": "enchanted_worn_items", "chance": 35, "repeat": [ 1, 2 ] }

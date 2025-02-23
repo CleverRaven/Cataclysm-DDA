@@ -48,7 +48,7 @@
       "place_item": [ { "item": "chainsaw_off", "chance": 70, "x": 3, "y": 10 }, { "item": "saw", "chance": 70, "x": 3, "y": 10 } ],
       "place_items": [
         { "chance": 30, "item": "tools_common", "x": 4, "y": 11 },
-        { "chance": 20, "repeat": [ 1, 4 ], "item": "trash", "x": 4, "y": 3 },
+        { "chance": 20, "repeat": [ 1, 4 ], "item": "SUS_trash_trashcan", "x": 4, "y": 3 },
         { "chance": 30, "item": "tools_earthworking", "x": 3, "y": 11 },
         { "chance": 30, "item": "tools_earthworking", "x": 3, "y": 9 },
         { "chance": 30, "item": "tools_earthworking", "x": 4, "y": 9 },

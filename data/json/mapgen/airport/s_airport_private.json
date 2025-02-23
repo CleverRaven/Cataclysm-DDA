@@ -123,7 +123,7 @@
         { "group": "tools_mechanic", "chance": 50, "repeat": 4, "x": 81, "y": 8 }
       ],
       "items": {
-        "q": { "item": "trash", "chance": 30, "repeat": [ 2, 3 ] },
+        "q": { "item": "SUS_trash_dumpster", "chance": 30, "repeat": [ 2, 3 ] },
         "I": { "item": "office", "chance": 30, "repeat": [ 2, 3 ] }
       },
       "place_monster": [

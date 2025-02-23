@@ -128,7 +128,7 @@
         "U": [ "f_dumpster", "f_recycle_bin" ]
       },
       "items": {
-        "&": { "item": "trash", "chance": 25, "repeat": 2 },
+        "&": { "item": "SUS_trash_trashcan_public", "chance": 25, "repeat": 2 },
         "v": { "item": "golf_green", "chance": 10 },
         "t": { "chance": 75, "item": "office_mess" }
       },

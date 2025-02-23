@@ -202,7 +202,7 @@
       "n": { "item": "SUS_kitchen_sink", "chance": 10, "repeat": [ 1, 2 ] },
       "i": { "item": "oven", "chance": 75, "repeat": [ 1, 2 ] },
       "l": { "item": "fridge", "chance": 90, "repeat": [ 1, 2 ] },
-      "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] },
       "R": { "item": "homebooks", "chance": 70, "repeat": [ 3, 8 ] }
     }
   },

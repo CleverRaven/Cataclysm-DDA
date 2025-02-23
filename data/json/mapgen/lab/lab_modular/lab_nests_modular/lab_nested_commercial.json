@@ -176,7 +176,7 @@
       "items": {
         "M": [ { "item": "pizza_display", "chance": 30, "repeat": [ 1, 2 ] } ],
         "J": [ { "item": "pizza_table", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
         "m": [ { "item": "vending_drink", "chance": 30 }, { "item": "prepared_teas", "chance": 30 } ]
       }
     }
@@ -221,7 +221,7 @@
       "palettes": [ "lab_common_palette" ],
       "items": {
         "f": [ { "item": "restaurant_mexican_table", "chance": 30 } ],
-        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] } ],
         "m": [ { "item": "vending_drink", "chance": 30 }, { "item": "pizza_beer", "chance": 30 } ]
       }
     }

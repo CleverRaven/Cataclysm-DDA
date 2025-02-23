@@ -1383,7 +1383,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "group": "trash", "prob": 100 },
+      { "group": "SUS_trash_floor", "prob": 100 },
       { "group": "cleaning", "prob": 20 },
       { "group": "dishes_dining", "prob": 20 },
       { "group": "dishes_utility", "prob": 10 },

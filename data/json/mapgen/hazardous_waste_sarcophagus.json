@@ -354,7 +354,7 @@
         "l": { "item": "cleaning", "chance": 60, "repeat": 2 },
         "F": { "item": "office_paper", "chance": 50 },
         "~": [
-          { "item": "trash", "chance": 15 },
+          { "item": "SUS_trash_floor", "chance": 15 },
           { "item": "sewer", "chance": 15 },
           { "item": "hazardous_waste", "chance": 50 },
           { "item": "toxic_waste_mx_radioactive", "chance": 30 },

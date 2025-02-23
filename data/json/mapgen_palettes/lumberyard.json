@@ -64,7 +64,7 @@
     "toilets": { "t": {  } },
     "items": {
       "x": { "item": "lumberyard", "chance": 90, "repeat": [ 3, 5 ] },
-      "&": { "item": "trash", "chance": 75, "repeat": [ 2, 3 ] },
+      "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 2, 3 ] },
       "d": { "item": "SUS_office_desk", "chance": 33 },
       "f": { "item": "SUS_fridge_breakroom", "chance": 80 },
       "n": [ { "item": "snacks", "chance": 35, "repeat": [ 1, 2 ] }, { "item": "magazines", "chance": 10 } ],

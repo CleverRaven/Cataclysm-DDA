@@ -15,7 +15,7 @@
     },
     "items": {
       ".": [
-        { "item": "trash", "chance": 25, "repeat": 2 },
+        { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
         { "item": "road", "chance": 2 },
         { "item": "allclothes_damaged", "chance": 3 },
         { "item": "stoner", "chance": 1 },
@@ -34,7 +34,7 @@
         { "item": "oa_ig_ash_pile", "chance": 1 }
       ],
       "z": [
-        { "item": "trash", "chance": 35 },
+        { "item": "SUS_trash_floor", "chance": 35 },
         { "item": "road", "chance": 1 },
         { "item": "allclothes_damaged", "chance": 2 },
         { "item": "stoner", "chance": 1 },
@@ -53,7 +53,7 @@
         { "item": "oa_ig_ash_pile", "chance": 1 }
       ],
       "#": [
-        { "item": "trash", "chance": 15 },
+        { "item": "SUS_trash_floor", "chance": 15 },
         { "item": "road", "chance": 1 },
         { "item": "oa_ig_rd_glass_trash", "chance": 1 },
         { "item": "allclothes_damaged", "chance": 1 },

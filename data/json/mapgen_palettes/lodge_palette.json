@@ -73,7 +73,7 @@
         { "item": "tools_home", "chance": 30, "repeat": [ 1, 4 ] }
       ],
       "O": { "item": "livingroom", "chance": 20 },
-      "&": { "item": "trash", "chance": 20 },
+      "&": { "item": "SUS_trash_trashcan", "chance": 20 },
       "R": [
         { "item": "camping", "chance": 50 },
         { "item": "gear_survival", "chance": 30 },
@@ -161,7 +161,7 @@
       "h": { "item": "cannibal_weapons", "repeat": [ 1, 4 ] },
       "L": { "item": "cannibal_food", "repeat": [ 1, 4 ] },
       "S": { "item": "stash_wood", "chance": 60, "repeat": [ 2, 4 ] },
-      "&": { "item": "trash", "chance": 20 },
+      "&": { "item": "SUS_trash_trashcan", "chance": 20 },
       "R": [
         { "item": "camping", "chance": 50 },
         { "item": "gear_survival", "chance": 30 },

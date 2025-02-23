@@ -337,7 +337,7 @@
         "3": { "item": "bed", "chance": 80 },
         "8": { "item": "bed", "chance": 80 },
         "T": { "item": "games", "chance": 5 },
-        "P": { "item": "trash", "chance": 100, "repeat": [ 3, 6 ] },
+        "P": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 3, 6 ] },
         "r": { "item": "groce_frozen", "chance": 100, "repeat": [ 3, 4 ] },
         "a": { "item": "office", "chance": 10 },
         "5": { "item": "nursing_home_clothes", "chance": 80, "repeat": [ 0, 1 ] },
@@ -412,7 +412,7 @@
           { "item": "office_mess", "chance": 20, "repeat": [ 0, 1 ] },
           { "item": "magazines", "chance": 20, "repeat": [ 0, 1 ] }
         ],
-        ".": [ { "item": "trash", "chance": 2 }, { "item": "office_mess", "chance": 3 } ]
+        ".": [ { "item": "SUS_trash_floor", "chance": 2 }, { "item": "office_mess", "chance": 3 } ]
       },
       "vendingmachines": { "?": { "item_group": "vending_drink", "lootable": true }, ",": { "item_group": "vending_food", "lootable": true } },
       "palettes": [ "nursing_home_sh_palette" ],

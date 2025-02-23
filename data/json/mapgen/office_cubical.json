@@ -67,7 +67,7 @@
         "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
         "R": { "item": "office_supplies", "chance": 80, "repeat": [ 1, 2 ] },
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 2 ] },
-        "a": { "item": "trash", "chance": 60, "repeat": [ 1, 2 ] },
+        "a": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 2 ] },
         "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] }
       },
       "vehicles": { "h": { "vehicle": "swivel_chair", "chance": 100 } }
@@ -196,7 +196,7 @@
         "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
         "R": { "item": "office_supplies", "chance": 80, "repeat": [ 1, 2 ] },
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 2 ] },
-        "a": { "item": "trash", "chance": 60, "repeat": [ 1, 2 ] },
+        "a": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 2 ] },
         "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] }
       },
       "vehicles": { "h": { "vehicle": "swivel_chair", "chance": 100 } }
