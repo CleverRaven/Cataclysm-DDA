@@ -758,9 +758,8 @@
     "id": "EOC_ARVORE_TREE_SINGING",
     "effect": [
       {
-        "u_query_tile": "around",
-        "target_var": { "context_val": "arvore_treesung_location" },
-        "message": "Select nearby tree"
+        "u_choose_adjacent_highlight": { "context_val": "arvore_treesung_location" },
+        "message": "Select nearby water source"
       },
       {
         "if": { "math": [ "has_var(_arvore_treesung_location)" ] },

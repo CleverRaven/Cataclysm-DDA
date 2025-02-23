@@ -4551,12 +4551,6 @@ talk_effect_fun_t::func f_query_tile( const JsonObject &jo, std::string_view mem
                 if( !traj.empty() ) {
                     loc = traj.back();
                 }
-            } else if( type == "around" ) {
-                if( !message.empty() ) {
-                    loc = choose_adjacent( center, message );
-                } else {
-                    loc = choose_adjacent( center, _( "Choose direction" ) );
-                }
             } else {
                 debugmsg( string_format( "Invalid selection type: %s", type ) );
             }
@@ -4614,6 +4608,66 @@ talk_effect_fun_t::func f_query_omt( const JsonObject &jo, std::string_view memb
             return;
         }
         return;
+    };
+}
+
+talk_effect_fun_t::func f_choose_adjacent_highlight( const JsonObject &jo, std::string_view member,
+        const std::string_view, bool is_npc )
+{
+
+    var_info output_var = read_var_info( jo.get_object( member ) );
+
+    std::optional<var_info> target_var;
+    if( jo.has_member( "target_var" ) ) {
+        target_var = read_var_info( jo.get_object( "target_var" ) );
+    }
+
+    // i hate get_translation_or_var() `required` var do not work
+    translation_or_var message;
+    if( jo.has_member( "message" ) ) {
+        message = get_translation_or_var( jo.get_member( "message" ), "message", true );
+    } else {
+        message.str_val = translation();
+    }
+
+    translation_or_var failure_message;
+    if( jo.has_member( "failure_message" ) ) {
+        failure_message = get_translation_or_var( jo.get_member( "failure_message" ), "failure_message",
+                          true );
+    } else {
+        failure_message.str_val = translation();
+    }
+
+    bool allow_vertical = jo.get_bool( "allow_vertical", false );
+    bool allow_autoselect = jo.get_bool( "allow_autoselect", true );
+
+    std::function<bool( const_dialogue const & )> cond;
+    read_condition( jo, "condition", cond, true );
+
+    return [output_var, target_var, message, failure_message, allow_vertical, allow_autoselect, cond,
+                is_npc]( dialogue & d ) {
+
+        tripoint_bub_ms target_pos;
+        if( target_var.has_value() ) {
+            tripoint_abs_ms abs_ms = get_tripoint_ms_from_var( target_var, d, is_npc );
+            target_pos = get_map().get_bub( abs_ms );
+        } else {
+            target_pos = d.actor( is_npc )->pos_bub();
+        }
+
+        const std::function<bool( const tripoint_bub_ms & )> f = [cond, &d](
+        const tripoint_bub_ms & pnt ) {
+            write_var_value( var_type::context, "loc", &d, get_map().get_abs( pnt ).to_string_writable() );
+            return cond( d );
+        };
+
+        std::optional<tripoint_bub_ms> picked_coord = choose_adjacent_highlight( get_map(), target_pos,
+                message.evaluate( d ), failure_message.evaluate( d ), f, allow_vertical, allow_autoselect );
+
+        if( picked_coord.has_value() ) {
+            write_var_value( output_var.type, output_var.name, &d,
+                             get_map().get_abs( picked_coord.value() ).to_string_writable() );
+        }
     };
 }
 
@@ -7597,6 +7651,7 @@ parsers = {
     { "u_explosion", "npc_explosion", jarg::member, &talk_effect_fun::f_explosion },
     { "u_query_tile", "npc_query_tile", jarg::member, &talk_effect_fun::f_query_tile },
     { "u_query_omt", "npc_query_omt", jarg::member, &talk_effect_fun::f_query_omt },
+    { "u_choose_adjacent_highlight", "npc_choose_adjacent_highlight", jarg::member, &talk_effect_fun::f_choose_adjacent_highlight },
     { "u_set_goal", "npc_set_goal", jarg::member, &talk_effect_fun::f_npc_goal },
     { "u_set_guard_pos", "npc_set_guard_pos", jarg::member, &talk_effect_fun::f_guard_pos },
     { "u_learn_recipe", "npc_learn_recipe", jarg::member, &talk_effect_fun::f_learn_recipe },

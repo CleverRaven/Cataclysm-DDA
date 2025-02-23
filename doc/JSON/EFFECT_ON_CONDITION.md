@@ -4183,16 +4183,14 @@ You pick a `distance_limit` using `num_input`, then open map, and if allowed OM 
 ### `u_query_tile`, `npc_query_tile`
 Ask the player to select a tile. If tile is selected, variable with coordinates is written in target_var;
 
-- `message` is displayed while selecting
-
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_query_tile", / "npc_query_tile" | **mandatory** | string | type of tile quering; possible values are:<br>- `anywhere` is the same as the "look around" UI <br>- `line_of_sight` only tiles that are visible at this moment (`range` is mandatory)<br>- `around` is the same as starting a fire, you can only choose the 9 tiles you're immediately adjacent to |
+| "u_query_tile", / "npc_query_tile" | **mandatory** | string | type of tile quering; possible values are:<br>- `anywhere` is the same as the "look around" UI <br>- `line_of_sight` only tiles that are visible at this moment (`range` is mandatory) |
 | "target_var" | **mandatory** | [variable object](#variable-object) | variable, where coordinate be stored; if query is cancelled, the variable is not stored, so conditoon like `{ "math": [ "has_var(_pos)" ] }` should be used to ensure variable was picked correctly | 
 | "range" | optional | int or [variable object](#variable-object) | defines the selectable range for `line_of_sight` (**mandatory** for `line_of_sight`, otherwise not required) | 
 | "z_level" | optional | bool | if `anywhere` is picked, defines if you can pick tiles on another z-levels |
 | "message" | optional | string or [variable object](#variable-object) | text, that is displayed while selecting |
-| "center_var" | optional | [variable object](#variable-object) | if used, query would be centered around this coordinates, and not from talker current position | 
+| "center_var" | optional | [variable object](#variable-object) | if used, query would be centered around this coordinates, and not from talker current position. Works only for `anywhere` type | 
 #### Valid talkers:
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |
@@ -4209,6 +4207,66 @@ Display coordinates of selected tile.
   "else": { "u_message": "Canceled" }
 }
 ```
+
+### `u_choose_adjacent_highlight`, `npc_choose_adjacent_highlight`
+Allows to pick 9 tiles in close proximity to player
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_choose_adjacent_highlight", / "npc_choose_adjacent_highlight" | **mandatory** | [variable object](#variable-object) | variable, where coordinate be stored; if query is cancelled, player picks tile that is not allowed or cancels the input, the variable is not stored, so conditoon like `{ "math": [ "has_var(_pos)" ] }` should be used to ensure variable was picked correctly |
+| "target_var" | **mandatory** | [variable object](#variable-object) | if used, the 3x3 area would be centered not around talker, but around this point. Keybinds and picking would work as usually, you could pick it using numpad | 
+| "condition" | optional | condition | can be used to filter the specific tiles from the list. If not used, all tiles are allowed. Coordinates for tiles are stored in `loc` context variable, and checked one by one before showing to the player |
+| "allow_vertical" | optional | bool | if true, allows to pick tiles 1 z-level above or below. Default false |
+| "allow_autoselect" | optional | bool | if true, and there is only one matching result, and player has `AUTOSELECT_SINGLE_VALID_TARGET` on, the game gonna pick valid object automatically instead of asking player which one (literally) should be picked |
+| "message" | optional | string or [variable object](#variable-object) | text, that is displayed while selecting |
+| "failure_message" | optional | string or [variable object](#variable-object) | if `allow_autoselect` is true, and condition returned no allowed tiles, this message is printed |
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+Allow to selects one tile around the u
+```json
+      {
+        "u_choose_adjacent_highlight": { "context_val": "tile" },
+        "message": "Select a tile"
+      },
+```
+
+Allow to selects one tile with DIGGABLE flag around the u
+```json
+      {
+        "u_choose_adjacent_highlight": { "context_val": "druid_temporary_spring_location" },
+        "condition": { "map_terrain_with_flag": "DIGGABLE", "loc": { "context_val": "loc" } },
+        "message": "Select natural earth",
+        "failure_message": "No natural earth nearby"
+      }
+```
+
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "BETTER_PSIONIC_THROWS",
+    "effect": [
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "u_pos" } },
+      {
+        "npc_choose_adjacent_highlight": { "context_val": "push_direction_incorrect" },
+        "target_var": { "context_val": "u_pos" },
+        "message": "Select where to push the monster."
+      },
+      {
+        "mirror_coordinates": { "context_val": "push_direction_correct" },
+        "center_var": { "context_val": "u_pos" },
+        "relative_var": { "context_val": "push_direction_incorrect" }
+      },
+      { "u_knockback": 7, "stun": 10, "dam_mult": 2, "direction_var": { "context_val": "push_direction_correct" } }
+    ]
+  },
+```
+
 
 #### `mirror_coordinates`
 Picks two coordinates, and create a third one in opposite direction

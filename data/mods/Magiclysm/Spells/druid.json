@@ -1151,11 +1151,7 @@
     "type": "effect_on_condition",
     "id": "EOC_EOC_DRUID_SHAPE_WOOD",
     "effect": [
-      {
-        "u_query_tile": "around",
-        "target_var": { "context_val": "druid_treeshape_location" },
-        "message": "Select nearby tree"
-      },
+      { "u_choose_adjacent_highlight": { "context_val": "druid_treeshape_location" }, "message": "Select nearby tree" },
       {
         "if": { "math": [ "has_var(_druid_treeshape_location)" ] },
         "then": {
@@ -1427,9 +1423,8 @@
     "id": "EOC_DRUID_TEMPORARY_SPRING",
     "effect": [
       {
-        "u_query_tile": "around",
-        "target_var": { "context_val": "druid_temporary_spring_location" },
-        "message": "Select natural earth:"
+        "u_choose_adjacent_highlight": { "context_val": "druid_temporary_spring_location" },
+        "message": "Select natural earth"
       },
       {
         "if": { "math": [ "has_var(_druid_temporary_spring_location)" ] },

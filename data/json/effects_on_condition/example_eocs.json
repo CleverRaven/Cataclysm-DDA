@@ -354,7 +354,7 @@
     "type": "effect_on_condition",
     "id": "EOC_query_tile_test_around",
     "effect": [
-      { "u_query_tile": "around", "target_var": { "context_val": "pos" }, "message": "Choose direction" },
+      { "u_choose_adjacent_highlight": { "context_val": "pos" }, "message": "Choose direction" },
       {
         "if": { "math": [ "has_var(_pos)" ] },
         "then": { "u_message": "<context_val:pos>" },

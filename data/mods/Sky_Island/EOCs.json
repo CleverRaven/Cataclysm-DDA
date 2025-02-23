@@ -940,11 +940,7 @@
     "type": "effect_on_condition",
     "id": "EOC_WARPED_POND_CREATION",
     "effect": [
-      {
-        "u_query_tile": "around",
-        "target_var": { "context_val": "warped_pond_location" },
-        "message": "Select nearby water source"
-      },
+      { "u_choose_adjacent_highlight": { "context_val": "warped_pond_location" }, "message": "Select nearby water source" },
       {
         "if": { "math": [ "has_var(_warped_pond_location)" ] },
         "then": {

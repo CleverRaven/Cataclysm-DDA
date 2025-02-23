@@ -1222,9 +1222,8 @@
     "id": "EOC_VAMPIRE_MIST_FORM_SEEP_THROUGH_DOOR_WINDOW",
     "effect": [
       {
-        "u_query_tile": "around",
-        "target_var": { "context_val": "vampire_mist_door_or_window_seep" },
-        "message": "Select door or window, then target the space beyond it."
+        "u_choose_adjacent_highlight": { "context_val": "vampire_mist_door_or_window_seep" },
+        "message": "Select nearby water source"
       },
       {
         "if": { "math": [ "has_var(_vampire_mist_door_or_window_seep)" ] },
