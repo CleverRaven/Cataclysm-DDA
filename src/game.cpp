@@ -14333,18 +14333,18 @@ pulp_data game::calculate_character_ability_to_pulp( const Character &you )
                    pulp_power_stomps, bash_factor );
 
     bash_factor = std::pow( bash_factor, 1.8f );
-    std::pair<int, const item *> pair_cut = you.get_best_tool( qual_BUTCHER );
-    pd.cut_quality = pair_cut.first;
+
+    const item &best_cut = you.best_item_with_quality( qual_BUTCHER );
+    pd.cut_quality = best_cut.get_quality( qual_BUTCHER );
     if( pd.cut_quality > 5 ) {
         pd.can_severe_cutting = true;
-        pd.cut_tool = item::nname( pair_cut.second->typeId() );
+        pd.cut_tool = item::nname( best_cut.typeId() );
     }
 
-    std::pair<int, const item *> pair_pry;
-    if( you.max_quality( qual_PRY ) > 0 ) {
+    const item &best_pry = you.best_item_with_quality( qual_PRY );
+    if( best_pry.get_quality( qual_PRY ) > 0 ) {
         pd.can_pry_armor = true;
-        pair_pry = you.get_best_tool( qual_PRY );
-        pd.pry_tool = item::nname( pair_pry.second->typeId() );
+        pd.pry_tool = item::nname( best_pry.typeId() );
     }
 
     add_msg_debug( debugmode::DF_ACTIVITY,

@@ -1,0 +1,29 @@
+[
+  {
+    "type": "test_data",
+    "pulp_testing_data": [
+      { "name": "character with no skill and no items vs zombie", "pulp_time": 515, "corpse": "mon_zombie" },
+      {
+        "name": "character with no skill and a pipe mace vs zombie",
+        "pulp_time": 350,
+        "items": [ "mace_pipe" ],
+        "corpse": "mon_zombie"
+      },
+      {
+        "name": "character with survival 2, athletics 2 and a pipe mace vs zombie",
+        "pulp_time": 247,
+        "skills": [ { "skill": "swimming", "level": 2 }, { "skill": "survival", "level": 2 } ],
+        "items": [ "mace_pipe" ],
+        "corpse": "mon_zombie"
+      },
+      {
+        "name": "character with survival 2, athletics 2 and a pipe mace vs zombie with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [ { "skill": "swimming", "level": 2 }, { "skill": "survival", "level": 2 } ],
+        "proficiencies": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
+        "items": [ "mace_pipe" ],
+        "corpse": "mon_zombie"
+      }
+    ]
+  }
+]
