@@ -1,0 +1,1366 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_glass_fridge",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_bigmirror",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_gazing_ball",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_styling_station",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_glass_cabinet",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_displaycase",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_displaycase_o",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_displaycase_b",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_board_map",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_board_map_o",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_fireman_cabinet",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_fireman_cabinet_o",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_glass_mound_short",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_glass_mound_mid",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_glass_mound_tall",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_firefly_terrarium",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vending_c",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_glassedbody_1",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_glassedbody_2",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_glassedbody_3",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_glassedbody_4",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_glassedbody_5",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_glassedbody_6",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_glassedbody_7",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_glassedbody_8",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_glassedbody_9",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_glassedbody_10",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_glassedbody_11",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_bed",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_bathtub",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_dresser",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_fridge",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_armchair",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_chair",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_desk",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_locker",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_oven",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_mailbox",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_rack",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_sink",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_toilet",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_cupboard",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_planter",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_flower",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_bench",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_washer",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_dryer",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_bookcase",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_counter",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_table",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_birdbath",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_shower",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_water_heater",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_fireplace",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_firering",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_floor_lamp",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_box",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_sofa",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_dishwasher",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_doll",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_vitrified_bookcase_talker",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_door_glass_red_c",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_door_glass_green_c",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_door_glass_white_c",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_door_glass_gray_c",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_door_glass_red_o",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_door_glass_green_o",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_door_glass_white_o",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_door_glass_gray_o",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_door_glass_c",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_door_glass_lab_c",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_door_glass_o",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_door_glass_lab_o",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_door_glass_frosted_c",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_door_glass_frosted_lab_c",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_door_glass_frosted_o",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_door_glass_frosted_lab_o",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_glass_railing",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_thconc_y_olight",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_thconc_floor_olight",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_floor_olight",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_dirtfloor_olight",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_metal_floor_olight",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_strconc_floor_olight",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_linoleum_gray_floor_olight",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_linoleum_whitefloor_olight",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_glassed_sand",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vat",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_nether_glass_floor",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_nether_glass_floor_clairvoyance",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_nether_glass_floor_basalt",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_nether_glass_wall",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_glass_roof",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_pit_glass",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_wall_glass",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_wall_glass_alarm",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_dirt",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_grass",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_floor",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_tile",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_wall",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_edge",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_door",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_chickenwire_fence",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_fence_barbed",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_wall_glass",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_sand",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_curtains",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_window_frame",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_fence_post",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_water_pump",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_bars",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_column",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_pool",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_tree_apple_vitrified",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_tree",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_bush",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_stairs_down",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_stairs_up",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_downspout",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_roof",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_gutter_drop",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_pool_talker",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_vitrified_soil_talker",
+    "volume": 80,
+    "files": [
+      "smash_fail/glass/smash_fail_glass.ogg",
+      "smash_fail/glass/smash_fail_glass_1.ogg",
+      "smash_fail/glass/smash_fail_glass_2.ogg"
+    ]
+  }
+]

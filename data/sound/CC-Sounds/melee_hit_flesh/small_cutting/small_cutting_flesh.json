@@ -1,0 +1,13 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "melee_hit_flesh",
+    "variant": "small_cutting",
+    "volume": 100,
+    "files": [
+      "melee_hit_flesh/small_cutting/small_cutting_flesh_1.ogg",
+      "melee_hit_flesh/small_cutting/small_cutting_flesh_2.ogg",
+      "melee_hit_flesh/small_cutting/small_cutting_flesh_3.ogg"
+    ]
+  }
+]

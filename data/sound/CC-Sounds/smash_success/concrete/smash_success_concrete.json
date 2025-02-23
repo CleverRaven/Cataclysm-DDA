@@ -1,0 +1,639 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_pavement_bg_dp",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_pavement_y_bg_dp",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_sidewalk_bg_dp",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_dock_deep_pile",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_wall",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_secretdoor_concrete_c",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_secretdoor_concrete_o",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_embrasure_sconc",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_embrasure_strconcrete",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_roof",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_railing",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_thconc_floor",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_thconc_y",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_thconc_r",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_thconc_warning",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_floor",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_floor_glimmer",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_floor_halfway",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_rock_floor",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_marble_floor",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_floor_warped",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_sidewalk",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_floor_no_roof",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_y",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_pavement_hw_air",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_pavement_y_hw_air",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_sidewalk_hw_air",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_lake_bed_concrete",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_lake_bed_concrete_yellow",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_flat_roof",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_wall_b",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_wall_g",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_wall_r",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_wall_w",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_wall_p",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_wall_P",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_wall_y",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_wall_orange",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_wall_gray",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_wall_brown",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_wall_cyan",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_wall_black",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_wall_b",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_wall_g",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_wall_r",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_wall_w",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_wall_p",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_wall_p",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_wall_y",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_wall_orange",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_wall_gray",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_wall_brown",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_wall_cyan",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_wall_black",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_sconc_wall_b",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_sconc_wall_g",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_sconc_wall_r",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_sconc_wall_w",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_sconc_wall_p",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_sconc_wall_P",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_sconc_wall_y",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_sconc_wall_orange",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_sconc_wall_gray",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_sconc_wall_brown",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_sconc_wall_cyan",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_sconc_wall_black",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_brick_wall_halfway",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_rock_wall",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_rock_wall_half",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_rock_smooth",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_wall",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_wall_rope",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_sconc_wall",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_sconc_wall_halfway",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_wall",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_strconc_wall_halfway",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_rock",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_rock_red",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_rock_green",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_rock_blue",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_little_column",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_column",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_bollard",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_drystone_wall",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_drystone_wall_half",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_pillar",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_ramp_down_high",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_ramp_down_low",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_ramp_up_high",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_concrete_ramp_up_low",
+    "volume": 80,
+    "files": [ "smash_success/concrete/smash_success_concrete.ogg" ]
+  }
+]

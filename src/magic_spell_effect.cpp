@@ -1473,11 +1473,6 @@ void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint_
         }
         sp.make_sound( potential_target, caster );
         critter->mod_moves( sp.damage( caster ) );
-
-        /*if (critter->is_avatar()) {
-            auto deltaMoves = sp.damage( caster );
-            if (deltaMoves > 100) ????
-        }*/
     }
 }
 

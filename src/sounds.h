@@ -187,10 +187,6 @@ void do_player_death_hurt( const Character &target, bool death );
 void do_low_stamina_sfx();
 // @param obst should be string id of obstacle terrain or vehicle part
 void do_obstacle( const std::string &obst = "" );
-
-// multiplies all music and world sounds' pitch by this value until the turn ends
-void set_pitch_modifier(float mod);
-
 } // namespace sfx
 
 #endif // CATA_SRC_SOUNDS_H

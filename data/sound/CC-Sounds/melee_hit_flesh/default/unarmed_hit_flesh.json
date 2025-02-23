@@ -1,0 +1,15 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "melee_hit_flesh",
+    "variant": "default",
+    "volume": 100,
+    "files": [
+      "melee_hit_flesh/default/unarmed_hit_flesh_1.ogg",
+      "melee_hit_flesh/default/unarmed_hit_flesh_2.ogg",
+      "melee_hit_flesh/default/unarmed_hit_flesh_3.ogg",
+      "melee_hit_flesh/default/unarmed_hit_flesh_4.ogg",
+      "melee_hit_flesh/default/unarmed_hit_flesh_5.ogg"
+    ]
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "close_door",
+    "variant": "t_door_o",
+    "volume": 70,
+    "files": [ "close_door/door_wood/close_door.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "close_door",
+    "variant": "t_door_red_o",
+    "volume": 70,
+    "files": [ "close_door/door_wood/close_door.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "close_door",
+    "variant": "t_door_white_o",
+    "volume": 70,
+    "files": [ "close_door/door_wood/close_door.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "close_door",
+    "variant": "t_door_gray_o",
+    "volume": 70,
+    "files": [ "close_door/door_wood/close_door.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "close_door",
+    "variant": "t_door_green_o",
+    "volume": 70,
+    "files": [ "close_door/door_wood/close_door.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "close_door",
+    "variant": "t_door_lab_o",
+    "volume": 70,
+    "files": [ "close_door/door_wood/close_door.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "close_door",
+    "variant": "t_door_o_peep",
+    "volume": 70,
+    "files": [ "close_door/door_wood/close_door.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "close_door",
+    "variant": "t_rdoor_o",
+    "volume": 70,
+    "files": [ "close_door/door_wood/close_door.ogg" ]
+  }
+]

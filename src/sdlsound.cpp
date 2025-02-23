@@ -724,6 +724,7 @@ struct sound_effect_handler {
         cata_assert(handler->loops_remaining >= 0);
         //cata_assert(!handler->DEBUG);
 
+        // NOTE: strange artifacts occur if this isn't a power of two like 0.25 or 0.5. 
         float playbackSpeed = is_time_slowed() ? sound_speed_factor : 1;            
 
         //memset(stream, 0, len);

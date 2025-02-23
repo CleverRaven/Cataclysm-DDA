@@ -1,0 +1,30 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_bathtub",
+    "volume": 80,
+    "files": [ "smash_fail/ceramic/smash_fail_ceramic.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_shower",
+    "volume": 80,
+    "files": [ "smash_fail/ceramic/smash_fail_ceramic.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_sink",
+    "volume": 80,
+    "files": [ "smash_fail/ceramic/smash_fail_ceramic.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_toilet",
+    "volume": 80,
+    "files": [ "smash_fail/ceramic/smash_fail_ceramic.ogg" ]
+  }
+]

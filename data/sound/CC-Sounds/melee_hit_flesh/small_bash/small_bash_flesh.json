@@ -1,0 +1,14 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "melee_hit_flesh",
+    "variant": "small_bash",
+    "volume": 100,
+    "files": [
+      "melee_hit_flesh/small_bash/small_bash_flesh_1.ogg",
+      "melee_hit_flesh/small_bash/small_bash_flesh_2.ogg",
+      "melee_hit_flesh/small_bash/small_bash_flesh_3.ogg",
+      "melee_hit_flesh/small_bash/small_bash_flesh_4.ogg"
+    ]
+  }
+]

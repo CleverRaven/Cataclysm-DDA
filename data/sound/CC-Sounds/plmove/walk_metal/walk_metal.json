@@ -1,0 +1,158 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "walk_metal",
+    "volume": 50,
+    "files": [
+      "plmove/walk_metal/walk_metal_1.ogg",
+      "plmove/walk_metal/walk_metal_2.ogg",
+      "plmove/walk_metal/walk_metal_3.ogg",
+      "plmove/walk_metal/walk_metal_4.ogg",
+      "plmove/walk_metal/walk_metal_5.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_metal_floor_olight",
+    "volume": 50,
+    "files": [
+      "plmove/walk_metal/walk_metal_1.ogg",
+      "plmove/walk_metal/walk_metal_2.ogg",
+      "plmove/walk_metal/walk_metal_3.ogg",
+      "plmove/walk_metal/walk_metal_4.ogg",
+      "plmove/walk_metal/walk_metal_5.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_metal_floor",
+    "volume": 50,
+    "files": [
+      "plmove/walk_metal/walk_metal_1.ogg",
+      "plmove/walk_metal/walk_metal_2.ogg",
+      "plmove/walk_metal/walk_metal_3.ogg",
+      "plmove/walk_metal/walk_metal_4.ogg",
+      "plmove/walk_metal/walk_metal_5.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_scrap_floor",
+    "volume": 50,
+    "files": [
+      "plmove/walk_metal/walk_metal_1.ogg",
+      "plmove/walk_metal/walk_metal_2.ogg",
+      "plmove/walk_metal/walk_metal_3.ogg",
+      "plmove/walk_metal/walk_metal_4.ogg",
+      "plmove/walk_metal/walk_metal_5.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_junk_floor",
+    "volume": 50,
+    "files": [
+      "plmove/walk_metal/walk_metal_1.ogg",
+      "plmove/walk_metal/walk_metal_2.ogg",
+      "plmove/walk_metal/walk_metal_3.ogg",
+      "plmove/walk_metal/walk_metal_4.ogg",
+      "plmove/walk_metal/walk_metal_5.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_metal_floor_no_roof",
+    "volume": 50,
+    "files": [
+      "plmove/walk_metal/walk_metal_1.ogg",
+      "plmove/walk_metal/walk_metal_2.ogg",
+      "plmove/walk_metal/walk_metal_3.ogg",
+      "plmove/walk_metal/walk_metal_4.ogg",
+      "plmove/walk_metal/walk_metal_5.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_bridge",
+    "volume": 50,
+    "files": [
+      "plmove/walk_metal/walk_metal_1.ogg",
+      "plmove/walk_metal/walk_metal_2.ogg",
+      "plmove/walk_metal/walk_metal_3.ogg",
+      "plmove/walk_metal/walk_metal_4.ogg",
+      "plmove/walk_metal/walk_metal_5.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_metal_dock",
+    "volume": 50,
+    "files": [
+      "plmove/walk_metal/walk_metal_1.ogg",
+      "plmove/walk_metal/walk_metal_2.ogg",
+      "plmove/walk_metal/walk_metal_3.ogg",
+      "plmove/walk_metal/walk_metal_4.ogg",
+      "plmove/walk_metal/walk_metal_5.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_metal_dock_deep",
+    "volume": 50,
+    "files": [
+      "plmove/walk_metal/walk_metal_1.ogg",
+      "plmove/walk_metal/walk_metal_2.ogg",
+      "plmove/walk_metal/walk_metal_3.ogg",
+      "plmove/walk_metal/walk_metal_4.ogg",
+      "plmove/walk_metal/walk_metal_5.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_metal_pontoon_dp",
+    "volume": 50,
+    "files": [
+      "plmove/walk_metal/walk_metal_1.ogg",
+      "plmove/walk_metal/walk_metal_2.ogg",
+      "plmove/walk_metal/walk_metal_3.ogg",
+      "plmove/walk_metal/walk_metal_4.ogg",
+      "plmove/walk_metal/walk_metal_5.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_bulkhead_floor",
+    "volume": 50,
+    "files": [
+      "plmove/walk_metal/walk_metal_1.ogg",
+      "plmove/walk_metal/walk_metal_2.ogg",
+      "plmove/walk_metal/walk_metal_3.ogg",
+      "plmove/walk_metal/walk_metal_4.ogg",
+      "plmove/walk_metal/walk_metal_5.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_bulkhead_roof",
+    "volume": 50,
+    "files": [
+      "plmove/walk_metal/walk_metal_1.ogg",
+      "plmove/walk_metal/walk_metal_2.ogg",
+      "plmove/walk_metal/walk_metal_3.ogg",
+      "plmove/walk_metal/walk_metal_4.ogg",
+      "plmove/walk_metal/walk_metal_5.ogg"
+    ]
+  }
+]

@@ -1,0 +1,59 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "pseudo_m203",
+    "volume": 100,
+    "files": [ "fire_gun/launchers/launcher_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "m320",
+    "volume": 100,
+    "files": [ "fire_gun/launchers/launcher_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "mark19",
+    "volume": 100,
+    "files": [ "fire_gun/launchers/launcher_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "mgl",
+    "volume": 100,
+    "files": [ "fire_gun/launchers/launcher_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "rm802",
+    "volume": 100,
+    "files": [ "fire_gun/launchers/launcher_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "triple_launcher_simple",
+    "volume": 100,
+    "files": [ "fire_gun/launchers/launcher_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "launcher_simple",
+    "volume": 100,
+    "files": [ "fire_gun/launchers/launcher_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "airspeargun",
+    "volume": 100,
+    "files": [ "fire_gun/launchers/launcher_1.ogg" ],
+    "//": "temporary"
+  }
+]
