@@ -703,5 +703,15 @@
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Grocer",
+    "id": [ "afs_grocer_a1_floor_1", "afs_grocer_a1_floor_2", "afs_grocer_a1_floor_3" ],
+    "sym": "g",
+    "color": "light_green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]

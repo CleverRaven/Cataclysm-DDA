@@ -97,10 +97,10 @@
       },
       "items": {
         "3": { "item": "afs_stored_veggies", "repeat": [ 3, 7 ] },
-        "6": { "item": "afs_stored_veggies", "chance": 30, "repeat": [ 3, 8 ] },
+        "6": { "item": "afs_old_food_storage", "chance": 30, "repeat": [ 3, 8 ] },
         "7": { "item": "afs_dry_goods", "chance": 30, "repeat": [ 5, 7 ] },
         "8": { "item": "afs_civilian_hazard_outfit", "chance": 60 },
-        "j": { "item": "afs_stored_veggies", "chance": 30, "repeat": [ 1, 2 ] },
+        "j": { "item": "afs_old_food_storage", "chance": 30, "repeat": [ 1, 2 ] },
         "k": { "item": "SUS_office_desk", "chance": 20 },
         "y": { "item": "dinnerware", "repeat": [ 1, 3 ], "chance": 60 }
       },
