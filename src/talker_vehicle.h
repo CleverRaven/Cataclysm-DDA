@@ -48,16 +48,16 @@ class talker_vehicle_const: public const_talker_cloner<talker_vehicle_const>
         bool will_talk_to_u( const Character &you, bool force ) const override;
 
         int get_weight() const override;
-        int unloaded_weight() const override;
+        int get_unloaded_weight() const override;
         bool is_driven() const override;
-        int vehicle_facing() const override;
+        int get_vehicle_facing() const override;
         bool can_fly() const override;
         bool is_flying() const override;
         bool can_float() const override;
         bool is_floating() const override;
-        int current_speed() const override;
-        int friendly_passenger_count() const override;
-        int hostile_passenger_count() const override;
+        int get_current_speed() const override;
+        int get_friendly_passenger_count() const override;
+        int get_hostile_passenger_count() const override;
         bool has_part_flag( const std::string &flag, bool enabled ) const override;
         bool is_falling() const override;
         bool is_skidding() const override;
@@ -66,7 +66,7 @@ class talker_vehicle_const: public const_talker_cloner<talker_vehicle_const>
         bool is_remote_controlled() const override;
         bool is_passenger( Character & ) const override;
     private:
-        const vehicle *me_veh_const;
+        const vehicle* me_veh_const{};
 };
 
 class talker_vehicle: public talker_vehicle_const, public talker_cloner<talker_vehicle>
@@ -89,7 +89,7 @@ class talker_vehicle: public talker_vehicle_const, public talker_cloner<talker_v
         void remove_value( const std::string & ) override;
 
     private:
-        vehicle *me_veh;
+        vehicle* me_veh{};
 };
 
 #endif // CATA_SRC_TALKER_VEHICLE_H

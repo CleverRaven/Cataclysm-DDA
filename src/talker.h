@@ -662,7 +662,7 @@ class const_talker
         virtual bool is_remote_controlled() const {
             return false;
         }
-        virtual int vehicle_facing() const {
+        virtual int get_vehicle_facing() const {
             return 0;
         }
         virtual bool can_fly() const {
@@ -689,16 +689,16 @@ class const_talker
         virtual bool is_on_rails() const {
             return false;
         }
-        virtual int current_speed() const {
+        virtual int get_current_speed() const {
             return 0;
         }
-        virtual int unloaded_weight() const {
+        virtual int get_unloaded_weight() const {
             return 0;
         }
-        virtual int friendly_passenger_count() const {
+        virtual int get_friendly_passenger_count() const {
             return 0;
         }
-        virtual int hostile_passenger_count() const {
+        virtual int get_hostile_passenger_count() const {
             return 0;
         }
         virtual bool has_part_flag( const std::string &, bool ) const {

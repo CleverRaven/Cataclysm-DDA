@@ -76,7 +76,7 @@ int talker_vehicle_const::get_weight() const
     return units::to_milligram( me_veh_const->total_mass( get_map() ) );
 }
 
-int talker_vehicle_const::unloaded_weight() const
+int talker_vehicle_const::get_unloaded_weight() const
 {
     return units::to_milligram( me_veh_const->unloaded_mass() );
 }
@@ -87,7 +87,7 @@ bool talker_vehicle_const::is_driven() const
     return me_veh_const->player_in_control( get_map(), get_avatar() );
 }
 
-int talker_vehicle_const::vehicle_facing() const
+int talker_vehicle_const::get_vehicle_facing() const
 {
     return std::lround( units::to_degrees( me_veh_const->face.dir() + 90_degrees ) ) % 360;
 }
@@ -112,17 +112,17 @@ bool talker_vehicle_const::is_floating() const
     return me_veh_const->is_watercraft() && me_veh_const->can_float( get_map() );
 }
 
-int talker_vehicle_const::current_speed() const
+int talker_vehicle_const::get_current_speed() const
 {
     return me_veh_const->velocity;
 }
 
-int talker_vehicle_const::friendly_passenger_count() const
+int talker_vehicle_const::get_friendly_passenger_count() const
 {
     return me_veh_const->get_passenger_count( false );
 }
 
-int talker_vehicle_const::hostile_passenger_count() const
+int talker_vehicle_const::get_hostile_passenger_count() const
 {
     return me_veh_const->get_passenger_count( true );
 }

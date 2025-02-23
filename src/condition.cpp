@@ -2377,7 +2377,12 @@ std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_ge
     { "strength_bonus", &const_talker::get_str_bonus },
     { "strength", &const_talker::str_cur },
     { "thirst", &const_talker::get_thirst },
-    { "count", &const_talker::get_count }
+    { "count", &const_talker::get_count },
+    { "vehicle_facing", &const_talker::get_vehicle_facing },
+    { "current_speed", &const_talker::get_current_speed },
+    { "unloaded_weight", &const_talker::get_unloaded_weight },
+    { "friendly_passenger_count", &const_talker::get_friendly_passenger_count },
+    { "hostile_passenger_count", &const_talker::get_hostile_passenger_count }
 };
 } // namespace
 
