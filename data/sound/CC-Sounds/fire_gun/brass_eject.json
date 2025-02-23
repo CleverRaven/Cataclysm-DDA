@@ -1,9 +1,0 @@
-[
-  {
-    "type": "sound_effect",
-    "id": "fire_gun",
-    "variant": "brass_eject",
-    "volume": 100,
-    "files": [ "fire_gun/brass_eject.ogg", "fire_gun/brass_eject_1.ogg" ]
-  }
-]

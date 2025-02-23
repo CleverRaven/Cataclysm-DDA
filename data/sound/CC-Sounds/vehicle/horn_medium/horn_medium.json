@@ -1,9 +1,0 @@
-[
-  {
-    "type": "sound_effect",
-    "id": "vehicle",
-    "variant": "horn_medium",
-    "volume": 50,
-    "files": [ "vehicle/horn_medium/horn_medium.ogg" ]
-  }
-]

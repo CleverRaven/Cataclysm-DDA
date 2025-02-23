@@ -1,9 +1,0 @@
-[
-  {
-    "type": "sound_effect",
-    "id": "environment",
-    "variant": "thunder_near",
-    "volume": 100,
-    "files": [ "environment/weather/thunder_near.ogg" ]
-  }
-]
