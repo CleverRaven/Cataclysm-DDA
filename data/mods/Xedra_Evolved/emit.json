@@ -8,6 +8,13 @@
     "chance": 100
   },
   {
+    "id": "xedra_monochrome_boomer_frozen_time",
+    "type": "emit",
+    "field": "fd_frozen_time",
+    "intensity": 1,
+    "qty": 1
+  },
+  {
     "id": "emit_changeling_mist",
     "type": "emit",
     "//": "Slow infrequent leak of changeling mist.  This should summon various changeling monsters similar to Angle Dog Fog.",
