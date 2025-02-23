@@ -1513,6 +1513,7 @@ void npc::stow_item( item &it )
     }
 }
 
+/*
 bool npc::wield( item &it )
 {
     const map &here = get_map();
@@ -1560,7 +1561,7 @@ bool npc::wield( item &it )
     }
     invalidate_range_cache();
     return true;
-}
+}*/
 
 void npc::drop( const drop_locations &what, const tripoint_bub_ms &target,
                 bool stash )

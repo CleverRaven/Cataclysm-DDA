@@ -58,7 +58,7 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
         for( int j = 0; j < trials; j++ ) {
             // Reset and re-wield weapon before each attack to prevent skill-up during trials
             clear_character( attacker );
-            attacker.wield( weapon );
+            attacker.wield_new( weapon );
             // Verify that wielding worked (and not e.g. using martial arts instead)
             REQUIRE( !!attacker.used_weapon() );
             REQUIRE( attacker.used_weapon()->type == weapon.type );

@@ -1700,7 +1700,7 @@ TEST_CASE( "character_best_pocket", "[pocket][character][best]" )
         item container_wield( itype_test_watertight_open_sealed_container_1L );
 
         // wield- and wear the respective container items.
-        REQUIRE( dummy.wield( container_wield ) );
+        REQUIRE( dummy.wield_new( container_wield ) );
         REQUIRE( dummy.wear_item( container_wear, false, false ) );
 
         THEN( "the wielded container has priority" ) {
@@ -1913,7 +1913,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         REQUIRE( u.top_items_loc().size() == 1 );
         REQUIRE( u.top_items_loc().front()->all_items_top().empty() );
     } else {
-        u.wield( cont_top_soft );
+        u.wield_new( cont_top_soft );
         pack = u.get_wielded_item();
         REQUIRE( pack.get_item() != nullptr );
         REQUIRE( m.i_at( u.pos_bub() ).size() == 4 );
@@ -2538,7 +2538,7 @@ TEST_CASE( "best_pocket_for_pocket-holster_mix", "[pocket][item]" )
 
     GIVEN( "character wearing a tool belt" ) {
         clear_avatar();
-        u.wield( flashlight );
+        u.wield_new( flashlight );
         item_location fl = u.get_wielded_item();
         item_location tb( u, & **u.wear_item( tool_belt, false ) );
         REQUIRE( !!tb.get_item() );
@@ -2787,7 +2787,7 @@ TEST_CASE( "pocket_leak" )
         item top( top_watertight ? itype_55gal_drum : itype_test_backpack );
         REQUIRE( top.is_watertight_container() == top_watertight );
         REQUIRE( top.put_in( backpack, pocket_type::CONTAINER ).success() );
-        u.wield( top );
+        u.wield_new( top );
         item &topit = *u.get_wielded_item();
         item &bkit = topit.only_item();
         item &wit = bkit.only_item();

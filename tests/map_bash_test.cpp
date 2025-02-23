@@ -45,7 +45,7 @@ void bash_test_loadout::apply( Character &guy ) const
 
     if( wielded.has_value() ) {
         item to_wield( wielded.value() );
-        REQUIRE( guy.wield( to_wield ) );
+        REQUIRE( guy.wield_new( to_wield ) );
     }
 
     REQUIRE( guy.smash_ability() == expected_smash_ability );

@@ -5379,7 +5379,7 @@ std::optional<int> iuse::gunmod_attach( Character *p, item *it, const tripoint_b
             continue;
         }
 
-        p->gunmod_add( *loc, *it );
+        p->gunmod_add( loc, *it );
         return 0;
     } while( true );
 }
@@ -8739,7 +8739,7 @@ static item *wield_before_use( Character *const p, item *const it, const std::st
 {
     if( !p->is_wielding( *it ) ) {
         if( !p->is_armed() || query_yn( msg.c_str(), it->tname() ) ) {
-            if( !p->wield( *it ) ) {
+            if( !p->wield_new( *it ) ) {
                 // Will likely happen if it is too heavy, or the player is
                 // wielding something that can't be unwielded
                 add_msg( m_bad, "%s", p->can_wield( *it ).str() );

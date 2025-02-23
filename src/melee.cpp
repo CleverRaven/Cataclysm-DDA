@@ -327,7 +327,7 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
                 }
 
                 if( comp.typeId() == big_comp && !has_wield_conflicts( comp ) ) {
-                    wield( comp );
+                    wield_new( comp );
                 } else {
                     get_map().add_item_or_charges( pos_bub(), comp );
                 }
@@ -1890,8 +1890,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
                                    _( "<npcname> disarms %s and takes their weapon!" ),
                                    you->get_name() );
         }
-        item it = you->remove_weapon();
-        wield( it );
+        wield( you->get_wielded_item() );
     }
 
     if( technique.disarms && you != nullptr && you->is_armed() && !you->is_hallucination() ) {
@@ -2816,8 +2815,7 @@ void avatar::disarm( npc &target )
             //~ %1$s: weapon name, %2$s: NPC name
             add_msg( _( "You forcefully take %1$s from %2$s!" ), it->tname(), target.get_name() );
             // wield() will deduce our moves, consider to deduce more/less moves for balance
-            item rem_it = target.i_rem( &*it );
-            wield( rem_it );
+            wield( it );
         } else if( my_roll >= their_roll / 2 ) {
             add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ),
                      it->tname() );

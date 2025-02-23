@@ -158,7 +158,9 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         }
 
         WHEN( "one of the bottles is wielded" ) {
-            p.wield( p.worn.front().legacy_front() );
+            CAPTURE( p.all_items_loc().size() );
+            REQUIRE( p.all_items_loc().front()->typeId() == container_id );
+            p.wield( p.all_items_loc().front() );
             REQUIRE( p.get_wielded_item()->typeId() == container_id );
             REQUIRE( count_items( p, container_id ) == count );
             REQUIRE( count_items( p, liquid_id ) == count );
@@ -234,7 +236,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             item obj( worn_id );
             item liquid( liquid_id, calendar::turn );
             liquid.charges -= obj.fill_with( liquid, liquid.charges );
-            p.wield( obj );
+            p.wield_new( obj );
 
             REQUIRE( count_items( p, container_id ) == count );
             REQUIRE( count_items( p, liquid_id ) == count + 1 );

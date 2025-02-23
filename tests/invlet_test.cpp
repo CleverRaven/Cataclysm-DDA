@@ -292,7 +292,7 @@ static void wield_from_feet( Character &you, const std::string &id )
     item *found = retrieve_item( map_cursor( you.pos_abs() ), id );
     REQUIRE( found );
 
-    you.wield( *found );
+    you.wield_new( *found );
     get_map().i_rem( you.pos_bub(), found );
 
     REQUIRE( items.size() == size_before - 1 );
@@ -312,7 +312,7 @@ static void add_item( Character &you, item &it, const inventory_location loc )
             break;
         case WIELDED_OR_WORN:
             if( !you.is_armed() ) {
-                you.wield( it );
+                you.wield_new( it );
             } else {
                 // since we can only wield one item, wear the item instead
                 you.wear_item( it );
@@ -386,7 +386,7 @@ static void move_item( Character &you, const std::string &id, const inventory_lo
                     break;
                 case WIELDED_OR_WORN:
                     if( !you.get_wielded_item() ) {
-                        you.wield( item_at( you, id, from ) );
+                        you.wield_new( item_at( you, id, from ) );
                     } else {
                         // since we can only wield one item, wear the item instead
                         you.wear( item_location( *you.as_character(), &item_at( you, id, from ) ), false );
@@ -415,7 +415,7 @@ static void move_item( Character &you, const std::string &id, const inventory_lo
                     drop_at_feet( you, id );
                     if( !you.is_armed() && !you.worn.empty() ) {
                         // wield the first worn item
-                        you.wield( you.worn.front() );
+                        you.wield_new( you.worn.front() );
                     }
                     break;
                 case INVENTORY:
@@ -426,7 +426,7 @@ static void move_item( Character &you, const std::string &id, const inventory_lo
                     }
                     if( !you.is_armed() && !you.worn.empty() ) {
                         // wield the first worn item
-                        you.wield( you.worn.front() );
+                        you.wield_new( you.worn.front() );
                     }
                     break;
                 case WORN:

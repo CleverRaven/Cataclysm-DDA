@@ -979,8 +979,6 @@ class game
         // Pick up items from the given point
         void pickup( const tripoint_bub_ms &p );
     private:
-        void wield();
-        void wield( item_location loc );
 
         void chat(); // Talk to a nearby NPC  'C'
 
