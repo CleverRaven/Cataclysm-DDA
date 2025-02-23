@@ -1,3 +1,5 @@
+#include <cstddef>
+#include <iterator>
 #include <vector>
 
 #include "cartesian_product.h"
