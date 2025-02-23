@@ -930,6 +930,7 @@
     "max_duration": "7 days",
     "enchantments": [
       {
+        "condition": { "not": { "u_has_any_effect": [ "hallu", "datura", "taint", "hallucination_attacks", "visuals", "fearparalyze" ] } },
         "values": [
           {
             "value": "PERCEPTION",
@@ -946,16 +947,68 @@
                 "(1 + ( u_spell_level('clair_better_senses') / 5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
             }
+          },
+          {
+            "value": "HEARING_MULT",
+            "multiply": {
+              "math": [
+                "( u_spell_level('clair_better_senses') 0.25) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
           }
         ]
       },
       {
         "condition": {
           "math": [
-            "( ( u_spell_level('clair_better_senses') * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) > 6"
+            "( ( u_spell_level('clair_better_senses') * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 6"
           ]
         },
         "ench_effects": [ { "effect": "effect_clair_better_senses_eye_membrane", "intensity": 1 } ]
+      },
+      {
+        "condition": {
+          "math": [
+            "( ( u_spell_level('clair_better_senses') * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 8"
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_clair_better_senses_see_sleep", "intensity": 1 } ]
+      },
+      {
+        "condition": {
+          "math": [
+            "( ( u_spell_level('clair_better_senses') * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 12"
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_clair_better_senses_safecracking", "intensity": 1 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_any_effect": [ "hallu", "datura", "taint", "hallucination_attacks", "visuals", "fearparalyze" ] } },
+            {
+              "or": [
+                { "u_has_flag": "BLIND" },
+                { "u_has_effect": "blind" },
+                {
+                  "math": [
+                    "( ( u_spell_level('clair_better_senses') * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 15"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "special_vision": [
+          {
+            "distance": 2,
+            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You something moving here." } ]
+          }
+        ]
+      },
+      {
+        "condition": { "u_has_any_effect": [ "hallu", "datura", "taint", "hallucination_attacks", "visuals", "fearparalyze" ] },
+        "ench_effects": [ { "effect": "effect_clair_better_senses_pain", "intensity": 1 } ]
       }
     ]
   },
@@ -966,6 +1019,31 @@
     "name": [ "" ],
     "desc": [ "" ],
     "flags": [ "EYE_MEMBRANE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_better_senses_see_sleep",
+    "//": "Hidden, part of Heightened Senses",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "SEESLEEP" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_better_senses_safecracking",
+    "//": "Hidden, part of Heightened Senses",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "SAFECRACK_NO_TOOL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_better_senses_pain",
+    "name": [ "Sensory Pain" ],
+    "desc": [ "Your senses are overwhelmed!" ],
+    "apply_message": [ "Your senses are overwhelmed!" ],
+    "rating": "bad",
+    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 4 ], "pain_max_val": [ 20 ], "pain_tick": [ 5 ] }
   },
   {
     "type": "effect_type",

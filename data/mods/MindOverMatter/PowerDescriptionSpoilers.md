@@ -191,9 +191,9 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 
 *Difficulty*: 1<br />
 *Target*: Self<br />
-*Duration*: 4 minutes 50 seconds to 16 minutes 20 seconds, plus 2 minutes 30 seconds to 4 minutes 30 seconds minutes per level<br />
+*Duration*: 9 minutes 55 seconds to 21 minutes 4 seconds, plus 3 minutes 35 seconds to 8 minutes 2 seconds minutes per level<br />
 *Stamina Cost*: 2000, minus 85 per level to a minimum of 750<br />
-*Channeling Time*: 125 moves, minus 9 moves per level to a minimum of 50<br />
+*Channeling Time*: 50 moves, minus 2 moves per level to a minimum of 20<br />
 *Effects*: Increases the psion's ability to read and retain information. The psion reads 20% faster, plus 2% per power level to a maximum of 60% faster, and gains 0.15% additional XP per reading increment per power level.<br />
 *Prerequisites*: Starting power<br />
 </details>
@@ -225,7 +225,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Difficulty*: 3<br />
 *Target*: Self<br />
 *Duration*: 12 minutes to 23 minutes 20 seconds, plus 6 minutes 12 seconds to 13 minutes 30 seconds minutes per level<br />
-*Stamina Cost*: 1500, minus 65 per level to a minimum of 500<br />
+*Stamina Cost*: 3500, minus 75 per level to a minimum of 2000<br />
 *Channeling Time*: 50 moves, minus 2 moves per level to a minimum of 20<br />
 *Effects*: Allows the psion to see in the dark.  This increases the psion's night vision by 2 squares plus 1.5 squares per power level.<br />
 *Prerequisites*: Heightened Senses 8<br />
