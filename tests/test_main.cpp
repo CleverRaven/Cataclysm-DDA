@@ -344,8 +344,8 @@ int main( int argc, const char *argv[] )
                  ["--check-plural"]
                  ( "[CataclysmDDA] (TBW)" )
                  | Opt( limit_debug_level, "number" )
-                 ["--limit-debug-level"]
-                 ( "[CataclysmDDA] Limit debug level" )
+                 ["--set-debug-level-mask"]
+                 ( "[CataclysmDDA] Limit debug level (read src/debug.h)" )
                  ;
     session.cli( cli );
 
