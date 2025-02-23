@@ -913,6 +913,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_biokin_vitaminosis",
+    "name": [ "Vitaminosis" ],
+    "desc": [ "You are steadily converting calories into vitamins." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_clair_night_eyes",
     "//": "Hidden effect, used as a tracker",
     "name": [ "Night Eyes" ],
