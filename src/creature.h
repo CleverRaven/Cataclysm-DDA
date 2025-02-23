@@ -502,7 +502,7 @@ class Creature : public viewer
 
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
-        virtual void apply_damage( Creature *source, bodypart_id bp, int amount,
+        virtual void apply_damage( Creature *source, bodypart_id bp, const damage_instance &dam,
                                    bool bypass_med = false ) = 0;
 
         virtual void heal_bp( bodypart_id bp, int dam );
