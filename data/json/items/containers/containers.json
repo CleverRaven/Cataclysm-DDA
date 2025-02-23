@@ -1186,7 +1186,16 @@
       "type": "transform",
       "moves": 500,
       "need_empty": true
-    }
+    },
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "223_ammo_box_500",
+        "name": { "str": ".223/5.56 ammo box", "str_pl": ".223/5.56 ammo boxes" },
+        "description": "This box is pretty hefty, holding 500 rounds of .223 or 5.56 ammo.  It's made of a thick cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      }
+    ]
   },
   {
     "id": "box_small_folded",
