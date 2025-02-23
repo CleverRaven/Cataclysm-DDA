@@ -4677,7 +4677,11 @@
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_damage": -4, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": { "damage_type": "cut", "amount": -4 },
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ],
     "upgrades": false
@@ -4692,7 +4696,11 @@
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_damage": -4, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": { "damage_type": "cut", "amount": -4 },
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ],
     "upgrades": false
@@ -4707,7 +4715,11 @@
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_damage": -4, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": { "damage_type": "bash", "amount": -4 },
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ],
     "upgrades": false
@@ -4722,7 +4734,11 @@
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_damage": -4, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": { "damage_type": "stab", "amount": -4 },
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ],
     "upgrades": false
@@ -4737,7 +4753,11 @@
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
-    "relative": { "melee_dice": 1, "melee_damage": -4, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": { "damage_type": "stab", "amount": -4 },
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
     "bleed_rate": 0,
     "special_attacks": [ [ "SMASH", 20 ] ],
     "upgrades": false
