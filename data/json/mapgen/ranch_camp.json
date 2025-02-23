@@ -1073,7 +1073,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "terrain": { "ƃ": "t_ramp_up_high", ".": "t_dirtfloor", "|": "t_brick_wall" },
       "furniture": {
         "a": "f_rack_wood",

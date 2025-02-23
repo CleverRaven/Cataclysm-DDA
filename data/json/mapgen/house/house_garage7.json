@@ -108,7 +108,7 @@
         "                        ",
         "        ||||||||||||||  ",
         "        |.g...JJJWZ.U|  ",
-        "        |F..........<|  ",
+        "        |â..........<|  ",
         "        |............|  ",
         "        |............|  ",
         "        |......2.....|  ",
@@ -127,7 +127,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [ [ "null", 60 ], [ "room_10x10_woodworker_E", 30 ], [ "room_10x10_guns_E", 10 ], [ "room_10x10_guns_N", 10 ] ]

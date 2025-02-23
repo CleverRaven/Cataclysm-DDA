@@ -265,7 +265,7 @@
         "             |||||||||||",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "terrain": { "Δ": "t_ramp_up_high", ".": "t_dirtfloor", "|": "t_wall_log" },
       "furniture": {
         "a": "f_rack_wood",

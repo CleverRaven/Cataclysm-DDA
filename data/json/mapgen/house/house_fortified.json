@@ -129,11 +129,11 @@
         " |||||||||||..........| ",
         "           |..........| ",
         "           |..........| ",
-        "           |........gF| ",
+        "           |........gâ| ",
         "           |||||||||||| ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": { "chunks": [ [ "null", 60 ], [ "recroom_12x12", 30 ], [ "tvroom_12x12", 30 ], [ "workoutroom_12x12", 10 ] ] },
         "2": {

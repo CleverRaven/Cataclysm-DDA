@@ -189,14 +189,14 @@
         "  |W.......|            ",
         "  |Z.......|            ",
         "  |........|            ",
-        "  |FJJ.....|            ",
+        "  |âJJ.....|            ",
         "  ||||||||||            ",
         "                        ",
         "                        ",
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": { "chunks": [ [ "null", 70 ], [ "5x5_holdout_W", 10 ], [ "5x5_sauna_W", 20 ] ] },
         "2": {
