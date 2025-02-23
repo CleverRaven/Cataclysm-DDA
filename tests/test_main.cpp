@@ -343,7 +343,7 @@ int main( int argc, const char *argv[] )
                  | Opt( check_plural_str, "none|certain|possbile" )
                  ["--check-plural"]
                  ( "[CataclysmDDA] (TBW)" )
-                 | Opt( limit_debug_level, "number")
+                 | Opt( limit_debug_level, "number" )
                  ["--limit-debug-level"]
                  ( "[CataclysmDDA] Limit debug level")
                  ;
