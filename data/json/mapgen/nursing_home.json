@@ -149,7 +149,7 @@
         ],
         "j": [
           { "item": "cleaning", "chance": 50 },
-          { "item": "hardware_trash", "chance": 75 },
+          { "item": "SUS_trash_hardware", "chance": 75 },
           { "item": "office_supplies", "chance": 50, "repeat": [ 0, 1 ] },
           { "item": "softdrugs", "chance": 50, "repeat": [ 0, 1 ] },
           { "item": "SUS_janitors_closet", "chance": 50, "repeat": [ 0, 1 ] }
@@ -158,7 +158,7 @@
           { "item": "cleaning", "chance": 50 },
           { "item": "dinnerware", "chance": 50 },
           { "item": "tools_common", "chance": 50 },
-          { "item": "hardware_trash", "chance": 50 },
+          { "item": "SUS_trash_hardware", "chance": 50 },
           { "item": "office_supplies", "chance": 50 },
           { "item": "donated_clothes", "chance": 25, "repeat": [ 1, 3 ] },
           { "item": "drugs_analgesic", "chance": 25, "repeat": [ 0, 1 ] },
@@ -367,7 +367,7 @@
         ],
         "j": [
           { "item": "cleaning", "chance": 50 },
-          { "item": "hardware_trash", "chance": 75 },
+          { "item": "SUS_trash_hardware", "chance": 75 },
           { "item": "office_supplies", "chance": 50, "repeat": [ 0, 1 ] },
           { "item": "softdrugs", "chance": 50, "repeat": [ 0, 1 ] },
           { "item": "SUS_janitors_closet", "chance": 50, "repeat": [ 0, 1 ] }
@@ -376,7 +376,7 @@
           { "item": "cleaning", "chance": 50 },
           { "item": "dinnerware", "chance": 50 },
           { "item": "tools_common", "chance": 50 },
-          { "item": "hardware_trash", "chance": 50 },
+          { "item": "SUS_trash_hardware", "chance": 50 },
           { "item": "office_supplies", "chance": 50 },
           { "item": "donated_clothes", "chance": 25, "repeat": [ 1, 3 ] },
           { "item": "drugs_analgesic", "chance": 25, "repeat": [ 0, 1 ] },

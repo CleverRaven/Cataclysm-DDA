@@ -177,14 +177,14 @@
         { "item": "tools_mechanic", "chance": 5, "repeat": [ 0, 1 ] },
         { "item": "SUS_welding_gear", "chance": 5, "repeat": [ 1, 2 ] },
         { "item": "supplies_electronics", "chance": 40, "repeat": [ 0, 2 ] },
-        { "item": "hardware_trash", "chance": 15 },
+        { "item": "SUS_trash_hardware", "chance": 15 },
         { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 0, 2 ] }
       ],
       "c": [
         { "item": "tools_common", "chance": 20 },
         { "item": "tools_electronics", "chance": 55, "repeat": [ 0, 2 ] },
         { "item": "supplies_electronics", "chance": 30, "repeat": [ 0, 2 ] },
-        { "item": "hardware_trash", "chance": 15 },
+        { "item": "SUS_trash_hardware", "chance": 15 },
         { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 0, 2 ] },
         { "item": "file_room", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "office_paper", "chance": 20, "repeat": [ 3, 4 ] },
