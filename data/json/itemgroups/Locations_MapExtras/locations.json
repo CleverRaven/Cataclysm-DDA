@@ -2862,6 +2862,8 @@
     "items": [
       { "item": "exodiiminimag", "count": [ 2, 20 ], "ammo-item": "123ln", "charges": 10, "prob": 80 },
       { "item": "exodiiBRmag", "count": [ 2, 20 ], "ammo-item": "123ln", "charges": 60, "prob": 100 },
+      { "item": "exodiiBRmag_153", "count": [ 1, 5 ], "ammo-item": "123ln", "charges": 153, "prob": 100 },
+      { "item": "exodiiBRmag_26", "count": [ 4, 30 ], "ammo-item": "123ln", "charges": 26, "prob": 100 },
       { "item": "grenade", "count": [ 1, 10 ], "prob": 20 }
     ]
   },
