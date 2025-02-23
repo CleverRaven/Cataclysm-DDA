@@ -343,9 +343,9 @@ int main( int argc, const char *argv[] )
                  | Opt( check_plural_str, "none|certain|possbile" )
                  ["--check-plural"]
                  ( "[CataclysmDDA] (TBW)" )
-                 | Opt( limit_debug_level, "number")
+                 | Opt( limit_debug_level, "number" )
                  ["--limit-debug-level"]
-                 ( "[CataclysmDDA] Limit debug level")
+                 ( "[CataclysmDDA] Limit debug level" )
                  ;
     session.cli( cli );
 
@@ -403,8 +403,8 @@ int main( int argc, const char *argv[] )
     } );
 
     setupDebug( DebugOutput::std_err );
-    if (limit_debug_level != -1) {
-        limitDebugLevel(limit_debug_level);
+    if( limit_debug_level != -1 ) {
+        limitDebugLevel( limit_debug_level );
     }
 
     // Set the seed for mapgen (the seed will also be reset before each test)
