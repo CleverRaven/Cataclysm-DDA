@@ -10,7 +10,6 @@
 // They should be updated when the corresponding option is changed (in
 // options.cpp).
 
-extern int fov_3d_z_range;
 extern bool keycode_mode;
 extern bool log_from_top;
 extern int message_ttl;
