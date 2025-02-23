@@ -40,10 +40,7 @@
       ],
       "terrain": { "3": "t_region_groundcover_urban" },
       "furniture": { "1": "f_planter", "2": "f_drone_recharge_station", "3": "f_screenmirror", "4": "f_rack" },
-      "items": {
-        "4": { "item": "farming_tools", "chance": 20, "repeat": [ 1, 3 ] },
-        "k": { "item": "SUS_office_desk", "chance": 20 }
-      },
+      "items": { "4": { "item": "farming_tools", "chance": 20, "repeat": [ 1, 3 ] }, "k": { "item": "SUS_office_desk", "chance": 20 } },
       "place_monster": [
         { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 20 },
         { "group": "GROUP_ROBOT_FARM_HOSTILE", "x": [ 3, 9 ], "y": [ 4, 18 ], "pack_size": [ 3, 6 ], "chance": 80 }
