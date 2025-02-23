@@ -921,6 +921,54 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_clair_better_senses",
+    "name": [ "Heightened Senses" ],
+    "desc": [ "You are enhancing your mundane senses." ],
+    "apply_message": "",
+    "remove_message": "Your enhance senses fade away.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "PERCEPTION",
+            "add": {
+              "math": [
+                "(1 + ( u_spell_level('clair_better_senses') / 3) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          {
+            "value": "OVERMAP_SIGHT",
+            "add": {
+              "math": [
+                "(1 + ( u_spell_level('clair_better_senses') / 5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": {
+          "math": [
+            "( ( u_spell_level('clair_better_senses') * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) > 6"
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_clair_better_senses_eye_membrane", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_better_senses_eye_membrane",
+    "//": "Hidden, part of Heightened Senses",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "EYE_MEMBRANE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_clair_night_eyes",
     "//": "Hidden effect, used as a tracker",
     "name": [ "Night Eyes" ],
