@@ -66,7 +66,7 @@ class talker_vehicle_const: public const_talker_cloner<talker_vehicle_const>
         bool is_remote_controlled() const override;
         bool is_passenger( Character & ) const override;
     private:
-        const vehicle* me_veh_const{};
+        const vehicle *me_veh_const{};
 };
 
 class talker_vehicle: public talker_vehicle_const, public talker_cloner<talker_vehicle>
@@ -89,7 +89,7 @@ class talker_vehicle: public talker_vehicle_const, public talker_cloner<talker_v
         void remove_value( const std::string & ) override;
 
     private:
-        vehicle* me_veh{};
+        vehicle *me_veh{};
 };
 
 #endif // CATA_SRC_TALKER_VEHICLE_H
