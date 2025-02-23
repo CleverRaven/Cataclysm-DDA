@@ -1,9 +1,0 @@
-[
-  {
-    "type": "sound_effect",
-    "id": "environment",
-    "variant": "alarm",
-    "volume": 100,
-    "files": [ "environment/ambient/alarm.ogg" ]
-  }
-]

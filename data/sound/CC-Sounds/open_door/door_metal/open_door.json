@@ -1,9 +1,0 @@
-[
-  {
-    "type": "sound_effect",
-    "id": "open_door",
-    "variant": "t_door_metal_c",
-    "volume": 100,
-    "files": [ "open_door/door_metal/open_door_metal.ogg" ]
-  }
-]

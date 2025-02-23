@@ -1,9 +1,0 @@
-[
-  {
-    "type": "sound_effect",
-    "id": "melee_swing",
-    "variant": "big_stabbing",
-    "volume": 100,
-    "files": [ "melee_swing/big_stabbing/big_stabbing_swing_1.ogg" ]
-  }
-]

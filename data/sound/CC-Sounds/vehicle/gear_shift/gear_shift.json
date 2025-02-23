@@ -1,9 +1,0 @@
-[
-  {
-    "type": "sound_effect",
-    "id": "vehicle",
-    "variant": "gear_shift",
-    "volume": 60,
-    "files": [ "vehicle/gear_shift/gear_shift1.ogg", "vehicle/gear_shift/gear_shift2.ogg", "vehicle/gear_shift/gear_shift3.ogg" ]
-  }
-]

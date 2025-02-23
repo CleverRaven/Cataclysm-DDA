@@ -1,9 +1,0 @@
-[
-  {
-    "type": "sound_effect",
-    "id": "smash",
-    "variant": "glass",
-    "volume": 100,
-    "files": [ "smash/smash_glass.ogg" ]
-  }
-]

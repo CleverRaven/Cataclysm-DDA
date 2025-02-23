@@ -1,9 +1,0 @@
-[
-  {
-    "type": "sound_effect",
-    "id": "vehicle_close",
-    "variant": "v_curtain",
-    "volume": 70,
-    "files": [ "close_door/window/close_curtain.ogg" ]
-  }
-]

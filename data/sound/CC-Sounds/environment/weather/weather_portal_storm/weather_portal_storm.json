@@ -1,9 +1,0 @@
-[
-  {
-    "type": "sound_effect",
-    "id": "environment",
-    "variant": "WEATHER_PORTAL_STORM",
-    "volume": 100,
-    "files": [ "environment/weather/weather_portal_storm/weather_portal_storm.ogg" ]
-  }
-]

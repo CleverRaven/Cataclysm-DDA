@@ -1,9 +1,0 @@
-[
-  {
-    "type": "sound_effect",
-    "id": "plmove",
-    "variant": "clear_obstacle",
-    "volume": 100,
-    "files": [ "plmove/clear_obstacle/clear_obstacle_3.ogg", "plmove/clear_obstacle/clear_obstacle_2.ogg" ]
-  }
-]

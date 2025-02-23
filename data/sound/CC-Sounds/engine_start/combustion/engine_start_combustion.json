@@ -1,9 +1,0 @@
-[
-  {
-    "type": "sound_effect",
-    "id": "engine_start",
-    "variant": "combustion",
-    "volume": 100,
-    "files": [ "engine_start/combustion/engine_start_combustion.ogg" ]
-  }
-]

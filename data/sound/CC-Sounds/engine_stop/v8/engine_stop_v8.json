@@ -1,9 +1,0 @@
-[
-  {
-    "type": "sound_effect",
-    "id": "engine_stop",
-    "variant": "engine_v8",
-    "volume": 100,
-    "files": [ "engine_stop/v8/engine_stop_v8.ogg" ]
-  }
-]

@@ -1,9 +1,0 @@
-[
-  {
-    "type": "sound_effect",
-    "id": "vehicle",
-    "variant": "car_alarm",
-    "volume": 60,
-    "files": [ "vehicle/car_alarm/car_alarm.ogg" ]
-  }
-]
