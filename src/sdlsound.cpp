@@ -687,10 +687,8 @@ struct sound_effect_handler {
     Mix_Chunk* audio_src;
     bool active; // if not active, we're just playing the given audio and aren't making any modifications to it.
     bool owns_audio; // if true, it owns the audio it was given and will free it when the sound stops playing.
-    float currentSampleI = 0; // with respect to audio_src. for fractional indices, the output is interpolated between the two closest samples
+    float currentSampleI = 0; // with respect to audio_src, in samples. for fractional indices, the output is interpolated between the two closest samples
     int loops_remaining = 0;
-
-    //bool DEBUG = false;
 
     ~sound_effect_handler() {
         if (owns_audio) {
@@ -699,6 +697,7 @@ struct sound_effect_handler {
         }
     }
 
+    // called when sound effect is halted by SDL_Mixer; destroys the sound_effect_handler associated with this sound
     static void on_finish(int /* chan */, void* udata) {
         sound_effect_handler* handler = static_cast<sound_effect_handler*>(udata);
         cata_assert(handler != nullptr && handler->audio_src != nullptr);
@@ -706,6 +705,7 @@ struct sound_effect_handler {
     }
 
     constexpr static float sound_speed_factor = 0.25f;
+    // called by SDL_Mixer everytime it needs to get more audio data 
     static void slowed_time_effect(int channel, void* stream, int len, void* udata) // we can expect this function to be called many times a second (at least 40/s from my tests)
     {
         sound_effect_handler* handler = static_cast<sound_effect_handler*>(udata);
@@ -722,12 +722,9 @@ struct sound_effect_handler {
         constexpr int bytes_per_sample = sizeof(sample) * 2; // 2 samples per ear (is there a better terminology for this?)
         cata_assert(audio_format == AUDIO_S16);
         cata_assert(handler->loops_remaining >= 0);
-        //cata_assert(!handler->DEBUG);
 
         // NOTE: strange artifacts occur if this isn't a power of two like 0.25 or 0.5. 
         float playbackSpeed = is_time_slowed() ? sound_speed_factor : 1;            
-
-        //memset(stream, 0, len);
 
         for (int dst_index = 0; dst_index < len / bytes_per_sample && handler->currentSampleI < handler->audio_src->alen / bytes_per_sample; dst_index++) {
             int lowIndex = std::floor(handler->currentSampleI);
@@ -777,8 +774,8 @@ struct sound_effect_handler {
     }
 
     // returns false if failed
+    // note: nloops == 0 means sound plays once, 1 means twice, etc. -1 means loops for (not actually) forever
     static bool make_audio(int audioChannel, Mix_Chunk* audio_src, int nloops, int volume, bool owns_audio, const sound_effect& effect, std::optional<units::angle> angle, std::optional<float> fade_in_duration) {
-        // for slowing time we gotta make the sound loop extra times
         
         sound_effect_handler* handler = new sound_effect_handler();
         handler->active = true;
@@ -799,6 +796,7 @@ struct sound_effect_handler {
         }
         bool failed = channel == -1;
         if (!failed) {
+            // tell SDL_Mixer to call slowed_time_effect to get sound data and call on_finish when the sound is over.
             int out = Mix_RegisterEffect(channel, slowed_time_effect, on_finish, handler);
             if (out == 0) { // returns zero if SDL failed to setup the effect, meaning we better cancel the sound.
                 // To prevent use after free, stop the playback right now.
