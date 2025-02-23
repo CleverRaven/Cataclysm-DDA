@@ -299,12 +299,12 @@ static bool check_sound( const int volume = 1 )
     return sound_init_success && sounds::sound_enabled && volume > 0;
 }
 
-/**
- * Attempt to initialize an audio device.  Returns false if initialization fails.
- */
 const Uint16 audio_format = AUDIO_S16; // if this ever changes, do_pitch_shift() and slow_motion_sound() will probably need adjustment
 const int audio_rate = 44100; // samples per second
 
+/**
+ * Attempt to initialize an audio device.  Returns false if initialization fails.
+ */
 bool init_sound()
 {
    
@@ -710,14 +710,6 @@ struct sound_effect_handler {
     {
         sound_effect_handler* handler = static_cast<sound_effect_handler*>(udata);
 
-        /*if (handler->loops_remaining < 0) { 
-            int success = Mix_HaltChannel(channel); 
-            if (success != 0) {
-                dbg(D_ERROR) << "Mix_HaltChannel failed: " << Mix_GetError();
-            }
-            return; 
-        }*/
-
         using sample = int16_t; // because AUDIO_S16 is two bytes per ear (signed integer samples)
         constexpr int bytes_per_sample = sizeof(sample) * 2; // 2 samples per ear (is there a better terminology for this?)
         cata_assert(audio_format == AUDIO_S16);
@@ -750,10 +742,6 @@ struct sound_effect_handler {
 
                 memcpy((uint8_t*)stream + dst_index * bytes_per_sample + ear_offset, &interpolated, sizeof(sample));
             }
-            //for (int i = 0; i < sound_stretch_factor; i++) {
-                //memcpy((uint8_t*)stream + (i * bytes_per_sample) + (sampleI * sound_stretch_factor * bytes_per_sample), handler->audio_src->abuf + (sampleI + handler->currentSampleI) * bytes_per_sample, bytes_per_sample);
-                //memcpy((uint8_t*)stream + (i * bytes_per_sample) + (sampleI * sound_stretch_factor * bytes_per_sample), &zero, bytes_per_sample);
-            //}
 
             handler->currentSampleI += 1.0f * playbackSpeed;
             if (handler->loops_remaining >= 0 && handler->currentSampleI >= handler->audio_src->alen / bytes_per_sample) {
@@ -866,36 +854,6 @@ static Mix_Chunk *do_pitch_shift( const Mix_Chunk *s, float pitch )
     }
     return result;
 }
-
-// Note: makes new Mix_Chunk. Use cleanup_when_channel_finished or similar to free the created mix_chunk.
-    // if consume_passed_chunk == true, s will be freed, if not it will be unaffected by this call.
-// MAYBE TODO: make slowdown amount vary with how much they slowed time? (aka how much more moves they have than their speed would normally let them have)
-//static Mix_Chunk* slow_motion_sound(Mix_Chunk* s, bool consume_passed_chunk) {
-//    Mix_Chunk* result = static_cast<Mix_Chunk*>(malloc(sizeof(Mix_Chunk))); // why is malloc used for this???
-//    cata_assert(audio_format == AUDIO_S16);
-//
-//    constexpr int sound_stretch_factor = 4;
-//
-//    int n_samples_in = s->alen / 4; // audio_format is 2 16-bit channels per sample, so 4 bytes/sample.
-//    int n_samples_out = n_samples_in * sound_stretch_factor; // 1/4 the speed, 4x the samples
-//
-//    result->alen = n_samples_out * 4; 
-//    result->abuf = static_cast<Uint8*>(malloc(result->alen * sizeof(Uint8)));
-//    result->allocated = 1;
-//    result->volume = s->volume;
-//
-//    for (int i = 0; i < n_samples_in; i++) {
-//        for (int j = 0; j < sound_stretch_factor; j++) {
-//            memcpy(result->abuf + i * 4 * sound_stretch_factor + j * 4, s->abuf + i * 4, 4);
-//        }
-//    }
-//
-//    if (consume_passed_chunk) {
-//        cleanup_when_channel_finished(-1, s);
-//    }
-//
-//    return result;
-//}
 
 void sfx::play_variant_sound( const std::string &id, const std::string &variant,
                               const std::string &season, const std::optional<bool> &is_indoors,
