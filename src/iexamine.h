@@ -109,7 +109,7 @@ void tree_maple( Character &you, const tripoint_bub_ms &examp );
 void tree_maple_tapped( Character &you, const tripoint_bub_ms &examp );
 void shrub_marloss( Character &you, const tripoint_bub_ms &examp );
 void tree_marloss( Character &you, const tripoint_bub_ms &examp );
-void shrub_wildveggies(Character& you, const tripoint_bub_ms& examp);
+void shrub_wildveggies( Character &you, const tripoint_bub_ms &examp );
 void part_con( Character &you, const tripoint_bub_ms &examp );
 void water_source( Character &, const tripoint_bub_ms &examp );
 void finite_water_source( Character &, const tripoint_bub_ms &examp );
