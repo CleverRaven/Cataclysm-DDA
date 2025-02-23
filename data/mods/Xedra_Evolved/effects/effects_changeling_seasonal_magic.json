@@ -8,6 +8,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_spring_prevent_bad_conditions",
+    "name": [ "Spring Cleansing" ],
+    "desc": [ "You feel like you've just come outside after a long winter." ],
+    "apply_message": "You feel refreshed.",
+    "remove_message": "The refreshing feeling fades away.",
+    "max_duration": "12 hours",
+    "removes_effects": [
+      "poison",
+      "badpoison",
+      "venom_dmg",
+      "venom_weaken",
+      "venom_blind",
+      "venom_pain",
+      "paralyzepoison",
+      "pre_common_cold",
+      "common_cold",
+      "pre_flu",
+      "flu"
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_spring_protective_plant_armor",
     "name": [ "Viridian Cuirass" ],
     "desc": [ "You are covered in a set of living bark armor." ],
@@ -153,6 +175,35 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_summer_bonus_stamina_near_enemies",
+    "name": [ "A Fire in the Blood" ],
+    "desc": [ "The light of the summer sun gives you strength to fight." ],
+    "apply_message": "You're fired up and ready for battle.",
+    "remove_message": "The energy of the sun leaves you.",
+    "enchantments": [
+      {
+        "condition": {
+          "or": [ { "math": [ "u_monsters_nearby('radius': 1) > 0" ] }, { "math": [ "u_characters_nearby('radius': 1) > 0" ] } ]
+        },
+        "values": [
+          {
+            "value": "REGEN_STAMINA",
+            "add": {
+              "math": [
+                "( (u_monsters_nearby('radius': 1) + u_characters_nearby('radius': 1) ) * 75) * (global_what_is_the_season == 4 ? 0.6 : 1)"
+              ]
+            }
+          },
+          {
+            "value": "BONUS_DODGE",
+            "add": { "math": [ "max( ( (u_monsters_nearby('radius': 1) + u_characters_nearby('radius': 1) ) / 3), 1)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_summer_powerful_sunlight",
     "name": [ "Helios's Wrath" ],
     "desc": [ "You blaze with the pure light of the summer sun." ],
@@ -203,6 +254,21 @@
     "//": "Tracker to prevent spell from being re-used back to back",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_scare_humans",
+    "name": [ "Scarecrow's Mien" ],
+    "desc": [ "Now they shall know fear." ],
+    "remove_message": "The terrifying illusions fade away.",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SOCIAL_INTIMIDATE", "multiply": { "math": [ "45 * (global_what_is_the_season == 1 ? 0.6 : 1)" ] } },
+          { "value": "SOCIAL_PERSUADE", "multiply": { "math": [ "-45" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -300,6 +366,14 @@
     "desc": [ "You can fool them once, but you can't fool them twice." ],
     "max_duration": "1 minutes",
     "blocks_effects": [ "effect_changeling_winter_feign_death" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_silence",
+    "name": [ "Frozen Tongue" ],
+    "desc": [ "Your tongue feels like solid ice." ],
+    "remove_message": "The icy feeling on your tongue vanishes.",
+    "flags": [ "MUTE" ]
   },
   {
     "type": "effect_type",
