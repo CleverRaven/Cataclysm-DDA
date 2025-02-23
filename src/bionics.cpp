@@ -1785,7 +1785,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
                         continue;
                     }
                     bp_hurt.emplace( bp->main_part );
-                    apply_damage( this, bp, rng( 5, 10 ), true );
+                    apply_damage( this, bp, damage_instance( damage_type::CUT, rng( 5, 10 ) ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                            body_part_name_accusative( bp ) );
                 }
@@ -1801,7 +1801,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
                     }
                     bp_hurt.emplace( bp->main_part );
 
-                    apply_damage( this, bp, rng( 25, 50 ), true );
+                    apply_damage( this, bp, damage_instance( damage_type::CUT, rng( 25, 50 ) ), true );
                     roll_critical_bionics_failure( bp );
 
                     add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
@@ -1873,7 +1873,8 @@ void Character::bionics_uninstall_failure( monster &installer, Character &patien
                         continue;
                     }
                     bp_hurt.emplace( bp->main_part );
-                    patient.apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
+                    patient.apply_damage( this, bp, damage_instance( damage_type::CUT, rng( failure_level,
+                                          failure_level * 2 ) ), true );
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                                        body_part_name_accusative( bp ) );
@@ -1891,7 +1892,7 @@ void Character::bionics_uninstall_failure( monster &installer, Character &patien
                     }
                     bp_hurt.emplace( bp->main_part );
 
-                    patient.apply_damage( this, bp, rng( 25, 50 ), true );
+                    patient.apply_damage( this, bp, damage_instance( damage_type::CUT, rng( 25, 50 ) ), true );
                     roll_critical_bionics_failure( bp );
 
                     if( u_see ) {
@@ -2609,7 +2610,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
                         }
                         bp_hurt.emplace( bp->main_part );
 
-                        apply_damage( this, bp, rng( 25, 50 ), true );
+                        apply_damage( this, bp, damage_instance( damage_type::CUT, rng( 25, 50 ) ), true );
                         roll_critical_bionics_failure( bp );
 
                         add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
