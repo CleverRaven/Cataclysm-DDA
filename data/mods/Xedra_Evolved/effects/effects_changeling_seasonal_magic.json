@@ -8,6 +8,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_spring_prevent_bad_conditions",
+    "name": [ "Spring Cleansing" ],
+    "desc": [ "You feel like you've just come outside after a long winter." ],
+    "apply_message": "You feel refreshed.",
+    "remove_message": "The refreshing feeling fades away.",
+    "max_duration": "12 hours",
+    "removes_effects": [
+      "poison",
+      "badpoison",
+      "venom_dmg",
+      "venom_weaken",
+      "venom_blind",
+      "venom_pain",
+      "paralyzepoison",
+      "pre_common_cold",
+      "common_cold",
+      "pre_flu",
+      "flu"
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_spring_protective_plant_armor",
     "name": [ "Viridian Cuirass" ],
     "desc": [ "You are covered in a set of living bark armor." ],
@@ -167,12 +189,14 @@
           {
             "value": "REGEN_STAMINA",
             "add": {
-              "math": "( (u_monsters_nearby('radius': 1) + u_characters_nearby('radius': 1) ) * 75) * (global_what_is_the_season == 4 ? 0.6 : 1)"
+              "math": [
+                "( (u_monsters_nearby('radius': 1) + u_characters_nearby('radius': 1) ) * 75) * (global_what_is_the_season == 4 ? 0.6 : 1)"
+              ]
             }
           },
           {
             "value": "BONUS_DODGE",
-            "add": { "math": "max( ( (u_monsters_nearby('radius': 1) + u_characters_nearby('radius': 1) ) / 3), 1)" }
+            "add": { "math": [ "max( ( (u_monsters_nearby('radius': 1) + u_characters_nearby('radius': 1) ) / 3), 1)" ] }
           }
         ]
       }
