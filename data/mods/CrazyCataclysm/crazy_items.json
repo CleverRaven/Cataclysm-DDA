@@ -418,5 +418,55 @@
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 7 }
+  },
+  {
+    "id": "diamond_sword",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "blue",
+    "name": { "str": "Diamond Sword" },
+    "description": "A sword made with two diamonds and a stick.",
+    "material": [ "diamond", "wood" ],
+    "volume": "1 L",
+    "weight": "1 kg",
+    "longest_side": "100 cm",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
+    "price_postapoc": "2 USD 50 cent",
+    "flags": [ "NONCONDUCTIVE" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "melee_damage": { "cut": 7 }
+  },
+  {
+    "id": "ceramic_plate",
+    "copy-from": "ceramic_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ceramic plate" },
+    "longest_side": "20 cm",
+    "description": "A ceramic dinner plate, unremarkable in every way.",
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 1,
+    "non_functional": "destroyed_ceramic_plate",
+    "damage_verb": "makes a crunch, something has shifted",
+    "flags": [ "ABLATIVE_LARGE", "ABLATIVE_MEDIUM", "CANT_WEAR", "NO_SALVAGE" ],
+    "armor": [ { "encumbrance": 0, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "destroyed_ceramic_plate",
+    "type": "ARMOR",
+    "copy-from": "ceramic_plate",
+    "name": { "str": "compromised ceramic plate" },
+    "description": "A ceramic dinner plate that's been shattered.",
+    "looks_like": "esapi_plate",
+    "material": [ "damaged_ceramic" ]
+  },
+  {
+    "id": "coin_half_dollar",
+    "copy-from": "coin_half_dollar",
+    "type": "GENERIC",
+    "category": "currency",
+    "name": { "str": "50 Cent coin" },
+    "description": "A fifty-cent coin, featuring a portrait of famed rapper 50 Cent.  On the back is the date of minting, and the G-Unit symbol."
   }
 ]
