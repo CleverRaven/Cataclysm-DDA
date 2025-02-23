@@ -1185,35 +1185,6 @@ Create a popup with message `You have died.  Continue as one of your followers?`
 { "u_query": "You have died.  Continue as one of your followers?", "default": false }
 ```
 
-
-### `u_query_tile`, `npc_query_tile`
-- type: string
-- Ask the player to select a tile. If tile is selected, true is returned, otherwise false;
-- `anywhere`, `line_of_sight`, `around` are possible
-  - `anywhere` is the same as the "look around" UI
-  - `line_of_sight` only tiles that are visible at this moment (`range` is mandatory)
-  - `around` is the same as starting a fire, you can only choose the 9 tiles you're immediately adjacent to
-- `target_var` is [variable object](#variable-object) to contain coordinates of selected tile (**mandatory**)
-- `range` defines the selectable range for `line_of_sight` (**mandatory** for `line_of_sight`, otherwise not required)
-- `z_level` defines allow if select other z-level  for `anywhere`
-- `message` is displayed while selecting
-
-#### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
-#### Examples
-Display coordinates of selected tile.
-```json
-{
-  "if": { "u_query_tile": "line_of_sight", "target_var": { "context_val": "pos" }, "message": "Select point", "range": 10 },
-  "then": { "u_message": "<context_val:pos>" },
-  "else": { "u_message": "Canceled" }
-}
-```
-
 ### `map_terrain_with_flag`, `map_furniture_with_flag`
 - type: string or [variable object](#variable-object)
 - return true if the terrain or furniture has specific flag
@@ -4068,7 +4039,7 @@ Creates an explosion at talker position or at passed coordinate
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |
 | ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 
@@ -4086,6 +4057,58 @@ You pick a tile using u_query_omt, then the explosion is caused at this position
       }
     ]
   }
+```
+
+#### `u_knockback`, `npc_knockback`
+Pushes the creature on the tile in specific direction
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_knockback", / "npc_knockback" | **mandatory** | int or [variable object](#variable-object) | how strong the push will be, in tiles |
+| "stun" | optional | int or [variable object](#variable-object) | how long `stunned` effect be applied on the talker |
+| "dam_mult" | optional | int or [variable object](#variable-object) | if target hit an obstacle in the middle of the knockback, it takes a damage and additional stun duraction equal to the knockback left multiplied by this dam_mult; if knockback is 10 (10 tiles), and creature hit an obstacle in 4 tiles, the rest 6 tiles would convert in 6 damage, multiplied by dam_mult (and adds 6 second of stun) |
+| "target_var" | optional | [variable object](#variable-object) | if used, instead of alpha or beta talker position, creature at this position will be sent flying | 
+| "direction_var" | optional | [variable object](#variable-object) | if used, the push would be calculated as coming from this direction (if creature is in the center, and direction_var is from west, the creature will be knockbacked to east ). If not used, the game would roll a random direction | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ❌ | ❌ |
+
+##### Examples
+
+Beta talker is knocked back for 7 tiles and for 20 seconds
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "TEST",
+    "effect": [ { "npc_knockback": 7, "stun": 20 } ]
+  },
+```
+
+Store npc location in n_pos, then player picks a tile, centered around n_pos, to check in which direction enemy should fly reeling. mirror_coordinates is used to transform push_direction_incorrect to push_direction_correct, that is later used in the function
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "TELEKINETIC_PUSHES_MAYBE",
+    "effect": [
+      { "set_string_var": { "mutator": "npc_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "n_pos" } },
+      {
+        "u_query_tile": "anywhere",
+        "target_var": { "context_val": "push_direction_incorrect" },
+        "center_var": { "context_val": "n_pos" },
+        "z_level": false,
+        "message": "Select where to push the monster."
+      },
+      {
+        "mirror_coordinates": { "context_val": "push_direction_correct" },
+        "center_var": { "context_val": "n_pos" },
+        "relative_var": { "context_val": "push_direction_incorrect" }
+      },
+      { "npc_knockback": 7, "stun": 10, "dam_mult": 2, "direction_var": { "context_val": "push_direction_correct" } }
+    ]
+  },
 ```
 
 #### `u_query_omt`, `npc_query_omt`
@@ -4157,6 +4180,73 @@ You pick a `distance_limit` using `num_input`, then open map, and if allowed OM 
   }
 ```
 
+### `u_query_tile`, `npc_query_tile`
+Ask the player to select a tile. If tile is selected, variable with coordinates is written in target_var;
+
+- `message` is displayed while selecting
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_query_tile", / "npc_query_tile" | **mandatory** | string | type of tile quering; possible values are:<br>- `anywhere` is the same as the "look around" UI <br>- `line_of_sight` only tiles that are visible at this moment (`range` is mandatory)<br>- `around` is the same as starting a fire, you can only choose the 9 tiles you're immediately adjacent to |
+| "target_var" | **mandatory** | [variable object](#variable-object) | variable, where coordinate be stored; if query is cancelled, the variable is not stored, so conditoon like `{ "math": [ "has_var(_pos)" ] }` should be used to ensure variable was picked correctly | 
+| "range" | optional | int or [variable object](#variable-object) | defines the selectable range for `line_of_sight` (**mandatory** for `line_of_sight`, otherwise not required) | 
+| "z_level" | optional | bool | if `anywhere` is picked, defines if you can pick tiles on another z-levels |
+| "message" | optional | string or [variable object](#variable-object) | text, that is displayed while selecting |
+| "center_var" | optional | [variable object](#variable-object) | if used, query would be centered around this coordinates, and not from talker current position | 
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+#### Examples
+Display coordinates of selected tile.
+```json
+{ "u_query_tile": "line_of_sight", "target_var": { "context_val": "pos" }, "message": "Select point", "range": 10 },
+{
+  "if": { "math": [ "has_var(_pos)" ] },
+  "then": { "u_message": "<context_val:pos>" },
+  "else": { "u_message": "Canceled" }
+}
+```
+
+#### `mirror_coordinates`
+Picks two coordinates, and create a third one in opposite direction
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "mirror_coordinates" | **mandatory** | [variable object](#variable-object) | variable, where the mirrored coordinate be stored | 
+| "center_var" | **mandatory** | [variable object](#variable-object) | variable with coordinates that would be the center between `relative_var` and `mirror_coordinates` | 
+| "relative_var" | **mandatory** | [variable object](#variable-object) | variable, that would be used to generate `mirror_coordinates` | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+##### Examples
+
+You pick `first` and `center` locations and store it, then mirror them to create `second` coordinate
+```json
+  {
+    "effect": [
+      {
+        "u_query_tile": "anywhere",
+        "target_var": { "context_val": "first" },
+      },
+      {
+        "u_query_tile": "anywhere",
+        "target_var": { "context_val": "center" },
+      },
+      {
+        "mirror_coordinates": { "context_val": "second" },
+        "center_var": { "context_val": "center" },
+        "relative_var": { "context_val": "first" }
+      },
+    ]
+  }
+```
 
 #### `u_die`, `npc_die`
 You or an NPC will instantly die.

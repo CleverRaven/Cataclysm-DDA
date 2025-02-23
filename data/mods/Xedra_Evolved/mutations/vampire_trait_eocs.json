@@ -1222,16 +1222,17 @@
     "id": "EOC_VAMPIRE_MIST_FORM_SEEP_THROUGH_DOOR_WINDOW",
     "effect": [
       {
-        "if": {
-          "u_query_tile": "around",
-          "target_var": { "global_val": "vampire_mist_door_or_window_seep" },
-          "message": "Select door or window, then target the space beyond it."
-        },
+        "u_query_tile": "around",
+        "target_var": { "context_val": "vampire_mist_door_or_window_seep" },
+        "message": "Select door or window, then target the space beyond it."
+      },
+      {
+        "if": { "math": [ "has_var(_vampire_mist_door_or_window_seep)" ] },
         "then": {
-          "if": { "map_terrain_with_flag": "DOOR", "loc": { "global_val": "vampire_mist_door_or_window_seep" } },
+          "if": { "map_terrain_with_flag": "DOOR", "loc": { "context_val": "vampire_mist_door_or_window_seep" } },
           "then": { "u_cast_spell": { "id": "vampire_mist_form_pass_through_doors_and_windows_teleport" }, "targeted": true },
           "else": {
-            "if": { "map_terrain_with_flag": "WINDOW", "loc": { "global_val": "vampire_mist_door_or_window_seep" } },
+            "if": { "map_terrain_with_flag": "WINDOW", "loc": { "context_val": "vampire_mist_door_or_window_seep" } },
             "then": { "u_cast_spell": { "id": "vampire_mist_form_pass_through_doors_and_windows_teleport" }, "targeted": true },
             "else": { "u_message": "You must be near a door or window to seep through." }
           }
