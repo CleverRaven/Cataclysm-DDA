@@ -116,7 +116,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
                 }
                 return false;
             }
-            critter.apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
+            critter.apply_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BASH, 9999 ) );
             if( c_is_u ) {
                 get_event_bus().send<event_type::teleports_into_wall>( p->getID(),
                         dest->obstacle_name( dest_target ) );
@@ -183,9 +183,40 @@ bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, boo
                 poor_soul->as_character()->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
                 return false;
             }
+            if( collision ) {
+                        critter.setpos( target );
+                        g->fling_creature( &critter, units::from_degrees( collision_angle - 180 ), 50 );
+                        critter.apply_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_type::BASH, rng( 5,
+                                              10 ) ) );
+                        critter.apply_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_type::BASH, rng( 5,
+                                              10 ) ) );
+                        critter.apply_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_type::BASH, rng( 7,
+                                              12 ) ) );
+                        critter.apply_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_type::BASH, rng( 7,
+                                              12 ) ) );
+                        critter.apply_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BASH, rng( 5,
+                                              15 ) ) );
+                        critter.apply_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_type::BASH, rng( 2,
+                                              8 ) ) );
+                        critter.check_dead_state();
+                        //player and npc exclusive teleporting effects
+                        if( p ) {
+                            g->place_player( p->pos() );
+                            if( add_teleglow ) {
+                                p->add_effect( effect_teleglow, 30_minutes );
+                            }
+                        }
+                        if( c_is_u ) {
+                            g->update_map( *p );
+                        }
+                critter.remove_effect( effect_grabbed );
+            return true;
+        }
+        //Character *const poor_player = dynamic_cast<Character *>( poor_soul );
+
             if( force ) {
-                //this should only happen through debug menu, so this won't affect the player.
-                poor_soul->apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
+                poor_soul->apply_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BASH,
+                            9999 ) );
                 poor_soul->check_dead_state( &here );
             } else if( safe ) {
                 if( c_is_u && display_message ) {

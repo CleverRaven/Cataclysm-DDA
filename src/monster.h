@@ -36,6 +36,7 @@ class item;
 class map;
 enum class mon_trigger : int;
 enum class phase_id : int;
+struct damage_instance;
 struct monster_plan;
 struct mtype;
 
@@ -367,7 +368,8 @@ class monster : public Creature
                                      const weakpoint_attack &wp_attack = weakpoint_attack() ) override;
         void deal_damage_handle_type( const effect_source &source, const damage_unit &du, bodypart_id bp,
                                       int &damage, int &pain ) override;
-        void apply_damage( Creature *source, bodypart_id bp, int dam,
+        void apply_damage( Creature *source, bodypart_id bp, int dam, bool bypass_med = false );
+        void apply_damage( Creature *source, bodypart_id bp, const damage_instance &dam,
                            bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
         void explode();

@@ -1970,21 +1970,8 @@ bool Character::is_dead_state() const
     }
 
     cached_dead_state = false;
-    // we want to warn the player with a debug message if they are invincible. this should be unimportant once wounds exist and bleeding is how you die.
-    bool has_vitals = false;
-    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
-        if( bp->is_vital ) {
-            has_vitals = true;
-            if( get_part_hp_cur( bp ) <= 0 ) {
-                cached_dead_state = true;
-                return cached_dead_state.value();
-            }
-        }
-    }
-    if( !has_vitals ) {
-        debugmsg( _( "WARNING!  %s has no vital part and is invincible." ), disp_name() );
-    }
-    return false;
+    // Cached state should be checked on another pass
+    return oxygen < -15 || get_bloodvol_index() < 0.5f;
 }
 
 void Character::set_part_hp_cur( const bodypart_id &id, int set )
@@ -7333,7 +7320,7 @@ void Character::cough( bool harmful, int loudness )
         const int malus = get_stamina_max() * 0.05; // 5% max stamina
         mod_stamina( -malus );
         if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
-            apply_damage( nullptr, body_part_torso, 1 );
+            apply_damage( nullptr, body_part_torso, damage_instance( damage_type::BIOLOGICAL, 1 ) );
         }
     }
 
@@ -8233,11 +8220,16 @@ void Character::on_hit( map *here, Creature *source, bodypart_id bp_hit,
     enchantment_cache->cast_hit_me( *this, source );
 }
 
+void Character::wound_limb( bodypart_id hurt, const damage_instance &dam )
+{
+    body[hurt.id()].apply_wound( dam );
+}
+
 /*
     Where damage to character is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
  */
-void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
+void Character::apply_damage( Creature *source, bodypart_id hurt, const damage_instance &dam,
                               const bool bypass_med )
 {
     if( is_dead_state() || has_effect( effect_incorporeal ) ||
@@ -8260,17 +8252,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
 
     const bodypart_id &part_to_damage = hurt->main_part;
 
-    const int dam_to_bodypart = std::min( dam, get_part_hp_cur( part_to_damage ) );
-
-    mod_part_hp_cur( part_to_damage, - dam_to_bodypart );
-    if( source ) {
-        cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart,
-                        part_to_damage.id(), pain );
-        get_event_bus().send_with_talker( this, source, e );
-    } else {
-        get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart,
-                part_to_damage.id(), pain );
-    }
+    get_event_bus().send<event_type::character_takes_damage>( getID(), dam.total_damage() );
 
     if( !weapon.is_null() && !can_wield( weapon ).success() &&
         can_drop( weapon ).success() ) {
@@ -8282,17 +8264,15 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
     if( has_effect( effect_mending, part_to_damage.id() ) && ( source == nullptr ||
             !source->is_hallucination() ) ) {
         effect &e = get_effect( effect_mending, part_to_damage );
-        float remove_mend = dam / 20.0f;
+        float remove_mend = dam.total_damage() / 20.0f;
         e.mod_duration( -e.get_max_duration() * remove_mend );
     }
 
-    if( dam > get_painkiller() ) {
-        on_hurt( source );
-    }
+    wound_limb( hurt, dam );
 
     if( !bypass_med ) {
         // remove healing effects if damaged
-        int remove_med = roll_remainder( dam / 5.0f );
+        int remove_med = roll_remainder( dam.total_damage() / 5.0f );
         if( remove_med > 0 && has_effect( effect_bandaged, part_to_damage.id() ) ) {
             remove_med -= reduce_healing_effect( effect_bandaged, remove_med, part_to_damage );
         }
@@ -10998,14 +10978,14 @@ void Character::process_one_effect( effect &it, bool is_new )
                 } else if( val > 0 ) {
                     add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name( body_part_torso ) );
                 }
-                apply_damage( nullptr, body_part_torso, val, true );
+                apply_damage( nullptr, body_part_torso, damage_instance( damage_type::BIOLOGICAL, val ), true );
             } else {
                 if( val > 5 ) {
                     add_msg_if_player( m_bad, _( "Your %s HURTS!" ), body_part_name( bp ) );
                 } else if( val > 0 )  {
                     add_msg_if_player( m_bad, _( "Your %s hurts!" ), body_part_name( bp ) );
                 }
-                apply_damage( nullptr, bp, val, true );
+                apply_damage( nullptr, bp, damage_instance( damage_type::BIOLOGICAL, val ), true );
             }
         }
     }
@@ -12836,7 +12816,7 @@ void Character::knock_back_to( const tripoint_bub_ms &to )
 
         // It's some kind of wall.
         // TODO: who knocked us back? Maybe that creature should be the source of the damage?
-        apply_damage( nullptr, bodypart_id( "torso" ), 3 );
+        apply_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BASH, 3 ) );
         add_effect( effect_stunned, 2_turns );
         add_msg_player_or_npc( _( "You bounce off a %s!" ), _( "<npcname> bounces off a %s!" ),
                                here.obstacle_name( to ) );

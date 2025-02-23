@@ -512,6 +512,28 @@ static medical_column draw_health_summary( const int column_count, Character &yo
     return health_column;
 }
 
+static medical_column draw_wound_list( const int column_count, const int part_id, avatar *player,
+                                       const point &COLUMN_START, const std::pair<int, int> &COLUMN_BOUNDS )
+{
+    medical_column wound_column = medical_column( column_count, COLUMN_START, COLUMN_BOUNDS );
+    // we're making a lot of assumptions about the pointers not being null with part_id
+    // but given the fact that we're pulling from the already generated list we'll be fine.
+    const bodypart_id bp_id = player->get_all_body_parts( get_body_part_flags::sorted )[part_id];
+    const bodypart &bp = player->get_body().find( bp_id.id() )->second;
+
+    const int max_width = wound_column.max_width();
+
+    for( const wound &wnd : bp.get_all_wounds() ) {
+        wound_column.add_column_line( selection_line( wnd.name(), wnd.description(), max_width ) );
+    }
+
+    if( wound_column.empty() ) {
+        wound_column.add_column_line( selection_line( colorize( "None", c_dark_gray ), "", max_width ) );
+    }
+
+    return wound_column;
+}
+
 // Displays a summary list of all visible effects.
 static medical_column draw_effects_summary( const int column_count, Character &you,
         const point &COLUMN_START,
@@ -726,17 +748,20 @@ void Character::disp_medical()
     // Column Definitions
     int second_column_x = 0;
     int third_column_x = 0;
+    int fourth_column_x = 0;
 
     // Scrolling
     int SCROLL_POINT; // The number of printed rows at which to enable scrolling
     int scroll_position = 0;
     int INFO_SCROLL_POINT;
     int info_scroll_position = 0;
+    // what limb are we pointing at? used to print the wound column
+    int first_column_y_pos = 0;
 
     int info_lines = 0;
 
     // Cursor
-    std::array<int, 3> cursor_bounds; // Number of selectable rows in each column
+    std::array<int, 4> cursor_bounds; // Number of selectable rows in each column
     point cursor;
 
     ui_adaptor ui;
@@ -755,9 +780,10 @@ void Character::disp_medical()
         w_description = catacurses::newwin( DESC_W_HEIGHT, WIDTH - 2,
                                             win + point( 1, DESC_W_BEGIN ) );
 
-        //40% - 30% - 30%
-        second_column_x = WIDTH / 2.5f;
-        third_column_x = second_column_x + WIDTH / 3.3f;
+        // 20% - 30% - 20% - 30%
+        second_column_x = WIDTH * 0.2f;
+        third_column_x = second_column_x + WIDTH * 0.3f;
+        fourth_column_x = third_column_x + WIDTH * 0.2f;
 
         ui.position_from_window( wMedical );
     } );
@@ -775,6 +801,7 @@ void Character::disp_medical()
         draw_medical_titlebar( w_title, *this, WIDTH );
         mvwputch( w_title, point( second_column_x, HEADER_Y - 1 ), BORDER_COLOR, LINE_OXXX ); // ^|^
         mvwputch( w_title, point( third_column_x, HEADER_Y - 1 ), BORDER_COLOR, LINE_OXXX ); // ^|^
+        mvwputch( w_title, point( fourth_column_x, HEADER_Y - 1 ), BORDER_COLOR, LINE_OXXX ); // ^|^
         wnoutrefresh( w_title );
 
         SCROLL_POINT = HEIGHT - TEXT_START_Y - DESC_W_HEIGHT - 3;
@@ -788,14 +815,19 @@ void Character::disp_medical()
         medical_column health_column = draw_health_summary( column_id++, *this, point( 0, TEXT_START_Y ),
                                        std::pair<int, int>( second_column_x, HEIGHT ) );
 
+        // Wound Summary
+        mvwprintz( wMedical, point( second_column_x + 2, HEADER_Y ), c_light_blue, _( "WOUNDS" ) );
+        medical_column wound_column = draw_wound_list( column_id++, first_column_y_pos, this,
+                                      point( second_column_x, TEXT_START_Y ), std::pair<int, int>( second_column_x, HEIGHT ) );
+
         // Effects Summary
-        mvwprintz( wMedical, point( second_column_x + 2, HEADER_Y ), c_light_blue, _( "EFFECTS" ) );
-        medical_column effects_column = draw_effects_summary( column_id++, *this, point( second_column_x,
+        mvwprintz( wMedical, point( third_column_x + 2, HEADER_Y ), c_light_blue, _( "EFFECTS" ) );
+        medical_column effects_column = draw_effects_summary( column_id++, this, point( third_column_x,
                                         TEXT_START_Y ), std::pair<int, int>( third_column_x, HEIGHT ) );
 
         // Stats Summary
-        mvwprintz( wMedical, point( third_column_x + 2, HEADER_Y ), c_light_blue, _( "STATS" ) );
-        medical_column stats_column = draw_stats_summary( column_id++, *this, point( third_column_x,
+        mvwprintz( wMedical, point( fourth_column_x + 2, HEADER_Y ), c_light_blue, _( "STATS" ) );
+        medical_column stats_column = draw_stats_summary( column_id++, this, point( fourth_column_x,
                                       TEXT_START_Y ), std::pair<int, int>( WIDTH - 2, 5 ) );
 
         // Description Text
@@ -811,6 +843,10 @@ void Character::disp_medical()
                 detail_str = effects_column.detail_str( cursor.y );
                 break;
             case 2:
+                desc_str = wound_column.set_highlight( cursor.y ).description();
+                detail_str = wound_column.detail_str( cursor.y );
+                break;
+            case 3:
                 desc_str = stats_column.set_highlight( cursor.y ).description();
                 detail_str = stats_column.detail_str( cursor.y );
                 break;
@@ -853,18 +889,18 @@ void Character::disp_medical()
         const int INFO_CUTOFF = DESCRIPTION_WIN_OFFSET - 1 - ( INFO_START_Y + 3 );
 
         if( !detail_str.first.empty() ) {
-            mvwprintz( wMedical, point( third_column_x + 2, INFO_START_Y + 1 ), c_light_blue,
+            mvwprintz( wMedical, point( fourth_column_x + 2, INFO_START_Y + 1 ), c_light_blue,
                        detail_str.first );
 
             wattron( wMedical, BORDER_COLOR );
-            mvwaddch( wMedical, point( third_column_x, INFO_START_Y ), LINE_XXXO ); // |-
-            mvwhline( wMedical, point( third_column_x + 1, INFO_START_Y ), LINE_OXOX,
+            mvwputch( wMedical, point( fourth_column_x, INFO_START_Y ), BORDER_COLOR, LINE_XXXO ); // |-
+            mvwhline( wMedical, point( fourth_column_x + 1, INFO_START_Y ), LINE_OXOX,
                       getmaxx( wMedical ) - 2 ); // -
             mvwaddch( wMedical, point( getmaxx( wMedical ) - 1, INFO_START_Y ), // -|
                       LINE_XOXX );
             wattroff( wMedical, BORDER_COLOR );
 
-            const int info_width = WIDTH - third_column_x - 3;
+            const int info_width = WIDTH - fourth_column_x - 3;
             std::vector<std::string> textformatted = foldstring( detail_str.second, info_width,
                     ' ' );
             info_lines = textformatted.size();
@@ -874,7 +910,7 @@ void Character::disp_medical()
                     break;
                 }
                 if( i++ >= info_scroll_position ) {
-                    trim_and_print( wMedical, point( third_column_x + 2, INFO_START_Y + 2 + i - info_scroll_position ),
+                    trim_and_print( wMedical, point( fourth_column_x + 2, INFO_START_Y + 2 + i - info_scroll_position ),
                                     info_width, c_light_gray, line );
                 }
             }
@@ -888,6 +924,8 @@ void Character::disp_medical()
 
         health_column.print_column( wMedical,
                                     health_column.current_column( cursor.x ) ? scroll_position : 0, MAX_COLUMN_HEIGHT );
+        wound_column.print_column( wMedical, wound_column.current_column( cursor.x ) ? scroll_position : 0,
+                                   MAX_COLUMN_HEIGHT );
         effects_column.print_column( wMedical,
                                      effects_column.current_column( cursor.x ) ? scroll_position : 0, MAX_COLUMN_HEIGHT );
         stats_column.print_column( wMedical, stats_column.current_column( cursor.x ) ? scroll_position : 0,
@@ -896,14 +934,16 @@ void Character::disp_medical()
         // Update Cursor Boundaries to number of selectable rows
 
         cursor_bounds[0] = health_column.selection_count();
-        cursor_bounds[1] = effects_column.selection_count();
-        cursor_bounds[2] = stats_column.selection_count();
+        cursor_bounds[1] = wound_column.selection_count();
+        cursor_bounds[2] = effects_column.selection_count();
+        cursor_bounds[3] = stats_column.selection_count();
 
         // Draw Column Borders
 
         wattron( wMedical, BORDER_COLOR );
         effects_column.draw_column( wMedical, HEADER_Y, DESCRIPTION_WIN_OFFSET );
         stats_column.draw_column( wMedical, HEADER_Y, DESCRIPTION_WIN_OFFSET );
+        wound_column.draw_column( wMedical, HEADER_Y, DESCRIPTION_WIN_OFFSET );
         wattroff( wMedical, BORDER_COLOR );
 
         // Draw Scrollbars
@@ -920,7 +960,7 @@ void Character::disp_medical()
         .apply( wMedical );
 
         scrollbar()
-        .offset_x( third_column_x )
+        .offset_x( fourth_column_x )
         .offset_y( INFO_START_Y + 1 )
         .content_size( info_lines + INFO_SCROLL_POINT )
         .viewport_pos( info_scroll_position )
@@ -964,6 +1004,9 @@ void Character::disp_medical()
                 scroll_position = std::max( 0, std::min( scroll_overflow, cursor.y - half_list ) );
             }
             info_scroll_position = 0;
+            if( cursor.x == 0 ) {
+                first_column_y_pos = cursor.y;
+            }
         } else if( action == "RIGHT" || action == "LEFT" ) {
             const int step = cursor.x + ( action == "RIGHT" ? 1 : -1 );
             const int limit = 2;
@@ -987,6 +1030,9 @@ void Character::disp_medical()
                 scroll_position = 0;
             }
             info_scroll_position = 0;
+            if( cursor.x == 0 ) {
+                first_column_y_pos = cursor.y;
+            }
         } else if( action == "APPLY" ) {
             avatar *a = this->as_avatar();
             if( a ) {

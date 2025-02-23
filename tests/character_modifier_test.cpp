@@ -97,13 +97,6 @@ TEST_CASE( "Basic_limb_score_test", "[character][encumbrance][limb]" )
                 CHECK( dude.get_limb_score( limb_score_test ) == Approx( 0.8 ).epsilon( 0.001 ) );
             }
         }
-        WHEN( "limb is wounded" ) {
-            dude.apply_damage( nullptr, test_bp->get_id(), test_bp->get_hp_max() / 2, true );
-            THEN( "modified limb score is less than unmodified limb score" ) {
-                CHECK( test_bp->get_id()->get_limb_score( limb_score_test ) == Approx( 0.8 ).epsilon( 0.001 ) );
-                CHECK( dude.get_limb_score( limb_score_test ) == Approx( 0.53333 ).epsilon( 0.001 ) );
-            }
-        }
     }
 
     GIVEN( "limb is encumbered" ) {
@@ -113,13 +106,6 @@ TEST_CASE( "Basic_limb_score_test", "[character][encumbrance][limb]" )
             THEN( "modified limb score is less than unmodified limb score" ) {
                 CHECK( test_bp->get_id()->get_limb_score( limb_score_test ) == Approx( 0.8 ).epsilon( 0.001 ) );
                 CHECK( dude.get_limb_score( limb_score_test ) == Approx( 0.4701 ).epsilon( 0.001 ) );
-            }
-        }
-        WHEN( "limb is wounded" ) {
-            dude.apply_damage( nullptr, test_bp->get_id(), test_bp->get_hp_max() / 2, true );
-            THEN( "modified limb score is less than unmodified limb score" ) {
-                CHECK( test_bp->get_id()->get_limb_score( limb_score_test ) == Approx( 0.8 ).epsilon( 0.001 ) );
-                CHECK( dude.get_limb_score( limb_score_test ) == Approx( 0.3134 ).epsilon( 0.001 ) );
             }
         }
     }
@@ -141,13 +127,6 @@ TEST_CASE( "Basic_character_modifier_test", "[character][encumbrance][limb]" )
                            0.001 ) );
             }
         }
-        WHEN( "limb is wounded" ) {
-            dude.apply_damage( nullptr, test_bp->get_id(), test_bp->get_hp_max() / 2, true );
-            THEN( "modified limb score is less than unmodified limb score" ) {
-                CHECK( dude.get_modifier( character_modifier_test_char_cost_mod ) == Approx( 26.25 ).epsilon(
-                           0.001 ) );
-            }
-        }
     }
 
     GIVEN( "limb is encumbered" ) {
@@ -156,13 +135,6 @@ TEST_CASE( "Basic_character_modifier_test", "[character][encumbrance][limb]" )
         WHEN( "limb is not wounded" ) {
             THEN( "modified limb score is less than unmodified limb score" ) {
                 CHECK( dude.get_modifier( character_modifier_test_char_cost_mod ) == Approx( 33.81579 ).epsilon(
-                           0.001 ) );
-            }
-        }
-        WHEN( "limb is wounded" ) {
-            dude.apply_damage( nullptr, test_bp->get_id(), test_bp->get_hp_max() / 2, true );
-            THEN( "modified limb score is less than unmodified limb score" ) {
-                CHECK( dude.get_modifier( character_modifier_test_char_cost_mod ) == Approx( 65.72368 ).epsilon(
                            0.001 ) );
             }
         }

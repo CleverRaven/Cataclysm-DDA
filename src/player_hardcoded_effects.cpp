@@ -175,7 +175,7 @@ static void eff_fun_antifungal( Character &u, effect & )
         // not using u.get_random_body_part() as it is weighted & not fully random
         std::vector<bodypart_id> bparts = u.get_all_body_parts( get_body_part_flags::only_main );
         bodypart_id random_bpart = bparts[ rng( 0, bparts.size() - 1 ) ];
-        u.apply_damage( nullptr, random_bpart, 1 );
+        u.apply_damage( nullptr, random_bpart, damage_instance( damage_type::BIOLOGICAL, 1 ) );
     }
 }
 static void eff_fun_fake_common_cold( Character &u, effect & )
@@ -232,7 +232,8 @@ static void eff_fun_fungus( Character &u, effect &it )
             if( one_in( 3600 + bonus * 18 ) ) {
                 u.add_msg_if_player( m_bad,  _( "You spasm suddenly!" ) );
                 u.mod_moves( -to_moves<int>( 1_seconds ) );
-                u.apply_damage( nullptr, bodypart_id( "torso" ), resists ? rng( 1, 5 ) : 5 );
+                u.apply_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BIOLOGICAL,
+                                resists ? rng( 1, 5 ) : 5 ) );
             }
             if( x_in_y( u.vomit_mod(), ( 4800 + bonus * 24 ) ) || one_in( 12000 + bonus * 60 ) ) {
                 u.add_msg_player_or_npc( m_bad, _( "You vomit a thick, gray goop." ),
@@ -243,8 +244,9 @@ static void eff_fun_fungus( Character &u, effect &it )
                 u.mod_hunger( awfulness );
                 u.mod_thirst( awfulness );
                 ///\EFFECT_STR decreases damage taken by fungus effect
-                u.apply_damage( nullptr, bodypart_id( "torso" ), awfulness / std::max( u.str_cur,
-                                1 ) ); // can't be healthy
+                // can't be healthy
+                u.apply_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BIOLOGICAL,
+                                awfulness / std::max( u.str_cur, 1 ) ) );
             }
             break;
         case 3:
@@ -286,9 +288,9 @@ static void eff_fun_fungus( Character &u, effect &it )
                         u.add_msg_player_or_npc( m_bad, _( "Your hands bulge.  Fungus stalks burst through the bulge!" ),
                                                  _( "<npcname>'s hands bulge.  Fungus stalks burst through the bulge!" ) );
                     }
-                    u.apply_damage( nullptr, bodypart_id( "arm_l" ), 999 );
-                    u.apply_damage( nullptr, bodypart_id( "arm_r" ), 999 );
-                } else {
+                    // TODO Replace with a specific wound for flavour
+                    u.apply_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_type::STAB, 999 ) );
+                    u.apply_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_type::STAB, 999 ) );
                     // we don't have viable arms, so the fungus does a little chestbursting
                     u.add_msg_player_or_npc( m_bad,
                                              _( "Your chest bulges, and fungal stalks burst out of your skin!" ),
@@ -1303,7 +1305,7 @@ void Character::hardcoded_effects( effect &it )
             }
             mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
             mod_pain( 1 );
-            apply_damage( nullptr, bp, 1 );
+            apply_damage( nullptr, bp, damage_instance( damage_type::CUT, 1 ) );
         }
     } else if( id == effect_evil ) {
         // Major effects, all bad.
@@ -1347,6 +1349,7 @@ void Character::hardcoded_effects( effect &it )
                 add_msg_if_player( m_bad, _( "You feel paranoid.  They're watching you." ) );
                 mod_pain( 1 );
                 mod_sleepiness( dice( 1, 6 ) );
+            // These need wounds if we keep them
             } else if( one_in( 3000 ) ) {
                 add_msg_if_player( m_bad,
                                    _( "You feel like you need less teeth.  You pull one out, and it is rotten to the core." ) );
@@ -1392,7 +1395,8 @@ void Character::hardcoded_effects( effect &it )
         }
         if( one_in( 6144 ) ) {
             mod_daily_health( -10, -100 );
-            apply_damage( nullptr, bodypart_id( "head" ), rng( 0, 1 ) );
+            apply_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_type::BIOLOGICAL, rng( 0,
+                          1 ) ) );
             if( !has_effect( effect_visuals ) ) {
                 add_msg_if_player( m_bad, _( "Your vision is getting fuzzy." ) );
                 schedule_effect( effect_visuals, rng( 1_minutes, 60_minutes ) );
@@ -1400,7 +1404,8 @@ void Character::hardcoded_effects( effect &it )
         }
         if( one_in( 24576 ) ) {
             mod_daily_health( -10, -100 );
-            apply_damage( nullptr, bodypart_id( "head" ), rng( 1, 2 ) );
+            apply_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_type::BIOLOGICAL, rng( 1,
+                          2 ) ) );
             if( !is_blind() && !sleeping ) {
                 add_msg_if_player( m_bad, _( "Your vision goes black!" ) );
                 schedule_effect( effect_blind, rng( 5_turns, 20_turns ) );

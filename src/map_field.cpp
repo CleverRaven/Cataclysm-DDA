@@ -1668,8 +1668,7 @@ void map::player_in_field( Character &you )
             if( cur.get_field_intensity() > 0 && !you.is_elec_immune() && !you.in_vehicle ) {
                 const bodypart_id &main_part = bodypart_id( "torso" );
                 const int dmg = std::max( 1, rng( cur.get_field_intensity() / 2, cur.get_field_intensity() ) );
-                const int main_part_damage = you.deal_damage( nullptr, main_part,
-                                             damage_instance( damage_electric, dmg ) ).total_damage();
+                const int main_part_damage = you.apply_damage( nullptr, bp, damage_instance( damage_type::ELECTRIC, dmg ), true );
 
                 if( main_part_damage > 0 ) {
                     for( const bodypart_id &bp :
