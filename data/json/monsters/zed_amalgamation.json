@@ -2,7 +2,7 @@
   {
     "type": "MONSTER",
     "id": "mon_meat_cocoon_tiny",
-    "//": "10 - 35 kg corpse",
+    "//": "12-35 kg corpse",
     "copy-from": "mon_meat_cocoon_small",
     "name": { "str": "tiny meat cocoon" },
     "description": "A small, wet sack of pink skin, with something dog-sized moving around underneath the surface.  Black roots anchor it to the ground.",
@@ -55,7 +55,7 @@
     "volume": "200 L",
     "weight": "200 kg",
     "hp": 200,
-    "upgrades": { "age_grow": 1, "into_group": "GROUP_COCOON_MED_1", "multiple_spawns": true, "spawn_range": 5 },
+    "upgrades": { "age_grow": 1, "into_group": "GROUP_COCOON_MED", "multiple_spawns": true, "spawn_range": 5 },
     "death_drops": "explode_innards",
     "death_function": {
       "message": "The %s explodes in a shower of gore!",
@@ -368,5 +368,121 @@
       "flags": [ "GRABS", "PULP_PRYING" ]
     },
     "armor": { "bash": 20, "cut": 25, "stab": 30, "acid": 12, "bullet": 40, "electric": 12 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_amalgamation_recycler",
+    "copy-from": "mon_amalgamation_abstract_med",
+    "name": { "str": "recycler amalgamation" },
+    "description": "A large white-pinkish stubby caterpillar with several tentacles protruding from its underside and an oversized fleshy hump on its back.  It moves around sluggishly, seemingly not paying you any mind.",
+    "color": "dark_gray",
+    "bodytype": "snake",
+    "volume": "325 L",
+    "weight": "325 kg",
+    "hp": 300,
+    "speed": 95,
+    "melee_skill": 5,
+    "melee_dice": 4,
+    "melee_dice_sides": 4,
+    "aggression": 0,
+    "special_attacks": [
+      {
+        "id": "lash_bash_attack",
+        "cooldown": 10,
+        "move_cost": 120,
+        "range": 4,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 25 } ]
+      }
+    ],
+    "dodge": 3,
+    "armor": { "bash": 15, "cut": 8, "stab": 8, "acid": 8, "bullet": 5, "electric": 8 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_amalgamation_recycler_soil",
+    "copy-from": "mon_amalgamation_recycler",
+    "name": { "str": "soil-armored recycler amalgamation" },
+    "description": "A recycler amalgamation covered in armor made of different colors type of soil, with various random pieces of grass and other plants covering it in some places.",
+    "color": "brown",
+    "proportional": { "weight": 1.15, "volume": 1.15, "speed": 0.85 },
+    "melee_dice_sides": 6,
+    "aggression": 100,
+    "special_attacks": [
+      {
+        "id": "lash_bash_attack",
+        "cooldown": 10,
+        "move_cost": 130,
+        "range": 4,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 40 } ]
+      }
+    ],
+    "dodge": 1,
+    "armor": { "bash": 60, "cut": 50, "stab": 35, "acid": 10, "bullet": 50, "electric": 100 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_amalgamation_recycler_rock",
+    "copy-from": "mon_amalgamation_recycler",
+    "name": { "str": "rock-armored recycler amalgamation" },
+    "description": "A recycler amalgamation covered in armor made of various minerals, either naturally occurring rocks, concrete, or asphalt.  It drags its heavy armored tentacles behind itself, snapping them occasionally.",
+    "color": "brown",
+    "proportional": { "weight": 1.3, "volume": 1.2, "speed": 0.75 },
+    "melee_dice_sides": 8,
+    "aggression": 100,
+    "special_attacks": [
+      {
+        "id": "lash_bash_attack",
+        "cooldown": 10,
+        "move_cost": 150,
+        "range": 4,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 55 } ]
+      }
+    ],
+    "dodge": 1,
+    "armor": { "bash": 100, "cut": 120, "stab": 120, "acid": 15, "bullet": 120, "electric": 8 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_amalgamation_meatball",
+    "copy-from": "mon_amalgamation_abstract_med",
+    "name": { "str": "orb amalgamation" },
+    "description": "A smooth red orb about the size of a small car.  It has no visible organs or limbs, save for an array of barbed tentacles it uses to hold itself in place when not rolling.  How do you kill something without organs?",
+    "color": "red",
+    "bodytype": "blob",
+    "volume": "450 L",
+    "weight": "450 kg",
+    "hp": 535,
+    "speed": 135,
+    "melee_skill": 6,
+    "melee_dice": 10,
+    "melee_dice_sides": 2,
+    "grab_strength": 75,
+    "special_attacks": [
+      {
+        "id": "ranged_pull",
+        "range": 10,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 10 } ],
+        "hit_dmg_u": "%s launches a barbed tentacle at you, pulling you in!",
+        "hit_dmg_npc": "%s launches a barbed tentacle at <npcname>, pulling them in!",
+        "miss_msg_u": "%s launches a barbed tentacle at you, but you dodge!",
+        "miss_msg_npc": "%s launches a barbed tentacle at <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%s launches a barbed tentacle at you, but it fails to embed!",
+        "no_dmg_msg_npc": "%s launches a barbed tentacle at <npcname>, but it fails to embed!"
+      }
+    ],
+    "dodge": 0,
+    "vision_night": 0,
+    "bleed_rate": 5,
+    "regenerates": 5,
+    "//1": "I want it to regenerate but I'm not sure what exactly would be balanced enough to not make it unkillable like a shoggoth, so it's 5 for now. If it turns out it's too flimsy, increase it",
+    "harvest": "zombie_meatslug",
+    "extend": { "flags": [ "GRABS" ] },
+    "delete": {
+      "weakpoint_sets": [ "wps_amalgamation_base" ],
+      "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_amalgamation" ],
+      "//2": "Read the description again before you go asking around why I removed the weakpoints from it",
+      "flags": [ "SMELLS", "HEARS" ]
+    },
+    "armor": { "bash": 50, "cut": 30, "stab": 30, "acid": 15, "bullet": 40, "electric": 12 }
   }
 ]
