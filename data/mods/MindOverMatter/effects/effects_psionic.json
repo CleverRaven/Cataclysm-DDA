@@ -913,6 +913,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_clair_passive_sense_protection",
+    "//": "Hidden, part of a passive trait",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "GLARE_RESIST", "IMMUNE_HEARING_DAMAGE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_clair_night_eyes",
     "//": "Hidden effect, used as a tracker",
     "name": [ "Night Eyes" ],
