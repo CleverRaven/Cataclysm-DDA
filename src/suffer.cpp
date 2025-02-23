@@ -1623,7 +1623,7 @@ void suffer::from_artifact_resonance( Character &you, int amt )
             } else if( rng_outcome == 2 ) {
                 you.add_msg_player_or_npc( m_bad, _( "The air folds and distorts around you." ),
                                            _( "The air folds and distorts around <npcname>." ) );
-                teleport::teleport( you );
+                teleport::teleport_creature( you );
             } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad, _( "You're bombarded with radioactive energy!" ),
                                            _( "<npcname> is bombarded with radioactive energy!" ) );
@@ -1636,7 +1636,7 @@ void suffer::from_artifact_resonance( Character &you, int amt )
             if( rng_outcome == 1  && !you.in_vehicle ) {
                 you.add_msg_player_or_npc( m_bad, _( "You suddenly shift slightly." ),
                                            _( "<npcname> suddenly shifts slightly." ) );
-                teleport::teleport( you, 1, 1, true, false );
+                teleport::teleport_creature( you, 1, 1, true, false );
             } else if( rng_outcome == 2 ) {
                 you.add_msg_player_or_npc( m_bad,
                                            _( "You hear a painfully loud grinding noise from your location." ),
