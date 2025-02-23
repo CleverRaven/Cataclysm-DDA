@@ -1294,17 +1294,18 @@
         "if": { "u_is_on_terrain_with_flag": "DIGGABLE" },
         "then": [
           {
-            "if": {
-              "u_query_tile": "line_of_sight",
-              "target_var": { "global_val": "earthshaper_earth_gate_location" },
-              "range": { "math": [ "( (u_spell_level('earthshaper_diggable_teleport') * 2) + 3) * conveyance_proficiency_modifier()" ] },
-              "z_level": false,
-              "message": "Select nearby earth to gate to."
-            },
+            "u_query_tile": "line_of_sight",
+            "target_var": { "context_val": "earthshaper_earth_gate_location" },
+            "range": { "math": [ "( (u_spell_level('earthshaper_diggable_teleport') * 2) + 3) * conveyance_proficiency_modifier()" ] },
+            "z_level": false,
+            "message": "Select nearby earth to gate to."
+          },
+          {
+            "if": { "math": [ "has_var(_earthshaper_earth_gate_location)" ] },
             "then": {
-              "if": { "map_terrain_with_flag": "DIGGABLE", "loc": { "global_val": "earthshaper_earth_gate_location" } },
+              "if": { "map_terrain_with_flag": "DIGGABLE", "loc": { "context_val": "earthshaper_earth_gate_location" } },
               "then": [
-                { "u_teleport": { "global_val": "earthshaper_earth_gate_location" }, "force": true },
+                { "u_teleport": { "context_val": "earthshaper_earth_gate_location" }, "force": true },
                 { "u_message": "You sink into the earth and re-emerge nearby.", "type": "neutral" }
               ],
               "else": { "u_message": "You must select a patch of earth to transport to." }

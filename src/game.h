@@ -1008,6 +1008,9 @@ class game
         void print_graffiti_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                                   int &line, int last_line );
 
+        void print_debug_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
+                               int column, int &line );
+
         input_context get_player_input( std::string &action );
 
         /**
