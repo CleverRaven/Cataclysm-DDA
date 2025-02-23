@@ -1178,14 +1178,16 @@ void npc::place_on_map( map *here )
         return;
     }
 
-    for( const tripoint_bub_ms &p : closest_points_first( pos_bub( *here ), 1, SEEX + 1 ) ) {
+    const tripoint_bub_ms pos = pos_bub( *here );
+
+    for( const tripoint_bub_ms &p : closest_points_first( pos, 1, SEEX + 1 ) ) {
         if( g->is_empty( p ) ) {
             setpos( *here, p );
             return;
         }
     }
 
-    debugmsg( "Failed to place NPC in a valid location near (%d,%d,%d)", posx(), posy(), posz() );
+    debugmsg( "Failed to place NPC in a valid location near %s", pos.to_string() );
 }
 
 std::pair<skill_id, int> npc::best_combat_skill( combat_skills subset, bool randomize ) const
@@ -1757,9 +1759,10 @@ void npc::mutiny()
 float npc::vehicle_danger( int radius ) const
 {
     map &here = get_map();
+    const tripoint_bub_ms pos = pos_bub( here );
 
-    const tripoint_bub_ms from( posx() - radius, posy() - radius, posz() );
-    const tripoint_bub_ms to( posx() + radius, posy() + radius, posz() );
+    const tripoint_bub_ms from( pos.x() - radius, pos.y() - radius, pos.z() );
+    const tripoint_bub_ms to( pos.x() + radius, pos.y() + radius, pos.z() );
     VehicleList vehicles = here.get_vehicles( from, to );
 
     int danger = -1;
@@ -1769,7 +1772,7 @@ float npc::vehicle_danger( int radius ) const
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
             const auto &points_to_check = wrapped_veh.v->immediate_path( &here );
-            point_abs_ms p( here.get_abs( pos_bub() ).xy() );
+            point_abs_ms p( pos_abs().xy() );
             if( points_to_check.find( p ) != points_to_check.end() ) {
                 danger = i;
             }

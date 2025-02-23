@@ -200,7 +200,9 @@ void tutorial_game::per_turn()
     add_message( tut_lesson::LESSON_MOVE );
 
     Character &player_character = get_player_character();
-    if( g->light_level( player_character.posz() ) == 1 ) {
+    const tripoint_bub_ms pos = player_character.pos_bub( here );
+
+    if( g->light_level( pos.z() ) == 1 ) {
         if( player_character.has_amount( itype_flashlight, 1 ) ||
             player_character.has_amount( itype_flashlight_on, 1 ) ) {
             add_message( tut_lesson::LESSON_DARK );
@@ -223,7 +225,7 @@ void tutorial_game::per_turn()
     }
 
     if( !tutorials_seen[tut_lesson::LESSON_BUTCHER] ) {
-        for( const item &it : here.i_at( player_character.pos_bub().xy() ) ) {
+        for( const item &it : here.i_at( pos.xy() ) ) {
             if( it.is_corpse() ) {
                 add_message( tut_lesson::LESSON_BUTCHER );
                 break;
@@ -231,7 +233,7 @@ void tutorial_game::per_turn()
         }
     }
 
-    for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
+    for( const tripoint_bub_ms &p : here.points_in_radius( pos, 1 ) ) {
         const ter_id &t = here.ter( p );
         if( t == ter_t_door_c ) {
             add_message( tut_lesson::LESSON_OPEN );
@@ -260,11 +262,11 @@ void tutorial_game::per_turn()
         }
     }
 
-    if( !here.i_at( point_bub_ms( player_character.posx(), player_character.posy() ) ).empty() ) {
+    if( !here.i_at( pos.xy() ).empty() ) {
         add_message( tut_lesson::LESSON_PICKUP );
     }
 
-    const trap &tr = here.tr_at( player_character.pos_bub() );
+    const trap &tr = here.tr_at( pos );
     if( tr == tr_tutorial_11 ) {
         player_character.set_hunger( 100 );
         player_character.stomach.empty();

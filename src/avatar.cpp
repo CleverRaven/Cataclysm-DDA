@@ -1219,16 +1219,18 @@ bool avatar::cant_see( const tripoint_bub_ms &p ) const
 
 void avatar::rebuild_aim_cache() const
 {
+    map &here = get_map();
+
     aim_cache_dirty =
         false; // Can trigger recursive death spiral if still set when calc_steadiness is called.
 
     double pi = 2 * acos( 0.0 );
 
-    const tripoint_bub_ms local_last_target = get_map().get_bub(
+    const tripoint_bub_ms local_last_target = here.get_bub(
                 last_target_pos.value() );
-
-    float base_angle = atan2f( local_last_target.y() - posy(),
-                               local_last_target.x() - posx() );
+    const tripoint_bub_ms pos = pos_bub( here );
+    float base_angle = atan2f( local_last_target.y() - pos.y(),
+                               local_last_target.x() - pos.x() );
 
     // move from -pi to pi, to 0 to 2pi for angles
     if( base_angle < 0 ) {
@@ -1256,7 +1258,7 @@ void avatar::rebuild_aim_cache() const
     for( int smx = 0; smx < MAPSIZE_X; ++smx ) {
         for( int smy = 0; smy < MAPSIZE_Y; ++smy ) {
 
-            float current_angle = atan2f( smy - posy(), smx - posx() );
+            float current_angle = atan2f( smy - pos.y(), smx - pos.x() );
 
             // move from -pi to pi, to 0 to 2pi for angles
             if( current_angle < 0 ) {
@@ -1264,7 +1266,7 @@ void avatar::rebuild_aim_cache() const
             }
 
             // some basic angle inclusion math, but also everything with 15 is still seen
-            if( rl_dist( tripoint_bub_ms( smx, smy, posz() ), pos_bub() ) < 15 ) {
+            if( rl_dist( tripoint_bub_ms( smx, smy, posz() ), pos ) < 15 ) {
                 aim_cache[smx][smy] = false;
             } else if( lower_bound > upper_bound ) {
                 aim_cache[smx][smy] = !( current_angle >= lower_bound ||

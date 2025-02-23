@@ -124,10 +124,12 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
         test_player.mod_moves( target_speed );
         while( test_player.get_moves() >= 0 ) {
             test_player.setpos( test_player.pos_abs() + direction_of_flight );
-            if( test_player.posx() < SEEX * static_cast<int>( MAPSIZE / 2 ) ||
-                test_player.posy() < SEEY * static_cast<int>( MAPSIZE / 2 ) ||
-                test_player.posx() >= SEEX * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ||
-                test_player.posy() >= SEEY * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ) {
+            const tripoint_bub_ms pos = test_player.pos_bub( here );
+
+            if( pos.x() < SEEX * static_cast<int>( MAPSIZE / 2 ) ||
+                pos.y() < SEEY * static_cast<int>( MAPSIZE / 2 ) ||
+                pos.x() >= SEEX * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ||
+                pos.y() >= SEEY * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ) {
                 tripoint_rel_ms offset = center - test_player.pos_bub();
                 test_player.setpos( here, center );
                 test_monster.setpos( test_monster.pos_abs() + offset );

@@ -25,14 +25,14 @@ std::string talker_monster_const::get_name() const
     return me_mon_const->get_name();
 }
 
-int talker_monster_const::posx() const
+int talker_monster_const::posx( const map &here ) const
 {
-    return me_mon_const->posx();
+    return me_mon_const->posx( here );
 }
 
-int talker_monster_const::posy() const
+int talker_monster_const::posy( const map &here ) const
 {
-    return me_mon_const->posy();
+    return me_mon_const->posy( here );
 }
 
 int talker_monster_const::posz() const
@@ -40,9 +40,9 @@ int talker_monster_const::posz() const
     return me_mon_const->posz();
 }
 
-tripoint_bub_ms talker_monster_const::pos_bub() const
+tripoint_bub_ms talker_monster_const::pos_bub( const map &here ) const
 {
-    return me_mon_const->pos_bub();
+    return me_mon_const->pos_bub( here );
 }
 
 tripoint_abs_ms talker_monster_const::pos_abs() const

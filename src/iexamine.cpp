@@ -5741,11 +5741,13 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
     };
 
     map &here = get_map();
-    tripoint_bub_ms jump_target( you.posx() + 2 * sgn( examp.x() - you.posx() ),
-                                 you.posy() + 2 * sgn( examp.y() - you.posy() ),
-                                 you.posz() );
+    const tripoint_bub_ms pos = you.pos_bub( here );
+
+    tripoint_bub_ms jump_target( pos.x() + 2 * sgn( examp.x() - pos.x() ),
+                                 pos.y() + 2 * sgn( examp.y() - pos.y() ),
+                                 pos.z() );
     bool jump_target_valid = !here.is_open_air( jump_target );
-    point_rel_ms jd( examp.xy() - you.pos_bub().xy() );
+    point_rel_ms jd( examp.xy() - pos.xy() );
     int jump_direction = 0;
 
     if( jd.y() > 0 && jd.x() == 0 ) {

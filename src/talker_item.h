@@ -33,10 +33,10 @@ class talker_item_const: public const_talker_cloner<talker_item_const>
         // identity and location
         std::string disp_name() const override;
         std::string get_name() const override;
-        int posx() const override;
-        int posy() const override;
+        int posx( const map &here ) const override;
+        int posy( const map &here ) const override;
         int posz() const override;
-        tripoint_bub_ms pos_bub() const override;
+        tripoint_bub_ms pos_bub( const map &here ) const override;
         tripoint_abs_ms pos_abs() const override;
         tripoint_abs_omt pos_abs_omt() const override;
 

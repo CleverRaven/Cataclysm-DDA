@@ -238,6 +238,8 @@ input_context game::get_player_input( std::string &action )
 {
     const map &here = get_map();
 
+    const tripoint_bub_ms pos = u.pos_bub( here );
+
     input_context ctxt;
     if( uquit == QUIT_WATCH ) {
         ctxt = input_context( "DEFAULTMODE", keyboard_mode::keycode );
@@ -266,9 +268,9 @@ input_context game::get_player_input( std::string &action )
         ctxt = get_default_mode_input_context();
     }
 
-    m.update_visibility_cache( u.posz() );
+    m.update_visibility_cache( pos.z() );
     const visibility_variables &cache = m.get_visibility_variables_cache();
-    const level_cache &map_cache = m.get_cache_ref( u.posz() );
+    const level_cache &map_cache = m.get_cache_ref( pos.z() );
     const auto &visibility_cache = map_cache.visibility_cache;
 #if defined(TILES)
     // Mark cata_tiles draw caches as dirty
@@ -298,8 +300,8 @@ input_context game::get_player_input( std::string &action )
 
         //x% of the Viewport, only shown on visible areas
         const weather_animation_t weather_info = weather.weather_id->weather_animation;
-        point offset( u.view_offset.xy().raw() + point( -getmaxx( w_terrain ) / 2 + u.posx(),
-                      -getmaxy( w_terrain ) / 2 + u.posy() ) );
+        point offset( u.view_offset.xy().raw() + point( -getmaxx( w_terrain ) / 2 + pos.x(),
+                      -getmaxy( w_terrain ) / 2 + pos.y() ) );
 
 #if defined(TILES)
         if( g->is_tileset_isometric() ) {
@@ -351,7 +353,7 @@ input_context game::get_player_input( std::string &action )
                     const point iRand( rng( iStart.x, iEnd.x - 1 ), rng( iStart.y, iEnd.y - 1 ) );
                     const point map( iRand + offset );
 
-                    const tripoint_bub_ms mapp( map.x, map.y, u.posz() );
+                    const tripoint_bub_ms mapp( map.x, map.y, pos.z() );
 
                     if( m.inbounds( mapp ) && m.is_outside( mapp ) &&
                         m.get_visibility( visibility_cache[mapp.x()][mapp.y()], cache ) ==

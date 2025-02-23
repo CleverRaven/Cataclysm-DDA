@@ -1575,6 +1575,11 @@ bool Character::valid_aoe_technique( Creature const &t, const ma_technique &tech
 bool Character::valid_aoe_technique( Creature const &t, const ma_technique &technique,
                                      std::vector<Creature *> &targets ) const
 {
+    map &here = get_map();
+
+    const tripoint_bub_ms pos = pos_bub( here );
+    const tripoint_bub_ms t_pos = t.pos_bub( here );
+
     if( technique.aoe.empty() ) {
         return false;
     }
@@ -1584,8 +1589,8 @@ bool Character::valid_aoe_technique( Creature const &t, const ma_technique &tech
     std::array<int, 9> offset_b = {{-1, -1, 0, -1, 0, 1, 0, 1, 1 }};
 
     // filter the values to be between -1 and 1 to avoid indexing the array out of bounds
-    int dy = std::max( -1, std::min( 1, t.posy() - posy() ) );
-    int dx = std::max( -1, std::min( 1, t.posx() - posx() ) );
+    int dy = std::max( -1, std::min( 1, t_pos.y() - pos.y() ) );
+    int dx = std::max( -1, std::min( 1, t_pos.x() - pos.x() ) );
     int lookup = dy + 1 + 3 * ( dx + 1 );
 
     creature_tracker &creatures = get_creature_tracker();
@@ -1593,8 +1598,8 @@ bool Character::valid_aoe_technique( Creature const &t, const ma_technique &tech
     if( technique.aoe == "wide" ) {
         //check if either (or both) of the squares next to our target contain a possible victim
         //offsets are a pre-computed matrix allowing us to quickly lookup adjacent squares
-        tripoint_bub_ms left = pos_bub() + tripoint_rel_ms( offset_a[lookup], offset_b[lookup], 0 );
-        tripoint_bub_ms right = pos_bub() + tripoint_rel_ms( offset_b[lookup], -offset_a[lookup], 0 );
+        tripoint_bub_ms left = pos + tripoint_rel_ms( offset_a[lookup], offset_b[lookup], 0 );
+        tripoint_bub_ms right = pos + tripoint_rel_ms( offset_b[lookup], -offset_a[lookup], 0 );
 
         monster *const mon_l = creatures.creature_at<monster>( left );
         if( mon_l && mon_l->friendly == 0 ) {
@@ -1622,9 +1627,9 @@ bool Character::valid_aoe_technique( Creature const &t, const ma_technique &tech
         // Impale hits the target and a single target behind them
         // Check if the square cardinally behind our target, or to the left / right,
         // contains a possible target.
-        tripoint_bub_ms left = t.pos_bub() + tripoint_rel_ms( offset_a[lookup], offset_b[lookup], 0 );
-        tripoint_bub_ms target_pos = t.pos_bub() + ( t.pos_bub() - pos_bub() );
-        tripoint_bub_ms right = t.pos_bub() + tripoint_rel_ms( offset_b[lookup], -offset_b[lookup], 0 );
+        tripoint_bub_ms left = t_pos + tripoint_rel_ms( offset_a[lookup], offset_b[lookup], 0 );
+        tripoint_bub_ms target_pos = t_pos + ( t.pos_bub() - pos_bub() );
+        tripoint_bub_ms right = t_pos + tripoint_rel_ms( offset_b[lookup], -offset_b[lookup], 0 );
 
         monster *const mon_l = creatures.creature_at<monster>( left );
         monster *const mon_t = creatures.creature_at<monster>( target_pos );
@@ -1657,8 +1662,8 @@ bool Character::valid_aoe_technique( Creature const &t, const ma_technique &tech
     }
 
     if( targets.empty() && technique.aoe == "spin" ) {
-        for( const tripoint_bub_ms &tmp : get_map().points_in_radius( pos_bub(), 1 ) ) {
-            if( tmp == t.pos_bub() ) {
+        for( const tripoint_bub_ms &tmp : here.points_in_radius( pos, 1 ) ) {
+            if( tmp == t_pos ) {
                 continue;
             }
             monster *const mon = creatures.creature_at<monster>( tmp );
@@ -1721,6 +1726,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
                                    int &move_cost, item_location &cur_weapon )
 {
     map &here = get_map();
+    const tripoint_bub_ms pos = pos_bub( here );
+    const tripoint_bub_ms t_pos = t.pos_bub( here );
 
     add_msg_debug( debugmode::DF_MELEE, "Chose technique %s\ndmg before tec:", technique.name );
     print_damage_info( di );
@@ -1785,9 +1792,9 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
     if( technique.needs_ammo ) {
         const itype_id current_ammo = cur_weapon.get_item()->ammo_current();
         // if the weapon needs ammo we now expend it
-        cur_weapon.get_item()->ammo_consume( 1, pos_bub(), this );
+        cur_weapon.get_item()->ammo_consume( 1, pos, this );
         // thing going off should be as loud as the ammo
-        sounds::sound( pos_bub(), current_ammo->ammo->loudness, sounds::sound_t::combat, _( "Crack!" ),
+        sounds::sound( pos, current_ammo->ammo->loudness, sounds::sound_t::combat, _( "Crack!" ),
                        true );
         const itype_id casing = *current_ammo->ammo->casing;
         if( cur_weapon.get_item()->has_flag( flag_RELOAD_EJECT ) ) {
@@ -1799,21 +1806,21 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
 
     if( technique.side_switch && !( t.has_flag( mon_flag_IMMOBILE ) ||
                                     t.has_flag( json_flag_CANNOT_MOVE ) ) ) {
-        const tripoint_bub_ms b = t.pos_bub();
+        const tripoint_bub_ms b = t_pos;
         point_bub_ms new_;
 
-        if( b.x() > posx() ) {
-            new_.x() = posx() - 1;
-        } else if( b.x() < posx() ) {
-            new_.x() = posx() + 1;
+        if( b.x() > pos.x() ) {
+            new_.x() = pos.x() - 1;
+        } else if( b.x() < pos.x() ) {
+            new_.x() = pos.x() + 1;
         } else {
             new_.x() = b.x();
         }
 
-        if( b.y() > posy() ) {
-            new_.y() = posy() - 1;
-        } else if( b.y() < posy() ) {
-            new_.y() = posy() + 1;
+        if( b.y() > pos.y() ) {
+            new_.y() = pos.y() - 1;
+        } else if( b.y() < pos.y() ) {
+            new_.y() = pos.y() + 1;
         } else {
             new_.y() = b.y();
         }
@@ -1826,10 +1833,10 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
 
     if( technique.knockback_dist && !( t.has_flag( mon_flag_IMMOBILE ) ||
                                        t.has_flag( json_flag_CANNOT_MOVE ) ) ) {
-        const tripoint_bub_ms prev_pos = t.pos_bub(); // track target startpoint for knockback_follow
+        const tripoint_bub_ms prev_pos = t_pos; // track target startpoint for knockback_follow
         const point_rel_ms kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
                                       rng( -technique.knockback_spread, technique.knockback_spread ) );
-        tripoint_bub_ms kb_point( posx() + kb_offset.x(), posy() + kb_offset.y(), posz() );
+        tripoint_bub_ms kb_point( pos.x() + kb_offset.x(), pos.y() + kb_offset.y(), pos.z() );
         for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
             t.knock_back_from( kb_point );
         }
@@ -1841,7 +1848,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
 
         // This technique makes the player follow into the tile the target was knocked from
         if( technique.knockback_follow ) {
-            const optional_vpart_position vp0 = here.veh_at( pos_bub() );
+            const optional_vpart_position vp0 = here.veh_at( pos );
             vehicle *const veh0 = veh_pointer_or_null( vp0 );
             bool to_swimmable = here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, prev_pos );
             bool to_deepwater = here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, prev_pos );
@@ -1856,7 +1863,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
                 has_effect( effect_amigara ) ||
                 has_flag( json_flag_GRAB );
             if( !move_issue ) {
-                if( t.pos_bub() != prev_pos ) {
+                if( t_pos != prev_pos ) {
                     g->place_player( prev_pos );
                     g->on_move_effects();
                 }
@@ -2586,6 +2593,10 @@ std::string melee_message( const ma_technique &tec, Character &p,
 void player_hit_message( Character *attacker, const std::string &message,
                          Creature &t, int dam, bool crit, bool technique, const std::string &wp_hit )
 {
+    map &here = get_map();
+    const tripoint_bub_ms pos = attacker->pos_bub( here );
+    const tripoint_bub_ms t_pos = t.pos_bub( here );
+
     std::string msg;
     game_message_type msgtype = m_good;
     std::string sSCTmod;
@@ -2631,14 +2642,14 @@ void player_hit_message( Character *attacker, const std::string &message,
 
     if( dam > 0 && attacker->is_avatar() ) {
         //player hits monster melee
-        SCT.add( point( t.posx(), t.posy() ),
-                 direction_from( point::zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
+        SCT.add( t_pos.xy().raw(),
+                 direction_from( point::zero, point( t_pos.x() - pos.x(), t_pos.y() - pos.y() ) ),
                  get_hp_bar( dam, t.get_hp_max(), true ).first, m_good,
                  sSCTmod, gmtSCTcolor );
 
         if( t.get_hp() > 0 ) {
-            SCT.add( point( t.posx(), t.posy() ),
-                     direction_from( point::zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
+            SCT.add( t_pos.xy().raw(),
+                     direction_from( point::zero, point( t_pos.x() - pos.x(), t_pos.y() - pos.y() ) ),
                      get_hp_bar( t.get_hp(), t.get_hp_max(), true ).first, m_good,
                      //~ "hit points", used in scrolling combat text
                      _( "HP" ), m_neutral,

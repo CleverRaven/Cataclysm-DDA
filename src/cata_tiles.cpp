@@ -1385,9 +1385,10 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
 
     avatar &you = get_avatar();
     //limit the render area to maximum view range (121x121 square centered on player)
-    const point min_visible( you.posx() % SEEX, you.posy() % SEEY );
-    const point max_visible( ( you.posx() % SEEX ) + ( MAPSIZE - 1 ) * SEEX,
-                             ( you.posy() % SEEY ) + ( MAPSIZE - 1 ) * SEEY );
+    const tripoint_bub_ms you_pos = you.pos_bub( here );
+    const point min_visible( you_pos.x() % SEEX, you_pos.y() % SEEY );
+    const point max_visible( ( you_pos.x() % SEEX ) + ( MAPSIZE - 1 ) * SEEX,
+                             ( you_pos.y() % SEEY ) + ( MAPSIZE - 1 ) * SEEY );
     const int draw_min_z = std::max( you.posz() - max_draw_depth, -OVERMAP_DEPTH );
 
     const level_cache &ch = here.access_cache( center.z() );

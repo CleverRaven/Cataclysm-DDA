@@ -311,11 +311,11 @@ class Creature : public viewer
         virtual void set_fake( bool fake_value );
         tripoint_bub_ms pos_bub() const;
         tripoint_bub_ms pos_bub( const map &here ) const;
-        inline int posx() const {
-            return pos_bub().x();
+        inline int posx( const map &here ) const {
+            return pos_bub( here ).x();
         }
-        inline int posy() const {
-            return pos_bub().y();
+        inline int posy( const map &here ) const {
+            return pos_bub( here ).y();
         }
         inline int posz() const {
             return pos_abs().z();

@@ -611,6 +611,9 @@ static void eff_fun_frostbite( Character &u, effect &it )
 
 static void eff_fun_teleglow( Character &u, effect &it )
 {
+    map &here = get_map();
+    const tripoint_bub_ms pos = u.pos_bub( here );
+
     // Default we get around 300 duration points per teleport (possibly more
     // depending on the source).
     // TODO: Include a chance to teleport to the nether realm.
@@ -621,7 +624,6 @@ static void eff_fun_teleglow( Character &u, effect &it )
     }
     const time_duration dur = it.get_duration();
     Character &player_character = get_player_character();
-    map &here = get_map();
     if( dur > 10_hours ) {
         // 20 teleports (no decay; in practice at least 21)
         if( one_in( 6000 - ( ( dur - 600_minutes ) / 1_minutes ) ) ) {
@@ -657,13 +659,13 @@ static void eff_fun_teleglow( Character &u, effect &it )
         // 12 teleports
         if( one_in( 24000 - ( dur - 360_minutes ) / 4_turns ) ) {
             creature_tracker &creatures = get_creature_tracker();
-            tripoint_bub_ms dest( 0, 0, u.posz() );
+            tripoint_bub_ms dest( 0, 0, pos.z() );
             int &x = dest.x();
             int &y = dest.y();
             int tries = 0;
             do {
-                x = u.posx() + rng( -4, 4 );
-                y = u.posy() + rng( -4, 4 );
+                x = pos.x() + rng( -4, 4 );
+                y = pos.y() + rng( -4, 4 );
                 tries++;
                 if( tries >= 10 ) {
                     break;
@@ -1246,6 +1248,9 @@ static void eff_fun_sleep( Character &u, effect &it )
 
 void Character::hardcoded_effects( effect &it )
 {
+    map &here = get_map();
+    const tripoint_bub_ms pos = pos_bub( here );
+
     if( const ma_buff *buff = ma_buff::from_effect( it ) ) {
         if( buff->is_valid_character( *this ) ) {
             buff->apply_character( *this );
@@ -1286,7 +1291,6 @@ void Character::hardcoded_effects( effect &it )
     int intense = it.get_intensity();
     const bodypart_id &bp = it.get_bp();
     bool sleeping = has_effect( effect_sleep );
-    map &here = get_map();
     Character &player_character = get_player_character();
     creature_tracker &creatures = get_creature_tracker();
     if( id == effect_formication ) {
@@ -1298,7 +1302,7 @@ void Character::hardcoded_effects( effect &it )
                          body_part_name_accusative( bp ) );
             } else {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
-                add_msg_if_player_sees( pos_bub(), _( "%1$s starts scratching their %2$s!" ), get_name(),
+                add_msg_if_player_sees( pos, _( "%1$s starts scratching their %2$s!" ), get_name(),
                                         body_part_name_accusative( bp ) );
             }
             mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
@@ -1316,11 +1320,11 @@ void Character::hardcoded_effects( effect &it )
     } else if( id == effect_attention ) {
         if( to_turns<int>( dur ) != 0 && one_in( 100000 / to_turns<int>( dur ) ) &&
             one_in( 100000 / to_turns<int>( dur ) ) && one_in( 250 ) ) {
-            tripoint_bub_ms dest( 0, 0, posz() );
+            tripoint_bub_ms dest( 0, 0, pos.z() );
             int tries = 0;
             do {
-                dest.x() = posx() + rng( -4, 4 );
-                dest.y() = posy() + rng( -4, 4 );
+                dest.x() = pos.x() + rng( -4, 4 );
+                dest.y() = pos.y() + rng( -4, 4 );
                 tries++;
             } while( creatures.creature_at( dest ) && tries < 10 );
             if( tries < 10 ) {
@@ -1365,7 +1369,7 @@ void Character::hardcoded_effects( effect &it )
         }
     } else if( id == effect_tindrift ) {
         add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
-        for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 6 ) ) {
+        for( const tripoint_bub_ms &dest : here.points_in_radius( pos, 6 ) ) {
             if( here.is_cornerfloor( dest ) ) {
                 here.add_field( dest, fd_tindalos_rift, 3 );
                 add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
@@ -1623,14 +1627,14 @@ void Character::hardcoded_effects( effect &it )
                     it.mod_duration( 10_minutes );
                 } else if( dur == 2_turns ) {
                     // let the sound code handle the wake-up part
-                    sounds::sound( pos_bub(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool",
+                    sounds::sound( pos, 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool",
                                    "alarm_clock" );
                 }
             }
         } else {
             if( dur == 1_turns ) {
                 if( player_character.has_alarm_clock() ) {
-                    sounds::sound( player_character.pos_bub(), 16, sounds::sound_t::alarm,
+                    sounds::sound( player_character.pos_bub( here ), 16, sounds::sound_t::alarm,
                                    _( "beep-beep-beep!" ), false, "tool", "alarm_clock" );
                     const std::string alarm = _( "Your alarm is going off." );
                     g->cancel_activity_or_ignore_query( distraction_type::noise, alarm );

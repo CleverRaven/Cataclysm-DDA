@@ -2000,8 +2000,9 @@ std::optional<int> iuse::extinguisher( Character *p, item *it, const tripoint_bu
 
     // Slightly reduce the strength of fire immediately behind the target tile.
     if( here.passable( dest ) ) {
-        dest.x() += ( dest.x() - p->posx() );
-        dest.y() += ( dest.y() - p->posy() );
+        const tripoint_bub_ms p_pos = p->pos_bub( here );
+        dest.x() += ( dest.x() - p_pos.x() );
+        dest.y() += ( dest.y() - p_pos.y() );
 
         here.mod_field_intensity( dest, fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0 ) );
     }
@@ -3339,14 +3340,17 @@ std::optional<int> iuse::teleport( Character *p, item *it, const tripoint_bub_ms
 
 std::optional<int> iuse::can_goo( Character *p, item *it, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     it->convert( itype_canister_empty );
     int tries = 0;
+    const tripoint_bub_ms p_pos = p->pos_bub( here );
     tripoint_bub_ms goop;
-    goop.z() = p->posz();
-    map &here = get_map();
+    goop.z() = p_pos.z();
+
     do {
-        goop.x() = p->posx() + rng( -2, 2 );
-        goop.y() = p->posy() + rng( -2, 2 );
+        goop.x() = p_pos.x() + rng( -2, 2 );
+        goop.y() = p_pos.y() + rng( -2, 2 );
         tries++;
     } while( here.impassable( goop ) && tries < 10 );
     if( tries == 10 ) {
@@ -3371,8 +3375,8 @@ std::optional<int> iuse::can_goo( Character *p, item *it, const tripoint_bub_ms 
         tries = 0;
         bool found = false;
         do {
-            goop.x() = p->posx() + rng( -2, 2 );
-            goop.y() = p->posy() + rng( -2, 2 );
+            goop.x() = p_pos.x() + rng( -2, 2 );
+            goop.y() = p_pos.y() + rng( -2, 2 );
             tries++;
             found = here.passable( goop ) && here.tr_at( goop ).is_null();
         } while( !found && tries < 10 );
@@ -3684,13 +3688,16 @@ std::optional<int> iuse::mininuke( Character *p, item *it, const tripoint_bub_ms
 
 std::optional<int> iuse::portal( Character *p, item *it, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+    const tripoint_bub_ms pos = p->pos_bub( here );
+
     if( !it->ammo_sufficient( p ) ) {
         return std::nullopt;
     }
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
-    tripoint_bub_ms t( p->posx() + rng( -2, 2 ), p->posy() + rng( -2, 2 ), p->posz() );
+    tripoint_bub_ms t( pos.x() + rng( -2, 2 ), pos.y() + rng( -2, 2 ), pos.z() );
     get_map().trap_set( t, tr_portal );
     return 1;
 }
@@ -4537,6 +4544,9 @@ std::optional<int> iuse::call_of_tindalos( Character *p, item *, const tripoint_
 
 std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+    const tripoint_bub_ms pos = p->pos_bub( here );
+
     if( p->is_npc() ) {
         return std::nullopt;    // No NPCs for now!
     }
@@ -4553,7 +4563,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint_bub_
     bool acid_blood = false;
     bool vampire = false;
     units::temperature blood_temp = units::from_kelvin( -1.0f ); //kelvins
-    for( item &map_it : get_map().i_at( point_bub_ms( p->posx(), p->posy() ) ) ) {
+    for( item &map_it : here.i_at( pos.xy() ) ) {
         if( map_it.is_corpse() &&
             query_yn( _( "Draw blood from %s?" ),
                       colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {

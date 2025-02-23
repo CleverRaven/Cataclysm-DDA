@@ -273,19 +273,21 @@ void monmove()
         if( !m.inbounds( critter.pos_abs() ) ) {
             continue;
         }
+        const tripoint_bub_ms critter_pos = critter.pos_bub( m );
+
         // Critters in impassable tiles get pushed away, unless it's not impassable for them
-        if( !critter.is_dead() && ( m.impassable( critter.pos_bub() ) &&
-                                    !m.get_impassable_field_at( critter.pos_bub() ).has_value() ) &&
-            !critter.can_move_to( critter.pos_bub() ) ) {
+        if( !critter.is_dead() && ( m.impassable( critter_pos ) &&
+                                    !m.get_impassable_field_at( critter_pos ).has_value() ) &&
+            !critter.can_move_to( critter_pos ) ) {
             dbg( D_ERROR ) << "game:monmove: " << critter.name()
-                           << " can't move to its location!  (" << critter.posx()
-                           << ":" << critter.posy() << ":" << critter.posz() << "), "
-                           << m.tername( critter.pos_bub() );
+                           << " can't move to its location!  (" << critter_pos.x()
+                           << ":" << critter_pos.y() << ":" << critter_pos.z() << "), "
+                           << m.tername( critter_pos );
             add_msg_debug( debugmode::DF_MONSTER, "%s can't move to its location!  (%d,%d,%d), %s",
                            critter.name(),
-                           critter.posx(), critter.posy(), critter.posz(), m.tername( critter.pos_bub() ) );
+                           critter_pos.x(), critter_pos.y(), critter_pos.z(), m.tername( critter_pos ) );
             bool okay = false;
-            for( const tripoint_bub_ms &dest : m.points_in_radius( critter.pos_bub( m ), 3 ) ) {
+            for( const tripoint_bub_ms &dest : m.points_in_radius( critter_pos, 3 ) ) {
                 if( critter.can_move_to( dest ) && g->is_empty( dest ) ) {
                     critter.setpos( m, dest );
                     okay = true;
@@ -329,7 +331,7 @@ void monmove()
         if( !critter.is_dead() &&
             u.has_active_bionic( bio_alarm ) &&
             u.get_power_level() >= bio_alarm->power_trigger &&
-            rl_dist( u.pos_bub(), critter.pos_bub() ) <= 5 &&
+            rl_dist( u.pos_abs(), critter.pos_abs() ) <= 5 &&
             !critter.is_hallucination() ) {
             u.mod_power_level( -bio_alarm->power_trigger );
             add_msg( m_warning, _( "Your motion alarm goes off!" ) );
