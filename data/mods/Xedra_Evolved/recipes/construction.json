@@ -6,7 +6,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_magiclysm_standing_alembic",
+    "id": "constr_xedra_standing_alembic",
     "group": "build_standing_alembic",
     "category": "FURN",
     "required_skills": [ [ "chemistry", 2 ] ],
