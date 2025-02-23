@@ -4,7 +4,7 @@
     "type": "AMMO",
     "ascii_picture": "762_m87",
     "description": "Imported 7.62x39mm M67-style ammunition with a 124gr jacketed, lead core bullet.  Thankfully this loading has non-corrosive primers, and also features a reloadable brass case.",
-    "name": { "str_sp": "7.62x39mm FMJ" },
+    "name": { "str_sp": "7.62x39mm Soviet FMJ" },
     "weight": "16 g",
     "volume": "113 ml",
     "longest_side": "56 mm",
@@ -59,7 +59,7 @@
     "id": "762_jhp",
     "copy-from": "762_m87",
     "type": "AMMO",
-    "name": { "str_sp": "7.62x39mm JHP" },
+    "name": { "str_sp": "7.62x39mm Soviet JHP" },
     "description": "7.62x39mm ammunition with a 123gr jacketed, hollowpoint bullet.  Made for hunting medium game, cartridges such as these were once popular for those using cheap military surplus rifles, as 7.62x39's ballistics are somewhat similar to that of 30-30 Winchester.  The combination of sanctions against exporting nations and drying up of formerly plentiful surplus has made these loadings of 7.62x39 less popular.",
     "ascii_picture": "762_jhp",
     "price": "1 USD",
@@ -70,7 +70,7 @@
     "id": "reloaded_762_jhp",
     "copy-from": "762_jhp",
     "type": "AMMO",
-    "name": { "str_sp": "7.62x39mm JHP, reloaded" },
+    "name": { "str_sp": "7.62x39mm Soviet JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -79,7 +79,7 @@
     "id": "bp_762_jhp",
     "copy-from": "762_jhp",
     "type": "AMMO",
-    "name": { "str_sp": "7.62x39mm JHP, black powder" },
+    "name": { "str_sp": "7.62x39mm Soviet JHP, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -93,7 +93,7 @@
     "id": "reloaded_762_m87",
     "copy-from": "762_m87",
     "type": "AMMO",
-    "name": { "str_sp": "7.62x39mm FMJ, reloaded" },
+    "name": { "str_sp": "7.62x39mm Soviet FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -102,7 +102,7 @@
     "id": "bp_762_m87",
     "copy-from": "762_m87",
     "type": "AMMO",
-    "name": { "str_sp": "7.62x39mm FMJ, black powder" },
+    "name": { "str_sp": "7.62x39mm Soviet FMJ, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
