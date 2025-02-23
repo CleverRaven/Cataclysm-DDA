@@ -111,7 +111,7 @@
         "     88   0åå        à  ",
         "  4  88   èèè        á  ",
         "  4                  á  ",
-        "  4  77         ëêé  á  ",
+        "  4  77    9    ëêé  á  ",
         "  4  66         ççç  à  ",
         "                     ä  ",
         "                     ä  ",
@@ -149,7 +149,8 @@
         "é": { "item": "afs_arrows", "chance": 40, "repeat": [ 3, 5 ] },
         "ê": { "item": "afs_bolts", "chance": 40, "repeat": [ 3, 5 ] },
         "ë": { "item": "archery_common", "chance": 40, "repeat": [ 1, 3 ] }
-      }
+      },
+      "monster": { "9": { "monster": "mon_afs_commercial_laser_turret" } }
     }
   },
   {
