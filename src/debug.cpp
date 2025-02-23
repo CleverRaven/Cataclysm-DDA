@@ -665,7 +665,7 @@ struct OutputDebugStreamA : public std::ostream {
             virtual std::streamsize xsputn( const char *s, std::streamsize n ) override {
                 std::streamsize rc = buf->sputn( s, n ), last = 0, i = 0;
                 for( ; i < n; ++i ) {
-                    if( std::iscntrl( static_cast<unsigned char>(s[i]) ) ) {
+                    if( std::iscntrl( static_cast<unsigned char>( s[i] ) ) ) {
                         if( i == last + 1 ) { // Skip multiple empty lines
                             last = i;
                             continue;
