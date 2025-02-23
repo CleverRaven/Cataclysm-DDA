@@ -192,14 +192,8 @@ static const ter_str_id ter_t_gas_pump_smashed( "t_gas_pump_smashed" );
 static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_reb_cage( "t_reb_cage" );
-static const ter_str_id ter_t_rock( "t_rock" );
-static const ter_str_id ter_t_rock_blue( "t_rock_blue" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
-static const ter_str_id ter_t_rock_floor_no_roof( "t_rock_floor_no_roof" );
-static const ter_str_id ter_t_rock_green( "t_rock_green" );
-static const ter_str_id ter_t_rock_red( "t_rock_red" );
 static const ter_str_id ter_t_rootcellar( "t_rootcellar" );
-static const ter_str_id ter_t_soil( "t_soil" );
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_tree_birch( "t_tree_birch" );
 static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
@@ -3941,7 +3935,7 @@ static bool furn_is_supported( const map &m, const tripoint_bub_ms &p )
     return false;
 }
 
-void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
+void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params, bool repair_missing_ground )
 {
     int sound_volume = 0;
     std::string soundfxid;
@@ -4203,13 +4197,8 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
 
         set_to_air = roof_of_below_tile; //do not add the roof for the tile below if it was already removed
         furn_set( p, furn_str_id::NULL_ID() );
-        if( ter_below.id == ter_t_soil ) {
-            ter_set( p, ter_t_dirt );
-        } else if( ter_below.id == ter_t_rock ||
-                   ter_below.id == ter_t_rock_blue ||
-                   ter_below.id == ter_t_rock_green ||
-                   ter_below.id == ter_t_rock_red ) {
-            ter_set( p, ter_t_rock_floor_no_roof );
+        if( repair_missing_ground && ter_below.has_flag( "NATURAL_UNDERGROUND" ) ) {
+            ter_set( p, ter_below.roof );
         } else {
             ter_set( p, ter_t_open_air );
         }
@@ -4244,7 +4233,7 @@ void map::bash_ter_furn( const tripoint_bub_ms &p, bash_params &params )
 
 bash_params map::bash( const tripoint_bub_ms &p, const int str,
                        bool silent, bool destroy, bool bash_floor,
-                       const vehicle *bashing_vehicle )
+                       const vehicle *bashing_vehicle, bool repair_missing_ground )
 {
     bash_params bsh{
         str, silent, destroy, bash_floor, static_cast<float>( rng_float( 0, 1.0f ) ), false, false, false, false
@@ -4255,7 +4244,7 @@ bash_params map::bash( const tripoint_bub_ms &p, const int str,
 
     bool bashed_sealed = false;
     if( has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
-        bash_ter_furn( p, bsh );
+        bash_ter_furn( p, bsh, repair_missing_ground );
         bashed_sealed = true;
     }
 
@@ -4273,7 +4262,7 @@ bash_params map::bash( const tripoint_bub_ms &p, const int str,
 
     // If we still didn't bash anything solid (a vehicle) or a tile with SEALED flag, bash ter/furn
     if( !bsh.bashed_solid && !bashed_sealed ) {
-        bash_ter_furn( p, bsh );
+        bash_ter_furn( p, bsh, repair_missing_ground );
     }
 
     return bsh;
@@ -8716,13 +8705,8 @@ void map::add_tree_tops( const tripoint_rel_sm &grid )
                 // This code is needed to handle bashing during mapgen, because the Z level below
                 // hasn't yet been generated when the bashing occurs.
                 if( ter_here.id() == ter_t_open_air ) {
-                    if( ter_below.id == ter_t_soil ) {
-                        sub_here->set_ter( {x, y}, ter_t_dirt );
-                    } else if( ter_below.id == ter_t_rock ||
-                               ter_below.id == ter_t_rock_blue ||
-                               ter_below.id == ter_t_rock_green ||
-                               ter_below.id == ter_t_rock_red ) {
-                        sub_here->set_ter( {x, y}, ter_t_rock_floor_no_roof );
+                    if( ter_below.has_flag( "NATURAL_UNDERGROUND" ) ) {
+                        sub_here->set_ter( {x, y}, ter_below.roof );
                     }
                 }
         }
