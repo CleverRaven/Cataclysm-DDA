@@ -1,5 +1,29 @@
 [
   {
+    "id": "vitkorhand_manatouched_item",
+    "type": "TOOL",
+    "name": { "str_sp": "grasping appendage" },
+    "description": "Your photophore, contaminated by extreme mana exposure, has mutated into a magical limb capable of magically suspending objects midair and using that same magic to project a concussive beam of force.",
+    "material": [ { "type": "arcane_skin" }, { "type": "flesh" } ],
+    "color": "blue",
+    "symbol": "/",
+    "techniques": [ "VIKTORHAND_MANATOUCHED_BLAST" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "AURA", "NO_SALVAGE", "TARDIS", "ZERO_WEIGHT", "PROVIDES_TECHNIQUES" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "10000  L",
+        "max_contains_weight": "1000 kg",
+        "max_item_length": "3000 cm",
+        "moves": 5,
+        "weight_multiplier": 0.0,
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
     "id": "integrated_goblin_teeth",
     "copy-from": "integrated_fangs",
     "type": "ARMOR",
