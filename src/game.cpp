@@ -1,5 +1,4 @@
 #include "game.h"
-#include "game.h"
 
 #include <algorithm>
 #include <bitset>

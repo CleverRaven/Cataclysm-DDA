@@ -23,6 +23,7 @@
 #include <vector>
 
 #include "achievement.h"
+#include "action.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -109,6 +110,7 @@
 #include "point.h"
 #include "popup.h"
 #include "proficiency.h"
+#include "ranged.h"
 #include "recipe.h"
 #include "recipe_groups.h"
 #include "requirements.h"
@@ -6871,17 +6873,14 @@ talk_effect_fun_t::func f_knockback( const JsonObject &jo, std::string_view memb
         } else {
             direction_pos = d.actor( is_npc )->pos_bub();
 
-            int dx = rng( -1, 1 );
-            int dy = rng( -1, 1 );
+            point d2( rng( -1, 1 ), rng( -1, 1 ) );
 
             // if we pass target_pos == direction_pos to knockback()->continue_line() the game gonna crash
-            while( dx == 0 && dy == 0 ) {
-                dx = rng( -1, 1 );
-                dy = rng( -1, 1 );
+            while( d2 == point( 0, 0 ) ) {
+                d2 = point( rng( -1, 1 ), rng( -1, 1 ) );
             }
 
-            direction_pos.x() += dx;
-            direction_pos.y() += dy;
+            direction_pos += d2;
         }
 
         g->knockback( direction_pos, target_pos, force.evaluate( d ), stun.evaluate( d ),

@@ -18,7 +18,6 @@
 #include <variant>
 #include <vector>
 
-#include "action.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bodypart.h"
@@ -65,15 +64,12 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "point.h"
-#include "popup.h"
 #include "profession.h"
-#include "ranged.h"
 #include "recipe_groups.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "talker.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
@@ -542,27 +538,6 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
             break;
         case var_type::context:
             d->set_value( name, value );
-            break;
-        default:
-            debugmsg( "Invalid type." );
-            break;
-    }
-}
-
-void write_var_value( var_type type, const std::string &name, const_dialogue const &d,
-                      const std::string &value )
-{
-    switch( type ) {
-        case var_type::global:
-            get_globals().set_global_value( name, value );
-            break;
-        case var_type::context:
-        case var_type::var:
-        case var_type::u:
-        case var_type::npc:
-        case var_type::faction:
-        case var_type::party:
-            debugmsg( "Only global variables can be assigned from an eval function.\n%s", d.get_callstack() );
             break;
         default:
             debugmsg( "Invalid type." );
