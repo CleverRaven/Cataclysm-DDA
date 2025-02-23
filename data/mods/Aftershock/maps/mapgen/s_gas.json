@@ -56,15 +56,5 @@
         "V": { "item_group": "plut_cell_vending", "reinforced": true, "powered": true, "networked": true }
       }
     }
-  },
-  {
-    "type": "item_group",
-    "id": "plut_cell_vending",
-    "subtype": "collection",
-    "items": [
-      { "item": "plut_cell", "prob": 80 },
-      { "item": "plut_cell", "prob": 20, "count": [ 0, 1 ] },
-      { "item": "plut_cell", "prob": 3, "count": [ 2, 5 ] }
-    ]
   }
 ]

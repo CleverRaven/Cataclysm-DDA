@@ -3,32 +3,41 @@
 #define CATA_SRC_MAPGEN_H
 
 #include <cstddef>
-#include <iosfwd>
+#include <cstdint>
+#include <limits>
 #include <map>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "cata_assert.h"
 #include "cata_variant.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "dialogue_helpers.h"
+#include "enum_bitset.h"
+#include "flexbuffer_json.h"
 #include "jmapgen_flags.h"
-#include "json.h"
+#include "mapgen_parameter.h"
 #include "memory_fast.h"
 #include "point.h"
-#include "regional_settings.h"
+#include "ret_val.h"
 #include "type_id.h"
+#include "value_ptr.h"
 #include "weighted_list.h"
 
+// IWYU pragma: no_forward_declare jmapgen_flags
 class map;
 class mapgendata;
-struct mapgen_arguments;
-template <typename Id> class mapgen_value;
 class mission;
 class tinymap;
+struct mapgen_arguments;
+struct oter_t;
+template <typename E> struct enum_traits;
+template <typename Id> class mapgen_value;
 
 using building_gen_pointer = void ( * )( mapgendata & );
 

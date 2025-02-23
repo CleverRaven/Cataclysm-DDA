@@ -2154,6 +2154,13 @@
     ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_thaumic_zombie_magical_disruption",
+    "name": [ "Mana Blockage" ],
+    "desc": [ "It's harder for you to draw on your mana than it should be." ],
+    "max_duration": "1 m"
+  },
+  {
     "id": "effect_dust_reborn",
     "type": "effect_type",
     "name": [ "Divided" ],

@@ -11,31 +11,36 @@
 #include <iterator>
 #include <memory>
 #include <optional>
+#include <tuple>
 #include <utility>
 #include <vector>
 
 #include "cached_options.h"
 #include "cata_assert.h"
-#include "cata_utility.h"
 #include "cata_tiles.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "color.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
-#include "game_constants.h"
-#include "int_id.h"
+#include "level_cache.h"
 #include "lightmap.h"
 #include "map.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "math_defines.h"
+#include "mdarray.h"
 #include "monster.h"
 #include "pixel_minimap_projectors.h"
 #include "sdl_utils.h"
+#include "type_id.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
 
 class game;
+
 // NOLINTNEXTLINE(cata-static-declarations)
 extern std::unique_ptr<game> g;
 

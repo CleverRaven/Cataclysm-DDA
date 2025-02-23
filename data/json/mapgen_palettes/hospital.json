@@ -197,8 +197,6 @@
       "i": "f_bench",
       "j": "f_curtain",
       "k": "f_curtain_open",
-      "l": "f_autodoc",
-      "m": "f_autodoc_couch",
       "n": "f_autoclave",
       "p": [ "f_heavy_duty_fridge", "f_heavy_duty_freezer" ],
       "q": "f_glass_fridge",

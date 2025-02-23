@@ -811,6 +811,16 @@
   },
   {
     "type": "mutation",
+    "id": "perk_belowthebelt",
+    "name": { "str": "Below the Belt" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "After some time surviving in the apocalypse, you realized that you don't have to fight fair in melee combat.  Now you can hit below the belt on most humanoid monsters.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_empath",
     "name": { "str": "Empath" },
     "points": 0,

@@ -10,9 +10,9 @@
 #include <memory>
 #include <optional>
 #include <ostream>
+#include <ratio>
 #include <set>
 #include <string>
-#include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -31,16 +31,17 @@
 #include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
+#include "field.h"
 #include "game.h"
 #include "game_constants.h"
 #include "gamemode.h"
 #include "help.h"
 #include "input.h"
 #include "input_context.h"
-#include "line.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "memorial_logger.h"
@@ -52,6 +53,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -60,6 +62,7 @@
 #include "rng.h"
 #include "scent_map.h"
 #include "sdlsound.h"
+#include "simple_pathfinding.h"
 #include "sounds.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
