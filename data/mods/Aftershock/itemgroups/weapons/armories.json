@@ -196,6 +196,12 @@
     "items": [ { "item": "tac_fullhelmet_uicas" }, { "item": "tac_helmet_uicas" } ]
   },
   {
+    "id": "afs_civillian_gun_case",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "afs_civilian_ballistic_gun", "prob": 40 }, { "group": "afs_civilian_energy_gun", "prob": 60 } ]
+  },
+  {
     "id": "afs_police_armory",
     "type": "item_group",
     "subtype": "distribution",

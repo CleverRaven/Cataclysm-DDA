@@ -153,6 +153,63 @@
     "locations": [ "land" ]
   },
   {
+    "id": "afs_grocer",
+    "type": "city_building",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_grocer_a1_floor_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_grocer_a1_floor_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "afs_grocer_a1_floor_3_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
+    "type": "city_building",
+    "id": "afs_clothing_store",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_clothing_store_a1_floor_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_clothing_store_a1_floor_2_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
+    "type": "city_building",
+    "id": "afs_sporting_goods_store",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_sporting_goods_store_a1_floor_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_sporting_goods_store_a1_floor_2_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
+    "id": "afs_clinic_1",
+    "type": "city_building",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_clinic_a1_floor_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_clinic_a1_floor_2_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
+    "id": "afs_small_urban_farm_ground",
+    "type": "city_building",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_small_urban_farm_a1_floor_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_small_urban_farm_a1_floor_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "afs_small_urban_farm_a1_floor_3_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
+    "id": "afs_small_office",
+    "type": "city_building",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_small_office_a1_floor_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_small_office_a1_floor_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "afs_small_office_a1_floor_3_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
     "type": "city_building",
     "id": "afs_cafe_1",
     "overmaps": [
