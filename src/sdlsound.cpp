@@ -303,10 +303,11 @@ static bool check_sound( const int volume = 1 )
  * Attempt to initialize an audio device.  Returns false if initialization fails.
  */
 const Uint16 audio_format = AUDIO_S16; // if this ever changes, do_pitch_shift() and slow_motion_sound() will probably need adjustment
+const int audio_rate = 44100; // samples per second
 
 bool init_sound()
 {
-    int audio_rate = 44100;
+   
     
     int audio_channels = 2;
     int audio_buffers = 2048;
@@ -678,7 +679,7 @@ static bool is_time_slowed() {
     // if the player have significantly more moves than their speed, they probably used an artifact/CBM to slow time.
     // I checked; the only things that increase a player's # of moves is spells/cbms that slow down time (and also unit tests) so this should work.
     // Would get_speed_base() be better?
-    return std::max(get_avatar().get_speed(), 100) < get_avatar().get_moves() * 2;
+    return std::max(get_avatar().get_speed(), 100) * 2 < get_avatar().get_moves();
 }
 
 // used with SDL's Mix_RegisterEffect(). each sound that is currently playing has one. needed to dynamically control playback speed for slowing time
@@ -686,7 +687,10 @@ struct sound_effect_handler {
     Mix_Chunk* audio_src;
     bool active; // if not active, we're just playing the given audio and aren't making any modifications to it.
     bool owns_audio; // if true, it owns the audio it was given and will free it when the sound stops playing.
-    int currentSampleI = 0; // with respect to audio_src
+    float currentSampleI = 0; // with respect to audio_src. for fractional indices, the output is interpolated between the two closest samples
+    int loops_remaining = 0;
+
+    //bool DEBUG = false;
 
     ~sound_effect_handler() {
         if (owns_audio) {
@@ -696,56 +700,104 @@ struct sound_effect_handler {
     }
 
     static void on_finish(int /* chan */, void* udata) {
-        cata_assert(false);
         sound_effect_handler* handler = static_cast<sound_effect_handler*>(udata);
         cata_assert(handler != nullptr && handler->audio_src != nullptr);
         delete handler;
     }
 
-    static void slowed_time_effect(int /* chan */, void* stream, int len, void* udata)
+    constexpr static float sound_speed_factor = 0.25f;
+    static void slowed_time_effect(int channel, void* stream, int len, void* udata) // we can expect this function to be called many times a second (at least 40/s from my tests)
     {
-        cata_assert(false);
         sound_effect_handler* handler = static_cast<sound_effect_handler*>(udata);
 
-        if (is_time_slowed()) {
-            cata_assert(audio_format == AUDIO_S16);
-
-            constexpr int sound_stretch_factor = 4;
-            constexpr int bytes_per_sample = 4; // because AUDIO_S16 is two bytes per ear
-            constexpr int zero = 0;
-
-            int minlen = std::min(handler->audio_src->alen, static_cast<unsigned int>(len));
-            for (int sampleI = 0; sampleI < minlen / bytes_per_sample / sound_stretch_factor; sampleI++) {
-
-                for (int i = 0; i < sound_stretch_factor; i++) {
-                    //memcpy((uint8_t*)stream + (i * bytes_per_sample) + (sampleI * sound_stretch_factor * bytes_per_sample), handler->audio_src->abuf/* + sampleI * bytes_per_sample*/, bytes_per_sample);
-                    memcpy((uint8_t*)stream + (i * bytes_per_sample) + (sampleI * sound_stretch_factor * bytes_per_sample), &zero, bytes_per_sample);
-                }
+        /*if (handler->loops_remaining < 0) { 
+            int success = Mix_HaltChannel(channel); 
+            if (success != 0) {
+                dbg(D_ERROR) << "Mix_HaltChannel failed: " << Mix_GetError();
             }
+            return; 
+        }*/
+
+        using sample = int16_t; // because AUDIO_S16 is two bytes per ear (signed integer samples)
+        constexpr int bytes_per_sample = sizeof(sample) * 2; // 2 samples per ear (is there a better terminology for this?)
+        cata_assert(audio_format == AUDIO_S16);
+        cata_assert(handler->loops_remaining >= 0);
+        //cata_assert(!handler->DEBUG);
+
+        float playbackSpeed = is_time_slowed() ? sound_speed_factor : 1;            
+
+        //memset(stream, 0, len);
+
+        for (int dst_index = 0; dst_index < len / bytes_per_sample && handler->currentSampleI < handler->audio_src->alen / bytes_per_sample; dst_index++) {
+            int lowIndex = std::floor(handler->currentSampleI);
+            int highIndex = std::ceil(handler->currentSampleI);
+            if (highIndex == handler->audio_src->alen / bytes_per_sample) highIndex = 0; // make sound wrap around
+ 
+            for (int ear_offset = 0; ear_offset < 4; ear_offset += 2) { // have to handle each ear seperately for stereo audio
+                sample low_value, high_value;
+
+                if (handler->loops_remaining != -1)
+                    memcpy(&low_value, (uint8_t*)handler->audio_src->abuf + ear_offset + lowIndex * bytes_per_sample, sizeof(sample));
+                else 
+                    low_value = 0;
+
+                if (handler->loops_remaining != -1)
+                    memcpy(&high_value, (uint8_t*)handler->audio_src->abuf + ear_offset + highIndex * bytes_per_sample, sizeof(sample));
+                else
+                    high_value = 0;
+
+                // linearly interpolate between the two samples closest to the current time
+                float interpolation_factor = handler->currentSampleI - lowIndex;
+                sample interpolated = (high_value - low_value) * interpolation_factor + low_value;
+
+                memcpy((uint8_t*)stream + dst_index * bytes_per_sample + ear_offset, &interpolated, sizeof(sample));
+            }
+            //for (int i = 0; i < sound_stretch_factor; i++) {
+                //memcpy((uint8_t*)stream + (i * bytes_per_sample) + (sampleI * sound_stretch_factor * bytes_per_sample), handler->audio_src->abuf + (sampleI + handler->currentSampleI) * bytes_per_sample, bytes_per_sample);
+                //memcpy((uint8_t*)stream + (i * bytes_per_sample) + (sampleI * sound_stretch_factor * bytes_per_sample), &zero, bytes_per_sample);
+            //}
+
+            handler->currentSampleI += 1.0f * playbackSpeed;
+            if (handler->loops_remaining >= 0 && handler->currentSampleI >= handler->audio_src->alen / bytes_per_sample) {
+                handler->loops_remaining--;
+                handler->currentSampleI = std::fmodf(handler->currentSampleI, handler->audio_src->alen / bytes_per_sample);
+            }
+        }
+
+        // Will this make last part of effect cut off?
+        if (handler->loops_remaining < 0) {
+            //handler->DEBUG = true;
+            int success = Mix_HaltChannel(channel);
+            if (success != 0) {
+                dbg(D_ERROR) << "Mix_HaltChannel failed: " << Mix_GetError();
+            }
+            return;
         }
     }
 
     // returns false if failed
     static bool make_audio(int audioChannel, Mix_Chunk* audio_src, int nloops, int volume, bool owns_audio, const sound_effect& effect, std::optional<units::angle> angle, std::optional<float> fade_in_duration) {
-        
+        // for slowing time we gotta make the sound loop extra times
         
         sound_effect_handler* handler = new sound_effect_handler();
         handler->active = true;
         handler->audio_src = audio_src;
         handler->owns_audio = owns_audio;
+        handler->loops_remaining = nloops == -1 ? 10000 : nloops; // -1 loops means loop forever. (SDL actually only loops it ~66536 times, is this a problem?)
 
         Mix_VolumeChunk(audio_src,
             effect.volume * get_option<int>("SOUND_EFFECT_VOLUME") * volume / (100 * 100));
         int channel;
+
+        // to ensure the effect doesn't stop early, we tell SDL to loop it indefinitely. the slowed_time_effect callback will halt the sound effect at the appropriate time.
         if (fade_in_duration.has_value()) {
-            channel = (Mix_FadeInChannel(audioChannel, audio_src, nloops, *fade_in_duration) == -1);
+            channel = Mix_FadeInChannel(audioChannel, audio_src, -1, *fade_in_duration);
         }
         else {
-            channel = (Mix_PlayChannel(audioChannel, audio_src, nloops) == -1);
+            channel = Mix_PlayChannel(audioChannel, audio_src, -1);
         }
         bool failed = channel == -1;
         if (!failed) {
-            //Mix_SetPanning(channel, 0, 255);
             int out = Mix_RegisterEffect(channel, slowed_time_effect, on_finish, handler);
             if (out == 0) { // returns zero if SDL failed to setup the effect, meaning we better cancel the sound.
                 // To prevent use after free, stop the playback right now.
@@ -753,7 +805,6 @@ struct sound_effect_handler {
                 dbg(D_WARNING) << "Mix_RegisterEffect failed: " << Mix_GetError();
                 Mix_HaltChannel(channel);
             }
-            dbg(D_WARNING) << "BRUH " << out << " ";
         }
         if (!failed && angle.has_value()) {
             if (Mix_SetPosition(channel, static_cast<Sint16>(to_degrees(*angle)), 1) == 0) {
