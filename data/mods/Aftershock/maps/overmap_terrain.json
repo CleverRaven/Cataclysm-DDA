@@ -713,5 +713,15 @@
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Clinic",
+    "id": [ "afs_clinic_a1_floor_1", "afs_clinic_a1_floor_2" ],
+    "sym": "C",
+    "color": "light_red",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]
