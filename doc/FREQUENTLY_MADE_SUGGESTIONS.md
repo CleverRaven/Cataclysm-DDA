@@ -106,6 +106,25 @@ In the end, it's just odd to be able to hold 10000 rounds in your hands at once.
 
 Again, we do not want to make the game worse with this - there are some unavoidable problems caused by this migration, but after it is done, not only it would be easier to contribute for everyone, but the game would work better, and maybe even faster.
 
+### Options
+
+#### I should be able to disable features I don't want (fungals, portal storms, etc.): No.
+
+Every option has a maintenance cost, and the more options we have the more each of them individually costs in time, effort, and sanity for our dear contributors.
+
+At the time of this writing, despite our best efforts there are *two thousand, one hundred, and fourty-three*(2143) open issues on the repository. The vast majority of them are bug reports, either confirmed or waiting to be confirmed. This does not include bugs which have been reported but were not confirmed before being closed due to a lack of activity. (Confirmed bugs are immune to such closures)
+
+Can we afford the massive maintenance costs these options would bring? No. It would introduce many more bugs and greatly increase the workload even to fix existing ones, since the configuration of these options may be a cause.
+
+Can we afford the massive development costs these options would bring? No. All new development would have to take into account increasing numbers of possible code paths based on whether or not major features were disabled.
+
+Do we WANT these options to disable features? No! Features which make it into the game are desired features which contribute to the game's intended direction. We don't want to turn off the game we're making.
+
+There are some existing "toggle/disable feature" options which are legacy leftovers (e.g. wandering hordes, no NPC needs, railways mod). Experience has shown that making these options are a mistake, despite the intention in making these optional being to avoid major issues with their implementations. 
+
+The presence of those major issues precludes removing the option, and the fact it's an option precludes people from working on it ("oh I heard it has issues, I'll disable it" --> nobody actually uses it --> resolved issues or not, nobody would see their changes). This is a catch-22 for development, and the solution is simply not to make desired features optional.
+
+
 ### Multiplayer
 This has come up [many times](https://discourse.cataclysmdda.org/search?q=multiplayer), and it simply can not be added to DDA.
 
