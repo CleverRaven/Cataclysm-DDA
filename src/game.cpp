@@ -13025,7 +13025,7 @@ std::optional<tripoint_bub_ms> game::find_or_make_stairs( map &mp, const int z_a
                     rope_ladder = true;
                     add_msg( m_bad, _( "You descend on your vines, though leaving a part of you behind stings." ) );
                     u.mod_pain( 5 );
-                    u.apply_damage( nullptr, bodypart_id( "torso" ), 5 );
+                    u.apply_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BIOLOGICAL, 5 ) );
                     u.mod_stored_kcal( -87 );
                     u.mod_thirst( 10 );
                 } else {

@@ -588,7 +588,7 @@ void start_location::handle_heli_crash( avatar &you ) const
                 const int maxHp = you.get_hp_max( bp );
                 // Body part health will range from 33% to 66% with occasional bleed
                 const int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
-                you.apply_damage( nullptr, bp, dmg );
+                you.apply_damage( nullptr, bp, damage_instance( damage_type::BASH, dmg ) );
                 break;
             }
             // No damage
