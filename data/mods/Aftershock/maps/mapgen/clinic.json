@@ -8,12 +8,12 @@
       "rows": [
         "©© ©  © ©© ©©©------©  ©",
         " ©   ©© ©©   --....-- © ",
-        "   ©©©       -6.66.7-   ",
-        "   ©  ©      -6,66,7-   ",
-        "      ©      -6.66.7-   ",
-        "    ©©       -2.9...-   ",
+        "   ©©©       -q.qq.6-   ",
+        "   ©  ©      -q,qq,6-   ",
+        "      ©      -q.qq.6-   ",
+        "    ©©       -2.....-   ",
         "   ©©©       --2..2--   ",
-        "    © ©      ℗---4--    ",
+        "    © ©      ℗---!--    ",
         "   //!/      ℗1)..)1    ",
         "   /../℗℗   ℗℗1),,)1℗℗  ",
         "   /c,/℗℗℗  ℗℗1)..)1℗℗℗ ",
@@ -25,7 +25,7 @@
         " /!//!//!!/y.3c/..///// ",
         " /,./,./../@@,k/../lll/℗",
         " /~n/~n/../n...!../..h=℗",
-        " ///////,,//////,,!.,8=℗",
+        " ///////,,//////,,!.,7=℗",
         " /❶.,..!........../%.h=℗",
         " //❺.❸❷/........../oU// ",
         " ℗/###////////////////  ",
@@ -38,39 +38,32 @@
         "afs_habitat_residential_furnishing",
         "afs_light_param_palette"
       ],
-      "terrain": { "1": "t_region_groundcover_urban", "4": "t_door_metal_elocked" },
+      "terrain": { "1": "t_region_groundcover_urban" },
       "furniture": {
         "1": "f_screenmirror",
         "2": "f_sealed_intermodal_crate",
         "3": "f_stool",
         "5": "f_locker",
-        "6": "f_rack",
-        "7": "f_reinforced_displaycase_locked",
-        "8": "f_table"
+        "6": "f_reinforced_displaycase_locked",
+        "7": "f_table"
       },
       "items": {
-          "j": { "item": "office_paper", "chance": 40 },
-          "k": { "item": "SUS_office_desk", "chance": 40 },
-          "8": { "item": "dinnerware", "chance": 60, "repeat": [ 1, 3 ] },
-          "%": { "item": "afs_tools_space_emergency", "chance": 40 },
-          "5": [
-            { "item": "harddrugs", "chance": 20 },
-            { "item": "drugs_analgesic", "chance": 50 },
-            { "item": "gear_medical", "chance": 30 }
-          ],
-          "2": { "item": "afs_crate_medical" },
-          "6": [
-            { "item": "softdrugs", "chance": 60, "repeat": [ 3, 5 ] },
-            { "item": "drugs_analgesic", "chance": 60, "repeat": [ 1, 3 ] }
-          ],
-          "7": [
-            { "item": "harddrugs", "chance": 70, "repeat": [ 1, 2 ] },
-            { "item": "drugs_rare", "chance": 70, "repeat": [ 1, 2 ] }
-          ]
+        "j": { "item": "office_paper", "chance": 40 },
+        "k": { "item": "SUS_office_desk", "chance": 40 },
+        "7": { "item": "dinnerware", "chance": 60, "repeat": [ 1, 3 ] },
+        "%": { "item": "afs_tools_space_emergency", "chance": 40 },
+        "5": [
+          { "item": "harddrugs", "chance": 20 },
+          { "item": "drugs_analgesic", "chance": 50 },
+          { "item": "gear_medical", "chance": 30 }
+        ],
+        "2": { "item": "afs_crate_medical" }
       },
-      "monster": { "9": { "monster": "mon_afs_commercial_laser_turret" } },
       "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 20 } ],
-      "place_nested": [ { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 } ]
+      "place_nested": [
+        { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 },
+        { "chunks": [ [ "afs_clinic_unlooted", 60 ], [ "afs_clinic_looted", 40 ] ], "x": 0, "y": 0 }
+      ]
     }
   },
   {
@@ -107,12 +100,88 @@
       ],
       "palettes": [ "afs_habitat_structure" ],
       "terrain": { " ": "t_open_air" },
-      "furniture": {
-        "1": "f_small_satellite_dish",
-        "2": "f_vent_pipe",
-        "3": "f_solar_unit",
-        "4": "f_roof_turbine_vent"
-      }
+      "furniture": { "1": "f_small_satellite_dish", "2": "f_vent_pipe", "3": "f_solar_unit", "4": "f_roof_turbine_vent" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_clinic_unlooted",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "              1 11 2    ",
+        "              1 11 2    ",
+        "              1 11 2    ",
+        "                3       ",
+        "                        ",
+        "                 4      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "4": "t_door_metal_elocked" },
+      "items": {
+        "1": [
+          { "item": "softdrugs", "chance": 60, "repeat": [ 3, 5 ] },
+          { "item": "drugs_analgesic", "chance": 60, "repeat": [ 1, 3 ] }
+        ],
+        "2": [
+          { "item": "harddrugs", "chance": 70, "repeat": [ 1, 2 ] },
+          { "item": "drugs_rare", "chance": 70, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "monster": { "3": { "monster": "mon_afs_commercial_laser_turret" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_clinic_looted",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                 4      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "4": "t_mdoor_frame" }
     }
   }
 ]
