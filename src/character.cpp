@@ -7181,7 +7181,18 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
-    if( actually_used->is_comestible() ) {
+    actually_used->activation_consume(charges_used.value(), pt, this);
+
+    if (actually_used->has_flag(flag_SINGLE_USE) || actually_used->is_bionic() ||
+        actually_used->is_deployable()) {
+        i_rem(actually_used);
+        return true;
+    }
+
+    // Slimes are now able to eat literally everything that is an item.
+    // FIXME: Slimes could accidentally eat things they don't want to eat and vice versa.
+    //  There is no limit on what a slime could or could not eat.  See issue for reference: https://github.com/CleverRaven/Cataclysm-DDA/issues/79209
+    if( actually_used->is_comestible() || ( has_trait( trait_PER_SLIME ) || has_trait( trait_PER_SLIME_OK ) )) {
         const bool ret = consume_effects( *used );
         const int consumed = used->activation_consume( charges_used.value(), pt, this );
         if( consumed == 0 ) {
@@ -7189,14 +7200,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
             i_rem( actually_used );
         }
         return ret;
-    }
-
-    actually_used->activation_consume( charges_used.value(), pt, this );
-
-    if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ||
-        actually_used->is_deployable() ) {
-        i_rem( actually_used );
-        return true;
     }
 
     return false;
