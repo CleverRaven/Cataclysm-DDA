@@ -6930,7 +6930,7 @@ talk_effect_fun_t::func f_knockback( const JsonObject &jo, std::string_view memb
             point d2( rng( -1, 1 ), rng( -1, 1 ) );
 
             // if we pass target_pos == direction_pos to knockback()->continue_line() the game gonna crash
-            while( d2 == point( 0, 0 ) ) {
+            while( d2 == point::zero ) {
                 d2 = point( rng( -1, 1 ), rng( -1, 1 ) );
             }
 
