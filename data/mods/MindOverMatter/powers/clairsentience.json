@@ -117,7 +117,7 @@
     "id": "clair_night_vision",
     "type": "SPELL",
     "name": "[Ψ]Night Eyes (C)",
-    "description": "You are able to sense your surroundings in areas of low, and you can even \"see\" in pitch darkness.  Strictly speaking, this is not vision, and you cannot discern fine details or read.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "description": "You are able to sense your surroundings in areas of low light, and you can even \"see\" in pitch darkness.  Strictly speaking, this is not vision, and you cannot discern fine details or read.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
