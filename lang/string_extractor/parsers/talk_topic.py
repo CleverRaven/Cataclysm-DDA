@@ -33,7 +33,7 @@ dynamic_line_string_keys = [
     "player_see_u", "player_see_npc",
     "u_is_driven", "npc_is_driven",
     "u_is_remote_controlled", "npc_is_remote_controlled",
-    "u_can_fly", "npc_can_fly", 
+    "u_can_fly", "npc_can_fly",
     "u_is_flying", "npc_is_flying",
     "u_is_in_air", "npc_is_in_air",
     "u_can_float", "npc_can_float",
