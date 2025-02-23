@@ -1406,18 +1406,6 @@ You can see selected location.
 | "loc_1" | **mandatory** | [variable object](#variable-object) | One of two points of the line |
 | "loc_2" | **mandatory** | [variable object](#variable-object) | Second of two points of the line |
 | "with_fields" | optional | bool | If false, ignores opaque fields. Default true |
-"u_is_remote_controlled"
-```
-
-### `u_can_fly`, `npc_can_fly`
-- type: simple string
-- return true if alpha or beta talker is a vehicle capable of flight
-
-#### Valid talkers:
-
-| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
-| ------ | --------- | --------- | ---- | ------- | --- | ---- |
-| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
 
 #### Examples
 
@@ -1435,6 +1423,37 @@ You can see selected location.
       }
   ]
 }
+```
+
+### `u_is_remote_controlled`, `npc_is_remote_controlled`
+- type: simple string
+- return true if alpha or beta talker is a vehicle being remote controlled by the player
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+#### Examples
+
+```json
+"u_is_remote_controlled"
+```
+
+### `u_can_fly`, `npc_can_fly`
+- type: simple string
+- return true if alpha or beta talker is a vehicle capable of flight
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✔️ |
+
+#### Examples
+
+```json
 "u_can_fly"
 ```
 
@@ -1793,7 +1812,7 @@ If beta talker is NPC, take control of it
 ##### Valid talkers:
 
 | Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
-| ------ | --------- | --------- | ---- | ------- | ---  | 
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
 | ❌ | ❌ | ✔️ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
@@ -1814,7 +1833,7 @@ Works only with your followers
 ##### Valid talkers:
 
 | Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
-| ------ | --------- | --------- | ---- | ------- | ---  | 
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
 | ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
@@ -1834,7 +1853,7 @@ Marks the given achievement as complete
 ##### Valid talkers:
 
 | Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
-| ------ | --------- | --------- | ---- | ------- | ---  | 
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
 | ✔️ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
 ##### Examples
@@ -1876,7 +1895,7 @@ Will remove mission from the player's active mission list without failing it.
 
 | Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
 | ------ | --------- | --------- | ---- | ------- | --- | ---- |
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ || ✔️ 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | 
 
 ##### Examples
 removes `MISSION_BONUS_KILL_BOSS` mission from your list
@@ -1899,7 +1918,7 @@ Will complete mission the player has, in one way or another
 
 | Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
 | ------ | --------- | --------- | ---- | ------- | --- | ---- |
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ || ✔️ 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
 Complete the mission `DID_I_WIN` as failed
@@ -2352,7 +2371,7 @@ The correspondence between "foreach" and "target" is as follows.
 ##### Valid talkers:
 
 | Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
-| ------ | --------- | --------- | ---- | ------- | --- |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
 | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
