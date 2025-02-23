@@ -693,5 +693,15 @@
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Office",
+    "id": [ "afs_small_office_a1_floor_1", "afs_small_office_a1_floor_2", "afs_small_office_a1_floor_3" ],
+    "sym": "o",
+    "color": "light_cyan",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]
