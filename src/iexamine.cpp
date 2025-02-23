@@ -3319,10 +3319,10 @@ bool iexamine::kiln_fire( Character &you, const tripoint_bub_ms &examp )
     }
 
     // Burn stuff that should get charred, leave out the rest
+    int char_charges = kiln_prep_internal( you, examp );
     here.i_clear( examp );
     here.furn_set( examp, next_kiln_type );
     item result( itype_unfinished_charcoal, calendar::turn );
-    int char_charges = kiln_prep_internal( you, examp );
     result.charges = char_charges;
     here.add_item( examp, result );
 
