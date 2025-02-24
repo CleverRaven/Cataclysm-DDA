@@ -64,7 +64,11 @@
         "prob": 5
       },
       {
-        "collection": [ { "item": "exodiiminimag", "count": [ 2, 5 ] }, { "item": "exodiiBRmag", "count": [ 2, 3 ] } ],
+        "collection": [
+          { "item": "exodiiminimag", "count": [ 2, 5 ] },
+          { "item": "exodiiBRmag", "count": [ 2, 3 ] },
+          { "item": "exodiiBRmag_26", "count": [ 3, 5 ] }
+        ],
         "prob": 5
       },
       {
@@ -89,6 +93,8 @@
         "collection": [
           { "item": "exodiiminimag", "count": [ 2, 3 ] },
           { "item": "exodiiBRmag", "count": [ 1, 2 ] },
+          { "item": "exodiiBRmag_153", "count": [ 0, 1 ] },
+          { "item": "exodiiBRmag_26", "count": [ 2, 4 ] },
           { "item": "123ln", "count": [ 0, 100 ] }
         ],
         "prob": 5

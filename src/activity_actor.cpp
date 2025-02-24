@@ -1416,6 +1416,8 @@ std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( Js
 
 void glide_activity_actor::do_turn( player_activity &act, Character &you )
 {
+    map &here = get_map();
+
     tripoint_rel_ms heading;
     if( jump_direction == 0 ) {
         heading = tripoint_rel_ms::south;
@@ -1442,8 +1444,8 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         heading = tripoint_rel_ms::south_east;
     }
     const tripoint_abs_ms newpos = you.pos_abs() + heading;
-    const tripoint_bub_ms checknewpos = you.pos_bub() + heading;
-    if( !get_map().is_open_air( you.pos_bub() ) || heading == tripoint_rel_ms::zero ) {
+    const tripoint_bub_ms checknewpos = you.pos_bub( here ) + heading;
+    if( !here.is_open_air( you.pos_bub( here ) ) || heading == tripoint_rel_ms::zero ) {
         you.add_msg_player_or_npc( m_good,
                                    _( "You come to a gentle landing." ),
                                    _( "<npcname> comes to a gentle landing." ) );
@@ -1452,11 +1454,11 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         act.set_to_null();
         return;
     }   // Have we crashed into a wall?
-    if( get_map().impassable( checknewpos ) ) {
+    if( here.impassable( checknewpos ) ) {
         you.add_msg_player_or_npc( m_bad,
                                    _( "You collide with %s, bringing an abrupt halt to your glide." ),
                                    _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
-                                   get_map().tername( checknewpos ) );
+                                   here.tername( checknewpos ) );
         you.remove_effect( effect_gliding );
         you.gravity_check();
         act.set_to_null();
@@ -1497,9 +1499,7 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         moved_tiles = 0;
     }
     you.mod_moves( -you.get_speed() * 0.5 );
-    get_map().update_visibility_cache( you.posz() );
-    get_map().update_visibility_cache( you.posx() );
-    get_map().update_visibility_cache( you.posy() );
+    here.update_visibility_cache( you.posz() );
     if( you.is_avatar() ) {
         g->update_map( you );
     }
@@ -8479,7 +8479,6 @@ void pulp_activity_actor::start( player_activity &act, Character &you )
     act.moves_total = calendar::INDEFINITELY_LONG;
     act.moves_left = calendar::INDEFINITELY_LONG;
     you.recoil = MAX_RECOIL;
-    current_pos_iter = placement.begin();
 
     pd = g->calculate_character_ability_to_pulp( you );
 }
@@ -8488,41 +8487,41 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
 {
     map &here = get_map();
 
-    bool processed_all = true;
-    tripoint_bub_ms pos = here.get_bub( *current_pos_iter );
-    map_stack corpse_pile = here.i_at( pos );
-    for( item &corpse : corpse_pile ) {
-        if( !corpse.is_corpse() || !corpse.can_revive() ) {
-            // Don't smash non-rezing corpses or random items
-            continue;
-        }
-
-        if( corpse.damage() < corpse.max_damage() ) {
-            bool can_pulp = punch_corpse_once( corpse, you, pos, here );
-            if( !can_pulp ) {
-                ++unpulped_corpses_qty;
+    for( const tripoint_abs_ms &pos_abs : placement ) {
+        tripoint_bub_ms pos = here.get_bub( pos_abs );
+        map_stack corpse_pile = here.i_at( pos );
+        for( item &corpse : corpse_pile ) {
+            if( !corpse.is_corpse() || !corpse.can_revive() ) {
+                // Don't smash non-rezing corpses or random items
                 continue;
             }
-            processed_all = false;
-            break;
+
+            if( corpse.damage() < corpse.max_damage() ) {
+                bool can_pulp = punch_corpse_once( corpse, you, pos, here );
+                if( !can_pulp ) {
+                    ++unpulped_corpses_qty;
+                    continue;
+                }
+                return; // pulp at most one corpse per turn
+            }
         }
     }
 
-    if( current_pos_iter == placement.end() ) {
-        // no more locations to pulp
-        act.moves_total = 0;
-        act.moves_left = 0;
-    }
-    if( processed_all ) {
-        // smashed all possible corpses, moving to next tile
-        current_pos_iter++;
-    }
+    // if we are here, that means we survived the whole previous loop
+    // without pulping anything. I.e. we are done.
+    // Stop the activity.
+    act.moves_total = 0;
+    act.moves_left = 0;
 }
 
 bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
         tripoint_bub_ms pos, map &here )
 {
     const mtype *corpse_mtype = corpse.get_mtype();
+    if( corpse_mtype == nullptr ) {
+        debugmsg( string_format( "Tried to pulp not-a-corpse (id %s)", corpse.typeId().c_str() ) );
+        return false;
+    }
 
     pd = g->calculate_pulpability( you, *corpse_mtype, pd );
 

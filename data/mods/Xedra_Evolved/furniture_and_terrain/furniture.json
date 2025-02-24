@@ -361,5 +361,41 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": -1
+  },
+  {
+    "type": "furniture",
+    "id": "f_alembic",
+    "//": "Just a copy from the Magiclysm one",
+    "name": "standing alembic",
+    "looks_like": "f_still",
+    "description": "A large glass and copper alembic for distilling alchemical concoctions.  It consists of a copper pot with rising spires of twisted glass draining into various removable bottles.",
+    "symbol": "&",
+    "color": "light_blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "crafting_pseudo_item": "still_lab",
+    "flags": [ "TRANSPARENT", "NOITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pot_copper", "count": 1 },
+        { "item": "pipe_glass", "count": [ 1, 4 ] },
+        { "item": "glass_tube_small", "count": [ 5, 10 ] },
+        { "item": "stopcock", "count": [ 1, 5 ] },
+        { "item": "flask_glass", "count": [ 1, 3 ] }
+      ]
+    },
+    "max_volume": "1750 L",
+    "bash": {
+      "str_min": 4,
+      "str_max": 10,
+      "sound": "glass breaking!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap_copper", "count": [ 10, 20 ] },
+        { "item": "stopcock", "count": [ 1, 5 ] },
+        { "item": "glass_shard", "count": [ 25, 50 ] }
+      ]
+    }
   }
 ]

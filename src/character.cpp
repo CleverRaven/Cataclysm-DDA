@@ -8316,21 +8316,25 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     //block reduction should be by applied this point
     int dam = dealt_dams.total_damage();
 
+    const tripoint_bub_ms pos = pos_bub( here );
+
     // TODO: Pre or post blit hit tile onto "this"'s location here
-    if( dam > 0 && get_player_view().sees( here, pos_bub( here ) ) ) {
+    if( dam > 0 && get_player_view().sees( here, pos ) ) {
         g->draw_hit_player( *this, dam );
 
         if( is_avatar() && source ) {
+            const tripoint_bub_ms source_pos = source->pos_bub( here );
+
             //monster hits player melee
-            SCT.add( point( posx(), posy() ),
-                     direction_from( point::zero, point( posx() - source->posx(), posy() - source->posy() ) ),
+            SCT.add( pos.xy().raw(),
+                     direction_from( point::zero, point( pos.x() - source_pos.x(), pos.y() - source_pos.y() ) ),
                      get_hp_bar( dam, get_hp_max( bp ) ).first, m_bad, body_part_name( bp ), m_neutral );
         }
     }
 
     // And slimespawners too
     if( has_trait( trait_SLIMESPAWNER ) && ( dam >= 10 ) && one_in( 20 - dam ) ) {
-        if( monster *const slime = g->place_critter_around( mon_player_blob, pos_bub( here ), 1 ) ) {
+        if( monster *const slime = g->place_critter_around( mon_player_blob, pos, 1 ) ) {
             slime->friendly = -1;
             add_msg_if_player( m_warning, _( "A mass of slime is torn from you, and moves on its own!" ) );
         }
@@ -11255,7 +11259,7 @@ void Character::stagger()
             }
         }
     }
-    const tripoint_bub_ms below( posx(), posy(), posz() - 1 );
+    const tripoint_bub_ms below = pos_bub( here ) + tripoint::below;
     if( here.valid_move( pos_bub(), below, false, true ) ) {
         valid_stumbles.push_back( below );
     }

@@ -112,5 +112,51 @@
         { "item": "polycarbonate_sheet", "count": [ 1, 2 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ev_charger",
+    "name": "automated charging station",
+    "looks_like": "f_console",
+    "description": "An automated charging console for electric vehicles.",
+    "symbol": "9",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 25,
+    "flags": [ "SEALED", "ALARMED", "BLOCKSDOOR" ],
+    "bash": { "str_min": 7, "str_max": 30, "sound": "glass breaking!", "sound_fail": "whack!", "furn_set": "f_ev_charger_o" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ev_charger_o",
+    "name": "broken automated charging station",
+    "looks_like": "f_console_broken",
+    "description": "An automated charging console for electric vehicles.  It's broken.  This is not a good thing.",
+    "symbol": "9",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 20,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 5,
+      "str_max": 45,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "plastic_chunk", "count": [ 20, 40 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "cable", "charges": [ 70, 140 ] },
+        { "item": "RAM", "count": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 10, 20 ] },
+        { "item": "circuit", "count": [ 2, 5 ] },
+        { "item": "amplifier", "count": [ 0, 1 ] },
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "power_supply", "count": [ 2, 5 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
   }
 ]

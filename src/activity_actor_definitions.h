@@ -2431,9 +2431,7 @@ class pulp_activity_actor : public activity_actor
         void send_final_message( Character &you ) const;
 
         std::unique_ptr<activity_actor> clone() const override {
-            auto plp = std::make_unique<pulp_activity_actor>( *this );
-            plp.get()->current_pos_iter = plp.get()->placement.begin();
-            return plp;
+            return std::make_unique<pulp_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;
@@ -2458,9 +2456,6 @@ class pulp_activity_actor : public activity_actor
         int num_corpses = 0;
 
         pulp_data pd;
-
-        // what `placement` we are currently at
-        std::set<tripoint_abs_ms>::const_iterator current_pos_iter; // NOLINT(cata-serialize)
 };
 
 class wait_stamina_activity_actor : public activity_actor

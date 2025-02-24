@@ -14,7 +14,27 @@
     "stack_size": 47,
     "ammo_type": "afs_7.50mm",
     "range": 36,
-    "damage": { "damage_type": "bullet", "amount": 44, "armor_penetration": 2 },
+    "damage": { "damage_type": "bullet", "amount": 45, "armor_penetration": 15 },
+    "dispersion": 30,
+    "recoil": 1500,
+    "extend": { "effects": [ "COOKOFF" ], "flags": [ "CASELESS_ROUNDS" ] }
+  },
+  {
+    "id": "afs_7.50mm_ap_caseless",
+    "type": "AMMO",
+    "name": { "str_sp": "7.50mm AP caseless" },
+    "description": "Armor piercing 7.50mm ammunition with a tungsten carbide penetrator.  These rounds are designed to defeat body armor and other hard targets, but have reduced stopping power against unarmored targets.",
+    "weight": "12 g",
+    "volume": "194 ml",
+    "price": "2 USD 80 cent",
+    "material": [ "lead" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 30,
+    "stack_size": 47,
+    "ammo_type": "afs_7.50mm",
+    "range": 36,
+    "damage": { "damage_type": "bullet", "amount": 35, "armor_penetration": 30 },
     "dispersion": 30,
     "recoil": 1500,
     "extend": { "effects": [ "COOKOFF" ], "flags": [ "CASELESS_ROUNDS" ] }
@@ -57,7 +77,7 @@
     "stack_size": 1,
     "recoil": 100,
     "effects": [ "NEVER_MISFIRES", "CASELESS_ROUNDS" ],
-    "damage": { "damage_type": "bullet", "amount": 35, "armor_penetration": 5 },
+    "damage": { "damage_type": "bullet", "amount": 35, "armor_penetration": 15 },
     "critical_multiplier": 10,
     "dispersion": 0
   }
