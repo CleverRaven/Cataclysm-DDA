@@ -114,14 +114,13 @@
     "qualities": [ [ "WELD", 2 ] ],
     "flags": [ "ALLOWS_REMOTE_USE", "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "OVERHEATS", "BELT_CLIP" ],
     "gun_data": {
+      "skill": "launcher",
       "dispersion": 1500,
       "ammo_to_fire": 2,
       "recoil": 30,
       "durability": 6,
       "loudness": 5,
       "reload": 2200,
-      "delete": { "ammo_effects": [ "FLAME", "EXPLOSIVE_SMALL" ] },
-      "extend": { "ammo_effects": [ "DAZZLE_BEAM", "OVERHEATS" ] },
       "range": 3,
       "overheat_threshold": 100,
       "cooling_value": 3,
@@ -129,6 +128,8 @@
       "ranged_damage": [ { "damage_type": "afs_plasma", "amount": 45 } ],
       "valid_mod_locations": [ [ "sling", 1 ] ]
     },
+    "delete": { "ammo_effects": [ "FLAME", "EXPLOSIVE_SMALL" ] },
+    "extend": { "ammo_effects": [ "DAZZLE_BEAM", "OVERHEATS" ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
