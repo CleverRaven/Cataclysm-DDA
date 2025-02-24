@@ -311,7 +311,6 @@
         "dangerous": false,
         "transparent": true,
         "color": "light_gray",
-        "move_cost": 25,
         "effects": [
           {
             "effect_id": "downed",
@@ -331,7 +330,7 @@
         "dangerous": false,
         "transparent": true,
         "color": "white",
-        "move_cost": 50,
+        "move_cost": 2,
         "effects": [
           {
             "effect_id": "downed",
@@ -351,7 +350,7 @@
         "dangerous": true,
         "transparent": true,
         "color": "white",
-        "move_cost": 75,
+        "move_cost": 4,
         "effects": [
           {
             "effect_id": "downed",
