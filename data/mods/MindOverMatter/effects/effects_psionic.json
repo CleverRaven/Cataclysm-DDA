@@ -790,6 +790,30 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_biokin_guided_evolution",
+    "name": [ "Guided Evolution" ],
+    "desc": [ "Whenever you mutate, you may pick the resulting mutation from a selection of options." ],
+    "apply_message": "",
+    "remove_message": "You are no longer controlling your evolution.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MUT_ADDITIONAL_OPTIONS",
+            "add": {
+              "math": [
+                "max( 1, ( 1 + ( u_spell_level('biokin_guided_evolution') * 0.25 ) * scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling )"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biokin_perfected_motion",
     "name": [ "Perfected Motion" ],
     "desc": [ "You feel like you can outrun a locomotive." ],

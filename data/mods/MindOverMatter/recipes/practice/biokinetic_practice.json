@@ -1093,7 +1093,10 @@
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
           {
             "run_eocs": "EOC_PRACTICE_BIOKIN_VITAMINOSIS_LEARNING",
-            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(u_spell_difficulty('biokin_vitaminosis'))" ] }, { "math": [ "learn_new_power_upper_time_bound(u_spell_difficulty('biokin_vitaminosis'))" ] } ]
+            "time_in_future": [
+              { "math": [ "learn_new_power_lower_time_bound(u_spell_difficulty('biokin_vitaminosis'))" ] },
+              { "math": [ "learn_new_power_upper_time_bound(u_spell_difficulty('biokin_vitaminosis'))" ] }
+            ]
           }
         ]
       }

@@ -489,9 +489,7 @@
         { "not": { "u_know_recipe": "practice_biokin_vitaminosis" } }
       ]
     },
-    "deactivate_condition": {
-      "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_vitaminosis') >= 1" ] } ]
-    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "BIOKINETIC" } }, { "math": [ "u_spell_level('biokin_vitaminosis') >= 1" ] } ] },
     "effect": [
       { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_biokin_vitaminosis" },

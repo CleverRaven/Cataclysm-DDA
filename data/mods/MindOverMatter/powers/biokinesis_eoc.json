@@ -208,9 +208,7 @@
             { "math": [ "u_vitamin('vitC') <= -100" ] }
           ]
         },
-        {
-          "math": [ "u_calories() > 50000" ]
-        }
+        { "math": [ "u_calories() > 50000" ] }
       ]
     },
     "effect": [
