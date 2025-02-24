@@ -1495,9 +1495,10 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
     std::sort( traits.begin(), traits.end(), compareTraits );
 
     int additional_options = calculate_by_enchantment( 0, enchant_vals::mod::MUT_ADDITIONAL_OPTIONS );
+    int traits_size = traits.size();
 
     if( !get_option<bool>( "SHOW_MUTATION_SELECTOR" ) && additional_options >= 1 &&
-        additional_options < traits.size() ) {
+        additional_options < traits_size ) {
         size_t primary_index = 0;
         // Logic REQUIRES that traits are sorted by points
         size_t end_index = traits.size() - 1;
@@ -1535,7 +1536,7 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
         }
         size_t below_index = primary_index;
         size_t above_index = primary_index + 1;
-        size_t added_traits = 0;
+        int added_traits = 0;
         std::vector<trait_id> selectable_traits = { traits[primary_index] };
         while( added_traits < additional_options ) {
             // Cannot check < 0 since size_t is unsigned.  Resolve by adding 1 to the stored value and making check off of that, and subtracting 1 when using it.
