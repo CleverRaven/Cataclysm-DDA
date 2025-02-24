@@ -114,7 +114,7 @@
     "id": "changeling_spring_prevent_bad_conditions_spell",
     "type": "SPELL",
     "name": "Spring Cleansing",
-    "description": "Like a house after a long winter, this glamour removes impurities in the target's body, curing them of poison or disease and preventing them from reoccuring while it lasts.  The glamour's duration is <color_yellow>greatly reduced</color> in the autumn.",
+    "description": "Like a house after a long winter, this glamour removes impurities in the target's body, curing them of poison or disease and preventing them from reoccurring while it lasts.  The glamour's duration is <color_yellow>greatly reduced</color> in the autumn.",
     "message": "",
     "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_spring",
