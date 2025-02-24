@@ -2927,11 +2927,13 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
 {
     tripoint_bub_ms p = pt;
     map &here = get_map();
+    const tripoint_bub_ms pos = pos_bub( here );
+
     if( sees_dangerous_field( p )
         || ( nomove != nullptr && nomove->find( p ) != nomove->end() ) ) {
         // Move to a neighbor field instead, if possible.
         // Maybe this code already exists somewhere?
-        std::vector<tripoint_bub_ms> other_points = here.get_dir_circle( pos_bub(), p );
+        std::vector<tripoint_bub_ms> other_points = here.get_dir_circle( pos, p );
         for( const tripoint_bub_ms &ot : other_points ) {
             if( could_move_onto( ot )
                 && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {
@@ -2945,20 +2947,20 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
     recoil = MAX_RECOIL;
 
     if( has_effect( effect_stunned ) || has_effect( effect_psi_stunned ) ) {
-        p.x() = rng( posx() - 1, posx() + 1 );
-        p.y() = rng( posy() - 1, posy() + 1 );
-        p.z() = posz();
+        p.x() = rng( pos.x() - 1, pos.x() + 1 );
+        p.y() = rng( pos.y() - 1, pos.y() + 1 );
+        p.z() = pos.z();
     }
 
     // nomove is used to resolve recursive invocation, so reset destination no
     // matter it was changed by stunned effect or not.
     if( nomove != nullptr && nomove->find( p ) != nomove->end() ) {
-        p = pos_bub();
+        p = pos;
     }
 
     // "Long steps" are allowed when crossing z-levels
     // Stairs teleport the player too
-    if( rl_dist( pos_bub(), p ) > 1 && p.z() == posz() ) {
+    if( rl_dist( pos, p ) > 1 && p.z() == pos.z() ) {
         // On the same level? Not so much. Something weird happened
         path.clear();
         move_pause();
@@ -3014,9 +3016,9 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
             }
             // other npcs should not try to move into this npc anymore,
             // so infinite loop can be avoided.
-            realnomove->insert( pos_bub() );
+            realnomove->insert( pos );
             say( chat_snippets().snip_let_me_pass.translated() );
-            np->move_away_from( pos_bub(), true, realnomove );
+            np->move_away_from( pos, true, realnomove );
             // if we moved NPC, readjust their path, so NPCs don't jostle each other out of their activity paths.
             if( np->attitude == NPCATT_ACTIVITY ) {
                 std::vector<tripoint_bub_ms> activity_route = np->get_auto_move_route();
@@ -3032,7 +3034,7 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
             }
         }
 
-        if( critter->pos_bub() == p ) {
+        if( critter->pos_bub( here ) == p ) {
             move_pause();
             return;
         }
@@ -3040,7 +3042,7 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
 
     // Boarding moving vehicles is fine, unboarding isn't
     bool moved = false;
-    if( const optional_vpart_position vp = here.veh_at( pos_bub() ) ) {
+    if( const optional_vpart_position vp = here.veh_at( pos ) ) {
         const optional_vpart_position ovp = here.veh_at( p );
         if( vp->vehicle().is_moving() &&
             ( veh_pointer_or_null( ovp ) != veh_pointer_or_null( vp ) ||
@@ -3051,7 +3053,7 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
     }
 
     Character &player_character = get_player_character();
-    if( p.z() != posz() ) {
+    if( p.z() != pos.z() ) {
         // Z-level move
         // For now just teleport to the destination
         // TODO: Make it properly find the tile to move to
@@ -3067,9 +3069,9 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
         attack_air( p );
         move_pause();
     } else if( here.passable( p ) && !here.has_flag( ter_furn_flag::TFLAG_DOOR, p ) ) {
-        bool diag = trigdist && posx() != p.x() && posy() != p.y();
+        bool diag = trigdist && pos.x() != p.x() && pos.y() != p.y();
         if( is_mounted() ) {
-            const double base_moves = run_cost( here.combined_movecost( pos_bub(), p ),
+            const double base_moves = run_cost( here.combined_movecost( pos, p ),
                                                 diag ) * 100.0 / mounted_creature->get_speed();
             const double encumb_moves = get_weight() / 4800.0_gram;
             mod_moves( -static_cast<int>( std::ceil( base_moves + encumb_moves ) ) );
@@ -3077,12 +3079,12 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
                 mounted_creature->use_mech_power( 1_kJ );
             }
         } else {
-            mod_moves( -run_cost( here.combined_movecost( pos_bub(), p ), diag ) );
+            mod_moves( -run_cost( here.combined_movecost( pos, p ), diag ) );
         }
         moved = true;
-    } else if( here.open_door( *this, p, !here.is_outside( pos_bub() ), true ) ) {
+    } else if( here.open_door( *this, p, !here.is_outside( pos ), true ) ) {
         if( !is_hallucination() ) { // hallucinations don't open doors
-            here.open_door( *this, p, !here.is_outside( pos_bub() ) );
+            here.open_door( *this, p, !here.is_outside( pos ) );
             mod_moves( -get_speed() );
         } else { // hallucinations teleport through doors
             mod_moves( -get_speed() );
@@ -3123,7 +3125,7 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
 
     if( moved ) {
         make_footstep_noise();
-        const tripoint_bub_ms old_pos = pos_bub( here );
+        const tripoint_bub_ms old_pos = pos;
         setpos( here, p );
         if( old_pos.x() - p.x() < 0 ) {
             facing = FacingDirection::RIGHT;
@@ -3139,14 +3141,14 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
                 here.creature_on_trap( *mounted_creature );
             }
         }
-        if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos_bub( here ) ) &&
-            !here.has_vehicle_floor( pos_bub() ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, pos ) &&
+            !here.has_vehicle_floor( pos ) ) {
             add_effect( effect_bouldering, 1_turns, true );
         } else if( has_effect( effect_bouldering ) ) {
             remove_effect( effect_bouldering );
         }
 
-        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_SIGHT, pos_bub( here ) ) ) {
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_SIGHT, pos ) ) {
             add_effect( effect_no_sight, 1_turns, true );
         } else if( has_effect( effect_no_sight ) ) {
             remove_effect( effect_no_sight );
@@ -3158,11 +3160,11 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
 
         // Close doors behind self (if you can)
         if( ( rules.has_flag( ally_rule::close_doors ) && is_player_ally() ) && !is_hallucination() ) {
-            doors::close_door( here, *this, tripoint_bub_ms( old_pos ) );
+            doors::close_door( here, *this, old_pos );
         }
         // Lock doors as well
         if( ( rules.has_flag( ally_rule::lock_doors ) && is_player_ally() ) && !is_hallucination() ) {
-            doors::lock_door( here, *this, tripoint_bub_ms( old_pos ) );
+            doors::lock_door( here, *this, old_pos );
         }
 
         if( here.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {

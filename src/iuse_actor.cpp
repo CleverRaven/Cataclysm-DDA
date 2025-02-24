@@ -4300,6 +4300,8 @@ std::optional<int> place_trap_actor::use( Character *p, item &it, map *here,
         return std::nullopt;
     }
 
+    const tripoint_bub_ms p_pos = p->pos_bub( *here );
+
     const bool could_bury = !bury_question.empty();
     if( !allow_underwater && p->cant_do_underwater() ) {
         return std::nullopt;
@@ -4323,8 +4325,8 @@ std::optional<int> place_trap_actor::use( Character *p, item &it, map *here,
                                   outer_layer_trap.obj().get_trap_radius() + 1;
     if( unburied_data.trap.obj().get_trap_radius() > 0 ) {
         // Math correction for multi-tile traps
-        pos.x() = ( pos.x() - p->posx() ) * distance_to_trap_center + p->posx();
-        pos.y() = ( pos.y() - p->posy() ) * distance_to_trap_center + p->posy();
+        pos.x() = ( pos.x() - p_pos.x() ) * distance_to_trap_center + p_pos.x();
+        pos.y() = ( pos.y() - p_pos.y() ) * distance_to_trap_center + p_pos.y();
         for( const tripoint_bub_ms &t : here->points_in_radius( pos,
                 outer_layer_trap.obj().get_trap_radius(),
                 0 ) ) {

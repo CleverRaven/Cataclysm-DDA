@@ -45,7 +45,7 @@
       }
     ],
     "upgrades": { "half_life": 25, "into": "mon_zombie_monochrome_3" },
-    "extend": { "flags": [ "STABILIZED_TIMELINE" ] }
+    "extend": { "flags": [ "PULP_PRYING", "STABILIZED_TIMELINE" ] }
   },
   {
     "id": "mon_zombie_monochrome_3",
@@ -77,7 +77,7 @@
         "monster_message": "The ground around %1$s starts eroding into nothingness."
       }
     ],
-    "extend": { "flags": [ "STABILIZED_TIMELINE" ] },
+    "extend": { "flags": [ "STABILIZED_TIMELINE", "PULP_PRYING" ] },
     "upgrades": false
   },
   {
