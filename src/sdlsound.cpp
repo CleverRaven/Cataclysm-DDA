@@ -32,7 +32,7 @@
 #include "sdl_wrappers.h"
 #include "sounds.h"
 #include "units.h"
-#include <game.h>
+#include "avatar.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -299,9 +299,9 @@ static bool check_sound( const int volume = 1 )
     return sound_init_success && sounds::sound_enabled && volume > 0;
 }
 
-const Uint16 audio_format =
+static const Uint16 audio_format =
     AUDIO_S16; // if this ever changes, do_pitch_shift() and slow_motion_sound() will probably need adjustment
-const int audio_rate = 44100; // samples per second
+static const int audio_rate = 44100; // samples per second
 
 /**
  * Attempt to initialize an audio device.  Returns false if initialization fails.
@@ -425,9 +425,6 @@ void play_music( const std::string &playlist )
 {
     // Don't interrupt playlist that's already playing.
     if( playlist == current_playlist ) {
-        // possibly modify pitch of ongoing music
-        //if (get_avatar().ge)
-
         return;
     } else {
         stop_music();
@@ -723,8 +720,9 @@ struct sound_effect_handler {
         float playbackSpeed = is_time_slowed() ? sound_speed_factor : 1;
 
         for( int dst_index = 0; dst_index < len / bytes_per_sample &&
-             handler->currentSampleI < handler->audio_src->alen / bytes_per_sample; dst_index++ ) {
-            int lowIndex = std::floor( handler->currentSampleI );
+             handler->currentSampleI < std::floorf( handler->audio_src->alen / bytes_per_sample );
+             dst_index++ ) {
+            int lowIndex = std::floorf( handler->currentSampleI );
             int highIndex = std::ceil( handler->currentSampleI );
             if( highIndex == handler->audio_src->alen / bytes_per_sample ) {
                 highIndex = 0;    // make sound wrap around
@@ -732,17 +730,18 @@ struct sound_effect_handler {
 
             for( int ear_offset = 0; ear_offset < 4;
                  ear_offset += 2 ) { // have to handle each ear seperately for stereo audio
-                sample low_value, high_value;
+                sample low_value;
+                sample high_value;
 
                 if( handler->loops_remaining != -1 ) {
-                    memcpy( &low_value, ( uint8_t * )handler->audio_src->abuf + ear_offset + lowIndex *
+                    memcpy( &low_value, static_cast<uint8_t *>( handler->audio_src->abuf ) + ear_offset + lowIndex *
                             bytes_per_sample, sizeof( sample ) );
                 } else {
                     low_value = 0;
                 }
 
                 if( handler->loops_remaining != -1 ) {
-                    memcpy( &high_value, ( uint8_t * )handler->audio_src->abuf + ear_offset + highIndex *
+                    memcpy( &high_value, static_cast<uint8_t *>( handler->audio_src->abuf ) + ear_offset + highIndex *
                             bytes_per_sample, sizeof( sample ) );
                 } else {
                     high_value = 0;
@@ -752,16 +751,16 @@ struct sound_effect_handler {
                 float interpolation_factor = handler->currentSampleI - lowIndex;
                 sample interpolated = ( high_value - low_value ) * interpolation_factor + low_value;
 
-                memcpy( ( uint8_t * )stream + dst_index * bytes_per_sample + ear_offset, &interpolated,
+                memcpy( static_cast<uint8_t *>( stream ) + dst_index * bytes_per_sample + ear_offset, &interpolated,
                         sizeof( sample ) );
             }
 
             handler->currentSampleI += 1.0f * playbackSpeed;
             if( handler->loops_remaining >= 0 &&
-                handler->currentSampleI >= handler->audio_src->alen / bytes_per_sample ) {
+                handler->currentSampleI >= std::floorf( handler->audio_src->alen / bytes_per_sample ) ) {
                 handler->loops_remaining--;
                 handler->currentSampleI = std::fmodf( handler->currentSampleI,
-                                                      handler->audio_src->alen / bytes_per_sample );
+                                                      std::floorf( handler->audio_src->alen / bytes_per_sample ) );
             }
         }
 
@@ -936,11 +935,12 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
         effect_to_play = do_pitch_shift( effect_to_play, static_cast<float>( pitch_mod ) );
     }
 
-    bool error = sound_effect_handler::make_audio( static_cast<int>( channel::any ), effect_to_play, 0,
-                 volume, destroy_sound, selected_sound_effect, std::make_optional( angle ), std::nullopt );
-    if( error )
+    bool failed = sound_effect_handler::make_audio( static_cast<int>( channel::any ), effect_to_play, 0,
+                  volume, destroy_sound, selected_sound_effect, std::make_optional( angle ), std::nullopt );
+    if( failed ) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError() << " id:" << id
                        << " variant:" << variant << " season:" << season;
+    }
 }
 
 void sfx::play_ambient_variant_sound( const std::string &id, const std::string &variant,
@@ -979,9 +979,10 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
     bool failed = sound_effect_handler::make_audio( static_cast<int>( channel ), effect_to_play, loops,
                   volume, destroy_sound, selected_sound_effect, std::nullopt, fade_in_duration );
 
-    if( failed )
+    if( failed ) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError() << " id:" << id
                        << " variant:" << variant << " season:" << season;
+    }
 }
 
 void load_soundset()
