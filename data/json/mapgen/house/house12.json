@@ -91,7 +91,7 @@
         "            |.......|   ",
         "            |.......|   ",
         "          |||.......|   ",
-        "          |F........|   ",
+        "          |â........|   ",
         "  |||||||||.........|   ",
         "  |1...............||   ",
         "  |................|    ",
@@ -105,7 +105,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": { "chunks": [ [ "null", 70 ], [ "7x7_tent_indoors", 10 ], [ "7x7_band_practice_open", 30 ] ] },
         "2": { "chunks": [ [ "null", 70 ], [ "room_7x7_recroom_S", 30 ], [ "room_7x7_wine_cellar_S", 30 ] ] }

@@ -253,7 +253,7 @@
     ],
     "barrel_volume": "1200 ml",
     "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_stovepipe", "fault_double_feed" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiBRmag" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiBRmag", "exodiiBRmag_153", "exodiiBRmag_26" ] } ],
     "melee_damage": { "bash": 12 }
   },
   {

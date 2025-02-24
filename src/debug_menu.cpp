@@ -3085,6 +3085,8 @@ static void debug_menu_game_state()
     avatar &player_character = get_avatar();
     map &here = get_map();
     tripoint_abs_sm abs_sub = here.get_abs_sub();
+    const tripoint_bub_ms pos = player_character.pos_bub( here );
+
     popup( player_character.total_daily_calories_string() );
 
     std::string s = _( "Location %d:%d in %d:%d, %s\n" );
@@ -3116,17 +3118,19 @@ static void debug_menu_game_state()
 
     popup_top(
         s.c_str(),
-        player_character.posx(), player_character.posy(), abs_sub.x(), abs_sub.y(),
+        pos.x(), pos.y(), abs_sub.x(), abs_sub.y(),
         overmap_buffer.ter( player_character.pos_abs_omt() )->get_name( om_vision_level::full ),
         to_turns<int>( calendar::turn - calendar::turn_zero ),
         g->num_creatures() );
     for( const npc &guy : g->all_npcs() ) {
         tripoint_abs_sm t = guy.pos_abs_sm();
+        const tripoint_bub_ms guy_pos = guy.pos_bub( here );
+
         add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.get_name(), t.x(),
-                 t.y(), guy.posx(), guy.posy() );
+                 t.y(), guy_pos.x(), guy_pos.y() );
     }
 
-    add_msg( m_info, _( "(you: %d:%d)" ), player_character.posx(), player_character.posy() );
+    add_msg( m_info, _( "(you: %d:%d)" ), pos.x(), pos.y() );
     std::string stom =
         _( "Stomach Contents: %d mL / %d mL kcal: %d, Water: %d mL" );
     add_msg( m_info, stom.c_str(), units::to_milliliter( player_character.stomach.contains() ),
@@ -3595,12 +3599,15 @@ static void print_npc_magic()
 static void show_sound()
 {
 #if defined(TILES)
+    map &here = get_map();
+
     avatar &player_character = get_avatar();
+    const tripoint_bub_ms pos = player_character.pos_bub( here );
     const auto &sounds_to_draw = sounds::get_monster_sounds();
 
     shared_ptr_fast<game::draw_callback_t> sound_cb = make_shared_fast<game::draw_callback_t>( [&]() {
         const point offset {
-            player_character.view_offset.xy().raw() + point( POSX - player_character.posx(), POSY - player_character.posy() )
+            player_character.view_offset.xy().raw() + point( POSX - pos.x(), POSY - pos.y() )
         };
         wattron( g->w_terrain, c_yellow );
         for( const tripoint_bub_ms &sound : sounds_to_draw.first ) {

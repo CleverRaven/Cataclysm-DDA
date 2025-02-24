@@ -665,7 +665,7 @@ struct OutputDebugStreamA : public std::ostream {
             virtual std::streamsize xsputn( const char *s, std::streamsize n ) override {
                 std::streamsize rc = buf->sputn( s, n ), last = 0, i = 0;
                 for( ; i < n; ++i ) {
-                    if( std::iscntrl( s[i] ) ) {
+                    if( std::iscntrl( static_cast<unsigned char>( s[i] ) ) ) {
                         if( i == last + 1 ) { // Skip multiple empty lines
                             last = i;
                             continue;
@@ -677,7 +677,7 @@ struct OutputDebugStreamA : public std::ostream {
                 }
                 std::string append( s + last, n - last );
                 // Skip if only made of multiple newlines
-                if( none_of( append.begin(), append.end(), []( int c ) {
+                if( none_of( append.begin(), append.end(), []( unsigned char c ) {
                 return std::iscntrl( c );
                 } ) ) {
                     output_string.append( s + last, n - last );

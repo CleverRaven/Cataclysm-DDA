@@ -348,7 +348,7 @@
     "replace": "rifle_sniper_mag"
   },
   {
-    "id": [ "exodiiBRmag", "robofac60_123ln" ],
+    "id": [ "exodiiBRmag", "exodiiBRmag_153", "exodiiBRmag_26", "robofac60_123ln" ],
     "type": "MIGRATION",
     "replace": "rifle_mag_foreign"
   },

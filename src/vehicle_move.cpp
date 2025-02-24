@@ -2210,10 +2210,11 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             continue;
         }
 
+        const tripoint_bub_ms rider_pos = rider->pos_bub( here );
         const tripoint_bub_ms part_pos = veh.bub_part_pos( here, ps );
         if( rider->pos_bub() != part_pos ) {
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
-                      rider->posx(), rider->posy(), rider->posz(),
+                      rider_pos.x(), rider_pos.y(), rider_pos.z(),
                       part_pos.x(), part_pos.y(), part_pos.z() );
             veh.part( ps ).remove_flag( vp_flag::passenger_flag );
             continue;

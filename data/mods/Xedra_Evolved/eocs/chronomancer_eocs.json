@@ -34,7 +34,13 @@
         {
           "or": [
             {
-              "compare_string": [ { "context_val": "victim_type" }, "mon_hound_tindalos", "mon_zombie_monochrome_2", "mon_skeleton_master" ]
+              "compare_string": [
+                { "context_val": "victim_type" },
+                "mon_hound_tindalos",
+                "mon_zombie_monochrome_2",
+                "mon_skeleton_master",
+                "mon_boomer_monochrome"
+              ]
             }
           ]
         }
