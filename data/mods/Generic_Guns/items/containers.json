@@ -92,7 +92,15 @@
     "description": "This box holds 10 rounds of shotshell ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
     "weight": "28 g",
     "volume": "307 ml",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "190 ml", "max_contains_weight": "470 g", "rigid": true } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "190 ml",
+        "max_contains_weight": "470 g",
+        "max_item_length": "10 cm",
+        "rigid": true
+      }
+    ],
     "symbol": ")"
   }
 ]
