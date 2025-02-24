@@ -3628,7 +3628,6 @@ units::mass vehicle::unloaded_mass() const
 {
     units::mass m_total = 0_gram;
     for( const vpart_reference &vp : get_all_parts() ) {
-        const size_t i = vp.part_index();
         if( vp.part().removed || vp.part().is_fake ) {
             continue;
         }
