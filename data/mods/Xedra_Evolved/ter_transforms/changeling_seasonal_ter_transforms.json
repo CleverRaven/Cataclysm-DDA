@@ -119,12 +119,12 @@
       },
       {
         "result": "f_dirtmound_shallow_harvest",
-        "valid_furniture": [ "f_dirtmound_shallow_seed" ],
+        "valid_furniture": [ "f_dirtmound_shallow_mature" ],
         "message": "The plant's buds swell, fruiting and growing.  Before you even lower your hands, it's ripe and ready for the harvest."
       },
       {
         "result": "f_dirtmound_pile_harvest",
-        "valid_furniture": [ "f_dirtmound_pile_seed" ],
+        "valid_furniture": [ "f_dirtmound_pile_mature" ],
         "message": "The plant's buds swell, fruiting and growing.  Before you even lower your hands, it's ripe and ready for the harvest."
       }
     ]

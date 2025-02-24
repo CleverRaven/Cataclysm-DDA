@@ -651,7 +651,7 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_WINTER_TIER_4",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_winter_neutralize_morale_spell" ],
+        "u_roll_remainder": [ "changeling_winter_hail_attack_spell" ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],

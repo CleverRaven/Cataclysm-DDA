@@ -7,7 +7,7 @@
         "text": "[Autumn Glamour] *Use Scarecrow's Mien*.",
         "condition": {
           "and": [
-            { "math": [ "( u_spell_level('changeling_autumn_scare_humans_spell') > 0" ] },
+            { "math": [ "u_spell_level('changeling_autumn_scare_humans_spell') > 0" ] },
             {
               "math": [
                 "u_val('mana') > max( ( 300 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 4) - (u_skill('deduction') * 7)), 150)"
@@ -17,11 +17,12 @@
         },
         "trial": {
           "type": "CONDITION",
+          "//": "5 * 9 in the formula is because Scarecrow's Mien has a Difficulty of 5",
           "condition": {
             "roll_contested": { "math": [ "0" ] },
             "difficulty": {
               "math": [
-                "(15 + (global_what_is_the_season == 1 ? 35 : 0 ) + (global_what_is_the_season == 2 ? 15 : 0 ) + (global_what_is_the_season == 4 ? 15 : 0 ) + (u_spell_difficulty(_spell_id) * 9 ) + (xe_fey_magick_mana_penalty() * 100) ) - ( (u_skill('deduction') * 6) + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 4) )"
+                "(15 + (global_what_is_the_season == 1 ? 35 : 0 ) + (global_what_is_the_season == 2 ? 15 : 0 ) + (global_what_is_the_season == 4 ? 15 : 0 ) + (5 * 9 ) + (xe_fey_magick_mana_penalty() * 100) ) - ( (u_skill('deduction') * 6) + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 4) )"
               ]
             },
             "die_size": 100
