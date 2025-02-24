@@ -1416,6 +1416,8 @@ std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( Js
 
 void glide_activity_actor::do_turn( player_activity &act, Character &you )
 {
+    map &here = get_map();
+
     tripoint_rel_ms heading;
     if( jump_direction == 0 ) {
         heading = tripoint_rel_ms::south;
@@ -1442,8 +1444,8 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         heading = tripoint_rel_ms::south_east;
     }
     const tripoint_abs_ms newpos = you.pos_abs() + heading;
-    const tripoint_bub_ms checknewpos = you.pos_bub() + heading;
-    if( !get_map().is_open_air( you.pos_bub() ) || heading == tripoint_rel_ms::zero ) {
+    const tripoint_bub_ms checknewpos = you.pos_bub( here ) + heading;
+    if( !here.is_open_air( you.pos_bub( here ) ) || heading == tripoint_rel_ms::zero ) {
         you.add_msg_player_or_npc( m_good,
                                    _( "You come to a gentle landing." ),
                                    _( "<npcname> comes to a gentle landing." ) );
@@ -1452,11 +1454,11 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         act.set_to_null();
         return;
     }   // Have we crashed into a wall?
-    if( get_map().impassable( checknewpos ) ) {
+    if( here.impassable( checknewpos ) ) {
         you.add_msg_player_or_npc( m_bad,
                                    _( "You collide with %s, bringing an abrupt halt to your glide." ),
                                    _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
-                                   get_map().tername( checknewpos ) );
+                                   here.tername( checknewpos ) );
         you.remove_effect( effect_gliding );
         you.gravity_check();
         act.set_to_null();
@@ -1497,9 +1499,7 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         moved_tiles = 0;
     }
     you.mod_moves( -you.get_speed() * 0.5 );
-    get_map().update_visibility_cache( you.posz() );
-    get_map().update_visibility_cache( you.posx() );
-    get_map().update_visibility_cache( you.posy() );
+    here.update_visibility_cache( you.posz() );
     if( you.is_avatar() ) {
         g->update_map( you );
     }

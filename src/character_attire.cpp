@@ -14,6 +14,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -40,7 +41,6 @@
 #include "output.h"
 #include "pimpl.h"
 #include "pocket_type.h"
-#include "point.h"
 #include "relic.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -1936,7 +1936,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
 
         if( destroy ) {
             if( get_player_view().sees( here, guy ) ) {
-                SCT.add( point( guy.posx(), guy.posy() ), direction::NORTH, remove_color_tags( pre_damage_name ),
+                SCT.add( guy.pos_bub( here ).xy().raw(), direction::NORTH, remove_color_tags( pre_damage_name ),
                          m_neutral, _( "destroyed" ), m_info );
             }
             destroyed_armor_msg( guy, pre_damage_name );
