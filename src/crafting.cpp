@@ -287,7 +287,7 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
     const units::mass &craft_mass = craft.weight();
     const units::volume &craft_volume = craft.volume();
 
-    units::mass lifting_mass = best_nearby_lifting_assist();
+    units::mass lifting_mass = best_nearby_lifting_assist( here );
 
     if( lifting_mass > craft_mass ) {
         return multiplier;
@@ -600,7 +600,9 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
 
 bool Character::can_make( const recipe *r, int batch_size ) const
 {
-    const inventory &crafting_inv = crafting_inventory();
+    map &here = get_map();
+
+    const inventory &crafting_inv = crafting_inventory( here );
 
     if( !has_recipe( r ) ) {
         return false;
@@ -617,6 +619,8 @@ bool Character::can_make( const recipe *r, int batch_size ) const
 bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
                                  int batch_size ) const
 {
+    map &here = get_map();
+
     if( !rec ) {
         return false;
     }
@@ -625,29 +629,23 @@ bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
         return false;
     }
 
-    const inventory &inv = crafting_inventory();
+    const inventory &inv = crafting_inventory( here );
     return rec->deduped_requirements().can_make_with_inventory(
                inv, rec->get_component_filter( flags ), batch_size, craft_flags::start_only );
 }
 
-const inventory &Character::crafting_inventory( bool clear_path ) const
+const inventory &Character::crafting_inventory( map &here, bool clear_path ) const
 {
-    return crafting_inventory( tripoint_bub_ms::zero, PICKUP_RANGE, clear_path );
+    return crafting_inventory( here, tripoint_bub_ms::zero, PICKUP_RANGE, clear_path );
 }
 
-const inventory &Character::crafting_inventory( const tripoint_bub_ms &src_pos, int radius,
-        bool clear_path ) const
-{
-    return Character::crafting_inventory( &get_map(), src_pos, radius, clear_path );
-}
-
-const inventory &Character::crafting_inventory( map *here, const tripoint_bub_ms &src_pos,
+const inventory &Character::crafting_inventory( map &here, const tripoint_bub_ms &src_pos,
         int radius,
         bool clear_path ) const
 {
     tripoint_bub_ms inv_pos = src_pos;
     if( src_pos == tripoint_bub_ms::zero ) {
-        inv_pos = pos_bub( *here );
+        inv_pos = pos_bub( here );
     }
     if( crafting_cache.valid
         && moves == crafting_cache.moves
@@ -659,7 +657,7 @@ const inventory &Character::crafting_inventory( map *here, const tripoint_bub_ms
     }
     crafting_cache.crafting_inventory->clear();
     if( radius >= 0 ) {
-        crafting_cache.crafting_inventory->form_from_map( here, inv_pos, radius, this, false, clear_path );
+        crafting_cache.crafting_inventory->form_from_map( &here, inv_pos, radius, this, false, clear_path );
     }
 
     std::map<itype_id, int> tmp_liq_list;
@@ -1583,6 +1581,8 @@ bool Character::can_continue_craft( item &craft )
 
 bool Character::can_continue_craft( item &craft, const requirement_data &continue_reqs )
 {
+    map &here = get_map();
+
     const recipe &rec = craft.get_making();
     if( !rec.character_has_required_proficiencies( *this ) ) {
         return false;
@@ -1604,7 +1604,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
         // continue_reqs are for all batches at once
         const int batch_size = 1;
 
-        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), std_filter, batch_size ) ) {
+        if( !continue_reqs.can_make_with_inventory( crafting_inventory( here ), std_filter, batch_size ) ) {
             if( is_avatar() ) {
                 std::string buffer = _( "You don't have the required components to continue crafting!" );
                 buffer += "\n";
@@ -1623,7 +1623,8 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
             return false;
         }
 
-        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), no_rotten_filter, batch_size ) ) {
+        if( !continue_reqs.can_make_with_inventory( crafting_inventory( here ), no_rotten_filter,
+                batch_size ) ) {
             if( !query_yn( _( "Some components required to continue are rotten.\n"
                               "Continue crafting anyway?" ) ) ) {
                 return false;
@@ -1631,7 +1632,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
             use_rotten_filter = false;
         }
 
-        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), no_favorite_filter,
+        if( !continue_reqs.can_make_with_inventory( crafting_inventory( here ), no_favorite_filter,
                 batch_size ) ) {
             if( !query_yn( _( "Some components required to continue are favorite.\n"
                               "Continue crafting anyway?" ) ) ) {
@@ -1696,7 +1697,7 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
                 std::vector<std::vector<quality_requirement>>(),
                 std::vector<std::vector<item_comp>>() );
 
-        if( !tool_continue_reqs.can_make_with_inventory( crafting_inventory(), return_true<item> ) ) {
+        if( !tool_continue_reqs.can_make_with_inventory( crafting_inventory( here ), return_true<item> ) ) {
             if( is_avatar() ) {
                 std::string buffer = _( "You don't have the necessary tools to continue crafting!" );
                 buffer += "\n";
@@ -2199,6 +2200,7 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
                                   read_only_visitable &map_inv, bool can_cancel, bool player_inv, bool npc_query,
                                   const std::function<int( int )> &charges_required_modifier )
 {
+    map &here = get_map();
 
     comp_selection<tool_comp> selected;
     auto calc_charges = [&]( const tool_comp & t, bool ui = false ) {
@@ -2216,7 +2218,7 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
         itype_id type = it->type;
         if( it->count > 0 ) {
             const int count = calc_charges( *it );
-            if( player_inv && crafting_inventory( pos_bub(), -1 ).has_charges( type, count ) ) {
+            if( player_inv && crafting_inventory( here, pos_bub( here ), -1 ).has_charges( type, count ) ) {
                 player_has.push_back( *it );
             }
             if( map_inv.has_charges( type, count ) ) {
@@ -2225,7 +2227,7 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
             // Needed for tools that can have power in a different location, such as a UPS.
             // Will only populate if no other options were found.
             if( player_inv && player_has.size() + map_has.size() == 0 &&
-                crafting_inventory().has_charges( type, count ) ) {
+                crafting_inventory( here ).has_charges( type, count ) ) {
                 both_has.push_back( *it );
             }
         } else if( ( player_inv && has_amount( type, 1 ) ) || map_inv.has_tools( type, 1 ) ) {
@@ -2325,6 +2327,8 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
 
 bool Character::craft_consume_tools( item &craft, int multiplier, bool start_craft )
 {
+    map &here = get_map();
+
     if( !craft.is_craft() ) {
         debugmsg( "craft_consume_tools() called on non-craft '%s.' Aborting.", craft.tname() );
         return false;
@@ -2389,7 +2393,7 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                     }
                     break;
                 case usage_from::both:
-                    if( !crafting_inventory().has_charges( type, count ) ) {
+                    if( !crafting_inventory( here ).has_charges( type, count ) ) {
                         add_msg_player_or_npc(
                             _( "You have insufficient %s charges and can't continue crafting." ),
                             _( "<npcname> has insufficient %s charges and can't continue crafting." ),
@@ -2607,13 +2611,15 @@ bool Character::disassemble()
 
 bool Character::disassemble( item_location target, bool interactive, bool disassemble_all )
 {
+    map &here = get_map();
+
     if( !target ) {
         add_msg( _( "Never mind." ) );
         return false;
     }
 
     const item &obj = *target;
-    const auto ret = can_disassemble( obj, crafting_inventory() );
+    const auto ret = can_disassemble( obj, crafting_inventory( here ) );
 
     if( !ret.success() ) {
         add_msg_if_player( m_info, "%s", ret.c_str() );

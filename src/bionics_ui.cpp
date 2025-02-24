@@ -575,7 +575,7 @@ static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlight
 void avatar::power_bionics()
 {
     // Required because available power includes electricity via cables.
-    const map &here = get_map();
+    map &here = get_map();
 
     sorted_bionics passive = filtered_bionics( *my_bionics, TAB_PASSIVE );
     sorted_bionics active = filtered_bionics( *my_bionics, TAB_ACTIVE );

@@ -818,6 +818,8 @@ void Character::activate_mutation( const trait_id &mut )
 
 void Character::activate_cached_mutation( const trait_id &mut )
 {
+    map &here = get_map();
+
     const mutation_branch &mdata = mut.obj();
     trait_data &tdata = cached_mutations[mut];
     int cost = mdata.cost;
@@ -886,7 +888,7 @@ void Character::activate_cached_mutation( const trait_id &mut )
     }
 
     if( mut == trait_WEB_WEAVER ) {
-        get_map().add_field( pos_bub(), fd_web, 1 );
+        here.add_field( pos_bub( here ), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == trait_LONG_TONGUE2 ||
                mut == trait_GASTROPOD_EXTREMITY2 ||
@@ -895,15 +897,15 @@ void Character::activate_cached_mutation( const trait_id &mut )
         assign_activity( ACT_PULL_CREATURE, to_moves<int>( 1_seconds ), 0, 0, mutation_name( mut ) );
         return;
     } else if( mut == trait_SNAIL_TRAIL ) {
-        get_map().add_field( pos_bub(), fd_sludge, 1 );
+        here.add_field( pos_bub( here ), fd_sludge, 1 );
         add_msg_if_player( _( "You start leaving a trail of sludge as you go." ) );
     } else if( mut == trait_BURROW || mut == trait_BURROWLARGE ) {
         tdata.powered = false;
         item burrowing_item( itype_fake_burrowing );
-        invoke_item( &burrowing_item );
+        invoke_item( &burrowing_item, here );
         return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
-        monster *const slime = g->place_critter_around( mon_player_blob, pos_bub(), 1 );
+        monster *const slime = g->place_critter_around( mon_player_blob, pos_bub( here ), 1 );
         if( !slime ) {
             // Oops, no room to divide!
             add_msg_if_player( m_bad, _( "You focus, but are too hemmed in to birth a new slime microbian!" ) );
@@ -944,8 +946,7 @@ void Character::activate_cached_mutation( const trait_id &mut )
             return;
         }        // Check for adjacent trees.
         bool adjacent_tree = false;
-        map &here = get_map();
-        for( const tripoint_bub_ms &p2 : here.points_in_radius( pos_bub(), 1 ) ) {
+        for( const tripoint_bub_ms &p2 : here.points_in_radius( pos_bub( here ), 1 ) ) {
             if( here.has_flag( ter_furn_flag::TFLAG_TREE, p2 ) ) {
                 adjacent_tree = true;
             }

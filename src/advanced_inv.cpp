@@ -2355,6 +2355,8 @@ void advanced_inventory::refresh_minimap()
 
 void advanced_inventory::draw_minimap()
 {
+    map &here = get_map();
+
     // if player is in one of the below, invert the player cell
     static const std::array<aim_location, 3> player_locations = {
         {AIM_CENTER, AIM_INVENTORY, AIM_WORN}
@@ -2364,7 +2366,7 @@ void advanced_inventory::draw_minimap()
     tripoint pc = {getmaxx( minimap ) / 2, getmaxy( minimap ) / 2, 0};
     Character &player_character = get_player_character();
     // draw the 3x3 tiles centered around player
-    get_map().draw( minimap, player_character.pos_bub() );
+    here.draw( minimap, player_character.pos_bub( here ) );
     for( const side s : sides ) {
         char sym = get_minimap_sym( s );
         if( sym == '\0' ) {
@@ -2390,7 +2392,8 @@ void advanced_inventory::draw_minimap()
     }
 
     if( !invert_left || !invert_right ) {
-        player_character.draw( minimap, player_character.pos_bub(), invert_left || invert_right );
+        player_character.draw( minimap, here, player_character.pos_bub( here ), invert_left ||
+                               invert_right );
     }
 }
 

@@ -1529,10 +1529,8 @@ void Creature::heal_bp( bodypart_id /* bp */, int /* dam */ )
 {
 }
 
-void Creature::longpull( const std::string &name, const tripoint_bub_ms &p )
+void Creature::longpull( const std::string &name, map &here, const tripoint_bub_ms &p )
 {
-    const map &here = get_map();
-
     if( pos_bub( here ) == p ) {
         add_msg_if_player( _( "You try to pull yourself together." ) );
         return;
@@ -1608,7 +1606,7 @@ bool Creature::stumble_invis( const Creature &player, const bool stumblemsg )
     return true;
 }
 
-bool Creature::attack_air( const tripoint_bub_ms &p )
+bool Creature::attack_air( map &here, const tripoint_bub_ms &p )
 {
     // Calculate move cost differently for monsters and npcs
     int move_cost = 100;
@@ -1632,7 +1630,7 @@ bool Creature::attack_air( const tripoint_bub_ms &p )
 
     // Chance to remove last known location
     if( one_in( 2 ) ) {
-        get_map().set_field_intensity( p, field_fd_last_known, 0 );
+        here.set_field_intensity( p, field_fd_last_known, 0 );
     }
 
     add_msg_if_player_sees( *this, _( "%s attacks, but there is nothing there!" ),
@@ -3243,15 +3241,15 @@ units::mass Creature::weight_capacity() const
 /*
  * Drawing-related functions
  */
-void Creature::draw( const catacurses::window &w, const point_bub_ms &origin, bool inverted ) const
-{
-    draw( w, tripoint_bub_ms( origin, posz() ), inverted );
-}
-
-void Creature::draw( const catacurses::window &w, const tripoint_bub_ms &origin,
+void Creature::draw( const catacurses::window &w, map &here, const point_bub_ms &origin,
                      bool inverted ) const
 {
-    map &here = get_map();
+    draw( w, here, tripoint_bub_ms( origin, posz() ), inverted );
+}
+
+void Creature::draw( const catacurses::window &w, map &here, const tripoint_bub_ms &origin,
+                     bool inverted ) const
+{
     const tripoint_bub_ms pos = pos_bub( here );
 
     if( is_draw_tiles_mode() ) {
@@ -3384,9 +3382,8 @@ std::string Creature::replace_with_npc_name( std::string input ) const
     return input;
 }
 
-void Creature::knock_back_from( const tripoint_bub_ms &p )
+void Creature::knock_back_from( map &here, const tripoint_bub_ms &p )
 {
-    map &here = get_map();
     const tripoint_bub_ms pos = pos_bub( here );
 
     if( p == pos ) {
@@ -3410,7 +3407,7 @@ void Creature::knock_back_from( const tripoint_bub_ms &p )
         to.y()--;
     }
 
-    knock_back_to( to );
+    knock_back_to( here, to );
 }
 
 double Creature::calculate_by_enchantment( double modify, enchant_vals::mod value,

@@ -1564,10 +1564,10 @@ bool npc::wield( item &it )
     return true;
 }
 
-void npc::drop( const drop_locations &what, const tripoint_bub_ms &target,
+void npc::drop( const drop_locations &what, map &here, const tripoint_bub_ms &target,
                 bool stash )
 {
-    Character::drop( what, target, stash );
+    Character::drop( what, here, target, stash );
     // TODO: Remove the hack. Its here because npcs didn't process activities, but they do now
     // so is this necessary?
     activity.do_turn( *this );
@@ -3388,26 +3388,26 @@ void npc::process_turn()
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
 
-bool npc::invoke_item( item *used, const tripoint_bub_ms &pt, int )
+bool npc::invoke_item( item *used, map &here, const tripoint_bub_ms &pt, int )
 {
     const auto &use_methods = used->type->use_methods;
 
     if( use_methods.empty() ) {
         return false;
     } else if( use_methods.size() == 1 ) {
-        return Character::invoke_item( used, use_methods.begin()->first, pt );
+        return Character::invoke_item( used, use_methods.begin()->first, here, pt );
     }
     return false;
 }
 
-bool npc::invoke_item( item *used, const std::string &method )
+bool npc::invoke_item( item *used, const std::string &method, map &here )
 {
-    return Character::invoke_item( used, method );
+    return Character::invoke_item( used, method, here );
 }
 
-bool npc::invoke_item( item *used )
+bool npc::invoke_item( item *used, map &here )
 {
-    return Character::invoke_item( used );
+    return Character::invoke_item( used, here );
 }
 
 std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> npc::need_data = {

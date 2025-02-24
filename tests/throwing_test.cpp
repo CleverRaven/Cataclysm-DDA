@@ -94,6 +94,8 @@ static void test_throwing_player_versus(
     const int min_throws = min_throw_test_iterations,
     int max_throws = max_throw_test_iterations )
 {
+    map &here = get_map();
+
     const tripoint_bub_ms monster_start = { 30 + range, 30, 0 };
     const tripoint_bub_ms player_start = { 30, 30, 0 };
     bool hit_thresh_met = false;
@@ -111,7 +113,7 @@ static void test_throwing_player_versus(
         monster &mon = spawn_test_monster( mon_id, monster_start, false );
         mon.set_moves( 0 );
 
-        dealt_projectile_attack atk = you.throw_item( mon.pos_bub(), it );
+        dealt_projectile_attack atk = you.throw_item( here, mon.pos_bub( here ), it );
         data.hits.add( atk.last_hit_critter != nullptr );
         data.dmg.add( atk.dealt_dam.total_damage() );
 
@@ -241,6 +243,7 @@ static void test_player_kills_monster(
     Character &you, const std::string &mon_id, const itype_id &item_id, const int range,
     const int dist_thresh, const throw_test_pstats &pstats, const int iterations )
 {
+    map &here = get_map();
     const tripoint_bub_ms monster_start = { 30 + range, 30, 0 };
     const tripoint_bub_ms player_start = { 30, 30, 0 };
     int failure_turns = -1;
@@ -280,7 +283,7 @@ static void test_player_kills_monster(
             you.mod_moves( you.get_speed() );
             while( you.get_moves() > 0 ) {
                 you.wield( it );
-                you.throw_item( mon.pos_bub(), it );
+                you.throw_item( here, mon.pos_bub( here ), it );
                 you.remove_weapon();
                 ++num_items;
             }

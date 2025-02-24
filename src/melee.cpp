@@ -992,7 +992,7 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
     return std::min<int>( -50, proficiency_multiplier * ( mod_sta + melee - stance_malus ) );
 }
 
-void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
+void Character::reach_attack( map &here, const tripoint_bub_ms &p, int forced_movecost )
 {
     static const matec_id no_technique_id( "" );
     matec_id force_technique = no_technique_id;
@@ -1005,7 +1005,7 @@ void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
     set_activity_level( EXTRA_EXERCISE );
 
     creature_tracker &creatures = get_creature_tracker();
-    Creature *critter = creatures.creature_at( p );
+    Creature *critter = creatures.creature_at( here.get_abs( p ) );
     // Original target size, used when there are monsters in front of our target
     const int target_size = critter != nullptr ? static_cast<int>( critter->get_size() ) : 2;
     // Reset last target pos
@@ -1019,8 +1019,7 @@ void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
     int move_cost = attack_speed( weapon ) * weary_mult;
     float skill = std::min( 10.0f, get_skill_level( skill_melee ) );
     int t = 0;
-    map &here = get_map();
-    std::vector<tripoint_bub_ms> path = line_to( pos_bub(), p, t, 0 );
+    std::vector<tripoint_bub_ms> path = line_to( pos_bub( here ), p, t, 0 );
     path.pop_back(); // Last point is our critter
     for( const tripoint_bub_ms &path_point : path ) {
         // Possibly hit some unintended target instead
@@ -1838,7 +1837,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
                                       rng( -technique.knockback_spread, technique.knockback_spread ) );
         tripoint_bub_ms kb_point( pos.x() + kb_offset.x(), pos.y() + kb_offset.y(), pos.z() );
         for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
-            t.knock_back_from( kb_point );
+            t.knock_back_from( here, kb_point );
         }
 
         Character *passenger = t.as_character();

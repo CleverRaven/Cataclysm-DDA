@@ -2501,7 +2501,7 @@ class item : public visitable
          * Quantity of shots in the gun. Looks at both ammo and available energy.
          * @param carrier is used for UPS and bionic power
          */
-        int shots_remaining( const map &here, const Character *carrier ) const;
+        int shots_remaining( map &here, const Character *carrier ) const;
 
         /** Return true if this uses electrical or a different kind of energy. */
         bool uses_energy() const;
@@ -2520,11 +2520,11 @@ class item : public visitable
          * @param carrier is used for UPS and bionic power for tools
          * @param include_linked Add cable-linked vehicles' ammo to the ammo count
          */
-        int ammo_remaining_linked( const map &here, const Character *carrier ) const;
+        int ammo_remaining_linked( map &here, const Character *carrier ) const;
         // Similar to the operation above, but doesn't look for external sources.
         int ammo_remaining( const Character *carrier ) const;
         // Looking for "ammo" via links (e.g. electricity).
-        int ammo_remaining_linked( const map &here ) const;
+        int ammo_remaining_linked( map &here ) const;
         // Only looking for ammo locally.
         int ammo_remaining() const;
 
@@ -2533,7 +2533,7 @@ class item : public visitable
         // The map parameter is only used if include_linked is true. Somewhat stupid
         // parameter profile, but the operation is only used internally in order not
         // to duplicate most of the code.
-        int ammo_remaining( const map &here, const std::set<ammotype> &ammo,
+        int ammo_remaining( map &here, const std::set<ammotype> &ammo,
                             const Character *carrier,
                             bool include_linked ) const;
     public:

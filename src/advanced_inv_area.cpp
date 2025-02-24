@@ -159,7 +159,7 @@ void advanced_inv_area::init()
 
     // trap?
     const trap &tr = here.tr_at( pos );
-    if( tr.can_see( pos, player_character ) && !tr.is_benign() ) {
+    if( tr.can_see( here, pos, player_character ) && !tr.is_benign() ) {
         flags.append( _( " TRAP" ) );
     }
 

@@ -188,7 +188,7 @@ class monster : public Creature
         bool is_pet_follow() const;
         bool has_intelligence() const;
 
-        bool avoid_trap( const tripoint_bub_ms &pos, const trap &tr ) const override;
+        bool avoid_trap( const map &here, const tripoint_bub_ms &pos, const trap &tr ) const override;
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
@@ -330,7 +330,7 @@ class monster : public Creature
         int group_bash_skill( const tripoint_bub_ms &target );
 
         void stumble();
-        void knock_back_to( const tripoint_bub_ms &to ) override;
+        void knock_back_to( map &here, const tripoint_bub_ms &to ) override;
 
         // Combat
         bool is_fleeing( Character &u ) const;
@@ -426,7 +426,7 @@ class monster : public Creature
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;
         /** Deals falling/collision damage with terrain/creature at pos */
-        int impact( int force, const tripoint_bub_ms &pos ) override;
+        int impact( int force, map &here, const tripoint_bub_ms &pos ) override;
 
         bool has_grab_break_tec() const override;
 

@@ -26,6 +26,7 @@
 #include "crafting.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
+#include "game.h"
 #include "debug.h"
 #include "display.h"
 #include "flag.h"
@@ -45,6 +46,7 @@
 #include "itype.h"
 #include "localized_comparator.h"
 #include "magic_enchantment.h"
+#include "map.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
@@ -219,9 +221,11 @@ struct availability {
         explicit availability( Character &_crafter, const recipe *r, int batch_size = 1,
                                bool camp_crafting = false, inventory *inventory_override = nullptr ) :
             crafter( _crafter ) {
+            map &here = get_map();
+
             rec = r;
             inv_override = inventory_override;
-            const inventory &inv = camp_crafting ? *inv_override : crafter.crafting_inventory();
+            const inventory &inv = camp_crafting ? *inv_override : crafter.crafting_inventory( here );
             auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
             auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
             auto no_favorite_filter = r->get_component_filter( recipe_filter_flags::no_favorite );
@@ -403,6 +407,8 @@ static std::vector<std::string> recipe_info(
     const nc_color &color,
     const std::vector<Character *> &crafting_group )
 {
+    map &here = get_map();
+
     std::ostringstream oss;
     oss << string_format( _( "Crafter: %s\n" ), guy.name_and_maybe_activity() );
 
@@ -463,7 +469,8 @@ static std::vector<std::string> recipe_info(
                           recp.has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
                           _( "Impossible" ) );
 
-    const inventory &crafting_inv = avail.inv_override ? *avail.inv_override : guy.crafting_inventory();
+    const inventory &crafting_inv = avail.inv_override ? *avail.inv_override : guy.crafting_inventory(
+                                        here );
     if( recp.result() ) {
         const int nearby_amount = crafting_inv.count_item( recp.result() );
         std::string nearby_string;
@@ -2132,6 +2139,8 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
 int choose_crafter( const std::vector<Character *> &crafting_group, int crafter_i,
                     const recipe *rec, bool rec_valid )
 {
+    map &here = get_map();
+
     std::vector<std::string> header = { _( "Crafter" ) };
     if( rec_valid ) {
         header.emplace_back( rec->is_practice() ? _( "Can practice" ) : _( "Can craft" ) );
@@ -2150,7 +2159,7 @@ int choose_crafter( const std::vector<Character *> &crafting_group, int crafter_
             std::vector<std::string> reasons;
 
             bool has_stuff = rec->deduped_requirements().can_make_with_inventory(
-                                 chara->crafting_inventory(), rec->get_component_filter( recipe_filter_flags::none ), 1,
+                                 chara->crafting_inventory( here ), rec->get_component_filter( recipe_filter_flags::none ), 1,
                                  craft_flags::start_only );
             if( !has_stuff ) {
                 reasons.emplace_back( _( "stuff" ) );

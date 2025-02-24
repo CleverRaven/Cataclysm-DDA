@@ -5915,6 +5915,8 @@ static bool can_craft_recipe( const recipe *r, const inventory &crafting_inv )
 void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                        bool /* debug */ ) const
 {
+    map &here = get_map();
+
     if( is_null() ) {
         return;
     }
@@ -6141,7 +6143,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES ) ) {
         // with the inventory display allowing you to select items, showing the things you could make with contained items could be confusing.
         const itype_id &tid = typeId();
-        const inventory &crafting_inv = player_character.crafting_inventory();
+        const inventory &crafting_inv = player_character.crafting_inventory( here );
         const recipe_subset &available_recipe_subset = player_character.get_group_available_recipes();
         const std::set<const recipe *> &item_recipes = available_recipe_subset.of_component( tid );
 
@@ -11238,7 +11240,7 @@ int item::gun_range( const Character *p ) const
     return std::max( 0, ret );
 }
 
-int item::shots_remaining( const map &here, const Character *carrier ) const
+int item::shots_remaining( map &here, const Character *carrier ) const
 {
     int ret = 1000; // Arbitrary large number for things that do not require ammo.
     if( ammo_required() ) {
@@ -11250,13 +11252,13 @@ int item::shots_remaining( const map &here, const Character *carrier ) const
     return ret;
 }
 
-int item::ammo_remaining( const map &here, const std::set<ammotype> &ammo, const Character *carrier,
+int item::ammo_remaining( map &here, const std::set<ammotype> &ammo, const Character *carrier,
                           const bool include_linked ) const
 {
     const bool is_tool_with_carrier = carrier != nullptr && is_tool();
 
     if( is_tool_with_carrier && has_flag( flag_USES_NEARBY_AMMO ) && !ammo.empty() ) {
-        const inventory &crafting_inventory = carrier->crafting_inventory();
+        const inventory &crafting_inventory = carrier->crafting_inventory( here );
         const ammotype &a = *ammo.begin();
         return crafting_inventory.charges_of( a->default_ammotype(), INT_MAX );
     }
@@ -11318,7 +11320,7 @@ int item::ammo_remaining( const map &here, const std::set<ammotype> &ammo, const
     return ret;
 }
 
-int item::ammo_remaining_linked( const map &here, const Character *carrier ) const
+int item::ammo_remaining_linked( map &here, const Character *carrier ) const
 {
     std::set<ammotype> ammo = ammo_types();
     return ammo_remaining( here, ammo, carrier, true );
@@ -11329,7 +11331,7 @@ int item::ammo_remaining( const Character *carrier ) const
     return ammo_remaining( get_map(), ammo, carrier, false ); // get_map() is a dummy parameter here.
 }
 
-int item::ammo_remaining_linked( const map &here ) const
+int item::ammo_remaining_linked( map &here ) const
 {
     return ammo_remaining_linked( here, nullptr );
 }
@@ -11511,7 +11513,7 @@ int item::ammo_consume( int qty, map &here, const tripoint_bub_ms &pos, Characte
     if( is_tool_with_carrier && has_flag( flag_USES_NEARBY_AMMO ) ) {
         const ammotype ammo = ammo_type();
         if( !ammo.is_null() ) {
-            const inventory &carrier_inventory = carrier->crafting_inventory( &here );
+            const inventory &carrier_inventory = carrier->crafting_inventory( here );
             itype_id ammo_type = ammo->default_ammotype();
             const int charges_avalable = carrier_inventory.charges_of( ammo_type, INT_MAX );
 
@@ -12618,7 +12620,7 @@ bool item::getlight( float &luminance, units::angle &width, units::angle &direct
 
 int item::getlight_emit() const
 {
-    const map &here = get_map();
+    map &here = get_map();
 
     float lumint = type->light_emission;
 

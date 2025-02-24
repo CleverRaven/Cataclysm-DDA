@@ -23,6 +23,7 @@
 #include "debug_menu.h"
 #include "enum_traits.h"
 #include "flexbuffer_json.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "inventory.h"
 #include "item.h"
@@ -33,6 +34,7 @@
 #include "json.h"
 #include "localized_comparator.h"
 #include "make_static.h"
+#include "map.h"
 #include "output.h"
 #include "pocket_type.h"
 #include "string_formatter.h"
@@ -1718,7 +1720,9 @@ const requirement_data *deduped_requirement_data::select_alternative(
     Character &crafter, const std::function<bool( const item & )> &filter, int batch,
     craft_flags flags ) const
 {
-    return select_alternative( crafter, crafter.crafting_inventory(), filter, batch, flags );
+    map &here = get_map();
+
+    return select_alternative( crafter, crafter.crafting_inventory( here ), filter, batch, flags );
 }
 
 const requirement_data *deduped_requirement_data::select_alternative(

@@ -1201,6 +1201,8 @@ bool spell::is_spell_class( const trait_id &mid ) const
 
 bool spell::can_cast( const Character &guy ) const
 {
+    map &here = get_map();
+
     if( guy.has_flag( json_flag_CANNOT_ATTACK ) ) {
         return false;
     }
@@ -1222,7 +1224,8 @@ bool spell::can_cast( const Character &guy ) const
     }
 
     if( !type->spell_components.is_empty() &&
-        !type->spell_components->can_make_with_inventory( guy.crafting_inventory( guy.pos_bub(), 0, false ),
+        !type->spell_components->can_make_with_inventory( guy.crafting_inventory( here, guy.pos_bub( here ),
+                0, false ),
                 return_true<item> ) ) {
         return false;
     }
@@ -2860,6 +2863,8 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
 
 void spellcasting_callback::display_spell_info( size_t index )
 {
+    map &here = get_map();
+
     const spell &sp = *known_spells[ index ];
     Character &pc = get_player_character();
 
@@ -3075,14 +3080,15 @@ void spellcasting_callback::display_spell_info( size_t index )
         ImGui::NewLine();
         if( !sp.components().get_components().empty() ) {
             for( const std::string &line : sp.components().get_folded_components_list(
-                     0, c_light_gray, pc.crafting_inventory( pc.pos_bub(), 0, false ), return_true<item> ) ) {
+                     0, c_light_gray, pc.crafting_inventory( here, pc.pos_bub( here ), 0, false ),
+                     return_true<item> ) ) {
                 cataimgui::TextColoredParagraph( c_white, line );
                 ImGui::NewLine();
             }
         }
         if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
             for( const std::string &line : sp.components().get_folded_tools_list(
-                     0, c_light_gray, pc.crafting_inventory( pc.pos_bub(), 0, false ) ) ) {
+                     0, c_light_gray, pc.crafting_inventory( here, pc.pos_bub( here ), 0, false ) ) ) {
                 cataimgui::TextColoredParagraph( c_white, line );
                 ImGui::NewLine();
             }

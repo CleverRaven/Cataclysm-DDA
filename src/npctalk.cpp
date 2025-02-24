@@ -3932,6 +3932,8 @@ talk_effect_fun_t::func f_consume_item( const JsonObject &jo, std::string_view m
 talk_effect_fun_t::func f_consume_item_sum( const JsonObject &jo, std::string_view member,
         const std::string_view, bool is_npc )
 {
+    map &here = get_map();
+
     // Only after i implemented it, i realised it is a bad way to make it
     // What it should be is an expansion of f_run_inv_eocs
     // that allow to pick multiple ids and limit it to some amount of it
@@ -3944,7 +3946,7 @@ talk_effect_fun_t::func f_consume_item_sum( const JsonObject &jo, std::string_vi
         item_and_amount.emplace_back( item, amount );
     }
 
-    return [item_and_amount, is_npc]( dialogue & d ) {
+    return [item_and_amount, is_npc, &here]( dialogue & d ) {
         add_msg_debug( debugmode::DF_TALKER, "using _consume_item_sum:" );
 
         itype_id item_to_remove;
@@ -3953,7 +3955,8 @@ talk_effect_fun_t::func f_consume_item_sum( const JsonObject &jo, std::string_vi
         double amount_desired = 0.0f;
         int count_present = 0;
         Character *you = d.actor( is_npc )->get_character();
-        inventory inventory_and_around = you->crafting_inventory( you->pos_bub(), PICKUP_RANGE );
+        inventory inventory_and_around = you->crafting_inventory( here, you->pos_bub( here ),
+                                         PICKUP_RANGE );
         std::vector<item_comp> items_to_remove_vector;
 
         for( const auto &pair : item_and_amount ) {
@@ -5372,20 +5375,21 @@ talk_effect_fun_t::func f_attack( const JsonObject &jo, std::string_view member,
 
 talk_effect_fun_t::func f_ranged_attack( bool is_npc )
 {
+    map &here = get_map();
 
-    return [is_npc]( dialogue & d ) {
+    return [is_npc, &here]( dialogue & d ) {
         // if beta is attacking then target is the alpha
         talker *target = d.actor( !is_npc );
         Character *attacker = d.actor( is_npc )->get_character();
         Creature *c = target->get_creature();
 
         if( c ) {
-            tripoint_bub_ms target_pos = c->pos_bub();
+            tripoint_bub_ms target_pos = c->pos_bub( here );
             item_location wielded = attacker->get_wielded_item();
             if( wielded->is_gun() ) {
                 gun_mode mode = wielded->gun_current_mode();
                 if( wielded->ammo_sufficient( attacker, mode.qty * 2 ) ) {
-                    attacker->fire_gun( target_pos, mode.qty );
+                    attacker->fire_gun( here, target_pos, mode.qty );
 
                 }
             }
@@ -5685,13 +5689,15 @@ talk_effect_fun_t::func f_unset_flag( const JsonObject &jo, std::string_view mem
 talk_effect_fun_t::func f_activate( const JsonObject &jo, std::string_view member,
                                     const std::string_view, bool is_npc )
 {
+    map &here = get_map();
+
     str_or_var method = get_str_or_var( jo.get_member( member ), member, true );
     std::optional<var_info> target_var;
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
 
-    return [is_npc, method, target_var]( dialogue & d ) {
+    return [is_npc, method, target_var, &here]( dialogue & d ) {
         Character *guy = d.actor( is_npc )->get_character();
         item_location *it = d.actor( !is_npc )->get_item();
 
@@ -5704,12 +5710,12 @@ talk_effect_fun_t::func f_activate( const JsonObject &jo, std::string_view membe
                 }
                 if( target_var.has_value() ) {
                     tripoint_abs_ms target_pos = get_tripoint_ms_from_var( target_var, d, is_npc );
-                    if( get_map().inbounds( target_pos ) ) {
-                        guy->invoke_item( it->get_item(), method_str, get_map().get_bub( target_pos ) );
+                    if( here.inbounds( target_pos ) ) {
+                        guy->invoke_item( it->get_item(), method_str, here, here.get_bub( target_pos ) );
                         return;
                     }
                 }
-                guy->invoke_item( it->get_item(), method.evaluate( d ) );
+                guy->invoke_item( it->get_item(), method.evaluate( d ), here );
 
             } else {
                 debugmsg( "%s talker must be Item.", is_npc ? "alpha" : "beta" );

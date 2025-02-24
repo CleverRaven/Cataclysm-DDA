@@ -358,6 +358,8 @@ bool iexamine::harvestable_now( const tripoint_bub_ms &examp )
  */
 void iexamine::cvdmachine( Character &you, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     // Select an item to which it is possible to apply a diamond coating
     item_location loc = g->inv_map_splice( []( const item & e ) {
         return e.has_edged_damage() &&
@@ -377,7 +379,7 @@ void iexamine::cvdmachine( Character &you, const tripoint_bub_ms & )
     qty = std::max( 1, qty );
     requirement_data reqs = *requirement_data_cvd_diamond * qty;
 
-    if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
+    if( !reqs.can_make_with_inventory( you.crafting_inventory( here ), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
         return;
     }
@@ -690,7 +692,7 @@ void iexamine::nanofab( Character &you, const tripoint_bub_ms &examp )
         new_item.set_flag( flag_NANOFAB_REPAIR );
     }
 
-    if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
+    if( !reqs.can_make_with_inventory( you.crafting_inventory( here ), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
         return;
     }
@@ -1937,7 +1939,9 @@ void iexamine::portable_structure( Character &you, const tripoint_bub_ms &examp 
  */
 void iexamine::pit( Character &you, const tripoint_bub_ms &examp )
 {
-    const inventory &crafting_inv = you.crafting_inventory();
+    map &here = get_map();
+
+    const inventory &crafting_inv = you.crafting_inventory( here );
     if( !crafting_inv.has_amount( itype_2x4, 1 ) ) {
         none( you, examp );
         return;
@@ -1945,7 +1949,6 @@ void iexamine::pit( Character &you, const tripoint_bub_ms &examp )
     std::vector<item_comp> planks;
     planks.emplace_back( itype_2x4, 1 );
 
-    map &here = get_map();
     if( query_yn( _( "Place a plank over the pit?" ) ) ) {
         you.consume_items( planks, 1, is_crafting_component );
         const ter_id &ter_pit = here.ter( examp );
@@ -2974,7 +2977,7 @@ void iexamine::harvest_plant( Character &you, const tripoint_bub_ms &examp, bool
             add_msg( m_info, _( "The seed blossoms into a flower-looking fungus." ) );
         }
     } else { // Generic seed, use the seed item data
-        const inventory &crafting_inv = you.crafting_inventory();
+        const inventory &crafting_inv = you.crafting_inventory( here );
         if( seed->has_flag( flag_CUT_HARVEST ) && !crafting_inv.has_quality( qual_GRASS_CUT ) ) {
             you.add_msg_if_player( m_info, _( "You will need a grass-cutting tool to harvest this plant." ) );
             return;
@@ -3650,7 +3653,7 @@ void iexamine::autoclave_empty( Character &you, const tripoint_bub_ms &examp )
     }
     requirement_data reqs = *requirement_data_autoclave;
 
-    if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
+    if( !reqs.can_make_with_inventory( you.crafting_inventory( here ), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
         return;
     }
@@ -4679,7 +4682,9 @@ static item_location maple_tree_sap_container()
 
 void iexamine::tree_maple( Character &you, const tripoint_bub_ms &examp )
 {
-    const inventory &crafting_inv = you.crafting_inventory();
+    map &here = get_map();
+
+    const inventory &crafting_inv = you.crafting_inventory( here );
     if( !crafting_inv.has_quality( qual_DRILL ) ) {
         add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
         return;
@@ -4691,7 +4696,6 @@ void iexamine::tree_maple( Character &you, const tripoint_bub_ms &examp )
         return;
     }
 
-    map &here = get_map();
     item_location spile_loc = g->inv_map_splice( [&here]( const item_location & it ) {
         return it->get_quality_nonrecursive( qual_TREE_TAP ) > 0 &&
                !( here.ter( it.pos_bub( here ) ) == ter_t_tree_maple_tapped );
@@ -4775,7 +4779,7 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint_bub_ms &examp )
 
     switch( selectmenu.ret ) {
         case REMOVE_TAP: {
-            if( !you.crafting_inventory().has_quality( qual_HAMMER ) ) {
+            if( !you.crafting_inventory( here ).has_quality( qual_HAMMER ) ) {
                 add_msg( m_info, _( "You need a hammering tool to remove the %s from the crust." ),
                          spile->tname() );
                 return;
@@ -4893,7 +4897,7 @@ void trap::examine( const tripoint_bub_ms &examp ) const
     map &here = get_map();
 
     // If the player can't see the trap, they can't interact with it.
-    if( !can_see( examp, player_character ) ) {
+    if( !can_see( here, examp, player_character ) ) {
         return;
     }
 
@@ -5282,7 +5286,8 @@ void iexamine::sign( Character &you, const tripoint_bub_ms &examp )
 
         // Allow chance to modify message.
         std::vector<tool_comp> tools;
-        std::vector<const item *> filter = you.crafting_inventory().items_with( []( const item & it ) {
+        std::vector<const item *> filter = you.crafting_inventory( here ).items_with( [](
+        const item & it ) {
             return it.has_flag( flag_WRITE_MESSAGE ) && it.charges > 0;
         } );
         tools.reserve( filter.size() );
@@ -6133,7 +6138,7 @@ void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
         amenu.ret > 1 ) {
         needs_anesthesia = false;
     } else {
-        const inventory &crafting_inv = you.crafting_inventory();
+        const inventory &crafting_inv = you.crafting_inventory( here );
         std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_quality( qual_ANESTHESIA );
         } );
@@ -6163,7 +6168,7 @@ void iexamine::autodoc( Character &you, const tripoint_bub_ms &examp )
             std::vector<item_comp> progs;
             bool has_install_program = false;
 
-            std::vector<const item *> install_programs = you.crafting_inventory().items_with( [itemtype](
+            std::vector<const item *> install_programs = you.crafting_inventory( here ).items_with( [itemtype](
                         const item & it ) -> bool { return it.typeId() == itemtype->bionic->installation_data; } );
 
             if( !install_programs.empty() ) {
@@ -6974,11 +6979,12 @@ static void mill_load_food( Character &you, const tripoint_bub_ms &examp,
         return;
     }
     // filter millable food
-    inventory inv = you.crafting_inventory();
+    inventory inv = you.crafting_inventory( here );
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
-    std::vector<const item *> filtered = you.crafting_inventory().items_with( []( const item & it ) {
+    std::vector<const item *> filtered = you.crafting_inventory( here ).items_with( [](
+    const item & it ) {
         if( !it.type->milling_data || it.type->milling_data->into_.is_null() ) {
             return false;
         }
@@ -7345,7 +7351,7 @@ void iexamine::smoker_options( Character &you, const tripoint_bub_ms &examp )
     const bool full_portable = f_volume >= sm_rack::MAX_FOOD_VOLUME_PORTABLE;
     const auto remaining_capacity = sm_rack::MAX_FOOD_VOLUME - f_volume;
     const auto remaining_capacity_portable = sm_rack::MAX_FOOD_VOLUME_PORTABLE - f_volume;
-    const bool has_coal_in_inventory = you.crafting_inventory().charges_of( itype_charcoal ) > 0;
+    const bool has_coal_in_inventory = you.crafting_inventory( here ).charges_of( itype_charcoal ) > 0;
     const int coal_charges = count_charges_in_list( item::find_type( itype_charcoal ), items_here );
     const int need_charges = get_charcoal_charges( f_volume );
     const int max_charges = type == nullptr || ammo_list.empty() ||

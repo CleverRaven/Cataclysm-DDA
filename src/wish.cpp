@@ -342,6 +342,8 @@ void debug_menu::wishmutate( Character *you )
 
 void debug_menu::wishbionics( Character *you )
 {
+    map &here = get_map();
+
     std::vector<const itype *> cbm_items = item_controller->find( []( const itype & itm ) -> bool {
         return itm.can_use( "install_bionic" );
     } );
@@ -394,7 +396,7 @@ void debug_menu::wishbionics( Character *you )
 
                     you->perform_install( bio, upbio_uid, difficulty, success, level, "NOT_MED",
                                           bio->canceled_mutations,
-                                          you->pos_bub() );
+                                          here, you->pos_bub( here ) );
                 }
                 break;
             }

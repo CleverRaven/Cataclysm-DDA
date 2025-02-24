@@ -952,7 +952,7 @@ class npc : public Character
         void do_npc_read( bool ebook = false );
         void stow_item( item &it );
         bool wield( item &it ) override;
-        void drop( const drop_locations &what, const tripoint_bub_ms &target,
+        void drop( const drop_locations &what, map &here, const tripoint_bub_ms &target,
                    bool stash ) override;
         bool adjust_worn();
         bool has_healing_item( healing_options try_to_fix );
@@ -1094,9 +1094,9 @@ class npc : public Character
         void process_turn() override;
 
         using Character::invoke_item;
-        bool invoke_item( item *, const tripoint_bub_ms &pt, int pre_obtain_moves ) override;
-        bool invoke_item( item *used, const std::string &method ) override;
-        bool invoke_item( item * ) override;
+        bool invoke_item( item *, map &here, const tripoint_bub_ms &pt, int pre_obtain_moves ) override;
+        bool invoke_item( item *used, const std::string &method, map &here ) override;
+        bool invoke_item( item *, map &here ) override;
 
         /** rates how dangerous a target is */
         float evaluate_monster( const monster &target, int dist ) const;

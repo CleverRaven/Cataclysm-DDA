@@ -579,28 +579,28 @@ int Character::get_item_position( const item *it ) const
     return inv->position_by_item( it );
 }
 
-void Character::drop( item_location loc, const tripoint_bub_ms &where )
+void Character::drop( item_location loc, map &here, const tripoint_bub_ms &where )
 {
-    drop( { std::make_pair( loc, loc->count() ) }, where );
+    drop( { std::make_pair( loc, loc->count() ) }, here, where );
     invalidate_inventory_validity_cache();
 }
 
-void Character::drop( const drop_locations &what, const tripoint_bub_ms &target,
+void Character::drop( const drop_locations &what, map &here, const tripoint_bub_ms &target,
                       bool stash )
 {
     if( what.empty() ) {
         return;
     }
     invalidate_leak_level_cache();
-    const std::optional<vpart_reference> vp = get_map().veh_at( target ).cargo();
-    if( rl_dist( pos_bub(), target ) > 1 || !( stash || get_map().can_put_items( target ) )
+    const std::optional<vpart_reference> vp = here.veh_at( target ).cargo();
+    if( rl_dist( pos_bub(), target ) > 1 || !( stash || here.can_put_items( target ) )
         || ( vp.has_value() && vp->part().is_cleaner_on() ) ) {
         add_msg_player_or_npc( m_info, _( "You can't place items here!" ),
                                _( "<npcname> can't place items here!" ) );
         return;
     }
 
-    const tripoint_rel_ms placement = target - pos_bub();
+    const tripoint_rel_ms placement = target - pos_bub( here );
     std::vector<drop_or_stash_item_info> items;
     for( drop_location item_pair : what ) {
         if( is_avatar() && vp.has_value() && item_pair.first->is_bucket_nonempty() &&

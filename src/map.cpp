@@ -6130,7 +6130,7 @@ std::list<std::pair<tripoint_bub_ms, item *> > map::get_rc_items( const tripoint
 
 bool map::can_see_trap_at( const tripoint_bub_ms &p, const Character &c ) const
 {
-    return tr_at( p ).can_see( p, c );
+    return tr_at( p ).can_see( *this, p, c );
 }
 
 const trap &map::tr_at( const tripoint_abs_ms &p ) const
@@ -7047,7 +7047,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint_bub_ms &p,
         param.show_items( false ); // Can only see underwater items if WE are underwater
     }
     // If there's a trap here, and we have sufficient perception, draw that instead
-    if( curr_trap.can_see( p, player_character ) ) {
+    if( curr_trap.can_see( *this, p, player_character ) ) {
         tercol = curr_trap.color;
         if( curr_trap.sym == '%' ) {
             switch( rng( 1, 5 ) ) {
@@ -9895,9 +9895,9 @@ void map::maybe_trigger_prox_trap( const tripoint_bub_ms &pos, Creature &c,
         return;
     }
 
-    if( !tr.has_flag( json_flag_UNDODGEABLE ) && may_avoid && c.avoid_trap( pos, tr ) ) {
+    if( !tr.has_flag( json_flag_UNDODGEABLE ) && may_avoid && c.avoid_trap( *this, pos, tr ) ) {
         Character *const pl = c.as_character();
-        if( !tr.is_always_invisible() && pl && !pl->knows_trap( pos ) ) {
+        if( !tr.is_always_invisible() && pl && !pl->knows_trap( *this, pos ) ) {
             pl->add_msg_if_player( _( "You've spotted a %1$s!" ), tr.name() );
             pl->add_known_trap( pos, tr );
         }
@@ -9977,7 +9977,7 @@ bool map::try_fall( const tripoint_bub_ms &p, Creature *c )
         if( c->has_effect( effect_strengthened_gravity ) ) {
             height += 1;
         }
-        c->impact( height * 10, where );
+        c->impact( height * 10, *this, where );
         return true;
     }
 
@@ -10026,11 +10026,11 @@ bool map::try_fall( const tripoint_bub_ms &p, Creature *c )
         } else {
             you->add_msg_if_player( m_bad,
                                     _( "You attempt to break the fall with your %s but it is out of fuel!" ), jetpack.tname() );
-            you->impact( height * 30, where );
+            you->impact( height * 30, *this, where );
 
         }
     } else {
-        you->impact( height * 30, where );
+        you->impact( height * 30, *this, where );
     }
 
     if( has_flag( ter_furn_flag::TFLAG_DEEP_WATER, where ) ) {
@@ -10058,9 +10058,9 @@ void map::maybe_trigger_trap( const tripoint_bub_ms &pos, Creature &c, const boo
         return;
     }
 
-    if( !tr.has_flag( json_flag_UNDODGEABLE ) && may_avoid && c.avoid_trap( pos, tr ) ) {
+    if( !tr.has_flag( json_flag_UNDODGEABLE ) && may_avoid && c.avoid_trap( *this, pos, tr ) ) {
         Character *const pl = c.as_character();
-        if( !tr.is_always_invisible() && pl && !pl->knows_trap( pos ) ) {
+        if( !tr.is_always_invisible() && pl && !pl->knows_trap( *this, pos ) ) {
             pl->add_msg_if_player( _( "You've spotted a %1$s!" ), tr.name() );
             pl->add_known_trap( pos, tr );
         }

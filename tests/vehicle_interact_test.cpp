@@ -92,9 +92,9 @@ static void test_repair( const std::vector<item> &tools, bool plug_in_tools, boo
     requirement_data reqs = vp.repair_requirements();
     // Bust cache on crafting_inventory()
     player_character.mod_moves( 1 );
-    inventory crafting_inv = player_character.crafting_inventory();
+    inventory crafting_inv = player_character.crafting_inventory( here );
     bool can_repair = vp.repair_requirements().can_make_with_inventory(
-                          player_character.crafting_inventory(),
+                          player_character.crafting_inventory( here ),
                           is_crafting_component );
     CHECK( can_repair == expect_craftable );
 }

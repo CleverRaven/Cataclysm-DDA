@@ -933,6 +933,8 @@ conditional_t::func f_has_items( const JsonObject &jo, const std::string_view me
 conditional_t::func f_has_items_sum( const JsonObject &jo, const std::string_view member,
                                      bool is_npc )
 {
+    map &here = get_map();
+
     std::vector<std::pair<str_or_var, dbl_or_var>> item_and_amount;
 
     for( const JsonObject jsobj : jo.get_array( member ) ) {
@@ -940,7 +942,7 @@ conditional_t::func f_has_items_sum( const JsonObject &jo, const std::string_vie
         const dbl_or_var amount = get_dbl_or_var( jsobj, "amount", true, 1 );
         item_and_amount.emplace_back( item, amount );
     }
-    return [item_and_amount, is_npc]( const_dialogue const & d ) {
+    return [item_and_amount, is_npc, &here]( const_dialogue const & d ) {
         add_msg_debug( debugmode::DF_TALKER, "using _has_items_sum:" );
 
         itype_id item_to_find;
@@ -950,7 +952,8 @@ conditional_t::func f_has_items_sum( const JsonObject &jo, const std::string_vie
         double charges_present;
         double total_present;
         const Character *you = d.const_actor( is_npc )->get_const_character();
-        inventory inventory_and_around = you->crafting_inventory( you->pos_bub(), PICKUP_RANGE );
+        inventory inventory_and_around = you->crafting_inventory( here, you->pos_bub( here ),
+                                         PICKUP_RANGE );
 
         for( const auto &pair : item_and_amount ) {
             item_to_find = itype_id( pair.first.evaluate( d ) );
@@ -2176,7 +2179,7 @@ conditional_t::func f_can_see_location( const JsonObject &jo, std::string_view m
     str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
     return [is_npc, target]( const_dialogue const & d ) {
         tripoint_abs_ms target_pos = tripoint_abs_ms( tripoint::from_string( target.evaluate( d ) ) );
-        return d.const_actor( is_npc )->can_see_location( get_map().get_bub( target_pos ) );
+        return d.const_actor( is_npc )->can_see_location( get_map(), get_map().get_bub( target_pos ) );
     };
 }
 

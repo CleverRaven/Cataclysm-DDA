@@ -358,8 +358,10 @@ void veh_interact::allocate_windows()
 bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
                                 const std::map<skill_id, int> &skills, time_duration time ) const
 {
+    map &here = get_map();
+
     Character &player_character = get_player_character();
-    const inventory &inv = player_character.crafting_inventory();
+    const inventory &inv = player_character.crafting_inventory( here );
     bool ok = reqs.can_make_with_inventory( inv, is_crafting_component );
 
     msg += _( "<color_white>Time required:</color>\n" );
@@ -606,23 +608,24 @@ void veh_interact::cache_tool_availability()
     map &here = get_map();
 
     Character &player_character = get_player_character();
-    crafting_inv = &player_character.crafting_inventory();
+    crafting_inv = &player_character.crafting_inventory( here );
 
-    cache_tool_availability_update_lifting( player_character.pos_bub() );
+    cache_tool_availability_update_lifting( here, player_character.pos_bub( here ) );
     int mech_jack = 0;
     if( player_character.is_mounted() ) {
         mech_jack = player_character.mounted_creature->mech_str_addition() + 10;
     }
     int max_quality = std::max( { player_character.max_quality( qual_JACK ), mech_jack,
-                                  map_selector( player_character.pos_bub(), PICKUP_RANGE ).max_quality( qual_JACK ),
+                                  map_selector( player_character.pos_bub( here ), PICKUP_RANGE ).max_quality( qual_JACK ),
                                   vehicle_selector( here, player_character.pos_bub(), 2, true, *veh ).max_quality( qual_JACK )
                                 } );
     max_jack = lifting_quality_to_mass( max_quality );
 }
 
-void veh_interact::cache_tool_availability_update_lifting( const tripoint_bub_ms &world_cursor_pos )
+void veh_interact::cache_tool_availability_update_lifting( map &here,
+        const tripoint_bub_ms &world_cursor_pos )
 {
-    max_lift = get_player_character().best_nearby_lifting_assist( world_cursor_pos );
+    max_lift = get_player_character().best_nearby_lifting_assist( here, world_cursor_pos );
 }
 
 /**
@@ -639,7 +642,7 @@ void veh_interact::cache_tool_availability_update_lifting( const tripoint_bub_ms
  *             an action requiring a minimum morale,
  *         UNKNOWN_TASK if the requested operation is unrecognized.
  */
-task_reason veh_interact::cant_do( const map &here,  char mode )
+task_reason veh_interact::cant_do( map &here,  char mode )
 {
     bool enough_morale = true;
     bool valid_target = false;
@@ -715,7 +718,7 @@ task_reason veh_interact::cant_do( const map &here,  char mode )
                     break;
                 }
             }
-            has_tools = player_character.crafting_inventory( false ).has_quality( qual_HOSE );
+            has_tools = player_character.crafting_inventory( here, false ).has_quality( qual_HOSE );
             break;
 
         case 'd':
@@ -2050,7 +2053,7 @@ void veh_interact::do_rename()
     }
 }
 
-void veh_interact::do_relabel( const map &here )
+void veh_interact::do_relabel( map &here )
 {
     if( cant_do( here,  'a' ) == task_reason::INVALID_TARGET ) {
         msg = _( "There are no parts here to label." );
@@ -2254,7 +2257,7 @@ void veh_interact::move_cursor( map &here, const point_rel_ms &d, int dstart_at 
     }
 
     /* Update the lifting quality to be the that is available for this newly selected tile */
-    cache_tool_availability_update_lifting( vehp );
+    cache_tool_availability_update_lifting( here, vehp );
 }
 
 void veh_interact::display_grid()
@@ -2660,7 +2663,7 @@ static std::string veh_act_desc( const input_context &ctxt, const std::string &i
 /**
  * Prints the list of usable commands, and highlights the hotkeys used to activate them.
  */
-void veh_interact::display_mode( const map &here )
+void veh_interact::display_mode( map &here )
 {
     werase( w_mode );
 
@@ -3075,7 +3078,7 @@ void veh_interact::complete_vehicle( map &here, Character &you )
     // cmd = Install Repair reFill remOve Siphon Unload reName relAbel
     switch( static_cast<char>( you.activity.index ) ) {
         case 'i': {
-            const inventory &inv = you.crafting_inventory();
+            const inventory &inv = you.crafting_inventory( here );
             const requirement_data reqs = vpinfo.install_requirements();
             if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
                 you.add_msg_player_or_npc( m_info,
@@ -3229,7 +3232,7 @@ void veh_interact::complete_vehicle( map &here, Character &you )
             const bool wall_wire_removal = appliance_removal && vpi.id == vpart_ap_wall_wiring;
             const bool broken = vp->is_broken();
             const bool smash_remove = vpi.has_flag( "SMASH_REMOVE" );
-            const inventory &inv = you.crafting_inventory();
+            const inventory &inv = you.crafting_inventory( here );
             const requirement_data &reqs = vpi.removal_requirements();
             if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
                 //~  1$s is the vehicle part name

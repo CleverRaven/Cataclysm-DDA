@@ -1269,6 +1269,8 @@ bool gun_actor::try_target( monster &z, Creature &target ) const
 bool gun_actor::shoot( monster &z, const tripoint_bub_ms &target, const gun_mode_id &mode,
                        int inital_recoil ) const
 {
+    map &here = get_map();
+
     itype_id mig_gun_type = item_controller->migrate_id( gun_type );
     item gun( mig_gun_type );
     gun.gun_set_mode( mode );
@@ -1332,10 +1334,10 @@ bool gun_actor::shoot( monster &z, const tripoint_bub_ms &target, const gun_mode
                            skill_gun ) ) );
 
     if( throwing ) {
-        tmp.throw_item( target, item( ammo, calendar::turn, 1 ) );
+        tmp.throw_item( here, target, item( ammo, calendar::turn, 1 ) );
         z.ammo[ammo_type]--;
     } else {
-        z.ammo[ammo_type] -= tmp.fire_gun( target, gun.gun_current_mode().qty );
+        z.ammo[ammo_type] -= tmp.fire_gun( here, target, gun.gun_current_mode().qty );
     }
     return true;
 }

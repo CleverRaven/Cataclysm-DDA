@@ -210,7 +210,7 @@ static void shoot_at_terrain( npc &shooter, const std::string &ter_str, tripoint
     for( int i = 0; i < 9; ++i ) {
         shooter.recoil = 0;
         shooter.set_moves( 100 );
-        shooter.fire_gun( aim_pos );
+        shooter.fire_gun( here, aim_pos );
     }
     // is it gone?
     INFO( here.ter( wall_pos ).id().str() );

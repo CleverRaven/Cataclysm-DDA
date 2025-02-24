@@ -31,6 +31,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "make_static.h"
+#include "map.h"
 #include "output.h"
 #include "pimpl.h"
 #include "pocket_type.h"
@@ -257,6 +258,8 @@ void item_action_generator::check_consistency() const
 
 void game::item_action_menu( item_location loc )
 {
+    map &here = get_map();
+
     const item_action_generator &gen = item_action_generator::generator();
     const action_map &item_actions = gen.get_item_action_map();
     std::vector<item *> pseudos;
@@ -376,7 +379,7 @@ void game::item_action_menu( item_location loc )
     const item_action_id action = std::get<0>( menu_items[kmenu.ret] );
     item *it = iactions[action];
 
-    u.invoke_item( it, action );
+    u.invoke_item( it, action, here );
 
     u.inv->restack( u );
     u.inv->unsort();

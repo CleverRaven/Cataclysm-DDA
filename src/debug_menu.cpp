@@ -1133,6 +1133,8 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
 static void spell_description(
     std::tuple<spell_type, int, std::string> &spl_data, int width, Character &chrc )
 {
+    map &here = get_map();
+
     std::ostringstream description;
 
     const int spl_level = std::get<1>( spl_data );
@@ -1323,11 +1325,11 @@ static void spell_description(
     if( spl.has_components() ) {
         if( !spl.components().get_components().empty() ) {
             print_vec_string( spl.components().get_folded_components_list( width - 2, gray,
-                              chrc.crafting_inventory(), return_true<item> ) );
+                              chrc.crafting_inventory( here ), return_true<item> ) );
         }
         if( !( spl.components().get_tools().empty() && spl.components().get_qualities().empty() ) ) {
             print_vec_string( spl.components().get_folded_tools_list( width - 2, gray,
-                              chrc.crafting_inventory() ) );
+                              chrc.crafting_inventory( here ) ) );
         }
     }
 
@@ -2459,7 +2461,7 @@ static void character_edit_menu()
             you.remove_weapon();
             break;
         case D_DROP_ITEMS:
-            you.drop( game_menus::inv::multidrop( you ), you.pos_bub() );
+            you.drop( game_menus::inv::multidrop( you ), here, you.pos_bub( here ) );
             break;
         case D_ITEM_WORN: {
             item_location loc = game_menus::inv::titled_menu( player_character, _( "Make target equip" ) );

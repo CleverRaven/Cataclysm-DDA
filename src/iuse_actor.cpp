@@ -1270,7 +1270,7 @@ static ret_val<tripoint_bub_ms> check_deploy_square( Character *p, item &it,
         // Check that there is no liquid on the floor.
         // If there is, it needs to be mopped dry with a mop.
         if( here->terrain_moppable( pnt ) ) {
-            if( get_avatar().crafting_inventory().has_quality( qual_MOP ) ) {
+            if( get_avatar().crafting_inventory( *here ).has_quality( qual_MOP ) ) {
                 here->mop_spills( pnt );
                 p->add_msg_if_player( m_info, _( "You mopped up the spill with a nearby mop when deploying a %s." ),
                                       it.tname() );
@@ -3192,6 +3192,8 @@ std::set<itype_id> repair_item_actor::get_valid_repair_materials( const item &fi
 bool repair_item_actor::handle_components( Character &pl, const item &fix,
         bool print_msg, bool just_check, bool check_consumed_available ) const
 {
+    map &here = get_map();
+
     // Entries valid for repaired items
     std::set<itype_id> valid_entries = get_valid_repair_materials( fix );
 
@@ -3209,7 +3211,7 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
         return false;
     }
 
-    const inventory &crafting_inv = pl.crafting_inventory();
+    const inventory &crafting_inv = pl.crafting_inventory( here );
 
     // Repairing or modifying items requires at least 1 repair item,
     //  otherwise number is related to size of item
@@ -4261,7 +4263,7 @@ bool place_trap_actor::is_allowed( Character &p, const tripoint_bub_ms &pos,
     }
     const trap &existing_trap = here.tr_at( pos );
     if( !existing_trap.is_null() ) {
-        if( existing_trap.can_see( pos, p ) ) {
+        if( existing_trap.can_see( here, pos, p ) ) {
             p.add_msg_if_player( m_info,
                                  existing_trap.is_benign()
                                  ? _( "You can't place a %s there.  It contains a deployed object already." )
@@ -4282,7 +4284,7 @@ static void place_and_add_as_known( Character &p, const tripoint_bub_ms &pos,
     map &here = get_map();
     here.trap_set( pos, id );
     const trap &tr = here.tr_at( pos );
-    if( !tr.can_see( pos, p ) ) {
+    if( !tr.can_see( here, pos, p ) ) {
         p.add_known_trap( pos, tr );
     }
 }
@@ -4854,7 +4856,7 @@ std::optional<int> modify_gunmods_actor::use( Character *p, item &it,
 }
 
 std::optional<int> modify_gunmods_actor::use( Character *p, item &it,
-        map */*here*/, const tripoint_bub_ms &pos ) const
+        map *here, const tripoint_bub_ms &pos ) const
 {
 
     std::vector<item *> mods;
@@ -4878,7 +4880,7 @@ std::optional<int> modify_gunmods_actor::use( Character *p, item &it,
         // set gun to default in case this changes anything
         it.gun_set_mode( gun_mode_DEFAULT );
         // TODO: make 'invoke_item' map aware.
-        p->invoke_item( mods[prompt.ret], "transform", pos );
+        p->invoke_item( mods[prompt.ret], "transform", *here, pos );
         it.on_contents_changed();
         return 0;
     }
@@ -5873,7 +5875,7 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, map *here,
     // Cache available materials
     std::map< itype_id, bool > has_enough;
     const int items_needed = mod.base_volume() / 750_ml + 1;
-    const inventory &crafting_inv = p->crafting_inventory( here );
+    const inventory &crafting_inv = p->crafting_inventory( *here );
     const std::function<bool( const item & )> is_filthy_filter = is_crafting_component;
 
     // Go through all discovered repair items and see if we have any of them available

@@ -24,6 +24,7 @@
 #include "enums.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
+#include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "inventory.h"
@@ -33,6 +34,7 @@
 #include "item_tname.h"
 #include "itype.h"
 #include "json.h"
+#include "map.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "mapgen_parameter.h"
@@ -1046,12 +1048,15 @@ static float get_aided_proficiency_level( const Character &crafter, const profic
 
 static float proficiency_time_malus( const Character &crafter, const recipe_proficiency &prof )
 {
+    map &here = get_map();
+
     if( !crafter.has_proficiency( prof.id )
         && !helpers_have_proficiencies( crafter, prof.id )
         && prof.time_multiplier > 1.0f
       ) {
         double malus = prof.time_multiplier - 1.0;
-        malus *= 1.0 - crafter.crafting_inventory().get_book_proficiency_bonuses().time_factor( prof.id );
+        malus *= 1.0 - crafter.crafting_inventory( here ).get_book_proficiency_bonuses().time_factor(
+                     prof.id );
         double pl = get_aided_proficiency_level( crafter, prof.id );
         // Sigmoid function that mitigates 100% of the time malus as pl approaches 1.0
         // but has little effect at pl < 0.5. See #49198
@@ -1081,12 +1086,15 @@ float recipe::max_proficiency_time_maluses( const Character & ) const
 
 static float proficiency_skill_malus( const Character &crafter, const recipe_proficiency &prof )
 {
+    map &here = get_map();
+
     if( !crafter.has_proficiency( prof.id )
         && !helpers_have_proficiencies( crafter, prof.id )
         && prof.skill_penalty > 0.f
       ) {
         double malus =  prof.skill_penalty;
-        malus *= 1.0 - crafter.crafting_inventory().get_book_proficiency_bonuses().fail_factor( prof.id );
+        malus *= 1.0 - crafter.crafting_inventory( here ).get_book_proficiency_bonuses().fail_factor(
+                     prof.id );
         double pl = get_aided_proficiency_level( crafter, prof.id );
         // The failure malus is not completely eliminated until the proficiency is mastered.
         // Most of the mitigation happens at higher pl. See #49198
@@ -1116,13 +1124,15 @@ float recipe::max_proficiency_skill_maluses( const Character & ) const
 
 std::string recipe::missing_proficiencies_string( const Character *crafter ) const
 {
+    map &here = get_map();
+
     if( crafter == nullptr ) {
         return { };
     }
     std::vector<prof_penalty> missing_profs;
 
     const book_proficiency_bonuses book_bonuses =
-        crafter->crafting_inventory().get_book_proficiency_bonuses();
+        crafter->crafting_inventory( here ).get_book_proficiency_bonuses();
     for( const recipe_proficiency &prof : proficiencies ) {
         if( !prof.required ) {
             if( !( crafter->has_proficiency( prof.id ) || helpers_have_proficiencies( *crafter, prof.id ) ) ) {

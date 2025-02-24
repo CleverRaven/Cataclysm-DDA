@@ -950,10 +950,8 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
     }
 }
 
-int Character::fire_gun( const tripoint_bub_ms &target, int shots )
+int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots )
 {
-    map &here = get_map();
-
     item_location gun = get_wielded_item();
     if( !gun ) {
         debugmsg( "%s doesn't have a gun to fire", get_name() );
@@ -1414,7 +1412,8 @@ int Character::thrown_item_total_damage_raw( const item &thrown ) const
     return total_damage;
 }
 
-dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, const item &to_throw,
+dealt_projectile_attack Character::throw_item( map &here, const tripoint_bub_ms &target,
+        const item &to_throw,
         const std::optional<tripoint_bub_ms> &blind_throw_from_pos )
 {
     // Copy the item, we may alter it before throwing
@@ -1513,7 +1512,7 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
         proj_effects.insert( ammo_effect_TANGLE );
     }
 
-    Creature *critter = get_creature_tracker().creature_at( target, true );
+    Creature *critter = get_creature_tracker().creature_at( here.get_abs( target ), true );
     const dispersion_sources dispersion( throwing_dispersion( thrown, critter,
                                          blind_throw_from_pos.has_value() ) );
     const itype *thrown_type = thrown.type;
@@ -1526,7 +1525,7 @@ dealt_projectile_attack Character::throw_item( const tripoint_bub_ms &target, co
 
     // Throw from the player's position, unless we're blind throwing, in which case
     // throw from the the blind throw position instead.
-    const tripoint_bub_ms throw_from = blind_throw_from_pos ? *blind_throw_from_pos : pos_bub();
+    const tripoint_bub_ms throw_from = blind_throw_from_pos ? *blind_throw_from_pos : pos_bub( here );
 
     float range = rl_dist( throw_from, target );
     proj.range = range;

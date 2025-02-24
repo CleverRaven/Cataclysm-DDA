@@ -658,7 +658,7 @@ void draw_line_curses( game &g, const tripoint_bub_ms &center,
 
         // NPCs and monsters get drawn with inverted colors
         if( critter && player_character.sees( here, *critter ) ) {
-            critter->draw( g.w_terrain, center, true );
+            critter->draw( g.w_terrain, here, center, true );
         } else if( noreveal && !player_character.sees( here,  p ) ) {
             // Draw a meaningless symbol. Avoids revealing tile, but keeps feedback
             const char sym = '?';

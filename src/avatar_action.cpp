@@ -250,12 +250,12 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
         if( weapon && weapon->has_flag( flag_DIG_TOOL ) ) {
             if( weapon->type->can_use( "JACKHAMMER" ) &&
                 weapon->ammo_sufficient( &you ) ) {
-                you.invoke_item( &*weapon, "JACKHAMMER", dest_loc );
+                you.invoke_item( &*weapon, "JACKHAMMER", here, dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
                 return true;
             } else if( weapon->type->can_use( "PICKAXE" ) ) {
-                you.invoke_item( &*weapon, "PICKAXE", dest_loc );
+                you.invoke_item( &*weapon, "PICKAXE", here, dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
                 return true;
@@ -487,7 +487,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
     bool fromBoat = veh0 != nullptr;
     bool toBoat = veh1 != nullptr;
     if( is_riding ) {
-        if( !you.check_mount_will_move( dest_loc ) ) {
+        if( !you.check_mount_will_move( here, dest_loc ) ) {
             if( you.is_auto_moving() ) {
                 you.abort_automove();
             }
@@ -737,13 +737,13 @@ void avatar_action::autoattack( avatar &you, map &m )
         return rate_critter( *l ) > rate_critter( *r );
     } );
 
-    const tripoint_rel_ms diff = best.pos_bub() - you.pos_bub();
+    const tripoint_rel_ms diff = best.pos_bub( m ) - you.pos_bub( m );
     if( std::abs( diff.x() ) <= 1 && std::abs( diff.y() ) <= 1 && diff.z() == 0 ) {
         move( you, m, tripoint_rel_ms( diff.xy(), 0 ) );
         return;
     }
 
-    you.reach_attack( best.pos_bub() );
+    you.reach_attack( m, best.pos_bub( m ) );
 }
 
 // TODO: Move data/functions related to targeting out of game class
@@ -1103,7 +1103,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
             you.remove_weapon();
         }
     }
-    you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
+    you.throw_item( here, trajectory.back(), thrown, blind_throw_from_pos );
     g->reenter_fullscreen();
 }
 

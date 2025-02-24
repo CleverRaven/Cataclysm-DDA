@@ -212,6 +212,8 @@ void avatar::control_npc_menu( const bool debug )
 
 void avatar::longpull( const std::string &name )
 {
+    map &here = get_map();
+
     item wtmp( itype_mut_longpull );
     g->temp_exit_fullscreen();
     target_handler::trajectory traj = target_handler::mode_throw( *this, wtmp, false );
@@ -220,7 +222,7 @@ void avatar::longpull( const std::string &name )
         return; // cancel
     }
 
-    Creature::longpull( name, traj.back() );
+    Creature::longpull( name, here, traj.back() );
 }
 
 void avatar::toggle_map_memory()
@@ -1458,7 +1460,7 @@ item::reload_option avatar::select_ammo( const item_location &base, bool prompt,
     return game_menus::inv::select_ammo( *this, base, prompt, empty );
 }
 
-bool avatar::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_moves )
+bool avatar::invoke_item( item *used, map &here, const tripoint_bub_ms &pt, int pre_obtain_moves )
 {
     const std::map<std::string, use_function> &use_methods = used->type->use_methods;
     const int num_methods = use_methods.size();
@@ -1467,7 +1469,7 @@ bool avatar::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_
     if( use_methods.empty() && !has_relic ) {
         return false;
     } else if( num_methods == 1 && !has_relic ) {
-        return invoke_item( used, use_methods.begin()->first, pt, pre_obtain_moves );
+        return invoke_item( used, use_methods.begin()->first, here, pt, pre_obtain_moves );
     } else if( num_methods == 0 && has_relic ) {
         return used->use_relic( *this, pt );
     }
@@ -1505,26 +1507,27 @@ bool avatar::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_
 
     const std::string &method = std::next( use_methods.begin(), choice )->first;
 
-    return invoke_item( used, method, pt, pre_obtain_moves );
+    return invoke_item( used, method, here, pt, pre_obtain_moves );
 }
 
-bool avatar::invoke_item( item *used )
+bool avatar::invoke_item( item *used, map &here )
 {
-    return Character::invoke_item( used );
+    return Character::invoke_item( used, here );
 }
 
-bool avatar::invoke_item( item *used, const std::string &method, const tripoint_bub_ms &pt,
+bool avatar::invoke_item( item *used, const std::string &method, map &here,
+                          const tripoint_bub_ms &pt,
                           int pre_obtain_moves )
 {
     if( pre_obtain_moves == -1 ) {
         pre_obtain_moves = get_moves();
     }
-    return Character::invoke_item( used, method, pt, pre_obtain_moves );
+    return Character::invoke_item( used, method, here, pt, pre_obtain_moves );
 }
 
-bool avatar::invoke_item( item *used, const std::string &method )
+bool avatar::invoke_item( item *used, const std::string &method, map &here )
 {
-    return Character::invoke_item( used, method );
+    return Character::invoke_item( used, method, here );
 }
 
 void avatar::update_cardio_acc()

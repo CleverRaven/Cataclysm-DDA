@@ -385,7 +385,7 @@ class Creature : public viewer
          * @param tr is the trap that was triggered.
          * @param pos is the location of the trap (not necessarily of the creature) in the main map.
          */
-        virtual bool avoid_trap( const tripoint_bub_ms &pos, const trap &tr ) const = 0;
+        virtual bool avoid_trap( const map &here, const tripoint_bub_ms &pos, const trap &tr ) const = 0;
 
         /**
          * The functions check whether this creature can see the target.
@@ -441,12 +441,12 @@ class Creature : public viewer
                                              damage_instance &dam, const weakpoint &wp = weakpoint() ) = 0;
 
         // TODO: this is just a shim so knockbacks work
-        void knock_back_from( const tripoint_bub_ms &p );
+        void knock_back_from( map &here, const tripoint_bub_ms &p );
         double calculate_by_enchantment( double modify, enchant_vals::mod value,
                                          bool round_output = false ) const;
         void adjust_taken_damage_by_enchantments( damage_unit &du ) const;
         void adjust_taken_damage_by_enchantments_post_absorbed( damage_unit &du ) const;
-        virtual void knock_back_to( const tripoint_bub_ms &to ) = 0;
+        virtual void knock_back_to( map &here, const tripoint_bub_ms &to ) = 0;
 
         // Converts the "cover_vitals" protection on the specified body part into
         // a modifier (between 0 and 1) that would be applied to incoming critical damage
@@ -512,7 +512,7 @@ class Creature : public viewer
          * @param name Name of the implement used to pull the target.
          * @param p Position of the target creature.
         */
-        void longpull( const std::string &name, const tripoint_bub_ms &p );
+        void longpull( const std::string &name, map &here, const tripoint_bub_ms &p );
 
         /**
          * If training_level is anything but 0, the check will only train target's skill to that level
@@ -525,7 +525,7 @@ class Creature : public viewer
         // Temporarily reveals an invisible player when a monster tries to enter their location
         bool stumble_invis( const Creature &player, bool stumblemsg = true );
         // Attack an empty location
-        bool attack_air( const tripoint_bub_ms &p );
+        bool attack_air( map &here, const tripoint_bub_ms &p );
 
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
@@ -601,7 +601,7 @@ class Creature : public viewer
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         virtual float fall_damage_mod() const = 0;
         /** Deals falling/collision damage with terrain/creature at pos */
-        virtual int impact( int force, const tripoint_bub_ms &pos ) = 0;
+        virtual int impact( int force, map &here, const tripoint_bub_ms &pos ) = 0;
 
         /**
          * This function checks the creatures @ref is_dead_state and (if true) calls @ref die.
@@ -963,12 +963,15 @@ class Creature : public viewer
 
         /** Returns settings for pathfinding. */
         virtual const pathfinding_settings &get_pathfinding_settings() const = 0;
-        /** Returns a set of points we do not want to path through. */
+        /** Returns a set of points we do not want to path through.
+        * Does not take a map reference because it will ultimately be used by a map operation */
         virtual std::function<bool( const tripoint_bub_ms & )> get_path_avoid() const = 0;
 
         bool underwater;
-        void draw( const catacurses::window &w, const point_bub_ms &origin, bool inverted ) const;
-        void draw( const catacurses::window &w, const tripoint_bub_ms &origin, bool inverted ) const;
+        void draw( const catacurses::window &w, map &here, const point_bub_ms &origin,
+                   bool inverted ) const;
+        void draw( const catacurses::window &w, map &here, const tripoint_bub_ms &origin,
+                   bool inverted ) const;
         /**
          * Write information about this creature.
          * @param w the window to print the text into.

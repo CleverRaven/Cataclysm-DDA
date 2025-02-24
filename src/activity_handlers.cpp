@@ -506,6 +506,8 @@ static bool do_cannibalism_piss_people_off( Character &you )
 
 static void set_up_butchery( player_activity &act, Character &you, butcher_type action )
 {
+    map &here = get_map();
+
     const int factor = you.max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE : qual_BUTCHER,
                                         PICKUP_RANGE );
 
@@ -547,22 +549,24 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     }
 
     const std::pair<float, requirement_id> butchery_requirements =
-        corpse.harvest->get_butchery_requirements().get_fastest_requirements( you.crafting_inventory(),
+        corpse.harvest->get_butchery_requirements().get_fastest_requirements( you.crafting_inventory(
+                    here ),
                 corpse.size, action );
 
     // Requirements for the various types
     const requirement_id butchery_requirement = butchery_requirements.second;
 
     if( !butchery_requirement->can_make_with_inventory(
-            you.crafting_inventory( you.pos_bub(), PICKUP_RANGE ), is_crafting_component ) ) {
+            you.crafting_inventory( here, you.pos_bub( here ), PICKUP_RANGE ), is_crafting_component ) ) {
         std::string popup_output = _( "You can't butcher this; you are missing some tools.\n" );
 
         for( const std::string &str : butchery_requirement->get_folded_components_list(
-                 45, c_light_gray, you.crafting_inventory( you.pos_bub(), PICKUP_RANGE ), is_crafting_component ) ) {
+                 45, c_light_gray, you.crafting_inventory( here, you.pos_bub( here ), PICKUP_RANGE ),
+                 is_crafting_component ) ) {
             popup_output += str + '\n';
         }
         for( const std::string &str : butchery_requirement->get_folded_tools_list(
-                 45, c_light_gray, you.crafting_inventory( you.pos_bub(), PICKUP_RANGE ) ) ) {
+                 45, c_light_gray, you.crafting_inventory( here, you.pos_bub( here ), PICKUP_RANGE ) ) ) {
             popup_output += str + '\n';
         }
 
@@ -2659,7 +2663,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         int ammo_remaining = used_tool->ammo_remaining_linked( here, you );
 
         std::set<itype_id> valid_entries = actor->get_valid_repair_materials( fix );
-        const inventory &crafting_inv = you->crafting_inventory();
+        const inventory &crafting_inv = you->crafting_inventory( here );
         std::function<bool( const item & )> filter;
         if( fix.is_filthy() ) {
             filter = []( const item & component ) {
@@ -2762,6 +2766,8 @@ void activity_handlers::heat_item_finish( player_activity *act, Character *you )
 
 void activity_handlers::mend_item_finish( player_activity *act, Character *you )
 {
+    map &here = get_map();
+
     act->set_to_null();
     if( act->targets.size() != 1 ) {
         debugmsg( "invalid arguments to ACT_MEND_ITEM" );
@@ -2788,7 +2794,7 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     }
     const fault_fix &fix = *fix_id;
     const requirement_data &reqs = fix.get_requirements();
-    const inventory &inv = you->crafting_inventory();
+    const inventory &inv = you->crafting_inventory( here );
     if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to mend the %s." ), target.tname() );
         return;
@@ -3126,7 +3132,7 @@ void activity_handlers::socialize_finish( player_activity *act, Character *you )
 
 void activity_handlers::operation_do_turn( player_activity *act, Character *you )
 {
-    const map &here = get_map();
+    map &here = get_map();
 
     /**
     - values[0]: Difficulty
@@ -3243,7 +3249,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
                 }
 
                 you->perform_install( bid, upbio_uid, act->values[0], act->values[1], act->values[3],
-                                      act->str_values[installer_name], bid->canceled_mutations, you->pos_bub() );
+                                      act->str_values[installer_name], bid->canceled_mutations, here, you->pos_bub( here ) );
             } else {
                 debugmsg( _( "%s is no a valid bionic_id" ), bid.c_str() );
                 you->remove_effect( effect_under_operation );
@@ -3741,10 +3747,12 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
 
 void activity_handlers::pull_creature_finish( player_activity *act, Character *you )
 {
+    map &here = get_map();
+
     if( you->is_avatar() ) {
         you->as_avatar()->longpull( act->name );
     } else {
-        you->longpull( act->name, get_map().get_bub( act->placement ) );
+        you->longpull( act->name, here, here.get_bub( act->placement ) );
     }
     act->set_to_null();
 }

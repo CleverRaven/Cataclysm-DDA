@@ -978,6 +978,8 @@ void bookbinder_copy_activity_actor::do_turn( player_activity &, Character &p )
 
 void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p )
 {
+    map &here = get_map();
+
     if( !book_binder->can_contain( item( itype_paper, calendar::turn, pages ) ).success() ) {
         debugmsg( "Book binder can not contain '%s' recipe when it should.", rec_id.str() );
         act.set_to_null();
@@ -994,7 +996,7 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
         p.use_charges( itype_paper, pages );
 
         const std::vector<const item *> writing_tools_filter =
-        p.crafting_inventory().items_with( [&]( const item & it ) {
+        p.crafting_inventory( here ).items_with( [&]( const item & it ) {
             return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_remaining( ) >= it.ammo_required() ;
         } );
 
@@ -6828,15 +6830,17 @@ std::unique_ptr<activity_actor> wear_activity_actor::deserialize( JsonValue &jsi
 
 void invoke_item_activity_actor::do_turn( player_activity &, Character &who )
 {
+    map &here = get_map();
+
     item_location _item = item;
     std::string _method = method;
     if( method.empty() ) {
         who.cancel_activity();
-        who.invoke_item( _item.get_item() );
+        who.invoke_item( _item.get_item(), here );
         return;
     }
     who.cancel_activity();
-    who.invoke_item( _item.get_item(), _method );
+    who.invoke_item( _item.get_item(), _method, here );
 }
 
 void invoke_item_activity_actor::serialize( JsonOut &jsout ) const
@@ -8028,7 +8032,7 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
         return false;
     }
 
-    const inventory &inv = p.crafting_inventory();
+    const inventory &inv = p.crafting_inventory( here );
     for( const vpart_reference &vp : veh.get_all_parts() ) {
         for( const itype_id &tool : vp.info().get_folding_tools() ) {
             if( !inv.has_tools( tool, 1 ) ) {
@@ -8149,7 +8153,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
                || here.impassable( p );
     };
 
-    const inventory &inv = p.crafting_inventory();
+    const inventory &inv = p.crafting_inventory( here );
     for( const vpart_reference &vp : veh->get_all_parts() ) {
         if( vp.info().location != "structure" ) {
             continue;
@@ -8395,10 +8399,12 @@ void wash_activity_actor::start( player_activity &act, Character & )
 
 void wash_activity_actor::finish( player_activity &act, Character &p )
 {
+    map &here = get_map();
+
     const auto is_liquid_crafting_component = []( const item & it ) {
         return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( phase_id::LIQUID ) );
     };
-    const inventory &crafting_inv = p.crafting_inventory();
+    const inventory &crafting_inv = p.crafting_inventory( here );
     if( !crafting_inv.has_charges( itype_water, requirements.water, is_liquid_crafting_component ) &&
         !crafting_inv.has_charges( itype_water_clean, requirements.water, is_liquid_crafting_component ) ) {
         p.add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),

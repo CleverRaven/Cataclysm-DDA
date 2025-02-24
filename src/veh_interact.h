@@ -148,7 +148,7 @@ class veh_interact
 
         int part_at( const point_rel_ms &d );
         void move_cursor( map &here, const point_rel_ms &d, int dstart_at = 0 );
-        task_reason cant_do( const map &here,  char mode );
+        task_reason cant_do( map &here,  char mode );
         bool can_potentially_install( const vpart_info &vpart );
         /** Move index (parameter pos) according to input action:
          * (up or down, single step or whole page).
@@ -180,7 +180,7 @@ class veh_interact
         // Returns true if exiting the screen
         bool do_unload( map &here );
         void do_assign_crew( map &here );
-        void do_relabel( const map &here );
+        void do_relabel( map &here );
         /*@}*/
 
         /**
@@ -194,7 +194,7 @@ class veh_interact
         void display_veh( map &here );
         void display_stats( map &here ) const;
         void display_name();
-        void display_mode( const map &here );
+        void display_mode( map &here );
         void display_list( size_t pos, const std::vector<const vpart_info *> &list, int header = 0 );
         void display_details( const vpart_info *part );
 
@@ -291,7 +291,7 @@ class veh_interact
         void allocate_windows();
         void do_main_loop( map &here );
 
-        void cache_tool_availability_update_lifting( const tripoint_bub_ms &world_cursor_pos );
+        void cache_tool_availability_update_lifting( map &here, const tripoint_bub_ms &world_cursor_pos );
 
         /** Returns true if the vehicle has a jack powerful enough to lift itself installed */
         bool can_self_jack( map &here );

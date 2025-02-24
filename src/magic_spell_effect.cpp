@@ -876,6 +876,8 @@ static void move_field( map &here, const tripoint_bub_ms &from, const tripoint_b
 static void spell_move( const spell &sp, const Creature &caster,
                         const tripoint_bub_ms &from, const tripoint_bub_ms &to )
 {
+    map &here = get_map();
+
     if( from == to ) {
         return;
     }
@@ -897,19 +899,19 @@ static void spell_move( const spell &sp, const Creature &caster,
                 valid |= victim == &caster && can_target_self;
             }
             if( valid ) {
-                victim->knock_back_to( to );
+                victim->knock_back_to( here, to );
             }
         }
     }
 
     // Moving items
     if( sp.is_valid_target( spell_target::item ) ) {
-        move_items( get_map(), from, to );
+        move_items( here, from, to );
     }
 
     // Moving fields.
     if( sp.is_valid_target( spell_target::field ) ) {
-        move_field( get_map(), from, to );
+        move_field( here, from, to );
     }
 }
 
@@ -1456,7 +1458,9 @@ void spell_effect::vomit( const spell &sp, Creature &caster, const tripoint_bub_
 void spell_effect::pull_to_caster( const spell &sp, Creature &caster,
                                    const tripoint_bub_ms &target )
 {
-    caster.longpull( sp.name(), target );
+    class::map &here = get_map();
+
+    caster.longpull( sp.name(), here, target );
 }
 
 void spell_effect::explosion( const spell &sp, Creature &caster, const tripoint_bub_ms &target )

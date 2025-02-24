@@ -2504,6 +2504,8 @@ std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint_
 // Part of iuse::water_tablets, but with the user interaction split out so it can be unit tested
 std::optional<int> iuse::purify_water( Character *p, item *purifier, item_location &water )
 {
+    map &here = get_map();
+
     const double default_ratio = 4; // Existing pur_tablets will not have the var
     const int max_water_per_tablet = static_cast<int>( purifier->get_var( "water_per_tablet",
                                      default_ratio ) );
@@ -2523,13 +2525,13 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
     float to_consume_f = charges_of_water;
     to_consume_f /= max_water_per_tablet;
 
-    const int available = p->crafting_inventory().count_item( itype_pur_tablets );
+    const int available = p->crafting_inventory( here ).count_item( itype_pur_tablets );
     if( available * max_water_per_tablet >= charges_of_water ) {
         int to_consume = std::ceil( to_consume_f );
         p->add_msg_if_player( m_info, _( "Purifying %i water using %i %s" ), charges_of_water, to_consume,
                               purifier->tname( to_consume ) );
         // Pull from surrounding map first because it will update to_consume
-        get_map().use_amount( p->pos_bub(), PICKUP_RANGE, itype_pur_tablets, to_consume );
+        here.use_amount( p->pos_bub( here ), PICKUP_RANGE, itype_pur_tablets, to_consume );
         // Then pull from inventory
         if( to_consume > 0 ) {
             p->use_amount( itype_pur_tablets, to_consume );
@@ -5822,9 +5824,11 @@ std::optional<int> iuse::efiledevice( Character *p, item *it, const tripoint_bub
 
 static std::string colorized_trap_name_at( const tripoint_bub_ms &point )
 {
-    const trap &trap = get_map().tr_at( point );
+    const map &here = get_map();
+
+    const trap &trap = here.tr_at( point );
     std::string name;
-    if( trap.can_see( point, get_player_character() ) ) {
+    if( trap.can_see( here, point, get_player_character() ) ) {
         name = colorize( trap.name(), trap.color ) + _( " on " );
     }
     return name;
@@ -7670,7 +7674,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
 
         std::vector<const recipe *> dishes;
 
-        inventory crafting_inv = p->crafting_inventory();
+        inventory crafting_inv = p->crafting_inventory( here );
         // add some tools and qualities. we can't add this qualities to
         // json, because multicook must be used only by activating, not as
         // component other crafts.
@@ -7759,7 +7763,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, const tripoint_bub
 
         bool has_tools = true;
 
-        const inventory &cinv = p->crafting_inventory();
+        const inventory &cinv = p->crafting_inventory( here );
 
         if( !cinv.has_amount( itype_soldering_iron, 1 ) ) {
             p->add_msg_if_player( m_warning, _( "You need a %s." ),
@@ -8589,11 +8593,13 @@ std::optional<int> iuse::wash_all_items( Character *p, item *, const tripoint_bu
 
 std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_items )
 {
+    map &here = get_map();
+
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
     p->inv->restack( *p );
-    const inventory &crafting_inv = p->crafting_inventory();
+    const inventory &crafting_inv = p->crafting_inventory( here );
 
     auto is_liquid = []( const item & it ) {
         return it.made_of( phase_id::LIQUID );
@@ -9062,6 +9068,8 @@ std::optional<int> iuse::ebooksave( Character *p, item *it, const tripoint_bub_m
 
 std::optional<int> iuse::binder_add_recipe( Character *p, item *binder, const tripoint_bub_ms & )
 {
+    map &here = get_map();
+
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -9071,7 +9079,7 @@ std::optional<int> iuse::binder_add_recipe( Character *p, item *binder, const tr
         return std::nullopt;
     }
 
-    const inventory crafting_inv = p->crafting_inventory();
+    const inventory crafting_inv = p->crafting_inventory( here );
     const std::vector<const item *> writing_tools = crafting_inv.items_with( [&]( const item & it ) {
         return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_sufficient( p );
     } );

@@ -3542,7 +3542,7 @@ bool cata_tiles::draw_trap( const tripoint_bub_ms &p, const lit_level ll, int &h
     map &here = get_map();
     // first memorize the actual trap
     const trap &tr = here.tr_at( p );
-    if( !tr.is_null() && !invisible[0] && tr.can_see( p, you ) ) {
+    if( !tr.is_null() && !invisible[0] && tr.can_see( here, p, you ) ) {
         const std::array<int, 4> neighborhood = {
             static_cast<int>( here.tr_at( p + point::south ).loadid ),
             static_cast<int>( here.tr_at( p + point::east ).loadid ),
@@ -3565,7 +3565,7 @@ bool cata_tiles::draw_trap( const tripoint_bub_ms &p, const lit_level ll, int &h
         }
     }
     if( overridden || ( !invisible[0] && neighborhood_overridden &&
-                        tr.can_see( p, you ) ) ) {
+                        tr.can_see( here, p, you ) ) ) {
         // and then draw the override trap
         const trap_id &tr2 = overridden ? override->second : tr.loadid;
         if( tr2 ) {

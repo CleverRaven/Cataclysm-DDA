@@ -1157,7 +1157,7 @@ class Character : public Creature, public visitable
                                     bool allow_unarmed = true, int forced_movecost = -1 );
 
         /** Handles reach melee attacks */
-        void reach_attack( const tripoint_bub_ms &p, int forced_movecost = -1 );
+        void reach_attack( map &here, const tripoint_bub_ms &p, int forced_movecost = -1 );
 
         /**
          * Calls the to other melee_attack function with an empty technique id (meaning no specific
@@ -1453,7 +1453,7 @@ class Character : public Creature, public visitable
         void mount_creature( monster &z );
         bool cant_do_mounted( bool msg = true ) const;
         bool is_mounted() const;
-        bool check_mount_will_move( const tripoint_bub_ms &dest_loc );
+        bool check_mount_will_move( const map &here, const tripoint_bub_ms &dest_loc );
         bool check_mount_is_spooked();
         void dismount();
         void forced_dismount();
@@ -1781,9 +1781,9 @@ class Character : public Creature, public visitable
         /**Success or failure of installation happens here*/
         void perform_install( const bionic_id &bid, bionic_uid upbio_uid, int difficulty, int success,
                               int pl_skill, const std::string &installer_name,
-                              const std::vector<trait_id> &trait_to_rem, const tripoint_bub_ms &patient_pos );
+                              const std::vector<trait_id> &trait_to_rem, map &here, const tripoint_bub_ms &patient_pos );
         void bionics_install_failure( const bionic_id &bid, const std::string &installer, int difficulty,
-                                      int success, float adjusted_skill, const tripoint_bub_ms &patient_pos );
+                                      int success, float adjusted_skill, map &here, const tripoint_bub_ms &patient_pos );
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
          * @param container Container containing the item to be wielded
@@ -1945,13 +1945,13 @@ class Character : public Creature, public visitable
          * Returns true if it destroys the item. Consumes charges from the item.
          * Multi-use items are ONLY supported when all use_methods are iuse_actor!
          */
-        virtual bool invoke_item( item *, const tripoint_bub_ms &pt, int pre_obtain_moves = -1 );
+        virtual bool invoke_item( item *, map &here, const tripoint_bub_ms &pt, int pre_obtain_moves = -1 );
         /** As above, but with a pre-selected method. Debugmsg if this item doesn't have this method. */
-        virtual bool invoke_item( item *, const std::string &, const tripoint_bub_ms &pt,
+        virtual bool invoke_item( item *, const std::string &, map &here, const tripoint_bub_ms &pt,
                                   int pre_obtain_moves = -1 );
         /** As above two, but with position equal to current position */
-        virtual bool invoke_item( item * );
-        virtual bool invoke_item( item *, const std::string & );
+        virtual bool invoke_item( item *, map &here );
+        virtual bool invoke_item( item *, const std::string &, map &here );
 
         /**
          * Drop, wear, stash or otherwise try to dispose of an item consuming appropriate moves
@@ -2232,10 +2232,10 @@ class Character : public Creature, public visitable
 
         /// Checks for items, tools, and vehicles with the Lifting quality near the character
         /// returning the largest weight liftable by an item in range.
-        units::mass best_nearby_lifting_assist() const;
+        units::mass best_nearby_lifting_assist( map &here ) const;
         /// Alternate version if you need to specify a different origin point for nearby vehicle sources of lifting
         /// used for operations on distant objects (e.g. vehicle installation/uninstallation)
-        units::mass best_nearby_lifting_assist( const tripoint_bub_ms &world_pos ) const;
+        units::mass best_nearby_lifting_assist( map &here, const tripoint_bub_ms &world_pos ) const;
 
         // weapon + worn (for death, etc)
         std::vector<item *> inv_dump();
@@ -2393,8 +2393,9 @@ class Character : public Creature, public visitable
         /** Returns all items that must be taken off before taking off this item */
         std::list<item *> get_dependent_worn_items( const item &it );
         /** Drops an item to the specified location */
-        void drop( item_location loc, const tripoint_bub_ms &where );
-        virtual void drop( const drop_locations &what, const tripoint_bub_ms &target, bool stash = false );
+        void drop( item_location loc, map &here, const tripoint_bub_ms &where );
+        virtual void drop( const drop_locations &what, map &here, const tripoint_bub_ms &target,
+                           bool stash = false );
         /** Assigns character activity to pick up items from the given drop_locations.
          *  Requires sufficient storage; items cannot be wielded or worn from this activity.
          */
@@ -2524,10 +2525,11 @@ class Character : public Creature, public visitable
         // gets all the spells known by this character that have this spell class
         // spells returned are a copy, do not try to edit them from here, instead use known_magic::get_spell
         std::vector<spell> spells_known_of_class( const trait_id &spell_class ) const;
-        bool cast_spell( spell &sp, bool fake_spell, const std::optional<tripoint_bub_ms> &target );
+        bool cast_spell( spell &sp, bool fake_spell,
+                         const std::optional<tripoint_abs_ms> &target = std::nullopt );
 
         /** Called when a player triggers a trap, returns true if they don't set it off */
-        bool avoid_trap( const tripoint_bub_ms &pos, const trap &tr ) const override;
+        bool avoid_trap( const map &here, const tripoint_bub_ms &pos, const trap &tr ) const override;
 
         //returns true if the warning is now beyond final and results in hostility.
         bool add_faction_warning( const faction_id &id ) const;
@@ -2624,11 +2626,11 @@ class Character : public Creature, public visitable
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         float fall_damage_mod() const override;
         /** Deals falling/collision damage with terrain/creature at pos */
-        int impact( int force, const tripoint_bub_ms &pos ) override;
+        int impact( int force, map &here, const tripoint_bub_ms &pos ) override;
         /** Checks to see if the character is able to use their wings properly */
         bool can_fly();
         /** Knocks the player to a specified tile */
-        void knock_back_to( const tripoint_bub_ms &to ) override;
+        void knock_back_to( map &here, const tripoint_bub_ms &to ) override;
 
         /** Returns overall % of HP remaining */
         int hp_percentage() const override;
@@ -2712,7 +2714,7 @@ class Character : public Creature, public visitable
          * 0 means climbing is not possible.
          * Return value can depend on the orientation of the terrain.
          */
-        int climbing_cost( const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const;
+        int climbing_cost( const map &here, const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const;
 
         /** Which body part has the most staunchable bleeding, and what is the max improvement */
         bodypart_id most_staunchable_bp();
@@ -3178,7 +3180,7 @@ class Character : public Creature, public visitable
          *  @return number of shots actually fired
          */
 
-        int fire_gun( const tripoint_bub_ms &target, int shots = 1 );
+        int fire_gun( map &here, const tripoint_bub_ms &target, int shots = 1 );
         /**
          *  Fires a gun or auxiliary gunmod (ignoring any current mode)
          *  @param target where the first shot is aimed at (may vary for later shots)
@@ -3189,7 +3191,7 @@ class Character : public Creature, public visitable
         int fire_gun( map &here, const tripoint_bub_ms &target, int shots, item &gun,
                       item_location ammo = item_location() );
         /** Execute a throw */
-        dealt_projectile_attack throw_item( const tripoint_bub_ms &target, const item &to_throw,
+        dealt_projectile_attack throw_item( map &here, const tripoint_bub_ms &target, const item &to_throw,
                                             const std::optional<tripoint_bub_ms> &blind_throw_from_pos = std::nullopt );
 
     protected:
@@ -3214,7 +3216,7 @@ class Character : public Creature, public visitable
         /** Called when a stat is changed */
         void on_stat_change( const std::string &stat, int value ) override;
         /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
-        tripoint_bub_ms adjacent_tile() const;
+        tripoint_bub_ms adjacent_tile( map &here ) const;
         /** Returns true if the player has a trait which cancels the entered trait */
         bool has_opposite_trait( const trait_id &flag ) const;
         /** Returns traits that cancel the entered trait */
@@ -3331,11 +3333,11 @@ class Character : public Creature, public visitable
          * Warmth from terrain, furniture, vehicle furniture and traps.
          * Can be negative.
          **/
-        static units::temperature_delta floor_bedding_warmth( const tripoint_bub_ms &pos );
+        static units::temperature_delta floor_bedding_warmth( const map &here, const tripoint_bub_ms &pos );
         /** Warmth from clothing on the floor **/
-        static units::temperature_delta floor_item_warmth( const tripoint_bub_ms &pos );
+        static units::temperature_delta floor_item_warmth( map &here, const tripoint_bub_ms &pos );
         /** Final warmth from the floor **/
-        units::temperature_delta floor_warmth( const tripoint_bub_ms &pos ) const;
+        units::temperature_delta floor_warmth( map &here, const tripoint_bub_ms &pos ) const;
 
         /** Correction factor of the body temperature due to traits and mutations **/
         units::temperature_delta bodytemp_modifier_traits( bool overheated ) const;
@@ -3499,7 +3501,7 @@ class Character : public Creature, public visitable
         void clear_morale();
         bool has_morale_to_read() const;
         bool has_morale_to_craft() const;
-        const inventory &crafting_inventory( bool clear_path ) const;
+        const inventory &crafting_inventory( map &here, bool clear_path ) const;
         /**
         * Returns items that can be used to craft with. Always includes character inventory.
         * @param src_pos Character position.
@@ -3507,9 +3509,7 @@ class Character : public Creature, public visitable
         * @param clear_path True to select only items within view. False to select all within the radius.
         * @returns Craftable inventory items found.
         * */
-        const inventory &crafting_inventory( const tripoint_bub_ms &src_pos = tripoint_bub_ms::zero,
-                                             int radius = PICKUP_RANGE, bool clear_path = true ) const;
-        const inventory &crafting_inventory( map *here,
+        const inventory &crafting_inventory( map &here,
                                              const tripoint_bub_ms &src_pos = tripoint_bub_ms::zero,
                                              int radius = PICKUP_RANGE, bool clear_path = true ) const;
         void invalidate_crafting_inventory();
@@ -3780,7 +3780,8 @@ class Character : public Creature, public visitable
         using trap_map = std::map<tripoint_abs_ms, std::string>;
         // Use @ref trap::can_see to check whether a character knows about a
         // specific trap - it will consider visible and known traps.
-        bool knows_trap( const tripoint_bub_ms &pos ) const;
+        bool knows_trap( const map &here, const tripoint_bub_ms &pos ) const;
+        bool knows_trap( const tripoint_abs_ms &pos ) const;
         void add_known_trap( const tripoint_bub_ms &pos, const trap &t );
 
         // see Creature::sees

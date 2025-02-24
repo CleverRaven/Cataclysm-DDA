@@ -659,7 +659,9 @@ class disassemble_inventory_preset : public inventory_selector_preset
 
 item_location game_menus::inv::disassemble( Character &you )
 {
-    return inv_internal( you, disassemble_inventory_preset( you, you.crafting_inventory() ),
+    map &here = get_map();
+
+    return inv_internal( you, disassemble_inventory_preset( you, you.crafting_inventory( here ) ),
                          _( "Disassemble item" ), PICKUP_RANGE,
                          _( "You don't have any items you could disassemble." ) );
 }
@@ -2217,13 +2219,13 @@ class repair_inventory_preset: public inventory_selector_preset
     public:
         repair_inventory_preset( const repair_item_actor *actor, const item *main_tool, Character &you ) :
             actor( actor ), main_tool( main_tool ), character( you ) {
-
+            map &here = get_map();
             _indent_entries = false;
 
-            append_cell( [actor, &you]( const item_location & loc ) {
+            append_cell( [actor, &you, &here]( const item_location & loc ) {
                 const int comp_needed = std::max<int>( 1,
                                                        std::ceil( loc->base_volume() * actor->cost_scaling / 250_ml ) );
-                const inventory &crafting_inv = you.crafting_inventory();
+                const inventory &crafting_inv = you.crafting_inventory( here );
                 std::function<bool( const item & )> filter;
                 if( loc->is_filthy() ) {
                     filter = []( const item & component ) {
@@ -2700,6 +2702,8 @@ void game_menus::inv::swap_letters()
 static item_location autodoc_internal( Character &you, Character &patient,
                                        const inventory_selector_preset &preset, int radius, bool surgeon = false )
 {
+    map &here = get_map();
+
     inventory_pick_selector inv_s( you, preset );
     std::string hint;
     int drug_count = 0;
@@ -2710,7 +2714,7 @@ static item_location autodoc_internal( Character &you, Character &patient,
         } else if( patient.has_bionic( bio_painkiller ) ) {
             hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );
         } else {
-            const inventory &crafting_inv = you.crafting_inventory();
+            const inventory &crafting_inv = you.crafting_inventory( here );
             std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
                 return it.has_quality( qual_ANESTHESIA );
             } );
@@ -2723,7 +2727,7 @@ static item_location autodoc_internal( Character &you, Character &patient,
         }
     }
 
-    std::vector<const item *> install_programs = patient.crafting_inventory().items_with( [](
+    std::vector<const item *> install_programs = patient.crafting_inventory( here ).items_with( [](
                 const item & it ) -> bool { return it.has_flag( flag_BIONIC_INSTALLATION_DATA ); } );
 
     if( !install_programs.empty() ) {
@@ -2808,6 +2812,7 @@ class bionic_install_preset: public inventory_selector_preset
             // 20 minutes per bionic difficulty.
             return to_string( time_duration::from_minutes( difficulty * 20 ) );
         }
+        map &here = get_map();
 
         // Failure chance for bionic install. Combines multiple other functions together.
         std::string get_failure_chance( const item_location &loc ) {
@@ -2816,7 +2821,7 @@ class bionic_install_preset: public inventory_selector_preset
             int chance_of_failure = 100;
             Character &installer = you;
 
-            std::vector<const item *> install_programs = you.crafting_inventory().items_with( [loc](
+            std::vector<const item *> install_programs = you.crafting_inventory( here ).items_with( [loc](
                         const item & it ) -> bool { return it.typeId() == loc.get_item()->type->bionic->installation_data; } );
 
             const bool has_install_program = !install_programs.empty();

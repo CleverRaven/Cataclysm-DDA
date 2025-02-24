@@ -416,6 +416,9 @@ HURRICANE : 185 mph (880 hPa) [Ref: Hurricane Wilma]
 
 void Character::update_bodytemp()
 {
+    map &here = get_map();
+    const tripoint_bub_ms pos = pos_bub( here );
+
     if( has_trait( trait_DEBUG_NOTEMP ) ) {
         set_all_parts_temp_conv( BODYTEMP_NORM );
         set_all_parts_temp_cur( BODYTEMP_NORM );
@@ -426,16 +429,15 @@ void Character::update_bodytemp()
     }
     weather_manager &weather_man = get_weather();
     /* Cache calls to g->get_temperature( player position ), used in several places in function */
-    const units::temperature player_local_temp = weather_man.get_temperature( pos_bub() );
+    const units::temperature player_local_temp = weather_man.get_temperature( pos );
     const w_point weather = *weather_man.weather_precise;
     int vehwindspeed = 0;
-    map &here = get_map();
-    const optional_vpart_position vp = here.veh_at( pos_bub() );
+    const optional_vpart_position vp = here.veh_at( pos );
     if( vp ) {
         vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( pos_abs_omt() );
-    bool sheltered = g->is_sheltered( pos_bub() );
+    bool sheltered = g->is_sheltered( pos );
     int bp_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
                                             pos_abs(), weather_man.winddirection, sheltered );
     // Let's cache this not to check it for every bodyparts
@@ -450,7 +452,7 @@ void Character::update_bodytemp()
     const int climate_control_heat = climate_control.first;
     const int climate_control_chill = climate_control.second;
     const bool use_floor_warmth = can_use_floor_warmth();
-    const furn_id &furn_at_pos = here.furn( pos_bub() );
+    const furn_id &furn_at_pos = here.furn( pos );
     const std::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // This means which temperature is comfortable for a naked person
     // Ambient normal temperature is lower while asleep
@@ -477,13 +479,13 @@ void Character::update_bodytemp()
     // Sunlight
     const float scaled_sun_irradiance = incident_sun_irradiance( get_weather().weather_id,
                                         calendar::turn ) / max_sun_irradiance();
-    const units::temperature_delta sunlight_warmth = !g->is_sheltered( pos_bub() ) ? 3_C_delta *
+    const units::temperature_delta sunlight_warmth = !g->is_sheltered( pos ) ? 3_C_delta *
             scaled_sun_irradiance :
             0_C_delta;
-    const int best_fire = get_best_fire( pos_bub() );
+    const int best_fire = get_best_fire( pos );
 
     const units::temperature_delta lying_warmth = use_floor_warmth ? floor_warmth(
-                pos_bub() ) : 0_C_delta;
+                here, pos ) : 0_C_delta;
     const units::temperature water_temperature =
         get_weather().get_cur_weather_gen().get_water_temperature();
 
@@ -494,7 +496,7 @@ void Character::update_bodytemp()
     // Difference between high and low is the "safe" heat - one we only apply if it's beneficial
     const units::temperature_delta mutation_heat_bonus = mutation_heat_high - mutation_heat_low;
 
-    const units::temperature_delta h_radiation = get_heat_radiation( pos_bub() );
+    const units::temperature_delta h_radiation = get_heat_radiation( pos );
 
     // 111F (44C) is a temperature in which proteins break down: https://en.wikipedia.org/wiki/Burn
     // Blisters arbitrarily scale with the sqrt of the temperature difference in fahrenheit.
@@ -554,8 +556,8 @@ void Character::update_bodytemp()
         // Change the ambient temperature into a delta based on our comfortable temperature.
         units::temperature_delta adjusted_temp = player_local_temp - ambient_norm;
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
-        if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, pos_bub() ) ||
-            ( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, pos_bub() ) && is_lower( bp ) ) ) {
+        if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, pos ) ||
+            ( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, pos ) && is_lower( bp ) ) ) {
             adjusted_temp = water_temperature - ambient_norm; // Swap out air temp for water temp.
             windchill = 0_C_delta;
         }

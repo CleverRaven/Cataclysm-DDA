@@ -1740,7 +1740,7 @@ int monster::group_bash_skill( const tripoint_bub_ms &target )
 
 bool monster::attack_at( const tripoint_bub_ms &p )
 {
-    const map &here = get_map();
+    map &here = get_map();
 
     if( has_flag( mon_flag_PACIFIST ) || has_flag( json_flag_CANNOT_ATTACK ) ) {
         return false;
@@ -1793,9 +1793,9 @@ bool monster::attack_at( const tripoint_bub_ms &p )
 
     // Attack last known position despite empty
     if( has_effect( effect_stumbled_into_invisible ) &&
-        get_map().has_field_at( p, field_fd_last_known ) && !sees_player &&
+        here.has_field_at( p, field_fd_last_known ) && !sees_player &&
         attitude_to( player_character ) == Attitude::HOSTILE ) {
-        return attack_air( tripoint_bub_ms( p ) );
+        return attack_air( here, p );
     }
 
     // Nothing to attack.
@@ -2253,10 +2253,8 @@ void monster::stumble()
     }
 }
 
-void monster::knock_back_to( const tripoint_bub_ms &to )
+void monster::knock_back_to( map &here, const tripoint_bub_ms &to )
 {
-    map &here = get_map();
-
     if( to == pos_bub( here ) ) {
         return; // No effect
     }
@@ -2274,7 +2272,7 @@ void monster::knock_back_to( const tripoint_bub_ms &to )
         apply_damage( z, bodypart_id( "torso" ), static_cast<float>( z->type->size ) );
         add_effect( effect_stunned, 1_turns );
         if( type->size > 1 + z->type->size ) {
-            z->knock_back_from( pos_bub() ); // Chain reaction!
+            z->knock_back_from( here, pos_bub( here ) ); // Chain reaction!
             z->apply_damage( this, bodypart_id( "torso" ), static_cast<float>( type->size ) );
             z->add_effect( effect_stunned, 1_turns );
         } else if( type->size > z->type->size ) {

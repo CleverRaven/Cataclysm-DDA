@@ -314,11 +314,11 @@ class avatar : public Character
                 advanced_inv_area &square );
 
         using Character::invoke_item;
-        bool invoke_item( item *, const tripoint_bub_ms &pt, int pre_obtain_moves ) override;
-        bool invoke_item( item * ) override;
-        bool invoke_item( item *, const std::string &, const tripoint_bub_ms &pt,
+        bool invoke_item( item *, map &here, const tripoint_bub_ms &pt, int pre_obtain_moves ) override;
+        bool invoke_item( item *, map &here ) override;
+        bool invoke_item( item *, const std::string &, map &here, const tripoint_bub_ms &pt,
                           int pre_obtain_moves = -1 ) override;
-        bool invoke_item( item *, const std::string & ) override;
+        bool invoke_item( item *, const std::string &, map &here ) override;
 
         monster_visible_info &get_mon_visible() {
             return mon_visible;
