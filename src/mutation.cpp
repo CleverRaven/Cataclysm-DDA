@@ -1138,7 +1138,8 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
     mutation_category_id cat;
     weighted_int_list<mutation_category_id> cat_list = get_vitamin_weighted_categories();
 
-    bool select_mutation = is_avatar() && ( get_option<bool>( "SHOW_MUTATION_SELECTOR" ) || calculate_by_enchantment( 0, enchant_vals::mod::MUT_ADDITIONAL_OPTIONS ) >= 1 );
+    bool select_mutation = is_avatar() && ( get_option<bool>( "SHOW_MUTATION_SELECTOR" ) ||
+                                            calculate_by_enchantment( 0, enchant_vals::mod::MUT_ADDITIONAL_OPTIONS ) >= 1 );
 
     bool allow_good = false;
     bool allow_bad = false;
@@ -1482,8 +1483,7 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
         }
     }
 
-    if( can_cross_threshold( cat ) )
-    {
+    if( can_cross_threshold( cat ) ) {
         const mutation_category_trait &m_category = mutation_category_trait::get_category(
                     cat );
         const trait_id &mutation_thresh = m_category.threshold_mut;
@@ -1492,26 +1492,25 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
     }
 
     // positive traits at start of list, negative traits at end.  Required for additional options if block.
-    std::sort ( traits.begin(), traits.end(), compareTraits );
+    std::sort( traits.begin(), traits.end(), compareTraits );
 
     int additional_options = calculate_by_enchantment( 0, enchant_vals::mod::MUT_ADDITIONAL_OPTIONS );
 
-    if ( !get_option<bool>( "SHOW_MUTATION_SELECTOR" ) && additional_options >= 1 && additional_options < traits.size() ) {
+    if( !get_option<bool>( "SHOW_MUTATION_SELECTOR" ) && additional_options >= 1 &&
+        additional_options < traits.size() ) {
         size_t primary_index = 0;
         // Logic REQUIRES that traits are sorted by points
         size_t end_index = traits.size() - 1;
         size_t negative_edge = end_index;
         size_t positive_edge = 0;
-        for( size_t index = end_index + 1; index --> 0 ;)
-        {
+        for( size_t index = end_index + 1; index -- > 0 ; ) {
             if( traits[index].obj().points >= 0 ) {
                 break;
             } else {
                 negative_edge = index;
             }
         }
-        for( size_t index = 0; index <= end_index; index++ )
-        {
+        for( size_t index = 0; index <= end_index; index++ ) {
             if( traits[index].obj().points <= 0 ) {
                 break;
             } else {
@@ -1519,19 +1518,19 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
             }
         }
 
-        if ( roll_bad_mutation( cat ) ) {
+        if( roll_bad_mutation( cat ) ) {
             if( positive_edge == end_index ) {
                 primary_index = end_index;
             } else {
                 // choose trait that is either neutral or negative
-                primary_index = ( rand()%( end_index - ( positive_edge + 1 ) + 1 ) ) + ( positive_edge + 1 );
+                primary_index = ( rand() % ( end_index - ( positive_edge + 1 ) + 1 ) ) + ( positive_edge + 1 );
             }
         } else {
             if( negative_edge == 0 ) {
                 primary_index = 0;
             } else {
                 // choose trait that is either positive or neutral
-                primary_index = rand()%negative_edge;
+                primary_index = rand() % negative_edge;
             }
         }
         size_t below_index = primary_index;
@@ -1540,8 +1539,8 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
         std::vector<trait_id> selectable_traits = { traits[primary_index] };
         while( added_traits < additional_options ) {
             // Cannot check < 0 since size_t is unsigned.  Resolve by adding 1 to the stored value and making check off of that, and subtracting 1 when using it.
-            if( below_index >= 1 && added_traits < additional_options) {
-                selectable_traits.insert(selectable_traits.begin(), traits[below_index-1] );
+            if( below_index >= 1 && added_traits < additional_options ) {
+                selectable_traits.insert( selectable_traits.begin(), traits[below_index - 1] );
                 below_index--;
                 added_traits++;
             }
@@ -2403,7 +2402,8 @@ bool Character::can_cross_threshold( const mutation_category_id &mutation_catego
     }
 
     if( mutation_category == mutation_category_ANY ) {
-        add_msg_debug( debugmode::DF_MUTATION, "can_cross_threshold failed: cannot cross threshold of the ANY category" );
+        add_msg_debug( debugmode::DF_MUTATION,
+                       "can_cross_threshold failed: cannot cross threshold of the ANY category" );
         return false;
     }
 
@@ -2422,7 +2422,8 @@ bool Character::can_cross_threshold( const mutation_category_id &mutation_catego
     int breach_power = mutation_category_level[mutation_category];
     add_msg_debug( debugmode::DF_MUTATION, "test_crossing_treshold: breach power %d", breach_power );
     // You're required to have hit third-stage dreams first.
-    if( breach_power >= 30 && vitamin_get( m_category.vitamin ) >= mutation_thresh.obj().vitamin_cost ) {
+    if( breach_power >= 30 &&
+        vitamin_get( m_category.vitamin ) >= mutation_thresh.obj().vitamin_cost ) {
         return true;
     }
     return false;
