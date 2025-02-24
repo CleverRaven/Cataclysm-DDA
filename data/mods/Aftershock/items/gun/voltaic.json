@@ -9,7 +9,7 @@
     "price_postapoc": "200 kUSD",
     "ammo": [ "battery" ],
     "ammo_to_fire": 0,
-    "energy_drain": "30 kJ",
+    "energy_drain": "50 kJ",
     "modes": [ [ "DEFAULT", "Pulse ", 1 ] ],
     "ranged_damage": [ { "damage_type": "electric", "amount": 10 }, { "damage_type": "pure", "amount": 25 } ],
     "pocket_data": [
@@ -35,8 +35,11 @@
     "price_postapoc": "22 kUSD",
     "ammo": [ "battery" ],
     "ammo_to_fire": 0,
-    "energy_drain": "75 kJ",
+    "//": "High energy drain due to the damage dealt by the chain effect.",
+    "energy_drain": "70 kJ",
     "modes": [ [ "DEFAULT", "Pulse ", 1 ] ],
+    "skill": "smartgun",
+    "range": 30,
     "ranged_damage": [ { "damage_type": "electric", "amount": 15 } ],
     "pocket_data": [
       {
@@ -49,7 +52,8 @@
       }
     ],
     "ammo_effects": [ "ELECTRIC_CHAIN" ],
-    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_smart_gun" } ] }
   },
   {
     "id": "afs_voltaic_pistol",
@@ -61,12 +65,14 @@
     "price_postapoc": "12 kUSD",
     "ammo": [ "battery" ],
     "ammo_to_fire": 0,
-    "energy_drain": "15 kJ",
+    "energy_drain": "20 kJ",
     "weight": "780 g",
     "volume": "480 ml",
     "longest_side": "205 mm",
+    "skill": "smartgun",
+    "range": 15,
     "modes": [ [ "DEFAULT", "Pulse ", 1 ] ],
-    "ranged_damage": [ { "damage_type": "electric", "amount": 7 } ],
+    "ranged_damage": [ { "damage_type": "electric", "amount": 10 } ],
     "valid_mod_locations": [ [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "pocket_data": [
       {
@@ -79,7 +85,8 @@
       }
     ],
     "ammo_effects": [ "BEANBAG" ],
-    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_smart_gun" } ] }
   },
   {
     "id": "afs_mine_shocker",
