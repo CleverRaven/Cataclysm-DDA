@@ -920,6 +920,10 @@ bool Item_group::remove_item( const itype_id &itemid )
             ++a;
         }
     }
+    if( container_item && ( *container_item == itemid ) ) {
+        container_item = std::nullopt;
+        on_overflow = overflow_behaviour::none;
+    }
     return items.empty();
 }
 
