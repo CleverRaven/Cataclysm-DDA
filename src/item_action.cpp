@@ -42,8 +42,6 @@
 #include "ui.h"
 #include "visitable.h"
 
-class map;
-
 static const std::string errstring( "ERROR" );
 
 static item_action nullaction;

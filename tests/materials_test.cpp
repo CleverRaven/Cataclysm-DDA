@@ -7,7 +7,6 @@
 #include "coordinates.h"
 #include "damage.h"
 #include "fire.h"
-#include "game.h"
 #include "item.h"
 #include "item_location.h"
 #include "map.h"

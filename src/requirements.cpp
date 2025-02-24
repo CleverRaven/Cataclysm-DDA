@@ -23,7 +23,6 @@
 #include "debug_menu.h"
 #include "enum_traits.h"
 #include "flexbuffer_json.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "inventory.h"
 #include "item.h"

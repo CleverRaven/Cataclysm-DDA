@@ -34,6 +34,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
+#include "point.h"
 #include "rng.h"
 #include "stomach.h"
 #include "string_formatter.h"

@@ -9,7 +9,6 @@
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
-#include "map.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"

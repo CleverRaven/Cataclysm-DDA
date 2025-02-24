@@ -26,7 +26,6 @@
 #include "crafting.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
-#include "game.h"
 #include "debug.h"
 #include "display.h"
 #include "flag.h"

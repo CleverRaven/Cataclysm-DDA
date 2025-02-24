@@ -9,7 +9,6 @@
 #include "cached_options.h"
 #include "calendar.h"
 #include "character.h"
-#include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
