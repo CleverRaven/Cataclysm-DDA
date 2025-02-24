@@ -1234,10 +1234,8 @@ Runs a query, allowing you to pick specific tile around. When picked, stores coo
   "condition": {
     "and": [
       {
-        "u_query_tile": "line_of_sight",
-        "target_var": { "context_val": "check_terrain" },
-        "message": "Check what terrain it is",
-        "range": 10
+        "u_choose_adjacent_highlight": { "context_val": "check_terrain" },
+        "message": "Select a tile"
       },
       { "map_terrain_id": "t_grass", "loc": { "context_val": "check_terrain" } }
     ]
@@ -1309,14 +1307,17 @@ return true if player can see NPC.
 
 You can see selected location.
 ```json
-{
-  "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
-  "then": {
-    "if": { "u_can_see_location": { "context_val": "pos" } },
-    "then": { "u_message": "You can see <context_val:pos>." },
-    "else": { "u_message": "You can't see <context_val:pos>." }
+[
+  { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
+  {
+    "if": { "math": [ "has_var(_pos)" ] },
+    "then": {
+      "if": { "u_can_see_location": { "context_val": "pos" } },
+      "then": { "u_message": "You can see <context_val:pos>." },
+      "else": { "u_message": "You can't see <context_val:pos>." }
+    }
   }
-}
+]
 ```
 
 ### `u_see_npc`, `npc_see_you`
@@ -1908,8 +1909,9 @@ Then, by using `EOC_return_to_player`, you can return to your original body.
   "id": "EOC_control_npc",
   "effect": [
     { "u_set_talker": { "global_val": "player_id" } },
+    { "u_query_tile": "anywhere", "target_var": { "context_val": "loc" }, "message": "Select point" },
     {
-      "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "loc" }, "message": "Select point" },
+      "if": { "math": [ "has_var(_loc)" ] },
       "then": {
         "run_eocs": {
           "id": "_EOC_control_npc_do",
@@ -4186,7 +4188,7 @@ Ask the player to select a tile. If tile is selected, variable with coordinates 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_query_tile", / "npc_query_tile" | **mandatory** | string | type of tile quering; possible values are:<br>- `anywhere` is the same as the "look around" UI <br>- `line_of_sight` only tiles that are visible at this moment (`range` is mandatory) |
-| "target_var" | **mandatory** | [variable object](#variable-object) | variable, where coordinate be stored; if query is cancelled, the variable is not stored, so conditoon like `{ "math": [ "has_var(_pos)" ] }` should be used to ensure variable was picked correctly | 
+| "target_var" | optional | [variable object](#variable-object) | variable, where coordinate be stored; if query is cancelled, the variable is not stored, so conditoon like `{ "math": [ "has_var(_pos)" ] }` should be used to ensure variable was picked correctly | 
 | "range" | optional | int or [variable object](#variable-object) | defines the selectable range for `line_of_sight` (**mandatory** for `line_of_sight`, otherwise not required) | 
 | "z_level" | optional | bool | if `anywhere` is picked, defines if you can pick tiles on another z-levels |
 | "message" | optional | string or [variable object](#variable-object) | text, that is displayed while selecting |
@@ -4214,12 +4216,13 @@ Allows to pick 9 tiles in close proximity to player
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_choose_adjacent_highlight", / "npc_choose_adjacent_highlight" | **mandatory** | [variable object](#variable-object) | variable, where coordinate be stored; if query is cancelled, player picks tile that is not allowed or cancels the input, the variable is not stored, so conditoon like `{ "math": [ "has_var(_pos)" ] }` should be used to ensure variable was picked correctly |
-| "target_var" | **mandatory** | [variable object](#variable-object) | if used, the 3x3 area would be centered not around talker, but around this point. Keybinds and picking would work as usually, you could pick it using numpad | 
+| "target_var" | optional | [variable object](#variable-object) | if used, the 3x3 area would be centered not around talker, but around this point. Keybinds and picking would work as usually, you could pick it using numpad | 
 | "condition" | optional | condition | can be used to filter the specific tiles from the list. If not used, all tiles are allowed. Coordinates for tiles are stored in `loc` context variable, and checked one by one before showing to the player |
 | "allow_vertical" | optional | bool | if true, allows to pick tiles 1 z-level above or below. Default false |
 | "allow_autoselect" | optional | bool | if true, and there is only one matching result, and player has `AUTOSELECT_SINGLE_VALID_TARGET` on, the game gonna pick valid object automatically instead of asking player which one (literally) should be picked |
 | "message" | optional | string or [variable object](#variable-object) | text, that is displayed while selecting |
 | "failure_message" | optional | string or [variable object](#variable-object) | if `allow_autoselect` is true, and condition returned no allowed tiles, this message is printed |
+| "false_eocs" | optional | string, [variable object](#variable-object), inline EoC, or range of all of them | if no tiles can be picked, all EoCs in this field will be run, same with failure message |
 
 #### Valid talkers:
 
@@ -4266,7 +4269,6 @@ Allow to selects one tile with DIGGABLE flag around the u
     ]
   },
 ```
-
 
 #### `mirror_coordinates`
 Picks two coordinates, and create a third one in opposite direction
@@ -4334,13 +4336,14 @@ Removes a corpse around you (corpses are handled as items)
     "id": "EOC_CORPSE_REMOVAL",
     "type": "effect_on_condition",
     "effect": [
+      { "message": "Select target", "u_query_tile": "around", "target_var": { "context_val": "delete_this_corpse" } },
       {
-        "if": { "message": "Select target", "u_query_tile": "around", "target_var": { "global_val": "delete_this_corpse" } },
+        "if": { "math": [ "has_var(_delete_this_corpse)" ] },
         "then": [
           {
             "u_map_run_item_eocs": "all",
             "search_data": [ { "id": "corpse" } ],
-            "loc": { "global_val": "delete_this_corpse" },
+            "loc": { "context_val": "delete_this_corpse" },
             "min_radius": 0,
             "max_radius": 0,
             "true_eocs": [ { "id": "EOC_CORPSE_REMOVAL_SUCCESS", "effect": [ "npc_die", { "u_message": "*poof*", "type": "good" } ] } ],

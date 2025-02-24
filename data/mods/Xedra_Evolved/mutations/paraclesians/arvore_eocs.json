@@ -759,16 +759,13 @@
     "effect": [
       {
         "u_choose_adjacent_highlight": { "context_val": "arvore_treesung_location" },
-        "message": "Select nearby water source"
+        "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "loc" } },
+        "message": "Select nearby tree",
+        "failure_message": "You must be near a tree to treesing to it"
       },
       {
         "if": { "math": [ "has_var(_arvore_treesung_location)" ] },
-        "then": {
-          "if": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_treesung_location" } },
-          "then": { "u_assign_activity": "ACT_ARVORE_TREESINGING", "duration": "45 minutes" },
-          "else": { "u_message": "You must be near a tree to treesing to it." }
-        },
-        "else": { "u_message": "Canceled" }
+        "then": { "u_assign_activity": "ACT_ARVORE_TREESINGING", "duration": "45 minutes" }
       }
     ]
   },

@@ -4643,11 +4643,13 @@ talk_effect_fun_t::func f_choose_adjacent_highlight( const JsonObject &jo, std::
     bool allow_vertical = jo.get_bool( "allow_vertical", false );
     bool allow_autoselect = jo.get_bool( "allow_autoselect", true );
 
+    std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs", src );
+
     std::function<bool( const_dialogue const & )> cond;
     read_condition( jo, "condition", cond, true );
 
     return [output_var, target_var, message, failure_message, allow_vertical, allow_autoselect, cond,
-                is_npc]( dialogue & d ) {
+                false_eocs, is_npc]( dialogue & d ) {
 
         tripoint_bub_ms target_pos;
         if( target_var.has_value() ) {
@@ -4669,6 +4671,8 @@ talk_effect_fun_t::func f_choose_adjacent_highlight( const JsonObject &jo, std::
         if( picked_coord.has_value() ) {
             write_var_value( output_var.type, output_var.name, &d,
                              get_map().get_abs( picked_coord.value() ).to_string_writable() );
+        } else {
+            run_eoc_vector( false_eocs, d );
         }
     };
 }
