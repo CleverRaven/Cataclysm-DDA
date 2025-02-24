@@ -4518,14 +4518,15 @@ talk_effect_fun_t::func f_query_tile( const JsonObject &jo, std::string_view mem
         center_var = read_var_info( jo.get_object( "center_var" ) );
     }
     return [type, target_var, message, range, z_level, center_var, is_npc]( dialogue & d ) {
+        map &here = get_map();
         std::optional<tripoint_bub_ms> loc;
         Character *ch = d.actor( is_npc )->get_character();
         tripoint_bub_ms center;
         if( center_var.has_value() ) {
             tripoint_abs_ms abs_ms = get_tripoint_ms_from_var( center_var, d, is_npc );
-            center = get_map().get_bub( abs_ms );
+            center = here.get_bub( abs_ms );
         } else {
-            center = d.actor( is_npc )->pos_bub();
+            center = d.actor( is_npc )->pos_bub( here );
         }
 
         if( type != "line_of_sight" && range.evaluate( d ) != 0 ) {
@@ -4614,7 +4615,7 @@ talk_effect_fun_t::func f_query_omt( const JsonObject &jo, std::string_view memb
 }
 
 talk_effect_fun_t::func f_choose_adjacent_highlight( const JsonObject &jo, std::string_view member,
-        const std::string_view, bool is_npc )
+        const std::string_view src, bool is_npc )
 {
 
     var_info output_var = read_var_info( jo.get_object( member ) );
@@ -4650,13 +4651,14 @@ talk_effect_fun_t::func f_choose_adjacent_highlight( const JsonObject &jo, std::
 
     return [output_var, target_var, message, failure_message, allow_vertical, allow_autoselect, cond,
                 false_eocs, is_npc]( dialogue & d ) {
+        map &here = get_map();
 
         tripoint_bub_ms target_pos;
         if( target_var.has_value() ) {
             tripoint_abs_ms abs_ms = get_tripoint_ms_from_var( target_var, d, is_npc );
             target_pos = get_map().get_bub( abs_ms );
         } else {
-            target_pos = d.actor( is_npc )->pos_bub();
+            target_pos = d.actor( is_npc )->pos_bub( here );
         }
 
         const std::function<bool( const tripoint_bub_ms & )> f = [cond, &d](
@@ -6918,21 +6920,21 @@ talk_effect_fun_t::func f_knockback( const JsonObject &jo, std::string_view memb
     }
 
     return [force, stun, dam_mult, target_var, direction_var, is_npc]( dialogue & d ) {
-
+        map &here = get_map();
         tripoint_bub_ms target_pos;
         if( target_var.has_value() ) {
             tripoint_abs_ms abs_ms = get_tripoint_ms_from_var( target_var, d, is_npc );
-            target_pos = get_map().get_bub( abs_ms );
+            target_pos = here.get_bub( abs_ms );
         } else {
-            target_pos = d.actor( is_npc )->pos_bub();
+            target_pos = d.actor( is_npc )->pos_bub( here );
         }
 
         tripoint_bub_ms direction_pos;
         if( direction_var.has_value() ) {
             tripoint_abs_ms abs_ms = get_tripoint_ms_from_var( direction_var, d, is_npc );
-            direction_pos = get_map().get_bub( abs_ms );
+            direction_pos = here.get_bub( abs_ms );
         } else {
-            direction_pos = d.actor( is_npc )->pos_bub();
+            direction_pos = d.actor( is_npc )->pos_bub( here );
 
             point d2( rng( -1, 1 ), rng( -1, 1 ) );
 

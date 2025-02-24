@@ -2499,7 +2499,7 @@ parsers = {
     {"u_has_part_temp", "npc_has_part_temp", jarg::member | jarg::array, &conditional_fun::f_has_part_temp },
     {"u_is_wearing", "npc_is_wearing", jarg::member, &conditional_fun::f_is_wearing },
     {"u_is_outside", "npc_is_outside", jarg::string, &conditional_fun::f_is_outside },
-    {"is_outside", jarg::member, &conditional_fun::f_is_outside },
+    {"is_outside", "is_outside", jarg::member, &conditional_fun::f_is_outside },
     {"u_has_item", "npc_has_item", jarg::member, &conditional_fun::f_has_item },
     {"u_has_item_with_flag", "npc_has_item_with_flag", jarg::member, &conditional_fun::f_has_item_with_flag },
     {"u_has_items", "npc_has_items", jarg::member, &conditional_fun::f_has_items },
