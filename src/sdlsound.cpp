@@ -666,13 +666,6 @@ bool sfx::has_variant_sound( const std::string &id, const std::string &variant,
     return find_random_effect( id, variant, season, is_indoors, is_night ) != nullptr;
 }
 
-// empty effect, as we cannot change the size of the output buffer,
-// therefore we cannot do the math from do_pitch_shift here
-// used with SDL's Mix_RegisterEffect(). this method takes two callbacks, one of which modifies the sound as it plays (this one) which is undesired, hence empty_effect is needed
-static void empty_effect( int /* chan */, void * /* stream */, int /* len */, void * /* udata */ )
-{
-}
-
 static bool is_time_slowed()
 {
     // if the player have significantly more moves than their speed, they probably used an artifact/CBM to slow time.
@@ -686,7 +679,7 @@ struct sound_effect_handler {
     Mix_Chunk *audio_src;
     bool active; // if not active, we're just playing the given audio and aren't making any modifications to it.
     bool owns_audio; // if true, it owns the audio it was given and will free it when the sound stops playing.
-    float currentSampleI =
+    float current_sample_index =
         0; // with respect to audio_src, in samples. for fractional indices, the output is interpolated between the two closest samples
     int loops_remaining = 0;
 
@@ -717,15 +710,15 @@ struct sound_effect_handler {
         cata_assert( handler->loops_remaining >= 0 );
 
         // NOTE: strange artifacts occur if this isn't a power of two like 0.25 or 0.5.
-        float playbackSpeed = is_time_slowed() ? sound_speed_factor : 1;
+        float playback_speed = is_time_slowed() ? sound_speed_factor : 1;
+        int num_source_samples = handler->audio_src->alen / bytes_per_sample;
 
         for( int dst_index = 0; dst_index < len / bytes_per_sample &&
-             handler->currentSampleI < std::floorf( handler->audio_src->alen / bytes_per_sample );
-             dst_index++ ) {
-            int lowIndex = std::floorf( handler->currentSampleI );
-            int highIndex = std::ceil( handler->currentSampleI );
-            if( highIndex == handler->audio_src->alen / bytes_per_sample ) {
-                highIndex = 0;    // make sound wrap around
+             handler->current_sample_index < num_source_samples; dst_index++ ) {
+            int low_index = std::floorf( handler->current_sample_index );
+            int high_index = std::ceil( handler->current_sample_index );
+            if( high_index == handler->audio_src->alen / bytes_per_sample ) {
+                high_index = 0;    // make sound wrap around
             }
 
             for( int ear_offset = 0; ear_offset < 4;
@@ -734,33 +727,32 @@ struct sound_effect_handler {
                 sample high_value;
 
                 if( handler->loops_remaining != -1 ) {
-                    memcpy( &low_value, static_cast<uint8_t *>( handler->audio_src->abuf ) + ear_offset + lowIndex *
+                    memcpy( &low_value, static_cast<uint8_t *>( handler->audio_src->abuf ) + ear_offset + low_index *
                             bytes_per_sample, sizeof( sample ) );
                 } else {
                     low_value = 0;
                 }
 
                 if( handler->loops_remaining != -1 ) {
-                    memcpy( &high_value, static_cast<uint8_t *>( handler->audio_src->abuf ) + ear_offset + highIndex *
+                    memcpy( &high_value, static_cast<uint8_t *>( handler->audio_src->abuf ) + ear_offset + high_index *
                             bytes_per_sample, sizeof( sample ) );
                 } else {
                     high_value = 0;
                 }
 
                 // linearly interpolate between the two samples closest to the current time
-                float interpolation_factor = handler->currentSampleI - lowIndex;
+                float interpolation_factor = handler->current_sample_index - low_index;
                 sample interpolated = ( high_value - low_value ) * interpolation_factor + low_value;
 
                 memcpy( static_cast<uint8_t *>( stream ) + dst_index * bytes_per_sample + ear_offset, &interpolated,
                         sizeof( sample ) );
             }
 
-            handler->currentSampleI += 1.0f * playbackSpeed;
+            handler->current_sample_index += 1.0f * playback_speed;
             if( handler->loops_remaining >= 0 &&
-                handler->currentSampleI >= std::floorf( handler->audio_src->alen / bytes_per_sample ) ) {
+                handler->current_sample_index >= num_source_samples ) {
                 handler->loops_remaining--;
-                handler->currentSampleI = std::fmodf( handler->currentSampleI,
-                                                      std::floorf( handler->audio_src->alen / bytes_per_sample ) );
+                handler->current_sample_index = std::fmodf( handler->current_sample_index, num_source_samples );
             }
         }
 
@@ -801,6 +793,8 @@ struct sound_effect_handler {
         bool failed = channel == -1;
         if( !failed ) {
             // tell SDL_Mixer to call slowed_time_effect to get sound data and call on_finish when the sound is over.
+            // note: if we ever need to have a setting that turns this effect off, one could simply replace slowed_time_effect here with a callback that does nothing.
+            // (on_finish would still be required)
             int out = Mix_RegisterEffect( channel, slowed_time_effect, on_finish, handler );
             if( out ==
                 0 ) { // returns zero if SDL failed to setup the effect, meaning we better cancel the sound.
