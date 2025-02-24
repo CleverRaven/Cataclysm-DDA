@@ -16,6 +16,11 @@
   },
   {
     "type": "item_group",
+    "id": "boxed_223_500",
+    "items": [ { "group": "boxed_rifle_50" } ]
+  },
+  {
+    "type": "item_group",
     "id": "boxed_45",
     "items": [ { "group": "boxed_pistol" } ]
   },
