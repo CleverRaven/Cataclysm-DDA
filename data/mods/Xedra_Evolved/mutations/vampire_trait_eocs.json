@@ -1240,10 +1240,12 @@
             "condition": {
               "and": [
                 { "not": { "is_outside": { "context_val": "loc" } } },
-                { "not": { "map_terrain_with_flag": "WALL", "loc": { "context_val": "loc" } } }
+                { "not": { "map_terrain_with_flag": "WALL", "loc": { "context_val": "loc" } } },
+                { "not": { "map_terrain_with_flag": "DOOR", "loc": { "context_val": "loc" } } },
+                { "not": { "map_terrain_with_flag": "WINDOW", "loc": { "context_val": "loc" } } }
               ]
             },
-            "message": "Select_where to teleport."
+            "message": "Select where to appear."
           },
           {
             "u_teleport": { "context_val": "place_to_teleport" },

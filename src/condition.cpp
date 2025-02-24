@@ -1666,7 +1666,7 @@ conditional_t::func f_is_outside( const JsonObject &jo, std::string_view member,
         if( member == "is_outside" ) {
             map &here = get_map();
             const tripoint_abs_ms target_location = get_tripoint_ms_from_var( loc_var, d, false );
-            here.is_outside( here.get_bub( target_location ) );
+            return here.is_outside( here.get_bub( target_location ) );
         } else {
             return is_creature_outside( *d.const_actor( is_npc )->get_const_creature() );
         }
