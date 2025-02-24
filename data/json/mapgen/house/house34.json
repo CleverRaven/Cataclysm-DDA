@@ -130,7 +130,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "2": {
           "chunks": [
@@ -190,7 +190,7 @@
         "  |W................|   ",
         "  |J........4.......|   ",
         "  |J................|   ",
-        "  |Z.UU.F...........|   ",
+        "  |Z.UU.â...........|   ",
         "  ||||||||..........|   ",
         "         |..........|   ",
         "         ||||||||||||   ",
@@ -200,7 +200,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "2": {
           "chunks": [
