@@ -312,10 +312,10 @@
     "damage_type": "bash",
     "affected_body_parts": [ "head", "torso", "mouth", "eyes", "arm_l", "arm_r", "hand_r", "hand_l" ],
     "min_damage": {
-      "math": [ "( ( 10 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 2) + (u_skill('deduction') * 3) ) )" ]
+      "math": [ "( ( 10 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 1.5) + (u_skill('deduction') * 2) ) )" ]
     },
     "max_damage": {
-      "math": [ "( ( 25 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 5) + (u_skill('deduction') * 8) ) )" ]
+      "math": [ "( ( 25 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 4) + (u_skill('deduction') * 6) ) )" ]
     },
     "min_range": {
       "math": [
@@ -348,10 +348,10 @@
     "effect": "attack",
     "damage_type": "cold",
     "min_damage": {
-      "math": [ "( ( 8 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 2) + (u_skill('deduction') * 2) ) )" ]
+      "math": [ "( ( 8 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 1) + (u_skill('deduction') * 1.8) ) )" ]
     },
     "max_damage": {
-      "math": [ "( ( 20 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 3.8) + (u_skill('deduction') * 4.5) ) )" ]
+      "math": [ "( ( 20 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 3) + (u_skill('deduction') * 4) ) )" ]
     },
     "min_range": {
       "math": [
