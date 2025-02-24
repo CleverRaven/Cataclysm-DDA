@@ -29,10 +29,12 @@ TEST_CASE( "monster_pulping_test" )
         for( const std::pair<skill_id, int> &pair : test.skills ) {
             you.set_skill_level( pair.first, pair.second );
         }
-        for( const proficiency_id &prof : test.profs ) {
-            you.add_proficiency( prof, true, true );
+        if ( test.profs ) {
+            for( const proficiency_id &prof : proficiency::get_all() ) {
+                you.add_proficiency( prof, true, true );
+            }
         }
-
+        
         pulp_data p = g->calculate_pulpability( you, *test.corpse );
 
         std::string expected_pulp_speed = to_string( time_duration::from_seconds(

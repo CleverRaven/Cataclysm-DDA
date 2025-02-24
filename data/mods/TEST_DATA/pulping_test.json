@@ -1,28 +1,925 @@
 [
   {
     "type": "test_data",
+    "//": "zombie, gold standard",
     "pulp_testing_data": [
-      { "name": "character with no skill and no items vs zombie", "pulp_time": 515, "corpse": "mon_zombie" },
       {
-        "name": "character with no skill and a pipe mace vs zombie",
+        "name": "fresh character with no items vs zombie",
+        "//": "pulp_time is in seconds",
+        "pulp_time": 515,
+        "corpse": "mon_zombie"
+      },
+      {
+        "name": "fresh character with a pocket knife vs zombie",
+        "pulp_time": 350,
+        "items": [ "knife_folding" ],
+        "corpse": "mon_zombie"
+      },
+      {
+        "name": "fresh character and a pipe mace vs zombie",
         "pulp_time": 350,
         "items": [ "mace_pipe" ],
         "corpse": "mon_zombie"
       },
       {
-        "name": "character with survival 2, athletics 2 and a pipe mace vs zombie",
+        "name": "fresh character with pipe mace and pocket knife vs zombie",
+        "pulp_time": 350,
+        "items": [ "mace_pipe", "knife_folding" ],
+        "corpse": "mon_zombie"
+      },
+      {
+        "name": "moderate character with a pipe mace vs zombie",
         "pulp_time": 247,
-        "skills": [ { "skill": "swimming", "level": 2 }, { "skill": "survival", "level": 2 } ],
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
         "items": [ "mace_pipe" ],
         "corpse": "mon_zombie"
       },
       {
-        "name": "character with survival 2, athletics 2 and a pipe mace vs zombie with all weakpoints learned",
-        "pulp_time": 148,
-        "skills": [ { "skill": "swimming", "level": 2 }, { "skill": "survival", "level": 2 } ],
-        "proficiencies": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
-        "items": [ "mace_pipe" ],
+        "name": "moderate character with pipe mace and folding knife vs zombie",
+        "pulp_time": 247,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "mace_pipe", "knife_folding" ],
         "corpse": "mon_zombie"
+      },
+      {
+        "name": "moderate character with folding knife and a pipe mace vs zombie with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "proficiencies": true,
+        "items": [ "mace_pipe", "knife_folding" ],
+        "corpse": "mon_zombie"
+      },
+      {
+        "name": "moderate character with National Guard bayonet vs zombie",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "knife_combat" ],
+        "corpse": "mon_zombie"
+      },
+      {
+        "name": "moderate character with fire axe vs zombie",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "fire_ax" ],
+        "corpse": "mon_zombie"
+      },
+      {
+        "name": "moderate character with fire axe vs zombie with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "proficiencies": true,
+        "items": [ "fire_ax" ],
+        "corpse": "mon_zombie"
+      },
+      {
+        "name": "experienced character with National Guard bayonet vs zombie",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "items": [ "knife_combat" ],
+        "corpse": "mon_zombie"
+      },
+      {
+        "name": "experienced character with National Guard bayonet and mace vs zombie",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "items": [ "knife_combat", "mace" ],
+        "corpse": "mon_zombie"
+      },
+      {
+        "name": "experienced character with National Guard bayonet and mace vs zombie with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "proficiencies": true,
+        "items": [ "knife_combat", "mace" ],
+        "corpse": "mon_zombie"
+      },
+      {
+        "name": "experienced character with heavy sledge vs zombie",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "proficiencies": true,
+        "items": [ "hammer_sledge_heavy" ],
+        "corpse": "mon_zombie"
+      }
+    ]
+  },
+  {
+    "type": "test_data",
+    "//": "zombie dog, to cover smaller critters",
+    "pulp_testing_data": [
+      {
+        "name": "fresh character with no items vs zombie dog",
+        "//": "pulp_time is in seconds",
+        "pulp_time": 515,
+        "corpse": "mon_zombie_dog"
+      },
+      {
+        "name": "fresh character with a pocket knife vs zombie dog",
+        "pulp_time": 350,
+        "items": [ "knife_folding" ],
+        "corpse": "mon_zombie_dog"
+      },
+      {
+        "name": "fresh character and a pipe mace vs zombie dog",
+        "pulp_time": 350,
+        "items": [ "mace_pipe" ],
+        "corpse": "mon_zombie_dog"
+      },
+      {
+        "name": "fresh character with pipe mace and pocket knife vs zombie dog",
+        "pulp_time": 350,
+        "items": [ "mace_pipe", "knife_folding" ],
+        "corpse": "mon_zombie_dog"
+      },
+      {
+        "name": "moderate character with a pipe mace vs zombie dog",
+        "pulp_time": 247,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "mace_pipe" ],
+        "corpse": "mon_zombie_dog"
+      },
+      {
+        "name": "moderate character with pipe mace and folding knife vs zombie dog",
+        "pulp_time": 247,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "mace_pipe", "knife_folding" ],
+        "corpse": "mon_zombie_dog"
+      },
+      {
+        "name": "moderate character with folding knife and a pipe mace vs zombie dog with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "proficiencies": true,
+        "items": [ "mace_pipe", "knife_folding" ],
+        "corpse": "mon_zombie_dog"
+      },
+      {
+        "name": "moderate character with National Guard bayonet vs zombie dog",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "knife_combat" ],
+        "corpse": "mon_zombie_dog"
+      },
+      {
+        "name": "moderate character with fire axe vs zombie dog",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "fire_ax" ],
+        "corpse": "mon_zombie_dog"
+      },
+      {
+        "name": "moderate character with fire axe vs zombie dog with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "proficiencies": true,
+        "items": [ "fire_ax" ],
+        "corpse": "mon_zombie_dog"
+      },
+      {
+        "name": "experienced character with National Guard bayonet vs zombie dog",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "items": [ "knife_combat" ],
+        "corpse": "mon_zombie_dog"
+      },
+      {
+        "name": "experienced character with National Guard bayonet and mace vs zombie dog",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "items": [ "knife_combat", "mace" ],
+        "corpse": "mon_zombie_dog"
+      },
+      {
+        "name": "experienced character with National Guard bayonet and mace vs zombie dog with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "proficiencies": true,
+        "items": [ "knife_combat", "mace" ],
+        "corpse": "mon_zombie_dog"
+      },
+      {
+        "name": "experienced character with heavy sledge vs zombie dog",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "proficiencies": true,
+        "items": [ "hammer_sledge_heavy" ],
+        "corpse": "mon_zombie_dog"
+      }
+    ]
+  },
+  {
+    "type": "test_data",
+    "//": "zoose, to cover bigger critters",
+    "pulp_testing_data": [
+      {
+        "name": "fresh character with no items vs zombie moose",
+        "//": "pulp_time is in seconds",
+        "pulp_time": 515,
+        "corpse": "mon_zoose"
+      },
+      {
+        "name": "fresh character with a pocket knife vs zombie moose",
+        "pulp_time": 350,
+        "items": [ "knife_folding" ],
+        "corpse": "mon_zoose"
+      },
+      {
+        "name": "fresh character and a pipe mace vs zombie moose",
+        "pulp_time": 350,
+        "items": [ "mace_pipe" ],
+        "corpse": "mon_zoose"
+      },
+      {
+        "name": "fresh character with pipe mace and pocket knife vs zombie moose",
+        "pulp_time": 350,
+        "items": [ "mace_pipe", "knife_folding" ],
+        "corpse": "mon_zoose"
+      },
+      {
+        "name": "moderate character with a pipe mace vs zombie moose",
+        "pulp_time": 247,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "mace_pipe" ],
+        "corpse": "mon_zoose"
+      },
+      {
+        "name": "moderate character with pipe mace and folding knife vs zombie moose",
+        "pulp_time": 247,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "mace_pipe", "knife_folding" ],
+        "corpse": "mon_zoose"
+      },
+      {
+        "name": "moderate character with folding knife and a pipe mace vs zombie moose with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "proficiencies": true,
+        "items": [ "mace_pipe", "knife_folding" ],
+        "corpse": "mon_zoose"
+      },
+      {
+        "name": "moderate character with National Guard bayonet vs zombie moose",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "knife_combat" ],
+        "corpse": "mon_zoose"
+      },
+      {
+        "name": "moderate character with fire axe vs zombie moose",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "fire_ax" ],
+        "corpse": "mon_zoose"
+      },
+      {
+        "name": "moderate character with fire axe vs zombie moose with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "proficiencies": true,
+        "items": [ "fire_ax" ],
+        "corpse": "mon_zoose"
+      },
+      {
+        "name": "experienced character with National Guard bayonet vs zombie moose",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "items": [ "knife_combat" ],
+        "corpse": "mon_zoose"
+      },
+      {
+        "name": "experienced character with National Guard bayonet and mace vs zombie moose",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "items": [ "knife_combat", "mace" ],
+        "corpse": "mon_zoose"
+      },
+      {
+        "name": "experienced character with National Guard bayonet and mace vs zombie moose with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "proficiencies": true,
+        "items": [ "knife_combat", "mace" ],
+        "corpse": "mon_zoose"
+      },
+      {
+        "name": "experienced character with heavy sledge vs zombie moose",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "proficiencies": true,
+        "items": [ "hammer_sledge_heavy" ],
+        "corpse": "mon_zoose"
+      }
+    ]
+  },
+  {
+    "type": "test_data",
+    "//": "hulk, to cover the biggest creatures we have",
+    "pulp_testing_data": [
+      {
+        "name": "fresh character with no items vs hulk",
+        "//": "pulp_time is in seconds",
+        "pulp_time": 515,
+        "corpse": "mon_zombie_hulk"
+      },
+      {
+        "name": "fresh character with a pocket knife vs hulk",
+        "pulp_time": 350,
+        "items": [ "knife_folding" ],
+        "corpse": "mon_zombie_hulk"
+      },
+      {
+        "name": "fresh character and a pipe mace vs hulk",
+        "pulp_time": 350,
+        "items": [ "mace_pipe" ],
+        "corpse": "mon_zombie_hulk"
+      },
+      {
+        "name": "fresh character with pipe mace and pocket knife vs hulk",
+        "pulp_time": 350,
+        "items": [ "mace_pipe", "knife_folding" ],
+        "corpse": "mon_zombie_hulk"
+      },
+      {
+        "name": "moderate character with a pipe mace vs hulk",
+        "pulp_time": 247,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "mace_pipe" ],
+        "corpse": "mon_zombie_hulk"
+      },
+      {
+        "name": "moderate character with pipe mace and folding knife vs hulk",
+        "pulp_time": 247,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "mace_pipe", "knife_folding" ],
+        "corpse": "mon_zombie_hulk"
+      },
+      {
+        "name": "moderate character with folding knife and a pipe mace vs hulk with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "proficiencies": true,
+        "items": [ "mace_pipe", "knife_folding" ],
+        "corpse": "mon_zombie_hulk"
+      },
+      {
+        "name": "moderate character with National Guard bayonet vs hulk",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "knife_combat" ],
+        "corpse": "mon_zombie_hulk"
+      },
+      {
+        "name": "moderate character with fire axe vs hulk",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "fire_ax" ],
+        "corpse": "mon_zombie_hulk"
+      },
+      {
+        "name": "moderate character with fire axe vs hulk with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "proficiencies": true,
+        "items": [ "fire_ax" ],
+        "corpse": "mon_zombie_hulk"
+      },
+      {
+        "name": "experienced character with National Guard bayonet vs hulk",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "items": [ "knife_combat" ],
+        "corpse": "mon_zombie_hulk"
+      },
+      {
+        "name": "experienced character with National Guard bayonet and mace vs hulk",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "items": [ "knife_combat", "mace" ],
+        "corpse": "mon_zombie_hulk"
+      },
+      {
+        "name": "experienced character with National Guard bayonet and mace vs hulk with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "proficiencies": true,
+        "items": [ "knife_combat", "mace" ],
+        "corpse": "mon_zombie_hulk"
+      },
+      {
+        "name": "experienced character with heavy sledge vs hulk",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "proficiencies": true,
+        "items": [ "hammer_sledge_heavy" ],
+        "corpse": "mon_zombie_hulk"
+      }
+    ]
+  },
+  {
+    "type": "test_data",
+    "//": "skeleton zombie, to cover armored monsters",
+    "pulp_testing_data": [
+      {
+        "name": "fresh character with no items vs skeletal zombie",
+        "//": "pulp_time is in seconds",
+        "pulp_time": 515,
+        "corpse": "mon_skeleton"
+      },
+      {
+        "name": "fresh character with a pocket knife vs skeletal zombie",
+        "pulp_time": 350,
+        "items": [ "knife_folding" ],
+        "corpse": "mon_skeleton"
+      },
+      {
+        "name": "fresh character and a pipe mace vs skeletal zombie",
+        "pulp_time": 350,
+        "items": [ "mace_pipe" ],
+        "corpse": "mon_skeleton"
+      },
+      {
+        "name": "fresh character with pipe mace and pocket knife vs skeletal zombie",
+        "pulp_time": 350,
+        "items": [ "mace_pipe", "knife_folding" ],
+        "corpse": "mon_skeleton"
+      },
+      {
+        "name": "moderate character with a pipe mace vs skeletal zombie",
+        "pulp_time": 247,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "mace_pipe" ],
+        "corpse": "mon_skeleton"
+      },
+      {
+        "name": "moderate character with pipe mace and folding knife vs skeletal zombie",
+        "pulp_time": 247,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "mace_pipe", "knife_folding" ],
+        "corpse": "mon_skeleton"
+      },
+      {
+        "name": "moderate character with folding knife and a pipe mace vs skeletal zombie with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "proficiencies": true,
+        "items": [ "mace_pipe", "knife_folding" ],
+        "corpse": "mon_skeleton"
+      },
+      {
+        "name": "moderate character with National Guard bayonet vs skeletal zombie",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "knife_combat" ],
+        "corpse": "mon_skeleton"
+      },
+      {
+        "name": "moderate character with fire axe vs skeletal zombie",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "fire_ax" ],
+        "corpse": "mon_skeleton"
+      },
+      {
+        "name": "moderate character with fire axe vs skeletal zombie with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "proficiencies": true,
+        "items": [ "fire_ax" ],
+        "corpse": "mon_skeleton"
+      },
+      {
+        "name": "experienced character with National Guard bayonet vs skeletal zombie",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "items": [ "knife_combat" ],
+        "corpse": "mon_skeleton"
+      },
+      {
+        "name": "experienced character with National Guard bayonet and mace vs skeletal zombie",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "items": [ "knife_combat", "mace" ],
+        "corpse": "mon_skeleton"
+      },
+      {
+        "name": "experienced character with National Guard bayonet and mace vs skeletal zombie with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "proficiencies": true,
+        "items": [ "knife_combat", "mace" ],
+        "corpse": "mon_skeleton"
+      },
+      {
+        "name": "experienced character with heavy sledge vs skeletal zombie",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "proficiencies": true,
+        "items": [ "hammer_sledge_heavy" ],
+        "corpse": "mon_skeleton"
+      }
+    ]
+  },
+  {
+    "type": "test_data",
+    "//": "skeletal juggernaut, to cover both big and armored critters",
+    "pulp_testing_data": [
+      {
+        "name": "fresh character with no items vs skeletal juggernaut",
+        "//": "pulp_time is in seconds",
+        "pulp_time": 515,
+        "corpse": "mon_skeleton_hulk"
+      },
+      {
+        "name": "fresh character with a pocket knife vs skeletal juggernaut",
+        "pulp_time": 350,
+        "items": [ "knife_folding" ],
+        "corpse": "mon_skeleton_hulk"
+      },
+      {
+        "name": "fresh character and a pipe mace vs skeletal juggernaut",
+        "pulp_time": 350,
+        "items": [ "mace_pipe" ],
+        "corpse": "mon_skeleton_hulk"
+      },
+      {
+        "name": "fresh character with pipe mace and pocket knife vs skeletal juggernaut",
+        "pulp_time": 350,
+        "items": [ "mace_pipe", "knife_folding" ],
+        "corpse": "mon_skeleton_hulk"
+      },
+      {
+        "name": "moderate character with a pipe mace vs skeletal juggernaut",
+        "pulp_time": 247,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "mace_pipe" ],
+        "corpse": "mon_skeleton_hulk"
+      },
+      {
+        "name": "moderate character with pipe mace and folding knife vs skeletal juggernaut",
+        "pulp_time": 247,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "mace_pipe", "knife_folding" ],
+        "corpse": "mon_skeleton_hulk"
+      },
+      {
+        "name": "moderate character with folding knife and a pipe mace vs skeletal juggernaut with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "proficiencies": true,
+        "items": [ "mace_pipe", "knife_folding" ],
+        "corpse": "mon_skeleton_hulk"
+      },
+      {
+        "name": "moderate character with National Guard bayonet vs skeletal juggernaut",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "knife_combat" ],
+        "corpse": "mon_skeleton_hulk"
+      },
+      {
+        "name": "moderate character with fire axe vs skeletal juggernaut",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "items": [ "fire_ax" ],
+        "corpse": "mon_skeleton_hulk"
+      },
+      {
+        "name": "moderate character with fire axe vs skeletal juggernaut with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 2 },
+          { "skill": "survival", "level": 2 },
+          { "skill": "melee", "level": 2 },
+          { "skill": "bashing", "level": 2 }
+        ],
+        "proficiencies": true,
+        "items": [ "fire_ax" ],
+        "corpse": "mon_skeleton_hulk"
+      },
+      {
+        "name": "experienced character with National Guard bayonet vs skeletal juggernaut",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "items": [ "knife_combat" ],
+        "corpse": "mon_skeleton_hulk"
+      },
+      {
+        "name": "experienced character with National Guard bayonet and mace vs skeletal juggernaut",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "items": [ "knife_combat", "mace" ],
+        "corpse": "mon_skeleton_hulk"
+      },
+      {
+        "name": "experienced character with National Guard bayonet and mace vs skeletal juggernaut with all weakpoints learned",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "proficiencies": true,
+        "items": [ "knife_combat", "mace" ],
+        "corpse": "mon_skeleton_hulk"
+      },
+      {
+        "name": "experienced character with heavy sledge vs skeletal juggernaut",
+        "pulp_time": 148,
+        "skills": [
+          { "skill": "swimming", "level": 5 },
+          { "skill": "survival", "level": 5 },
+          { "skill": "melee", "level": 5 },
+          { "skill": "bashing", "level": 5 }
+        ],
+        "proficiencies": true,
+        "items": [ "hammer_sledge_heavy" ],
+        "corpse": "mon_skeleton_hulk"
       }
     ]
   }

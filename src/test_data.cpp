@@ -136,7 +136,7 @@ void test_data::load( const JsonObject &jo )
             int pulp_time = 0;
             std::vector<itype_id> items;
             std::map<skill_id, int> skills;
-            std::vector<proficiency_id> profs;
+            bool profs;
             mtype_id corpse;
 
             job.read( "name", name );

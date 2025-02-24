@@ -25,7 +25,7 @@ struct pulp_test_data {
     int expected_pulp_time;
     std::vector<itype_id> items;
     std::map<skill_id, int> skills;
-    std::vector<proficiency_id> profs;
+    bool profs;
     mtype_id corpse;
 };
 
