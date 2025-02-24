@@ -8481,7 +8481,6 @@ void pulp_activity_actor::start( player_activity &act, Character &you )
     act.moves_total = calendar::INDEFINITELY_LONG;
     act.moves_left = calendar::INDEFINITELY_LONG;
     you.recoil = MAX_RECOIL;
-    current_pos_iter = placement.begin();
 
     pd = g->calculate_character_ability_to_pulp( you );
 }
@@ -8490,41 +8489,41 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
 {
     map &here = get_map();
 
-    bool processed_all = true;
-    tripoint_bub_ms pos = here.get_bub( *current_pos_iter );
-    map_stack corpse_pile = here.i_at( pos );
-    for( item &corpse : corpse_pile ) {
-        if( !corpse.is_corpse() || !corpse.can_revive() ) {
-            // Don't smash non-rezing corpses or random items
-            continue;
-        }
-
-        if( corpse.damage() < corpse.max_damage() ) {
-            bool can_pulp = punch_corpse_once( corpse, you, pos, here );
-            if( !can_pulp ) {
-                ++unpulped_corpses_qty;
+    for( const tripoint_abs_ms &pos_abs : placement ) {
+        tripoint_bub_ms pos = here.get_bub( pos_abs );
+        map_stack corpse_pile = here.i_at( pos );
+        for( item &corpse : corpse_pile ) {
+            if( !corpse.is_corpse() || !corpse.can_revive() ) {
+                // Don't smash non-rezing corpses or random items
                 continue;
             }
-            processed_all = false;
-            break;
+
+            if( corpse.damage() < corpse.max_damage() ) {
+                bool can_pulp = punch_corpse_once( corpse, you, pos, here );
+                if( !can_pulp ) {
+                    ++unpulped_corpses_qty;
+                    continue;
+                }
+                return; // pulp at most one corpse per turn
+            }
         }
     }
 
-    if( current_pos_iter == placement.end() ) {
-        // no more locations to pulp
-        act.moves_total = 0;
-        act.moves_left = 0;
-    }
-    if( processed_all ) {
-        // smashed all possible corpses, moving to next tile
-        current_pos_iter++;
-    }
+    // if we are here, that means we survived the whole previous loop
+    // without pulping anything. I.e. we are done.
+    // Stop the activity.
+    act.moves_total = 0;
+    act.moves_left = 0;
 }
 
 bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
         tripoint_bub_ms pos, map &here )
 {
     const mtype *corpse_mtype = corpse.get_mtype();
+    if( corpse_mtype == nullptr ) {
+        debugmsg( string_format( "Tried to pulp not-a-corpse (id %s)", corpse.typeId().c_str() ) );
+        return false;
+    }
 
     pd = g->calculate_pulpability( you, *corpse_mtype, pd );
 

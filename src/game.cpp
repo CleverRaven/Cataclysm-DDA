@@ -14294,7 +14294,7 @@ void game::climb_down_using( const tripoint_bub_ms &examp, climbing_aid_id aid_i
 
 pulp_data game::calculate_character_ability_to_pulp( const Character &you )
 {
-    pulp_data pd;
+    pulp_data pd{};
 
     double pulp_power_bash = 1;
 
