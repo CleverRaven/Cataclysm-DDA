@@ -1291,7 +1291,7 @@
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 1.5,
-    "flags": [ "VARSIZE", "FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -1335,7 +1335,7 @@
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 2.0,
-    "flags": [ "VARSIZE", "FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -1407,7 +1407,7 @@
     "color": "brown",
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -1564,7 +1564,7 @@
     "looks_like": "dress_shoes",
     "color": "dark_gray",
     "material_thickness": 1.5,
-    "flags": [ "VARSIZE", "FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],

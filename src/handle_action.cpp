@@ -908,12 +908,6 @@ static void haul_toggle()
     get_avatar().toggle_hauling();
 }
 
-static bool is_smashable_corpse( const item &maybe_corpse )
-{
-    return maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
-           maybe_corpse.can_revive();
-}
-
 static void smash()
 {
     const bool allow_floor_bash = debug_mode; // Should later become "true"
@@ -928,7 +922,7 @@ static void smash()
     // terrain smashing unless it's actually possible.
     bool smashable_corpse_at_target = false;
     for( const item &maybe_corpse : get_map().i_at( smashp ) ) {
-        if( is_smashable_corpse( maybe_corpse ) ) {
+        if( maybe_corpse.can_revive() ) {
             smashable_corpse_at_target = true;
             break;
         }
@@ -1027,19 +1021,13 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
 
     bool should_pulp = false;
     for( const item &maybe_corpse : here.i_at( smashp ) ) {
-        if( is_smashable_corpse( maybe_corpse ) ) {
-            if( maybe_corpse.get_mtype()->bloodType()->has_acid &&
-                !is_immune_field( fd_acid ) ) {
-                if( !query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
-                    return ret; // Player doesn't want an acid bath
-                }
-            }
+        if( maybe_corpse.can_revive() ) {
             should_pulp = true; // There is at least one corpse to pulp
         }
     }
 
     if( should_pulp ) {
-        assign_activity( pulp_activity_actor( here.get_abs( smashp ), true ) );
+        assign_activity( pulp_activity_actor( here.get_abs( smashp ) ) );
         return ret; // don't smash terrain if we've smashed a corpse
     }
 

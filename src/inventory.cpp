@@ -4,23 +4,23 @@
 #include <cmath>
 #include <cstdint>
 #include <cstdlib>
+#include <memory>
 #include <optional>
 #include <string>
-#include <type_traits>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
-#include "colony.h"
-#include "damage.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
 #include "iexamine.h"
 #include "inventory_ui.h" // auto inventory blocking
+#include "item_components.h"
+#include "item_contents.h"
 #include "item_stack.h"
 #include "itype.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -35,6 +35,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vpart_position.h"
 
 static const itype_id itype_acetaminophen( "acetaminophen" );
@@ -50,8 +51,6 @@ static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
 
 static const material_id material_iron( "iron" );
-
-struct itype;
 
 const invlet_wrapper
 inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()+.:;=@[\\]^_{|}" );

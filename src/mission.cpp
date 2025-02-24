@@ -6,14 +6,13 @@
 #include <iterator>
 #include <list>
 #include <memory>
-#include <new>
 #include <numeric>
 #include <set>
 #include <unordered_map>
 #include <utility>
 
 #include "avatar.h"
-#include "colony.h"
+#include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
@@ -29,12 +28,12 @@
 #include "map_iterator.h"
 #include "monster.h"
 #include "npc.h"
-#include "overmap.h"
+#include "omdata.h"
 #include "overmapbuffer.h"
+#include "player_activity.h"
 #include "point.h"
 #include "requirements.h"
-#include "string_formatter.h"
-#include "translations.h"
+#include "talker.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 

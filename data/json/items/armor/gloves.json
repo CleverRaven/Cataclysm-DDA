@@ -629,7 +629,7 @@
     "color": "white",
     "warmth": 20,
     "material_thickness": 0.5,
-    "flags": [ "WATER_FRIENDLY", "FANCY" ],
+    "flags": [ "WATER_FRIENDLY" ],
     "armor": [
       {
         "coverage": 100,
@@ -1174,7 +1174,7 @@
     ],
     "warmth": 10,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "SKINTIGHT", "FANCY" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
     "id": "mittens",
