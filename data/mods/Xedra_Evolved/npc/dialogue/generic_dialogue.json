@@ -63,6 +63,6 @@
     "id": [ "TALK_MUG_SCARECROW_MIEN_USED" ],
     "type": "talk_topic",
     "dynamic_line": "* blanches and takes a step back before turning and fleeing.",
-    "responses": [ { "topic": "TALK_DONE", "effect": "flee" } ]
+    "responses": [ { "text": "[Autumn Glamour] *Use Scarecrow's Mien*.", "topic": "TALK_DONE", "effect": "flee" } ]
   }
 ]

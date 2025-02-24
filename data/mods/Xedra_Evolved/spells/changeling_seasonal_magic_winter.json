@@ -145,8 +145,8 @@
   {
     "id": "changeling_winter_silence_spell",
     "type": "SPELL",
-    "name": "The Rime-Frozen Tongue",
-    "description": "You and your nearby allies' footsteps make almost no sound when you move, like the footsteps of an animal traveling across new-fallen snow.  If used in winter, your footsteps are <color_green>totally silent</color>.  The glamour is <color_yellow>quicker to expire</color> in summer.",
+    "name": "The Rime-Stilled Tongue",
+    "description": "Instill ice into a single target's tongue, rendering it heavy and unwieldly in their mouth, and silent their voice with it.  The affected target will not be able to speak or make any noise at all.  The glamour <color_green>lasts much longer</color> in winter.",
     "message": "Snow forms around your hand as you gesture at your target.",
     "flags": [ "SOMATIC", "NO_LEGS", "RANDOM_DURATION" ],
     "magic_type": "xe_fey_seasonal_magick_winter",
