@@ -365,7 +365,6 @@ item_location Character::i_add( item it, int &copies_remaining,
     item_location added = try_add( it, copies_remaining, avoid, original_inventory_item, allow_wield,
                                    ignore_pkt_settings );
     if( copies_remaining > 0 ) {
-        // TODO: probably cant just do this
         if( allow_wield && wield_new( it ) ) {
             copies_remaining--;
             added = added ? added : item_location( *this, &weapon );

@@ -2367,8 +2367,8 @@ class Character : public Creature, public visitable
         bool has_wield_conflicts( const item &it ) const;
 
         /**
-         * Removes currently wielded item (if any) and replaces it with the item from item_location
-         * If remove_old is not set to false, also remove item from the old location.
+         * Removes currently wielded item (if any) and replaces it with the item from item_location.
+         * If remove_old is not set to false, also remove item from the old location, invalidating @param loc.
          * @param loc replacement item to wield or null item to remove existing weapon without replacing it
          * @param remove_old optional, if false it does not remove item from the old location.
          * @return whether both removal and replacement were successful (they are performed atomically)
