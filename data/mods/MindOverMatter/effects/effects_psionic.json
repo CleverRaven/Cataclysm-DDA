@@ -936,7 +936,7 @@
             "value": "PERCEPTION",
             "add": {
               "math": [
-                "(1 + ( u_spell_level('clair_better_senses') / 3) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "(1 + ( u_spell_level('clair_better_senses') / 3) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
               ]
             }
           },
@@ -944,7 +944,7 @@
             "value": "OVERMAP_SIGHT",
             "add": {
               "math": [
-                "(1 + ( u_spell_level('clair_better_senses') / 5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "(1 + ( u_spell_level('clair_better_senses') / 5) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
               ]
             }
           },
@@ -952,7 +952,7 @@
             "value": "HEARING_MULT",
             "multiply": {
               "math": [
-                "( u_spell_level('clair_better_senses') 0.25) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+                "( u_spell_level('clair_better_senses') * 0.25) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
               ]
             }
           }
@@ -990,6 +990,7 @@
               "or": [
                 { "u_has_flag": "BLIND" },
                 { "u_has_effect": "blind" },
+                { "u_is_in_field": "fd_smoke" },
                 {
                   "math": [
                     "( ( u_spell_level('clair_better_senses') * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 15"
@@ -1002,12 +1003,17 @@
         "special_vision": [
           {
             "distance": 2,
-            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You something moving here." } ]
+            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense something moving here." } ]
           }
         ]
       },
       {
-        "condition": { "u_has_any_effect": [ "hallu", "datura", "taint", "hallucination_attacks", "visuals", "fearparalyze" ] },
+        "condition": {
+          "or": [
+            { "u_has_any_trait": [ "PER_SLIME" ] },
+            { "u_has_any_effect": [ "hallu", "datura", "taint", "hallucination_attacks", "visuals", "fearparalyze" ] }
+          ]
+        },
         "ench_effects": [ { "effect": "effect_clair_better_senses_pain", "intensity": 1 } ]
       }
     ]
@@ -1041,8 +1047,9 @@
     "id": "effect_clair_better_senses_pain",
     "name": [ "Sensory Pain" ],
     "desc": [ "Your senses are overwhelmed!" ],
-    "apply_message": [ "Your senses are overwhelmed!" ],
+    "apply_message": "Your senses are overwhelmed!",
     "rating": "bad",
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": -3 } ] } ],
     "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 4 ], "pain_max_val": [ 20 ], "pain_tick": [ 5 ] }
   },
   {
