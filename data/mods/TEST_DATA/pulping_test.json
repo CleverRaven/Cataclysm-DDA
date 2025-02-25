@@ -4,31 +4,31 @@
     "//": "zombie, gold standard",
     "pulp_testing_data": [
       {
-        "name": "fresh character with no items vs zombie",
+        "name": "001: fresh character with no items vs zombie",
         "//": "pulp_time is in seconds",
         "pulp_time": 515,
         "corpse": "mon_zombie"
       },
       {
-        "name": "fresh character with a pocket knife vs zombie",
-        "pulp_time": 350,
+        "name": "002: fresh character with a pocket knife vs zombie",
+        "pulp_time": 437,
         "items": [ "knife_folding" ],
         "corpse": "mon_zombie"
       },
       {
-        "name": "fresh character and a pipe mace vs zombie",
+        "name": "003: fresh character and a pipe mace vs zombie",
         "pulp_time": 350,
         "items": [ "mace_pipe" ],
         "corpse": "mon_zombie"
       },
       {
-        "name": "fresh character with pipe mace and pocket knife vs zombie",
-        "pulp_time": 350,
+        "name": "004: fresh character with pipe mace and pocket knife vs zombie",
+        "pulp_time": 297,
         "items": [ "mace_pipe", "knife_folding" ],
         "corpse": "mon_zombie"
       },
       {
-        "name": "moderate character with a pipe mace vs zombie",
+        "name": "005: moderate character with a pipe mace vs zombie",
         "pulp_time": 247,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -40,8 +40,8 @@
         "corpse": "mon_zombie"
       },
       {
-        "name": "moderate character with pipe mace and folding knife vs zombie",
-        "pulp_time": 247,
+        "name": "006: moderate character with pipe mace and folding knife vs zombie",
+        "pulp_time": 210,
         "skills": [
           { "skill": "swimming", "level": 2 },
           { "skill": "survival", "level": 2 },
@@ -52,8 +52,8 @@
         "corpse": "mon_zombie"
       },
       {
-        "name": "moderate character with folding knife and a pipe mace vs zombie with all weakpoints learned",
-        "pulp_time": 148,
+        "name": "007: moderate character with folding knife and a pipe mace vs zombie with all weakpoints learned",
+        "pulp_time": 126,
         "skills": [
           { "skill": "swimming", "level": 2 },
           { "skill": "survival", "level": 2 },
@@ -65,8 +65,8 @@
         "corpse": "mon_zombie"
       },
       {
-        "name": "moderate character with National Guard bayonet vs zombie",
-        "pulp_time": 148,
+        "name": "008: moderate character with National Guard bayonet vs zombie",
+        "pulp_time": 246,
         "skills": [
           { "skill": "swimming", "level": 2 },
           { "skill": "survival", "level": 2 },
@@ -77,8 +77,9 @@
         "corpse": "mon_zombie"
       },
       {
-        "name": "moderate character with fire axe vs zombie",
-        "pulp_time": 148,
+        "name": "009: moderate character with fire axe vs zombie",
+        "//": "slower than pulping with bayonet, unacceptable",
+        "pulp_time": 286,
         "skills": [
           { "skill": "swimming", "level": 2 },
           { "skill": "survival", "level": 2 },
@@ -89,8 +90,8 @@
         "corpse": "mon_zombie"
       },
       {
-        "name": "moderate character with fire axe vs zombie with all weakpoints learned",
-        "pulp_time": 148,
+        "name": "010: moderate character with fire axe vs zombie with all weakpoints learned",
+        "pulp_time": 171,
         "skills": [
           { "skill": "swimming", "level": 2 },
           { "skill": "survival", "level": 2 },
@@ -102,8 +103,8 @@
         "corpse": "mon_zombie"
       },
       {
-        "name": "experienced character with National Guard bayonet vs zombie",
-        "pulp_time": 148,
+        "name": "011: experienced character with National Guard bayonet vs zombie",
+        "pulp_time": 137,
         "skills": [
           { "skill": "swimming", "level": 5 },
           { "skill": "survival", "level": 5 },
@@ -114,7 +115,7 @@
         "corpse": "mon_zombie"
       },
       {
-        "name": "experienced character with National Guard bayonet and mace vs zombie",
+        "name": "012: experienced character with National Guard bayonet and mace vs zombie",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -126,7 +127,7 @@
         "corpse": "mon_zombie"
       },
       {
-        "name": "experienced character with National Guard bayonet and mace vs zombie with all weakpoints learned",
+        "name": "013: experienced character with National Guard bayonet and mace vs zombie with all weakpoints learned",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -139,7 +140,7 @@
         "corpse": "mon_zombie"
       },
       {
-        "name": "experienced character with heavy sledge vs zombie",
+        "name": "014: experienced character with heavy sledge vs zombie",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -158,31 +159,31 @@
     "//": "zombie dog, to cover smaller critters",
     "pulp_testing_data": [
       {
-        "name": "fresh character with no items vs zombie dog",
+        "name": "015: fresh character with no items vs zombie dog",
         "//": "pulp_time is in seconds",
         "pulp_time": 515,
         "corpse": "mon_zombie_dog"
       },
       {
-        "name": "fresh character with a pocket knife vs zombie dog",
+        "name": "016: fresh character with a pocket knife vs zombie dog",
         "pulp_time": 350,
         "items": [ "knife_folding" ],
         "corpse": "mon_zombie_dog"
       },
       {
-        "name": "fresh character and a pipe mace vs zombie dog",
+        "name": "017: fresh character and a pipe mace vs zombie dog",
         "pulp_time": 350,
         "items": [ "mace_pipe" ],
         "corpse": "mon_zombie_dog"
       },
       {
-        "name": "fresh character with pipe mace and pocket knife vs zombie dog",
+        "name": "018: fresh character with pipe mace and pocket knife vs zombie dog",
         "pulp_time": 350,
         "items": [ "mace_pipe", "knife_folding" ],
         "corpse": "mon_zombie_dog"
       },
       {
-        "name": "moderate character with a pipe mace vs zombie dog",
+        "name": "019: moderate character with a pipe mace vs zombie dog",
         "pulp_time": 247,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -194,7 +195,7 @@
         "corpse": "mon_zombie_dog"
       },
       {
-        "name": "moderate character with pipe mace and folding knife vs zombie dog",
+        "name": "020: moderate character with pipe mace and folding knife vs zombie dog",
         "pulp_time": 247,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -206,7 +207,7 @@
         "corpse": "mon_zombie_dog"
       },
       {
-        "name": "moderate character with folding knife and a pipe mace vs zombie dog with all weakpoints learned",
+        "name": "021: moderate character with folding knife and a pipe mace vs zombie dog with all weakpoints learned",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -219,7 +220,7 @@
         "corpse": "mon_zombie_dog"
       },
       {
-        "name": "moderate character with National Guard bayonet vs zombie dog",
+        "name": "022: moderate character with National Guard bayonet vs zombie dog",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -231,7 +232,7 @@
         "corpse": "mon_zombie_dog"
       },
       {
-        "name": "moderate character with fire axe vs zombie dog",
+        "name": "023: moderate character with fire axe vs zombie dog",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -243,7 +244,7 @@
         "corpse": "mon_zombie_dog"
       },
       {
-        "name": "moderate character with fire axe vs zombie dog with all weakpoints learned",
+        "name": "024: moderate character with fire axe vs zombie dog with all weakpoints learned",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -256,7 +257,7 @@
         "corpse": "mon_zombie_dog"
       },
       {
-        "name": "experienced character with National Guard bayonet vs zombie dog",
+        "name": "025: experienced character with National Guard bayonet vs zombie dog",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -268,7 +269,7 @@
         "corpse": "mon_zombie_dog"
       },
       {
-        "name": "experienced character with National Guard bayonet and mace vs zombie dog",
+        "name": "026: experienced character with National Guard bayonet and mace vs zombie dog",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -280,7 +281,7 @@
         "corpse": "mon_zombie_dog"
       },
       {
-        "name": "experienced character with National Guard bayonet and mace vs zombie dog with all weakpoints learned",
+        "name": "027: experienced character with National Guard bayonet and mace vs zombie dog with all weakpoints learned",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -293,7 +294,7 @@
         "corpse": "mon_zombie_dog"
       },
       {
-        "name": "experienced character with heavy sledge vs zombie dog",
+        "name": "028: experienced character with heavy sledge vs zombie dog",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -312,31 +313,31 @@
     "//": "zoose, to cover bigger critters",
     "pulp_testing_data": [
       {
-        "name": "fresh character with no items vs zombie moose",
+        "name": "029: fresh character with no items vs zombie moose",
         "//": "pulp_time is in seconds",
         "pulp_time": 515,
         "corpse": "mon_zoose"
       },
       {
-        "name": "fresh character with a pocket knife vs zombie moose",
+        "name": "030: fresh character with a pocket knife vs zombie moose",
         "pulp_time": 350,
         "items": [ "knife_folding" ],
         "corpse": "mon_zoose"
       },
       {
-        "name": "fresh character and a pipe mace vs zombie moose",
+        "name": "031: fresh character and a pipe mace vs zombie moose",
         "pulp_time": 350,
         "items": [ "mace_pipe" ],
         "corpse": "mon_zoose"
       },
       {
-        "name": "fresh character with pipe mace and pocket knife vs zombie moose",
+        "name": "032: fresh character with pipe mace and pocket knife vs zombie moose",
         "pulp_time": 350,
         "items": [ "mace_pipe", "knife_folding" ],
         "corpse": "mon_zoose"
       },
       {
-        "name": "moderate character with a pipe mace vs zombie moose",
+        "name": "033: moderate character with a pipe mace vs zombie moose",
         "pulp_time": 247,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -348,7 +349,7 @@
         "corpse": "mon_zoose"
       },
       {
-        "name": "moderate character with pipe mace and folding knife vs zombie moose",
+        "name": "034: moderate character with pipe mace and folding knife vs zombie moose",
         "pulp_time": 247,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -360,7 +361,7 @@
         "corpse": "mon_zoose"
       },
       {
-        "name": "moderate character with folding knife and a pipe mace vs zombie moose with all weakpoints learned",
+        "name": "035: moderate character with folding knife and a pipe mace vs zombie moose with all weakpoints learned",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -373,7 +374,7 @@
         "corpse": "mon_zoose"
       },
       {
-        "name": "moderate character with National Guard bayonet vs zombie moose",
+        "name": "036: moderate character with National Guard bayonet vs zombie moose",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -385,7 +386,7 @@
         "corpse": "mon_zoose"
       },
       {
-        "name": "moderate character with fire axe vs zombie moose",
+        "name": "037: moderate character with fire axe vs zombie moose",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -397,7 +398,7 @@
         "corpse": "mon_zoose"
       },
       {
-        "name": "moderate character with fire axe vs zombie moose with all weakpoints learned",
+        "name": "038: moderate character with fire axe vs zombie moose with all weakpoints learned",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -410,7 +411,7 @@
         "corpse": "mon_zoose"
       },
       {
-        "name": "experienced character with National Guard bayonet vs zombie moose",
+        "name": "039: experienced character with National Guard bayonet vs zombie moose",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -422,7 +423,7 @@
         "corpse": "mon_zoose"
       },
       {
-        "name": "experienced character with National Guard bayonet and mace vs zombie moose",
+        "name": "040: experienced character with National Guard bayonet and mace vs zombie moose",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -434,7 +435,7 @@
         "corpse": "mon_zoose"
       },
       {
-        "name": "experienced character with National Guard bayonet and mace vs zombie moose with all weakpoints learned",
+        "name": "041: experienced character with National Guard bayonet and mace vs zombie moose with all weakpoints learned",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -447,7 +448,7 @@
         "corpse": "mon_zoose"
       },
       {
-        "name": "experienced character with heavy sledge vs zombie moose",
+        "name": "042: experienced character with heavy sledge vs zombie moose",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -466,31 +467,31 @@
     "//": "hulk, to cover the biggest creatures we have",
     "pulp_testing_data": [
       {
-        "name": "fresh character with no items vs hulk",
+        "name": "043: fresh character with no items vs hulk",
         "//": "pulp_time is in seconds",
         "pulp_time": 515,
         "corpse": "mon_zombie_hulk"
       },
       {
-        "name": "fresh character with a pocket knife vs hulk",
+        "name": "044: fresh character with a pocket knife vs hulk",
         "pulp_time": 350,
         "items": [ "knife_folding" ],
         "corpse": "mon_zombie_hulk"
       },
       {
-        "name": "fresh character and a pipe mace vs hulk",
+        "name": "045: fresh character and a pipe mace vs hulk",
         "pulp_time": 350,
         "items": [ "mace_pipe" ],
         "corpse": "mon_zombie_hulk"
       },
       {
-        "name": "fresh character with pipe mace and pocket knife vs hulk",
+        "name": "046: fresh character with pipe mace and pocket knife vs hulk",
         "pulp_time": 350,
         "items": [ "mace_pipe", "knife_folding" ],
         "corpse": "mon_zombie_hulk"
       },
       {
-        "name": "moderate character with a pipe mace vs hulk",
+        "name": "047: moderate character with a pipe mace vs hulk",
         "pulp_time": 247,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -502,7 +503,7 @@
         "corpse": "mon_zombie_hulk"
       },
       {
-        "name": "moderate character with pipe mace and folding knife vs hulk",
+        "name": "048: moderate character with pipe mace and folding knife vs hulk",
         "pulp_time": 247,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -514,7 +515,7 @@
         "corpse": "mon_zombie_hulk"
       },
       {
-        "name": "moderate character with folding knife and a pipe mace vs hulk with all weakpoints learned",
+        "name": "049: moderate character with folding knife and a pipe mace vs hulk with all weakpoints learned",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -527,7 +528,7 @@
         "corpse": "mon_zombie_hulk"
       },
       {
-        "name": "moderate character with National Guard bayonet vs hulk",
+        "name": "050: moderate character with National Guard bayonet vs hulk",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -539,7 +540,7 @@
         "corpse": "mon_zombie_hulk"
       },
       {
-        "name": "moderate character with fire axe vs hulk",
+        "name": "051: moderate character with fire axe vs hulk",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -551,7 +552,7 @@
         "corpse": "mon_zombie_hulk"
       },
       {
-        "name": "moderate character with fire axe vs hulk with all weakpoints learned",
+        "name": "052: moderate character with fire axe vs hulk with all weakpoints learned",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -564,7 +565,7 @@
         "corpse": "mon_zombie_hulk"
       },
       {
-        "name": "experienced character with National Guard bayonet vs hulk",
+        "name": "053: experienced character with National Guard bayonet vs hulk",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -576,7 +577,7 @@
         "corpse": "mon_zombie_hulk"
       },
       {
-        "name": "experienced character with National Guard bayonet and mace vs hulk",
+        "name": "054: experienced character with National Guard bayonet and mace vs hulk",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -588,7 +589,7 @@
         "corpse": "mon_zombie_hulk"
       },
       {
-        "name": "experienced character with National Guard bayonet and mace vs hulk with all weakpoints learned",
+        "name": "055: experienced character with National Guard bayonet and mace vs hulk with all weakpoints learned",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -601,7 +602,7 @@
         "corpse": "mon_zombie_hulk"
       },
       {
-        "name": "experienced character with heavy sledge vs hulk",
+        "name": "056: experienced character with heavy sledge vs hulk",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -620,31 +621,31 @@
     "//": "skeleton zombie, to cover armored monsters",
     "pulp_testing_data": [
       {
-        "name": "fresh character with no items vs skeletal zombie",
+        "name": "057: fresh character with no items vs skeletal zombie",
         "//": "pulp_time is in seconds",
         "pulp_time": 515,
         "corpse": "mon_skeleton"
       },
       {
-        "name": "fresh character with a pocket knife vs skeletal zombie",
+        "name": "058: fresh character with a pocket knife vs skeletal zombie",
         "pulp_time": 350,
         "items": [ "knife_folding" ],
         "corpse": "mon_skeleton"
       },
       {
-        "name": "fresh character and a pipe mace vs skeletal zombie",
+        "name": "059: fresh character and a pipe mace vs skeletal zombie",
         "pulp_time": 350,
         "items": [ "mace_pipe" ],
         "corpse": "mon_skeleton"
       },
       {
-        "name": "fresh character with pipe mace and pocket knife vs skeletal zombie",
+        "name": "060: fresh character with pipe mace and pocket knife vs skeletal zombie",
         "pulp_time": 350,
         "items": [ "mace_pipe", "knife_folding" ],
         "corpse": "mon_skeleton"
       },
       {
-        "name": "moderate character with a pipe mace vs skeletal zombie",
+        "name": "061: moderate character with a pipe mace vs skeletal zombie",
         "pulp_time": 247,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -656,7 +657,7 @@
         "corpse": "mon_skeleton"
       },
       {
-        "name": "moderate character with pipe mace and folding knife vs skeletal zombie",
+        "name": "062: moderate character with pipe mace and folding knife vs skeletal zombie",
         "pulp_time": 247,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -668,7 +669,7 @@
         "corpse": "mon_skeleton"
       },
       {
-        "name": "moderate character with folding knife and a pipe mace vs skeletal zombie with all weakpoints learned",
+        "name": "063: moderate character with folding knife and a pipe mace vs skeletal zombie with all weakpoints learned",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -681,7 +682,7 @@
         "corpse": "mon_skeleton"
       },
       {
-        "name": "moderate character with National Guard bayonet vs skeletal zombie",
+        "name": "064: moderate character with National Guard bayonet vs skeletal zombie",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -693,7 +694,7 @@
         "corpse": "mon_skeleton"
       },
       {
-        "name": "moderate character with fire axe vs skeletal zombie",
+        "name": "065: moderate character with fire axe vs skeletal zombie",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -705,7 +706,7 @@
         "corpse": "mon_skeleton"
       },
       {
-        "name": "moderate character with fire axe vs skeletal zombie with all weakpoints learned",
+        "name": "066: moderate character with fire axe vs skeletal zombie with all weakpoints learned",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -718,7 +719,7 @@
         "corpse": "mon_skeleton"
       },
       {
-        "name": "experienced character with National Guard bayonet vs skeletal zombie",
+        "name": "067: experienced character with National Guard bayonet vs skeletal zombie",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -730,7 +731,7 @@
         "corpse": "mon_skeleton"
       },
       {
-        "name": "experienced character with National Guard bayonet and mace vs skeletal zombie",
+        "name": "068: experienced character with National Guard bayonet and mace vs skeletal zombie",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -742,7 +743,7 @@
         "corpse": "mon_skeleton"
       },
       {
-        "name": "experienced character with National Guard bayonet and mace vs skeletal zombie with all weakpoints learned",
+        "name": "069: experienced character with National Guard bayonet and mace vs skeletal zombie with all weakpoints learned",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -755,7 +756,7 @@
         "corpse": "mon_skeleton"
       },
       {
-        "name": "experienced character with heavy sledge vs skeletal zombie",
+        "name": "070: experienced character with heavy sledge vs skeletal zombie",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -774,31 +775,31 @@
     "//": "skeletal juggernaut, to cover both big and armored critters",
     "pulp_testing_data": [
       {
-        "name": "fresh character with no items vs skeletal juggernaut",
+        "name": "071: fresh character with no items vs skeletal juggernaut",
         "//": "pulp_time is in seconds",
         "pulp_time": 515,
         "corpse": "mon_skeleton_hulk"
       },
       {
-        "name": "fresh character with a pocket knife vs skeletal juggernaut",
+        "name": "072: fresh character with a pocket knife vs skeletal juggernaut",
         "pulp_time": 350,
         "items": [ "knife_folding" ],
         "corpse": "mon_skeleton_hulk"
       },
       {
-        "name": "fresh character and a pipe mace vs skeletal juggernaut",
+        "name": "073: fresh character and a pipe mace vs skeletal juggernaut",
         "pulp_time": 350,
         "items": [ "mace_pipe" ],
         "corpse": "mon_skeleton_hulk"
       },
       {
-        "name": "fresh character with pipe mace and pocket knife vs skeletal juggernaut",
+        "name": "074: fresh character with pipe mace and pocket knife vs skeletal juggernaut",
         "pulp_time": 350,
         "items": [ "mace_pipe", "knife_folding" ],
         "corpse": "mon_skeleton_hulk"
       },
       {
-        "name": "moderate character with a pipe mace vs skeletal juggernaut",
+        "name": "075: moderate character with a pipe mace vs skeletal juggernaut",
         "pulp_time": 247,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -810,7 +811,7 @@
         "corpse": "mon_skeleton_hulk"
       },
       {
-        "name": "moderate character with pipe mace and folding knife vs skeletal juggernaut",
+        "name": "076: moderate character with pipe mace and folding knife vs skeletal juggernaut",
         "pulp_time": 247,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -822,7 +823,7 @@
         "corpse": "mon_skeleton_hulk"
       },
       {
-        "name": "moderate character with folding knife and a pipe mace vs skeletal juggernaut with all weakpoints learned",
+        "name": "077: moderate character with folding knife and a pipe mace vs skeletal juggernaut with all weakpoints learned",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -835,7 +836,7 @@
         "corpse": "mon_skeleton_hulk"
       },
       {
-        "name": "moderate character with National Guard bayonet vs skeletal juggernaut",
+        "name": "078: moderate character with National Guard bayonet vs skeletal juggernaut",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -847,7 +848,7 @@
         "corpse": "mon_skeleton_hulk"
       },
       {
-        "name": "moderate character with fire axe vs skeletal juggernaut",
+        "name": "079: moderate character with fire axe vs skeletal juggernaut",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -859,7 +860,7 @@
         "corpse": "mon_skeleton_hulk"
       },
       {
-        "name": "moderate character with fire axe vs skeletal juggernaut with all weakpoints learned",
+        "name": "080: moderate character with fire axe vs skeletal juggernaut with all weakpoints learned",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 2 },
@@ -872,7 +873,7 @@
         "corpse": "mon_skeleton_hulk"
       },
       {
-        "name": "experienced character with National Guard bayonet vs skeletal juggernaut",
+        "name": "081: experienced character with National Guard bayonet vs skeletal juggernaut",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -884,7 +885,7 @@
         "corpse": "mon_skeleton_hulk"
       },
       {
-        "name": "experienced character with National Guard bayonet and mace vs skeletal juggernaut",
+        "name": "082: experienced character with National Guard bayonet and mace vs skeletal juggernaut",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -896,7 +897,7 @@
         "corpse": "mon_skeleton_hulk"
       },
       {
-        "name": "experienced character with National Guard bayonet and mace vs skeletal juggernaut with all weakpoints learned",
+        "name": "083: experienced character with National Guard bayonet and mace vs skeletal juggernaut with all weakpoints learned",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },
@@ -909,7 +910,7 @@
         "corpse": "mon_skeleton_hulk"
       },
       {
-        "name": "experienced character with heavy sledge vs skeletal juggernaut",
+        "name": "084: experienced character with heavy sledge vs skeletal juggernaut",
         "pulp_time": 148,
         "skills": [
           { "skill": "swimming", "level": 5 },

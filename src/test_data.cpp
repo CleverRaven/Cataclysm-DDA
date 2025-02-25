@@ -142,7 +142,7 @@ void test_data::load( const JsonObject &jo )
             job.read( "name", name );
             job.read( "pulp_time", pulp_time );
             job.read( "items", items );
-            job.read( "proficiencies", profs );
+            profs = job.get_bool( "proficiencies", false );
             job.read( "corpse", corpse );
 
             if( job.has_array( "skills" ) ) {

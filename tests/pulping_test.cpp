@@ -14,6 +14,8 @@
 #include "messages.h"
 #include "calendar.h"
 
+static const itype_id itype_debug_backpack( "debug_backpack" );
+
 TEST_CASE( "monster_pulping_test" )
 {
     clear_map();
@@ -22,6 +24,8 @@ TEST_CASE( "monster_pulping_test" )
         clear_character( you );
         // to reset character weight
         you.set_stored_kcal( 120000 );
+
+        you.worn.wear_item( you, item( itype_debug_backpack ), false, false );
 
         for( const itype_id it : test.items ) {
             you.i_add( item( it ) );
