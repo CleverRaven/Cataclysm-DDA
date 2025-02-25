@@ -86,16 +86,16 @@ class const_talker
         virtual std::vector<std::string> get_grammatical_genders() const {
             return {};
         }
-        virtual int posx() const {
+        virtual int posx( const map & ) const {
             return 0;
         }
-        virtual int posy() const {
+        virtual int posy( const map & ) const {
             return 0;
         }
         virtual int posz() const {
             return 0;
         }
-        virtual tripoint_bub_ms pos_bub() const {
+        virtual tripoint_bub_ms pos_bub( const map & ) const {
             return {};
         }
         virtual tripoint_abs_ms pos_abs() const {
@@ -687,6 +687,7 @@ class talker: virtual public const_talker
             return nullptr;
         }
         virtual void set_pos( tripoint_bub_ms ) {}
+        virtual void set_pos( tripoint_abs_ms ) {}
         virtual void update_missions( const std::vector<mission *> & ) {}
         virtual void set_str_max( int ) {}
         virtual void set_dex_max( int ) {}

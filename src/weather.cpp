@@ -77,7 +77,9 @@ static const trait_id trait_FEATHERS( "FEATHERS" );
 bool is_creature_outside( const Creature &target )
 {
     map &here = get_map();
-    return here.is_outside( tripoint_bub_ms( target.posx(), target.posy(), here.get_abs_sub().z() ) ) &&
+    const tripoint_bub_ms pos = target.pos_bub( here );
+
+    return here.is_outside( tripoint_bub_ms( pos.xy(), here.get_abs_sub().z() ) ) &&
            here.get_abs_sub().z() >= 0;
 }
 

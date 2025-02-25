@@ -24,20 +24,20 @@ This table contains every single ranged weapon in the mod and is to be used for 
 |wrist-trilaser                 |Obsolete   |                   |UPS         |          |       |      |        |    |    |     |                                          |
 |handheld x-ray cannon          |Obsolete   |                   |            |          |       |      |        |    |    |     |                                          |
 |shoddy laser rifle             |Obsolete   |                   |LASER CELL  |          |       |      |        |    |    |     |                                          |
-|av-22                          |LASER      |Pistol             |LASER CELL  |          |5, 8   |      |        |    |    |3    |                                          |
-|E-150b                         |LASER      |Pistol             |LASER CELL  |          |20, 30 |      |        |5   |    |2    |                                          |
-|Izhevsk PLC-75                 |LASER      |Recoiless Rifle    |LASER CELL  |          |220    |      |        |15  |    |1    |Single shot                               |
-|Shikishma A-82 tactical laser  |LASER      |AT  Sniper         |LASER CELL  |          |35, 53 |      |        |    |    |3    |                                          |
-|V14 laser pistol               |LASER      |Pistol             |LASER CELL  |          |4, 6   |      |        |    |    |1    |                                          |
+|av-22                          |LASER      |Pistol             |LASER CELL  |          |5      |      |        |    |    |3    |                                          |
+|E-150b                         |LASER      |Pistol             |LASER CELL  |          |20     |      |        |20  |    |2    |                                          |
+|Izhevsk PLC-75                 |LASER      |Recoiless Rifle    |LASER CELL  |          |300    |      |        |50  |    |1    |Single shot                               |
+|Shikishma A-82 tactical laser  |LASER      |AT  Sniper         |LASER CELL  |          |45     |      |        |50  |    |3    |                                          |
+|V14 laser pistol               |LASER      |Pistol             |LASER CELL  |          |10     |      |        |    |    |1    |                                          |
 |A7 laser rifle                 |Obsolete   |AR                 |LASER CELL  |          |       |      |        |    |4   |2    |                                          |
 |Makeshift Scrambler Rifle      |LASER      |Anti Drone         |LASER CELL  |          |       |      |        |    |1   |1    |                                          |
 |xm34 EMP projector             |Obsolete   |                   |LASER CELL  |          |       |      |        |    |    |1    |                                          |
-|makeshift rail rifle           |SOV-RAILGUN|Sniper             |ROD         |65, 80    |20     |      |        |    |40  |1    |Single shot                               |
+|makeshift rail rifle           |SOV-RAILGUN|Sniper             |ROD         |65, 80    |       |      |        |    |40  |1    |Single shot                               |
 |mining rod launcher            |SOV-RAILGUN|Sniper             |ROD         |90        |       |      |        |    |40  |1    |Single shot                               |
 |GG-860 Wasp Rifle              |RAILGUN    |AR                 |3X35        |14        |       |      |        |    |30  |8    |                                          |
 |3x35mm automatic Coilpistol    |RAILGUN    |Pistol             |3X35        |10        |       |      |        |    |30  |5    |                                          |
-|Magnadrive 230K                |PLASMA     |AR                 |MIL PLASMA  |          |       |80    |        |    |    |1    |                                          |
-|PAM-41 2g                      |PLASMA     |Handcannon         |MIL PLASMA  |          |       |50    |        |    |    |1    |                                          |
+|Magnadrive 230K                |PLASMA     |AT rifle           |MIL PLASMA  |          |       |120   |        |    |20  |1    |                                          |
+|PAM-41 2g                      |PLASMA     |Handcannon         |MIL PLASMA  |          |       |70    |        |    |    |1    |                                          |
 |direct fusion gun              |PLASMA     |Flamethrower       |CIV PLASMA  |          |       |45    |        |    |    |5    |                                          |
 |377-UASTA                      |PLASMA     |Handcannon         |CIV PLASMA  |          |       |45    |        |    |    |1    |                                          |
 |bionic skullgun                |BALLISTIC  |Meme               |7.5mm       |34        |       |      |        |    |    |1    |                                          |
@@ -45,9 +45,9 @@ This table contains every single ranged weapon in the mod and is to be used for 
 |Accipiter Magnastorm-12        |SHOT       |AP Shotgun         |0           |15*9      |       |      |        |    |3*9 |1    |                                          |
 |Raketa                         |SHOT       |Assault Shotgun    |0           |15*9      |       |      |        |    |    |2    |                                          |
 |Drotik Shotpistol              |SHOT       |Pistol             |0           |15*9      |       |      |        |    |    |1    |                                          |
-|R-PROTON ENR                   |VOLTAIC    |Anti Drone         |VOLTAIC CELL|          |       |      |10      |25  |    |1    |                                          |
-|W3310 Archangel ENR            |VOLTAIC    |Anti Drone         |VOLTAIC CELL|          |       |      |30      |    |    |1    |Chains 3 times for 15 electric damage each|
-|W3100 Volt                     |VOLTAIC    |Anti Drone         |VOLTAIC CELL|          |       |      |7       |    |    |1    |                                          |
+|R-PROTON ENR                   |VOLTAIC    |Anti Drone Rifle   |VOLTAIC CELL|          |       |      |10      |25  |    |1    |Not Smart                                 |
+|W3310 Archangel ENR            |VOLTAIC    |Anti Drone Rifle   |VOLTAIC CELL|          |       |      |30      |    |    |1    |Chains 3 times for 15 electric damage each|
+|W3100 Volt                     |VOLTAIC    |Anti Drone Pistol  |VOLTAIC CELL|          |       |      |10      |    |    |1    |                                          |
 |Alien lune                     |EXPLOSIVE  |Launcher           |ALIEN CELL  |          |50     |      |        |    |50  |1    |Explosion: 2500dmg                        |
 |vatforged grenade launcher     |EXPLOSIVE  |Launcher           |Grenades    |          |       |      |        |    |    |1    |                                          |
 |Aztlani bow                    |BOW        |Bow                |ARROW       |64        |       |      |        |    |    |1    |                                          |
@@ -149,7 +149,7 @@ For light medium and heavy categories
  
 
 ### Voltaic-Electroshock
-Voltaic projectiles might arc between close targets and produce clouds of electric fields. The electric fields generated by voltaics offer high utility AOE effects: they slow and stun targets that pass through them while also inflicting low amounts of damage, all without risking the item or terrain destruction of traditional explosives or plasma weapons. This utility comes at the cost, compared to other damage types, they have the lowest damage per projectile and the rarest ammunition.
+Voltaic weapons are all self-targeting, and their projectiles might arc between close targets and produce clouds of electric fields. The electric fields generated by voltaics offer high utility AOE effects: they slow and stun targets that pass through them while also inflicting low amounts of damage, all without risking the item or terrain destruction of traditional explosives or plasma weapons. This utility comes at the cost, compared to other damage types, they have the lowest damage per projectile and the rarest ammunition.
 
 They excel at dispatching groups of weak foes, robots or at slowing foes to create better escape/combat opportunities.
 
@@ -158,7 +158,7 @@ For light medium and heavy categories
 
 * Max damage per turn: `15 / 30 / 60` 
 * Max ammo efficiency per unit of damage `2kj / 1.5kj / 1kj`.
-* Maximum range `15 / 40 / 60`.
+* Maximum range `15 / 30 / 60`.
 * Average volume `1.5l / 5l / 15l`.
 * Average Weight `2kg / 4kg / 12kg`. 
 * Minimum reload time `600 / 1200 / 1800` moves.

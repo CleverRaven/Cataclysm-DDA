@@ -263,7 +263,7 @@
         "                        ",
         "                        ",
         "  ####  ####            ",
-        "###.F####.g###          ",
+        "###.â####.g###          ",
         "#............#          ",
         "#a..r..e..c..#          ",
         "#a..r..e..c..#          ",
@@ -285,7 +285,7 @@
         "#####Δ##################",
         "    ###                 "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "terrain": { "Δ": "t_ramp_up_high", ".": "t_dirtfloor", "#": "t_wall_log" },
       "furniture": {
         "G": "f_table",
