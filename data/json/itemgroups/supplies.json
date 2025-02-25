@@ -200,7 +200,6 @@
       { "item": "rigid_plastic_sheet", "prob": 30, "count": [ 5, 20 ] }
     ]
   },
-
   {
     "id": "supplies_plumbing",
     "type": "item_group",

@@ -271,7 +271,6 @@
       { "item": "purse", "prob": 15 }
     ]
   },
-  
   {
     "id": "pizza_display",
     "type": "item_group",
@@ -370,7 +369,6 @@
       [ "hairpin", 3 ]
     ]
   },
-  
   {
     "id": "coffee_display_2",
     "type": "item_group",
@@ -501,7 +499,6 @@
       { "item": "cup_plastic", "prob": 20 }
     ]
   },
-
   {
     "id": "coffee_bathroom",
     "type": "item_group",
@@ -559,7 +556,6 @@
       { "prob": 35, "group": "oyster_crackers_plastic_bag_vac_1_inf" }
     ]
   },
-
   {
     "id": "fast_fridge",
     "type": "item_group",
@@ -1060,7 +1056,6 @@
       [ "mag_news", 10 ]
     ]
   },
-
   {
     "id": "restaur_rack",
     "type": "item_group",
