@@ -1066,8 +1066,15 @@ $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
 .PHONY: version prefix
+
+PYTHON != python3 -V
+ifeq ($(.SHELLSTATUS),0)
+  PYTHON := python3
+else
+  PYTHON := python
+endif
 version:
-	python build-scripts/version.py VERSION_STRING=$(VERSION)
+	$(PYTHON) build-scripts/version.py VERSION=$(VERSION)
 
 prefix:
 	@( PREFIX_STRING=$(PREFIX) ; \
