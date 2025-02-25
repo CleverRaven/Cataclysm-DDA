@@ -1064,7 +1064,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     // if we're in the mech, let's assume the mech wields the item
     if( !in_mech ) {
         if( !you.is_wielding( *orig ) ) {
-            if( !you.wield( loc ) ) {
+            if( !you.wield( *orig ) ) {
                 return;
             }
         }

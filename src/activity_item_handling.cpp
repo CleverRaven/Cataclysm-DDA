@@ -256,7 +256,6 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
             if( c.can_pickVolume( it ) && c.can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                 c.i_add( it );
             } else if( !c.has_wield_conflicts( it ) && c.can_wield( it ).success() ) {
-                // TODO: migrate to item_location
                 c.wield( it );
             } else {
                 const std::string ter_name = here.name( where );

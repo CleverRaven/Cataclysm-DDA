@@ -3,7 +3,6 @@
 #include <list>
 #include <optional>
 #include <vector>
-#include <string>
 
 #include "calendar.h"
 #include "cata_catch.h"
@@ -159,8 +158,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         }
 
         WHEN( "one of the bottles is wielded" ) {
-            CAPTURE( p.worn.front().legacy_front().tname() );
-            p.wield( item_location( p, &p.worn.front().legacy_front() ) );
+            p.wield( p.worn.front().legacy_front() );
             REQUIRE( p.get_wielded_item()->typeId() == container_id );
             REQUIRE( count_items( p, container_id ) == count );
             REQUIRE( count_items( p, liquid_id ) == count );

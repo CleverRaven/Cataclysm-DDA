@@ -800,7 +800,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
         return it.typeId() == itype_bottle_glass;
     } );
     REQUIRE( !glass_bottles.empty() );
-    REQUIRE( player_character.wield( item_location( player_character, glass_bottles.front() ) ) );
+    REQUIRE( player_character.wield( *glass_bottles.front() ) );
     effects = d.responses[14].success;
     effects.apply( d );
     CHECK_FALSE( has_item( player_character, itype_bottle_plastic, 1 ) );

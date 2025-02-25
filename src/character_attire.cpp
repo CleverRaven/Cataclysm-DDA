@@ -2064,7 +2064,7 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
         } else if( clothing.is_gun() && clothing.gunmod_find_by_flag( flag_BELTED ) ) {
             // wield item currently worn using shoulder strap
             options.push_back( clothing.display_name() );
-            actions.emplace_back( [&] { guy.wield( item_location( guy, &clothing ) ); } );
+            actions.emplace_back( [&] { guy.wield( clothing ); } );
         }
     }
 }

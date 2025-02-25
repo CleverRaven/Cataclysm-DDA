@@ -242,7 +242,7 @@ item_location Character::try_add( item it, const item *avoid, const item *origin
     return ret;
 }
 
-item_location Character::try_add( const item &it, int &copies_remaining, const item *avoid,
+item_location Character::try_add( item it, int &copies_remaining, const item *avoid,
                                   const item *original_inventory_item,
                                   const bool allow_wield, bool ignore_pkt_settings )
 {
@@ -312,7 +312,7 @@ item_location Character::try_add( const item &it, int &copies_remaining, const i
         pocket.first.on_contents_changed();
         pocket.second->on_contents_changed();
     }
-    // TODO: probably cant just do this
+
     if( copies_remaining > 0 && allow_wield && !has_weapon() && wield( it ) ) {
         copies_remaining--;
         if( !first_item_added ) {
@@ -325,7 +325,7 @@ item_location Character::try_add( const item &it, int &copies_remaining, const i
     return first_item_added;
 }
 
-item_location Character::i_add( const item &it, bool /* should_stack */, const item *avoid,
+item_location Character::i_add( item it, bool /* should_stack */, const item *avoid,
                                 const item *original_inventory_item, const bool allow_drop,
                                 const bool allow_wield, bool ignore_pkt_settings )
 {

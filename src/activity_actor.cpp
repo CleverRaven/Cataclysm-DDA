@@ -5133,7 +5133,7 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
                     holster->tname() )
                 &&
                 // wield the container
-                carrier->wield( holster ) ) {
+                carrier->wield( *holster.get_item() ) ) {
                 holster = carrier->get_wielded_item();
 
                 // and recheck if parent can hold (there should be no parent)
@@ -5163,7 +5163,7 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
                 max_parent_charges.value(), it.tname( max_parent_charges.value() ), holster->tname() )
             &&
             // wield the container
-            carrier->wield( holster ) ) {
+            carrier->wield( *holster.get_item() ) ) {
             holster = carrier->get_wielded_item();
 
             // and recalc max_parent_charges
@@ -6147,7 +6147,7 @@ std::unique_ptr<activity_actor> reel_cable_activity_actor::deserialize( JsonValu
 
 void outfit_swap_actor::start( player_activity &act, Character &who )
 {
-    if( !who.is_wielding( *outfit_item ) && !who.wield( outfit_item ) ) {
+    if( !who.is_wielding( *outfit_item ) && !who.wield( *outfit_item ) ) {
         who.add_msg_if_player( m_warning,
                                _( "You'll need the outfit in your hands before you can change outfits." ) );
         act.set_to_null();
@@ -6710,7 +6710,7 @@ void wield_activity_actor::do_turn( player_activity &, Character &who )
 
             if( check_stealing( who, newit ) ) {
                 handler.unseal_pocket_containing( target_item );
-                if( who.wield( target_item ) ) {
+                if( who.wield( newit ) ) {
                     // If we wielded up a whole stack, remove the original item
                     // Otherwise, replace the item with the leftovers
                     if( leftovers.charges > 0 ) {

@@ -13043,7 +13043,7 @@ void Character::search_surroundings()
     }
 }
 
-bool Character::wield( item it )
+bool Character::wield( item &it )
 {
     if( has_wield_conflicts( it ) ) {
         const bool is_unwielding = is_wielding( it );
