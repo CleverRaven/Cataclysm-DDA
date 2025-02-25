@@ -13045,6 +13045,9 @@ void Character::search_surroundings()
 
 bool Character::wield( item &it )
 {
+    invalidate_inventory_validity_cache();
+    invalidate_leak_level_cache();
+
     if( has_wield_conflicts( it ) ) {
         const bool is_unwielding = is_wielding( it );
         const auto ret = can_unwield( it );
@@ -13078,15 +13081,7 @@ bool Character::wield( item &it )
     }
 
     bool combine_stacks = wielded && it.can_combine( *wielded );
-    if( !combine_stacks ) {
-        return false;
-    }
-
     cached_info.erase( "weapon_value" );
-
-    if( is_avatar() && !avatar_action::check_stealing( *this, it ) ) {
-        return false;
-    }
 
     // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
     // Worn items (including guns with shoulder straps) are faster but still slower
@@ -13121,7 +13116,6 @@ bool Character::wield( item &it )
 
     cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
     get_event_bus().send_with_talker( this, &wielded, e );
-
 
     inv->update_invlet( *wielded );
     inv->update_cache_with_item( *wielded );

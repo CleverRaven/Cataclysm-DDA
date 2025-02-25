@@ -1362,6 +1362,14 @@ void avatar::cycle_move_mode_reverse()
 }
 
 
+bool avatar::wield( item &it )
+{
+    if( !avatar_action::check_stealing( *this, it ) ) {
+        return false;
+    }
+    return Character::wield( it );
+}
+
 item::reload_option avatar::select_ammo( const item_location &base, bool prompt,
         bool empty )
 {
