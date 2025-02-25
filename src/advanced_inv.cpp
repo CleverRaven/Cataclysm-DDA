@@ -2,10 +2,10 @@
 
 #include <algorithm>
 #include <climits>
-#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
+#include <functional>
 #include <initializer_list>
 #include <iterator>
 #include <list>
@@ -13,12 +13,12 @@
 #include <optional>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "advanced_inv_listitem.h"
 #include "advanced_inv_pagination.h"
 #include "auto_pickup.h"
@@ -38,13 +38,13 @@
 #include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
-#include "input_enums.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "itype.h"
 #include "localized_comparator.h"
 #include "map.h"
 #include "messages.h"
@@ -54,7 +54,6 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
-#include "popup.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -290,6 +289,7 @@ void advanced_inventory::init()
 
 void advanced_inventory::print_items( side p, bool active )
 {
+    map &here = get_map();
     advanced_inventory_pane &pane = panes[p];
     const auto &items = pane.items;
     const catacurses::window &window = pane.window;
@@ -362,7 +362,7 @@ void advanced_inventory::print_items( side p, bool active )
             } else if( pane.in_vehicle() ) {
                 maxvolume = s.get_vehicle_stack().max_volume();
             } else {
-                maxvolume = get_map().max_volume( s.pos );
+                maxvolume = here.max_volume( s.pos );
             }
             formatted_head = string_format( "%3.1f %s  %s/%s %s",
                                             convert_weight( pane.in_vehicle() ? s.weight_veh : s.weight ),
@@ -474,7 +474,7 @@ void advanced_inventory::print_items( side p, bool active )
             // TODO: transition to the item_location system used for the normal inventory
             unsigned int charges_total = 0;
             for( const item_location &item : sitem.items ) {
-                charges_total += item->ammo_remaining();
+                charges_total += item->ammo_remaining( );
             }
             if( stolen ) {
                 item_name = string_format( "%s %s", stolen_string, it.display_money( sitem.items.size(),
@@ -748,11 +748,11 @@ void advanced_inventory::recalc_pane( side p )
     if( pane.container &&
         pane.container_base_loc >= AIM_SOUTHWEST && pane.container_base_loc <= AIM_ALL ) {
 
-        const tripoint_rel_ms offset = player_character.pos_bub() - pane.container.pos_bub();
+        const tripoint_rel_ms offset = player_character.pos_abs() - pane.container.pos_abs();
 
         // If container is no longer adjacent or on the player's z-level, nullify it.
         if( std::abs( offset.x() ) > 1 || std::abs( offset.y() ) > 1 ||
-            player_character.posz() != pane.container.pos_bub().z() ) {
+            player_character.posz() != pane.container.pos_abs().z() ) {
 
             pane.container = item_location::nowhere;
             pane.container_base_loc = NUM_AIM_LOCATIONS;
@@ -2298,7 +2298,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     if( destarea == AIM_WORN ) {
         const itype_id &id = sitem.items.front()->typeId();
         // how many slots are available for the item?
-        const int slots_available = MAX_WORN_PER_TYPE - player_character.amount_worn( id );
+        const int slots_available = id->max_worn - player_character.amount_worn( id );
         // base the amount to equip on amount of slots available
         amount = std::min( slots_available, input_amount );
     }

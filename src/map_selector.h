@@ -3,15 +3,12 @@
 #define CATA_SRC_MAP_SELECTOR_H
 
 #include <climits>
-#include <functional>
-#include <list>
 #include <vector>
 
 #include "coordinates.h"
 #include "point.h"
 #include "visitable.h"
 
-class item;
 class map;
 
 class map_cursor : public visitable
@@ -26,7 +23,7 @@ class map_cursor : public visitable
         // Marginally faster than the previous operation if you have the absolute coordinates at hand.
         explicit map_cursor( const tripoint_abs_ms &pos );
         tripoint_bub_ms pos_bub() const;
-        tripoint_bub_ms pos_bub( map *here ) const;
+        tripoint_bub_ms pos_bub( const map &here ) const;
         // Will return tripoint_abs_ms::invalid if g hasn't been defined.
         tripoint_abs_ms pos_abs() const;
 

@@ -2,58 +2,70 @@
 
 #include <algorithm>
 #include <array>
+#include <climits>
 #include <cmath>
 #include <cstdlib>
+#include <functional>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
 #include <ostream>
 #include <set>
 #include <stdexcept>
+#include <tuple>
 #include <type_traits>
+#include <typeinfo>
 #include <unordered_map>
 
 #include "all_enum_values.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "character_id.h"
 #include "city.h"
 #include "clzones.h"
-#include "colony.h"
 #include "common_types.h"
 #include "computer.h"
 #include "condition.h"
 #include "coordinates.h"
+#include "creature.h"
+#include "creature_tracker.h"
+#include "cube_direction.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "drawing_primitives.h"
 #include "enum_conversions.h"
 #include "enums.h"
-#include "field.h"
 #include "field_type.h"
+#include "flat_set.h"
 #include "game.h"
-#include "game_constants.h"
 #include "generic_factory.h"
 #include "global_vars.h"
 #include "input.h"
 #include "item.h"
+#include "item_category.h"
 #include "item_factory.h"
 #include "item_group.h"
 #include "itype.h"
+#include "jmapgen_flags.h"
 #include "level_cache.h"
 #include "line.h"
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "mapgenformat.h"
 #include "memory_fast.h"
+#include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "npc.h"
@@ -64,13 +76,16 @@
 #include "overmapbuffer.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "regional_settings.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "submap.h"
+#include "talker.h"
 #include "text_snippets.h"
 #include "tileray.h"
 #include "to_string_id.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
@@ -81,7 +96,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weighted_list.h"
-#include "creature_tracker.h"
 
 static const field_type_str_id field_fd_blood( "fd_blood" );
 static const field_type_str_id field_fd_fire( "fd_fire" );
@@ -259,28 +273,36 @@ static tripoint_bub_ms get_point_from_direction( int direction,
 }
 
 static bool tile_can_have_blood( map &md, const tripoint_bub_ms &current_tile,
-                                 bool wall_streak )
+                                 bool wall_streak, int days_since_cataclysm )
 {
     // Wall streaks stick to walls, like blood was splattered against the surface
     // Floor streaks avoid obstacles to look more like a person left the streak behind (Not walking through walls, closed doors, windows, or furniture)
     if( wall_streak ) {
-        return  md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile );
+        return md.has_flag_ter( ter_furn_flag::TFLAG_WALL, current_tile ) &&
+               !md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile );
     } else {
-        return !md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile ) &&
-               !md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WINDOW, current_tile ) &&
-               !md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_DOOR, current_tile ) &&
+        if( !md.has_flag_ter( ter_furn_flag::TFLAG_INDOORS, current_tile ) &&
+            x_in_y( days_since_cataclysm, 30 ) ) {
+            // Placement of blood outdoors scales down over the course of 30 days until no further blood is placed.
+            return false;
+        }
+
+        return !md.has_flag_ter( ter_furn_flag::TFLAG_WALL, current_tile ) &&
+               !md.has_flag_ter( ter_furn_flag::TFLAG_WINDOW, current_tile ) &&
+               !md.has_flag_ter( ter_furn_flag::TFLAG_DOOR, current_tile ) &&
                !md.has_furn( current_tile );
     }
 
 }
 
-static void place_blood_on_adjacent( map &md, const tripoint_bub_ms &current_tile, int chance )
+static void place_blood_on_adjacent( map &md, const tripoint_bub_ms &current_tile, int chance,
+                                     int days_since_catacylsm )
 {
     for( int i = static_cast<int>( blood_trail_direction::first );
          i <= static_cast<int>( blood_trail_direction::last ); i++ ) {
         tripoint_bub_ms adjacent_tile = get_point_from_direction( i, current_tile );
 
-        if( !tile_can_have_blood( md, adjacent_tile, false ) ) {
+        if( !tile_can_have_blood( md, adjacent_tile, false, days_since_catacylsm ) ) {
             continue;
         }
         if( rng( 1, 100 ) < chance ) {
@@ -289,7 +311,8 @@ static void place_blood_on_adjacent( map &md, const tripoint_bub_ms &current_til
     }
 }
 
-static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
+static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile,
+                                 int days_since_cataclysm )
 {
     int streak_length = rng( 3, 12 );
     int streak_direction = rng( static_cast<int>( blood_trail_direction::first ),
@@ -297,7 +320,7 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
 
     bool wall_streak = md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_WALL, current_tile );
 
-    if( !tile_can_have_blood( md, current_tile, wall_streak ) ) {
+    if( !tile_can_have_blood( md, current_tile, wall_streak, days_since_cataclysm ) ) {
         // Quick check the tile is valid.
         return;
     }
@@ -308,7 +331,7 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
     for( int i = 0; i < streak_length; i++ ) {
         tripoint_bub_ms destination_tile = get_point_from_direction( streak_direction, last_tile );
 
-        if( !tile_can_have_blood( md, destination_tile, wall_streak ) ) {
+        if( !tile_can_have_blood( md, destination_tile, wall_streak, days_since_cataclysm ) ) {
             // We hit a non-valid tile. Try to find a new direction otherwise just terminate the streak.
             bool terminate_streak = true;
 
@@ -321,7 +344,7 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
                 }
                 tripoint_bub_ms adjacent_tile = get_point_from_direction( ii, last_tile );
 
-                if( tile_can_have_blood( md, adjacent_tile, wall_streak ) ) {
+                if( tile_can_have_blood( md, adjacent_tile, wall_streak, days_since_cataclysm ) ) {
                     streak_direction = ii;
                     destination_tile = adjacent_tile;
                     terminate_streak = false;
@@ -364,7 +387,7 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
             }
 
             tripoint_bub_ms adjacent_tile = get_point_from_direction( new_direction, last_tile );
-            if( tile_can_have_blood( md, adjacent_tile, wall_streak ) ) {
+            if( tile_can_have_blood( md, adjacent_tile, wall_streak, days_since_cataclysm ) ) {
                 md.add_field( adjacent_tile, field_fd_blood );
                 last_tile = adjacent_tile;
             }
@@ -372,34 +395,34 @@ static void place_blood_streaks( map &md, const tripoint_bub_ms &current_tile )
     }
 }
 
-static void place_bool_pools( map &md, const tripoint_bub_ms &current_tile )
+static void place_bool_pools( map &md, const tripoint_bub_ms &current_tile,
+                              int days_since_cataclysm )
 {
-    if( !tile_can_have_blood( md, current_tile, false ) ) {
+    if( !tile_can_have_blood( md, current_tile, false, days_since_cataclysm ) ) {
         // Quick check the first tile is valid for placement
         return;
     }
 
     md.add_field( current_tile, field_fd_blood );
-    place_blood_on_adjacent( md, current_tile, 60 );
+    place_blood_on_adjacent( md, current_tile, 60, days_since_cataclysm );
 
     for( int i = static_cast<int>( blood_trail_direction::first );
          i <= static_cast<int>( blood_trail_direction::last ); i++ ) {
         tripoint_bub_ms adjacent_tile = get_point_from_direction( i, current_tile );
-        if( !tile_can_have_blood( md, adjacent_tile, false ) ) {
+        if( !tile_can_have_blood( md, adjacent_tile, false, days_since_cataclysm ) ) {
             continue;
         }
-        place_blood_on_adjacent( md, adjacent_tile, 30 );
+        place_blood_on_adjacent( md, adjacent_tile, 30, days_since_cataclysm );
     }
 }
 
 static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
 {
-    if( p.z() < 0 ) {
-        // for the moment make sure we don't apply this to labs or other places
-        debugmsg( "Riot damage mapgen generator called on underground structure.  This is likely a bug." );
-        return;
-    }
     std::list<tripoint_bub_ms> all_points_in_map;
+
+
+    int days_since_cataclysm = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
+
     // Placeholder / FIXME
     // This assumes that we're only dealing with regular 24x24 OMTs. That is likely not the case.
     for( int i = 0; i < SEEX * 2; i++ ) {
@@ -411,8 +434,13 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
     for( size_t i = 0; i < all_points_in_map.size(); i++ ) {
         // Pick a tile at random!
         tripoint_bub_ms current_tile = random_entry( all_points_in_map );
+
         // Do nothing at random!;
         if( x_in_y( 10, 100 ) ) {
+            continue;
+        }
+        // Skip naturally occuring underground wall tiles
+        if( md.has_flag_ter( ter_furn_flag::TFLAG_NATURAL_UNDERGROUND, current_tile ) ) {
             continue;
         }
         // Bash stuff at random!
@@ -451,15 +479,29 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
             int behavior_roll = rng( 1, 100 );
 
             if( behavior_roll <= 20 ) {
-                md.add_field( current_tile, field_fd_blood );
+                if( tile_can_have_blood( md, current_tile, md.has_flag_ter( ter_furn_flag::TFLAG_WALL,
+                                         current_tile ), days_since_cataclysm ) ) {
+                    md.add_field( current_tile, field_fd_blood );
+                }
             } else if( behavior_roll <= 60 ) {
-                place_blood_streaks( md, current_tile );
+                place_blood_streaks( md, current_tile, days_since_cataclysm );
             } else {
-                place_bool_pools( md, current_tile );
+                place_bool_pools( md, current_tile, days_since_cataclysm );
             }
         }
-        if( x_in_y( 1, 2000 ) ) {
-            md.add_field( current_tile, field_fd_fire );
+
+        // Randomly spawn fires, with the chance decreasing from 1 in 2000 to 1 in 10,000 over the
+        // course of 14 days
+        if( x_in_y( 1,  std::min( 2000 + 571 * days_since_cataclysm, 10000 ) ) ) {
+            if( md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE, current_tile ) ||
+                md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE_ASH, current_tile ) ||
+                md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FLAMMABLE_HARD, current_tile ) ||
+                days_since_cataclysm < 3 ) {
+                // Only place fire on flammable surfaces unless the cataclysm started very recently
+                // Note that most floors are FLAMMABLE_HARD, this is fine. This check is primarily geared
+                // at preventing fire in the middle of roads or parking lots.
+                md.add_field( current_tile, field_fd_fire );
+            }
         }
     }
 }
@@ -633,9 +675,14 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         }
 
         // Apply post-process generators
-        if( ( any_missing || !save_results ) && overmap_buffer.ter( {p.x(), p.y(), gridz} )->has_flag(
-                oter_flags::pp_generate_riot_damage ) ) {
-            GENERATOR_riot_damage( *this, { p.x(), p.y(), gridz } );
+        const tripoint_abs_omt omt_point = { p.x(), p.y(), gridz };
+        oter_id omt = overmap_buffer.ter( omt_point );
+        if( any_missing || !save_results ) {
+            if( omt->has_flag(
+                    oter_flags::pp_generate_riot_damage ) || ( omt->has_flag( oter_flags::road ) &&
+                            overmap_buffer.is_in_city( omt_point ) ) ) {
+                GENERATOR_riot_damage( *this, omt_point );
+            }
         }
     }
 
@@ -1574,6 +1621,7 @@ class mapgen_value
     public:
         using StringId = to_string_id_t<Id>;
         struct void_;
+
         using Id_unless_string =
             std::conditional_t<std::is_same_v<Id, std::string>, void_, Id>;
 
@@ -7078,7 +7126,7 @@ std::vector<item *> map::place_items(
                 !e->magazine_current() ) {
                 e->put_in( item( e->magazine_default(), e->birthday() ), pocket_type::MAGAZINE_WELL );
             }
-            if( rng( 0, 99 ) < ammo && e->ammo_default() && e->ammo_remaining() == 0 ) {
+            if( rng( 0, 99 ) < ammo && e->ammo_default() && e->ammo_remaining( ) == 0 ) {
                 e->ammo_set( e->ammo_default() );
             }
         }
@@ -7159,7 +7207,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, cons
     veh->sm_pos = abs_sub.xy() + rebase_rel( quotient );
     veh->pos = remainder;
     veh->init_state( *this, veh_fuel, veh_status, force_status );
-    veh->place_spawn_items();
+    veh->place_spawn_items( *this );
     veh->face.init( dir );
     veh->turn_dir = dir;
     // for backwards compatibility, we always spawn with a pivot point of (0,0) so
@@ -7215,7 +7263,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
     for( std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++ ) {
-        const tripoint_bub_ms p = veh_to_add->bub_part_pos( this, *part );
+        const tripoint_bub_ms p = veh_to_add->bub_part_pos( *this, *part );
 
         if( veh_to_add->part( *part ).is_fake ) {
             continue;
@@ -7290,7 +7338,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                         const ret_val<void> valid_mount = first_veh->can_mount( target_point, vpi );
                         if( valid_mount.success() ) {
                             // make a copy so we don't interfere with veh_to_add->remove_part below
-                            first_veh->install_part( target_point, vehicle_part( *vp ) );
+                            first_veh->install_part( *this, target_point, vehicle_part( *vp ) );
                         }
                         // ignore parts that would make invalid vehicle configuration
                     }
@@ -7365,10 +7413,10 @@ computer *map::add_computer( const tripoint_bub_ms &p, const std::string &name, 
     submap *const place_on_submap = get_submap_at( p, l );
     if( place_on_submap == nullptr ) {
         debugmsg( "Tried to add computer at (%d,%d) but the submap is not loaded", l.x(), l.y() );
-        static computer null_computer = computer( name, security, p );
+        static computer null_computer = computer( name, security, *this, p );
         return &null_computer;
     }
-    place_on_submap->set_computer( l, computer( name, security, p ) );
+    place_on_submap->set_computer( l, computer( name, security, *this, p ) );
     return place_on_submap->get_computer( l );
 }
 

@@ -3,16 +3,14 @@
 #define CATA_SRC_IUSE_ACTOR_H
 
 #include <climits>
-#include <iosfwd>
 #include <map>
-#include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "color.h"
 #include "coords_fwd.h"
@@ -21,7 +19,7 @@
 #include "explosion.h"
 #include "iuse.h"
 #include "ret_val.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -29,10 +27,9 @@ class Character;
 class JsonObject;
 class item;
 class item_location;
+class map;
 class npc_template;
 struct furn_t;
-struct iteminfo;
-struct tripoint;
 
 /**
  * Transform an item into a specific type.
@@ -499,9 +496,20 @@ class firestarter_actor : public iuse_actor
          */
         bool need_sunlight = false;
 
-        static bool prep_firestarter_use( const Character &p, map *here, tripoint_bub_ms &pos );
+        enum class start_type : int {
+            NONE,
+            FIRE,
+            SMOKER,
+            KILN,
+        };
+
+        static start_type prep_firestarter_use( Character &p, map *here, tripoint_bub_ms &pos );
         /** Player here isn't const because pyromaniacs gain a mood boost from it */
-        static void resolve_firestarter_use( Character *p, map *here, const tripoint_bub_ms &pos );
+        static void resolve_firestarter_use( Character *p, map *here, const tripoint_bub_ms &pos,
+                                             start_type st );
+
+        static bool resolve_start( Character *p, map *here, const tripoint_bub_ms &pos, start_type type );
+
         /** Modifier on speed - higher is better, 0 means it won't work. */
         float light_mod( map *here, const tripoint_bub_ms &pos ) const;
         /** Checks quality of fuel on the tile and interpolates move cost based on that. */
@@ -1164,7 +1172,7 @@ class link_up_actor : public iuse_actor
         translation menu_text;
 
         std::set<link_state> targets = { link_state::no_link, link_state::vehicle_port };
-        std::set<std::string> can_extend = {};
+        std::set<std::string> can_extend;
 
         std::optional<int> link_to_veh_app( Character *p, item &it, bool to_ports ) const;
         std::optional<int> link_tow_cable( Character *p, item &it, bool to_towing ) const;

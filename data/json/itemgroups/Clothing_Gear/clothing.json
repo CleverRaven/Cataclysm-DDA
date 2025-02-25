@@ -3845,8 +3845,7 @@
       { "item": "knit_scarf", "prob": 80 },
       { "item": "keffiyeh", "prob": 30 },
       { "item": "mask_ski", "prob": 30 },
-      { "item": "thermal_mask", "prob": 5 },
-      { "item": "blindfold", "prob": 5 }
+      { "item": "thermal_mask", "prob": 5 }
     ]
   },
   {
@@ -4048,12 +4047,7 @@
     "subtype": "distribution",
     "items": [
       {
-        "distribution": [
-          { "item": "basket_laundry", "prob": 60 },
-          { "item": "straw_basket", "prob": 35 },
-          { "item": "suitcase_l", "prob": 15 },
-          { "item": "suitcase_m", "prob": 25 }
-        ],
+        "distribution": [ { "item": "straw_basket", "prob": 35 }, { "item": "suitcase_l", "prob": 15 }, { "item": "suitcase_m", "prob": 25 } ],
         "prob": 20
       },
       {
@@ -4068,7 +4062,6 @@
           { "item": "slingpack", "prob": 65 },
           { "item": "purse", "prob": 70 },
           { "item": "briefcase", "prob": 40 },
-          { "item": "hk_briefcase", "prob": 1 },
           { "item": "leg_bag", "prob": 1 },
           { "item": "leg_small_bag", "prob": 1 },
           { "item": "armrig", "prob": 1 }

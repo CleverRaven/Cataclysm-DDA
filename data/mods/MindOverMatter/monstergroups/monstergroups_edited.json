@@ -160,6 +160,38 @@
   },
   {
     "type": "monstergroup",
+    "id": "GROUP_MEATLAB",
+    "//": "Add additional base spawns so psionic amalgamations are rarer",
+    "monsters": [
+      { "monster": "mon_null", "weight": 9 },
+      { "monster": "mon_amalgamation_swarmer", "weight": 5, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_meat_cocoon_tiny", "weight": 5, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_meat_cocoon_small", "weight": 2 },
+      { "monster": "mon_amalgamation_spotter", "weight": 2 },
+      { "monster": "mon_amalgamation_corroder", "weight": 2 },
+      { "monster": "mon_amalgamation_jumper", "pack_size": [ 1, 2 ], "weight": 1 },
+      { "monster": "mon_amalgamation_soldier", "weight": 1, "starts": "7 days" },
+      { "monster": "mon_amalgamation_zapper", "weight": 1, "starts": "14 days" },
+      { "monster": "mon_jabberwock", "weight": 1, "starts": "7 days" },
+      { "monster": "mon_amalgamation_telepathic_distractor", "weight": 1, "starts": "28 days" },
+      { "monster": "mon_amalgamation_telekinetic_shielder", "weight": 1, "starts": "28 days" }
+    ]
+  },
+  {
+    "id": "GROUP_AMALGAMATION_SMALL",
+    "type": "monstergroup",
+    "//": "Add additional base spawns so psionic amalgamations are rarer",
+    "monsters": [
+      { "monster": "mon_amalgamation_swarmer", "weight": 6, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_amalgamation_spotter", "weight": 2, "starts": "7 days" },
+      { "monster": "mon_amalgamation_corroder", "weight": 4, "starts": "28 days" },
+      { "monster": "mon_amalgamation_corroder", "weight": 6, "starts": "56 days" },
+      { "monster": "mon_amalgamation_telepathic_distractor", "weight": 1, "starts": "28 days" },
+      { "monster": "mon_amalgamation_telekinetic_shielder", "weight": 1, "starts": "28 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "id": "GROUP_NETHER_REALITY_TEAR_FIELD",
     "monsters": [ { "monster": "mon_nether_eater", "weight": 100, "cost_multiplier": 0 } ]
   },

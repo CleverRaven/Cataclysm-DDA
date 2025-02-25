@@ -1,10 +1,18 @@
-#include "avatar.h"
+#include <memory>
+#include <string>
+
+#include "calendar.h"
 #include "cata_catch.h"
+#include "character.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "game.h"
-#include "options.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "options.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 // Cardio Fitness
 // --------------
@@ -116,7 +124,7 @@ static int running_steps( Character &they, const ter_str_id &terrain = ter_t_pav
         last_moves = they.get_moves();
     }
     // Reset to starting position
-    they.setpos( left );
+    they.setpos( here, left );
     return steps;
 }
 

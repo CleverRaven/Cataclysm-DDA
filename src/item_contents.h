@@ -4,30 +4,31 @@
 
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <optional>
 #include <set>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "coords_fwd.h"
 #include "enums.h"
 #include "item_pocket.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
-#include "units_fwd.h"
+#include "units.h"
 #include "visitable.h"
 
 class Character;
+class JsonObject;
 class JsonOut;
 class item;
 class item_location;
 class iteminfo_query;
 class map;
 struct iteminfo;
-struct tripoint;
 
 /// NEW!ness to player, if they seen such item already
 enum class content_newness {
@@ -312,7 +313,7 @@ class item_contents
         bool spill_contents( const tripoint_bub_ms &pos );
         bool spill_contents( map *here, const tripoint_bub_ms &pos );
         /** Spill items that don't fit in the container. */
-        void overflow( const tripoint_bub_ms &pos, const item_location &loc );
+        void overflow( map &here, const tripoint_bub_ms &pos, const item_location &loc );
         void clear_items();
         /** Clear all items from magazine type pockets. */
         void clear_magazines();

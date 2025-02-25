@@ -229,6 +229,7 @@
   {
     "id": "fd_obscuring_fog",
     "type": "field_type",
+    "immune_mtypes": [ "mon_wild_hunt_hound" ],
     "intensity_levels": [
       {
         "name": "thick fog",
@@ -243,16 +244,132 @@
       { "name": "impenetrable fog", "translucency": 0, "color": "dark_gray", "scent_neutralization": 9 }
     ],
     "decay_amount_factor": 15,
-    "gas_absorption_factor": 5,
     "percent_spread": 35,
     "dirty_transparency_cache": true,
-    "has_fume": true,
     "priority": 8,
     "half_life": "7 minutes",
-    "phase": "gas",
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_smoke"
+  },
+  {
+    "id": "fd_autumn_lost_fog",
+    "type": "field_type",
+    "immune_mtypes": [ "mon_wild_hunt_hound" ],
+    "intensity_levels": [
+      {
+        "name": "obscuring fog",
+        "sym": "~",
+        "dangerous": false,
+        "transparent": false,
+        "translucency": 0,
+        "color": "dark_gray",
+        "move_cost": 50,
+        "scent_neutralization": 9,
+        "light_override": 0,
+        "effects": [
+          {
+            "effect_id": "blind",
+            "min_duration": "1 seconds",
+            "max_duration": "3 seconds",
+            "intensity": 1,
+            "body_part": "eyes",
+            "chance_outside_vehicle": 1,
+            "message": "You're lost in the fog!",
+            "message_type": "bad"
+          },
+          {
+            "effect_id": "deaf",
+            "min_duration": "1 seconds",
+            "max_duration": "3 seconds",
+            "intensity": 1,
+            "chance_outside_vehicle": 1,
+            "message": "You're lost in the fog!",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "npc_complain": { "chance": 10, "duration": "1 minutes", "speech": "I can't see a thing!" },
+    "decay_amount_factor": 15,
+    "percent_spread": 45,
+    "dirty_transparency_cache": true,
+    "priority": 8,
+    "half_life": "12 minutes",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_smoke"
+  },
+  {
+    "id": "fd_winter_magic_ice",
+    "type": "field_type",
+    "//": "It will be nice when this is handled as part of weather",
+    "intensity_levels": [
+      {
+        "name": "thin ice",
+        "sym": "~",
+        "dangerous": false,
+        "transparent": true,
+        "color": "light_gray",
+        "effects": [
+          {
+            "effect_id": "downed",
+            "min_duration": "1 seconds",
+            "max_duration": "3 seconds",
+            "intensity": 1,
+            "immune_inside_vehicle": true,
+            "chance_outside_vehicle": 20,
+            "message": "You slip on the ice!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "medium ice",
+        "sym": "~",
+        "dangerous": false,
+        "transparent": true,
+        "color": "white",
+        "move_cost": 2,
+        "effects": [
+          {
+            "effect_id": "downed",
+            "min_duration": "1 seconds",
+            "max_duration": "3 seconds",
+            "intensity": 1,
+            "immune_inside_vehicle": true,
+            "chance_outside_vehicle": 8,
+            "message": "You slip on the ice!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "thick ice",
+        "sym": "~",
+        "dangerous": true,
+        "transparent": true,
+        "color": "white",
+        "move_cost": 4,
+        "effects": [
+          {
+            "effect_id": "downed",
+            "min_duration": "1 seconds",
+            "max_duration": "3 seconds",
+            "intensity": 1,
+            "immune_inside_vehicle": true,
+            "chance_outside_vehicle": 3,
+            "message": "You slip on the ice!",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "immunity_data": { "flags": [ "STEADY" ] },
+    "half_life": "15 minutes",
+    "description_affix": "on",
+    "display_items": true,
+    "display_field": true
   },
   {
     "id": "fd_frozen_time",

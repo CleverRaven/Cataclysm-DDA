@@ -56,7 +56,7 @@
           "distribution": [ [ "t_carpet_yellow", 2 ], [ "t_carpet_green", 2 ], [ "t_carpet_purple", 1 ], [ "t_carpet_red", 2 ] ]
         }
       },
-      "window_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_window_domestic", 7 ], [ "t_wall_glass", 1 ] ] } }
+      "window_type_skyscraper": { "type": "ter_str_id", "default": { "distribution": [ [ "t_window_domestic", 7 ], [ "t_wall_glass", 1 ] ] } }
     },
     "nested": {
       "á": {
@@ -307,7 +307,7 @@
       "W": "t_window",
       "s": "t_sidewalk",
       "J": "t_sidewalk",
-      "w": { "param": "window_type", "fallback": "t_window_domestic" },
+      "w": { "param": "window_type_skyscraper", "fallback": "t_window_domestic" },
       "z": "t_flat_roof",
       "Z": "t_glass_roof",
       "(": "t_flat_roof",

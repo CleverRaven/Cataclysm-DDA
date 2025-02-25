@@ -1,7 +1,8 @@
-#include "calendar.h"
 #include "cata_catch.h"
+#include "coordinates.h"
 #include "item.h"
 #include "map.h"
+#include "type_id.h"
 
 static const itype_id itype_chainsaw_off( "chainsaw_off" );
 static const itype_id itype_chainsaw_on( "chainsaw_on" );

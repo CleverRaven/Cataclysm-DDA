@@ -1,32 +1,36 @@
 #include "item_group.h"
 
 #include <algorithm>
-#include <cstdlib>
-#include <new>
+#include <functional>
+#include <iterator>
 #include <set>
 #include <string>
-#include <type_traits>
 #include <unordered_map>
 
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "enum_traits.h"
 #include "enums.h"
 #include "flag.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "item_components.h"
+#include "item_contents.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
-#include "json.h"
 #include "make_static.h"
 #include "options.h"
 #include "pocket_type.h"
 #include "relic.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -633,7 +637,7 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
 
         if( new_item.is_magazine() ||
             new_item.has_pocket_type( pocket_type::MAGAZINE_WELL ) ) {
-            bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining() == 0 && ch == -1 &&
+            bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining( ) == 0 && ch == -1 &&
                               ( !new_item.is_tool() || new_item.type->tool->rand_charges.empty() );
             bool spawn_mag = rng( 0, 99 ) < with_magazine && !new_item.magazine_integral() &&
                              !new_item.magazine_current();
@@ -706,6 +710,9 @@ void Item_modifier::check_consistency( const std::string &context ) const
     if( ammo != nullptr ) {
         ammo->check_consistency( true );
     }
+    if( contents != nullptr ) {
+        contents->check_consistency( true );
+    }
     if( container != nullptr ) {
         container->check_consistency( true );
     }
@@ -723,6 +730,11 @@ bool Item_modifier::remove_item( const itype_id &itemid )
     if( ammo != nullptr ) {
         if( ammo->remove_item( itemid ) ) {
             ammo.reset();
+        }
+    }
+    if( contents != nullptr ) {
+        if( contents->remove_item( itemid ) ) {
+            contents.reset();
         }
     }
     if( container != nullptr ) {
@@ -907,6 +919,10 @@ bool Item_group::remove_item( const itype_id &itemid )
         } else {
             ++a;
         }
+    }
+    if( container_item && ( *container_item == itemid ) ) {
+        container_item = std::nullopt;
+        on_overflow = overflow_behaviour::none;
     }
     return items.empty();
 }

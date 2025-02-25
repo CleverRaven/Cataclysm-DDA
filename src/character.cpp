@@ -12,13 +12,13 @@
 #include <memory>
 #include <numeric>
 #include <tuple>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
 #include "action.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "addiction.h"
 #include "anatomy.h"
 #include "avatar.h"
 #include "avatar_action.h"
@@ -30,13 +30,13 @@
 #include "character_attire.h"
 #include "character_martial_arts.h"
 #include "city.h"
-#include "colony.h"
 #include "color.h"
 #include "construction.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "disease.h"
 #include "display.h"
 #include "effect.h"
@@ -74,9 +74,9 @@
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "map_selector.h"
 #include "mapdata.h"
-#include "maptile_fwd.h"
 #include "martialarts.h"
 #include "math_defines.h"
 #include "memorial_logger.h"
@@ -93,6 +93,7 @@
 #include "output.h"
 #include "overlay_ordering.h"
 #include "overmap_types.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "profession.h"
@@ -128,7 +129,6 @@
 #include "weather_type.h"
 
 class activity_actor;
-struct dealt_projectile_attack;
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
@@ -1656,6 +1656,8 @@ player_activity Character::get_destination_activity() const
 
 void Character::mount_creature( monster &z )
 {
+    map &here = get_map();
+
     tripoint_bub_ms pnt = z.pos_bub();
     shared_ptr_fast<monster> mons = g->shared_from( z );
     if( mons == nullptr ) {
@@ -1699,7 +1701,7 @@ void Character::mount_creature( monster &z )
         g->place_player( pnt );
     } else {
         npc &guy = dynamic_cast<npc &>( *this );
-        guy.setpos( pnt );
+        guy.setpos( here, pnt );
     }
     z.facing = facing;
     // some rideable mechs have night-vision
@@ -1714,6 +1716,8 @@ void Character::mount_creature( monster &z )
 
 bool Character::check_mount_will_move( const tripoint_bub_ms &dest_loc )
 {
+    const map &here = get_map();
+
     if( !is_mounted() || mounted_creature->has_flag( mon_flag_COMBAT_MOUNT ) ) {
         return true;
     }
@@ -1723,8 +1727,9 @@ bool Character::check_mount_will_move( const tripoint_bub_ms &dest_loc )
                 continue;
             }
             Attitude att = critter.attitude_to( *this );
-            if( att == Attitude::HOSTILE && sees( critter ) && rl_dist( pos_bub(), critter.pos_bub() ) <= 15 &&
-                rl_dist( dest_loc, critter.pos_bub() ) < rl_dist( pos_bub(), critter.pos_bub() ) ) {
+            if( att == Attitude::HOSTILE && sees( here, critter ) &&
+                rl_dist( pos_abs(), critter.pos_abs() ) <= 15 &&
+                rl_dist( dest_loc, critter.pos_bub( here ) ) < rl_dist( pos_abs(), critter.pos_abs() ) ) {
                 add_msg_if_player( _( "You fail to budge your %s!" ), mounted_creature->get_name() );
                 return false;
             }
@@ -1735,6 +1740,8 @@ bool Character::check_mount_will_move( const tripoint_bub_ms &dest_loc )
 
 bool Character::check_mount_is_spooked()
 {
+    const map &here = get_map();
+
     if( !is_mounted() ) {
         return false;
     }
@@ -1758,8 +1765,9 @@ bool Character::check_mount_is_spooked()
             double chance = 1.0;
             Attitude att = critter.attitude_to( *this );
             // actually too close now - horse might spook.
-            if( att == Attitude::HOSTILE && sees( critter ) && rl_dist( pos_bub(), critter.pos_bub() ) <= 10 ) {
-                chance += 10 - rl_dist( pos_bub(), critter.pos_bub() );
+            if( att == Attitude::HOSTILE && sees( here, critter ) &&
+                rl_dist( pos_abs(), critter.pos_abs() ) <= 10 ) {
+                chance += 10 - rl_dist( pos_abs(), critter.pos_abs() );
                 if( critter.get_size() >= mount_size ) {
                     chance *= 2;
                 }
@@ -1821,13 +1829,13 @@ void Character::forced_dismount()
     }
     std::vector<tripoint_bub_ms> valid;
     valid.reserve( 8 );
-    for( const tripoint_bub_ms &jk : get_map().points_in_radius( pos_bub(), 1 ) ) {
+    for( const tripoint_bub_ms &jk : here.points_in_radius( pos_bub( here ), 1 ) ) {
         if( g->is_empty( jk ) ) {
             valid.push_back( jk );
         }
     }
     if( !valid.empty() ) {
-        setpos( random_entry( valid ) );
+        setpos( here, random_entry( valid ) );
         if( mech ) {
             add_msg_player_or_npc( m_bad, _( "You are ejected from your mech!" ),
                                    _( "<npcname> is ejected from their mech!" ) );
@@ -1909,6 +1917,8 @@ void Character::forced_dismount()
 
 void Character::dismount()
 {
+    map &here = get_map();
+
     if( !is_mounted() ) {
         add_msg_debug( debugmode::DF_CHARACTER, "dismount called when not riding" );
         return;
@@ -1936,7 +1946,7 @@ void Character::dismount()
         critter->add_effect( effect_controlled, 5_turns );
         mounted_creature = nullptr;
         critter->mounted_player = nullptr;
-        setpos( *pnt );
+        setpos( here, *pnt );
         mod_moves( -100 );
         set_movement_mode( move_mode_walk );
     }
@@ -2064,8 +2074,10 @@ float Character::get_melee() const
 
 bool Character::uncanny_dodge()
 {
+    map &here = get_map();
+
     bool is_u = is_avatar();
-    bool seen = get_player_view().sees( *this );
+    bool seen = get_player_view().sees( here, *this );
 
     const units::energy trigger_cost = bio_uncanny_dodge->power_trigger;
 
@@ -2090,22 +2102,21 @@ bool Character::uncanny_dodge()
         burn_energy_legs( -300 );
     }
 
-    map &here = get_map();
-    const optional_vpart_position veh_part = here.veh_at( pos_bub() );
+    const optional_vpart_position veh_part = here.veh_at( pos_bub( here ) );
     if( in_vehicle && veh_part && veh_part.avail_part_with_feature( "SEATBELT" ) ) {
         return false;
     }
 
     //uncanny dodge triggered in car and wasn't secured by seatbelt
     if( in_vehicle && veh_part ) {
-        here.unboard_vehicle( pos_bub() );
+        here.unboard_vehicle( pos_bub( here ) );
     }
     if( adjacent.xy() != pos_bub().xy() ) {
-        set_pos_bub_only( adjacent );
+        set_pos_bub_only( here, adjacent );
 
         //landed in a vehicle tile
-        if( here.veh_at( pos_bub() ) ) {
-            here.board_vehicle( pos_bub(), this );
+        if( here.veh_at( pos_bub( here ) ) ) {
+            here.board_vehicle( pos_bub( here ), this );
         }
 
         if( is_u ) {
@@ -3072,6 +3083,7 @@ int Character::get_standard_stamina_cost( const item *thrown_item ) const
 std::vector<item_location> Character::nearby( const
         std::function<bool( const item *, const item * )> &func, int radius ) const
 {
+    map &here = get_map();
     std::vector<item_location> res;
 
     visit_items( [&]( const item * e, const item * parent ) {
@@ -3081,7 +3093,7 @@ std::vector<item_location> Character::nearby( const
         return VisitResponse::NEXT;
     } );
 
-    for( const map_cursor &cur : map_selector( pos_bub(), radius ) ) {
+    for( const map_cursor &cur : map_selector( pos_bub( here ), radius ) ) {
         cur.visit_items( [&]( const item * e, const item * parent ) {
             if( func( e, parent ) ) {
                 res.emplace_back( cur, const_cast<item *>( e ) );
@@ -3090,7 +3102,7 @@ std::vector<item_location> Character::nearby( const
         } );
     }
 
-    for( const vehicle_cursor &cur : vehicle_selector( pos_bub(), radius ) ) {
+    for( const vehicle_cursor &cur : vehicle_selector( here, pos_bub( here ), radius ) ) {
         cur.visit_items( [&]( const item * e, const item * parent ) {
             if( func( e, parent ) ) {
                 res.emplace_back( cur, const_cast<item *>( e ) );
@@ -3210,6 +3222,7 @@ units::mass Character::best_nearby_lifting_assist() const
 
 units::mass Character::best_nearby_lifting_assist( const tripoint_bub_ms &world_pos ) const
 {
+    map &here = get_map();
     int mech_lift = 0;
     if( is_mounted() ) {
         auto *mons = mounted_creature.get();
@@ -3219,7 +3232,7 @@ units::mass Character::best_nearby_lifting_assist( const tripoint_bub_ms &world_
     }
     int lift_quality = std::max( { this->max_quality( qual_LIFT ), mech_lift,
                                    map_selector( this->pos_bub(), PICKUP_RANGE ).max_quality( qual_LIFT ),
-                                   vehicle_selector( world_pos, 4, true, true ).max_quality( qual_LIFT )
+                                   vehicle_selector( here, world_pos, 4, true, true ).max_quality( qual_LIFT )
                                  } );
     return lifting_quality_to_mass( lift_quality );
 }
@@ -4042,7 +4055,7 @@ std::pair<int, int> Character::climate_control_strength() const
                                  // Also check for a working alternator. Muscle or animal could be powering it.
                                  (
                                      vp->is_inside() &&
-                                     vp->vehicle().total_alternator_epower() > 0_W
+                                     vp->vehicle().total_alternator_epower( here ) > 0_W
                                  )
                              );
         }
@@ -6925,6 +6938,7 @@ void Character::mod_stamina( int mod )
 
 void Character::burn_move_stamina( int moves )
 {
+    map &here = get_map();
     int overburden_percentage = 0;
     //add half the difference between current stored kcal weight and healthy stored kcal weight to weight of carried gear
     units::mass fat_penalty = units::from_kilogram( 0.5f * std::max( 0.0f,
@@ -6946,12 +6960,12 @@ void Character::burn_move_stamina( int moves )
 
     ///\EFFECT_SWIMMING decreases stamina burn when swimming
     //Appropriate traits let you walk along the bottom without getting as tired
-    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos_bub() ) &&
+    if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos_bub( here ) ) &&
         !has_flag( json_flag_WATERWALKING ) &&
         ( !has_flag( json_flag_WALK_UNDERWATER ) ||
-          get_map().has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos_bub() ) ) &&
-        !get_map().has_flag_furn( "BRIDGE", pos_bub() ) &&
-        !( in_vehicle && get_map().veh_at( pos_bub() )->vehicle().can_float() ) ) {
+          here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos_bub( here ) ) ) &&
+        !here.has_flag_furn( "BRIDGE", pos_bub( here ) ) &&
+        !( in_vehicle && here.veh_at( pos_bub( here ) )->vehicle().can_float( here ) ) ) {
         burn_ratio += 100 / std::pow( 1.1, get_skill_level( skill_swimming ) );
     }
 
@@ -7135,7 +7149,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
                                           ammo_req ),
                                it_name, ammo_req );
         } else {
-            int ammo_rem = used->ammo_remaining();
+            int ammo_rem = used->ammo_remaining( );
             add_msg_if_player( m_info,
                                n_gettext( "Your %s has %d charge, but needs %d.",
                                           "Your %s has %d charges, but needs %d.",
@@ -8061,7 +8075,7 @@ std::string Character::weapname_ammo() const
             if( current_mode->uses_magazine() && !current_mode->magazine_current() ) {
                 mag_ammo = _( "(empty)" );
             } else {
-                int cur_ammo = current_mode->ammo_remaining();
+                int cur_ammo = current_mode->ammo_remaining( );
                 int max_ammo;
                 if( cur_ammo == 0 ) {
                     max_ammo = current_mode->ammo_capacity( item( current_mode->ammo_default() ).ammo_type() );
@@ -8111,7 +8125,7 @@ void Character::on_hit( map *here, Creature *source, bodypart_id bp_hit,
         as_npc()->on_attacked( *source );
     }
 
-    bool u_see = get_player_view().sees( *this );
+    bool u_see = get_player_view().sees( *here, *this );
     const units::energy trigger_cost_base = bio_ods->power_trigger;
     if( has_active_bionic( bio_ods ) && get_power_level() > ( 5 * trigger_cost_base ) ) {
         if( is_avatar() ) {
@@ -8291,6 +8305,8 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
 dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &d, const weakpoint_attack &attack, const weakpoint & )
 {
+    const map &here = get_map();
+
     if( has_effect( effect_incorporeal ) || has_flag( json_flag_CANNOT_TAKE_DAMAGE ) ) {
         return dealt_damage_instance();
     }
@@ -8300,21 +8316,25 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     //block reduction should be by applied this point
     int dam = dealt_dams.total_damage();
 
+    const tripoint_bub_ms pos = pos_bub( here );
+
     // TODO: Pre or post blit hit tile onto "this"'s location here
-    if( dam > 0 && get_player_view().sees( pos_bub() ) ) {
+    if( dam > 0 && get_player_view().sees( here, pos ) ) {
         g->draw_hit_player( *this, dam );
 
         if( is_avatar() && source ) {
+            const tripoint_bub_ms source_pos = source->pos_bub( here );
+
             //monster hits player melee
-            SCT.add( point( posx(), posy() ),
-                     direction_from( point::zero, point( posx() - source->posx(), posy() - source->posy() ) ),
+            SCT.add( pos.xy().raw(),
+                     direction_from( point::zero, point( pos.x() - source_pos.x(), pos.y() - source_pos.y() ) ),
                      get_hp_bar( dam, get_hp_max( bp ) ).first, m_bad, body_part_name( bp ), m_neutral );
         }
     }
 
     // And slimespawners too
     if( has_trait( trait_SLIMESPAWNER ) && ( dam >= 10 ) && one_in( 20 - dam ) ) {
-        if( monster *const slime = g->place_critter_around( mon_player_blob, pos_bub(), 1 ) ) {
+        if( monster *const slime = g->place_critter_around( mon_player_blob, pos, 1 ) ) {
             slime->friendly = -1;
             add_msg_if_player( m_warning, _( "A mass of slime is torn from you, and moves on its own!" ) );
         }
@@ -8322,12 +8342,12 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
 
     Character &player_character = get_player_character();
     //Acid blood effects.
-    bool u_see = player_character.sees( *this );
+    bool u_see = player_character.sees( here, *this );
     // FIXME: Hardcoded damage type
     int cut_dam = dealt_dams.type_damage( damage_cut );
     if( source && has_flag( json_flag_ACIDBLOOD ) && !bp->has_flag( json_flag_BIONIC_LIMB ) &&
         !one_in( 3 ) &&
-        ( dam >= 4 || cut_dam > 0 ) && ( rl_dist( player_character.pos_bub(), source->pos_bub() ) <= 1 ) ) {
+        ( dam >= 4 || cut_dam > 0 ) && ( rl_dist( player_character.pos_abs(), source->pos_abs() ) <= 1 ) ) {
         if( is_avatar() ) {
             add_msg( m_good, _( "Your acidic blood splashes %s in mid-attack!" ),
                      source->disp_name() );
@@ -8504,6 +8524,8 @@ int Character::hitall( int dam, int vary, Creature *source )
 
 void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
 {
+    const map &here = get_map();
+
     if( has_trait( trait_ADRENALINE ) && !has_effect( effect_adrenaline ) &&
         ( get_part_hp_cur( body_part_head ) < 25 ||
           get_part_hp_cur( body_part_torso ) < 15 ) ) {
@@ -8516,7 +8538,7 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
         }
         if( uistate.distraction_attack && !is_npc() && !has_effect( effect_narcosis ) ) {
             if( source != nullptr ) {
-                if( sees( *source ) ) {
+                if( sees( here, *source ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::attacked,
                                                         string_format( _( "You were attacked by %s!" ), source->disp_name() ) );
                 } else {
@@ -9681,6 +9703,43 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
     return false;
 }
 
+std::pair<float, item> Character::get_best_weapon_by_damage_type( const damage_type_id dmg_type )
+const
+{
+    std::pair<float, item> best_weapon = std::make_pair( 0, item() );
+
+    cache_visit_items_with( "best_damage_" + dmg_type.str(), &item::is_melee, [&best_weapon, this,
+                  dmg_type]( const item & it ) {
+        damage_instance di;
+        roll_damage( dmg_type, false, di, true, it, attack_vector_id::NULL_ID(),
+                     sub_bodypart_str_id::NULL_ID(), 1.f );
+        for( damage_unit &du : di.damage_units ) {
+            if( du.type == dmg_type && best_weapon.first < du.amount ) {
+                best_weapon = std::make_pair( du.amount, it );
+            }
+        }
+    } );
+
+    return best_weapon;
+}
+
+std::pair<int, const item *> Character::get_best_tool( const quality_id quality ) const
+{
+    // todo: check edge case of you having bionic tool/mutation,
+    // something that max_quality() is aware but max_quality() is not?
+
+    const int max_qual = max_quality( quality );
+
+    std::vector<const item *> nit = cache_get_items_with( "best_quality_" + quality.str(), {},
+    [quality, max_qual]( const item & i ) {
+        return i.get_quality( quality ) == max_qual;
+    } );
+
+    const item *it = random_entry( nit );
+    const std::pair<int, const item *> best_tool = std::make_pair( max_qual, it );
+    return best_tool;
+}
+
 units::energy Character::available_ups() const
 {
     units::energy available_charges = 0_kJ;
@@ -9688,7 +9747,7 @@ units::energy Character::available_ups() const
     if( is_mounted() && mounted_creature.get()->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         auto *mons = mounted_creature.get();
         available_charges += units::from_kilojoule( static_cast<std::int64_t>
-                             ( mons->battery_item->ammo_remaining() ) );
+                             ( mons->battery_item->ammo_remaining( ) ) );
     }
 
     bool has_bio_powered_ups = false;
@@ -9702,7 +9761,8 @@ units::energy Character::available_ups() const
     }
 
     cache_visit_items_with( flag_IS_UPS, [&available_charges]( const item & it ) {
-        available_charges += units::from_kilojoule( static_cast<std::int64_t>( it.ammo_remaining() ) );
+        available_charges += units::from_kilojoule( static_cast<std::int64_t>( it.ammo_remaining(
+                             ) ) );
     } );
 
     return available_charges;
@@ -10095,11 +10155,13 @@ float Character::adjust_for_focus( float amount ) const
 
 std::function<bool( const tripoint_bub_ms & )> Character::get_path_avoid() const
 {
+    const map &here = get_map();
+
     // TODO: Add known traps in a way that doesn't destroy performance
 
-    return [this]( const tripoint_bub_ms & p ) {
+    return [this, &here]( const tripoint_bub_ms & p ) {
         Creature *critter = get_creature_tracker().creature_at( p, true );
-        return critter && critter->is_npc() && this->sees( *critter );
+        return critter && critter->is_npc() && this->sees( here, *critter );
     };
 }
 
@@ -10157,6 +10219,8 @@ ret_val<crush_tool_type> Character::can_crush_frozen_liquid( item_location const
 
 bool Character::crush_frozen_liquid( item_location loc )
 {
+    map &here = get_map();
+
     ret_val<crush_tool_type> can_crush = can_crush_frozen_liquid( loc );
     bool done_crush = false;
     if( can_crush.success() ) {
@@ -10174,7 +10238,7 @@ bool Character::crush_frozen_liquid( item_location loc )
                                        hammering_item.tname() );
                     // FIXME: Hardcoded damage type
                     const int smashskill = get_arm_str() + hammering_item.damage_melee( damage_bash );
-                    get_map().bash( loc.pos_bub(), smashskill );
+                    here.bash( loc.pos_bub( here ), smashskill );
                 }
             } else {
                 done_crush = false;
@@ -10466,7 +10530,7 @@ void Character::place_corpse( map *here )
         }
     }
 
-    here->add_item_or_charges( pos_bub( here ), body );
+    here->add_item_or_charges( pos_bub( *here ), body );
 }
 
 void Character::place_corpse( const tripoint_abs_omt &om_target )
@@ -10509,14 +10573,18 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
 
 bool Character::is_visible_in_range( const Creature &critter, const int range ) const
 {
-    return sees( critter ) && rl_dist( pos_bub(), critter.pos_bub() ) <= range;
+    const map &here = get_map();
+
+    return sees( here, critter ) && rl_dist( pos_abs(), critter.pos_abs() ) <= range;
 }
 
 std::vector<Creature *> Character::get_visible_creatures( const int range ) const
 {
-    return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
-        return this != &critter && pos_bub() != critter.pos_bub() &&
-        rl_dist( pos_bub(), critter.pos_bub() ) <= range && sees( critter );
+    const map &here = get_map();
+
+    return g->get_creatures_if( [this, range, &here]( const Creature & critter ) -> bool {
+        return this != &critter && pos_abs() != critter.pos_abs() &&
+        rl_dist( pos_abs(), critter.pos_abs() ) <= range && sees( here, critter );
     } );
 }
 
@@ -10526,10 +10594,11 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
     return g->get_creatures_if( [this, range, melee, &here]( const Creature & critter ) -> bool {
         //the call to map.sees is to make sure that even if we can see it through walls
         //via a mutation or cbm we only attack targets with a line of sight
-        bool can_see = ( ( sees( critter ) || sees_with_specials( critter ) ) && here.sees( pos_bub(), critter.pos_bub(), 100 ) );
+        bool can_see = ( ( sees( here, critter ) || sees_with_specials( critter ) ) && here.sees( pos_bub( here ), critter.pos_bub( here ), 100 ) );
         if( can_see && melee )  //handles the case where we can see something with glass in the way for melee attacks
         {
-            std::vector<tripoint_bub_ms> path = here.find_clear_path( pos_bub(), critter.pos_bub() );
+            std::vector<tripoint_bub_ms> path = here.find_clear_path( pos_bub( here ),
+                    critter.pos_bub( here ) );
             for( const tripoint_bub_ms &point : path ) {
                 if( here.impassable( point ) &&
                     !( weapon.has_flag( flag_SPEAR ) && // Fences etc. Spears can stab through those
@@ -10540,8 +10609,8 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
                 }
             }
         }
-        bool in_range = std::round( rl_dist_exact( pos_bub(), critter.pos_bub() ) ) <= range;
-        bool valid_target = this != &critter && pos_bub() != critter.pos_bub() && attitude_to( critter ) != Creature::Attitude::FRIENDLY;
+        bool in_range = std::round( rl_dist_exact( pos_abs(), critter.pos_abs() ) ) <= range;
+        bool valid_target = this != &critter && pos_abs() != critter.pos_abs() && attitude_to( critter ) != Creature::Attitude::FRIENDLY;
         return valid_target && in_range && can_see;
     } );
 }
@@ -10566,12 +10635,14 @@ int Character::get_mutation_visibility_cap( const Character *observed ) const
 
 std::vector<Creature *> Character::get_hostile_creatures( int range ) const
 {
-    return g->get_creatures_if( [this, range]( const Creature & critter ) -> bool {
+    const map &here = get_map();
+
+    return g->get_creatures_if( [this, range, &here]( const Creature & critter ) -> bool {
         // Fixes circular distance range for ranged attacks
-        float dist_to_creature = std::round( rl_dist_exact( pos_bub(), critter.pos_bub() ) );
-        return this != &critter && pos_bub() != critter.pos_bub() &&
+        float dist_to_creature = std::round( rl_dist_exact( pos_abs(), critter.pos_abs() ) );
+        return this != &critter && pos_abs() != critter.pos_abs() &&
         dist_to_creature <= range && critter.attitude_to( *this ) == Creature::Attitude::HOSTILE
-        && sees( critter );
+        && sees( here, critter );
     } );
 }
 
@@ -11057,6 +11128,8 @@ void Character::process_one_effect( effect &it, bool is_new )
 
 void Character::process_effects()
 {
+    map &here = get_map();
+
     //Special Removals
     if( has_effect( effect_darkness ) && g->is_in_sunlight( pos_bub() ) ) {
         remove_effect( effect_darkness );
@@ -11140,7 +11213,7 @@ void Character::process_effects()
     }
 
     // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
-    if( will_be_cramped_in_vehicle_tile( get_map().get_abs( pos_bub() ) ) ) {
+    if( will_be_cramped_in_vehicle_tile( here, pos_abs() ) ) {
         if( is_npc() && !has_effect( effect_narcosis ) ) {
             npc &as_npc = dynamic_cast<npc &>( *this );
             as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );
@@ -11163,7 +11236,7 @@ void Character::gravity_check()
 
 void Character::gravity_check( map *here )
 {
-    const tripoint_bub_ms pos = pos_bub( here );
+    const tripoint_bub_ms pos = pos_bub( *here );
     if( here->is_open_air( pos ) && !in_vehicle && !has_effect_with_flag( json_flag_GLIDING ) &&
         here->try_fall( pos, this ) ) {
         here->update_visibility_cache( pos.z() );
@@ -11186,7 +11259,7 @@ void Character::stagger()
             }
         }
     }
-    const tripoint_bub_ms below( posx(), posy(), posz() - 1 );
+    const tripoint_bub_ms below = pos_bub( here ) + tripoint::below;
     if( here.valid_move( pos_bub(), below, false, true ) ) {
         valid_stumbles.push_back( below );
     }
@@ -11210,7 +11283,7 @@ void Character::stagger()
             add_msg_player_or_npc( m_warning,
                                    _( "You stumble!" ),
                                    _( "<npcname> stumbles!" ) );
-            setpos( dest );
+            setpos( here, dest );
             mod_moves( -100 );
             break;
         }
@@ -11387,11 +11460,11 @@ npc_attitude Character::get_attitude() const
     return NPCATT_NULL;
 }
 
-bool Character::sees( const tripoint_bub_ms &t, bool, int ) const
+bool Character::sees( const map &here, const tripoint_bub_ms &t, bool, int ) const
 {
-    const int wanted_range = rl_dist( pos_bub(), t );
+    const int wanted_range = rl_dist( pos_bub( here ), t );
     bool can_see = this->is_avatar() ? get_map().pl_sees( t, std::min( sight_max, wanted_range ) ) :
-                   Creature::sees( t );
+                   Creature::sees( here, t );
     // Clairvoyance is now pretty cheap, so we can check it early
     if( wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
         return true;
@@ -11400,10 +11473,10 @@ bool Character::sees( const tripoint_bub_ms &t, bool, int ) const
     return can_see;
 }
 
-bool Character::sees( const Creature &critter ) const
+bool Character::sees( const map &here, const Creature &critter ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
-    const int dist = rl_dist( pos_bub(), critter.pos_bub() );
+    const int dist = rl_dist( pos_abs(), critter.pos_abs() );
     if( std::abs( posz() - critter.posz() ) > fov_3d_z_range ) {
         return false;
     }
@@ -11412,10 +11485,10 @@ bool Character::sees( const Creature &critter ) const
     }
     // Only players can spot creatures through clairvoyance fields
     if( is_avatar() && field_fd_clairvoyant.is_valid() &&
-        get_map().get_field( critter.pos_bub(), field_fd_clairvoyant ) ) {
+        here.get_field( critter.pos_bub( here ), field_fd_clairvoyant ) ) {
         return true;
     }
-    return Creature::sees( critter );
+    return Creature::sees( here, critter );
 }
 
 void Character::set_destination( const std::vector<tripoint_bub_ms> &route,
@@ -11665,7 +11738,7 @@ bool Character::unload( item_location &loc, bool bypass_activity,
 
     for( item *e : it.gunmods() ) {
         if( ( e->is_gun() && !e->has_flag( flag_NO_UNLOAD ) &&
-              ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) ||
+              ( e->magazine_current() || e->ammo_remaining( ) > 0 || e->casings_count() > 0 ) ) ||
             ( e->has_flag( flag_BRASS_CATCHER ) && !e->is_container_empty() ) ) {
             msgs.emplace_back( e->tname() );
             opts.emplace_back( e );
@@ -11705,7 +11778,8 @@ bool Character::unload( item_location &loc, bool bypass_activity,
             return false;
         }
 
-        if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
+        if( !target->magazine_current() && target->ammo_remaining( ) <= 0 &&
+            target->casings_count() <= 0 ) {
             if( target->is_tool() ) {
                 add_msg( m_info, _( "Your %s isn't charged." ), target->tname() );
             } else {
@@ -11750,8 +11824,8 @@ bool Character::unload( item_location &loc, bool bypass_activity,
             return target->magazine_current() == &e;
         } );
 
-    } else if( target->ammo_remaining() ) {
-        int qty = target->ammo_remaining();
+    } else if( target->ammo_remaining( ) ) {
+        int qty = target->ammo_remaining( );
 
         // Construct a new ammo item and try to drop it
         item ammo( target->ammo_current(), calendar::turn, qty );
@@ -11774,19 +11848,19 @@ bool Character::unload( item_location &loc, bool bypass_activity,
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
         this->mod_moves( -this->item_reload_cost( *target, ammo, qty ) / 2 );
 
-        target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
+        target->ammo_set( target->ammo_current(), target->ammo_remaining( ) - qty );
     } else if( target->has_flag( flag_BRASS_CATCHER ) ) {
         target->spill_contents( get_player_character() );
     }
 
     // Turn off any active tools
-    if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
+    if( target->is_tool() && target->active && target->ammo_remaining( ) == 0 ) {
         target->deactivate( this );
     }
 
     add_msg( _( "You unload your %s." ), target->tname() );
 
-    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
+    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining( ) == 0 ) {
         loc.remove_item();
     }
 
@@ -11977,8 +12051,9 @@ int Character::count_flag( const json_character_flag &flag ) const
 
 bool Character::is_driving() const
 {
-    const optional_vpart_position vp = get_map().veh_at( pos_bub() );
-    return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( *this );
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( pos_bub() );
+    return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( here, *this );
 }
 
 time_duration Character::estimate_effect_dur( const skill_id &relevant_skill,
@@ -12076,12 +12151,14 @@ bool Character::beyond_final_warning( const faction_id &id )
 
 read_condition_result Character::check_read_condition( const item &book ) const
 {
+    map &here = get_map();
+
     read_condition_result result = read_condition_result::SUCCESS;
     if( !book.is_book() ) {
         result |= read_condition_result::NOT_BOOK;
     } else {
-        const optional_vpart_position vp = get_map().veh_at( pos_bub() );
-        if( vp && vp->vehicle().player_in_control( *this ) ) {
+        const optional_vpart_position vp = here.veh_at( pos_bub() );
+        if( vp && vp->vehicle().player_in_control( here, *this ) ) {
             result |= read_condition_result::DRIVING;
         }
 
@@ -12121,6 +12198,8 @@ read_condition_result Character::check_read_condition( const item &book ) const
 const Character *Character::get_book_reader( const item &book,
         std::vector<std::string> &reasons ) const
 {
+    const map &here = get_map();
+
     const Character *reader = nullptr;
 
     if( !book.is_book() ) {
@@ -12204,7 +12283,7 @@ const Character *Character::get_book_reader( const item &book,
             reasons.push_back( string_format(
                                    _( "It's too dark for %s to read!" ),
                                    elem->disp_name() ) );
-        } else if( !elem->sees( *this ) ) {
+        } else if( !elem->sees( here, *this ) ) {
             reasons.push_back( string_format( _( "%s could read that to you, but they can't see you." ),
                                               elem->disp_name() ) );
         } else if( condition & read_condition_result::MORALE_LOW ) {
@@ -12804,7 +12883,7 @@ void Character::knock_back_to( const tripoint_bub_ms &to )
                                here.obstacle_name( to ) );
 
     } else { // It's no wall
-        setpos( to );
+        setpos( here, to );
     }
 }
 
@@ -12861,8 +12940,8 @@ void Character::leak_items()
 
 void Character::process_items( map *here )
 {
-    if( weapon.process( *here, this, pos_bub( here ) ) ) {
-        weapon.spill_contents( here,  pos_bub( here ) );
+    if( weapon.process( *here, this, pos_bub( *here ) ) ) {
+        weapon.spill_contents( here,  pos_bub( *here ) );
         remove_weapon();
     }
 
@@ -12871,8 +12950,8 @@ void Character::process_items( map *here )
         if( !it ) {
             continue;
         }
-        if( it->process( *here, this, pos_bub( here ) ) ) {
-            it->spill_contents( here, pos_bub( here ) );
+        if( it->process( *here, this, pos_bub( *here ) ) ) {
+            it->spill_contents( here, pos_bub( *here ) );
             removed_items.push_back( it );
         }
     }
@@ -12888,8 +12967,8 @@ void Character::process_items( map *here )
 
     // Load all items that use the UPS and have their own battery to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
-    std::vector<item *> inv_use_ups = cache_get_items_with( flag_USE_UPS, []( item & it ) {
-        return ( it.ammo_capacity( ammo_battery ) > it.ammo_remaining() ||
+    std::vector<item *> inv_use_ups = cache_get_items_with( flag_USE_UPS, [&here]( item & it ) {
+        return ( it.ammo_capacity( ammo_battery ) > it.ammo_remaining_linked( *here, nullptr ) ||
                  ( it.type->battery && it.type->battery->max_capacity > it.energy_remaining( nullptr ) ) );
     } );
     if( !inv_use_ups.empty() ) {
@@ -12903,10 +12982,10 @@ void Character::process_items( map *here )
             } else if( it->active && !it->ammo_sufficient( this ) ) {
                 it->deactivate();
             } else if( available_charges - ups_used >= 1_kJ &&
-                       it->ammo_remaining() < it->ammo_capacity( ammo_battery ) ) {
+                       it->ammo_remaining_linked( *here, nullptr ) < it->ammo_capacity( ammo_battery ) ) {
                 // Charge the battery in the UPS modded tool
                 ups_used += 1_kJ;
-                it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
+                it->ammo_set( itype_battery, it->ammo_remaining_linked( *here, nullptr ) + 1 );
             }
         }
         if( ups_used > 0_kJ ) {
@@ -12939,7 +13018,7 @@ void Character::search_surroundings()
                                tr.name(), direction );
             add_known_trap( tp, tr );
         }
-        if( !sees( tp ) ) {
+        if( !sees( here, tp ) ) {
             continue;
         }
         if( tr.can_see( tp, *this ) ) {
@@ -13072,6 +13151,8 @@ void Character::use( int inventory_position )
 
 void Character::use( item_location loc, int pre_obtain_moves, std::string const &method )
 {
+    map &here = get_map();
+
     if( has_effect( effect_incorporeal ) ) {
         add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
         return;
@@ -13096,10 +13177,10 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
             set_moves( pre_obtain_moves );
             return;
         }
-        invoke_item( &used, method, loc.pos_bub(), pre_obtain_moves );
+        invoke_item( &used, method, loc.pos_bub( here ), pre_obtain_moves );
 
     } else if( used.type->can_use( "PETFOOD" ) ) { // NOLINT(bugprone-branch-clone)
-        invoke_item( &used, method, loc.pos_bub(), pre_obtain_moves );
+        invoke_item( &used, method, loc.pos_bub( here ), pre_obtain_moves );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      used.is_food() ) ) ) {
@@ -13132,7 +13213,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
             }
         }
     } else if( used.type->has_use() ) {
-        invoke_item( &used, method, loc.pos_bub(), pre_obtain_moves );
+        invoke_item( &used, method, loc.pos_bub( here ), pre_obtain_moves );
     } else if( used.has_flag( flag_SPLINT ) ) {
         ret_val<void> need_splint = can_wear( *loc );
         if( need_splint.success() ) {
@@ -13142,7 +13223,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
             add_msg( m_info, need_splint.str() );
         }
     } else if( used.is_relic() ) {
-        invoke_item( &used, method, loc.pos_bub(), pre_obtain_moves );
+        invoke_item( &used, method, loc.pos_bub( here ), pre_obtain_moves );
     } else {
         if( !is_armed() ) {
             add_msg( m_info, _( "You are not wielding anything you could use." ) );
@@ -13347,8 +13428,8 @@ void Character::pause()
         vehicle *veh = nullptr;
         for( wrapped_vehicle &v : vehs ) {
             veh = v.v;
-            if( veh && veh->is_moving() && veh->player_in_control( *this ) ) {
-                double exp_temp = 1 + veh->total_mass() / 400.0_kilogram +
+            if( veh && veh->is_moving() && veh->player_in_control( here, *this ) ) {
+                double exp_temp = 1 + veh->total_mass( here ) / 400.0_kilogram +
                                   std::abs( veh->velocity / 3200.0 );
                 int experience = static_cast<int>( exp_temp );
                 if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
@@ -13364,8 +13445,7 @@ void Character::pause()
     wait_effects();
 }
 
-template <typename T>
-bool Character::can_lift( const T &obj ) const
+bool Character::can_lift( item &obj ) const
 {
     // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
     int str = get_lift_str();
@@ -13376,8 +13456,18 @@ bool Character::can_lift( const T &obj ) const
     const int npc_str = get_lift_assist();
     return str + npc_str >= obj.lift_strength();
 }
-template bool Character::can_lift<item>( const item &obj ) const;
-template bool Character::can_lift<vehicle>( const vehicle &obj ) const;
+
+bool Character::can_lift( vehicle &veh, map &here ) const
+{
+    // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
+    int str = get_lift_str();
+    if( mounted_creature ) {
+        auto *const mons = mounted_creature.get();
+        str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
+    }
+    const int npc_str = get_lift_assist();
+    return str + npc_str >= veh.lift_strength( here );
+}
 
 static std::string wrap60( const std::string &text )
 {

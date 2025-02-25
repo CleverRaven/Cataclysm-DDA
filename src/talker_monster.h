@@ -2,24 +2,14 @@
 #ifndef CATA_SRC_TALKER_MONSTER_H
 #define CATA_SRC_TALKER_MONSTER_H
 
-#include <functional>
-#include <list>
+#include <memory>
 #include <string>
-#include <vector>
 
+#include "bodypart.h"
 #include "coords_fwd.h"
 #include "monster.h"
 #include "talker.h"
 #include "type_id.h"
-
-class faction;
-class item;
-class map;
-class mission;
-class npc;
-class time_duration;
-class vehicle;
-struct tripoint;
 
 /*
  * Talker wrapper class for monster.
@@ -46,10 +36,10 @@ class talker_monster_const: public const_talker_cloner<talker_monster_const>
         std::string disp_name() const override;
         std::string get_name() const override;
 
-        int posx() const override;
-        int posy() const override;
+        int posx( const map &here ) const override;
+        int posy( const map &here ) const override;
         int posz() const override;
-        tripoint_bub_ms pos_bub() const override;
+        tripoint_bub_ms pos_bub( const map &here ) const override;
         tripoint_abs_ms pos_abs() const override;
         tripoint_abs_omt pos_abs_omt() const override;
 

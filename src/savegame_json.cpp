@@ -3584,7 +3584,7 @@ void vehicle::serialize( JsonOut &json ) const
     if( is_towed() ) {
         vehicle *tower = tow_data.get_towed_by();
         if( tower ) {
-            other_tow_temp_point = tower->bub_part_pos( &here, tower->get_tow_part() );
+            other_tow_temp_point = tower->bub_part_pos( here, tower->get_tow_part() );
         }
     }
     json.member( "other_tow_point", other_tow_temp_point );
@@ -5300,7 +5300,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                 point_sm_ms loc;
                 computers_json.next_value().read( loc );
                 auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100,
-                                                      tripoint_bub_ms::zero ) ).first;
+                                                      tripoint_abs_ms::invalid ) ).first;
                 computers_json.next_value().read( new_comp_it->second );
             }
         }

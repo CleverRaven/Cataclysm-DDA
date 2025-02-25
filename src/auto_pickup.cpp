@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <functional>
+#include <initializer_list>
 #include <iosfwd>
 #include <map>
 #include <memory>
@@ -12,13 +13,14 @@
 
 #include "cata_path.h"
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "filesystem.h"
 #include "flag.h"
 #include "flat_set.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "input_context.h"
 #include "input_popup.h"
@@ -149,6 +151,8 @@ static void empty_autopickup_target( item *what, tripoint_bub_ms where )
  */
 static std::vector<item_location> get_autopickup_items( item_location &from )
 {
+    map &here = get_map();
+
     item *container_item = from.get_item();
     // items sealed in containers should never be unsealed by auto pickup
     bool force_pick_container = container_item->any_pockets_sealed();
@@ -177,7 +181,7 @@ static std::vector<item_location> get_autopickup_items( item_location &from )
             if( !force_pick_container ) {
                 if( item_entry->is_container() ) {
                     // whitelisted containers should exclude contained blacklisted items
-                    empty_autopickup_target( item_entry, from.pos_bub() );
+                    empty_autopickup_target( item_entry, from.pos_bub( here ) );
                 } else if( item_entry->made_of_from_type( phase_id::LIQUID ) ) {
                     // liquid items should never be picked up without container
                     force_pick_container = true;

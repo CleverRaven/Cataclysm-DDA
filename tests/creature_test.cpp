@@ -1,14 +1,17 @@
+#include <array>
 #include <map>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "bodypart.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "enum_traits.h"
-#include "monster.h"
 #include "mtype.h"
+#include "npc.h"
 #include "player_helpers.h"
 #include "rng.h"
 #include "test_statistics.h"

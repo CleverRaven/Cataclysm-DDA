@@ -1,8 +1,10 @@
 #include <set>
+#include <string>
 #include <vector>
 
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
@@ -23,7 +25,7 @@ TEST_CASE( "vehicle_split_section", "[vehicle]" )
     for( units::angle dir = 0_degrees; dir < 360_degrees; dir += vehicles::steer_increment ) {
         CHECK( !player_character.in_vehicle );
         const tripoint_bub_ms test_origin( 15, 15, 0 );
-        player_character.setpos( test_origin );
+        player_character.setpos( here, test_origin );
         tripoint_bub_ms vehicle_origin{ 10, 10, 0 };
         VehicleList vehs = here.get_vehicles();
         clear_vehicles();
@@ -34,7 +36,7 @@ TEST_CASE( "vehicle_split_section", "[vehicle]" )
         std::set<tripoint_abs_ms> original_points = veh_ptr->get_points( true );
 
         here.destroy_vehicle( vehicle_origin );
-        veh_ptr->part_removal_cleanup();
+        veh_ptr->part_removal_cleanup( here );
         REQUIRE( veh_ptr->get_parts_at( &here, vehicle_origin, "", part_status_flag::available ).empty() );
         vehs = here.get_vehicles();
         // destroying the center frame results in 4 new vehicles
@@ -74,7 +76,7 @@ TEST_CASE( "vehicle_split_section", "[vehicle]" )
         veh_ptr = here.add_vehicle( vehicle_prototype_circle_split_test, vehicle_origin, dir, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         here.destroy_vehicle( vehicle_origin );
-        veh_ptr->part_removal_cleanup();
+        veh_ptr->part_removal_cleanup( here );
         REQUIRE( veh_ptr->get_parts_at( &here, vehicle_origin, "", part_status_flag::available ).empty() );
         vehs = here.get_vehicles();
         CHECK( vehs.size() == 1 );

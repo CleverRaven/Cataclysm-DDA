@@ -6,7 +6,6 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
-#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -31,10 +30,8 @@
 #include "fault.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
-#include "game_constants.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
@@ -43,6 +40,8 @@
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "math_defines.h"
 #include "mdarray.h"
@@ -58,7 +57,6 @@
 #include "shadowcasting.h"
 #include "sounds.h"
 #include "translations.h"
-#include "trap.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -99,6 +97,7 @@ static const ter_str_id ter_t_card_reader_broken( "t_card_reader_broken" );
 static const ter_str_id ter_t_card_science( "t_card_science" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_open_air( "t_open_air" );
 
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
@@ -252,14 +251,14 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
                                          force / 2;
                 if( z_offset[i] == 0 ) {
                     // Horizontal - no floor bashing
-                    m->bash( dest, bash_force, true, false, false );
+                    m->bash( dest, bash_force, true, false, false, nullptr, false );
                 } else if( z_offset[i] > 0 ) {
                     // Should actually bash through the floor first, but that's not really possible yet
-                    m->bash( dest, bash_force, true, false, true );
+                    m->bash( dest, bash_force, true, false, true, nullptr, false );
                 } else if( !m->valid_move( pt, dest, false, true ) ) {
                     // Only bash through floor if it doesn't exist
                     // Bash the current tile's floor, not the one's below
-                    m->bash( pt, bash_force, true, false, true );
+                    m->bash( pt, bash_force, true, false, true, nullptr, false );
                 }
             }
 
@@ -276,6 +275,17 @@ static void do_blast( map *m, const Creature *source, const tripoint_bub_ms &p, 
             if( dist_map.count( dest ) == 0 || dist_map[dest] > next_dist ) {
                 open.emplace( next_dist, dest );
                 dist_map[dest] = next_dist;
+            }
+        }
+    }
+
+    for( const tripoint_bub_ms &pos : bashed ) {
+        const tripoint_bub_ms below = pos + tripoint::below;
+        const ter_t ter_below = m->ter( below ).obj();
+
+        if( m->ter( pos ).id() == ter_t_open_air ) {
+            if( ter_below.has_flag( "NATURAL_UNDERGROUND" ) ) {
+                m->ter_set( pos, ter_below.roof );
             }
         }
     }
@@ -689,9 +699,10 @@ void scrambler_blast( const tripoint_bub_ms &p )
 
 void emp_blast( const tripoint_bub_ms &p )
 {
-    Character &player_character = get_player_character();
-    const bool sight = player_character.sees( p );
     map &here = get_map();
+
+    Character &player_character = get_player_character();
+    const bool sight = player_character.sees( here, p );
     if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
         if( sight ) {
             add_msg( _( "The %s is rendered non-functional!" ), here.tername( p ) );

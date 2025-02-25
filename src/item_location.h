@@ -2,22 +2,24 @@
 #ifndef CATA_SRC_ITEM_LOCATION_H
 #define CATA_SRC_ITEM_LOCATION_H
 
+#include <list>
 #include <memory>
 #include <string>
+#include <utility>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "units_fwd.h"
 
 class Character;
 class JsonObject;
 class JsonOut;
+class const_talker;
 class item;
 class item_pocket;
+class map;
 class map_cursor;
-class vehicle_cursor;
 class talker;
-class const_talker;
-struct tripoint;
+class vehicle_cursor;
 template<typename T> class ret_val;
 
 /**
@@ -68,7 +70,8 @@ class item_location
         type where_recursive() const;
 
         /** Returns the position where the item is found */
-        tripoint_bub_ms pos_bub() const;
+        tripoint_bub_ms pos_bub( const map &here ) const;
+        tripoint_abs_ms pos_abs() const;
 
         /** Describes the item location
          *  @param ch if set description is relative to character location */
@@ -154,7 +157,7 @@ class item_location
         /**
          * Overflow items into parent pockets recursively
          */
-        void overflow();
+        void overflow( map &here );
 
         /**
          * returns whether the item can be reloaded with the specified item.
@@ -178,4 +181,8 @@ class item_location
 std::unique_ptr<talker> get_talker_for( item_location &it );
 std::unique_ptr<const_talker> get_const_talker_for( const item_location &it );
 std::unique_ptr<talker> get_talker_for( item_location *it );
+
+using drop_location = std::pair<item_location, int>;
+using drop_locations = std::list<drop_location>;
+
 #endif // CATA_SRC_ITEM_LOCATION_H

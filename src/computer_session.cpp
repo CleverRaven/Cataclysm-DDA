@@ -13,7 +13,6 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_id.h"
-#include "colony.h"
 #include "color.h"
 #include "computer.h"
 #include "coordinates.h"
@@ -27,7 +26,6 @@
 #include "field_type.h"
 #include "flag.h"
 #include "game.h"
-#include "game_constants.h"
 #include "game_inventory.h"
 #include "input.h"
 #include "input_context.h"
@@ -38,13 +36,13 @@
 #include "localized_comparator.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "npc.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
@@ -65,6 +63,7 @@
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "units.h"
 
 static const efftype_id effect_amigara( "amigara" );
 

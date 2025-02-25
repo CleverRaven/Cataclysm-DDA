@@ -1,13 +1,16 @@
 #include <functional>
-#include <iosfwd>
+#include <optional>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
+#include "enums.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
@@ -45,13 +48,13 @@ static void test_repair( const std::vector<item> &tools, bool plug_in_tools, boo
 
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     Character &player_character = get_player_character();
-    player_character.setpos( test_origin );
+    player_character.setpos( here, test_origin );
     const item debug_backpack( itype_debug_backpack );
     player_character.wear_item( debug_backpack );
 
     const tripoint_bub_ms battery_pos = test_origin + tripoint::north_west;
     std::optional<item> battery_item( itype_test_storage_battery );
-    place_appliance( battery_pos, vpart_ap_test_storage_battery, player_character, battery_item );
+    place_appliance( here, battery_pos, vpart_ap_test_storage_battery, player_character, battery_item );
 
     for( const item &gear : tools ) {
         item_location added_tool = player_character.i_add( gear );

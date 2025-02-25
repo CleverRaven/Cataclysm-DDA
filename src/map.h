@@ -45,6 +45,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "vpart_position.h"
 
 #if defined(TILES)
 #include "cata_tiles.h"
@@ -66,7 +67,6 @@ class field_entry;
 class item_location;
 class mapgendata;
 class monster;
-class optional_vpart_position;
 class relic_procgen_data;
 class submap;
 class vehicle;
@@ -112,7 +112,8 @@ class map_stack : public item_stack
     public:
         map_stack( cata::colony<item> *newstack, tripoint_bub_ms newloc, map *neworigin ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ) {}
-        void insert( const item &newitem ) override;
+        void insert( map &, const item &newitem ) override;
+        void insert( const item &newitem );
         iterator erase( const_iterator it ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_SQUARE;
@@ -590,7 +591,7 @@ class map
 
         bool is_open_air( const tripoint_bub_ms &p ) const;
 
-        bool try_fall( const tripoint_bub_ms &p, Creature *c ) const;
+        bool try_fall( const tripoint_bub_ms &p, Creature *c );
 
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
@@ -1146,7 +1147,8 @@ class map
          */
         bash_params bash( const tripoint_bub_ms &p, int str, bool silent = false,
                           bool destroy = false, bool bash_floor = false,
-                          const vehicle *bashing_vehicle = nullptr );
+                          const vehicle *bashing_vehicle = nullptr,
+                          bool repair_missing_ground = true );
 
         // Effects of attacks/items
         bool hit_with_acid( const tripoint_bub_ms &p );
@@ -2043,7 +2045,8 @@ class map
 
         // Internal methods used to bash just the selected features
         // Information on what to bash/what was bashed is read from/written to the bash_params struct
-        void bash_ter_furn( const tripoint_bub_ms &p, bash_params &params );
+        void bash_ter_furn( const tripoint_bub_ms &p, bash_params &params,
+                            bool repair_missing_ground = true );
         void bash_items( const tripoint_bub_ms &p, bash_params &params );
         void bash_vehicle( const tripoint_bub_ms &p, bash_params &params );
         void bash_field( const tripoint_bub_ms &p, bash_params &params );
@@ -2394,20 +2397,20 @@ class tinymap : private map
             map::i_rem( rebase_bub( p ), it );
         }
         void i_clear( const tripoint_omt_ms &p ) {
-            return map::i_clear( rebase_bub( p ) );
+            map::i_clear( rebase_bub( p ) );
         }
         bool add_field( const tripoint_omt_ms &p, const field_type_id &type_id, int intensity = INT_MAX,
                         const time_duration &age = 0_turns, bool hit_player = true ) {
             return map::add_field( rebase_bub( p ), type_id, intensity, age, hit_player );
         }
         void delete_field( const tripoint_omt_ms &p, const field_type_id &field_to_remove ) {
-            return map::delete_field( rebase_bub( p ), field_to_remove );
+            map::delete_field( rebase_bub( p ), field_to_remove );
         }
         bool has_flag( ter_furn_flag flag, const tripoint_omt_ms &p ) const {
             return map::has_flag( flag, rebase_bub( p ) );
         }
         void destroy( const tripoint_omt_ms &p, bool silent = false ) {
-            return map::destroy( rebase_bub( p ), silent );
+            map::destroy( rebase_bub( p ), silent );
         }
         const trap &tr_at( const tripoint_omt_ms &p ) const {
             return map::tr_at( rebase_bub( p ) );
@@ -2435,7 +2438,7 @@ class tinymap : private map
         }
         void add_splatter_trail( const field_type_id &type, const tripoint_omt_ms &from,
                                  const tripoint_omt_ms &to ) {
-            return map::add_splatter_trail( type, rebase_bub( from ), rebase_bub( to ) );
+            map::add_splatter_trail( type, rebase_bub( from ), rebase_bub( to ) );
         }
         void collapse_at( const tripoint_omt_ms &p, bool silent,
                           bool was_supporting = false,

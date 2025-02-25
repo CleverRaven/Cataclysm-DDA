@@ -4,8 +4,8 @@
     "copy-from": "abstract_efile",
     "type": "GENERIC",
     "category": "software",
-    "name": { "str_sp": "abstract software" },
-    "description": "Copy from this for any software",
+    "name": { "str_sp": "abstract software", "//~": "NO_I18N" },
+    "description": { "str": "Copy from this for any software", "//~": "NO_I18N" },
     "ememory_size": "1 KB"
   },
   {
@@ -103,8 +103,11 @@
     "type": "GENERIC",
     "category": "e_files",
     "symbol": "o",
-    "name": "abstract electronic file",
-    "description": "abstract electronic file, copy-from for any item that should solely be on an electronic storage medium",
+    "name": { "str": "abstract electronic file", "//~": "NO_I18N" },
+    "description": {
+      "str": "abstract electronic file, copy-from for any item that should solely be on an electronic storage medium",
+      "//~": "NO_I18N"
+    },
     "ememory_size": "1 KB",
     "flags": [ "E_STORABLE", "ZERO_WEIGHT", "NO_DROP", "IRREMOVABLE" ],
     "variables": { "browsed": "false" }
@@ -114,8 +117,8 @@
     "copy-from": "abstract_efile",
     "type": "GENERIC",
     "symbol": "o",
-    "name": "abstract copiable electronic file",
-    "description": "abstract copiable electronic file",
+    "name": { "str": "abstract copiable electronic file", "//~": "NO_I18N" },
+    "description": { "str": "abstract copiable electronic file", "//~": "NO_I18N" },
     "ememory_size": "1 KB",
     "extend": { "flags": [ "E_COPIABLE" ] }
   },
@@ -124,8 +127,11 @@
     "copy-from": "abstract_efile",
     "type": "GENERIC",
     "symbol": "o",
-    "name": "abstract read electronic file",
-    "description": "abstract electronic file, copy-from for any item that should solely be on an electronic storage medium, pre-read so the device doesn't have to be browsed.",
+    "name": { "str": "abstract read electronic file", "//~": "NO_I18N" },
+    "description": {
+      "str": "abstract electronic file, copy-from for any item that should solely be on an electronic storage medium, pre-read so the device doesn't have to be browsed.",
+      "//~": "NO_I18N"
+    },
     "variables": { "browsed": "true" }
   },
   {
@@ -164,8 +170,8 @@
     "copy-from": "abstract_efile_copiable",
     "type": "GENERIC",
     "symbol": "o",
-    "name": "abstract recipe catalog",
-    "description": "for any collection of recipes",
+    "name": { "str": "abstract recipe catalog", "//~": "NO_I18N" },
+    "description": { "str": "for any collection of recipes", "//~": "NO_I18N" },
     "ememory_size": "4 MB",
     "extend": { "flags": [ "E_FILE_COLLECTION" ] },
     "variables": { "browsed": "false" }

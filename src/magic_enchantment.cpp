@@ -1,26 +1,30 @@
 #include "magic_enchantment.h"
 
-#include <cstdlib>
+#include <memory>
 #include <set>
 #include <string>
 
-#include "avatar.h"
 #include "calendar.h"
 #include "character.h"
 #include "condition.h"
+#include "coordinates.h"
 #include "creature.h"
+#include "damage.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "dialogue_helpers.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"
 #include "map.h"
-#include "point.h"
+#include "mod_tracker.h"
+#include "monster.h"
 #include "rng.h"
 #include "skill.h"
+#include "talker.h"
 #include "units.h"
 
 namespace io
@@ -1079,8 +1083,8 @@ enchantment::special_vision enchantment::get_vision( const const_dialogue &d ) c
         return {};
     }
 
-    const double distance = rl_dist_exact( d.const_actor( true )->pos_bub(),
-                                           d.const_actor( false )->pos_bub() );
+    const double distance = rl_dist_exact( d.const_actor( true )->pos_abs(),
+                                           d.const_actor( false )->pos_abs() );
 
     // first iterate over structs that has ignores_aiming_cone true
     // to prevent cata_tiles::draw_critter_at() from picking texture
@@ -1182,8 +1186,8 @@ enchant_cache::special_vision enchant_cache::get_vision( const const_dialogue &d
         return {};
     }
 
-    const double distance = rl_dist_exact( d.const_actor( true )->pos_bub(),
-                                           d.const_actor( false )->pos_bub() );
+    const double distance = rl_dist_exact( d.const_actor( true )->pos_abs(),
+                                           d.const_actor( false )->pos_abs() );
 
     for( const special_vision &struc : special_vision_vector ) {
         if( struc.ignores_aiming_cone && struc.range >= distance && struc.condition( d ) ) {

@@ -2,13 +2,13 @@
 #ifndef CATA_SRC_TALKER_FURNITURE_H
 #define CATA_SRC_TALKER_FURNITURE_H
 
-#include <vector>
+#include <memory>
+#include <string>
 
 #include "coords_fwd.h"
 #include "talker.h"
 
 class computer;
-struct tripoint;
 
 /*
  * Talker wrapper class for furniture
@@ -29,10 +29,10 @@ class talker_furniture_const: public const_talker_cloner<talker_furniture_const>
         }
         // identity and location
         std::string disp_name() const override;
-        int posx() const override;
-        int posy() const override;
+        int posx( const map &here ) const override;
+        int posy( const map &here ) const override;
         int posz() const override;
-        tripoint_bub_ms pos_bub() const override;
+        tripoint_bub_ms pos_bub( const map &here ) const override;
         tripoint_abs_ms pos_abs() const override;
         tripoint_abs_omt pos_abs_omt() const override;
 

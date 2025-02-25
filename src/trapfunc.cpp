@@ -1,41 +1,44 @@
 #include "trap.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <cmath>
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <utility>
 
-#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_assert.h"
 #include "character.h"
-#include "colony.h"
+#include "condition.h"
 #include "coordinates.h"
 #include "creature.h"
-#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
 #include "game.h"
-#include "game_constants.h"
+#include "global_vars.h"
 #include "item.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapdata.h"
+#include "map_scale_constants.h"
 #include "mapgen_functions.h"
+#include "mapgendata.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
 #include "point.h"
+#include "ranged.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
-#include "teleport.h"
+#include "string_formatter.h"
+#include "talker.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "units.h"
@@ -425,8 +428,8 @@ bool trapfunc::tripwire( const tripoint_bub_ms &p, Creature *c, item * )
                 }
             }
             if( !valid.empty() ) {
-                player_character.setpos( random_entry( valid ) );
-                z->setpos( player_character.pos_bub() );
+                player_character.setpos( here, random_entry( valid ) );
+                z->setpos( player_character.pos_abs() );
             }
             player_character.mod_moves( -z->get_speed() * 1.5 );
             g->update_map( player_character );
@@ -445,7 +448,7 @@ bool trapfunc::tripwire( const tripoint_bub_ms &p, Creature *c, item * )
             }
         }
         if( !valid.empty() ) {
-            you->setpos( random_entry( valid ) );
+            you->setpos( here, random_entry( valid ) );
         }
         you->mod_moves( -you->get_speed() * 1.5 );
         if( c->is_avatar() ) {
@@ -515,7 +518,7 @@ bool trapfunc::crossbow( const tripoint_bub_ms &p, Creature *c, item * )
                                             _( "<npcname> dodges the shot!" ) );
             }
         } else if( z != nullptr ) {
-            bool seen = get_player_view().sees( *z );
+            bool seen = get_player_view().sees( here, *z );
             int chance = 0;
             // adapted from shotgun code - chance of getting hit depends on size
             switch( z->type->size ) {
@@ -620,7 +623,7 @@ bool trapfunc::shotgun( const tripoint_bub_ms &p, Creature *c, item * )
                                             _( "<npcname> dodges the shot!" ) );
             }
         } else if( z != nullptr ) {
-            bool seen = get_player_view().sees( *z );
+            bool seen = get_player_view().sees( here,  *z );
             int chance = 0;
             switch( z->type->size ) {
                 case creature_size::tiny:
@@ -900,7 +903,7 @@ bool trapfunc::dissector( const tripoint_bub_ms &p, Creature *c, item * )
         return false;
     }
     monster *z = dynamic_cast<monster *>( c );
-    bool player_sees = get_player_view().sees( p );
+    bool player_sees = get_player_view().sees( here, p );
     if( z != nullptr ) {
         if( z->type->in_species( species_ROBOT ) ) {
             //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
@@ -1271,7 +1274,7 @@ static bool sinkhole_safety_roll( Character &you, const itype_id &itemname, cons
     } else {
         you.add_msg_player_or_npc( m_good, _( "You pull yourself to safety!" ),
                                    _( "<npcname> steps on a sinkhole, but manages to pull themselves to safety." ) );
-        you.setpos( random_entry( safe ) );
+        you.setpos( here, random_entry( safe ) );
         if( you.is_avatar() ) {
             g->update_map( you );
         }
@@ -1569,17 +1572,6 @@ bool trapfunc::cast_spell( const tripoint_bub_ms &p, Creature *critter, item * )
         npc dummy;
         if( !tr.has_flag( json_flag_UNCONSUMED ) ) {
             here.remove_trap( p );
-        }
-        if( tr.has_flag( json_flag_PROXIMITY ) ) {
-            // remove all traps in 3-3 area area
-            for( int x = p.x() - 1; x <= p.x() + 1; x++ ) {
-                for( int y = p.y() - 1; y <= p.y() + 1; y++ ) {
-                    tripoint_bub_ms pt( x, y, p.z() );
-                    if( here.tr_at( pt ).loadid == tr.loadid ) {
-                        here.remove_trap( pt );
-                    }
-                }
-            }
         }
         // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
         trap_spell.cast_all_effects( dummy, p );

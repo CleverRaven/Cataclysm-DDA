@@ -34,8 +34,6 @@
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
-#include "field_type.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
@@ -47,41 +45,36 @@
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
-#include "line.h"
 #include "map.h"
 #include "map_memory.h"
-#include "mapdata.h"
+#include "map_scale_constants.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "move_mode.h"
-#include "mutation.h"
 #include "npc.h"
+#include "npc_opinion.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pimpl.h"
+#include "point.h"
 #include "profession.h"
 #include "ranged.h"
 #include "recipe.h"
 #include "ret_val.h"
 #include "rng.h"
-#include "scenario.h"
 #include "skill.h"
-#include "sleep.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "talker.h"
 #include "talker_avatar.h"
 #include "timed_event.h"
 #include "translations.h"
-#include "trap.h"
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
 #include "value_ptr.h"
-#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -1226,16 +1219,18 @@ bool avatar::cant_see( const tripoint_bub_ms &p ) const
 
 void avatar::rebuild_aim_cache() const
 {
+    map &here = get_map();
+
     aim_cache_dirty =
         false; // Can trigger recursive death spiral if still set when calc_steadiness is called.
 
     double pi = 2 * acos( 0.0 );
 
-    const tripoint_bub_ms local_last_target = get_map().get_bub(
+    const tripoint_bub_ms local_last_target = here.get_bub(
                 last_target_pos.value() );
-
-    float base_angle = atan2f( local_last_target.y() - posy(),
-                               local_last_target.x() - posx() );
+    const tripoint_bub_ms pos = pos_bub( here );
+    float base_angle = atan2f( local_last_target.y() - pos.y(),
+                               local_last_target.x() - pos.x() );
 
     // move from -pi to pi, to 0 to 2pi for angles
     if( base_angle < 0 ) {
@@ -1263,7 +1258,7 @@ void avatar::rebuild_aim_cache() const
     for( int smx = 0; smx < MAPSIZE_X; ++smx ) {
         for( int smy = 0; smy < MAPSIZE_Y; ++smy ) {
 
-            float current_angle = atan2f( smy - posy(), smx - posx() );
+            float current_angle = atan2f( smy - pos.y(), smx - pos.x() );
 
             // move from -pi to pi, to 0 to 2pi for angles
             if( current_angle < 0 ) {
@@ -1271,7 +1266,7 @@ void avatar::rebuild_aim_cache() const
             }
 
             // some basic angle inclusion math, but also everything with 15 is still seen
-            if( rl_dist( tripoint_bub_ms( smx, smy, posz() ), pos_bub() ) < 15 ) {
+            if( rl_dist( tripoint_bub_ms( smx, smy, posz() ), pos ) < 15 ) {
                 aim_cache[smx][smy] = false;
             } else if( lower_bound > upper_bound ) {
                 aim_cache[smx][smy] = !( current_angle >= lower_bound ||

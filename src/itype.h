@@ -2,46 +2,47 @@
 #ifndef CATA_SRC_ITYPE_H
 #define CATA_SRC_ITYPE_H
 
-#include <array>
 #include <cstddef>
-#include <iosfwd>
 #include <map>
 #include <memory>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <tuple>
+#include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "color.h" // nc_color
+#include "coords_fwd.h"
 #include "damage.h"
 #include "enums.h" // point
 #include "explosion.h"
 #include "game_constants.h"
+#include "item.h"
 #include "item_pocket.h"
 #include "iuse.h" // use_function
 #include "mapdata.h"
 #include "proficiency.h"
 #include "relic.h"
 #include "stomach.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 
+// IWYU pragma: no_forward_declare std::hash
+class Character;
 class Item_factory;
 class JsonObject;
-class item;
+class Trait_group;
 class map;
-struct tripoint;
 template <typename E> struct enum_traits;
-
-enum art_effect_active : int;
-enum art_charge : int;
-enum art_charge_req : int;
-enum art_effect_passive : int;
 
 class gun_modifier_data
 {
@@ -125,10 +126,28 @@ struct islot_tool {
 constexpr float base_metabolic_rate =
     2500.0f;  // kcal / day, standard average for human male, but game does not differentiate genders here.
 
+struct rot_spawn_data {
+    /** The monster (or monster group, mutually exclusive) that is drawn from when the item rots away */
+    mtype_id rot_spawn_monster = mtype_id::NULL_ID();
+    mongroup_id rot_spawn_group = mongroup_id::NULL_ID();
+    /** Chance the above monster spawns*/
+    float rot_spawn_chance;
+    /** Range of monsters spawned */
+    std::pair<int, int> rot_spawn_monster_amount;
+
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
+};
+
 struct islot_comestible {
     public:
         friend Item_factory;
         friend item;
+
+        bool was_loaded = false;
+        void load( const JsonObject &jo );
+        void deserialize( const JsonObject &jo );
+
         /** subtype, e.g. FOOD, DRINK, MED */
         std::string comesttype;
 
@@ -137,6 +156,9 @@ struct islot_comestible {
 
         /** Defaults # of charges (drugs, loaf of bread? etc) */
         int def_charges = 0;
+
+        /** # of uses in the given volume; defaults to charge count if not provided */
+        int stack_size = 0;
 
         /** effect on character thirst (may be negative) */
         int quench = 0;
@@ -191,7 +213,8 @@ struct islot_comestible {
         std::map<diseasetype_id, float> contamination;
 
         // Materials to generate the below
-        std::map<material_id, int> materials;
+        material_id primary_material =
+            material_id::NULL_ID(); //TO-DO: this overrides materials and shouldn't be necessary
         //** specific heats in J/(g K) and latent heat in J/g */
         float specific_heat_liquid = 4.186f;
         float specific_heat_solid = 2.108f;
@@ -212,13 +235,7 @@ struct islot_comestible {
         }
 
         /** The monster that is drawn from when the item rots away */
-        mtype_id rot_spawn_monster = mtype_id::NULL_ID();
-        mongroup_id rot_spawn_group = mongroup_id::NULL_ID();
-
-        /** Chance the above monster spawns*/
-        int rot_spawn_chance = 10;
-
-        std::pair<int, int> rot_spawn_monster_amount = {1, 1};
+        rot_spawn_data rot_spawn;
 
     private:
         /** Nutrition values to use for this type when they aren't calculated from
@@ -1489,6 +1506,9 @@ struct itype {
         * Efficiency of solar energy conversion for solarpacks.
         */
         float solar_efficiency = 0.0f;
+
+        // Max amount of this type that can be worn.
+        int max_worn = MAX_WORN_PER_TYPE;
 
     private:
         /** maximum amount of damage to a non- count_by_charges item */

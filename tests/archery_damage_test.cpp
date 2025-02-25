@@ -11,10 +11,11 @@
  *
  * The concept is to bracket these threshods with various bows using standard hunting loadouts.
  */
-#include <iosfwd>
+#include <map>
 #include <memory>
 #include <set>
 #include <string>
+#include <utility>
 
 #include "cata_catch.h"
 #include "coordinates.h"
@@ -29,6 +30,8 @@
 #include "projectile.h"
 #include "type_id.h"
 #include "value_ptr.h"
+
+class Creature;
 
 static const itype_id itype_arrow_metal( "arrow_metal" );
 static const itype_id itype_arrow_wood_heavy( "arrow_wood_heavy" );

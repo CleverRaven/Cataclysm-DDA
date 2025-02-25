@@ -10,8 +10,9 @@
 #include <utility>
 #include <vector>
 
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "creature.h"
+#include "memory_fast.h"
 #include "type_id.h"
 
 class JsonArray;
@@ -19,7 +20,6 @@ class JsonOut;
 class game;
 class monster;
 class npc;
-struct tripoint;
 
 class creature_tracker
 {

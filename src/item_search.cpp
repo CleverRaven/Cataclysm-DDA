@@ -1,10 +1,17 @@
 #include "item_search.h"
 
+#include <array>
+#include <cctype>
 #include <map>
+#include <memory>
+#include <string_view>
+#include <unordered_set>
 #include <utility>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "cata_utility.h"
+#include "enums.h"
 #include "flag.h"
 #include "item.h"
 #include "item_category.h"
@@ -12,8 +19,15 @@
 #include "itype.h"
 #include "make_static.h"
 #include "material.h"
+#include "math_parser_type.h"
 #include "requirements.h"
+#include "ret_val.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
+#include "translation.h"
+#include "translations.h"
 #include "type_id.h"
+#include "units.h"
 
 static std::pair<std::string, std::string> get_both( std::string_view a );
 

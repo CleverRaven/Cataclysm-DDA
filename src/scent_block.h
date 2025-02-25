@@ -2,12 +2,13 @@
 #ifndef CATA_SRC_SCENT_BLOCK_H
 #define CATA_SRC_SCENT_BLOCK_H
 
-#include <algorithm>
 #include <array>
 
 #include "coordinates.h"
+#include "map_scale_constants.h"
 #include "point.h"
-#include "scent_map.h"
+
+class scent_map;
 
 struct scent_block {
     template<typename T>

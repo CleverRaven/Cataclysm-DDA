@@ -1,10 +1,12 @@
 #include "game_inventory.h"
 
+#include <imgui/imgui.h>
 #include <algorithm>
 #include <bitset>
-#include <cstddef>
+#include <cmath>
 #include <functional>
 #include <iterator>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -12,7 +14,6 @@
 #include <string>
 #include <vector>
 
-#include "activity_type.h"
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -20,28 +21,36 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_id.h"
 #include "color.h"
-#include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "display.h"
 #include "enums.h"
 #include "flag.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input.h"
 #include "input_context.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "map.h"
+#include "mapdata.h"
 #include "messages.h"
+#include "npc.h"
 #include "npctrade.h"
 #include "options.h"
+#include "output.h"
 #include "pimpl.h"
+#include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -50,13 +59,14 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "text.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
-#include "veh_type.h"
 #include "vitamin.h"
 
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
@@ -579,7 +589,7 @@ class pickup_inventory_preset : public inventory_selector_preset
             if( ignore_liquidcont && loc.where() == item_location::type::map &&
                 !loc->made_of( phase_id::SOLID ) ) {
                 map &here = get_map();
-                if( here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
+                if( here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub( here ) ) ) {
                     return false;
                 }
             }
@@ -781,12 +791,14 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
+            map &here = get_map();
+
             const item &med = *loc;
 
             if(
                 ( loc->made_of_from_type( phase_id::LIQUID ) &&
                   loc.where() != item_location::type::container ) &&
-                !get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
+                !here.has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub( here ) ) ) {
                 return _( "Can't drink spilt liquids." );
             }
             if(
@@ -1296,7 +1308,7 @@ class gunmod_remove_inventory_preset : public inventory_selector_preset
                   mod.type->gunmod->location.name() == "mechanism" ||
                   mod.type->gunmod->location.name() == "loading port" ||
                   mod.type->gunmod->location.name() == "bore" ) &&
-                ( gun.ammo_remaining() > 0 || gun.magazine_current() ) ) {
+                ( gun.ammo_remaining( ) > 0 || gun.magazine_current() ) ) {
                 return _( "must be unloaded before removing this mod" );
             }
 
@@ -1624,7 +1636,7 @@ drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereade
                  !already_saved.count( loc->typeId() ) );
     } );
 
-    const int available_charges = ereader->ammo_remaining();
+    const int available_charges = ereader->ammo_remaining( );
     auto make_raw_stats = [&available_charges, &ereader](
                               const std::vector<std::pair<item_location, int>> &locs
     ) {
@@ -1666,9 +1678,11 @@ drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereade
 drop_locations game_menus::inv::edevice_select( Character &who, item_location &used_edevice,
         bool browse_equals, bool auto_include_used_edevice, bool unusable_only, efile_action action )
 {
+    const map &here = get_map();
+
     const inventory_filter_preset preset( [&]( const item_location & loc ) {
         //make sure this is an edevice before we make edevice calls
-        if( loc->is_estorage() && loc->is_owned_by( who, true ) && who.sees( loc.pos_bub() ) ) {
+        if( loc->is_estorage() && loc->is_owned_by( who, true ) && who.sees( here, loc.pos_bub( here ) ) ) {
             efile_activity_actor::edevice_compatible compat =
                 efile_activity_actor::edevices_compatible( used_edevice, loc );
             bool is_tool_has_charge = !loc->is_tool() || loc->ammo_sufficient( &who );
@@ -1755,7 +1769,7 @@ drop_locations game_menus::inv::efile_select( Character &who, item_location &use
         return item::is_efile( loc ) && ( !copying || loc->is_ecopiable() );
     } );
 
-    const int available_charges = to_edevice->ammo_remaining();
+    const int available_charges = to_edevice->ammo_remaining( );
     auto make_raw_stats = [&]( const std::vector<std::pair<item_location, int>> &locs ) {
         std::vector<item_location> efiles;
         efiles.reserve( locs.size() );
@@ -2701,8 +2715,8 @@ static item_location autodoc_internal( Character &you, Character &patient,
                 return it.has_quality( qual_ANESTHESIA );
             } );
             for( const item *anesthesia_item : a_filter ) {
-                if( anesthesia_item->ammo_remaining() >= 1 ) {
-                    drug_count += anesthesia_item->ammo_remaining();
+                if( anesthesia_item->ammo_remaining( ) >= 1 ) {
+                    drug_count += anesthesia_item->ammo_remaining( );
                 }
             }
             hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
@@ -3044,13 +3058,14 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
         bool is_shown( const item_location &loc ) const override {
             // todo: allow to reload a magazine/magazine well from a container pocket on the same item
+            map &here = get_map();
+
             if( loc.parent_item() == target ) {
                 return false;
             }
 
             if( loc->made_of( phase_id::LIQUID ) && loc.where() == item_location::type::map ) {
-                map &here = get_map();
-                if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
+                if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub( here ) ) ) {
                     return false;
                 }
             }
@@ -3059,7 +3074,7 @@ class select_ammo_inventory_preset : public inventory_selector_preset
                 return false;
             }
 
-            if( !empty && loc->is_magazine() && !loc->ammo_remaining() ) {
+            if( !empty && loc->is_magazine() && !loc->ammo_remaining( ) ) {
                 return false;
             }
 
@@ -3067,7 +3082,8 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
             for( item_location &p : opts ) {
                 if( ( loc->has_flag( flag_SPEEDLOADER ) && p->allows_speedloader( loc->typeId() ) &&
-                      loc->ammo_remaining() > 1 && p->ammo_remaining() < 1 ) && p.can_reload_with( loc, true ) ) {
+                      loc->ammo_remaining( ) > 1 && p->ammo_remaining( ) < 1 ) &&
+                    p.can_reload_with( loc, true ) ) {
                     return true;
                 }
 
@@ -3084,16 +3100,16 @@ class select_ammo_inventory_preset : public inventory_selector_preset
             item_location left = lhs.any_item();
             item_location right = rhs.any_item();
 
-            if( left->ammo_remaining() == 0 || right->ammo_remaining() == 0 ) {
-                return ( left->ammo_remaining() != 0 ) > ( right->ammo_remaining() != 0 );
+            if( left->ammo_remaining( ) == 0 || right->ammo_remaining( ) == 0 ) {
+                return ( left->ammo_remaining( ) != 0 ) > ( right->ammo_remaining( ) != 0 );
             }
 
             if( left.obtain_cost( you ) != right.obtain_cost( you ) ) {
                 return left.obtain_cost( you ) < right.obtain_cost( you );
             }
 
-            if( left->ammo_remaining() != right->ammo_remaining() ) {
-                return left->ammo_remaining() > right->ammo_remaining();
+            if( left->ammo_remaining( ) != right->ammo_remaining( ) ) {
+                return left->ammo_remaining( ) > right->ammo_remaining( );
             }
 
             return inventory_selector_preset::sort_compare( lhs, rhs );

@@ -5,36 +5,43 @@
 #include <array>
 #include <climits>
 #include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <limits>
 #include <list>
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "color.h"
+#include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "input_context.h"
-#include "item_category.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "pocket_type.h"
 #include "pimpl.h"
+#include "pocket_type.h"
+#include "point.h"
 #include "translations.h"
 #include "units_fwd.h"
 
-class basecamp;
 class Character;
+class JsonObject;
+class JsonOut;
+class basecamp;
 class inventory_selector_preset;
 class item;
+class item_category;
 class item_stack;
 class string_input_popup;
 class tinymap;
 class ui_adaptor;
+template <typename E> struct enum_traits;
 
 enum class navigation_mode : int {
     ITEM = 0,
@@ -53,9 +60,6 @@ enum class toggle_mode : int {
 
 struct inventory_input;
 struct navigation_mode_data;
-
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
 
 struct collation_meta_t {
     item_location tip;
@@ -222,6 +226,7 @@ class inventory_entry
 };
 
 struct inventory_selector_save_state;
+
 /**
 * Handles how inventory_entry are displayed and selected in an inventory_selector
 */

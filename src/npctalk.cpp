@@ -1,24 +1,34 @@
 
 #include <algorithm>
 #include <array>
+#include <climits>
 #include <cmath>
 #include <cstddef>
+#include <exception>
 #include <iterator>
 #include <list>
 #include <map>
 #include <memory>
+#include <numeric>
+#include <optional>
 #include <ostream>
+#include <set>
+#include <stdexcept>
 #include <string>
+#include <string_view>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 #include "achievement.h"
-#include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "calendar.h"
+#include "cata_lazy.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -26,75 +36,112 @@
 #include "city.h"
 #include "clzones.h"
 #include "color.h"
-#include "computer.h"
 #include "condition.h"
 #include "coordinates.h"
 #include "crafting_gui.h"
+#include "creature.h"
 #include "creature_tracker.h"
+#include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "dialogue_chatbin.h"
 #include "dialogue_helpers.h"
+#include "dialogue_win.h"
 #include "effect_on_condition.h"
+#include "enum_conversions.h"
+#include "enum_traits.h"
 #include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
 #include "faction.h"
 #include "faction_camp.h"
+#include "field.h"
 #include "flag.h"
+#include "flat_set.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "generic_factory.h"
+#include "global_vars.h"
+#include "gun_mode.h"
 #include "help.h"
 #include "input_context.h"
+#include "input_enums.h"
+#include "inventory.h"
+#include "inventory_ui.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_group.h"
+#include "item_location.h"
 #include "itype.h"
 #include "kill_tracker.h"
-#include "line.h"
 #include "magic.h"
 #include "map.h"
+#include "map_iterator.h"
+#include "map_scale_constants.h"
+#include "map_selector.h"
 #include "mapbuffer.h"
 #include "mapgen_functions.h"
+#include "mapgendata.h"
 #include "martialarts.h"
+#include "math_parser_type.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
+#include "mongroup.h"
+#include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "npc_class.h"
+#include "npc_opinion.h"
 #include "npctalk.h"
 #include "npctalk_rules.h"
 #include "npctrade.h"
-#include "npc_class.h"
 #include "output.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "point.h"
-#include "popup.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_groups.h"
+#include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "simple_pathfinding.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "submap.h"
 #include "talker.h"
 #include "talker_topic.h"
 #include "teleport.h"
 #include "text_snippets.h"
 #include "timed_event.h"
-#include "translations.h"
+#include "translation.h"
 #include "translation_gendered.h"
+#include "translations.h"
+#include "trap.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weather.h"
+#include "weighted_list.h"
+
+class recipe_subset;
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
@@ -919,11 +966,13 @@ static void tell_veh_stop_following()
 
 static void assign_veh_to_follow()
 {
+    map &here = get_map();
+
     Character &player_character = get_player_character();
-    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
+    for( wrapped_vehicle &veh : here.get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( player_character ) ) {
-            v->activate_animal_follow();
+            v->activate_animal_follow( here );
         }
     }
 }
@@ -964,6 +1013,8 @@ static void tell_magic_veh_stop_following()
 
 void game::chat()
 {
+    map &here = get_map();
+
     Character &player_character = get_player_character();
     int volume = player_character.get_shout_volume();
 
@@ -972,8 +1023,8 @@ void game::chat()
         return ( guy.is_npc() || ( guy.is_monster() &&
                                    guy.as_monster()->has_flag( mon_flag_CONVERSATION ) &&
                                    !guy.as_monster()->type->chat_topics.empty() ) ) && u.posz() == guy.posz() &&
-               u.sees( guy.pos_bub() ) &&
-               rl_dist( u.pos_bub(), guy.pos_bub() ) <= SEEX * 2;
+               u.sees( here, guy.pos_bub( here ) ) &&
+               rl_dist( u.pos_abs(), guy.pos_abs() ) <= SEEX * 2;
     } );
     const int available_count = available.size();
     const std::vector<npc *> followers = get_npcs_if( [&]( const npc & guy ) {
@@ -1003,7 +1054,7 @@ void game::chat()
     std::vector<vehicle *> following_vehicles;
     std::vector<vehicle *> magic_vehicles;
     std::vector<vehicle *> magic_following_vehicles;
-    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
+    for( wrapped_vehicle &veh : here.get_vehicles() ) {
         vehicle *&v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) &&
             v->is_owned_by( player_character ) ) {
@@ -1231,7 +1282,6 @@ void game::chat()
                 return;
             }
 
-            map &here = get_map();
             std::optional<tripoint_bub_ms> p = look_around();
 
             if( !p ) {
@@ -1446,7 +1496,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
         say( chat_snippets().snip_acknowledged.translated() );
     }
 
-    if( sees( spos ) || is_hallucination() ) {
+    if( sees( here, spos ) || is_hallucination() ) {
         return;
     }
     // ignore low priority sounds if the NPC "knows" it came from a friend.
@@ -1464,7 +1514,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     }
     // discount if sound source is player, or seen by player,
     // and listener is friendly and sound source is combat or alert only.
-    if( spriority < sounds::sound_t::alarm && player_character.sees( spos ) ) {
+    if( spriority < sounds::sound_t::alarm && player_character.sees( here, spos ) ) {
         if( is_player_ally() ) {
             add_msg_debug( debugmode::DF_NPC, "NPC %s ignored low priority noise that player can see",
                            get_name() );
@@ -4158,7 +4208,7 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                             is_npc, type, dov_x_adjust, dov_y_adjust, dov_z_adjust, z_override, true_eocs, false_eocs,
                     search_target, search_type, dov_target_min_radius, dov_target_max_radius]( dialogue & d ) {
         talker *target = d.actor( is_npc );
-        tripoint_abs_ms talker_pos = get_map().get_abs( target->pos_bub() );
+        tripoint_abs_ms talker_pos = target->pos_abs();
         tripoint_abs_ms target_pos = talker_pos;
         if( target_params.has_value() ) {
             const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( target_params.value(), d );
@@ -4392,6 +4442,8 @@ talk_effect_fun_t::func f_transform_radius( const JsonObject &jo, std::string_vi
 talk_effect_fun_t::func f_explosion( const JsonObject &jo, std::string_view member,
                                      const std::string_view, bool is_npc )
 {
+    map &here = get_map();
+
     dbl_or_var dov_power;
     dbl_or_var dov_distance_factor;
     dbl_or_var dov_max_noise;
@@ -4423,13 +4475,13 @@ talk_effect_fun_t::func f_explosion( const JsonObject &jo, std::string_view memb
 
     return [target_var, dov_power, dov_distance_factor, dov_max_noise, fire, dov_shrapnel_casing_mass,
                         dov_shrapnel_fragment_mass, dov_shrapnel_recovery, dov_shrapnel_drop,
-                is_npc]( dialogue const & d ) {
+                is_npc, &here]( dialogue const & d ) {
         tripoint_bub_ms target_pos;
         if( target_var.has_value() ) {
             tripoint_abs_ms abs_ms = get_tripoint_ms_from_var( target_var, d, is_npc );
-            target_pos = get_map().get_bub( abs_ms );
+            target_pos = here.get_bub( abs_ms );
         } else {
-            target_pos = d.actor( is_npc )->pos_bub();
+            target_pos = d.actor( is_npc )->pos_bub( here );
         }
         Creature &guy = *d.actor( is_npc )->get_creature();
 
@@ -5317,6 +5369,30 @@ talk_effect_fun_t::func f_attack( const JsonObject &jo, std::string_view member,
     };
 }
 
+
+talk_effect_fun_t::func f_ranged_attack( bool is_npc )
+{
+
+    return [is_npc]( dialogue & d ) {
+        // if beta is attacking then target is the alpha
+        talker *target = d.actor( !is_npc );
+        Character *attacker = d.actor( is_npc )->get_character();
+        Creature *c = target->get_creature();
+
+        if( c ) {
+            tripoint_bub_ms target_pos = c->pos_bub();
+            item_location wielded = attacker->get_wielded_item();
+            if( wielded->is_gun() ) {
+                gun_mode mode = wielded->gun_current_mode();
+                if( wielded->ammo_sufficient( attacker, mode.qty * 2 ) ) {
+                    attacker->fire_gun( target_pos, mode.qty );
+
+                }
+            }
+        }
+    };
+}
+
 talk_effect_fun_t::func f_die( bool is_npc )
 {
     return [is_npc]( dialogue const & d ) {
@@ -6089,6 +6165,8 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
 talk_effect_fun_t::func f_run_npc_eocs( const JsonObject &jo,
                                         std::string_view member, const std::string_view src, bool is_npc )
 {
+    const map &here = get_map();
+
     std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member, src );
     std::vector<str_or_var> unique_ids;
     for( JsonValue jv : jo.get_array( "unique_ids" ) ) {
@@ -6102,15 +6180,15 @@ talk_effect_fun_t::func f_run_npc_eocs( const JsonObject &jo,
     }
     bool npc_must_see = jo.get_bool( "npc_must_see", false );
     if( local ) {
-        return [eocs, unique_ids, npc_must_see, npc_range, is_npc]( dialogue const & d ) {
-            tripoint_bub_ms actor_pos = d.actor( is_npc )->pos_bub();
+        return [eocs, unique_ids, npc_must_see, npc_range, is_npc, &here]( dialogue const & d ) {
+            tripoint_bub_ms actor_pos = d.actor( is_npc )->pos_bub( here );
             std::vector<std::string> ids;
             ids.reserve( unique_ids.size() );
             for( const str_or_var &id : unique_ids ) {
                 ids.emplace_back( id.evaluate( d ) );
             }
             const std::vector<npc *> available = g->get_npcs_if( [npc_must_see, npc_range, actor_pos,
-                          ids]( const npc & guy ) {
+                          ids, &here]( const npc & guy ) {
                 bool id_valid = ids.empty();
                 for( const std::string &id : ids ) {
                     if( id == guy.get_unique_id() ) {
@@ -6119,8 +6197,8 @@ talk_effect_fun_t::func f_run_npc_eocs( const JsonObject &jo,
                     }
                 }
                 return id_valid && ( !npc_range.has_value() || actor_pos.z() == guy.posz() ) && ( !npc_must_see ||
-                        guy.sees( actor_pos ) ) &&
-                       ( !npc_range.has_value() || rl_dist( actor_pos, guy.pos_bub() ) <= npc_range.value() );
+                        guy.sees( here, actor_pos ) ) &&
+                       ( !npc_range.has_value() || rl_dist( actor_pos, guy.pos_bub( here ) ) <= npc_range.value() );
             } );
             for( npc *target : available ) {
                 for( const effect_on_condition_id &eoc : eocs ) {
@@ -6151,6 +6229,8 @@ talk_effect_fun_t::func f_run_npc_eocs( const JsonObject &jo,
 talk_effect_fun_t::func f_run_monster_eocs( const JsonObject &jo,
         std::string_view member, const std::string_view src, bool is_npc )
 {
+    const map &here = get_map();
+
     std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member, src );
     std::vector<str_or_var> mtype_ids;
     for( JsonValue jv : jo.get_array( "mtype_ids" ) ) {
@@ -6161,15 +6241,15 @@ talk_effect_fun_t::func f_run_monster_eocs( const JsonObject &jo,
         monster_range = jo.get_int( "monster_range" );
     }
     bool monster_must_see = jo.get_bool( "monster_must_see", false );
-    return [eocs, mtype_ids, monster_must_see, monster_range, is_npc]( dialogue const & d ) {
+    return [eocs, mtype_ids, monster_must_see, monster_range, is_npc, &here]( dialogue const & d ) {
         std::vector<mtype_id> ids;
         ids.reserve( mtype_ids.size() );
         for( const str_or_var &id : mtype_ids ) {
             ids.emplace_back( id.evaluate( d ) );
         }
-        tripoint_bub_ms actor_pos = d.actor( is_npc )->pos_bub();
+        tripoint_bub_ms actor_pos = d.actor( is_npc )->pos_bub( here );
         const std::vector<Creature *> available = g->get_creatures_if( [ ids, monster_must_see,
-             monster_range, actor_pos ]( const Creature & critter ) {
+             monster_range, actor_pos, &here ]( const Creature & critter ) {
             bool id_valid = ids.empty();
             bool creature_is_monster = critter.is_monster();
             if( creature_is_monster ) {
@@ -6183,8 +6263,9 @@ talk_effect_fun_t::func f_run_monster_eocs( const JsonObject &jo,
             return creature_is_monster && id_valid && ( !monster_range.has_value() ||
                     actor_pos.z() == critter.posz() ) &&
                    ( !monster_must_see ||
-                     critter.sees( actor_pos ) ) &&
-                   ( !monster_range.has_value() || rl_dist( actor_pos, critter.pos_bub() ) <= monster_range.value() );
+                     critter.sees( here, actor_pos ) ) &&
+                   ( !monster_range.has_value() ||
+                     rl_dist( actor_pos, critter.pos_bub( here ) ) <= monster_range.value() );
         } );
         for( Creature *target : available ) {
             for( const effect_on_condition_id &eoc : eocs ) {
@@ -6750,6 +6831,8 @@ talk_effect_fun_t::func f_deal_damage( const JsonObject &jo, std::string_view me
 talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view member,
         const std::string_view src, bool is_npc )
 {
+    const map &here = get_map();
+
     bool group = jo.get_bool( "group", false );
     bool single_target = jo.get_bool( "single_target", false );
     str_or_var monster_id = get_str_or_var( jo.get_member( member ), member );
@@ -6782,7 +6865,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
     return [monster_id, dov_target_range, dov_hallucination_count, dov_real_count, dov_min_radius,
                         dov_max_radius, outdoor_only, indoor_only, group, single_target, dov_lifespan, target_var,
                         spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed, temporary_drop_items,
-                friendly, is_npc]( dialogue & d ) {
+                friendly, is_npc, &here]( dialogue & d ) {
         monster target_monster;
         std::vector<Creature *> target_monsters;
         mongroup_id target_mongroup;
@@ -6847,9 +6930,9 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
         int real_count = dov_real_count.evaluate( d );
         int hallucination_count = dov_hallucination_count.evaluate( d );
         std::optional<time_duration> lifespan;
-        tripoint_bub_ms target_pos = d.actor( is_npc )->pos_bub();
+        tripoint_bub_ms target_pos = d.actor( is_npc )->pos_bub( here );
         if( target_var.has_value() ) {
-            target_pos = get_map().get_bub( get_tripoint_ms_from_var( target_var, d, is_npc ) );
+            target_pos = here.get_bub( get_tripoint_ms_from_var( target_var, d, is_npc ) );
         }
         int visible_spawns = 0;
         int spawns = 0;
@@ -6876,7 +6959,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                             critter->as_monster()->friendly = -1;
                         }
                         spawns++;
-                        if( get_avatar().sees( *critter ) ) {
+                        if( get_avatar().sees( here, *critter ) ) {
                             visible_spawns++;
                         }
                     }
@@ -6901,7 +6984,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                         spawned->friendly = -1;
                     }
                     spawns++;
-                    if( get_avatar().sees( *spawned ) ) {
+                    if( get_avatar().sees( here, *spawned ) ) {
                         visible_spawns++;
                     }
                     lifespan = dov_lifespan.evaluate( d );
@@ -6930,6 +7013,8 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
 talk_effect_fun_t::func f_spawn_npc( const JsonObject &jo, std::string_view member,
                                      const std::string_view src, bool is_npc )
 {
+    const map &here = get_map();
+
     str_or_var sov_npc_class = get_str_or_var( jo.get_member( member ), member );
     str_or_var unique_id;
     if( jo.has_member( "unique_id" ) ) {
@@ -6969,7 +7054,7 @@ talk_effect_fun_t::func f_spawn_npc( const JsonObject &jo, std::string_view memb
     return [sov_npc_class, unique_id, traits, dov_hallucination_count, dov_real_count,
                            dov_min_radius,
                            dov_max_radius, outdoor_only, indoor_only, dov_lifespan, target_var, spawn_message,
-                   spawn_message_plural, true_eocs, false_eocs, open_air_allowed, is_npc]( dialogue & d ) {
+                   spawn_message_plural, true_eocs, false_eocs, open_air_allowed, is_npc, &here]( dialogue & d ) {
         int min_radius = dov_min_radius.evaluate( d );
         int max_radius = dov_max_radius.evaluate( d );
         int real_count = dov_real_count.evaluate( d );
@@ -6982,9 +7067,9 @@ talk_effect_fun_t::func f_spawn_npc( const JsonObject &jo, std::string_view memb
             cur_traits.emplace_back( cur_trait.evaluate( d ) );
         }
         std::optional<time_duration> lifespan;
-        tripoint_bub_ms target_pos = d.actor( is_npc )->pos_bub();
+        tripoint_bub_ms target_pos = d.actor( is_npc )->pos_bub( here );
         if( target_var.has_value() ) {
-            target_pos = get_map().get_bub( get_tripoint_ms_from_var( target_var, d, is_npc ) );
+            target_pos = here.get_bub( get_tripoint_ms_from_var( target_var, d, is_npc ) );
         }
         int visible_spawns = 0;
         int spawns = 0;
@@ -7000,7 +7085,7 @@ talk_effect_fun_t::func f_spawn_npc( const JsonObject &jo, std::string_view memb
                     Creature *guy = get_creature_tracker().creature_at( spawn_point );
                     if( guy ) {
                         spawns++;
-                        if( get_avatar().sees( *guy ) ) {
+                        if( get_avatar().sees( here, *guy ) ) {
                             visible_spawns++;
                         }
                     }
@@ -7021,7 +7106,7 @@ talk_effect_fun_t::func f_spawn_npc( const JsonObject &jo, std::string_view memb
                     Creature *guy = get_creature_tracker().creature_at( spawn_point );
                     if( guy ) {
                         spawns++;
-                        if( get_avatar().sees( *guy ) ) {
+                        if( get_avatar().sees( here, *guy ) ) {
                             visible_spawns++;
                         }
                     }
@@ -7205,13 +7290,15 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
 
 talk_effect_fun_t::func f_wants_to_talk( bool is_npc )
 {
-    return [is_npc]( dialogue const & d ) {
+    const map &here = get_map();
+
+    return [is_npc, &here]( dialogue const & d ) {
         npc *p = d.actor( is_npc )->get_npc();
         if( p ) {
             if( p->get_attitude() == NPCATT_TALK ) {
                 return;
             }
-            if( p->sees( get_player_character() ) ) {
+            if( p->sees( here, get_player_character() ) ) {
                 add_msg( _( "%s wants to talk to you." ), p->get_name() );
             }
             p->set_attitude( NPCATT_TALK );
@@ -7625,6 +7712,16 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
     if( effect_id == "npc_gets_item" || effect_id == "npc_gets_item_to_use" ) {
         bool to_use = effect_id == "npc_gets_item_to_use";
         set_effect( talk_effect_fun_t( talk_effect_fun::f_npc_gets_item( to_use ) ) );
+        return;
+    }
+
+    if( effect_id == "u_ranged_attack" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_ranged_attack( false ) ) );
+        return;
+    }
+
+    if( effect_id == "npc_ranged_attack" ) {
+        set_effect( talk_effect_fun_t( talk_effect_fun::f_ranged_attack( true ) ) );
         return;
     }
 

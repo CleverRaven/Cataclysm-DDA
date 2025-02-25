@@ -3,12 +3,11 @@
 #include <climits>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <cstdlib>
-#include <iosfwd>
 #include <iterator>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <queue>
 #include <set>
@@ -21,13 +20,14 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_martial_arts.h"
-#include "colony.h"
 #include "color.h"
+#include "condition.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
@@ -35,7 +35,9 @@
 #include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "global_vars.h"
 #include "item.h"
+#include "item_group.h"
 #include "kill_tracker.h"
 #include "line.h"
 #include "magic.h"
@@ -44,11 +46,11 @@
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "monstergenerator.h"
-#include "morale.h"
 #include "mtype.h"
 #include "npc.h"
 #include "overmapbuffer.h"
@@ -58,13 +60,17 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "teleport.h"
 #include "timed_event.h"
 #include "translations.h"
+#include "trap.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+class translation;
 
 static const efftype_id effect_teleglow( "teleglow" );
 
@@ -178,9 +184,11 @@ void spell_effect::short_range_teleport( const spell &sp, Creature &caster,
 
 static void swap_pos( Creature &caster, const tripoint_bub_ms &target )
 {
+    map &here = get_map();
+
     Creature *const critter = get_creature_tracker().creature_at<Creature>( target );
-    critter->setpos( caster.pos_bub() );
-    caster.setpos( target );
+    critter->setpos( caster.pos_abs() );
+    caster.setpos( here, target );
 
     //update map in case a monster swapped positions with the player
     Character &you = get_player_character();
@@ -950,12 +958,14 @@ static std::pair<field, tripoint_bub_ms> spell_remove_field( const spell &sp,
 static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint_bub_ms>
         &fd_fatigue_field, Creature &caster )
 {
+    const map &here = get_map();
+
     for( const std::pair<const field_type_id, field_entry> &fd : std::get<0>
          ( fd_fatigue_field ) ) {
         const int &intensity = fd.second.get_field_intensity();
         const translation &intensity_name = fd.second.get_intensity_level().name;
         const tripoint_bub_ms &field_position = std::get<1>( fd_fatigue_field );
-        const bool sees_field = caster.sees( field_position );
+        const bool sees_field = caster.sees( here, field_position );
 
         switch( intensity ) {
             case 1:
@@ -980,7 +990,7 @@ static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint_bub_
             case 3:
                 std::string message_prefix = "A nearby";
 
-                if( caster.sees( field_position ) ) {
+                if( caster.sees( here, field_position ) ) {
                     message_prefix = "The";
                 }
 
@@ -1055,8 +1065,10 @@ void spell_effect::area_push( const spell &sp, Creature &caster, const tripoint_
 static void character_push_effects( Creature *caster, Character &guy, tripoint_bub_ms &push_dest,
                                     const int push_distance, const std::vector<tripoint_bub_ms> &push_vec )
 {
+    map &here = get_map();
+
     int dist_left = std::abs( push_distance );
-    tripoint_bub_ms old_pushed_point = guy.pos_bub();
+    tripoint_bub_ms old_pushed_point = guy.pos_bub( here );
     for( const tripoint_bub_ms &pushed_point : push_vec ) {
         if( get_map().impassable( pushed_point ) ) {
             guy.hurtall( dist_left * 4, caster );
@@ -1070,7 +1082,7 @@ static void character_push_effects( Creature *caster, Character &guy, tripoint_b
             old_pushed_point = pushed_point;
         }
     }
-    guy.setpos( push_dest );
+    guy.setpos( here, push_dest );
 }
 
 void spell_effect::directed_push( const spell &sp, Creature &caster, const tripoint_bub_ms &target )
@@ -1147,7 +1159,7 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
                             old_pushed_push_point = pushed_push_point;
                         }
                     }
-                    mon->setpos( push_dest );
+                    mon->setpos( here, push_dest );
                 } else if( guy ) {
                     character_push_effects( &caster, *guy, push_dest, push_distance, push_vec );
                 }
@@ -1387,9 +1399,9 @@ void spell_effect::recharge_vehicle( const spell &sp, Creature &caster,
     }
     vehicle &veh = v_part_pos->vehicle();
     if( sp.damage( caster ) >= 0 ) {
-        veh.charge_battery( sp.damage( caster ), false );
+        veh.charge_battery( here, sp.damage( caster ), false );
     } else {
-        veh.discharge_battery( -sp.damage( caster ), false );
+        veh.discharge_battery( here, -sp.damage( caster ), false );
     }
 }
 

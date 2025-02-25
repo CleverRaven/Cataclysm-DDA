@@ -2,7 +2,6 @@
 
 #include <array>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
 #include <utility>
@@ -16,22 +15,22 @@
 #include "event.h"
 #include "event_bus.h"
 #include "game.h"
-#include "game_constants.h"
-#include "line.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapbuffer.h"
-#include "mapdata.h"
 #include "mapgen_functions.h"
+#include "mapgendata.h"
+#include "mdarray.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"
-#include "options.h"
 #include "rng.h"
 #include "sounds.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -103,6 +102,8 @@ void timed_event::actualize()
 {
     avatar &player_character = get_avatar();
     map &here = get_map();
+    const tripoint_bub_ms pos = player_character.pos_bub( here );
+
     switch( type ) {
         case timed_event_type::HELP:
             debugmsg( "Currently disabled while NPC and monster factions are being rewritten." );
@@ -125,7 +126,7 @@ void timed_event::actualize()
 
             // You could drop the flag, you know.
             if( player_character.has_amount( itype_petrified_eye, 1 ) ) {
-                sounds::sound( player_character.pos_bub(), MAX_VIEW_DISTANCE, sounds::sound_t::alert,
+                sounds::sound( pos, MAX_VIEW_DISTANCE, sounds::sound_t::alert,
                                _( "a tortured scream!" ),
                                false,
                                "shout",
@@ -154,7 +155,7 @@ void timed_event::actualize()
             }
             for( int i = 0; fault_point && i < num_horrors; i++ ) {
                 for( int tries = 0; tries < 10; ++tries ) {
-                    tripoint_bub_ms monp = player_character.pos_bub();
+                    tripoint_bub_ms monp = pos;
                     if( horizontal ) {
                         monp.x() = rng( fault_point->x(), fault_point->x() + 2 * SEEX - 8 );
                         for( int n = -1; n <= 1; n++ ) {
@@ -194,7 +195,7 @@ void timed_event::actualize()
             for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == ter_t_grate ) {
                     here.ter_set( p, ter_t_stairs_down );
-                    if( !saw_grate && player_character.sees( p ) ) {
+                    if( !saw_grate && player_character.sees( here, p ) ) {
                         saw_grate = true;
                     }
                 }
@@ -245,9 +246,9 @@ void timed_event::actualize()
                 return;
             }
             // Check if we should print a message
-            if( flood_buf[player_character.posx()][player_character.posy()] != here.ter(
-                    player_character.pos_bub() ) ) {
-                if( flood_buf[player_character.posx()][player_character.posy()] == ter_t_water_sh ) {
+            if( flood_buf[pos.x()][pos.y()] != here.ter(
+                    pos ) ) {
+                if( flood_buf[pos.x()][pos.y()] == ter_t_water_sh ) {
                     add_msg( m_warning, _( "Water quickly floods up to your knees." ) );
                     get_memorial().add(
                         pgettext( "memorial_male", "Water level reached knees." ),
@@ -258,7 +259,7 @@ void timed_event::actualize()
                     get_memorial().add(
                         pgettext( "memorial_male", "Water level reached the ceiling." ),
                         pgettext( "memorial_female", "Water level reached the ceiling." ) );
-                    avatar_action::swim( here, player_character, player_character.pos_bub() );
+                    avatar_action::swim( here, player_character, pos );
                 }
             }
             // flood_buf is filled with correct tiles; now copy them back to here
@@ -276,7 +277,7 @@ void timed_event::actualize()
                 }
             };
             const mtype_id &montype = random_entry( temple_monsters );
-            g->place_critter_around( montype, player_character.pos_bub(), 2 );
+            g->place_critter_around( montype, pos, 2 );
         }
         break;
 

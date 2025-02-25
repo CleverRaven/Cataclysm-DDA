@@ -6,13 +6,14 @@
 #include <map>
 #include <string>
 #include <string_view>
+#include <utility>
+#include <variant>
 #include <vector>
 
 #include "math_parser_diag_value.h"
 
-
-struct dialogue;
 struct const_dialogue;
+struct dialogue;
 
 using diag_assign_dbl_f = std::function<void( dialogue &, double )>;
 using diag_eval_dbl_f = std::function<double( const_dialogue const & )>;

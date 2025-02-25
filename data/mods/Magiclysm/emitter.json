@@ -94,5 +94,19 @@
     "field": "fd_hot_air4",
     "intensity": 3,
     "qty": 100
+  },
+  {
+    "id": "emit_glimmer_thaumic",
+    "type": "emit",
+    "field": "fd_dazzling_thaumic",
+    "qty": 2,
+    "chance": 75
+  },
+  {
+    "id": "emit_magic_disjunction",
+    "type": "emit",
+    "field": "fd_nullifying_field",
+    "intensity": 1,
+    "qty": 50
   }
 ]

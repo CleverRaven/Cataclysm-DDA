@@ -4,14 +4,14 @@
 
 #include <algorithm>
 #include <climits>
+#include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
+#include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -19,55 +19,54 @@
 #include "calendar.h"
 #include "cata_lazy.h"
 #include "cata_utility.h"
-#include "compatibility.h"
+#include "coordinates.h"
+#include "craft_command.h"
 #include "enums.h"
 #include "gun_mode.h"
 #include "io_tags.h"
 #include "item_components.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "item_tname.h"
 #include "material.h"
+#include "point.h"
 #include "requirements.h"
+#include "rng.h"
 #include "safe_reference.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
-#include "vpart_position.h"
-#include "rng.h"
+
 class Character;
 class Creature;
 class JsonObject;
 class JsonOut;
 class book_proficiency_bonuses;
-class enchantment;
 class enchant_cache;
-class faction;
+class enchantment;
 class gun_type_type;
 class gunmod_location;
 class item;
 class iteminfo_query;
+class map;
 class monster;
 class nc_color;
-enum class pocket_type;
+class optional_vpart_position;
 class recipe;
 class relic;
-struct part_material;
+class vehicle;
+enum class pocket_type;
 struct armor_portion_data;
-struct itype_variant_data;
 struct islot_comestible;
 struct itype;
-struct item_comp;
-template<typename CompType>
-struct comp_selection;
-struct tool_comp;
+struct itype_variant_data;
 struct mtype;
-struct tripoint;
+struct part_material;
 template<typename T>
 class ret_val;
 template <typename T> struct enum_traits;
-class vehicle;
 
 namespace enchant_vals
 {
@@ -75,20 +74,15 @@ enum class mod : int;
 } // namespace enchant_vals
 
 using bodytype_id = std::string;
-class item_category;
-struct islot_armor;
-struct use_function;
-
-enum art_effect_passive : int;
-enum class side : int;
 class body_part_set;
-class map;
+class item_category;
+enum class side : int;
+enum clothing_mod_type : int;
 struct damage_instance;
 struct damage_unit;
 struct fire_data;
-enum class link_state : int;
-
-enum clothing_mod_type : int;
+struct islot_armor;
+struct use_function;
 
 struct light_emission {
     unsigned short luminance;
@@ -1879,7 +1873,8 @@ class item : public visitable
         bool spill_contents( map *here, const tripoint_bub_ms &pos );
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
         /** Spill items that don't fit in the container. */
-        void overflow( const tripoint_bub_ms &pos, const item_location &loc = item_location::nowhere );
+        void overflow( map &here, const tripoint_bub_ms &pos,
+                       const item_location &loc = item_location::nowhere );
 
         /**
          * Check if item is a holster and currently capable of storing obj.
@@ -2353,6 +2348,11 @@ class item : public visitable
          * or similar.
          */
         bool is_power_armor() const;
+
+        /**
+         * The maximum amount of this item that can be worn at the same time.  Defaults to MAX_WORN_PER_TYPE if not defined for the item.
+         */
+        int max_worn() const;
         /**
          * If this is an armor item, return its armor data. You should probably not use this function,
          * use the various functions above (like @ref get_storage) to access armor data directly.
@@ -2501,7 +2501,7 @@ class item : public visitable
          * Quantity of shots in the gun. Looks at both ammo and available energy.
          * @param carrier is used for UPS and bionic power
          */
-        int shots_remaining( const Character *carrier ) const;
+        int shots_remaining( const map &here, const Character *carrier ) const;
 
         /** Return true if this uses electrical or a different kind of energy. */
         bool uses_energy() const;
@@ -2516,17 +2516,26 @@ class item : public visitable
 
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.
+         * @param here is the map used, which is used to determine linked power (e.g. electricity)
          * @param carrier is used for UPS and bionic power for tools
          * @param include_linked Add cable-linked vehicles' ammo to the ammo count
          */
-        int ammo_remaining( const Character *carrier = nullptr, bool include_linked = false ) const;
-        int ammo_remaining( bool include_linked ) const;
-
+        int ammo_remaining_linked( const map &here, const Character *carrier ) const;
+        // Similar to the operation above, but doesn't look for external sources.
+        int ammo_remaining( const Character *carrier ) const;
+        // Looking for "ammo" via links (e.g. electricity).
+        int ammo_remaining_linked( const map &here ) const;
+        // Only looking for ammo locally.
+        int ammo_remaining() const;
 
     private:
         units::energy energy_per_second() const;
-        int ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier = nullptr,
-                            bool include_linked = false ) const;
+        // The map parameter is only used if include_linked is true. Somewhat stupid
+        // parameter profile, but the operation is only used internally in order not
+        // to duplicate most of the code.
+        int ammo_remaining( const map &here, const std::set<ammotype> &ammo,
+                            const Character *carrier,
+                            bool include_linked ) const;
     public:
 
         /**
@@ -2584,7 +2593,7 @@ class item : public visitable
          * @return amount of ammo consumed which will be between 0 and qty
          */
         int ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier );
-        int ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, Character *carrier );
+        int ammo_consume( int qty, map &here, const tripoint_bub_ms &pos, Character *carrier );
 
         /**
          * Consume energy (if available) and return the amount of energy that was consumed
