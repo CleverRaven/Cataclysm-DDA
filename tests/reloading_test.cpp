@@ -1000,13 +1000,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                     CHECK( !dummy.activity );
                 }
                 WHEN( "the player triggers auto reload until the second revolver is full" ) {
-                    while( gun2->remaining_ammo_capacity() > 0 ) {
-                        g->reload_weapon( false );
-                        REQUIRE( dummy.activity );
-                        process_activity( dummy );
-                        REQUIRE( !gun2->empty() );      // it is actually gun2 that is being reloaded
-                        REQUIRE( gun2->ammo_current() == ammo->typeId() );
-                    }
+                    reload_a_revolver( dummy, *gun2, *ammo );
 
                     THEN( "the second revolver is full" ) {
                         CHECK( dummy.get_wielded_item()->is_container_full() );
