@@ -14335,8 +14335,7 @@ pulp_data game::calculate_character_ability_to_pulp( const Character &you )
     bash_factor = std::pow( bash_factor, 1.8f );
 
     const item &best_cut = you.best_item_with_quality( qual_BUTCHER );
-    pd.cut_quality = best_cut.get_quality( qual_BUTCHER );
-    if( pd.cut_quality > 5 ) {
+    if( best_cut.get_quality( qual_BUTCHER ) > 5 ) {
         pd.can_severe_cutting = true;
         pd.cut_tool = item::nname( best_cut.typeId() );
     }
@@ -14348,12 +14347,14 @@ pulp_data game::calculate_character_ability_to_pulp( const Character &you )
     }
 
     add_msg_debug( debugmode::DF_ACTIVITY,
-                   "final bash factor: %s, butcher tool name: %s, butcher tool quality: %s, prying tool name (if used): %s",
-                   bash_factor, pd.cut_tool, pd.cut_quality, pd.pry_tool );
+                   "final bash factor: %s, butcher tool name: %s, prying tool name (if used): %s",
+                   bash_factor, pd.cut_tool, pd.pry_tool );
 
-    pd.pulp_power = bash_factor
-                    * std::sqrt( you.get_skill_level( skill_survival ) + 2 )
-                    * ( pd.can_severe_cutting ? 1 : 0.85 );
+    const float skill_factor = std::sqrt( 2 + std::max(
+            you.get_skill_level( skill_survival ),
+            you.get_skill_level( skill_firstaid ) ) );
+
+    pd.pulp_power = bash_factor * skill_factor * ( pd.can_severe_cutting ? 1 : 0.85 );
 
     add_msg_debug( debugmode::DF_ACTIVITY, "final pulp_power: %s", pd.pulp_power );
 
@@ -14376,6 +14377,8 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
 pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse_mtype,
                                        pulp_data pd )
 {
+    // potentially make a new var and stash all this calculations in corpse 
+
     double pow_factor;
     if( corpse_mtype.size == creature_size::huge ) {
         pow_factor = 1.2;
@@ -14385,9 +14388,13 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
         pow_factor = 1;
     }
 
+    float corpse_volume = units::to_liter( corpse_mtype.volume );
     // in seconds
-    int time_to_pulp =
-        ( std::pow( units::to_liter( corpse_mtype.volume ), pow_factor ) * 1000 ) / pd.pulp_power;
+    int time_to_pulp = ( std::pow( corpse_volume, pow_factor ) * 1000 ) / pd.pulp_power;
+
+    // in seconds also
+    // 50 seconds for human body volume of 62.5L, scale from this
+    int min_time_to_pulp = 30 * corpse_volume / 62.5;
 
     // +25% to pulp time if char knows no weakpoints of monster
     // -25% if knows all of them
@@ -14403,16 +14410,6 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
         time_to_pulp *= 1.25 - 0.5 * wp_known / corpse_mtype.families.families.size();
     }
 
-    const bool acid_immune = you.is_immune_damage( damage_acid ) ||
-                             you.is_immune_field( fd_acid );
-    // this corpse is acid, and you are not immune to it
-    pd.acid_corpse = corpse_mtype.bloodType().obj().has_acid && !acid_immune;
-
-    // if acid, you prefer to mainly cut corpse instead of bashing it, to not spray acid in your eyes
-    if( pd.acid_corpse ) {
-        time_to_pulp *= ( 300 - pd.cut_quality * 2 ) / 100;
-    }
-
     // you have a hard time pulling armor to reach important parts of this monster
     if( corpse_mtype.has_flag( mon_flag_PULP_PRYING ) ) {
         if( pd.can_pry_armor ) {
@@ -14422,13 +14419,23 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
         }
     }
 
-    pd.time_to_pulp = time_to_pulp;
+    pd.time_to_pulp = std::max( min_time_to_pulp, time_to_pulp );
 
     return pd;
 }
 
 bool game::can_pulp_corpse( const Character &you, const mtype &corpse_mtype )
 {
+
+    const bool acid_immune = you.is_immune_damage( damage_acid ) ||
+                             you.is_immune_field( fd_acid );
+    // this corpse is acid, and you are not immune to it
+    const bool acid_corpse = corpse_mtype.bloodType().obj().has_acid && !acid_immune;
+
+    if( acid_corpse ) {
+        return false;
+    }
+
     pulp_data pd = calculate_pulpability( you, corpse_mtype );
 
     return can_pulp_corpse( pd );
@@ -14436,6 +14443,21 @@ bool game::can_pulp_corpse( const Character &you, const mtype &corpse_mtype )
 
 bool game::can_pulp_corpse( const pulp_data &pd )
 {
+    // if pulping is longer than an hour, this is a hard no
+    return pd.time_to_pulp < 3600;
+}
+
+bool game::can_pulp_corpse( Character &you, const mtype &corpse_mtype, const pulp_data &pd )
+{
+    const bool acid_immune = you.is_immune_damage( damage_acid ) ||
+                             you.is_immune_field( fd_acid );
+    // this corpse is acid, and you are not immune to it
+    const bool acid_corpse = corpse_mtype.bloodType().obj().has_acid && !acid_immune;
+
+    if( acid_corpse ) {
+        return false;
+    }
+
     // if pulping is longer than an hour, this is a hard no
     return pd.time_to_pulp < 3600;
 }

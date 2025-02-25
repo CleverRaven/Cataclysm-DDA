@@ -133,7 +133,6 @@ struct w_map {
 struct pulp_data {
     // how far the splatter goes
     int mess_radius = 1;
-    int cut_quality;
     // how much damage you deal to corpse every second, average of multiple values
     float pulp_power;
     // how much stamina is consumed after each punch
@@ -144,7 +143,6 @@ struct pulp_data {
     // for monsters with PULP_PRYING flag
     bool can_pry_armor = false;
     // if acid corpse, we start to cut really slow
-    bool acid_corpse = false;
     // all used in ending messages
     bool can_severe_cutting = false;
     bool stomps_only = false;
@@ -1338,6 +1336,7 @@ class game
         pulp_data calculate_pulpability( const Character &you, const mtype &corpse_mtype, pulp_data pd );
         bool can_pulp_corpse( const Character &you, const mtype &corpse_mtype );
         bool can_pulp_corpse( const pulp_data &pd );
+        bool can_pulp_corpse( Character &you, const mtype &corpse_mtype, const pulp_data &pd );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources
