@@ -42,7 +42,7 @@
         "                        :!:   iiiiiiiiiiiiiiiiii",
         "                        :!:   iZ,,JJJJ6|t|..117i",
         "iiiiiiiiiiiiiiiiiiii    :!:   iZ,,,,,,,+,|4..2.i",
-        "i......FFUUUgg.....i    :!:   iZ,,,,,,,|S|.4..Ui",
+        "i......ââUUUgg.....i    :!:   iZ,,,,,,,|S|.4..Ui",
         "i.......z..........i:::::!:   iW,,,,,,,|||&&$&&i",
         "i...i..........i...i    :}:   iW,,,,,,,........i",
         "i..iii........iii..i    :!:   iW,,,,,))|.&&&$&&i",
@@ -64,7 +64,7 @@
         "                        :::                     ",
         "                         :                      "
       ],
-      "palettes": [ "parametrized_linoleum_palette", "basement_empty" ],
+      "palettes": [ "parametrized_linoleum_palette", "standard_domestic_basement_palette" ],
       "liquids": { ")": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "terrain": {
         "}": "t_ladder_up",

@@ -2755,8 +2755,8 @@ static void CheckMessages()
                 // display that action at the top of the list.
                 for( int dx = -1; dx <= 1; dx++ ) {
                     for( int dy = -1; dy <= 1; dy++ ) {
-                        int x = player_character.posx() + dx;
-                        int y = player_character.posy() + dy;
+                        int x = player_character.posx( here ) + dx;
+                        int y = player_character.posy( here ) + dy;
                         int z = player_character.posz();
                         const tripoint pos( x, y, z );
                         const tripoint_bub_ms bub_pos( pos );

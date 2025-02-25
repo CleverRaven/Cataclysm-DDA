@@ -710,6 +710,9 @@ void Item_modifier::check_consistency( const std::string &context ) const
     if( ammo != nullptr ) {
         ammo->check_consistency( true );
     }
+    if( contents != nullptr ) {
+        contents->check_consistency( true );
+    }
     if( container != nullptr ) {
         container->check_consistency( true );
     }
@@ -727,6 +730,11 @@ bool Item_modifier::remove_item( const itype_id &itemid )
     if( ammo != nullptr ) {
         if( ammo->remove_item( itemid ) ) {
             ammo.reset();
+        }
+    }
+    if( contents != nullptr ) {
+        if( contents->remove_item( itemid ) ) {
+            contents.reset();
         }
     }
     if( container != nullptr ) {
@@ -911,6 +919,10 @@ bool Item_group::remove_item( const itype_id &itemid )
         } else {
             ++a;
         }
+    }
+    if( container_item && ( *container_item == itemid ) ) {
+        container_item = std::nullopt;
+        on_overflow = overflow_behaviour::none;
     }
     return items.empty();
 }
