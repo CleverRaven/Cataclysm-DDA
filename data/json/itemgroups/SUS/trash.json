@@ -412,10 +412,10 @@
     "//2": "This group is for hardware trash",
     "subtype": "collection",
     "items": [
-      { "item": "SUS_trash_metal", "prob": 20, "charges": [ 1, 3 ], "container-item": "box_small" },
-      { "item": "SUS_trash_wood", "prob": 50 },
-      { "item": "SUS_trash_electrical", "prob": 5 },
-      { "item": "SUS_trash_plumbing", "prob": 2 }
+      { "group": "SUS_trash_metal", "prob": 20 },
+      { "group": "SUS_trash_wood", "prob": 50 },
+      { "group": "SUS_trash_electrical", "prob": 5 },
+      { "group": "SUS_trash_plumbing", "prob": 2 }
     ]
   },
   {

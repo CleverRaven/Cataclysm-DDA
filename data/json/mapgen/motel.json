@@ -999,7 +999,7 @@
         "*******||w||||||w||||||w||||||w|||||************"
       ],
       "palettes": [ "motel_twd_palette" ],
-      "items": { " ": { "item": "trash_forest", "chance": 1 } },
+      "items": { " ": { "item": "SUS_trash_forest_manmade", "chance": 1 } },
       "place_nested": [
         {
           "chunks": [

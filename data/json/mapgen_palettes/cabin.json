@@ -77,7 +77,7 @@
     },
     "items": {
       " ": { "item": "SUS_trash_floor", "chance": 2 },
-      ".": { "item": "trash_forest", "chance": 1 },
+      ".": { "item": "SUS_trash_forest_no_manmade", "chance": 1 },
       "C": { "item": "SUS_trash_floor", "chance": 20 },
       "1": { "item": "SUS_junk_drawer_messy", "chance": 20 },
       "2": { "item": "SUS_junk_drawer_messy", "chance": 20 },

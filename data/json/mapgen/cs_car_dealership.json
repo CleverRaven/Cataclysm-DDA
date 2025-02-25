@@ -69,8 +69,8 @@
       ],
       "items": {
         "s": { "item": "oa_discarded_news", "chance": 33 },
-        "c": { "item": "oa_custom_trash", "chance": 70 },
-        "D": { "item": "oa_custom_trash", "chance": 60 },
+        "c": { "item": "SUS_trash_trashcan_public", "chance": 70 },
+        "D": { "item": "SUS_trash_dumpster", "chance": 60 },
         "d": { "item": "SUS_office_desk", "chance": 33 },
         "L": { "item": "oa_ig_cd_lockers", "chance": 70, "repeat": [ 1, 4 ] },
         "F": { "item": "SUS_fridge_breakroom", "chance": 90 }

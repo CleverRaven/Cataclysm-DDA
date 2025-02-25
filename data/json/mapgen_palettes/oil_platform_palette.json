@@ -214,7 +214,7 @@
       "z": { "item": "SUS_trash_floor", "chance": 90, "repeat": [ 0, 8 ] },
       "µ": [
         { "item": "SUS_trash_trashcan", "chance": 90, "repeat": [ 5, 15 ] },
-        { "item": "rolling_trash", "chance": 90, "repeat": [ 2, 10 ] }
+        { "item": "SUS_trash_dumpster", "chance": 90, "repeat": [ 2, 10 ] }
       ],
       "S": { "item": "SUS_bathroom_sink", "chance": 80, "repeat": [ 0, 2 ] },
       "d": [

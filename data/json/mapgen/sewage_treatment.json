@@ -456,7 +456,7 @@
         "w": { "item": "supplies_hardware", "chance": 50 },
         "`": [
           { "item": "sewer", "chance": 20 },
-          { "item": "trash_forest", "chance": 10 },
+          { "item": "SUS_trash_forest_manmade", "chance": 10 },
           { "item": "SUS_trash_floor", "chance": 10 }
         ],
         "0": [ { "item": "tools_science", "chance": 50 }, { "item": "sewage_samples", "chance": 20 } ],

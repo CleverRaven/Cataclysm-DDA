@@ -1458,7 +1458,7 @@
       { "group": "untidy_floor_clutter", "prob": 7 },
       { "group": "coins", "prob": 5 },
       {
-        "collection": [ { "group": "SUS_trash_trashbag", "prob": 75, "count": [ 3, 6 ] }, { "item": "bag_garbage", "prob": 100 } ],
+        "collection": [ { "group": "SUS_trash_trashcan", "prob": 75, "count": [ 3, 6 ] }, { "item": "bag_garbage", "prob": 100 } ],
         "prob": 2
       },
       { "item": "string_6", "prob": 1 },

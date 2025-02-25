@@ -641,7 +641,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "SUS_trash_trashcan", "count": [ 1, 5 ], "prob": 1000 },
-      { "group": "trash_forest", "count": [ 1, 4 ], "prob": 100 },
+      { "group": "SUS_trash_forest_manmade", "count": [ 1, 4 ], "prob": 100 },
       { "group": "backrooms_artifacts", "prob": 1 }
     ]
   },

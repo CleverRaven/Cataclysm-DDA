@@ -1229,7 +1229,7 @@
         { "item": "dining", "x": [ 31, 31 ], "y": [ 11, 11 ], "chance": 50 },
         { "item": "pool_table", "x": [ 39, 42 ], "y": [ 11, 12 ], "chance": 70 },
         { "item": "dining", "x": [ 35, 35 ], "y": [ 11, 11 ], "chance": 50 },
-        { "item": "floor_trash", "x": [ 59, 59 ], "y": [ 2, 2 ], "chance": 90 },
+        { "item": "SUS_trash_floor", "x": [ 59, 59 ], "y": [ 2, 2 ], "chance": 90 },
         { "item": "fast_food", "x": [ 63, 64 ], "y": [ 9, 9 ], "chance": 70 },
         { "item": "cleaning", "x": [ 67, 67 ], "y": [ 9, 9 ], "chance": 70 },
         { "item": "produce", "x": [ 60, 60 ], "y": [ 8, 8 ], "chance": 70 },
@@ -1288,8 +1288,8 @@
         { "item": "alcohol", "x": [ 67, 71 ], "y": [ 19, 19 ], "chance": 70 },
         { "item": "magazines", "x": [ 67, 67 ], "y": [ 12, 12 ], "chance": 70 },
         { "item": "snacks", "x": [ 68, 70 ], "y": [ 14, 15 ], "chance": 70 },
-        { "item": "floor_trash", "x": [ 65, 65 ], "y": [ 12, 12 ], "chance": 90 },
-        { "item": "floor_trash", "x": [ 65, 65 ], "y": [ 9, 9 ], "chance": 90 },
+        { "item": "SUS_trash_floor", "x": [ 65, 65 ], "y": [ 12, 12 ], "chance": 90 },
+        { "item": "SUS_trash_floor", "x": [ 65, 65 ], "y": [ 9, 9 ], "chance": 90 },
         { "item": "magazines", "x": [ 67, 67 ], "y": [ 9, 9 ], "chance": 70 },
         { "item": "snacks", "x": [ 67, 70 ], "y": [ 7, 7 ], "chance": 70 }
       ]
