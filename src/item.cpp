@@ -15472,7 +15472,7 @@ bool item::on_drop( const tripoint_bub_ms &pos, map &m )
 
     avatar &player_character = get_avatar();
 
-    return type->drop_action && type->drop_action.call( &player_character, *this, pos );
+    return type->drop_action && type->drop_action.call( &player_character, *this, &m, pos );
 }
 
 time_duration item::age() const
