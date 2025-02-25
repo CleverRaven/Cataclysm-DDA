@@ -9,7 +9,8 @@
     "sub": "char_kiln",
     "ammo": [ "charcoal" ],
     "//1": "250 liters of materials can produce 100 liters of charcoal.",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 20000 } } ]
+    "//3": "50000 charges of charcoal is 250 liters, the size of the largest charcoal kiln.",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 50000 } } ]
   },
   {
     "id": "fake_char_smoker",
