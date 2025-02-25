@@ -913,6 +913,147 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_clair_passive_sense_protection",
+    "//": "Hidden, part of a passive trait",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "GLARE_RESIST", "IMMUNE_HEARING_DAMAGE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_better_senses",
+    "name": [ "Heightened Senses" ],
+    "desc": [ "You are enhancing your mundane senses." ],
+    "apply_message": "",
+    "remove_message": "Your enhance senses fade away.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_any_effect": [ "hallu", "datura", "taint", "hallucination_attacks", "visuals", "fearparalyze" ] } },
+        "values": [
+          {
+            "value": "PERCEPTION",
+            "add": {
+              "math": [
+                "(1 + ( u_spell_level('clair_better_senses') / 3) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          {
+            "value": "OVERMAP_SIGHT",
+            "add": {
+              "math": [
+                "(1 + ( u_spell_level('clair_better_senses') / 5) * scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          {
+            "value": "HEARING_MULT",
+            "multiply": {
+              "math": [
+                "( u_spell_level('clair_better_senses') * 0.25) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": {
+          "math": [
+            "( ( u_spell_level('clair_better_senses') * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 6"
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_clair_better_senses_eye_membrane", "intensity": 1 } ]
+      },
+      {
+        "condition": {
+          "math": [
+            "( ( u_spell_level('clair_better_senses') * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 8"
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_clair_better_senses_see_sleep", "intensity": 1 } ]
+      },
+      {
+        "condition": {
+          "math": [
+            "( ( u_spell_level('clair_better_senses') * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 12"
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_clair_better_senses_safecracking", "intensity": 1 } ]
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_any_effect": [ "hallu", "datura", "taint", "hallucination_attacks", "visuals", "fearparalyze" ] } },
+            {
+              "or": [
+                { "u_has_flag": "BLIND" },
+                { "u_has_effect": "blind" },
+                { "u_is_in_field": "fd_smoke" },
+                {
+                  "math": [
+                    "( ( u_spell_level('clair_better_senses') * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 15"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "special_vision": [
+          {
+            "distance": 2,
+            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense something moving here." } ]
+          }
+        ]
+      },
+      {
+        "condition": {
+          "or": [
+            { "u_has_any_trait": [ "PER_SLIME" ] },
+            { "u_has_any_effect": [ "hallu", "datura", "taint", "hallucination_attacks", "visuals", "fearparalyze" ] }
+          ]
+        },
+        "ench_effects": [ { "effect": "effect_clair_better_senses_pain", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_better_senses_eye_membrane",
+    "//": "Hidden, part of Heightened Senses",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "EYE_MEMBRANE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_better_senses_see_sleep",
+    "//": "Hidden, part of Heightened Senses",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "SEESLEEP" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_better_senses_safecracking",
+    "//": "Hidden, part of Heightened Senses",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "SAFECRACK_NO_TOOL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_better_senses_pain",
+    "name": [ "Sensory Pain" ],
+    "desc": [ "Your senses are overwhelmed!" ],
+    "apply_message": "Your senses are overwhelmed!",
+    "rating": "bad",
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": -3 } ] } ],
+    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 4 ], "pain_max_val": [ 20 ], "pain_tick": [ 5 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "effect_clair_night_eyes",
     "//": "Hidden effect, used as a tracker",
     "name": [ "Night Eyes" ],
