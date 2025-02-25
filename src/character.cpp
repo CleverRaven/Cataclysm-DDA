@@ -13106,9 +13106,9 @@ bool Character::wield( item it )
     if( has_item( it ) ) {
         item removed = i_rem( &it );
         if( combine_stacks ) {
-            wielded->combine( it );
+            wielded->combine( removed );
         } else {
-            set_wielded_item( it );
+            set_wielded_item( removed );
         }
     }
 
