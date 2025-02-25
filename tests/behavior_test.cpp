@@ -44,8 +44,6 @@ static const itype_id itype_sandwich_cheese_grilled( "sandwich_cheese_grilled" )
 static const itype_id itype_sweater( "sweater" );
 static const itype_id itype_water_clean( "water_clean" );
 
-static const item_group_id Item_spawn_data_Test_bottle_water( "test_bottle_water" );
-
 static const nested_mapgen_id nested_mapgen_test_seedling( "test_seedling" );
 
 static const string_id<behavior::node_t> behavior_node_t_npc_needs( "npc_needs" );

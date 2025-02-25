@@ -978,7 +978,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
         WHEN( "the player triggers auto reload until the revolver is full" ) {
             reload_a_revolver( dummy, dummy.get_wielded_item(), *ammo );
-            REQUIRE( dummy.find_reloadables().size() == 0 );
+            REQUIRE( dummy.find_reloadables().empty() );
             WHEN( "the player triggers auto reload again" ) {
                 g->reload_weapon( false );
                 THEN( "no activity is generated" ) {
@@ -1019,10 +1019,10 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
                     }
                     THEN( "there are no more reloadables" ) {
-                        for( item_location it : dummy.find_reloadables() ) {
+                        for( const item_location &it : dummy.find_reloadables() ) {
                             CAPTURE( it.where() );
                         }
-                        CHECK( dummy.find_reloadables().size() == 0 );
+                        CHECK( dummy.find_reloadables().empty() );
                     }
                     THEN( "no activity is generated" ) {
                         CAPTURE( dummy.activity.id() );
@@ -1030,7 +1030,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                     }
                     WHEN( "the player triggers auto reload again with no reloadables" ) {
                         CAPTURE( dummy.get_wielded_item()->ammo_remaining( ) );
-                        REQUIRE( dummy.find_reloadables().size() == 0 );
+                        REQUIRE( dummy.find_reloadables().empty() );
 
                         g->reload_weapon( false );
                         THEN( "no activity is generated" ) {

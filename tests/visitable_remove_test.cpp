@@ -515,7 +515,7 @@ TEST_CASE( "inventory_remove_invalidates_binning_cache", "[visitable][inventory]
     inv += items;
     CHECK( inv.amount_of( itype_bone ) == 1 );
     inv.remove_items_with( return_true<item> );
-    CHECK( inv.size() == 0 );
+    CHECK( inv.empty() );
     // The following used to be a heap use-after-free due to a caching bug.
     // Now should be safe.
     CHECK( inv.amount_of( itype_bone ) == 0 );
