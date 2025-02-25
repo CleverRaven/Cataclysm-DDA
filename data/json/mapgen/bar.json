@@ -71,8 +71,8 @@
       "toilets": { "t": {  } },
       "items": {
         "x": { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] },
-        "T": { "item": "SUS_trash_trashcan_commercial", "chance": 50, "repeat": [ 1, 2 ] },
-        "r": { "item": "SUS_trash_trashcan_commercial", "chance": 50, "repeat": [ 1, 2 ] },
+        "T": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 2 ] },
+        "r": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 2 ] },
         "d": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 2, 4 ] },
         "t": { "item": "bar_bathroom", "chance": 30, "repeat": [ 1, 2 ] },
         "#": [
@@ -220,7 +220,7 @@
       "items": {
         "o": { "item": "novels", "chance": 80, "repeat": [ 1, 10 ] },
         "d": { "item": "SUS_trash_dumpster", "chance": 35 },
-        "a": { "item": "SUS_trash_trashcan_commercial", "chance": 35 },
+        "a": { "item": "SUS_trash_trashcan", "chance": 35 },
         "#": { "item": "bar_table", "chance": 40, "repeat": [ 1, 2 ] },
         "c": { "item": "bar_alcohol", "chance": 30, "repeat": [ 1, 2 ] },
         "u": { "item": "bar_alcohol", "chance": 30, "repeat": [ 1, 2 ] },

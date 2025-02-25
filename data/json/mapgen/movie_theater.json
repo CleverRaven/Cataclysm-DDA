@@ -102,13 +102,13 @@
         "#": [
           { "item": "jackets", "chance": 3 },
           { "item": "bags", "chance": 4 },
-          { "item": "trash_cart", "chance": 8 },
+          { "item": "SUS_trash_floor_light", "chance": 8 },
           { "item": "hatstore_accessories", "chance": 5 }
         ],
         "H": [
           { "item": "jackets", "chance": 3 },
           { "item": "bags", "chance": 4 },
-          { "item": "trash_cart", "chance": 10 },
+          { "item": "SUS_trash_floor_light", "chance": 10 },
           { "item": "hatstore_accessories", "chance": 5 }
         ],
         "{": [

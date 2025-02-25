@@ -250,8 +250,8 @@
         ".": { "item": "SUS_trash_floor", "chance": 5 },
         "^": { "item": "SUS_trash_floor", "chance": 2 },
         " ": { "item": "SUS_trash_floor", "chance": 10 },
-        "g": { "item": "oa_ig_rd_glass_trash", "chance": 10 },
-        "G": { "item": "oa_ig_rd_glass_trash", "chance": 5 },
+        "g": { "item": "SUS_trash_glass", "chance": 10 },
+        "G": { "item": "SUS_trash_glass", "chance": 5 },
         "W": { "item": "allclothes", "chance": 5 },
         "D": { "item": "allclothes", "chance": 5 },
         "p": { "item": "SUS_trash_floor", "chance": 5 },
@@ -320,8 +320,8 @@
       "items": {
         ".": { "item": "SUS_trash_floor", "chance": 5 },
         "^": { "item": "SUS_trash_floor", "chance": 2 },
-        "g": { "item": "oa_ig_rd_glass_trash", "chance": 10 },
-        "G": { "item": "oa_ig_rd_glass_trash", "chance": 5 },
+        "g": { "item": "SUS_trash_glass", "chance": 10 },
+        "G": { "item": "SUS_trash_glass", "chance": 5 },
         "p": { "item": "SUS_trash_floor", "chance": 5 },
         "a": { "item": "oa_ig_ash_pile", "chance": 40 }
       },

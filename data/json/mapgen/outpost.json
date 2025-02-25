@@ -67,7 +67,7 @@
         "L": { "item": "milspec_arsenal_weapon&ammo_collection", "chance": 100 },
         "X": { "item": "oven", "chance": 70 },
         "C": { "item": "mil_armor", "chance": 40 },
-        "T": { "item": "trash_cart", "chance": 50 },
+        "T": { "item": "SUS_trash_floor_light", "chance": 50 },
         "l": { "item": "bunker_basement_clothing", "chance": 40 }
       },
       "mapping": { " ": { "item": [ { "item": "corpse", "chance": 2 } ] } },
@@ -190,7 +190,7 @@
         "L": { "item": "milspec_arsenal_weapon&ammo_collection", "chance": 100 },
         "X": { "item": "oven", "chance": 70 },
         "C": { "item": "mil_armor", "chance": 40 },
-        "T": { "item": "trash_cart", "chance": 50 },
+        "T": { "item": "SUS_trash_floor_light", "chance": 50 },
         "l": { "item": "bunker_basement_clothing", "chance": 40 }
       },
       "mapping": { " ": { "item": [ { "item": "corpse", "chance": 2 } ] } },

@@ -155,7 +155,7 @@
       },
       "place_rubble": [ { "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 100, 150 ] } ],
       "items": {
-        "r": { "item": "trash_cart", "chance": 10, "repeat": 2 },
+        "r": { "item": "SUS_trash_floor_light", "chance": 10, "repeat": 2 },
         "l": { "item": "lab_dorm", "chance": 10, "repeat": 2 },
         "B": { "item": "bed", "chance": 5 },
         "C": { "item": "SUS_trash_floor", "chance": 10 },
@@ -245,7 +245,7 @@
       },
       "place_rubble": [ { "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 100, 150 ] } ],
       "items": {
-        "r": { "item": "trash_cart", "chance": 50 },
+        "r": { "item": "SUS_trash_floor_light", "chance": 50 },
         "C": { "item": "SUS_trash_floor", "chance": 60 },
         "d": { "item": "SUS_trash_floor", "chance": 50 },
         "b": { "item": "SUS_trash_floor", "chance": 40, "repeat": 2 },
@@ -410,7 +410,7 @@
       "toilets": { "@": {  } },
       "items": {
         "b": { "item": "army_bed", "chance": 5 },
-        "t": { "item": "trash_cart", "chance": 40 },
+        "t": { "item": "SUS_trash_floor_light", "chance": 40 },
         "l": { "item": "bunker_basement_clothing", "chance": 10 },
         "L": [ { "item": "SUS_trash_floor", "chance": 30 } ],
         "r": [ { "item": "SUS_trash_floor", "chance": 45 } ]

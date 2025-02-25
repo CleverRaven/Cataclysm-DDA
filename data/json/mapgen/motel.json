@@ -700,7 +700,7 @@
       "u": {
         "terrain": { "param": "floor_type", "fallback": "t_floor" },
         "furniture": "f_trashcan",
-        "items": { "item": "trash_cart", "chance": 50 }
+        "items": { "item": "SUS_trash_floor_light", "chance": 50 }
       },
       "D": {
         "terrain": { "param": "floor_type", "fallback": "t_floor" },

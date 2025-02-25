@@ -268,7 +268,7 @@
       "S": { "item": "SUS_evac_shelter_sink", "chance": 5 },
       "%": [
         { "item": "shelter_supplies", "chance": 2, "repeat": [ 1, 2 ] },
-        { "item": "trash_no_hope", "chance": 5, "repeat": [ 1, 3 ] }
+        { "item": "SUS_trash_trashcan", "chance": 5, "repeat": [ 1, 3 ] }
       ],
       "U": { "item": "SUS_evac_shelter_supply_closet", "chance": 4 },
       "B": { "item": "SUS_evac_shelter_bathroom_supplies", "chance": 4 },
@@ -388,41 +388,41 @@
     "items": {
       "l": { "item": "shelter_supplies", "chance": 1 },
       "c": [
-        { "item": "trash_no_hope", "chance": 20 },
+        { "item": "SUS_trash_floor", "chance": 20 },
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 }
       ],
       "b": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
-      ".": [ { "item": "trash_no_hope", "chance": 2 }, { "item": "SUS_trash_forest_no_manmade", "chance": 1 } ],
+      ".": [ { "item": "SUS_trash_floor", "chance": 2 }, { "item": "SUS_trash_forest_no_manmade", "chance": 1 } ],
       "%": [ { "item": "SUS_trash_trashcan", "chance": 2, "repeat": [ 1, 3 ] } ],
       "S": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
       "U": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
       "B": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
       "t": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
       "C": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
       "_": [ { "item": "SUS_trash_floor", "chance": 1 } ]
     },

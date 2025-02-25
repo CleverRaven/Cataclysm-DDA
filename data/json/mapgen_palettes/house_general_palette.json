@@ -690,7 +690,7 @@
         { "item": "tools_common", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "hardware", "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "cleaning", "chance": 10, "repeat": [ 1, 2 ] },
-        { "item": "untidy_workbench_clutter", "chance": 33, "repeat": [ 2, 5 ] }
+        { "item": "SUS_trash_hardware", "chance": 33, "repeat": [ 2, 5 ] }
       ],
       "R": [
         { "item": "novels", "chance": 40, "repeat": [ 1, 3 ] },
@@ -809,7 +809,7 @@
         { "item": "tools_common", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "hardware", "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "cleaning", "chance": 10, "repeat": [ 1, 2 ] },
-        { "item": "untidy_workbench_clutter", "chance": 33, "repeat": [ 2, 5 ] }
+        { "item": "SUS_trash_hardware", "chance": 33, "repeat": [ 2, 5 ] }
       ],
       "R": [
         { "item": "novels", "chance": 40, "repeat": [ 1, 3 ] },

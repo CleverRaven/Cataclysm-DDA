@@ -785,7 +785,7 @@
       "place_signs": [ { "signage": "<given_name> & <given_name>'s World Class Pizza", "x": 10, "y": 21 } ],
       "items": {
         "$": { "item": "cash_register_random", "chance": 100 },
-        "C": { "item": "SUS_trash_trashcan_commercial", "chance": 100 },
+        "C": { "item": "SUS_trash_trashcan", "chance": 100 },
         "k": { "item": "SUS_toilet", "chance": 100 },
         "c": { "item": "SUS_dishes", "chance": 100 },
         "b": { "item": "SUS_silverware", "chance": 100 },
@@ -2288,7 +2288,7 @@
       "place_signs": [ { "signage": "<given_name>'s Sundae Fundae", "x": 10, "y": 21 } ],
       "items": {
         "A": { "item": "cash_register_random", "chance": 100 },
-        "y": { "item": "SUS_trash_trashcan_commercial", "chance": 100, "repeat": [ 1, 2 ] },
+        "y": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 1, 2 ] },
         "k": { "item": "SUS_toilet", "chance": 100 },
         "O": { "item": "oven", "chance": 65 },
         "B": { "item": "SUS_dishes", "chance": 100 },
@@ -3076,7 +3076,7 @@
       "place_signs": [ { "signage": "<family_name>'s Humble Pies", "x": 10, "y": 21 } ],
       "items": {
         "$": { "item": "cash_register_random", "chance": 100 },
-        "C": { "item": "SUS_trash_trashcan_commercial", "chance": 100 },
+        "C": { "item": "SUS_trash_trashcan", "chance": 100 },
         "k": { "item": "SUS_toilet", "chance": 100 },
         "c": { "item": "SUS_dishes", "chance": 100 },
         "b": { "item": "SUS_silverware", "chance": 100 },

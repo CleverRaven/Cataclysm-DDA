@@ -1548,7 +1548,7 @@
         "J": { "item": "pizza_table", "chance": 5, "repeat": [ 1, 3 ] },
         "K": { "item": "pizza_kitchen", "chance": 15, "repeat": [ 1, 3 ] },
         "S": [ { "item": "pizza_bathroom", "chance": 30 }, { "item": "SUS_bathroom_medicine", "chance": 10 } ],
-        "Y": { "item": "SUS_trash_trashcan_commercial", "chance": 30, "repeat": [ 1, 4 ] }
+        "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] }
       }
     }
   },
