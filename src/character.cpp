@@ -13077,7 +13077,7 @@ bool Character::wield( item it )
         return false;
     }
 
-    bool combine_stacks = wielded && loc->can_combine( *wielded );
+    bool combine_stacks = wielded && it.can_combine( *wielded );
     if( !combine_stacks ) {
         return false;
     }
@@ -13094,17 +13094,17 @@ bool Character::wield( item it )
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
     bool worn = is_worn( it );
-    const int mv = loc.obtain_cost( *this );
+    const int mv = it.on_wield_cost( *this );
 
     if( worn ) {
-        loc->on_takeoff( *this );
+        it.on_takeoff( *this );
     }
 
     add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
     mod_moves( -mv );
 
-    if( has_item( target ) ) {
-        item removed = i_rem( &target );
+    if( has_item( it ) ) {
+        item removed = i_rem( &it );
         if( combine_stacks ) {
             wielded->combine( it );
         } else {
