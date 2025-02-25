@@ -5,7 +5,6 @@ Format is: [TAG] [SHA1][-dirty]
 
 This script accepts arguments on the command line with the same format
 as environment variables:
-    VERSION=<version>
     VERSION_STRING=<version>
     ARTIFACT=<artifact>
     TIMESTAMP=<timestamp>
@@ -65,7 +64,7 @@ def write_VERSION_TXT(GITSHA=None, TIMESTAMP=None, ARTIFACT=None):
 def main():
     logging.basicConfig(level=logging.DEBUG)  # DEBUG
 
-    VERSION = VERSION_STRING = ARTIFACT = TIMESTAMP = None
+    VERSION_STRING = ARTIFACT = TIMESTAMP = None
 
     # Not using argparse
     for arg in sys.argv[1:]:
@@ -76,8 +75,7 @@ def main():
 
     ARTIFACT = ARTIFACT or os.environ.get('ARTIFACT', None) or 'Release'
     TIMESTAMP = TIMESTAMP or os.environ.get('TIMESTAMP', None)
-    VERSION_STRING = VERSION or os.environ.get(
-        'VERSION', None) or os.environ.get('VERSION_STRING', None)
+    VERSION_STRING = VERSION_STRING or os.environ.get('VERSION_STRING', None)
     GITSHA = None
 
     while not is_cwd_root():
