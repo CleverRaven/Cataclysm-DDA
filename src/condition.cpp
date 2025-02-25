@@ -1655,21 +1655,24 @@ conditional_t::func f_is_day()
     };
 }
 
-conditional_t::func f_is_outside( const JsonObject &jo, std::string_view member, bool is_npc )
+conditional_t::func f_is_outside( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return is_creature_outside( *d.const_actor( is_npc )->get_const_creature() );
+    };
+}
+
+conditional_t::func f_tile_is_outside( const JsonObject &jo, std::string_view member )
 {
     std::optional<var_info> loc_var;
     if( jo.has_object( member ) ) {
         loc_var = read_var_info( jo.get_object( member ) );
     }
 
-    return [loc_var, member, is_npc]( const_dialogue const & d ) {
-        if( member == "is_outside" ) {
-            map &here = get_map();
-            const tripoint_abs_ms target_location = get_tripoint_ms_from_var( loc_var, d, false );
-            return here.is_outside( here.get_bub( target_location ) );
-        } else {
-            return is_creature_outside( *d.const_actor( is_npc )->get_const_creature() );
-        }
+    return [loc_var, member]( const_dialogue const & d ) {
+        map &here = get_map();
+        const tripoint_abs_ms target_location = get_tripoint_ms_from_var( loc_var, d, false );
+        return here.is_outside( here.get_bub( target_location ) );
     };
 }
 
@@ -2498,7 +2501,7 @@ parsers = {
     {"u_has_perception", "npc_has_perception", jarg::member | jarg::array, &conditional_fun::f_has_perception },
     {"u_has_part_temp", "npc_has_part_temp", jarg::member | jarg::array, &conditional_fun::f_has_part_temp },
     {"u_is_wearing", "npc_is_wearing", jarg::member, &conditional_fun::f_is_wearing },
-    {"is_outside", "is_outside", jarg::member, &conditional_fun::f_is_outside },
+    {"is_outside", "is_outside", jarg::member, &conditional_fun::f_tile_is_outside },
     {"u_has_item", "npc_has_item", jarg::member, &conditional_fun::f_has_item },
     {"u_has_item_with_flag", "npc_has_item_with_flag", jarg::member, &conditional_fun::f_has_item_with_flag },
     {"u_has_items", "npc_has_items", jarg::member, &conditional_fun::f_has_items },
