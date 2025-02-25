@@ -977,7 +977,7 @@
       {
         "condition": {
           "math": [
-            "( ( u_spell_level('clair_better_senses') * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 12"
+            "( ( u_spell_level('clair_better_senses') * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) >= 10"
           ]
         },
         "ench_effects": [ { "effect": "effect_clair_better_senses_safecracking", "intensity": 1 } ]

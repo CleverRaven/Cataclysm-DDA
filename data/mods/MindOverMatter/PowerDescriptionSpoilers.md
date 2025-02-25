@@ -194,7 +194,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 9 minutes 55 seconds to 21 minutes 4 seconds, plus 3 minutes 35 seconds to 8 minutes 2 seconds minutes per level<br />
 *Stamina Cost*: 2000, minus 85 per level to a minimum of 750<br />
 *Channeling Time*: 50 moves, minus 2 moves per level to a minimum of 20<br />
-*Effects*: Increases the psion's ability to read and retain information. The psion reads 20% faster, plus 2% per power level to a maximum of 60% faster, and gains 0.15% additional XP per reading increment per power level.<br />
+*Effects*: Increases the psion's mundane senses, adding 1 Perception plus 1 per 3 power levels, 1 extra range of overmap sight plus 1 per 5 power levels, and increasing the sensitivity of the psion's hearing by 25% per power level. Extra powers are gained at specific breakpoints: at an effective level of 6, the psion can see underwater; at an effective level of 10, the psion can crack safes without needing a stethoscope, and at an effective level of 15, or at any time in smoke or while blind, the psion is aware of all movement in a small radius around them.<br />
 *Prerequisites*: Starting power<br />
 </details>
 <details>
