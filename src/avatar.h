@@ -301,7 +301,10 @@ class avatar : public Character
         void toggle_prone_mode();
         // Activate crouch mode if not in crouch mode.
         void activate_crouch_mode();
+
         bool wield( item &it );
+        bool wield( item_location loc, bool remove_old = true );
+
 
         item::reload_option select_ammo( const item_location &base, bool prompt = false,
                                          bool empty = true ) override;

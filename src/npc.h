@@ -952,6 +952,7 @@ class npc : public Character
         void do_npc_read( bool ebook = false );
         void stow_item( item &it );
         bool wield( item &it );
+        bool wield( item_location loc, bool remove_old = true );
         void drop( const drop_locations &what, const tripoint_bub_ms &target,
                    bool stash ) override;
         bool adjust_worn();

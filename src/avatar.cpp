@@ -16,6 +16,7 @@
 
 #include "action.h"
 #include "activity_actor_definitions.h"
+#include "avatar_action.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_assert.h"
@@ -1368,6 +1369,14 @@ bool avatar::wield( item &it )
         return false;
     }
     return Character::wield( it );
+}
+
+bool avatar::wield( item_location loc, bool remove_old )
+{
+    if( !avatar_action::check_stealing( *this, it ) ) {
+        return false;
+    }
+    return Character::wield( loc, remove_old );
 }
 
 item::reload_option avatar::select_ammo( const item_location &base, bool prompt,
