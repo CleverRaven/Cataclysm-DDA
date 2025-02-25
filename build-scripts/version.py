@@ -5,7 +5,7 @@ Format is: [TAG] [SHA1][-dirty]
 
 This script accepts arguments on the command line with the same format
 as environment variables:
-    VERSION_STRING=<version>
+    VERSION=<version>
     ARTIFACT=<artifact>
     TIMESTAMP=<timestamp>
 
@@ -31,19 +31,18 @@ def is_cwd_root():
     return (Path.cwd() / "src").is_dir() and (Path.cwd() / "data").is_dir()
 
 
-def write_version_h(VERSION_STRING='unknown'):
+def write_version_h(VERSION=''):
+    text = ("//NOLINT(cata-header-guard)\n"
+            f'#define VERSION "{VERSION}"\n')
     VERSION_H = None
     src_version_h = Path("src") / "version.h"
     try:
         VERSION_H = open(src_version_h, 'r').read()
     except FileNotFoundError:
         pass
-    if not VERSION_H:
-        text = ("//NOLINT(cata-header-guard)\n"
-                f'#define VERSION "{VERSION_STRING}"\n')
-        if VERSION_H != text:
-            open(src_version_h, 'w').write(text)
-            return
+    if VERSION_H != text:
+        open(src_version_h, 'w').write(text)
+        return
     logging.debug("Skip writing src/version.h")
 
 
@@ -64,19 +63,22 @@ def write_VERSION_TXT(GITSHA=None, TIMESTAMP=None, ARTIFACT=None):
 def main():
     logging.basicConfig(level=logging.DEBUG)  # DEBUG
 
-    VERSION_STRING = ARTIFACT = TIMESTAMP = None
+    VERSION = ARTIFACT = TIMESTAMP = GITSHA = None
 
     # Not using argparse
     for arg in sys.argv[1:]:
         arg = arg.split('=', 1)
         logging.debug(f"{arg}")
         if len(arg) == 2:
-            locals()[arg[0]] = arg[1]
-
-    ARTIFACT = ARTIFACT or os.environ.get('ARTIFACT', None) or 'Release'
-    TIMESTAMP = TIMESTAMP or os.environ.get('TIMESTAMP', None)
-    VERSION_STRING = VERSION_STRING or os.environ.get('VERSION_STRING', None)
-    GITSHA = None
+            if arg[0] == 'ARTIFACT':
+                ARTIFACT = arg[1] or os.environ.get(
+                    'ARTIFACT', None) or 'Release'
+            elif arg[0] == 'TIMESTAMP':
+                TIMESTAMP = arg[1] or os.environ.get('TIMESTAMP', None)
+            elif arg[0] == 'VERSION':
+                VERSION = arg[1] or os.environ.get('VERSION', None)
+            elif arg[0] == 'GITSHA':
+                GITSHA = arg[1] or os.environ.get('GITSHA', None)
 
     while not is_cwd_root():
         # Assuming we started somewhere down, climb up to the source directory
@@ -87,7 +89,7 @@ def main():
         git = subprocess.run(('git', 'rev-parse', '--is-inside-work-tree'),
                              capture_output=True)
     except FileNotFoundError:  # `git` command is missing
-        write_version_h(VERSION_STRING=VERSION_STRING)
+        write_version_h(VERSION=VERSION)
         write_VERSION_TXT(GITSHA=GITSHA, TIMESTAMP=TIMESTAMP,
                           ARTIFACT=ARTIFACT)
         raise SystemExit
@@ -95,7 +97,7 @@ def main():
     if git.returncode != 0:
         stdout = git.stdout.decode().strip()
         if 'true' != stdout:
-            write_version_h(VERSION_STRING=VERSION_STRING)
+            write_version_h(VERSION=VERSION)
             write_VERSION_TXT(
                 GITSHA=GITSHA, TIMESTAMP=TIMESTAMP, ARTIFACT=ARTIFACT)
             raise SystemExit
@@ -131,16 +133,16 @@ def main():
     logging.debug(f"{DIRTYFLAG=}")
 
     if GITVERSION:
-        VERSION_STRING = f"{GITVERSION} {GITSHA}{DIRTYFLAG}"
+        VERSION = f"{GITVERSION} {GITSHA}{DIRTYFLAG}"
     else:
-        VERSION_STRING = f"{GITSHA}{DIRTYFLAG}"
-    logging.debug(f"{VERSION_STRING=}")
+        VERSION = f"{GITSHA}{DIRTYFLAG}"
+    logging.debug(f"{VERSION=}")
 
-    write_version_h(VERSION_STRING=VERSION_STRING)
+    write_version_h(VERSION=VERSION)
 
     write_VERSION_TXT(GITSHA=GITSHA, TIMESTAMP=TIMESTAMP, ARTIFACT=ARTIFACT)
 
-    print(VERSION_STRING)
+    print(VERSION)
 
 
 if __name__ == "__main__":
