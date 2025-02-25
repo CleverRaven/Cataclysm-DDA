@@ -3769,7 +3769,6 @@ bool mattack::riotbot( monster *z )
                          _( "You deftly slip out of the handcuffs just as the robot closes them.  The robot didn't seem to notice!" ) );
                 foe->i_add( handcuffs );
             } else {
-                // newly created so should be ok?
                 foe->wield( foe->i_add( handcuffs ) );
                 item_location wielded = foe->get_wielded_item();
                 if( wielded && wielded->type == handcuffs.type ) {

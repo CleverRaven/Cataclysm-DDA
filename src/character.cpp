@@ -13055,7 +13055,6 @@ bool Character::wield( item_location loc, bool remove_old )
         return false;
     }
 
-    // for [w] -> unwield
     if( has_wield_conflicts( *loc ) ) {
         const bool is_unwielding = is_wielding( *loc );
         const auto ret = can_unwield( *loc );
@@ -13089,7 +13088,7 @@ bool Character::wield( item_location loc, bool remove_old )
     }
 
     bool combine_stacks = wielded && loc->can_combine( *wielded );
-    if( !combine_stacks && !unwield() ) {
+    if( !combine_stacks ) {
         return false;
     }
 
@@ -13135,10 +13134,6 @@ bool Character::wield( item_location loc, bool remove_old )
     cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
     get_event_bus().send_with_talker( this, &wielded, e );
 
-    if( is_npc() ) {
-        add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),  wielded->tname() );
-        as_npc()-> invalidate_range_cache();
-    }
 
     inv->update_invlet( *wielded );
     inv->update_cache_with_item( *wielded );

@@ -685,7 +685,6 @@ void Character::add_profession_items()
         if( prof_items.size() == 1 ) {
             item last_item = prof_items.front();
             if( !has_wield_conflicts( last_item ) ) {
-                // TODO: newly created, so should be ok?
                 bool success_wield = wield_new( last_item );
                 if( success_wield ) {
                     prof_items.pop_front();

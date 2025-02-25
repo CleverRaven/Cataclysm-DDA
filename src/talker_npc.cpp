@@ -451,7 +451,7 @@ std::string talker_npc::give_item_to( const bool to_use )
             }
         }// wield it if its a weapon
         else if( new_weapon_value > cur_weapon_value ) {
-            me_npc->wield( loc );
+            me_npc->wield( loc, /*remove_old=*/false );
             reason = me_npc->chat_snippets().snip_give_wield.translated();
             taken = true;
         }// HACK: is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them

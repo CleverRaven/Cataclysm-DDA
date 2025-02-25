@@ -166,7 +166,7 @@ std::pair<int, int> Character::gunmod_installation_odds( const item_location &gu
 
 void Character::gunmod_add( item_location gun_loc, item &mod )
 {
-    item gun = *gun_loc.get_item();
+    item &gun = *gun_loc;
     if( !gun.is_gunmod_compatible( mod ).success() ) {
         debugmsg( "Tried to add incompatible gunmod" );
         return;
