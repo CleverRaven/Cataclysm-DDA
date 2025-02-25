@@ -317,11 +317,11 @@ static void debug_error_prompt(
 
     std::string formatted_report =
         string_format( // developer-facing error report. INTENTIONALLY UNTRANSLATED!
-            " DEBUG    : %s\n\n"
-            " FUNCTION : %s\n"
-            " FILE     : %s\n"
-            " LINE     : %s\n"
-            " VERSION  : %s\n",
+            " DEBUG : %s\n\n"
+            " REPORTING FUNCTION : %s\n"
+            " C++ SOURCE FILE    : %s\n"
+            " LINE               : %s\n"
+            " VERSION            : %s\n",
             text, funcname, filename, line, getVersionString()
         );
 
@@ -665,7 +665,7 @@ struct OutputDebugStreamA : public std::ostream {
             virtual std::streamsize xsputn( const char *s, std::streamsize n ) override {
                 std::streamsize rc = buf->sputn( s, n ), last = 0, i = 0;
                 for( ; i < n; ++i ) {
-                    if( std::iscntrl( s[i] ) ) {
+                    if( std::iscntrl( static_cast<unsigned char>( s[i] ) ) ) {
                         if( i == last + 1 ) { // Skip multiple empty lines
                             last = i;
                             continue;
@@ -677,7 +677,7 @@ struct OutputDebugStreamA : public std::ostream {
                 }
                 std::string append( s + last, n - last );
                 // Skip if only made of multiple newlines
-                if( none_of( append.begin(), append.end(), []( int c ) {
+                if( none_of( append.begin(), append.end(), []( unsigned char c ) {
                 return std::iscntrl( c );
                 } ) ) {
                     output_string.append( s + last, n - last );

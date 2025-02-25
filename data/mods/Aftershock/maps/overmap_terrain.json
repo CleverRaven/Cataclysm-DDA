@@ -663,5 +663,65 @@
     "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Clothing Store",
+    "id": [ "afs_clothing_store_a1_floor_1", "afs_clothing_store_a1_floor_2" ],
+    "sym": "c",
+    "color": "light_green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Sporting Goods",
+    "id": [ "afs_sporting_goods_store_a1_floor_1", "afs_sporting_goods_store_a1_floor_2" ],
+    "sym": "S",
+    "color": "cyan",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Urban Farm",
+    "id": [ "afs_small_urban_farm_a1_floor_1", "afs_small_urban_farm_a1_floor_2", "afs_small_urban_farm_a1_floor_3" ],
+    "sym": "F",
+    "color": "green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Office",
+    "id": [ "afs_small_office_a1_floor_1", "afs_small_office_a1_floor_2", "afs_small_office_a1_floor_3" ],
+    "sym": "o",
+    "color": "light_cyan",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Grocer",
+    "id": [ "afs_grocer_a1_floor_1", "afs_grocer_a1_floor_2", "afs_grocer_a1_floor_3" ],
+    "sym": "g",
+    "color": "light_green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Clinic",
+    "id": [ "afs_clinic_a1_floor_1", "afs_clinic_a1_floor_2" ],
+    "sym": "C",
+    "color": "light_red",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]
