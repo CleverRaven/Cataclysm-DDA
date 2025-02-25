@@ -5389,7 +5389,7 @@ std::optional<int> iuse::gunmod_attach( Character *p, item *it, const tripoint_b
             continue;
         }
 
-        p->gunmod_add( loc, *it );
+        p->gunmod_add( *loc, *it );
         return 0;
     } while( true );
 }
