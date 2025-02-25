@@ -33,7 +33,7 @@
       ],
       "terrain": { " ": "t_region_groundcover_urban", "s": "t_sidewalk", "X": "t_pavement", "O": "t_concrete" },
       "furniture": { "b": "f_bench", "c": "f_trashcan" },
-      "items": { "c": { "item": "oa_custom_trash", "chance": 30 }, "b": { "item": "oa_discarded_news", "chance": 5 } },
+      "items": { "c": { "item": "SUS_trash_trashcan", "chance": 30 }, "b": { "item": "oa_discarded_news", "chance": 5 } },
       "item": { "X": { "item": "rock", "chance": 20 }, "O": { "item": "rock", "chance": 20 } }
     }
   }
