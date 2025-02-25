@@ -1383,5 +1383,18 @@
       },
       { "text": "All done", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_RANDOM",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      {
+        "condition": { "math": [ "rand(10)", ">", "5" ] },
+        "text": "You will see this response half of the time.",
+        "topic": "TALK_DONE"
+      },
+      { "text": "All done", "topic": "TALK_DONE" }
+    ]
   }
 ]
