@@ -13,6 +13,7 @@
 #include <memory>
 #include <ostream>
 #include <utility>
+#include <cmath>
 
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #    include <SDL2/SDL_mixer.h>
@@ -715,9 +716,9 @@ struct sound_effect_handler {
 
         for( int dst_index = 0; dst_index < len / bytes_per_sample &&
              handler->current_sample_index < num_source_samples; dst_index++ ) {
-            int low_index = std::floorf( handler->current_sample_index );
+            int low_index = std::floor( handler->current_sample_index );
             int high_index = std::ceil( handler->current_sample_index );
-            if( high_index == handler->audio_src->alen / bytes_per_sample ) {
+            if( high_index == num_source_samples ) {
                 high_index = 0;    // make sound wrap around
             }
 
