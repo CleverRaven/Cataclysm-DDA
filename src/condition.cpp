@@ -1669,7 +1669,7 @@ conditional_t::func f_tile_is_outside( const JsonObject &jo, std::string_view me
         loc_var = read_var_info( jo.get_object( member ) );
     }
 
-    return [loc_var, member]( const_dialogue const & d ) {
+    return [loc_var]( const_dialogue const & d ) {
         map &here = get_map();
         const tripoint_abs_ms target_location = get_tripoint_ms_from_var( loc_var, d, false );
         return here.is_outside( here.get_bub( target_location ) );
