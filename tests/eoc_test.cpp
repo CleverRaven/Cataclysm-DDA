@@ -1225,7 +1225,7 @@ TEST_CASE( "EOC_event_test", "[eoc]" )
 
     // character_wields_item
     item weapon_item( itype_test_knife_combat );
-    get_avatar().wield_new( weapon_item );
+    get_avatar().wield( weapon_item );
     item_location weapon = get_avatar().get_wielded_item();
 
     CHECK( get_avatar().get_value( "test_event_last_event" ) == "character_wields_item" );
@@ -1253,7 +1253,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     // character_melee_attacks_character
     npc &npc_dst_melee = spawn_npc( get_avatar().pos_bub().xy() + point::south, "thug" );
     item weapon_item( itype_test_knife_combat );
-    get_avatar().wield_new( weapon_item );
+    get_avatar().wield( weapon_item );
     get_avatar().melee_attack( npc_dst_melee, false );
 
     CHECK( get_avatar().get_value( "test_event_last_event" ) ==

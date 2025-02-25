@@ -44,7 +44,7 @@ static void butcher_mon( const mtype_id &monid, const activity_id &actid, int *c
         clear_character( u, true );
         u.set_skill_level( skill_firstaid, 10 );
         u.set_skill_level( skill_survival, 10 );
-        u.wield_new( scalpel );
+        u.wield( scalpel );
         monster cow( monid, mon_pos );
         const tripoint_bub_ms cow_loc = cow.pos_bub();
         cow.die( &here, nullptr );

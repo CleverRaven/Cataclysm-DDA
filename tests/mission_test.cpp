@@ -56,7 +56,7 @@ TEST_CASE( "mission_goal_condition_test", "[mission]" )
             }
             WHEN( "condition_met" ) {
                 item rock( itype_test_rock );
-                u.wield_new( rock );
+                u.wield( rock );
                 REQUIRE( u.has_item_with( []( const item & it ) {
                     return it.typeId() == itype_test_rock;
                 } ) );
@@ -90,7 +90,7 @@ TEST_CASE( "mission_goal_condition_test", "[mission]" )
             }
             WHEN( "condition_met" ) {
                 item rock( itype_test_rock );
-                u.wield_new( rock );
+                u.wield( rock );
                 REQUIRE( u.has_item_with( []( const item & it ) {
                     return it.typeId() == itype_test_rock;
                 } ) );
@@ -130,7 +130,7 @@ TEST_CASE( "mission_goal_condition_test", "[mission]" )
             }
             WHEN( "condition_met" ) {
                 item rock( itype_test_rock );
-                u.wield_new( rock );
+                u.wield( rock );
                 REQUIRE( u.has_item_with( []( const item & it ) {
                     return it.typeId() == itype_test_rock;
                 } ) );
@@ -170,7 +170,7 @@ TEST_CASE( "mission_goal_condition_test", "[mission]" )
             }
             WHEN( "condition_met" ) {
                 item rock( itype_test_rock );
-                u.wield_new( rock );
+                u.wield( rock );
                 REQUIRE( u.has_item_with( []( const item & it ) {
                     return it.typeId() == itype_test_rock;
                 } ) );

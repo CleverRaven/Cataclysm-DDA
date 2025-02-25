@@ -257,7 +257,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
                 c.i_add( it );
             } else if( !c.has_wield_conflicts( it ) && c.can_wield( it ).success() ) {
                 // TODO: migrate to item_location
-                c.wield_new( it );
+                c.wield( it );
             } else {
                 const std::string ter_name = here.name( where );
                 add_msg( _( "The %s falls to the %s." ), it.tname(), ter_name );

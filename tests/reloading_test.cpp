@@ -1151,7 +1151,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
     item backpack( itype_bigback );
     dummy.wear_item( backpack );
     item canteen( itype_2lcanteen );
-    REQUIRE( dummy.wield_new( canteen ) ) ;
+    REQUIRE( dummy.wield( canteen ) ) ;
 
     item_location ammo_jug = dummy.i_add( item( itype_jug_plastic ) );
     ammo_jug->put_in( item( itype_water_clean, calendar::turn_zero, 2 ),

@@ -607,7 +607,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
     auto setup_dummy = [&dummy]() -> item_location {
         item it_boltcut( itype_test_boltcutter );
 
-        dummy.wield_new( it_boltcut );
+        dummy.wield( it_boltcut );
         REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_boltcutter );
 
         return dummy.get_wielded_item();
@@ -733,7 +733,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             item it_boltcut_elec( itype_test_boltcutter_elec );
             it_boltcut_elec.put_in( battery, pocket_type::MAGAZINE_WELL );
 
-            dummy.wield_new( it_boltcut_elec );
+            dummy.wield( it_boltcut_elec );
             REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_boltcutter_elec );
 
             item_location boltcutter_elec = dummy.get_wielded_item();
@@ -870,7 +870,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
     auto setup_dummy = [&dummy]() -> item_location {
         item it_hacksaw( itype_test_hacksaw );
 
-        dummy.wield_new( it_hacksaw );
+        dummy.wield( it_hacksaw );
         REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_hacksaw );
         REQUIRE( dummy.max_quality( qual_SAW_M ) == 2 );
 
@@ -997,7 +997,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             item it_hacksaw_elec( itype_test_hacksaw_elec );
             it_hacksaw_elec.put_in( battery, pocket_type::MAGAZINE_WELL );
 
-            dummy.wield_new( it_hacksaw_elec );
+            dummy.wield( it_hacksaw_elec );
             REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_hacksaw_elec );
             REQUIRE( dummy.max_quality( qual_SAW_M ) == 2 );
 
@@ -1136,7 +1136,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
         item it_welding_torch( itype_test_oxytorch );
         it_welding_torch.ammo_set( itype_oxyacetylene );
 
-        dummy.wield_new( it_welding_torch );
+        dummy.wield( it_welding_torch );
         REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_oxytorch );
         REQUIRE( dummy.max_quality( qual_WELD ) == 10 );
 
@@ -1391,7 +1391,7 @@ TEST_CASE( "prying", "[activity][prying]" )
         itype_id prying_tool_id( need_nails ? itype_test_halligan : itype_test_halligan_no_nails );
         item it_prying_tool( prying_tool_id );
 
-        dummy.wield_new( it_prying_tool );
+        dummy.wield( it_prying_tool );
         REQUIRE( dummy.has_quality( qual_PRY ) );
         if( need_nails )
         {

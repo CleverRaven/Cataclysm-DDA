@@ -79,7 +79,7 @@ TEST_CASE( "Martial_art_required_weapon_categories", "[martial_arts]" )
         clear_character( dude, true );
         CHECK( !buff1->is_valid_character( dude ) );
         CHECK( !buff2->is_valid_character( dude ) );
-        dude.wield_new( weap2 );
+        dude.wield( weap2 );
         dude.martial_arts_data->add_martialart( test_style_ma1 );
         dude.martial_arts_data->set_style( test_style_ma1, false );
         CHECK( buff1->is_valid_character( dude ) );
@@ -95,7 +95,7 @@ TEST_CASE( "Martial_art_required_weapon_categories", "[martial_arts]" )
         item weap2( itype_test_weapon2 );
         clear_character( dude, true );
         CHECK( !tec->is_valid_character( dude ) );
-        dude.wield_new( weap2 );
+        dude.wield( weap2 );
         dude.martial_arts_data->add_martialart( test_style_ma1 );
         dude.martial_arts_data->set_style( test_style_ma1, false );
         CHECK( tec->is_valid_character( dude ) );
@@ -206,7 +206,7 @@ TEST_CASE( "Martial_art_technique_conditionals", "[martial_arts]" )
         monster &target_2 = spawn_test_monster( "mon_zombie_fat", target_2_pos );
         monster &target_3 = spawn_test_monster( "mon_blob", target_3_pos );
         item weap( itype_sword_crude );
-        dude.wield_new( weap );
+        dude.wield( weap );
 
         // test stunning a feral (succeed)
         REQUIRE( target_1.get_size() == 3 );
@@ -234,7 +234,7 @@ TEST_CASE( "Martial_art_technique_conditionals", "[martial_arts]" )
         monster &target_2 = spawn_test_monster( "mon_zombie_hulk", target_2_pos );
         monster &target_3 = spawn_test_monster( "mon_test_tech_grabber", target_3_pos );
         item weap( itype_club_wooden );
-        dude.wield_new( weap );
+        dude.wield( weap );
 
         // test throwing a feral (succeed)
         REQUIRE( target_1.get_size() == 3 );

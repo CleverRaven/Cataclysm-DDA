@@ -48,7 +48,7 @@ TEST_CASE( "zapback_npc_nonconductive_weapon", "[mondefense]" )
 {
     standard_npc attacker( "Attacker" );
     item rock( itype_rock );
-    attacker.wield_new( rock );
+    attacker.wield( rock );
     test_zapback( attacker, false );
 }
 
@@ -57,7 +57,7 @@ TEST_CASE( "zapback_npc_nonconductive_unarmed_weapon", "[mondefense]" )
     standard_npc attacker( "Attacker" );
     // AFAICT this is the only nonconductive unarmed weapon.
     item knuckle_nail( itype_knuckle_nail );
-    attacker.wield_new( knuckle_nail );
+    attacker.wield( knuckle_nail );
     test_zapback( attacker, false );
 }
 
@@ -65,7 +65,7 @@ TEST_CASE( "zapback_npc_reach_weapon", "[mondefense]" )
 {
     standard_npc attacker( "Attacker" );
     item pike( itype_pike );
-    attacker.wield_new( pike );
+    attacker.wield( pike );
     test_zapback( attacker, false );
 }
 
@@ -73,7 +73,7 @@ TEST_CASE( "zapback_npc_ranged_weapon", "[mondefense]" )
 {
     standard_npc attacker( "Attacker" );
     item gun( itype_glock_19 );
-    attacker.wield_new( gun );
+    attacker.wield( gun );
     dealt_projectile_attack attack;
     test_zapback( attacker, false, &attack );
 }
@@ -89,7 +89,7 @@ TEST_CASE( "zapback_npc_firing_ranged_reach_weapon", "[mondefense]" )
 {
     standard_npc attacker( "Attacker" );
     item ranged_reach_weapon( itype_reach_bow );
-    attacker.wield_new( ranged_reach_weapon );
+    attacker.wield( ranged_reach_weapon );
     dealt_projectile_attack attack;
     test_zapback( attacker, false, &attack );
 }
@@ -99,7 +99,7 @@ TEST_CASE( "zapback_npc_meleeattack_ranged_reach_weapon", "[mondefense]" )
     standard_npc attacker( "Attacker" );
     item ranged_reach_weapon( itype_reach_bow );
     REQUIRE( ranged_reach_weapon.gun_set_mode( gun_mode_MELEE ) );
-    attacker.wield_new( ranged_reach_weapon );
+    attacker.wield( ranged_reach_weapon );
     test_zapback( attacker, true );
 }
 

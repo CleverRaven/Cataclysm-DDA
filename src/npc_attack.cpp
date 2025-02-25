@@ -250,7 +250,7 @@ npc_attack_rating npc_attack_spell::evaluate_tripoint(
 void npc_attack_melee::use( npc &source, const tripoint_bub_ms &location ) const
 {
     if( !source.is_wielding( weapon ) ) {
-        if( !source.wield_new( weapon ) ) {
+        if( !source.wield( weapon ) ) {
             debugmsg( "ERROR: npc tried to equip a weapon it couldn't wield" );
         }
         return;
@@ -437,7 +437,7 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
 void npc_attack_gun::use( npc &source, const tripoint_bub_ms &location ) const
 {
     if( !source.is_wielding( gun ) ) {
-        if( !source.wield_new( gun ) ) {
+        if( !source.wield( gun ) ) {
             debugmsg( "ERROR: npc tried to equip a weapon it couldn't wield" );
         }
         return;
@@ -603,7 +603,7 @@ npc_attack_rating npc_attack_gun::evaluate_tripoint(
 
 void npc_attack_activate_item::use( npc &source, const tripoint_bub_ms &/*location*/ ) const
 {
-    if( !source.wield_new( activatable_item ) ) {
+    if( !source.wield( activatable_item ) ) {
         debugmsg( "%s can't wield %s it tried to activate", source.disp_name(),
                   activatable_item.display_name() );
         return;
@@ -650,7 +650,7 @@ std::vector<npc_attack_rating> npc_attack_activate_item::all_evaluations( const 
 void npc_attack_throw::use( npc &source, const tripoint_bub_ms &location ) const
 {
     if( !source.is_wielding( thrown_item ) ) {
-        if( !source.wield_new( thrown_item ) ) {
+        if( !source.wield( thrown_item ) ) {
             debugmsg( "ERROR: npc tried to equip a weapon it couldn't wield" );
         }
         return;

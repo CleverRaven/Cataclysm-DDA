@@ -398,7 +398,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             item aspirin( itype_aspirin );
 
-            REQUIRE( guy.wield_new( aspirin ) );
+            REQUIRE( guy.wield( aspirin ) );
 
             THEN( "should dissolve in water" ) {
                 g->water_affect_items( guy );
@@ -432,7 +432,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             bottle_small.put_in( aspirin, pocket_type::CONTAINER );
 
-            REQUIRE( guy.wield_new( bottle_small ) );
+            REQUIRE( guy.wield( bottle_small ) );
 
             THEN( "should not dissolve in water" ) {
                 g->water_affect_items( guy );
@@ -470,7 +470,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             backpack.put_in( aspirin, pocket_type::CONTAINER );
             body_bag.put_in( backpack, pocket_type::CONTAINER );
 
-            REQUIRE( guy.wield_new( body_bag ) );
+            REQUIRE( guy.wield( body_bag ) );
 
             THEN( "should not dissolve in water" ) {
                 g->water_affect_items( guy );
@@ -489,7 +489,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             item smart_phone( itype_test_smart_phone );
 
-            REQUIRE( guy.wield_new( smart_phone ) );
+            REQUIRE( guy.wield( smart_phone ) );
             item *test_item = guy.get_wielded_item().get_item();
 
             THEN( "should be broken by water" ) {
@@ -509,7 +509,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             backpack.put_in( smart_phone, pocket_type::CONTAINER );
 
-            REQUIRE( guy.wield_new( backpack ) );
+            REQUIRE( guy.wield( backpack ) );
             item *test_item = &guy.get_wielded_item()->only_item();
 
             THEN( "should be broken by water" ) {
@@ -528,7 +528,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             body_bag.put_in( smart_phone, pocket_type::CONTAINER );
 
-            REQUIRE( guy.wield_new( body_bag ) );
+            REQUIRE( guy.wield( body_bag ) );
             item *test_item = &guy.get_wielded_item()->only_item();
 
             THEN( "should not be broken by water" ) {
@@ -549,7 +549,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             backpack.put_in( smart_phone, pocket_type::CONTAINER );
             duffelbag.put_in( backpack, pocket_type::CONTAINER );
 
-            REQUIRE( guy.wield_new( duffelbag ) );
+            REQUIRE( guy.wield( duffelbag ) );
             item *test_item = &guy.get_wielded_item()->only_item().only_item();
 
             THEN( "should be broken by water" ) {
@@ -570,7 +570,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             backpack.put_in( smart_phone, pocket_type::CONTAINER );
             body_bag.put_in( backpack, pocket_type::CONTAINER );
 
-            REQUIRE( guy.wield_new( body_bag ) );
+            REQUIRE( guy.wield( body_bag ) );
             item *test_item = &guy.get_wielded_item()->only_item().only_item();
 
             THEN( "should not be broken by water" ) {
@@ -591,7 +591,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             item mp3( itype_test_mp3 );
 
-            REQUIRE( guy.wield_new( mp3 ) );
+            REQUIRE( guy.wield( mp3 ) );
 
             THEN( "should get wet from water" ) {
                 g->water_affect_items( guy );
@@ -608,7 +608,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             backpack.put_in( mp3, pocket_type::CONTAINER );
 
-            REQUIRE( guy.wield_new( backpack ) );
+            REQUIRE( guy.wield( backpack ) );
 
             THEN( "should get wet from water" ) {
                 g->water_affect_items( guy );
@@ -627,7 +627,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             body_bag.put_in( mp3, pocket_type::CONTAINER );
 
-            REQUIRE( guy.wield_new( body_bag ) );
+            REQUIRE( guy.wield( body_bag ) );
 
             THEN( "should not be broken by water" ) {
                 g->water_affect_items( guy );
@@ -648,7 +648,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             backpack.put_in( mp3, pocket_type::CONTAINER );
             duffelbag.put_in( backpack, pocket_type::CONTAINER );
 
-            REQUIRE( guy.wield_new( duffelbag ) );
+            REQUIRE( guy.wield( duffelbag ) );
 
             THEN( "should get wet from water" ) {
                 g->water_affect_items( guy );
@@ -669,7 +669,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             backpack.put_in( mp3, pocket_type::CONTAINER );
             body_bag.put_in( backpack, pocket_type::CONTAINER );
 
-            REQUIRE( guy.wield_new( body_bag ) );
+            REQUIRE( guy.wield( body_bag ) );
 
             THEN( "should not be broken by water" ) {
                 g->water_affect_items( guy );
@@ -685,7 +685,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             item mp3( itype_test_mp3 );
 
-            REQUIRE( guy.wield_new( mp3 ) );
+            REQUIRE( guy.wield( mp3 ) );
 
             THEN( "should be wet for around 9562 seconds" ) {
                 g->water_affect_items( guy );
@@ -699,7 +699,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             item mp3( itype_test_mp3 );
 
-            REQUIRE( guy.wield_new( mp3 ) );
+            REQUIRE( guy.wield( mp3 ) );
 
             THEN( "gets wet five times in a row " ) {
                 g->water_affect_items( guy );
@@ -722,7 +722,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             item towel( itype_towel );
 
-            REQUIRE( guy.wield_new( towel ) );
+            REQUIRE( guy.wield( towel ) );
 
             THEN( "should get wet in water" ) {
                 g->water_affect_items( guy );
@@ -753,7 +753,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             backpack.put_in( towel, pocket_type::CONTAINER );
 
-            REQUIRE( guy.wield_new( backpack ) );
+            REQUIRE( guy.wield( backpack ) );
 
             THEN( "should get wet in water" ) {
                 g->water_affect_items( guy );
@@ -770,7 +770,7 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
 
             body_bag.put_in( towel, pocket_type::CONTAINER );
 
-            REQUIRE( guy.wield_new( body_bag ) );
+            REQUIRE( guy.wield( body_bag ) );
 
             THEN( "should not get wet in water" ) {
                 g->water_affect_items( guy );
@@ -932,7 +932,7 @@ TEST_CASE( "rigid_armor_compliance", "[item][armor]" )
     clear_avatar();
     // check if you can swap a rigid armor
     item test_armguard( itype_test_armguard );
-    REQUIRE( guy.wield_new( test_armguard ) );
+    REQUIRE( guy.wield( test_armguard ) );
 
     REQUIRE( guy.wear( guy.used_weapon(), false ) );
 
@@ -946,15 +946,15 @@ TEST_CASE( "rigid_armor_compliance", "[item][armor]" )
     clear_avatar();
 
     item first_test_armguard( itype_test_armguard );
-    REQUIRE( guy.wield_new( first_test_armguard ) );
+    REQUIRE( guy.wield( first_test_armguard ) );
     REQUIRE( guy.wear( guy.used_weapon(), false ) );
 
     item second_test_armguard( itype_test_armguard );
-    REQUIRE( guy.wield_new( second_test_armguard ) );
+    REQUIRE( guy.wield( second_test_armguard ) );
     REQUIRE( guy.wear( guy.used_weapon(), false ) );
 
     item third_test_armguard( itype_test_armguard );
-    REQUIRE( guy.wield_new( third_test_armguard ) );
+    REQUIRE( guy.wield( third_test_armguard ) );
     REQUIRE( !guy.wear( guy.used_weapon(), false ) );
 }
 
@@ -973,13 +973,13 @@ TEST_CASE( "rigid_splint_compliance", "[item][armor]" )
     clear_avatar();
 
     guy.set_part_hp_cur( bodypart_id( "arm_r" ), 0 );
-    REQUIRE( guy.wield_new( splint ) );
+    REQUIRE( guy.wield( splint ) );
     REQUIRE( guy.wear( guy.used_weapon(), false ) );
 
     // check if you cannot wear a splint if something rigid is on that arm
     clear_avatar();
 
-    REQUIRE( guy.wield_new( test_armguard ) );
+    REQUIRE( guy.wield( test_armguard ) );
     guy.set_part_hp_cur( bodypart_id( "arm_r" ), 0 );
     REQUIRE( guy.wear( guy.used_weapon(), false ) );
 
@@ -987,20 +987,20 @@ TEST_CASE( "rigid_splint_compliance", "[item][armor]" )
     // swap side to the broken arm side
     guy.change_side( *guy.worn.top_items_loc( guy ).front().get_item() );
     // should fail to wear
-    REQUIRE( guy.wield_new( second_splint ) );
+    REQUIRE( guy.wield( second_splint ) );
     REQUIRE( !guy.wear( guy.used_weapon(), false ) );
 
     // check if you can wear a splint if nothing rigid is on that arm
     clear_avatar();
 
-    REQUIRE( guy.wield_new( second_test_armguard ) );
+    REQUIRE( guy.wield( second_test_armguard ) );
     guy.set_part_hp_cur( bodypart_id( "arm_r" ), 0 );
     REQUIRE( guy.wear( guy.used_weapon(), false ) );
 
     CHECK( guy.worn.top_items_loc( guy ).front().get_item()->get_side() == side::LEFT );
 
     // should be able to wear the arm is open
-    REQUIRE( guy.wield_new( third_splint ) );
+    REQUIRE( guy.wield( third_splint ) );
     REQUIRE( guy.wear( guy.used_weapon(), false ) );
 }
 

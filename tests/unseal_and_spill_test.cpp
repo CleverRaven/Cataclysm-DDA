@@ -435,7 +435,7 @@ void test_scenario::run()
             break;
         }
         case container_location::wielded: {
-            REQUIRE( guy.wield_new( it ) );
+            REQUIRE( guy.wield( it ) );
             it_loc = guy.get_wielded_item();
             break;
         }
@@ -465,7 +465,7 @@ void test_scenario::run()
     if( !guy.get_wielded_item() ) {
         // so the guy does not wield spilled solid items
         item rag( itype_test_rag );
-        REQUIRE( guy.wield_new( rag ) );
+        REQUIRE( guy.wield( rag ) );
     }
 
     std::string player_action_str;

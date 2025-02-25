@@ -13043,21 +13043,11 @@ void Character::search_surroundings()
     }
 }
 
-bool Character::wield_new( item it )
+bool Character::wield( item it )
 {
-    return wield( item_location( *this, &it ), /*remove_old=*/false );
-}
-
-bool Character::wield( item_location loc, bool remove_old )
-{
-    if( !loc ) {
-        add_msg_if_player( _( "No item." ) );
-        return false;
-    }
-
-    if( has_wield_conflicts( *loc ) ) {
-        const bool is_unwielding = is_wielding( *loc );
-        const auto ret = can_unwield( *loc );
+    if( has_wield_conflicts( it ) ) {
+        const bool is_unwielding = is_wielding( it );
+        const auto ret = can_unwield( it );
 
         if( !ret.success() ) {
             add_msg_if_player( m_info, "%s", ret.c_str() );
@@ -13077,13 +13067,13 @@ bool Character::wield( item_location loc, bool remove_old )
     }
 
     item_location wielded = get_wielded_item();
-    if( wielded && wielded->has_item( *loc ) ) {
+    if( wielded && wielded->has_item( it ) ) {
         add_msg_if_player( m_info,
                            _( "You need to put the bag away before trying to wield something from it." ) );
         return false;
     }
 
-    if( !can_wield( *loc ).success() ) {
+    if( !can_wield( it ).success() ) {
         return false;
     }
 
@@ -13094,7 +13084,7 @@ bool Character::wield( item_location loc, bool remove_old )
 
     cached_info.erase( "weapon_value" );
 
-    if( is_avatar() && !avatar_action::check_stealing( *this, *loc ) ) {
+    if( is_avatar() && !avatar_action::check_stealing( *this, it ) ) {
         return false;
     }
 
@@ -13103,7 +13093,7 @@ bool Character::wield( item_location loc, bool remove_old )
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
-    bool worn = is_worn( *loc );
+    bool worn = is_worn( it );
     const int mv = loc.obtain_cost( *this );
 
     if( worn ) {
@@ -13113,16 +13103,14 @@ bool Character::wield( item_location loc, bool remove_old )
     add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
     mod_moves( -mv );
 
-    if( combine_stacks ) {
-        wielded->combine( *loc );
-    } else {
-        set_wielded_item( *loc );
+    if( has_item( target ) ) {
+        item removed = i_rem( &target );
+        if( combine_stacks ) {
+            wielded->combine( it );
+        } else {
+            set_wielded_item( it );
+        }
     }
-
-    if( remove_old && loc ) {
-        loc.remove_item();
-    }
-
 
     // set_wielded_item invalidates the weapon item_location, so get it again
     wielded = get_wielded_item();
@@ -13138,6 +13126,23 @@ bool Character::wield( item_location loc, bool remove_old )
     inv->update_invlet( *wielded );
     inv->update_cache_with_item( *wielded );
 
+    return true;
+}
+
+bool Character::wield( item_location loc, bool remove_old )
+{
+    if( !loc ) {
+        add_msg_if_player( _( "No item." ) );
+        return false;
+    }
+
+    if( !wield( *loc ) ) {
+        return false;
+    }
+
+    if( remove_old && loc ) {
+        loc.remove_item();
+    }
     return true;
 }
 

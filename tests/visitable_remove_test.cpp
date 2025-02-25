@@ -236,7 +236,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             item obj( worn_id );
             item liquid( liquid_id, calendar::turn );
             liquid.charges -= obj.fill_with( liquid, liquid.charges );
-            p.wield_new( obj );
+            p.wield( obj );
 
             REQUIRE( count_items( p, container_id ) == count );
             REQUIRE( count_items( p, liquid_id ) == count + 1 );

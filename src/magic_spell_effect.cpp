@@ -1217,7 +1217,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster,
                 character_at_target->wear_item( it, false );
             } else if( !character_at_target->has_wield_conflicts( it ) &&
                        !character_at_target->martial_arts_data->keep_hands_free && //No wield if hands free
-                       character_at_target->wield_new( it ) ) {
+                       character_at_target->wield( it ) ) {
                 // nothing to do
             } else {
                 character_at_target->i_add( it );

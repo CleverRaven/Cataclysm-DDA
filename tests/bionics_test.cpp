@@ -201,7 +201,7 @@ TEST_CASE( "bionic_weapons", "[bionics] [weapon] [item]" )
         {
             item real_item(itype_real_item);
             REQUIRE(dummy.can_wield(real_item).success());
-            dummy.wield_new(real_item);
+            dummy.wield(real_item);
             REQUIRE(dummy.get_wielded_item().typeId() == itype_real_item);
 
             WHEN("the weapon CBM is activated")
@@ -246,7 +246,7 @@ TEST_CASE( "bionic_weapons", "[bionics] [weapon] [item]" )
         AND_GIVEN( "character is wielding a regular item" ) {
             item real_item( itype_test_backpack );
             REQUIRE( dummy.can_wield( real_item ).success() );
-            dummy.wield_new( real_item );
+            dummy.wield( real_item );
             item_location wielded_item = dummy.get_wielded_item();
             REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_backpack );
 

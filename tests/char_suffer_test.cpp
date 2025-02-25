@@ -160,7 +160,7 @@ TEST_CASE( "suffering_from_albinism", "[char][suffer][albino]" )
         }
 
         WHEN( "wielding an umbrella and wearing sunglasses" ) {
-            dummy.wield_new( umbrella );
+            dummy.wield( umbrella );
             REQUIRE( dummy.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) );
 
             dummy.wear_item( shades, false );
@@ -264,7 +264,7 @@ TEST_CASE( "suffering_from_sunburn", "[char][suffer][sunburn]" )
 
         WHEN( "naked and wielding an umbrella, with sunglasses" ) {
             dummy.clear_worn();
-            dummy.wield_new( umbrella );
+            dummy.wield( umbrella );
             REQUIRE( dummy.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) );
             dummy.wear_item( shades, false );
             REQUIRE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
@@ -285,7 +285,7 @@ TEST_CASE( "suffering_from_sunburn", "[char][suffer][sunburn]" )
 
         WHEN( "wielding an umbrella, without sunglasses" ) {
             dummy.clear_worn();
-            dummy.wield_new( umbrella );
+            dummy.wield( umbrella );
             REQUIRE( dummy.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) );
             REQUIRE_FALSE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
             THEN( "they suffer only head injury" ) {
