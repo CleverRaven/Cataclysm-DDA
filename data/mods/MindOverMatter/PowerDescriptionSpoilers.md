@@ -185,16 +185,16 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 <details>
 <summary><h1>Clairsentience</h1></summary>
 
-**Passive Power: Psionic Senses**: Enhances mundane senses, allowing farther overmap sight, enhanced hearing, and the ability to always know the exact time even without a watch.  The psion can also sense Nether creatures within a radius of 2 squares plus 0.075 squares times the sum total of the levels of the psion's clairsentience powers.
+**Passive Power: Psionic Senses**: Protects the psion's senses from minor sensory damage, such as loud noises or the glare of sunlight.  The psion can also sense Nether creatures within a radius of 2 squares plus 0.075 squares times the sum total of the levels of the psion's clairsentience powers.
 <details>
-<summary><h3>Night Eyes (C)</h3></summary>
+<summary><h3>Heightened Senses (C)</h3></summary>
 
 *Difficulty*: 1<br />
 *Target*: Self<br />
-*Duration*: 12 minutes to 23 minutes 20 seconds, plus 6 minutes 12 seconds to 13 minutes 30 seconds minutes per level<br />
-*Stamina Cost*: 1500, minus 65 per level to a minimum of 500<br />
+*Duration*: 9 minutes 55 seconds to 21 minutes 4 seconds, plus 3 minutes 35 seconds to 8 minutes 2 seconds minutes per level<br />
+*Stamina Cost*: 2000, minus 85 per level to a minimum of 750<br />
 *Channeling Time*: 50 moves, minus 2 moves per level to a minimum of 20<br />
-*Effects*: Allows the psion to see in the dark.  This increases the psion's night vision by 2 squares plus 1.5 squares per power level.<br />
+*Effects*: Increases the psion's ability to read and retain information. The psion reads 20% faster, plus 2% per power level to a maximum of 60% faster, and gains 0.15% additional XP per reading increment per power level.<br />
 *Prerequisites*: Starting power<br />
 </details>
 <details>
@@ -217,7 +217,18 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 2250, minus 85 per level to a minimum of 850<br />
 *Channeling Time*: 85 moves, minus 7 moves per level to a minimum of 25<br />
 *Effects*: Reveal the location of all hostile enemies (NPCs who are currently hostile and creatures with aggression 10 or greater) within the power's range. Premonition does not reveal exactly what sort of enemy is out there, only that something is.<br />
-*Prerequisites*: None<br />
+*Prerequisites*: Heightened Senses 6<br />
+</details>
+<details>
+<summary><h3>Night Eyes (C)</h3></summary>
+
+*Difficulty*: 3<br />
+*Target*: Self<br />
+*Duration*: 12 minutes to 23 minutes 20 seconds, plus 6 minutes 12 seconds to 13 minutes 30 seconds minutes per level<br />
+*Stamina Cost*: 3500, minus 75 per level to a minimum of 2000<br />
+*Channeling Time*: 50 moves, minus 2 moves per level to a minimum of 20<br />
+*Effects*: Allows the psion to see in the dark.  This increases the psion's night vision by 2 squares plus 1.5 squares per power level.<br />
+*Prerequisites*: Heightened Senses 8<br />
 </details>
 <details>
 <summary><h3>Discern Weakness</h3></summary>
@@ -239,7 +250,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 4000, minus 115 per level to a minimum of 1750<br />
 *Channeling Time*: 300 moves, minus 8.5 moves per level to a minimum of 100<br />
 *Effects*: Reveal others' emotions, increasing the psion's chance to persuade them or lie to them by 1% per power level, to a maximum of 20%.<br />
-*Prerequisites*: Premonition 5, Discern Weakness 5<br />
+*Prerequisites*: Heightened Senses 5, Discern Weakness 5<br />
 </details>
 <details>
 <summary><h3>Radiation Sense</h3></summary>
