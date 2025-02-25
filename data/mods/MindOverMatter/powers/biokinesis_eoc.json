@@ -254,5 +254,28 @@
       ]
     },
     "effect": [ { "run_eocs": "EOC_BIOKIN_VITAMINOSIS_REMOVE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_GUIDED_EVOLUTION_NETHER_ATTUNEMENT_BACKFIRE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Only apears above 1.05 nether attunement scaling",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_biokin_guided_evolution" },
+        { "math": [ "100 * ( max( u_nether_attunement_power_scaling - 1.05, 0 ) / 2.95 ) > rand(100)" ] }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_biokin_guided_evolution_backfire", "duration": "1 seconds" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_LOSES_GUIDED_EVOLUTION_BACKFIRE",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "//": "Mutation triggers before actual evolution enchant is re-activated",
+    "condition": { "compare_string": [ "effect_biokin_guided_evolution_backfire", { "context_val": "effect" } ] },
+    "effect": [ { "u_mutate": 1, "use_vitamins": false } ]
   }
 ]
