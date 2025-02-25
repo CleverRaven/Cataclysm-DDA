@@ -1373,7 +1373,7 @@ bool avatar::wield( item &it )
 
 bool avatar::wield( item_location loc, bool remove_old )
 {
-    if( !avatar_action::check_stealing( *this, it ) ) {
+    if( !avatar_action::check_stealing( *this, *loc ) ) {
         return false;
     }
     return Character::wield( loc, remove_old );
