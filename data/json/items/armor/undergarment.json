@@ -765,7 +765,7 @@
       {
         "id": "generic_garter_belt",
         "name": { "str": "garter belt" },
-        "description": "A simple, decorated undergarment commonly used in combination with stockings.  They don't cover much, but they do help you feel sexy.",
+        "description": "",
         "color": "dark_gray",
         "append": true
       },
