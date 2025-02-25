@@ -47,7 +47,7 @@ static bool TestForVehicleTeleportCollision( vehicle &veh, map &here, map *dest,
         const tripoint_abs_ms &dp )
 {
     for( const vpart_reference &part : veh.get_all_parts_with_fakes( true ) ) {
-        tripoint_rel_ms rel_pos = part.pos_bub( &here ) - veh.pos_bub( here );
+        tripoint_rel_ms rel_pos = part.pos_bub( here ) - veh.pos_bub( here );
         if( !dest->inbounds( dp + rel_pos ) ) {
             dest->load( project_to<coords::sm>( dp + rel_pos ), false );
         }
@@ -85,7 +85,8 @@ static void HandlePassengers( vehicle &veh, map &here, const tripoint_abs_ms &dp
             if( psg == nullptr ) {
                 debugmsg( "Empty passenger for part #%d at %d,%d,%d player at %d,%d,%d?",
                           prt, part_pos.x(), part_pos.y(), part_pos.z(),
-                          get_player_character().posx(),  get_player_character().posy(),  get_player_character().posz() );
+                          get_player_character().posx( here ),  get_player_character().posy( here ),
+                          get_player_character().posz() );
                 veh.part( prt ).remove_flag( vp_flag::passenger_flag );
                 r.moved = true;
                 continue;
@@ -94,7 +95,7 @@ static void HandlePassengers( vehicle &veh, map &here, const tripoint_abs_ms &dp
             if( psg->pos_bub() != part_pos ) {
                 add_msg_debug( debugmode::DF_MAP, "Part/passenger position mismatch: part #%d at %d,%d,%d "
                                "passenger at %d,%d,%d", prt, part_pos.x(), part_pos.y(), part_pos.z(),
-                               psg->posx(), psg->posy(), psg->posz() );
+                               psg->posx( here ), psg->posy( here ), psg->posz() );
             }
             const vehicle_part &veh_part = veh.part( prt );
 
@@ -114,7 +115,7 @@ static void HandlePassengers( vehicle &veh, map &here, const tripoint_abs_ms &dp
                 z_change = psgp.z() - part_pos.z();
             }
 
-            psg->setpos( psgp );
+            psg->setpos( here, psgp );
             r.moved = true;
         }
     }

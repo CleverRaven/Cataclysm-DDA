@@ -15,24 +15,24 @@ std::string talker_vehicle_const::get_name() const
     return me_veh_const->name;
 }
 
-int talker_vehicle_const::posx() const
+int talker_vehicle_const::posx( const map &here ) const
 {
-    return pos_bub().x();
+    return pos_bub( here ).x();
 }
 
-int talker_vehicle_const::posy() const
+int talker_vehicle_const::posy( const map &here ) const
 {
-    return pos_bub().y();
+    return pos_bub( here ).y();
 }
 
 int talker_vehicle_const::posz() const
 {
-    return pos_bub().z();
+    return pos_abs().z();
 }
 
-tripoint_bub_ms talker_vehicle_const::pos_bub() const
+tripoint_bub_ms talker_vehicle_const::pos_bub( const map &here ) const
 {
-    return me_veh_const->pos_bub( get_map() );
+    return me_veh_const->pos_bub( here );
 }
 
 tripoint_abs_ms talker_vehicle_const::pos_abs() const
