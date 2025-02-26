@@ -371,7 +371,7 @@
       "basement_palette": {
         "type": "palette_id",
         "scope": "overmap_special",
-        "default": { "distribution": [ [ "standard_domestic_basement_palette", 99 ], [ "flooded_domestic_basement_palette", 10000 ] ] }
+        "default": { "distribution": [ [ "standard_domestic_basement_palette", 99 ], [ "flooded_domestic_basement_palette", 1 ] ] }
       }
     },
     "palettes": [ { "param": "basement_palette" } ]
