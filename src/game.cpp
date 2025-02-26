@@ -14412,7 +14412,7 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
     int time_to_pulp = ( std::pow( corpse_volume, pow_factor ) * 1000 ) / pd.pulp_power;
 
     // in seconds also
-    // 50 seconds for human body volume of 62.5L, scale from this
+    // 30 seconds for human body volume of 62.5L, scale from this
     int min_time_to_pulp = 30 * corpse_volume / 62.5;
 
     // +25% to pulp time if char knows no weakpoints of monster
