@@ -1407,12 +1407,6 @@ void Character::mutate_category( const mutation_category_id &cat )
     mutate_category( cat, !mutation_category_trait::get_category( cat ).vitamin.is_null() );
 }
 
-bool compareTraits( trait_id a, trait_id b )
-{
-    return a.obj().points > b.obj().points;
-
-}
-
 bool Character::mutation_selector( const std::vector<trait_id> &prospective_traits,
                                    const mutation_category_id &cat, const bool &use_vitamins )
 {
@@ -1492,7 +1486,9 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
     }
 
     // positive traits at start of list, negative traits at end.  Required for additional options if block.
-    std::sort( traits.begin(), traits.end(), compareTraits );
+    std::sort( traits.begin(), traits.end(), []( const trait_id a, const trait_id b ) {
+        return a.obj().points > b.obj().points;
+    } );
 
     int additional_options = calculate_by_enchantment( 0, enchant_vals::mod::MUT_ADDITIONAL_OPTIONS );
     int traits_size = traits.size();
@@ -1524,14 +1520,14 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
                 primary_index = end_index;
             } else {
                 // choose trait that is either neutral or negative
-                primary_index = ( rand() % ( end_index - ( positive_edge + 1 ) + 1 ) ) + ( positive_edge + 1 );
+                primary_index = rng( positive_edge + 1, end_index );
             }
         } else {
             if( negative_edge == 0 ) {
                 primary_index = 0;
             } else {
                 // choose trait that is either positive or neutral
-                primary_index = rand() % negative_edge;
+                primary_index = rng( 0, negative_edge - 1 );
             }
         }
         size_t below_index = primary_index;
