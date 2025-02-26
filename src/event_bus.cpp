@@ -1,5 +1,4 @@
 #include "event_bus.h"
-#include "event_bus.h"
 
 #include <algorithm>
 #include <array>
