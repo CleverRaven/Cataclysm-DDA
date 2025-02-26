@@ -8293,12 +8293,12 @@ void vehicle::calc_mass_center( map &here, bool use_precalc ) const
     if( use_precalc ) {
         mass_center_precalc.x() = std::round( x );
         mass_center_precalc.y() = std::round( y );
-        mass_center_precalc_dirty = false;
     } else {
         mass_center_no_precalc.x() = std::round( x );
         mass_center_no_precalc.y() = std::round( y );
-        mass_center_no_precalc_dirty = false;
     }
+
+    mass_center_no_precalc_dirty = false;
 }
 
 bounding_box vehicle::get_bounding_box( bool use_precalc, bool no_fake )
