@@ -338,6 +338,7 @@ void user_interface::show()
     ctxt.register_action( "QUIT" );
     if( tabs.size() > 1 ) {
         ctxt.register_action( "NEXT_TAB" );
+        ctxt.register_action( "PREV_TAB" );
     }
     ctxt.register_action( "ADD_RULE" );
     ctxt.register_action( "REMOVE_RULE" );
@@ -456,18 +457,8 @@ void user_interface::show()
         const int scroll_rate = recmax > 20 ? 10 : 3;
         const std::string action = ctxt.handle_input();
 
-        if( action == "NEXT_TAB" ) {
-            iTab++;
-            if( iTab >= tabs.size() ) {
-                iTab = 0;
-            }
-            iLine = 0;
-        } else if( action == "PREV_TAB" ) {
-            if( iTab > 0 ) {
-                iTab--;
-            } else {
-                iTab = tabs.size() - 1;
-            }
+        if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
+            iTab = inc_clamp_wrap( iTab, action == "NEXT_TAB", tabs.size() );
             iLine = 0;
         } else if( action == "QUIT" ) {
             break;
