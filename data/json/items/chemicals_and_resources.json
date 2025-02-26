@@ -1102,6 +1102,23 @@
   },
   {
     "type": "AMMO",
+    "id": "chem_dnp",
+    "category": "chems",
+    "price": "75 USD",
+    "price_postapoc": "25 USD",
+    "name": { "str_sp": "DNP" },
+    "symbol": "=",
+    "color": "white",
+    "description": "2,4-Dinitrophenol: a yellow powder that in the past was used as an herbicide, pesticide, and even as a niche weight-loss drug. It was banned from human consumption many decades ago, but lived on as a drug for fitness enthusiasts, and after the Cataclysm as an easy to manufacture and safe explosive.",
+    "material": [ "powder" ],
+    "//": "1.683 g/cc at 24 °C",
+    "volume": "297 ml",
+    "weight": "1 g",
+    "ammo_type": "components",
+    "count": 500
+  },
+  {
+    "type": "AMMO",
     "id": "chem_compositionb",
     "category": "chems",
     "price": "75 USD",
