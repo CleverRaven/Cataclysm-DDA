@@ -8287,8 +8287,9 @@ void vehicle::calc_mass_center( map &here, bool use_precalc ) const
     mass_cache = m_total;
     mass_dirty = false;
 
-    const float x = xf / mass_cache;
-    const float y = yf / mass_cache;
+    // If no reall parts remain the weight is zero, and we'd end up with division by zero.
+    const float x = mass_cache == 0_gram ? 0 : xf / mass_cache;
+    const float y = mass_cache == 0_gram ? 0 : yf / mass_cache;
     if( use_precalc ) {
         mass_center_precalc.x() = std::round( x );
         mass_center_precalc.y() = std::round( y );
