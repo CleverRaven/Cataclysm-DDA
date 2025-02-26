@@ -558,7 +558,7 @@
     "id": "biokin_guided_evolution",
     "type": "SPELL",
     "name": "[Ψ]Guided Evolution (C)",
-    "description": "With a large amount of focus, you can maintain a targeted control over any alterations to your body.  Whenever you mutate, you will have additional options to select from.  This power does not cause you to mutate on its own.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "description": "With a large amount of focus, you can maintain a targeted control over any alterations to your body.  Whenever you mutate, you will have additional options to select from.  This power does not cause you to mutate on its own.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.  It requires <color_yellow>even more concentration</color> than usual.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
