@@ -137,14 +137,15 @@ struct pulp_data {
     float pulp_power;
     // how much stamina is consumed after each punch
     float pulp_effort;
+    // time to pulp the corpse
     int time_to_pulp;
     // potential prof we can learn by pulping
     std::optional<proficiency_id> unknown_prof;
-    // for monsters with PULP_PRYING flag
+    // if monster has PULP_PRYING flag, can you pry armor faster using tool
     bool can_pry_armor = false;
-    // if acid corpse, we start to cut really slow
+    // do we have a good tool to cut specific parts faster
+    bool can_cut_precisely = false;
     // all used in ending messages
-    bool can_severe_cutting = false;
     bool stomps_only = false;
     bool weapon_only = false;
     bool used_pry = false;

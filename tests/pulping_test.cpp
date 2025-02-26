@@ -47,7 +47,7 @@ TEST_CASE( "monster_pulping_test" )
                                             p.time_to_pulp ) );
 
         CAPTURE( test.name, expected_pulp_speed, actual_pulp_speed, p.bash_tool, p.pulp_power,
-                 p.stomps_only, p.weapon_only, p.can_severe_cutting );
+                 p.stomps_only, p.weapon_only, p.can_cut_precisely );
         CHECK( test.expected_pulp_time == p.time_to_pulp );
     }
 }

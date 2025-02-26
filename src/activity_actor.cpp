@@ -8533,6 +8533,8 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
         return false;
     }
 
+    add_msg_debug( debugmode::DF_ACTIVITY, "time to pulp: %s", pd.time_to_pulp );
+
     // 10 minutes
     if( pd.time_to_pulp > 600 && !too_long_to_pulp ) {
         if( you.query_yn( "Pulping one or more corpses in this pile would take too much time.  Continue?" ) ) {
@@ -8632,7 +8634,7 @@ void pulp_activity_actor::send_final_message( Character &you ) const
     } else {
         tools = string_format( " mixing your %s with powerful stomps", pd.bash_tool );
     }
-    if( pd.can_severe_cutting ) {
+    if( pd.can_cut_precisely ) {
         tools += string_format( " and a trusty %s", pd.cut_tool );
     }
 
@@ -8698,7 +8700,7 @@ void pulp_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "way_too_long_to_pulp", way_too_long_to_pulp );
     jsout.member( "stomps_only", pd.stomps_only );
     jsout.member( "weapon_only", pd.weapon_only );
-    jsout.member( "can_severe_cutting", pd.can_severe_cutting );
+    jsout.member( "can_cut_precisely", pd.can_cut_precisely );
     jsout.member( "used_pry", pd.used_pry );
     jsout.member( "couldnt_use_pry", pd.couldnt_use_pry );
     jsout.member( "bash_tool", pd.bash_tool );
@@ -8726,7 +8728,7 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
     data.read( "way_too_long_to_pulp", actor.way_too_long_to_pulp );
     data.read( "stomps_only", actor.pd.stomps_only );
     data.read( "weapon_only", actor.pd.weapon_only );
-    data.read( "can_severe_cutting", actor.pd.can_severe_cutting );
+    data.read( "can_cut_precisely", actor.pd.can_cut_precisely );
     data.read( "used_pry", actor.pd.used_pry );
     data.read( "couldnt_use_pry", actor.pd.couldnt_use_pry );
     data.read( "bash_tool", actor.pd.bash_tool );
