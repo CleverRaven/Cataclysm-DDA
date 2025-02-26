@@ -93,13 +93,6 @@
         ]
       },
       {
-        "run_eocs": "EOC_BIOKIN_VITAMINOSIS_ONGOING_KAL_COSTS",
-        "time_in_future": [
-          { "math": [ "180 + ( u_spell_level('biokin_vitaminosis') * 12 )" ] },
-          { "math": [ "900 + ( u_spell_level('biokin_vitaminosis') * 48 )" ] }
-        ]
-      },
-      {
         "run_eocs": "EOC_BIOKIN_VITAMINOSIS_ONGOING_NETHER_ATTUNEMENT",
         "time_in_future": [
           { "math": [ "120 + ( u_spell_level('biokin_vitaminosis') * 2 )" ] },
@@ -111,23 +104,6 @@
         "time_in_future": [
           { "math": [ "900 - ( u_spell_level('biokin_vitaminosis') * 12 )" ] },
           { "math": [ "1800 - ( u_spell_level('biokin_vitaminosis') * 25 )" ] }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_BIOKIN_VITAMINOSIS_ONGOING_KAL_COSTS",
-    "//": "Costs some base calories just for the psionic power itself",
-    "condition": { "u_has_effect": "effect_biokin_vitaminosis" },
-    "effect": [
-      { "math": [ "u_latest_channeled_power_difficulty = u_spell_difficulty('biokin_vitaminosis')" ] },
-      { "run_eocs": [ "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
-      {
-        "run_eocs": "EOC_BIOKIN_VITAMINOSIS_ONGOING_KAL_COSTS",
-        "time_in_future": [
-          { "math": [ "120 + ( u_spell_level('biokin_vitaminosis') * 12 )" ] },
-          { "math": [ "300 + ( u_spell_level('biokin_vitaminosis') * 48 )" ] }
         ]
       }
     ]
