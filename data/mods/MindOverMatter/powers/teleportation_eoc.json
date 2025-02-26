@@ -32,17 +32,18 @@
                     "id": "EOC_TELEPORT_ITEM_APPORT_ITEM_QUALIFIES",
                     "effect": [
                       {
-                        "if": {
-                          "u_query_tile": "line_of_sight",
-                          "target_var": { "global_val": "teleporter_item_apport_location" },
-                          "range": {
-                            "math": [
-                              "min( ( ( (u_spell_level('teleport_item_apport') * 1.25) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
-                            ]
-                          },
-                          "z_level": true,
-                          "message": "Select apport location."
+                        "u_query_tile": "line_of_sight",
+                        "target_var": { "global_val": "teleporter_item_apport_location" },
+                        "range": {
+                          "math": [
+                            "min( ( ( (u_spell_level('teleport_item_apport') * 1.25) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+                          ]
                         },
+                        "z_level": true,
+                        "message": "Select apport location."
+                      },
+                      {
+                        "if": { "math": [ "has_var(_teleporter_item_apport_location)" ] },
                         "then": {
                           "if": {
                             "or": [

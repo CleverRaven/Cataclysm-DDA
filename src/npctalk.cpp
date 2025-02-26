@@ -23,6 +23,7 @@
 #include <vector>
 
 #include "achievement.h"
+#include "action.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -107,7 +108,9 @@
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "popup.h"
 #include "proficiency.h"
+#include "ranged.h"
 #include "recipe.h"
 #include "recipe_groups.h"
 #include "requirements.h"
@@ -4508,6 +4511,72 @@ talk_effect_fun_t::func f_explosion( const JsonObject &jo, std::string_view memb
     };
 }
 
+talk_effect_fun_t::func f_query_tile( const JsonObject &jo, std::string_view member,
+                                      const std::string_view, bool is_npc )
+{
+    std::string type = jo.get_string( member.data() );
+    var_info target_var = read_var_info( jo.get_object( "target_var" ) );
+    std::string message;
+    if( jo.has_member( "message" ) ) {
+        message = jo.get_string( "message" );
+    }
+    dbl_or_var range = get_dbl_or_var( jo, "range", false, 0 );
+    bool z_level = jo.get_bool( "z_level", false );
+    std::optional<var_info> center_var;
+    if( jo.has_member( "center_var" ) ) {
+        center_var = read_var_info( jo.get_object( "center_var" ) );
+    }
+    return [type, target_var, message, range, z_level, center_var, is_npc]( dialogue & d ) {
+        map &here = get_map();
+        std::optional<tripoint_bub_ms> loc;
+        Character *ch = d.actor( is_npc )->get_character();
+        tripoint_bub_ms center;
+        if( center_var.has_value() ) {
+            tripoint_abs_ms abs_ms = get_tripoint_ms_from_var( center_var, d, is_npc );
+            center = here.get_bub( abs_ms );
+        } else {
+            center = d.actor( is_npc )->pos_bub( here );
+        }
+
+        if( type != "line_of_sight" && range.evaluate( d ) != 0 ) {
+            debugmsg( "Effect has range, but uses type \"%s\".  %s", type, d.get_callstack() );
+        }
+
+        if( ch && ch->as_avatar() ) {
+            if( type == "anywhere" ) {
+                if( !message.empty() ) {
+                    static_popup popup;
+                    popup.on_top( true );
+                    popup.message( "%s", message );
+                }
+                const look_around_params looka_params = { true, center, center, false, true, true, z_level };
+                loc = g->look_around( looka_params ).position;
+            } else if( type == "line_of_sight" ) {
+                if( !message.empty() ) {
+                    static_popup popup;
+                    popup.on_top( true );
+                    popup.message( "%s", message );
+                }
+                avatar dummy;
+                dummy.set_pos_abs_only( get_avatar().pos_abs() );
+                target_handler::trajectory traj = target_handler::mode_select_only( dummy, range.evaluate( d ) );
+                if( !traj.empty() ) {
+                    loc = traj.back();
+                }
+            } else {
+                debugmsg( string_format( "Invalid selection type: %s", type ) );
+            }
+
+        }
+        if( loc.has_value() ) {
+            tripoint_abs_ms pos_global = get_map().get_abs( *loc );
+            write_var_value( target_var.type, target_var.name, &d,
+                             pos_global.to_string() );
+        }
+        return loc.has_value();
+    };
+}
+
 talk_effect_fun_t::func f_query_omt( const JsonObject &jo, std::string_view member,
                                      const std::string_view, bool is_npc )
 {
@@ -4551,6 +4620,100 @@ talk_effect_fun_t::func f_query_omt( const JsonObject &jo, std::string_view memb
             return;
         }
         return;
+    };
+}
+
+talk_effect_fun_t::func f_choose_adjacent_highlight( const JsonObject &jo, std::string_view member,
+        const std::string_view src, bool is_npc )
+{
+
+    var_info output_var = read_var_info( jo.get_object( member ) );
+
+    std::optional<var_info> target_var;
+    if( jo.has_member( "target_var" ) ) {
+        target_var = read_var_info( jo.get_object( "target_var" ) );
+    }
+
+    // i hate get_translation_or_var() `required` var do not work
+    translation_or_var message;
+    if( jo.has_member( "message" ) ) {
+        message = get_translation_or_var( jo.get_member( "message" ), "message", true );
+    } else {
+        message.str_val = translation();
+    }
+
+    translation_or_var failure_message;
+    if( jo.has_member( "failure_message" ) ) {
+        failure_message = get_translation_or_var( jo.get_member( "failure_message" ), "failure_message",
+                          true );
+    } else {
+        failure_message.str_val = translation();
+    }
+
+    bool allow_vertical = jo.get_bool( "allow_vertical", false );
+    bool allow_autoselect = jo.get_bool( "allow_autoselect", true );
+
+    std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs", src );
+
+    std::function<bool( const_dialogue const & )> cond;
+    read_condition( jo, "condition", cond, true );
+
+    return [output_var, target_var, message, failure_message, allow_vertical, allow_autoselect, cond,
+                false_eocs, is_npc]( dialogue & d ) {
+        map &here = get_map();
+
+        tripoint_bub_ms target_pos;
+        if( target_var.has_value() ) {
+            tripoint_abs_ms abs_ms = get_tripoint_ms_from_var( target_var, d, is_npc );
+            target_pos = get_map().get_bub( abs_ms );
+        } else {
+            target_pos = d.actor( is_npc )->pos_bub( here );
+        }
+
+        const std::function<bool( const tripoint_bub_ms & )> f = [cond, &d](
+        const tripoint_bub_ms & pnt ) {
+            write_var_value( var_type::context, "loc", &d, get_map().get_abs( pnt ).to_string_writable() );
+            return cond( d );
+        };
+
+        std::optional<tripoint_bub_ms> picked_coord = choose_adjacent_highlight( get_map(), target_pos,
+                message.evaluate( d ), failure_message.evaluate( d ), f, allow_vertical, allow_autoselect );
+
+        if( picked_coord.has_value() ) {
+            write_var_value( output_var.type, output_var.name, &d,
+                             get_map().get_abs( picked_coord.value() ).to_string_writable() );
+        } else {
+            run_eoc_vector( false_eocs, d );
+        }
+    };
+}
+
+talk_effect_fun_t::func f_mirror_coordinates( const JsonObject &jo, std::string_view member,
+        const std::string_view )
+{
+    // remove it once we get proper coordinate operations in math
+    var_info center_var;
+    if( jo.has_member( "center_var" ) ) {
+        center_var = read_var_info( jo.get_object( "center_var" ) );
+    }
+    var_info relative_var;
+    if( jo.has_member( "relative_var" ) ) {
+        relative_var = read_var_info( jo.get_object( "relative_var" ) );
+    }
+    var_info output_var;
+    if( jo.has_member( member ) ) {
+        output_var = read_var_info( jo.get_object( member ) );
+    }
+    return [center_var, relative_var, output_var]( dialogue & d ) {
+        tripoint_abs_ms const center = get_tripoint_ms_from_var( center_var, d, false );
+        tripoint_abs_ms const relative = get_tripoint_ms_from_var( relative_var, d, false );
+
+        tripoint_abs_ms const mirrored( center.x() * 2 - relative.x(),
+                                        center.y() * 2 - relative.y(),
+                                        center.z() * 2 - relative.z() );
+
+        write_var_value( output_var.type, output_var.name, &d, mirrored.to_string() );
+
     };
 }
 
@@ -6748,6 +6911,55 @@ talk_effect_fun_t::func f_custom_light_level( const JsonObject &jo,
     };
 }
 
+talk_effect_fun_t::func f_knockback( const JsonObject &jo, std::string_view member,
+                                     const std::string_view, bool is_npc )
+{
+    dbl_or_var force = get_dbl_or_var( jo, member, false, 0 );
+    dbl_or_var stun = get_dbl_or_var( jo, "stun", false, 0 );
+    dbl_or_var dam_mult = get_dbl_or_var( jo, "dam_mult", false, 0 );
+
+    std::optional<var_info> target_var;
+    if( jo.has_member( "target_var" ) ) {
+        target_var = read_var_info( jo.get_object( "target_var" ) );
+    }
+
+    std::optional<var_info> direction_var;
+    if( jo.has_member( "direction_var" ) ) {
+        direction_var = read_var_info( jo.get_object( "direction_var" ) );
+    }
+
+    return [force, stun, dam_mult, target_var, direction_var, is_npc]( dialogue & d ) {
+        map &here = get_map();
+        tripoint_bub_ms target_pos;
+        if( target_var.has_value() ) {
+            tripoint_abs_ms abs_ms = get_tripoint_ms_from_var( target_var, d, is_npc );
+            target_pos = here.get_bub( abs_ms );
+        } else {
+            target_pos = d.actor( is_npc )->pos_bub( here );
+        }
+
+        tripoint_bub_ms direction_pos;
+        if( direction_var.has_value() ) {
+            tripoint_abs_ms abs_ms = get_tripoint_ms_from_var( direction_var, d, is_npc );
+            direction_pos = here.get_bub( abs_ms );
+        } else {
+            direction_pos = d.actor( is_npc )->pos_bub( here );
+
+            point d2( rng( -1, 1 ), rng( -1, 1 ) );
+
+            // if we pass target_pos == direction_pos to knockback()->continue_line() the game gonna crash
+            while( d2 == point::zero ) {
+                d2 = point( rng( -1, 1 ), rng( -1, 1 ) );
+            }
+
+            direction_pos += d2;
+        }
+
+        g->knockback( direction_pos, target_pos, force.evaluate( d ), stun.evaluate( d ),
+                      dam_mult.evaluate( d ) );
+    };
+}
+
 talk_effect_fun_t::func f_give_equipment( const JsonObject &jo, std::string_view member,
         const std::string_view )
 {
@@ -7455,7 +7667,9 @@ parsers = {
     { "u_location_variable", "npc_location_variable", jarg::object, &talk_effect_fun::f_location_variable },
     { "u_transform_radius", "npc_transform_radius", jarg::member | jarg::array, &talk_effect_fun::f_transform_radius },
     { "u_explosion", "npc_explosion", jarg::member, &talk_effect_fun::f_explosion },
+    { "u_query_tile", "npc_query_tile", jarg::member, &talk_effect_fun::f_query_tile },
     { "u_query_omt", "npc_query_omt", jarg::member, &talk_effect_fun::f_query_omt },
+    { "u_choose_adjacent_highlight", "npc_choose_adjacent_highlight", jarg::member, &talk_effect_fun::f_choose_adjacent_highlight },
     { "u_set_goal", "npc_set_goal", jarg::member, &talk_effect_fun::f_npc_goal },
     { "u_set_guard_pos", "npc_set_guard_pos", jarg::member, &talk_effect_fun::f_guard_pos },
     { "u_learn_recipe", "npc_learn_recipe", jarg::member, &talk_effect_fun::f_learn_recipe },
@@ -7535,6 +7749,8 @@ parsers = {
     { "foreach", jarg::string, &talk_effect_fun::f_foreach },
     { "math", jarg::array, &talk_effect_fun::f_math },
     { "custom_light_level", jarg::member | jarg::array, &talk_effect_fun::f_custom_light_level },
+    { "mirror_coordinates", jarg::member, &talk_effect_fun::f_mirror_coordinates },
+    { "u_knockback", "npc_knockback", jarg::member, &talk_effect_fun::f_knockback },
     { "give_equipment", jarg::object, &talk_effect_fun::f_give_equipment },
     { "set_string_var", jarg::member | jarg::array, &talk_effect_fun::f_set_string_var },
     { "set_condition", jarg::member, &talk_effect_fun::f_set_condition },

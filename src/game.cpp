@@ -6664,6 +6664,7 @@ void game::print_all_tile_info( const tripoint_bub_ms &lp, const catacurses::win
             }
             break;
     }
+    print_debug_info( lp, w_look, column, line );
     if( !inbounds ) {
         return;
     }
@@ -7002,6 +7003,19 @@ void game::print_graffiti_info( const tripoint_bub_ms &lp, const catacurses::win
                                           m.ter( lp ) == ter_t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
                                           m.graffiti_at( lp ) );
         line += lines - 1;
+    }
+}
+
+void game::print_debug_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
+                             const int column, int &line )
+{
+    if( debug_mode ) {
+        const map &here = get_map();
+
+        mvwprintz( w_look, point( column, ++line ), c_white, "tripoint_bub_ms: %s",
+                   lp.to_string_writable() );
+        mvwprintz( w_look, point( column, ++line ), c_white, "tripoint_abs_ms: %s",
+                   here.get_abs( lp ).to_string_writable() );
     }
 }
 
