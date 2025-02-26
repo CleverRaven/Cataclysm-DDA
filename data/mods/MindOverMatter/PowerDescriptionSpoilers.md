@@ -162,6 +162,27 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Prerequisites*: Heightened Reflexes 10, Physical Enhancement 10, Adrenaline Trigger 9 *or* Burst of Speed 6<br />
 </details>
 <details>
+<summary><h3>Guided Evolution (C)</h3></summary>
+
+*Difficulty*: 8<br />
+*Duration*: 45 minutes to 112 minutes and 30 seconds, plus 4 minutes 10 seconds to 8 minutes 20 seconds per level<br />
+*Stamina Cost*: 8000, minus 250 per level to a minimum of 4000<br />
+*Channeling Time*: 250 moves, minus 13 moves per level to a minimum of 50<br />
+*Effects*: Whenever the psion mutates, they may choose from 1 + 0.25 extra mutations per level for which trait they want to mutate.  This power does not in of itself mutate the psion, and at high nether attunement may result in extra random mutations.<br />
+*Prerequisites*: Vitaminosis 10, Metabolic Hyperefficiency 10<br />
+</details>
+<details>
+<summary><h3>Vitaminosis</h3></summary>
+
+*Difficulty*: 8<br />
+*Target*: Self<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 8000<br />
+*Channeling Time*: 5 seconds<br />
+*Effects*: Enter a trance where the psion converts calories into either iron, vitamin C, and calcium at a rate of 200 calories per 100 vitamins.  The psion will automatically stop meditating when all three vitamins are full.<br />
+*Prerequisites*: Metabolic Hyperefficiency 8, Adrenaline Trigger 6<br />
+</details>
+<details>
 <summary><h3>Perfected Motion</h3></summary>
 
 *Difficulty*: 9<br />
