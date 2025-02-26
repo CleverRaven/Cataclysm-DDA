@@ -1718,10 +1718,19 @@ static void read()
     }
 }
 
-// Perform a reach attach using wielded weapon
+// Perform a reach attack
 static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
+
+    // target_handler::trajectory traj;
+    // if( you.get_wielded_item() )
+    // {
+    //     traj = target_handler::mode_reach( you, you.get_wielded_item() );
+    // } else {
+    //     debugmsg("doesn't have weapon");
+    //     traj = target_handler::mode_unarmed_reach( you );
+    // }
 
     target_handler::trajectory traj = target_handler::mode_reach( you, you.get_wielded_item() );
 
@@ -1749,6 +1758,11 @@ static void fire()
     const item_location weapon = you.get_wielded_item();
     // try reach weapon
     if( weapon && !weapon->is_gun() && weapon->current_reach_range( you ) > 1 ) {
+        reach_attack( you );
+        return;
+    }
+    if( !weapon && you.calculate_by_enchantment(1, enchant_vals::mod::MELEE_RANGE_MODIFIER ) > 1 )
+    {
         reach_attack( you );
         return;
     }

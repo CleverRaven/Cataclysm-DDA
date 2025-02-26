@@ -498,6 +498,17 @@ target_handler::trajectory target_handler::mode_reach( avatar &you, item_locatio
     return ui.run();
 }
 
+target_handler::trajectory target_handler::mode_unarmed_reach( avatar &you )
+{
+    target_ui ui = target_ui();
+    ui.you = &you;
+    ui.mode = target_ui::TargetMode::Reach;
+    ui.range = std::max( 1, static_cast<int>( you.calculate_by_enchantment( 1, enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) );
+
+    restore_on_out_of_scope view_offset_prev( you.view_offset );
+    return ui.run();
+}
+
 target_handler::trajectory target_handler::mode_turret_manual( avatar &you, turret_data &turret )
 {
     target_ui ui = target_ui();
