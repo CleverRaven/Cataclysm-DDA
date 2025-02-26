@@ -4,8 +4,6 @@
 #include "generic_factory.h"
 #include "pocket_type.h"  // IWYU pragma: keep // need full type to read from json
 
-struct pulp_test_data;
-
 // Define the static class varaibles
 std::set<itype_id> test_data::legacy_to_hit;
 std::set<itype_id> test_data::known_bad;
@@ -147,7 +145,7 @@ void test_data::load( const JsonObject &jo )
 
             if( job.has_array( "skills" ) ) {
                 for( JsonObject job_skills : job.get_array( "skills" ) ) {
-                    skills.emplace( std::make_pair( job_skills.get_string( "skill" ), job_skills.get_int( "level" ) ) );
+                    skills.emplace( job_skills.get_string( "skill" ), job_skills.get_int( "level" ) );
                 }
             }
 

@@ -14316,7 +14316,7 @@ pulp_data game::calculate_character_ability_to_pulp( const Character &you )
     u.roll_damage( damage_stab, false, di, true, pair_bash.second, attack_vector_id::NULL_ID(),
                    sub_bodypart_str_id::NULL_ID(), 1.f );
 
-    for( damage_unit du : di ) {
+    for( const damage_unit &du : di ) {
         // potentially move it to json, if someone find necrotic mace +3 should pulp faster for some reason
         if( du.type == damage_cut ) {
             pulp_power_bash += du.amount / 3;

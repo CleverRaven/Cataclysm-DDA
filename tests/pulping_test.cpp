@@ -1,18 +1,20 @@
-#include "character.h"
-#include "map_helpers.h"
-#include "cata_catch.h"
-#include "game.h"
-#include "player_helpers.h"
-#include "coordinates.h"
-#include "item.h"
-#include "map.h"
-#include "point.h"
-#include "type_id.h"
-#include "units.h"
-#include "test_data.h"
-#include "vpart_position.h"
-#include "messages.h"
+#include <vector>
+#include <utility>
+#include <string>
+#include <memory>
+#include <map>
+
 #include "calendar.h"
+#include "cata_catch.h"
+#include "character.h"
+#include "character_attire.h"
+#include "game.h"
+#include "item.h"
+#include "map_helpers.h"
+#include "player_helpers.h"
+#include "proficiency.h"
+#include "test_data.h"
+#include "type_id.h"
 
 static const itype_id itype_debug_backpack( "debug_backpack" );
 
@@ -20,7 +22,7 @@ TEST_CASE( "monster_pulping_test" )
 {
     clear_map();
     Character &you = get_player_character();
-    for( pulp_test_data test : test_data::pulp_test ) {
+    for( const pulp_test_data &test : test_data::pulp_test ) {
         clear_character( you );
         // to reset character weight
         you.set_stored_kcal( 120000 );
@@ -30,7 +32,7 @@ TEST_CASE( "monster_pulping_test" )
         for( const itype_id it : test.items ) {
             you.i_add( item( it ) );
         }
-        for( const std::pair<skill_id, int> &pair : test.skills ) {
+        for( const std::pair<const string_id<Skill>, int> &pair : test.skills ) {
             you.set_skill_level( pair.first, pair.second );
         }
         if( test.profs ) {
