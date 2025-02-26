@@ -1833,10 +1833,10 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
     };
     result.success.next_topic = talk_topic( r );
     if( first ) {
-        responses.insert( responses.begin(), result );
+        add_gen_response( result, true );
         return responses.front();
     } else {
-        responses.push_back( result );
+        add_gen_response( result, false );
         return responses.back();
     }
 }
@@ -1926,6 +1926,9 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
 void dialogue::gen_responses( const talk_topic &the_topic )
 {
     responses.clear();
+    response_condition_exists.clear();
+    response_condition_eval.clear();
+
     const auto iter = json_talk_topics.find( the_topic.id );
     if( iter != json_talk_topics.end() ) {
         json_talk_topic &jtt = iter->second;
@@ -2568,6 +2571,18 @@ void parse_tags( std::string &phrase, const_talker const &u, const_talker const 
     } while( fa != std::string::npos && fb != std::string::npos );
 }
 
+void dialogue::add_gen_response( const talk_response &resp, bool insert_front,
+                                 bool condition_exists, bool condition_result )
+{
+    if( insert_front ) {
+        responses.insert( responses.begin(), resp );
+    } else {
+        responses.push_back( resp );
+    }
+    response_condition_exists.emplace_back( condition_exists );
+    response_condition_eval.emplace_back( condition_result );
+}
+
 void dialogue::add_topic( const std::string &topic_id )
 {
     if( actor( true )->get_npc() ) {
@@ -2853,13 +2868,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     // Construct full line
     std::string challenge = dynamic_line( topic );
     gen_responses( topic );
-    // cache response conditionals
-    std::vector<bool> response_condition_exists;
-    std::vector<bool> response_condition_eval;
-    for( talk_response &response : responses ) {
-        response_condition_exists.emplace_back( response.condition );
-        response_condition_eval.emplace_back( response.condition ? response.condition( *this ) : false );
-    }
+
     // Put quotes around challenge (unless it's an action)
     if( challenge[0] != '*' && challenge[0] != '&' ) {
         challenge = string_format( _( "\"%s\"" ), challenge );
@@ -7916,6 +7925,7 @@ bool json_talk_response::test_condition( dialogue &d ) const
     if( condition ) {
         return condition( d );
     }
+    //if condition doesn't exist, it evaluates to true if tested
     return true;
 }
 
@@ -7926,11 +7936,13 @@ const talk_response &json_talk_response::get_actual_response() const
 
 bool json_talk_response::gen_responses( dialogue &d, bool switch_done )
 {
+    bool condition_result = test_condition( d );
+
     if( !is_switch || !switch_done || d.debug_ignore_conditionals ) {
-        if( test_condition( d ) || show_anyways( d ) || d.debug_ignore_conditionals ) {
-            actual_response.ignore_conditionals = !test_condition( d ) && ( show_anyways( d ) ||
+        if( condition_result || show_anyways( d ) || d.debug_ignore_conditionals ) {
+            actual_response.ignore_conditionals = !condition_result && ( show_anyways( d ) ||
                                                   d.debug_ignore_conditionals );
-            d.responses.emplace_back( actual_response );
+            d.add_gen_response( actual_response, false, !!condition, condition_result );
             return is_switch && !is_default;
         } else if( !failure_explanation.empty() || !failure_topic.empty() ) {
             // build additional talk responses for failed options with an explanation if details are given
@@ -7942,7 +7954,7 @@ bool json_talk_response::gen_responses( dialogue &d, bool switch_done )
                 // Default is TALK_NONE otherwise go to the failure topic provided
                 tr.success.next_topic = talk_topic( failure_topic );
             }
-            d.responses.emplace_back( tr );
+            d.add_gen_response( tr, false, !!condition, condition_result );
         }
     }
     return false;
@@ -7957,7 +7969,7 @@ bool json_talk_response::gen_repeat_response( dialogue &d, const itype_id &item_
             talk_response result = actual_response;
             result.success.next_topic.item_type = item_id;
             result.failure.next_topic.item_type = item_id;
-            d.responses.insert( d.responses.begin(), result );
+            d.add_gen_response( result, !!condition, true, true );
             return is_switch && !is_default;
         }
     }
