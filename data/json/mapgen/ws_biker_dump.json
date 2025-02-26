@@ -121,7 +121,7 @@
       "palettes": [ "regional_dump" ],
       "furniture": { "H": "f_55gal_firebarrel" },
       "items": {
-        "B": { "item": "oa_custom_trash", "chance": 15 },
+        "B": { "item": "SUS_trash_trashcan", "chance": 15 },
         "1": { "item": "oa_ig_rd_electronic_trash", "chance": 10 },
         "2": { "item": "trash", "chance": 10 },
         "3": { "item": "oa_ig_rd_metal_trash", "chance": 10 },

@@ -73,7 +73,7 @@
     "type": "item_group",
     "//": "Regular items for the homeless.",
     "items": [
-      { "group": "trash", "prob": 30 },
+      { "group": "SUS_trash_floor", "prob": 30 },
       { "group": "donated_clothes", "prob": 25 },
       { "group": "gear_survival", "prob": 5 },
       { "group": "contraband", "prob": 20 },
