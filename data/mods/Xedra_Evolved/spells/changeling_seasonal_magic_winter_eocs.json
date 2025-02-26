@@ -269,5 +269,27 @@
         "else": { "u_message": "Canceled" }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_WINTER_PURE_AREA_DARKNESS",
+    "effect": [
+      { "u_message": "All light dies away.", "type": "neutral" },
+      {
+        "custom_light_level": 0,
+        "length": [
+          {
+            "math": [
+              "( ( 39.85 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 16.78) + (u_skill('deduction') * 49.85) ) ) * (global_what_is_the_season == 2 ? 0.3 : 1)"
+            ]
+          },
+          {
+            "math": [
+              "( ( 133.47 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 68.15) + (u_skill('deduction') * 120.85) ) ) * (global_what_is_the_season == 2 ? 0.2 : 1)"
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

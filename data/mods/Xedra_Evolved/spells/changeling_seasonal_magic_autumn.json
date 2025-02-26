@@ -193,11 +193,20 @@
     "difficulty": 7,
     "effect": "ter_transform",
     "effect_str": "ter_changeling_autumn_plant_harvest",
+    "components": "spell_components_dreamdross_3",
     "min_range": 1,
-    "base_energy_cost": {
+    "min_aoe": {
       "math": [
-        "max( ( 800 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 5) - (u_skill('deduction') * 8)), 600) * (global_what_is_the_season == 1 ? 10000 : 1)"
+        "min( ( 0 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.05) - (u_skill('deduction') * 0.1)), 3)"
       ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( 0 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.05) - (u_skill('deduction') * 0.1)), 3)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 800 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 5) - (u_skill('deduction') * 8)), 3)" ]
     },
     "base_casting_time": {
       "math": [
