@@ -790,6 +790,41 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_biokin_guided_evolution_backfire",
+    "name": [ "Evolving Backfire" ],
+    "desc": [ "Your biology is running out of control.  Perhaps extensively drawing on the netherium was a bad idea." ],
+    "apply_message": "Netherium energy surges through your cells, changing them in an unknowable way.  Something is about to change.",
+    "remove_message": "",
+    "rating": "bad",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_guided_evolution",
+    "name": [ "Guided Evolution" ],
+    "desc": [ "Whenever you mutate, you may pick the resulting mutation from a selection of options." ],
+    "apply_message": "",
+    "remove_message": "You are no longer controlling your evolution.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_effect": "effect_biokin_guided_evolution_backfire" } },
+        "values": [
+          {
+            "value": "MUT_ADDITIONAL_OPTIONS",
+            "add": {
+              "math": [
+                "max( 1, ( 1 + ( u_spell_level('biokin_guided_evolution') * 0.25 ) * scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling )"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biokin_perfected_motion",
     "name": [ "Perfected Motion" ],
     "desc": [ "You feel like you can outrun a locomotive." ],
@@ -910,6 +945,16 @@
       }
     ],
     "flags": [ "NO_PSIONICS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_vitaminosis",
+    "name": [ "Vitaminosis" ],
+    "desc": [ "You are steadily converting calories into vitamins." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "max_duration": "7 days"
   },
   {
     "type": "effect_type",
