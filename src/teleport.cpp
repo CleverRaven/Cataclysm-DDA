@@ -30,7 +30,6 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "viewer.h"
 #include "vehicle.h"
 #include "viewer.h"
 #include "map_iterator.h"
@@ -410,12 +409,10 @@ bool teleport::teleport_vehicle( vehicle &veh, const tripoint_abs_ms &dp )
         return false;
     }
     std::set<int> smzs;
-    size_t our_i = 0;
     bool found = false;
     for( submap *&smap : here.grid ) {
         for( size_t i = 0; i < smap->vehicles.size(); i++ ) {
             if( smap->vehicles[i].get() == &veh ) {
-                our_i = i;
                 src_submap = smap;
                 found = true;
                 break;
