@@ -61,7 +61,7 @@
     "name": "Verdant Vitality",
     "description": "You can draw some of the energy inherent in nearby plants into yourself, restoring a bit of your stamina and easing your pain.  However, the energy is drawn from nearby foliage and cannot be accessed if you are not standing on verdant ground.",
     "//": "Once terrain can accept flags or timed effects or something, we can use that instead of dead grass.",
-    "flags": [ "SOMATIC", "VERBAL" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_spring",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
     "valid_targets": [ "self" ],
@@ -87,7 +87,7 @@
     "type": "SPELL",
     "name": "Nurturing the Green",
     "description": "You can greatly speed plant growth.  Grass can grow from seed in moments, crops can shoot towards the sky, and even young trees can put forth mighty limbs.  You cannot, however, bring a plant to ripeness or fruiting.  The glamour <color_red>cannot be used</color> in the winter.",
-    "flags": [ "VERBAL" ],
+    "flags": [ "VERBAL", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_spring",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
     "valid_targets": [ "ground" ],
@@ -101,7 +101,7 @@
     "min_range": 1,
     "base_energy_cost": {
       "math": [
-        "max( ( 1000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 8) - (u_skill('deduction') * 10)), 500)  * (global_what_is_the_season == 4 ? 10000 : 1)"
+        "max( ( 1000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 8) - (u_skill('deduction') * 10)), 500) * (global_what_is_the_season == 4 ? 10000 : 1)"
       ]
     },
     "base_casting_time": {
@@ -111,11 +111,49 @@
     }
   },
   {
+    "id": "changeling_spring_prevent_bad_conditions_spell",
+    "type": "SPELL",
+    "name": "Spring Cleansing",
+    "description": "Like a house after a long winter, this glamour removes impurities in the target's body, curing them of poison or disease and preventing them from reoccurring while it lasts.  The glamour's duration is <color_yellow>greatly reduced</color> in the autumn.",
+    "message": "",
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "self", "ally" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 4,
+    "effect": "attack",
+    "effect_str": "effect_changeling_spring_prevent_bad_conditions",
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": {
+      "math": [
+        "( ( 90854 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 18625) + (u_skill('deduction') * 38543) ) ) * (global_what_is_the_season == 3 ? 0.3 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 244800 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 41835) + (u_skill('deduction') * 98515) ) )  * (global_what_is_the_season == 3 ? 0.2 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 500 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 4) - (u_skill('deduction') * 8)), 350)" ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 6000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 50) - (u_skill('deduction') * 120)), 2000)"
+      ]
+    }
+  },
+  {
     "id": "changeling_spring_protective_plant_armor_spell",
     "type": "SPELL",
     "name": "Viridian Cuirass",
     "description": "Grow a set of enchanted living armor around yourself or an ally, providing protection and resistance to chill temperatures.  The glamour offers <color_yellow>no protection from cold</color> in autumn.",
-    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION" ],
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_spring",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
     "valid_targets": [ "self", "ally" ],
@@ -153,7 +191,7 @@
     "type": "SPELL",
     "name": "New Growth",
     "description": "Draw on the power of growth and new sprouts to speed the healing of yourself or one of your allies, as long as you are outside.  The healing rate is <color_yellow>reduced</color> in autumn.",
-    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION" ],
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_spring",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
     "valid_targets": [ "self", "ally" ],

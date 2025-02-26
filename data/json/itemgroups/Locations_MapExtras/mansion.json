@@ -878,6 +878,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
+      [ "shot_hull", 40 ],
       [ "sinew", 40 ],
       [ "9mm_casing", 20 ],
       [ "38_casing", 20 ],
