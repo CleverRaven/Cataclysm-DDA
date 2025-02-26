@@ -1138,7 +1138,8 @@
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0
+        "weight_multiplier": 0,
+        "ememory_max": "1 TB"
       }
     ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ] } ],
