@@ -9706,7 +9706,7 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
 std::pair<float, item> Character::get_best_weapon_by_damage_type( const damage_type_id dmg_type )
 const
 {
-    std::pair<float, item> best_weapon = std::make_pair( 0, item() );
+    std::pair<float, item> best_weapon = std::make_pair( 0.0f, item() );
 
     cache_visit_items_with( "best_damage_" + dmg_type.str(), &item::is_melee, [&best_weapon, this,
                   dmg_type]( const item & it ) {

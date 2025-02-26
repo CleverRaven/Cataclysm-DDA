@@ -32,7 +32,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": 2,
+      "melee_damage": { "damage_type": "cut", "amount": 2 },
       "vision_night": 1,
       "armor": { "bash": 4, "cut": 6, "bullet": 5, "electric": 1 }
     },
@@ -110,7 +110,7 @@
     "weight": "100 kg",
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25, "attack_cost": 1.25 },
-    "relative": { "melee_skill": 1, "melee_dice": 1, "melee_damage": -2 },
+    "relative": { "melee_skill": 1, "melee_dice": 1, "melee_damage": { "damage_type": "cut", "amount": -2 } },
     "bleed_rate": 0,
     "upgrades": false,
     "grab_strength": 60,
@@ -152,7 +152,7 @@
     "volume": "46 L",
     "weight": "60 kg",
     "hp": 70,
-    "relative": { "melee_dice": 1, "melee_dice_sides": 2, "melee_damage": 6 },
+    "relative": { "melee_dice": 1, "melee_dice_sides": 2, "melee_damage": { "damage_type": "cut", "amount": 6 } },
     "bleed_rate": 0,
     "special_attacks": [
       { "id": "bite_grab", "attack_upper": false, "cooldown": 5, "max_mul": 1.5 },
@@ -179,7 +179,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": 2,
+      "melee_damage": { "damage_type": "cut", "amount": 2 },
       "vision_night": 1,
       "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },

@@ -100,7 +100,7 @@
     "durability": 7,
     "loudness": 4,
     "clip_size": 80,
-    "ammo_effects": "ACID",
+    "ammo_effects": [ "ACID" ],
     "flags": [ "NO_UNLOAD", "NON_FOULING" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "acidic_bore": 80 } } ],
     "melee_damage": { "bash": 4 }

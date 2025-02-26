@@ -1265,7 +1265,7 @@
     "name": { "str": "fungal kosmoceratops zombie" },
     "description": "This was once a massive, four-legged dinosaur herbivore, with a tall bony crest from which fifteen horns and spikes emerged.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "copy-from": "mon_zriceratops_fungus",
-    "proportional": { "melee_dice": 2, "melee_damage": 0.65 },
+    "proportional": { "melee_dice": 2, "melee_damage": { "damage_type": "stab", "amount": 0.65 } },
     "special_attacks": [ [ "FUNGUS", 200 ], { "id": "impale" }, [ "stretch_horn_DinoMod", 10 ] ],
     "upgrades": false
   },
@@ -1275,7 +1275,7 @@
     "name": { "str": "fungal torosaurus zombie" },
     "description": "This was once a massive, four-legged dinosaur herbivore, with a tall bony crest from which two wicked-looking horns emerged.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "copy-from": "mon_zriceratops_fungus",
-    "proportional": { "melee_dice": 2, "melee_damage": 0.65 },
+    "proportional": { "melee_dice": 2, "melee_damage": { "damage_type": "stab", "amount": 0.65 } },
     "special_attacks": [ [ "FUNGUS", 200 ], { "id": "impale" }, [ "stretch_horn_DinoMod", 5 ] ],
     "upgrades": false
   },
