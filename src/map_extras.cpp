@@ -80,15 +80,15 @@ static const furn_str_id furn_f_sign_warning( "f_sign_warning" );
 static const furn_str_id furn_f_tourist_table( "f_tourist_table" );
 static const furn_str_id furn_f_wreckage( "f_wreckage" );
 
+static const item_group_id Item_spawn_data_SUS_trash_floor( "SUS_trash_floor" );
 static const item_group_id Item_spawn_data_ammo_casings( "ammo_casings" );
 static const item_group_id Item_spawn_data_army_bed( "army_bed" );
 static const item_group_id Item_spawn_data_everyday_corpse( "everyday_corpse" );
 static const item_group_id Item_spawn_data_map_extra_casings( "map_extra_casings" );
 static const item_group_id Item_spawn_data_mine_equipment( "mine_equipment" );
-static const item_group_id
+static const item_group_id 
 Item_spawn_data_mon_zombie_soldier_death_drops( "mon_zombie_soldier_death_drops" );
 static const item_group_id Item_spawn_data_remains_human_generic( "remains_human_generic" );
-static const item_group_id Item_spawn_data_SUS_trash_floor( "SUS_trash_floor" );
 
 static const itype_id itype_223_casing( "223_casing" );
 static const itype_id itype_762_51_casing( "762_51_casing" );

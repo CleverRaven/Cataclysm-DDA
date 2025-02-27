@@ -201,11 +201,11 @@ static const furn_str_id furn_f_safe_o( "f_safe_o" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 
+static const item_group_id Item_spawn_data_SUS_trash_no_manmade( "SUS_trash_no_manmade" );
 static const item_group_id Item_spawn_data_forage_autumn( "forage_autumn" );
 static const item_group_id Item_spawn_data_forage_spring( "forage_spring" );
 static const item_group_id Item_spawn_data_forage_summer( "forage_summer" );
 static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
-static const item_group_id Item_spawn_data_SUS_trash_no_manmade( "SUS_trash_no_manmade" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_detergent( "detergent" );
