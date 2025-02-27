@@ -63,6 +63,7 @@
         "c": "f_chair",
         "n": "f_slab"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_loot": [
         { "item": "shovel", "repeat": 1, "x": 17, "y": 4 },

@@ -343,6 +343,7 @@
         "u": "f_trashcan",
         "}": "f_locker"
       },
+      "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "shoestore_shoes", "x": 4, "y": [ 7, 13 ], "chance": 80, "repeat": [ 1, 8 ] },
@@ -625,6 +626,7 @@
         "u": "f_trashcan",
         "y": "f_indoor_plant_y"
       },
+      "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "wedding_suits", "x": 2, "y": [ 6, 8 ], "chance": 70, "repeat": [ 2, 4 ] },

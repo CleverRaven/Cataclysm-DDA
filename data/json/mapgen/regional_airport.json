@@ -354,7 +354,8 @@
       "O": [
         { "item": "supplies_electronics", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "mechanics", "chance": 20, "repeat": [ 1, 2 ] }
-      ]
+      ],
+      "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "vendingmachines": { "8": { "item_group": "vending_drink", "lootable": true }, "9": { "item_group": "vending_food", "lootable": true } },
     "vehicles": {

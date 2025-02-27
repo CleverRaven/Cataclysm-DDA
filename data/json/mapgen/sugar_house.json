@@ -115,7 +115,8 @@
         "2": { "item": "SUS_silverware", "chance": 100 },
         "3": { "item": "SUS_utensils", "chance": 100 },
         "C": { "item": "SUS_cookware", "chance": 100 },
-        "c": { "item": "sugar_house_kitchen_items", "chance": 75, "repeat": [ 1, 2 ] }
+        "c": { "item": "sugar_house_kitchen_items", "chance": 75, "repeat": [ 1, 2 ] },
+        "t": { "item": "SUS_toilet", "chance": 50 }
       },
       "item": { "M": [ { "item": "bucket", "chance": 100 }, { "item": "tree_spile", "chance": 100 } ] },
       "place_loot": [

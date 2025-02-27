@@ -6,6 +6,7 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "furniture": { "&": "f_trashcan", "P": "f_sign", "c": "f_chair", "d": "f_desk", "t": "f_table", "{": "f_recycle_bin", "S": "f_sink" },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_items": [
         { "chance": 50, "repeat": [ 120, 220 ], "item": "recycle_iron", "x": [ 10, 14 ], "y": [ 15, 16 ] },
@@ -200,6 +201,7 @@
         "4": "t_gutter_downspout",
         "=": "t_door_c"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_signs": [
         { "signage": "GLASS", "x": 15, "y": 9 },
@@ -281,6 +283,7 @@
         "{": "f_recycle_bin",
         "S": "f_sink"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_items": [
         { "chance": 15, "item": "office", "x": [ 4, 5 ], "y": 14 },

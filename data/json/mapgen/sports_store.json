@@ -60,7 +60,7 @@
         "O": [ "f_crate_c", "f_cardboard_box", "f_crate_o" ]
       },
       "toilets": { "&": {  } },
-      "items": { "O": { "item": "allsporting", "chance": 50 } },
+      "items": { "&": { "item": "SUS_toilet", "chance": 50 }, "O": { "item": "allsporting", "chance": 50 } },
       "place_loot": [
         { "group": "clothing_sport", "x": [ 5, 6 ], "y": 6, "chance": 90, "repeat": [ 1, 8 ] },
         { "group": "clothing_sport", "x": [ 17, 18 ], "y": 6, "chance": 90, "repeat": [ 1, 8 ] },

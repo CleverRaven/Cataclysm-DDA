@@ -663,6 +663,7 @@
         "h": "f_chair",
         "t": "f_table"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_monster": [ { "monster": "mon_darkman", "x": 8, "y": 10 } ]
     }

@@ -63,7 +63,8 @@
     "items": {
       "R": { "item": "SUS_scuba_gear", "chance": 10 },
       "D": { "item": "SUS_scuba_gear", "chance": 40 },
-      "]": { "item": "swimmer_wetsuit", "chance": 80, "repeat": [ 0, 3 ] }
+      "]": { "item": "swimmer_wetsuit", "chance": 80, "repeat": [ 0, 3 ] },
+      "t": { "item": "SUS_toilet", "chance": 50 }
     }
   },
   {

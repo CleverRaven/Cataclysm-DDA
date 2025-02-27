@@ -66,6 +66,7 @@
         "d": "f_dumpster"
       },
       "vendingmachines": { "1": { "item_group": "vending_drink", "lootable": true } },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_loot": [
         { "group": "mussto_stringinst", "x": [ 5, 10 ], "y": 10, "chance": 70, "repeat": [ 3, 7 ] },

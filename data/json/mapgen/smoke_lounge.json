@@ -88,6 +88,7 @@
       },
       "vendingmachines": { "M": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "sealed_item": { "1": { "item": { "item": "seed_tobacco" }, "furniture": "f_planter_harvest" } },
+      "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "&": {  } }
     },
     "om_terrain": "smoke_lounge",
@@ -233,6 +234,7 @@
       },
       "vendingmachines": { "M": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "sealed_item": { "1": { "item": { "item": "seed_tobacco" }, "furniture": "f_planter_harvest" } },
+      "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "&": {  } }
     },
     "om_terrain": "smoke_lounge_1",

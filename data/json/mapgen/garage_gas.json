@@ -69,6 +69,7 @@
         "S": "f_sink"
       },
       "gaspumps": { "&": {  } },
+      "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "t": {  } },
       "vendingmachines": { "L": { "item_group": "vending_drink", "lootable": true }, "l": { "item_group": "vending_food", "lootable": true } },
       "place_loot": [

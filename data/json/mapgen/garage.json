@@ -320,6 +320,7 @@
         "w": { "item": "SUS_welding_gear", "chance": 80, "repeat": [ 1, 2 ] },
         "f": { "item": "office", "chance": 70, "repeat": [ 1, 6 ] },
         "d": { "item": "office", "chance": 70, "repeat": [ 1, 6 ] },
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "T": { "item": "cleaning", "chance": 70, "repeat": [ 1, 6 ] }
       },
       "place_vehicles": [ { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 95, "rotation": 90 } ]

@@ -85,6 +85,7 @@
       "e": [ { "item": "SUS_fridge_stocked", "chance": 80 } ],
       "O": { "item": "SUS_oven", "chance": 100 },
       "q": { "item": "SUS_dishwasher", "chance": 65 },
+      "T": { "item": "SUS_toilet", "chance": 50 },
       "R": [ { "item": "SUS_pantry", "chance": 25 }, { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] } ],
       "(": { "item": "donated_clothes", "chance": 80, "repeat": [ 1, 3 ] },
       "w": [ { "item": "donated_clothes", "chance": 25 } ],

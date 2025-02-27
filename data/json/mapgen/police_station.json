@@ -72,7 +72,8 @@
         "}": { "item": "police_armory_any_assaultrifle", "chance": 90 },
         "[": { "item": "police_armory_any_pistol", "chance": 100, "repeat": 2 },
         "]": { "item": "police_armory_any_shotgun", "chance": 5 },
-        "L": { "item": "cop_evidence", "chance": 60, "repeat": [ 2, 4 ] }
+        "L": { "item": "cop_evidence", "chance": 60, "repeat": [ 2, 4 ] },
+        "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "item": { "/": { "item": "american_flag" } },
       "toilets": { "&": {  } },
@@ -231,7 +232,8 @@
         "}": { "item": "police_armory_any_assaultrifle", "chance": 90 },
         "[": { "item": "police_armory_any_pistol", "chance": 95 },
         "]": { "item": "police_armory_any_shotgun", "chance": 85 },
-        "L": { "item": "cop_evidence", "chance": 60 }
+        "L": { "item": "cop_evidence", "chance": 60 },
+        "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "item": { "/": { "item": "american_flag" } },
       "toilets": { "&": {  } },
@@ -328,6 +330,7 @@
       "toilets": { "&": {  } },
       "place_loot": [ { "item": "television", "x": 14, "y": 12, "chance": 100 }, { "item": "family_photo", "x": 5, "y": 4, "chance": 100 } ],
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "3": { "item": "police_armory_any_pistol", "chance": 100 },
         "[": { "item": "police_armory_any_pistol", "chance": 90 },
         "9": { "item": "police_armory_any_assaultrifle", "chance": 100 },
@@ -482,6 +485,7 @@
         "/": "f_flagpole"
       },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "N": { "item": "bulletin_police", "chance": 50, "repeat": [ 1, 3 ] },
         ".": { "item": "badge_deputy", "chance": 2 },
         "$": { "item": "cleaning", "chance": 50, "repeat": [ 2, 3 ] },

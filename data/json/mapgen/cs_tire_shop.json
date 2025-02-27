@@ -73,7 +73,8 @@
         "r": { "item": "oa_ig_ts_tires", "chance": 70 },
         "L": { "item": "oa_ig_ts_lockers", "chance": 50, "repeat": [ 2, 8 ] },
         "A": { "item": "tools_tire", "chance": 100, "repeat": [ 3, 7 ] },
-        "C": { "item": "oa_ig_ts_crates", "chance": 50 }
+        "C": { "item": "oa_ig_ts_crates", "chance": 50 },
+        "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [ { "group": "cash_register_random", "x": 6, "y": 18 } ],
       "add": [ { "item": "microwave", "x": 16, "y": 18, "chance": 2 }, { "item": "coffeemaker", "x": 16, "y": 19, "chance": 2 } ],

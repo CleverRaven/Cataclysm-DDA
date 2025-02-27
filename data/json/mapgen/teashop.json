@@ -85,7 +85,8 @@
       ],
       "items": {
         "t": { "item": "tea_dishes", "chance": 30, "repeat": [ 1, 2 ] },
-        "T": { "item": "tea_dishes", "chance": 30, "repeat": [ 1, 2 ] }
+        "T": { "item": "tea_dishes", "chance": 30, "repeat": [ 1, 2 ] },
+        "U": { "item": "SUS_toilet", "chance": 50 }
       }
     }
   },

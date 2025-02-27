@@ -73,7 +73,8 @@
       "O": { "item": "SUS_oven", "chance": 100 },
       "u": [ { "item": "SUS_coffee_cupboard", "chance": 50 }, { "item": "dining", "chance": 30 } ],
       "R": { "item": "office_supplies", "chance": 50, "repeat": [ 1, 2 ] },
-      "I": { "item": "SUS_office_filing_cabinet", "chance": 80 }
+      "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
+      "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "item": {
       "]": { "item": "american_flag" },

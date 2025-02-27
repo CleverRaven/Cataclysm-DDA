@@ -543,6 +543,7 @@
       ],
       "p": { "item": "gym_school", "chance": 70, "repeat": [ 1, 5 ] },
       "R": { "item": "tools_plumbing", "chance": 55, "repeat": [ 1, 2 ] },
+      "T": { "item": "SUS_toilet", "chance": 50 },
       "t": { "item": "dining", "chance": 33, "repeat": [ 1, 2 ] },
       "u": { "item": "child_items", "chance": 1 },
       "F": { "item": "file_room", "chance": 85, "repeat": [ 1, 4 ] },
