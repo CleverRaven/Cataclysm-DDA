@@ -144,7 +144,7 @@
       "melee_skill": -2,
       "melee_dice": 2,
       "melee_dice_sides": -1,
-      "melee_damage": -2,
+      "melee_damage": { "damage_type": "cut", "amount": -2 },
       "vision_day": -13,
       "vision_night": 3,
       "armor": { "bash": 2, "cut": 2, "bullet": 1, "fire": -15, "acid": -15 }
@@ -202,7 +202,7 @@
       "melee_skill": 5,
       "melee_dice": 1,
       "melee_dice_sides": 1,
-      "melee_damage": -2,
+      "melee_damage": [ { "damage_type": "cut", "amount": -2 } ],
       "vision_day": -22,
       "vision_night": 20,
       "regenerates": 3,

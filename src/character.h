@@ -1654,7 +1654,11 @@ class Character : public Creature, public visitable
         /** Removes the mutation's child flag from the player's list */
         void remove_child_flag( const trait_id &flag );
         /** Try to cross The Threshold */
-        void test_crossing_threshold( const mutation_category_id &mutation_category );
+        void try_crossing_threshold( const mutation_category_id &mutation_category );
+        /** Crosses the mutation threshold of the given category */
+        void cross_threshold( const mutation_category_id &mutation_category );
+        /*** Returns if the character can cross the given threshold. */
+        bool can_cross_threshold( const mutation_category_id &mutation_category );
         /** Returns how many steps are required to reach a mutation */
         int mutation_height( const trait_id &mut ) const;
         /** Recalculates mutation_category_level[] values for the player */

@@ -355,25 +355,11 @@ void grab::load_grab( const JsonObject &jo )
     was_loaded = true;
 }
 
-melee_actor::melee_actor()
-{
-    damage_max_instance = damage_instance();
-    // FIXME: Hardcoded damage type
-    damage_max_instance.add_damage( damage_bash, 9 );
-    min_mul = 0.5f;
-    max_mul = 1.0f;
-    move_cost = 100;
-}
-
 void melee_actor::load_internal( const JsonObject &obj, const std::string & )
 {
     // Optional:
-    if( obj.has_array( "damage_max_instance" ) ) {
-        damage_max_instance = load_damage_instance( obj.get_array( "damage_max_instance" ) );
-    } else if( obj.has_object( "damage_max_instance" ) ) {
-        damage_max_instance = load_damage_instance( obj );
-    }
-
+    optional( obj, was_loaded, "damage_max_instance", damage_max_instance,
+              damage_instance( damage_bash, 9 ) ); // FIXME: Hardcoded damage type
     optional( obj, was_loaded, "accuracy", accuracy, INT_MIN );
     optional( obj, was_loaded, "min_mul", min_mul, 0.5f );
     optional( obj, was_loaded, "max_mul", max_mul, 1.0f );
@@ -488,6 +474,9 @@ Creature *melee_actor::find_target( monster &z ) const
 int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) const
 {
     map &here = get_map();
+    tripoint_bub_ms monster_pos = z.pos_bub( here );
+    // Note that target has the 'aliases' of foe and zz
+    tripoint_bub_ms target_pos = target->pos_bub( here );
 
     // Something went wrong
     if( !target ) {
@@ -495,7 +484,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
     }
     // Handle some messaging in-grab
     game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
-    const std::string mon_name = get_player_character().sees( here, z.pos_bub( here ) ) ?
+    const std::string mon_name = get_player_character().sees( here, monster_pos ) ?
                                  z.disp_name( false, true ) : _( "Something" );
     Character *foe = target->as_character();
 
@@ -516,7 +505,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
         }
         add_msg_debug( debugmode::DF_MATTACK, "Target weight %d g under weight limit  %.1f g, ",
                        to_gram( target->get_weight() ), to_gram( z.get_weight() ) * grab_data.pull_weight_ratio );
-        const optional_vpart_position veh_part = here.veh_at( target->pos_bub() );
+        const optional_vpart_position veh_part = here.veh_at( target_pos );
         if( foe && foe->in_vehicle && veh_part ) {
             const std::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
             if( vp_seatbelt ) {
@@ -546,17 +535,17 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
     if( grab_data.pull_chance > -1 && x_in_y( grab_data.pull_chance, 100 ) ) {
         add_msg_debug( debugmode::DF_MATTACK, "Pull chance roll succeeded" );
 
-        int pull_range = std::min( range, rl_dist( z.pos_bub(), target->pos_bub() ) + 1 );
-        tripoint_bub_ms pt = target->pos_bub();
+        int pull_range = std::min( range, rl_dist( monster_pos, target_pos ) + 1 );
+        tripoint_bub_ms pt = target_pos;
         while( pull_range > 0 ) {
             // Recalculate the ray each step
             // We can't depend on either the target position being constant (obviously),
             // but neither on z pos staying constant, because we may want to shift the map mid-pull
-            const units::angle dir = coord_to_angle( target->pos_bub(), z.pos_bub() );
+            const units::angle dir = coord_to_angle( target_pos, monster_pos );
             tileray tdir( dir );
             tdir.advance();
-            pt.x() = target->posx() + tdir.dx();
-            pt.y() = target->posy() + tdir.dy();
+            pt.x() = target_pos.x() + tdir.dx();
+            pt.y() = target_pos.y() + tdir.dy();
             //Cancel the grab if the space is occupied by something
             if( !g->is_empty( pt ) ) {
                 break;
@@ -564,17 +553,20 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
 
             if( foe != nullptr ) {
                 if( foe->in_vehicle ) {
-                    here.unboard_vehicle( foe->pos_bub() );
+                    here.unboard_vehicle( target_pos );
                 }
 
                 if( foe->is_avatar() && ( pt.x() < HALF_MAPSIZE_X || pt.y() < HALF_MAPSIZE_Y ||
                                           pt.x() >= HALF_MAPSIZE_X + SEEX || pt.y() >= HALF_MAPSIZE_Y + SEEY ) ) {
                     g->update_map( pt.x(), pt.y() );
+                    monster_pos = z.pos_bub( here );
+                    target_pos = target->pos_bub( here );
                 }
             }
 
             // Don't try to fall mid pull
             target->setpos( here, pt, false );
+            target_pos = pt;
             pull_range--;
             if( animate ) {
                 g->invalidate_main_ui_adaptor();
@@ -592,6 +584,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
         // The monster might drag a target that's not on it's z level
         // So if they leave them on open air, make them fall
         target->gravity_check();
+        target_pos = target->pos_bub( here );
         here.creature_on_trap( *target );
 
         target->add_msg_player_or_npc( msg_type, grab_data.pull_msg_u, grab_data.pull_msg_npc, mon_name,
@@ -622,11 +615,11 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
         int distance = grab_data.drag_distance;
         while( distance > 0 ) {
             // Start with the opposite square
-            tripoint_bub_ms opposite_square = z.pos_bub() - ( target->pos_bub() - z.pos_bub() );
+            tripoint_bub_ms opposite_square = monster_pos - ( target_pos - monster_pos );
             // Keep track of our neighbors (no leaping)
             std::set<tripoint_bub_ms> neighbors;
-            for( const tripoint_bub_ms &trp : here.points_in_radius( z.pos_bub(), 1 ) ) {
-                if( trp != z.pos_bub() && trp != target->pos_bub() ) {
+            for( const tripoint_bub_ms &trp : here.points_in_radius( monster_pos, 1 ) ) {
+                if( trp != monster_pos && trp != target_pos ) {
                     neighbors.insert( trp );
                 }
             }
@@ -634,7 +627,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
             std::set<tripoint_bub_ms> candidates;
             for( const tripoint_bub_ms &trp : here.points_in_radius( opposite_square,
                     grab_data.drag_deviation ) ) {
-                if( trp != z.pos_bub() && trp != target->pos_bub() ) {
+                if( trp != monster_pos && trp != target_pos ) {
                     candidates.insert( trp );
                 }
             }
@@ -645,8 +638,9 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
             tripoint_bub_ms target_square = random_entry<std::set<tripoint_bub_ms>>( intersect );
             if( z.can_move_to( target_square ) ) {
                 monster *zz = target->as_monster();
-                tripoint_bub_ms zpt = z.pos_bub();
+                tripoint_bub_ms zpt = monster_pos;
                 z.move_to( target_square, false, false, grab_data.drag_movecost_mod );
+                monster_pos = target_square;
                 if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
                     return 0;
                 }
@@ -657,14 +651,16 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                 }
                 if( foe != nullptr ) {
                     if( foe->in_vehicle ) {
-                        here.unboard_vehicle( foe->pos_bub() );
+                        here.unboard_vehicle( target_pos );
                     }
                     foe->setpos( here, zpt );
+                    target_pos = zpt;
                     if( !foe->in_vehicle && here.veh_at( zpt ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
                         here.board_vehicle( zpt, foe );
                     }
                 } else {
                     zz->setpos( here, zpt );
+                    target_pos = zpt;
                 }
                 target->add_msg_player_or_npc( m_bad, _( "You are dragged behind the %s!" ),
                                                _( "<npcname> gets dragged behind the %s!" ), z.name() );

@@ -18,7 +18,7 @@
     "name": "Bonefire's Light",
     "description": "Conjure up a flickering ball of orange and red light that hovers nearby and sheds a dim glow on your surroundings.  The glamour is <color_yellow>quicker to expire</color> in winter.",
     "message": "",
-    "flags": [ "SOMATIC", "RANDOM_DURATION" ],
+    "flags": [ "SOMATIC", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_summer",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
     "valid_targets": [ "self" ],
@@ -52,7 +52,7 @@
     "name": "Quick-Kindle",
     "description": "With a quick gesture, summon up a burst of heat sufficient to ignite flammable material.  The glamour <color_red>cannot be used</color> in winter.",
     "message": "",
-    "flags": [ "SOMATIC" ],
+    "flags": [ "SOMATIC", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_summer",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
     "valid_targets": [ "self" ],
@@ -74,7 +74,7 @@
     "name": "Shading Your Eyes",
     "description": "The true initiate of summer can gaze directly at the sun without flinching.  The glamour protects your eyes from the light of the noonday sun, as well as other sources of bright light such as flashbangs or welding torches.",
     "message": "",
-    "flags": [ "VERBAL", "RANDOM_DURATION" ],
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_summer",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
     "valid_targets": [ "self", "ally" ],
@@ -103,7 +103,7 @@
     "//": "If/when there is a distinction between fast running and jumps, this is a jump.",
     "description": "Like a salmon leaping over obstacles in a river, you can make prodigious jumps.",
     "message": "",
-    "flags": [ "SOMATIC" ],
+    "flags": [ "SOMATIC", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_summer",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
     "valid_targets": [ "ally", "hostile", "ground" ],
@@ -137,7 +137,7 @@
     "name": "Burning Solar Grasp",
     "description": "Surround your hands in ethereal flames, doing additional fire damage to targets you strike in melee.  This damage is greater when unarmed, but still transfers to any weapons you wield.  The glamour is <color_yellow>quicker to expire</color> in winter.",
     "message": "",
-    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION" ],
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_summer",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
     "valid_targets": [ "self" ],
@@ -169,7 +169,7 @@
     "name": "Outracing the Sun",
     "description": "After using this glamour, begin running.  As long as you continue running, you will not run out of stamina.  Weaving another glamour or attacking breaks the effect.  In the winter the glamour <color_red>does not work</color> if you are indoors.",
     "message": "",
-    "flags": [ "SOMATIC", "VERBAL" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_summer",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
     "valid_targets": [ "self" ],
@@ -181,9 +181,43 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_CHANGELING_SUMMER_RUN_FOR_LONG_PERIODS",
     "base_energy_cost": {
-      "math": [ "max( ( 450 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 5) - (u_skill('deduction') * 4)), 250)" ]
+      "math": [ "max( ( 450 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 5) - (u_skill('deduction') * 7)), 250)" ]
     },
     "base_casting_time": 100
+  },
+  {
+    "id": "changeling_summer_bonus_stamina_near_enemies_spell",
+    "type": "SPELL",
+    "name": "A Fire in the Blood",
+    "description": "Infuse the energy of the summer sun into your yourself, preparing for battle.  Your stamina will regenerate faster in proportion to the number of adjacent enemies, and you will have an easier time dodging enemy attacks.  In the winter the glamour <color_yellow>is less effective</color>.",
+    "message": "",
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 6,
+    "effect": "attack",
+    "effect_str": "effect_changeling_summer_bonus_stamina_near_enemies",
+    "min_duration": {
+      "math": [
+        "( ( 3825 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 1152) + (u_skill('deduction') * 4852) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 8642 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 2852) + (u_skill('deduction') * 9852) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 550 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 5) - (u_skill('deduction') * 10)), 200)"
+      ]
+    },
+    "base_casting_time": 75
   },
   {
     "id": "changeling_summer_powerful_sunlight_spell",
@@ -191,7 +225,7 @@
     "name": "Helios's Wrath",
     "description": "Blaze with the blinding light of the sun, blinding anyone nearby capable of seeing you.  This is real sunlight and affects creatures harmed by it accordingly.",
     "message": "",
-    "flags": [ "VERBAL", "RANDOM_DURATION" ],
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_summer",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
     "valid_targets": [ "self" ],
@@ -225,7 +259,7 @@
       "//~": "NO_I18N"
     },
     "message": "",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_summer",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
     "valid_targets": [ "ally", "hostile" ],
@@ -247,7 +281,7 @@
       "//~": "NO_I18N"
     },
     "message": "",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_summer",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
     "valid_targets": [ "self" ],

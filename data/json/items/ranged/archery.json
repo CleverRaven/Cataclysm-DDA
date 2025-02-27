@@ -828,7 +828,7 @@
     "name": { "str": "blackwood greatbow" },
     "description": "A tall bow made from very finely grained black wood.  Its large asymmetrical limbs are improperly shaped to fire arrows of regular length, and they require incredible strength to pull back.",
     "price": "10 USD",
-    "ammo": "strange_arrow",
+    "ammo": [ "strange_arrow" ],
     "material": [ "wood", "monolith_heavy" ],
     "min_strength": 15,
     "weight": "22 kg",

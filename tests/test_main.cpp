@@ -323,6 +323,7 @@ int main( int argc, const char *argv[] )
     std::string option_overrides;
     std::string mods_string;
     std::string check_plural_str;
+    int limit_debug_level = -1;
     Parser cli = session.cli()
                  | Opt( mods_string, "mod1,mod2,…" )
                  ["--mods"]
@@ -342,6 +343,9 @@ int main( int argc, const char *argv[] )
                  | Opt( check_plural_str, "none|certain|possbile" )
                  ["--check-plural"]
                  ( "[CataclysmDDA] (TBW)" )
+                 | Opt( limit_debug_level, "number" )
+                 ["--set-debug-level-mask"]
+                 ( "[CataclysmDDA] Set debug level bitmask - see `enum DebugLevel` in src/debug.h for individual bits definition" )
                  ;
     session.cli( cli );
 
@@ -399,6 +403,9 @@ int main( int argc, const char *argv[] )
     } );
 
     setupDebug( DebugOutput::std_err );
+    if( limit_debug_level != -1 ) {
+        limitDebugLevel( limit_debug_level );
+    }
 
     // Set the seed for mapgen (the seed will also be reset before each test)
     const unsigned int seed = session.config().rngSeed();

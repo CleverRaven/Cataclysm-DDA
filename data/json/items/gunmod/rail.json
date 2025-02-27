@@ -15,7 +15,7 @@
     "location": "rail",
     "mod_targets": [ "shotgun", "rifle", "crossbow" ],
     "gun_data": {
-      "ammo": "bolt",
+      "ammo": [ "bolt" ],
       "skill": "rifle",
       "range": 8,
       "ranged_damage": { "damage_type": "stab", "amount": 3 },

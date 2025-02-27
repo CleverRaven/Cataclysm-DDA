@@ -17,7 +17,7 @@
     "type": "SPELL",
     "name": "Touch of Frailty",
     "description": "Like the fading of plantlife in the end of the year, afflict your target with the ravages of age, reducing their physical abilities for a brief period.  The duration is <color_green>greatly increased</color> in autumn.",
-    "flags": [ "SOMATIC", "RANDOM_DURATION" ],
+    "flags": [ "SOMATIC", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_autumn",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
     "valid_targets": [ "ally", "hostile" ],
@@ -81,7 +81,7 @@
     "name": "Autumn Mists",
     "description": "You can draw on the mystery of misty autumn mornings and condense a thick fog out of the air, reducing the vision of everyone and hiding your movements.  Reweave the glamour to dispel it. The glamour is <color_yellow>quicker to expire</color> in summer.",
     "message": "",
-    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION" ],
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_autumn",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
     "valid_targets": [ "self" ],
@@ -114,12 +114,40 @@
     }
   },
   {
+    "id": "changeling_autumn_scare_humans_spell",
+    "type": "SPELL",
+    "name": "Scarecrow's Mien",
+    "description": "Spin an illusion around yourself, making those who look on you see their greatest fear, increase your ability to intimidate them, though with a corresponding loss of persuasive ability.  The glamour is <color_yellow>less effective</color> in spring.",
+    "message": "",
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 5,
+    "effect": "attack",
+    "effect_str": "effect_changeling_autumn_scare_humans",
+    "min_duration": {
+      "math": [ "( ( 235 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 52) + (u_skill('deduction') * 185) ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( ( 812 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 125) + (u_skill('deduction') * 322) ) )" ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 300 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 4) - (u_skill('deduction') * 7)), 150)" ]
+    },
+    "base_casting_time": 50
+  },
+  {
     "id": "changeling_autumn_protection_from_ranged_spell",
     "type": "SPELL",
     "name": "Swirl of Autumn Leaves",
     "description": "Whip up a wind and a swirl of autumn leaves around yourself, giving ranged attacks a chance to go awry.  The glamour also makes you <color_green>harder to spot</color> if used in autumn.",
     "message": "A spray of colored leaves whirl around you.",
-    "flags": [ "VERBAL", "RANDOM_DURATION" ],
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_autumn",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
     "valid_targets": [ "self" ],
@@ -150,12 +178,40 @@
     }
   },
   {
+    "id": "changeling_autumn_plants_to_harvest_spell",
+    "type": "SPELL",
+    "name": "Branches Laden and Heavy",
+    "description": "You can bring a growing plant to full ripeness, allowing you to harvest it immediately.  The glamour <color_red>cannot be used</color> in the spring.",
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "ground" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 7,
+    "effect": "ter_transform",
+    "effect_str": "ter_changeling_autumn_plant_harvest",
+    "min_range": 1,
+    "base_energy_cost": {
+      "math": [
+        "max( ( 800 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 5) - (u_skill('deduction') * 8)), 600) * (global_what_is_the_season == 1 ? 10000 : 1)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 30000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 250) - (u_skill('deduction') * 500)), 6000)"
+      ]
+    }
+  },
+  {
     "id": "changeling_autumn_create_confusion_mist_spell",
     "type": "SPELL",
     "name": "Lost in the Mists",
-    "description": "Call up an obscuring mist, rendering anything inside insensate and incapable of navigating or determining their location.  Those inside the fog will wander, blind and deaf, until the glamour fades or they somehow find their way outside of its area.  The effected area is <color_yellow>reduced</color> in the spring.",
+    "description": "Call up an obscuring mist, rendering anything inside insensate and incapable of navigating or determining their location.  Those inside the fog will wander, blind and deaf, until the glamour fades or they somehow find their way outside of its area.  The affected area is <color_yellow>reduced</color> in the spring.",
     "message": "With a gesture, a mist begins to rise.",
-    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION", "IGNORE_WALLS" ],
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION", "IGNORE_WALLS", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_autumn",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
     "valid_targets": [ "hostile", "ally", "ground", "self" ],
