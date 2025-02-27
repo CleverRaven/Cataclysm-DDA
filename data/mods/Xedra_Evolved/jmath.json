@@ -44,7 +44,7 @@
   },
   {
     "type": "jmath_function",
-    "id": "xedra_chronomancer_formula_exp_for_level",
+    "id": "xedra_chronomancer_formula_exp_per_cast",
     "num_args": 1,
     "return": "0 * _0"
   },
