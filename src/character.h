@@ -2376,10 +2376,11 @@ class Character : public Creature, public visitable
 
         /**
          * Wield an item, unwielding currently wielded item (if any).
+         * If moving from a location, use provide item_location instead of item for more accurate move-cost.
          * @param it item to be wielded.
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
-        bool wield( item &it );
+        bool wield( item &it, const int obtain_cost = 0 );
         /**
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded

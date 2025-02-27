@@ -13043,7 +13043,7 @@ void Character::search_surroundings()
     }
 }
 
-bool Character::wield( item &it )
+bool Character::wield( item &it, const int obtain_cost )
 {
     invalidate_inventory_validity_cache();
     invalidate_leak_level_cache();
@@ -13089,7 +13089,12 @@ bool Character::wield( item &it )
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
     bool worn = is_worn( it );
-    const int mv = it.obtain_cost( *this );
+
+    // Ideally the cost should be calculated from wield(item_location), but as backup try it here.
+    const int handling_cost = item_handling_cost( it, true,
+                              worn ? INVENTORY_HANDLING_PENALTY / 2
+                              : INVENTORY_HANDLING_PENALTY );
+    const int mv = !obtain_cost ? handling_cost : obtain_cost;
 
     if( worn ) {
         it.on_takeoff( *this );
@@ -13132,7 +13137,7 @@ bool Character::wield( item_location loc, bool remove_old )
         return false;
     }
 
-    if( !wield( *loc ) ) {
+    if( !wield( *loc, loc.obtain_cost( *this ) ) ) {
         return false;
     }
 
