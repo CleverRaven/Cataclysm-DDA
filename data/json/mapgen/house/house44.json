@@ -80,7 +80,7 @@
     "method": "json",
     "om_terrain": [ [ "house_44_roof_0", "house_44_roof_1" ] ],
     "object": {
-      "fill_ter": "t_shingle_flat_roof",
+      "fill_ter": "t_flat_roof",
       "rows": [
         "                                                ",
         "                                                ",
