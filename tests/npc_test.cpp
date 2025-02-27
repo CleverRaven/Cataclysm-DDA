@@ -50,7 +50,7 @@ static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_sleep( "sleep" );
 
 static const item_group_id Item_spawn_data_test_NPC_guns( "test_NPC_guns" );
-static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
+static const item_group_id Item_spawn_data_trash_forest( "SUS_trash_forest_manmade" );
 
 static const itype_id itype_M24( "M24" );
 static const itype_id itype_bat( "bat" );

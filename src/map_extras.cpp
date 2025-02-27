@@ -88,7 +88,7 @@ static const item_group_id Item_spawn_data_mine_equipment( "mine_equipment" );
 static const item_group_id
 Item_spawn_data_mon_zombie_soldier_death_drops( "mon_zombie_soldier_death_drops" );
 static const item_group_id Item_spawn_data_remains_human_generic( "remains_human_generic" );
-static const item_group_id Item_spawn_data_trash_cart( "trash_cart" );
+static const item_group_id Item_spawn_data_trash_cart( "SUS_trash_floor" );
 
 static const itype_id itype_223_casing( "223_casing" );
 static const itype_id itype_762_51_casing( "762_51_casing" );
