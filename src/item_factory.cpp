@@ -2892,8 +2892,7 @@ void islot_gun::load( const JsonObject &jo )
     optional( jo, was_loaded, "ammo", ammo, auto_flags_reader<ammotype> {} );
     optional( jo, was_loaded, "range", range );
     // Damage instance optional reader handles pierce
-    optional( jo, was_loaded, "ranged_damage", damage,
-              damage_instance( damage_type_id::NULL_ID(), -20, -20, -20, -20 ) );
+    optional( jo, was_loaded, "ranged_damage", damage );
     optional( jo, was_loaded, "dispersion", dispersion );
     optional( jo, was_loaded, "sight_dispersion", sight_dispersion, 30 );
     optional( jo, was_loaded, "recoil", recoil );
