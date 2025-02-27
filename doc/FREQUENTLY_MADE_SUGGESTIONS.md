@@ -479,9 +479,21 @@ For this to happen, we need code to detect significant changes in aircraft, code
 
 As of this writing, a variety of 'simple parts' can be added or removed from helicopters at will without rendering them non-airworthy. This is controlled by a simple JSON flag and can be easily changed as needed, if a good argument can be made that the addition/removal of such a part would never seriously impact a helicopter.
 
-#### We should be able to make airplanes/autogyros/hot air balloons/blimps/submarines: Yes
+#### We should be able to make autogyros/hot air balloons/blimps/submarines/simple airplanes: Yes
 
 All of these have been suggested.  All of them would be possible if someone wrote a bunch of code to enable them.
+
+#### We should be able to pilot fixed-wing/tiltrotor aircraft: No
+
+The mechanics of the game simply do not support vehicles moving at the speeds needed to stay flying. Helicopters are already fast enough to break many of the game's assumptions. Aircraft can be even faster than that.
+
+The game only simulates 10 z-levels up or down, which is about 40 meters above the surface. This is a very low altitude even for a helicopter. For an aircraft, this is suicidal.
+
+#### We should be able to use fixed-wing/tiltrotor aircraft to travel the map: Yes!
+
+As some sort of 'fast travel' system, yes, with the obvious restrictions. Obviously fixed-wing aircraft need a place to takeoff, and another plane to land. Some time-based events (including the real calendar time) need to be advanced while 'flying' to the destination, etc.
+
+This just needs someone to write a bunch of code to enable it.
 
 #### Vehicles should be able to span multiple z-levels: Yes
 
