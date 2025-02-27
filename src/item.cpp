@@ -4086,7 +4086,7 @@ void item::pet_armor_protection_info( std::vector<iteminfo> &info,
     }
 }
 
-// simple struct used for organizing encumberance in an ordered set
+// simple struct used for organizing encumbrance in an ordered set
 struct armor_encumb_data {
     int encumb;
     int encumb_max;
