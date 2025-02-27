@@ -1112,10 +1112,11 @@
     "description": "2,4-Dinitrophenol: a yellow powder that in the past was used as an herbicide and pesticide. It was tested as a weight-loss drug but was withdrawn and banned from human consumption for its toxicity and high risk of death. It lived on in the more experimenting corners of the internet for that purpose, but for you it is more useful as a relatively safe and easy to manufacture explosive.",
     "material": [ "powder" ],
     "//": "1.683 g/cc at 24 °C",
-    "volume": "297 ml",
+    "volume": "238 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "count": 500
+    "container": "bottle_plastic_small",
+    "count": 400
   },
   {
     "type": "AMMO",
