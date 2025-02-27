@@ -3672,7 +3672,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "military flight helmet" },
-    "description": "A military flight helmet.  Equipped with a visor, microphone, and noise dampening system.  The helmet is also fitted with plastic rails to allow for different load-outs.",
+    "description": "A military flight helmet.  Equipped with a visor, microphone, and noise dampening system.  The helmet is also fitted with plastic railfit a night-vision attachment.",
     "weight": "1324 g",
     "volume": "2 L",
     "price": "500 USD",
@@ -3707,6 +3707,17 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "moves": 250,
+        "description": "Pocket for a front night vision attachment.",
+        "flag_restriction": [ "HELMET_FRONT_ATTACHMENT" ],
+        "inherits_flags": false
       }
     ],
     "melee_damage": { "bash": 6 }
