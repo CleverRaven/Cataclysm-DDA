@@ -498,6 +498,18 @@ target_handler::trajectory target_handler::mode_reach( avatar &you, item_locatio
     return ui.run();
 }
 
+target_handler::trajectory target_handler::mode_unarmed_reach( avatar &you )
+{
+    target_ui ui = target_ui();
+    ui.you = &you;
+    ui.mode = target_ui::TargetMode::Reach;
+    ui.range = std::max( 1, static_cast<int>( you.calculate_by_enchantment( 1,
+                         enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) );
+
+    restore_on_out_of_scope view_offset_prev( you.view_offset );
+    return ui.run();
+}
+
 target_handler::trajectory target_handler::mode_turret_manual( avatar &you, turret_data &turret )
 {
     target_ui ui = target_ui();
@@ -2915,7 +2927,7 @@ void target_ui::init_window_and_input()
         ctxt.register_action( "LEVEL_DOWN" );
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Reach &&
-            relevant->is_gun() && you->get_aim_types( *relevant ).size() > 1 ) ) {
+            ( relevant && relevant->is_gun() ) && you->get_aim_types( *relevant ).size() > 1 ) ) {
         ctxt.register_action( "SWITCH_MODE" );
         if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
             ctxt.register_action( "SWITCH_AMMO" );
@@ -3929,7 +3941,7 @@ void target_ui::draw_controls_list( int text_y )
         lines.push_back( {4, colored( col_fire, aim_and_fire )} );
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Reach &&
-            relevant->is_gun() && you->get_aim_types( *relevant ).size() > 1 ) ) {
+            ( relevant && relevant->is_gun() ) && you->get_aim_types( *relevant ).size() > 1 ) ) {
         lines.push_back( {5, colored( col_enabled, string_format( _( "[%s] to switch firing modes." ),
                                       bound_key( "SWITCH_MODE" ).short_description() ) )
                          } );
