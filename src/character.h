@@ -2374,13 +2374,16 @@ class Character : public Creature, public visitable
          */
         bool wield( item_location loc, bool remove_old = true );
 
+        bool wield( item &it ) {
+            return wield( it, nullptr )
+        };
         /**
          * Wield an item, unwielding currently wielded item (if any).
          * If moving from a location, use provide item_location instead of item for more accurate move-cost.
          * @param it item to be wielded.
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
-        bool wield( item &it, int obtain_cost = 0 );
+        bool wield( item &it, std::optional<int> obtain_cost );
         /**
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded
