@@ -13092,7 +13092,7 @@ bool Character::wield( item &it, const int obtain_cost )
 
     // Ideally the cost should be calculated from wield(item_location), but as backup try it here.
     const int handling_cost = item_handling_cost( it, true,
-                              INVENTORY_HANDLING_PENALTY / worn ? 2 : 1 );
+                              INVENTORY_HANDLING_PENALTY / ( worn ? 2 : 1 ) );
     const int mv = obtain_cost == 0 ? handling_cost : obtain_cost;
 
     if( worn ) {
