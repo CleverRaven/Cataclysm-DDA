@@ -1390,7 +1390,7 @@
     "id": "effect_biomancer_control_mutations",
     "type": "effect_type",
     "name": [ "Morphogenic Mastery" ],
-    "desc": [ "You are able to extert conscious control over any mutations to your body." ],
+    "desc": [ "You are able to exert conscious control over any mutations to your body." ],
     "apply_message": "You feel…strange.",
     "remove_message": "The strange feeling passes and you feel more like yourself.",
     "rating": "good",
