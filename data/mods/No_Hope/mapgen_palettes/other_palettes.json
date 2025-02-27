@@ -268,7 +268,7 @@
       "S": { "item": "SUS_evac_shelter_sink", "chance": 5 },
       "%": [
         { "item": "shelter_supplies", "chance": 2, "repeat": [ 1, 2 ] },
-        { "item": "trash_no_hope", "chance": 5, "repeat": [ 1, 3 ] }
+        { "item": "SUS_trash_trashcan", "chance": 5, "repeat": [ 1, 3 ] }
       ],
       "U": { "item": "SUS_evac_shelter_supply_closet", "chance": 4 },
       "B": { "item": "SUS_evac_shelter_bathroom_supplies", "chance": 4 },
@@ -318,21 +318,21 @@
       "l": { "item": "SUS_evac_shelter_locker_used", "chance": 5 },
       "c": { "item": "SUS_evac_shelter_cabinet_used", "chance": 5 },
       "S": { "item": "SUS_evac_shelter_sink_used", "chance": 5 },
-      "b": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "trash", "chance": 2 } ],
+      "b": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "SUS_trash_floor", "chance": 2 } ],
       ".": [
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash", "chance": 1 },
-        { "item": "trash_forest", "chance": 1 }
+        { "item": "SUS_trash_floor", "chance": 1 },
+        { "item": "SUS_trash_forest_no_manmade", "chance": 1 }
       ],
       "%": [
         { "item": "shelter_supplies", "chance": 1, "repeat": [ 1, 2 ] },
-        { "item": "trash", "chance": 2, "repeat": [ 1, 3 ] }
+        { "item": "SUS_trash_trashcan", "chance": 2, "repeat": [ 1, 3 ] }
       ],
       "U": { "item": "SUS_evac_shelter_supply_closet_used", "chance": 5 },
       "B": { "item": "SUS_evac_shelter_bathroom_supplies_used", "chance": 5 },
       "t": { "item": "SUS_evac_shelter_table_used", "chance": 5 },
       "C": { "item": "SUS_evac_shelter_bathroom_counter_used", "chance": 2 },
-      "_": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "trash", "chance": 2 } ]
+      "_": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "SUS_trash_floor", "chance": 2 } ]
     },
     "nested": {
       "|": { "chunks": [ [ "shelter_graffiti", 10 ], [ "null", 90 ] ] },
@@ -388,43 +388,43 @@
     "items": {
       "l": { "item": "shelter_supplies", "chance": 1 },
       "c": [
-        { "item": "trash_no_hope", "chance": 20 },
+        { "item": "SUS_trash_floor", "chance": 20 },
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 }
       ],
       "b": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
-      ".": [ { "item": "trash_no_hope", "chance": 2 }, { "item": "trash_forest", "chance": 1 } ],
-      "%": [ { "item": "trash", "chance": 2, "repeat": [ 1, 3 ] } ],
+      ".": [ { "item": "SUS_trash_floor", "chance": 2 }, { "item": "SUS_trash_forest_no_manmade", "chance": 1 } ],
+      "%": [ { "item": "SUS_trash_trashcan", "chance": 2, "repeat": [ 1, 3 ] } ],
       "S": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
       "U": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
       "B": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
       "t": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
       "C": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
-        { "item": "trash_no_hope", "chance": 20 }
+        { "item": "SUS_trash_floor", "chance": 20 }
       ],
-      "_": [ { "item": "trash", "chance": 1 } ]
+      "_": [ { "item": "SUS_trash_floor", "chance": 1 } ]
     },
     "nested": {
       "|": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 10 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
@@ -690,12 +690,12 @@
       "O": [
         { "item": "tools_carpentry", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "tools_construction", "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "trash", "chance": 40, "repeat": [ 1, 3 ] }
+        { "item": "SUS_trash_floor", "chance": 40, "repeat": [ 1, 3 ] }
       ],
       " ": { "item": "clutter_yard", "chance": 1, "repeat": [ 1, 2 ] },
-      ".": { "item": "bar_trash", "chance": 5, "repeat": [ 1, 2 ] },
+      ".": { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 1, 2 ] },
       "C": { "item": "alcohol", "chance": 25 },
-      "c": { "item": "trash", "chance": 25, "repeat": [ 1, 4 ] },
+      "c": { "item": "SUS_trash_floor", "chance": 25, "repeat": [ 1, 4 ] },
       "@": { "item": "gear_homeless", "chance": 25 }
     },
     "toilets": { "T": {  } }
@@ -747,7 +747,7 @@
       "O": [ { "item": "clothing_outdoor_torso", "chance": 20 }, { "item": "clothing_outdoor_pants", "chance": 20 } ],
       "B": { "item": "bags", "chance": 20 },
       "$": { "item": "SUS_office_filing_cabinet", "chance": 20 },
-      "D": { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] },
+      "D": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 2 ] },
       "(": { "item": "SUS_mannequin_outdoor", "chance": 30 },
       "&": { "item": "SUS_mannequin_general", "chance": 20 },
       "d": { "item": "SUS_office_desk", "chance": 20 },
@@ -892,7 +892,7 @@
     "toilets": { "t": {  } },
     "items": {
       "x": { "item": "lumberyard", "chance": 90, "repeat": [ 3, 5 ] },
-      "&": { "item": "trash", "chance": 75, "repeat": [ 2, 3 ] },
+      "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 2, 3 ] },
       "d": { "item": "SUS_office_desk", "chance": 33 },
       "f": { "item": "SUS_fridge_breakroom", "chance": 20 },
       "n": [ { "item": "snacks", "chance": 25, "repeat": [ 1, 2 ] }, { "item": "magazines", "chance": 10 } ],
@@ -944,7 +944,7 @@
       "L": [ { "item": "tools_earthworking", "chance": 30 }, { "item": "tools_home", "chance": 30 } ],
       "O": { "item": "livingroom", "chance": 20 },
       "S": { "item": "stash_wood", "chance": 60, "repeat": [ 2, 4 ] },
-      "&": { "item": "trash", "chance": 20 },
+      "&": { "item": "SUS_trash_trashcan", "chance": 20 },
       "R": [
         { "item": "camping", "chance": 20 },
         { "item": "gear_survival", "chance": 20 },

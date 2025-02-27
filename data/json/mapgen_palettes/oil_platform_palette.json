@@ -177,15 +177,15 @@
         { "item": "tools_mechanic", "chance": 5, "repeat": [ 0, 1 ] },
         { "item": "SUS_welding_gear", "chance": 5, "repeat": [ 1, 2 ] },
         { "item": "supplies_electronics", "chance": 40, "repeat": [ 0, 2 ] },
-        { "item": "hardware_trash", "chance": 15 },
-        { "item": "trash", "chance": 5, "repeat": [ 0, 2 ] }
+        { "item": "SUS_trash_hardware", "chance": 15 },
+        { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 0, 2 ] }
       ],
       "c": [
         { "item": "tools_common", "chance": 20 },
         { "item": "tools_electronics", "chance": 55, "repeat": [ 0, 2 ] },
         { "item": "supplies_electronics", "chance": 30, "repeat": [ 0, 2 ] },
-        { "item": "hardware_trash", "chance": 15 },
-        { "item": "trash", "chance": 5, "repeat": [ 0, 2 ] },
+        { "item": "SUS_trash_hardware", "chance": 15 },
+        { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 0, 2 ] },
         { "item": "file_room", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "office_paper", "chance": 20, "repeat": [ 3, 4 ] },
         { "item": "office", "chance": 25 }
@@ -200,7 +200,7 @@
         { "item": "supplies_reagents_lab", "chance": 2, "repeat": [ 1, 3 ] },
         { "item": "metal_workshop", "chance": 10 }
       ],
-      "-": [ { "item": "roof_trash", "chance": 3 } ],
+      "-": [ { "item": "SUS_trash_floor", "chance": 3 } ],
       "&": [
         { "item": "magazines", "chance": 5 },
         { "item": "file_room", "chance": 50, "repeat": [ 1, 2 ] },
@@ -208,13 +208,13 @@
         { "item": "office", "chance": 25 },
         { "item": "maps", "chance": 3 },
         { "item": "office_mess", "chance": 15, "repeat": [ 1, 2 ] },
-        { "item": "trash", "chance": 5, "repeat": [ 0, 2 ] },
+        { "item": "SUS_trash_trashcan", "chance": 5, "repeat": [ 0, 2 ] },
         { "item": "office_supplies", "chance": 25 }
       ],
-      "z": { "item": "trash", "chance": 90, "repeat": [ 0, 8 ] },
+      "z": { "item": "SUS_trash_floor", "chance": 90, "repeat": [ 0, 8 ] },
       "µ": [
-        { "item": "trash", "chance": 90, "repeat": [ 5, 15 ] },
-        { "item": "rolling_trash", "chance": 90, "repeat": [ 2, 10 ] }
+        { "item": "SUS_trash_trashcan", "chance": 90, "repeat": [ 5, 15 ] },
+        { "item": "SUS_trash_dumpster", "chance": 90, "repeat": [ 2, 10 ] }
       ],
       "S": { "item": "SUS_bathroom_sink", "chance": 80, "repeat": [ 0, 2 ] },
       "d": [

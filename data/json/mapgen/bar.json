@@ -71,9 +71,9 @@
       "toilets": { "t": {  } },
       "items": {
         "x": { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] },
-        "T": { "item": "bar_trash", "chance": 50, "repeat": [ 1, 2 ] },
-        "r": { "item": "bar_trash", "chance": 50, "repeat": [ 1, 2 ] },
-        "d": { "item": "trash", "chance": 70, "repeat": [ 2, 4 ] },
+        "T": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 2 ] },
+        "r": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 2 ] },
+        "d": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 2, 4 ] },
         "t": { "item": "bar_bathroom", "chance": 30, "repeat": [ 1, 2 ] },
         "#": [
           { "item": "bar_table", "chance": 15, "repeat": [ 1, 2 ] },
@@ -123,7 +123,7 @@
         "-------          -------"
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 5, 18 ], "y": [ 7, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 5, 18 ], "y": [ 7, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         { "chunks": [ [ "null", 20 ], [ "roof_2x2_utilities_c", 5 ], [ "roof_2x2_golf", 5 ] ], "x": [ 3, 15 ], "y": [ 16, 18 ] },
         {
@@ -219,8 +219,8 @@
       "toilets": { "t": {  } },
       "items": {
         "o": { "item": "novels", "chance": 80, "repeat": [ 1, 10 ] },
-        "d": { "item": "bar_trash", "chance": 35 },
-        "a": { "item": "bar_trash", "chance": 35 },
+        "d": { "item": "SUS_trash_dumpster", "chance": 35 },
+        "a": { "item": "SUS_trash_trashcan", "chance": 35 },
         "#": { "item": "bar_table", "chance": 40, "repeat": [ 1, 2 ] },
         "c": { "item": "bar_alcohol", "chance": 30, "repeat": [ 1, 2 ] },
         "u": { "item": "bar_alcohol", "chance": 30, "repeat": [ 1, 2 ] },
@@ -265,7 +265,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 3, 18 ], "y": [ 8, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 3, 18 ], "y": [ 8, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [ [ "null", 40 ], [ "roof_2x2_utilities_c", 50 ], [ "roof_2x2_golf", 2 ], [ "roof_3x3_wine", 3 ] ],

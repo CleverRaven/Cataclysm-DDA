@@ -74,7 +74,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 7, 13 ], "y": [ 5, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 7, 13 ], "y": [ 5, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [

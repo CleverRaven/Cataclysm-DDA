@@ -228,7 +228,7 @@
         "              --------  "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 4, 16 ], "y": [ 7, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 4, 16 ], "y": [ 7, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [

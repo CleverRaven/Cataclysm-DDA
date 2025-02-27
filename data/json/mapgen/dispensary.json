@@ -125,7 +125,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 2, 18 ], "y": [ 11, 16 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 2, 18 ], "y": [ 11, 16 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         { "chunks": [ [ "roof_2x2_utilities_c", 10 ], [ "roof_2x2_utilities_b", 10 ], [ "null", 80 ] ], "x": 3, "y": 6 },
         {
@@ -218,7 +218,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 2, 15 ], "y": [ 12, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 2, 15 ], "y": [ 12, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         { "chunks": [ [ "roof_2x2_utilities_c", 10 ], [ "roof_2x2_utilities_b", 10 ], [ "null", 80 ] ], "x": 8, "y": 8 },
         {
@@ -302,7 +302,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 4, 15 ], "y": [ 5, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 4, 15 ], "y": [ 5, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [ [ "roof_2x2_golf", 20 ], [ "roof_2x2_utilities_b", 50 ], [ "null", 50 ], [ "roof_3x3_wine", 20 ] ],

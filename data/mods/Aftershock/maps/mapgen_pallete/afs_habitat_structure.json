@@ -105,7 +105,7 @@
       "k": { "item": "SUS_office_desk", "chance": 60 },
       "l": { "item": "afs_frontier_cryo_g", "chance": 50 },
       "@": { "item": "bed", "chance": 50 },
-      "v": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+      "v": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] },
       "%": { "item": "afs_tools_space_emergency" }
     }
   },
@@ -150,7 +150,7 @@
     },
     "items": {
       "@": { "item": "bed", "chance": 50 },
-      "v": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+      "v": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] },
       "W": { "item": "afs_colonist_outfit", "chance": 60 }
     }
   },

@@ -34,7 +34,7 @@
       "palettes": [ "regional_dump" ],
       "furniture": { "H": "f_55gal_firebarrel" },
       "items": {
-        ".": { "item": "trash", "chance": 5 },
+        ".": { "item": "SUS_trash_floor", "chance": 5 },
         "r": { "item": "oa_ig_rd_metal_trash", "chance": 15 },
         "U": { "item": "oa_discarded_news", "chance": 20 },
         "d": { "item": "oa_ig_rd_desks", "chance": 20 },
@@ -123,7 +123,7 @@
       "items": {
         "B": { "item": "SUS_trash_trashcan", "chance": 15 },
         "1": { "item": "oa_ig_rd_electronic_trash", "chance": 10 },
-        "2": { "item": "trash", "chance": 10 },
+        "2": { "item": "SUS_trash_trashcan", "chance": 10 },
         "3": { "item": "oa_ig_rd_metal_trash", "chance": 10 },
         "W": { "item": "allclothes", "chance": 5 },
         "D": { "item": "allclothes", "chance": 5 },
@@ -247,14 +247,14 @@
         { "item": "55gal_drum", "x": 52, "y": 17, "chance": 100 }
       ],
       "items": {
-        ".": { "item": "trash", "chance": 5 },
-        "^": { "item": "trash", "chance": 2 },
-        " ": { "item": "trash", "chance": 10 },
-        "g": { "item": "oa_ig_rd_glass_trash", "chance": 10 },
-        "G": { "item": "oa_ig_rd_glass_trash", "chance": 5 },
+        ".": { "item": "SUS_trash_floor", "chance": 5 },
+        "^": { "item": "SUS_trash_floor", "chance": 2 },
+        " ": { "item": "SUS_trash_floor", "chance": 10 },
+        "g": { "item": "SUS_trash_glass", "chance": 10 },
+        "G": { "item": "SUS_trash_glass", "chance": 5 },
         "W": { "item": "allclothes", "chance": 5 },
         "D": { "item": "allclothes", "chance": 5 },
-        "p": { "item": "trash", "chance": 5 },
+        "p": { "item": "SUS_trash_floor", "chance": 5 },
         "a": { "item": "oa_ig_ash_pile", "chance": 40 },
         "b": { "item": "bed", "chance": 40 },
         "F": { "item": "SUS_fridge_survivor", "chance": 40 },
@@ -318,11 +318,11 @@
       ],
       "palettes": [ "regional_dump" ],
       "items": {
-        ".": { "item": "trash", "chance": 5 },
-        "^": { "item": "trash", "chance": 2 },
-        "g": { "item": "oa_ig_rd_glass_trash", "chance": 10 },
-        "G": { "item": "oa_ig_rd_glass_trash", "chance": 5 },
-        "p": { "item": "trash", "chance": 5 },
+        ".": { "item": "SUS_trash_floor", "chance": 5 },
+        "^": { "item": "SUS_trash_floor", "chance": 2 },
+        "g": { "item": "SUS_trash_glass", "chance": 10 },
+        "G": { "item": "SUS_trash_glass", "chance": 5 },
+        "p": { "item": "SUS_trash_floor", "chance": 5 },
         "a": { "item": "oa_ig_ash_pile", "chance": 40 }
       },
       "place_vehicles": [
@@ -381,7 +381,7 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_tar_flat_roof" },
-      "place_items": [ { "item": "roof_trash", "x": [ 6, 22 ], "y": [ 4, 16 ], "chance": 50, "repeat": [ 9, 20 ] } ]
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 6, 22 ], "y": [ 4, 16 ], "chance": 50, "repeat": [ 9, 20 ] } ]
     }
   }
 ]

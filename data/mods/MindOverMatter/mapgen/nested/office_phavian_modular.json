@@ -28,7 +28,7 @@
       "items": {
         "d": [ { "item": "office_supplies", "chance": 50, "repeat": [ 1, 2 ] } ],
         "t": { "item": "office_supplies", "chance": 20 },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 1, 3 ], "chance": 50 } ]
     }
@@ -62,7 +62,7 @@
       "items": {
         "d": [ { "item": "office_supplies", "chance": 50, "repeat": [ 1, 2 ] } ],
         "t": { "item": "office_supplies", "chance": 20 },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 1, 3 ], "chance": 50 } ]
     }
@@ -91,7 +91,10 @@
         { "item": "television", "x": 3, "y": 7, "chance": 100 },
         { "item": "television", "x": 4, "y": 7, "chance": 100 }
       ],
-      "items": { "t": { "item": "office_supplies", "chance": 40 }, "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] } },
+      "items": {
+        "t": { "item": "office_supplies", "chance": 40 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
+      },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 1, 3 ], "chance": 50 } ]
     }
   },
@@ -119,7 +122,10 @@
         { "item": "television", "x": 3, "y": 0, "chance": 100 },
         { "item": "television", "x": 4, "y": 0, "chance": 100 }
       ],
-      "items": { "t": { "item": "office_supplies", "chance": 40 }, "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] } },
+      "items": {
+        "t": { "item": "office_supplies", "chance": 40 },
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
+      },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 1, 3 ], "chance": 50 } ]
     }
   },
@@ -154,7 +160,7 @@
         ],
         "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 1, 3 ], "chance": 60 } ]
     }
@@ -190,7 +196,7 @@
         ],
         "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 1, 3 ], "chance": 60 } ]
     }
@@ -226,7 +232,7 @@
         "E": [ { "item": "dist_matrix_crystals_50_50", "chance": 80 } ],
         "U": { "item": "psi_lab", "chance": 70, "repeat": [ 1, 3 ] },
         "ç": { "item": "psi_lab", "chance": 20 },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 1, 3 ], "chance": 50 } ]
     }
@@ -262,7 +268,7 @@
         "E": [ { "item": "dist_matrix_crystals_50_50", "chance": 80 } ],
         "U": { "item": "psi_lab", "chance": 70, "repeat": [ 1, 3 ] },
         "ç": { "item": "psi_lab", "chance": 20 },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 1, 3 ], "chance": 50 } ]
     }
@@ -308,7 +314,7 @@
           { "item": "supplies_electronics", "chance": 60, "repeat": [ 1, 4 ] },
           { "item": "hardware", "chance": 30, "repeat": [ 1, 5 ] }
         ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "monster": "mon_zombie_technician", "x": [ 1, 6 ], "y": [ 3, 7 ], "repeat": [ 2, 4 ], "chance": 50 } ]
     }
@@ -354,7 +360,7 @@
           { "item": "supplies_electronics", "chance": 60, "repeat": [ 1, 4 ] },
           { "item": "hardware", "chance": 30, "repeat": [ 1, 5 ] }
         ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "monster": "mon_zombie_technician", "x": [ 1, 6 ], "y": [ 0, 4 ], "repeat": [ 2, 4 ], "chance": 50 } ]
     }
@@ -393,7 +399,7 @@
         "C": [ { "item": "SUS_bathroom_medicine", "chance": 100 }, { "item": "SUS_bathroom_cabinet", "chance": 50 } ],
         "S": { "item": "SUS_bathroom_sink", "chance": 100, "repeat": [ 1, 2 ] },
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 2 ] },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 3, 6 ], "chance": 70 } ]
     }
@@ -432,7 +438,7 @@
         "C": [ { "item": "SUS_bathroom_medicine", "chance": 100 }, { "item": "SUS_bathroom_cabinet", "chance": 50 } ],
         "S": { "item": "SUS_bathroom_sink", "chance": 100, "repeat": [ 1, 2 ] },
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 2 ] },
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 3, 6 ], "chance": 70 } ]
     }
@@ -639,7 +645,7 @@
       "items": {
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] }, { "item": "SUS_bathroom_medicine", "chance": 100 } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 1, 3 ], "chance": 60 },
@@ -670,7 +676,7 @@
       "items": {
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] }, { "item": "SUS_bathroom_medicine", "chance": 100 } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 1, 3 ], "chance": 60 },
@@ -710,7 +716,7 @@
         ],
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "monster": "mon_zombie_technician", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 2, 4 ], "chance": 60 },
@@ -750,7 +756,7 @@
         ],
         "l": [ { "item": "lab_torso", "chance": 40, "repeat": [ 1, 8 ] }, { "item": "lab_shoes", "chance": 40, "repeat": [ 1, 8 ] } ],
         "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "monster": "mon_zombie_technician", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 2, 4 ], "chance": 60 },
@@ -790,7 +796,7 @@
           { "item": "decontamination_room", "chance": 40, "repeat": [ 1, 3 ] }
         ],
         "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "group": "GROUP_NETHER", "x": [ 0, 7 ], "y": [ 3, 7 ], "repeat": [ 0, 4 ], "chance": 70 },
@@ -830,7 +836,7 @@
           { "item": "decontamination_room", "chance": 40, "repeat": [ 1, 3 ] }
         ],
         "U": [ { "item": "psi_lab", "chance": 50, "repeat": [ 1, 3 ] } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "group": "GROUP_NETHER", "x": [ 0, 7 ], "y": [ 0, 4 ], "repeat": [ 0, 4 ], "chance": 70 },
@@ -864,7 +870,7 @@
           { "item": "security_pants", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "security_shoes", "chance": 20, "repeat": [ 1, 2 ] }
         ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "group": "GROUP_LAB_BASIC_SECURITY", "x": [ 0, 7 ], "y": [ 0, 7 ], "repeat": [ 3, 6 ], "chance": 65 },

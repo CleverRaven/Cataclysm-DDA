@@ -42,7 +42,7 @@
       ],
       "items": {
         "@": { "item": "bed", "chance": 80 },
-        "_": { "item": "bar_trash", "chance": 4 },
+        "_": { "item": "SUS_trash_floor", "chance": 4 },
         ",": { "item": "vehicle_scrapped", "chance": 2 },
         " ": { "item": "clutter_yard", "chance": 1 },
         ":": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50 } ],
@@ -163,7 +163,7 @@
         "                                                "
       ],
       "palettes": [ "roof_palette" ],
-      "items": { ".": { "item": "roof_trash", "chance": 5 } },
+      "items": { ".": { "item": "SUS_trash_roof", "chance": 5 } },
       "terrain": { ".": "t_tar_flat_roof" }
     }
   }

@@ -179,9 +179,9 @@
       "vendingmachines": { "z": { "item_group": "vending_drink", "lootable": true }, "X": { "item_group": "vending_food", "lootable": true } },
       "toilets": { "j": {  } },
       "items": {
-        "y": { "item": "trash", "chance": 30, "repeat": [ 2, 3 ] },
-        "B": { "item": "trash", "chance": 30, "repeat": [ 2, 3 ] },
-        "Y": { "item": "trash", "chance": 30, "repeat": [ 2, 3 ] },
+        "y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 3 ] },
+        "B": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 3 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 3 ] },
         "v": { "item": "vault", "chance": 30, "repeat": [ 2, 3 ] },
         "r": { "item": "SUS_office_desk", "chance": 30 },
         "Z": { "item": "SUS_office_desk", "chance": 30 },
@@ -200,7 +200,7 @@
         "~": { "item": "vehicle_scrapped", "chance": 3 }
       },
       "place_loot": [
-        { "group": "bar_trash", "chance": 50, "repeat": 2, "x": 11, "y": 70 },
+        { "group": "SUS_trash_floor", "chance": 50, "repeat": 2, "x": 11, "y": 70 },
         { "group": "tools_blacksmith", "chance": 60, "repeat": 4, "x": 26, "y": [ 68, 70 ] },
         { "group": "tools_mechanic", "chance": 60, "repeat": 2, "x": 26, "y": [ 66, 67 ] },
         { "group": "tools_home", "chance": 60, "repeat": 4, "x": 24, "y": [ 66, 68 ] },

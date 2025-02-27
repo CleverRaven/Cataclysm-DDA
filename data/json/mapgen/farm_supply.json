@@ -275,7 +275,7 @@
             "subtype": "collection",
             "entries": [
               { "item": "null", "prob": 600 },
-              { "group": "floor_trash", "prob": 2 },
+              { "group": "SUS_trash_floor", "prob": 2 },
               { "group": "farm_supply_floor_surprises", "prob": 1 }
             ]
           },
@@ -286,7 +286,7 @@
             "subtype": "collection",
             "entries": [
               { "item": "null", "prob": 600 },
-              { "group": "floor_trash", "prob": 2 },
+              { "group": "SUS_trash_floor", "prob": 2 },
               { "group": "farm_supply_floor_surprises", "prob": 1 }
             ]
           },
@@ -297,7 +297,7 @@
             "subtype": "collection",
             "entries": [
               { "item": "null", "prob": 300 },
-              { "group": "trash", "prob": 1 },
+              { "group": "SUS_trash_floor", "prob": 1 },
               { "group": "farm_supply_floor_surprises", "prob": 1 }
             ]
           },
@@ -308,14 +308,14 @@
             "subtype": "collection",
             "entries": [
               { "item": "null", "prob": 300 },
-              { "group": "trash", "prob": 1 },
+              { "group": "SUS_trash_floor", "prob": 1 },
               { "group": "farm_supply_floor_surprises", "prob": 1 }
             ]
           },
           "chance": 100
         },
-        "g": { "item": "trash", "chance": 70, "repeat": [ 0, 2 ] },
-        "D": { "item": "trash", "chance": 70, "repeat": [ 0, 3 ] },
+        "g": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 0, 2 ] },
+        "D": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 0, 3 ] },
         "$": { "item": "cash_register_random", "chance": 100 },
         "V": { "item": "vending_drink_items", "chance": 70, "repeat": [ 3, 10 ] },
         "c": {
@@ -343,7 +343,7 @@
         "O": {
           "item": {
             "subtype": "collection",
-            "entries": [ { "item": "null", "prob": 400 }, { "group": "trash", "prob": 2 }, { "item": "football", "prob": 1 } ]
+            "entries": [ { "item": "null", "prob": 400 }, { "group": "SUS_trash_floor", "prob": 2 }, { "item": "football", "prob": 1 } ]
           },
           "chance": 100
         }
@@ -721,7 +721,7 @@
             "subtype": "collection",
             "entries": [
               { "item": "null", "prob": 500 },
-              { "group": "floor_trash", "prob": 2 },
+              { "group": "SUS_trash_floor", "prob": 2 },
               { "group": "ammo_casings", "prob": 1 },
               { "group": "farm_supply_floor_surprises", "prob": 1 }
             ]
@@ -733,7 +733,7 @@
             "subtype": "collection",
             "entries": [
               { "item": "null", "prob": 500 },
-              { "group": "floor_trash", "prob": 2 },
+              { "group": "SUS_trash_floor", "prob": 2 },
               { "group": "ammo_casings", "prob": 1 },
               { "group": "farm_supply_floor_surprises", "prob": 1 }
             ]
@@ -745,7 +745,7 @@
             "subtype": "collection",
             "entries": [
               { "item": "null", "prob": 200 },
-              { "group": "trash", "prob": 1 },
+              { "group": "SUS_trash_floor", "prob": 1 },
               { "group": "farm_supply_floor_surprises", "prob": 1 }
             ]
           },
@@ -756,14 +756,14 @@
             "subtype": "collection",
             "entries": [
               { "item": "null", "prob": 200 },
-              { "group": "trash", "prob": 1 },
+              { "group": "SUS_trash_floor", "prob": 1 },
               { "group": "farm_supply_floor_surprises", "prob": 1 }
             ]
           },
           "chance": 100
         },
-        "g": { "item": "trash", "chance": 70, "repeat": [ 0, 2 ] },
-        "D": { "item": "trash", "chance": 70, "repeat": [ 0, 3 ] },
+        "g": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 0, 2 ] },
+        "D": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 0, 3 ] },
         "$": { "item": "cash_register_looted", "chance": 50 },
         "V": { "item": "vending_drink_items", "chance": 20, "repeat": [ 0, 8 ] },
         "c": {
@@ -791,7 +791,7 @@
         "O": {
           "item": {
             "subtype": "collection",
-            "entries": [ { "item": "null", "prob": 400 }, { "group": "trash", "prob": 5 }, { "item": "football", "prob": 1 } ]
+            "entries": [ { "item": "null", "prob": 400 }, { "group": "SUS_trash_floor", "prob": 5 }, { "item": "football", "prob": 1 } ]
           },
           "chance": 100
         }

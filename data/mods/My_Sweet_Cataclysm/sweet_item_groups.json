@@ -112,8 +112,8 @@
   },
   {
     "type": "item_group",
-    "id": "trash",
-    "copy-from": "trash",
+    "id": "SUS_trash_trashcan",
+    "copy-from": "SUS_trash_trashcan",
     "extend": { "items": [ [ "candy3", 5 ], [ "gum", 10 ], [ "caff_gum", 10 ], [ "cow_candy", 3 ] ] }
   },
   {

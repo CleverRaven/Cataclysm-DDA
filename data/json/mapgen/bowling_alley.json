@@ -81,8 +81,8 @@
         "1": { "item": "bowling_alcohol", "chance": 50, "repeat": [ 1, 3 ] },
         "2": { "item": "bowling_food", "chance": 50, "repeat": [ 1, 3 ] },
         "f": { "item": "bowling_fridge", "chance": 50, "repeat": [ 1, 3 ] },
-        "%": { "item": "bowling_trash", "chance": 55 },
-        "&": { "item": "bowling_trash", "chance": 55 },
+        "%": { "item": "SUS_trash_trashcan_public", "chance": 55 },
+        "&": { "item": "SUS_trash_trashcan_public", "chance": 55 },
         "L": { "item": "SUS_janitors_closet", "chance": 90 }
       },
       "place_loot": [
@@ -132,7 +132,7 @@
         "------------------------"
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 3, 20 ], "y": [ 9, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 3, 20 ], "y": [ 9, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [

@@ -128,7 +128,7 @@
         { "item": "fireman_cabinet", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "rad_gear", "chance": 10 },
         { "item": "hospital_lab", "chance": 2, "repeat": [ 1, 2 ] },
-        { "item": "trash", "chance": 5, "repeat": [ 0, 2 ] },
+        { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 0, 2 ] },
         { "item": "metal_workshop", "chance": 15 }
       ],
       "l": [
@@ -141,7 +141,7 @@
         { "item": "consumer_electronics", "chance": 15 },
         { "item": "hospital_lab", "chance": 1, "repeat": [ 1, 2 ] },
         { "item": "fireman_cabinet", "chance": 10, "repeat": [ 1, 2 ] },
-        { "item": "trash", "chance": 5, "repeat": [ 0, 2 ] },
+        { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 0, 2 ] },
         { "item": "rad_gear", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "used_1st_aid", "chance": 5 },
         { "item": "softdrugs", "chance": 3 },
@@ -164,7 +164,7 @@
         { "item": "chem_home", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "chem_lab", "chance": 15, "repeat": [ 1, 2 ] },
         { "item": "fireman_cabinet", "chance": 10, "repeat": [ 1, 2 ] },
-        { "item": "trash", "chance": 5, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 1, 3 ] },
         { "item": "tools_science", "chance": 5 }
       ],
       "Z": [
@@ -174,10 +174,10 @@
         { "item": "office", "chance": 25 },
         { "item": "maps", "chance": 3 },
         { "item": "office_mess", "chance": 15, "repeat": [ 1, 2 ] },
-        { "item": "trash", "chance": 5, "repeat": [ 0, 2 ] },
+        { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 0, 2 ] },
         { "item": "office_supplies", "chance": 25 }
       ],
-      "u": { "item": "trash", "chance": 30, "repeat": [ 0, 8 ] },
+      "u": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 0, 8 ] },
       "T": [
         { "item": "office_mess", "chance": 3, "repeat": [ 1, 2 ] },
         { "item": "office", "chance": 3, "repeat": [ 1, 2 ] },

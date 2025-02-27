@@ -155,7 +155,7 @@
         { "item": "produce", "chance": 55, "repeat": [ 0, 8 ] },
         { "item": "fresh_produce", "chance": 55, "repeat": [ 0, 8 ] }
       ],
-      "D": [ { "item": "trash_cart", "chance": 55, "repeat": [ 0, 4 ] } ],
+      "D": [ { "item": "SUS_trash_floor_light", "chance": 55, "repeat": [ 0, 4 ] } ],
       "e": [
         { "item": "cannedfood", "chance": 45, "repeat": [ 0, 6 ] },
         { "item": "big_canned_food", "chance": 55, "repeat": [ 0, 7 ] },
