@@ -42,6 +42,9 @@ trajectory mode_throw( avatar &you, item &relevant, bool blind_throwing );
 /** Reach attacking */
 trajectory mode_reach( avatar &you, item_location weapon );
 
+/** Unarmed reach attacking */
+trajectory mode_unarmed_reach( avatar &you );
+
 /** Manually firing vehicle turret */
 trajectory mode_turret_manual( avatar &you, turret_data &turret );
 

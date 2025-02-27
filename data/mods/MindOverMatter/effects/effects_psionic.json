@@ -2780,6 +2780,31 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_teleport_warped_strikes",
+    "name": [ "Warped Strikes" ],
+    "desc": [ "Your melee attacks extend much further than would normally be possible." ],
+    "apply_message": "",
+    "remove_message": "Your reach goes back to normal.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MELEE_RANGE_MODIFIER",
+            "add": {
+              "math": [
+                "max( 1, ( ( ( u_spell_level('teleport_warped_strikes') * 0.2 ) + 1 ) * scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling )"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "MUSCLE_VEH_BOOST" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_teleporter_attuning_to_area",
     "//": "Hidden effect, used as a tracker",
     "name": [ "" ],

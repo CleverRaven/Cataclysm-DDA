@@ -1546,7 +1546,7 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
                 above_index++;
                 added_traits++;
             }
-            if( below_index < 0 && above_index > end_index ) {
+            if( below_index < 1 && above_index > end_index ) {
                 break;
             }
         }
