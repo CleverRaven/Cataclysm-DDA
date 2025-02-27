@@ -42,7 +42,8 @@
       "gaspumps": { "G": {  } },
       "items": {
         "d": { "item": "office", "chance": 33, "repeat": [ 1, 2 ] },
-        "k": { "item": "snacks", "chance": 33, "repeat": [ 1, 2 ] }
+        "k": { "item": "snacks", "chance": 33, "repeat": [ 1, 2 ] },
+        "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [
         { "group": "behindcounter", "x": 9, "y": [ 14, 16 ], "chance": 80, "repeat": [ 0, 2 ] },

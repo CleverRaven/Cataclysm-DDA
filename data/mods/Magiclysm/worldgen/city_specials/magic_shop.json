@@ -107,6 +107,7 @@
       },
       "toilets": { "&": {  } },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "I": { "item": "office", "chance": 30 },
         "f": { "item": "office_paper", "chance": 30 },
         "L": { "item": "cleaning", "chance": 30 },
@@ -185,6 +186,7 @@
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
       },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "I": { "item": "office", "chance": 30 },
         "Q": { "item": "shower", "chance": 30 },
         "S": { "item": "softdrugs", "chance": 30 },

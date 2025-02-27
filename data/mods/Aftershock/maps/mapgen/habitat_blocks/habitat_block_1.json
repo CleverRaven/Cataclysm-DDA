@@ -716,6 +716,7 @@
       "palettes": [ "afs_habitat_residential_furnishing" ],
       "terrain": { "=": "t_wall_prefab_glass", "/": "t_wall_prefab_metal", ":": "t_door_c", "'": "t_metal_floor_olight_inactive" },
       "furniture": { "^": "f_sink", "1": "f_arcade_machine" },
+      "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "&": {  } }
     }
   },
@@ -828,6 +829,7 @@
       "palettes": [ "afs_habitat_residential_furnishing" ],
       "terrain": { "=": "t_wall_prefab_glass", "/": "t_wall_prefab_metal", ":": "t_door_c", "'": "t_metal_floor_olight_inactive" },
       "furniture": { "^": "f_sink", "1": "f_treadmill", "2": "f_exercise", "3": "f_punching_bag" },
+      "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "&": {  } }
     }
   },
