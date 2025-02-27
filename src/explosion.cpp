@@ -972,6 +972,7 @@ void process_explosions()
             g->load_npcs( &m );
             process_explosions_in_progress = false;
             _make_explosion( &m, ex.source, m.get_bub( ex.pos ), ex.data );
+            m.process_falling();
         } else {
             _make_explosion( bubble_map, ex.source, bubble_map->get_bub( ex.pos ), ex.data );
         }
