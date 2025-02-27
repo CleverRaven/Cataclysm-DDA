@@ -16,6 +16,8 @@
 #include "test_data.h"
 #include "type_id.h"
 
+class Skill;
+
 static const itype_id itype_debug_backpack( "debug_backpack" );
 
 TEST_CASE( "monster_pulping_test" )
