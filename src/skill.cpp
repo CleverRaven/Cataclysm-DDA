@@ -339,7 +339,7 @@ bool SkillLevel::isRusty() const
            _knowledgeExperience - _exercise >= pow( level() + 1, 2U ) * 10;
 }
 
-bool SkillLevel::rust( int rust_resist, float rust_multiplier )
+bool SkillLevel::rust()
 {
     if( ( calendar::turn - _lastPracticed ) < 24_hours ) {
         // don't rust within the grace period
@@ -364,11 +364,7 @@ bool SkillLevel::rust( int rust_resist, float rust_multiplier )
 
     // rust amount starts at 4% of a level's xp, run every 24 hours.
     // Once the accumulated rust exceeds 16% of a level, rust_amount starts to drop.
-    int rust_amount = level_multiplier * rust_multiplier * 16 / rust_slowdown;
-
-    if( rust_resist > 0 ) {
-        rust_amount = std::lround( rust_amount * ( std::max( ( 100 - rust_resist ), 0 ) / 100.0 ) );
-    }
+    int rust_amount = level_multiplier * 16 / rust_slowdown;
 
     if( level() == 0 ) {
         rust_amount = std::min( rust_amount, _exercise );

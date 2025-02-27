@@ -2039,7 +2039,7 @@
             "add": { "math": [ "u_effect_intensity('effect_skinchanged_penalties') * 0.33" ] }
           },
           {
-            "value": "SKILL_RUST_RESIST",
+            "value": "SKILL_RUST_BONUS_XP",
             "multiply": { "math": [ "max(((u_effect_intensity('effect_skinchanged_penalties') - 3) * 0.8),0)" ] }
           }
         ]
