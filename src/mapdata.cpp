@@ -990,6 +990,7 @@ void init_mapdata()
     add_actor( std::make_unique<appliance_convert_examine_actor>() );
     add_actor( std::make_unique<cardreader_examine_actor>() );
     add_actor( std::make_unique<eoc_examine_actor>() );
+    add_actor( std::make_unique<mortar_examine_actor>() );
 }
 
 void map_data_common_t::load( const JsonObject &jo, const std::string &src )
