@@ -2193,5 +2193,14 @@
     "name": { "str": "Scroll of Witchsight", "str_pl": "Scrolls of Witchsight" },
     "description": "Open up your senses to detect the brighter ley lines of those who habitually use their magic.",
     "use_action": { "type": "learn_spell", "spells": [ "animist_detect_wizards" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_control_mutations",
+    "//": "Biomancer spell",
+    "name": { "str": "Formula of Morphogenic Mastery", "str_pl": "Formulae of Morphogenic Mastery" },
+    "description": "This research paper has an extremely complicated series of formulae with various genetic code diagrams interspersed.  It claims that the spell will allow conscious control over any \"morphogenic alterations\".",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_control_mutations" ] }
   }
 ]

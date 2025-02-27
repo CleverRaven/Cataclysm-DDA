@@ -1967,5 +1967,14 @@
       { "item": "mana_leech_shackle_unlocked", "count": [ 3, 8 ], "prob": 100 },
       { "item": "mana_leech_unlock_scroll", "count": [ 3, 8 ], "prob": 100 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "xedra_thaumaturgical_lab_secret_spells",
+    "subtype": "distribution",
+    "items": [
+      { "item": "spell_scroll_biomancer_control_mutations", "prob": 1 },
+      { "item": "spell_scroll_biomancer_remove_instability", "prob": 1 }
+    ]
   }
 ]
