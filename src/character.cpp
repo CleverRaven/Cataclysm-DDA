@@ -13098,13 +13098,15 @@ bool Character::wield( item &it )
     add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
     mod_moves( -mv );
 
-    if( has_item( it ) ) {
-        item removed = i_rem( &it );
-        if( combine_stacks ) {
-            wielded->combine( removed );
-        } else {
-            set_wielded_item( removed );
-        }
+    bool had_item = has_item( it );
+    if( combine_stacks ) {
+        wielded->combine( it );
+    } else {
+        set_wielded_item( it );
+    }
+
+    if( had_item ) {
+        i_rem( &it );
     }
 
     // set_wielded_item invalidates the weapon item_location, so get it again
