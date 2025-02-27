@@ -2380,7 +2380,7 @@ class Character : public Creature, public visitable
          * @param it item to be wielded.
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
-        bool wield( item &it, std::optional<int> obtain_cost = nullptr );
+        bool wield( item &it, std::optional<int> obtain_cost = std::nullopt );
         /**
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded
