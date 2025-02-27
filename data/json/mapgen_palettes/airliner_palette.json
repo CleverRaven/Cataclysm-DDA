@@ -34,6 +34,7 @@
       "x": "f_console_broken",
       "*": "f_wreckage"
     },
+    "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "T": {  } }
   }
 ]

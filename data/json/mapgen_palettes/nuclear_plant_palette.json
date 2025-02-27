@@ -90,6 +90,7 @@
         { "item": "literature", "chance": 7 },
         { "item": "office_mess", "chance": 3, "repeat": [ 1, 2 ] }
       ],
+      "t": { "item": "SUS_toilet", "chance": 50 },
       "w": [ { "item": "cleaning", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "rad_gear", "chance": 5 } ],
       "U": [
         { "item": "supplies_reagents_lab", "chance": 5, "repeat": [ 1, 2 ] },

@@ -87,6 +87,7 @@
         { "item": "animalshelter_hardrug", "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "dog_cop", "chance": 30 }
       ],
+      "T": { "item": "SUS_toilet", "chance": 50 },
       ":": { "item": "animalshelter_toys", "chance": 5 },
       "Q": { "item": "prison_canine_food", "chance": 70, "repeat": [ 3, 5 ] },
       "U": { "item": "prison_canine_bowl", "chance": 70 },
@@ -320,6 +321,7 @@
       "З": { "item": "doctors_books", "chance": 75, "repeat": [ 1, 2 ] },
       "Л": { "item": "prison_workshop_safety", "chance": 75 },
       "л": { "item": "prison_jumpsuit", "chance": 75 },
+      "й": { "item": "SUS_toilet", "chance": 50 },
       "М": { "item": "wood_workshop", "chance": 75 },
       "м": { "item": "supplies_metal", "chance": 75 },
       "Н": { "item": "religious_books", "chance": 90, "repeat": [ 1, 3 ] },

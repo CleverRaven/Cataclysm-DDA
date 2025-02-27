@@ -101,7 +101,8 @@
         { "item": "supplies_woodcrafts", "chance": 40, "repeat": [ 2, 10 ] },
         { "item": "mechanics", "chance": 30, "repeat": [ 2, 6 ] },
         { "item": "supplies_metal_precious", "chance": 20, "repeat": [ 2, 6 ] }
-      ]
+      ],
+      "t": { "item": "SUS_toilet", "chance": 50 }
     },
     "toilets": { "t": {  } }
   },

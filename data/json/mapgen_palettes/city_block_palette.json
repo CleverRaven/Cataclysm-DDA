@@ -128,7 +128,8 @@
       "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] },
       "q": { "item": "trash", "chance": 70, "repeat": [ 1, 4 ] },
       "p": { "item": "trash", "chance": 70, "repeat": [ 1, 4 ] },
-      "R": { "item": "homebooks", "chance": 30, "repeat": [ 1, 2 ] }
+      "R": { "item": "homebooks", "chance": 30, "repeat": [ 1, 2 ] },
+      "t": { "item": "SUS_toilet", "chance": 50 }
     }
   }
 ]
