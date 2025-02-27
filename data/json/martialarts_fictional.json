@@ -690,5 +690,152 @@
       }
     ],
     "attack_vectors": [ "vector_grasp" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_berserk",
+    "name": { "str": "BERSERK!" },
+    "description": "Kill them or die trying.",
+    "initiate": [ "A red haze falls over your mind. Kill them or die trying.", "%s moves with unstoppable rage." ],
+    "static_buffs": [
+      {
+        "id": "berserk_buff_static",
+        "name": "Anger",
+        "description": "Kill them or die trying. \n\nAccuracy increased by 25% of Strength.",
+        "unarmed_allowed": true,
+        "flat_bonuses": [ { "stat": "hit", "scaling-stat": "str", "scale": 0.25 } ]
+      }
+    ],
+    "onkill_buffs": [
+      {
+        "id": "berserk_buff_onkill",
+        "name": "Harry",
+        "description": "One down. Then another. \n\nAdditional bash damage scaled by 10% of Strength. Stacks 3 times.",
+        "unarmed_allowed": true,
+        "buff_duration": 3,
+        "max_stacks": 3,
+        "persists": true,
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 }, { "stat": "damage", "type": "bash", "scale": 0.1 } ]
+      }
+    ],
+    "techniques": [
+      "berserk_overwhelm",
+      "berserk_maul",
+      "berserk_eviscerate",
+      "berserk_overwhelm_natural",
+      "berserk_maul_natural",
+      "berserk_eviscerate_natural"
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "berserk_eviscerate",
+    "name": "Berserk Eviscerate",
+    "attack_vectors": [ "vector_null" ],
+    "unarmed_allowed": true,
+    "description": "Use pure strength to disembowel your opponent.",
+    "condition": { "not": { "u_has_effect": "natural_stance" } },
+    "crit_ok": true,
+    "melee_allowed": true,
+    "messages": [ "You rip %s open!", "<npcname> rips %s open!" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.1 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.1 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "berserk_overwhelm",
+    "name": "Berserk Overwhelm",
+    "description": "Use pure strength to overwhelm your opponent.",
+    "messages": [ "You tackle %s!", "<npcname> tackles %s!" ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "condition": { "and": [ { "not": { "u_has_effect": "natural_stance" } }, { "not": { "npc_has_effect": "downed" } } ] },
+    "attack_vectors": [ "vector_shoulder" ],
+    "//": "nulls all damage, you're just throwing yourself into them in an attempt to down them.",
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 0 },
+      { "stat": "damage", "type": "cut", "scale": 0 },
+      { "stat": "damage", "type": "stab", "scale": 0 }
+    ],
+    "down_dur": 3
+  },
+  {
+    "type": "technique",
+    "id": "berserk_maul",
+    "name": "Berserk Maul",
+    "description": "Use pure strength to maul your opponent.",
+    "messages": [ "You maul %s!", "<npcname> mauls %s!" ],
+    "unarmed_allowed": true,
+    "attack_vectors": [ "vector_null" ],
+    "condition": { "and": [ { "npc_has_effect": "downed" }, { "not": { "u_has_effect": "natural_stance" } } ] },
+    "crit_tec": true,
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 0.2 },
+      { "stat": "damage", "type": "cut", "scale": 0.2 },
+      { "stat": "damage", "type": "stab", "scale": 0.2 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "berserk_eviscerate_natural",
+    "name": "Natural Berserk Eviscerate",
+    "attack_vectors": [ "vector_punch" ],
+    "description": "Use pure strength to disembowel your opponent.\n\nOnly works while you have the Natural Stance effect.",
+    "messages": [ "You rip %s open with your claws!", "<npcname> rips %s open with their claws!" ],
+    "weighting": 2,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "condition": { "u_has_effect": "natural_stance" },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.3 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.3 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.3 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "berserk_overwhelm_natural",
+    "name": "Natural Berserk Overwhelm",
+    "attack_vectors": [ "vector_punch", "vector_grasp" ],
+    "description": "Use pure strength to overwhelm your opponent.\n\nOnly works while you have the Natural Stance effect.",
+    "messages": [ "You pounce upon %s open with your claws!", "<npcname> rips %s open with their claws!" ],
+    "crit_ok": true,
+    "weighting": 3,
+    "unarmed_allowed": true,
+    "condition": {
+      "and": [
+        { "u_has_effect": "natural_stance" },
+        { "math": [ "u_val('size') +1 >= n_val('size')" ] },
+        { "not": { "npc_has_effect": "downed" } }
+      ]
+    },
+    "knockback_dist": 1,
+    "knockback_follow": true,
+    "flat_bonuses": [ { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 1 } ]
+  },
+  {
+    "type": "technique",
+    "id": "berserk_maul_natural",
+    "name": "Natural Berserk Maul",
+    "attack_vectors": [ "vector_hand", "vector_grasp" ],
+    "description": "Use pure strength to maul your opponent.\n\nOnly works while you have the Natural Stance effect.",
+    "messages": [ "You pounce upon %s!", "<npcname> pounces upon %s!" ],
+    "weighting": 5,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "condition": {
+      "and": [
+        { "u_has_effect": "natural_stance" },
+        { "math": [ "u_val('size') +1 >= n_val('size')" ] },
+        { "npc_has_effect": "downed" }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.5 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.5 }
+    ]
   }
 ]

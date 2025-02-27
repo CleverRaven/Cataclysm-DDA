@@ -1167,19 +1167,40 @@
   {
     "type": "mutation",
     "id": "ADRENALINE2",
-    "name": { "str": "Combat Adaptation" },
+    "name": { "str": "Berserk" },
     "points": 3,
     "vitamin_cost": 160,
-    "description": "When you are in great danger you may flip a chemical switch in your brain and for a cost in hunger, fatigue, and thirst your nervous system will process things around you slightly faster.  Giving you better reaction times that you can pay for later if you survive.",
+    "description": "You can go berserk on demand, greatly increasing your strength and speed at the cost of intelligence. The comedown is terrible.",
     "prereqs": [ "ADRENALINE" ],
     "category": [ "BEAST" ],
     "active": true,
-    "cost": 90,
     "time": "10 s",
-    "sleepiness": true,
-    "kcal": true,
-    "thirst": true,
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "DODGE_CHANCE", "add": 2 } ] } ]
+    "transform": { "target": "ADRENALINE2_active", "msg_transform": "You go berserk!" },
+    "initial_ma_styles": [ "style_berserk" ],
+    "activated_eocs": [ "EOC_berserkstyle_learn" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ADRENALINE2_active",
+    "name": { "str": "BERSERK!" },
+    "points": 3,
+    "description": "Kill them or die trying.",
+    "prereqs": [ "ADRENALINE" ],
+    "category": [ "BEAST" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "BONUS_BLOCK", "add": -20 },
+          { "value": "BONUS_DODGE", "add": -20 },
+          { "value": "PAIN", "add": -100 },
+          { "value": "STRENGTH", "add": 2 },
+          { "value": "INTELLIGENCE", "add": -5 }
+        ]
+      }
+    ],
+    "movecost_modifier": 0.95,
+    "valid": false
   },
   {
     "type": "mutation",
