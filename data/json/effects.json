@@ -5234,7 +5234,7 @@
     "base_mods": { "vomit_chance": [ 6000 ] },
     "scaling_mods": { "vomit_chance": [ -300 ] },
     "enchantments": [
-      { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": { "math": [ "u_vitamin('mutagen') / -275" ] } } ] },
+      { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": { "math": [ "u_vitamin('triffid_fiber') / -275" ] } } ] },
       { "condition": "ALWAYS", "values": [ { "value": "THIRST", "multiply": 0.2 } ] }
     ],
     "rating": "bad"
