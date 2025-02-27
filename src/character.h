@@ -2380,7 +2380,7 @@ class Character : public Creature, public visitable
          * @param it item to be wielded.
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
-        bool wield( item &it, const int obtain_cost = 0 );
+        bool wield( item &it, int obtain_cost = 0 );
         /**
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded
