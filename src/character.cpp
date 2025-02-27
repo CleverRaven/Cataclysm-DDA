@@ -13089,7 +13089,7 @@ bool Character::wield( item &it )
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
     bool worn = is_worn( it );
-    const int mv = it.on_wield_cost( *this );
+    const int mv = it.obtain_cost( *this );
 
     if( worn ) {
         it.on_takeoff( *this );

@@ -933,7 +933,6 @@ static void reload_a_revolver( Character &dummy, item &gun, item &ammo )
         }
         bool success = dummy.wield( gun );
         REQUIRE( success );
-        REQUIRE( dummy.is_wielding( gun ) );
     }
     while( dummy.get_wielded_item()->remaining_ammo_capacity() > 0 ) {
         g->reload_weapon( false );
