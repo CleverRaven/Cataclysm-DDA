@@ -2794,7 +2794,7 @@
             "value": "MELEE_RANGE_MODIFIER",
             "add": {
               "math": [
-                "max( 1, ( ( ( u_spell_level('teleport_warped_strikes') * 0.1 ) + 1 ) * scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling )"
+                "max( 1, ( ( ( u_spell_level('teleport_warped_strikes') * 0.2 ) + 1 ) * scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling )"
               ]
             }
           }

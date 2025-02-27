@@ -1450,7 +1450,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 30 seconds to 3 minutes, plus 10 to 30 seconds per power level<br />
 *Stamina Cost*: 4000, minus 100 per level to a minimum of 2000<br />
 *Channeling Time*: 80 moves, minus 3 moves per level to a minimum of 20<br />
-*Effects*: Allows psion to walk through walls by directly moving into them. Starts out at one "wall" and grows at 0.1 distance per level.<br />
+*Effects*: Allows psion to melee attack extra distance, at 1 + 0.2 tiles per level.<br />
 *Prerequisites*: Apportation 6, Extended Stride 10<br />
 </details>
 <details>
