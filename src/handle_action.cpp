@@ -1724,8 +1724,7 @@ static void reach_attack( avatar &you )
     g->temp_exit_fullscreen();
 
     target_handler::trajectory traj;
-    if( you.get_wielded_item() )
-    {
+    if( you.get_wielded_item() ) {
         traj = target_handler::mode_reach( you, you.get_wielded_item() );
     } else {
         traj = target_handler::mode_unarmed_reach( you );
@@ -1758,8 +1757,7 @@ static void fire()
         reach_attack( you );
         return;
     }
-    if( !weapon && you.calculate_by_enchantment(1, enchant_vals::mod::MELEE_RANGE_MODIFIER ) > 1 )
-    {
+    if( !weapon && you.calculate_by_enchantment( 1, enchant_vals::mod::MELEE_RANGE_MODIFIER ) > 1 ) {
         reach_attack( you );
         return;
     }

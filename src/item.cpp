@@ -7683,7 +7683,8 @@ int item::reach_range( const Character &guy ) const
     res += reach_attack_add;
 
     if( !is_gun() ) {
-        res = std::max( 1, static_cast<int>( guy.calculate_by_enchantment( res, enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) );
+        res = std::max( 1, static_cast<int>( guy.calculate_by_enchantment( res,
+                                             enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) );
     }
 
     // for guns consider any attached gunmods
@@ -7693,7 +7694,9 @@ int item::reach_range( const Character &guy ) const
                 continue;
             }
             if( m.second.melee() ) {
-                res = std::max( res, std::max( 1, static_cast<int>( guy.calculate_by_enchantment( m.second.qty + reach_attack_add, enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) ) );
+                res = std::max( res, std::max( 1,
+                                               static_cast<int>( guy.calculate_by_enchantment( m.second.qty + reach_attack_add,
+                                                       enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) ) );
             }
         }
     }
@@ -7711,9 +7714,9 @@ int item::current_reach_range( const Character &guy ) const
         res = gun_current_mode().target->gun_range();
     }
 
-    if( !is_gun() || ( is_gun() && !is_gunmod() && gun_current_mode().melee() ) )
-    {
-        res = std::max( 1, static_cast<int>( guy.calculate_by_enchantment( res, enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) );
+    if( !is_gun() || ( is_gun() && !is_gunmod() && gun_current_mode().melee() ) ) {
+        res = std::max( 1, static_cast<int>( guy.calculate_by_enchantment( res,
+                                             enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) );
     }
 
     if( is_gun() && !is_gunmod() ) {

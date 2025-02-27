@@ -643,7 +643,9 @@
       ]
     },
     "base_casting_time": {
-      "math": [ "u_effect_intensity('effect_teleport_warped_strikes') > -1 ? 10 : max( 80 - ( u_spell_level('teleport_warped_strikes') * 3 ), 20 )" ]
+      "math": [
+        "u_effect_intensity('effect_teleport_warped_strikes') > -1 ? 10 : max( 80 - ( u_spell_level('teleport_warped_strikes') * 3 ), 20 )"
+      ]
     }
   },
   {
