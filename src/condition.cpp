@@ -18,7 +18,6 @@
 #include <variant>
 #include <vector>
 
-#include "action.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bodypart.h"
@@ -65,15 +64,12 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "point.h"
-#include "popup.h"
 #include "profession.h"
-#include "ranged.h"
 #include "recipe_groups.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "talker.h"
 #include "translation.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
@@ -542,27 +538,6 @@ void write_var_value( var_type type, const std::string &name, dialogue *d,
             break;
         case var_type::context:
             d->set_value( name, value );
-            break;
-        default:
-            debugmsg( "Invalid type." );
-            break;
-    }
-}
-
-void write_var_value( var_type type, const std::string &name, const_dialogue const &d,
-                      const std::string &value )
-{
-    switch( type ) {
-        case var_type::global:
-            get_globals().set_global_value( name, value );
-            break;
-        case var_type::context:
-        case var_type::var:
-        case var_type::u:
-        case var_type::npc:
-        case var_type::faction:
-        case var_type::party:
-            debugmsg( "Only global variables can be assigned from an eval function.\n%s", d.get_callstack() );
             break;
         default:
             debugmsg( "Invalid type." );
@@ -1687,6 +1662,20 @@ conditional_t::func f_is_outside( bool is_npc )
     };
 }
 
+conditional_t::func f_tile_is_outside( const JsonObject &jo, std::string_view member )
+{
+    std::optional<var_info> loc_var;
+    if( jo.has_object( member ) ) {
+        loc_var = read_var_info( jo.get_object( member ) );
+    }
+
+    return [loc_var]( const_dialogue const & d ) {
+        map &here = get_map();
+        const tripoint_abs_ms target_location = get_tripoint_ms_from_var( loc_var, d, false );
+        return here.is_outside( here.get_bub( target_location ) );
+    };
+}
+
 conditional_t::func f_is_underwater( bool is_npc )
 {
     const map &here = get_map();
@@ -1733,69 +1722,6 @@ conditional_t::func f_query( const JsonObject &jo, std::string_view member, bool
         } else {
             return default_val;
         }
-    };
-}
-
-conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member, bool is_npc )
-{
-    const map &here = get_map();
-
-    std::string type = jo.get_string( member.data() );
-    var_info target_var = read_var_info( jo.get_object( "target_var" ) );
-    if( target_var.type != var_type::global ) {
-        jo.throw_error_at( "target_var", "Only global variables can be used as targets for u_query" ) ;
-    }
-    std::string message;
-    if( jo.has_member( "message" ) ) {
-        message = jo.get_string( "message" );
-    }
-    dbl_or_var range;
-    if( jo.has_member( "range" ) ) {
-        range = get_dbl_or_var( jo, "range" );
-    }
-    bool z_level = jo.get_bool( "z_level", false );
-    return [type, target_var, message, range, z_level, is_npc, &here]( const_dialogue const & d ) {
-        std::optional<tripoint_bub_ms> loc;
-        Character const *ch = d.const_actor( is_npc )->get_const_character();
-        if( ch && ch->as_avatar() ) {
-            if( type == "anywhere" ) {
-                if( !message.empty() ) {
-                    static_popup popup;
-                    popup.on_top( true );
-                    popup.message( "%s", message );
-                }
-                tripoint_bub_ms center = d.const_actor( is_npc )->pos_bub( here );
-                const look_around_params looka_params = { true, center, center, false, true, true, z_level };
-                loc = g->look_around( looka_params ).position;
-            } else if( type == "line_of_sight" ) {
-                if( !message.empty() ) {
-                    static_popup popup;
-                    popup.on_top( true );
-                    popup.message( "%s", message );
-                }
-                avatar dummy;
-                dummy.set_pos_abs_only( get_avatar().pos_abs() );
-                target_handler::trajectory traj = target_handler::mode_select_only( dummy, range.evaluate( d ) );
-                if( !traj.empty() ) {
-                    loc = traj.back();
-                }
-            } else if( type == "around" ) {
-                if( !message.empty() ) {
-                    loc = choose_adjacent( message );
-                } else {
-                    loc = choose_adjacent( _( "Choose direction" ) );
-                }
-            } else {
-                debugmsg( string_format( "Invalid selection type: %s", type ) );
-            }
-
-        }
-        if( loc.has_value() ) {
-            tripoint_abs_ms pos_global = here.get_abs( *loc );
-            write_var_value( target_var.type, target_var.name, d,
-                             pos_global.to_string() );
-        }
-        return loc.has_value();
     };
 }
 
@@ -2575,6 +2501,7 @@ parsers = {
     {"u_has_perception", "npc_has_perception", jarg::member | jarg::array, &conditional_fun::f_has_perception },
     {"u_has_part_temp", "npc_has_part_temp", jarg::member | jarg::array, &conditional_fun::f_has_part_temp },
     {"u_is_wearing", "npc_is_wearing", jarg::member, &conditional_fun::f_is_wearing },
+    {"is_outside", jarg::member, &conditional_fun::f_tile_is_outside },
     {"u_has_item", "npc_has_item", jarg::member, &conditional_fun::f_has_item },
     {"u_has_item_with_flag", "npc_has_item_with_flag", jarg::member, &conditional_fun::f_has_item_with_flag },
     {"u_has_items", "npc_has_items", jarg::member, &conditional_fun::f_has_items },
@@ -2585,7 +2512,6 @@ parsers = {
     {"u_has_effect", "npc_has_effect", jarg::member, &conditional_fun::f_has_effect },
     {"u_need", "npc_need", jarg::member, &conditional_fun::f_need },
     {"u_query", "npc_query", jarg::member, &conditional_fun::f_query },
-    {"u_query_tile", "npc_query_tile", jarg::member, &conditional_fun::f_query_tile },
     {"u_at_om_location", "npc_at_om_location", jarg::member, &conditional_fun::f_at_om_location },
     {"u_near_om_location", "npc_near_om_location", jarg::member, &conditional_fun::f_near_om_location },
     { "follower_present", jarg::string, &conditional_fun::f_follower_present},
@@ -2678,7 +2604,6 @@ parsers_simple = {
     {"u_is_riding", "npc_is_riding", &conditional_fun::f_is_riding },
     {"is_day", &conditional_fun::f_is_day },
     {"u_has_stolen_item", "npc_has_stolen_item", &conditional_fun::f_has_stolen_item },
-    {"u_is_outside", "is_outside", &conditional_fun::f_is_outside },
     {"u_is_outside", "npc_is_outside", &conditional_fun::f_is_outside },
     {"u_is_underwater", "npc_is_underwater", &conditional_fun::f_is_underwater },
     {"u_has_camp", &conditional_fun::f_u_has_camp },
