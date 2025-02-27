@@ -13,7 +13,6 @@
 
 #include "cata_path.h"
 #include "cata_utility.h"
-#include "catacharset.h"
 #include "character.h"
 #include "color.h"
 #include "coordinates.h"
@@ -338,6 +337,7 @@ void user_interface::show()
     ctxt.register_action( "QUIT" );
     if( tabs.size() > 1 ) {
         ctxt.register_action( "NEXT_TAB" );
+        ctxt.register_action( "PREV_TAB" );
     }
     ctxt.register_action( "ADD_RULE" );
     ctxt.register_action( "REMOVE_RULE" );
@@ -371,17 +371,18 @@ void user_interface::show()
         wnoutrefresh( w_border );
 
         // Redraw the header
-        int locx = 0;
-        const std::string autopickup_enabled_text = _( "Auto pickup enabled:" );
-        mvwprintz( w_header, point( locx, 0 ), c_white, autopickup_enabled_text );
-        locx += utf8_width( autopickup_enabled_text );
-        locx += shortcut_print( w_header, point( locx + 1, 0 ),
-                                ( get_option<bool>( "AUTO_PICKUP" ) ? c_light_green : c_light_red ), c_white,
-                                ( get_option<bool>( "AUTO_PICKUP" ) ? _( "True" ) : _( "False" ) ) );
-        std::string desc_2 = string_format( "%s", ctxt.get_desc( "HELP_KEYBINDINGS",
-                                            _( "Display keybindings" ) ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_header, point( 0, 1 ), 0, c_white, desc_2 );
+        mvwhline( w_header, point( 0, 0 ), ' ', FULL_SCREEN_WIDTH - 2 );  // clear the line
+        const bool enabled = get_option<bool>( "AUTO_PICKUP" );
+        nc_color color = c_white;
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        print_colored_text( w_header, point( 1, 0 ), color, c_white, string_format( "%s %s",
+                            ctxt.get_desc( "SWITCH_AUTO_PICKUP_OPTION", _( "Auto pickup enabled:" ) ),
+                            colorize( enabled ? _( "True" ) : _( "False" ),
+                                      enabled ? c_light_green : c_light_red ) ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        print_colored_text( w_header, point( 1, 1 ), color, c_white,
+                            ctxt.get_desc( "HELP_KEYBINDINGS", _( "Display keybindings" ) ) );
 
         wattron( w_header, c_light_gray );
         mvwhline( w_header, point( 0,  2 ), LINE_OXOX, 78 );
@@ -397,7 +398,7 @@ void user_interface::show()
         mvwprintz( w_header, point( 52, 3 ), c_white, _( "Inc/Exc" ) );
 
         rule_list &cur_rules = tabs[iTab].new_rules;
-        locx = 17;
+        int locx = 17;
         for( size_t i = 0; i < tabs.size(); i++ ) {
             const nc_color color = iTab == i ? hilite( c_white ) : c_white;
             locx += shortcut_print( w_header, point( locx, 2 ), c_white, color, tabs[i].title ) + 1;
@@ -456,18 +457,8 @@ void user_interface::show()
         const int scroll_rate = recmax > 20 ? 10 : 3;
         const std::string action = ctxt.handle_input();
 
-        if( action == "NEXT_TAB" ) {
-            iTab++;
-            if( iTab >= tabs.size() ) {
-                iTab = 0;
-            }
-            iLine = 0;
-        } else if( action == "PREV_TAB" ) {
-            if( iTab > 0 ) {
-                iTab--;
-            } else {
-                iTab = tabs.size() - 1;
-            }
+        if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
+            iTab = inc_clamp_wrap( iTab, action == "NEXT_TAB", tabs.size() );
             iLine = 0;
         } else if( action == "QUIT" ) {
             break;
@@ -475,12 +466,8 @@ void user_interface::show()
         } else if( action == "REMOVE_RULE" && currentPageNonEmpty ) {
             bStuffChanged = true;
             cur_rules.erase( cur_rules.begin() + iLine );
-            if( iLine > recmax - 1 ) {
-                iLine--;
-            }
-            if( iLine < 0 ) {
-                iLine = 0;
-            }
+            // after erase, recmax - 2 is the last valid index
+            iLine = std::clamp( iLine, 0, recmax - 2 );
         } else if( action == "COPY_RULE" && currentPageNonEmpty ) {
             bStuffChanged = true;
             cur_rules.push_back( cur_rules[iLine] );
