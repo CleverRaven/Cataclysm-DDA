@@ -1757,7 +1757,9 @@ static void fire()
         reach_attack( you );
         return;
     }
-    if( !weapon && static_cast<int>( you.calculate_by_enchantment( 1, enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) > 1 ) {
+    if( !weapon &&
+        static_cast<int>( you.calculate_by_enchantment( 1,
+                          enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) > 1 ) {
         reach_attack( you );
         return;
     }
