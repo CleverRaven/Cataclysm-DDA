@@ -615,7 +615,7 @@
     "type": "SPELL",
     "name": "[Ψ]Warped Strikes (C)",
     "description": "By warping space as you attack, you can allow your melee attacks to reach much further than normal.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
-    "message": "Your reach grows.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPORTER",

@@ -1723,16 +1723,13 @@ static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
 
-    // target_handler::trajectory traj;
-    // if( you.get_wielded_item() )
-    // {
-    //     traj = target_handler::mode_reach( you, you.get_wielded_item() );
-    // } else {
-    //     debugmsg("doesn't have weapon");
-    //     traj = target_handler::mode_unarmed_reach( you );
-    // }
-
-    target_handler::trajectory traj = target_handler::mode_reach( you, you.get_wielded_item() );
+    target_handler::trajectory traj;
+    if( you.get_wielded_item() )
+    {
+        traj = target_handler::mode_reach( you, you.get_wielded_item() );
+    } else {
+        traj = target_handler::mode_unarmed_reach( you );
+    }
 
     if( !traj.empty() ) {
         you.reach_attack( traj.back() );
