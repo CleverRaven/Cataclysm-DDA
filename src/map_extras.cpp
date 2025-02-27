@@ -86,7 +86,7 @@ static const item_group_id Item_spawn_data_army_bed( "army_bed" );
 static const item_group_id Item_spawn_data_everyday_corpse( "everyday_corpse" );
 static const item_group_id Item_spawn_data_map_extra_casings( "map_extra_casings" );
 static const item_group_id Item_spawn_data_mine_equipment( "mine_equipment" );
-static const item_group_id 
+static const item_group_id
 Item_spawn_data_mon_zombie_soldier_death_drops( "mon_zombie_soldier_death_drops" );
 static const item_group_id Item_spawn_data_remains_human_generic( "remains_human_generic" );
 
