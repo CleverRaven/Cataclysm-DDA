@@ -117,7 +117,7 @@
       "items": {
         "T": { "item": "SUS_toilet", "chance": 50 },
         "l": { "item": "SUS_janitors_closet", "chance": 70 },
-        "&": { "item": "trash_cart", "chance": 50 }
+        "&": { "item": "SUS_trash_floor_light", "chance": 50 }
       },
       "place_loot": [
         { "group": "cash_register_random", "x": [ 9, 13 ], "y": 18, "chance": 100 },

@@ -555,17 +555,6 @@
   },
   {
     "type": "item_group",
-    "id": "oa_ig_rd_glass_trash",
-    "//": "for ws_regional_dump",
-    "items": [
-      { "item": "glass_shard", "prob": 100, "count": [ 8, 168 ] },
-      [ "bottle_glass", 30 ],
-      [ "jar_glass_sealed", 20 ],
-      [ "jar_3l_glass_sealed", 10 ]
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "oa_ig_ash_pile",
     "//": "for ws_regional_dump",
     "items": [ [ "ash", 100 ] ]

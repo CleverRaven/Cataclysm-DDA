@@ -106,38 +106,6 @@
   },
   {
     "type": "item_group",
-    "id": "trash_no_hope",
-    "//": "TODO: Why does this not just override the vanilla trash?",
-    "items": [
-      [ "bottle_plastic", 5 ],
-      [ "bottle_plastic_small", 5 ],
-      [ "bottle_glass", 2 ],
-      { "group": "tinware", "prob": 2 },
-      [ "can_drink", 5 ],
-      [ "plastic_shopping_bag", 5 ],
-      [ "bag_plastic", 5 ],
-      [ "wrapper", 5 ],
-      [ "flyer", 5 ],
-      [ "scorecard", 5 ],
-      [ "plastic_sheet", 5 ],
-      [ "string_6", 5 ],
-      { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
-      [ "ceramic_shard", 5 ],
-      [ "joint_roach", 10 ],
-      [ "bag_canvas_small", 5 ],
-      [ "can_food", 5 ],
-      [ "bubblewrap", 3 ],
-      [ "cig_butt", 15 ],
-      { "item": "cotton_patchwork", "prob": 8, "custom-flags": [ "FILTHY" ] },
-      { "item": "syringe", "prob": 5, "custom-flags": [ "FILTHY" ] },
-      { "item": "lighter", "prob": 5, "charges": [ 0, 10 ] },
-      { "item": "matches", "prob": 5, "charges": [ 0, 20 ] },
-      { "group": "newspaper", "prob": 10 },
-      [ "handflare_dead", 3 ]
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "chickenbot",
     "items": [
       [ "robot_controls", 5 ],

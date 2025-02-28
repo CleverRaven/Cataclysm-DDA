@@ -76,9 +76,9 @@
       "&": "f_trashcan"
     },
     "items": {
-      " ": { "item": "trash", "chance": 2 },
-      ".": { "item": "trash_forest", "chance": 1 },
-      "C": { "item": "trash", "chance": 20 },
+      " ": { "item": "SUS_trash_floor", "chance": 2 },
+      ".": { "item": "SUS_trash_forest_no_manmade", "chance": 1 },
+      "C": { "item": "SUS_trash_floor", "chance": 20 },
       "1": { "item": "SUS_junk_drawer_messy", "chance": 20 },
       "2": { "item": "SUS_junk_drawer_messy", "chance": 20 },
       "3": { "item": "SUS_junk_drawer_messy", "chance": 20 },
@@ -135,7 +135,7 @@
       ],
       "O": { "item": "livingroom", "chance": 20 },
       "S": { "item": "stash_wood", "chance": 60, "repeat": [ 2, 4 ] },
-      "&": { "item": "trash", "chance": 20 },
+      "&": { "item": "SUS_trash_trashcan", "chance": 20 },
       "R": [
         { "item": "camping", "chance": 50 },
         { "item": "gear_survival", "chance": 30 },

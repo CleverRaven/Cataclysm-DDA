@@ -1,34 +1,5 @@
 [
   {
-    "id": "floor_trash",
-    "type": "item_group",
-    "items": [
-      [ "flyer", 10 ],
-      [ "bag_plastic", 10 ],
-      [ "bag_zipper_gallon", 4 ],
-      [ "bottle_plastic", 10 ],
-      [ "cup_plastic", 10 ],
-      [ "bottle_glass", 10 ],
-      [ "can_drink", 10 ],
-      [ "can_food", 10 ],
-      [ "box_small", 10 ],
-      [ "jug_plastic", 10 ],
-      [ "jar_glass_sealed", 5 ],
-      [ "wrapper", 10 ],
-      [ "wrapper_foil", 1 ],
-      [ "string_6", 5 ],
-      [ "cig_butt", 10 ],
-      [ "string_36", 5 ],
-      [ "scrap", 10 ],
-      { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
-      [ "lc_wire", 5 ],
-      [ "splinter", 10 ],
-      [ "cotton_patchwork", 15 ],
-      { "item": "cotton_patchwork", "prob": 10, "custom-flags": [ "FILTHY" ] },
-      [ "plastic_shopping_bag", 10 ]
-    ]
-  },
-  {
     "id": "candy_shop",
     "type": "item_group",
     "items": [ { "group": "candy_chocolate", "prob": 460 }, [ "cookies", 50 ], { "prob": 50, "group": "licorice_bag_plastic_4" } ]

@@ -35,7 +35,10 @@
     "type": "item_group",
     "//": "What you'll find in your starter kit.",
     "subtype": "collection",
-    "entries": [ { "group": "trash", "count": [ 55, 70 ] }, { "group": "trash_forest", "count": [ 80, 100 ] } ]
+    "entries": [
+      { "group": "SUS_trash_floor", "count": [ 55, 70 ] },
+      { "group": "SUS_trash_forest_no_manmade", "count": [ 80, 100 ] }
+    ]
   },
   {
     "type": "item_group",

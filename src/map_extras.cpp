@@ -80,6 +80,7 @@ static const furn_str_id furn_f_sign_warning( "f_sign_warning" );
 static const furn_str_id furn_f_tourist_table( "f_tourist_table" );
 static const furn_str_id furn_f_wreckage( "f_wreckage" );
 
+static const item_group_id Item_spawn_data_SUS_trash_floor( "SUS_trash_floor" );
 static const item_group_id Item_spawn_data_ammo_casings( "ammo_casings" );
 static const item_group_id Item_spawn_data_army_bed( "army_bed" );
 static const item_group_id Item_spawn_data_everyday_corpse( "everyday_corpse" );
@@ -88,7 +89,6 @@ static const item_group_id Item_spawn_data_mine_equipment( "mine_equipment" );
 static const item_group_id
 Item_spawn_data_mon_zombie_soldier_death_drops( "mon_zombie_soldier_death_drops" );
 static const item_group_id Item_spawn_data_remains_human_generic( "remains_human_generic" );
-static const item_group_id Item_spawn_data_trash_cart( "trash_cart" );
 
 static const itype_id itype_223_casing( "223_casing" );
 static const itype_id itype_762_51_casing( "762_51_casing" );
@@ -928,7 +928,7 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
                 }
             }
             //Spawn trash in a crate and its surroundings
-            m.place_items( Item_spawn_data_trash_cart, 80, { 19, 11, abs_sub.z()},
+            m.place_items( Item_spawn_data_SUS_trash_floor, 80, { 19, 11, abs_sub.z()},
             { 21, 13, abs_sub.z()}, false, calendar::start_of_cataclysm );
         } else {
             m.spawn_item( tripoint_omt_ms{ 20, 11, abs_sub.z()}, itype_hatchet );
@@ -936,7 +936,7 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
             m.spawn_item( tripoint_omt_ms{ 20, 14, abs_sub.z()}, itype_acoustic_guitar );
 
             //Spawn trash in a crate
-            m.place_items( Item_spawn_data_trash_cart, 80, { 20, 12, abs_sub.z()},
+            m.place_items( Item_spawn_data_SUS_trash_floor, 80, { 20, 12, abs_sub.z()},
             { 20, 12, abs_sub.z()}, false, calendar::start_of_cataclysm );
         }
 
