@@ -1359,7 +1359,8 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
         return;
     }
 
-    bool select_mutation = is_avatar() && get_option<bool>( "SHOW_MUTATION_SELECTOR" );
+    bool select_mutation = is_avatar() && ( get_option<bool>( "SHOW_MUTATION_SELECTOR" ) ||
+                                            calculate_by_enchantment( 0, enchant_vals::mod::MUT_ADDITIONAL_OPTIONS ) >= 1 );
 
     bool allow_good = false;
     bool allow_bad = false;
