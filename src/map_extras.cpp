@@ -481,7 +481,11 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
 
     tinymap m;
     if( bridge_at_north && road_at_south ) {
-        m.load( abs_omt + point::south, false );
+        // Remove vehicles. They don't make sense here, and may cause collision crashes.
+        m.load( abs_omt + point::south, true );
+        for( wrapped_vehicle &veh : m.get_vehicles() ) {
+            m.cast_to_map()->detach_vehicle( veh.v );
+        }
 
         //Sandbag block at the left edge
         line_furn( &m, furn_f_sandbag_half, point_omt_ms( 3, 4 ), point_omt_ms( 3, 7 ) );
@@ -588,7 +592,12 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
     }
 
     if( bridge_at_south && road_at_north ) {
-        m.load( abs_omt + point::north, false );
+        // Remove vehicles. They don't make sense here, and may cause collision crashes.
+        m.load( abs_omt + point::north, true );
+        for( wrapped_vehicle &veh : m.get_vehicles() ) {
+            m.cast_to_map()->detach_vehicle( veh.v );
+        }
+
         //Two horizontal lines of sandbags
         line_furn( &m, furn_f_sandbag_half, point_omt_ms( 5, 15 ), point_omt_ms( 10, 15 ) );
         line_furn( &m, furn_f_sandbag_half, point_omt_ms( 13, 15 ), point_omt_ms( 18, 15 ) );
@@ -697,7 +706,12 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
     }
 
     if( bridge_at_west && road_at_east ) {
-        m.load( abs_omt + point::east, false );
+        // Remove vehicles. They don't make sense here, and may cause collision crashes.
+        m.load( abs_omt + point::east, true );
+        for( wrapped_vehicle &veh : m.get_vehicles() ) {
+            m.cast_to_map()->detach_vehicle( veh.v );
+        }
+
         //Draw walls of first tent
         square_furn( &m, furn_f_canvas_wall, point_omt_ms( 0, 3 ), point_omt_ms( 4, 13 ) );
 
@@ -851,7 +865,12 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
     }
 
     if( bridge_at_east && road_at_west ) {
-        m.load( abs_omt + point::west, false );
+        // Remove vehicles. They don't make sense here, and may cause collision crashes.
+        m.load( abs_omt + point::west, true );
+        for( wrapped_vehicle &veh : m.get_vehicles() ) {
+            m.cast_to_map()->detach_vehicle( veh.v );
+        }
+
         //Spawn military cargo truck blocking the entry
         m.add_vehicle( vehicle_prototype_military_cargo_truck, tripoint_omt_ms( 15, 11, abs_sub.z() ),
                        270_degrees, 70, 1 );
