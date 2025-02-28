@@ -845,11 +845,12 @@ bool mattack::shockstorm( monster *z )
     }
 
     Creature *target = z->attack_target();
-    const tripoint_bub_ms target_pos = target->pos_bub( here );
 
     if( target == nullptr ) {
         return false;
     }
+
+    const tripoint_bub_ms target_pos = target->pos_bub( here );
 
     Character &player_character = get_player_character();
     bool seen = player_character.sees( here, *z );
