@@ -168,6 +168,104 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS",
+    "condition": { "u_has_items": { "item": "scrap_dreamdross", "count": 1 } },
+    "effect": [
+      { "math": [ "u_dreamdross_to_dreamsparks_value = num_input('How much dreamdross to extract dreamsparks from?', 1)" ] },
+      { "u_add_effect": "effect_extracting_dreamsparks", "duration": "24 hours" },
+      { "u_assign_activity": "ACT_CHANGELING_DREAMDROSS_TO_DREAMSPARKS", "duration": 86400 },
+      {
+        "queue_eocs": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS_PROCESS",
+        "time_in_future": { "math": [ "rng(300,900)" ] }
+      }
+    ],
+    "false_effect": [ { "u_message": "You need dreamdross to extract dreamsparks!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS_CANCELLING_ACTIVITY_CANCELS_EXTRACTING",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_CHANGELING_DREAMDROSS_TO_DREAMSPARKS", { "context_val": "activity" } ] },
+        { "u_has_effect": "effect_extracting_dreamsparks" }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_extracting_dreamsparks" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS_PROCESS",
+    "condition": { "u_has_effect": "effect_extracting_dreamsparks" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS_PROCESS_2",
+            "condition": { "u_has_items": { "item": "scrap_dreamdross", "count": 1 } },
+            "effect": [
+              {
+                "if": {
+                  "and": [
+                    { "u_has_items": { "item": "changeling_dreamspark", "count": 10 } },
+                    { "u_has_trait": "CHANGELING_DREAMSPARK_STORAGE_10" }
+                  ]
+                },
+                "then": [ "u_cancel_activity", { "u_message": "You have as many dreamsparks as you can hold.", "type": "mixed" } ],
+                "else": {
+                  "if": {
+                    "and": [
+                      { "u_has_items": { "item": "changeling_dreamspark", "count": 20 } },
+                      { "u_has_trait": "CHANGELING_DREAMSPARK_STORAGE_20" }
+                    ]
+                  },
+                  "then": [ "u_cancel_activity", { "u_message": "You have as many dreamsparks as you can hold.", "type": "mixed" } ],
+                  "else": {
+                    "if": {
+                      "and": [
+                        { "u_has_items": { "item": "changeling_dreamspark", "count": 30 } },
+                        { "u_has_trait": "CHANGELING_DREAMSPARK_STORAGE_30" }
+                      ]
+                    },
+                    "then": [ "u_cancel_activity", { "u_message": "You have as many dreamsparks as you can hold.", "type": "mixed" } ],
+                    "else": {
+                      "if": {
+                        "and": [
+                          { "u_has_items": { "item": "changeling_dreamspark", "count": 40 } },
+                          { "u_has_trait": "CHANGELING_DREAMSPARK_STORAGE_40" }
+                        ]
+                      },
+                      "then": [ "u_cancel_activity", { "u_message": "You have as many dreamsparks as you can hold.", "type": "mixed" } ],
+                      "else": {
+                        "if": {
+                          "and": [
+                            { "u_has_items": { "item": "changeling_dreamspark", "count": 50 } },
+                            { "u_has_trait": "CHANGELING_DREAMSPARK_STORAGE_50" }
+                          ]
+                        },
+                        "then": [ "u_cancel_activity", { "u_message": "You have as many dreamsparks as you can hold.", "type": "mixed" } ],
+                        "else": [
+                          { "u_consume_item": "scrap_dreamdross", "count": 1 },
+                          { "u_spawn_item": "changeling_dreamspark", "suppress_message": true },
+                          {
+                            "queue_eocs": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS_PROCESS",
+                            "time_in_future": { "math": [ "rng(300,900)" ] }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_USE_DREAMDROSS_TO_RESEARCH_NEW_SPELLS",
     "condition": {
       "u_has_items": { "item": "scrap_dreamdross", "count": { "math": [ "u_changeling_seasonal_magic_dreamdross_research_cost" ] } }

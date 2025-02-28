@@ -19,6 +19,25 @@
     "base_casting_time": 50
   },
   {
+    "id": "changeling_gain_dreamsparks",
+    "type": "SPELL",
+    "name": "Extract Dreamsparks",
+    "description": "Pull the power of creativity and enchantment from dreamdross and condense it into dreamsparks, so you can use them to power fae magicks.",
+    "message": "",
+    "flags": [ "NO_FAIL", "VERBAL", "SOMATIC" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 9,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS",
+    "magic_type": "xe_fey_magick",
+    "shape": "blast",
+    "base_energy_cost": 0,
+    "base_casting_time": 50
+  },
+  {
     "id": "changeling_disguise_as_nature_spell",
     "type": "SPELL",
     "name": "None Here But the Stones",
