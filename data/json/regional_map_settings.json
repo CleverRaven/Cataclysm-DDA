@@ -530,12 +530,7 @@
             "clear_types": false,
             "types": { "t_trunk": 1, "f_boulder_small": 2, "f_boulder_medium": 1 }
           },
-          "water": {
-            "sequence": 3,
-            "chance": 2,
-            "clear_types": false,
-            "types": { "t_swater_sh": 6, "t_swater_dp": 1, "t_water_murky": 12 }
-          }
+          "water": { "sequence": 3, "chance": 2, "clear_types": false, "types": { "t_water_sh": 6, "t_water_dp": 1, "t_water_murky": 12 } }
         },
         "clear_terrain_furniture": false,
         "terrain_furniture": { "t_water_murky": { "chance": 2, "clear_furniture": false, "furniture": { "f_region_water_plant": 1 } } }
