@@ -1675,15 +1675,17 @@
     "skill_used": "chemistry",
     "difficulty": 4,
     "time": "1 h",
-    "book_learn": [ [ "recipe_labchem", 6 ], [ "textbook_anarch", 4 ],  [ "textbook_chemistry", 4 ]],
+    "book_learn": [ [ "recipe_labchem", 6 ], [ "textbook_anarch", 4 ], [ "textbook_chemistry", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_inorganic_chemistry" },
       { "proficiency": "prof_organic_chemistry" }
     ],
-    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1} ],
+    "//": "Mix nitric acid and ethanol, slowly add phenol, stir and heat for an hour, filter out crystals and then clean with water",
+    "//1": "Volume is 1.25L of nitrating solution, the mixture is merely 'heated' and not boiled, and ethanol would boil away at 78°",
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [ [ [ "chem_nitric_acid", 1 ] ],  [ [ "chem_ethanol", 1000 ] ], [ [ "chem_phenol", 50 ] ] , [ [ "water_clean", 1 ] ] ],
+    "components": [ [ [ "chem_nitric_acid", 1 ] ], [ [ "chem_ethanol", 1000 ] ], [ [ "chem_phenol", 50 ] ], [ [ "water_clean", 1 ] ] ],
     "charges": 96
   },
   {
