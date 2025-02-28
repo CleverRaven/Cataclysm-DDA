@@ -1076,7 +1076,7 @@ void Character::load( const JsonObject &data )
     calc_encumbrance();
 
     assign( data, "power_level", power_level, false, 0_kJ );
-    assign( data, "max_power_level_modifier", max_power_level_modifier, false, units::energy_min );
+    assign( data, "max_power_level_modifier", max_power_level_modifier, false, units::energy::min() );
 
     // Bionic power should not be negative!
     if( power_level < 0_mJ ) {

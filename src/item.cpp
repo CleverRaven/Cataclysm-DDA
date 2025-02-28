@@ -7310,7 +7310,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
 
     }
 
-    // prevent units::mass_max * 1.0, which results in -units::mass_max
+    // prevent units::mass::max() * 1.0, which results in -units::mass::max()
     if( ret_mul != 1 ) {
         ret *= ret_mul;
     }
