@@ -54,5 +54,23 @@
     "volume": "100 ml",
     "fun": 4,
     "quench": -1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "religieuse_au_chocolat",
+    "name": { "str": "religieuse au chocolat" },
+    "weight": "50 g",
+    "color": "brown",
+    "spoils_in": "7 days",
+    "comestible_type": "FOOD",
+    "symbol": "8",
+    "calories": 150,
+    "description": "A a French pastry made of a small choux pastry case stacked on top of a larger one, both filled with crème pâtissière, flavoured with chocolate.  Each case is topped with a ganache of chocolate, then attached to each other using piped buttercream icing.  Named the religieuse because when made properly, the pastries look like nuns in habits.",
+    "price": "87 cent",
+    "price_postapoc": "43 cent",
+    "material": [ "bread", "sugar" ],
+    "vitamins": [ [ "bread_allergen", 1 ] ],
+    "volume": "100 ml",
+    "fun": 7
   }
 ]
