@@ -150,7 +150,7 @@
     "name": { "str": "dreamspark" },
     "description": "The extracted essence of human dreams, used to fuel fae magicks.",
     "weight": "0 g",
-    "volume": "100 ml",
+    "volume": "1 ml",
     "price": "0 USD",
     "price_postapoc": "0 cent",
     "material": [ "dreamstuff" ],

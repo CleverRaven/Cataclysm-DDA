@@ -19,7 +19,7 @@
             "CHANGELING_SEASONAL_MAGIC_SPRING",
             "CHANGELING_SEASONAL_MAGIC_SUMMER",
             "CHANGELING_SEASONAL_MAGIC_AUTUMN",
-            "EOC_PICK_CHANGELING_WINTER_MAGIC"
+            "CHANGELING_SEASONAL_MAGIC_WINTER"
           ]
         },
         {
@@ -37,7 +37,8 @@
     },
     "effect": [
       { "u_add_trait": "CHANGELING_DREAMSPARK_STORAGE_10" },
-      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] }
+      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] },
+      { "math": [ "u_maximum_dreamdross_storage_value = 10" ] }
     ]
   },
   {

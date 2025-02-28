@@ -972,8 +972,8 @@
   {
     "id": "integrated_dreamspark_storage_10",
     "type": "TOOL",
-    "name": { "str": "Dreamsparks" },
-    "description": "The power of human dreams.",
+    "name": { "str_sp": "Well of Dreamsparks" },
+    "description": "The power of mortal dreams.",
     "weight": "0 g",
     "volume": "0 L",
     "price": "1 cent",
@@ -986,7 +986,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
+        "max_contains_volume": "10 ml",
         "max_contains_weight": "0 kg",
         "max_item_length": "10 cm",
         "moves": 0,
@@ -1000,8 +1000,8 @@
   {
     "id": "integrated_dreamspark_storage_20",
     "type": "TOOL",
-    "name": { "str": "Dreamsparks" },
-    "description": "The power of human dreams.",
+    "name": { "str_sp": "Well of Dreamsparks" },
+    "description": "The power of mortal dreams.",
     "weight": "0 g",
     "volume": "0 L",
     "price": "1 cent",
@@ -1014,7 +1014,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "2 L",
+        "max_contains_volume": "20 ml",
         "max_contains_weight": "0 kg",
         "max_item_length": "100 cm",
         "moves": 0,
@@ -1028,8 +1028,8 @@
   {
     "id": "integrated_dreamspark_storage_30",
     "type": "TOOL",
-    "name": { "str": "Dreamsparks" },
-    "description": "The power of human dreams.",
+    "name": { "str_sp": "Well of Dreamsparks" },
+    "description": "The power of mortal dreams.",
     "weight": "0 g",
     "volume": "0 L",
     "price": "1 cent",
@@ -1042,7 +1042,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "3 L",
+        "max_contains_volume": "30 ml",
         "max_contains_weight": "0 kg",
         "max_item_length": "100 cm",
         "moves": 0,
@@ -1056,8 +1056,8 @@
   {
     "id": "integrated_dreamspark_storage_40",
     "type": "TOOL",
-    "name": { "str": "Dreamsparks" },
-    "description": "The power of human dreams.",
+    "name": { "str_sp": "Well of Dreamsparks" },
+    "description": "The power of mortal dreams.",
     "weight": "0 g",
     "volume": "0 L",
     "price": "1 cent",
@@ -1070,7 +1070,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "4 L",
+        "max_contains_volume": "40 ml",
         "max_contains_weight": "0 kg",
         "max_item_length": "100 cm",
         "moves": 0,
@@ -1084,8 +1084,8 @@
   {
     "id": "integrated_dreamspark_storage_50",
     "type": "TOOL",
-    "name": { "str": "Dreamsparks" },
-    "description": "The power of human dreams.",
+    "name": { "str_sp": "Well of Dreamsparks" },
+    "description": "The power of mortal dreams.",
     "weight": "0 g",
     "volume": "0 L",
     "price": "1 cent",
@@ -1098,7 +1098,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "5 L",
+        "max_contains_volume": "50 ml",
         "max_contains_weight": "0 kg",
         "max_item_length": "100 cm",
         "moves": 0,
