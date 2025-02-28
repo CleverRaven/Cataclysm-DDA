@@ -387,7 +387,8 @@
     "looks_like": "s_gun_a",
     "name": "gun store",
     "color": "red",
-    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
+    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] },
+    "delete": { "flags": [ "PP_GENERATE_RIOT_DAMAGE" ] }
   },
   {
     "type": "overmap_terrain",
