@@ -209,7 +209,12 @@
         "run_eocs": [
           {
             "id": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS_PROCESS_2",
-            "condition": { "u_has_items": { "item": "scrap_dreamdross", "count": 1 } },
+            "condition": {
+              "and": [
+                { "u_has_items": { "item": "scrap_dreamdross", "count": 1 } },
+                { "math": [ "u_dreamdross_to_dreamsparks_value > 0" ] }
+              ]
+            },
             "effect": [
               {
                 "if": {
@@ -254,6 +259,7 @@
                         "else": [
                           { "u_consume_item": "scrap_dreamdross", "count": 1 },
                           { "u_spawn_item": "changeling_dreamspark", "suppress_message": true },
+                          { "math": [ "u_dreamdross_to_dreamsparks_value", "--" ] },
                           {
                             "run_eocs": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS_PROCESS",
                             "time_in_future": { "math": [ "rng(300,900)" ] }
@@ -264,7 +270,8 @@
                   }
                 }
               }
-            ]
+            ],
+            "false_effect": [ "u_cancel_activity" ]
           }
         ]
       }
@@ -277,7 +284,7 @@
     "required_event": "character_wakes_up",
     "condition": {
       "and": [
-        { "math": [ "changeling_common_traits() >= 8" ] },
+        { "math": [ "changeling_common_traits() >= 10" ] },
         {
           "u_has_any_trait": [
             "CHANGELING_SEASONAL_MAGIC_SPRING",

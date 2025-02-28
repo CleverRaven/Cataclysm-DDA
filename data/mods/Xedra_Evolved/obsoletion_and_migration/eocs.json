@@ -13,11 +13,26 @@
     "eoc_type": "EVENT",
     "required_event": "game_load",
     "condition": {
-      "u_has_any_trait": [
-        "CHANGELING_SEASONAL_MAGIC_SPRING",
-        "CHANGELING_SEASONAL_MAGIC_SUMMER",
-        "CHANGELING_SEASONAL_MAGIC_AUTUMN",
-        "EOC_PICK_CHANGELING_WINTER_MAGIC"
+      "and": [
+        {
+          "u_has_any_trait": [
+            "CHANGELING_SEASONAL_MAGIC_SPRING",
+            "CHANGELING_SEASONAL_MAGIC_SUMMER",
+            "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+            "EOC_PICK_CHANGELING_WINTER_MAGIC"
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_trait": [
+              "CHANGELING_DREAMSPARK_STORAGE_10",
+              "CHANGELING_DREAMSPARK_STORAGE_20",
+              "CHANGELING_DREAMSPARK_STORAGE_30",
+              "CHANGELING_DREAMSPARK_STORAGE_40",
+              "CHANGELING_DREAMSPARK_STORAGE_50"
+            ]
+          }
+        }
       ]
     },
     "effect": [
