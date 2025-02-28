@@ -334,9 +334,9 @@ void SkillLevel::knowledge_train( int amount, int npc_knowledge )
 
 bool SkillLevel::isRusty() const
 {
-    // skill is considered rusty if the practical xp lags knowledge xp by at least 1%
-    return level() != knowledgeLevel() ||
-           _knowledgeExperience - _exercise >= pow( level() + 1, 2U ) * 10;
+    // skill is considered rusty if there is any rust and practical xp lags knowledge xp by at least 1%
+    return rustAccumulator() > 0 &&
+           ( level() != knowledgeLevel() || _knowledgeExperience - _exercise >= pow( level() + 1, 2U ) * 10 );
 }
 
 bool SkillLevel::rust()
