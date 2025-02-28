@@ -44,7 +44,7 @@
     },
     "toilets": { "$": {  } },
     "items": {
-      "$": { "item": "stash_drugs_illegals", "chance": 75 },
+      "$": [ { "item": "stash_drugs_illegals", "chance": 75 }, { "item": "SUS_toilet", "chance": 50 } ],
       "Y": { "item": "mansion_safe_nogun", "chance": 100, "repeat": [ 3, 8 ] },
       "l": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 3 ] },
       "e": { "item": "SUS_office_desk", "chance": 50 },

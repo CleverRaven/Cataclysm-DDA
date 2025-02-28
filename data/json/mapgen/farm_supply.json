@@ -89,6 +89,7 @@
           "chance": 80,
           "repeat": [ 0, 3 ]
         },
+        "T": { "item": "SUS_toilet", "chance": 50 },
         "1": { "item": "petstore_shelves", "chance": 80, "repeat": [ 0, 3 ] },
         "2": {
           "item": {
@@ -535,6 +536,7 @@
           "chance": 100,
           "repeat": [ 0, 2 ]
         },
+        "T": { "item": "SUS_toilet", "chance": 50 },
         "1": { "item": "petstore_shelves", "chance": 70, "repeat": [ 0, 3 ] },
         "2": {
           "item": {

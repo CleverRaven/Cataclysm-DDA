@@ -73,6 +73,7 @@
         "u": "f_glass_cabinet",
         "v": "f_floor_lamp"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_items": [
         { "item": "tools_carpentry", "x": 21, "y": [ 5, 8 ], "chance": 70, "repeat": [ 1, 4 ] },

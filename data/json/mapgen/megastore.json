@@ -74,7 +74,8 @@
       "t": { "item": "SUS_trash_trashcan_public", "chance": 60 },
       "U": { "item": "kitchen", "chance": 40 },
       "D": { "item": "SUS_office_desk", "chance": 30 },
-      "Q": { "item": "SUS_office_filing_cabinet", "chance": 30 }
+      "Q": { "item": "SUS_office_filing_cabinet", "chance": 30 },
+      "&": { "item": "SUS_toilet", "chance": 50 }
     },
     "vehicles": { "v": { "vehicle": "shopping_cart", "chance": 30 }, "V": { "vehicle": "food_cart", "chance": 50 } }
   },

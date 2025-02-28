@@ -187,7 +187,8 @@
     "toilets": { "T": {  } },
     "items": {
       "B": [ { "item": "backrooms_master_sink2", "chance": 50 } ],
-      "C": [ { "item": "backrooms_master_countertops_bathroom", "chance": 50 } ]
+      "C": [ { "item": "backrooms_master_countertops_bathroom", "chance": 50 } ],
+      "T": { "item": "SUS_toilet", "chance": 50 }
     }
   }
 ]

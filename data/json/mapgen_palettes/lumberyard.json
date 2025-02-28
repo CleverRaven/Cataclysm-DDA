@@ -63,6 +63,7 @@
     },
     "toilets": { "t": {  } },
     "items": {
+      "t": { "item": "SUS_toilet", "chance": 50 },
       "x": { "item": "lumberyard", "chance": 90, "repeat": [ 3, 5 ] },
       "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 2, 3 ] },
       "d": { "item": "SUS_office_desk", "chance": 33 },

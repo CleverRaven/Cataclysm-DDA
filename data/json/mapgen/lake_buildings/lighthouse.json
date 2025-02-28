@@ -242,7 +242,8 @@
         "R": { "item": "SUS_trash_trashcan", "chance": 25, "repeat": [ 1, 2 ] },
         "W": { "item": "stash_wood", "chance": 25, "repeat": [ 1, 2 ] },
         "t": { "item": "bedroom", "chance": 25, "repeat": [ 1, 2 ] },
-        "a": { "item": "jackets", "chance": 25, "repeat": [ 1, 2 ] }
+        "a": { "item": "jackets", "chance": 25, "repeat": [ 1, 2 ] },
+        "&": { "item": "SUS_toilet", "chance": 50 }
       }
     }
   },

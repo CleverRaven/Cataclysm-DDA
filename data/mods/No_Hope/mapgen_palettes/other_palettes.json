@@ -53,6 +53,7 @@
       "@": "f_dumpster",
       "^": "f_indoor_plant"
     },
+    "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "T": {  } }
   },
   {
@@ -217,6 +218,7 @@
       "f": "f_filing_cabinet",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
     },
+    "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "&": {  } }
   },
   {
@@ -271,6 +273,7 @@
         { "item": "SUS_trash_trashcan", "chance": 5, "repeat": [ 1, 3 ] }
       ],
       "U": { "item": "SUS_evac_shelter_supply_closet", "chance": 4 },
+      "T": { "item": "SUS_toilet", "chance": 50 },
       "B": { "item": "SUS_evac_shelter_bathroom_supplies", "chance": 4 },
       "t": { "item": "SUS_evac_shelter_table", "chance": 4 },
       "C": { "item": "SUS_evac_shelter_bathroom_counter", "chance": 2 },
@@ -332,6 +335,7 @@
       "B": { "item": "SUS_evac_shelter_bathroom_supplies_used", "chance": 5 },
       "t": { "item": "SUS_evac_shelter_table_used", "chance": 5 },
       "C": { "item": "SUS_evac_shelter_bathroom_counter_used", "chance": 2 },
+      "T": { "item": "SUS_toilet", "chance": 50 },
       "_": [ { "item": "shelter_supplies", "chance": 2 }, { "item": "SUS_trash_floor", "chance": 2 } ]
     },
     "nested": {
@@ -419,6 +423,7 @@
         { "item": "shelter_supplies", "chance": 1 },
         { "item": "SUS_trash_floor", "chance": 20 }
       ],
+      "T": { "item": "SUS_toilet", "chance": 50 },
       "C": [
         { "item": "softdrugs", "chance": 2 },
         { "item": "shelter_supplies", "chance": 1 },
@@ -522,6 +527,7 @@
       "{": "f_rack",
       "}": "f_bookcase"
     },
+    "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "t": {  } }
   },
   {
@@ -696,7 +702,8 @@
       ".": { "item": "SUS_trash_floor", "chance": 5, "repeat": [ 1, 2 ] },
       "C": { "item": "alcohol", "chance": 25 },
       "c": { "item": "SUS_trash_floor", "chance": 25, "repeat": [ 1, 4 ] },
-      "@": { "item": "gear_homeless", "chance": 25 }
+      "@": { "item": "gear_homeless", "chance": 25 },
+      "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "toilets": { "T": {  } }
   },
@@ -900,7 +907,8 @@
       "l": { "item": "clothing_work_set", "chance": 20 },
       "L": [ { "item": "hardware", "chance": 25 }, { "item": "mechanics", "chance": 15 } ],
       "r": { "item": "tools_tree_cutting", "chance": 20, "repeat": [ 1, 3 ] },
-      "m": [ { "item": "softdrugs", "chance": 20 }, { "item": "harddrugs", "chance": 20 } ]
+      "m": [ { "item": "softdrugs", "chance": 20 }, { "item": "harddrugs", "chance": 20 } ],
+      "t": { "item": "SUS_toilet", "chance": 5 }
     },
     "item": { "O": { "item": "2x4", "repeat": [ 2, 20 ] }, ",": { "item": "splinter", "chance": 10, "repeat": [ 1, 5 ] } },
     "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } }
@@ -967,7 +975,8 @@
       "2": { "item": "SUS_cookware", "chance": 20 },
       "3": [ { "item": "SUS_utensils", "chance": 20 }, { "item": "SUS_knife_drawer", "chance": 20 } ],
       "4": [ { "item": "SUS_junk_drawer", "chance": 20 }, { "item": "SUS_spice_collection", "chance": 20 } ],
-      "5": { "item": "SUS_kitchen_sink", "chance": 20 }
+      "5": { "item": "SUS_kitchen_sink", "chance": 20 },
+      "T": { "item": "SUS_toilet", "chance": 5 }
     },
     "toilets": { "T": {  } }
   }

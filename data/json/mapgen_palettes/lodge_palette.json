@@ -81,6 +81,7 @@
         { "item": "stash_food", "chance": 50 }
       ],
       "s": { "item": "SUS_bathroom_sink", "chance": 60 },
+      "T": { "item": "SUS_toilet", "chance": 50 },
       "t": { "item": "dining", "chance": 30, "repeat": [ 1, 2 ] },
       "U": { "item": "camping", "chance": 30, "repeat": [ 1, 4 ] },
       "u": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],

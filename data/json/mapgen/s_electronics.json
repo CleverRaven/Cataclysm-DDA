@@ -72,6 +72,7 @@
         "x": "f_console_broken",
         "y": "f_dryer"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_items": [
         { "item": "fridgesnacks", "x": 21, "y": 15, "chance": 80, "repeat": [ 1, 12 ] },
@@ -232,7 +233,8 @@
         "G": { "item": "elecsto_diy", "chance": 75, "repeat": [ 1, 4 ] },
         "t": { "item": "elecsto_homapl", "chance": 75, "repeat": [ 1, 4 ] },
         "L": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ],
-        "U": { "item": "SUS_trash_dumpster", "chance": 25, "repeat": [ 1, 4 ] }
+        "U": { "item": "SUS_trash_dumpster", "chance": 25, "repeat": [ 1, 4 ] },
+        "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_monsters": [ { "monster": "GROUP_ELECTRO", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ],
       "place_loot": [ { "group": "cash_register_random", "x": 17, "y": [ 4, 6 ] } ]

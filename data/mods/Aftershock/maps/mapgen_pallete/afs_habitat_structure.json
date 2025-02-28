@@ -8,6 +8,7 @@
     ],
     "type": "palette",
     "id": "afs_habitat_structure",
+    "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "&": {  } },
     "terrain": {
       " ": "t_region_groundcover_urban",

@@ -105,6 +105,7 @@
           { "item": "prepared_teas", "chance": 20 },
           { "item": "coffee_table", "chance": 20 }
         ],
+        "j": { "item": "SUS_toilet", "chance": 50 },
         "m": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 2 ] },
         "I": { "item": "office", "chance": 30, "repeat": [ 1, 2 ] }
       },

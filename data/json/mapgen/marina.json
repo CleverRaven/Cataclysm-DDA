@@ -172,6 +172,7 @@
         "o": { "item": "SUS_oven", "chance": 100 },
         "d": { "item": "SUS_trash_floor_light", "chance": 50, "repeat": [ 2, 3 ] },
         "q": { "item": "SUS_trash_floor_light", "chance": 50, "repeat": [ 2, 3 ] },
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "Q": { "item": "SUS_trash_floor_light", "chance": 50, "repeat": [ 2, 3 ] }
       },
       "place_item": [ { "item": "laptop", "x": 18, "y": 61, "chance": 80 } ],

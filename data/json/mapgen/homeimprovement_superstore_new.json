@@ -108,6 +108,7 @@
       "É": "f_pallet_brick_adobe",
       "Ő": "f_pallet_cement"
     },
+    "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "t": {  } },
     "nested": { "M": { "chunks": [ "tent_5x5_N" ] }, "{": { "chunks": [ "tent_5x5_S" ] } }
   },

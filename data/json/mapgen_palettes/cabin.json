@@ -158,7 +158,8 @@
       "2": { "item": "SUS_cookware", "chance": 100 },
       "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
       "4": [ { "item": "SUS_junk_drawer", "chance": 50 }, { "item": "SUS_spice_collection", "chance": 50 } ],
-      "5": { "item": "SUS_kitchen_sink", "chance": 100 }
+      "5": { "item": "SUS_kitchen_sink", "chance": 100 },
+      "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "toilets": { "T": {  } }
   }

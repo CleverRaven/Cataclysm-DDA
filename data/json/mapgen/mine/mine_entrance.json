@@ -110,6 +110,7 @@
       },
       "toilets": { "&": {  } },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "2": { "item": "coat_rack", "chance": 60, "repeat": 2 },
         "8": { "item": "mine_materials", "chance": 50, "repeat": 4 },
         "9": { "item": "car_kit", "chance": 60, "repeat": 2 },

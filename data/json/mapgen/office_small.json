@@ -72,6 +72,7 @@
         "t": "f_table",
         "{": "f_locker"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "vendingmachines": { "v": { "lootable": true } },
       "place_items": [

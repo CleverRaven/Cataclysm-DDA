@@ -90,6 +90,7 @@
         { "item": "SUS_trash_floor", "x": 33, "y": [ 14, 15 ], "chance": 35, "repeat": 2 },
         { "item": "cash_register_random", "x": 35, "y": [ 14, 16 ], "chance": 100 }
       ],
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_vehicles": [ { "vehicle": "pickup", "x": 5, "y": 18, "chance": 55, "rotation": 90 } ],
       "place_signs": [

@@ -35,6 +35,7 @@
     "toilets": { "T": {  } },
     "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
     "items": {
+      "T": { "item": "SUS_toilet", "chance": 50 },
       "%": { "item": "cash_register_random", "chance": 100 },
       "&": { "item": "SUS_trash_trashcan", "chance": 70 },
       "@": { "item": "SUS_trash_dumpster", "chance": 90 },

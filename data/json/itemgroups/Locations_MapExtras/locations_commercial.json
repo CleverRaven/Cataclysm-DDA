@@ -1125,7 +1125,8 @@
       { "item": "mag_porn", "prob": 35 },
       { "item": "hairpin", "prob": 5 },
       { "item": "purse", "prob": 15 },
-      { "item": "armrig", "prob": 1 }
+      { "item": "armrig", "prob": 1 },
+      { "group": "SUS_toilet", "prob": 80 }
     ]
   },
   {

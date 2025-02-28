@@ -50,6 +50,7 @@
       },
       "furniture": { "j": "f_sink", "k": "f_table", "l": "f_chair", "m": "f_locker" },
       "vendingmachines": { "n": { "lootable": true } },
+      "items": { "i": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "i": {  } },
       "place_loot": [
         { "group": "office", "chance": 50, "repeat": [ 5 ], "x": [ 7, 7 ], "y": [ 22, 22 ] },

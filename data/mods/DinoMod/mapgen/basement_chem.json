@@ -68,6 +68,7 @@
         "?": "f_sofa"
       },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "U": [ { "item": "cleaning", "chance": 30 }, { "item": "home_hw", "chance": 50 } ],
         "c": [ { "item": "home_hw", "chance": 70 } ],
         "R": [ { "item": "supplies_hardware", "chance": 30 } ],
@@ -171,6 +172,7 @@
         "8": "f_console_broken"
       },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "U": [
           { "item": "cleaning", "chance": 30 },
           { "item": "supplies_reagents_lab", "chance": 10 },
