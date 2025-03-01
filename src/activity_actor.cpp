@@ -5421,9 +5421,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
         case 1:
             // This case is only reachable if wield_check is true
 
-            if( who.wield( reloadable ) ) {
-                loc.remove_item();
-            }
+            who.wield( target_loc );
             add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
                      reloadable_name );
             break;

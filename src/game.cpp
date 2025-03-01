@@ -2427,7 +2427,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( u.can_wield( *locThisItem ).success() ) {
                         contents_change_handler handler;
                         handler.unseal_pocket_containing( locThisItem );
-                        wield( locThisItem );
+                        u.wield( locThisItem );
                         handler.handle_by( u );
                     } else {
                         add_msg( m_info, "%s", u.can_wield( *locThisItem ).c_str() );
@@ -10478,120 +10478,6 @@ void game::reload_weapon( bool try_everything )
     reload_item();
 }
 
-void game::wield( item_location loc )
-{
-    map &here = get_map();
-
-    if( !loc ) {
-        debugmsg( "ERROR: tried to wield null item" );
-        return;
-    }
-    const item_location weapon = u.get_wielded_item();
-    if( weapon && weapon != loc && weapon->has_item( *loc ) ) {
-        add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
-        return;
-    }
-    if( u.has_wield_conflicts( *loc ) ) {
-        const bool is_unwielding = u.is_wielding( *loc );
-        const auto ret = u.can_unwield( *loc );
-
-        if( !ret.success() ) {
-            add_msg( m_info, "%s", ret.c_str() );
-        }
-
-        if( !u.unwield() ) {
-            return;
-        }
-
-        if( is_unwielding ) {
-            if( !u.martial_arts_data->selected_is_none() ) {
-                u.martial_arts_data->martialart_use_message( u );
-            }
-            return;
-        }
-    }
-    const auto ret = u.can_wield( *loc );
-    if( !ret.success() ) {
-        add_msg( m_info, "%s", ret.c_str() );
-    }
-    // Need to do this here because holster_actor::use() checks if/where the item is worn
-    item &target = *loc.get_item();
-    if( target.get_use( "holster" ) && !target.empty() ) {
-        //~ %1$s: holster name
-        if( query_yn( pgettext( "holster", "Draw from %1$s?" ),
-                      target.tname() ) ) {
-            u.invoke_item( &target );
-            return;
-        }
-    }
-
-    // Can't use loc.obtain() here because that would cause things to spill.
-    item to_wield = *loc.get_item();
-    item_location::type location_type = loc.where();
-    tripoint_bub_ms pos = loc.pos_bub( here );
-    const int obtain_cost = loc.obtain_cost( u );
-    int worn_index = INT_MIN;
-
-    // Need to account for case where we're trying to wield a weapon that belongs to someone else
-    if( !avatar_action::check_stealing( u, *loc.get_item() ) ) {
-        return;
-    }
-
-    if( u.is_worn( *loc.get_item() ) ) {
-        auto ret = u.can_takeoff( *loc.get_item() );
-        if( !ret.success() ) {
-            add_msg( m_info, "%s", ret.c_str() );
-            return;
-        }
-        int item_pos = u.get_item_position( loc.get_item() );
-        if( item_pos != INT_MIN ) {
-            worn_index = Character::worn_position_to_index( item_pos );
-        }
-    }
-    loc.remove_item();
-    if( !u.wield( to_wield, obtain_cost ) ) {
-        switch( location_type ) {
-            case item_location::type::container:
-                // this will not cause things to spill, as it is inside another item
-                loc = loc.obtain( u );
-                wield( loc );
-                break;
-            case item_location::type::character:
-                if( worn_index != INT_MIN ) {
-                    u.worn.insert_item_at_index( to_wield, worn_index );
-                } else {
-                    u.i_add( to_wield, true, nullptr, loc.get_item() );
-                }
-                break;
-            case item_location::type::map:
-                m.add_item( pos, to_wield );
-                break;
-            case item_location::type::vehicle: {
-                const std::optional<vpart_reference> ovp = m.veh_at( pos ).cargo();
-                // If we fail to return the item to the vehicle for some reason, add it to the map instead.
-                if( !ovp || !ovp->vehicle().add_item( here, ovp->part(), to_wield ) ) {
-                    m.add_item( pos, to_wield );
-                }
-                break;
-            }
-            case item_location::type::invalid:
-                debugmsg( "Failed wield from invalid item location" );
-                break;
-        }
-        return;
-    }
-}
-
-void game::wield()
-{
-    item_location loc = game_menus::inv::wield();
-
-    if( loc ) {
-        wield( loc );
-    } else {
-        add_msg( _( "Never mind." ) );
-    }
-}
 
 bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
 {
