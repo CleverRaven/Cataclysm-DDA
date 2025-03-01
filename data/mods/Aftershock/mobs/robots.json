@@ -813,7 +813,7 @@
     "type": "MONSTER",
     "copy-from": "mon_advbot_base",
     "name": "Wraitheon Isohypsa",
-    "description": "A bulky aerial drone that mounts an advanced AI overwatch unit within it bulbous carapace-like armor. As an autonomous drone control platform, the Isohypsa is principally meant to coordinate and enhance the combat capabilities of simpler Wraitheon robots in lieu of human operators.",
+    "description": "A bulky aerial drone that mounts an advanced AI overwatch unit within it bulbous carapace-like armor.  As an autonomous drone control platform, the Isohypsa is principally meant to coordinate and enhance the combat capabilities of simpler Wraitheon robots in lieu of human operators.",
     "default_faction": "WraitheonRobotics",
     "symbol": "y",
     "diff": 20,
