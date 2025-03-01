@@ -42,7 +42,6 @@
 #include "safe_reference.h"
 #include "talker.h"
 #include "tileray.h"
-#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 #include "vpart_position.h"
