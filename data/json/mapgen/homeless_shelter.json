@@ -74,17 +74,18 @@
       "X": [
         { "item": "gear_homeless", "chance": 60 },
         { "item": "contraband", "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "bar_trash", "chance": 20, "repeat": [ 1, 5 ] }
+        { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 5 ] }
       ],
       "Y": { "item": "unisex_coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
       "l": { "item": "SUS_janitors_closet", "chance": 80 },
       "L": [ { "item": "farming_seeds", "chance": 75, "repeat": [ 1, 4 ] }, { "item": "farming_tools", "chance": 35 } ],
-      "r": { "item": "trash", "chance": 60, "repeat": [ 1, 2 ] },
-      "D": { "item": "trash", "chance": 60, "repeat": [ 1, 8 ] },
+      "r": { "item": "SUS_trash_trashcan", "chance": 60, "repeat": [ 1, 2 ] },
+      "D": { "item": "SUS_trash_dumpster", "chance": 60, "repeat": [ 1, 8 ] },
       "o": [ { "item": "book_school", "chance": 66, "repeat": [ 4, 8 ] } ],
       "e": [ { "item": "SUS_fridge_stocked", "chance": 80 } ],
       "O": { "item": "SUS_oven", "chance": 100 },
       "q": { "item": "SUS_dishwasher", "chance": 65 },
+      "T": { "item": "SUS_toilet", "chance": 50 },
       "R": [ { "item": "SUS_pantry", "chance": 25 }, { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] } ],
       "(": { "item": "donated_clothes", "chance": 80, "repeat": [ 1, 3 ] },
       "w": [ { "item": "donated_clothes", "chance": 25 } ],

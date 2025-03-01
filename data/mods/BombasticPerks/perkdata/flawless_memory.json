@@ -14,9 +14,11 @@
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0
+        "weight_multiplier": 0,
+        "ememory_max": "2 TB"
       }
     ],
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "CAMERA_PRO", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "CAMERA_PRO", "ALLOWS_NATURAL_ATTACKS" ],
+    "variables": { "browsed": "true" }
   }
 ]

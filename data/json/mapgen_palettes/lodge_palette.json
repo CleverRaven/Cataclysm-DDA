@@ -73,7 +73,7 @@
         { "item": "tools_home", "chance": 30, "repeat": [ 1, 4 ] }
       ],
       "O": { "item": "livingroom", "chance": 20 },
-      "&": { "item": "trash", "chance": 20 },
+      "&": { "item": "SUS_trash_trashcan", "chance": 20 },
       "R": [
         { "item": "camping", "chance": 50 },
         { "item": "gear_survival", "chance": 30 },
@@ -81,6 +81,7 @@
         { "item": "stash_food", "chance": 50 }
       ],
       "s": { "item": "SUS_bathroom_sink", "chance": 60 },
+      "T": { "item": "SUS_toilet", "chance": 50 },
       "t": { "item": "dining", "chance": 30, "repeat": [ 1, 2 ] },
       "U": { "item": "camping", "chance": 30, "repeat": [ 1, 4 ] },
       "u": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
@@ -161,7 +162,7 @@
       "h": { "item": "cannibal_weapons", "repeat": [ 1, 4 ] },
       "L": { "item": "cannibal_food", "repeat": [ 1, 4 ] },
       "S": { "item": "stash_wood", "chance": 60, "repeat": [ 2, 4 ] },
-      "&": { "item": "trash", "chance": 20 },
+      "&": { "item": "SUS_trash_trashcan", "chance": 20 },
       "R": [
         { "item": "camping", "chance": 50 },
         { "item": "gear_survival", "chance": 30 },

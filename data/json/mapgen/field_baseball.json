@@ -57,7 +57,7 @@
       "palettes": [ "baseballfield" ],
       "place_loot": [
         { "group": "baseball_equip", "x": [ 40, 44 ], "y": 6, "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "trash_cart", "x": 36, "y": 1, "chance": 90, "repeat": [ 2, 4 ] },
+        { "group": "SUS_trash_floor_light", "x": 36, "y": 1, "chance": 90, "repeat": [ 2, 4 ] },
         { "group": "fast_food", "x": [ 37, 45 ], "y": [ 1, 3 ], "chance": 80, "repeat": [ 2, 4 ] },
         { "item": "baseball", "x": [ 1, 21 ], "y": [ 31, 46 ], "chance": 90 }
       ],

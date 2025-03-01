@@ -1718,14 +1718,19 @@ static void read()
     }
 }
 
-// Perform a reach attach using wielded weapon
+// Perform a reach attack
 static void reach_attack( avatar &you )
 {
     map &here = get_map();
 
     g->temp_exit_fullscreen();
 
-    target_handler::trajectory traj = target_handler::mode_reach( you, you.get_wielded_item() );
+    target_handler::trajectory traj;
+    if( you.get_wielded_item() ) {
+        traj = target_handler::mode_reach( you, you.get_wielded_item() );
+    } else {
+        traj = target_handler::mode_unarmed_reach( you );
+    }
 
     if( !traj.empty() ) {
         you.reach_attack( here, traj.back() );
@@ -1751,6 +1756,12 @@ static void fire()
     const item_location weapon = you.get_wielded_item();
     // try reach weapon
     if( weapon && !weapon->is_gun() && weapon->current_reach_range( you ) > 1 ) {
+        reach_attack( you );
+        return;
+    }
+    if( !weapon &&
+        static_cast<int>( you.calculate_by_enchantment( 1,
+                          enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) > 1 ) {
         reach_attack( you );
         return;
     }
@@ -2586,7 +2597,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_WIELD:
-            wield();
+            player_character.wield( game_menus::inv::wield() );
             break;
 
         case ACTION_PICK_STYLE:

@@ -52,6 +52,7 @@
       "X": "f_crate_c",
       "l": "f_locker"
     },
+    "items": { ";": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { ";": {  } }
   }
 ]

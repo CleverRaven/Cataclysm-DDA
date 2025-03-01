@@ -128,7 +128,7 @@
       "r": { "item": "restaur_kitchen", "chance": 45, "repeat": [ 1, 3 ] },
       "c": { "item": "kitchen_counters", "chance": 30 },
       "u": [ { "item": "kitchen_counters", "chance": 30 }, { "item": "restaur_kitchen", "chance": 50, "repeat": [ 2, 4 ] } ],
-      "D": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
+      "D": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 2, 4 ] }
     }
   }
 ]

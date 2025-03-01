@@ -225,9 +225,9 @@
     "extend": { "items": [ [ "mana_potion_lesser", 15 ] ] }
   },
   {
-    "id": "trash",
+    "id": "SUS_trash_floor",
     "type": "item_group",
-    "copy-from": "trash",
+    "copy-from": "SUS_trash_floor",
     "extend": {
       "items": [
         [ "summon_scroll_smudged", 5 ],
@@ -1679,12 +1679,12 @@
     "//": "a large pile of trash, made for goblin encampments.",
     "subtype": "collection",
     "items": [
-      { "group": "trash", "prob": 100 },
-      { "group": "trash_forest", "prob": 95 },
-      { "group": "trash", "prob": 80 },
-      { "group": "trash_forest", "prob": 70 },
-      { "group": "trash", "prob": 50 },
-      { "group": "trash_forest", "prob": 25 },
+      { "group": "SUS_trash_floor", "prob": 100 },
+      { "group": "SUS_trash_forest_manmade", "prob": 95 },
+      { "group": "SUS_trash_floor", "prob": 80 },
+      { "group": "SUS_trash_forest_manmade", "prob": 70 },
+      { "group": "SUS_trash_floor", "prob": 50 },
+      { "group": "SUS_trash_forest_manmade", "prob": 25 },
       { "item": "denarius", "prob": 15 }
     ]
   },
@@ -1966,6 +1966,15 @@
     "items": [
       { "item": "mana_leech_shackle_unlocked", "count": [ 3, 8 ], "prob": 100 },
       { "item": "mana_leech_unlock_scroll", "count": [ 3, 8 ], "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "xedra_thaumaturgical_lab_secret_spells",
+    "subtype": "distribution",
+    "items": [
+      { "item": "spell_scroll_biomancer_control_mutations", "prob": 1 },
+      { "item": "spell_scroll_biomancer_remove_instability", "prob": 1 }
     ]
   }
 ]

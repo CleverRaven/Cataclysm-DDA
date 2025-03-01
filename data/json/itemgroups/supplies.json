@@ -201,25 +201,6 @@
     ]
   },
   {
-    "id": "hardware_trash",
-    "type": "item_group",
-    "items": [
-      { "item": "nuts_bolts", "prob": 20, "charges": [ 1, 3 ], "container-item": "box_small" },
-      [ "wrapper", 50 ],
-      [ "wrapper_foil", 5 ],
-      { "item": "wrapper_foil_roll", "prob": 2 },
-      [ "bottle_glass", 50 ],
-      [ "bottle_plastic", 70 ],
-      [ "can_drink", 60 ],
-      [ "flyer", 30 ],
-      [ "box_small", 30 ],
-      [ "cotton_patchwork", 20 ],
-      [ "bag_plastic", 20 ],
-      [ "news_regional", 15 ],
-      [ "mag_news", 15 ]
-    ]
-  },
-  {
     "id": "supplies_plumbing",
     "type": "item_group",
     "//": "Common plumbing supplies. These are more likely to be found on jobsites and work spaces, rather than store shelves. Use bulk for store shelves.",

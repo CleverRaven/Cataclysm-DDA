@@ -185,6 +185,7 @@
         "p": "t_metal_floor"
       },
       "mapping": { "r": { "item": { "item": "standard_template_construct" } }, "R": { "item": { "item": "nanomaterial" } } },
+      "items": { ";": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { ";": {  } },
       "place_items": [
         { "item": "office_mess", "x": [ 8, 23 ], "y": [ 4, 23 ], "chance": 100, "repeat": [ 20, 70 ] },

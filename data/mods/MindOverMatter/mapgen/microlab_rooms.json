@@ -151,7 +151,7 @@
         "R": { "item": "SUS_office_desk", "chance": 30 },
         "t": { "item": "dist_lab_file_phavian_internal", "chance": 20 },
         "ŧ": [ { "item": "vending_drink", "chance": 60 }, { "item": "vending_food", "chance": 60 } ],
-        "&": { "item": "trash", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "group": "GROUP_MICROLAB", "x": [ 3, 20 ], "y": [ 3, 20 ], "chance": 70, "repeat": [ 4, 10 ] },

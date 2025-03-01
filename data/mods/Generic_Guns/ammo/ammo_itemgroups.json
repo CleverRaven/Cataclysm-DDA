@@ -1,0 +1,313 @@
+[
+  {
+    "type": "item_group",
+    "id": "ammo_common_boxed",
+    "//": "Ammo that spawns inside of boxes, with no loose ammo with it.  Meant mainly for gunstores.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "boxed_pistol", "prob": 10 },
+      { "group": "boxed_pistol_tiny", "prob": 20 },
+      { "group": "boxed_magnum", "prob": 1 },
+      { "group": "boxed_rifle", "prob": 5 },
+      { "group": "boxed_shot", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol",
+    "items": [ { "group": "boxed_pistol_20", "prob": 100 }, { "group": "boxed_pistol_100", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol_20",
+    "container-item": "pistol_ammo_box_20",
+    "items": [ { "item": "pistol_ball", "charges": 20, "prob": 1 }, { "item": "pistol_jhp", "charges": 20, "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol_100",
+    "container-item": "pistol_ammo_box_100",
+    "items": [ { "item": "pistol_ball", "charges": 100, "prob": 10 }, { "item": "pistol_jhp", "charges": 100, "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol_tiny",
+    "items": [ { "group": "boxed_pistol_tiny_50", "prob": 100 }, { "group": "boxed_pistol_tiny_250", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol_tiny_50",
+    "container-item": "pistol_tiny_ammo_box_50",
+    "items": [ { "item": "tiny_pistol_ball", "charges": 50, "prob": 1 }, { "item": "tiny_pistol_jhp", "charges": 50, "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol_tiny_250",
+    "container-item": "pistol_tiny_ammo_box_250",
+    "items": [ { "item": "tiny_pistol_ball", "charges": 250, "prob": 10 }, { "item": "tiny_pistol_jhp", "charges": 250, "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_magnum",
+    "container-item": "magnum_ammo_box_20",
+    "items": [ { "item": "pistol_magnum_ball", "charges": 20 }, { "item": "pistol_magnum_jhp", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_rifle",
+    "items": [ { "group": "boxed_rifle_20", "prob": 100 }, { "group": "boxed_rifle_50", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_rifle_20",
+    "container-item": "rifle_ammo_box_20",
+    "items": [ { "item": "rifle_ball", "charges": 20 }, { "item": "rifle_AP", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_rifle_50",
+    "container-item": "rifle_ammo_box_50",
+    "items": [ { "item": "rifle_ball", "charges": 50, "prob": 10 }, { "item": "rifle_AP", "charges": 50, "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_shot",
+    "container-item": "shot_ammo_box_10",
+    "items": [
+      { "item": "shot_buck", "charges": 10 },
+      { "item": "shot_fowl", "charges": 10 },
+      { "item": "shot_foster", "charges": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_common_boxed_used",
+    "//": "Ammo that spawns inside of boxes, with either some extra loose ammo with it, or lacking some ammo.  Meant mainly for civilian ammo ownership, or lightly looted places.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "boxed_pistol_used", "prob": 10 },
+      { "group": "boxed_pistol_tiny_used", "prob": 20 },
+      { "group": "boxed_magnum_used", "prob": 1 },
+      { "group": "boxed_rifle_used", "prob": 5 },
+      { "group": "boxed_shot_used", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol_used",
+    "items": [ { "group": "boxed_pistol_20_used", "prob": 100 }, { "group": "boxed_pistol_100_used", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol_20_used",
+    "on_overflow": "spill",
+    "container-item": "pistol_ammo_box_20",
+    "items": [
+      { "item": "pistol_ball", "charges": 1, "count": [ 10, 30 ], "prob": 1 },
+      { "item": "pistol_jhp", "charges": 1, "count": [ 10, 30 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol_100_used",
+    "on_overflow": "spill",
+    "container-item": "pistol_ammo_box_100",
+    "items": [
+      { "item": "pistol_ball", "charges": 1, "count": [ 50, 150 ], "prob": 10 },
+      { "item": "pistol_jhp", "charges": 1, "count": [ 50, 150 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol_tiny_used",
+    "items": [ { "group": "boxed_pistol_tiny_50_used", "prob": 100 }, { "group": "boxed_pistol_tiny_250_used", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol_tiny_50_used",
+    "on_overflow": "spill",
+    "container-item": "pistol_tiny_ammo_box_50",
+    "items": [
+      { "item": "tiny_pistol_ball", "charges": 1, "count": [ 25, 75 ], "prob": 1 },
+      { "item": "tiny_pistol_jhp", "charges": 1, "count": [ 25, 75 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol_tiny_250_used",
+    "on_overflow": "spill",
+    "container-item": "pistol_tiny_ammo_box_250",
+    "items": [
+      { "item": "tiny_pistol_ball", "charges": 1, "count": [ 200, 300 ], "prob": 10 },
+      { "item": "tiny_pistol_jhp", "charges": 1, "count": [ 200, 300 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_magnum_used",
+    "on_overflow": "spill",
+    "container-item": "magnum_ammo_box_20",
+    "items": [
+      { "item": "pistol_magnum_ball", "charges": 1, "count": [ 10, 30 ] },
+      { "item": "pistol_magnum_jhp", "charges": 1, "count": [ 10, 30 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_rifle_used",
+    "items": [ { "group": "boxed_rifle_20_used", "prob": 100 }, { "group": "boxed_rifle_50_used", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_rifle_20_used",
+    "on_overflow": "spill",
+    "container-item": "rifle_ammo_box_20",
+    "items": [
+      { "item": "rifle_ball", "charges": 1, "count": [ 10, 30 ] },
+      { "item": "rifle_AP", "charges": 1, "count": [ 10, 30 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_rifle_50_used",
+    "on_overflow": "spill",
+    "container-item": "rifle_ammo_box_50",
+    "items": [
+      { "item": "rifle_ball", "charges": 1, "count": [ 25, 75 ], "prob": 10 },
+      { "item": "rifle_AP", "charges": 1, "count": [ 25, 75 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_shot_used",
+    "on_overflow": "spill",
+    "container-item": "shot_ammo_box_10",
+    "items": [
+      { "item": "shot_buck", "charges": 1, "count": [ 5, 15 ] },
+      { "item": "shot_fowl", "charges": 1, "count": [ 5, 15 ] },
+      { "item": "shot_foster", "charges": 1, "count": [ 5, 15 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_common_boxed_looted",
+    "//": "Ammo that spawns inside of boxes that are very low in number. Meant for civilian ammo ownership, and looted locations.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "boxed_pistol_looted", "prob": 10 },
+      { "group": "boxed_pistol_tiny_looted", "prob": 20 },
+      { "group": "boxed_magnum_looted", "prob": 1 },
+      { "group": "boxed_rifle_looted", "prob": 5 },
+      { "group": "boxed_shot_looted", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol_looted",
+    "items": [ { "group": "boxed_pistol_20_looted", "prob": 100 }, { "group": "boxed_pistol_100_looted", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol_20_looted",
+    "container-item": "pistol_ammo_box_20",
+    "items": [ { "item": "pistol_ball", "charges": [ 0, 5 ], "prob": 1 }, { "item": "pistol_jhp", "charges": [ 0, 5 ], "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol_100_looted",
+    "container-item": "pistol_ammo_box_100",
+    "items": [
+      { "item": "pistol_ball", "charges": [ 0, 20 ], "prob": 10 },
+      { "item": "pistol_jhp", "charges": [ 0, 20 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol_tiny_looted",
+    "items": [ { "group": "boxed_pistol_tiny_50_looted", "prob": 100 }, { "group": "boxed_pistol_tiny_250_looted", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol_tiny_50_looted",
+    "container-item": "pistol_tiny_ammo_box_50",
+    "items": [
+      { "item": "tiny_pistol_ball", "charges": [ 0, 15 ], "prob": 1 },
+      { "item": "tiny_pistol_jhp", "charges": [ 0, 15 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_pistol_tiny_250_looted",
+    "container-item": "pistol_tiny_ammo_box_250",
+    "items": [
+      { "item": "tiny_pistol_ball", "charges": [ 0, 40 ], "prob": 10 },
+      { "item": "tiny_pistol_jhp", "charges": [ 0, 40 ], "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_magnum_looted",
+    "container-item": "magnum_ammo_box_20",
+    "items": [ { "item": "pistol_magnum_ball", "charges": [ 0, 5 ] }, { "item": "pistol_magnum_jhp", "charges": [ 0, 5 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_rifle_looted",
+    "items": [ { "group": "boxed_rifle_20_looted", "prob": 100 }, { "group": "boxed_rifle_50_looted", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_rifle_20_looted",
+    "container-item": "rifle_ammo_box_20",
+    "items": [ { "item": "rifle_ball", "charges": [ 0, 5 ] }, { "item": "rifle_AP", "charges": [ 0, 5 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_rifle_50_looted",
+    "container-item": "rifle_ammo_box_50",
+    "items": [ { "item": "rifle_ball", "charges": [ 0, 10 ], "prob": 10 }, { "item": "rifle_AP", "charges": [ 0, 10 ], "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_shot_looted",
+    "container-item": "shot_ammo_box_10",
+    "items": [
+      { "item": "shot_buck", "charges": [ 0, 2 ] },
+      { "item": "shot_fowl", "charges": [ 0, 2 ] },
+      { "item": "shot_foster", "charges": [ 0, 2 ] }
+    ]
+  }
+]

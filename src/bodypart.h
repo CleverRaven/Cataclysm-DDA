@@ -198,7 +198,7 @@ struct body_part_type {
 
         std::vector<std::pair<bodypart_str_id, mod_id>> src;
 
-        /** Sub-location of the body part used for encumberance, coverage and determining protection
+        /** Sub-location of the body part used for encumbrance, coverage and determining protection
          */
         std::vector<sub_bodypart_str_id> sub_parts;
 

@@ -102,7 +102,7 @@
         "/////@/../@@@@@@@@@@@@@@"
       ],
       "items": {
-        "t": [ { "item": "trash_cart", "chance": 75, "repeat": [ 1, 10 ] } ],
+        "t": [ { "item": "SUS_trash_floor_light", "chance": 75, "repeat": [ 1, 10 ] } ],
         "#": [ { "item": "SUS_office_desk", "chance": 10, "repeat": [ 1, 2 ] } ],
         "$": [ { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 5 ] } ],
         "O": [ { "item": "mil_base_books", "chance": 30, "repeat": [ 1, 5 ] } ],
@@ -181,7 +181,7 @@
       ],
       "palettes": [ "mil_base_palette" ],
       "items": {
-        "t": [ { "item": "trash_cart", "chance": 75, "repeat": [ 1, 10 ] } ],
+        "t": [ { "item": "SUS_trash_floor_light", "chance": 75, "repeat": [ 1, 10 ] } ],
         "#": [ { "item": "SUS_office_desk", "chance": 10, "repeat": [ 1, 2 ] } ],
         "$": [ { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 5 ] } ],
         "O": [ { "item": "mil_base_books", "chance": 30, "repeat": [ 1, 3 ] } ],

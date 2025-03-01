@@ -255,7 +255,7 @@
         "!": { "item": "toy_box", "chance": 80, "repeat": [ 1, 10 ] },
         "=": [
           { "item": "toy_box", "chance": 5 },
-          { "item": "trash", "chance": 1 },
+          { "item": "SUS_trash_floor", "chance": 1 },
           { "item": "bed", "chance": 1 },
           { "item": "candy_chocolate", "chance": 2 }
         ],

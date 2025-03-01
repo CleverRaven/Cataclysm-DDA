@@ -127,7 +127,7 @@
       "furniture": { "X": [ [ "f_null", 3 ], [ "f_battlefield_cross", 1 ] ] },
       "place_loot": [
         { "group": "mass_grave_casings", "repeat": [ 10, 15 ], "x": [ 2, 22 ], "y": [ 18, 23 ] },
-        { "group": "trash", "repeat": [ 5, 6 ], "x": [ 1, 23 ], "y": [ 18, 23 ] }
+        { "group": "SUS_trash_floor", "repeat": [ 5, 6 ], "x": [ 1, 23 ], "y": [ 18, 23 ] }
       ],
       "place_monsters": [
         { "monster": "GROUP_MASS_GRAVE", "density": 0.5, "x": [ 1, 22 ], "y": [ 1, 22 ] },
@@ -176,7 +176,7 @@
       "place_loot": [
         { "group": "mass_grave_casings", "repeat": [ 20, 30 ], "x": [ 1, 23 ], "y": [ 1, 17 ] },
         { "group": "mass_grave_casings", "repeat": [ 10, 15 ], "x": [ 1, 23 ], "y": [ 18, 23 ] },
-        { "group": "trash", "repeat": [ 1, 3 ], "x": [ 1, 23 ], "y": [ 18, 23 ] }
+        { "group": "SUS_trash_floor", "repeat": [ 1, 3 ], "x": [ 1, 23 ], "y": [ 18, 23 ] }
       ],
       "place_monsters": [ { "monster": "GROUP_MASS_GRAVE", "density": 0.1, "x": [ 1, 22 ], "y": [ 1, 22 ] } ],
       "//3": "lotta scorched zombies here - we're presuming that the military set fire to the trenches before burying them",

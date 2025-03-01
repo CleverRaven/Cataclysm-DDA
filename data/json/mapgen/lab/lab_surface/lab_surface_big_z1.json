@@ -164,7 +164,7 @@
         "########################################################################################################################"
       ],
       "items": {
-        "&": [ { "item": "tools_science", "chance": 10 }, { "item": "trash", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "&": [ { "item": "tools_science", "chance": 10 }, { "item": "SUS_trash_floor", "chance": 50, "repeat": [ 1, 2 ] } ],
         "C": [ { "item": "snacks", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "cannedfood", "chance": 30, "repeat": [ 1, 5 ] } ],
         "f": [
           { "item": "snacks", "chance": 60, "repeat": [ 2, 10 ] },

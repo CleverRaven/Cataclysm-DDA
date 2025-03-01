@@ -309,7 +309,7 @@
       "mapgensize": [ 1, 1 ],
       "place_items": [
         { "item": "casings", "x": 0, "y": 0, "chance": 40 },
-        { "item": "trash", "x": 0, "y": 0, "chance": 30 },
+        { "item": "SUS_trash_floor", "x": 0, "y": 0, "chance": 30 },
         { "item": "ammo_pistol_common", "x": 0, "y": 0, "chance": 5 },
         { "item": "ammo_rifle_common", "x": 0, "y": 0, "chance": 5 }
       ],

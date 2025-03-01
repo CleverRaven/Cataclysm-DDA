@@ -133,20 +133,19 @@ struct w_map {
 struct pulp_data {
     // how far the splatter goes
     int mess_radius = 1;
-    int cut_quality;
     // how much damage you deal to corpse every second, average of multiple values
     float pulp_power;
     // how much stamina is consumed after each punch
     float pulp_effort;
+    // time to pulp the corpse
     int time_to_pulp;
     // potential prof we can learn by pulping
     std::optional<proficiency_id> unknown_prof;
-    // for monsters with PULP_PRYING flag
+    // if monster has PULP_PRYING flag, can you pry armor faster using tool
     bool can_pry_armor = false;
-    // if acid corpse, we start to cut really slow
-    bool acid_corpse = false;
+    // do we have a good tool to cut specific parts faster
+    bool can_cut_precisely = false;
     // all used in ending messages
-    bool can_severe_cutting = false;
     bool stomps_only = false;
     bool weapon_only = false;
     bool used_pry = false;
@@ -979,8 +978,6 @@ class game
         // Pick up items from the given point
         void pickup( const tripoint_bub_ms &p );
     private:
-        void wield();
-        void wield( item_location loc );
 
         void chat(); // Talk to a nearby NPC  'C'
 
@@ -1007,6 +1004,9 @@ class game
                                int last_line );
         void print_graffiti_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                                   int &line, int last_line );
+
+        void print_debug_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
+                               int column, int &line );
 
         input_context get_player_input( std::string &action );
 
@@ -1338,6 +1338,7 @@ class game
         pulp_data calculate_pulpability( const Character &you, const mtype &corpse_mtype, pulp_data pd );
         bool can_pulp_corpse( const Character &you, const mtype &corpse_mtype );
         bool can_pulp_corpse( const pulp_data &pd );
+        bool can_pulp_corpse( Character &you, const mtype &corpse_mtype, const pulp_data &pd );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

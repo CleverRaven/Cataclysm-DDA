@@ -1152,23 +1152,21 @@
     "id": "EOC_EOC_DRUID_SHAPE_WOOD",
     "effect": [
       {
-        "if": {
-          "u_query_tile": "around",
-          "target_var": { "global_val": "druid_treeshape_location" },
-          "message": "Select nearby tree"
-        },
-        "then": {
-          "if": { "map_terrain_with_flag": "TREE", "loc": { "global_val": "druid_treeshape_location" } },
-          "then": [
-            {
-              "u_message": "The wood of the tree grows and forms as you cast the spell and when it ends, there is a log lying on the ground, entirely covered in bark but otherwise straight and ready to be used in other projects.",
-              "type": "good"
-            },
-            { "u_spawn_item": "log", "count": 1, "suppress_message": true }
-          ],
-          "else": { "u_message": "You must be near a tree to shape it." }
-        },
-        "else": { "u_message": "Canceled" }
+        "u_choose_adjacent_highlight": { "context_val": "druid_treeshape_location" },
+        "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "loc" } },
+        "message": "Select nearby tree",
+        "failure_message": "You must be near a tree to shape it."
+      },
+      {
+        "if": { "math": [ "has_var(_druid_treeshape_location)" ] },
+        "then": [
+          {
+            "u_message": "The wood of the tree grows and forms as you cast the spell and when it ends, there is a log lying on the ground, entirely covered in bark but otherwise straight and ready to be used in other projects.",
+            "type": "good"
+          },
+          { "u_spawn_item": "log", "count": 1, "suppress_message": true }
+        ],
+        "else": { "u_message": "Never mind." }
       }
     ]
   },
@@ -1426,30 +1424,28 @@
     "id": "EOC_DRUID_TEMPORARY_SPRING",
     "effect": [
       {
-        "if": {
-          "u_query_tile": "around",
-          "target_var": { "global_val": "druid_temporary_spring_location" },
-          "message": "Select natural earth:"
-        },
-        "then": {
-          "if": { "map_terrain_with_flag": "DIGGABLE", "loc": { "global_val": "druid_temporary_spring_location" } },
-          "then": [
-            {
-              "u_transform_radius": 0,
-              "ter_furn_transform": "ter_druid_create_spring",
-              "target_var": { "global_val": "druid_temporary_spring_location" }
-            },
-            {
-              "u_transform_radius": 60,
-              "ter_furn_transform": "ter_druid_remove_spring",
-              "target_var": { "global_val": "druid_temporary_spring_location" },
-              "time_in_future": {
-                "math": [ "( (u_spell_level('druid_create_temporary_spring') * 150) + 300 ) * ( channeling_proficiency_modifier() )" ]
-              }
+        "u_choose_adjacent_highlight": { "context_val": "druid_temporary_spring_location" },
+        "condition": { "map_terrain_with_flag": "DIGGABLE", "loc": { "context_val": "loc" } },
+        "message": "Select natural earth",
+        "failure_message": "You can only call up a spring on natural earth."
+      },
+      {
+        "if": { "math": [ "has_var(_druid_temporary_spring_location)" ] },
+        "then": [
+          {
+            "u_transform_radius": 0,
+            "ter_furn_transform": "ter_druid_create_spring",
+            "target_var": { "context_val": "druid_temporary_spring_location" }
+          },
+          {
+            "u_transform_radius": 60,
+            "ter_furn_transform": "ter_druid_remove_spring",
+            "target_var": { "context_val": "druid_temporary_spring_location" },
+            "time_in_future": {
+              "math": [ "( (u_spell_level('druid_create_temporary_spring') * 150) + 300 ) * ( channeling_proficiency_modifier() )" ]
             }
-          ],
-          "else": { "u_message": "You can only call up a spring on natural earth." }
-        },
+          }
+        ],
         "else": { "u_message": "Canceled" }
       }
     ]

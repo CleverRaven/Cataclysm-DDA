@@ -9,7 +9,12 @@
     "condition": {
       "and": [
         { "u_has_trait": "CLAIRSENTIENT" },
-        { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_NO_PREREQ_POWER_INSIGHT" },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
+            { "math": [ "u_spell_level('clair_better_senses') >= 6" ] }
+          ]
+        },
         { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
         { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         { "math": [ "u_spell_level('clair_danger_sense') <= 0" ] },
@@ -65,6 +70,38 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CLAIR_LEARNING_NIGHT_VISION",
+    "recurrence": [
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "CLAIRSENTIENT" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter') == 1" ] },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
+            { "and": [ { "math": [ "u_spell_level('clair_better_senses') >= 8" ] } ] }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('clair_night_vision') <= 0" ] },
+        { "not": { "u_know_recipe": "practice_clair_night_vision" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "CLAIRSENTIENT" } }, { "math": [ "u_spell_level('clair_night_vision') >= 1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
+      { "u_learn_recipe": "practice_clair_night_vision" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could enhance your senses to such a degree that you could even \"see\" in the dark, even pitch blackness, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CLAIR_LEARNING_AURA_SIGHT",
     "recurrence": [
       { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
@@ -79,7 +116,7 @@
             { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" },
             {
               "and": [
-                { "math": [ "u_spell_level('clair_danger_sense') >= 5" ] },
+                { "math": [ "u_spell_level('clair_better_senses') >= 5" ] },
                 { "math": [ "u_spell_level('clair_spot_weakness') >= 5" ] }
               ]
             }

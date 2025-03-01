@@ -72,7 +72,7 @@ Sample roof entry:
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 2, 21 ], "y": [ 3, 14 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 2, 21 ], "y": [ 3, 14 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [ [ "null", 20 ], [ "roof_4x4_party", 15 ], [ "roof_4x4_holdout", 5 ], [ "roof_4x4_utility", 40 ] ],

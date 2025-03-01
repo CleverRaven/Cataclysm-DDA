@@ -86,6 +86,7 @@
         "{": "f_rack",
         "é": "f_freezer"
       },
+      "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "t": {  } },
       "place_liquids": [ { "liquid": "water", "x": [ 4, 15 ], "y": [ 14, 15 ], "repeat": 3 } ],
       "place_loot": [

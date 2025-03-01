@@ -110,7 +110,7 @@
         { "item": "magazines", "chance": 3 },
         { "item": "misc_smoking", "chance": 10 }
       ],
-      "{": { "item": "hardware_trash", "chance": 66, "repeat": [ 1, 4 ] },
+      "{": { "item": "SUS_trash_hardware", "chance": 66, "repeat": [ 1, 4 ] },
       "X": [
         { "item": "hardware_bulk", "chance": 80, "repeat": [ 1, 4 ] },
         { "item": "plumbing_bulk", "chance": 60, "repeat": [ 1, 3 ] }
