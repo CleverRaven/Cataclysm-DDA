@@ -31,11 +31,11 @@
     "display_category": "display_interaction",
     "level_descriptions_theory": [
       { "level": 0, "description": "You barely know the minimum of how to use a computer." },
-      { "level": 1, "description": "You know how to surf the web back when that was possible." },
+      { "level": 1, "description": "You knew how to surf the web back when that was possible." },
       { "level": 3, "description": "You're aware what a \"command prompt\" is." },
       { "level": 5, "description": "You know how to write code in a few scripting languages." },
       { "level": 7, "description": "You have an in–depth knowledge of code and how computers function." },
-      { "level": 9, "description": "You probably read the entire SICP." }
+      { "level": 9, "description": "You have probably read the entire SICP." }
     ],
     "level_descriptions_practice": [
       {
@@ -68,7 +68,7 @@
       { "level": 3, "description": "You have a decent idea of first aid." },
       { "level": 5, "description": "You're well-trained in first aid." },
       { "level": 7, "description": "You know a lot about how the body works and how to deal with many injuries." },
-      { "level": 9, "description": "You may know how to do simple surgery." }
+      { "level": 9, "description": "You may know how to do simple surgeries." }
     ],
     "level_descriptions_practice": [
       { "level": 0, "description": "You might be able to put a bandaid on a minor cut without passing out." },
@@ -76,7 +76,7 @@
       { "level": 3, "description": "You're used to using a first-aid kit." },
       { "level": 5, "description": "Dealing with injuries is becoming routine for you." },
       { "level": 7, "description": "You could probably work in the ER." },
-      { "level": 9, "description": "You almost certainly can do a simple surgery." }
+      { "level": 9, "description": "You almost certainly can perform a simple surgery." }
     ],
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
   },
@@ -286,7 +286,7 @@
       { "level": 0, "description": "You're aware the outdoors is gross." },
       { "level": 1, "description": "You know the very basics of camping." },
       { "level": 2, "description": "You know how to craft a fire drill to start fires without lighters." },
-      { "level": 5, "description": "You probably memorized most of the Scouts' handbook." },
+      { "level": 5, "description": "You probably memorized most of the Scouting handbook." },
       { "level": 9, "description": "You're exceptionally knowledgeable in all things outdoorsy." }
     ],
     "level_descriptions_practice": [
