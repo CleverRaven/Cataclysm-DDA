@@ -129,6 +129,6 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "akmag90", 3 ] ], [ [ "akmag10", 9 ] ] ]
+    "components": [ [ [ "akmag30", 3 ] ], [ [ "akmag10", 9 ] ], [ [ "akmag20", 5 ] ] ]
   }
 ]
