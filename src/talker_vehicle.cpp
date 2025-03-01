@@ -1,8 +1,14 @@
-#include <memory>
+#include <cmath>
+#include <optional>
+#include <vector>
 
 #include "avatar.h"
 #include "character.h"
+#include "coordinates.h"
+#include "map.h"
 #include "talker_vehicle.h"
+#include "tileray.h"
+#include "units.h"
 #include "vehicle.h"
 
 std::string talker_vehicle_const::disp_name() const

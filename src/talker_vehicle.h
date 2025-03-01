@@ -2,17 +2,13 @@
 #ifndef CATA_SRC_TALKER_VEHICLE_H
 #define CATA_SRC_TALKER_VEHICLE_H
 
-#include <functional>
-#include <iosfwd>
-#include <list>
-#include <vector>
+#include <memory>
+#include <string>
 
 #include "coords_fwd.h"
 #include "talker.h"
-#include "type_id.h"
 
-struct tripoint;
-
+class vehicle;
 
 /*
  * Talker wrapper class for vehicle.

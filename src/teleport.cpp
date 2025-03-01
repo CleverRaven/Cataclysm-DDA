@@ -1,9 +1,14 @@
 #include "teleport.h"
 
+#include <algorithm>
+#include <array>
 #include <cmath>
 #include <functional>
 #include <memory>
+#include <set>
+#include <stddef.h>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "bodypart.h"
@@ -32,8 +37,9 @@
 #include "units.h"
 #include "vehicle.h"
 #include "viewer.h"
-#include "map_iterator.h"
 #include "ui_manager.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 
 static const efftype_id effect_teleglow( "teleglow" );
 
