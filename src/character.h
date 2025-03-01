@@ -2980,8 +2980,6 @@ class Character : public Creature, public visitable
 
         std::pair<float, item> get_best_weapon_by_damage_type( damage_type_id dmg_type ) const;
 
-        std::pair<int, const item *> get_best_tool( quality_id quality ) const;
-
         /**
         * Available ups from all sources
         * Sum of mech, bionic UPS and UPS
@@ -3868,6 +3866,7 @@ class Character : public Creature, public visitable
          * @param qual_id The quality to search
         */
         item &best_item_with_quality( const quality_id &qid );
+        const item &best_item_with_quality( const quality_id &qid ) const;
 
         // inherited from visitable
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;

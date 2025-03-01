@@ -8525,10 +8525,12 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
 
     pd = g->calculate_pulpability( you, *corpse_mtype, pd );
 
-    if( !g->can_pulp_corpse( pd ) ) {
+    if( !g->can_pulp_corpse( you, *corpse_mtype, pd ) ) {
         way_too_long_to_pulp = true;
         return false;
     }
+
+    add_msg_debug( debugmode::DF_ACTIVITY, "time to pulp: %s", pd.time_to_pulp );
 
     // 10 minutes
     if( pd.time_to_pulp > 600 && !too_long_to_pulp ) {
@@ -8551,12 +8553,12 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
         corpse.set_flag( flag_PULPED );
     }
 
-    // 19 splatters on average, no matter of the corpse size
-    if( one_in( pd.time_to_pulp / 19 ) ) {
+    const float corpse_volume = units::to_liter( corpse_mtype->volume );
+
+    if( one_in( corpse_volume / pd.pulp_power ) ) {
         // Splatter some blood around
         // Splatter a bit more randomly, so that it looks cooler
-        const int radius = pd.acid_corpse ? 0
-                           : pd.mess_radius + x_in_y( pd.pulp_power, 500 ) + x_in_y( pd.pulp_power, 1000 );
+        const int radius = pd.mess_radius + x_in_y( pd.pulp_power, 500 ) + x_in_y( pd.pulp_power, 1000 );
         const tripoint_bub_ms dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
         const field_type_id type_blood = ( pd.mess_radius > 1 && x_in_y( pd.pulp_power, 10000 ) ) ?
                                          corpse.get_mtype()->gibType() :
@@ -8629,7 +8631,7 @@ void pulp_activity_actor::send_final_message( Character &you ) const
     } else {
         tools = string_format( " mixing your %s with powerful stomps", pd.bash_tool );
     }
-    if( pd.can_severe_cutting ) {
+    if( pd.can_cut_precisely ) {
         tools += string_format( " and a trusty %s", pd.cut_tool );
     }
 
@@ -8693,10 +8695,9 @@ void pulp_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "too_long_to_pulp", too_long_to_pulp );
     jsout.member( "too_long_to_pulp_interrupted", too_long_to_pulp_interrupted );
     jsout.member( "way_too_long_to_pulp", way_too_long_to_pulp );
-    jsout.member( "cut_quality", pd.cut_quality );
     jsout.member( "stomps_only", pd.stomps_only );
     jsout.member( "weapon_only", pd.weapon_only );
-    jsout.member( "can_severe_cutting", pd.can_severe_cutting );
+    jsout.member( "can_cut_precisely", pd.can_cut_precisely );
     jsout.member( "used_pry", pd.used_pry );
     jsout.member( "couldnt_use_pry", pd.couldnt_use_pry );
     jsout.member( "bash_tool", pd.bash_tool );
@@ -8722,10 +8723,9 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
     data.read( "too_long_to_pulp", actor.too_long_to_pulp );
     data.read( "too_long_to_pulp_interrupted", actor.too_long_to_pulp_interrupted );
     data.read( "way_too_long_to_pulp", actor.way_too_long_to_pulp );
-    data.read( "cut_quality", actor.pd.cut_quality );
     data.read( "stomps_only", actor.pd.stomps_only );
     data.read( "weapon_only", actor.pd.weapon_only );
-    data.read( "can_severe_cutting", actor.pd.can_severe_cutting );
+    data.read( "can_cut_precisely", actor.pd.can_cut_precisely );
     data.read( "used_pry", actor.pd.used_pry );
     data.read( "couldnt_use_pry", actor.pd.couldnt_use_pry );
     data.read( "bash_tool", actor.pd.bash_tool );

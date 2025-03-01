@@ -9723,23 +9723,6 @@ const
     return best_weapon;
 }
 
-std::pair<int, const item *> Character::get_best_tool( const quality_id quality ) const
-{
-    // todo: check edge case of you having bionic tool/mutation,
-    // something that max_quality() is aware but max_quality() is not?
-
-    const int max_qual = max_quality( quality );
-
-    std::vector<const item *> nit = cache_get_items_with( "best_quality_" + quality.str(), {},
-    [quality, max_qual]( const item & i ) {
-        return i.get_quality( quality ) == max_qual;
-    } );
-
-    const item *it = random_entry( nit );
-    const std::pair<int, const item *> best_tool = std::make_pair( max_qual, it );
-    return best_tool;
-}
-
 units::energy Character::available_ups() const
 {
     units::energy available_charges = 0_kJ;
@@ -10309,6 +10292,23 @@ item &Character::best_item_with_quality( const quality_id &qid )
 {
     int max_lvl_found = INT_MIN;
     std::vector<item *> items = items_with( [qid, &max_lvl_found]( const item & it ) {
+        int qlvl = it.get_quality_nonrecursive( qid );
+        if( qlvl > max_lvl_found ) {
+            max_lvl_found = qlvl;
+            return true;
+        }
+        return false;
+    } );
+    if( max_lvl_found > INT_MIN ) {
+        return *items.back();
+    }
+    return null_item_reference();
+}
+
+const item &Character::best_item_with_quality( const quality_id &qid ) const
+{
+    int max_lvl_found = INT_MIN;
+    std::vector<const item *> items = items_with( [qid, &max_lvl_found]( const item & it ) {
         int qlvl = it.get_quality_nonrecursive( qid );
         if( qlvl > max_lvl_found ) {
             max_lvl_found = qlvl;
