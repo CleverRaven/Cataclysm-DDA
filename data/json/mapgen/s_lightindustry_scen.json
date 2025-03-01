@@ -183,6 +183,7 @@
         "B": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 3 ] },
         "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 2, 3 ] },
         "v": { "item": "vault", "chance": 30, "repeat": [ 2, 3 ] },
+        "j": { "item": "SUS_toilet", "chance": 50 },
         "r": { "item": "SUS_office_desk", "chance": 30 },
         "Z": { "item": "SUS_office_desk", "chance": 30 },
         "t": { "item": "cleaning_bulk", "chance": 30, "repeat": [ 2, 3 ] },

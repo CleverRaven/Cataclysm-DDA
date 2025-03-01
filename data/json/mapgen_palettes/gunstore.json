@@ -138,7 +138,8 @@
       "w": { "item": "SUS_trash_dumpster", "repeat": 30, "chance": 45 },
       "Y": { "item": "SUS_gunstore_gear", "chance": 90, "repeat": [ 1, 4 ] },
       "=": { "item": "casings", "repeat": 100, "chance": 10 },
-      "`": { "item": "ammo_casings_gunsmith_bulk", "repeat": [ 12, 15 ] }
+      "`": { "item": "ammo_casings_gunsmith_bulk", "repeat": [ 12, 15 ] },
+      "&": { "item": "SUS_toilet", "chance": 50 }
     }
   },
   {
@@ -290,7 +291,8 @@
         "chance": 50
       },
       "=": { "item": "casings", "repeat": 100, "chance": 10 },
-      "`": { "item": "ammo_casings_gunsmith_bulk", "repeat": [ 6, 8 ] }
+      "`": { "item": "ammo_casings_gunsmith_bulk", "repeat": [ 6, 8 ] },
+      "&": { "item": "SUS_toilet", "chance": 50 }
     }
   },
   {
@@ -444,7 +446,8 @@
           ]
         },
         "chance": 15
-      }
+      },
+      "&": { "item": "SUS_toilet", "chance": 50 }
     }
   }
 ]

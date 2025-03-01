@@ -242,6 +242,7 @@
       },
       "toilets": { "&": {  } },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "g": [
           { "item": "homebooks", "chance": 50, "repeat": [ 2, 4 ] },
           { "item": "magic_shop_books", "chance": 20 },

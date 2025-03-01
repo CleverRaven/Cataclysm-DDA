@@ -67,6 +67,7 @@
         "^": "f_indoor_plant",
         "f": "f_trashcan"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true } },
       "place_items": [

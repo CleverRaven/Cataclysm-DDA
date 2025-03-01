@@ -268,7 +268,8 @@
       { "prob": 7, "group": "heroin_bag_zipper_1_4" },
       { "item": "mag_porn", "prob": 35 },
       { "item": "hairpin", "prob": 5 },
-      { "item": "purse", "prob": 15 }
+      { "item": "purse", "prob": 15 },
+      { "group": "SUS_toilet", "prob": 80 }
     ]
   },
   {
@@ -509,7 +510,8 @@
       { "prob": 45, "group": "bottle_otc_painkiller_1_20" },
       { "item": "mag_news", "prob": 30 },
       { "item": "purse", "prob": 10 },
-      { "item": "hairpin", "prob": 25 }
+      { "item": "hairpin", "prob": 25 },
+      { "group": "SUS_toilet", "prob": 40 }
     ]
   },
   {

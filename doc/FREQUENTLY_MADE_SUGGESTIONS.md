@@ -491,7 +491,7 @@ The game only simulates 10 z-levels up or down, which is about 40 meters above t
 
 #### We should be able to use fixed-wing/tiltrotor aircraft to travel the map: Yes!
 
-As some sort of 'fast travel' system, yes, with the obvious restrictions. Obviously fixed-wing aircraft need a place to takeoff, and another plane to land. Some time-based events (including the real calendar time) need to be advanced while 'flying' to the destination, etc.
+As some sort of 'fast travel' system, yes, with the obvious restrictions. Obviously fixed-wing aircraft need a place to takeoff, and another place to land. Some time-based events (including the real calendar time) need to be advanced while 'flying' to the destination, etc.
 
 This just needs someone to write a bunch of code to enable it.
 

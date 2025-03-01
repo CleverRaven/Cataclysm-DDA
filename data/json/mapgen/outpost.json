@@ -68,6 +68,7 @@
         "X": { "item": "oven", "chance": 70 },
         "C": { "item": "mil_armor", "chance": 40 },
         "T": { "item": "SUS_trash_floor_light", "chance": 50 },
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "l": { "item": "bunker_basement_clothing", "chance": 40 }
       },
       "mapping": { " ": { "item": [ { "item": "corpse", "chance": 2 } ] } },
@@ -188,6 +189,7 @@
         "1": { "item": "cleaning", "chance": 70 },
         "!": { "item": "hardware_plumbing", "chance": 70 },
         "L": { "item": "milspec_arsenal_weapon&ammo_collection", "chance": 100 },
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "X": { "item": "oven", "chance": 70 },
         "C": { "item": "mil_armor", "chance": 40 },
         "T": { "item": "SUS_trash_floor_light", "chance": 50 },

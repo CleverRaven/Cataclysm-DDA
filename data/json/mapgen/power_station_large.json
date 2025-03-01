@@ -86,7 +86,8 @@
       "items": {
         "I": { "item": "SUS_office_desk", "chance": 33 },
         "k": { "item": "SUS_office_filing_cabinet", "chance": 33 },
-        "$": { "item": "softdrugs", "chance": 30 }
+        "$": { "item": "softdrugs", "chance": 30 },
+        "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [
         { "group": "supplies_electronics", "x": [ 17, 22 ], "y": 41, "chance": 60, "repeat": [ 1, 3 ] },

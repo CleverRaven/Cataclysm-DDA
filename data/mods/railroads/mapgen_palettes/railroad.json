@@ -101,7 +101,8 @@
         { "item": "alcohol", "chance": 5 },
         { "item": "snacks", "chance": 20 },
         { "item": "manuals", "chance": 2 }
-      ]
+      ],
+      "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "toilets": { "T": {  } },
     "vehicles": { "Á": { "vehicle": "parkinglotbasic", "chance": 15, "rotation": 180 } }

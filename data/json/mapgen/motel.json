@@ -82,7 +82,8 @@
       "{": { "item": "SUS_trash_dumpster", "chance": 100, "repeat": [ 0, 5 ] },
       "s": { "item": "public_sink", "chance": 40, "repeat": [ 0, 2 ] },
       "F": { "item": "SUS_fridge_breakroom", "chance": 100 },
-      "c": { "item": "office_supplies", "chance": 20, "repeat": [ 1, 4 ] }
+      "c": { "item": "office_supplies", "chance": 20, "repeat": [ 1, 4 ] },
+      "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "toilets": { "T": {  } },
     "item": {
@@ -123,7 +124,8 @@
       ":": { "item": "traveler", "chance": 80, "repeat": [ 3, 5 ] },
       "d": { "item": "book_motel", "chance": 100 },
       "Q": { "item": "SUS_fridge_bachelor", "chance": 100 },
-      "s": { "item": "public_sink", "chance": 40, "repeat": [ 0, 2 ] }
+      "s": { "item": "public_sink", "chance": 40, "repeat": [ 0, 2 ] },
+      "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "item": { "x": { "item": "television", "chance": 100 } }
   },
@@ -740,6 +742,7 @@
       "S": { "furniture": "f_sink", "items": { "item": "public_sink", "chance": 33 } }
     },
     "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true }, "v": { "item_group": "vending_food", "lootable": true } },
+    "items": { "L": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "L": {  } }
   },
   {

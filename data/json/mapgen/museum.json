@@ -76,7 +76,8 @@
         "j": { "item": "museum_armor_pet", "chance": 80 },
         "S": { "item": "softdrugs", "chance": 30, "repeat": [ 1, 2 ] },
         "P": { "item": "museum_primitive", "chance": 90, "repeat": [ 2, 4 ] },
-        "Y": { "item": "museum_melee", "chance": 80 }
+        "Y": { "item": "museum_melee", "chance": 80 },
+        "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_items": [
         { "item": "museum_primitive", "x": [ 6, 7 ], "y": [ 4, 5 ], "chance": 85 },

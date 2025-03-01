@@ -244,6 +244,7 @@
         "p": "f_metal_butcher_rack",
         "S": "f_sink"
       },
+      "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "t": {  } },
       "place_loot": [
         { "group": "butcher_meat", "chance": 80, "x": [ 4, 5 ], "y": 3, "repeat": [ 1, 3 ] },
@@ -443,7 +444,8 @@
       "items": {
         "F": { "item": "butcher_raw_meat", "chance": 80, "repeat": [ 1, 3 ] },
         "k": { "item": "butcher_meat", "chance": 80, "repeat": [ 1, 3 ] },
-        "i": { "item": "butcher_raw_meat", "chance": 80, "repeat": [ 1, 3 ] }
+        "i": { "item": "butcher_raw_meat", "chance": 80, "repeat": [ 1, 3 ] },
+        "t": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [
         { "group": "SUS_trash_trashcan", "chance": 80, "x": 11, "y": 16 },
