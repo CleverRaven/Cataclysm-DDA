@@ -135,7 +135,7 @@
       "item": {
         "C": { "item": "lab_file_teleportation_item", "chance": 5 },
         "Ȼ": [ { "item": "lab_file_teleportation_item", "chance": 5 }, { "item": "schematics_transporters", "chance": 30 } ],
-        "£": [ { "item": "phavian_psionic_teleportation_combat_book", "chance": 10 } ],
+        "£": [ { "item": "phavian_psionic_teleportation_combat_book", "chance": 15 } ],
         "Q": { "item": "matrix_crystal_teleportation", "chance": 15 },
         "R": { "item": "lab_file_teleportation_item", "chance": 15 },
         "t": { "item": "lab_file_teleportation_item", "chance": 2 }
