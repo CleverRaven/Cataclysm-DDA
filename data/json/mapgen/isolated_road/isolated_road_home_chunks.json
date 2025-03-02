@@ -42,7 +42,7 @@
           "faction": "isolated_artisans",
           "x": [ 2, 2 ],
           "y": [ 7, 7 ],
-          "filter": "ammo_rifle_common"
+          "filter": "ammo_common_boxed"
         },
         {
           "type": "LOOT_ITEM_GROUP",

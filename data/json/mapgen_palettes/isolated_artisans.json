@@ -117,7 +117,6 @@
         { "item": "SUS_gunstore_displaycase", "chance": 20, "repeat": [ 0, 4 ] }
       ],
       "d": [
-        { "item": "SUS_gunstore_safe", "chance": 5, "repeat": [ 0, 5 ] },
         { "item": "guns_common_display", "chance": 5, "repeat": [ 0, 5 ] }
       ],
       "T": [

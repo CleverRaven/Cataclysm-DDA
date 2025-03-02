@@ -98,9 +98,7 @@
     "id": "FREE_MERCHANTS_Shop_Weapons_Ammo",
     "subtype": "collection",
     "items": [
-      { "group": "ammo_pistol_common", "count": [ 4, 6 ] },
-      { "group": "ammo_rifle_common", "count": [ 1, 3 ] },
-      { "group": "ammo_shotgun_common", "count": [ 2, 4 ] }
+      { "group": "ammo_common_boxed", "count": [ 7, 12 ] }
     ]
   },
   {

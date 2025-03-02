@@ -1919,14 +1919,14 @@
     "subtype": "distribution",
     "id": "boxed_22lr_500_looted",
     "container-item": "22lr_ammo_box_500",
-    "items": [ { "group": "22lr_tray_looted", "count": [ 0, 2 ] } ]
+    "items": [ { "group": "22lr_tray_looted", "count": [ 0, 2 ] },{ "group": "22lr_tray_full", "count": [ 0, 1 ] } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "boxed_22lr_1000_looted",
     "container-item": "22lr_ammo_box_1000",
-    "items": [ { "group": "boxed_22lr_500_looted", "count": [ 0, 1 ] } ]
+    "items": [ { "group": "boxed_22lr_500_looted", "count": [ 0, 2 ] } ]
   },
   {
     "type": "item_group",
@@ -2237,7 +2237,7 @@
     "subtype": "distribution",
     "id": "boxed_308_200_looted",
     "container-item": "ammunition_can_30",
-    "items": [ { "item": "308", "charges": [ 0, 20 ], "prob": 22 }, { "item": "762_51", "charges": [ 0, 20 ], "prob": 7 } ]
+    "items": [ { "item": "308", "charges": [0, 20], "prob": 22 }, { "item": "762_51", "charges": [ 0, 20 ], "prob": 7 } ]
   },
   {
     "type": "item_group",
