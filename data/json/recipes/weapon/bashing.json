@@ -111,6 +111,19 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "flail_improvised",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "components": [ [ [ "2x4", 1 ], [ "stick_long", 1 ] ], [ [ "nail", 2 ] ], [ [ "chain", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "2h_flail_wood",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -788,6 +801,19 @@
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "bat", 1 ] ], [ [ "wire_barbed", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "nutboltbat",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "DRILL", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
+    "components": [ [ [ "bat", 1 ] ], [ [ "nuts_bolts", 12 ] ] ]
   },
   {
     "type": "recipe",
