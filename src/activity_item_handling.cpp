@@ -878,14 +878,10 @@ static activity_reason_info find_base_construction(
     }
 
     const construction &build = con == nullptr ? idx.obj() : *con;
-    bool pcb = player_can_build( you, inv, build, true );
-    //already done?
     if( already_done( build, loc ) ) {
         return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, build.id );
     }
-
-    const bool has_skill = you.meets_skill_requirements( build );
-    if( !has_skill ) {
+    if( !you.meets_skill_requirements( build ) ) {
         return activity_reason_info::build( do_activity_reason::DONT_HAVE_SKILL, false, build.id );
     }
     //if there's an appropriate partial construction on the tile, then we can work on it, no need to check inventories.
@@ -896,16 +892,14 @@ static activity_reason_info find_base_construction(
         }
         return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, build.id );
     }
-    //can build?
-    if( cc ) {
-        if( pcb ) {
-            return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, build.id );
-        }
+    if( !cc ) {
+        return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
+    }
+    if( !player_can_build( you, inv, build, true ) ) {
         //can't build with current inventory, do not look for pre-req
         return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, build.id );
     }
-
-    return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
+    return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, build.id );
 }
 
 static bool are_requirements_nearby(
