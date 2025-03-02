@@ -520,7 +520,7 @@
     "id": "basic_flails",
     "type": "requirement",
     "//": "Any basic thing that can be used as a flail.",
-    "tools": [ [ [ "2h_flail_wood", -1 ], [ "flail_improvised", -1 ] ] ]
+    "tools": [ [ [ "2h_flail_wood", -1 ] ] ]
   },
   {
     "id": "real_flails",

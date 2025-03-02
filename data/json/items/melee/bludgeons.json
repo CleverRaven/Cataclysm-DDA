@@ -40,27 +40,6 @@
     "melee_damage": { "bash": 35 }
   },
   {
-    "id": "flail_improvised",
-    "type": "GENERIC",
-    "category": "weapons",
-    "looks_like": "chain",
-    "name": { "str": "improvised flail" },
-    "description": "A heavy steel chain that's been secured to the end of a piece of wood, giving it more reach as a weapon and kinetic energy when swung.  It's quite heavy and unwieldy for a flail, if a flail could be considered \"wieldy\" in the first place.",
-    "weight": "5078 g",
-    "longest_side": "260 cm",
-    "volume": "3250 ml",
-    "price": "20 USD",
-    "price_postapoc": "8 USD",
-    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
-    "material": [ "wood", "steel" ],
-    "symbol": "\\",
-    "color": "brown",
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
-    "weapon_category": [ "FLAILS" ],
-    "melee_damage": { "bash": 29 }
-  },
-  {
     "type": "GENERIC",
     "id": "2h_club_kanabo_studded",
     "name": { "str_sp": "studded kanabō" },
