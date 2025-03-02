@@ -40,7 +40,7 @@
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
