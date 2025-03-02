@@ -77,6 +77,7 @@
 #include "string_formatter.h"
 #include "submap.h"
 #include "talker_vehicle.h"
+#include "translation.h"
 #include "translations.h"
 #include "units_utility.h"
 #include "value_ptr.h"
