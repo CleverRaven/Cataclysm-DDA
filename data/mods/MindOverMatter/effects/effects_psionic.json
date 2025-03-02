@@ -794,6 +794,19 @@
         ]
       },
       {
+        "condition": { "u_has_effect": "adrenaline" },
+        "values": [
+          {
+            "value": "CARDIO_MULTIPLIER",
+            "multiply": {
+              "math": [
+                "( ( ( u_spell_level('biokin_combat_dance') * 0.025) + 0.15) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      },
+      {
         "condition": { "u_has_effect": "effect_biokin_armor_skin" },
         "incoming_damage_mod": [
           {

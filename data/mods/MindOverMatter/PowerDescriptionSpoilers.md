@@ -163,6 +163,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 - With Physical Enhancement: Melee damage is increased by 15% + 3.5% per power level and the stamina consumption of melee attacks is reduced by 5% plus 1.5% per power level to a maximum of 70% reduction.
 - With Burst of Speed: Move 25% further plus 3% per power level.
 - With Flexibility: Dodge skill is increased by 4, plus 1 per power level.
+- With Adrenaline Trigger: Cardio multiplier increases by 15% + 1.5% per power level.
 - With Hardened Skin: The bonues from hardened skin are increased by 50% plus 4% per power level, to a maximum of double the base bonus. Also, the psion is immune to being dazed or stunned. 
 - With Hammerhand: The psion does 25% additional bash damage with unarmed attacks, plus 3% per power level, as well as an increased chance to directly pulp the corpse of your target.
 - With Heightened Reflexes: Move cost is reduced by 10% plus 2% per power level, to a maximum of 50%, and recoil reduced by 30. In addition, the psions gains Uncanny Dodge and 1 bonus dodge, plus 1 per 8 power levels.
