@@ -998,6 +998,10 @@ struct islot_gunmod : common_ranged_data {
 };
 
 struct islot_magazine {
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
+
     /** What type of ammo this magazine can be loaded with */
     std::set<ammotype> type;
 
@@ -1014,7 +1018,7 @@ struct islot_magazine {
     int reload_time = 100;
 
     /** Multiplier for the gun jamming from physical damage */
-    double mag_jam_mult = 1 ;
+    double mag_jam_mult = 1.0 ;
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
     std::optional<itype_id> linkage;
