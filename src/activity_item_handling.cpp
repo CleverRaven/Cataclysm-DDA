@@ -848,7 +848,7 @@ bool already_done( construction const &build, tripoint_bub_ms const &loc )
 
 static activity_reason_info find_base_construction(
     Character &you,
-    const inventory &inv,
+    const tripoint_bub_ms &inv_from_loc,
     const tripoint_bub_ms &loc,
     const std::optional<construction_id> &part_con_idx,
     const construction_id &idx )
@@ -895,6 +895,7 @@ static activity_reason_info find_base_construction(
     if( !cc ) {
         return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
     }
+    const inventory &inv = you.crafting_inventory( inv_from_loc, PICKUP_RANGE );
     if( !player_can_build( you, inv, build, true ) ) {
         //can't build with current inventory, do not look for pre-req
         return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, build.id );
@@ -1289,12 +1290,11 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             }
             nearest_src_loc = route.back();
         }
-        const inventory pre_inv = you.crafting_inventory( nearest_src_loc, PICKUP_RANGE );
         if( !zones.empty() ) {
             const blueprint_options &options = dynamic_cast<const blueprint_options &>
                                                ( zones.front().get_options() );
             const construction_id index = options.get_index();
-            return find_base_construction( you, pre_inv, src_loc, part_con_idx,
+            return find_base_construction( you, nearest_src_loc, src_loc, part_con_idx,
                                            index );
         }
     } else if( act == ACT_MULTIPLE_FARM ) {
