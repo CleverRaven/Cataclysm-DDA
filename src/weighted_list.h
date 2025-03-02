@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_WEIGHTED_LIST_H
 #define CATA_SRC_WEIGHTED_LIST_H
 
+#include "condition.h"
+#include "dialogue.h"
 #include "json.h"
 #include "rng.h"
 
@@ -294,9 +296,12 @@ void load_weighted_list( const JsonValue &jsv, weighted_list<W, T> &list, W defa
 {
     for( const JsonValue entry : jsv.get_array() ) {
         if( entry.test_array() ) {
-            std::pair<T, W> p;
-            entry.read( p, true );
-            list.add( p.first, p.second );
+            JsonArray ja = entry.get_array();
+            T val;
+            ja.next_value().read( val, true );
+            const dbl_or_var weight = get_dbl_or_var( ja.next_value() );
+            const_dialogue d( nullptr, nullptr );
+            list.add( val, static_cast<W>( weight.evaluate( d ) ) );
         } else {
             T val;
             entry.read( val );
