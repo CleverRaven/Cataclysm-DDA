@@ -424,6 +424,10 @@ void Item_factory::finalize_pre( itype &obj )
         }
     }
 
+    if( obj.bionic ) {
+        obj.bionic->id = bionic_id( obj.id.str() );
+    }
+
     // for ammo not specifying loudness derive value from other properties
     if( obj.ammo ) {
         if( obj.ammo->loudness < 0 ) {
@@ -3662,27 +3666,28 @@ void Item_factory::load_battery( const JsonObject &jo, const std::string &src )
     }
 }
 
-void Item_factory::load( islot_bionic &slot, const JsonObject &jo, const std::string &src )
+void islot_bionic::load( const JsonObject &jo )
 {
-    bool strict = src == "dda";
-
-    if( jo.has_member( "bionic_id" ) ) {
-        assign( jo, "bionic_id", slot.id, strict );
-    } else {
-        assign( jo, "id", slot.id, strict );
-    }
-
-    assign( jo, "difficulty", slot.difficulty, strict, 0 );
-    assign( jo, "is_upgrade", slot.is_upgrade );
-
-    assign( jo, "installation_data", slot.installation_data );
+    optional( jo, was_loaded, "difficulty", difficulty, numeric_bound_reader{0} );
+    optional( jo, was_loaded, "is_upgrade", is_upgrade );
+    optional( jo, was_loaded, "installation_data", installation_data );
 }
 
 void Item_factory::load_bionic( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.bionic, jo, src );
+        if( def.was_loaded ) {
+            if( def.bionic ) {
+                def.bionic->was_loaded = true;
+            } else {
+                def.bionic = cata::make_value<islot_bionic>();
+                def.bionic->was_loaded = true;
+            }
+        } else {
+            def.bionic = cata::make_value<islot_bionic>();
+        }
+        def.bionic->load( jo );
         load_basic_info( jo, def, src );
     }
 }
@@ -4495,7 +4500,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         bool gun_loaded = def.gun ? def.gun->was_loaded : false;
         optional( jo, gun_loaded, "gun_data", def.gun );
     }
-    load_slot_optional( def.bionic, jo, "bionic_data", src );
     assign( jo, "ammo_data", def.ammo, src == "dda" );
     assign( jo, "seed_data", def.seed, src == "dda" );
     assign( jo, "brewable", def.brewable, src == "dda" );

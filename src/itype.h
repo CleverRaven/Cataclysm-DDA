@@ -1136,6 +1136,9 @@ struct islot_ammo : common_ranged_data {
 };
 
 struct islot_bionic {
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
     /**
      * Arbitrary difficulty scale, see bionics.cpp for its usage.
      */
