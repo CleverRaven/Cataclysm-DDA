@@ -6661,6 +6661,7 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint_bub_ms &
                 item new_photos( itype_efile_photos );
                 it->get_contents().insert_item( new_photos, pocket_type::E_FILE_STORAGE );
                 edevice_photos = it->get_photo_gallery();
+    			get_event_bus().send<event_type::character_takes_photo>(p->getID());
             } else {
                 p->add_msg_if_player( _( "Your camera cannot hold any more photos." ) );
                 return std::nullopt;
