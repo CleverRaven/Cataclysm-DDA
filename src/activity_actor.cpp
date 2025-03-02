@@ -201,7 +201,8 @@ static const furn_str_id furn_f_safe_o( "f_safe_o" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 
-static const item_group_id Item_spawn_data_SUS_trash_no_manmade( "SUS_trash_no_manmade" );
+static const item_group_id
+Item_spawn_data_SUS_trash_forest_no_manmade( "SUS_trash_forest_no_manmade" );
 static const item_group_id Item_spawn_data_forage_autumn( "forage_autumn" );
 static const item_group_id Item_spawn_data_forage_spring( "forage_spring" );
 static const item_group_id Item_spawn_data_forage_summer( "forage_summer" );
@@ -7372,7 +7373,8 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
     // 10% to drop a item/items from this group.
     if( one_in( 10 ) ) {
         const std::vector<item *> dropped =
-            here.put_items_from_loc( Item_spawn_data_SUS_trash_no_manmade, who.pos_bub(), calendar::turn );
+            here.put_items_from_loc( Item_spawn_data_SUS_trash_forest_no_manmade, who.pos_bub(),
+                                     calendar::turn );
         // same as above
         std::vector<item *> handled;
         for( item * const &it : dropped ) {

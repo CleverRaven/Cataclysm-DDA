@@ -684,6 +684,17 @@ conditional_t::func f_has_flag( const JsonObject &jo, std::string_view member,
     };
 }
 
+conditional_t::func f_has_part_flag( const JsonObject &jo, std::string_view member,
+                                     bool is_npc )
+{
+    str_or_var trait_flag_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    bool enabled = jo.get_bool( "enabled", false );
+    return [trait_flag_to_check, enabled, is_npc]( const_dialogue const & d ) {
+        const_talker const *actor = d.const_actor( is_npc );
+        return actor->has_part_flag( trait_flag_to_check.evaluate( d ), enabled );
+    };
+}
+
 conditional_t::func f_has_species( const JsonObject &jo, std::string_view member,
                                    bool is_npc )
 {
@@ -1372,6 +1383,13 @@ conditional_t::func f_is_furniture( bool is_npc )
     };
 }
 
+conditional_t::func f_is_vehicle( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->get_const_vehicle();
+    };
+}
+
 conditional_t::func f_player_see( bool is_npc )
 {
     const map &here = get_map();
@@ -1430,6 +1448,83 @@ conditional_t::func f_has_beta()
 {
     return []( const_dialogue const & d ) {
         return d.has_beta;
+    };
+}
+
+conditional_t::func f_is_driven( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_driven();
+    };
+}
+
+conditional_t::func f_is_remote_controlled( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_remote_controlled();
+    };
+}
+
+conditional_t::func f_can_fly( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->can_fly();
+    };
+}
+
+conditional_t::func f_is_flying( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_flying();
+    };
+}
+
+conditional_t::func f_can_float( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->can_float();
+    };
+}
+
+conditional_t::func f_is_floating( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_floating();
+    };
+}
+
+conditional_t::func f_is_falling( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_falling();
+    };
+}
+
+conditional_t::func f_is_skidding( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_skidding();
+    };
+}
+
+conditional_t::func f_is_sinking( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_sinking();
+    };
+}
+
+conditional_t::func f_is_on_rails( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_on_rails();
+    };
+}
+
+conditional_t::func f_is_avatar_passenger( bool is_npc )
+{
+    return [is_npc]( const_dialogue const & d ) {
+        return d.const_actor( is_npc )->is_passenger( get_player_character() );
     };
 }
 
@@ -2115,6 +2210,7 @@ conditional_t::func f_using_martial_art( const JsonObject &jo, std::string_view 
     };
 }
 
+
 } // namespace
 } // namespace conditional_fun
 
@@ -2281,7 +2377,12 @@ std::unordered_map<std::string_view, int ( const_talker::* )() const> const f_ge
     { "strength_bonus", &const_talker::get_str_bonus },
     { "strength", &const_talker::str_cur },
     { "thirst", &const_talker::get_thirst },
-    { "count", &const_talker::get_count }
+    { "count", &const_talker::get_count },
+    { "vehicle_facing", &const_talker::get_vehicle_facing },
+    { "current_speed", &const_talker::get_current_speed },
+    { "unloaded_weight", &const_talker::get_unloaded_weight },
+    { "friendly_passenger_count", &const_talker::get_friendly_passenger_count },
+    { "hostile_passenger_count", &const_talker::get_hostile_passenger_count }
 };
 } // namespace
 
@@ -2560,6 +2661,7 @@ parsers = {
     {"compare_string_match_all", jarg::member, &conditional_fun::f_compare_string_match_all },
     {"get_condition", jarg::member, &conditional_fun::f_get_condition },
     {"test_eoc", jarg::member, &conditional_fun::f_test_eoc },
+    {"u_has_part_flag", "npc_has_part_flag", jarg::string, &conditional_fun::f_has_part_flag },
 };
 
 // When updating this, please also update `dynamic_line_string_keys` in
@@ -2623,12 +2725,24 @@ parsers_simple = {
     {"u_is_monster", "npc_is_monster", &conditional_fun::f_is_monster },
     {"u_is_item", "npc_is_item", &conditional_fun::f_is_item },
     {"u_is_furniture", "npc_is_furniture", &conditional_fun::f_is_furniture },
+    {"u_is_vehicle", "npc_is_vehicle", &conditional_fun::f_is_vehicle },
     {"has_ammo", &conditional_fun::f_has_ammo },
     {"player_see_u", "player_see_npc", &conditional_fun::f_player_see },
     {"u_see_npc", "npc_see_u", &conditional_fun::f_see_opposite },
     {"u_see_npc_loc", "npc_see_u_loc", &conditional_fun::f_see_opposite_coordinates },
     {"has_alpha", &conditional_fun::f_has_alpha },
     {"has_beta", &conditional_fun::f_has_beta },
+    {"u_is_driven", "npc_is_driven", &conditional_fun::f_is_driven },
+    {"u_is_remote_controlled", "npc_is_remote_controlled", &conditional_fun::f_is_remote_controlled },
+    {"u_can_fly", "npc_can_fly", &conditional_fun::f_can_fly },
+    {"u_is_flying", "npc_is_flying", &conditional_fun::f_is_flying },
+    {"u_can_float", "npc_can_float", &conditional_fun::f_can_float },
+    {"u_is_floating", "npc_is_floating", &conditional_fun::f_is_floating },
+    {"u_is_falling", "npc_is_falling", &conditional_fun::f_is_falling },
+    {"u_is_skidding", "npc_is_skidding", &conditional_fun::f_is_skidding },
+    {"u_is_sinking", "npc_is_sinking", &conditional_fun::f_is_sinking },
+    {"u_is_on_rails", "npc_is_on_rails", &conditional_fun::f_is_on_rails },
+    {"u_is_avatar_passenger", "npc_is_avatar_passenger", &conditional_fun::f_is_avatar_passenger },
 };
 
 conditional_t::conditional_t( const JsonObject &jo )

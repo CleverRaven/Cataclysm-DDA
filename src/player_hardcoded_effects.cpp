@@ -630,7 +630,7 @@ static void eff_fun_teleglow( Character &u, effect &it )
             if( !u.is_npc() ) {
                 add_msg( _( "Glowing lights surround you, and you teleport." ) );
             }
-            teleport::teleport( u );
+            teleport::teleport_creature( u );
             get_event_bus().send<event_type::teleglow_teleports>( u.getID() );
             if( one_in( 10 ) ) {
                 // Set ourselves up for removal
