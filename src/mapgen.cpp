@@ -4439,21 +4439,24 @@ void mapgen_palette::add( const mapgen_palette &rh, const add_palette_context &c
     parameters.check_and_merge( rh.parameters, actual_context );
 }
 
-mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::string_view,
+mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, std::string_view src,
         const std::string &context, bool require_id, bool allow_recur )
 {
     mapgen_palette new_pal;
+    bool extending = src != "DDA" && jo.has_bool( "extending" ) && jo.get_bool( "extending" );
     mapgen_palette::placing_map &format_placings = new_pal.format_placings;
     auto &keys_with_terrain = new_pal.keys_with_terrain;
     if( require_id ) {
         new_pal.id = palette_id( jo.get_string( "id" ) );
+        const auto iter = palettes.find( new_pal.id );
+        extending &= iter != palettes.end();
     }
 
     jo.read( "parameters", new_pal.parameters.map );
 
     if( jo.has_array( "palettes" ) ) {
         jo.read( "palettes", new_pal.palettes_used );
-        if( allow_recur ) {
+        if( allow_recur || extending ) {
             // allow_recur means that it's safe to assume all the palettes have
             // been defined and we can inline now.  Otherwise we just leave the
             // list in our palettes_used array and it will be consumed
@@ -4504,7 +4507,6 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     new_pal.load_place_mapings<jmapgen_zone>( jo, "zones", format_placings, c );
     new_pal.load_place_mapings<jmapgen_ter_furn_transform>( jo, "ter_furn_transforms",
             format_placings, c );
-    new_pal.load_place_mapings<jmapgen_faction>( jo, "faction_owner_character", format_placings, c );
 
     for( mapgen_palette::placing_map::value_type &p : format_placings ) {
         p.second.erase(
