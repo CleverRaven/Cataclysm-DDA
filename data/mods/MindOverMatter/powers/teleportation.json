@@ -955,6 +955,79 @@
     "casting_time_increment": -6.5
   },
   {
+    "id": "teleport_warper_combat",
+    "type": "SPELL",
+    "name": "[Ψ]Flickerflash Stance",
+    "description": "Through constant contraction and expansion of nearby space, as well as near-constant micro-teleports less than decimeter in distance, you can increase the effective momentum behind your strikes, make your exact position nearly impossible to determine, and your blows nearly impossible to stop.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_WARPER_COMBAT_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('teleport_warper_combat') * 350) + 2300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('teleport_warper_combat') * 1400) + 9700) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_teleport_warper_combat') > -1 ? 0 : max( ( 7500 - ( u_spell_level('teleport_warper_combat') * 225 ) ), 4500 )"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_teleport_warper_combat') > -1 ? 10 : max( ( 75 - ( u_spell_level('teleport_warper_combat') * 4 ) ), 25 )"
+      ]
+    }
+  },
+  {
+    "id": "teleport_warper_combat_warp_chance_attacker",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Flickerflash Stance Attacker Warp Chance", "//~": "NO_I18N" },
+    "description": { "str": "Chance to teleport when attacking a target", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "IGNORE_WALLS" ],
+    "effect": "short_range_teleport",
+    "shape": "blast",
+    "min_aoe": { "math": [ "1 + u_effect_intensity('effect_teleport_warped_strikes') > -1 ? 2 : 0" ] },
+    "max_aoe": { "math": [ "1 + u_effect_intensity('effect_teleport_warped_strikes') > -1 ? 2 : 0" ] },
+    "min_range": 4
+  },
+  {
+    "id": "teleport_warper_combat_warp_chance_attacked",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Flickerflash Stance Attacked Warp Chance", "//~": "NO_I18N" },
+    "description": { "str": "Chance to teleport when being attacked by a target", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS" ],
+    "effect": "short_range_teleport",
+    "shape": "blast",
+    "min_aoe": 1,
+    "max_aoe": 2
+  },
+  {
     "id": "teleport_reality_tear",
     "type": "SPELL",
     "name": "[Ψ]Reality Tear",
