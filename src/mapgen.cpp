@@ -4444,6 +4444,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, std::string_
 {
     mapgen_palette new_pal;
     bool extending = src != "DDA" && jo.has_bool( "extending" ) && jo.get_bool( "extending" );
+    require_id |= extending;
     mapgen_palette::placing_map &format_placings = new_pal.format_placings;
     auto &keys_with_terrain = new_pal.keys_with_terrain;
     if( require_id ) {
@@ -4456,7 +4457,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, std::string_
 
     if( jo.has_array( "palettes" ) ) {
         jo.read( "palettes", new_pal.palettes_used );
-        if( allow_recur || extending ) {
+        if( allow_recur ) {
             // allow_recur means that it's safe to assume all the palettes have
             // been defined and we can inline now.  Otherwise we just leave the
             // list in our palettes_used array and it will be consumed
@@ -4467,6 +4468,11 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, std::string_
             }
             new_pal.palettes_used.clear();
         }
+    }
+
+    if( extending ) {
+        add_palette_context add_context{ context, &new_pal.parameters };
+        new_pal.add( new_pal.id, add_context );
     }
 
     // mandatory: every character in rows must have matching entry, unless fill_ter is set
