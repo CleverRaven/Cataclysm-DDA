@@ -1006,8 +1006,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "IGNORE_WALLS" ],
     "effect": "short_range_teleport",
     "shape": "blast",
-    "min_aoe": { "math": [ "1 + (u_has_effect('effect_teleport_warped_strikes') * 2)" ] },
-    "max_aoe": { "math": [ "1 + (u_has_effect('effect_teleport_warped_strikes') * 2)" ] },
+    "min_aoe": { "math": [ "1 + u_effect_intensity('effect_teleport_warped_strikes') > -1 ? 2 : 0" ] },
+    "max_aoe": { "math": [ "1 + u_effect_intensity('effect_teleport_warped_strikes') > -1 ? 2 : 0" ] },
     "min_range": 4
   },
   {
