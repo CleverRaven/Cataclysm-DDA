@@ -1060,6 +1060,12 @@ struct islot_ammo : common_ranged_data {
     int def_charges = 1;
 
     /**
+    * Number of items per above volume for @ref count_by_charges items;
+    * Overwrites generic item stack_size in finalize_pre()
+    */
+    int stack_size = 0;
+
+    /**
      * Number of projectiles fired per round, e.g. shotgun shot.
      */
     int count = 1;

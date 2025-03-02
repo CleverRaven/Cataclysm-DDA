@@ -337,6 +337,8 @@ void Item_factory::finalize_pre( itype &obj )
     if( obj.count_by_charges() ) {
         if( obj.comestible ) {
             obj.stack_size = obj.comestible->stack_size;
+        } else if( obj.ammo ) {
+            obj.stack_size = obj.ammo->stack_size;
         }
         if( obj.stack_size == 0 ) {
             obj.stack_size = obj.charges_default();
@@ -2700,27 +2702,32 @@ static void load_memory_card_data( memory_card_info &mcd, const JsonObject &jo )
 void islot_ammo::load( const JsonObject &jo )
 {
     bool strict = false;
+    numeric_bound_reader not_negative{ 0 };
+    numeric_bound_reader positive{ 1 };
+    numeric_bound_reader positive_float{ 1.0f };
 
     mandatory( jo, was_loaded, "ammo_type", type );
     optional( jo, was_loaded, "casing", casing, std::nullopt );
     optional( jo, was_loaded, "drop", drop, itype_id::NULL_ID() );
-    assign( jo, "drop_chance", drop_chance, strict, 0.0f, 1.0f );
+    optional( jo, was_loaded, "drop_chance", drop_chance, numeric_bound_reader{ 0.0f, 1.0f }, 1.0f );
+    optional( jo, was_loaded, "stack_size", stack_size, positive );
     optional( jo, was_loaded, "drop_active", drop_active, true );
     optional( jo, was_loaded, "projectile_count", count, 1 );
-    optional( jo, was_loaded, "shot_spread", shot_spread, 0 );
+    optional( jo, was_loaded, "shot_spread", shot_spread, not_negative );
     optional( jo, was_loaded, "shot_damage", shot_damage );
     // Damage instance assign reader handles pierce and prop_damage
     optional( jo, was_loaded, "damage", damage );
-    assign( jo, "range", range, strict, 0 );
-    assign( jo, "range_multiplier", range_multiplier, strict, 1.0f );
-    assign( jo, "dispersion", dispersion, strict, 0 );
+    optional( jo, was_loaded, "range", range, not_negative );
+    optional( jo, was_loaded, "range_multiplier", range_multiplier, positive_float,
+              1.0f );
+    optional( jo, was_loaded, "dispersion", dispersion, not_negative );
     optional( jo, was_loaded, "dispersion_modifier", disp_mod_by_barrels, {} );
-    assign( jo, "recoil", recoil, strict, 0 );
-    optional( jo, was_loaded, "recovery_chance", recovery_chance, 0 );
-    assign( jo, "count", def_charges, strict, 1 );
-    assign( jo, "loudness", loudness, strict, 0 );
-    assign( jo, "effects", ammo_effects, strict );
-    assign( jo, "critical_multiplier", critical_multiplier, strict, 1.0f );
+    optional( jo, was_loaded, "recoil", recoil, not_negative );
+    optional( jo, was_loaded, "recovery_chance", recovery_chance, not_negative );
+    optional( jo, was_loaded, "count", def_charges, positive, 1 );
+    optional( jo, was_loaded, "loudness", loudness, not_negative, -1 );
+    optional( jo, was_loaded, "effects", ammo_effects, auto_flags_reader<ammo_effect_str_id> {} );
+    optional( jo, was_loaded, "critical_multiplier", critical_multiplier, positive_float, 2.0f );
     optional( jo, was_loaded, "show_stats", force_stat_display, false );
 }
 
@@ -2733,7 +2740,6 @@ void Item_factory::load_ammo( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        assign( jo, "stack_size", def.stack_size, src == "dda", 1 );
         if( def.was_loaded ) {
             if( def.ammo ) {
                 def.ammo->was_loaded = true;
