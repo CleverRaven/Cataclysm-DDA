@@ -233,7 +233,7 @@
       { "group": "guns_shotgun_improvised", "prob": 90 },
       { "group": "guns_smg_improvised", "prob": 90 },
       { "group": "guns_rifle_common", "prob": 105 },
-      { "group": "ammo_common_boxed", "prob": 500 },
+      { "group": "ammo_common_boxed", "prob": 500 }
     ]
   },
   {

@@ -71,10 +71,7 @@
         "á": {
           "item": {
             "subtype": "collection",
-            "entries": [
-              { "group": "ammo_hunting", "prob": 55 },
-              { "group": "mags_common", "prob": 35 }
-            ]
+            "entries": [ { "group": "ammo_hunting", "prob": 55 }, { "group": "mags_common", "prob": 35 } ]
           },
           "chance": 100,
           "repeat": [ 0, 5 ]
@@ -517,10 +514,7 @@
         "á": {
           "item": {
             "subtype": "collection",
-            "entries": [
-              { "group": "ammo_hunting", "prob": 55 },
-              { "group": "mags_common", "prob": 35 }
-            ]
+            "entries": [ { "group": "ammo_hunting", "prob": 55 }, { "group": "mags_common", "prob": 35 } ]
           },
           "chance": 7,
           "repeat": [ 0, 4 ]

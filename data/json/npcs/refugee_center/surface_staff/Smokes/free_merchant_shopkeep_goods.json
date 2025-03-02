@@ -97,9 +97,7 @@
     "type": "item_group",
     "id": "FREE_MERCHANTS_Shop_Weapons_Ammo",
     "subtype": "collection",
-    "items": [
-      { "group": "ammo_common_boxed", "count": [ 7, 12 ] }
-    ]
+    "items": [ { "group": "ammo_common_boxed", "count": [ 7, 12 ] } ]
   },
   {
     "//": "Common weapons. Pistols should be much more common than long weapons, since they're using good weapons for their own defense.",

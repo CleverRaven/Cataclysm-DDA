@@ -52,9 +52,7 @@
         "W": "t_scrap_wall"
       },
       "furniture": { "@": "f_chair", "B": "f_barricade_road", "c": "f_crate_o", "C": "f_crate_c", "s": "f_sandbag_half" },
-      "items": {
-        "c": { "item": "ammo_common_boxed_used", "chance": 75, "repeat": [ 1, 4 ] }
-      },
+      "items": { "c": { "item": "ammo_common_boxed_used", "chance": 75, "repeat": [ 1, 4 ] } },
       "npcs": { "@": { "class": "raider" } }
     }
   },
@@ -104,9 +102,7 @@
         "W": "t_scrap_wall"
       },
       "furniture": { "@": "f_chair", "B": "f_barricade_road", "c": "f_crate_o", "C": "f_crate_c", "s": "f_sandbag_half" },
-      "items": {
-        "c": { "item": "ammo_common_boxed_used", "chance": 75, "repeat": [ 1, 4 ] }
-      },
+      "items": { "c": { "item": "ammo_common_boxed_used", "chance": 75, "repeat": [ 1, 4 ] } },
       "npcs": { "@": { "class": "raider" } }
     }
   }
