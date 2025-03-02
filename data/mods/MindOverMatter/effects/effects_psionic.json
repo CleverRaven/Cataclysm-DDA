@@ -860,8 +860,11 @@
         ]
       },
       {
+        "condition": { "u_has_effect": "effect_biokin_enhance_mobility" },
+        "mutations": [ "GENERIC_UNCANNY_DODGE_TRAIT" ]
+      },
+      {
         "condition": { "u_has_effect": "effect_biokin_reflex" },
-        "mutations": [ "GENERIC_UNCANNY_DODGE_TRAIT" ],
         "values": [
           { "value": "RECOIL_MODIFIER", "multiply": -0.3 },
           {
