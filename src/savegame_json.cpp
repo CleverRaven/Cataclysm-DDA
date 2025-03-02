@@ -3429,6 +3429,8 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "om_id", om_id );
     data.read( "faceDir", fdir );
     data.read( "moveDir", mdir );
+    data.read( "values", values );
+    data.read( "chat_topics", chat_topics );
     int turn_dir_int;
     data.read( "turn_dir", turn_dir_int );
     turn_dir = units::from_degrees( turn_dir_int );
@@ -3546,6 +3548,8 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "posx", pos.x() );
     json.member( "posy", pos.y() );
     json.member( "om_id", om_id );
+    json.member( "values", values );
+    json.member( "chat_topics", chat_topics );
     json.member( "faceDir", std::lround( to_degrees( face.dir() ) ) );
     json.member( "moveDir", std::lround( to_degrees( move.dir() ) ) );
     json.member( "turn_dir", std::lround( to_degrees( turn_dir ) ) );

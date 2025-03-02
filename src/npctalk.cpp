@@ -6448,6 +6448,28 @@ talk_effect_fun_t::func f_run_monster_eocs( const JsonObject &jo,
     };
 }
 
+talk_effect_fun_t::func f_run_vehicle_eocs( const JsonObject &jo,
+        std::string_view member, const std::string_view src, bool is_npc )
+{
+    std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member, src );
+    std::optional<int> vehicle_range;
+    if( jo.has_int( "vehicle_range" ) ) {
+        vehicle_range = jo.get_int( "vehicle_range" );
+    }
+    return [eocs, vehicle_range, is_npc]( dialogue const & d ) {
+        tripoint_abs_ms actor_pos = d.actor( is_npc )->pos_abs();
+        for( wrapped_vehicle &elem : get_map().get_vehicles() ) {
+            vehicle &veh = *elem.v;
+            if( !vehicle_range.has_value() ||
+                rl_dist( actor_pos, veh.pos_abs() ) <= vehicle_range.value() ) {
+                for( const effect_on_condition_id &eoc : eocs ) {
+                    dialogue newDialog( get_talker_for( veh ), nullptr, d.get_conditionals(), d.get_context() );
+                    eoc->activate( newDialog );
+                }
+            }
+        }
+    };
+}
 
 talk_effect_fun_t::func f_run_inv_eocs( const JsonObject &jo,
                                         std::string_view member, const std::string_view src, bool is_npc )
@@ -7506,6 +7528,14 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
             add_msg( success_message.evaluate( d ) );
             it->remove_item();
         }
+        vehicle *veh = d.actor( is_npc )->get_vehicle();
+        if( veh ) {
+            if( teleport::teleport_vehicle( *veh, target_pos ) ) {
+                add_msg( success_message.evaluate( d ) );
+            } else {
+                add_msg( fail_message.evaluate( d ) );
+            }
+        }
     };
 }
 
@@ -7680,6 +7710,7 @@ parsers = {
     { "u_make_sound", "npc_make_sound", jarg::member, &talk_effect_fun::f_make_sound },
     { "u_run_npc_eocs", "npc_run_npc_eocs", jarg::array, &talk_effect_fun::f_run_npc_eocs },
     { "u_run_monster_eocs", "npc_run_monster_eocs", jarg::array, &talk_effect_fun::f_run_monster_eocs },
+    { "u_run_vehicle_eocs", "npc_run_vehicle_eocs", jarg::array, &talk_effect_fun::f_run_vehicle_eocs },
     { "u_run_inv_eocs", "npc_run_inv_eocs", jarg::member, &talk_effect_fun::f_run_inv_eocs },
     { "u_roll_remainder", "npc_roll_remainder", jarg::member, &talk_effect_fun::f_roll_remainder },
     { "u_set_fac_relation", "npc_set_fac_relation", jarg::member, &talk_effect_fun::f_set_fac_relation },
