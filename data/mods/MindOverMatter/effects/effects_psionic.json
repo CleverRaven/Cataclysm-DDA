@@ -2813,7 +2813,7 @@
   {
     "type": "effect_type",
     "id": "effect_teleport_warper_combat",
-    "name": [ "Martial Distortion" ],
+    "name": [ "Flickerflash Stance" ],
     "desc": [ "Through constant teleports and warping of space, your combat prowess is increased." ],
     "apply_message": "",
     "remove_message": "Your constant teleporting slows to a stop.",

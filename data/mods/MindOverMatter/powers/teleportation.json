@@ -957,7 +957,7 @@
   {
     "id": "teleport_warper_combat",
     "type": "SPELL",
-    "name": "[Ψ]Combat Dance",
+    "name": "[Ψ]Flickerflash Stance",
     "description": "Through constant contraction and expansion of nearby space, as well as near-constant micro-teleports less than decimeter in distance, you can increase the effective momentum behind your strikes, make your exact position nearly impossible to determine, and your blows nearly impossible to stop.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.",
     "message": "",
     "teachable": false,
