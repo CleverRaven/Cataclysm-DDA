@@ -179,7 +179,7 @@ void spell_effect::short_range_teleport( const spell &sp, Creature &caster,
         debugmsg( "ERROR: Teleport argument(s) invalid" );
         return;
     }
-    teleport::teleport( caster, min_distance, max_distance, safe, false );
+    teleport::teleport_creature( caster, min_distance, max_distance, safe, false );
 }
 
 static void swap_pos( Creature &caster, const tripoint_bub_ms &target )
@@ -999,7 +999,7 @@ static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint_bub_
                                           message_prefix, intensity_name );
                 caster.as_character()->hurtall( 10, nullptr );
                 caster.add_effect( effect_teleglow, 630_minutes );
-                teleport::teleport( caster );
+                teleport::teleport_creature( caster );
                 break;
         }
         break;
