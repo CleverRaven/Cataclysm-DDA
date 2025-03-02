@@ -20,8 +20,8 @@
     "subtype": "collection",
     "id": "afs_vending_ballistic_ammo",
     "entries": [
-      { "group": "afs_civilian_ballistic_s_ammo", "count": [ 5, 20 ], "container-item": "ammo_box_2" },
-      { "group": "afs_civilian_ballistic_m_ammo", "count": [ 5, 20 ], "container-item": "ammo_box_4" },
+      { "group": "afs_civilian_ballistic_s_ammo", "count": [ 5, 20 ], "container-item": "box_small_metal" },
+      { "group": "afs_civilian_ballistic_m_ammo", "count": [ 5, 20 ], "container-item": "box_small_metal" },
       {
         "group": "afs_civilian_ballistic_h_ammo",
         "prob": 40,

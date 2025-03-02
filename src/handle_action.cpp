@@ -2595,7 +2595,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_WIELD:
-            wield();
+            player_character.wield( game_menus::inv::wield() );
             break;
 
         case ACTION_PICK_STYLE:

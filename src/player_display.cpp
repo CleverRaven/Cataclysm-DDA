@@ -929,6 +929,9 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
     if( selectedSkill ) {
         const SkillLevel &level = you.get_skill_level_object( selectedSkill->ident() );
         std::string info_text = selectedSkill->description();
+        info_text = string_format( _( "%s\n%s\n%s" ), info_text,
+                                   selectedSkill->get_level_description( level.knowledgeLevel(), false ),
+                                   selectedSkill->get_level_description( level.level(), true ) );
         float level_gap = 100.0f * std::max( level.knowledgeLevel(), 1 ) / std::max( level.level(), 1 );
         if( level.knowledgeLevel() == 1 && level.level() == 0 ) {
             level_gap = 150.0f;
