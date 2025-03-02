@@ -978,7 +978,7 @@
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('teleport_warper_combat') * 850) + 9700) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('teleport_warper_combat') * 1400) + 9700) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": {
@@ -995,7 +995,7 @@
   {
     "id": "teleport_warper_combat_warp_chance_attacker",
     "type": "SPELL",
-    "name": { "str": "", "//~": "NO_I18N" },
+    "name": { "str": "[Ψ]Flickerflash Stance Attacker Warp Chance", "//~": "NO_I18N" },
     "description": { "str": "Chance to teleport when attacking a target", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
@@ -1013,7 +1013,7 @@
   {
     "id": "teleport_warper_combat_warp_chance_attacked",
     "type": "SPELL",
-    "name": { "str": "", "//~": "NO_I18N" },
+    "name": { "str": "[Ψ]Flickerflash Stance Attacked Warp Chance", "//~": "NO_I18N" },
     "description": { "str": "Chance to teleport when being attacked by a target", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
