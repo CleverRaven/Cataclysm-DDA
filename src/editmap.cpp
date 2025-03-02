@@ -1838,7 +1838,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     const oter_id orig_oters = omt_ref;
     overmap_buffer.ter_set( omt_pos, oter_id( gmenu.ret ) );
     smallmap tmpmap;
-    tmpmap.generate( omt_pos, calendar::turn, false );
+    tmpmap.generate( omt_pos, calendar::turn, false, run_post_process );
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
@@ -1850,6 +1850,9 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     gpmenu.addentry( pgettext( "map generator", "Rotate" ) );
     gpmenu.addentry( pgettext( "map generator", "Apply" ) );
     gpmenu.addentry( pgettext( "map generator", "Change Overmap (Doesn't Apply)" ) );
+    std::string on_or_off = run_post_process ? _( "ON" ) : _( "OFF" );
+    gpmenu.addentry( pgettext( "map generator",
+                               string_format( "Toggle post-process generators (Currently %s)", on_or_off ).c_str() ) );
 
     gpmenu.input_category = "MAPGEN_PREVIEW";
     gpmenu.additional_actions = {
@@ -1959,12 +1962,14 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
                    orig_oters->get_name( om_vision_level::full ), orig_oters.id().str(),
                    omt_ref->get_name( om_vision_level::full ), omt_ref.id().str() );
+        } else if( gpmenu.ret == 4 ) {
+            run_post_process = !run_post_process;
         }
         showpreview = gpmenu.ret == UILIST_TIMEOUT ? !showpreview : true;
-    } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != UILIST_CANCEL );
+    } while( gpmenu.ret != 2 && gpmenu.ret != 3 && gpmenu.ret != 4 && gpmenu.ret != UILIST_CANCEL );
 
-    if( gpmenu.ret != 2 &&  // we didn't apply, so restore the original om_ter
-        gpmenu.ret != 3 ) { // chose to change oter_id but not apply mapgen
+    // we didn't apply, so restore the original om_ter
+    if( gpmenu.ret != 2 && gpmenu.ret != 3  && gpmenu.ret != 4 ) {
         overmap_buffer.ter_set( omt_pos, orig_oters );
     }
     gmenu.border_color = c_magenta;
@@ -2106,6 +2111,7 @@ void editmap::edit_mapgen()
     gmenu.input_category = "EDIT_MAPGEN";
     gmenu.additional_actions = {
         { "EDITMAP_MOVE", translation() },
+        { "EDITMAP_TOGGLE_POST_PROCESS_GENERATORS", translation() },
         { "HELP_KEYBINDINGS", translation() } // to refresh the view after exiting from keybindings
     };
     gmenu.allow_additional = true;
@@ -2151,8 +2157,9 @@ void editmap::edit_mapgen()
         blink = true;
 
         input_context ctxt( gmenu.input_category, keyboard_mode::keycode );
-        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s" ),
+        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s" ),
                                        ctxt.describe_key_and_name( "EDITMAP_MOVE" ),
+                                       ctxt.describe_key_and_name( "EDITMAP_TOGGLE_POST_PROCESS_GENERATORS" ),
                                        ctxt.describe_key_and_name( "CONFIRM" ) );
         info_title_curr = pgettext( "map generator", "Mapgen stamp" );
         do_ui_invalidation();
@@ -2167,6 +2174,8 @@ void editmap::edit_mapgen()
         } else if( gmenu.ret == UILIST_ADDITIONAL ) {
             if( gmenu.ret_act == "EDITMAP_MOVE" ) {
                 mapgen_retarget();
+            } else if( gmenu.ret_act == "EDITMAP_TOGGLE_POST_PROCESS_GENERATORS" ) {
+                run_post_process = !run_post_process;
             }
         }
     } while( gmenu.ret != UILIST_CANCEL );
