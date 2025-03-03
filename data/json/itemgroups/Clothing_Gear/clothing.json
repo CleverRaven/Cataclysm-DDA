@@ -27,47 +27,20 @@
     "entries": [
       {
         "distribution": [
-          {
-            "distribution": [ { "item": "sunglasses_eye", "prob": 80 }, { "item": "fancy_sunglasses_eye", "prob": 20 } ],
-            "prob": 15
-          },
-          {
-            "distribution": [ { "item": "sunglasses_reading", "prob": 80 }, { "item": "fancy_sunglasses_reading", "prob": 20 } ],
-            "prob": 10
-          },
-          {
-            "distribution": [ { "item": "sunglasses_bifocal", "prob": 80 }, { "item": "fancy_sunglasses_bifocal", "prob": 20 } ],
-            "prob": 5
-          },
-          {
-            "distribution": [ { "item": "transition_glasses_eye", "prob": 80 }, { "item": "fancy_transition_glasses_eye", "prob": 20 } ],
-            "prob": 9
-          },
-          {
-            "distribution": [ { "item": "transition_glasses_reading", "prob": 80 }, { "item": "fancy_transition_glasses_reading", "prob": 20 } ],
-            "prob": 6
-          },
-          {
-            "distribution": [ { "item": "transition_glasses_bifocal", "prob": 80 }, { "item": "fancy_transition_glasses_bifocal", "prob": 20 } ],
-            "prob": 3
-          },
-          {
-            "distribution": [ { "item": "sunglasses", "prob": 80 }, { "item": "fancy_sunglasses", "prob": 20 } ],
-            "prob": 20
-          },
+          { "item": "sunglasses_eye", "prob": 15 },
+          { "item": "sunglasses_reading", "prob": 10 },
+          { "item": "sunglasses_bifocal", "prob": 5 },
+          { "item": "transition_glasses_eye", "prob": 9 },
+          { "item": "transition_glasses_reading", "prob": 6 },
+          { "item": "transition_glasses_bifocal", "prob": 3 },
+          { "item": "sunglasses", "prob": 20 },
           {
             "collection": [
               {
                 "distribution": [
-                  { "distribution": [ { "item": "glasses_eye", "prob": 80 }, { "item": "fancy_glasses_eye", "prob": 20 } ], "prob": 45 },
-                  {
-                    "distribution": [ { "item": "glasses_reading", "prob": 80 }, { "item": "fancy_glasses_reading", "prob": 20 } ],
-                    "prob": 30
-                  },
-                  {
-                    "distribution": [ { "item": "glasses_bifocal", "prob": 80 }, { "item": "fancy_glasses_bifocal", "prob": 20 } ],
-                    "prob": 20
-                  }
+                  { "item": "glasses_eye", "prob": 45 },
+                  { "item": "glasses_reading", "prob": 30 },
+                  { "item": "glasses_bifocal", "prob": 20 }
                 ]
               },
               { "item": "fitover_sunglasses" }
@@ -2551,7 +2524,7 @@
   {
     "type": "item_group",
     "id": "swimmer_glasses",
-    "items": [ [ "goggles_swim", 80 ], [ "fancy_sunglasses", 5 ], [ "fitover_sunglasses", 5 ], [ "sunglasses", 10 ] ]
+    "items": [ [ "goggles_swim", 80 ], [ "fitover_sunglasses", 5 ], [ "sunglasses", 10 ] ]
   },
   {
     "type": "item_group",

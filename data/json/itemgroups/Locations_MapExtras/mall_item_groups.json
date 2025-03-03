@@ -108,24 +108,14 @@
       [ "sunglasses", 30 ],
       [ "glasses_bifocal", 30 ],
       [ "glasses_safety", 30 ],
-      [ "fancy_sunglasses", 5 ],
       [ "glasses_reading", 50 ],
       [ "glasses_eye", 85 ],
-      [ "fancy_glasses_bifocal", 15 ],
-      [ "fancy_glasses_reading", 25 ],
-      [ "fancy_glasses_eye", 40 ],
       [ "sunglasses_bifocal", 25 ],
       [ "sunglasses_reading", 35 ],
       [ "sunglasses_eye", 50 ],
-      [ "fancy_sunglasses_bifocal", 10 ],
-      [ "fancy_sunglasses_reading", 15 ],
-      [ "fancy_sunglasses_eye", 30 ],
       [ "transition_glasses_bifocal", 5 ],
       [ "transition_glasses_reading", 10 ],
-      [ "transition_glasses_eye", 20 ],
-      [ "fancy_transition_glasses_bifocal", 2 ],
-      [ "fancy_transition_glasses_reading", 5 ],
-      [ "fancy_transition_glasses_eye", 10 ]
+      [ "transition_glasses_eye", 20 ]
     ]
   },
   {
