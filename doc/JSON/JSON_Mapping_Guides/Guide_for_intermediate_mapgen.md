@@ -116,7 +116,7 @@ Note the ID is now `nested_mapgen_id` and the object uses a new entry `mapgensiz
 
 * `flags`:  More information about mapgen flags can be found in [doc/JSON/MAPGEN.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/JSON/MAPGEN.md#clearing-flags-for-layered-mapgens)
 
-* `terrain` & `furniture`:   Without `fill_ter`, you need to define every floor terrain under furniture.  If you don't it will fall back to the main mapgen's `fill_ter`.  In the above example, there's a green carpet in 1/2 the map and the rest picks up the floor of the mapgen (indoor concrete).  If you need to overwrite existing furniture in the main mapgen you can use a combination of `t_null` and `f_null` to override preexisting mapgen.
+* `terrain` & `furniture`: If you don't want to overwrite existing terrain and furniture from the main mapgen you can use a combination of `t_null` and `f_null`. ` ` is `t_null` and `f_null` by default. For example in the above example, there's a green carpet in 1/2 the map and the rest picks up the floor of the mapgen (indoor concrete). `f_clear` can also be used to remove existing furniture without replacing it.
 
 _Tips:_
 If you're doing interior spaces, pay attention to door placement and access pathways.

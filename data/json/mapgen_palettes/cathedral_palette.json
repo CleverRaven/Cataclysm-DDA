@@ -86,8 +86,9 @@
       "c": { "item": "makeshift_memorial", "chance": 50 },
       "D": { "item": "school", "chance": 50 },
       "b": { "item": "church", "chance": 10 },
-      "a": { "item": "trash", "chance": 80, "repeat": [ 1, 3 ] },
-      "l": { "item": "SUS_janitors_closet", "chance": 100 }
+      "a": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 3 ] },
+      "l": { "item": "SUS_janitors_closet", "chance": 100 },
+      "T": { "item": "SUS_toilet", "chance": 50 }
     },
     "toilets": { "T": {  } }
   }

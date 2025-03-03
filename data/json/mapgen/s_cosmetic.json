@@ -106,7 +106,7 @@
         "  --------------------- "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 5, 19 ], "y": [ 5, 22 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 5, 19 ], "y": [ 5, 22 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [ [ "null", 30 ], [ "roof_6x6_utility", 30 ], [ "roof_4x4_utility_1", 40 ] ],

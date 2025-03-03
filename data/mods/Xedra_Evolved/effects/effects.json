@@ -2261,6 +2261,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_extracting_dreamsparks",
+    "//": "Hidden effect, used to distinguish magical quick weather change from the weather returning to normal",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_invisibility",
     "name": [ "Hidden from Mortal Eyes" ],
     "desc": [ "They could have sworn you were there a moment ago." ],

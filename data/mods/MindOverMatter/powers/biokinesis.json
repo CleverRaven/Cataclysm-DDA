@@ -181,7 +181,7 @@
     "damage_type": "biological",
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('biokin_dash') * 0.5) + 3 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 12)"
+        "min( ( ( (u_spell_level('biokin_dash') * 0.5) + 3 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 12) * (u_effect_intensity('effect_biokin_combat_dance') > -1 ? (1.25 + (u_spell_level('biokin_combat_dance') * 0.03) ) : 1 )"
       ]
     },
     "max_range": 12
@@ -558,7 +558,7 @@
     "id": "biokin_guided_evolution",
     "type": "SPELL",
     "name": "[Ψ]Guided Evolution (C)",
-    "description": "With a large amount of focus, you can maintain a targeted control over any alterations to your body.  Whenever you mutate, you will have additional options to select from.  This power does not cause you to mutate on its own.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "description": "With a large amount of focus, you can maintain a targeted control over any alterations to your body.  Whenever you mutate, you will have additional options to select from.  This power does not cause you to mutate on its own.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.  It requires <color_yellow>even more concentration</color> than usual.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -597,7 +597,7 @@
     "type": "SPELL",
     "name": "[Ψ]Combat Dance",
     "description": "You can flood your body with psionic power to enhance your combat prowess.",
-    "message": "A surge of power fills your body and you begin moving with terrible purpose!",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
@@ -606,25 +606,29 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_biokin_combat_dance",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_COMBAT_DANCE_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('biokin_combat_dance') * 500) + 4000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_combat_dance') * 1200) + 4000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('biokin_combat_dance') * 1100) + 20000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_combat_dance') * 5900) + 20000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "base_energy_cost": 5500,
-    "final_energy_cost": 2250,
-    "energy_increment": -125,
-    "base_casting_time": 100,
-    "final_casting_time": 40,
-    "casting_time_increment": -4
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_combat_dance') > -1 ? 0 : max( 5500 - ( u_spell_level('biokin_combat_dance') * 125 ), 2250 )"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_combat_dance') > -1 ? 10 : max( 100 - ( u_spell_level('biokin_combat_dance') * 4 ), 40 )"
+      ]
+    }
   },
   {
     "id": "biokin_perfected_motion",

@@ -43,7 +43,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -80,6 +80,7 @@ static const furn_str_id furn_f_sign_warning( "f_sign_warning" );
 static const furn_str_id furn_f_tourist_table( "f_tourist_table" );
 static const furn_str_id furn_f_wreckage( "f_wreckage" );
 
+static const item_group_id Item_spawn_data_SUS_trash_floor( "SUS_trash_floor" );
 static const item_group_id Item_spawn_data_ammo_casings( "ammo_casings" );
 static const item_group_id Item_spawn_data_army_bed( "army_bed" );
 static const item_group_id Item_spawn_data_everyday_corpse( "everyday_corpse" );
@@ -88,7 +89,6 @@ static const item_group_id Item_spawn_data_mine_equipment( "mine_equipment" );
 static const item_group_id
 Item_spawn_data_mon_zombie_soldier_death_drops( "mon_zombie_soldier_death_drops" );
 static const item_group_id Item_spawn_data_remains_human_generic( "remains_human_generic" );
-static const item_group_id Item_spawn_data_trash_cart( "trash_cart" );
 
 static const itype_id itype_223_casing( "223_casing" );
 static const itype_id itype_762_51_casing( "762_51_casing" );
@@ -481,7 +481,11 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
 
     tinymap m;
     if( bridge_at_north && road_at_south ) {
-        m.load( abs_omt + point::south, false );
+        // Remove vehicles. They don't make sense here, and may cause collision crashes.
+        m.load( abs_omt + point::south, true );
+        for( wrapped_vehicle &veh : m.get_vehicles() ) {
+            m.cast_to_map()->detach_vehicle( veh.v );
+        }
 
         //Sandbag block at the left edge
         line_furn( &m, furn_f_sandbag_half, point_omt_ms( 3, 4 ), point_omt_ms( 3, 7 ) );
@@ -588,7 +592,12 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
     }
 
     if( bridge_at_south && road_at_north ) {
-        m.load( abs_omt + point::north, false );
+        // Remove vehicles. They don't make sense here, and may cause collision crashes.
+        m.load( abs_omt + point::north, true );
+        for( wrapped_vehicle &veh : m.get_vehicles() ) {
+            m.cast_to_map()->detach_vehicle( veh.v );
+        }
+
         //Two horizontal lines of sandbags
         line_furn( &m, furn_f_sandbag_half, point_omt_ms( 5, 15 ), point_omt_ms( 10, 15 ) );
         line_furn( &m, furn_f_sandbag_half, point_omt_ms( 13, 15 ), point_omt_ms( 18, 15 ) );
@@ -697,7 +706,12 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
     }
 
     if( bridge_at_west && road_at_east ) {
-        m.load( abs_omt + point::east, false );
+        // Remove vehicles. They don't make sense here, and may cause collision crashes.
+        m.load( abs_omt + point::east, true );
+        for( wrapped_vehicle &veh : m.get_vehicles() ) {
+            m.cast_to_map()->detach_vehicle( veh.v );
+        }
+
         //Draw walls of first tent
         square_furn( &m, furn_f_canvas_wall, point_omt_ms( 0, 3 ), point_omt_ms( 4, 13 ) );
 
@@ -851,7 +865,12 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
     }
 
     if( bridge_at_east && road_at_west ) {
-        m.load( abs_omt + point::west, false );
+        // Remove vehicles. They don't make sense here, and may cause collision crashes.
+        m.load( abs_omt + point::west, true );
+        for( wrapped_vehicle &veh : m.get_vehicles() ) {
+            m.cast_to_map()->detach_vehicle( veh.v );
+        }
+
         //Spawn military cargo truck blocking the entry
         m.add_vehicle( vehicle_prototype_military_cargo_truck, tripoint_omt_ms( 15, 11, abs_sub.z() ),
                        270_degrees, 70, 1 );
@@ -928,7 +947,7 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
                 }
             }
             //Spawn trash in a crate and its surroundings
-            m.place_items( Item_spawn_data_trash_cart, 80, { 19, 11, abs_sub.z()},
+            m.place_items( Item_spawn_data_SUS_trash_floor, 80, { 19, 11, abs_sub.z()},
             { 21, 13, abs_sub.z()}, false, calendar::start_of_cataclysm );
         } else {
             m.spawn_item( tripoint_omt_ms{ 20, 11, abs_sub.z()}, itype_hatchet );
@@ -936,7 +955,7 @@ static bool mx_minefield( map &, const tripoint_abs_sm &abs_sub )
             m.spawn_item( tripoint_omt_ms{ 20, 14, abs_sub.z()}, itype_acoustic_guitar );
 
             //Spawn trash in a crate
-            m.place_items( Item_spawn_data_trash_cart, 80, { 20, 12, abs_sub.z()},
+            m.place_items( Item_spawn_data_SUS_trash_floor, 80, { 20, 12, abs_sub.z()},
             { 20, 12, abs_sub.z()}, false, calendar::start_of_cataclysm );
         }
 

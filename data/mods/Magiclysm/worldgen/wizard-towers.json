@@ -146,8 +146,8 @@
       "9": "f_bookcase"
     },
     "items": {
-      "&": { "item": "trash", "chance": 50, "repeat": [ 1, 2 ] },
-      "й": { "item": "trash", "chance": 50, "repeat": [ 1, 2 ] },
+      "&": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 2 ] },
+      "й": { "item": "SUS_trash_floor", "chance": 50, "repeat": [ 1, 2 ] },
       "a": [
         { "item": "dresser", "chance": 50, "repeat": [ 1, 8 ] },
         { "item": "allclothes", "chance": 10, "repeat": [ 1, 3 ] },

@@ -29,7 +29,7 @@
 #include "ret_val.h"
 #include "talker.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "veh_appliance.h"
 
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );

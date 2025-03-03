@@ -847,7 +847,7 @@ struct islot_gun : common_ranged_data {
     /**
     *  Multiplier of the chance for the gun to jam.
     */
-    double gun_jam_mult = 1;
+    double gun_jam_mult = 1.0;
 
     std::map<ammotype, std::set<itype_id>> cached_ammos;
 

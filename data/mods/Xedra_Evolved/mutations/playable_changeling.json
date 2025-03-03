@@ -124,6 +124,61 @@
   },
   {
     "type": "mutation",
+    "id": "CHANGELING_DREAMSPARK_STORAGE_10",
+    "name": { "str": "Dreamspark Storage 10", "//~": "NO_I18N" },
+    "points": 1,
+    "description": { "str": "This is dreamspark storage.  It should not be visible.", "//~": "NO_I18N" },
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "integrated_armor": [ "integrated_dreamspark_storage_10" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DREAMSPARK_STORAGE_20",
+    "name": { "str": "Dreamspark Storage 20", "//~": "NO_I18N" },
+    "points": 1,
+    "description": { "str": "This is dreamspark storage.  It should not be visible.", "//~": "NO_I18N" },
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "integrated_armor": [ "integrated_dreamspark_storage_20" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DREAMSPARK_STORAGE_30",
+    "name": { "str": "Dreamspark Storage 30", "//~": "NO_I18N" },
+    "points": 1,
+    "description": { "str": "This is dreamspark storage.  It should not be visible.", "//~": "NO_I18N" },
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "integrated_armor": [ "integrated_dreamspark_storage_30" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DREAMSPARK_STORAGE_40",
+    "name": { "str": "Dreamspark Storage 40", "//~": "NO_I18N" },
+    "points": 1,
+    "description": { "str": "This is dreamspark storage.  It should not be visible.", "//~": "NO_I18N" },
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "integrated_armor": [ "integrated_dreamspark_storage_40" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DREAMSPARK_STORAGE_50",
+    "name": { "str": "Dreamspark Storage 50", "//~": "NO_I18N" },
+    "points": 1,
+    "description": { "str": "This is dreamspark storage.  It should not be visible.", "//~": "NO_I18N" },
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "integrated_armor": [ "integrated_dreamspark_storage_50" ]
+  },
+  {
+    "type": "mutation",
     "id": "UNKNOWING_CHANGELING_NOBLE",
     "name": { "str": "Changeling" },
     "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  While you find it uncomfortable ever since your heritage asserted itself, your time in the mortal realm has inured you to the presence of iron.  However, it has not done so enough to allow you to install any CBMs.",

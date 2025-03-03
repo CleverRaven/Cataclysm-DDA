@@ -347,6 +347,7 @@
       "terrain": {  },
       "furniture": {  },
       "palettes": [ "nuclear_plant_palette" ],
+      "set": [ { "square": "radiation", "amount": [ 1, 10 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
       "place_furniture": [
         { "furn": "f_diesel_generator", "x": 233, "y": 60 },
         { "furn": "f_diesel_generator", "x": 130, "y": 116 },

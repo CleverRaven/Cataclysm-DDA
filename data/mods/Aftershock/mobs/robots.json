@@ -112,13 +112,13 @@
     ],
     "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "BIOLOGICALPROOF", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ],
-    "armor": { "bash": 18, "cut": 14, "bullet": 11 }
+    "armor": { "bash": 50, "cut": 70, "bullet": 90, "afs_laser": 70, "afs_plasma": 50, "electric": 25 }
   },
   {
     "id": "mon_tankbot",
     "type": "MONSTER",
     "name": { "str": "Wraitheon Regulator" },
-    "description": "Designed by Wraitheon, the Regulator is a refrigerator-sized UGV designed for high-risk urban fighting.  Armed with an anti-material missile launcher, a 40mm grenade launcher, and several anti-personnel weapons, it's designed to match the fervor of freedom fighters with the industrial might of Earth.",
+    "description": "Designed by Wraitheon, the Regulator is effectively an automated battle tank designed for high-risk urban fighting.  Armed with an anti-material missile launcher, a 40mm grenade launcher, and several anti-personnel weapons, it's designed to match the fervor of freedom fighters with the industrial might of Earth.",
     "default_faction": "WraitheonRobotics",
     "species": [ "ROBOT" ],
     "diff": 30,
@@ -193,7 +193,7 @@
       "PRIORITIZE_TARGETS",
       "DROPS_AMMO"
     ],
-    "armor": { "bash": 90, "cut": 90, "bullet": 72 }
+    "armor": { "bash": 50, "cut": 70, "bullet": 90, "afs_laser": 70, "afs_plasma": 50, "electric": 25 }
   },
   {
     "id": "mon_tripod",
@@ -253,7 +253,7 @@
       "PRIORITIZE_TARGETS",
       "FIREPROOF"
     ],
-    "armor": { "bash": 12, "cut": 8, "bullet": 6 }
+    "armor": { "bash": 37, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
   },
   {
     "id": "afs_mon_sentinel_lx",
@@ -306,7 +306,8 @@
       "PATH_AVOID_DANGER",
       "HIT_AND_RUN"
     ],
-    "armor": { "bash": 10, "cut": 20, "bullet": 16 }
+    "//": "Much lower armor than usual since this is a player allied robot only.",
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   },
   {
     "id": "mon_bloodhound_drone",
@@ -331,7 +332,7 @@
     "death_function": { "corpse_type": "BROKEN" },
     "extend": { "flags": [ "HIT_AND_RUN", "SMELLS" ] },
     "delete": { "flags": [ "PACIFIST" ] },
-    "armor": { "bash": 2, "cut": 8, "bullet": 6 }
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   },
   {
     "id": "mon_utilibot",
@@ -343,7 +344,7 @@
     "species": [ "ROBOT" ],
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 120,
+    "hp": 150,
     "speed": 70,
     "material": [ "steel" ],
     "symbol": "R",
@@ -355,14 +356,16 @@
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "broken_robots", 3 ] ] },
     "flags": [ "SEES", "HEARS", "ELECTRONIC", "BIOLOGICALPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER" ],
-    "armor": { "bash": 8, "cut": 8, "acid": 6, "heat": 4 }
+    "armor": { "bash": 15, "cut": 20, "bullet": 30, "afs_laser": 10 }
   },
   {
     "id": "mon_hazmatbot",
     "type": "MONSTER",
     "copy-from": "mon_utilibot",
     "name": "TsKBEM Likvidator",
-    "description": "A now ancient industrial robot line first made by the Soviet TsKBEM, and still in use thanks to its easily obtained fabrication schematics.  Built to operate within nuclear reactors and waste repositories, the Likvidator is assembled around an armored bipedal chassis that mounts several heavy manipulator arms.  Legend claims it was originally designed after a nuclear disaster during early space-age Earth."
+    "description": "A now ancient industrial robot line first made by the Soviet TsKBEM, and still in use thanks to its easily obtained fabrication schematics.  Built to operate within nuclear reactors and waste repositories, the Likvidator is assembled around an armored bipedal chassis that mounts several heavy manipulator arms.  Legend claims it was originally designed after a nuclear disaster during early space-age Earth.",
+    "hp": 250,
+    "armor": { "bash": 15, "cut": 20, "bullet": 30, "afs_laser": 10 }
   },
   {
     "id": "mon_utilibot_butler",
@@ -383,8 +386,7 @@
     "weight": "680388 g",
     "luminance": 10,
     "melee_skill": 2,
-    "melee_dice": 4,
-    "melee_dice_sides": 6,
+    "speed": 80,
     "hp": 400,
     "armor": { "bash": 12, "cut": 20, "bullet": 12, "acid": 80, "heat": 20 },
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
@@ -404,18 +406,16 @@
   {
     "id": "mon_utilibot_hostile",
     "type": "MONSTER",
-    "copy-from": "mon_utilibot",
+    "copy-from": "mon_utilibot_const",
     "name": "rampant Udarnik",
     "description": "An erratic and dangerous Udarnik that mistakenly attempts to hammer everything on its sights.  Although this corrupted robot is not built for combat, its sheer size and hydraulic strength make it extremely dangerous up close.",
     "default_faction": "rampant_machine",
     "color": "yellow",
-    "luminance": 10,
     "melee_skill": 4,
     "morale": 20,
     "aggression": 50,
     "melee_dice": 4,
     "melee_dice_sides": 6,
-    "speed": 80,
     "special_attacks": [ { "id": "smash", "throw_strength": 96 } ],
     "extend": { "flags": [ "BASHES", "DESTROYS", "ATTACKMON" ] }
   },
@@ -453,12 +453,12 @@
       "PATH_AVOID_DANGER",
       "STUN_IMMUNE"
     ],
-    "armor": { "bash": 15, "cut": 30, "acid": 100, "bullet": 25, "heat": 20, "afs_plasma": 1 }
+    "armor": { "bash": 37, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
   },
   {
     "id": "mon_utilibot_fire",
     "type": "MONSTER",
-    "copy-from": "mon_utilibot",
+    "copy-from": "mon_utilibot_const",
     "name": "TsKBEM Brandspojt",
     "description": "An old and decidedly uncommon firefighter robot of Soviet design.  Crab-like in form, its back mounts a squat water tank beneath a turreted water cannon.  While effective for its original function, the design lacks the flexibility of others from the TsKBEM, and most Brandspojt units still in existence are museum pieces.",
     "color": "yellow",
@@ -490,6 +490,7 @@
     "symbol": "y",
     "diff": 40,
     "speed": 100,
+    "hp": 120,
     "volume": "1750 ml",
     "weight": "1 kg",
     "color": "green",
@@ -511,7 +512,6 @@
         "ranges": [ [ 0, 6, "DEFAULT" ] ]
       }
     ],
-    "armor": { "stab": 6, "acid": 12, "bash": 20, "cut": 30, "heat": 15, "bullet": 35 },
     "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
@@ -541,7 +541,7 @@
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "broken_robots", 3 ] ] },
     "flags": [ "SEES", "HEARS", "ELECTRONIC", "BIOLOGICALPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER" ],
-    "armor": { "bash": 6, "cut": 6, "acid": 6, "heat": 2 }
+    "armor": { "bash": 15, "cut": 20, "bullet": 30, "afs_laser": 10 }
   },
   {
     "id": "mon_skitterbot_rat",
@@ -563,7 +563,7 @@
     "melee_dice_sides": 2,
     "special_attacks": [ { "type": "leap", "cooldown": 2, "move_cost": 0, "max_range": 2, "min_consider_range": 3 }, [ "TAZER", 10 ] ],
     "extend": { "flags": [ "CLIMBS", "HIT_AND_RUN", "SMELLS" ] },
-    "armor": { "bullet": 10, "electric": 5, "bash": 4, "cut": 4 }
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   },
   {
     "id": "mon_skitterbot_grab",
@@ -585,7 +585,7 @@
     "grab_strength": 50,
     "special_attacks": [ { "id": "grab", "cooldown": 2 } ],
     "extend": { "flags": [ "SWARMS", "GRABS", "GROUP_BASH", "SMELLS" ] },
-    "armor": { "bullet": 10, "electric": 5, "bash": 8, "cut": 8 }
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   },
   {
     "id": "mon_skitterbot_hunter",
@@ -614,7 +614,7 @@
         "ranges": [ [ 0, 10, "DEFAULT" ] ]
       }
     ],
-    "armor": { "bullet": 10, "electric": 5, "bash": 8, "cut": 8 }
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   },
   {
     "id": "mon_defbot_shot",
@@ -638,28 +638,37 @@
         "ranges": [ [ 0, 8, "DEFAULT" ] ]
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": [ "DROPS_AMMO" ] },
+    "//": "Medium instead of heavy armor, since this is a 'non-military' robot.",
+    "armor": { "bash": 15, "cut": 20, "bullet": 30, "afs_laser": 10 }
   },
   {
     "id": "mon_milbot_556",
     "type": "MONSTER",
     "copy-from": "mon_milbot_base",
     "name": "Wraitheon Imaginifer",
-    "description": "The Imaginifer, one of the few examples of true humaniform robots, was manufactured by Wraitheon for ESCA militaries.  They are designed to complement infantry soldiers, being able to use their gear and transports.  While similar in shape, they are far removed from the ENIAC's Famulus.  The Wraitheon humaniforms are designed to take full advantage of a humanoid shape, not to look human; programmed for game theory, not for sapience.",
+    "description": "Imaginifers are Wraitheon Industries standard military humaniforms, company parlance for an android designed to seamlessly integrate into standard infantry units.  Although originally designed for UICA's expeditionary forces they are now commonly employed by any faction that can afford them.  This particular unit seems to belong to the Company itself.\n\nWraitheon humaniforms are designed to take full advantage of a humanoid shape, not to look human; programmed for game theory, not for sapience.",
     "diff": 20,
+    "hp": 600,
+    "speed": 95,
+    "default_faction": "WraitheonRobotics",
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "melee_skill": 6,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "starting_ammo": { "556": 1600 },
+    "starting_ammo": { "afs_7.50mm_caseless": 90 },
+    "vision_day": 50,
+    "vision_night": 50,
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 2,
         "move_cost": 150,
-        "gun_type": "modular_m16_auto_rifle",
-        "ammo_type": "556",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "gun_type": "afs_sr77",
+        "ammo_type": "afs_7.50mm_caseless",
+        "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "ranges": [ [ 0, 4, "BURST" ], [ 5, 8, "AUTO" ], [ 9, 16, "DEFAULT" ] ],
+        "ranges": [ [ 4, 8, "AUTO" ], [ 9, 36, "DEFAULT" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -669,24 +678,25 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": [ "DROPS_AMMO" ] },
+    "armor": { "bash": 37, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
   },
   {
     "id": "mon_milbot_needle",
     "type": "MONSTER",
-    "copy-from": "mon_milbot_base",
+    "copy-from": "mon_milbot_556",
     "name": "Wraitheon Hashashiyyin",
-    "description": "The Hashashiyyin is unorthodox in its design as a military humaniform.  While it keeps the strength of most Wraitheon humaniforms, it also prioritizes stealth.  It comes equipped with an integrated 5x50mm flechette gun.",
+    "description": "An imaginifer variant of unorthodox design, the Hashashiyyin dispenses with most of its armor in favor of active-camo systems and a lightweight, more agile frame.  Commonly employed in scouting and counter-sniping roles.  This unit is equipped for close range ambush, and weilds a 35x50mm dart gun.",
     "diff": 15,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "starting_ammo": { "afs_5x50dart": 1000 },
+    "starting_ammo": { "3x35dart": 1000 },
     "special_attacks": [
       {
         "type": "gun",
         "move_cost": 150,
         "cooldown": 2,
-        "gun_type": "afs_needlegun",
-        "ammo_type": "afs_5x50dart",
+        "gun_type": "wasp_gun",
+        "ammo_type": "3x35dart",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
@@ -700,7 +710,8 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": [ "DROPS_AMMO" ] },
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   },
   {
     "id": "mon_milbot_40mm",
@@ -732,7 +743,8 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": [ "DROPS_AMMO" ] },
+    "armor": { "bash": 50, "cut": 70, "bullet": 90, "afs_laser": 70, "afs_plasma": 50, "electric": 25 }
   },
   {
     "id": "mon_advbot_laser",
@@ -759,7 +771,8 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 20
       }
-    ]
+    ],
+    "armor": { "bash": 37, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
   },
   {
     "id": "mon_wraitheon_irradiant",
@@ -793,14 +806,14 @@
       },
       { "type": "leap", "cooldown": 10, "max_range": 8 }
     ],
-    "armor": { "stab": 6, "acid": 12, "bash": 20, "cut": 30, "heat": 15, "bullet": 35 }
+    "armor": { "bash": 37, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
   },
   {
     "id": "mon_wraitheon_isohypsa",
     "type": "MONSTER",
     "copy-from": "mon_advbot_base",
     "name": "Wraitheon Isohypsa",
-    "description": "A bulky if not particularly large aerial drone, with an advanced AI overwatch unit and a bulbous carapace, mostly dedicated to mounting high-resolution sensors.  As an autonomous drone control platform, the Isohypsa is principally meant to coordinate and enhance the combat capabilities of simpler Wraitheon robots in lieu of human operators.",
+    "description": "A bulky aerial drone that mounts an advanced AI overwatch unit within it bulbous carapace-like armor.  As an autonomous drone control platform, the Isohypsa is principally meant to coordinate and enhance the combat capabilities of simpler Wraitheon robots in lieu of human operators.",
     "default_faction": "WraitheonRobotics",
     "symbol": "y",
     "diff": 20,
@@ -817,7 +830,7 @@
         "monster_message": "The Isohypsa emits a rapid sequence of sibilant tones!"
       }
     ],
-    "armor": { "stab": 6, "acid": 12, "bash": 20, "cut": 30, "heat": 15, "bullet": 35 }
+    "armor": { "bash": 15, "cut": 20, "bullet": 30, "afs_laser": 10 }
   },
   {
     "id": "mon_wraitheon_kaburaya",
@@ -831,8 +844,7 @@
     "color": "green",
     "revert_to_itype": "bot_wraitheon_kaburaya",
     "starting_ammo": { "afs_kaburaya_bomb": 1 },
-    "special_attacks": [ [ "KAMIKAZE", 0 ] ],
-    "armor": { "cut": 4, "bullet": 3 }
+    "special_attacks": [ [ "KAMIKAZE", 0 ] ]
   },
   {
     "id": "mon_advbot_emp",
@@ -859,7 +871,8 @@
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       }
-    ]
+    ],
+    "armor": { "bash": 37, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
   },
   {
     "id": "mon_shock_mine",
@@ -926,8 +939,7 @@
     "special_attacks": [ [ "PHOTOGRAPH", 30 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "FLIES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS", "STUN_IMMUNE" ],
-    "armor": { "bash": 8, "cut": 10, "bullet": 8 }
+    "flags": [ "SEES", "FLIES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS", "STUN_IMMUNE" ]
   },
   {
     "id": "mon_afs_copbot",
@@ -968,7 +980,7 @@
       "PATH_AVOID_DANGER",
       "STUN_IMMUNE"
     ],
-    "armor": { "bash": 12, "cut": 8, "bullet": 6 }
+    "armor": { "bash": 15, "cut": 20, "bullet": 30, "afs_laser": 10 }
   },
   {
     "id": "mon_afs_riotbot",
@@ -1007,7 +1019,8 @@
       "PATH_AVOID_DANGER",
       "STUN_IMMUNE"
     ],
-    "armor": { "bash": 12, "cut": 8, "bullet": 6 }
+    "//": "Medium instead of heavy armor, since this is a 'non-military' robot.",
+    "armor": { "bash": 15, "cut": 20, "bullet": 30, "afs_laser": 10 }
   },
   {
     "id": "mon_mech_horse",
@@ -1055,7 +1068,7 @@
       "PATH_AVOID_FIRE",
       "STUN_IMMUNE"
     ],
-    "armor": { "bash": 10, "cut": 15, "bullet": 10 }
+    "armor": { "bash": 37, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
   },
   {
     "type": "GENERIC",
@@ -1098,6 +1111,7 @@
     "type": "MONSTER",
     "copy-from": "mon_milbot_556",
     "name": "UICA Imaginifer",
+    "description": "Imaginifers are Wraitheon Industries standard military humaniforms, company parlance for an android designed to seamlessly integrate into standard infantry units.  This particular unit is currently equipped with light blue UICA livery and wields a SR-P77.  Its rugged design and technological sophistication make it far more formidable than the human soldiers its nominally meant to support.\n\nThe Wraitheon humaniforms are designed to take full advantage of a humanoid shape, not to look human; programmed for game theory, not for sapience.",
     "aggression": 0,
     "aggro_character": false,
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ]

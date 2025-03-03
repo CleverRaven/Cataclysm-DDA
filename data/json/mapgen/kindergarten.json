@@ -54,6 +54,7 @@
       "toilets": { "t": {  } },
       "items": {
         "c": { "item": "SUS_junk_drawer_artsy", "chance": 90, "repeat": [ 1, 3 ] },
+        "t": { "item": "SUS_toilet", "chance": 50 },
         "B": { "item": "kids_books", "chance": 60, "repeat": [ 2, 4 ] },
         "C": { "item": "toy_box", "chance": 80, "repeat": [ 4, 10 ] },
         "S": { "item": "SUS_evac_shelter_bathroom_counter", "chance": 75, "repeat": [ 1, 4 ] }

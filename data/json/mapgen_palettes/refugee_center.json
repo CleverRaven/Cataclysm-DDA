@@ -61,6 +61,7 @@
       "~": "f_shower"
     },
     "vendingmachines": { "l": { "lootable": true } },
+    "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "t": {  } }
   },
   {

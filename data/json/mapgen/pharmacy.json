@@ -61,6 +61,7 @@
       },
       "toilets": { "&": {  } },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "c": [ { "item": "magazines", "chance": 10 } ],
         "f": { "item": "fridgesnacks", "chance": 60, "repeat": [ 1, 12 ] },
         "1": { "item": "magazines", "chance": 50, "repeat": [ 4, 16 ] },
@@ -111,7 +112,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 2, 20 ], "y": [ 5, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 2, 20 ], "y": [ 5, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [
@@ -214,7 +215,8 @@
         "x": { "item": "drugs_pharmacy", "chance": 60, "repeat": [ 1, 6 ] },
         "&": { "item": "jackets", "chance": 30 },
         "G": { "item": "behindcounter", "chance": 60 },
-        "S": { "item": "softdrugs", "chance": 60 }
+        "S": { "item": "softdrugs", "chance": 60 },
+        "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [ { "group": "cash_register_random", "x": 4, "y": [ 8, 12 ] } ]
     }

@@ -5221,5 +5221,24 @@
     "id": "eff_mind_seeing_bonus_30",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "triffid_fiber_indigestion",
+    "name": [ "Uneasy stomach", "Bloated stomach", "Strained stomach", "Overloaded stomach" ],
+    "desc": [ "Your stomach constantly feels like it's full, even when you haven't eaten in awhile." ],
+    "apply_message": "Your stomach starts to feel strange and bloated.",
+    "remove_message": "Your stomach feels normal again.",
+    "decay_messages": [ [ "Your gut feels less bloated.", "good" ], [ "You feel the strain in your stomach lessen.", "good" ] ],
+    "max_intensity": 4,
+    "base_mods": { "vomit_chance": [ 6000 ] },
+    "scaling_mods": { "vomit_chance": [ -300 ], "pain_min": [ 1 ], "pain_max_val": [ 4 ] },
+    "enchantments": [
+      {
+        "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": { "math": [ "u_vitamin('triffid_fiber') / -275" ] } } ]
+      },
+      { "condition": "ALWAYS", "values": [ { "value": "THIRST", "multiply": 0.2 } ] }
+    ],
+    "rating": "bad"
   }
 ]

@@ -33,8 +33,8 @@
   {
     "type": "item_group",
     "id": "ammo_box_shot",
-    "container-item": "ammo_box_army_5_shot",
-    "items": [ { "item": "shot_00", "count": 1, "charges": 5 } ]
+    "container-item": { "item": "12_ammo_box_5", "variant": "ammo_box_army_5_shot" },
+    "items": [ { "item": "shot_00", "charges": 5 } ]
   },
   {
     "//": "---------------------------------------------------",
@@ -52,8 +52,8 @@
   {
     "type": "item_group",
     "id": "ammo_box_beanbag",
-    "container-item": "ammo_box_army_5_beanbag",
-    "items": [ { "item": "shot_beanbag", "count": 1, "charges": 5 } ]
+    "container-item": { "item": "12_ammo_box_5", "variant": "ammo_box_army_5_beanbag" },
+    "items": [ { "item": "shot_beanbag", "charges": 5 } ]
   },
   {
     "//": "---------------------------------------------------",
@@ -71,7 +71,7 @@
   {
     "type": "item_group",
     "id": "ammo_box_slug",
-    "container-item": "ammo_box_army_5_slug",
-    "items": [ { "item": "shot_slug", "count": 1, "charges": 5 } ]
+    "container-item": { "item": "12_ammo_box_5", "variant": "ammo_box_army_5_slug" },
+    "items": [ { "item": "shot_slug", "charges": 5 } ]
   }
 ]

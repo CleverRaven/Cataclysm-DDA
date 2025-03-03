@@ -195,7 +195,7 @@
 #include "translation_cache.h"
 #include "translations.h"
 #include "trap.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_extended_description.h"
 #include "ui_manager.h"
 #include "uistate.h"
@@ -252,6 +252,7 @@ static const climbing_aid_id climbing_aid_furn_CLIMBABLE( "furn_CLIMBABLE" );
 static const damage_type_id damage_acid( "acid" );
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_stab( "stab" );
 
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_asked_to_train( "asked_to_train" );
@@ -2427,7 +2428,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( u.can_wield( *locThisItem ).success() ) {
                         contents_change_handler handler;
                         handler.unseal_pocket_containing( locThisItem );
-                        wield( locThisItem );
+                        u.wield( locThisItem );
                         handler.handle_by( u );
                     } else {
                         add_msg( m_info, "%s", u.can_wield( *locThisItem ).c_str() );
@@ -4411,6 +4412,7 @@ float game::natural_light_level( const int zlev ) const
 
     // Sunlight/moonlight related stuff
     ret = sun_moon_light_at( calendar::turn );
+    ret *= get_weather().weather_id->light_multiplier;
     ret += get_weather().weather_id->light_modifier;
 
     // Artifact light level changes here. Even though some of these only have an effect
@@ -6664,6 +6666,7 @@ void game::print_all_tile_info( const tripoint_bub_ms &lp, const catacurses::win
             }
             break;
     }
+    print_debug_info( lp, w_look, column, line );
     if( !inbounds ) {
         return;
     }
@@ -7002,6 +7005,19 @@ void game::print_graffiti_info( const tripoint_bub_ms &lp, const catacurses::win
                                           m.ter( lp ) == ter_t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
                                           m.graffiti_at( lp ) );
         line += lines - 1;
+    }
+}
+
+void game::print_debug_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
+                             const int column, int &line )
+{
+    if( debug_mode ) {
+        const map &here = get_map();
+
+        mvwprintz( w_look, point( column, ++line ), c_white, "tripoint_bub_ms: %s",
+                   lp.to_string_writable() );
+        mvwprintz( w_look, point( column, ++line ), c_white, "tripoint_abs_ms: %s",
+                   here.get_abs( lp ).to_string_writable() );
     }
 }
 
@@ -10464,120 +10480,6 @@ void game::reload_weapon( bool try_everything )
     reload_item();
 }
 
-void game::wield( item_location loc )
-{
-    map &here = get_map();
-
-    if( !loc ) {
-        debugmsg( "ERROR: tried to wield null item" );
-        return;
-    }
-    const item_location weapon = u.get_wielded_item();
-    if( weapon && weapon != loc && weapon->has_item( *loc ) ) {
-        add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
-        return;
-    }
-    if( u.has_wield_conflicts( *loc ) ) {
-        const bool is_unwielding = u.is_wielding( *loc );
-        const auto ret = u.can_unwield( *loc );
-
-        if( !ret.success() ) {
-            add_msg( m_info, "%s", ret.c_str() );
-        }
-
-        if( !u.unwield() ) {
-            return;
-        }
-
-        if( is_unwielding ) {
-            if( !u.martial_arts_data->selected_is_none() ) {
-                u.martial_arts_data->martialart_use_message( u );
-            }
-            return;
-        }
-    }
-    const auto ret = u.can_wield( *loc );
-    if( !ret.success() ) {
-        add_msg( m_info, "%s", ret.c_str() );
-    }
-    // Need to do this here because holster_actor::use() checks if/where the item is worn
-    item &target = *loc.get_item();
-    if( target.get_use( "holster" ) && !target.empty() ) {
-        //~ %1$s: holster name
-        if( query_yn( pgettext( "holster", "Draw from %1$s?" ),
-                      target.tname() ) ) {
-            u.invoke_item( &target );
-            return;
-        }
-    }
-
-    // Can't use loc.obtain() here because that would cause things to spill.
-    item to_wield = *loc.get_item();
-    item_location::type location_type = loc.where();
-    tripoint_bub_ms pos = loc.pos_bub( here );
-    const int obtain_cost = loc.obtain_cost( u );
-    int worn_index = INT_MIN;
-
-    // Need to account for case where we're trying to wield a weapon that belongs to someone else
-    if( !avatar_action::check_stealing( u, *loc.get_item() ) ) {
-        return;
-    }
-
-    if( u.is_worn( *loc.get_item() ) ) {
-        auto ret = u.can_takeoff( *loc.get_item() );
-        if( !ret.success() ) {
-            add_msg( m_info, "%s", ret.c_str() );
-            return;
-        }
-        int item_pos = u.get_item_position( loc.get_item() );
-        if( item_pos != INT_MIN ) {
-            worn_index = Character::worn_position_to_index( item_pos );
-        }
-    }
-    loc.remove_item();
-    if( !u.wield( to_wield, obtain_cost ) ) {
-        switch( location_type ) {
-            case item_location::type::container:
-                // this will not cause things to spill, as it is inside another item
-                loc = loc.obtain( u );
-                wield( loc );
-                break;
-            case item_location::type::character:
-                if( worn_index != INT_MIN ) {
-                    u.worn.insert_item_at_index( to_wield, worn_index );
-                } else {
-                    u.i_add( to_wield, true, nullptr, loc.get_item() );
-                }
-                break;
-            case item_location::type::map:
-                m.add_item( pos, to_wield );
-                break;
-            case item_location::type::vehicle: {
-                const std::optional<vpart_reference> ovp = m.veh_at( pos ).cargo();
-                // If we fail to return the item to the vehicle for some reason, add it to the map instead.
-                if( !ovp || !ovp->vehicle().add_item( here, ovp->part(), to_wield ) ) {
-                    m.add_item( pos, to_wield );
-                }
-                break;
-            }
-            case item_location::type::invalid:
-                debugmsg( "Failed wield from invalid item location" );
-                break;
-        }
-        return;
-    }
-}
-
-void game::wield()
-{
-    item_location loc = game_menus::inv::wield();
-
-    if( loc ) {
-        wield( loc );
-    } else {
-        add_msg( _( "Never mind." ) );
-    }
-}
 
 bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
 {
@@ -14359,12 +14261,30 @@ pulp_data game::calculate_character_ability_to_pulp( const Character &you )
 
     double pulp_power_bash = 1;
 
+    // the idea was that roll_damage() gonna handle melee skills, but it doesn't care for skill, apparently?
     const std::pair<float, item> pair_bash = you.get_best_weapon_by_damage_type( damage_bash );
     pulp_power_bash = pair_bash.first;
     pd.bash_tool = pair_bash.second.display_name();
 
     if( pair_bash.second.has_flag( flag_MESSY ) || pair_bash.first > 40 ) {
         pd.mess_radius = 2;
+    }
+
+    // bash is good, but the rest physical damages can be useful also
+    damage_instance di;
+    u.roll_damage( damage_cut, false, di, true, pair_bash.second, attack_vector_id::NULL_ID(),
+                   sub_bodypart_str_id::NULL_ID(), 1.f );
+
+    u.roll_damage( damage_stab, false, di, true, pair_bash.second, attack_vector_id::NULL_ID(),
+                   sub_bodypart_str_id::NULL_ID(), 1.f );
+
+    for( const damage_unit &du : di ) {
+        // potentially move it to json, if someone find necrotic mace +3 should pulp faster for some reason
+        if( du.type == damage_cut ) {
+            pulp_power_bash += du.amount / 3;
+        } else if( du.type == damage_stab ) {
+            pulp_power_bash += du.amount / 6;
+        }
     }
 
     const double weight_factor = units::to_kilogram( you.get_weight() ) / 10;
@@ -14389,32 +14309,33 @@ pulp_data game::calculate_character_ability_to_pulp( const Character &you )
     }
 
     add_msg_debug( debugmode::DF_ACTIVITY,
-                   "you: %s, bash weapon: %s, bash damage: %s, pulp_power_bash: %s, pulp_power_stomps: %s",
+                   "you: %s, bash weapon: %s, final pulp_power_bash: %s, pulp_power_stomps: %s",
                    you.name.c_str(), pair_bash.second.display_name().c_str(), pair_bash.first, pulp_power_bash,
                    pulp_power_stomps, bash_factor );
 
     bash_factor = std::pow( bash_factor, 1.8f );
-    std::pair<int, const item *> pair_cut = you.get_best_tool( qual_BUTCHER );
-    pd.cut_quality = pair_cut.first;
-    if( pd.cut_quality > 5 ) {
-        pd.can_severe_cutting = true;
-        pd.cut_tool = item::nname( pair_cut.second->typeId() );
+
+    const item &best_cut = you.best_item_with_quality( qual_BUTCHER );
+    if( best_cut.get_quality( qual_BUTCHER ) > 5 ) {
+        pd.can_cut_precisely = true;
+        pd.cut_tool = item::nname( best_cut.typeId() );
     }
 
-    std::pair<int, const item *> pair_pry;
-    if( you.max_quality( qual_PRY ) > 0 ) {
+    const item &best_pry = you.best_item_with_quality( qual_PRY );
+    if( best_pry.get_quality( qual_PRY ) > 0 ) {
         pd.can_pry_armor = true;
-        pair_pry = you.get_best_tool( qual_PRY );
-        pd.pry_tool = item::nname( pair_pry.second->typeId() );
+        pd.pry_tool = item::nname( best_pry.typeId() );
     }
 
     add_msg_debug( debugmode::DF_ACTIVITY,
-                   "final bash factor: %s, butcher tool name: %s, butcher tool quality: %s, prying tool name (if used): %s",
-                   bash_factor, pd.cut_tool, pd.cut_quality, pd.pry_tool );
+                   "final bash factor: %s, butcher tool name: %s, prying tool name (if used): %s",
+                   bash_factor, pd.cut_tool, pd.pry_tool );
 
-    pd.pulp_power = bash_factor
-                    * std::sqrt( you.get_skill_level( skill_survival ) + 2 )
-                    * ( pd.can_severe_cutting ? 1 : 0.85 );
+    const float skill_factor = std::sqrt( 2 + std::max(
+            you.get_skill_level( skill_survival ),
+            you.get_skill_level( skill_firstaid ) ) );
+
+    pd.pulp_power = bash_factor * skill_factor * ( pd.can_cut_precisely ? 1 : 0.85 );
 
     add_msg_debug( debugmode::DF_ACTIVITY, "final pulp_power: %s", pd.pulp_power );
 
@@ -14437,6 +14358,8 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
 pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse_mtype,
                                        pulp_data pd )
 {
+    // potentially make a new var and stash all this calculations in corpse
+
     double pow_factor;
     if( corpse_mtype.size == creature_size::huge ) {
         pow_factor = 1.2;
@@ -14446,9 +14369,13 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
         pow_factor = 1;
     }
 
+    float corpse_volume = units::to_liter( corpse_mtype.volume );
     // in seconds
-    int time_to_pulp =
-        ( std::pow( units::to_liter( corpse_mtype.volume ), pow_factor ) * 1000 ) / pd.pulp_power;
+    int time_to_pulp = ( std::pow( corpse_volume, pow_factor ) * 1000 ) / pd.pulp_power;
+
+    // in seconds also
+    // 30 seconds for human body volume of 62.5L, scale from this
+    int min_time_to_pulp = 30 * corpse_volume / 62.5;
 
     // +25% to pulp time if char knows no weakpoints of monster
     // -25% if knows all of them
@@ -14464,16 +14391,6 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
         time_to_pulp *= 1.25 - 0.5 * wp_known / corpse_mtype.families.families.size();
     }
 
-    const bool acid_immune = you.is_immune_damage( damage_acid ) ||
-                             you.is_immune_field( fd_acid );
-    // this corpse is acid, and you are not immune to it
-    pd.acid_corpse = corpse_mtype.bloodType().obj().has_acid && !acid_immune;
-
-    // if acid, you prefer to mainly cut corpse instead of bashing it, to not spray acid in your eyes
-    if( pd.acid_corpse ) {
-        time_to_pulp *= ( 300 - pd.cut_quality * 2 ) / 100;
-    }
-
     // you have a hard time pulling armor to reach important parts of this monster
     if( corpse_mtype.has_flag( mon_flag_PULP_PRYING ) ) {
         if( pd.can_pry_armor ) {
@@ -14483,13 +14400,23 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
         }
     }
 
-    pd.time_to_pulp = time_to_pulp;
+    pd.time_to_pulp = std::max( min_time_to_pulp, time_to_pulp );
 
     return pd;
 }
 
 bool game::can_pulp_corpse( const Character &you, const mtype &corpse_mtype )
 {
+
+    const bool acid_immune = you.is_immune_damage( damage_acid ) ||
+                             you.is_immune_field( fd_acid );
+    // this corpse is acid, and you are not immune to it
+    const bool acid_corpse = corpse_mtype.bloodType().obj().has_acid && !acid_immune;
+
+    if( acid_corpse ) {
+        return false;
+    }
+
     pulp_data pd = calculate_pulpability( you, corpse_mtype );
 
     return can_pulp_corpse( pd );
@@ -14497,6 +14424,21 @@ bool game::can_pulp_corpse( const Character &you, const mtype &corpse_mtype )
 
 bool game::can_pulp_corpse( const pulp_data &pd )
 {
+    // if pulping is longer than an hour, this is a hard no
+    return pd.time_to_pulp < 3600;
+}
+
+bool game::can_pulp_corpse( Character &you, const mtype &corpse_mtype, const pulp_data &pd )
+{
+    const bool acid_immune = you.is_immune_damage( damage_acid ) ||
+                             you.is_immune_field( fd_acid );
+    // this corpse is acid, and you are not immune to it
+    const bool acid_corpse = corpse_mtype.bloodType().obj().has_acid && !acid_immune;
+
+    if( acid_corpse ) {
+        return false;
+    }
+
     // if pulping is longer than an hour, this is a hard no
     return pd.time_to_pulp < 3600;
 }

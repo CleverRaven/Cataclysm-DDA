@@ -34,7 +34,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "park_nature_palette" ],
       "place_items": [
-        { "chance": 75, "item": "trash", "x": [ 1, 23 ], "y": [ 1, 22 ], "repeat": [ 1, 4 ] },
+        { "chance": 75, "item": "SUS_trash_trashcan", "x": [ 1, 23 ], "y": [ 1, 22 ], "repeat": [ 1, 4 ] },
         { "chance": 25, "item": "creepy", "x": [ 1, 23 ], "y": [ 1, 22 ] }
       ],
       "place_signs": [ { "signage": "Please don't litter, keep the trail nice!", "x": 7, "y": 2 } ]

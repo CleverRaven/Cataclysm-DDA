@@ -49,7 +49,8 @@
       "d": { "item": "office", "chance": 50, "repeat": [ 1, 2 ] },
       "L": { "item": "cop_weapons", "chance": 40 },
       "c": { "item": "office", "chance": 70, "repeat": [ 1, 4 ] },
-      "t": { "item": "vault", "chance": 25, "repeat": [ 2, 7 ] }
+      "t": { "item": "vault", "chance": 25, "repeat": [ 2, 7 ] },
+      "£": { "item": "SUS_toilet", "chance": 50 }
     },
     "toilets": { "£": {  } },
     "computers": {
