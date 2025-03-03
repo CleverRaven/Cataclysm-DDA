@@ -41,7 +41,7 @@ src/sounds.cpp
 src/sdltiles.cpp
 src/system_locale.cpp
 src/text_style_check_reader.cpp
-src/ui.cpp
+src/uilist.cpp
 src/ui_manager.cpp
 src/veh_appliance.cpp
 # misc files deferred til better days

@@ -14,7 +14,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 
 class Character;
 class map;
