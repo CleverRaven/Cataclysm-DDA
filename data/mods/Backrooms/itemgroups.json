@@ -667,7 +667,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "vending_ammo",
-    "entries": [ { "group": "ammo_common_boxed", "repeat": [ 1, 10 ] } ]
+    "entries": [ { "group": "ammo_common_boxed", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",
