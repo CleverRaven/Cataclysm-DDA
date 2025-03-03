@@ -16043,15 +16043,10 @@ void disp_mod_by_barrel::deserialize( const JsonObject &jo )
     mandatory( jo, false, "dispersion", dispersion_modifier );
 }
 
-void rot_spawn_data::load( const JsonObject &jo )
+void rot_spawn_data::deserialize( const JsonObject &jo )
 {
     optional( jo, false, "monster", rot_spawn_monster, mtype_id::NULL_ID() );
     optional( jo, false, "group", rot_spawn_group, mongroup_id::NULL_ID() );
     optional( jo, false, "chance", rot_spawn_chance );
     optional( jo, false, "amount", rot_spawn_monster_amount, {1, 1} );
-}
-
-void rot_spawn_data::deserialize( const JsonObject &jo )
-{
-    load( jo );
 }

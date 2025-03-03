@@ -2664,15 +2664,10 @@ bool Item_factory::load_definition( const JsonObject &jo, const std::string &src
     return false;
 }
 
-void islot_milling::load( const JsonObject &jo )
+void islot_milling::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "into", into_ );
     optional( jo, was_loaded, "recipe", recipe_ );
-}
-
-void islot_milling::deserialize( const JsonObject &jo )
-{
-    load( jo );
 }
 
 static void load_memory_card_data( memory_card_info &mcd, const JsonObject &jo )
@@ -2703,9 +2698,8 @@ static void load_memory_card_data( memory_card_info &mcd, const JsonObject &jo )
     }
 }
 
-void islot_ammo::load( const JsonObject &jo )
+void islot_ammo::deserialize( const JsonObject &jo )
 {
-    bool strict = false;
     numeric_bound_reader not_negative{ 0 };
     numeric_bound_reader positive{ 1 };
     numeric_bound_reader positive_float{ 1.0f };
@@ -2735,11 +2729,6 @@ void islot_ammo::load( const JsonObject &jo )
     optional( jo, was_loaded, "show_stats", force_stat_display, false );
 }
 
-void islot_ammo::deserialize( const JsonObject &jo )
-{
-    load( jo );
-}
-
 void Item_factory::load_ammo( const JsonObject &jo, const std::string &src )
 {
     itype def;
@@ -2754,19 +2743,14 @@ void Item_factory::load_ammo( const JsonObject &jo, const std::string &src )
         } else {
             def.ammo = cata::make_value<islot_ammo>();
         }
-        def.ammo->load( jo );
+        def.ammo->deserialize( jo );
         load_basic_info( jo, def, src );
     }
 }
 
-void islot_engine::load( const JsonObject &jo )
-{
-    optional( jo, was_loaded, "displacement", displacement );
-}
-
 void islot_engine::deserialize( const JsonObject &jo )
 {
-    load( jo );
+    optional( jo, was_loaded, "displacement", displacement );
 }
 
 void Item_factory::load_engine( const JsonObject &jo, const std::string &src )
@@ -2783,20 +2767,15 @@ void Item_factory::load_engine( const JsonObject &jo, const std::string &src )
         } else {
             def.engine = cata::make_value<islot_engine>();
         }
-        def.engine->load( jo );
+        def.engine->deserialize( jo );
         load_basic_info( jo, def, src );
     }
 }
 
-void islot_wheel::load( const JsonObject &jo )
+void islot_wheel::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "diameter", diameter );
     optional( jo, was_loaded, "width", width );
-}
-
-void islot_wheel::deserialize( const JsonObject &jo )
-{
-    load( jo );
 }
 
 void Item_factory::load_wheel( const JsonObject &jo, const std::string &src )
@@ -2813,7 +2792,7 @@ void Item_factory::load_wheel( const JsonObject &jo, const std::string &src )
         } else {
             def.wheel = cata::make_value<islot_wheel>();
         }
-        def.wheel->load( jo );
+        def.wheel->deserialize( jo );
         load_basic_info( jo, def, src );
     }
 }
@@ -2832,7 +2811,7 @@ void Item_factory::load_comestible( const JsonObject &jo, const std::string &src
         } else {
             def.comestible = cata::make_value<islot_comestible>();
         }
-        def.comestible->load( jo );
+        def.comestible->deserialize( jo );
         load_basic_info( jo, def, src );
     }
 }
@@ -2896,7 +2875,7 @@ class gun_modes_reader : public generic_typed_reader<gun_modes_reader>
         }
 };
 
-void islot_gun::load( const JsonObject &jo )
+void islot_gun::deserialize( const JsonObject &jo )
 {
     numeric_bound_reader<int> not_negative = numeric_bound_reader<int> { 0 };
     numeric_bound_reader<double> not_negative_float = numeric_bound_reader<double> { 0 };
@@ -2937,11 +2916,6 @@ void islot_gun::load( const JsonObject &jo )
     optional( jo, was_loaded, "hurt_part_when_fired", hurt_part_when_fired );
 }
 
-void islot_gun::deserialize( const JsonObject &jo )
-{
-    load( jo );
-}
-
 void Item_factory::load_gun( const JsonObject &jo, const std::string &src )
 {
     itype def;
@@ -2956,7 +2930,7 @@ void Item_factory::load_gun( const JsonObject &jo, const std::string &src )
         } else {
             def.gun = cata::make_value<islot_gun>();
         }
-        def.gun->load( jo );
+        def.gun->deserialize( jo );
         load_basic_info( jo, def, src );
     }
 }
@@ -2976,7 +2950,7 @@ void Item_factory::load_armor( const JsonObject &jo, const std::string &src )
         } else {
             def.armor = cata::make_value<islot_armor>();
         }
-        def.armor->load( jo );
+        def.armor->deserialize( jo );
         load_basic_info( jo, def, src );
     }
 }
@@ -2995,7 +2969,7 @@ void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src 
         } else {
             def.pet_armor = cata::make_value<islot_pet_armor>();
         }
-        def.pet_armor->load( jo );
+        def.pet_armor->deserialize( jo );
         load_basic_info( jo, def, src );
     }
 }
@@ -3132,7 +3106,7 @@ static void get_proportional( const JsonObject &jo, const std::string_view membe
     }
 }
 
-void islot_armor::load( const JsonObject &jo )
+void islot_armor::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "armor", sub_data );
 
@@ -3198,12 +3172,7 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "valid_mods", valid_mods );
 }
 
-void islot_armor::deserialize( const JsonObject &jo )
-{
-    load( jo );
-}
-
-void islot_pet_armor::load( const JsonObject &jo )
+void islot_pet_armor::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "material_thickness", thickness, 0 );
     optional( jo, was_loaded, "max_pet_vol", max_vol, volume_reader{}, 0_ml );
@@ -3212,11 +3181,6 @@ void islot_pet_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "environmental_protection", env_resist, 0 );
     optional( jo, was_loaded, "environmental_protection_with_filter", env_resist_w_filter, 0 );
     optional( jo, was_loaded, "power_armor", power_armor, false );
-}
-
-void islot_pet_armor::deserialize( const JsonObject &jo )
-{
-    load( jo );
 }
 
 void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::string &src )
@@ -3343,12 +3307,12 @@ void Item_factory::load_tool_armor( const JsonObject &jo, const std::string &src
         } else {
             def.armor = cata::make_value<islot_armor>();
         }
-        def.armor->load( jo );
+        def.armor->deserialize( jo );
         load_basic_info( jo, def, src );
     }
 }
 
-void islot_book::load( const JsonObject &jo )
+void islot_book::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "max_level", level, 0 );
     optional( jo, was_loaded, "required_level", req, 0 );
@@ -3365,11 +3329,6 @@ void islot_book::load( const JsonObject &jo )
     optional( jo, was_loaded, "scannable", is_scannable, true );
 }
 
-void islot_book::deserialize( const JsonObject &jo )
-{
-    load( jo );
-}
-
 void Item_factory::load_book( const JsonObject &jo, const std::string &src )
 {
     itype def;
@@ -3384,7 +3343,7 @@ void Item_factory::load_book( const JsonObject &jo, const std::string &src )
         } else {
             def.book = cata::make_value<islot_book>();
         }
-        def.book->load( jo );
+        def.book->deserialize( jo );
         load_basic_info( jo, def, src );
     }
 }
@@ -3429,7 +3388,7 @@ class vitamins_reader : public generic_typed_reader<vitamins_reader>
         }
 };
 
-void islot_comestible::load( const JsonObject &jo )
+void islot_comestible::deserialize( const JsonObject &jo )
 {
     std::string src = "dda";
 
@@ -3467,29 +3426,7 @@ void islot_comestible::load( const JsonObject &jo )
     optional( jo, was_loaded, "rot_spawn", rot_spawn );
 }
 
-void islot_comestible::deserialize( const JsonObject &jo )
-{
-    load( jo );
-}
-
-void islot_brewable::load( const JsonObject &jo )
-{
-    optional( jo, was_loaded, "time", time, 1_turns );
-    if( jo.has_array( "results" ) ) {
-        for( std::string entry : jo.get_string_array( "results" ) ) {
-            results[itype_id( entry )] = 1;
-        }
-    } else {
-        mandatory( jo, was_loaded, "results", results );
-    }
-}
-
 void islot_brewable::deserialize( const JsonObject &jo )
-{
-    load( jo );
-}
-
-void islot_compostable::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "time", time, 1_turns );
     if( jo.has_array( "results" ) ) {
@@ -3503,10 +3440,17 @@ void islot_compostable::load( const JsonObject &jo )
 
 void islot_compostable::deserialize( const JsonObject &jo )
 {
-    load( jo );
+    optional( jo, was_loaded, "time", time, 1_turns );
+    if( jo.has_array( "results" ) ) {
+        for( std::string entry : jo.get_string_array( "results" ) ) {
+            results[itype_id( entry )] = 1;
+        }
+    } else {
+        mandatory( jo, was_loaded, "results", results );
+    }
 }
 
-void islot_seed::load( const JsonObject &jo )
+void islot_seed::deserialize( const JsonObject &jo )
 {
     assign( jo, "grow", grow, false, 1_days );
     optional( jo, was_loaded, "fruit_div", fruit_div, 1 );
@@ -3516,11 +3460,6 @@ void islot_seed::load( const JsonObject &jo )
     optional( jo, was_loaded, "byproducts", byproducts );
     optional( jo, was_loaded, "required_terrain_flag", required_terrain_flag,
               ter_furn_flag::TFLAG_PLANTABLE );
-}
-
-void islot_seed::deserialize( const JsonObject &jo )
-{
-    load( jo );
 }
 
 void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::string &src )
@@ -3605,7 +3544,7 @@ void Item_factory::load_gunmod( const JsonObject &jo, const std::string &src )
     }
 }
 
-void islot_magazine::load( const JsonObject &jo )
+void islot_magazine::deserialize( const JsonObject &jo )
 {
     numeric_bound_reader not_negative{ 0 };
 
@@ -3632,19 +3571,14 @@ void Item_factory::load_magazine( const JsonObject &jo, const std::string &src )
         } else {
             def.magazine = cata::make_value<islot_magazine>();
         }
-        def.magazine->load( jo );
+        def.magazine->deserialize( jo );
         load_basic_info( jo, def, src );
     }
 }
 
-void islot_battery::load( const JsonObject &jo )
-{
-    mandatory( jo, was_loaded, "max_capacity", max_capacity );
-}
-
 void islot_battery::deserialize( const JsonObject &jo )
 {
-    load( jo );
+    mandatory( jo, was_loaded, "max_capacity", max_capacity );
 }
 
 void Item_factory::load_battery( const JsonObject &jo, const std::string &src )
@@ -3661,12 +3595,12 @@ void Item_factory::load_battery( const JsonObject &jo, const std::string &src )
         } else {
             def.battery = cata::make_value<islot_battery>();
         }
-        def.battery->load( jo );
+        def.battery->deserialize( jo );
         load_basic_info( jo, def, src );
     }
 }
 
-void islot_bionic::load( const JsonObject &jo )
+void islot_bionic::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "difficulty", difficulty, numeric_bound_reader{0} );
     optional( jo, was_loaded, "is_upgrade", is_upgrade );
@@ -3687,7 +3621,7 @@ void Item_factory::load_bionic( const JsonObject &jo, const std::string &src )
         } else {
             def.bionic = cata::make_value<islot_bionic>();
         }
-        def.bionic->load( jo );
+        def.bionic->deserialize( jo );
         load_basic_info( jo, def, src );
     }
 }
