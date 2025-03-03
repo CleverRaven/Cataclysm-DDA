@@ -10,6 +10,7 @@
 #include "advanced_inv_area.h"
 #include "advanced_inv_pane.h"
 #include "cursesdef.h"
+#include "avatar.h"
 
 class Character;
 class advanced_inv_listitem;
@@ -33,9 +34,17 @@ class advanced_inventory
         advanced_inventory();
         ~advanced_inventory();
 
+        /**
+         * Refers to the two panes, used as index into @ref panes.
+         */
+
+
         void display();
         void temp_hide();
 
+        void init();
+
+        void process_action( std::string input_action );
         /**
          * Converts from screen relative location to game-space relative location
          * for control rotation in isometric mode.
@@ -46,15 +55,23 @@ class advanced_inventory
         advanced_inv_area &get_one_square( const aim_location &loc ) {
             return squares[loc];
         }
-    private:
-        /**
-         * Refers to the two panes, used as index into @ref panes.
-         */
+        // for testing purposes
         enum side {
             left  = 0,
             right = 1,
             NUM_PANES = 2
         };
+        void recalc_pane( side p );
+
+        side get_src() {
+            return src;
+        }
+
+        advanced_inventory_pane get_pane( side side ) {
+            return panes[side];
+        }
+    private:
+
         static constexpr int head_height = 5;
         bool move_all_items_and_waiting_to_quit = false;
 
@@ -149,7 +166,7 @@ class advanced_inventory
 
         static std::string get_sortname( advanced_inv_sortby sortby );
         void print_items( side p, bool active );
-        void recalc_pane( side p );
+
         void redraw_pane( side p );
         void redraw_sidebar();
 
@@ -165,7 +182,7 @@ class advanced_inventory
         // Returns the x coordinate where the header started. The header is
         // displayed right of it, everything left of it is still free.
         int print_header( advanced_inventory_pane &pane, aim_location sel );
-        void init();
+
         /**
          * Translate an action ident from the input context to an aim_location.
          * @param action Action ident to translate
