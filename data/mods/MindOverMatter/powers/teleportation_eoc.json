@@ -255,7 +255,7 @@
       {
         "if": {
           "math": [
-            "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_gateway') * 7500 ) + 15000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+            "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_gateway') * 7500 ) + 10000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
           ]
         },
         "then": [ { "math": [ "u_teleport_total_carried_volume = 1" ] } ],
