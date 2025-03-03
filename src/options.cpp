@@ -2731,92 +2731,58 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add_option_group( "world_default", Group( "game_world_opts", to_translation( "Game world options" ),
-                      to_translation( "Options regarding game world." ) ),
-    [&]( const std::string & page_id ) {
-        add( "CITY_SIZE", page_id, to_translation( "Size of cities" ),
-             to_translation( "A number determining how large cities are.  A higher number means larger cities.  0 disables cities, roads and any scenario requiring a city start." ),
-             0, 16, 8
-           );
+    add( "CITY_SIZE", "world_default", to_translation( "Size of cities" ),
+         to_translation( "A number determining how large cities are.  A higher number means larger cities.  0 disables cities, roads and any scenario requiring a city start." ),
+         0, 16, 8, COPT_ALWAYS_HIDE
+       );
 
-        add( "CITY_SPACING", page_id, to_translation( "City spacing" ),
-             to_translation( "A number determining how far apart cities are.  A higher number means cities are further apart.  Warning, small numbers lead to very slow mapgen." ),
-             0, 8, 4
-           );
+    add( "CITY_SPACING", "world_default", to_translation( "City spacing" ),
+         to_translation( "A number determining how far apart cities are.  A higher number means cities are further apart.  Warning, small numbers lead to very slow mapgen." ),
+         0, 8, 4, COPT_ALWAYS_HIDE
+       );
 
-        add( "SPAWN_DENSITY", page_id, to_translation( "Spawn rate scaling factor" ),
-             to_translation( "A scaling factor that determines density of monster spawns.  A higher number means more monsters." ),
-             0.0, 50.0, 1.0, 0.1
-           );
+    add( "SPAWN_DENSITY", "world_default", to_translation( "Spawn rate scaling factor" ),
+         to_translation( "A scaling factor that determines density of monster spawns.  A higher number means more monsters." ),
+         0.0, 50.0, 1.0, 0.1, COPT_ALWAYS_HIDE
+       );
 
-        add( "ITEM_SPAWNRATE", page_id, to_translation( "Item spawn scaling factor" ),
-             to_translation( "A scaling factor that determines density of item spawns.  A higher number means more items." ),
-             0.01, 10.0, 1.0, 0.01
-           );
+    add( "ITEM_SPAWNRATE", "world_default", to_translation( "Item spawn scaling factor" ),
+         to_translation( "A scaling factor that determines density of item spawns.  A higher number means more items." ),
+         0.01, 10.0, 1.0, 0.01, COPT_ALWAYS_HIDE
+       );
 
-        add( "NPC_SPAWNTIME", page_id, to_translation( "Random NPC spawn time" ),
-             to_translation( "Baseline average number of days between random NPC spawns.  Average duration goes up with the number of NPCs already spawned.  A higher number means fewer NPCs.  Set to 0 days to disable random NPCs." ),
-             0.0, 100.0, 4.0, 0.01
-           );
+    add( "NPC_SPAWNTIME", "world_default", to_translation( "Random NPC spawn time" ),
+         to_translation( "Baseline average number of days between random NPC spawns.  Average duration goes up with the number of NPCs already spawned.  A higher number means fewer NPCs.  Set to 0 days to disable random NPCs." ),
+         0.0, 100.0, 4.0, 0.01, COPT_ALWAYS_HIDE
+       );
 
-        add( "MONSTER_UPGRADE_FACTOR", page_id,
-             to_translation( "Monster evolution slowdown" ),
-             to_translation( "A scaling factor that determines the time between monster upgrades.  A higher number means slower evolution.  Set to 0.00 to turn off monster upgrades." ),
-             0.0, 100, 4.0, 0.01
-           );
-    } );
-    add_empty_line();
-
-    add_option_group( "world_default", Group( "monster_props_opts",
-                      to_translation( "Monster properties options" ),
-                      to_translation( "Options regarding monster properties." ) ),
-    [&]( const std::string & page_id ) {
-        add( "MONSTER_SPEED", page_id, to_translation( "Monster speed" ),
-             to_translation( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
-             1, 1000, 100, COPT_NO_HIDE, "%i%%"
-           );
-
-        add( "MONSTER_RESILIENCE", page_id, to_translation( "Monster resilience" ),
-             to_translation( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy.  Requires world reset." ),
-             1, 1000, 100, COPT_NO_HIDE, "%i%%"
-           );
-    } );
-
-    add_empty_line();
-
-    add( "DEFAULT_REGION", "world_default", to_translation( "Default region type" ),
-         to_translation( "(WIP feature) Determines terrain, shops, plants, and more." ),
-    { { "default", to_translation( "default" ) } }, "default"
+    add( "MONSTER_UPGRADE_FACTOR", "world_default",
+         to_translation( "Monster evolution slowdown" ),
+         to_translation( "A scaling factor that determines the time between monster upgrades.  A higher number means slower evolution.  Set to 0.00 to turn off monster upgrades." ),
+         0.0, 100, 4.0, 0.01, COPT_ALWAYS_HIDE
        );
 
     add_empty_line();
 
-    add_option_group( "world_default", Group( "spawn_time_opts", to_translation( "World time options" ),
-                      to_translation( "Options regarding the passage of time in the world." ) ),
-    [&]( const std::string & page_id ) {
-        add( "SEASON_LENGTH", page_id, to_translation( "Season length" ),
-             to_translation( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),
-             14, 127, 91
-           );
+    add( "MONSTER_SPEED", "world_default", to_translation( "Monster speed" ),
+         to_translation( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
+         1, 1000, 100, COPT_ALWAYS_HIDE, "%i%%"
+       );
 
-        add( "CONSTRUCTION_SCALING", page_id, to_translation( "Construction scaling" ),
-             to_translation( "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length." ),
-             0, 1000, 100
-           );
+    add( "MONSTER_RESILIENCE", "world_default", to_translation( "Monster resilience" ),
+         to_translation( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy.  Requires world reset." ),
+         1, 1000, 100, COPT_ALWAYS_HIDE, "%i%%"
+       );
 
-        add( "ETERNAL_SEASON", page_id, to_translation( "Eternal season" ),
-             to_translation( "If true, keep the initial season for ever." ),
-             false
-           );
+    add_empty_line();
 
-        add( "ETERNAL_TIME_OF_DAY", page_id, to_translation( "Day/night cycle" ),
-        to_translation( "Day/night cycle settings.  'Normal' sets a normal cycle.  'Eternal Day' sets eternal day.  'Eternal Night' sets eternal night." ), {
-            { "normal", to_translation( "Normal" ) },
-            { "day", to_translation( "Eternal Day" ) },
-            { "night", to_translation( "Eternal Night" ) },
-        }, "normal"
-           );
-    } );
+    add( "ETERNAL_TIME_OF_DAY", "world_default", to_translation( "Day/night cycle" ),
+    to_translation( "Day/night cycle settings.  'Normal' sets a normal cycle.  'Eternal Day' sets eternal day.  'Eternal Night' sets eternal night." ), {
+        { "normal", to_translation( "Normal" ) },
+        { "day", to_translation( "Eternal Day" ) },
+        { "night", to_translation( "Eternal Night" ) },
+    }, "normal"
+       );
 
     add_empty_line();
 
@@ -2869,13 +2835,6 @@ void options_manager::add_options_debug()
         this->add_empty_line( "debug" );
     };
 
-    add( "DISTANCE_INITIAL_VISIBILITY", "debug", to_translation( "Distance initial visibility" ),
-         to_translation( "Determines the scope, which is known in the beginning of the game." ),
-         3, 20, 15
-       );
-
-    add_empty_line();
-
     add_option_group( "debug", Group( "chargen_point_opts",
                                       to_translation( "Character generation points options" ),
                                       to_translation( "Options regarding character generation points." ) ),
@@ -2920,17 +2879,6 @@ void options_manager::add_options_debug()
     add( "PROFICIENCY_TRAINING_SPEED", "debug", to_translation( "Proficiency training speed" ),
          to_translation( "Scales experience gained from practicing proficiencies.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables proficiency training except for NPC training." ),
          0.0, 100.0, 1.0, 0.1
-       );
-
-    add_empty_line();
-
-    add( "FOV_3D_Z_RANGE", "debug", to_translation( "Vertical range of 3D field of vision" ),
-         to_translation(
-             "How many levels up and down the 3D field of vision reaches.  (This many levels up, this many levels down.)  "
-             "3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster.  "
-             "Setting this to 0 disables vertical vision.  In tiles mode this also affects how many levels up and down are "
-             "drawn on screen, and setting this to 0 displays only one level below with colored blocks instead." ),
-         0, OVERMAP_LAYERS, 4
        );
 
     add_empty_line();
@@ -4102,7 +4050,6 @@ void options_manager::update_options_cache()
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
-    fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
     use_pinyin_search = ::get_option<bool>( "USE_PINYIN_SEARCH" );
 
