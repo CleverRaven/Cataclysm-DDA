@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <utility>
 
 #include "advanced_inv.h"
 #include "advanced_inv_area.h"
@@ -16,14 +17,13 @@
 #include "map_selector.h"
 #include "player_helpers.h"
 #include "ret_val.h"
+#include "rng.h"
 #include "type_id.h"
 
 
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_knife_combat( "knife_combat" );
 
-class advanced_inv_listitem;
-class advanced_inventory;
 /*
     --------- AIM testing ----------
     TODO: add more tests
@@ -84,7 +84,6 @@ static void do_activity( advanced_inventory &advinv, std::string activity )
 
 TEST_CASE( "advanced_inventory_actions" )
 {
-    map &here = get_map();
     clear_avatar();
     clear_map();
     advanced_inventory advinv;
