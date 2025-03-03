@@ -1253,6 +1253,15 @@ struct memory_card_info {
     bool secret_recipes;
 };
 
+struct ages_into {
+    itype_id item;
+    item_group_id group;
+    std::pair<time_duration, time_duration> time;
+    int amount;
+    bool displace_by_volume;
+    bool use_rotting;
+};
+
 struct itype {
         friend class Item_factory;
         friend struct mod_tracker;
@@ -1534,6 +1543,11 @@ struct itype {
 
         // Expand snippets in the description and save the description on the object
         bool expand_snippets = false;
+
+        /**
+        * Information what this item should be transformed into some time in the future
+        */
+        ages_into ages_into;
 
     private:
         // load-only, for applying proportional melee values at load time

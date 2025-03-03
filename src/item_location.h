@@ -146,6 +146,17 @@ class item_location
         **/
         bool protected_from_liquids() const;
 
+        /**
+        * very ugly function that construct potential item_location
+        * it is desired to replace it with visit_items using item_location instead of item
+        **/
+        static item_location form_loc( Character &you, map *here, const tripoint_bub_ms &p, item &it );
+
+        /**
+        * checks if item can and should transform into another item over time, and if yes, transform it
+        **/
+        void ages_into();
+
         ret_val<void> parents_can_contain_recursive( item *it ) const;
         ret_val<int> max_charges_by_parent_recursive( const item &it ) const;
 

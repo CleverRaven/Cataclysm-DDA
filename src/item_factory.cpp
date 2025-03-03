@@ -4404,6 +4404,25 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     optional( jo, def.was_loaded, "max_worn", def.max_worn, MAX_WORN_PER_TYPE );
 
+    if( jo.has_member( "ages_into" ) ) {
+        JsonObject job = jo.get_member( "ages_into" );
+        optional( job, def.was_loaded, "item", def.ages_into.item, itype_id::NULL_ID() );
+        optional( job, def.was_loaded, "item_group", def.ages_into.group, item_group_id::NULL_ID() );
+        if( job.has_string( "time" ) ) {
+            time_duration time;
+            mandatory( job, def.was_loaded, "time", time );
+            def.ages_into.time = std::make_pair( time, time );
+        } else if( job.has_array( "time" ) ) {
+            mandatory( job, def.was_loaded, "time", def.ages_into.time );
+        }
+        optional( job, def.was_loaded, "amount", def.ages_into.amount );
+        optional( job, def.was_loaded, "displace_by_volume", def.ages_into.displace_by_volume, true );
+        optional( job, def.was_loaded, "use_rotting", def.ages_into.use_rotting, false );
+        if( !def.ages_into.item.is_null() && !def.ages_into.group.is_null() ) {
+            debugmsg( "%s cannot age both into item and in itemgroup", def.id.str() );
+        }
+    }
+
     if( jo.has_member( "techniques" ) ) {
         def.techniques.clear();
         set_techniques_from_json( jo, "techniques", def );
