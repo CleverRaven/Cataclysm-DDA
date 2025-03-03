@@ -515,18 +515,7 @@
   {
     "type": "profession_item_substitutions",
     "item": "sunglasses",
-    "sub": [
-      { "present": [ "HYPEROPIC" ], "new": [ "fitover_sunglasses" ] },
-      { "present": [ "MYOPIC" ], "new": [ "fitover_sunglasses" ] }
-    ]
-  },
-  {
-    "type": "profession_item_substitutions",
-    "item": "sunglasses",
-    "sub": [
-      { "present": [ "HYPEROPIC" ], "new": [ "fitover_sunglasses" ] },
-      { "present": [ "MYOPIC" ], "new": [ "fitover_sunglasses" ] }
-    ]
+    "sub": [ { "present": [ "HYPEROPIC", "MYOPIC" ], "new": [ "fitover_sunglasses" ] } ]
   },
   {
     "type": "profession_item_substitutions",
