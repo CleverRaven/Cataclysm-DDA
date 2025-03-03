@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <cstdint>
 #include <cstdlib>
 #include <exception>
@@ -759,7 +760,7 @@ struct sound_effect_handler {
             if( handler->loops_remaining >= 0 &&
                 handler->current_sample_index >= num_source_samples ) {
                 handler->loops_remaining--;
-                handler->current_sample_index = fmodf( handler->current_sample_index, num_source_samples );
+                handler->current_sample_index = std::fmodf( handler->current_sample_index, num_source_samples );
             }
         }
 
