@@ -98,7 +98,7 @@ TEST_CASE( "advanced_inventory_actions" )
         item &knife_combat_map = get_map().add_item_or_charges( u.pos_bub(), knife_combat );
         std::string knife_combat_uid = random_string( 10 );
         knife_combat_map.set_var( "uid", knife_combat_uid );
-        item_location item_loc( map_cursor( u.pos_abs() ), &knife_combat_map );
+        item_location item_loc_knife( map_cursor( u.pos_abs() ), &knife_combat_map );
 
         SECTION( "ground_to_inv" ) {
             init_panes( advinv, aim_location::AIM_CENTER, aim_location::AIM_INVENTORY );
@@ -129,7 +129,7 @@ TEST_CASE( "advanced_inventory_actions" )
                 }
 
                 THEN( "Item is still on the ground" ) {
-                    REQUIRE_FALSE( advinv.get_pane( src ).items.empty() );
+                    CHECK( advinv.get_pane( src ).items.empty() );
                 }
             }
         }
