@@ -2812,6 +2812,62 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_teleport_warper_combat",
+    "name": [ "Flickerflash Stance" ],
+    "desc": [ "Through constant teleports and warping of space, your combat prowess is increased." ],
+    "apply_message": "",
+    "remove_message": "Your constant teleporting slows to a stop.",
+    "rating": "good",
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "condition": {
+          "and": [ { "not": { "u_has_flag": "DIMENSIONAL_ANCHOR" } }, { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } } ]
+        },
+        "mutations": [ "GENERIC_UNCANNY_DODGE_TRAIT" ],
+        "hit_you_effect": [ { "id": "teleport_warper_combat_warp_chance_attacker", "hit_self": false, "once_in": 3 } ],
+        "hit_me_effect": [ { "id": "teleport_warper_combat_warp_chance_attacked", "hit_self": true, "once_in": 3 } ],
+        "values": [
+          {
+            "value": "MELEE_TO_HIT",
+            "add": {
+              "math": [
+                "min( ( ( ( u_spell_level('teleport_warper_combat') * 0.2) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 4)"
+              ]
+            }
+          },
+          {
+            "value": "MELEE_DAMAGE",
+            "multiply": {
+              "math": [
+                "( ( ( u_spell_level('teleport_warper_combat') * 0.03) + 0.05) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          {
+            "value": "RANGE_DODGE",
+            "add": {
+              "math": [
+                "( ( ( u_spell_level('teleport_warper_combat') * 0.025) + 0.1) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          {
+            "value": "BONUS_DODGE",
+            "add": {
+              "math": [
+                "min( ( ( ( ( u_spell_level('teleport_warper_combat') * 0.25) + 1) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 4)"
+              ]
+            }
+          },
+          { "value": "EVASION", "add": 0.15 },
+          { "value": "PERCEPTION", "add": -4 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vitakin_slow_bleeding",
     "//": "Hidden effect, used as a tracker",
     "name": [ "" ],

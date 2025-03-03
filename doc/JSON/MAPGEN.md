@@ -1473,6 +1473,8 @@ two or more palettes would have many of the same symbols with the same meanings
 that common part can be pulled out into a new palette which each of them
 includes, so that the definitions need not be repeated.
 
+To extend a vanilla palette in a mod you can add `"extending": true` in a
+palette of the same name, the default behaviour is to override.
 
 ## Palette ids as mapgen values
 

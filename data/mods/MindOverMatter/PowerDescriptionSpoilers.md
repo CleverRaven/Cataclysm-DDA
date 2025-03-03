@@ -1520,6 +1520,17 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Prerequisites*: Gateway 8, Oubliette 2 <br />
 </details>
 <details>
+<summary><h3>Flickerflash Stance</h3></summary>
+
+*Difficulty*: 9<br />
+*Target*: Self<br />
+*Duration*: 23 seconds to or 1 minute 37 seconds, plus 3.5 to 14 seconds per power level<br />
+*Stamina Cost*: 7500, minus 225 per level to a minimum of 4500<br />
+*Channeling Time*: 75 moves, minus 4 moves per level to a minimum of 25<br />
+*Effects*: Begin constantly warping space and teleporting small distances to increase your combat prowess. This provides the UNCANNY_DODGE flag, adds 1 to hit per 5 power levels, adds 5% melee damage + 3% per power level, adds 1 bonus dodge plus 1 per 4 power levels, adds a flat 15% chance to dodge any attack, adds an additional 10% plus 2.5% per power level chance to dodge ranged attacks, and a -4 penalty to perception.  In addition, there is a 33% chance when attacking or being attacked that the psion will blink to a nearby square.<br />
+*Prerequisites*: Special (must be studied from notes)<br />
+</details>
+<details>
 <summary><h3>Breach</h3></summary>
 
 *Difficulty*: 9<br />

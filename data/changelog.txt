@@ -206,6 +206,7 @@ Revivification by mon_group
 Ask to wield container if parent container is too small to insert items
 Improve blood placement on Riot Damage
 Minor Riot Damage Tweaks
+Refactor the pulping
 
 
 ## Content:
@@ -442,6 +443,9 @@ Adds new rails vehicles
 Add in pride/pronoun pins
 Add in the guns S&W 617, Ruger PCC, and Marlin Model 60
 Adds large wicker baskets
+Dormant map extra
+Missile silos are decommissioned
+26 and 153 round magazines for the PA md. 68
 
 
 ## Interface:
@@ -1029,6 +1033,18 @@ Martial Mastery : Many New Perks.
 Aftershock: Add some more Cyberpunk style gear
 [MoM] Swap the Itzcuauhtli Corps Liaison's wristwatch for a māchīuhpōhualhuaztli ("wrist computer")
 [Xedra Evolved] More seasonal magic
+Aftershock:  Add the Wraitheon Vahagn 10XR, a smart Rifle
+[MoM] Add two psionic amalgamations
+XE Chronomancer Spell XP redesign
+[Magiclysm] Add mana zombies of various kinds
+[Xedra Evolved] Add Offworld Acquisitions Materials Processing
+Below the Belt perk
+Aftershock: Re-balance Laser Weapons
+Aftershock:Rebalance Ballistic Weapons
+[Aftershock] Expand Frontier Outposts (Part 1)
+[XEDRA] Add monochrome boomer
+[Xedra Evolved] Add alchemical hobby basements
+[MoM] Sensory Disintegration absolutely tanks your concentration ability
 
 
 ## Balance:
@@ -1596,6 +1612,10 @@ Fixes a few bugs
 Flawless memory perk is no longer a debuff
 Remove radiation from the nuclear power plant
 Removes electric fields from irradiation plant
+[Xedra Evolved] Fix Changeling multi-court prompting
+Smoking Rack & Kiln: consume time on firing
+Climbing down from a roof does not anger locals
+Item groups don't spawn blacklisted items
 
 
 ## Performance:
@@ -1786,6 +1806,9 @@ Allow extending/deleting connect_groups/connects_to/rotates_to
 Make spell difficulty accessible in math
 Add max_worn field, migrate ONLY_ONE flag
 Upgrade clang-tidy to LLVM 18
+generic factory std::map support + islot_comestible -> generic factory
+Added bank palette
+Removed outdated house_w_foundation_palette & house_nest_palette
 
 ## Build:
 Support Mac arm64 build

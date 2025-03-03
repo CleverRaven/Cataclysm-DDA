@@ -1427,8 +1427,8 @@
   {
     "type": "MIGRATION",
     "id": "ammo_can_30_300jhp_240",
-    "replace": "ammunition_can_30",
-    "variant": "ammunition_can_30_300jhp_240"
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_300jhp_240"
   },
   {
     "type": "MIGRATION",
@@ -1451,8 +1451,8 @@
   {
     "type": "MIGRATION",
     "id": "ammo_can_30_308fmj_460",
-    "replace": "ammunition_can_30",
-    "variant": "ammunition_can_30_308fmj_460"
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_308fmj_460"
   },
   {
     "type": "MIGRATION",
@@ -2173,7 +2173,7 @@
   {
     "id": "ammo_box_army_20_338",
     "type": "MIGRATION",
-    "replace": "ammo_box_4"
+    "replace": "338_ammo_box_20"
   },
   {
     "id": "peanutbutter_imitation",
@@ -2304,5 +2304,75 @@
     "id": "bp_40x46mm_flechette_m199",
     "type": "MIGRATION",
     "replace": "40x46mm_m576"
+  },
+  {
+    "id": "ammo_box_2",
+    "type": "MIGRATION",
+    "replace": "box_small"
+  },
+  {
+    "id": "ammo_box_army_100_9mm_fmj",
+    "type": "MIGRATION",
+    "replace": "9mm_ammo_box_100",
+    "variant": "ammo_box_army_100_9mm_fmj"
+  },
+  {
+    "id": "ammo_box_army_100_9mm_jhp",
+    "type": "MIGRATION",
+    "replace": "9mm_ammo_box_100",
+    "variant": "ammo_box_army_100_9mm_jhp"
+  },
+  {
+    "id": "ammo_box_army_20_300wm",
+    "type": "MIGRATION",
+    "replace": "300_ammo_box_20",
+    "variant": "ammo_box_army_20_300wm"
+  },
+  {
+    "id": "ammo_box_army_30_300blk",
+    "type": "MIGRATION",
+    "replace": "223_ammo_box_20",
+    "variant": "300blk_ammo_box_20"
+  },
+  {
+    "id": "ammo_box_army_10_338",
+    "type": "MIGRATION",
+    "replace": "4570_ammo_box_20",
+    "variant": "ammo_box_army_10_338"
+  },
+  {
+    "id": "ammo_box_army_20_223",
+    "type": "MIGRATION",
+    "replace": "223_ammo_box_20",
+    "variant": "ammo_box_army_20_223"
+  },
+  {
+    "id": "ammo_box_army_5_shot",
+    "type": "MIGRATION",
+    "replace": "12_ammo_box_5",
+    "variant": "ammo_box_army_5_shot"
+  },
+  {
+    "id": "ammo_box_army_5_slug",
+    "type": "MIGRATION",
+    "replace": "12_ammo_box_5",
+    "variant": "ammo_box_army_5_slug"
+  },
+  {
+    "id": "ammo_box_army_5_beanbag",
+    "type": "MIGRATION",
+    "replace": "12_ammo_box_5",
+    "variant": "ammo_box_army_5_beanbag"
+  },
+  {
+    "id": "ammo_box_army_10_50bmg",
+    "type": "MIGRATION",
+    "replace": "12_ammo_box_25",
+    "variant": "ammo_box_army_10_50bmg"
+  },
+  {
+    "id": "ammo_box_4",
+    "type": "MIGRATION",
+    "replace": "12_ammo_box_25"
   }
 ]
