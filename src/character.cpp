@@ -2083,7 +2083,8 @@ bool Character::uncanny_dodge()
 
     const bool can_dodge_bio = get_power_level() >= trigger_cost &&
                                has_active_bionic( bio_uncanny_dodge );
-    const bool can_dodge_stam = get_stamina() >= 300 && ( has_trait_flag( json_flag_UNCANNY_DODGE ) || has_effect_with_flag( json_flag_UNCANNY_DODGE ) );
+    const bool can_dodge_stam = get_stamina() >= 300 && ( has_trait_flag( json_flag_UNCANNY_DODGE ) ||
+                                has_effect_with_flag( json_flag_UNCANNY_DODGE ) );
     const bool can_dodge_both = get_power_level() >= ( trigger_cost / 2 ) &&
                                 has_active_bionic( bio_uncanny_dodge ) &&
                                 get_stamina() >= 150 && has_trait_flag( json_flag_UNCANNY_DODGE );
