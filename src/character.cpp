@@ -2083,24 +2083,15 @@ bool Character::uncanny_dodge()
 
     const bool can_dodge_bio = get_power_level() >= trigger_cost &&
                                has_active_bionic( bio_uncanny_dodge );
-    const bool can_dodge_mut = get_stamina() >= 300 && has_trait_flag( json_flag_UNCANNY_DODGE );
+    const bool can_dodge_stam = get_stamina() >= 300 && ( has_trait_flag( json_flag_UNCANNY_DODGE ) || has_effect_with_flag( json_flag_UNCANNY_DODGE ) );
     const bool can_dodge_both = get_power_level() >= ( trigger_cost / 2 ) &&
                                 has_active_bionic( bio_uncanny_dodge ) &&
                                 get_stamina() >= 150 && has_trait_flag( json_flag_UNCANNY_DODGE );
 
-    if( !( can_dodge_bio || can_dodge_mut || can_dodge_both ) ) {
+    if( !( can_dodge_bio || can_dodge_stam || can_dodge_both ) ) {
         return false;
     }
     tripoint_bub_ms adjacent{ adjacent_tile() };
-
-    if( can_dodge_both ) {
-        mod_power_level( -trigger_cost / 2 );
-        burn_energy_legs( -150 );
-    } else if( can_dodge_bio ) {
-        mod_power_level( -trigger_cost );
-    } else if( can_dodge_mut ) {
-        burn_energy_legs( -300 );
-    }
 
     const optional_vpart_position veh_part = here.veh_at( pos_bub( here ) );
     if( in_vehicle && veh_part && veh_part.avail_part_with_feature( "SEATBELT" ) ) {
@@ -2124,6 +2115,15 @@ bool Character::uncanny_dodge()
         } else if( seen ) {
             add_msg( _( "%s dodges… so fast!" ), this->disp_name() );
 
+        }
+
+        if( can_dodge_both ) {
+            mod_power_level( -trigger_cost / 2 );
+            burn_energy_legs( -150 );
+        } else if( can_dodge_bio ) {
+            mod_power_level( -trigger_cost );
+        } else if( can_dodge_stam ) {
+            burn_energy_legs( -300 );
         }
         return true;
     }
