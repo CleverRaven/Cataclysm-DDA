@@ -1301,8 +1301,9 @@ bodypart_id Character::body_window( const std::string &menu_header,
                                                  static_cast<int>( infect * 100 ) ), c_light_green ) + "\n";
                 treatment_rank += 60 + infect * 10;
             } else {
-                desc += colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
-                                  c_red );
+                desc += colorize(
+                            _( "It has a deep wound that looks to have a septic infection.  Antibiotics might be required." ),
+                            c_red );
             }
             desc += "\n";
         }
