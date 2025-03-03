@@ -980,6 +980,16 @@
   },
   {
     "type": "mutation",
+    "id": "FALSE_SALAMANDER_HATRED",
+    "name": { "str": "False Salamander" },
+    "points": -4,
+    "description": "The salamanders can sense the stolen power within you and they will not react well to it.",
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [ [ "SALAMANDER", 100 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "BOANN_RETALIATION",
     "name": { "str": "Boann's retaliation", "//~": "NO_I18N" },
     "points": 0,
