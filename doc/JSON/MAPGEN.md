@@ -962,11 +962,11 @@ The actual monsters are spawned when the map is loaded. Fields:
 
 | Field    | Description
 | ---      | ---
-| vehicle  | (required, string) type of the vehicle or id of a vehicle group.
-| chance   | (optional, integer or min/max array) x in 100 chance of the vehicle spawning at all. The default is 1 (which means 1% probability that the vehicle spawns, you probably want something larger).
+| vehicle  | (required, string) id of the vehicle or vehicle group to place.
+| chance   | (optional, integer) x in 100 chance of the vehicle spawning at all. Defaults to 100% if unspecified.
 | rotation | (optional, integer) the direction the vehicle faces.
 | fuel     | (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full).
-| status   | (optional, integer) default is -1 (light damage), a value of 0 means perfect condition, 1 means heavily damaged.
+| status   | (optional, integer) Defaults to -1, light damage. A value of 0 equates to undamaged, 1 heavily damaged and 2 perfect condition with no faults and disabled security.
 | faction  | (optional, string) faction this vehicle belongs to.
 
 Note that vehicles cannot be placed over overmap boundaries. So it needs to be 24 tiles long at most.
