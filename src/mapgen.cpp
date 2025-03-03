@@ -46,6 +46,7 @@
 #include "generic_factory.h"
 #include "global_vars.h"
 #include "input.h"
+#include "input_enums.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_factory.h"
@@ -54,6 +55,7 @@
 #include "jmapgen_flags.h"
 #include "level_cache.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "map_extras.h"
@@ -88,6 +90,7 @@
 #include "translation.h"
 #include "translations.h"
 #include "trap.h"
+#include "ui.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
@@ -4587,6 +4590,61 @@ const mapgen_palette &string_id<mapgen_palette>::obj() const
         return null_palette;
     }
     return it->second;
+}
+
+void debug_palettes::debug_view_all_palettes()
+{
+    uilist palette_list;
+    palette_list.title = _( "Viewing all palettes" );
+    // awfulness. we need a vector so we can track the return value
+    std::vector<palette_id> all_palettes;
+    all_palettes.reserve( palettes.size() );
+    for( auto &pair : palettes ) {
+        all_palettes.push_back( pair.first );
+    }
+    // sort them alphabetically before display, why not.
+    std::sort( all_palettes.begin(), all_palettes.end(), [](
+    const palette_id & lhs, const palette_id & rhs ) {
+        return localized_compare( lhs.str(), rhs.str() );
+    } );
+    for( palette_id &some_palette : all_palettes ) {
+        palette_list.addentry( some_palette.str() );
+    }
+    palette_list.query();
+
+    const int index_num = palette_list.ret;
+    if( index_num < 0 || static_cast<size_t>( index_num ) >= all_palettes.size() ) {
+        return; // user cancelled
+    }
+
+    const mapgen_palette &actual_palette = mapgen_palette::get( all_palettes[index_num] );
+    // why do we put *these* in a vector? Solely so we can sort alphabetically.
+    std::vector<map_key> symbols_list;
+    for( const auto &placing : actual_palette.format_placings ) {
+        symbols_list.push_back( placing.first );
+    }
+
+    std::sort( symbols_list.begin(), symbols_list.end(), [](
+    const map_key & lhs, const map_key & rhs ) {
+        return localized_compare( lhs.str, rhs.str );
+    } );
+
+    uilist palette_symbols;
+    //FIXME: extract for translation!
+    palette_symbols.title = string_format( "Viewing palette '%s'  ",
+                                           all_palettes[index_num].c_str() );
+
+    for( const map_key &something : symbols_list ) {
+        // First three arguments are dummy parameters, uilist is just a means of display. our return value is discarded.
+        // FIXME: Find a way to map the symbol to the underlying ID of what will be placed, put it into the second column instead of empty string
+        palette_symbols.addentry_col( 0, true, input_event(), something.str, "" );
+    }
+
+    palette_symbols.query();
+
+    // little trick, return to palette listing after second uilist unless they quit out of the first uilist
+    debug_palettes::debug_view_all_palettes();
+
 }
 
 template<>
