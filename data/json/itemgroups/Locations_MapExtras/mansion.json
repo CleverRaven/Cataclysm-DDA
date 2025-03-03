@@ -1155,7 +1155,7 @@
       { "item": "material_rocksalt", "prob": 10, "container-item": "bag_canvas" },
       [ "vinegar", 10 ],
       { "item": "lye_powder", "prob": 5, "container-item": "bag_canvas_small" },
-      [ "oxy_powder", 5 ],
+      { "group": "oxy_powder_bottle_part", "prob": 5 },
       [ "fungicide", 5 ],
       { "group": "insecticide_bag_plastic", "prob": 5 },
       { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" },

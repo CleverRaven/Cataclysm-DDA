@@ -2163,6 +2163,20 @@
   },
   {
     "type": "material",
+    "id": "plutonium",
+    "name": "Plutonium",
+    "density": 19.84,
+    "specific_heat_liquid": 0.13,
+    "specific_heat_solid": 0.13,
+    "latent_heat": 273,
+    "conductive": true,
+    "chip_resist": 1,
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched"
+  },
+  {
+    "type": "material",
     "id": "uran_cell",
     "name": "Uranium cell",
     "density": 19.0,
