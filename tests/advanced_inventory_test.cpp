@@ -129,7 +129,7 @@ TEST_CASE( "advanced_inventory_actions" )
                 }
 
                 THEN( "Item is still on the ground" ) {
-                    CHECK( advinv.get_pane( src ).items.empty() );
+                    CHECK_FALSE( advinv.get_pane( src ).items.empty() );
                 }
             }
         }
