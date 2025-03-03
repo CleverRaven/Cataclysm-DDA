@@ -23,9 +23,9 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "time": "6 minutes",
-    "autolearn": false,
+    "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "flags": [ "NO_RESIZE", "SECRET" ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "tunic_gossamer", 1 ] ] ]
   },
   {
@@ -295,8 +295,7 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "time": "90 m",
-    "autolearn": false,
-    "flags": [ "SECRET" ],
+    "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "gossamer_patchwork", 8 ] ], [ [ "filament", 15, "LIST" ] ] ]
   },
@@ -307,7 +306,7 @@
     "time": "15 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "gossamer_patchwork", 8 ] ] ],
-    "flags": [ "BLIND_EASY", "SECRET" ]
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "gambeson_gossamer",
