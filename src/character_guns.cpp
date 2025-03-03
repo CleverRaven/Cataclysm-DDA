@@ -184,7 +184,7 @@ void Character::gunmod_add( item &gun, item &mod )
     itype_id mod_type = mod.typeId();
     std::string mod_name = mod.tname();
 
-    if( !wield( gun ) ) {
+    if( !is_wielding( gun ) && !wield( gun ) ) {
         add_msg_if_player( _( "You can't wield the %1$s." ), gun.tname() );
         return;
     }
