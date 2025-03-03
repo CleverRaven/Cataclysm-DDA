@@ -23,7 +23,6 @@
 #include "advanced_inv_pagination.h"
 #include "auto_pickup.h"
 #include "avatar.h"
-#include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_imgui.h"

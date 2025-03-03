@@ -10,7 +10,6 @@
 #include "advanced_inv_area.h"
 #include "advanced_inv_pane.h"
 #include "cursesdef.h"
-#include "avatar.h"
 
 class Character;
 class advanced_inv_listitem;

@@ -1,103 +1,137 @@
+#include <string>
+#include <vector>
+#include <map>
+
 #include "advanced_inv.h"
 #include "advanced_inv_area.h"
 #include "advanced_inv_pane.h"
 #include "avatar.h"
 #include "cata_catch.h"
-#include "game.h"
-#include "player_helpers.h"
+#include "character_attire.h"
+#include "coordinates.h"
+#include "item_location.h"
+#include "item.h"
+#include "map_helpers.h"
 #include "map.h"
 #include "map_selector.h"
-#include "map_helpers.h"
-#include "item.h"
-#include "uistate.h"
-
-#include <memory>
+#include "player_helpers.h"
+#include "ret_val.h"
+#include "type_id.h"
 
 
 static const itype_id itype_backpack( "backpack" );
 static const itype_id itype_knife_combat( "knife_combat" );
 
+class advanced_inv_listitem;
+class advanced_inventory;
 /*
-    AIM testing
+    --------- AIM testing ----------
+    TODO: add more tests
 */
 
+// the required action to select desired location
+std::map<aim_location, std::string> loc_action {
+    {aim_location::AIM_INVENTORY, "ITEMS_INVENTORY"},
+    {aim_location::AIM_SOUTHWEST, "ITEMS_SW"},
+    {aim_location::AIM_SOUTH, "ITEMS_S"},
+    {aim_location::AIM_SOUTHEAST, "ITEMS_SE"},
+    {aim_location::AIM_WEST, "ITEMS_W"},
+    {aim_location::AIM_CENTER, "ITEMS_CE"},
+    {aim_location::AIM_EAST, "ITEMS_E"},
+    {aim_location::AIM_NORTHWEST, "ITEMS_E"},
+    {aim_location::AIM_NORTH, "ITEMS_N"},
+    {aim_location::AIM_NORTHEAST, "ITEMS_E"},
+    {aim_location::AIM_DRAGGED, "ITEMS_DRAGGED_CONTAINER"},
+    {aim_location::AIM_ALL, "ITEMS_AROUND"},
+    {aim_location::AIM_CONTAINER, "ITEMS_CONTAINER"},
+    {aim_location::AIM_PARENT, "ITEMS_PARENT"},
+    {aim_location::AIM_WORN, "ITEMS_WORN"}
+};
 
 
-TEST_CASE( "advanced_inventory_test", "[advanced_inventory][item]" )
+// recalc when anything in the panels changes (item added etc.)
+static void recalc_panes( advanced_inventory &advinv )
 {
-    clear_avatar();
-    std::unique_ptr<advanced_inventory> advinv = std::make_unique<advanced_inventory>();
-    advinv->init();
-
-    SECTION( "check panes" ) {
-        SECTION( "init" ) {
-            CHECK( advinv );
-        }
-        // SECTION( "move_items" ) {
-
-        //     CHECK( all_sq.id );
-
-        // }
-
-    }
-
-    SECTION( "move_item_test" ) {
-
-    }
-
+    advinv.recalc_pane( advanced_inventory::side::left );
+    advinv.recalc_pane( advanced_inventory::side::right );
 }
+
+static void init_panes( advanced_inventory &advinv, aim_location sloc,
+                        aim_location dloc )
+{
+    advanced_inventory::side src = advinv.get_src();
+    if( advinv.get_pane( src ).get_area() != dloc ) {
+        advinv.process_action( loc_action[dloc] );
+    }
+    advinv.recalc_pane( src );
+    advinv.process_action( "TOGGLE_TAB" );
+    src = advinv.get_src();
+    if( advinv.get_pane( src ).get_area() != sloc ) {
+        advinv.process_action( loc_action[sloc] );
+    }
+    recalc_panes( advinv );
+}
+
+static void do_activity( advanced_inventory &advinv, std::string activity )
+{
+    avatar &u = get_avatar();
+
+    advinv.process_action( activity );
+    process_activity( u );
+    recalc_panes( advinv );
+}
+
 
 TEST_CASE( "advanced_inventory_actions" )
 {
+    map &here = get_map();
     clear_avatar();
-    std::unique_ptr<advanced_inventory> advinv = std::make_unique<advanced_inventory>();
-    advinv->init();
-    avatar u;
-    u.set_body();
+    clear_map();
+    advanced_inventory advinv;
+    advinv.init();
+    avatar &u = get_avatar();
+
     item backpack( itype_backpack );
     item knife_combat( itype_knife_combat );
 
-    //auto item_iter =
-    u.worn.wear_item( u, backpack, false, false );
-    advanced_inventory::side src = advinv->get_src();
-
-
     SECTION( "move_single_item" ) {
+        item &knife_combat_map = get_map().add_item_or_charges( u.pos_bub(), knife_combat );
+        std::string knife_combat_uid = random_string( 10 );
+        knife_combat_map.set_var( "uid", knife_combat_uid );
+        item_location item_loc( map_cursor( u.pos_abs() ), &knife_combat_map );
+
         SECTION( "ground_to_inv" ) {
+            init_panes( advinv, aim_location::AIM_CENTER, aim_location::AIM_INVENTORY );
 
-            item &item_small = get_map().add_item_or_charges( u.pos_bub(), knife_combat );
-            REQUIRE( backpack.can_contain( item_small ).success() );
-            item_location item_loc( map_cursor( u.pos_abs() ), &item_small );
+            // an item is in the src panel and is selected
+            advanced_inventory::side src = advinv.get_src();
+            REQUIRE_FALSE( advinv.get_pane( src ).items.empty() );
+            REQUIRE( advinv.get_pane( src ).get_cur_item_ptr() );
 
-            WHEN( "src is ground and dest is inv" ) {
-                // TODO: make sure state doesnt start with any of those, since it would get swapped
-                REQUIRE( advinv->get_pane( src ).get_area() !=
-                         aim_location::AIM_INVENTORY );
+            WHEN( "there is enough space in the inventory" ) {
+                u.worn.wear_item( u, backpack, false, false );
+                REQUIRE( backpack.can_contain( knife_combat_map ).success() );
 
-                if( advinv->get_pane( src ).get_area() != aim_location::AIM_INVENTORY ) {
-                    advinv->process_action( "ITEMS_INVENTORY" );
+                do_activity( advinv, "MOVE_SINGLE_ITEM" );
+
+                THEN( "item gets transferred" ) {
+                    CHECK( character_has_item_with_var_val( u, "uid",
+                                                            knife_combat_uid ) );
                 }
-                advinv->process_action( "TOGGLE_TAB" );
-                src = advinv->get_src();
-                if( advinv->get_pane( src ).get_area() != aim_location::AIM_CENTER ) {
-                    advinv->process_action( "ITEMS_CE" );
-                }
-
-                advinv->recalc_pane( src );
-                REQUIRE_FALSE( advinv->get_pane( src ).items.empty() );
-                advanced_inv_listitem *ptr = advinv->get_pane( src ).get_cur_item_ptr();
-                REQUIRE( ptr );
-                WHEN( "inventory has enough space" ) {
-
-                    THEN( "item gets transferred" ) {
-                        advinv->process_action( "MOVE_SINGLE_ITEM" );
-                        CHECK( u.has_item( knife_combat ) );
-                    }
-                }
-
             }
 
+            WHEN( "there is not enough space in the inventory" ) {
+                REQUIRE_FALSE( u.can_stash( knife_combat_map ) );
+
+                THEN( "item does not get transferred" ) {
+                    CHECK_FALSE( character_has_item_with_var_val( u, "uid",
+                                 knife_combat_uid ) );
+                }
+
+                THEN( "Item is still on the ground" ) {
+                    REQUIRE_FALSE( advinv.get_pane( src ).items.empty() );
+                }
+            }
         }
     }
-
 }
