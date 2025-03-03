@@ -5032,7 +5032,6 @@
     "name": { "str": "TEST 500kcal" },
     "description": "This one's 500kcal, and some vitamins.",
     "price": "0 cent",
-    "spoils_in": 0,
     "calories": 500,
     "material": [ "stone" ],
     "weight": "100 g",

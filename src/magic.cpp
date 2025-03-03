@@ -63,7 +63,7 @@
 #include "talker.h"
 #include "text.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 
 struct species_type;

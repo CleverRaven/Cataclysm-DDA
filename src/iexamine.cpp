@@ -89,7 +89,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "try_parse_integer.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"

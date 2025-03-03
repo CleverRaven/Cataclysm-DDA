@@ -47,7 +47,7 @@
 #include "talker.h"
 #include "text_snippets.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "weighted_list.h"
 

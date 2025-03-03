@@ -37,7 +37,7 @@
 #include "talker.h"  // IWYU pragma: keep
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 #include "value_ptr.h"
 

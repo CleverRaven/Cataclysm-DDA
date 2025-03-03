@@ -22,7 +22,7 @@
 #include "ranged.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle_selector.h"

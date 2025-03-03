@@ -11,7 +11,7 @@
 #include "player_activity.h"
 #include "skill.h"
 #include "string_input_popup.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "veh_appliance.h"

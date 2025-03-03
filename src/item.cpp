@@ -7312,7 +7312,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
 
     }
 
-    // prevent units::mass_max * 1.0, which results in -units::mass_max
+    // prevent units::mass::max() * 1.0, which results in -units::mass::max()
     if( ret_mul != 1 ) {
         ret *= ret_mul;
     }
@@ -10721,10 +10721,10 @@ ret_val<void> item::can_contain_partial_directly( const item &it ) const
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &this_loc,
         const item *avoid, const bool allow_sealed, const bool ignore_settings,
-        const bool nested, bool ignore_rigidity )
+        const bool nested, bool ignore_rigidity, bool allow_nested )
 {
     return contents.best_pocket( it, this_loc, avoid, allow_sealed, ignore_settings,
-                                 nested, ignore_rigidity );
+                                 nested, ignore_rigidity, allow_nested );
 }
 
 bool item::spill_contents( Character &c )

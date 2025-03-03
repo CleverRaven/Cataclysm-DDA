@@ -39,7 +39,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 #include "vehicle.h"
 #include "visitable.h"

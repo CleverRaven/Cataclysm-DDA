@@ -90,7 +90,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_appliance.h"
