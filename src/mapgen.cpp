@@ -512,7 +512,8 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
 // Assumptions:
 // - The map supplied is empty, i.e. no grid entries are in use
 // - The map supports Z levels.
-void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save_results )
+void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save_results,
+                    bool run_post_process )
 {
     dbg( D_INFO ) << "map::generate( g[" << g.get() << "], p[" << p << "], "
                   "when[" << to_string( when ) << "] )";
@@ -678,13 +679,15 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         }
 
         // Apply post-process generators
-        const tripoint_abs_omt omt_point = { p.x(), p.y(), gridz };
-        oter_id omt = overmap_buffer.ter( omt_point );
-        if( any_missing || !save_results ) {
-            if( omt->has_flag(
-                    oter_flags::pp_generate_riot_damage ) || ( omt->has_flag( oter_flags::road ) &&
-                            overmap_buffer.is_in_city( omt_point ) ) ) {
-                GENERATOR_riot_damage( *this, omt_point );
+        if( run_post_process ) {
+            if( any_missing || !save_results ) {
+                const tripoint_abs_omt omt_point = { p.x(), p.y(), gridz };
+                oter_id omt = overmap_buffer.ter( omt_point );
+                if( omt->has_flag(
+                        oter_flags::pp_generate_riot_damage ) || ( omt->has_flag( oter_flags::road ) &&
+                                overmap_buffer.is_in_city( omt_point ) ) ) {
+                    GENERATOR_riot_damage( *this, omt_point );
+                }
             }
         }
     }
