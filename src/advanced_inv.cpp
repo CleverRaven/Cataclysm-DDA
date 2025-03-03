@@ -165,7 +165,6 @@ advanced_inventory::advanced_inventory()
 } )
 {
     save_state = &uistate.transfer_save;
-    init();
 }
 // *INDENT-ON*
 
