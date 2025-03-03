@@ -3467,7 +3467,7 @@ void Character::update_bionic_power_capacity()
     for( const bionic_id &bid : get_bionics() ) {
         max_power_level_cached += bid->capacity;
     }
-    max_power_level_cached = clamp( max_power_level_cached, 0_kJ, units::energy_max );
+    max_power_level_cached = clamp( max_power_level_cached, 0_kJ, units::energy::max() );
 
     set_power_level( get_power_level() );
 }

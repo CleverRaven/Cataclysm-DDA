@@ -2888,6 +2888,9 @@ class gun_modes_reader : public generic_typed_reader<gun_modes_reader>
 
 void islot_gun::load( const JsonObject &jo )
 {
+    numeric_bound_reader<int> not_negative = numeric_bound_reader<int> { 0 };
+    numeric_bound_reader<double> not_negative_float = numeric_bound_reader<double> { 0 };
+
     optional( jo, was_loaded, "skill", skill_used, skill_id::NULL_ID() );
     optional( jo, was_loaded, "ammo", ammo, auto_flags_reader<ammotype> {} );
     optional( jo, was_loaded, "range", range );
@@ -2895,27 +2898,29 @@ void islot_gun::load( const JsonObject &jo )
     optional( jo, was_loaded, "ranged_damage", damage );
     optional( jo, was_loaded, "dispersion", dispersion );
     optional( jo, was_loaded, "sight_dispersion", sight_dispersion, 30 );
-    optional( jo, was_loaded, "recoil", recoil );
+    optional( jo, was_loaded, "recoil", recoil, not_negative );
     optional( jo, was_loaded, "handling", handling, -1 );
-    optional( jo, was_loaded, "durability", durability );
+    optional( jo, was_loaded, "durability", durability, numeric_bound_reader<int> {0, 10} );
     optional( jo, was_loaded, "loudness", loudness );
-    optional( jo, was_loaded, "clip_size", clip );
-    optional( jo, was_loaded, "reload", reload_time, 100 );
+    optional( jo, was_loaded, "clip_size", clip, not_negative );
+    optional( jo, was_loaded, "reload", reload_time, not_negative, 100 );
     optional( jo, was_loaded, "reload_noise", reload_noise, to_translation( "click." ) );
-    optional( jo, was_loaded, "reload_noise_volume", reload_noise_volume );
-    optional( jo, was_loaded, "barrel_volume", barrel_volume );
-    optional( jo, was_loaded, "barrel_length", barrel_length );
+    optional( jo, was_loaded, "reload_noise_volume", reload_noise_volume, not_negative );
+    optional( jo, was_loaded, "barrel_volume", barrel_volume, units_bound_reader<units::volume> {0_ml} );
+    optional( jo, was_loaded, "barrel_length", barrel_length, units_bound_reader<units::length> {0_mm} );
     optional( jo, was_loaded, "built_in_mods", built_in_mods, auto_flags_reader<itype_id> {} );
     optional( jo, was_loaded, "default_mods", default_mods, auto_flags_reader<itype_id> {} );
-    optional( jo, was_loaded, "energy_drain", energy_drain );
-    optional( jo, was_loaded, "blackpowder_tolerance", blackpowder_tolerance, 8 );
-    optional( jo, was_loaded, "min_cycle_recoil", min_cycle_recoil );
+    optional( jo, was_loaded, "energy_drain", energy_drain, units_bound_reader<units::energy> {0_kJ} );
+    optional( jo, was_loaded, "blackpowder_tolerance", blackpowder_tolerance, not_negative, 8 );
+    optional( jo, was_loaded, "min_cycle_recoil", min_cycle_recoil, not_negative );
     optional( jo, was_loaded, "ammo_effects", ammo_effects, auto_flags_reader<ammo_effect_str_id> {} );
-    optional( jo, was_loaded, "ammo_to_fire", ammo_to_fire, 1 );
-    optional( jo, was_loaded, "heat_per_shot", heat_per_shot );
-    optional( jo, was_loaded, "cooling_value", cooling_value, 100.0 );
-    optional( jo, was_loaded, "overheat_threshold", overheat_threshold, -1.0 );
-    optional( jo, was_loaded, "gun_jam_mult", gun_jam_mult, 1 );
+    optional( jo, was_loaded, "ammo_to_fire", ammo_to_fire, not_negative, 1 );
+    optional( jo, was_loaded, "heat_per_shot", heat_per_shot, not_negative_float );
+    optional( jo, was_loaded, "cooling_value", cooling_value, not_negative_float,
+              100.0 );
+    optional( jo, was_loaded, "overheat_threshold", overheat_threshold, numeric_bound_reader<double> {-1.0},
+              -1.0 );
+    optional( jo, was_loaded, "gun_jam_mult", gun_jam_mult, not_negative_float, 1.0 );
     optional( jo, was_loaded, "valid_mod_locations", valid_mod_locations,
               weighted_string_id_reader<gunmod_location, int> {0} );
     optional( jo, was_loaded, "modes", modes, gun_modes_reader {} );
@@ -3420,16 +3425,16 @@ void islot_comestible::load( const JsonObject &jo )
 
     mandatory( jo, was_loaded, "comestible_type", comesttype );
     optional( jo, was_loaded, "tool", tool, itype_id::NULL_ID() );
-    optional( jo, was_loaded, "charges", def_charges, 0 );
+    optional( jo, was_loaded, "charges", def_charges, numeric_bound_reader<int> {1}, 0 );
     optional( jo, was_loaded, "stack_size", stack_size );
     optional( jo, was_loaded, "quench", quench );
     optional( jo, was_loaded, "fun", fun );
     optional( jo, was_loaded, "stim", stim );
     optional( jo, was_loaded, "sleepiness_mod", sleepiness_mod );
     optional( jo, was_loaded, "healthy", healthy );
-    optional( jo, was_loaded, "parasites", parasites );
+    optional( jo, was_loaded, "parasites", parasites, numeric_bound_reader<int> {0} );
     optional( jo, was_loaded, "freezing_point", freeze_point );
-    optional( jo, was_loaded, "spoils_in", spoils );
+    optional( jo, was_loaded, "spoils_in", spoils, time_bound_reader{1_hours} );
     optional( jo, was_loaded, "cooks_like", cooks_like );
     optional( jo, was_loaded, "smoking_result", smoking_result );
     optional( jo, was_loaded, "petfood", petfood );
