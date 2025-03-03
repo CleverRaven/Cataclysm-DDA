@@ -368,7 +368,7 @@
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
     "name": { "str_sp": "scribbled notes (Imbuement of the Flames)" },
-    "description": "An handwritten set of notes detailing an alchemical recipe for a method to obtain the power of flames.  The ingredients list tells you that nature is definitely not going to appreciate that.",
+    "description": "An handwritten set of notes detailing an alchemical recipe for a method to obtain the power of flames.  You hope those lines about \"the ashes of the dead\" are optional.",
     "skill": "chemistry",
     "required_level": 5,
     "max_level": 5,
