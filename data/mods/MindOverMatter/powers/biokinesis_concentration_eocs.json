@@ -646,5 +646,64 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_COMBAT_DANCE_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_biokin_combat_dance" } },
+    "effect": [
+      { "u_message": "A surge of power fills your body and you begin moving with terrible purpose!", "type": "good" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_add_effect": "effect_biokin_combat_dance", "duration": "PERMANENT" },
+      {
+        "run_eocs": "EOC_BIOKIN_COMBAT_DANCE_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('biokin_combat_dance') * 12) + 40) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('biokin_combat_dance') * 59) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_BIOKIN_REMOVE_COMBAT_DANCE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_REMOVE_COMBAT_DANCE",
+    "condition": { "u_has_effect": "effect_biokin_combat_dance" },
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_biokin_combat_dance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_COMBAT_DANCE_DRAIN",
+    "condition": { "u_has_effect": "effect_biokin_combat_dance" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty = 8" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
+      { "math": [ "u_spell_exp('biokin_combat_dance')", "+=", "psionic_power_experience_formula()" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "run_eocs": "EOC_BIOKIN_COMBAT_DANCE_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('biokin_combat_dance') * 12) + 40) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('biokin_combat_dance') * 59) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
   }
 ]

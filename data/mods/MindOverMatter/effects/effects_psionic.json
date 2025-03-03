@@ -742,28 +742,21 @@
     "desc": [ "You are a dynamo of death." ],
     "apply_message": "",
     "remove_message": "Your movements return to normal.",
-    "decay_messages": [
-      [ "Your enhanced combat prowess is nearly gone.", "bad" ],
-      [ "The rush of power filling you is beginning to ebb.", "bad" ]
-    ],
     "rating": "good",
-    "max_duration": "10 minutes",
+    "max_duration": "7 days",
     "max_intensity": 25,
-    "dur_add_perc": 10,
-    "int_dur_factor": "24 s",
-    "removes_effects": [ "stunned", "dazed" ],
     "enchantments": [
       {
+        "condition": { "u_has_effect": "effect_biokin_physical" },
         "values": [
           {
-            "value": "ATTACK_SPEED",
+            "value": "MELEE_STAMINA_CONSUMPTION",
             "multiply": {
               "math": [
-                "( ( u_spell_level('biokin_combat_dance') * -0.02) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "max( ( ( -0.05 + ( u_spell_level('biokin_combat_dance') * -0.015) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.7)"
               ]
             }
           },
-          { "value": "RECOIL_MODIFIER", "multiply": -0.3 },
           {
             "value": "MELEE_DAMAGE",
             "multiply": {
@@ -771,22 +764,143 @@
                 "( ( u_spell_level('biokin_combat_dance') * 0.02) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
             }
-          },
+          }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "effect_biokin_overcome_pain" },
+        "values": [
           {
             "value": "PAIN",
             "multiply": {
               "math": [
-                "( ( u_spell_level('biokin_combat_dance') * -0.03) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "( ( ( u_spell_level('biokin_combat_dance') * -0.03) - 0.15) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
             }
           }
         ]
       },
       {
-        "condition": { "not": { "u_has_effect": "effect_biokin_perfected_motion" } },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+        "condition": { "u_has_effect": "effect_biokin_flexibility" },
+        "values": [
+          {
+            "value": "DODGE_CHANCE",
+            "add": {
+              "math": [
+                "( ( ( u_spell_level('biokin_combat_dance') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "adrenaline" },
+        "values": [
+          {
+            "value": "CARDIO_MULTIPLIER",
+            "multiply": {
+              "math": [
+                "( ( ( u_spell_level('biokin_combat_dance') * 0.025) + 0.15) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "effect_biokin_armor_skin" },
+        "incoming_damage_mod": [
+          {
+            "type": "bash",
+            "add": {
+              "math": [
+                "( ( -6 * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) * max( (0.5 + ( u_spell_level('biokin_combat_dance') * 0.05) ),1)"
+              ]
+            }
+          },
+          {
+            "type": "stab",
+            "add": {
+              "math": [
+                "( ( -3 * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) * max( (0.5 + ( u_spell_level('biokin_combat_dance') * 0.05) ),1)"
+              ]
+            }
+          },
+          {
+            "type": "cut",
+            "add": {
+              "math": [
+                "( ( -4 * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling) * max( (0.5 + ( u_spell_level('biokin_combat_dance') * 0.05) ),1)"
+              ]
+            }
+          }
+        ],
+        "ench_effects": [ { "effect": "effect_biokin_combat_dance_no_stun_or_daze", "intensity": 1 } ]
+      },
+      {
+        "condition": { "and": [ { "u_has_effect": "effect_biokin_hammerhand" }, { "not": "u_has_weapon" } ] },
+        "melee_damage_bonus": [
+          {
+            "type": "bash",
+            "multiply": {
+              "math": [
+                "( ( ( u_spell_level('biokin_combat_dance') * 0.03) + 0.25) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ],
+        "values": [
+          {
+            "value": "OVERKILL_DAMAGE",
+            "add": {
+              "math": [
+                "( ( ( u_spell_level('biokin_combat_dance') * -5) -50) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "effect_biokin_enhance_mobility" },
+        "mutations": [ "GENERIC_UNCANNY_DODGE_TRAIT" ]
+      },
+      {
+        "condition": { "u_has_effect": "effect_biokin_reflex" },
+        "values": [
+          { "value": "RECOIL_MODIFIER", "multiply": -0.3 },
+          {
+            "value": "BONUS_DODGE",
+            "multiply": {
+              "math": [
+                "( ( ( u_spell_level('biokin_combat_dance') / 8) + 1) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": {
+          "and": [ { "u_has_effect": "effect_biokin_reflex" }, { "not": { "u_has_effect": "effect_biokin_perfected_motion" } } ]
+        },
+        "values": [
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [
+                "max( ( ( -0.1 + ( u_spell_level('biokin_combat_dance') * -0.02) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.5)"
+              ]
+            }
+          }
+        ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_biokin_combat_dance_no_stun_or_daze",
+    "//": "Hidden, part of Heightened Senses",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "stunned", "dazed" ]
   },
   {
     "type": "effect_type",
