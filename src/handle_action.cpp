@@ -2596,8 +2596,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_WIELD: {
             item_location loc = game_menus::inv::wield();
-            if (loc) {
-                player_character.wield(loc);
+            if( loc ) {
+                player_character.wield( loc );
             }
             break;
         }
