@@ -2582,30 +2582,6 @@
     "components": [ [ [ "scrap_aluminum", 10 ] ], [ [ "plastic_chunk", 15 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 30 ] ] ]
   },
   {
-    "result": "fancy_sunglasses",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "glass_tinted", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "fancy_sunglasses_bifocal",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "glass_tinted", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "fancy_sunglasses_reading",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "glass_tinted", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
     "result": "file",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",

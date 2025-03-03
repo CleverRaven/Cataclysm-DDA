@@ -406,7 +406,6 @@
       { "item": "deck_of_cards", "prob": 50 },
       { "item": "teleumbrella", "prob": 50 },
       { "prob": 50, "group": "bottle_otc_painkiller_20" },
-      { "item": "fancy_sunglasses", "prob": 50 },
       { "item": "matches", "prob": 50, "charges": 20 },
       { "item": "ref_matches", "prob": 50, "charges": 32 },
       { "item": "dog_whistle", "prob": 40 },

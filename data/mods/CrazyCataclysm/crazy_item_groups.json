@@ -98,7 +98,7 @@
           { "item": "tshirt_cropped", "prob": 21 }
         ]
       },
-      { "distribution": [ { "item": "sunglasses", "prob": 80 }, { "item": "fancy_sunglasses", "prob": 20 } ] },
+      { "item": "sunglasses", "prob": 80 },
       { "distribution": [ { "group": "alcohol", "prob": 50 } ] },
       { "distribution": [ { "item": "mp3", "charges": [ 0, 100 ] } ] },
       { "distribution": [ { "item": "lowtops", "prob": 80 }, { "item": "bastsandals", "prob": 20 } ] },
