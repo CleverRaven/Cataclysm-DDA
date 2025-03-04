@@ -76,8 +76,8 @@ static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
-static const flag_id json_flag_CALORIE_BURN( "CALORIE_BURN" );
 static const flag_id json_flag_CALORIES_INTAKE( "CALORIES_INTAKE" );
+static const flag_id json_flag_CALORIE_BURN( "CALORIE_BURN" );
 
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
