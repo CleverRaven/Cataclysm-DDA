@@ -1406,6 +1406,7 @@
     "volume": "250 ml",
     "weight": "1 g",
     "phase": "gas",
+    "ammo_type": "extinguishing_agent",
     "count": 10
   },
   {
