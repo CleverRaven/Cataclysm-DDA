@@ -37,9 +37,9 @@ static const std::map<aim_location, const std::string> loc_action {
     {aim_location::AIM_WEST, "ITEMS_W"},
     {aim_location::AIM_CENTER, "ITEMS_CE"},
     {aim_location::AIM_EAST, "ITEMS_E"},
-    {aim_location::AIM_NORTHWEST, "ITEMS_E"},
+    {aim_location::AIM_NORTHWEST, "ITEMS_NW"},
     {aim_location::AIM_NORTH, "ITEMS_N"},
-    {aim_location::AIM_NORTHEAST, "ITEMS_E"},
+    {aim_location::AIM_NORTHEAST, "ITEMS_NE"},
     {aim_location::AIM_DRAGGED, "ITEMS_DRAGGED_CONTAINER"},
     {aim_location::AIM_ALL, "ITEMS_AROUND"},
     {aim_location::AIM_CONTAINER, "ITEMS_CONTAINER"},
@@ -61,19 +61,23 @@ static void init_panes( advanced_inventory &advinv, aim_location sloc,
     advanced_inventory::side src = advinv.get_src();
     if( advinv.get_pane( src ).get_area() != dloc ) {
         advinv.process_action( loc_action.at( dloc ) );
+        REQUIRE( advinv.get_pane( src ).get_area() == dloc );
     }
     advinv.process_action( "TOGGLE_TAB" );
     src = advinv.get_src();
     if( advinv.get_pane( src ).get_area() != sloc ) {
         advinv.process_action( loc_action.at( sloc ) );
+        REQUIRE( advinv.get_pane( src ).get_area() == sloc );
     }
     recalc_panes( advinv );
 }
 
 static void do_activity( advanced_inventory &advinv, const std::string &activity )
 {
+    avatar &u = get_avatar();
     advinv.process_action( activity );
-    process_activity( get_avatar() );
+    process_activity( u );
+    REQUIRE_FALSE( u.activity );
     recalc_panes( advinv );
 }
 
