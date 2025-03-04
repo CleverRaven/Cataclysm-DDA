@@ -327,7 +327,6 @@
       },
       [ "goggles_welding", 70 ],
       [ "glasses_monocle", 2 ],
-      [ "fancy_sunglasses", 15 ],
       [ "fc_hairpin", 5 ],
       [ "barrette", 5 ],
       [ "pearl_collar", 1 ],
@@ -1217,7 +1216,6 @@
           { "item": "scarf", "prob": 15 },
           { "item": "sunglasses", "prob": 25 },
           { "item": "fitover_sunglasses", "prob": 20 },
-          { "item": "fancy_sunglasses", "prob": 20 },
           { "item": "canteen", "prob": 20 },
           { "item": "camelbak", "prob": 20 }
         ]
@@ -2119,8 +2117,7 @@
     "type": "item_group",
     "items": [
       { "group": "camping", "prob": 50 },
-      { "group": "ammo_rifle_common_loose", "prob": 2 },
-      { "group": "ammo_pistol_common_loose", "prob": 2 },
+      { "group": "ammo_common_loose", "prob": 2 },
       { "group": "tools_survival", "prob": 5 },
       { "group": "clothing_outdoor_shoes", "prob": 7 },
       { "group": "clothing_outdoor_torso", "prob": 7 },

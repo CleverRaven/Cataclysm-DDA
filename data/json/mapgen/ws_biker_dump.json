@@ -266,7 +266,7 @@
         "L": [
           { "item": "harddrugs", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "allclothes", "chance": 30, "repeat": [ 2, 3 ] },
-          { "item": "ammo_common", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "ammo_common_boxed_used", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "flask_liquor", "chance": 20 }
         ],
         "t": [
@@ -280,7 +280,7 @@
           { "item": "gunmod_common", "chance": 50, "repeat": [ 1, 2 ] },
           { "item": "home_hw", "chance": 50, "repeat": [ 1, 2 ] },
           { "item": "guns_common", "chance": 50, "repeat": [ 4, 6 ] },
-          { "item": "ammo_common", "chance": 20, "repeat": [ 6, 10 ] }
+          { "item": "ammo_common_boxed_used", "chance": 20, "repeat": [ 6, 10 ] }
         ]
       }
     }

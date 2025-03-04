@@ -404,7 +404,7 @@
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 3, "items": [ "sunglasses" ] },
-      { "x": 0, "y": 1, "chance": 10, "items": [ "fancy_sunglasses" ] },
+      { "x": 0, "y": 1, "chance": 10, "items": [ "sunglasses" ] },
       { "x": -1, "y": 0, "chance": 5, "items": [ "weed", "rolling_paper" ] },
       { "x": -2, "y": 0, "chance": 2, "items": [ "weed", "rolling_paper" ] },
       { "x": -3, "y": 0, "chance": 5, "items": [ "acoustic_guitar" ] },
@@ -1430,7 +1430,7 @@
       { "x": -9, "y": 3, "parts": [ "frame#se", "board#se", "roof", "solar_panel" ] }
     ],
     "items": [
-      { "x": 0, "y": 0, "chance": 5, "items": [ "fancy_sunglasses" ] },
+      { "x": 0, "y": 0, "chance": 5, "items": [ "sunglasses" ] },
       { "x": 0, "y": 0, "chance": 1, "items": [ "roadmap" ] },
       { "x": 0, "y": 2, "chance": 16, "items": [ "cigar" ] },
       { "x": 0, "y": 2, "chance": 8, "items": [ "cig" ] },
