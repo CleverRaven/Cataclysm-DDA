@@ -536,7 +536,10 @@
       { "item": "hotplate", "prob": 10 },
       { "item": "hotplate_induction", "prob": 1 },
       { "item": "snow_machine_home", "prob": 5 },
-      { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 5 },
+      {
+        "collection": [ { "group": "charcoal_bag_part", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ],
+        "prob": 5
+      },
       {
         "collection": [
           { "item": "small_propane_tank", "prob": 70, "count": [ 1, 2 ], "charges": [ 1000, 3000 ] },

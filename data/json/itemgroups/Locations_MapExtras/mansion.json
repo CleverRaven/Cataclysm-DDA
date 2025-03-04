@@ -1158,7 +1158,7 @@
       { "group": "oxy_powder_bottle_part", "prob": 5 },
       [ "fungicide", 5 ],
       { "group": "insecticide_bag_plastic", "prob": 5 },
-      { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" },
+      { "group": "charcoal_bag_part", "prob": 5 },
       [ "toilet_paper", 30 ],
       [ "plunger_toilet", 10 ],
       [ "plunger_futuristic", 25 ],

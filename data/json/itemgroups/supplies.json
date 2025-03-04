@@ -157,6 +157,18 @@
     "items": [ { "item": "lye_powder", "charges": [ 30, -1 ] } ]
   },
   {
+    "id": "charcoal_bag_part",
+    "type": "item_group",
+    "container-item": "bag_paper_charcoal",
+    "items": [ { "item": "charcoal", "charges": [ 200, 5000 ] } ]
+  },
+  {
+    "id": "nicotine_liquid_bottle_part",
+    "type": "item_group",
+    "container-item": "bottle_plastic_tiny",
+    "items": [ { "item": "nicotine_liquid", "charges": [ 5, -1 ] } ]
+  },
+  {
     "id": "paint",
     "type": "item_group",
     "items": [
@@ -420,7 +432,7 @@
       [ "cu_pipe", 50 ],
       [ "fungicide", 5 ],
       { "group": "insecticide_bag_plastic", "prob": 5 },
-      { "item": "charcoal", "prob": 5, "charges": [ 200, 400 ] },
+      { "group": "charcoal_bag_part", "prob": 5 },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "solar_cell", 5 ],
       { "group": "fertilizer_commercial_bag_canvas_60", "prob": 30 },
@@ -460,7 +472,7 @@
       [ "lye_potassium", 5 ],
       { "group": "lye_powder_bottle_part", "prob": 10 },
       { "item": "magnesium", "prob": 10, "charges": [ 50, 100 ] },
-      { "item": "charcoal", "prob": 10, "charges": [ 200, 400 ] },
+      { "group": "charcoal_bag_part", "prob": 10 },
       { "prob": 10, "group": "chem_sulphur_bottle_plastic_small_100_inf" },
       [ "chunk_sulfur", 5 ],
       [ "chem_aluminium_powder", 10 ],

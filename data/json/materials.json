@@ -2214,6 +2214,38 @@
   },
   {
     "type": "material",
+    "id": "gas",
+    "name": "Gas",
+    "density": 30,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "chip_resist": 0,
+    "repaired_with": "null",
+    "dmg_adj": [ "agitated", "thinned", "culled", "eradicated" ],
+    "bash_dmg_verb": "ripples",
+    "cut_dmg_verb": "passed through"
+  },
+  {
+    "type": "material",
+    "id": "nitrogen",
+    "name": "Nitrogen",
+    "copy-from": "gas"
+  },
+  {
+    "type": "material",
+    "id": "oxygen",
+    "name": "Oxygen",
+    "copy-from": "gas"
+  },
+  {
+    "type": "material",
+    "id": "hydrogen",
+    "name": "Hydrogen",
+    "copy-from": "gas"
+  },
+  {
+    "type": "material",
     "id": "stone",
     "name": "Stone",
     "//": "Density based on granite",

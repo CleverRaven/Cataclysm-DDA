@@ -186,7 +186,7 @@
       { "item": "tin", "prob": 12, "charges": [ 50, 100 ] },
       { "item": "chemistry_set", "prob": 5 },
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
-      [ "charcoal", 10 ],
+      { "group": "charcoal_bag_part", "prob": 10 },
       [ "briefcase", 5 ],
       [ "thermometer", 3 ],
       [ "hygrometer", 3 ],

@@ -155,7 +155,7 @@
       { "item": "alarmclock", "prob": 10 },
       { "item": "oil_lamp", "prob": 10, "charges": [ 0, -1 ] },
       { "item": "lamp_oil", "prob": 10 },
-      { "item": "charcoal", "prob": 20 },
+      { "group": "charcoal_bag_part", "prob": 20 },
       { "item": "knitting_needles", "prob": 10 },
       { "item": "magnifying_glass", "prob": 5 },
       { "item": "thermometer", "prob": 3 },

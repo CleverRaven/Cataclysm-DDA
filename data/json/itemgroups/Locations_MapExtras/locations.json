@@ -2152,7 +2152,7 @@
       { "item": "sm_extinguisher", "prob": 20, "charges": 10 },
       { "item": "eyedrops", "prob": 15, "count": [ 1, 10 ] },
       { "item": "steroid_eyedrops", "prob": 3, "count": [ 1, 10 ] },
-      { "item": "charcoal", "prob": 10, "charges": [ 25, 50 ] },
+      { "group": "charcoal_bag_part", "prob": 10 },
       { "item": "magnesium", "prob": 10, "charges": [ 1, 100 ] },
       { "item": "tin", "prob": 10, "charges": [ 1, 100 ] },
       { "item": "chem_hydrogen_peroxide", "prob": 10, "charges": [ 1, -1 ] },
