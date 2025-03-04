@@ -29,7 +29,7 @@ static const itype_id itype_knife_combat( "knife_combat" );
 */
 
 // the required action to select desired location
-std::map<aim_location, std::string> loc_action {
+const std::map<aim_location, const std::string> loc_action {
     {aim_location::AIM_INVENTORY, "ITEMS_INVENTORY"},
     {aim_location::AIM_SOUTHWEST, "ITEMS_SW"},
     {aim_location::AIM_SOUTH, "ITEMS_S"},
@@ -60,13 +60,13 @@ static void init_panes( advanced_inventory &advinv, aim_location sloc,
 {
     advanced_inventory::side src = advinv.get_src();
     if( advinv.get_pane( src ).get_area() != dloc ) {
-        advinv.process_action( loc_action[dloc] );
+        advinv.process_action( loc_action.at( dloc ) );
     }
     advinv.recalc_pane( src );
     advinv.process_action( "TOGGLE_TAB" );
     src = advinv.get_src();
     if( advinv.get_pane( src ).get_area() != sloc ) {
-        advinv.process_action( loc_action[sloc] );
+        advinv.process_action( loc_action.at( sloc ) );
     }
     recalc_panes( advinv );
 }
