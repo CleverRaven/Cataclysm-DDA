@@ -2,16 +2,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_XEDRA_CBM_EXODII_CHECK",
-    "global": true,
     "eoc_type": "EVENT",
     "required_event": "avatar_enters_omt",
-    "condition": {"or": [ { "math": [ "n_monsters_nearby('mon_exodii_worker') >= 1" ] }, { "math": [ "n_monsters_nearby('mon_exodii_quad') >= 1" ] }, { "math": [ "n_monsters_nearby('mon_exodii_quad_jotunn') >= 1" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "XEDRA_CYBORG" }, {"or": [ { "math": [ "u_monsters_nearby('mon_exodii_worker') >= 1" ] }, { "math": [ "u_monsters_nearby('mon_exodii_quad') >= 1" ] }, { "math": [ "u_monsters_nearby('mon_exodii_quad_jotunn') >= 1" ] } ] }  ] },
     "effect": [ { "run_eocs": "EOC_ANGER_EXODII" } ]
   },
   {
   "type": "effect_on_condition",
     "id": "EOC_ANGER_EXODII",
-    "condition": { "not": { "npc_has_effect": "recently_angered_exodii" } },
+    "condition": { "not": { "u_has_effect": "recently_angered_exodii" } },
     "effect": [ { "u_cast_spell": { "id": "spell_anger_exodii" } } ]
   },
   {
