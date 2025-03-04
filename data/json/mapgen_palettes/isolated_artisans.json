@@ -116,10 +116,7 @@
         { "item": "SUS_gunstore_crate", "chance": 20, "repeat": [ 0, 4 ] },
         { "item": "SUS_gunstore_displaycase", "chance": 20, "repeat": [ 0, 4 ] }
       ],
-      "d": [
-        { "item": "SUS_gunstore_safe", "chance": 5, "repeat": [ 0, 5 ] },
-        { "item": "guns_common_display", "chance": 5, "repeat": [ 0, 5 ] }
-      ],
+      "d": [ { "item": "guns_common_display", "chance": 5, "repeat": [ 0, 5 ] } ],
       "T": [
         { "item": "guns_common_display", "chance": 20, "repeat": [ 0, 1 ] },
         { "item": "gunmod_common", "chance": 10, "repeat": [ 0, 4 ] },
