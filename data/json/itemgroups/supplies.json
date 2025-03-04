@@ -145,6 +145,18 @@
     "items": [ { "item": "duct_tape", "charges": [ 20, 200 ] } ]
   },
   {
+    "id": "medical_tape_roll",
+    "type": "item_group",
+    "container-item": "cardboard_roll",
+    "items": [ { "item": "medical_tape", "count": 100 } ]
+  },
+  {
+    "id": "medical_tape_roll_part",
+    "type": "item_group",
+    "container-item": "cardboard_roll",
+    "items": [ { "item": "medical_tape", "count": [ 15, 100 ] } ]
+  },
+  {
     "id": "oxy_powder_bottle_part",
     "type": "item_group",
     "container-item": "bottle_plastic_small",

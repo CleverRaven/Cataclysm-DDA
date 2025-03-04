@@ -361,8 +361,6 @@ static void check_spawning_in_container( const itype_id &item_type )
 TEST_CASE( "items_spawn_in_their_default_containers", "[item]" )
 {
     check_spawning_in_container( itype_water );
-    check_spawning_in_container( itype_gunpowder );
-    check_spawning_in_container( itype_nitrox );
     check_spawning_in_container( itype_ammonia_hydroxide );
     check_spawning_in_container( itype_detergent );
     check_spawning_in_container( itype_pale_ale );

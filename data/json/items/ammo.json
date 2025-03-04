@@ -522,7 +522,7 @@
     "weight": "255 g",
     "ammo_type": "reactor_slurry",
     "phase": "liquid",
-    "count": 10
+    "count": 1
   },
   {
     "type": "AMMO",

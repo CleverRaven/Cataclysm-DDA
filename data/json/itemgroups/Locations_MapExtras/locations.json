@@ -166,7 +166,7 @@
       [ "recipe_medicalmut", 2 ],
       [ "disinfectant", 35 ],
       [ "medical_gauze", 10 ],
-      [ "medical_tape", 45 ],
+      { "group": "medical_tape_roll_part", "prob": 45 },
       [ "wrapped_rad_badge", 15 ],
       [ "jar_glass_sealed", 20 ],
       [ "fan", 5 ],

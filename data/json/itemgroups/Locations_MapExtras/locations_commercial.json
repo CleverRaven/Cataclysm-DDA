@@ -1946,7 +1946,7 @@
       { "item": "saline", "prob": 15, "charges": [ 1, 5 ] },
       { "item": "smoxygen_tank", "prob": 10, "charges": [ 0, 12 ] },
       { "group": "full_1st_aid", "prob": 30 },
-      [ "medical_tape", 35 ],
+      { "group": "medical_tape_roll_part", "prob": 35 },
       [ "blood", 5 ],
       { "item": "anesthetic_kit", "prob": 10, "charges": [ 0, -1 ] }
     ]

@@ -810,7 +810,7 @@
       [ "meat", 10 ],
       [ "meat_smoked", 2 ],
       [ "medical_gauze", 3 ],
-      [ "medical_tape", 3 ],
+      { "group": "medical_tape_roll_part", "prob": 3 },
       [ "melon", 3 ],
       [ "meth", 5 ],
       [ "milk_powder", 3 ],
