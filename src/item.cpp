@@ -12946,6 +12946,7 @@ int item::fill_with( const item &contained, const int amount,
                      const bool allow_sealed,
                      const bool ignore_settings,
                      const bool into_bottom,
+                     const bool allow_nested,
                      Character *carrier )
 {
     if( amount <= 0 ) {
@@ -12968,7 +12969,7 @@ int item::fill_with( const item &contained, const int amount,
                 contained_item.charges = 1;
             }
             pocket = best_pocket( contained_item, loc, /*avoid=*/nullptr, allow_sealed,
-                                  ignore_settings ).second;
+                                  ignore_settings ,false,false,allow_nested).second;
         }
         if( pocket == nullptr ) {
             break;
