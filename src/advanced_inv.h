@@ -54,18 +54,18 @@ class advanced_inventory
         advanced_inv_area &get_one_square( const aim_location &loc ) {
             return squares[loc];
         }
-        // for testing purposes
+
         enum side {
             left  = 0,
             right = 1,
             NUM_PANES = 2
         };
+
         void recalc_pane( side p );
 
         side get_src() {
             return src;
         }
-
         advanced_inventory_pane get_pane( side side ) {
             return panes[side];
         }
