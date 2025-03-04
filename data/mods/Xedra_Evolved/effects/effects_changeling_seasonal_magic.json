@@ -393,5 +393,29 @@
     "name": [ "Frozen Heart" ],
     "desc": [ "All emotions are frozen out." ],
     "enchantments": [ { "mutations": [ "PSYCHOPATH" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_see_craft_darkness",
+    "name": [ "By Moon or By Starlight" ],
+    "desc": [ "You are at home in the dark." ],
+    "//": "flags can't be conditional so here we are",
+    "enchantments": [
+      {
+        "condition": { "not": { "is_season": "summer" } },
+        "ench_effects": [ { "effect": "effect_changeling_winter_see_craft_darkness_actual", "intensity": 1 } ]
+      },
+      {
+        "condition": { "and": [ { "is_season": "summer" }, "u_is_outside" ] },
+        "ench_effects": [ { "effect": "effect_changeling_winter_see_craft_darkness_actual", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_see_craft_darkness_actual",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "CRAFT_IN_DARKNESS", "READ_IN_DARKESS" ]
   }
 ]
