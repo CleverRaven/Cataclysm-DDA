@@ -979,10 +979,11 @@
     "color": "white",
     "description": "A roll of semi-opaque medical tape, intended to hold bandages in place.  Not as versatile as duct tape.",
     "material": [ "plastic" ],
-    "volume": "250 ml",
-    "weight": "3 g",
+    "//": "same as duct tape",
+    "volume": "930 ml",
+    "weight": "3500 mg",
     "ammo_type": "components",
-    "count": 35
+    "count": 200
   },
   {
     "type": "AMMO",
