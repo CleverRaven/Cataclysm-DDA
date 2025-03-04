@@ -1679,7 +1679,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
-      "place_vehicles": [ { "vehicle": "canoe", "x": 2, "y": 0, "chance": 100, "rotation": 180, "fuel": 0, "status": 0 } ]
+      "place_vehicles": [ { "vehicle": "canoe", "x": 2, "y": 0, "rotation": 180, "fuel": 0, "status": 0 } ]
     }
   }
 ]

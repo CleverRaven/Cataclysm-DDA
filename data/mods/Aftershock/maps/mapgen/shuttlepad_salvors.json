@@ -99,7 +99,7 @@
         "Υ": { "item": "afs_tools_robot_maintenance", "repeat": [ 5, 8 ], "chance": 60 },
         "Ϋ": { "item": "afs_machinery_maintenance_scrapgroup", "repeat": [ 10, 25 ], "chance": 60 }
       },
-      "place_vehicles": [ { "vehicle": "uica_lynx_ex", "x": 6, "y": 5, "chance": 100, "status": 0 } ],
+      "place_vehicles": [ { "vehicle": "uica_lynx_ex", "x": 6, "y": 5, "status": 0 } ],
       "terrain": {
         "1": "t_door_metal_c",
         "2": "t_ladder_up",

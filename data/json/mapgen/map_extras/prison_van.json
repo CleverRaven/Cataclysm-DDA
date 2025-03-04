@@ -5,7 +5,7 @@
     "update_mapgen_id": "mx_prison_van",
     "object": {
       "place_vehicles": [
-        { "vehicle": "prisoner_van_1", "x": 7, "y": 12, "chance": 100, "status": 1, "rotation": 330 },
+        { "vehicle": "prisoner_van_1", "x": 7, "y": 12, "status": 1, "rotation": 330 },
         { "vehicle": "motorcycle_enduro", "x": 16, "y": 8, "chance": 75, "status": -1, "rotation": 45 }
       ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 1 ], "density": 0.1 } ],

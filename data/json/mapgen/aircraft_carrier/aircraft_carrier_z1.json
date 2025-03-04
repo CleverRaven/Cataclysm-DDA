@@ -356,18 +356,18 @@
         { "vehicle": "helicopter_apache_1b", "x": 44, "y": 229, "chance": 20, "rotation": 270, "status": 1 },
         { "vehicle": "helicopter_osprey_2c", "x": 33, "y": 77, "chance": 50, "status": 1, "rotation": 270 },
         { "vehicle": "helicopter_osprey_2b", "x": 33, "y": 172, "chance": 50, "status": 1, "rotation": 270 },
-        { "vehicle": "engine_crane", "x": 25, "y": [ 14, 16 ], "chance": 100 },
-        { "vehicle": "welding_cart", "x": 25, "y": [ 66, 68 ], "chance": 100 },
-        { "vehicle": "handjack", "x": 25, "y": [ 85, 87 ], "chance": 100 },
-        { "vehicle": "forklift_vehicles", "x": 25, "y": [ 104, 106 ], "chance": 100 },
-        { "vehicle": "engine_crane", "x": 25, "y": [ 123, 125 ], "chance": 100 },
-        { "vehicle": "welding_cart", "x": 25, "y": [ 142, 143 ], "chance": 100 },
-        { "vehicle": "handjack", "x": 25, "y": [ 161, 163 ], "chance": 100 },
-        { "vehicle": "engine_crane", "x": 25, "y": [ 180, 182 ], "chance": 100 },
-        { "vehicle": "engine_crane", "x": 25, "y": [ 199, 201 ], "chance": 100 },
-        { "vehicle": "welding_cart", "x": [ 26, 28 ], "y": [ 218, 220 ], "chance": 100 },
-        { "vehicle": "handjack", "x": [ 18, 20 ], "y": [ 223, 225 ], "chance": 100 },
-        { "vehicle": "forklift_vehicles", "x": [ 25, 27 ], "y": [ 236, 238 ], "chance": 100 }
+        { "vehicle": "engine_crane", "x": 25, "y": [ 14, 16 ] },
+        { "vehicle": "welding_cart", "x": 25, "y": [ 66, 68 ] },
+        { "vehicle": "handjack", "x": 25, "y": [ 85, 87 ] },
+        { "vehicle": "forklift_vehicles", "x": 25, "y": [ 104, 106 ] },
+        { "vehicle": "engine_crane", "x": 25, "y": [ 123, 125 ] },
+        { "vehicle": "welding_cart", "x": 25, "y": [ 142, 143 ] },
+        { "vehicle": "handjack", "x": 25, "y": [ 161, 163 ] },
+        { "vehicle": "engine_crane", "x": 25, "y": [ 180, 182 ] },
+        { "vehicle": "engine_crane", "x": 25, "y": [ 199, 201 ] },
+        { "vehicle": "welding_cart", "x": [ 26, 28 ], "y": [ 218, 220 ] },
+        { "vehicle": "handjack", "x": [ 18, 20 ], "y": [ 223, 225 ] },
+        { "vehicle": "forklift_vehicles", "x": [ 25, 27 ], "y": [ 236, 238 ] }
       ]
     }
   }

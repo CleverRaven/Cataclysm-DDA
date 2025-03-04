@@ -30,7 +30,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "place_vehicles": [ { "vehicle": "car", "x": 4, "y": 17, "chance": 100, "fuel": 20, "status": 33, "rotation": 180 } ],
+      "place_vehicles": [ { "vehicle": "car", "x": 4, "y": 17, "fuel": 20, "status": 33, "rotation": 180 } ],
       "fill_ter": "t_carpet_yellow",
       "terrain": {
         ".": "t_sidewalk",
