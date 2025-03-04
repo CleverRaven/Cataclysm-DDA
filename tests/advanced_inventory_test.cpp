@@ -109,7 +109,7 @@ TEST_CASE( "advanced_inventory_actions" )
 
             WHEN( "there is enough space in the inventory" ) {
                 u.worn.wear_item( u, backpack, false, false );
-                REQUIRE( backpack.can_contain( knife_combat_map ).success() );
+                REQUIRE( u.can_stash( knife_combat_map ) );
 
                 do_activity( advinv, "MOVE_SINGLE_ITEM" );
 
