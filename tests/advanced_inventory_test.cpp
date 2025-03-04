@@ -122,7 +122,7 @@ TEST_CASE( "advanced_inventory_actions" )
                 REQUIRE_FALSE( u.can_stash( knife_combat_map ) );
 
                 THEN( "item does not get transferred" ) {
-                    CHECK_FALSE( player_has_item_of_type( u, knife_combat ) );
+                    CHECK_FALSE( player_has_item_of_type( knife_combat ) );
                 }
 
                 THEN( "Item is still on the ground" ) {
