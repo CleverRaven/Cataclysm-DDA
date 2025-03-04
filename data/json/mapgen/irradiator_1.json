@@ -308,8 +308,8 @@
         "?": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [
-        { "group": "guns_pistol_common", "x": 34, "y": 26, "chance": 100, "ammo": 0, "magazine": 100, "repeat": [ 1, 2 ] },
-        { "group": "ammo_pistol_common", "x": 39, "y": 26, "chance": 100, "repeat": [ 1, 5 ] },
+        { "group": "police_armory_glock_19", "x": 34, "y": 26, "chance": 100 },
+        { "group": "police_armory_glock_19", "x": 39, "y": 26, "chance": 100 },
         { "group": "prison_armor", "x": 39, "y": 26, "chance": 50, "repeat": [ 1, 2 ] }
       ],
       "liquids": { "T": { "liquid": "water_clean", "amount": [ 200, 600 ] } },

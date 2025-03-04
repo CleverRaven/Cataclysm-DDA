@@ -2117,8 +2117,7 @@
     "type": "item_group",
     "items": [
       { "group": "camping", "prob": 50 },
-      { "group": "ammo_rifle_common_loose", "prob": 2 },
-      { "group": "ammo_pistol_common_loose", "prob": 2 },
+      { "group": "ammo_common_loose", "prob": 2 },
       { "group": "tools_survival", "prob": 5 },
       { "group": "clothing_outdoor_shoes", "prob": 7 },
       { "group": "clothing_outdoor_torso", "prob": 7 },

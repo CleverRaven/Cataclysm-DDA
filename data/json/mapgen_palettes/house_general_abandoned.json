@@ -181,9 +181,7 @@
     "nested": {
       "|": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 2 ], [ "general_graffiti", 10 ], [ "null", 75 ] ] },
       "#": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 2 ], [ "general_graffiti", 10 ], [ "null", 75 ] ] },
-      "v": {
-        "chunks": [ [ "looted_gunsafe_nested", 1 ], [ "jammed_gunsafe_nested", 10 ], [ "open_gunsafe_nested", 20 ], [ "null", 75 ] ]
-      },
+      "v": { "chunks": [ [ "null", 1 ] ] },
       "+": { "chunks": [ [ "destroyed_door_nested", 50 ], [ "null", 50 ] ] },
       "*": { "chunks": [ [ "destroyed_door_nested", 50 ], [ "null", 50 ] ] },
       "¶": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
