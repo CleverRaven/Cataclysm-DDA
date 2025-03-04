@@ -1406,7 +1406,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 4000, minus 65 per level to a minimum of 1750<br />
 *Channeling Time*: 95 moves, minus 4 moves per level to a minimum of 25<br />
-*Effects*: Touch a single target and teleport them through the Nether, sending them anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Blink).<br />
+*Effects*: Touch a single target and teleport them through the Nether, sending them anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Blink). The target must be no larger than 25L in volume plus 12.5L per power level.<br />
 *Prerequisites*: Stutterstep 10, Apportation 5 <br />
 </details>
 <details>
@@ -1417,7 +1417,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 20 seconds to 3 minutes and 20 seconds plus 10 to 40 seconds per power level<br />
 *Stamina Cost*: 3500, minus 100 per level to a minimum of 1500<br />
 *Channeling Time*: 100 moves, minus 5 moves per level to a minimum of 25<br />
-*Effects*: The psion maintains a reactive shield, forcefully teleporting any entity that hits them through the nether. This effect does not prevent the damage from getting hit. The entity is sent anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Displacement).<br />
+*Effects*: The psion maintains a reactive shield, forcefully teleporting any entity that hits them through the nether. This effect does not prevent the damage from getting hit. The entity is sent anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Displacement).  The target must be no larger than 25L in volume plus 12.5L per Displacement power level (not Reactive Displacement).<br />
 *Prerequisites*: Displacement 5 <br />
 </details>
 <details>

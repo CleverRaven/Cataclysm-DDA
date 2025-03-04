@@ -86,6 +86,42 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_DISPLACEMENT_CHECK",
+    "effect": [
+      { "math": [ "u_teleportation_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_teleportation_intelligence_power_level = n_spell_level('teleport_displacement')" ] },
+      { "math": [ "u_nether_attunement_teleportation_scaling = n_nether_attunement_power_scaling" ] },
+      {
+        "if": {
+          "and": [
+            {
+              "math": [
+                "u_volume() <= ( ( (u_teleportation_intelligence_power_level * 12500) + 25000) * u_teleportation_intelligence * u_nether_attunement_teleportation_scaling)"
+              ]
+            },
+            { "math": [ "u_volume() > 0" ] }
+          ]
+        },
+        "then": [
+          { "u_cast_spell": { "id": "teleport_blink", "min_level": 10, "hit_self": true } },
+          {
+            "if": { "npc_has_effect": "effect_teleport_reactive_displacement" },
+            "then": [ { "npc_message": "As <u_name> strikes you, they are suddenly somewhere else", "type": "good" } ],
+            "else": [ { "npc_message": "You touch <u_name> and they are suddenly somewhere else", "type": "good" } ]
+          }
+        ],
+        "else": [
+          {
+            "if": { "npc_has_effect": "effect_teleport_reactive_displacement" },
+            "then": [  ],
+            "else": [ { "npc_message": "You touch <u_name> but nothing happens.  They are too big to teleport.", "type": "bad" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEPORT_SPACIAL_VORTEX",
     "effect": [
       { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } },
