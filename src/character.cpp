@@ -4192,14 +4192,19 @@ int Character::encumb( const bodypart_id &bp ) const
 void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals ) const
 {
     const std::vector<trait_id> all_muts = get_functioning_mutations();
+
+    if( all_muts.empty() ) {
+        return;
+    }
+
     std::map<bodypart_str_id, float> total_enc;
+    const_dialogue d( get_const_talker_for( *this ), nullptr );
 
     // Lower penalty for bps covered only by XL or unrestricted armor
     // Initialized on demand for performance reasons:
     // (calculation is costly, most of players and npcs are don't have encumbering mutations)
 
     for( const trait_id &mut : all_muts ) {
-        const_dialogue d( get_const_talker_for( *this ), nullptr );
         for( const std::pair<const bodypart_str_id, dbl_or_var> &enc : mut->encumbrance_always ) {
             total_enc[enc.first] += enc.second.evaluate( d );
         }
@@ -4211,7 +4216,6 @@ void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &
     }
 
     for( const trait_id &mut : all_muts ) {
-        const_dialogue d( get_const_talker_for( *this ), nullptr );
         for( const std::pair<const bodypart_str_id, dbl_or_var> &enc : mut->encumbrance_multiplier_always ) {
             if( total_enc[enc.first] > 0 ) {
                 total_enc[enc.first] *= enc.second.evaluate( d );
