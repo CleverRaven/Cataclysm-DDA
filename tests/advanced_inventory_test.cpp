@@ -16,7 +16,6 @@
 #include "map.h"
 #include "map_selector.h"
 #include "player_helpers.h"
-#include "ret_val.h"
 #include "rng.h"
 #include "type_id.h"
 
@@ -123,8 +122,7 @@ TEST_CASE( "advanced_inventory_actions" )
                 REQUIRE_FALSE( u.can_stash( knife_combat_map ) );
 
                 THEN( "item does not get transferred" ) {
-                    CHECK_FALSE( character_has_item_with_var_val( u, "uid",
-                                 knife_combat_uid ) );
+                    CHECK_FALSE( player_has_item_of_type( u, knife_combat ) );
                 }
 
                 THEN( "Item is still on the ground" ) {
