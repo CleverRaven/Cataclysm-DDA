@@ -33,11 +33,6 @@ class advanced_inventory
         advanced_inventory();
         ~advanced_inventory();
 
-        /**
-         * Refers to the two panes, used as index into @ref panes.
-         */
-
-
         void display();
         void temp_hide();
 
@@ -55,6 +50,9 @@ class advanced_inventory
             return squares[loc];
         }
 
+        /**
+         * Refers to the two panes, used as index into @ref panes.
+         */
         enum side {
             left  = 0,
             right = 1,
