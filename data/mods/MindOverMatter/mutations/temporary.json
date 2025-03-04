@@ -781,10 +781,7 @@
     "type": "mutation",
     "id": "GENERIC_UNCANNY_DODGE_TRAIT",
     "name": { "str": "The Trait That Gives you Uncanny Dodge", "//~": "NO_I18N" },
-    "description": {
-      "str": "Uncanny Dodge now works for effect flags, but preserve this for conditional logic.",
-      "//~": "NO_I18N"
-    },
+    "description": { "str": "Uncanny Dodge now works for effect flags, but preserve this for conditional logic.", "//~": "NO_I18N" },
     "points": 1,
     "starting_trait": false,
     "purifiable": false,
