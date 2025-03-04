@@ -72,7 +72,7 @@
   },
   {
     "type": "mutation",
-    "id": "mut_skyisland_sunblock_real",
+    "id": "mut_skyisland_windblock_real",
     "name": { "str": "Personal Windblock Real", "//~": "NO_I18N" },
     "description": { "str": "As long as you are on the island, the winds cannot affect you.", "//~": "NO_I18N" },
     "points": 0,
@@ -80,6 +80,22 @@
     "player_display": false,
     "purifiable": false,
     "integrated_armor": [ "sky_island_windblock" ]
+  },
+  {
+    "type": "mutation",
+    "id": "mut_skyisland_personal_temperature_adaptation",
+    "name": { "str": "Personal Temperature Adaptation", "//~": "NO_I18N" },
+    "description": { "str": "As long as you are on the island, temperature cannot affect you.", "//~": "NO_I18N" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_trait": "awayfromhome" } },
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 999 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 999 } ]
+      }
+    ]
   },
   {
     "type": "mutation",

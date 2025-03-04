@@ -5197,6 +5197,83 @@
     ]
   },
   {
+    "id": "SKYISLAND_UPGRADE_personal_temperature_adaptation",
+    "type": "mission_definition",
+    "name": "Upgrade: Personal temperature adjustement",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a                   from                    .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Temperature cannot affect you while on the island.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_windblock",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_temperature_control" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Temperature cannot affect you while on the island.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "u_add_trait": "mut_skyisland_personal_temperature_adaptation" },
+        { "u_forget_recipe": "upgradekey_temperature_control" },
+        {
+          "u_message": "Your skin shimmer for a second.  As long as you are on the island, you won't be affected by temperature.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_temperature_control",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "                   " },
+    "description": "This strange metaphysical artifact will make the island protect you from temperature while you are not earthside.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: personal temperature adaptation.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_temperature_control",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "//": "Intended to be a lategame craft, something the player focuses on as winter draws near.",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [
+        [ "sunglasses", 1 ],
+        [ "sunglasses_eye", 1 ],
+        [ "sunglasses_bifocal", 1 ],
+        [ "sunglasses_reading", 1 ],
+        [ "fitover_sunglasses", 1 ]
+      ],
+      [
+        [ "sunglasses", 1 ],
+        [ "sunglasses_eye", 1 ],
+        [ "sunglasses_bifocal", 1 ],
+        [ "sunglasses_reading", 1 ],
+        [ "fitover_sunglasses", 1 ]
+      ],
+      [ [ "umbrella", 1 ], [ "teleumbrella", 1 ] ],
+      [ [ "sundress", 1 ] ],
+      [ [ "glass_shard", 176 ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_UPGRADE_island_bound_follower",
     "type": "mission_definition",
     "name": "Upgrade: Attune another to the Island",
