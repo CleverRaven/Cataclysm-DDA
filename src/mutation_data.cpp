@@ -482,22 +482,60 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
         protection[bodypart_str_id( wp.get_string( "part" ) )] = protect;
     }
 
-    for( JsonArray ea : jo.get_array( "encumbrance_always" ) ) {
-        const bodypart_str_id bp = bodypart_str_id( ea.next_string() );
-        const int enc = ea.next_int();
-        encumbrance_always[bp] = enc;
+    // for( JsonObject ea: jo.get_object( "encumbrance_always" ) ) {
+    //     const bodypart_str_id bp = bodypart_str_id( ea. );
+    // }
+
+    JsonObject eaObj = jo.get_object( "encumbrance_always" );
+    for( JsonMember ea : jo.get_object( "encumbrance_always" ) ) {
+        const bodypart_str_id bp = bodypart_str_id( ea.name() );
+        int val = ea.get_int();
+        encumbrance_always[bp] = get_dbl_or_var( eaObj, bp.str(), false, val );
+        // encumbrance_always[bp] = get_dbl_or_var( jo.get_object( "encumbrance_always" ), bp.str(), false, 0 );
     }
 
-    for( JsonArray ec : jo.get_array( "encumbrance_covered" ) ) {
-        const bodypart_str_id bp = bodypart_str_id( ec.next_string() );
-        int enc = ec.next_int();
-        encumbrance_covered[bp] = enc;
+    JsonObject ecObj = jo.get_object( "encumbrance_covered" );
+    for( JsonMember ec : jo.get_object( "encumbrance_covered" ) ) {
+        const bodypart_str_id bp = bodypart_str_id( ec.name() );
+        int val = ec.get_int();
+        encumbrance_covered[bp] = get_dbl_or_var( ecObj, bp.str(), false, val );
+        // encumbrance_covered[bp] = get_dbl_or_var( jo.get_object( "encumbrance_covered" ), bp.str(), false, 0 );
     }
 
+    JsonObject emaObj = jo.get_object( "encumbrance_multiplier_always" );
     for( JsonMember ema : jo.get_object( "encumbrance_multiplier_always" ) ) {
-        const bodypart_str_id &bp = bodypart_str_id( ema.name() );
-        encumbrance_multiplier_always[bp] = ema.get_float();
+        const bodypart_str_id bp = bodypart_str_id( ema.name() );
+        float val = ema.get_float();
+        encumbrance_multiplier_always[bp] = get_dbl_or_var( emaObj, bp.str(), false, val );
+        // encumbrance_multiplier_always[bp] = get_dbl_or_var( jo.get_object( "encumbrance_multiplier_always" ), bp.str(), false, 0 );
     }
+
+    // for( JsonArray ea : jo.get_array( "encumbrance_always" ) ) {
+    //     const bodypart_str_id bp = bodypart_str_id( ea.next_string() );
+    //     // if( ea.test_int() ) {
+    //     //     // encumbrance_always[bp] = ea.next_int();
+    //     //     encumbrance_always[bp] = get_dbl_or_var( ea, bp.str(), false, 0 );
+    //     // }
+    //     // const int enc = ea.next_int();
+    //     const JsonObject encObj = ea.next_object();
+    //     encumbrance_always[bp] = get_dbl_or_var( encObj, bp.str(), false, 0 );
+    //     // encumbrance_always[bp] = enc;
+    // }
+
+    // for( JsonArray ec : jo.get_array( "encumbrance_covered" ) ) {
+    //     const bodypart_str_id bp = bodypart_str_id( ec.next_string() );
+    //     // int enc = ec.next_int();
+    //     const JsonObject encObj = ec.next_object();
+    //     encumbrance_covered[bp] = get_dbl_or_var( encObj, bp.str(), false, 0 );
+    //     // encumbrance_covered[bp] = enc;
+    // }
+
+    // for( JsonMember ema : jo.get_object( "encumbrance_multiplier_always" ) ) {
+    //     const bodypart_str_id &bp = bodypart_str_id( ema.name() );
+    //     const JsonObject encObj = ema.get_object();
+    //     // encumbrance_multiplier_always[bp] = ema.get_float();
+    //     encumbrance_multiplier_always[bp] = get_dbl_or_var( encObj, bp.str(), false, 0 );
+    // }
 
     for( const std::string line : jo.get_array( "restricts_gear" ) ) {
         bodypart_str_id bp( line );

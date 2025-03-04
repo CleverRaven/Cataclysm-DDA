@@ -632,6 +632,18 @@ Character::Character() :
         recalc_sight_limits();
         trait_flag_cache.clear();
         bio_flag_cache.clear();
+        // if(get_name() == "" ) {
+        //     debugmsg("character init: invalid character");
+        // }
+        // if(is_npc() || is_avatar()) {
+        //     debugmsg("is npc");
+        // }
+        // if (is_avatar()) {
+        //     debugmsg("is avatar");
+        // }
+        // if (!is_npc() || !is_avatar() ) {
+        //     debugmsg("isn't npc or avatar");
+        // }
         calc_encumbrance();
         worn.recalc_ablative_blocking(this);
     }
@@ -4187,20 +4199,22 @@ void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &
     // (calculation is costly, most of players and npcs are don't have encumbering mutations)
 
     for( const trait_id &mut : all_muts ) {
-        for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_always ) {
-            total_enc[enc.first] += enc.second;
+        const_dialogue d( get_const_talker_for( *this ), nullptr );
+        for( const std::pair<const bodypart_str_id, dbl_or_var> &enc : mut->encumbrance_always ) {
+            total_enc[enc.first] += enc.second.evaluate( d );
         }
-        for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_covered ) {
+        for( const std::pair<const bodypart_str_id, dbl_or_var> &enc : mut->encumbrance_covered ) {
             if( wearing_fitting_on( enc.first ) ) {
-                total_enc[enc.first] += enc.second;
+                total_enc[enc.first] += enc.second.evaluate( d );
             }
         }
     }
 
     for( const trait_id &mut : all_muts ) {
-        for( const std::pair<const bodypart_str_id, float> &enc : mut->encumbrance_multiplier_always ) {
+        const_dialogue d( get_const_talker_for( *this ), nullptr );
+        for( const std::pair<const bodypart_str_id, dbl_or_var> &enc : mut->encumbrance_multiplier_always ) {
             if( total_enc[enc.first] > 0 ) {
-                total_enc[enc.first] *= enc.second;
+                total_enc[enc.first] *= enc.second.evaluate( d );
             }
         }
     }

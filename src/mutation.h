@@ -13,6 +13,7 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "condition.h"
 #include "damage.h"
 #include "enums.h"
 #include "memory_fast.h"
@@ -337,11 +338,11 @@ struct mutation_branch {
         std::set<json_character_flag> active_flags; // Mutation flags only when active
         std::set<json_character_flag> inactive_flags; // Mutation flags only when inactive
         std::map<bodypart_str_id, tripoint> protection; // Mutation wet effects
-        std::map<bodypart_str_id, int> encumbrance_always; // Mutation encumbrance that always applies
+        std::map<bodypart_str_id, dbl_or_var> encumbrance_always; // Mutation encumbrance that always applies
         // Mutation encumbrance that applies when covered with unfitting item
-        std::map<bodypart_str_id, int> encumbrance_covered;
+        std::map<bodypart_str_id, dbl_or_var> encumbrance_covered;
         // a multiplier to encumbrance that is already modified by mutations
-        std::map<bodypart_str_id, float> encumbrance_multiplier_always;
+        std::map<bodypart_str_id, dbl_or_var> encumbrance_multiplier_always;
         // Body parts that now need OVERSIZE gear
         std::set<bodypart_str_id> restricts_gear;
         std::set<sub_bodypart_str_id> restricts_gear_subparts;
