@@ -1,0 +1,41 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XEDRA_CBM_EXODII_CHECK",
+    "global": true,
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": {"or": [ { "math": [ "n_monsters_nearby('mon_exodii_worker') >= 1" ] }, { "math": [ "n_monsters_nearby('mon_exodii_quad') >= 1" ] }, { "math": [ "n_monsters_nearby('mon_exodii_quad_jotunn') >= 1" ] } ] },
+    "effect": [ { "run_eocs": "EOC_ANGER_EXODII" } ]
+  },
+  {
+  "type": "effect_on_condition",
+    "id": "EOC_ANGER_EXODII",
+    "condition": { "not": { "npc_has_effect": "recently_angered_exodii" } },
+    "effect": [ { "u_cast_spell": { "id": "spell_anger_exodii" } } ]
+  },
+  {
+    "id": "spell_anger_exodii",
+    "type": "SPELL",
+    "name": { "str": "Anger Exodii", "//~": "NO_I18N" },
+    "description": { "str": "Hits any exodii in the area just enough to anger them.", "//~": "NO_I18N" },
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [  "NO_LEGS", "SILENT", "NO_PROJECTILE" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "damage_type": "pure",
+    "min_range": 120,
+    "max_range": 120,
+    "difficulty": 1,
+    "max_level": 1,
+    "targeted_monster_ids": [ "mon_exodii_worker", "mon_exodii_quad", "mon_exodii_quad_jotunn" ],
+    "shape": "blast",
+    "effect": "attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_discover_jotunn",
+    "condition": { "math": [ "u_monsters_nearby('mon_exodii_quad_jotunn') >= 1" ] },
+    "effect": [ { "u_add_var": "dialogue_exodii_seen_jotunn", "value": "yes" } ]
+  }
+]
