@@ -333,6 +333,336 @@
     ]
   },
   {
+    "id": "SKYISLAND_UPGRADE_scouting6",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting 6",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a warpforged telescope from                                                    .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scouting6",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scouting6" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancetargets = 14" ] },
+        { "u_forget_recipe": "upgradekey_scouting6" },
+        {
+          "u_message": "Your vision expands.  Future missions and exits will provide a huge scouting radius.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scouting6",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Warpforged Telescope" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 6",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scouting6",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "microscope_dissecting", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "book_newage_witchcraftbeg", 1 ] ],
+      [ [ "warptoken", 12 ] ],
+      [ [ "platinum_small", 10 ] ],
+      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
+      [ [ "hd_tow_cable", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_scouting7",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting 7",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft an Agglomerated Oculus from ocular enhancements and petrified eyes.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scouting7",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scouting7" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancetargets = 18" ] },
+        { "u_forget_recipe": "upgradekey_scouting7" },
+        {
+          "u_message": "Your vision expands.  Future missions and exits will provide a huge scouting radius.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scouting7",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Agglomerated Oculus" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 5",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scouting7",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "microscope_dissecting", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "book_newage_witchcraftbeg", 1 ] ],
+      [ [ "warptoken", 12 ] ],
+      [ [ "platinum_small", 10 ] ],
+      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
+      [ [ "hd_tow_cable", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_scouting8",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting 8",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Other Eye of the Island from                     .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scouting8",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scouting8" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancetargets = 22" ] },
+        { "u_forget_recipe": "upgradekey_scouting8" },
+        {
+          "u_message": "Your vision expands.  Future missions and exits will provide a huge scouting radius.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scouting8",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Other Eye of the Island" },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting 8",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scouting8",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "microscope_dissecting", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "book_newage_witchcraftbeg", 1 ] ],
+      [ [ "warptoken", 12 ] ],
+      [ [ "platinum_small", 10 ] ],
+      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
+      [ [ "hd_tow_cable", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_scoutingclairvoyance1",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting Clairvoyance 1",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft             from                     .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: See everything near you for a short time when beginning a mission.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scouting8",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scoutingclairvoyance1" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: See everything near you for a short time when beginning a mission.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingclairvoyancetime = 20" ] },
+        { "u_forget_recipe": "upgradekey_scoutingclairvoyance1" },
+        {
+          "u_message": "Your vision expands.  You will see everything near you for a short time when beginning a mission.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scoutingclairvoyance1",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "                " },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting Clairvoyance 1",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scoutingclairvoyance1",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "microscope_dissecting", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "book_newage_witchcraftbeg", 1 ] ],
+      [ [ "warptoken", 12 ] ],
+      [ [ "platinum_small", 10 ] ],
+      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
+      [ [ "hd_tow_cable", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_scoutingclairvoyance2",
+    "type": "mission_definition",
+    "name": "Upgrade: Scouting 8",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Other Eye of the Island from                     .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: See everything near you at the start of a mission of a longer time.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_scoutingclairvoyance2",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_scoutingclairvoyance2" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: See everything near you at the start of a mission of a longer time.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingclairvoyancetime = 60" ] },
+        { "u_forget_recipe": "upgradekey_scoutingclairvoyance2" },
+        {
+          "u_message": "Your vision expands.  You will see everything near you for a longer time at the beginning of a mission.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_scoutingclairvoyance2",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "                       " },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting Clairvoyance 2",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_scouting8",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "microscope_dissecting", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "book_newage_witchcraftbeg", 1 ] ],
+      [ [ "warptoken", 12 ] ],
+      [ [ "platinum_small", 10 ] ],
+      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
+      [ [ "hd_tow_cable", 1 ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_UPGRADE_landing1",
     "type": "mission_definition",
     "name": "Upgrade: Landing 1",
@@ -665,6 +995,405 @@
     ]
   },
   {
+    "id": "SKYISLAND_UPGRADE_landing6",
+    "type": "mission_definition",
+    "name": "Upgrade: Landing 6",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft                  from                         .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 130 seconds.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_landing6",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_landing6" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 130 seconds.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancelanding = 32" ] },
+        { "math": [ "invistime = 130" ] },
+        { "u_forget_recipe": "upgradekey_landing6" },
+        {
+          "u_message": "Your focus tightens.  Landing points will reveal more of the map, and your warpcloak will last 130 seconds at the beginning of every expedition.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_landing6",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "                " },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 6",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_landing6",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "chainmail_suit_faraday", 1 ], [ "sharksuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
+      [ [ "warptoken", 12 ] ],
+      [ [ "book_fict_soft_ya_myeyes", 1 ] ],
+      [ [ "fur", 40 ] ],
+      [ [ "glasses_monocle", 1 ] ],
+      [ [ "heroin", 1 ] ],
+      [ [ "coke", 20 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_landing7",
+    "type": "mission_definition",
+    "name": "Upgrade: Landing 7",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft             from                            .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 140 seconds.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_landing7",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_landing5" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 140 seconds.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancelanding = 40" ] },
+        { "math": [ "invistime = 140" ] },
+        { "u_forget_recipe": "upgradekey_landing7" },
+        {
+          "u_message": "Your focus tightens.  Landing points will reveal more of the map, and your warpcloak will last 140 seconds at the beginning of every expedition.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_landing7",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "                 " },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 7",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_landing7",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "chainmail_suit_faraday", 1 ], [ "sharksuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
+      [ [ "warptoken", 12 ] ],
+      [ [ "book_fict_soft_ya_myeyes", 1 ] ],
+      [ [ "fur", 40 ] ],
+      [ [ "glasses_monocle", 1 ] ],
+      [ [ "heroin", 1 ] ],
+      [ [ "coke", 20 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_landing8",
+    "type": "mission_definition",
+    "name": "Upgrade: Landing 8",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Grace of the Island from experimental materials and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 150 seconds.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_landing8",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_landing8" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 150 seconds.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "scoutingdistancelanding = 48" ] },
+        { "math": [ "invistime = 150" ] },
+        { "u_forget_recipe": "upgradekey_landing8" },
+        {
+          "u_message": "Your focus tightens.  Landing points will reveal more of the map, and your warpcloak will last 150 seconds at the beginning of every expedition.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_landing8",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "                 " },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 8",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_landing8",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "chainmail_suit_faraday", 1 ], [ "sharksuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
+      [ [ "warptoken", 12 ] ],
+      [ [ "book_fict_soft_ya_myeyes", 1 ] ],
+      [ [ "fur", 40 ] ],
+      [ [ "glasses_monocle", 1 ] ],
+      [ [ "heroin", 1 ] ],
+      [ [ "coke", 20 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_landingboost_water_walking",
+    "type": "mission_definition",
+    "name": "Upgrade: Landing Boost: Water-Walking",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft                 from                               .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: While under the effect of the warpcloak, you can walk on water.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_landingboost_water_walking",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_landingboost_water_walking" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: While under the effect of the warpcloak, you can walk on water.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "landing_water_walk = 1" ] },
+        { "u_forget_recipe": "upgradekey_landingboost_water_walking" },
+        {
+          "u_message": "You feel the warp ripple around you.  While under the effect of the warpcloak, you can walk on water.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_landingboost_water_walking",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "                 " },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing Boost: Water-Walking.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_landingboost_water_walking",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "chainmail_suit_faraday", 1 ], [ "sharksuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
+      [ [ "warptoken", 12 ] ],
+      [ [ "book_fict_soft_ya_myeyes", 1 ] ],
+      [ [ "fur", 40 ] ],
+      [ [ "glasses_monocle", 1 ] ],
+      [ [ "heroin", 1 ] ],
+      [ [ "coke", 20 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_landing_flight",
+    "type": "mission_definition",
+    "name": "Upgrade: Landing Boost: Flight",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft              from                    .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: While under the effect of the warpcloak, you can fly.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_landing8",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_landing_flight" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: While under the effect of the warpcloak, you can fly.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "landing_flight = 1" ] },
+        { "u_forget_recipe": "upgradekey_landing_flight" },
+        {
+          "u_message": "You feel the warp ripple around you.  While under the effect of the warpcloak, you can fly.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_landing_flight",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "                 " },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing Boost: Flight.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_landing_flight",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "chainmail_suit_faraday", 1 ], [ "sharksuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
+      [ [ "warptoken", 12 ] ],
+      [ [ "book_fict_soft_ya_myeyes", 1 ] ],
+      [ [ "fur", 40 ] ],
+      [ [ "glasses_monocle", 1 ] ],
+      [ [ "heroin", 1 ] ],
+      [ [ "coke", 20 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_landing_phase",
+    "type": "mission_definition",
+    "name": "Upgrade: Landing Boost: Phasing",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft                           from experimental materials and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: While under the effect of the warpcloak, you can pass through non-thick walls.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_landing8",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_landing_phase" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: While under the effect of the warpcloak, you can pass through non-thick walls.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "landing_phase = 1" ] },
+        { "u_forget_recipe": "upgradekey_landing_phase" },
+        {
+          "u_message": "You feel the warp ripple around you.  While under the effect of the warpcloak, you can pass through non-thick walls.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_landing_phase",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "                 " },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing Boost: Phasing.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_landing_phase",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "chainmail_suit_faraday", 1 ], [ "sharksuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
+      [ [ "warptoken", 12 ] ],
+      [ [ "book_fict_soft_ya_myeyes", 1 ] ],
+      [ [ "fur", 40 ] ],
+      [ [ "glasses_monocle", 1 ] ],
+      [ [ "heroin", 1 ] ],
+      [ [ "coke", 20 ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_UPGRADE_stability1",
     "type": "mission_definition",
     "name": "Upgrade: Stability 1",
@@ -940,6 +1669,201 @@
     ]
   },
   {
+    "id": "SKYISLAND_UPGRADE_stability5",
+    "type": "mission_definition",
+    "name": "Upgrade: Stability 5",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft                    from                         .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will begin every expedition with the ability to withstand 13 pulses instead of the default 8, allowing you to stay out 62.5% longer before warpsickness takes over.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_stability4",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_stability5" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will begin every expedition with the ability to withstand 13 pulses instead of the default 8, allowing you to stay out 62.5% longer before warpsickness takes over.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "bonuspulses = 5" ] },
+        { "u_forget_recipe": "upgradekey_stability5" },
+        {
+          "u_message": "Your resistance to the chaos of the warpstream increases.  In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_stability5",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "                            " },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 5",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_stability5",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "panacea", 1 ], [ "purifier_smart_shot", 1 ] ],
+      [ [ "warptoken", 25 ] ],
+      [ [ "plut_cell", 5 ] ],
+      [ [ "dimensional_anchor", 1 ], [ "broken_dimensional_anchor", 1 ] ],
+      [ [ "c4", 1 ] ],
+      [ [ "fidget_spinner", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_stability6",
+    "type": "mission_definition",
+    "name": "Upgrade: Stability 6",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft                      from experimental materials and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will begin every expedition with the ability to withstand 14 pulses instead of the default 8, allowing you to stay out 75% longer before warpsickness takes over.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_stability6",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_stability6" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will begin every expedition with the ability to withstand 14 pulses instead of the default 8, allowing you to stay out 75% longer before warpsickness takes over.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "bonuspulses = 6" ] },
+        { "u_forget_recipe": "upgradekey_stability6" },
+        {
+          "u_message": "Your resistance to the chaos of the warpstream increases.  In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_stability6",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "              " },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 6",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_stability6",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "panacea", 1 ], [ "purifier_smart_shot", 1 ] ],
+      [ [ "warptoken", 25 ] ],
+      [ [ "plut_cell", 5 ] ],
+      [ [ "dimensional_anchor", 1 ], [ "broken_dimensional_anchor", 1 ] ],
+      [ [ "c4", 1 ] ],
+      [ [ "fidget_spinner", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_stability7",
+    "type": "mission_definition",
+    "name": "Upgrade: Stability 7",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft                      from                           .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will begin every expedition with the ability to withstand 15 pulses instead of the default 8, allowing you to stay out 87.5% longer before warpsickness takes over.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_stability7",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_stability7" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: You will begin every expedition with the ability to withstand 15 pulses instead of the default 8, allowing you to stay out 87.5% longer before warpsickness takes over.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "bonuspulses = 7" ] },
+        { "u_forget_recipe": "upgradekey_stability7" },
+        {
+          "u_message": "Your resistance to the chaos of the warpstream increases.  In every future expedition, you will be able to endure an additional warp pulse and stay earthside longer.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_stability7",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "                                     " },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 7",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_stability7",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "panacea", 1 ], [ "purifier_smart_shot", 1 ] ],
+      [ [ "warptoken", 25 ] ],
+      [ [ "plut_cell", 5 ] ],
+      [ [ "dimensional_anchor", 1 ], [ "broken_dimensional_anchor", 1 ] ],
+      [ [ "c4", 1 ] ],
+      [ [ "fidget_spinner", 1 ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_UPGRADE_slaughter",
     "type": "mission_definition",
     "name": "Unlock: Slaughter Missions",
@@ -1112,6 +2036,134 @@
   },
   {
     "result": "upgradekey_exit2",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "grapnel", 1 ] ],
+      [ [ "warptoken", 1 ] ],
+      [ [ "roller_shoes_off", 1 ], [ "folded_skateboard_generic", 1 ] ],
+      [ [ "fire_ax", 1 ], [ "crash_axe", 1 ] ],
+      [ [ "halligan", 1 ], [ "ny_hook", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_exit3",
+    "type": "mission_definition",
+    "name": "Unlock: Four Exits per Expedition",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the                           from                          .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Every expedition will now have four different locations you can exit from.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_exit3",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_exit3" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have four different locations you can exit from.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "bonusexits = 3" ] },
+        { "u_forget_recipe": "upgradekey_exit3" },
+        {
+          "u_message": "Again you see in blindness, and before you stretches a vast invisible labyrinth beneath an empty sky.  You race forward, tracing paths spoken to you in dreams, and an origami spiderweb crumples and breathes out underfoot.  At last, at the seashell's center, lies the cornucopia's smallest door.\nWhen at last you open your eyes, you find yourself where you began, unmoved, yet changed.\n\nIn every future expedition, you will now be able to find four different locations you can exit from.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_exit3",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "                           ", "str_pl": "                      " },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Four Exits per Expedition",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_exit3",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "grapnel", 1 ] ],
+      [ [ "warptoken", 1 ] ],
+      [ [ "roller_shoes_off", 1 ], [ "folded_skateboard_generic", 1 ] ],
+      [ [ "fire_ax", 1 ], [ "crash_axe", 1 ] ],
+      [ [ "halligan", 1 ], [ "ny_hook", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_exit4",
+    "type": "mission_definition",
+    "name": "Unlock: Five Exits per Expedition",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the                           from                          .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Every expedition will now have four different locations you can exit from.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_exit4",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_exit4" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have four different locations you can exit from.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "bonusexits = 4" ] },
+        { "u_forget_recipe": "upgradekey_exit4" },
+        {
+          "u_message": "Again you see in blindness, and before you stretches a vast invisible labyrinth beneath an empty sky.  You race forward, tracing paths spoken to you in dreams, and an origami spiderweb crumples and breathes out underfoot.  At last, at the seashell's center, lies the cornucopia's smallest door.\nWhen at last you open your eyes, you find yourself where you began, unmoved, yet changed.\n\nIn every future expedition, you will now be able to find five different locations you can exit from.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_exit4",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "                           ", "str_pl": "                      " },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Five Exits per Expedition",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_exit4",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "category": "CC_WARP",
@@ -1313,6 +2365,162 @@
   },
   {
     "result": "upgradekey_bonusmissions3",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "jade_brooch", 1 ], [ "crown_golden", 1 ], [ "crown_golden_survivor", 1 ] ],
+      [ [ "warptoken", 6 ] ],
+      [ [ "platinum_small", 100 ] ],
+      [ [ "gold_small", 200 ] ],
+      [ [ "silver_small", 500 ] ],
+      [ [ "diamond", 5 ] ],
+      [ [ "ruby", 1 ] ],
+      [ [ "emerald", 1 ] ],
+      [ [ "onyx", 1 ] ],
+      [ [ "garnet", 1 ] ],
+      [ [ "sapphire", 1 ] ],
+      [ [ "opal", 1 ] ],
+      [ [ "pearl", 1 ] ],
+      [ [ "citrine", 1 ] ],
+      [ [ "peridot", 1 ] ],
+      [ [ "amethyst", 1 ] ],
+      [ [ "tourmaline", 1 ] ],
+      [ [ "aquamarine", 1 ] ],
+      [ [ "alexandrite", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_bonusmissions4",
+    "type": "mission_definition",
+    "name": "Unlock: Four Missions per Expedition",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft                       from              .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Every expedition will now have 4 different randomly assigned missions, increasing the possibility for earning warp shards.  Completing a mission also extends the time left on current expedition by 1 warp pulse.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_bonusmissions4",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_bonusmissions4" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have 4 different randomly assigned missions, increasing the possibility for earning warp shards.  Completing a mission also extends the time left on current expedition by 1 warp pulse.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "bonusmissions = 4" ] },
+        { "u_forget_recipe": "upgradekey_bonusmissions4" },
+        {
+          "u_message": "Your strength is an extension of the island's will.  Let order be maintained.\nIn every future expedition, you will now be given 4 random missions.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_bonusmissions4",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "                            " },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Four Missions per Expedition",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_bonusmissions4",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [ [ "jade_brooch", 1 ], [ "crown_golden", 1 ], [ "crown_golden_survivor", 1 ] ],
+      [ [ "warptoken", 6 ] ],
+      [ [ "platinum_small", 100 ] ],
+      [ [ "gold_small", 200 ] ],
+      [ [ "silver_small", 500 ] ],
+      [ [ "diamond", 5 ] ],
+      [ [ "ruby", 1 ] ],
+      [ [ "emerald", 1 ] ],
+      [ [ "onyx", 1 ] ],
+      [ [ "garnet", 1 ] ],
+      [ [ "sapphire", 1 ] ],
+      [ [ "opal", 1 ] ],
+      [ [ "pearl", 1 ] ],
+      [ [ "citrine", 1 ] ],
+      [ [ "peridot", 1 ] ],
+      [ [ "amethyst", 1 ] ],
+      [ [ "tourmaline", 1 ] ],
+      [ [ "aquamarine", 1 ] ],
+      [ [ "alexandrite", 1 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_bonusmissions5",
+    "type": "mission_definition",
+    "name": "Unlock: Five Missions per Expedition",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft                          from                      .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Every expedition will now have 53 different randomly assigned missions, increasing the possibility for earning warp shards.  Completing a mission also extends the time left on current expedition by 1 warp pulse.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_bonusmissions5",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_bonusmissions5" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Every expedition will now have 5 different randomly assigned missions, increasing the possibility for earning warp shards.  Completing a mission also extends the time left on current expedition by 1 warp pulse.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "bonusmissions = 5" ] },
+        { "u_forget_recipe": "upgradekey_bonusmissions5" },
+        {
+          "u_message": "Your strength is an extension of the island's will.  Let order be maintained.\nIn every future expedition, you will now be given 3 random missions.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_bonusmissions5",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "                            " },
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Five Missions per Expedition",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_bonusmissions5",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "category": "CC_WARP",
@@ -3897,20 +5105,168 @@
         [ "sunglasses_eye", 1 ],
         [ "sunglasses_bifocal", 1 ],
         [ "sunglasses_reading", 1 ],
-        [ "fitover_sunglasses", 1 ],
-        [ "fancy_sunglasses_eye", 1 ],
-        [ "fancy_sunglasses_reading", 1 ],
-        [ "fancy_sunglasses_bifocal", 1 ]
+        [ "fitover_sunglasses", 1 ]
       ],
       [
         [ "sunglasses", 1 ],
         [ "sunglasses_eye", 1 ],
         [ "sunglasses_bifocal", 1 ],
         [ "sunglasses_reading", 1 ],
-        [ "fitover_sunglasses", 1 ],
-        [ "fancy_sunglasses_eye", 1 ],
-        [ "fancy_sunglasses_reading", 1 ],
-        [ "fancy_sunglasses_bifocal", 1 ]
+        [ "fitover_sunglasses", 1 ]
+      ],
+      [ [ "umbrella", 1 ], [ "teleumbrella", 1 ] ],
+      [ [ "sundress", 1 ] ],
+      [ [ "glass_shard", 176 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_windblock",
+    "type": "mission_definition",
+    "name": "Upgrade: Personal windblock",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a                   from                    .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: The winds cannot affect you while on the island.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_windblock",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_windblock" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: The winds cannot affect you while on the island.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "u_add_trait": "mut_skyisland_windblock" },
+        { "u_forget_recipe": "upgradekey_windblock" },
+        {
+          "u_message": "The winds shift a little.  As long as you are on the island, they will not touch you.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_windblock",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "                   " },
+    "description": "This strange metaphysical artifact will make the island protect you from the winds while you are not earthside.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: personal windblock.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_windblock",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "//": "Intended to be a midgame craft, as the winds are a good motivator to drive early exploration.",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [
+        [ "sunglasses", 1 ],
+        [ "sunglasses_eye", 1 ],
+        [ "sunglasses_bifocal", 1 ],
+        [ "sunglasses_reading", 1 ],
+        [ "fitover_sunglasses", 1 ]
+      ],
+      [
+        [ "sunglasses", 1 ],
+        [ "sunglasses_eye", 1 ],
+        [ "sunglasses_bifocal", 1 ],
+        [ "sunglasses_reading", 1 ],
+        [ "fitover_sunglasses", 1 ]
+      ],
+      [ [ "umbrella", 1 ], [ "teleumbrella", 1 ] ],
+      [ [ "sundress", 1 ] ],
+      [ [ "glass_shard", 176 ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_UPGRADE_island_bound_follower",
+    "type": "mission_definition",
+    "name": "Upgrade: Attune another to the Island",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Strands of Intertwinned Fates from rare pairs and things best enjoyed with friends.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Allows you to attune one follower to the island through a dialogue option, granting them everything that comes with being bound to the island: the inability to truly die, the warp disintegration, the secure container, the pulses, etc.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "upgradekey_island_bound_follower",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "upgradekey_island_bound_follower" },
+        {
+          "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Allows you to attune one follower to the island through a dialogue option, granting them everything that comes with being bound to the island: the inability to truly die, the warp disintegration, the secure container, the pulses, etc.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "available_island_bound_followers = 1" ] },
+        { "u_forget_recipe": "upgradekey_island_bound_follower" },
+        {
+          "u_message": "Your vision fills with small red strands exiting your body and stretching into infinity before returning to normal.  You can now talk with one follower while on the island to attune them to it, granting them all the island's curses and blessings.",
+          "type": "mixed"
+        }
+      ]
+    }
+  },
+  {
+    "id": "upgradekey_island_bound_follower",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Strands of Intertwined Fates" },
+    "description": "This strange metaphysical artifact will allow you to extend the island's influence to another person, giving them all the curses and blessings the island is giving you.  Will be used automatically upon crafting, and only grants one use.\n\nASSOCIATED UPGRADE: Attune another to the Island.",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "upgradekey_island_bound_follower",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "//": "Intended to be hard to craft, as a follower who cannot truly die has a lot of potential.",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "components": [
+      [
+        [ "sunglasses", 1 ],
+        [ "sunglasses_eye", 1 ],
+        [ "sunglasses_bifocal", 1 ],
+        [ "sunglasses_reading", 1 ],
+        [ "fitover_sunglasses", 1 ]
+      ],
+      [
+        [ "sunglasses", 1 ],
+        [ "sunglasses_eye", 1 ],
+        [ "sunglasses_bifocal", 1 ],
+        [ "sunglasses_reading", 1 ],
+        [ "fitover_sunglasses", 1 ]
       ],
       [ [ "umbrella", 1 ], [ "teleumbrella", 1 ] ],
       [ [ "sundress", 1 ] ],
