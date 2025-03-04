@@ -677,7 +677,7 @@
         "U": [
           { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 10 ] },
           { "item": "guns_common", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_common", "chance": 50, "repeat": [ 2, 4 ] },
+          { "item": "ammo_common_boxed", "chance": 50, "repeat": [ 2, 4 ] },
           { "item": "mags_common", "chance": 50, "repeat": [ 2, 3 ] }
         ],
         "^": [ { "item": "mil_base_iv", "chance": 70 } ]

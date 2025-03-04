@@ -78,7 +78,7 @@
     "ammo": 70,
     "magazine": 100,
     "subtype": "distribution",
-    "entries": [ { "group": "guns_common", "prob": 100 }, { "group": "ammo_common", "prob": 50 } ]
+    "entries": [ { "group": "guns_common", "prob": 100 }, { "group": "ammo_common_boxed_used", "prob": 50 } ]
   },
   {
     "type": "item_group",
@@ -92,7 +92,7 @@
       { "group": "guns_shotgun_common", "prob": 2 },
       { "group": "guns_display_pieces", "prob": 20 },
       { "group": "guns_collectible", "prob": 2 },
-      { "group": "ammo_obscure", "prob": 40 },
+      { "group": "ammo_common_boxed", "prob": 40 },
       { "group": "mags_common", "prob": 40 }
     ]
   },
