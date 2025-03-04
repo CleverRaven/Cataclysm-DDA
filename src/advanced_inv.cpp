@@ -1836,7 +1836,7 @@ bool advanced_inventory::action_unload( advanced_inv_listitem *sitem,
     return u.unload( src, false, dest );
 }
 
-void advanced_inventory::process_action( std::string input_action )
+void advanced_inventory::process_action( const std::string &input_action )
 {
     dest = src == advanced_inventory::side::left ? advanced_inventory::side::right :
            advanced_inventory::side::left;
@@ -1850,7 +1850,7 @@ void advanced_inventory::process_action( std::string input_action )
     aim_location changeSquare = NUM_AIM_LOCATIONS;
     avatar &u = get_avatar();
 
-    const std::string action = is_processing() ? "MOVE_ALL_ITEMS" : input_action;
+    const std::string &action = is_processing() ? "MOVE_ALL_ITEMS" : input_action;
     if( action == "CATEGORY_SELECTION" ) {
         inCategoryMode = !inCategoryMode;
     } else if( action == "ITEMS_DEFAULT" ) {

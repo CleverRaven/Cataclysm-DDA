@@ -38,7 +38,7 @@ class advanced_inventory
 
         void init();
 
-        void process_action( std::string input_action );
+        void process_action( const std::string &input_action );
         /**
          * Converts from screen relative location to game-space relative location
          * for control rotation in isometric mode.
