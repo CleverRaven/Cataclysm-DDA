@@ -465,7 +465,7 @@
     "symbol": "/",
     "material": [ "wood", "steel" ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [  "NONCONDUCTIVE", "BELT_CLIP" ],
+    "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ],
     "volume": "2 L",
     "longest_side": "90 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
