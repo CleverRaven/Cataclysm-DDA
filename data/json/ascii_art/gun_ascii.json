@@ -1658,6 +1658,25 @@
   },
   {
     "type": "ascii_art",
+    "id": "mauser_c96",
+    "picture": [
+      "     <color_dark_gray>\\▄________⌂</color>                     <color_dark_gray>_</color>   ",
+      "   <color_light_gray>O█</color><color_dark_gray>║</color><color_dark_gray>█</color><color_dark_gray>█████████</color><color_light_gray>▄▄▄▄</color><color_dark_gray>█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█▄</color>  ",
+      "    <color_light_gray>█</color><color_dark_gray>▐█▒▒▒▒▒▒▒▒▒▒▒▒◙█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀</color>  ",
+      "  <color_dark_gray>▀████████████████▌</color>                     ",
+      "   <color_light_gray>█</color><color_dark_gray>▓▓▓▓███████████▌</color>                     ",
+      "   <color_dark_gray>▐██████▀( ▐█████▌</color>                     ",
+      "  <color_brown>▐██████</color><color_dark_gray> \\__}██████</color>                     ",
+      "  <color_brown>▐▓▓▓▓▓▌</color>                                ",
+      " <color_brown>▐▓▓</color><color_red>[]</color><color_brown>▓▓</color>                                 ",
+      " <color_brown>▓▓▓</color><color_red>◄⌡</color><color_brown>▓▓</color>                                 ",
+      "<color_brown>▐▓▓▓▓▓▓▌</color>                                 ",
+      " <color_brown>▀████▀</color>                                  ",
+      " <color_dark_gray>()</color>                                      "
+    ]
+  },
+  {
+    "type": "ascii_art",
     "id": "sw_22a",
     "picture": [
       " <color_dark_gray>▐▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄∙",
