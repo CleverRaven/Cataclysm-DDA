@@ -140,6 +140,10 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "alchemical_recipes_tier_five",
-    "items": [ { "item": "alchemy_recipe_plant_imbuement", "prob": 1 }, { "item": "alchemy_recipe_doll_imbuement", "prob": 1 } ]
+    "items": [
+      { "item": "alchemy_recipe_plant_imbuement", "prob": 1 },
+      { "item": "alchemy_recipe_doll_imbuement", "prob": 1 },
+      { "item": "alchemy_recipe_fire_imbuement", "prob": 1 }
+    ]
   }
 ]

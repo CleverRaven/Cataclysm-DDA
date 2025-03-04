@@ -16,7 +16,7 @@
 #include "flat_set.h"
 #include "translation.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 
 class Character;
 class JsonObject;

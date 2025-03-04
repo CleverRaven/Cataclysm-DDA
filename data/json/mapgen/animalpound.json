@@ -108,6 +108,7 @@
         "s": "f_sink",
         "y": "f_indoor_plant"
       },
+      "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "SUS_trash_floor", "x": 14, "y": 4, "chance": 35, "repeat": [ 1, 3 ] },

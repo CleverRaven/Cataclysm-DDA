@@ -399,7 +399,8 @@
         "C": [ { "item": "SUS_bathroom_medicine", "chance": 100 }, { "item": "SUS_bathroom_cabinet", "chance": 50 } ],
         "S": { "item": "SUS_bathroom_sink", "chance": 100, "repeat": [ 1, 2 ] },
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 2 ] },
-        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 3, 6 ], "chance": 70 } ]
     }
@@ -438,7 +439,8 @@
         "C": [ { "item": "SUS_bathroom_medicine", "chance": 100 }, { "item": "SUS_bathroom_cabinet", "chance": 50 } ],
         "S": { "item": "SUS_bathroom_sink", "chance": 100, "repeat": [ 1, 2 ] },
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 2 ] },
-        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 75, "repeat": [ 1, 2 ] },
+        "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_monster": [ { "group": "GROUP_PHAVIAN_OFFICE", "x": [ 1, 6 ], "y": [ 1, 6 ], "repeat": [ 3, 6 ], "chance": 70 } ]
     }

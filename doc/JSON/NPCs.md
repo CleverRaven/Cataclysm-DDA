@@ -1441,6 +1441,11 @@ These can be read or written to with `val()`.
 | `volume` | ❌ | Current volume in mL. Only works for monsters |
 | `weight` | ❌ | Current weight in mg. |
 | `count`  | ❌ | Count of an item. |
+| `vehicle_facing`  | ❌ | Angle that the vehicle is facing. Only works for vehicles. 0 is North |
+| `current_speed`  | ❌ | Vehicle's current speed. Only works for vehicles. |
+| `unloaded_weight`  | ❌ | How much the vehicle would weigh without passengers or cargo. Only works for vehicles. |
+| `friendly_passenger_count`  | ❌ | How many people plus monsters are onboard that are not hostile. Only works for vehicles. |
+| `hostile_passenger_count`  | ❌ | How many people plus monsters are onboard that are not friendly. Only works for vehicles. |
 
 
 #### Math functions defined in JSON

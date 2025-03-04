@@ -118,6 +118,7 @@
       "Ä": "f_cellphone_booster"
     },
     "items": {
+      "&": { "item": "SUS_toilet", "chance": 50 },
       "M": [
         { "item": "fireman_cabinet", "chance": 100, "repeat": [ 2, 4 ] },
         { "item": "used_1st_aid", "chance": 55, "repeat": [ 1, 2 ] },

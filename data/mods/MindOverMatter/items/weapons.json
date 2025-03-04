@@ -206,7 +206,7 @@
   },
   {
     "id": "mom_pulse_rifle",
-    "looks_like": "ar15",
+    "looks_like": "laser_rifle",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "LV429 Pulse Rifle" },
@@ -253,7 +253,7 @@
   },
   {
     "id": "mom_pulse_rifle_prototype",
-    "looks_like": "ar15",
+    "looks_like": "laser_rifle",
     "type": "GUN",
     "copy-from": "mom_pulse_rifle",
     "name": { "str": "LV429-P Pulse Rifle" },

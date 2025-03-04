@@ -227,6 +227,7 @@
       "items": {
         "l": [ { "item": "clothing_outdoor_torso", "chance": 50 }, { "item": "bags", "chance": 50 } ],
         "X": [ { "item": "antique", "chance": 50 }, { "item": "art", "chance": 50 }, { "item": "jewelry_safe", "chance": 10 } ],
+        "T": { "item": "SUS_toilet", "chance": 50 },
         "I": { "item": "SUS_office_desk", "chance": 33 },
         "F": { "item": "SUS_office_filing_cabinet", "chance": 75 },
         "f": { "item": "mail_postal", "chance": 75, "repeat": [ 1, 12 ] },

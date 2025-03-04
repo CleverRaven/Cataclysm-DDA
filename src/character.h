@@ -2370,11 +2370,21 @@ class Character : public Creature, public visitable
         bool has_wield_conflicts( const item &it ) const;
 
         /**
-         * Removes currently wielded item (if any) and replaces it with the target item.
-         * @param target replacement item to wield or null item to remove existing weapon without replacing it
+         * Removes currently wielded item (if any) and replaces it with the item from item_location.
+         * If remove_old is not set to false, also remove item from the old location, invalidating loc.
+         * @param loc replacement item to wield or null item to remove existing weapon without replacing it
+         * @param remove_old optional, if false it does not remove item from the old location.
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
-        virtual bool wield( item &target ) = 0;
+        bool wield( item_location loc, bool remove_old = true );
+
+        /**
+         * Wield an item, unwielding currently wielded item (if any).
+         * If moving from a location, use provide item_location instead of item for more accurate move-cost.
+         * @param it item to be wielded.
+         * @return whether both removal and replacement were successful (they are performed atomically)
+         */
+        bool wield( item &it, std::optional<int> obtain_cost = std::nullopt );
         /**
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded
@@ -2969,8 +2979,6 @@ class Character : public Creature, public visitable
         bool use_charges_if_avail( const itype_id &it, int quantity );
 
         std::pair<float, item> get_best_weapon_by_damage_type( damage_type_id dmg_type ) const;
-
-        std::pair<int, const item *> get_best_tool( quality_id quality ) const;
 
         /**
         * Available ups from all sources
@@ -3858,6 +3866,7 @@ class Character : public Creature, public visitable
          * @param qual_id The quality to search
         */
         item &best_item_with_quality( const quality_id &qid );
+        const item &best_item_with_quality( const quality_id &qid ) const;
 
         // inherited from visitable
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;

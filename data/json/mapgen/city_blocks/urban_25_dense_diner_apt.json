@@ -100,7 +100,8 @@
         "D": { "item": "allclothes", "chance": 60 },
         "L": { "item": "homeguns", "chance": 80 },
         "W": { "item": "allclothes", "chance": 60 },
-        "X": { "item": "allclothes", "chance": 60 }
+        "X": { "item": "allclothes", "chance": 60 },
+        "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "toilets": { "T": {  } },
       "place_monsters": [

@@ -73,7 +73,8 @@
         "C": { "item": "petstore_misc", "chance": 70, "repeat": [ 2, 8 ] },
         "K": { "item": "petstore_misc", "chance": 70, "repeat": [ 2, 8 ] },
         "d": { "item": "office", "chance": 50, "repeat": [ 2, 4 ] },
-        "U": { "item": "SUS_trash_dumpster", "chance": 20, "repeat": [ 2, 4 ] }
+        "U": { "item": "SUS_trash_dumpster", "chance": 20, "repeat": [ 2, 4 ] },
+        "B": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [
         { "group": "cash_register_random", "x": [ 11, 13 ], "y": 15 },
@@ -162,7 +163,7 @@
       ],
       "items": {
         "l": { "item": "cleaning", "chance": 30 },
-        "T": { "item": "softdrugs", "chance": 30 },
+        "T": [ { "item": "softdrugs", "chance": 30 }, { "item": "SUS_toilet", "chance": 50 } ],
         "{": { "item": "petstore_shelves", "chance": 70, "repeat": [ 2, 8 ] }
       },
       "place_monster": [

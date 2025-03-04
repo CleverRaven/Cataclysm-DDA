@@ -305,8 +305,8 @@ bool assign( const JsonObject &jo, const std::string_view name, units::energy &v
     const auto parse = [&name]( const JsonObject & obj, units::energy & out ) {
         if( obj.has_int( name ) ) {
             const std::int64_t tmp = obj.get_int( name );
-            if( tmp > units::to_kilojoule( units::energy_max ) ) {
-                out = units::energy_max;
+            if( tmp > units::to_kilojoule( units::energy::max() ) ) {
+                out = units::energy::max();
             } else {
                 out = units::from_kilojoule( tmp );
             }
@@ -374,8 +374,8 @@ bool assign( const JsonObject &jo, const std::string_view name, units::power &va
     const auto parse = [&name]( const JsonObject & obj, units::power & out ) {
         if( obj.has_int( name ) ) {
             const std::int64_t tmp = obj.get_int( name );
-            if( tmp > units::to_kilowatt( units::power_max ) ) {
-                out = units::power_max;
+            if( tmp > units::to_kilowatt( units::power::max() ) ) {
+                out = units::power::max();
             } else {
                 out = units::from_kilowatt( tmp );
             }

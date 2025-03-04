@@ -36,7 +36,7 @@
       "±": "t_ramp_down_low"
     },
     "furniture": { "b": "f_bench", "^": [ "f_indoor_plant", "f_indoor_plant_y" ], "x": "f_console_broken" },
-    "items": { "a": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] } },
+    "items": { "a": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] }, "T": { "item": "SUS_toilet", "chance": 50 } },
     "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
     "toilets": { "T": {  } }
   },
@@ -485,6 +485,7 @@
       "a": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] },
       "t": { "item": "dining", "chance": 40, "repeat": [ 1, 2 ] },
       "F": { "item": "SUS_office_filing_cabinet", "chance": 70 },
+      "T": { "item": "SUS_toilet", "chance": 50 },
       ".": { "item": "office_mess", "chance": 1 }
     },
     "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },

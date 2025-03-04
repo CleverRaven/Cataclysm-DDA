@@ -1517,49 +1517,24 @@ void npc::stow_item( item &it )
 
 bool npc::wield( item &it )
 {
-    const map &here = get_map();
-
-    // sanity check: exit early if we're trying to wield the current weapon
-    // needed for ranged_balance_test
-    if( is_wielding( it ) ) {
-        return true;
+    if( !Character::wield( it ) ) {
+        return false;
     }
+    add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),
+                            get_wielded_item()->tname() );
 
-    item to_wield;
-    if( has_item( it ) ) {
-        to_wield = remove_item( it );
-    } else {
-        to_wield = it;
-    }
-    invalidate_leak_level_cache();
-    invalidate_inventory_validity_cache();
-    cached_info.erase( "weapon_value" );
-    item_location weapon = get_wielded_item();
-    if( has_wield_conflicts( to_wield ) ) {
-        stow_item( *weapon );
-        weapon = get_wielded_item();
-    }
+    invalidate_range_cache();
+    return true;
+}
 
-    if( to_wield.is_null() ) {
-        set_wielded_item( item() );
-        get_event_bus().send<event_type::character_wields_item>( getID(), item().typeId() );
-        return true;
+bool npc::wield( item_location loc, bool remove_old )
+{
+    if( !Character::wield( std::move( loc ), remove_old ) ) {
+        return false;
     }
+    add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),
+                            get_wielded_item()->tname() );
 
-    mod_moves( -to_wield.on_wield_cost( *this ) );
-    if( weapon && to_wield.can_combine( *weapon ) ) {
-        weapon->combine( to_wield );
-    } else {
-        set_wielded_item( to_wield );
-    }
-
-    weapon = get_wielded_item();
-    cata::event e = cata::event::make<event_type::character_wields_item>( getID(), weapon->typeId() );
-    get_event_bus().send_with_talker( this, &weapon, e );
-
-    if( get_player_view().sees( here, pos_bub( here ) ) ) {
-        add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon->tname() );
-    }
     invalidate_range_cache();
     return true;
 }

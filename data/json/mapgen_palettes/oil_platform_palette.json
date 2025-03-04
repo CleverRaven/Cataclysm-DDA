@@ -223,6 +223,7 @@
         { "item": "bags_trip", "chance": 15 },
         { "item": "small_bags", "chance": 30 }
       ],
+      "g": { "item": "SUS_toilet", "chance": 50 },
       "l": [
         { "item": "SUS_dresser_mens", "chance": 60, "repeat": [ 0, 1 ] },
         { "item": "SUS_dresser_womens", "chance": 60, "repeat": [ 0, 1 ] },

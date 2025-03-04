@@ -1,6 +1,12 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_FERAL_TELEPORTER_TELEPORTION_TOUCH",
+    "condition": { "and": [ { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } }, { "not": { "u_has_flag": "TELESTOP" } } ] },
+    "effect": [ { "npc_cast_spell": { "id": "teleport_blink_monster", "min_level": 5 } } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_FERAL_VITAKIN1_ENERVATING_TOUCH",
     "condition": "npc_is_character",
     "effect": [

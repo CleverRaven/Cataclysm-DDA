@@ -69,6 +69,7 @@
         "?": "f_sofa",
         "b": "f_bench"
       },
+      "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "t": {  } },
       "vendingmachines": { "N": { "item_group": "vending_drink", "lootable": true }, "n": { "item_group": "vending_food", "lootable": true } },
       "place_items": [

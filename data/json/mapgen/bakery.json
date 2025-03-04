@@ -98,7 +98,8 @@
         "@": { "item": "SUS_trash_trashcan", "chance": 75 },
         "a": { "item": "SUS_trash_dumpster", "chance": 75, "repeat": [ 2, 4 ] },
         "k": [ { "item": "groce_ingredient", "chance": 50, "repeat": [ 1, 3 ] }, { "item": "sugar_various", "chance": 20 } ],
-        "{": { "item": "bakery_dairy", "chance": 75, "repeat": [ 1, 2 ] }
+        "{": { "item": "bakery_dairy", "chance": 75, "repeat": [ 1, 2 ] },
+        "T": { "item": "SUS_toilet", "chance": 100 }
       },
       "place_items": [
         { "item": "SUS_knife_drawer", "x": 4, "y": 16, "chance": 75 },

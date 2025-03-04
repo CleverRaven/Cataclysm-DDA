@@ -89,7 +89,8 @@
           { "item": "bar_fridge", "chance": 65, "repeat": [ 1, 2 ] }
         ],
         "C": [ { "item": "jackets", "chance": 16 }, { "item": "hats_unisex", "chance": 12 } ],
-        "Y": [ { "item": "jackets", "chance": 35, "repeat": [ 1, 4 ] }, { "item": "hats_unisex", "chance": 25, "repeat": [ 1, 2 ] } ]
+        "Y": [ { "item": "jackets", "chance": 35, "repeat": [ 1, 4 ] }, { "item": "hats_unisex", "chance": 25, "repeat": [ 1, 2 ] } ],
+        "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [
         { "group": "cash_register_random", "x": 10, "y": 16 },
@@ -234,7 +235,8 @@
           { "item": "bar_fridge", "chance": 65, "repeat": [ 1, 2 ] }
         ],
         "C": [ { "item": "jackets", "chance": 16 }, { "item": "hats_unisex", "chance": 12 } ],
-        "Y": [ { "item": "jackets", "chance": 35, "repeat": [ 1, 4 ] }, { "item": "hats_unisex", "chance": 25, "repeat": [ 1, 2 ] } ]
+        "Y": [ { "item": "jackets", "chance": 35, "repeat": [ 1, 4 ] }, { "item": "hats_unisex", "chance": 25, "repeat": [ 1, 2 ] } ],
+        "&": { "item": "SUS_toilet", "chance": 50 }
       },
       "vendingmachines": { "v": { "item_group": "vending_drink", "lootable": true }, "V": { "item_group": "vending_food", "lootable": true } },
       "place_loot": [

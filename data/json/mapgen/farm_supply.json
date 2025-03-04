@@ -71,11 +71,7 @@
         "á": {
           "item": {
             "subtype": "collection",
-            "entries": [
-              { "group": "ammo_rifle_common_collection", "prob": 25 },
-              { "group": "ammo_shotgun_common_collection", "prob": 40 },
-              { "group": "mags_common", "prob": 35 }
-            ]
+            "entries": [ { "group": "ammo_hunting", "prob": 55 }, { "group": "mags_common", "prob": 35 } ]
           },
           "chance": 100,
           "repeat": [ 0, 5 ]
@@ -89,6 +85,7 @@
           "chance": 80,
           "repeat": [ 0, 3 ]
         },
+        "T": { "item": "SUS_toilet", "chance": 50 },
         "1": { "item": "petstore_shelves", "chance": 80, "repeat": [ 0, 3 ] },
         "2": {
           "item": {
@@ -517,11 +514,7 @@
         "á": {
           "item": {
             "subtype": "collection",
-            "entries": [
-              { "group": "ammo_rifle_common_collection", "prob": 25 },
-              { "group": "ammo_shotgun_common_collection", "prob": 40 },
-              { "group": "mags_common", "prob": 35 }
-            ]
+            "entries": [ { "group": "ammo_hunting", "prob": 55 }, { "group": "mags_common", "prob": 35 } ]
           },
           "chance": 7,
           "repeat": [ 0, 4 ]
@@ -535,6 +528,7 @@
           "chance": 100,
           "repeat": [ 0, 2 ]
         },
+        "T": { "item": "SUS_toilet", "chance": 50 },
         "1": { "item": "petstore_shelves", "chance": 70, "repeat": [ 0, 3 ] },
         "2": {
           "item": {

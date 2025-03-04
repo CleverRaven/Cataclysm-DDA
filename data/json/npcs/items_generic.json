@@ -210,7 +210,7 @@
   {
     "type": "item_group",
     "id": "npc_eyes",
-    "items": [ [ "null", 80 ], [ "glasses_safety", 20 ], [ "sunglasses", 20 ], [ "fancy_sunglasses", 10 ] ]
+    "items": [ [ "null", 80 ], [ "glasses_safety", 20 ], [ "sunglasses", 20 ] ]
   },
   {
     "type": "item_group",

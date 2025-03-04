@@ -818,5 +818,26 @@
         "then": { "math": [ "u_vitamin('redcells')", "+=", "300 + (u_spell_level('biomancer_get_more_blood') * 150)" ] }
       }
     ]
+  },
+  {
+    "id": "biomancer_control_mutations",
+    "type": "SPELL",
+    "name": "Morphogenic Mastery",
+    "description": "The scroll said that this spell is for \"Exerting deliberate control over morphogenic alterations\", which sounds ominous.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_biomancer_control_mutations",
+    "shape": "blast",
+    "difficulty": 12,
+    "max_level": 15,
+    "magic_type": "magiclysm_generic_magic",
+    "min_duration": 360000,
+    "max_duration": 3060000,
+    "duration_increment": 180000,
+    "base_energy_cost": 1200,
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true }, { "id": "biomantic_pain_caused_light", "hit_self": true } ],
+    "base_casting_time": 6000
   }
 ]

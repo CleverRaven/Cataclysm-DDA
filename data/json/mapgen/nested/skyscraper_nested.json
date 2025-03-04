@@ -332,7 +332,7 @@
       "terrain": { ".": "t_linoleum_white", "|": "t_brick_wall", "+": "t_door_c" },
       "furniture": { "S": "f_sink", "T": "f_toilet", "a": "f_trashcan" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 6, "y2": 2 } ],
-      "items": { "a": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] } },
+      "items": { "a": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] }, "T": { "item": "SUS_toilet", "chance": 50 } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 6 ], "y": [ 1, 2 ], "chance": 60, "repeat": [ 1, 5 ] } ],
       "toilets": { "T": {  } }
@@ -356,7 +356,7 @@
       "terrain": { ".": "t_linoleum_white", "|": "t_brick_wall", "+": "t_door_c" },
       "furniture": { "S": "f_sink", "T": "f_toilet", "a": "f_trashcan" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 6, "y2": 2 } ],
-      "items": { "a": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] } },
+      "items": { "a": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] }, "T": { "item": "SUS_toilet", "chance": 50 } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 6 ], "y": [ 1, 2 ], "chance": 60, "repeat": [ 1, 5 ] } ],
       "toilets": { "T": {  } }

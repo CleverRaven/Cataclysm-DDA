@@ -107,7 +107,7 @@
       { "item": "machete", "prob": 25 },
       { "item": "ax", "prob": 25 },
       { "item": "spear_knife", "prob": 30 },
-      { "group": "ammo_common", "prob": 152 },
+      { "group": "ammo_common_boxed", "prob": 152 },
       { "group": "guns_common", "prob": 226 },
       { "item": "pipebomb", "prob": 10 },
       { "item": "molotov", "prob": 10 },
