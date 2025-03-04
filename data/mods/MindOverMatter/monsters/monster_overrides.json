@@ -309,17 +309,16 @@
     "attack_effs": [ { "id": "effect_teleporting_lock", "duration": [ 5, 60 ], "chance": 50 } ]
   },
   {
-    "id": "mon_tindalos",
-    "copy-from": "mon_tindalos",
-    "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ], "armor": { "psi_telekinetic_damage": 50 } },
-    "attack_effs": [ { "id": "effect_teleporting_lock", "duration": [ 5, 60 ], "chance": 50 } ]
-  },
-  {
-    "id": "mon_hunting_horror",
+    "id": "mon_hallucinator",
     "copy-from": "mon_hallucinator",
     "type": "MONSTER",
     "species": [ "NETHER_EMANATION", "PSI_NULL" ]
+  },
+  {
+    "id": "mon_hunting_horror",
+    "copy-from": "mon_hunting_horror",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE" ] }
   },
   {
     "id": "mon_shadow",
