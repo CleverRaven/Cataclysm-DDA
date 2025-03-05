@@ -51,9 +51,16 @@
       "road_dead_end": {
         "overmap": "fema_road_end_south",
         "north": "road_to_road",
-        "east": { "id": "road_to_building", "alternatives": [ "building_to_road" ], "type": "available" },
-        "south": { "id": "road_to_building", "alternatives": [ "building_to_road" ], "type": "available" },
-        "west": { "id": "road_to_building", "alternatives": [ "building_to_road" ], "type": "available" }
+        "east": { "id": "road_to_building", "alternatives": [ "building_to_road", "road_to_road" ], "type": "available" },
+        "south": { "id": "road_to_building", "alternatives": [ "building_to_road", "road_to_road" ], "type": "available" },
+        "west": { "id": "road_to_building", "alternatives": [ "building_to_road", "road_to_road" ], "type": "available" }
+      },
+      "road_dead_end_fill": {
+        "overmap": "fema_road_end_south",
+        "north": "road_to_building",
+        "east": { "id": "road_to_building", "alternatives": [ "building_to_road", "road_to_road" ], "type": "available" },
+        "south": { "id": "road_to_building", "alternatives": [ "building_to_road", "road_to_road" ], "type": "available" },
+        "west": { "id": "road_to_building", "alternatives": [ "building_to_road", "road_to_road" ], "type": "available" }
       },
       "storage": {
         "overmap": "fema_storage_north",
@@ -100,7 +107,9 @@
         { "overmap": "road_tee", "weight": 1 },
         { "overmap": "road_straight", "weight": 1 },
         { "overmap": "road_cross", "weight": 1 },
-        { "overmap": "road_corner", "weight": 1 }
+        { "overmap": "road_corner", "weight": 1 },
+        { "overmap": "road_dead_end", "weight": 1 },
+        { "overmap": "road_dead_end_fill", "weight": 1 }
       ]
     ]
   }
