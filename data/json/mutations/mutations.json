@@ -329,7 +329,7 @@
     "points": -1,
     "vitamin_cost": 60,
     "description": "A photophore has grown from your head.  You can't consciously control it, and it might start to shine in response to your emotions or your physiological state.",
-    "encumbrance_covered": [ [ "head", 5 ] ],
+    "encumbrance_covered": { "head": 5 },
     "changes_to": [ "BIOLUM1" ],
     "types": [ "BIOLUM" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
@@ -347,7 +347,7 @@
     "cost": 9,
     "time": "225 h",
     "kcal": true,
-    "encumbrance_covered": [ [ "head", 5 ] ],
+    "encumbrance_covered": { "head": 5 },
     "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM0" ],
     "changes_to": [ "BIOLUM2" ],
@@ -375,7 +375,7 @@
     "cost": 9,
     "time": "112 h 30 m",
     "kcal": true,
-    "encumbrance_covered": [ [ "head", 5 ] ],
+    "encumbrance_covered": { "head": 5 },
     "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM1" ],
     "leads_to": [ "BIOLUM3" ],
@@ -399,7 +399,7 @@
     "points": 6,
     "vitamin_cost": 210,
     "description": "You can spit a wad of bioluminescent goo several meters away.  There it will light up its surroundings until it dissipates.",
-    "encumbrance_covered": [ [ "head", 5 ] ],
+    "encumbrance_covered": { "head": 5 },
     "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM2" ],
     "category": [ "INSECT" ],
@@ -3616,7 +3616,8 @@
     "changes_to": [ "LEAVES3" ],
     "category": [ "PLANT" ],
     "wet_protection": [ { "part": "head", "ignored": 4 }, { "part": "arm_l", "ignored": 5 }, { "part": "arm_r", "ignored": 5 } ],
-    "encumbrance_covered": [ [ "arm_l", 5 ], [ "arm_r", 5 ] ]
+    "encumbrance_multiplier_always": { "arm_l": 0.4, "arm_r": 0.4, "hand_l": 0.4, "hand_r": 0.4, "leg_l": 0.4, "leg_r": 0.4, "mouth": 0.4 },
+    "encumbrance_covered": { "arm_l": 5, "arm_r": 5 }
   },
   {
     "type": "mutation",
@@ -3633,7 +3634,7 @@
     "threshreq": [ "THRESH_PLANT" ],
     "category": [ "PLANT" ],
     "wet_protection": [ { "part": "head", "ignored": 5 }, { "part": "arm_l", "ignored": 8 }, { "part": "arm_r", "ignored": 8 } ],
-    "encumbrance_covered": [ [ "arm_l", 10 ], [ "arm_r", 10 ] ]
+    "encumbrance_covered": { "arm_l": 10, "arm_r": 10 }
   },
   {
     "type": "mutation",
@@ -3871,7 +3872,7 @@
     "mixed_effect": true,
     "//": "Didn't integrate-ize tentacle rakes because they are hardcoded, waiting for limb rework.",
     "description": "Your upper tentacles have grown large, hook-barbed rakes on the ends.  They're quite vicious, but really aren't suited for fine manipulation.",
-    "encumbrance_always": [ [ "hand_l", 20 ], [ "hand_r", 20 ] ],
+    "encumbrance_always": { "hand_l": 20, "hand_r": 20 },
     "flags": [ "PSEUDOPOD_GRASP" ],
     "prereqs": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
@@ -5644,7 +5645,7 @@
     "flags": [ "SLUDGE_IMMUNE" ],
     "visibility": 8,
     "ugliness": 9,
-    "encumbrance_always": [ [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
+    "encumbrance_always": { "leg_l": 10, "leg_r": 10, "foot_l": 10, "foot_r": 10 },
     "enchantments": [
       {
         "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": 0.25 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.75 } ]
@@ -5971,7 +5972,7 @@
     "visibility": 1,
     "ugliness": 1,
     "mixed_effect": true,
-    "encumbrance_always": [ [ "torso", 10 ], [ "arm_l", 10 ], [ "arm_r", 10 ] ],
+    "encumbrance_always": { "torso": 10, "arm_l": 10, "arm_r": 10 },
     "description": "You have grown noticeably taller and broader.  Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+10 torso and arm encumbrance).",
     "types": [ "SIZE" ],
     "prereqs": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4", "MASOCHIST_MED" ],
@@ -6646,7 +6647,7 @@
     "visibility": 7,
     "ugliness": 4,
     "description": "You have a flattened nose and thin slits for nostrils, giving you a lizard-like appearance.  This makes breathing slightly difficult and increases mouth encumbrance by 10.",
-    "encumbrance_always": [ [ "mouth", 10 ] ],
+    "encumbrance_always": { "mouth": 10 },
     "changes_to": [ "LEAFNOSE" ],
     "category": [ "LIZARD", "CEPHALOPOD", "RAPTOR", "CHIROPTERAN" ]
   },
@@ -6797,7 +6798,7 @@
     "description": "Most of your fingers have grown to tremendous length, becoming a broad pair of leathery wings.  This allows you to arrest a fall or glide from a ledge if you aren't too weighed down, but naturally impedes your fine motor skills.  They even keep you warm when you sleep.",
     "types": [ "ARMS", "HANDS" ],
     "flags": [ "WING_GLIDE", "WINGS_2" ],
-    "encumbrance_always": [ [ "arm_r", 20 ], [ "arm_l", 20 ], [ "hand_r", 40 ], [ "hand_l", 40 ] ],
+    "encumbrance_always": { "arm_r": 20, "arm_l": 20, "hand_r": 40, "hand_l": 40 },
     "prereqs": [ "WEBBED" ],
     "strict_threshreq": true,
     "category": [ "CHIROPTERAN" ],
@@ -6814,7 +6815,7 @@
     "ugliness": -2,
     "description": "You have a very large pair of brightly-colored, very beautiful wings.  They can't lift you, and they make balancing tricky, but they certainly catch air and attention!",
     "purifiable": false,
-    "encumbrance_always": [ [ "torso", 10 ] ],
+    "encumbrance_always": { "torso": 10 },
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "threshreq": [ "THRESH_INSECT" ],
@@ -7520,7 +7521,7 @@
     "flags": [ "WEBBED_HANDS" ],
     "changes_to": [ "WINGS_BAT" ],
     "wet_protection": [ { "part": "hand_l", "good": 3 }, { "part": "hand_r", "good": 3 } ],
-    "encumbrance_covered": [ [ "hand_l", 50 ], [ "hand_r", 50 ] ],
+    "encumbrance_covered": { "hand_l": 50, "hand_r": 50 },
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -1 } ] } ]
   },
   {
@@ -7546,7 +7547,7 @@
     "ugliness": 2,
     "mixed_effect": true,
     "description": "Your hands have fused into quasi-paws.  Fine manipulation is a challenge: permanent hand encumbrance of 10, difficulty with delicate craftwork, and your gloves don't fit.  But they handle water better and bear weight well, allowing you to move on all fours when crouching and unarmed.",
-    "encumbrance_always": [ [ "hand_l", 10 ], [ "hand_r", 10 ] ],
+    "encumbrance_always": { "hand_l": 10, "hand_r": 10 },
     "restricts_gear": [ "hand_l", "hand_r" ],
     "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ],
     "types": [ "HANDS" ],
@@ -7594,7 +7595,7 @@
       [ "cooking", -2 ],
       [ "survival", -2 ]
     ],
-    "encumbrance_always": [ [ "hand_l", 20 ], [ "hand_r", 20 ] ],
+    "encumbrance_always": { "hand_l": 20, "hand_r": 20 },
     "restricts_gear": [ "hand_l", "hand_r" ],
     "types": [ "HANDS" ],
     "prereqs": [ "PAWS" ],
@@ -7975,7 +7976,7 @@
     "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "changes_to": [ "VINES2" ],
     "category": [ "PLANT" ],
-    "encumbrance_always": [ [ "torso", 10 ] ]
+    "encumbrance_always": { "torso": 10 }
   },
   {
     "type": "mutation",
@@ -8000,7 +8001,7 @@
         "hardcoded_effect": true
       }
     ],
-    "encumbrance_always": [ [ "torso", 10 ] ]
+    "encumbrance_always": { "torso": 10 }
   },
   {
     "type": "mutation",
@@ -8059,7 +8060,7 @@
     "cancels": [ "LEG_TENTACLES", "HOOVES" ],
     "category": [ "PLANT" ],
     "restricts_gear": [ "leg_stub_r", "leg_stub_l" ],
-    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ]
+    "encumbrance_covered": { "foot_l": 10, "foot_r": 10 }
   },
   {
     "type": "mutation",
@@ -8078,7 +8079,7 @@
     "threshreq": [ "THRESH_PLANT" ],
     "changes_to": [ "ROOTS3" ],
     "category": [ "PLANT" ],
-    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
+    "encumbrance_covered": { "foot_l": 10, "foot_r": 10 },
     "flags": [ "TOUGH_FEET", "ROOTS2" ]
   },
   {
@@ -8096,7 +8097,7 @@
     "threshreq": [ "THRESH_PLANT" ],
     "changes_to": [ "CHLOROMORPH" ],
     "category": [ "PLANT" ],
-    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
+    "encumbrance_covered": { "foot_l": 10, "foot_r": 10 },
     "flags": [ "TOUGH_FEET", "ROOTS3" ]
   },
   {
@@ -8116,7 +8117,7 @@
     "cancels": [ "SMELLY", "SMELLY2" ],
     "category": [ "PLANT" ],
     "scent_type": "sc_flower",
-    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
+    "encumbrance_covered": { "foot_l": 10, "foot_r": 10 },
     "flags": [ "TOUGH_FEET", "ROOTS3" ],
     "comfort": [
       {
@@ -8372,7 +8373,7 @@
       { "part": "hand_l", "neutral": 10 },
       { "part": "hand_r", "neutral": 10 }
     ],
-    "encumbrance_always": [ [ "arm_l", 8 ], [ "arm_r", 8 ] ],
+    "encumbrance_always": { "arm_l": 8, "arm_r": 8 },
     "armor": [ { "parts": [ "arm_l", "arm_r" ], "bash": 1, "cut": 1 } ]
   },
   {
@@ -8385,7 +8386,7 @@
     "ugliness": 5,
     "description": "You've *finally* sprouted a pair of arms from your midsection.  They flail more or less uncontrollably, making you feel rather larval.",
     "purifiable": false,
-    "encumbrance_always": [ [ "arm_l", 30 ], [ "arm_r", 30 ] ],
+    "encumbrance_always": { "arm_l": 30, "arm_r": 30 },
     "types": [ "HANDS" ],
     "changes_to": [ "INSECT_ARMS_OK", "ARACHNID_ARMS" ],
     "prereqs": [ "CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3" ],
@@ -8420,7 +8421,7 @@
     "ugliness": 10,
     "description": "There's the last two limbs you were expecting.  Unfortunately, you still can't coordinate them, so you're getting in your own way.  A lot.",
     "purifiable": false,
-    "encumbrance_always": [ [ "arm_l", 40 ], [ "arm_r", 40 ] ],
+    "encumbrance_always": { "arm_l": 40, "arm_r": 40 },
     "types": [ "HANDS" ],
     "changes_to": [ "ARACHNID_ARMS_OK" ],
     "prereqs": [ "INSECT_ARMS" ],
@@ -8456,7 +8457,7 @@
     "ugliness": 4,
     "mixed_effect": true,
     "description": "Your arms have transformed into tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  Reduces penalties for attacking while prone and somewhat decreases wet penalties.",
-    "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
+    "encumbrance_always": { "hand_l": 30, "hand_r": 30 },
     "restricts_gear": [ "hand_l", "hand_r" ],
     "types": [ "HANDS", "CLAWS" ],
     "leads_to": [ "CLAWS_TENTACLE" ],
@@ -8496,7 +8497,7 @@
     "visibility": 8,
     "ugliness": 5,
     "description": "Your arms have transformed into four tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  You can make up to 3 extra attacks with them, and you suffer reduced penalties to attacking while prone.  Somewhat decreases wet penalties.",
-    "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
+    "encumbrance_always": { "hand_l": 30, "hand_r": 30 },
     "restricts_gear": [ "hand_l", "hand_r" ],
     "types": [ "HANDS", "CLAWS" ],
     "prereqs": [ "ARM_TENTACLES" ],
@@ -8536,7 +8537,7 @@
     "visibility": 9,
     "ugliness": 6,
     "description": "Your arms have transformed into eight tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  You can make up to 7 extra attacks with them, and suffer reduced penalties to attacking while prone.  Somewhat decreases wet penalties.",
-    "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
+    "encumbrance_always": { "hand_l": 30, "hand_r": 30 },
     "restricts_gear": [ "hand_l", "hand_r" ],
     "types": [ "HANDS", "CLAWS" ],
     "prereqs": [ "ARM_TENTACLES_4" ],
@@ -10141,7 +10142,7 @@
     "visibility": 2,
     "ugliness": 1,
     "description": "Your hands have elongated and look a bit more like paws.  It makes fine manipulation a little more difficult, but you can still probably manage.  Plus, they allow you to move on all fours when crouching and unarmed.",
-    "encumbrance_always": [ [ "hand_l", 5 ], [ "hand_r", 5 ] ],
+    "encumbrance_always": { "hand_l": 5, "hand_r": 5 },
     "craft_skill_bonus": [ [ "electronics", -1 ], [ "tailor", -1 ], [ "mechanics", -1 ] ],
     "types": [ "HANDS" ],
     "prereqs": [ "NAILS" ],
