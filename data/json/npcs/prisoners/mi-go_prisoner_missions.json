@@ -1,0 +1,138 @@
+[
+  {
+    "type": "mission_definition",
+    "id": "MISSION_ESCORT_PRISONER",
+    "name": { "str": "Escort prisoner to safety" },
+    "description": { "str": "Escort the former mi-go prisoner to a safe location away from the mi-go structure." },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 2,
+    "value": 5000,
+    "destination": "forest",
+    "start": {
+      "effect": [ "follow_only", { "set_string_var": "yes", "target_var": { "npc_val": "mission_target" } } ],
+      "assign_mission_target": {
+        "om_terrain": "forest",
+        "om_special": "",
+        "reveal_radius": 1,
+        "min_distance": 5,
+        "random": true,
+        "search_range": 50,
+        "z": 0
+      }
+    },
+    "end": {
+      "effect": [
+        "stop_following",
+        "npc_thankful",
+        { "u_learn_recipe": "pine_tea" },
+        { "u_learn_recipe": "cattail_jelly" },
+        { "u_learn_recipe": "veggy_wild_cooked" },
+        { "u_learn_recipe": "meat_smoked" },
+        { "math": [ "u_skill_exp('survival') += 500" ] },
+        {
+          "message": "The prisoner thanks you profusely for the rescue and teaches you several survival recipes and tricks.",
+          "type": "good"
+        },
+        { "npc_change_faction": "wasteland_scavengers" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_EQUIP_PRISONER",
+    "dialogue": {
+      "describe": { "str": "I need to get away from here!" },
+      "offer": { "str": "Could you escort me to a safe location? I need to get as far away from this alien structure as possible." },
+      "accepted": { "str": "Thank you! I'll follow you. Just lead the way to somewhere safe." },
+      "rejected": { "str": "I understand. I'll try to make it on my own." },
+      "advice": { "str": "We should avoid any alien structures. I don't want to be captured again." },
+      "inquire": { "str": "Have we reached somewhere safe yet?" },
+      "success": { "str": "Thank you so much for getting me out of there. I'll never forget what you did for me." },
+      "success_lie": { "str": "Thanks, I guess..." },
+      "failure": { "str": "I knew I shouldn't have trusted anyone in this world..." }
+    }
+  },
+  {
+    "id": "MISSION_EQUIP_PRISONER",
+    "type": "mission_definition",
+    "name": { "str": "Equip the prisoner with a backpack" },
+    "description": "Provide a backpack to the rescued prisoner.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "item": "backpack",
+    "value": 0,
+    "start": { "effect": "follow_only" },
+    "end": { "effect": [ { "u_sell_item": "backpack" }, "npc_thankful" ] },
+    "followup": "MISSION_EQUIP_PRISONER_CLOTHES",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I can't survive out there without some basic gear.",
+      "offer": "If I'm going to survive in this world, I'll need some equipment. Could you help me find a backpack first?",
+      "accepted": "Thank you. I'll make good use of it.",
+      "rejected": "I understand. I'll try to find something myself.",
+      "advice": "Houses or stores might have what we need.",
+      "inquire": "Have you found a backpack?",
+      "success": "This will help me carry supplies. Now I need some clothes.",
+      "success_lie": "That's... not a backpack.",
+      "failure": "I understand. It's hard to find good equipment these days."
+    }
+  },
+  {
+    "id": "MISSION_EQUIP_PRISONER_CLOTHES",
+    "type": "mission_definition",
+    "name": { "str": "Find clothes for the prisoner" },
+    "description": "Find some jeasns for the rescued prisoner.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "item": "jeans",
+    "value": 0,
+    "start": { "effect": "follow_only" },
+    "end": { "effect": [ { "u_sell_item": "jeans" }, "npc_thankful" ] },
+    "followup": "MISSION_EQUIP_PRISONER_WEAPON",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I need some proper clothes.",
+      "offer": "I can't go around like this. Could you help me find some clothes? Some jeans would be nice.",
+      "accepted": "Thanks. Anything is better than what I have now.",
+      "rejected": "I understand. Maybe I'll find something myself.",
+      "advice": "Residential areas would be the best place to look.",
+      "inquire": "Did you find some jeans for me?",
+      "success": "This will help keep me warm and protected. Thank you.",
+      "success_lie": "That's not going to help me much.",
+      "failure": "I'll manage somehow."
+    }
+  },
+  {
+    "id": "MISSION_EQUIP_PRISONER_WEAPON",
+    "type": "mission_definition",
+    "name": { "str": "Arm the prisoner" },
+    "description": "Find a hunting knife for the rescued prisoner.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 3,
+    "item": "knife_hunting",
+    "value": 0,
+    "start": { "effect": "follow_only" },
+    "end": {
+      "effect": [
+        "stop_following",
+        "npc_thankful",
+        { "u_message": "The former prisoner has become your companion.", "type": "good" },
+        { "u_sell_item": "knife_hunting" },
+        { "npc_change_class": "NC_SCAVENGER" },
+        { "npc_change_faction": "your_followers" },
+        { "npc_add_trait": "TOUGH" }
+      ],
+      "opinion": { "trust": 5, "value": 5, "fear": -2, "anger": -2 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I need something to defend myself with.",
+      "offer": "There are dangerous things out there. Could you help me find a weapon? A hunting knife would be perfect for the start.",
+      "accepted": "Thank you. I'll feel safer with something to defend myself.",
+      "rejected": "I understand. I'll be careful.",
+      "advice": "Maybe check hardware stores or houses.",
+      "inquire": "Did you find a weapon I could use?",
+      "success": "With this, I might have a chance out there. Thank you for all your help. I can join you if you need another pair of hands.",
+      "success_lie": "That's not a weapon I can use.",
+      "failure": "I'll have to be extra careful then."
+    }
+  }
+]

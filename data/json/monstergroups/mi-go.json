@@ -1,5 +1,22 @@
 [
   {
+    "type": "item_group",
+    "id": "migo_cocoon_spawn",
+    "subtype": "collection",
+    "entries": [ { "group": "corpses_no_items", "prob": 60 }, { "item": "rag", "count": [ 1, 3 ], "prob": 40 } ]
+  },
+  {
+    "type": "monstergroup",
+    "id": "GROUP_MI-GO_PRISONERS",
+    "//": "Mi-go tower prisoner types with varying conditions - 40% pathetic, 10% feral, 25% drained.",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_pathetic_prisoner", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_feral_prisoner", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_drained_captive", "weight": 25, "cost_multiplier": 0 }
+    ]
+  },
+  {
     "type": "monstergroup",
     "id": "GROUP_MI-GO_CAMP_OM",
     "//": "Mi-go raiding parties spawning in the vicinity of a mi-go camp.  Puts slavers later on and keeps large groups from spawning until the player can deal with them.",
