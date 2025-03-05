@@ -87,7 +87,8 @@
         "text": "Excerpt from 'Infinite Dimensions, Finite Magickal Systems by Tyco Arendt':\n\nThreat Classification: Superhuman\nRubyNu\n\n***QUARANTINE***\n\nUpon identification of any subjects manifesting true superhuman abilities all agents and aquisition teams must immediately return to Xedra Facilities on Cradle-Earth within 12 hours or be written off when the dimensional coordinates are permanently blacklisted in our transportation system.  This reaction may seem extreme but any planet that develops superhuman attributes such as strength and endurance is at risk of also developing superintelligent, superperceptive individuals.  We are titling this hypothetical superhuman type as Sphinxes because Sphinxes eat the people who are less intelligent than themselves.  These individuals could potentially identify our presence on their dimension through variables we cannot even comprehend.  Whether our morality viewed them as good or evil would be irrevalent as we have no defense against this type of cultural/intellectual domination."
       },
       {
-        "id": "lab_notes_interdimensional_magick_6",
+        "id": "lab_notes_interdimensional_magick_6a",
+        "//": "should override lab_notes_interdimensional_magick_6, but mods cannot override snippets yet",
         "name": "excerpt 6, Infinite Dimensions, Finite Magickal Systems",
         "text": "Excerpt from 'Infinite Dimensions, Finite Magickal Systems by Tyco Arendt':\n\nThreat Classification: Psionics\nOpalPsi\n\nPsionically empowered individuals can often be disarmed using specific methods common across dimensions.  Identification of empowered individuals can be difficult in civilizations that either refuse or lack the knowledge of how to identify psionic individuals."
       },
