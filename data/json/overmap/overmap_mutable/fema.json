@@ -98,9 +98,9 @@
         { "overmap": "road_dead_end", "weight": 10, "max": { "poisson": 5 } }
       ],
       [
-        { "overmap": "storage", "weight": 20 },
-        { "overmap": "military_outpost", "weight": 10 },
-        { "overmap": "camps", "weight": 70 }
+        { "overmap": "storage", "weight": 10 },
+        { "overmap": "military_outpost", "weight": 5 },
+        { "overmap": "camps", "weight": 85 }
       ],
       [ { "overmap": "road_dead_end", "weight": 1 } ],
       [
