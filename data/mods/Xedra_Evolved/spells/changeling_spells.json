@@ -393,7 +393,7 @@
     "id": "selkie_beguilement_spell",
     "type": "SPELL",
     "name": "Beguilement",
-    "description": "With a wink and a bit of fae glamour, you can .",
+    "description": "With a wink and a bit of fae glamour, you can enchant a target to defend you for a brief time.  This glamour only <color_yellow>only works</color> on humans.",
     "message": "You cast your glamour over your target.",
     "valid_targets": [ "ally", "hostile" ],
     "flags": [ "VERBAL", "RECHARM", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_FAIL", "NO_PROJECTILE", "SILENT" ],
