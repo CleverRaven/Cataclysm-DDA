@@ -83,7 +83,7 @@
       },
       "monster": {
         "ψ": { "monster": "mon_uica_tankbot" },
-        "Ψ": { "monster": "mon_uica_milbot_556" },
+        "Ψ": { "monster": "mon_uica_imaginifer" },
         "Χ": { "monster": "afs_mon_rabbit" }
       },
       "items": {
