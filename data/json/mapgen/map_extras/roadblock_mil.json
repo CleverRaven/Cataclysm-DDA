@@ -33,9 +33,9 @@
       "furniture": { "s": "f_sandbag_half", "g": "f_active_backup_generator", "b": "f_barricade_road" },
       "monster": { "t": { "monster": "mon_feral_soldier" }, "L": { "monster": "mon_turret_searchlight" } },
       "place_vehicles": [
-        { "vehicle": "armored_car", "x": 6, "y": 7, "chance": 100, "status": 1, "rotation": 270 },
-        { "vehicle": "military_cargo_truck", "x": 7, "y": 17, "chance": 100, "status": 1, "rotation": 180 },
-        { "vehicle": "armored_car", "x": 18, "y": 17, "chance": 100, "status": 1 }
+        { "vehicle": "armored_car", "x": 6, "y": 7, "status": 1, "rotation": 270 },
+        { "vehicle": "military_cargo_truck", "x": 7, "y": 17, "status": 1, "rotation": 180 },
+        { "vehicle": "armored_car", "x": 18, "y": 17, "status": 1 }
       ],
       "nested": { "-": { "chunks": [ [ "soldier_guns_3x3", 1 ], [ "null", 50 ] ] } }
     }

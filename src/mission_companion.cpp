@@ -61,7 +61,7 @@
 #include "string_formatter.h"
 #include "translation.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "value_ptr.h"
 #include "weather.h"

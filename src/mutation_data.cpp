@@ -28,7 +28,7 @@
 #include "string_formatter.h"
 #include "trait_group.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "weighted_list.h"
 
 static const mutation_category_id mutation_category_ANY( "ANY" );

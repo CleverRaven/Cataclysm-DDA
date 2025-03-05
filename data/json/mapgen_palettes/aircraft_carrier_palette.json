@@ -307,10 +307,7 @@
       "ε": { "chunks": [ [ "null", 2 ], [ "crates_armament_milspec", 3 ] ] },
       "ζ": { "chunks": [ [ "null", 2 ], [ "crates_random_supply", 3 ] ] }
     },
-    "vehicles": {
-      "n": { "vehicle": "hospital_bed", "chance": 100, "status": 1 },
-      "Θ": { "vehicle": "hospital_bed", "chance": 100, "rotation": 270, "status": 1 }
-    },
+    "vehicles": { "n": { "vehicle": "hospital_bed", "status": 1 }, "Θ": { "vehicle": "hospital_bed", "rotation": 270, "status": 1 } },
     "vendingmachines": { "J": { "item_group": "vending_drink", "lootable": true }, "K": { "item_group": "vending_food", "lootable": true } }
   }
 ]

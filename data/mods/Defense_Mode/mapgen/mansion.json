@@ -1119,7 +1119,7 @@
         "!": { "item": "crate_stack", "chance": 100 },
         "x": { "item": "a_television", "chance": 100 }
       },
-      "place_vehicles": [ { "vehicle": "laundry_cart", "x": [ 14, 15 ], "y": [ 0, 6 ], "chance": 100 } ]
+      "place_vehicles": [ { "vehicle": "laundry_cart", "x": [ 14, 15 ], "y": [ 0, 6 ] } ]
     }
   },
   {

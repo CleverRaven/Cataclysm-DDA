@@ -318,7 +318,7 @@
         "l": { "item": "fast_fridge", "chance": 30, "repeat": [ 2, 4 ] },
         "m": { "item": "fast_fridge", "chance": 30, "repeat": [ 2, 4 ] }
       },
-      "place_vehicles": [ { "vehicle": "food_cart", "x": 70, "y": 7, "chance": 100, "rotation": 90 } ],
+      "place_vehicles": [ { "vehicle": "food_cart", "x": 70, "y": 7, "rotation": 90 } ],
       "place_monster": [
         { "group": "GROUP_MALL", "x": [ 2, 15 ], "y": [ 5, 11 ], "repeat": [ 2, 4 ] },
         { "group": "GROUP_MALL", "x": [ 25, 40 ], "y": [ 15, 22 ], "repeat": [ 4, 6 ] },
@@ -596,10 +596,7 @@
           { "item": "archery_ammo", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "archery_mods", "chance": 50, "repeat": [ 1, 2 ] }
         ],
-        "`": [
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 0, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 50, "repeat": [ 0, 2 ] }
-        ],
+        "`": [ { "item": "ammo_hunting", "chance": 75, "repeat": [ 0, 5 ] } ],
         "z": [
           { "item": "clothing_hunting", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "tools_hunting", "chance": 20, "repeat": [ 1, 2 ] },
@@ -659,8 +656,8 @@
       "place_vehicles": [
         { "vehicle": "car", "x": 6, "y": 16, "chance": 35, "rotation": 0 },
         { "vehicle": "car", "x": 20, "y": 17, "chance": 35, "rotation": 180 },
-        { "vehicle": "ice_cream_cart", "x": 76, "y": 9, "chance": 100, "rotation": 180 },
-        { "vehicle": "ice_cream_cart", "x": 78, "y": 9, "chance": 100, "rotation": 180 }
+        { "vehicle": "ice_cream_cart", "x": 76, "y": 9, "rotation": 180 },
+        { "vehicle": "ice_cream_cart", "x": 78, "y": 9, "rotation": 180 }
       ]
     }
   },
@@ -967,10 +964,7 @@
           { "item": "guns_pistol_common", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "knife_shop", "chance": 30, "repeat": [ 1, 2 ] }
         ],
-        "`": [
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 0, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 50, "repeat": [ 0, 2 ] }
-        ],
+        "`": [ { "item": "ammo_hunting", "chance": 75, "repeat": [ 0, 5 ] } ],
         "z": [
           { "item": "clothing_hunting", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "tools_hunting", "chance": 20, "repeat": [ 1, 2 ] },
@@ -1180,7 +1174,7 @@
         { "group": "GROUP_MALL", "x": [ 96, 119 ], "y": [ 0, 23 ], "repeat": [ 4, 6 ] }
       ],
       "place_vehicles": [
-        { "vehicle": "lux_rv", "x": 15, "y": 15, "chance": 100, "rotation": 0, "status": 0 },
+        { "vehicle": "lux_rv", "x": 15, "y": 15, "rotation": 0, "status": 0 },
         { "vehicle": "canoe", "x": 14, "y": 6, "chance": 50, "rotation": 0, "status": 0 },
         { "vehicle": "kayak", "x": 19, "y": 7, "chance": 50, "rotation": 0, "status": 0 },
         { "vehicle": "kayak_racing", "x": 9, "y": 7, "chance": 50, "rotation": 180, "status": 0 },
@@ -1340,7 +1334,7 @@
         { "vehicle": "car", "x": 4, "y": 3, "chance": 35, "rotation": 0 },
         { "vehicle": "pickup", "x": 5, "y": 19, "chance": 35, "rotation": 0 },
         { "vehicle": "hippie_van", "x": 21, "y": 19, "chance": 35, "rotation": 0 },
-        { "vehicle": "tricycle", "x": 90, "y": 22, "chance": 100, "status": 0 }
+        { "vehicle": "tricycle", "x": 90, "y": 22, "status": 0 }
       ]
     }
   },

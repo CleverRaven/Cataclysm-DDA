@@ -135,7 +135,7 @@
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "prisoners", "x": [ 5, 18 ], "y": [ 33, 47 ] },
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "prisoners", "x": [ 5, 18 ], "y": [ 48, 56 ] }
       ],
-      "place_vehicles": [ { "vehicle": "boat_motor_single", "x": 100, "y": 45, "chance": 100, "status": 0 } ]
+      "place_vehicles": [ { "vehicle": "boat_motor_single", "x": 100, "y": 45, "status": 0 } ]
     }
   },
   {
