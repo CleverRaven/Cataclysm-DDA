@@ -107,7 +107,7 @@
     "condition": { "and": [ "u_is_outside", { "math": [ "weather('temperature') > from_fahrenheit( 31 )" ] } ] },
     "effect": [
       {
-        "if": { "math": [ "u_weather_change_limit = 6" ] },
+        "if": { "math": [ "u_weather_change_limit == 6" ] },
         "then": { "u_message": "You have already enchanted the weather.  Now you must wait until it runs its course.", "type": "mixed" },
         "else": [
           { "u_lose_effect": "effect_controlling_weather" },

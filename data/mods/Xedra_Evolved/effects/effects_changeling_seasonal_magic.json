@@ -416,6 +416,6 @@
     "id": "effect_changeling_winter_see_craft_darkness_actual",
     "name": [ "" ],
     "desc": [ "" ],
-    "flags": [ "CRAFT_IN_DARKNESS", "READ_IN_DARKESS" ]
+    "flags": [ "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ]
   }
 ]

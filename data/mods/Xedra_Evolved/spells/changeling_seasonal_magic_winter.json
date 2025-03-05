@@ -452,7 +452,7 @@
     "difficulty": 10,
     "effect": "effect_on_condition",
     "effect_str": "EOC_CHANGELING_WINTER_PURE_AREA_DARKNESS",
-    "components": "spell_components_dreamdross_5",
+    "components": "spell_components_changeling_dreamspark_5",
     "min_duration": {
       "math": [
         "( ( 3985 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 1678) + (u_skill('deduction') * 4985) ) ) * (global_what_is_the_season == 2 ? 0.3 : 1)"
