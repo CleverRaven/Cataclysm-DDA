@@ -148,18 +148,25 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "mi-go_palette" ],
+      "furniture": {
+        "1": "f_migo_cocoon_open",
+        "2": "f_migo_cocoon_open",
+        "3": "f_migo_cocoon",
+        "4": "f_migo_cocoon",
+        "5": "f_migo_cocoon",
+        "6": "f_migo_cocoon_open",
+        "7": "f_migo_cocoon_open"
+      },
       "npcs": {
         "1": { "class": "mi-go_prisoner" },
         "2": { "class": "mi-go_prisoner" },
-        "3": { "class": "mi-go_prisoner" },
-        "4": { "class": "mi-go_prisoner" },
-        "5": { "class": "apis" },
         "6": { "class": "mi-go_prisoner" },
         "7": { "class": "mi-go_prisoner" }
       },
       "place_monsters": [
         { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 2, 12 ], "y": [ 5, 10 ], "density": 0.02, "repeat": [ 2, 3 ] },
-        { "monster": "GROUP_MI-GO_BASE_BOSS", "x": [ 12, 13 ], "y": [ 7, 8 ], "density": 0.01, "repeat": [ 0, 1 ] }
+        { "monster": "GROUP_MI-GO_BASE_BOSS", "x": [ 12, 13 ], "y": [ 7, 8 ], "density": 0.01, "repeat": [ 0, 1 ] },
+        { "monster": "GROUP_MI-GO_PRISONERS", "x": [ 2, 8 ], "y": [ 3, 10 ], "density": 0.02, "repeat": [ 2, 3 ] }
       ]
     }
   },
@@ -462,14 +469,22 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "mi-go_palette" ],
+      "furniture": {
+        "1": "f_migo_cocoon",
+        "2": "f_migo_cocoon_open",
+        "3": "f_migo_cocoon_open",
+        "4": "f_migo_cocoon_open",
+        "5": "f_migo_cocoon",
+        "6": "f_migo_cocoon_open",
+        "7": "f_migo_cocoon"
+      },
       "npcs": {
-        "1": { "class": "mi-go_prisoner" },
         "2": { "class": "mi-go_prisoner" },
         "3": { "class": "mi-go_prisoner" },
         "4": { "class": "mi-go_prisoner" },
-        "6": { "class": "mi-go_prisoner" },
-        "7": { "class": "mi-go_prisoner" }
-      }
+        "6": { "class": "mi-go_prisoner" }
+      },
+      "place_monsters": [ { "monster": "GROUP_MI-GO_PRISONERS", "x": [ 2, 8 ], "y": [ 3, 10 ], "density": 0.02, "repeat": [ 2, 3 ] } ]
     }
   }
 ]

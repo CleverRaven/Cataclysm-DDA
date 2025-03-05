@@ -2,13 +2,14 @@
   {
     "type": "npc",
     "id": "mi-go_prisoner",
-    "//": "A naked prisoner trapped in a horrifying cage, watching horrible things happen.",
-    "temp_suffix": "Prisoner",
+    "//": "A regular prisoner that can be rescued - 25% chance",
+    "name_suffix": "Prisoner",
     "class": "NC_PRISONER",
     "attitude": 0,
     "mission": 7,
-    "chat": "TALK_MI-GO_PRISONER1",
-    "faction": "no_faction"
+    "chat": "TALK_MI-GO_PRISONER_INTRO",
+    "faction": "no_faction",
+    "mission_offered": "MISSION_ESCORT_PRISONER"
   },
   {
     "type": "npc_class",
@@ -16,43 +17,350 @@
     "name": { "str": "Prisoner" },
     "common": false,
     "job_description": "I'm just trying to survive.",
-    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
-    "skills": [ { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 3 ] }, { "constant": -5 } ] } } ],
+    "traits": [
+      { "group": "BG_survival_story_EVACUEE" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "SCHIZOPHRENIC", "prob": 25 },
+      { "trait": "FORGETFUL", "prob": 35 }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 3 ] }, { "constant": -5 } ] } },
+      { "skill": "survival", "bonus": { "rng": [ 1, 2 ] } }
+    ],
     "worn_override": "naked_prisoner",
     "carry_override": "naked_prisoner",
     "weapon_override": "naked_prisoner",
-    "//": "Skills intentionally kept low.  This character should probably have a higher chance of having insanity type traits eventually."
+    "//": "Skills intentionally kept low. However we could add some survival skills so at the end of the mission the player could get a reward. This character should probably have a higher chance of having insanity type traits eventually."
   },
   {
     "type": "item_group",
     "id": "naked_prisoner"
   },
   {
+    "type": "snippet",
+    "category": "<migo_prisoner_greeting>",
+    "text": [
+      "My god, you've got to get me out of here. The things… the things they've done… please help.",
+      "Please, help me get out of this nightmare!",
+      "Can you get me out of this hell hole? I don't know how much longer I can take it.",
+      "Who are you? Are you real? I thought I was going to die in here.",
+      "Can you please save me? I have to get out of here before they come back.",
+      "Hallelujah, rescue! I thought everyone was dead or... changed.",
+      "I can't believe my eyes. Thank you, thank you for coming!",
+      "You're… you're actually human! The mi-go... they've been experimenting on us."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<migo_prisoner_schizo>",
+    "text": [
+      "The walls... they whisper... can you hear them too? Please, we have to leave...",
+      "They're still in my head... chittering... watching through my eyes...",
+      "Don't trust the shadows! They... they move when you're not looking!",
+      "The voices won't stop... they keep telling me to go back to the chamber..."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<migo_prisoner_forgetful>",
+    "text": [
+      "What day is it? How long have I been here? I can't... I can't remember anything clearly.",
+      "I... I can't remember how I got here. Everything before is just... fog.",
+      "My memories keep slipping away... Did they take them? What did they do to my mind?",
+      "I'm trying to remember my name... my home... but it's all fragments..."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<migo_prisoner_rescued>",
+    "text": [
+      "Thank you again for rescuing me. Those... things... were doing experiments on us.",
+      "I still have trouble sleeping. But at least I'm free now.",
+      "I'm trying to adjust to being free again. It's not easy after what they did to us.",
+      "Do you think there are more people trapped in those alien structures?",
+      "I need to find some proper clothes and supplies if I'm going to survive out here."
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "asked_for_intel",
+    "name": [ "Asked for intelligence" ],
+    "desc": [ "This NPC has been asked for information about mi-go." ],
+    "rating": "neutral"
+  },
+  {
+    "type": "effect_type",
+    "id": "comforted_prisoner",
+    "name": [ "Comforted" ],
+    "desc": [ "This NPC has been comforted by the player." ],
+    "rating": "good"
+  },
+  {
     "type": "talk_topic",
-    "id": "TALK_MI-GO_PRISONER1",
-    "dynamic_line": [
-      "My god, you've got to get me out of here.  The things… the things they've done… please help.",
-      "Aren't you a little short to be a stormtrooper?",
-      "Please, help me.",
-      "Can you get me out of this hell hole?",
-      "Who are you?  Are you real?",
-      "Can you please save me?  I have to get out of here.",
-      "Hallelujah, rescue!",
-      "I can't believe my eyes.  Thank you, thank you!",
-      "You're… you're actually real!",
-      {
-        "gendered_line": "How are you here?  Are you one of them, somehow?  What's going on?",
-        "relevant_genders": [ "u" ]
-      }
-    ],
+    "id": "TALK_MI-GO_PRISONER_INTRO",
+    "dynamic_line": {
+      "npc_has_trait": "SCHIZOPHRENIC",
+      "yes": "<migo_prisoner_schizo>",
+      "no": { "npc_has_trait": "FORGETFUL", "yes": "<migo_prisoner_forgetful>", "no": "<migo_prisoner_greeting>" }
+    },
     "responses": [
       {
-        "text": "Come with me, if you want to live.",
-        "topic": "TALK_DONE",
-        "effect": "follow",
-        "opinion": { "trust": 4, "value": 4, "fear": -1, "anger": -1 }
+        "text": "Come with me. I'll get you out of here.",
+        "topic": "TALK_MI-GO_PRISONER_FOLLOW",
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "rescued_by_player", "default_str": "" } ] } }
       },
-      { "text": "I've no use for weaklings.  Run.  Now.", "topic": "TALK_DONE", "effect": "flee" }
+      {
+        "text": "I've no use for weaklings. Find your own way out.",
+        "topic": "TALK_MI-GO_PRISONER_REJECTED",
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "rescued_by_player", "default_str": "" } ] } }
+      },
+      {
+        "text": "I could escort you to a safe location.",
+        "topic": "TALK_MISSION_LIST",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "npc_val": "rescued_by_player", "default_str": "" } ] },
+            { "not": { "u_has_mission": "MISSION_ESCORT_PRISONER" } }
+          ]
+        }
+      },
+      {
+        "text": "Let's get moving.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ESCORT_PRISONER" },
+            { "compare_string": [ "yes", { "npc_val": "mission_target", "default_str": "" } ] }
+          ]
+        }
+      },
+      {
+        "text": "How are you feeling?",
+        "topic": "TALK_MI-GO_PRISONER_FEELINGS",
+        "condition": { "compare_string": [ "yes", { "npc_val": "rescued_by_player", "default_str": "" } ] }
+      },
+      {
+        "text": "What can you tell me about the mi-go?",
+        "topic": "TALK_MI-GO_PRISONER_MIGO_INFO",
+        "condition": { "compare_string": [ "yes", { "npc_val": "rescued_by_player", "default_str": "" } ] }
+      },
+      { "text": "I'll be going now.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MI-GO_PRISONER_FOLLOW",
+    "dynamic_line": {
+      "npc_has_trait": "SCHIZOPHRENIC",
+      "yes": "Yes! Yes, we need to go... they're coming back... I can hear them in the walls...",
+      "no": "Oh thank god! Yes, please get me out of here. I'll follow you."
+    },
+    "responses": [
+      {
+        "text": "Let's go. Stay close.",
+        "topic": "TALK_DONE",
+        "effect": [ "follow", { "set_string_var": "yes", "target_var": { "npc_val": "rescued_by_player" } } ],
+        "opinion": { "trust": 4, "value": 4, "fear": -1, "anger": -1 }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MI-GO_PRISONER_REJECTED",
+    "dynamic_line": {
+      "npc_has_trait": "FORGETFUL",
+      "yes": "What? No, wait... where am I supposed to go? I can't even remember how I got here!",
+      "no": "What? You can't just leave me here! Please! They'll come back for me!"
+    },
+    "responses": [
+      {
+        "text": "Fine, I'll help you. Come with me.",
+        "topic": "TALK_DONE",
+        "effect": [ "follow", { "set_string_var": "yes", "target_var": { "npc_val": "rescued_by_player" } } ],
+        "opinion": { "trust": 1, "value": 2, "fear": 1, "anger": 1 }
+      },
+      {
+        "text": "You heard me. Run or die.",
+        "topic": "TALK_DONE",
+        "effect": "flee",
+        "opinion": { "trust": -5, "value": -5, "fear": 3, "anger": 5 }
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<migo_prisoner_feelings>",
+    "text": [
+      "I'm still processing everything that happened. It's a lot to take in.",
+      "Physically, I'm recovering. Mentally... that's going to take a lot longer.",
+      "I'm just grateful to be alive. Many others weren't so lucky.",
+      "Every noise makes me jump now. I don't know if I'll ever feel safe again.",
+      "I keep wondering why they took us. What were they trying to learn?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<migo_prisoner_feelings_schizo>",
+    "text": [
+      "The voices... they don't stop. Sometimes I hear the mi-go chittering inside my head.",
+      "I see things... shadows moving... lights that aren't there... am I going crazy?",
+      "Sometimes I think I'm still there, that this is just another of their experiments.",
+      "I can't tell what's real anymore. Are you real? Am I?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<migo_prisoner_feelings_forgetful>",
+    "text": [
+      "I keep losing track of time. Where we are. What we're doing. It's like... parts of my memory are just gone.",
+      "I struggle to remember my life before the capture. Did I have a family? A job?",
+      "My thoughts are... fragmented. Like puzzle pieces that don't fit together anymore.",
+      "I find myself staring into space, not knowing how long I've been sitting there."
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MI-GO_PRISONER_FEELINGS",
+    "dynamic_line": {
+      "npc_has_trait": "SCHIZOPHRENIC",
+      "yes": "<migo_prisoner_feelings_schizo>",
+      "no": { "npc_has_trait": "FORGETFUL", "yes": "<migo_prisoner_feelings_forgetful>", "no": "<migo_prisoner_feelings>" }
+    },
+    "responses": [
+      {
+        "text": "You're safe now.",
+        "topic": "TALK_MI-GO_PRISONER_INTRO",
+        "opinion": { "trust": 1, "value": 1 },
+        "condition": { "not": { "npc_has_effect": "comforted_prisoner" } },
+        "effect": { "npc_add_effect": "comforted_prisoner", "duration": "PERMANENT" }
+      },
+      {
+        "text": "Stay strong.",
+        "topic": "TALK_MI-GO_PRISONER_INTRO",
+        "condition": { "npc_has_effect": "comforted_prisoner" }
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_MI-GO_PRISONER_INTRO" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<migo_prisoner_info>",
+    "text": [
+      "They communicate with clicks and whistles. Sometimes I could feel them... in my head.",
+      "They were studying us. Taking samples, running tests. Some people never came back from the procedures.",
+      "I overheard them communicating. They call themselves 'mi-go'. They're not from Earth.",
+      "They're extremely intelligent. I saw them operating machinery that seemed impossible.",
+      "The mi-go seem to be collecting humans for some purpose. Research, maybe, or something worse."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<migo_prisoner_info_schizo>",
+    "text": [
+      "They can get inside your head... change how you think... make you see things that aren't there...",
+      "They're watching us right now! Through our eyes! They can see everything we do!",
+      "I heard them talking about 'the messenger' and 'the harbinger'. Something's coming...",
+      "They have a hive mind. All connected. All one. They tried to connect me too..."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<migo_prisoner_info_forgetful>",
+    "text": [
+      "There's so much I can't remember clearly... but they had this chamber... for mind experiments...",
+      "I think they were extracting... memories? Knowledge? Something from our brains.",
+      "They kept records of everything. Charts, data... but I can't remember the details...",
+      "They were... selecting people. For different tests. I don't remember what happened to me..."
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MI-GO_PRISONER_MIGO_INFO",
+    "dynamic_line": {
+      "npc_has_trait": "SCHIZOPHRENIC",
+      "yes": "<migo_prisoner_info_schizo>",
+      "no": { "npc_has_trait": "FORGETFUL", "yes": "<migo_prisoner_info_forgetful>", "no": "<migo_prisoner_info>" }
+    },
+    "responses": [
+      {
+        "text": "That's useful information.",
+        "topic": "TALK_MI-GO_PRISONER_INTRO",
+        "effect": { "npc_add_effect": "asked_for_intel", "duration": 7200 }
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_MI-GO_PRISONER_INTRO" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PATHETIC_PRISONER",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": [ "Authority... please... they're in my head...", "You wear the symbol... are you real?", "Can't... focus... help..." ],
+      "no": [ "The stars... they sing...", "*mumbles incoherently*", "Not real... you're not real...", "The walls have eyes..." ]
+    },
+    "responses": [ { "text": "Are you okay?", "topic": "TALK_PATHETIC_PRISONER_CONVERSE" }, { "text": "[Leave]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PATHETIC_PRISONER_CONVERSE",
+    "dynamic_line": [
+      "Brain... hurts... can't think straight...",
+      "*stares through you with unfocused eyes*",
+      "They... studied us... changed things..."
+    ],
+    "responses": [
+      { "text": "I'll help you get out of here.", "topic": "TALK_PATHETIC_PRISONER_HELP" },
+      { "text": "[Leave]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PATHETIC_PRISONER_HELP",
+    "dynamic_line": [ "No... can't leave... they'll find me...", "*shakes head violently*", "Too late for me... save yourself..." ],
+    "responses": [ { "text": "[Leave]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FERAL_PRISONER",
+    "dynamic_line": [ "*looks at you with wild eyes*", "*breathes heavily*", "Help... me..." ],
+    "responses": [
+      { "text": "It's okay, I'm here to help.", "topic": "TALK_FERAL_PRISONER_HELP" },
+      { "text": "[Leave]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FERAL_PRISONER_HELP",
+    "dynamic_line": "*suddenly lunges at you with a feral scream*",
+    "responses": [ { "text": "[Defend yourself]", "topic": "TALK_DONE", "effect": "hostile" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DRAINED_CAPTIVE",
+    "dynamic_line": "...",
+    "responses": [
+      { "text": "Hello?", "topic": "TALK_DRAINED_CAPTIVE_HELLO" },
+      { "text": "[Check pulse]", "topic": "TALK_DRAINED_CAPTIVE_PULSE" },
+      { "text": "[Leave]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DRAINED_CAPTIVE_HELLO",
+    "dynamic_line": "...",
+    "responses": [ { "text": "Can you hear me?", "topic": "TALK_DRAINED_CAPTIVE_HEAR" }, { "text": "[Leave]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DRAINED_CAPTIVE_HEAR",
+    "dynamic_line": "...",
+    "responses": [ { "text": "[Leave]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DRAINED_CAPTIVE_PULSE",
+    "dynamic_line": "Their pulse is weak but steady. They're alive, but completely unresponsive. Their pupils don't react to light.",
+    "responses": [ { "text": "[Leave]", "topic": "TALK_DONE" } ]
   }
 ]

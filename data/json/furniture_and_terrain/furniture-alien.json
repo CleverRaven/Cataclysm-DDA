@@ -816,5 +816,47 @@
         }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_migo_cocoon_open",
+    "name": "opened mi-go stasis cocoon",
+    "description": "A strange organic pod that has been torn open. Slimy residue covers the edges. The surface has a slimy, almost translucent quality.",
+    "symbol": "O",
+    "color": "light_green",
+    "move_cost_mod": 1,
+    "required_str": 16,
+    "flags": [ "TRANSPARENT", "CONTAINER", "ALLOW_FIELD_EFFECT", "FLAMMABLE_HARD" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "splorch!",
+      "sound_fail": "splat!",
+      "sound_vol": 12,
+      "sound_fail_vol": 10,
+      "furn_set": "f_null",
+      "items": [ { "item": "slime_scrap", "count": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_migo_cocoon",
+    "name": "mi-go stasis cocoon",
+    "description": "A strange organic pod containing a being in suspended animation. The surface has a slimy, almost translucent quality.",
+    "symbol": "C",
+    "color": "gray",
+    "move_cost_mod": 1,
+    "required_str": 16,
+    "flags": [ "TRANSPARENT", "CONTAINER", "ALLOW_FIELD_EFFECT", "FLAMMABLE_HARD" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "splorch!",
+      "sound_fail": "splat!",
+      "sound_vol": 12,
+      "sound_fail_vol": 10,
+      "furn_set": "f_null",
+      "items": [ { "item": "slime_scrap", "count": [ 5, 10 ] }, { "group": "migo_cocoon_spawn", "prob": 50 } ]
+    }
   }
 ]
