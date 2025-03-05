@@ -1097,7 +1097,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                 ctr = item( itype_radiocontrol, calendar::turn_zero );
             }
             ctr.charges = units::to_kilojoule( get_power_level() );
-            int power_use = invoke_item( &ctr );
+            int power_use = invoke_item( &ctr, here );
             mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( -power_use ) ) );
             bio.powered = ctr.active;
         } else {
@@ -1907,6 +1907,8 @@ void Character::bionics_uninstall_failure( monster &installer, Character &patien
 
 bool Character::has_enough_anesth( const itype &cbm, Character &patient ) const
 {
+    map &here = get_map();
+
     if( !cbm.bionic ) {
         debugmsg( "has_enough_anesth( const itype *cbm ): %s is not a bionic", cbm.get_id().str() );
         return false;
@@ -1921,11 +1923,13 @@ bool Character::has_enough_anesth( const itype &cbm, Character &patient ) const
     const requirement_data req_anesth = *requirement_data_anesthetic *
                                         cbm.bionic->difficulty * 2 * weight;
 
-    return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component );
+    return req_anesth.can_make_with_inventory( crafting_inventory( here ), is_crafting_component );
 }
 
 bool Character::has_enough_anesth( const itype &cbm ) const
 {
+    map &here = get_map();
+
     if( has_bionic( bio_painkiller ) || has_flag( json_flag_PAIN_IMMUNE ) ||
         has_flag( json_flag_MANUAL_CBM_INSTALLATION ) || has_trait( trait_DEBUG_BIONICS ) ) {
         return true;
@@ -1933,7 +1937,7 @@ bool Character::has_enough_anesth( const itype &cbm ) const
     const int weight = units::to_kilogram( bodyweight() ) / 10;
     const requirement_data req_anesth = *requirement_data_anesthetic *
                                         cbm.bionic->difficulty * 2 * weight;
-    if( !req_anesth.can_make_with_inventory( crafting_inventory(),
+    if( !req_anesth.can_make_with_inventory( crafting_inventory( here ),
             is_crafting_component ) ) {
         std::string buffer = _( "You don't have enough anesthetic to perform the installation." );
         buffer += "\n";
@@ -1960,11 +1964,13 @@ void Character::consume_anesth_requirement( const itype &cbm, Character &patient
 
 bool Character::has_installation_requirement( const bionic_id &bid ) const
 {
+    map &here = get_map();
+
     if( bid->installation_requirement.is_empty() ) {
         return false;
     }
 
-    if( !bid->installation_requirement->can_make_with_inventory( crafting_inventory(),
+    if( !bid->installation_requirement->can_make_with_inventory( crafting_inventory( here ),
             is_crafting_component ) ) {
         std::string buffer = _( "You don't have the required components to perform the installation." );
         buffer += "\n";
@@ -2428,6 +2434,8 @@ float Character::env_surgery_bonus( int radius ) const
 bool Character::install_bionics( const itype &type, Character &installer, bool autodoc,
                                  int skill_level )
 {
+    map &here = get_map();
+
     if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
         return false;
@@ -2456,7 +2464,7 @@ bool Character::install_bionics( const itype &type, Character &installer, bool a
     if( installer.has_trait( trait_DEBUG_BIONICS ) ||
         installer.has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
         perform_install( bioid, upbio_uid, difficulty, success, pl_skill, "NOT_MED",
-                         bioid->canceled_mutations, pos_bub() );
+                         bioid->canceled_mutations, here, pos_bub( here ) );
         return true;
     }
     assign_activity( ACT_OPERATION, to_moves<int>( difficulty * 20_minutes ) );
@@ -2486,7 +2494,7 @@ bool Character::install_bionics( const itype &type, Character &installer, bool a
 
 void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int difficulty,
                                  int success, int pl_skill, const std::string &installer_name,
-                                 const std::vector<trait_id> &trait_to_rem, const tripoint_bub_ms &patient_pos )
+                                 const std::vector<trait_id> &trait_to_rem, map &here, const tripoint_bub_ms &patient_pos )
 {
     // if we chop off a limb, our stored kcal should decrease proportionally
     float cached_healthy_kcal = get_healthy_kcal();
@@ -2525,14 +2533,14 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
                                static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
                                ( 10.0 ) );
-        bionics_install_failure( bid, installer_name, difficulty, success, adjusted_skill, patient_pos );
+        bionics_install_failure( bid, installer_name, difficulty, success, adjusted_skill, here,
+                                 patient_pos );
     }
-    map &here = get_map();
     here.invalidate_map_cache( here.get_abs_sub().z() );
 }
 
 void Character::bionics_install_failure( const bionic_id &bid, const std::string &installer,
-        int difficulty, int success, float adjusted_skill, const tripoint_bub_ms &patient_pos )
+        int difficulty, int success, float adjusted_skill, map &here, const tripoint_bub_ms &patient_pos )
 {
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful install.  We use this to determine consequences for failing.
@@ -2626,7 +2634,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
         cbm.faults.emplace( fault_bionic_salvaged );
-        get_map().add_item( patient_pos, cbm );
+        here.add_item( patient_pos, cbm );
     }
 }
 

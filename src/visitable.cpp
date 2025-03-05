@@ -285,11 +285,13 @@ int Character::max_quality( const quality_id &qual ) const
 
 int Character::max_quality( const quality_id &qual, int radius ) const
 {
+    map &here = get_map();
+
     int res = max_quality( qual );
 
     if( radius > 0 ) {
         res = std::max( res,
-                        crafting_inventory( tripoint_bub_ms::zero, radius, true )
+                        crafting_inventory( here, tripoint_bub_ms::zero, radius, true )
                         .max_quality( qual ) );
     }
 

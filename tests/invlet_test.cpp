@@ -242,16 +242,18 @@ static invlet_state check_invlet( Character &you, item &it, const char invlet )
 
 static void drop_at_feet( Character &you, const std::string &id )
 {
-    size_t size_before = get_map().i_at( you.pos_bub() ).size();
+    map &here = get_map();
+
+    size_t size_before = here.i_at( you.pos_bub( here ) ).size();
 
     item *found = retrieve_item( you, id );
     REQUIRE( found );
     item_location loc( you, found );
     you.set_moves( 100 );
-    you.drop( loc, you.pos_bub() );
+    you.drop( loc, here, you.pos_bub( here ) );
     you.activity.do_turn( you );
 
-    REQUIRE( get_map().i_at( you.pos_bub() ).size() == size_before + 1 );
+    REQUIRE( here.i_at( you.pos_bub( here ) ).size() == size_before + 1 );
 }
 
 static void pick_up_from_feet( Character &you, const std::string &id )

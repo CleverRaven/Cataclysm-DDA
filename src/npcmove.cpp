@@ -1729,7 +1729,7 @@ void npc::execute_action( npc_action action )
             if( can_use_offensive_cbm() ) {
                 activate_bionic_by_id( bio_hydraulics );
             }
-            reach_attack( tar );
+            reach_attack( here, tar );
             break;
         case npc_melee:
             update_path( tar );
@@ -2019,7 +2019,7 @@ npc_action npc::method_of_attack()
 void npc::evaluate_best_attack( const Creature *target )
 {
     // Required because evaluation includes electricity via linked cables.
-    const map &here = get_map();
+    map &here = get_map();
 
     std::shared_ptr<npc_attack> best_attack;
     npc_attack_rating best_evaluated_attack;
@@ -2081,13 +2081,15 @@ npc_action npc::address_needs()
 
 int npc::evaluate_sleep_spot( tripoint_bub_ms p )
 {
+    const map &here = get_map();
+
     // Base evaluation is based on ability to actually fall sleep there
     int sleep_eval = get_comfort_at( p ).comfort;
     // Only evaluate further if the possible bed isn't already considered very comfortable.
     // This opt-out is necessary to allow mutant NPCs to find desired non-bed sleeping spaces
     if( sleep_eval < comfort_data::COMFORT_VERY_COMFORTABLE - 1 ) {
         const units::temperature_delta ideal_bed_value = 2_C_delta;
-        const units::temperature_delta sleep_spot_value = floor_bedding_warmth( p );
+        const units::temperature_delta sleep_spot_value = floor_bedding_warmth( here, p );
         if( sleep_spot_value < ideal_bed_value ) {
             double bed_similarity = sleep_spot_value / ideal_bed_value;
             // bed_similarity^2, exponentially diminishing the value of non-bed sleeping spots the more not-bed-like they are
@@ -3066,7 +3068,7 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
     } else if( has_effect( effect_stumbled_into_invisible ) &&
                here.has_field_at( p, field_fd_last_known ) && !sees( here, player_character ) &&
                attitude_to( player_character ) == Attitude::HOSTILE ) {
-        attack_air( p );
+        attack_air( here, p );
         move_pause();
     } else if( here.passable( p ) && !here.has_flag( ter_furn_flag::TFLAG_DOOR, p ) ) {
         bool diag = trigdist && pos.x() != p.x() && pos.y() != p.y();
@@ -4088,7 +4090,7 @@ bool npc::do_player_activity()
 double npc::evaluate_weapon( item &maybe_weapon, bool can_use_gun, bool use_silent ) const
 {
     // Needed because evaluation includes electricity via linked cables.
-    const map &here = get_map();
+    map &here = get_map();
 
     bool allowed = can_use_gun && maybe_weapon.is_gun() && ( !use_silent || maybe_weapon.is_silent() );
     // According to unmodified evaluation score, NPCs almost always prioritize wielding guns if they have one.
@@ -4204,6 +4206,8 @@ bool npc::scan_new_items()
 
 static void npc_throw( npc &np, item &it, const tripoint_bub_ms &pos )
 {
+    map &here = get_map();
+
     add_msg_if_player_sees( np, _( "%1$s throws a %2$s." ), np.get_name(), it.tname() );
 
     int stack_size = -1;
@@ -4212,7 +4216,7 @@ static void npc_throw( npc &np, item &it, const tripoint_bub_ms &pos )
         it.charges = 1;
     }
     if( !np.is_hallucination() ) { // hallucinations only pretend to throw
-        np.throw_item( pos, it );
+        np.throw_item( here, pos, it );
     }
     // Throw a single charge of a stacking object.
     if( stack_size == -1 || stack_size == 1 ) {

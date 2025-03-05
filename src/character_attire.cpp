@@ -2046,6 +2046,8 @@ std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy )
 void outfit::fire_options( Character &guy, std::vector<std::string> &options,
                            std::vector<std::function<void()>> &actions )
 {
+    map &here = get_map();
+
     for( item &clothing : worn ) {
         std::vector<item *> guns = clothing.items_with( []( const item & it ) {
             return it.is_gun();
@@ -2059,7 +2061,7 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
                                               clothing.type_name(),
                                               guns.front()->ammo_remaining( ) ) );
 
-            actions.emplace_back( [&] { guy.invoke_item( &clothing, "holster" ); } );
+            actions.emplace_back( [&] { guy.invoke_item( &clothing, "holster", here ); } );
 
         } else if( clothing.is_gun() && clothing.gunmod_find_by_flag( flag_BELTED ) ) {
             // wield item currently worn using shoulder strap
