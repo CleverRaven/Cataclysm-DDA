@@ -134,27 +134,27 @@
     "id": "duct_tape_roll",
     "type": "item_group",
     "container-item": "cardboard_roll",
-    "//1": "200 charges - one roll is 20 yards. One charge = 0.1 yard.",
+    "//1": "200 charges = 25 m. One charge = 125 mm.",
     "items": [ { "item": "duct_tape", "charges": 200 } ]
   },
   {
     "id": "duct_tape_roll_part",
     "type": "item_group",
     "container-item": "cardboard_roll",
-    "//1": "200 charges - one roll is 20 yards. One charge = 0.1 yard.",
     "items": [ { "item": "duct_tape", "charges": [ 20, 200 ] } ]
   },
   {
     "id": "medical_tape_roll",
     "type": "item_group",
     "container-item": "cardboard_roll",
-    "items": [ { "item": "medical_tape", "count": 100 } ]
+    "//1": "25 charges = 5 m. One charge = 200 mm.",
+    "items": [ { "item": "medical_tape", "count": 25 } ]
   },
   {
     "id": "medical_tape_roll_part",
     "type": "item_group",
     "container-item": "cardboard_roll",
-    "items": [ { "item": "medical_tape", "count": [ 15, 100 ] } ]
+    "items": [ { "item": "medical_tape", "count": [ 3, 25 ] } ]
   },
   {
     "id": "oxy_powder_bottle_part",

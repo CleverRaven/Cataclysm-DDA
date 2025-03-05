@@ -384,20 +384,19 @@
     "type": "AMMO",
     "id": "duct_tape",
     "category": "spare_parts",
-    "price": "6 USD",
-    "price_postapoc": "2 USD 50 cent",
+    "price": "3 cent",
+    "price_postapoc": "1 cent",
     "name": { "str_sp": "duct tape" },
     "symbol": "=",
     "color": "light_gray",
     "description": "A roll of incredibly strong tape.  Its uses are innumerable.",
     "material": [ "plastic" ],
-    "volume": "5 ml",
-    "weight": "18 mg",
+    "volume": "2 ml",
+    "weight": "2 g",
     "ammo_type": "tape",
     "count": 1,
-    "//1": "200 charges - one roll is 20 yards. One charge = 0.1 yard.",
-    "flags": [ "UNRECOVERABLE" ],
-    "//2": "Based on https://www.amazon.com/dp/B097HKH3G4, with the assumption that the tape is 1mm thick for volume calculation"
+    "//1": "50 x 125 x 0.3 mm per unit, rounded up. 200 units = 25 m",
+    "flags": [ "UNRECOVERABLE" ]
   },
   {
     "type": "AMMO",
@@ -979,11 +978,11 @@
     "color": "white",
     "description": "A roll of semi-opaque medical tape, intended to hold bandages in place.  Not as versatile as duct tape.",
     "material": [ "plastic" ],
-    "//": "same as duct tape",
-    "volume": "930 ml",
-    "weight": "3500 mg",
+    "//": "25 x 200 x 0.2 mm per unit, 5 meters roll is 25 units",
+    "volume": "1 ml",
+    "weight": "1 g",
     "ammo_type": "components",
-    "count": 200
+    "count": 1
   },
   {
     "type": "AMMO",
