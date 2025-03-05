@@ -1,6 +1,23 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER",
+    "effect": [
+      { "math": [ "u_teleport_total_carried_volume = 0" ] },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "condition": { "math": [ "n_volume() > 0" ] } } ],
+        "true_eocs": [
+          {
+            "id": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER_ADD_VOLUME",
+            "effect": [ { "math": [ "u_teleport_total_carried_volume", "+=", "n_volume()" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEPORT_ITEM_APPORT",
     "effect": [
       {
@@ -32,17 +49,18 @@
                     "id": "EOC_TELEPORT_ITEM_APPORT_ITEM_QUALIFIES",
                     "effect": [
                       {
-                        "if": {
-                          "u_query_tile": "line_of_sight",
-                          "target_var": { "global_val": "teleporter_item_apport_location" },
-                          "range": {
-                            "math": [
-                              "min( ( ( (u_spell_level('teleport_item_apport') * 1.25) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
-                            ]
-                          },
-                          "z_level": true,
-                          "message": "Select apport location."
+                        "u_query_tile": "line_of_sight",
+                        "target_var": { "global_val": "teleporter_item_apport_location" },
+                        "range": {
+                          "math": [
+                            "min( ( ( (u_spell_level('teleport_item_apport') * 1.25) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+                          ]
                         },
+                        "z_level": true,
+                        "message": "Select apport location."
+                      },
+                      {
+                        "if": { "math": [ "has_var(_teleporter_item_apport_location)" ] },
                         "then": {
                           "if": {
                             "or": [
@@ -79,6 +97,42 @@
         ],
         "false_eocs": [
           { "id": "EOC_TELEPORT_ITEM_APPORT_FAIL", "effect": [ { "u_message": "You must be holding something to apport it." } ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_DISPLACEMENT_CHECK",
+    "effect": [
+      { "math": [ "u_teleportation_intelligence = ( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_teleportation_intelligence_power_level = n_spell_level('teleport_displacement')" ] },
+      { "math": [ "u_nether_attunement_teleportation_scaling = n_nether_attunement_power_scaling" ] },
+      {
+        "if": {
+          "and": [
+            {
+              "math": [
+                "u_volume() <= ( ( (u_teleportation_intelligence_power_level * 12500) + 25000) * u_teleportation_intelligence * u_nether_attunement_teleportation_scaling)"
+              ]
+            },
+            { "math": [ "u_volume() > 0" ] }
+          ]
+        },
+        "then": [
+          { "u_cast_spell": { "id": "teleport_blink", "min_level": 10, "hit_self": true } },
+          {
+            "if": { "npc_has_effect": "effect_teleport_reactive_displacement" },
+            "then": [ { "npc_message": "As <u_name> strikes you, they are suddenly somewhere else", "type": "good" } ],
+            "else": [ { "npc_message": "You touch <u_name> and they are suddenly somewhere else", "type": "good" } ]
+          }
+        ],
+        "else": [
+          {
+            "if": { "npc_has_effect": "effect_teleport_reactive_displacement" },
+            "then": [  ],
+            "else": [ { "npc_message": "You touch <u_name> but nothing happens.  They are too big to teleport.", "type": "bad" } ]
+          }
         ]
       }
     ]
@@ -196,6 +250,16 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEPORTER_GATEWAY_MESSAGE_CARRYING_TOO_MUCH",
+    "effect": [
+      {
+        "u_message": "You attempt to teleport to your destination, but your skin merely tingles and nothing happens.  You're carrying too much.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEPORTER_ATTUNING_MESSAGE",
     "effect": [
       { "u_message": "You concentrate and begin memorizing every detail of the current area you are in.", "type": "neutral" }
@@ -215,7 +279,24 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_SELECTOR",
+    "condition": {
+      "and": [
+        { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } },
+        { "not": { "u_has_flag": "DIMENSIONAL_ANCHOR" } },
+        { "not": { "u_has_flag": "TELEPORT_LOCK" } }
+      ]
+    },
     "effect": [
+      { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
+      {
+        "if": {
+          "math": [
+            "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_gateway') * 7500 ) + 10000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+          ]
+        },
+        "then": [ { "math": [ "u_teleport_total_carried_volume = 1" ] } ],
+        "else": [ { "math": [ "u_teleport_total_carried_volume = -1" ] } ]
+      },
       {
         "run_eoc_selector": [
           "EOC_TELEPORT_GATEWAY_SELECTOR_01",
@@ -257,7 +338,8 @@
         "hide_failing": true,
         "allow_cancel": true
       }
-    ]
+    ],
+    "false_effect": [ { "u_message": "You feel a strange, inward force.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -290,7 +372,13 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_01",
     "condition": { "math": [ "has_var(u_gateway_destination_1)" ] },
-    "effect": [ { "u_teleport": { "u_val": "gateway_destination_1" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
+    "effect": [
+      {
+        "if": { "math": [ "u_teleport_total_carried_volume >= 0" ] },
+        "then": [ { "u_teleport": { "u_val": "gateway_destination_1" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ],
+        "else": [ { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE_CARRYING_TOO_MUCH" } ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -349,7 +437,13 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_02",
     "condition": { "math": [ "has_var(u_gateway_destination_2)" ] },
-    "effect": [ { "u_teleport": { "u_val": "gateway_destination_2" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
+    "effect": [
+      {
+        "if": { "math": [ "u_teleport_total_carried_volume >= 0" ] },
+        "then": [ { "u_teleport": { "u_val": "gateway_destination_2" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ],
+        "else": [ { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE_CARRYING_TOO_MUCH" } ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -408,7 +502,13 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_03",
     "condition": { "math": [ "has_var(u_gateway_destination_3)" ] },
-    "effect": [ { "u_teleport": { "u_val": "gateway_destination_3" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
+    "effect": [
+      {
+        "if": { "math": [ "u_teleport_total_carried_volume >= 0" ] },
+        "then": [ { "u_teleport": { "u_val": "gateway_destination_3" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ],
+        "else": [ { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE_CARRYING_TOO_MUCH" } ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -467,7 +567,13 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_04",
     "condition": { "math": [ "has_var(u_gateway_destination_4)" ] },
-    "effect": [ { "u_teleport": { "u_val": "gateway_destination_4" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
+    "effect": [
+      {
+        "if": { "math": [ "u_teleport_total_carried_volume >= 0" ] },
+        "then": [ { "u_teleport": { "u_val": "gateway_destination_4" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ],
+        "else": [ { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE_CARRYING_TOO_MUCH" } ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -526,7 +632,13 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_05",
     "condition": { "math": [ "has_var(u_gateway_destination_5)" ] },
-    "effect": [ { "u_teleport": { "u_val": "gateway_destination_5" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
+    "effect": [
+      {
+        "if": { "math": [ "u_teleport_total_carried_volume >= 0" ] },
+        "then": [ { "u_teleport": { "u_val": "gateway_destination_5" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ],
+        "else": [ { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE_CARRYING_TOO_MUCH" } ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -585,7 +697,13 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_06",
     "condition": { "math": [ "has_var(u_gateway_destination_6)" ] },
-    "effect": [ { "u_teleport": { "u_val": "gateway_destination_6" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
+    "effect": [
+      {
+        "if": { "math": [ "u_teleport_total_carried_volume >= 0" ] },
+        "then": [ { "u_teleport": { "u_val": "gateway_destination_6" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ],
+        "else": [ { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE_CARRYING_TOO_MUCH" } ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -644,7 +762,13 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_07",
     "condition": { "math": [ "has_var(u_gateway_destination_7)" ] },
-    "effect": [ { "u_teleport": { "u_val": "gateway_destination_7" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
+    "effect": [
+      {
+        "if": { "math": [ "u_teleport_total_carried_volume >= 0" ] },
+        "then": [ { "u_teleport": { "u_val": "gateway_destination_7" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ],
+        "else": [ { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE_CARRYING_TOO_MUCH" } ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -703,7 +827,13 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_08",
     "condition": { "math": [ "has_var(u_gateway_destination_8)" ] },
-    "effect": [ { "u_teleport": { "u_val": "gateway_destination_8" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
+    "effect": [
+      {
+        "if": { "math": [ "u_teleport_total_carried_volume >= 0" ] },
+        "then": [ { "u_teleport": { "u_val": "gateway_destination_8" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ],
+        "else": [ { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE_CARRYING_TOO_MUCH" } ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -762,7 +892,13 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_09",
     "condition": { "math": [ "has_var(u_gateway_destination_9)" ] },
-    "effect": [ { "u_teleport": { "u_val": "gateway_destination_9" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
+    "effect": [
+      {
+        "if": { "math": [ "u_teleport_total_carried_volume >= 0" ] },
+        "then": [ { "u_teleport": { "u_val": "gateway_destination_9" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ],
+        "else": [ { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE_CARRYING_TOO_MUCH" } ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -821,7 +957,13 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_GATEWAY_TELEPORT_10",
     "condition": { "math": [ "has_var(u_gateway_destination_10)" ] },
-    "effect": [ { "u_teleport": { "u_val": "gateway_destination_10" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ]
+    "effect": [
+      {
+        "if": { "math": [ "u_teleport_total_carried_volume >= 0" ] },
+        "then": [ { "u_teleport": { "u_val": "gateway_destination_10" } }, { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE" } ],
+        "else": [ { "run_eocs": "EOC_TELEPORTER_GATEWAY_MESSAGE_CARRYING_TOO_MUCH" } ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

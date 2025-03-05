@@ -1832,7 +1832,7 @@
     "color": "red",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
@@ -1852,7 +1852,7 @@
     "color": "green",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
@@ -1872,7 +1872,7 @@
     "color": "blue",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
       "str_max": 400,

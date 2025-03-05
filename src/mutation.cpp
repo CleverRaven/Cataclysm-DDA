@@ -47,7 +47,7 @@
 #include "talker.h"
 #include "text_snippets.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "weighted_list.h"
 
@@ -1359,7 +1359,8 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
         return;
     }
 
-    bool select_mutation = is_avatar() && get_option<bool>( "SHOW_MUTATION_SELECTOR" );
+    bool select_mutation = is_avatar() && ( get_option<bool>( "SHOW_MUTATION_SELECTOR" ) ||
+                                            calculate_by_enchantment( 0, enchant_vals::mod::MUT_ADDITIONAL_OPTIONS ) >= 1 );
 
     bool allow_good = false;
     bool allow_bad = false;
@@ -1546,7 +1547,7 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
                 above_index++;
                 added_traits++;
             }
-            if( below_index < 0 && above_index > end_index ) {
+            if( below_index < 1 && above_index > end_index ) {
                 break;
             }
         }

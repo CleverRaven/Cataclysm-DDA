@@ -115,6 +115,7 @@
       },
       "-": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] }
     },
+    "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "T": {  } }
   }
 ]

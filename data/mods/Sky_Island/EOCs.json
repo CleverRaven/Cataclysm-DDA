@@ -941,38 +941,32 @@
     "id": "EOC_WARPED_POND_CREATION",
     "effect": [
       {
-        "if": {
-          "u_query_tile": "around",
-          "target_var": { "global_val": "warped_pond_location" },
-          "message": "Select nearby water source"
+        "u_choose_adjacent_highlight": { "context_val": "warped_pond_location" },
+        "condition": {
+          "or": [
+            { "map_terrain_with_flag": "LIQUID", "loc": { "context_val": "loc" } },
+            { "map_terrain_id": "t_wooden_well", "loc": { "context_val": "loc" } },
+            { "map_terrain_id": "t_water_pump", "loc": { "context_val": "loc" } }
+          ]
         },
+        "message": "Select nearby water source"
+      },
+      {
+        "if": { "math": [ "has_var(_warped_pond_location)" ] },
         "then": {
-          "if": {
-            "or": [
-              { "map_terrain_with_flag": "LIQUID", "loc": { "global_val": "warped_pond_location" } },
-              { "map_terrain_id": "t_wooden_well", "loc": { "global_val": "warped_pond_location" } },
-              { "map_terrain_id": "t_water_pump", "loc": { "global_val": "warped_pond_location" } }
-            ]
-          },
-          "then": {
-            "run_eoc_selector": [
-              "EOC_WARPED_POND_CREATION_NW",
-              "EOC_WARPED_POND_CREATION_NE",
-              "EOC_WARPED_POND_CREATION_SW",
-              "EOC_WARPED_POND_CREATION_SE"
-            ],
-            "names": [ "Northwest", "Northeast", "Southwest", "Southeast" ],
-            "title": "Choose the location for a pond",
-            "descriptions": [
-              "Place a pond in the northwest.",
-              "Place a pond in the northeast.",
-              "Place a pond in the southwest.",
-              "Place a pond in the southeast."
-            ]
-          },
-          "else": [
-            { "u_spawn_item": "warptoken", "count": 30, "suppress_message": true },
-            { "u_message": "Canceled.", "type": "neutral" }
+          "run_eoc_selector": [
+            "EOC_WARPED_POND_CREATION_NW",
+            "EOC_WARPED_POND_CREATION_NE",
+            "EOC_WARPED_POND_CREATION_SW",
+            "EOC_WARPED_POND_CREATION_SE"
+          ],
+          "names": [ "Northwest", "Northeast", "Southwest", "Southeast" ],
+          "title": "Choose the location for a pond",
+          "descriptions": [
+            "Place a pond in the northwest.",
+            "Place a pond in the northeast.",
+            "Place a pond in the southwest.",
+            "Place a pond in the southeast."
           ]
         },
         "else": [

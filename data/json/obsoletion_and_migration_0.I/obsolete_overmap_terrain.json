@@ -433,5 +433,18 @@
     "type": "overmap_special_migration",
     "id": "s_gunstore_looted",
     "new_id": "s_gun_a"
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.I",
+    "oter_ids": {
+      "silo_roof": "silo_roof_north",
+      "silo": "silo_north",
+      "silo_1": "silo_1_north",
+      "silo_2": "silo_2_north",
+      "silo_3": "silo_3_north",
+      "silo_4": "silo_4_north",
+      "silo_finale": "silo_finale_north"
+    }
   }
 ]

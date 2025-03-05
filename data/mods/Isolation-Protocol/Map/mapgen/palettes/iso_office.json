@@ -52,6 +52,7 @@
     },
     "toilets": { ";": {  } },
     "items": {
+      ";": { "item": "SUS_toilet", "chance": 50 },
       "d": { "item": "office", "chance": 70, "repeat": [ 1, 3 ] },
       "t": { "item": "office", "chance": 70, "repeat": [ 1, 3 ] },
       "A": { "item": "file_room", "chance": 70, "repeat": [ 10, 20 ] },

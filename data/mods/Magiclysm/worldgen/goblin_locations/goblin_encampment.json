@@ -88,7 +88,7 @@
       "items": {
         "c": { "item": "stash_wood", "chance": 50 },
         "h": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
-        "%": { "item": "trash", "chance": 40, "repeat": [ 1, 2 ] }
+        "%": { "item": "SUS_trash_floor", "chance": 40, "repeat": [ 1, 2 ] }
       },
       "place_nested": [
         { "chunks": [ "goblin_north_nest" ], "x": 25, "y": 11 },

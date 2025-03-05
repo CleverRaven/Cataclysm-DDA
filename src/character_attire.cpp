@@ -2246,9 +2246,9 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
             }
         }
         if( !covered ) {
-            // some clothing flags provide warmth without providing coverage or encumberance
+            // some clothing flags provide warmth without providing coverage or encumbrance
             // these are included in the worn list so that players aren't confused about why body parts are warm
-            // but not included in the later coverage and encumberance calculations
+            // but not included in the later coverage and encumbrance calculations
             if( ( bp == body_part_hand_l || bp == body_part_hand_r ) && armor.has_flag( flag_POCKETS ) &&
                 person.can_use_pockets() ) {
                 //~ name of a clothing/armor item, indicating it has pockets providing hand warmth

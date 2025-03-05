@@ -326,7 +326,7 @@
     "color": "red",
     "vision_levels": "open_land",
     "see_cost": "medium",
-    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",

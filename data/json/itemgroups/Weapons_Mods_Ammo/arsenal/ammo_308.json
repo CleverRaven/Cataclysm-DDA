@@ -34,20 +34,20 @@
     "//": "---------------------------------------------------",
     "type": "item_group",
     "id": "ammo_can_308_full",
-    "container-item": { "item": "ammunition_can_30", "variant": "ammunition_can_30_308fmj_460" },
+    "container-item": { "item": "ammunition_can_50", "variant": "ammunition_can_50_308fmj_460" },
     "items": [ { "group": "ammo_box_308", "count": 23 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_can_308_part",
-    "container-item": { "item": "ammunition_can_30", "variant": "ammunition_can_30_308fmj_460" },
+    "container-item": { "item": "ammunition_can_50", "variant": "ammunition_can_50_308fmj_460" },
     "items": [ { "group": "ammo_box_308", "count": [ 0, 20 ] } ]
   },
   {
     "type": "item_group",
     "id": "ammo_box_308",
-    "container-item": "ammo_box_army_20_308",
-    "items": [ { "item": "762_51", "count": 1, "charges": 20 } ]
+    "container-item": { "item": "308_ammo_box_20", "variant": "ammo_box_army_20_308" },
+    "items": [ { "item": "762_51", "charges": 20 } ]
   },
   {
     "//": "---------------------------------------------------",
@@ -118,8 +118,8 @@
   {
     "type": "item_group",
     "id": "ammo_box_ap_308",
-    "container-item": "ammo_box_army_20_308",
-    "items": [ { "item": "762_51_m993", "count": 1, "charges": 20 } ]
+    "container-item": { "item": "308_ammo_box_20", "variant": "ammo_box_army_20_308" },
+    "items": [ { "item": "762_51_m993", "charges": 20 } ]
   },
   {
     "//": "---------------------------------------------------",

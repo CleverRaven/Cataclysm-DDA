@@ -30,8 +30,13 @@
       { "x": -2, "y": 1, "parts": [ "board#se" ] }
     ],
     "items": [
-      { "x": -2, "y": 0, "chance": 50, "item_groups": [ "trash", "trash", "trash", "trash", "trash", "trash" ] },
-      { "x": -1, "y": 0, "chance": 100, "item_groups": [ "trash" ] }
+      {
+        "x": -2,
+        "y": 0,
+        "chance": 50,
+        "item_groups": [ "SUS_trash_floor", "SUS_trash_floor", "SUS_trash_floor", "SUS_trash_floor", "SUS_trash_floor", "SUS_trash_floor" ]
+      },
+      { "x": -1, "y": 0, "chance": 100, "item_groups": [ "SUS_trash_floor" ] }
     ]
   },
   {

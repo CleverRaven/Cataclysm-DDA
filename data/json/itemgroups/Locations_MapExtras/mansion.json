@@ -1588,12 +1588,10 @@
     "magazine": 100,
     "ammo": 100,
     "items": [
-      { "group": "ammo_obscure", "prob": 90 },
+      { "group": "ammo_common_boxed", "prob": 90 },
       { "group": "archery_ammo", "prob": 60 },
       { "group": "crossbow_bolts", "prob": 60 },
-      { "group": "ammo_reloaded", "prob": 30 },
-      { "group": "mags_common", "prob": 30 },
-      { "group": "ammo_cannon", "prob": 10 }
+      { "group": "mags_common", "prob": 30 }
     ]
   },
   {

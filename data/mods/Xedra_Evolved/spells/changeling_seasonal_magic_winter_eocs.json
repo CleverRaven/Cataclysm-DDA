@@ -233,33 +233,34 @@
     "id": "EOC_CHANGELING_WINTER_HAIL_ATTACK",
     "effect": [
       {
-        "if": {
-          "u_query_tile": "line_of_sight",
-          "target_var": { "global_val": "changeling_winter_hail_attack_location" },
-          "range": {
-            "math": [
-              "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.35) + (u_skill('deduction') * 0.65) ) ), 7)"
-            ]
-          },
-          "z_level": true,
-          "message": "Select target."
+        "u_query_tile": "line_of_sight",
+        "target_var": { "context_val": "changeling_winter_hail_attack_location" },
+        "range": {
+          "math": [
+            "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.35) + (u_skill('deduction') * 0.65) ) ), 7)"
+          ]
         },
+        "z_level": true,
+        "message": "Select target."
+      },
+      {
+        "if": { "math": [ "has_var(_changeling_winter_hail_attack_location)" ] },
         "then": {
-          "if": { "not": { "map_terrain_with_flag": "INDOORS", "loc": { "global_val": "changeling_winter_hail_attack_location" } } },
+          "if": { "not": { "map_terrain_with_flag": "INDOORS", "loc": { "context_val": "changeling_winter_hail_attack_location" } } },
           "then": [
             {
               "u_cast_spell": { "id": "changeling_winter_hail_attack_spell_bash_damage" },
-              "loc": { "global_val": "changeling_winter_hail_attack_location" }
+              "loc": { "context_val": "changeling_winter_hail_attack_location" }
             },
             {
               "u_cast_spell": { "id": "changeling_winter_hail_attack_spell_cold_damage" },
-              "loc": { "global_val": "changeling_winter_hail_attack_location" }
+              "loc": { "context_val": "changeling_winter_hail_attack_location" }
             },
             {
               "if": { "not": { "is_season": "summer" } },
               "then": {
                 "u_cast_spell": { "id": "changeling_winter_hail_attack_spell_ice_fields" },
-                "loc": { "global_val": "changeling_winter_hail_attack_location" }
+                "loc": { "context_val": "changeling_winter_hail_attack_location" }
               }
             },
             { "u_message": "Ice and hail fall from the sky!", "type": "neutral" }
