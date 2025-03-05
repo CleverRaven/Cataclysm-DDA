@@ -853,6 +853,8 @@ static activity_reason_info find_base_construction(
     const std::optional<construction_id> &part_con_idx,
     const construction_id &idx )
 {
+    map &here = get_map();
+
     if( already_done( idx.obj(), loc ) ) {
         return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, idx->id );
     }
@@ -895,7 +897,7 @@ static activity_reason_info find_base_construction(
     if( !cc ) {
         return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
     }
-    const inventory &inv = you.crafting_inventory( inv_from_loc, PICKUP_RANGE );
+    const inventory &inv = you.crafting_inventory( here, inv_from_loc, PICKUP_RANGE );
     if( !player_can_build( you, inv, build, true ) ) {
         //can't build with current inventory, do not look for pre-req
         return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, build.id );
