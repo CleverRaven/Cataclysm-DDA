@@ -225,7 +225,7 @@
     "modes": [ [ "DEFAULT", "SMART TRACK", 2 ] ],
     "built_in_mods": [ "afs_smart_scope" ],
     "skill": "smartgun",
-    "valid_mod_locations": [[ "sling", 1 ] ],
+    "valid_mod_locations": [ [ "sling", 1 ] ],
     "symbol": "(",
     "color": "red",
     "ammo": [ "afs_7.50mm_smart" ],
