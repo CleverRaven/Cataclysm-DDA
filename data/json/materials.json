@@ -2172,6 +2172,7 @@
     "conductive": true,
     "chip_resist": 1,
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 0 },
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched"
   },
