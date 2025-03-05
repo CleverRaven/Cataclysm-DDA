@@ -79,7 +79,7 @@
     "id": "MISSION_EQUIP_PRISONER_CLOTHES",
     "type": "mission_definition",
     "name": { "str": "Find clothes for the prisoner" },
-    "description": "Find some jeasns for the rescued prisoner.",
+    "description": "Find some jeans for the rescued prisoner.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "item": "jeans",
