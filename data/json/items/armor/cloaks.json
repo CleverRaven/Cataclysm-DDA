@@ -1575,6 +1575,12 @@
         "name": { "str": "Rhode Island flag" },
         "description": "A large white flag of Rhode Island that features a golden anchor in the middle of it surrounded by thirteen gold stars, below the anchor is a blue banner that reads \"hope\".",
         "weight": 5
+      },
+      {
+        "id": "new_england_flag",
+        "name": { "str": "New England flag" },
+        "description": "A large red flag, in the canton is a green pine tree on a white field.",
+        "weight": 5
       }
     ]
   },
