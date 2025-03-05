@@ -596,10 +596,7 @@
           { "item": "archery_ammo", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "archery_mods", "chance": 50, "repeat": [ 1, 2 ] }
         ],
-        "`": [
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 0, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 50, "repeat": [ 0, 2 ] }
-        ],
+        "`": [ { "item": "ammo_hunting", "chance": 75, "repeat": [ 0, 5 ] } ],
         "z": [
           { "item": "clothing_hunting", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "tools_hunting", "chance": 20, "repeat": [ 1, 2 ] },
@@ -967,10 +964,7 @@
           { "item": "guns_pistol_common", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "knife_shop", "chance": 30, "repeat": [ 1, 2 ] }
         ],
-        "`": [
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 0, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 50, "repeat": [ 0, 2 ] }
-        ],
+        "`": [ { "item": "ammo_hunting", "chance": 75, "repeat": [ 0, 5 ] } ],
         "z": [
           { "item": "clothing_hunting", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "tools_hunting", "chance": 20, "repeat": [ 1, 2 ] },

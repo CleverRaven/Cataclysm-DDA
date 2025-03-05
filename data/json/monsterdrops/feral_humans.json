@@ -95,7 +95,7 @@
       },
       { "group": "harddrugs", "prob": 15 },
       { "group": "stash_food", "prob": 15 },
-      { "group": "ammo_common", "prob": 15 },
+      { "group": "ammo_common_boxed_used", "prob": 15 },
       { "group": "stash_drugs", "prob": 15 },
       { "group": "gear_survival", "prob": 15 }
     ]

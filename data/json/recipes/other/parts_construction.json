@@ -119,7 +119,8 @@
     "skill_used": "fabrication",
     "time": "2 h",
     "autolearn": true,
-    "byproducts": [ [ "splinter", 7 ], [ "wood_panel", 3 ] ],
+    "result_mult": 4,
+    "byproducts": [ [ "splinter", 7 ] ],
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "wood_beam", 1 ] ] ],
     "//": "I am assuming here that you actually get more than 4 smaller-than-represented wood panels, but any application that requires panels means you'll be putting these side by side to get the effect of a single panel."
@@ -134,7 +135,7 @@
     "skill_used": "fabrication",
     "time": "10 m",
     "autolearn": true,
-    "byproducts": [ [ "wood_panel", 1 ] ],
+    "result_mult": 2,
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "wood_sheet", 1 ] ] ]
   },

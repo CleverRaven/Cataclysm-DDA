@@ -70,6 +70,10 @@ class const_talker
         virtual computer const *get_const_computer() const {
             return nullptr;
         }
+        virtual vehicle const *get_const_vehicle() const {
+            return nullptr;
+        }
+
         // identity and location
         virtual std::string disp_name() const {
             return "";
@@ -652,6 +656,57 @@ class const_talker
         virtual int get_quality( const std::string &, bool ) const {
             return 0;
         }
+        virtual bool is_driven() const {
+            return false;
+        }
+        virtual bool is_remote_controlled() const {
+            return false;
+        }
+        virtual int get_vehicle_facing() const {
+            return 0;
+        }
+        virtual bool can_fly() const {
+            return false;
+        }
+        virtual bool is_flying() const {
+            return false;
+        }
+        virtual bool can_float() const {
+            return false;
+        }
+        virtual bool is_floating() const {
+            return false;
+        }
+        virtual bool is_falling() const {
+            return false;
+        }
+        virtual bool is_skidding() const {
+            return false;
+        }
+        virtual bool is_sinking() const {
+            return false;
+        }
+        virtual bool is_on_rails() const {
+            return false;
+        }
+        virtual int get_current_speed() const {
+            return 0;
+        }
+        virtual int get_unloaded_weight() const {
+            return 0;
+        }
+        virtual int get_friendly_passenger_count() const {
+            return 0;
+        }
+        virtual int get_hostile_passenger_count() const {
+            return 0;
+        }
+        virtual bool has_part_flag( const std::string &, bool ) const {
+            return false;
+        }
+        virtual bool is_passenger( Character & ) const {
+            return false;
+        }
 };
 
 class talker: virtual public const_talker
@@ -684,6 +739,9 @@ class talker: virtual public const_talker
             return nullptr;
         }
         virtual computer *get_computer() {
+            return nullptr;
+        }
+        virtual vehicle *get_vehicle() {
             return nullptr;
         }
         virtual void set_pos( tripoint_bub_ms ) {}

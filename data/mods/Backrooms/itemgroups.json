@@ -100,12 +100,7 @@
       { "group": "bionics", "prob": 20 },
       { "group": "bionics_mil", "prob": 10 },
       { "group": "robots", "prob": 50 },
-      { "group": "ammo_pistol_common", "prob": 100 },
-      { "group": "ammo_pistol_reloaded", "prob": 150 },
-      { "group": "ammo_rifle_common", "prob": 75 },
-      { "group": "ammo_rifle_reloaded", "prob": 100 },
-      { "group": "ammo_shotgun_common", "prob": 75 },
-      { "group": "ammo_shotgun_reloaded", "prob": 100 },
+      { "group": "ammo_common_boxed", "prob": 300 },
       { "group": "mags_common", "prob": 130 },
       { "group": "guns_pistol_common", "prob": 35 },
       { "group": "guns_smg_improvised", "prob": 10 },
@@ -166,9 +161,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_pistol_common", "prob": 200 },
-      { "group": "ammo_rifle_common", "prob": 175 },
-      { "group": "ammo_shotgun_common", "prob": 200 },
+      { "group": "ammo_common_boxed", "prob": 300 },
       { "group": "guns_pistol_common", "prob": 120 },
       { "group": "guns_rifle_common", "prob": 100 },
       { "group": "guns_shotgun_common", "prob": 85 },
@@ -186,12 +179,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_pistol_common", "prob": 100 },
-      { "group": "ammo_pistol_reloaded", "prob": 150 },
-      { "group": "ammo_rifle_common", "prob": 75 },
-      { "group": "ammo_rifle_reloaded", "prob": 100 },
-      { "group": "ammo_shotgun_common", "prob": 90 },
-      { "group": "ammo_shotgun_reloaded", "prob": 125 },
+      { "group": "ammo_common_boxed", "prob": 300 },
       { "group": "guns_pistol_common", "prob": 90 },
       { "group": "guns_smg_improvised", "prob": 30 },
       { "group": "guns_rifle_common", "prob": 15 },
@@ -271,9 +259,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_pistol_common", "prob": 100 },
-      { "group": "ammo_rifle_common", "prob": 100 },
-      { "group": "ammo_shotgun_common", "prob": 100 },
+      { "group": "ammo_common_boxed", "prob": 300 },
       { "group": "guns_pistol_milspec", "prob": 25 },
       { "group": "guns_smg_milspec", "prob": 15 },
       { "group": "guns_rifle_milspec", "prob": 20 },
@@ -681,14 +667,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "vending_ammo",
-    "entries": [
-      { "group": "ammo_pistol_common", "count": [ 3, 8 ] },
-      { "group": "ammo_rifle_common", "prob": 50, "count": [ 2, 6 ] },
-      { "group": "ammo_shotgun_common", "prob": 50, "count": [ 2, 6 ] },
-      { "group": "ammo_pistol_rare", "prob": 20, "count": [ 1, 2 ] },
-      { "group": "ammo_rifle_rare", "prob": 20, "count": [ 1, 2 ] },
-      { "group": "ammo_shotgun_rare", "prob": 20, "count": [ 1, 2 ] }
-    ]
+    "entries": [ { "group": "ammo_common_boxed", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",
