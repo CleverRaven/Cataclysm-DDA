@@ -16,7 +16,6 @@
     "id": "solid_glacier",
     "name": "glacier",
     "sym": "#",
-	"travel_cost_type": "impassable",
     "color": "cyan",
     "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ],
