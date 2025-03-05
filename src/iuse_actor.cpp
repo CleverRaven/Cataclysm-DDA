@@ -3864,11 +3864,8 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
     const int dam = get_heal_value( healer, healed );
     const int cur_hp = patient.get_part_hp_cur( healed );
 
-    if( ( cur_hp >= 1 ) && ( dam > 0 ) ) { // Prevent first-aid from mending limbs
-        patient.heal( healed, dam );
-    } else if( ( cur_hp >= 1 ) && ( dam < 0 ) ) {
-        patient.apply_damage( nullptr, healed, -dam ); //hurt takes + damage
-    }
+    if( cur_hp >= 1 ) { // Prevent first-aid from mending limbs
+        patient.heal( healed, std::abs( dam ) );
 
     Character &player_character = get_player_character();
     const bool u_see = healer.is_avatar() || patient.is_avatar() ||
