@@ -245,10 +245,14 @@
     "extra_effects": [ { "id": "changeling_spring_charm_control_target_extra_buffs" } ],
     "min_range": 15,
     "min_damage": {
-      "math": [ "( ( 12 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 1) + (u_skill('deduction') * 4) ) )" ]
+      "math": [
+        "( ( 12 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 1) + (u_skill('deduction') * 4) ) ) * (global_what_is_the_season == 3 ? 0.6 : 1)"
+      ]
     },
     "max_damage": {
-      "math": [ "( ( 38 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 2.5) + (u_skill('deduction') * 12) ) )" ]
+      "math": [
+        "( ( 38 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 2.5) + (u_skill('deduction') * 12) ) ) * (global_what_is_the_season == 3 ? 0.4 : 1)"
+      ]
     },
     "min_duration": {
       "math": [ "( ( 1385 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 254) + (u_skill('deduction') * 544) ) )" ]
