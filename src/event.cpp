@@ -112,6 +112,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::removes_cbm: return "removes_cbm";
         case event_type::seals_hazardous_material_sarcophagus: return "seals_hazardous_material_sarcophagus";
         case event_type::spellcasting_finish: return "spellcasting_finish";
+        case event_type::take_photo: return "take_photo";
         case event_type::telefrags_creature: return "telefrags_creature";
         case event_type::teleglow_teleports: return "teleglow_teleports";
         case event_type::teleports_into_wall: return "teleports_into_wall";
@@ -214,6 +215,7 @@ DEFINE_EVENT_FIELDS( player_gets_achievement )
 DEFINE_EVENT_FIELDS( player_levels_spell )
 DEFINE_EVENT_FIELDS( removes_cbm )
 DEFINE_EVENT_FIELDS( spellcasting_finish )
+DEFINE_EVENT_FIELDS( take_photo )
 DEFINE_EVENT_FIELDS( telefrags_creature )
 DEFINE_EVENT_FIELDS( teleports_into_wall )
 DEFINE_EVENT_FIELDS( uses_debug_menu )

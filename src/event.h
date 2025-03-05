@@ -120,6 +120,7 @@ enum class event_type : int {
     removes_cbm,
     seals_hazardous_material_sarcophagus,
     spellcasting_finish,
+    take_photo,
     telefrags_creature,
     teleglow_teleports,
     teleports_into_wall,
@@ -882,6 +883,15 @@ struct event_spec<event_type::spellcasting_finish> {
         }
     };
 };
+
+enum class event_type : int {
+    ...
+    character_takes_photo,
+    ...
+};
+
+template<>
+struct event_spec<event_type::character_takes_photo> : event_spec_character {};
 
 template<>
 struct event_spec<event_type::telefrags_creature> {
