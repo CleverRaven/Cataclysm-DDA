@@ -2734,16 +2734,14 @@ void Item_factory::load_ammo( const JsonObject &jo, const std::string &src )
     itype def;
     if( load_definition( jo, src, def ) ) {
         if( def.was_loaded ) {
-            if( def.ammo ) {
-                def.ammo->was_loaded = true;
-            } else {
+            if( !def.ammo ) {
                 def.ammo = cata::make_value<islot_ammo>();
-                def.ammo->was_loaded = true;
             }
         } else {
             def.ammo = cata::make_value<islot_ammo>();
         }
         def.ammo->deserialize( jo );
+        def.ammo->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -2758,16 +2756,14 @@ void Item_factory::load_engine( const JsonObject &jo, const std::string &src )
     itype def;
     if( load_definition( jo, src, def ) ) {
         if( def.was_loaded ) {
-            if( def.engine ) {
-                def.engine->was_loaded = true;
-            } else {
+            if( !def.engine ) {
                 def.engine = cata::make_value<islot_engine>();
-                def.engine->was_loaded = true;
             }
         } else {
             def.engine = cata::make_value<islot_engine>();
         }
         def.engine->deserialize( jo );
+        def.engine->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -2783,16 +2779,14 @@ void Item_factory::load_wheel( const JsonObject &jo, const std::string &src )
     itype def;
     if( load_definition( jo, src, def ) ) {
         if( def.was_loaded ) {
-            if( def.wheel ) {
-                def.wheel->was_loaded = true;
-            } else {
+            if( !def.wheel ) {
                 def.wheel = cata::make_value<islot_wheel>();
-                def.wheel->was_loaded = true;
             }
         } else {
             def.wheel = cata::make_value<islot_wheel>();
         }
         def.wheel->deserialize( jo );
+        def.wheel->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -2802,16 +2796,14 @@ void Item_factory::load_comestible( const JsonObject &jo, const std::string &src
     itype def;
     if( load_definition( jo, src, def ) ) {
         if( def.was_loaded ) {
-            if( def.comestible ) {
-                def.comestible->was_loaded = true;
-            } else {
+            if( !def.comestible ) {
                 def.comestible = cata::make_value<islot_comestible>();
-                def.comestible->was_loaded = true;
             }
         } else {
             def.comestible = cata::make_value<islot_comestible>();
         }
         def.comestible->deserialize( jo );
+        def.comestible->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -2921,16 +2913,14 @@ void Item_factory::load_gun( const JsonObject &jo, const std::string &src )
     itype def;
     if( load_definition( jo, src, def ) ) {
         if( def.was_loaded ) {
-            if( def.gun ) {
-                def.gun->was_loaded = true;
-            } else {
+            if( !def.gun ) {
                 def.gun = cata::make_value<islot_gun>();
-                def.gun->was_loaded = true;
             }
         } else {
             def.gun = cata::make_value<islot_gun>();
         }
         def.gun->deserialize( jo );
+        def.gun->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -2960,16 +2950,14 @@ void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src 
     itype def;
     if( load_definition( jo, src, def ) ) {
         if( def.was_loaded ) {
-            if( def.pet_armor ) {
-                def.pet_armor->was_loaded = true;
-            } else {
+            if( !def.pet_armor ) {
                 def.pet_armor = cata::make_value<islot_pet_armor>();
-                def.pet_armor->was_loaded = true;
             }
         } else {
             def.pet_armor = cata::make_value<islot_pet_armor>();
         }
         def.pet_armor->deserialize( jo );
+        def.pet_armor->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -3334,16 +3322,14 @@ void Item_factory::load_book( const JsonObject &jo, const std::string &src )
     itype def;
     if( load_definition( jo, src, def ) ) {
         if( def.was_loaded ) {
-            if( def.book ) {
-                def.book->was_loaded = true;
-            } else {
+            if( !def.book ) {
                 def.book = cata::make_value<islot_book>();
-                def.book->was_loaded = true;
             }
         } else {
             def.book = cata::make_value<islot_book>();
         }
         def.book->deserialize( jo );
+        def.book->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -3562,16 +3548,14 @@ void Item_factory::load_magazine( const JsonObject &jo, const std::string &src )
     itype def;
     if( load_definition( jo, src, def ) ) {
         if( def.was_loaded ) {
-            if( def.magazine ) {
-                def.magazine->was_loaded = true;
-            } else {
+            if( !def.magazine ) {
                 def.magazine = cata::make_value<islot_magazine>();
-                def.magazine->was_loaded = true;
             }
         } else {
             def.magazine = cata::make_value<islot_magazine>();
         }
         def.magazine->deserialize( jo );
+        def.magazine->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -3586,16 +3570,14 @@ void Item_factory::load_battery( const JsonObject &jo, const std::string &src )
     itype def;
     if( load_definition( jo, src, def ) ) {
         if( def.was_loaded ) {
-            if( def.battery ) {
-                def.battery->was_loaded = true;
-            } else {
+            if( !def.battery ) {
                 def.battery = cata::make_value<islot_battery>();
-                def.battery->was_loaded = true;
             }
         } else {
             def.battery = cata::make_value<islot_battery>();
         }
         def.battery->deserialize( jo );
+        def.battery->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -3612,16 +3594,14 @@ void Item_factory::load_bionic( const JsonObject &jo, const std::string &src )
     itype def;
     if( load_definition( jo, src, def ) ) {
         if( def.was_loaded ) {
-            if( def.bionic ) {
-                def.bionic->was_loaded = true;
-            } else {
+            if( !def.bionic ) {
                 def.bionic = cata::make_value<islot_bionic>();
-                def.bionic->was_loaded = true;
             }
         } else {
             def.bionic = cata::make_value<islot_bionic>();
         }
         def.bionic->deserialize( jo );
+        def.bionic->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
