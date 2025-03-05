@@ -21,6 +21,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
+#include "itype.h"
 #include "item_pocket.h"
 #include "json.h"
 #include "line.h"
@@ -41,6 +42,8 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
+
+struct ages_into;
 
 template <typename T>
 static int find_index( const T &sel, const item *obj )
@@ -1198,6 +1201,106 @@ bool item_location::protected_from_liquids() const
     // we recursively checked all containers
     // none are closed watertight containers
     return false;
+}
+
+template<typename T>
+static item_location form_loc_recursive( T &loc, item &it )
+{
+    item *parent = loc.find_parent( it );
+    if( parent != nullptr ) {
+        return item_location( form_loc_recursive( loc, *parent ), &it );
+    }
+
+    return item_location( loc, &it );
+}
+
+item_location item_location::form_loc( Character &you, map *here, const tripoint_bub_ms &p,
+                                       item &it )
+{
+    if( you.has_item( it ) ) {
+        return form_loc_recursive( you, it );
+    }
+    map_cursor mc( here, p );
+    if( mc.has_item( it ) ) {
+        return form_loc_recursive( mc, it );
+    }
+    const optional_vpart_position vp = here->veh_at( p );
+    if( vp ) {
+        vehicle_cursor vc( vp->vehicle(), vp->part_index() );
+        if( vc.has_item( it ) ) {
+            return form_loc_recursive( vc, it );
+        }
+    }
+
+    debugmsg( "Couldn't find item %s to form item_location, forming dummy location to ensure minimum functionality",
+              it.display_name() );
+    return item_location( you, &it );
+}
+
+void item_location::ages_into()
+{
+    const itype it_type = *get_item()->type;
+    const ::ages_into ai = it_type.ages_into;
+
+    if( ai.item.is_null() && ai.group.is_null() ) {
+        return;
+    }
+
+    item it = *get_item();
+
+    const time_point now = calendar::turn;
+    const time_duration transform_time = rng( ai.time.first, ai.time.second );
+
+    bool to_be_processed;
+    if( ai.use_rotting ) {
+        to_be_processed = it.rotten();
+    } else {
+        to_be_processed = it.birthday() + transform_time >= now;
+    }
+
+    if( to_be_processed ) {
+        const units::volume original_volume = it.volume( false, true );
+        item new_item;
+        if( !ai.item.is_null() ) {
+            new_item = item( ai.item );
+        } else {
+            new_item = item_group::item_from( ai.group );
+        }
+        const int new_item_quantity = divide_round_down(
+                                          units::to_milliliter( original_volume ),
+                                          units::to_milliliter( new_item.volume( false, true ) ) );
+
+        item_location::type location_type = where();
+        remove_item();
+
+        map *here = &get_map();
+
+        std::vector<item *> dummy;
+        Character *guy = carrier();
+        switch( location_type ) {
+            case type::container:
+                parent_pocket()->add( new_item, new_item_quantity, dummy );
+            case type::character:
+                guy->i_add( new_item, false, nullptr, nullptr, false, false, true );
+                break;
+            case type::map:
+                here->add_item( pos_bub( *here ), new_item, new_item_quantity );
+                break;
+            case type::vehicle: {
+                const std::optional<vpart_reference> ovp = here->veh_at( pos_bub( *here ) ).cargo();
+                for( int i = 0; i < new_item_quantity; i++ ) {
+                    // does it work outside of bub?
+                    ovp->vehicle().add_item( *here, ovp->part(), new_item );
+                }
+                break;
+            }
+            case type::invalid:
+                debugmsg( "Tried to age item on invalid location" );
+                break;
+        }
+        return;
+    }
+    it.item_counter--;
 }
 
 std::unique_ptr<talker> get_talker_for( item_location &it )

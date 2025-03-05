@@ -70,6 +70,7 @@
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_tname.h"
+#include "item_location.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "iuse.h"
@@ -14945,6 +14946,15 @@ bool item::process_internal( map &here, Character *carrier, const tripoint_bub_m
         if( is_tool() ) {
             return process_tool( carrier, pos );
         }
+
+        if( calendar::once_every( 10_minutes )
+            && ( !type->ages_into.item.is_null() && !type->ages_into.group.is_null() )
+            && carrier != nullptr ) {
+            // i absolutely do not trust this function
+            item_location item_loc = item_location::form_loc( *carrier, &here, pos, *this );
+            item_loc.ages_into();
+        }
+
         // All foods that go bad have temperature
         if( has_temperature() &&
             process_temperature_rot( insulation, pos, here, carrier, flag, spoil_modifier,
