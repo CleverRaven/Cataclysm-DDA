@@ -420,6 +420,195 @@
     "melee_damage": { "bash": 7 }
   },
   {
+    "id": "akmag90",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "AK 90-round magazine" },
+    "description": "A homemade AK magazine made out of welding magazines together.  Looks really stupid, and doesn't work.",
+    "weight": "978 g",
+    "volume": "1137 ml",
+    "longest_side": "675 mm",
+    "price": "2 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "762" ],
+    "reload_time": 200,
+    "mag_jam_mult": 1200,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762": 90 } } ]
+  },
+  {
+    "id": "draco_mini",
+    "copy-from": "draco_mini",
+    "name": { "str": "Small AK pistol" },
+    "type": "GUN",
+    "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Mini Draco, with a 7.75\" barrel, short enough that the handguard had to be modified.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "draco_mini",
+        "name": { "str": "Century Arms Mini Draco" },
+        "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Mini Draco, with a 7.75\" barrel, short enough that the handguard had to be modified."
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akmag90", "akdrum75" ]
+      }
+    ]
+  },
+  {
+    "id": "draco",
+    "copy-from": "draco",
+    "name": { "str": "AK pistol" },
+    "type": "GUN",
+    "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Draco, the largest, with a 12.5\" barrel.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "draco",
+        "name": { "str": "Century Arms Draco" },
+        "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Draco, the largest, with a 12.5\" barrel."
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akmag90", "akdrum75" ]
+      }
+    ]
+  },
+  {
+    "id": "aksemi",
+    "copy-from": "aksemi",
+    "name": { "str": "AK-47 rifle" },
+    "type": "GUN",
+    "description": "Civilian-legal clones of the AK-47, with no ability to fire full-auto.  Despite lacking that ability, they're still reliable and useful rifles, even if much rarer ammo and magazine wise than the more common AR-15 platform.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "aksemi_vska",
+        "name": { "str": "Century Arms VSKA" },
+        "description": "This one is a VSKA, manufactured in the USA by Century Arms.",
+        "weight": 16,
+        "append": true
+      },
+      {
+        "id": "aksemi_wasr",
+        "name": { "str": "Century Arms WASR-10" },
+        "description": "This one is a WASR-10, imported by Century Arms.",
+        "weight": 8,
+        "append": true
+      },
+      {
+        "id": "aksemi_zpap",
+        "name": { "str": "Zastava ZPAP M70" },
+        "description": "This one is a ZPAP M70, imported by Zastava.",
+        "weight": 5,
+        "append": true
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akmag90", "akdrum75" ]
+      }
+    ]
+  },
+  {
+    "id": "ak47",
+    "copy-from": "ak47",
+    "name": { "str": "AKM rifle" },
+    "type": "GUN",
+    "description": "One of the most recognizable assault rifles ever made, the AKM is renowned for its durability even under the worst conditions.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ak47",
+        "name": { "str": "AKM" },
+        "description": "Arguably the most mass-produced firearm ever made, the AKM has cemented itself in history, and a few country flags.  Designed after WW2, it was meant to replace the PPSh-41's role, but soon became the main infantry rifle.  While many believe it is a copy of the German StG-44, it more resembles an M1 Garand in operation.  Despite it's age, it still sees plenty of use in conflicts today."
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akmag90", "akdrum75" ]
+      }
+    ]
+  },
+  {
+    "id": "mk47",
+    "copy-from": "mk47",
+    "name": { "str": "American AK rifle" },
+    "type": "GUN",
+    "description": "The CMMG Mk47 Mutant is an American rifle, natively chambered for 7.62x39mm ammo.  Features a characteristic free-floating handguard, with a similar action mechanism to the AR-15, repurposed for the bigger, more potent ammo.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mk47",
+        "name": { "str": "Mk47 Mutant rifle" },
+        "description": "The CMMG Mk47 Mutant is an American rifle, natively chambered for 7.62x39mm ammo.  Features a characteristic free-floating handguard, with a similar action mechanism to the AR-15, repurposed for the bigger, more potent ammo."
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akmag90", "akdrum75" ]
+      }
+    ]
+  },
+  {
+    "id": "draco_micro",
+    "copy-from": "draco_micro",
+    "looks_like": "draco",
+    "type": "GUN",
+    "name": { "str": "Miniscule AK pistol" },
+    "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Nano Draco, the smallest, with a 1\" barrel.  Good luck.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "draco_mini",
+        "name": { "str": "Century Arms Nano Draco" },
+        "description": "The Draco series of guns are guns imported by Century Arms.  They're essentially semi-auto AKs, but with shorter barrels and no stock.  While advertised as compact guns, they're more often than not range toys.  This one is a Nano Draco, the smallest, with a 1\" barrel.  Good luck."
+      }
+    ],
+    "weight": "1900 g",
+    "volume": "800 ml",
+    "longest_side": "258 mm",
+    "barrel_length": "29 mm",
+    "price": "1055 USD 99 cent",
+    "price_postapoc": "15 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "clumsy" },
+    "material": [ "steel", "wood" ],
+    "color": "brown",
+    "ammo": [ "762" ],
+    "dispersion": 5000,
+    "durability": 7,
+    "min_cycle_recoil": 1832,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "akmag30", "akmag10", "akmag20", "akmag40", "akmag90", "akdrum75" ]
+      }
+    ],
+    "melee_damage": { "bash": 6 }
+  },
+  {
     "id": "diamond_sword",
     "type": "GENERIC",
     "symbol": "/",
