@@ -74,7 +74,7 @@
         "run_eocs": [
           {
             "id": "EOC_CHANGELING_SPRING_REMOVE_FATIGUE_AND_SLEEP_DEPRIVATION_INITIATE_REMOVAL",
-            "effects": [
+            "effect": [
               {
                 "if": { "math": [ "u_val('sleepiness') >= 1" ] },
                 "then": [
@@ -82,7 +82,7 @@
                     "math": [
                       "u_val('sleepiness')",
                       "-=",
-                      "(50 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 12) * rng(0.5,1.5)"
+                      "(50 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 12) ) * rng(0.5,1.5)"
                     ]
                   },
                   { "u_message": "Your tiredness just seems to fall away.", "type": "good" }
@@ -95,7 +95,7 @@
                     "math": [
                       "u_val('sleep_deprivation')",
                       "-=",
-                      "(100 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 24) * rng(0.5,1.5)"
+                      "(100 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 24) ) * rng(0.5,1.5)"
                     ]
                   }
                 ]

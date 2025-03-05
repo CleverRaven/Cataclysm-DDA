@@ -234,7 +234,7 @@
     "max_level": 1,
     "shape": "blast",
     "difficulty": 7,
-    "components": "spell_components_dreamdross_3",
+    "components": "spell_components_changeling_dreamsparks_3",
     "effect": "effect_on_condition",
     "effect_str": "EOC_CHANGELING_SUMMER_CREATE_THUNDERSTORM_INITIATE",
     "min_duration": {

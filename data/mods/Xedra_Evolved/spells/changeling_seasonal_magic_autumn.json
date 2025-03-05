@@ -193,7 +193,7 @@
     "difficulty": 7,
     "effect": "ter_transform",
     "effect_str": "ter_changeling_autumn_plant_harvest",
-    "components": "spell_components_dreamdross_3",
+    "components": "spell_components_changeling_dreamsparks_3",
     "min_range": 1,
     "min_aoe": {
       "math": [
