@@ -1,0 +1,19 @@
+[{
+    "id": "shoulder_strap_simple",
+    "copy-from": "shoulder_strap_simple",
+    "name": { "str": "two point sling" },
+   "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher", "smartgun" ]
+ },
+ {
+    "id": "shoulder_strap",
+    "copy-from": "shoulder_strap",
+    "name": { "str": "adjustable sling" },
+    "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher", "smartgun" ]
+  },
+  {
+    "id": "shoulder_strap_front",
+    "copy-from": "shoulder_strap_front",
+    "name":  {"str": "adjustable sling (front)"},
+    "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher", "smartgun" ]
+  }
+]
