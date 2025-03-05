@@ -30,9 +30,6 @@
           { "item": "sunglasses_eye", "prob": 15 },
           { "item": "sunglasses_reading", "prob": 10 },
           { "item": "sunglasses_bifocal", "prob": 5 },
-          { "item": "transition_glasses_eye", "prob": 9 },
-          { "item": "transition_glasses_reading", "prob": 6 },
-          { "item": "transition_glasses_bifocal", "prob": 3 },
           { "item": "sunglasses", "prob": 20 },
           {
             "collection": [
