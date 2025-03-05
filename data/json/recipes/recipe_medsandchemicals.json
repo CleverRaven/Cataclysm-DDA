@@ -1683,7 +1683,7 @@
     ],
     "//": "Mix nitric acid and ethanol, slowly add phenol, stir and heat for an hour, filter out crystals and then clean with water",
     "//1": "Volume is 1.25L of nitrating solution, the mixture is merely 'heated' and not boiled, and ethanol would boil away at 78°",
-    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [ [ [ "chem_nitric_acid", 1 ] ], [ [ "chem_ethanol", 1000 ] ], [ [ "chem_phenol", 50 ] ], [ [ "water_clean", 1 ] ] ],
     "charges": 96
