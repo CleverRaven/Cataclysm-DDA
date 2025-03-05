@@ -1196,19 +1196,19 @@
     ]
   },
   {
-    "id": "SKYISLAND_UPGRADE_landingboost_water_walking",
+    "id": "SKYISLAND_UPGRADE_landingboost_waterwalking",
     "type": "mission_definition",
-    "name": "Upgrade: Landing Boost: Water-Walking",
+    "name": "Upgrade: Landing Boost: Waterwalking",
     "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft                 from                               .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: While under the effect of the warpcloak, you can walk on water.",
     "goal": "MGOAL_FIND_ITEM",
-    "item": "upgradekey_landingboost_water_walking",
+    "item": "upgradekey_landingboost_waterwalking",
     "count": 1,
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
     "start": {
       "effect": [
-        { "u_learn_recipe": "upgradekey_landingboost_water_walking" },
+        { "u_learn_recipe": "upgradekey_landingboost_waterwalking" },
         {
           "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: While under the effect of the warpcloak, you can walk on water.",
           "popup": true
@@ -1217,8 +1217,8 @@
     },
     "end": {
       "effect": [
-        { "math": [ "landing_water_walk = 1" ] },
-        { "u_forget_recipe": "upgradekey_landingboost_water_walking" },
+        { "math": [ "landing_waterwalk = 1" ] },
+        { "u_forget_recipe": "upgradekey_landingboost_waterwalking" },
         {
           "u_message": "You feel the warp ripple around you.  While under the effect of the warpcloak, you can walk on water.",
           "type": "mixed"
@@ -1227,11 +1227,11 @@
     }
   },
   {
-    "id": "upgradekey_landingboost_water_walking",
+    "id": "upgradekey_landingboost_waterwalking",
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "                 " },
-    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing Boost: Water-Walking.",
+    "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing Boost: Waterwalking.",
     "volume": "25000 ml",
     "weight": "15000 g",
     "longest_side": "90 cm",
@@ -1240,7 +1240,7 @@
     "color": "white"
   },
   {
-    "result": "upgradekey_landingboost_water_walking",
+    "result": "upgradekey_landingboost_waterwalking",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "category": "CC_WARP",

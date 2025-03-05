@@ -26,8 +26,53 @@
       },
       {
         "u_add_effect": "warpcloak",
-        "intensity": 1,
+        "intensity": 2,
         "duration": { "global_val": "var", "var_name": "invistime", "default": "3 s" }
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYER_WARPCLOAK_WATERWALK",
+            "condition": { "math": [ "landing_waterwalk == 1" ] },
+            "effect": [
+              {
+                "u_add_effect": "effect_warped_waterwalking_hidden",
+                "intensity": 1,
+                "duration": { "global_val": "var", "var_name": "invistime", "default": "3 s" }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYER_WARPCLOAK_FLIGHT",
+            "condition": { "math": [ "landing_flight == 1" ] },
+            "effect": [
+              {
+                "u_add_effect": "effect_warped_flight",
+                "intensity": 1,
+                "duration": { "global_val": "var", "var_name": "invistime", "default": "3 s" }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYER_WARPCLOAK_PHASING",
+            "condition": { "math": [ "landing_phase == 1" ] },
+            "effect": [
+              {
+                "u_add_effect": "effect_warped_phasing",
+                "intensity": 1,
+                "duration": { "global_val": "var", "var_name": "invistime", "default": "3 s" }
+              }
+            ]
+          }
+        ]
       },
       {
         "u_run_npc_eocs": [
@@ -45,6 +90,50 @@
                 "//": "Adjust by 1 or 2 in either direction",
                 "x_adjust": { "math": [ "((-1) ^ rand(1)) * (rand(1) + 1)" ] },
                 "y_adjust": { "math": [ "((-1) ^ rand(1)) * (rand(1) + 1)" ] }
+              }
+            ]
+          },
+          {
+            "id": "EOC_NPC_GAIN_WARPCLOAK",
+            "condition": { "and": [ { "u_has_trait": "mut_skyisland_island_bound" }, "u_following" ] },
+            "effect": [
+              {
+                "u_add_effect": "warpcloak",
+                "intensity": 2,
+                "duration": { "global_val": "var", "var_name": "invistime", "default": "3 s" }
+              }
+            ]
+          },
+          {
+            "id": "EOC_NPC_WARPCLOAK_WATERWALK",
+            "condition": { "and": [ { "u_has_trait": "mut_skyisland_island_bound" }, "u_following", { "math": [ "landing_waterwalk == 1" ] } ] },
+            "effect": [
+              {
+                "u_add_effect": "effect_warped_waterwalking_hidden",
+                "intensity": 1,
+                "duration": { "global_val": "var", "var_name": "invistime", "default": "3 s" }
+              }
+            ]
+          },
+          {
+            "id": "EOC_NPC_WARPCLOAK_FLIGHT",
+            "condition": { "and": [ { "u_has_trait": "mut_skyisland_island_bound" }, "u_following", { "math": [ "landing_flight == 1" ] } ] },
+            "effect": [
+              {
+                "u_add_effect": "effect_warped_flight",
+                "intensity": 1,
+                "duration": { "global_val": "var", "var_name": "invistime", "default": "3 s" }
+              }
+            ]
+          },
+          {
+            "id": "EOC_NPC_WARPCLOAK_PHASING",
+            "condition": { "and": [ { "u_has_trait": "mut_skyisland_island_bound" }, "u_following", { "math": [ "landing_phase == 1" ] } ] },
+            "effect": [
+              {
+                "u_add_effect": "effect_warped_phasing",
+                "intensity": 1,
+                "duration": { "global_val": "var", "var_name": "invistime", "default": "3 s" }
               }
             ]
           }
@@ -933,7 +1022,8 @@
     "effect": [
       { "u_consume_item": "warp_waterwalking_stone", "count": 1 },
       { "u_message": "You feel somehow lighter.", "type": "good" },
-      { "u_add_effect": "effect_warped_waterwalking", "duration": 180 }
+      { "u_add_effect": "effect_warped_waterwalking", "duration": 180 },
+      { "u_cast_spell": { "id": "island_bound_share_waterwalking_spell" } }
     ]
   },
   {
