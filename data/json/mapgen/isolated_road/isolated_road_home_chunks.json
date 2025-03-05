@@ -165,7 +165,7 @@
         "G......................."
       ],
       "terrain": { "G": "t_pit_spiked", "j": "t_pit_covered", "d": "t_region_soil" },
-      "place_vehicles": [ { "vehicle": "pickup", "chance": 100, "fuel": 50, "rotation": 180, "status": 0, "x": 4, "y": 10 } ],
+      "place_vehicles": [ { "vehicle": "pickup", "fuel": 50, "rotation": 180, "status": 0, "x": 4, "y": 10 } ],
       "place_monster": [
         { "monster": "mon_turret_artisans", "x": 8, "y": 1, "chance": 100 },
         { "monster": "mon_turret_artisans", "x": 16, "y": 1, "chance": 100 },

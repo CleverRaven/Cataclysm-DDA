@@ -367,7 +367,7 @@
         { "item": "chainsaw_off", "x": 16, "y": 11 },
         { "item": "radio_car", "x": 18, "y": 10 }
       ],
-      "place_vehicles": [ { "chance": 100, "fuel": 15, "vehicle": "motorcycle", "x": 13, "y": 2, "rotation": 0 } ]
+      "place_vehicles": [ { "fuel": 15, "vehicle": "motorcycle", "x": 13, "y": 2, "rotation": 0 } ]
     }
   },
   {

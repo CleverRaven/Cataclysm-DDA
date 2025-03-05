@@ -67,7 +67,7 @@
         "f": "f_filing_cabinet"
       },
       "vendingmachines": { "v": { "item_group": "vending_drink", "lootable": true }, "V": { "item_group": "vending_food", "lootable": true } },
-      "place_vehicles": [ { "vehicle": "oa_vg_cs_vehicles", "x": 16, "y": 8, "rotation": 270, "chance": 100, "status": 0, "fuel": 0 } ],
+      "place_vehicles": [ { "vehicle": "oa_vg_cs_vehicles", "x": 16, "y": 8, "rotation": 270, "status": 0, "fuel": 0 } ],
       "items": {
         "c": { "item": "SUS_trash_trashcan", "chance": 70 },
         "á": { "item": "SUS_trash_trashcan", "chance": 70 },
@@ -145,8 +145,8 @@
         "n": [ "f_indoor_plant_y", "f_indoor_plant" ],
         "f": "f_filing_cabinet"
       },
-      "place_vehicles": [ { "vehicle": "showroom_small_vehicles", "x": 5, "y": 6, "rotation": 270, "chance": 100, "status": 0, "fuel": 0 } ],
-      "vehicles": { "Á": { "vehicle": "showroom_small_vehicles", "rotation": 270, "chance": 100, "status": 0, "fuel": 0 } },
+      "place_vehicles": [ { "vehicle": "showroom_small_vehicles", "x": 5, "y": 6, "rotation": 270, "status": 0, "fuel": 0 } ],
+      "vehicles": { "Á": { "vehicle": "showroom_small_vehicles", "rotation": 270, "status": 0, "fuel": 0 } },
       "items": {
         "d": { "item": "SUS_office_desk", "chance": 33 },
         "L": { "item": "oa_ig_cs_lockers", "chance": 70, "repeat": [ 1, 4 ] },
