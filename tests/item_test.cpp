@@ -71,14 +71,12 @@ static const itype_id itype_chem_black_powder( "chem_black_powder" );
 static const itype_id itype_chem_muriatic_acid( "chem_muriatic_acid" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_duffelbag( "duffelbag" );
-static const itype_id itype_gunpowder( "gunpowder" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_hat_hard( "hat_hard" );
 static const itype_id itype_jeans( "jeans" );
 static const itype_id itype_legrig( "legrig" );
 static const itype_id itype_money( "money" );
 static const itype_id itype_neccowafers( "neccowafers" );
-static const itype_id itype_nitrox( "nitrox" );
 static const itype_id itype_pale_ale( "pale_ale" );
 static const itype_id itype_rocuronium( "rocuronium" );
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
@@ -361,8 +359,6 @@ static void check_spawning_in_container( const itype_id &item_type )
 TEST_CASE( "items_spawn_in_their_default_containers", "[item]" )
 {
     check_spawning_in_container( itype_water );
-    check_spawning_in_container( itype_gunpowder );
-    check_spawning_in_container( itype_nitrox );
     check_spawning_in_container( itype_ammonia_hydroxide );
     check_spawning_in_container( itype_detergent );
     check_spawning_in_container( itype_pale_ale );

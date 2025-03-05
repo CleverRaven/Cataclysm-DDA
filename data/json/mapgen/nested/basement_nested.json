@@ -2368,7 +2368,7 @@
       "furniture": { "0": "f_brazier" },
       "place_loot": [
         { "item": "towel", "x": 1, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
-        { "item": "charcoal", "x": 3, "y": 2, "chance": 100, "repeat": [ 3, 10 ] },
+        { "group": "charcoal_bag_part", "x": 3, "y": 2, "chance": 100, "repeat": [ 1, 2 ] },
         { "item": "bucket", "x": 3, "y": 1, "chance": 100 },
         { "item": "water_clean", "x": 1, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
       ]
@@ -2393,7 +2393,7 @@
       "furniture": { "0": "f_brazier" },
       "place_loot": [
         { "item": "towel", "x": 1, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
-        { "item": "charcoal", "x": 3, "y": 2, "chance": 100, "repeat": [ 3, 10 ] },
+        { "group": "charcoal_bag_part", "x": 3, "y": 2, "chance": 100, "repeat": [ 1, 2 ] },
         { "item": "bucket", "x": 3, "y": 3, "chance": 100 },
         { "item": "water_clean", "x": 1, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
       ]
@@ -2418,7 +2418,7 @@
       "furniture": { "0": "f_brazier" },
       "place_loot": [
         { "item": "towel", "x": 1, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
-        { "item": "charcoal", "x": 2, "y": 1, "chance": 100, "repeat": [ 3, 10 ] },
+        { "group": "charcoal_bag_part", "x": 2, "y": 1, "chance": 100, "repeat": [ 1, 2 ] },
         { "item": "bucket", "x": 3, "y": 1, "chance": 100 },
         { "item": "water_clean", "x": 1, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
       ]
@@ -2443,7 +2443,7 @@
       "furniture": { "0": "f_brazier" },
       "place_loot": [
         { "item": "towel", "x": 3, "y": [ 1, 3 ], "chance": 100, "repeat": [ 1, 2 ] },
-        { "item": "charcoal", "x": 2, "y": 1, "chance": 100, "repeat": [ 3, 10 ] },
+        { "group": "charcoal_bag_part", "x": 2, "y": 1, "chance": 100, "repeat": [ 1, 2 ] },
         { "item": "bucket", "x": 1, "y": 1, "chance": 100 },
         { "item": "water_clean", "x": 3, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
       ]

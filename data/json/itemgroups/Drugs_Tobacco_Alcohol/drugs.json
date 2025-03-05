@@ -212,7 +212,7 @@
       [ "eyedrops", 10 ],
       [ "steroid_eyedrops", 5 ],
       [ "medical_gauze", 20 ],
-      [ "medical_tape", 20 ],
+      { "group": "medical_tape_roll_part", "prob": 20 },
       [ "pepto", 20 ],
       [ "tums", 20 ],
       [ "saline", 10 ],
