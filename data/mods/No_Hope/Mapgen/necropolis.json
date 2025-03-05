@@ -152,7 +152,7 @@
         { "vehicle": "policecar", "x": 53, "y": 13, "chance": 25, "rotation": -30 },
         { "vehicle": "policecar", "x": 67, "y": 13, "chance": 25, "rotation": 30 },
         { "vehicle": "policecar", "x": 60, "y": 16, "chance": 25, "rotation": 90 },
-        { "vehicle": "car", "x": 30, "y": 31, "chance": 100, "rotation": 135 }
+        { "vehicle": "car", "x": 30, "y": 31, "rotation": 135 }
       ]
     }
   },
@@ -474,7 +474,7 @@
       ],
       "place_vehicles": [
         { "vehicle": "fire_truck", "x": 15, "y": 8, "chance": 90, "rotation": 45 },
-        { "vehicle": "car", "x": 45, "y": 5, "chance": 100, "rotation": 45 }
+        { "vehicle": "car", "x": 45, "y": 5, "rotation": 45 }
       ]
     }
   },
@@ -1006,8 +1006,8 @@
         { "vehicle": "flatbed_truck", "x": 32, "y": 20, "chance": 75, "rotation": 0 },
         { "vehicle": "car", "x": 36, "y": 10, "chance": 75, "rotation": 45 },
         { "vehicle": "ambulance", "x": 37, "y": 12, "chance": 90, "rotation": 270 },
-        { "vehicle": "truck_trailer", "x": 4, "y": 40, "chance": 100, "rotation": 0 },
-        { "vehicle": "semi_truck", "x": 12, "y": 38, "chance": 100, "rotation": 0 },
+        { "vehicle": "truck_trailer", "x": 4, "y": 40, "rotation": 0 },
+        { "vehicle": "semi_truck", "x": 12, "y": 38, "rotation": 0 },
         { "vehicle": "policecar", "x": 22, "y": 35, "chance": 90, "rotation": 90 }
       ],
       "place_vendingmachines": [ { "item_group": "vending_food", "x": 64, "y": 0 }, { "item_group": "vending_drink", "x": 68, "y": 17 } ]

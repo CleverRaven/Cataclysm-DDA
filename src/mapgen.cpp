@@ -3013,14 +3013,14 @@ class jmapgen_vehicle : public jmapgen_piece_with_has_vehicle_collision
 {
     public:
         mapgen_value<vgroup_id> type;
-        jmapgen_int chance;
+        int chance;
         std::vector<units::angle> rotation;
         int fuel;
         int status;
         std::string faction;
         jmapgen_vehicle( const JsonObject &jsi, const std::string_view/*context*/ ) :
             type( jsi.get_member( "vehicle" ) )
-            , chance( jsi, "chance", 1, 1 )
+            , chance( jsi.get_int( "chance", 100 ) )
             //, rotation( jsi.get_int( "rotation", 0 ) ) // unless there is a way for the json parser to
             // return a single int as a list, we have to manually check this in the constructor below
             , fuel( jsi.get_int( "fuel", -1 ) )
@@ -3039,7 +3039,7 @@ class jmapgen_vehicle : public jmapgen_piece_with_has_vehicle_collision
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &/*context*/ ) const override {
-            if( !x_in_y( chance.get(), 100 ) ) {
+            if( !x_in_y( chance, 100 ) ) {
                 return;
             }
             vgroup_id chosen_id = type.get( dat );

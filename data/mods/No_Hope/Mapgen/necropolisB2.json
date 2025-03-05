@@ -565,8 +565,8 @@
       "place_vehicles": [
         { "vehicle": "humvee", "x": 33, "y": 3, "chance": 60, "rotation": 90 },
         { "vehicle": "humvee", "x": 43, "y": 3, "chance": 60, "rotation": 90 },
-        { "vehicle": "humvee", "x": 53, "y": 3, "chance": 100, "rotation": 90 },
-        { "vehicle": "humvee", "x": 51, "y": 20, "chance": 100, "rotation": 270 },
+        { "vehicle": "humvee", "x": 53, "y": 3, "rotation": 90 },
+        { "vehicle": "humvee", "x": 51, "y": 20, "rotation": 270 },
         { "vehicle": "golf_cart", "x": 68, "y": 43, "chance": 25, "rotation": 90 },
         { "vehicle": "golf_cart", "x": 68, "y": 39, "chance": 25, "rotation": 90 },
         { "vehicle": "golf_cart", "x": 68, "y": 35, "chance": 25, "rotation": 90 },

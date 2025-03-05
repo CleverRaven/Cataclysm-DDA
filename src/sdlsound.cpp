@@ -978,7 +978,8 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
     volume = selected_sound_effect.volume * get_option<int>( "AMBIENT_SOUND_VOLUME" ) * volume /
              ( 100 * 100 );
     bool failed = sound_effect_handler::make_audio( static_cast<int>( channel ), effect_to_play, loops,
-                  volume, destroy_sound, selected_sound_effect, std::nullopt, fade_in_duration );
+                  volume, destroy_sound, selected_sound_effect, std::nullopt,
+                  static_cast<float>( fade_in_duration ) );
 
     if( failed ) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError() << " id:" << id

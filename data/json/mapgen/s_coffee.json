@@ -116,7 +116,7 @@
       },
       "monster": { "!": { "monster": "mon_zombie", "chance": 10 } },
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 18 ], "chance": 80, "repeat": [ 1, 2 ] } ],
-      "vehicles": { "c": { "vehicle": "swivel_chair", "chance": 100 } }
+      "vehicles": { "c": { "vehicle": "swivel_chair" } }
     }
   },
   {

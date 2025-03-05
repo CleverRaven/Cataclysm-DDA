@@ -115,7 +115,7 @@
         { "monster": "GROUP_CIVILIAN_NO_FERAL", "x": [ 14, 23 ], "y": [ 13, 21 ], "density": 0.1 }
       ],
       "signs": { "P": { "signage": "LIXA" } },
-      "place_vehicles": [ { "vehicle": "military_cargo_truck", "x": 14, "y": 36, "chance": 100, "rotation": 270 } ]
+      "place_vehicles": [ { "vehicle": "military_cargo_truck", "x": 14, "y": 36, "rotation": 270 } ]
     }
   },
   {

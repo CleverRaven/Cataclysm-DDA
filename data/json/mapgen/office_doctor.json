@@ -385,7 +385,7 @@
         { "item": "soap", "x": 5, "y": 18, "chance": 95 },
         { "item": "anesthetic_kit", "x": 13, "y": 18, "chance": 75, "ammo": 100 }
       ],
-      "vehicles": { "W": { "vehicle": "swivel_chair", "chance": 100, "status": 1 } }
+      "vehicles": { "W": { "vehicle": "swivel_chair", "status": 1 } }
     }
   },
   {
