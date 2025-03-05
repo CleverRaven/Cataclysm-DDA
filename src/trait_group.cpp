@@ -13,7 +13,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 
 using namespace trait_group;
 

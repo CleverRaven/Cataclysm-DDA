@@ -305,9 +305,9 @@
       "palettes": [ "speedway_palette" ],
       "terrain": { "!": "t_guardrail" },
       "place_vehicles": [
-        { "vehicle": "car_sports", "x": 91, "y": 117, "rotation": 0, "chance": 100 },
-        { "vehicle": "car_sports", "x": 91, "y": [ 125, 126 ], "rotation": 0, "chance": 100 },
-        { "vehicle": "car_sports", "x": 91, "y": 134, "rotation": 0, "chance": 100 }
+        { "vehicle": "car_sports", "x": 91, "y": 117, "rotation": 0 },
+        { "vehicle": "car_sports", "x": 91, "y": [ 125, 126 ], "rotation": 0 },
+        { "vehicle": "car_sports", "x": 91, "y": 134, "rotation": 0 }
       ]
     }
   },
@@ -581,7 +581,7 @@
         ".......................................                                 "
       ],
       "palettes": [ "speedway_palette" ],
-      "place_vehicles": [ { "vehicle": "golf_cart", "x": 25, "y": 26, "rotation": 0, "chance": 100 } ],
+      "place_vehicles": [ { "vehicle": "golf_cart", "x": 25, "y": 26, "rotation": 0 } ],
       "items": { "e": { "item": "SUS_fridge_breakroom", "chance": 33 } },
       "place_loot": [ { "item": "microwave", "x": 11, "y": 30, "chance": 50 }, { "item": "coffeemaker", "x": 11, "y": 30, "chance": 50 } ]
     }

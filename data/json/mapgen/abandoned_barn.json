@@ -881,7 +881,7 @@
         { "chance": 10, "item": "hardware_bulk", "x": 7, "y": 12 },
         { "chance": 10, "item": "plumbing_bulk", "x": 8, "y": 12 }
       ],
-      "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 180, "status": 1, "vehicle": "tractor_plow", "x": 10, "y": 9 } ],
+      "place_vehicles": [ { "fuel": 0, "rotation": 180, "status": 1, "vehicle": "tractor_plow", "x": 10, "y": 9 } ],
       "place_rubble": [
         { "repeat": [ 0, 40 ], "x": [ 6, 18 ], "y": [ 5, 13 ] },
         { "repeat": [ 0, 8 ], "x": [ 6, 9 ], "y": [ 17, 22 ] },
