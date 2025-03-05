@@ -271,7 +271,7 @@
     "name": "By Moon or by Starlight",
     "//": "TODO: Once there is a distinction between total darkness and low light, this glamour should only work in low light",
     "description": "Become at home in darkness, allowing you to read and perform normal crafting actions as long as there is even a bit of light available.  This glamour <color_yellow>only works outdoors</color> in summer.",
-    "message": "",
+    "message": "You open your eyes to the dark and the cold.",
     "flags": [ "VERBAL", "NO_LEGS", "NO_HANDS", "RANDOM_DURATION" ],
     "magic_type": "xe_fey_seasonal_magick_winter",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
