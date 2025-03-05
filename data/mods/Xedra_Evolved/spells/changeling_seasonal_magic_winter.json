@@ -266,6 +266,41 @@
     "base_casting_time": 500
   },
   {
+    "id": "changeling_winter_see_craft_darkness_spell",
+    "type": "SPELL",
+    "name": "By Moon or by Starlight",
+    "//": "TODO: Once there is a distinction between total darkness and low light, this glamour should only work in low light",
+    "description": "Become at home in darkness, allowing you to read and perform normal crafting actions as long as there is even a bit of light available.  This glamour <color_yellow>only works outdoors</color> in summer.",
+    "message": "You open your eyes to the dark and the cold.",
+    "flags": [ "VERBAL", "NO_LEGS", "NO_HANDS", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 6,
+    "effect": "attack",
+    "effect_str": "effect_changeling_winter_see_craft_darkness",
+    "min_duration": {
+      "math": [
+        "( ( 48462 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 6451) + (u_skill('deduction') * 11715) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 108164 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 15985) + (u_skill('deduction') * 27054) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 450 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 2 ) - (u_skill('deduction') * 4)), 300)"
+      ]
+    },
+    "base_casting_time": 250
+  },
+  {
     "id": "changeling_winter_hail_attack_spell",
     "type": "SPELL",
     "name": "Tears of the Cailleach",
@@ -284,7 +319,7 @@
     "effect_str": "EOC_CHANGELING_WINTER_HAIL_ATTACK",
     "min_aoe": {
       "math": [
-        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.2) + (u_skill('deduction') * 0.4) ) ) , 80)"
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.2) + (u_skill('deduction') * 0.4) ) ), 10)"
       ]
     },
     "max_aoe": 10,
@@ -319,13 +354,13 @@
     },
     "min_range": {
       "math": [
-        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.35) + (u_skill('deduction') * 0.65) ) ), 7)"
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.35) + (u_skill('deduction') * 0.65) ) ), 15)"
       ]
     },
-    "max_range": 30,
+    "max_range": 15,
     "min_aoe": {
       "math": [
-        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.2) + (u_skill('deduction') * 0.4) ) ) , 80)"
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.2) + (u_skill('deduction') * 0.4) ) ) , 10)"
       ]
     },
     "max_aoe": 10
@@ -355,13 +390,13 @@
     },
     "min_range": {
       "math": [
-        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.35) + (u_skill('deduction') * 0.65) ) ), 7)"
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.35) + (u_skill('deduction') * 0.65) ) ), 15)"
       ]
     },
-    "max_range": 30,
+    "max_range": 15,
     "min_aoe": {
       "math": [
-        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.2) + (u_skill('deduction') * 0.4) ) ) , 80)"
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.2) + (u_skill('deduction') * 0.4) ) ) , 10)"
       ]
     },
     "max_aoe": 10
@@ -384,13 +419,13 @@
     "effect": "attack",
     "min_range": {
       "math": [
-        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.35) + (u_skill('deduction') * 0.65) ) ), 7)"
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.35) + (u_skill('deduction') * 0.65) ) ), 15)"
       ]
     },
-    "max_range": 30,
+    "max_range": 20,
     "min_aoe": {
       "math": [
-        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.2) + (u_skill('deduction') * 0.4) ) ) , 80)"
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.2) + (u_skill('deduction') * 0.4) ) ), 10)"
       ]
     },
     "max_aoe": 10,
@@ -399,5 +434,44 @@
     "max_field_intensity": 3,
     "field_intensity_variance": 0.5,
     "field_chance": 1
+  },
+  {
+    "id": "changeling_winter_pure_area_darkness_spell",
+    "type": "SPELL",
+    "name": "The Long Dark",
+    "description": "Draw on the power of winter to recreate the polar night, blotting out the sun and plunging the nearby area into darkness.  This glamour's duration is <color_yellow>greatly reduced</color> in summer.",
+    "message": "",
+    "flags": [ "VERBAL", "NO_LEGS", "SOMATIC", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 10,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_WINTER_PURE_AREA_DARKNESS",
+    "components": "spell_components_changeling_dreamspark_5",
+    "min_duration": {
+      "math": [
+        "( ( 3985 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 1678) + (u_skill('deduction') * 4985) ) ) * (global_what_is_the_season == 2 ? 0.3 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 13347 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 6815) + (u_skill('deduction') * 12085) ) ) * (global_what_is_the_season == 2 ? 0.2 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 1300 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 8 ) - (u_skill('deduction') * 20)), 700)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 2000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 10 ) - (u_skill('deduction') * 50)), 500)"
+      ]
+    }
   }
 ]
