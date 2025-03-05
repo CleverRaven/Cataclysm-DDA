@@ -1102,6 +1102,23 @@
   },
   {
     "type": "AMMO",
+    "id": "chem_dnp",
+    "category": "chems",
+    "price": "75 USD",
+    "price_postapoc": "25 USD",
+    "name": { "str_sp": "DNP" },
+    "symbol": "=",
+    "color": "yellow",
+    "description": "2,4-Dinitrophenol: a yellow powder that in the past was used as an herbicide and pesticide.  Very toxic with a high risk of death when consumed, it lived on as a research chemical for weight loss on the internet.  But these days it's more useful as a safe and easy to manufacture explosive.",
+    "material": [ "powder" ],
+    "//": "1.683 g/cc at 24 °C",
+    "volume": "297 ml",
+    "weight": "1 g",
+    "ammo_type": "components",
+    "count": 500
+  },
+  {
+    "type": "AMMO",
     "id": "chem_compositionb",
     "category": "chems",
     "price": "75 USD",
