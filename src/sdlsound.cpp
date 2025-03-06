@@ -19,6 +19,7 @@
 #include <utility>
 #include <cmath>
 #include <vector>
+#include <mutex>
 
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #    include <SDL2/SDL_mixer.h>
