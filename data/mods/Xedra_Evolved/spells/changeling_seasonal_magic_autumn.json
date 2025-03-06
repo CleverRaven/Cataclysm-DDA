@@ -257,7 +257,7 @@
     "difficulty": 8,
     "effect": "remove_effect",
     "effect_str": "effect_changeling_autumn_freeze_in_place_target",
-    "min_range": 12
+    "min_aoe": 12
   },
   {
     "id": "changeling_autumn_create_confusion_mist_spell",

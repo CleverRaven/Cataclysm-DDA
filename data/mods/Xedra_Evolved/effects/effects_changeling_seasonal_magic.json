@@ -313,7 +313,7 @@
     "type": "effect_type",
     "id": "effect_changeling_autumn_freeze_in_place_target",
     "name": [ "Baleful Gaze" ],
-    "desc": [ "Now they shall know fear." ],
+    "desc": [ "You cannot move!" ],
     "remove_message": "You can move again.",
     "show_in_info": true,
     "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
