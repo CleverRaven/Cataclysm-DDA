@@ -12962,7 +12962,7 @@ int item::fill_with( const item &contained, const int amount,
                 contained_item.charges = 1;
             }
             pocket = best_pocket( contained_item, loc, /*avoid=*/nullptr, allow_sealed,
-                                  ignore_settings ,false,false,allow_nested).second;
+                                  ignore_settings, false, false, allow_nested ).second;
         }
         if( pocket == nullptr ) {
             break;
