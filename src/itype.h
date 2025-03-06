@@ -118,11 +118,13 @@ struct islot_tool {
     //ememory transferred per second
     units::ememory etransfer_rate = 0_KB;
 
-    std::vector<int> rand_charges;
     //type of edevice connection
     std::string e_port;
     //list of edevice types NOT supported for high speed file transfer
     std::vector<std::string> e_ports_banned;
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
 };
 
 constexpr float base_metabolic_rate =
@@ -621,6 +623,9 @@ struct islot_book {
 };
 
 struct islot_mod {
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
+
     /** If non-empty restrict mod to items with those base (before modifiers) ammo types */
     std::set<ammotype> acceptable_ammo;
 
@@ -848,11 +853,16 @@ class gun_type_type
         std::string name_;
 
     public:
+        gun_type_type() = default;
         /// @param name The untranslated name of the gun type. Must have been extracted
         /// for translation with the context "gun_type_type".
         explicit gun_type_type( const std::string &name ) : name_( name ) {}
         /// Translated name.
         std::string name() const;
+
+        void deserialize( const JsonValue &jo ) {
+            name_ = jo.get_string();
+        }
 
         friend bool operator==( const gun_type_type &l, const gun_type_type &r ) {
             return l.name_ == r.name_;
@@ -874,6 +884,9 @@ struct hash<gun_type_type> {
 } // namespace std
 
 struct islot_gunmod : common_ranged_data {
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
+
     /** Where is this gunmod installed (e.g. "stock", "rail")? */
     gunmod_location location;
 
@@ -899,7 +912,7 @@ struct islot_gunmod : common_ranged_data {
     /**
     * This value is used to reflect other factors affecting aiming speed except Fov
     */
-    double aim_speed_modifier = 0;
+    double aim_speed_modifier = 0.0;
 
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
@@ -907,8 +920,8 @@ struct islot_gunmod : common_ranged_data {
     /** Multiplies base loudness as provided by the currently loaded ammo */
     float loudness_multiplier = 1;
 
-    /** How many moves does this gunmod take to install? */
-    int install_time = -1;
+    /** How much time does this gunmod take to install? */
+    time_duration install_time = 0_seconds;
 
     /** Increases base gun energy consumption by this many times per shot */
     float energy_drain_multiplier = 1.0f;
