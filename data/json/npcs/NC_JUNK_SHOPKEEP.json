@@ -35,7 +35,6 @@
       { "item": "vest_jean", "prob": 10 },
       { "item": "vest_jean_mod", "prob": 5 },
       { "item": "jacket_flannel", "prob": 15 },
-      { "item": "gosling_jacket", "prob": 5 },
       { "item": "pants_cargo", "prob": 40 },
       { "item": "shorts_cargo", "prob": 25 },
       { "item": "pants_army", "prob": 30 },

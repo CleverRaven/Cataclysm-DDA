@@ -2374,5 +2374,16 @@
     "id": "ammo_box_4",
     "type": "MIGRATION",
     "replace": "12_ammo_box_25"
+  },
+  {
+    "id": "gosling_jacket",
+    "type": "MIGRATION",
+    "replace": "jacket_leather"
+  },
+  {
+    "id": "jacket_leather_red",
+    "type": "MIGRATION",
+    "replace": "jacket_leather",
+    "variant": "jacket_leather_red"
   }
 ]
