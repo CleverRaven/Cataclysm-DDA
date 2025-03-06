@@ -2442,5 +2442,10 @@
     "type": "MIGRATION",
     "replace": "sunglasses_reading",
     "variant": "transition_reading_aviator"
+  },
+  {
+    "id": "jeans_red",
+    "type": "MIGRATION",
+    "replace": "jeans"
   }
 ]
