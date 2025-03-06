@@ -1,0 +1,15 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "mon_bite",
+    "variant": "bite_miss",
+    "volume": 100,
+    "files": [
+      "mon_bite/bite_miss/bite_miss_1.ogg",
+      "mon_bite/bite_miss/bite_miss_2.ogg",
+      "mon_bite/bite_miss/bite_miss_3.ogg",
+      "mon_bite/bite_miss/bite_miss_4.ogg",
+      "mon_bite/bite_miss/bite_miss_5.ogg"
+    ]
+  }
+]

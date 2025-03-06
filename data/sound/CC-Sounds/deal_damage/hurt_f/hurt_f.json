@@ -1,0 +1,15 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "deal_damage",
+    "variant": "hurt_f",
+    "volume": 100,
+    "files": [
+      "deal_damage/hurt_f/hurt_f_1.ogg",
+      "deal_damage/hurt_f/hurt_f_2.ogg",
+      "deal_damage/hurt_f/hurt_f_3.ogg",
+      "deal_damage/hurt_f/hurt_f_4.ogg",
+      "deal_damage/hurt_f/hurt_f_5.ogg"
+    ]
+  }
+]

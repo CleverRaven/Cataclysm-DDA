@@ -1,0 +1,329 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "modular_ar15",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "lever_shotgun",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "ar_pistol",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "plr16",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "fs2000",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "modular_m27_assault_rifle",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "scar_l",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "hk_g36",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "m249",
+    "//": "Probably aught to be bumped to the machineguns folder once a suitable 5.56mm machinegun sound effect is added.",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "m249_semi",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "modular_m4_carbine",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "modular_m16a4",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "modular_m16_auto_rifle",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "m231pfw",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "oa93",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "ruger_mini",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "sig_assault_rifle",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "steyr_aug",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "ak556",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "minidraco556",
+    "//": "Probably aught to be bumped to the machineguns folder once a suitable 5.56mm machinegun sound effect is added.",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "mdrx",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "bren2_556",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "cz600",
+    "//": "Once feasible, this should be moved to a bolt-action rifle folder and given appropriate sounds. I’m including it here for the sake of completeness for the time being.",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "rdb_223",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "acr_300blk",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "iwi_tavor_x95_300blk",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "sig_mcx_rattler_sbr",
+    "volume": 100,
+    "is_indoors": true,
+    "files": [
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_01.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_02.ogg",
+      "fire_gun/rifles/automatic_rifle/indoor_gunfire/556_auto_rifle_shot_03.ogg"
+    ]
+  }
+]

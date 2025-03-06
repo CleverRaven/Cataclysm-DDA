@@ -1,0 +1,51 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "vehicle_close",
+    "variant": "door_shutter",
+    "volume": 80,
+    "files": [ "vehicle_close/trunk/close_car_trunk.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "vehicle_close",
+    "variant": "hatch",
+    "volume": 80,
+    "files": [ "vehicle_close/trunk/close_car_trunk.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "vehicle_close",
+    "variant": "hatch_opaque",
+    "volume": 80,
+    "files": [ "vehicle_close/trunk/close_car_trunk.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "vehicle_close",
+    "variant": "hdhatch",
+    "volume": 80,
+    "files": [ "vehicle_close/trunk/close_car_trunk.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "vehicle_close",
+    "variant": "hdhatch_opaque",
+    "volume": 80,
+    "files": [ "vehicle_close/trunk/close_car_trunk.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "vehicle_close",
+    "variant": "door_trunk",
+    "volume": 80,
+    "files": [ "vehicle_close/trunk/close_car_trunk.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "vehicle_close",
+    "variant": "hddoor_trunk",
+    "volume": 80,
+    "files": [ "vehicle_close/trunk/close_car_trunk.ogg" ]
+  }
+]

@@ -1,0 +1,194 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "lever_shotgun",
+    "volume": 100,
+    "files": [
+      "reload/tube_fed_shotgun/shell_load_01.ogg",
+      "reload/tube_fed_shotgun/shell_load_02.ogg",
+      "reload/tube_fed_shotgun/shell_load_03.ogg",
+      "reload/tube_fed_shotgun/shell_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "ksg",
+    "volume": 100,
+    "files": [
+      "reload/tube_fed_shotgun/shell_load_01.ogg",
+      "reload/tube_fed_shotgun/shell_load_02.ogg",
+      "reload/tube_fed_shotgun/shell_load_03.ogg",
+      "reload/tube_fed_shotgun/shell_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "ksg-25",
+    "volume": 100,
+    "files": [
+      "reload/tube_fed_shotgun/shell_load_01.ogg",
+      "reload/tube_fed_shotgun/shell_load_02.ogg",
+      "reload/tube_fed_shotgun/shell_load_03.ogg",
+      "reload/tube_fed_shotgun/shell_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "mossberg_500",
+    "volume": 100,
+    "files": [
+      "reload/tube_fed_shotgun/shell_load_01.ogg",
+      "reload/tube_fed_shotgun/shell_load_02.ogg",
+      "reload/tube_fed_shotgun/shell_load_03.ogg",
+      "reload/tube_fed_shotgun/shell_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "mossberg_590",
+    "volume": 100,
+    "files": [
+      "reload/tube_fed_shotgun/shell_load_01.ogg",
+      "reload/tube_fed_shotgun/shell_load_02.ogg",
+      "reload/tube_fed_shotgun/shell_load_03.ogg",
+      "reload/tube_fed_shotgun/shell_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "mossberg_930",
+    "volume": 100,
+    "files": [
+      "reload/tube_fed_shotgun/shell_load_01.ogg",
+      "reload/tube_fed_shotgun/shell_load_02.ogg",
+      "reload/tube_fed_shotgun/shell_load_03.ogg",
+      "reload/tube_fed_shotgun/shell_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "remington_870",
+    "volume": 100,
+    "files": [
+      "reload/tube_fed_shotgun/shell_load_01.ogg",
+      "reload/tube_fed_shotgun/shell_load_02.ogg",
+      "reload/tube_fed_shotgun/shell_load_03.ogg",
+      "reload/tube_fed_shotgun/shell_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "remington_870_breacher",
+    "volume": 100,
+    "files": [
+      "reload/tube_fed_shotgun/shell_load_01.ogg",
+      "reload/tube_fed_shotgun/shell_load_02.ogg",
+      "reload/tube_fed_shotgun/shell_load_03.ogg",
+      "reload/tube_fed_shotgun/shell_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "remington_870_express",
+    "volume": 100,
+    "files": [
+      "reload/tube_fed_shotgun/shell_load_01.ogg",
+      "reload/tube_fed_shotgun/shell_load_02.ogg",
+      "reload/tube_fed_shotgun/shell_load_03.ogg",
+      "reload/tube_fed_shotgun/shell_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "tavor_12",
+    "volume": 100,
+    "files": [
+      "reload/tube_fed_shotgun/shell_load_01.ogg",
+      "reload/tube_fed_shotgun/shell_load_02.ogg",
+      "reload/tube_fed_shotgun/shell_load_03.ogg",
+      "reload/tube_fed_shotgun/shell_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "winchester_1887",
+    "volume": 100,
+    "files": [
+      "reload/tube_fed_shotgun/shell_load_01.ogg",
+      "reload/tube_fed_shotgun/shell_load_02.ogg",
+      "reload/tube_fed_shotgun/shell_load_03.ogg",
+      "reload/tube_fed_shotgun/shell_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "winchester_1897",
+    "volume": 100,
+    "files": [
+      "reload/tube_fed_shotgun/shell_load_01.ogg",
+      "reload/tube_fed_shotgun/shell_load_02.ogg",
+      "reload/tube_fed_shotgun/shell_load_03.ogg",
+      "reload/tube_fed_shotgun/shell_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "masterkey",
+    "volume": 100,
+    "files": [
+      "reload/tube_fed_shotgun/shell_load_01.ogg",
+      "reload/tube_fed_shotgun/shell_load_02.ogg",
+      "reload/tube_fed_shotgun/shell_load_03.ogg",
+      "reload/tube_fed_shotgun/shell_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "masterkey_mod",
+    "volume": 100,
+    "files": [
+      "reload/tube_fed_shotgun/shell_load_01.ogg",
+      "reload/tube_fed_shotgun/shell_load_02.ogg",
+      "reload/tube_fed_shotgun/shell_load_03.ogg",
+      "reload/tube_fed_shotgun/shell_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "benelli_sa",
+    "volume": 100,
+    "files": [
+      "reload/tube_fed_shotgun/shell_load_01.ogg",
+      "reload/tube_fed_shotgun/shell_load_02.ogg",
+      "reload/tube_fed_shotgun/shell_load_03.ogg",
+      "reload/tube_fed_shotgun/shell_load_04.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "benelli_tsa",
+    "volume": 100,
+    "files": [
+      "reload/tube_fed_shotgun/shell_load_01.ogg",
+      "reload/tube_fed_shotgun/shell_load_02.ogg",
+      "reload/tube_fed_shotgun/shell_load_03.ogg",
+      "reload/tube_fed_shotgun/shell_load_04.ogg"
+    ]
+  }
+]

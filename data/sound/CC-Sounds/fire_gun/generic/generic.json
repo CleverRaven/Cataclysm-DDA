@@ -1,0 +1,8 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "volume": 100,
+    "files": [ "fire_gun/generic/genericgun_1.ogg" ]
+  }
+]

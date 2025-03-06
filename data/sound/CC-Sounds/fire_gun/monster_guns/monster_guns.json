@@ -1,0 +1,25 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "acid_sniper",
+    "volume": 100,
+    "files": [
+      "fire_gun/monster_guns/acid_sniper_1.ogg",
+      "fire_gun/monster_guns/acid_sniper_2.ogg",
+      "fire_gun/monster_guns/acid_sniper_3.ogg",
+      "fire_gun/monster_guns/acid_sniper_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "gene_sting_gun",
+    "volume": 100,
+    "files": [
+      "fire_gun/monster_guns/gene_sting_gun_1.ogg",
+      "fire_gun/monster_guns/gene_sting_gun_2.ogg",
+      "fire_gun/monster_guns/gene_sting_gun_3.ogg"
+    ]
+  }
+]
