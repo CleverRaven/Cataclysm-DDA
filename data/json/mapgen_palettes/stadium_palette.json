@@ -152,7 +152,7 @@
     "vehicles": {
       "1": { "vehicle": "food_cart", "chance": 33, "rotation": [ 0, 90, 180, 270 ] },
       "2": { "vehicle": "ice_cream_cart", "chance": 33, "rotation": [ 0, 90, 180, 270 ] },
-      "3": { "vehicle": "swivel_chair", "chance": 100 }
+      "3": { "vehicle": "swivel_chair" }
     }
   },
   {

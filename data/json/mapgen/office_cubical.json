@@ -71,7 +71,7 @@
         "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] },
         "T": { "item": "SUS_toilet", "chance": 50 }
       },
-      "vehicles": { "h": { "vehicle": "swivel_chair", "chance": 100 } }
+      "vehicles": { "h": { "vehicle": "swivel_chair" } }
     }
   },
   {
@@ -201,7 +201,7 @@
         "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] },
         "T": { "item": "SUS_toilet", "chance": 50 }
       },
-      "vehicles": { "h": { "vehicle": "swivel_chair", "chance": 100 } }
+      "vehicles": { "h": { "vehicle": "swivel_chair" } }
     }
   },
   {

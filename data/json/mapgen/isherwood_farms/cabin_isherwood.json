@@ -91,7 +91,7 @@
         "..|g@@ty|d t@|||....",
         "..||0|0|||00||4..J.F"
       ],
-      "place_vehicles": [ { "vehicle": "uncovered_wagon", "x": 2, "y": 2, "rotation": 180, "chance": 100, "status": 0 } ],
+      "place_vehicles": [ { "vehicle": "uncovered_wagon", "x": 2, "y": 2, "rotation": 180, "status": 0 } ],
       "place_monster": [ { "monster": "mon_horse", "x": 17, "y": 3, "chance": 100 } ],
       "sealed_item": {
         "Q": { "item": { "item": "seed_lentils" }, "furniture": "f_planter_harvest" },

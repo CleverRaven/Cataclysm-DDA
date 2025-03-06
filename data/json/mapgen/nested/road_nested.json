@@ -795,8 +795,8 @@
       "palettes": [ "road_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_vehicles": [
-        { "vehicle": "food_carts", "x": 5, "y": 5, "fuel": -1, "status": -1, "chance": 100, "rotation": 0 },
-        { "vehicle": "food_carts", "x": 5, "y": 7, "fuel": -1, "status": -1, "chance": 100, "rotation": 0 }
+        { "vehicle": "food_carts", "x": 5, "y": 5, "fuel": -1, "status": -1, "rotation": 0 },
+        { "vehicle": "food_carts", "x": 5, "y": 7, "fuel": -1, "status": -1, "rotation": 0 }
       ]
     }
   },

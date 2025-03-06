@@ -68,7 +68,7 @@
         "s": "f_sink",
         "y": "f_indoor_plant"
       },
-      "vehicles": { "C": { "vehicle": "medical_cart", "chance": 100 } },
+      "vehicles": { "C": { "vehicle": "medical_cart" } },
       "toilets": { "t": {  } },
       "items": {
         "N": { "item": "missing_poster_animal", "chance": 50, "repeat": [ 1, 3 ] },
