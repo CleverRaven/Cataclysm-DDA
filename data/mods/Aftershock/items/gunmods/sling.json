@@ -10,14 +10,14 @@
     "id": "shoulder_strap",
     "copy-from": "shoulder_strap",
     "type": "GUNMOD",
-    "name": { "str": "adjustable sling" },
+    "name": { "str": "adjustable sling ", "str_pl": "adjustable slings " },
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher", "smartgun" ]
   },
   {
     "id": "shoulder_strap_front",
     "copy-from": "shoulder_strap_front",
     "type": "GUNMOD",
-    "name": { "str": "adjustable sling (front)" },
+    "name": { "str": "adjustable sling (front)", "str_pl": "adjustable slings (front)" },
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher", "smartgun" ]
   }
 ]
