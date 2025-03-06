@@ -36,6 +36,7 @@
     "ammo": [ "battery" ],
     "ammo_to_fire": 0,
     "//": "High energy drain due to the damage dealt by the chain effect.",
+    "valid_mod_locations": [ [ "sling", 1 ] ],
     "energy_drain": "70 kJ",
     "modes": [ [ "DEFAULT", "Pulse ", 1 ] ],
     "skill": "smartgun",
