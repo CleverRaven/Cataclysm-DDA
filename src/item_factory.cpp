@@ -311,6 +311,18 @@ void Item_factory::finalize_pre( itype &obj )
         obj.ammo_scale.emplace( func2, 0 );
     }
 
+    if( obj.gunmod ) {
+        // convert aim_speed to FoV and aim_speed_modifier automatically, if FoV is not set
+        if( obj.gunmod->aim_speed >= 0 && obj.gunmod->field_of_view <= 0 ) {
+            if( obj.gunmod->aim_speed > 6 ) {
+                obj.gunmod->aim_speed_modifier = 5 * ( obj.gunmod->aim_speed - 6 );
+                obj.gunmod->field_of_view = 480;
+            } else {
+                obj.gunmod->field_of_view = 480 - 30 * ( 6 - obj.gunmod->aim_speed );
+            }
+        }
+    }
+
     if( get_option<bool>( "NO_FAULTS" ) ) {
         obj.faults.clear();
     }
@@ -345,6 +357,13 @@ void Item_factory::finalize_pre( itype &obj )
         } else if( obj.stack_size > 200 ) {
             debugmsg( obj.id.str() + " stack size is too large, reducing to 200" );
             obj.stack_size = 200;
+        }
+    }
+
+    //limit tool charges
+    if( obj.tool ) {
+        if( obj.tool->def_charges > obj.tool->max_charges ) {
+            debugmsg( "initial_charges is larger than max_charges for %s", obj.id.str() );
         }
     }
 
@@ -2401,12 +2420,6 @@ void Item_factory::check_definitions() const
             } else if( type->gunmod->sight_dispersion < 0 && type->gunmod->field_of_view > 0 ) {
                 msg += "gunmod must have both sight_dispersion and field_of_view set or neither of them set\n";
             }
-            if( type->gunmod->usable.empty() ) {
-                msg += "gunmod does not specify mod targets\n";
-            }
-            if( type->gunmod->install_time < 0 ) {
-                msg += "gunmod does not specify install time\n";
-            }
         }
         if( type->mod ) {
             for( const ammotype &at : type->mod->ammo_modifier ) {
@@ -3171,57 +3184,39 @@ void islot_pet_armor::deserialize( const JsonObject &jo )
     optional( jo, was_loaded, "power_armor", power_armor, false );
 }
 
-void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::string &src )
+void islot_tool::deserialize( const JsonObject &jo )
 {
-    bool strict = src == "dda";
+    numeric_bound_reader not_negative{ 0 };
+    numeric_bound_reader positive{ 1 };
 
-    assign( jo, "ammo", slot.ammo_id, strict );
-    assign( jo, "max_charges", slot.max_charges, strict, 0 );
-    assign( jo, "initial_charges", slot.def_charges, strict, 0 );
-    assign( jo, "charges_per_use", slot.charges_per_use, strict, 0 );
-    assign( jo, "charge_factor", slot.charge_factor, strict, 1 );
-    assign( jo, "turns_per_charge", slot.turns_per_charge, strict, 0 );
-    assign( jo, "fuel_efficiency", slot.fuel_efficiency, strict, -1.0f );
-    assign( jo, "power_draw", slot.power_draw, strict, 0_W );
-    assign( jo, "revert_msg", slot.revert_msg, strict );
-    assign( jo, "sub", slot.subtype, strict );
-    assign( jo, "etransfer_rate", slot.etransfer_rate, strict );
-    assign( jo, "e_port", slot.e_port, strict );
-
-    if( slot.def_charges > slot.max_charges ) {
-        jo.throw_error_at( "initial_charges", "initial_charges is larger than max_charges" );
-    }
-
-    if( jo.has_array( "rand_charges" ) ) {
-        if( jo.has_member( "initial_charges" ) ) {
-            jo.throw_error_at(
-                "rand_charges",
-                "You can have a fixed initial amount of charges, or randomized.  Not both." );
-        }
-        for( const int charge : jo.get_array( "rand_charges" ) ) {
-            slot.rand_charges.push_back( charge );
-        }
-        if( slot.rand_charges.size() == 1 ) {
-            // see item::item(...) for the use of this array
-            jo.throw_error_at(
-                "rand_charges",
-                "a rand_charges array with only one entry will be ignored, it needs at least 2 "
-                "entries!" );
-        }
-    }
-
-    if( jo.has_array( "e_ports_banned" ) ) {
-        for( std::string port : jo.get_array( "e_ports_banned" ) ) {
-            slot.e_ports_banned.push_back( port );
-        }
-    }
+    optional( jo, was_loaded, "ammo", ammo_id, auto_flags_reader<ammotype> {} );
+    optional( jo, was_loaded, "max_charges", max_charges, not_negative, 0 );
+    optional( jo, was_loaded, "initial_charges", def_charges, not_negative, 0 );
+    optional( jo, was_loaded, "charges_per_use", charges_per_use, not_negative, 0 );
+    optional( jo, was_loaded, "charge_factor", charge_factor, positive, 1 );
+    optional( jo, was_loaded, "turns_per_charge", turns_per_charge, not_negative, 0 );
+    optional( jo, was_loaded, "fuel_efficiency", fuel_efficiency, numeric_bound_reader{-1.0f}, -1.0f );
+    optional( jo, was_loaded, "power_draw", power_draw, units_bound_reader<units::power> { 0_W }, 0_W );
+    optional( jo, was_loaded, "revert_msg", revert_msg );
+    optional( jo, was_loaded, "sub", subtype );
+    optional( jo, was_loaded, "etransfer_rate", etransfer_rate, units_bound_reader<units::ememory> { 0_KB } );
+    optional( jo, was_loaded, "e_port", e_port );
+    optional( jo, was_loaded, "e_ports_banned", e_ports_banned, auto_flags_reader<std::string> {} );
 }
 
 void Item_factory::load_tool( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.tool, jo, src );
+        if( def.was_loaded ) {
+            if( !def.tool ) {
+                def.tool = cata::make_value<islot_tool>();
+            }
+        } else {
+            def.tool = cata::make_value<islot_tool>();
+        }
+        def.tool->deserialize( jo );
+        def.tool->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -3231,49 +3226,44 @@ void Item_factory::load( relic &slot, const JsonObject &jo, const std::string_vi
     slot.load( jo );
 }
 
-void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::string &src )
+/*
+* Reads an array of toolmod ammo-to-itype maps in the following format:
+* [ [ ammotype, [itype1, itype2, ..] ], .. ]
+*/
+class magazine_adaptor_reader : public generic_typed_reader<magazine_adaptor_reader>
 {
-    bool strict = src == "dda";
-
-    if( jo.has_array( "ammo_modifier" ) ) {
-        for( const std::string id : jo.get_array( "ammo_modifier" ) ) {
-            slot.ammo_modifier.insert( ammotype( id ) );
+    public:
+        std::pair<ammotype, std::set<itype_id>> get_next( const JsonValue &val ) const {
+            std::pair<ammotype, std::set<itype_id>> ret;
+            if( !val.read( ret, false ) ) {
+                val.throw_error( "magazine adaptor must be array in the form [ [ ammotype, [itype1, itype2, ..] ], .. ] " );
+            }
+            return ret;
         }
-    } else if( jo.has_string( "ammo_modifier" ) ) {
-        slot.ammo_modifier.insert( ammotype( jo.get_string( "ammo_modifier" ) ) );
-    }
-    assign( jo, "capacity_multiplier", slot.capacity_multiplier, strict );
+};
 
-    if( jo.has_member( "acceptable_ammo" ) ) {
-        slot.acceptable_ammo.clear();
-        for( const std::string &e : jo.get_tags( "acceptable_ammo" ) ) {
-            slot.acceptable_ammo.insert( ammotype( e ) );
-        }
-    }
-
-    JsonArray mags = jo.get_array( "magazine_adaptor" );
-    if( !mags.empty() ) {
-        slot.magazine_adaptor.clear();
-    }
-    for( JsonArray arr : mags ) {
-        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
-        // compatible magazines for this ammo type
-        for( const std::string line : arr.get_array( 1 ) ) {
-            slot.magazine_adaptor[ ammo ].insert( itype_id( line ) );
-        }
-    }
-
-    JsonArray pockets = jo.get_array( "pocket_mods" );
-    if( !pockets.empty() ) {
-        optional( jo, false, "pocket_mods", slot.add_pockets );
-    }
+void islot_mod::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "ammo_modifier", ammo_modifier, auto_flags_reader<ammotype> {} );
+    optional( jo, was_loaded, "capacity_multiplier", capacity_multiplier, 1.0f );
+    optional( jo, was_loaded, "acceptable_ammo", acceptable_ammo, auto_flags_reader<ammotype> {} );
+    optional( jo, was_loaded, "magazine_adaptor", magazine_adaptor, magazine_adaptor_reader{} );
+    optional( jo, was_loaded, "pocket_mods", add_pockets );
 }
 
 void Item_factory::load_toolmod( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.mod, jo, src );
+        if( def.was_loaded ) {
+            if( !def.mod ) {
+                def.mod = cata::make_value<islot_mod>();
+            }
+        } else {
+            def.mod = cata::make_value<islot_mod>();
+        }
+        def.mod->deserialize( jo );
+        def.mod->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -3284,7 +3274,9 @@ void Item_factory::load_tool_armor( const JsonObject &jo, const std::string &src
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.tool, jo, src );
+        def.tool = cata::make_value<islot_tool>();
+        def.tool->deserialize( jo );
+        def.tool->was_loaded = true;
         if( def.was_loaded ) {
             if( def.armor ) {
                 def.armor->was_loaded = true;
@@ -3448,84 +3440,67 @@ void islot_seed::deserialize( const JsonObject &jo )
               ter_furn_flag::TFLAG_PLANTABLE );
 }
 
-void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::string &src )
+void islot_gunmod::deserialize( const JsonObject &jo )
 {
-    bool strict = src == "dda";
-
-    optional( jo, false, "damage_modifier", slot.damage );
-    assign( jo, "loudness_modifier", slot.loudness );
-    assign( jo, "loudness_multiplier", slot.loudness_multiplier );
-    assign( jo, "location", slot.location );
-    assign( jo, "dispersion_modifier", slot.dispersion );
-    assign( jo, "field_of_view", slot.field_of_view );
-    assign( jo, "sight_dispersion", slot.sight_dispersion );
-    assign( jo, "aim_speed_modifier", slot.aim_speed_modifier );
-    assign( jo, "aim_speed", slot.aim_speed, strict, -1 );
-    assign( jo, "handling_modifier", slot.handling, strict );
-    assign( jo, "range_modifier", slot.range );
-    assign( jo, "range_multiplier", slot.range_multiplier );
-    assign( jo, "consume_chance", slot.consume_chance );
-    assign( jo, "consume_divisor", slot.consume_divisor );
-    assign( jo, "shot_spread_multiplier_modifier", slot.shot_spread_multiplier_modifier );
-    assign( jo, "ammo_effects", slot.ammo_effects, strict );
-    assign( jo, "energy_drain_multiplier", slot.energy_drain_multiplier );
-    assign( jo, "energy_drain_modifier", slot.energy_drain_modifier );
-    assign( jo, "ammo_to_fire_multiplier", slot.ammo_to_fire_multiplier );
-    assign( jo, "ammo_to_fire_modifier", slot.ammo_to_fire_modifier );
-    assign( jo, "weight_multiplier", slot.weight_multiplier );
-    assign( jo, "overwrite_min_cycle_recoil", slot.overwrite_min_cycle_recoil );
-    assign( jo, "overheat_threshold_modifier", slot.overheat_threshold_modifier );
-    assign( jo, "overheat_threshold_multiplier", slot.overheat_threshold_multiplier );
-    assign( jo, "cooling_value_modifier", slot.cooling_value_modifier );
-    assign( jo, "cooling_value_multiplier", slot.cooling_value_multiplier );
-    assign( jo, "heat_per_shot_modifier", slot.heat_per_shot_modifier );
-    assign( jo, "heat_per_shot_multiplier", slot.heat_per_shot_multiplier );
-    // convert aim_speed to FoV and aim_speed_modifier automatically, if FoV is not set
-    if( slot.aim_speed >= 0 && slot.field_of_view <= 0 ) {
-        if( slot.aim_speed > 6 ) {
-            slot.aim_speed_modifier = 5 * ( slot.aim_speed - 6 );
-            slot.field_of_view = 480;
-        } else {
-            slot.field_of_view = 480 - 30 * ( 6 - slot.aim_speed );
-        }
-    }
-    if( jo.has_int( "install_time" ) ) {
-        slot.install_time = jo.get_int( "install_time" );
-    } else if( jo.has_string( "install_time" ) ) {
-        slot.install_time = to_moves<int>( read_from_json_string<time_duration>
-                                           ( jo.get_member( "install_time" ),
-                                             time_duration::units ) );
-    }
-
-    if( jo.has_member( "mod_targets" ) ) {
-        slot.usable.clear();
-        for( const auto &t : jo.get_tags( "mod_targets" ) ) {
-            slot.usable.insert( gun_type_type( t ) );
-        }
-    }
-
-    optional( jo, false, "mode_modifier", slot.mode_modifier, gun_modes_reader{} );
-    assign( jo, "reload_modifier", slot.reload_modifier );
-    assign( jo, "min_str_required_mod", slot.min_str_required_mod );
-    assign( jo, "min_str_required_mod_if_prone", slot.min_str_required_mod_if_prone );
-    if( jo.has_array( "add_mod" ) ) {
-        slot.add_mod.clear();
-        for( JsonArray curr : jo.get_array( "add_mod" ) ) {
-            slot.add_mod.emplace( gunmod_location( curr.get_string( 0 ) ), curr.get_int( 1 ) );
-        }
-    }
-    assign( jo, "is_bayonet", slot.is_bayonet );
-    assign( jo, "blacklist_mod", slot.blacklist_mod );
-    assign( jo, "blacklist_slot", slot.blacklist_slot );
-    assign( jo, "barrel_length", slot.barrel_length );
+    mandatory( jo, was_loaded, "install_time", install_time );
+    mandatory( jo, was_loaded, "mod_targets", usable, auto_flags_reader<gun_type_type> {} );
+    optional( jo, was_loaded, "damage_modifier", damage );
+    optional( jo, was_loaded, "loudness_modifier", loudness );
+    optional( jo, was_loaded, "loudness_multiplier", loudness_multiplier, 1 );
+    optional( jo, was_loaded, "location", location );
+    optional( jo, was_loaded, "dispersion_modifier", dispersion );
+    optional( jo, was_loaded, "field_of_view", field_of_view, -1 );
+    optional( jo, was_loaded, "sight_dispersion", sight_dispersion, -1 );
+    optional( jo, was_loaded, "aim_speed_modifier", aim_speed_modifier, 0.0 );
+    optional( jo, was_loaded, "aim_speed", aim_speed, numeric_bound_reader{ -1 }, -1 );
+    optional( jo, was_loaded, "handling_modifier", handling );
+    optional( jo, was_loaded, "range_modifier", range );
+    optional( jo, was_loaded, "range_multiplier", range_multiplier, 1.0 );
+    optional( jo, was_loaded, "consume_chance", consume_chance, 10000 );
+    optional( jo, was_loaded, "consume_divisor", consume_divisor, 1 );
+    optional( jo, was_loaded, "shot_spread_multiplier_modifier", shot_spread_multiplier_modifier );
+    optional( jo, was_loaded, "ammo_effects", ammo_effects );
+    optional( jo, was_loaded, "energy_drain_multiplier", energy_drain_multiplier, 1.0f );
+    optional( jo, was_loaded, "energy_drain_modifier", energy_drain_modifier );
+    optional( jo, was_loaded, "ammo_to_fire_multiplier", ammo_to_fire_multiplier, 1.0f );
+    optional( jo, was_loaded, "ammo_to_fire_modifier", ammo_to_fire_modifier );
+    optional( jo, was_loaded, "weight_multiplier", weight_multiplier, 1.0f );
+    optional( jo, was_loaded, "overwrite_min_cycle_recoil", overwrite_min_cycle_recoil, -1 );
+    optional( jo, was_loaded, "overheat_threshold_modifier", overheat_threshold_modifier );
+    optional( jo, was_loaded, "overheat_threshold_multiplier", overheat_threshold_multiplier, 1.0f );
+    optional( jo, was_loaded, "cooling_value_modifier", cooling_value_modifier );
+    optional( jo, was_loaded, "cooling_value_multiplier", cooling_value_multiplier, 1.0f );
+    optional( jo, was_loaded, "heat_per_shot_modifier", heat_per_shot_modifier );
+    optional( jo, was_loaded, "heat_per_shot_multiplier", heat_per_shot_multiplier, 1.0f );
+    optional( jo, was_loaded, "mode_modifier", mode_modifier, gun_modes_reader{} );
+    optional( jo, was_loaded, "reload_modifier", reload_modifier );
+    optional( jo, was_loaded, "min_str_required_mod", min_str_required_mod );
+    optional( jo, was_loaded, "min_str_required_mod_if_prone", min_str_required_mod_if_prone );
+    optional( jo, was_loaded, "is_bayonet", is_bayonet );
+    optional( jo, was_loaded, "blacklist_mod", blacklist_mod, auto_flags_reader<itype_id> {} );
+    optional( jo, was_loaded, "blacklist_slot", blacklist_slot, auto_flags_reader<gunmod_location> {} );
+    optional( jo, was_loaded, "barrel_length", barrel_length );
+    optional( jo, was_loaded, "add_mod", add_mod, weighted_string_id_reader<gunmod_location, int> {1} );
 }
 
 void Item_factory::load_gunmod( const JsonObject &jo, const std::string &src )
 {
+    //NOTE: this loads both a gunmod and toolmod islot, and is an exception to load_X functions
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.gunmod, jo, src );
-        load_slot( def.mod, jo, src );
+        if( def.was_loaded ) {
+            if( !def.gunmod ) {
+                def.gunmod = cata::make_value<islot_gunmod>();
+                def.mod = cata::make_value<islot_mod>();
+            }
+        } else {
+            def.gunmod = cata::make_value<islot_gunmod>();
+            def.mod = cata::make_value<islot_mod>();
+        }
+        def.gunmod->deserialize( jo );
+        def.gunmod->was_loaded = true;
+        def.mod->deserialize( jo );
+        def.mod->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -4420,14 +4395,16 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "compostable", def.compostable, src == "dda" );
     load_slot_optional( def.relic_data, jo, "relic_data", src );
     assign( jo, "milling", def.milling_data, src == "dda" );
-
     // optional gunmod slot may also specify mod data
     if( jo.has_member( "gunmod_data" ) ) {
-        // use the same JsonObject for the two load_slot calls to avoid
-        // warnings about unvisited Json members
+        //TO-DO: this is temporary, remove it when "type": "ITEM" is figured out
         JsonObject jo_gunmod = jo.get_object( "gunmod_data" );
-        load_slot( def.gunmod, jo_gunmod, src );
-        load_slot( def.mod, jo_gunmod, src );
+        def.gunmod = cata::make_value<islot_gunmod>();
+        def.mod = cata::make_value<islot_mod>();
+        def.gunmod->deserialize( jo_gunmod );
+        def.gunmod->was_loaded = true;
+        def.mod->deserialize( jo_gunmod );
+        def.mod->was_loaded = true;
     }
 
     if( jo.has_string( "abstract" ) ) {
