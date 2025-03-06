@@ -728,7 +728,7 @@ struct sound_effect_handler {
         //  (note: we let the sound loop an extra time here because when handler->loops_remaining == -1,
         //  while that means we're done SENDING audio, that doesn't mean the audio device is done PLAYING it).
         if( !handler->marked_for_termination && handler->loops_remaining < -1 ) {
-            if( channels_to_end_mutex.try_lock() ) {
+            if( channels_to_end_mutex.try_lock() ) { // try_lock(); we do NOT want the audio thread to block
                 handler->marked_for_termination = true;
                 channels_to_end.push_back( static_cast<sfx::channel>( channel ) );
                 channels_to_end_mutex.unlock();
