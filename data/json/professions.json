@@ -452,10 +452,7 @@
   {
     "type": "profession_item_substitutions",
     "item": "blazer",
-    "sub": [
-      { "present": [ "WOOLALLERGY" ], "new": [ "jacket_leather" ] },
-      { "present": [ "VEGAN" ], "new": [ "jacket_light" ] }
-    ]
+    "sub": [ { "present": [ "WOOLALLERGY" ], "new": [ "jacket_leather" ] }, { "present": [ "VEGAN" ], "new": [ "jacket_light" ] } ]
   },
   {
     "type": "profession_item_substitutions",
