@@ -3886,8 +3886,8 @@
     "subtype": "distribution",
     "items": [
       { "item": "halter_top", "prob": 30 },
-      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 1 },
-      { "item": "cheerleader_top_short", "prob": 1 }
+      { "item": "tank_top", "prob": 15 },
+      { "item": "camisole", "prob": 15 }
     ]
   },
   {

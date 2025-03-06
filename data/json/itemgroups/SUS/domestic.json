@@ -1122,6 +1122,7 @@
       { "group": "socks_unisex", "count": [ 7, 14 ], "prob": 100 },
       { "group": "scarfs_unisex", "prob": 30 },
       { "group": "shirts_unisex", "count": [ 7, 14 ], "prob": 100 },
+      { "group": "shirts_womens", "count": [ 1, 4 ], "prob": 50 },
       { "group": "underwear_womens", "count": [ 4, 7 ], "prob": 100 },
       { "group": "underwear_unisex", "count": [ 4, 7 ], "prob": 100 },
       { "group": "pants_unisex", "count": [ 4, 7 ], "prob": 100 },
