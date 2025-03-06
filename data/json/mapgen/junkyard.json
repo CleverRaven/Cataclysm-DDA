@@ -38,13 +38,13 @@
       "place_items": [
         { "chance": 25, "item": "cubical_office", "x": [ 18, 19 ], "y": 12 },
         { "chance": 25, "item": "cubical_office", "x": [ 15, 16 ], "y": 12 },
-        { "chance": 30, "item": "trash", "x": 11, "y": 10 },
+        { "chance": 30, "item": "SUS_trash_trashcan", "x": 11, "y": 10 },
         { "chance": 75, "item": "vending_food_items", "x": 11, "y": 4 },
         { "chance": 75, "item": "vending_drink_items", "x": 11, "y": 7 },
         { "chance": 40, "repeat": 3, "item": "magazines", "x": [ 16, 18 ], "y": [ 5, 6 ] },
         { "chance": 20, "repeat": 2, "item": "tools_mechanic", "x": 26, "y": [ 10, 12 ] },
         { "chance": 20, "repeat": 2, "item": "tools_mechanic", "x": 26, "y": [ 6, 8 ] },
-        { "chance": 25, "repeat": 2, "item": "trash", "x": 26, "y": 9 }
+        { "chance": 25, "repeat": 2, "item": "SUS_trash_trashcan", "x": 26, "y": 9 }
       ],
       "place_vehicles": [
         { "chance": 75, "fuel": 0, "rotation": 270, "status": 1, "vehicle": "junkyard_vehicles", "x": 12, "y": 18 },

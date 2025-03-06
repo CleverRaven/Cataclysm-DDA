@@ -236,8 +236,8 @@
     "toilets": { "T": {  } },
     "items": {
       "C": { "item": "SUS_office_desk", "chance": 33 },
-      "j": { "item": "trash", "chance": 65, "repeat": [ 1, 3 ] },
-      "J": { "item": "trash", "chance": 65, "repeat": [ 1, 6 ] },
+      "j": { "item": "SUS_trash_trashcan", "chance": 65, "repeat": [ 1, 3 ] },
+      "J": { "item": "SUS_trash_dumpster", "chance": 65, "repeat": [ 1, 6 ] },
       "b": { "item": "shower", "chance": 20 },
       "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
       "r": [

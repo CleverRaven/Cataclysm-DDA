@@ -140,5 +140,25 @@
     "id": [ "afs_broken_riotbot" ],
     "type": "MIGRATION",
     "replace": "broken_afs_riotbot"
+  },
+  {
+    "id": "broken_milbot_556",
+    "type": "MIGRATION",
+    "replace": "broken_imaginifer"
+  },
+  {
+    "id": "broken_defbot_shot",
+    "type": "MIGRATION",
+    "replace": "broken_imaginifer"
+  },
+  {
+    "id": "defbot_shot_chassis",
+    "type": "MIGRATION",
+    "replace": "broken_imaginifer"
+  },
+  {
+    "id": "broken_milbot_needle",
+    "type": "MIGRATION",
+    "replace": "broken_imaginifer"
   }
 ]

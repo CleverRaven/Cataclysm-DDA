@@ -42,7 +42,8 @@
         { "item": "barbecue", "chance": 5, "repeat": [ 1, 2 ] },
         { "item": "misc_smoking", "chance": 2 },
         { "item": "cannedfood", "chance": 2, "repeat": [ 1, 2 ] }
-      ]
+      ],
+      "&": { "item": "SUS_toilet", "chance": 50 }
     }
   }
 ]

@@ -29,7 +29,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 
 static const efftype_id effect_ignore_fall_damage( "ignore_fall_damage" );
 

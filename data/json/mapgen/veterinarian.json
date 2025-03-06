@@ -68,14 +68,15 @@
         "s": "f_sink",
         "y": "f_indoor_plant"
       },
-      "vehicles": { "C": { "vehicle": "medical_cart", "chance": 100 } },
+      "vehicles": { "C": { "vehicle": "medical_cart" } },
       "toilets": { "t": {  } },
       "items": {
         "N": { "item": "missing_poster_animal", "chance": 50, "repeat": [ 1, 3 ] },
-        "C": { "item": "gear_medical", "chance": 60, "repeat": [ 1, 2 ] }
+        "C": { "item": "gear_medical", "chance": 60, "repeat": [ 1, 2 ] },
+        "t": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_items": [
-        { "item": "trash", "x": 10, "y": 19, "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_dumpster", "x": 10, "y": 19, "chance": 50, "repeat": [ 1, 3 ] },
         { "item": "vet_softdrug", "x": 17, "y": 10, "chance": 70, "repeat": [ 2, 5 ] },
         { "item": "vet_softdrug", "x": 15, "y": [ 10, 11 ], "chance": 65, "repeat": [ 1, 2 ] },
         { "item": "vet_softdrug", "x": 20, "y": 8, "chance": 85, "repeat": [ 1, 3 ] },

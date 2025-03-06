@@ -25,7 +25,7 @@
 #include "sounds.h"
 #include "translation.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 
 class Character;
 class Creature;

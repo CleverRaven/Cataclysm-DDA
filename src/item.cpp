@@ -4086,7 +4086,7 @@ void item::pet_armor_protection_info( std::vector<iteminfo> &info,
     }
 }
 
-// simple struct used for organizing encumberance in an ordered set
+// simple struct used for organizing encumbrance in an ordered set
 struct armor_encumb_data {
     int encumb;
     int encumb_max;
@@ -7310,7 +7310,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
 
     }
 
-    // prevent units::mass_max * 1.0, which results in -units::mass_max
+    // prevent units::mass::max() * 1.0, which results in -units::mass::max()
     if( ret_mul != 1 ) {
         ret *= ret_mul;
     }
@@ -7678,9 +7678,13 @@ damage_instance item::base_damage_thrown() const
 int item::reach_range( const Character &guy ) const
 {
     int res = 1;
+    int reach_attack_add = has_flag( flag_REACH_ATTACK ) ? has_flag( flag_REACH3 ) ? 2 : 1 : 0;
 
-    if( has_flag( flag_REACH_ATTACK ) ) {
-        res = has_flag( flag_REACH3 ) ? 3 : 2;
+    res += reach_attack_add;
+
+    if( !is_gun() ) {
+        res = std::max( 1, static_cast<int>( guy.calculate_by_enchantment( res,
+                                             enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) );
     }
 
     // for guns consider any attached gunmods
@@ -7690,7 +7694,9 @@ int item::reach_range( const Character &guy ) const
                 continue;
             }
             if( m.second.melee() ) {
-                res = std::max( res, m.second.qty );
+                res = std::max( res, std::max( 1,
+                                               static_cast<int>( guy.calculate_by_enchantment( m.second.qty + reach_attack_add,
+                                                       enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) ) );
             }
         }
     }
@@ -7706,6 +7712,11 @@ int item::current_reach_range( const Character &guy ) const
         res = has_flag( flag_REACH3 ) ? 3 : 2;
     } else if( is_gun() && !is_gunmod() && gun_current_mode().melee() ) {
         res = gun_current_mode().target->gun_range();
+    }
+
+    if( !is_gun() || ( is_gun() && !is_gunmod() && gun_current_mode().melee() ) ) {
+        res = std::max( 1, static_cast<int>( guy.calculate_by_enchantment( res,
+                                             enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) );
     }
 
     if( is_gun() && !is_gunmod() ) {
@@ -10708,10 +10719,10 @@ ret_val<void> item::can_contain_partial_directly( const item &it ) const
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &this_loc,
         const item *avoid, const bool allow_sealed, const bool ignore_settings,
-        const bool nested, bool ignore_rigidity )
+        const bool nested, bool ignore_rigidity, bool allow_nested )
 {
     return contents.best_pocket( it, this_loc, avoid, allow_sealed, ignore_settings,
-                                 nested, ignore_rigidity );
+                                 nested, ignore_rigidity, allow_nested );
 }
 
 bool item::spill_contents( Character &c )
@@ -15472,7 +15483,7 @@ bool item::on_drop( const tripoint_bub_ms &pos, map &m )
 
     avatar &player_character = get_avatar();
 
-    return type->drop_action && type->drop_action.call( &player_character, *this, pos );
+    return type->drop_action && type->drop_action.call( &player_character, *this, &m, pos );
 }
 
 time_duration item::age() const
@@ -16032,15 +16043,10 @@ void disp_mod_by_barrel::deserialize( const JsonObject &jo )
     mandatory( jo, false, "dispersion", dispersion_modifier );
 }
 
-void rot_spawn_data::load( const JsonObject &jo )
+void rot_spawn_data::deserialize( const JsonObject &jo )
 {
     optional( jo, false, "monster", rot_spawn_monster, mtype_id::NULL_ID() );
     optional( jo, false, "group", rot_spawn_group, mongroup_id::NULL_ID() );
     optional( jo, false, "chance", rot_spawn_chance );
     optional( jo, false, "amount", rot_spawn_monster_amount, {1, 1} );
-}
-
-void rot_spawn_data::deserialize( const JsonObject &jo )
-{
-    load( jo );
 }

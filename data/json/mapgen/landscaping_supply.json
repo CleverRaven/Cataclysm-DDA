@@ -87,9 +87,10 @@
         { "item": "clothing_work_gloves", "x": [ 38, 39 ], "y": [ 15, 16 ], "chance": 75, "repeat": [ 1, 8 ] },
         { "item": "tools_earthworking", "x": [ 38, 42 ], "y": 18, "chance": 70, "repeat": [ 1, 3 ] },
         { "item": "supplies_farming", "x": [ 41, 42 ], "y": [ 15, 16 ], "chance": 75, "repeat": [ 1, 4 ] },
-        { "item": "trash", "x": 33, "y": [ 14, 15 ], "chance": 35, "repeat": 2 },
+        { "item": "SUS_trash_floor", "x": 33, "y": [ 14, 15 ], "chance": 35, "repeat": 2 },
         { "item": "cash_register_random", "x": 35, "y": [ 14, 16 ], "chance": 100 }
       ],
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_vehicles": [ { "vehicle": "pickup", "x": 5, "y": 18, "chance": 55, "rotation": 90 } ],
       "place_signs": [

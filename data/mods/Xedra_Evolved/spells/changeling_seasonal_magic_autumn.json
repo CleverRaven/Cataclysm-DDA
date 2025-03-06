@@ -222,7 +222,7 @@
     "difficulty": 8,
     "effect": "attack",
     "effect_str": "stunned",
-    "components": "spell_components_dreamdross_2",
+    "components": "spell_components_changeling_dreamsparks_2",
     "min_duration": 300,
     "max_duration": 600,
     "min_range": {

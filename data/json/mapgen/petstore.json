@@ -73,7 +73,8 @@
         "C": { "item": "petstore_misc", "chance": 70, "repeat": [ 2, 8 ] },
         "K": { "item": "petstore_misc", "chance": 70, "repeat": [ 2, 8 ] },
         "d": { "item": "office", "chance": 50, "repeat": [ 2, 4 ] },
-        "U": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
+        "U": { "item": "SUS_trash_dumpster", "chance": 20, "repeat": [ 2, 4 ] },
+        "B": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_loot": [
         { "group": "cash_register_random", "x": [ 11, 13 ], "y": 15 },
@@ -162,7 +163,7 @@
       ],
       "items": {
         "l": { "item": "cleaning", "chance": 30 },
-        "T": { "item": "softdrugs", "chance": 30 },
+        "T": [ { "item": "softdrugs", "chance": 30 }, { "item": "SUS_toilet", "chance": 50 } ],
         "{": { "item": "petstore_shelves", "chance": 70, "repeat": [ 2, 8 ] }
       },
       "place_monster": [
@@ -294,8 +295,8 @@
       "place_items": [
         { "chance": 55, "item": "clothing_outdoor_torso", "x": [ 5, 6 ], "y": 21 },
         { "chance": 70, "repeat": [ 1, 2 ], "item": "vet_softdrug", "x": 2, "y": [ 8, 10 ] },
-        { "chance": 55, "item": "trash", "x": 6, "y": 14 },
-        { "chance": 55, "item": "trash", "x": 12, "y": 5 },
+        { "chance": 55, "item": "SUS_trash_trashcan", "x": 6, "y": 14 },
+        { "chance": 55, "item": "SUS_trash_trashcan", "x": 12, "y": 5 },
         { "chance": 20, "item": "vet_hardrug", "x": 2, "y": 11 },
         { "chance": 85, "repeat": [ 1, 4 ], "item": "vet_utility", "x": 14, "y": 14 },
         { "chance": 85, "repeat": [ 1, 4 ], "item": "vet_utility", "x": 14, "y": 12 },

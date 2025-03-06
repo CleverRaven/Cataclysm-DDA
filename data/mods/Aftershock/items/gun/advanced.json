@@ -32,7 +32,7 @@
     "type": "GUN",
     "copy-from": "hk_g80",
     "name": "integral railgun",
-    "ammo": "metal_rail",
+    "ammo": [ "metal_rail" ],
     "skill": "rifle",
     "extend": { "flags": [ "NO_TURRET" ] },
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ] ],

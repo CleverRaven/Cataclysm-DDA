@@ -516,7 +516,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material": [ "glass", "titanium" ],
-    "copy-from": "fancy_sunglasses",
+    "copy-from": "sunglasses",
     "ammo": [ "battery" ],
     "charges_per_use": 2,
     "use_action": [

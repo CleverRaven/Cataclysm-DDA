@@ -269,24 +269,25 @@
             "id": "EOC_ARVORE_WALK_WILDS_TELEPORT_ACTION",
             "effect": [
               {
-                "if": {
-                  "u_query_tile": "line_of_sight",
-                  "target_var": { "global_val": "arvore_walk_wilds_location" },
-                  "range": {
-                    "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1.5) + 5) * (scaling_factor(u_val('perception') ) ) )" ]
-                  },
-                  "z_level": false,
-                  "message": "Select tree to step to."
+                "u_query_tile": "line_of_sight",
+                "target_var": { "context_val": "arvore_walk_wilds_location" },
+                "range": {
+                  "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1.5) + 5) * (scaling_factor(u_val('perception') ) ) )" ]
                 },
+                "z_level": false,
+                "message": "Select tree to step to."
+              },
+              {
+                "if": { "math": [ "has_var(_arvore_walk_wilds_location)" ] },
                 "then": {
                   "if": {
                     "or": [
-                      { "map_terrain_with_flag": "TREE", "loc": { "global_val": "arvore_walk_wilds_location" } },
-                      { "map_terrain_with_flag": "YOUNG", "loc": { "global_val": "arvore_walk_wilds_location" } }
+                      { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_walk_wilds_location" } },
+                      { "map_terrain_with_flag": "YOUNG", "loc": { "context_val": "arvore_walk_wilds_location" } }
                     ]
                   },
                   "then": [
-                    { "u_teleport": { "global_val": "arvore_walk_wilds_location" }, "force": true },
+                    { "u_teleport": { "context_val": "arvore_walk_wilds_location" }, "force": true },
                     { "u_message": "You step into the tree and step out of another one nearby.", "type": "neutral" }
                   ],
                   "else": { "u_message": "You must select a tree to step to." }
@@ -757,17 +758,14 @@
     "id": "EOC_ARVORE_TREE_SINGING",
     "effect": [
       {
-        "if": {
-          "u_query_tile": "around",
-          "target_var": { "global_val": "arvore_treesung_location" },
-          "message": "Select nearby tree"
-        },
-        "then": {
-          "if": { "map_terrain_with_flag": "TREE", "loc": { "global_val": "arvore_treesung_location" } },
-          "then": { "u_assign_activity": "ACT_ARVORE_TREESINGING", "duration": "45 minutes" },
-          "else": { "u_message": "You must be near a tree to treesing to it." }
-        },
-        "else": { "u_message": "Canceled" }
+        "u_choose_adjacent_highlight": { "context_val": "arvore_treesung_location" },
+        "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "loc" } },
+        "message": "Select nearby tree",
+        "failure_message": "You must be near a tree to treesing to it"
+      },
+      {
+        "if": { "math": [ "has_var(_arvore_treesung_location)" ] },
+        "then": { "u_assign_activity": "ACT_ARVORE_TREESINGING", "duration": "45 minutes" }
       }
     ]
   },

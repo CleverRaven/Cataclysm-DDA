@@ -163,7 +163,7 @@
         "                                                "
       ],
       "palettes": [ "roof_palette" ],
-      "items": { ",": { "item": "roof_trash", "chance": 5 } },
+      "items": { ",": { "item": "SUS_trash_roof", "chance": 5 } },
       "terrain": { ",": "t_shingle_flat_roof", ".": "t_flat_roof" }
     }
   }
