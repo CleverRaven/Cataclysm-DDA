@@ -19,6 +19,7 @@
 #include <utility>
 #include <cmath>
 #include <vector>
+#include <mutex>
 
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #    include <SDL2/SDL_mixer.h>
@@ -689,6 +690,14 @@ struct sound_effect_handler {
     float current_sample_index =
         0; // with respect to audio_src, in samples. for fractional indices, the output is interpolated between the two closest samples
     int loops_remaining = 0;
+    bool marked_for_termination = false;
+
+    // Because we're not allowed to call Mix_HaltChannel inside audio callbacks, slowed_time_effect() instead just adds the channel the sound is playing on to this list.
+    // whenever make_audio() is called, it will halt any channels in this list.
+    static inline std::vector < sfx::channel > channels_to_end;
+
+    // need a mutex so that make_audio() and slowed_time_effect() don't modify channels_to_end simultaneously
+    static inline std::mutex channels_to_end_mutex;
 
     ~sound_effect_handler() {
         if( owns_audio ) {
@@ -705,6 +714,7 @@ struct sound_effect_handler {
     }
 
     constexpr static float sound_speed_factor = 0.25f;
+
     // called by SDL_Mixer everytime it needs to get more audio data
     static void slowed_time_effect( int channel, void *stream, int len,
                                     void *udata ) { // we can expect this function to be called many times a second (at least 40/s from my tests)
@@ -714,63 +724,73 @@ struct sound_effect_handler {
         constexpr int bytes_per_sample = sizeof( sample ) *
                                          2; // 2 samples per ear (is there a better terminology for this?)
         cata_assert( audio_format == AUDIO_S16 );
-        cata_assert( handler->loops_remaining >= 0 );
 
-        // NOTE: strange artifacts occur if this isn't a power of two like 0.25 or 0.5.
-        float playback_speed = is_time_slowed() ? sound_speed_factor : 1;
-        int num_source_samples = handler->audio_src->alen / bytes_per_sample;
-
-        for( int dst_index = 0; dst_index < len / bytes_per_sample &&
-             handler->current_sample_index < num_source_samples; dst_index++ ) {
-            int low_index = std::floor( handler->current_sample_index );
-            int high_index = std::ceil( handler->current_sample_index );
-            if( high_index == num_source_samples ) {
-                high_index = 0;    // make sound wrap around
-            }
-
-            for( int ear_offset = 0; ear_offset < 4;
-                 ear_offset += 2 ) { // have to handle each ear seperately for stereo audio
-                sample low_value;
-                sample high_value;
-
-                if( handler->loops_remaining != -1 ) {
-                    memcpy( &low_value, static_cast<uint8_t *>( handler->audio_src->abuf ) + ear_offset + low_index *
-                            bytes_per_sample, sizeof( sample ) );
-                } else {
-                    low_value = 0;
-                }
-
-                if( handler->loops_remaining != -1 ) {
-                    memcpy( &high_value, static_cast<uint8_t *>( handler->audio_src->abuf ) + ear_offset + high_index *
-                            bytes_per_sample, sizeof( sample ) );
-                } else {
-                    high_value = 0;
-                }
-
-                // linearly interpolate between the two samples closest to the current time
-                float interpolation_factor = handler->current_sample_index - low_index;
-                sample interpolated = ( high_value - low_value ) * interpolation_factor + low_value;
-
-                memcpy( static_cast<uint8_t *>( stream ) + dst_index * bytes_per_sample + ear_offset, &interpolated,
-                        sizeof( sample ) );
-            }
-
-            handler->current_sample_index += 1.0f * playback_speed;
-            if( handler->loops_remaining >= 0 &&
-                handler->current_sample_index >= num_source_samples ) {
-                handler->loops_remaining--;
-                handler->current_sample_index = fmodf( handler->current_sample_index, num_source_samples );
+        // check if the sound effect should end bc we done looping
+        //  (note: we let the sound loop an extra time here because when handler->loops_remaining == -1,
+        //  while that means we're done SENDING audio, that doesn't mean the audio device is done PLAYING it).
+        if( !handler->marked_for_termination && handler->loops_remaining < -1 ) {
+            if( channels_to_end_mutex.try_lock() ) { // try_lock(); we do NOT want the audio thread to block
+                handler->marked_for_termination = true;
+                channels_to_end.push_back( static_cast<sfx::channel>( channel ) );
+                channels_to_end_mutex.unlock();
             }
         }
 
-        // Will this make last part of effect cut off?
-        if( handler->loops_remaining < 0 ) {
-            //handler->DEBUG = true;
-            int success = Mix_HaltChannel( channel );
-            if( success != 0 ) {
-                dbg( D_ERROR ) << "Mix_HaltChannel failed: " << Mix_GetError();
+        if( handler->marked_for_termination ) {
+            memset( stream, 0, len );
+        } else {
+            // NOTE: strange artifacts occur if this isn't a power of two like 0.25 or 0.5.
+            float playback_speed = is_time_slowed() ? sound_speed_factor : 1;
+            int num_source_samples = handler->audio_src->alen / bytes_per_sample;
+
+            for( int dst_index = 0; dst_index < len / bytes_per_sample &&
+                 handler->current_sample_index < num_source_samples; dst_index++ ) {
+                int low_index = std::floor( handler->current_sample_index );
+                int high_index = std::ceil( handler->current_sample_index );
+                if( high_index == num_source_samples ) {
+                    high_index = 0;    // make sound wrap around
+                }
+                if( low_index ==
+                    num_source_samples ) { // when time isn't slowed, low_index will probably always equal high_index and thus require the same treatment
+                    low_index = 0;
+                }
+
+                for( int ear_offset = 0; ear_offset < 4;
+                     ear_offset += 2 ) { // have to handle each ear seperately for stereo audio
+                    sample low_value;
+                    sample high_value;
+
+                    if( handler->loops_remaining > -1 ) {
+                        memcpy( &low_value, static_cast<uint8_t *>( handler->audio_src->abuf ) + ear_offset + low_index *
+                                bytes_per_sample, sizeof( sample ) );
+                    } else {
+                        low_value = 0;
+                        std::cout << "";
+                    }
+
+                    if( handler->loops_remaining > -1 ) {
+                        memcpy( &high_value, static_cast<uint8_t *>( handler->audio_src->abuf ) + ear_offset + high_index *
+                                bytes_per_sample, sizeof( sample ) );
+                    } else {
+                        high_value = 0;
+                    }
+
+                    // linearly interpolate between the two samples closest to the current time
+                    float interpolation_factor = handler->current_sample_index - low_index;
+                    sample interpolated = ( high_value - low_value ) * interpolation_factor + low_value;
+
+                    memcpy( static_cast<uint8_t *>( stream ) + dst_index * bytes_per_sample + ear_offset, &interpolated,
+                            sizeof( sample ) );
+                }
+
+                handler->current_sample_index += 1.0f * playback_speed;
+                if( handler->current_sample_index >= num_source_samples ) {
+                    handler->loops_remaining--;
+                    handler->current_sample_index = std::fmodf( handler->current_sample_index, num_source_samples );
+                }
             }
-            return;
+
+
         }
     }
 
@@ -779,6 +799,18 @@ struct sound_effect_handler {
     static bool make_audio( int audioChannel, Mix_Chunk *audio_src, int nloops, int volume,
                             bool owns_audio, const sound_effect &effect, std::optional<units::angle> angle,
                             std::optional<float> fade_in_duration ) {
+
+        // tell SDL to halt all sound effects that are done playing
+        if( channels_to_end_mutex.try_lock() ) { // no rush if we can't halt it immediately, we don't want to block
+            for( sfx::channel channel : channels_to_end ) {
+                int success = Mix_HaltChannel( static_cast<int>( channel ) );
+                if( success != 0 ) {
+                    dbg( D_ERROR ) << "Mix_HaltChannel failed: " << Mix_GetError();
+                }
+            }
+            channels_to_end.clear();
+            channels_to_end_mutex.unlock();
+        }
 
         sound_effect_handler *handler = new sound_effect_handler();
         handler->active = true;
@@ -824,10 +856,6 @@ struct sound_effect_handler {
         return failed;
     }
 };
-
-
-
-
 
 // Note: makes new Mix_Chunk, leaves s unaffected. Created mix_chunk is freed by make_audio().
 static Mix_Chunk *do_pitch_shift( const Mix_Chunk *s, float pitch )
