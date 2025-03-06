@@ -15,6 +15,7 @@
 #include <type_traits>
 #include <typeinfo>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -884,6 +885,20 @@ struct handler<std::set<T>> {
         container.insert( data );
     }
     void erase( std::set<T> &container, const T &data ) const {
+        container.erase( data );
+    }
+    static constexpr bool is_container = true;
+};
+
+template<typename T>
+struct handler<std::unordered_set<T>> {
+    void clear( std::unordered_set<T> &container ) const {
+        container.clear();
+    }
+    void insert( std::unordered_set<T> &container, const T &data ) const {
+        container.insert( data );
+    }
+    void erase( std::unordered_set<T> &container, const T &data ) const {
         container.erase( data );
     }
     static constexpr bool is_container = true;

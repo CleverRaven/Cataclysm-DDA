@@ -91,7 +91,31 @@
     "environmental_protection": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
     "flags": [ "WATER_FRIENDLY", "FIRESTARTER", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "glasses_bifocal_round",
+        "name": { "str": "pair of round bifocal glasses", "str_pl": "pairs of round bifocal glasses" },
+        "description": "This pair has rounded lenses.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "glasses_bifocal_square",
+        "name": { "str": "pair of square bifocal glasses", "str_pl": "pairs of square bifocal glasses" },
+        "description": "This pair has square lenses.",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "glasses_bifocal_aviator",
+        "name": { "str": "pair of aviator bifocal glasses", "str_pl": "pairs of aviator bifocal glasses" },
+        "description": "This pair has aviator-styled lenses.",
+        "weight": 5,
+        "append": true
+      }
+    ]
   },
   {
     "id": "glasses_eye",
@@ -109,7 +133,31 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "glasses_eye_round",
+        "name": { "str": "pair of round eyeglasses", "str_pl": "pairs of round eyeglasses" },
+        "description": "This pair has rounded lenses.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "glasses_eye_square",
+        "name": { "str": "pair of square eyeglasses", "str_pl": "pairs of square eyeglasses" },
+        "description": "This pair has square lenses.",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "glasses_eye_aviator",
+        "name": { "str": "pair of aviator eyeglasses", "str_pl": "pairs of aviator eyeglasses" },
+        "description": "This pair has aviator-styled lenses.",
+        "weight": 5,
+        "append": true
+      }
+    ]
   },
   {
     "id": "glasses_monocle",
@@ -260,7 +308,31 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 85, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+    "armor": [ { "encumbrance": 1, "coverage": 85, "covers": [ "eyes" ], "rigid_layer_only": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "sunglasses_round",
+        "name": { "str": "pair of round sunglasses", "str_pl": "pairs of round sunglasses" },
+        "description": "This pair has rounded lenses.",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "sunglasses_square",
+        "name": { "str": "pair of square sunglasses", "str_pl": "pairs of square sunglasses" },
+        "description": "This pair has square lenses.",
+        "weight": 40,
+        "append": true
+      },
+      {
+        "id": "sunglasses_aviator",
+        "name": { "str": "pair of aviators", "str_pl": "pairs of aviators" },
+        "description": "This pair has aviator-styled lenses.",
+        "weight": 10,
+        "append": true
+      }
+    ]
   },
   {
     "id": "sunglasses_bifocal",
@@ -278,7 +350,49 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "sunglasses_bifocal_round",
+        "name": { "str": "pair of round bifocal sunglasses", "str_pl": "pairs of round bifocal sunglasses" },
+        "description": "This pair has rounded lenses.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "sunglasses_bifocal_square",
+        "name": { "str": "pair of square bifocal sunglasses", "str_pl": "pairs of square bifocal sunglasses" },
+        "description": "This pair has square lenses.",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "sunglasses_bifocal_aviator",
+        "name": { "str": "pair of bifocal aviator sunglasses", "str_pl": "pairs of bifocal aviator sunglasses" },
+        "description": "This pair has aviator-styled lenses.",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "transition_bifocal_round",
+        "name": { "str": "pair of round bifocal transition glasses", "str_pl": "pairs of round bifocal transition glasses" },
+        "description": "A pair of transition bifocal glasses for those who are both near-sighted and far-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has rounded lenses.",
+        "weight": 2
+      },
+      {
+        "id": "transition_bifocal_square",
+        "name": { "str": "pair of square bifocal transition glasses", "str_pl": "pairs of square bifocal transition glasses" },
+        "description": "A pair of transition bifocal glasses for those who are both near-sighted and far-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has square lenses.",
+        "weight": 4
+      },
+      {
+        "id": "transition_bifocal_aviator",
+        "name": { "str": "pair of bifocal aviator sunglasses", "str_pl": "pairs of bifocal aviator transition glasses" },
+        "description": "A pair of transition bifocal glasses for those who are both near-sighted and far-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has aviator-styled lenses.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "sunglasses_eye",
@@ -296,7 +410,49 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "sunglasses_corrective_round",
+        "name": { "str": "pair of round corrective sunglasses", "str_pl": "pairs of round corrective sunglasses" },
+        "description": "This pair has rounded lenses.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "sunglasses_corrective_square",
+        "name": { "str": "pair of square corrective sunglasses", "str_pl": "pairs of square corrective sunglasses" },
+        "description": "This pair has square lenses.",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "sunglasses_corrective_aviator",
+        "name": { "str": "pair of corrective aviators", "str_pl": "pairs of corrective aviators" },
+        "description": "This pair has aviator-styled lenses.",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "transition_corrective_round",
+        "name": { "str": "pair of round corrective transition glasses", "str_pl": "pairs of round corrective transition glasses" },
+        "description": "A pair of transition glasses for the near-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has rounded lenses.",
+        "weight": 2
+      },
+      {
+        "id": "transition_corrective_square",
+        "name": { "str": "pair of square corrective transition glasses", "str_pl": "pairs of square corrective transition glasses" },
+        "description": "A pair of transition glasses for the near-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has square lenses.",
+        "weight": 4
+      },
+      {
+        "id": "transition_corrective_aviator",
+        "name": { "str": "pair of corrective transition aviators", "str_pl": "pairs of corrective transition aviators" },
+        "description": "A pair of transition glasses for the near-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has aviator-styled lenses.",
+        "weight": 1
+      }
+    ]
   },
   {
     "id": "sunglasses_reading",
@@ -315,61 +471,48 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
-  },
-  {
-    "id": "transition_glasses_bifocal",
-    "type": "ARMOR",
-    "name": { "str": "pair of transition bifocal glasses", "str_pl": "pairs of transition bifocal glasses" },
-    "description": "A pair of transition bifocal glasses for those who are both near-sighted and far-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
-    "weight": "30 g",
-    "volume": "250 ml",
-    "price": "275 USD",
-    "price_postapoc": "75 USD",
-    "material": [ "glass", "plastic" ],
-    "symbol": "[",
-    "looks_like": "glasses_bifocal",
-    "color": "light_gray",
-    "material_thickness": 1,
-    "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
-  },
-  {
-    "id": "transition_glasses_eye",
-    "type": "ARMOR",
-    "name": { "str": "pair of transition corrective glasses", "str_pl": "pairs of transition corrective glasses" },
-    "description": "A pair of transition glasses for the near-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
-    "weight": "30 g",
-    "volume": "250 ml",
-    "price": "275 USD",
-    "price_postapoc": "7 USD 50 cent",
-    "material": [ "glass", "plastic" ],
-    "symbol": "[",
-    "looks_like": "glasses_eye",
-    "color": "light_gray",
-    "material_thickness": 1,
-    "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FRAGILE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
-  },
-  {
-    "id": "transition_glasses_reading",
-    "type": "ARMOR",
-    "name": { "str": "pair of transition reading glasses", "str_pl": "pairs of transition reading glasses" },
-    "description": "A pair of glasses for the far-sighted.  Useless for anyone else.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
-    "ascii_picture": "glasses_reading",
-    "weight": "30 g",
-    "volume": "250 ml",
-    "price": "275 USD",
-    "price_postapoc": "50 USD",
-    "material": [ "glass", "plastic" ],
-    "symbol": "[",
-    "looks_like": "glasses_reading",
-    "color": "light_gray",
-    "material_thickness": 1,
-    "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FIX_FARSIGHT", "FRAGILE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+    "armor": [ { "coverage": 75, "covers": [ "eyes" ], "rigid_layer_only": true } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "sunglasses_reading_round",
+        "name": { "str": "pair of round reading sunglasses", "str_pl": "pairs of round reading sunglasses" },
+        "description": "This pair has rounded lenses.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "sunglasses_reading_square",
+        "name": { "str": "pair of square reading sunglasses", "str_pl": "pairs of square reading sunglasses" },
+        "description": "This pair has square lenses.",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "sunglasses_reading_aviator",
+        "name": { "str": "pair of reading aviators", "str_pl": "pairs of reading aviators" },
+        "description": "This pair has aviator-styled lenses.",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "transition_reading_round",
+        "name": { "str": "pair of round reading transition glasses", "str_pl": "pairs of round reading transition glasses" },
+        "description": "A pair of glasses for the far-sighted.  Useless for anyone else.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has rounded lenses.",
+        "weight": 2
+      },
+      {
+        "id": "transition_reading_square",
+        "name": { "str": "pair of square reading transition glasses", "str_pl": "pairs of square reading transition glasses" },
+        "description": "A pair of glasses for the far-sighted.  Useless for anyone else.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has square lenses.",
+        "weight": 4
+      },
+      {
+        "id": "transition_reading_aviator",
+        "name": { "str": "pair of reading transition aviators", "str_pl": "pairs of reading transition aviators" },
+        "description": "A pair of glasses for the far-sighted.  Useless for anyone else.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has aviator-styled lenses.",
+        "weight": 1
+      }
+    ]
   }
 ]

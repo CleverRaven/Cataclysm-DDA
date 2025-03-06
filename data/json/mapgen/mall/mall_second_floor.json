@@ -2937,7 +2937,7 @@
         ],
         "M": { "item": "glass_shop", "chance": 20, "repeat": [ 1, 2 ] }
       },
-      "place_vehicles": [ { "vehicle": "food_cart", "x": 10, "y": 10, "chance": 100, "rotation": 90 } ]
+      "place_vehicles": [ { "vehicle": "food_cart", "x": 10, "y": 10, "rotation": 90 } ]
     }
   },
   {

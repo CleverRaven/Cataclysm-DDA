@@ -617,33 +617,37 @@
     "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   },
   {
-    "id": "mon_defbot_shot",
+    "id": "mon_uica_imaginifer_police",
     "type": "MONSTER",
-    "copy-from": "mon_defbot_base",
+    "copy-from": "mon_wraitheon_imaginifer",
     "default_faction": "WraitheonRobotics",
-    "name": { "str": "Wraitheon Aegis", "str_pl": "Wraitheon Aegises" },
-    "description": "One of the many models of Wraitheon-manufactured but supposedly non-military robots, the Aegis is a bulky and heavy riot control machine with electroshock capabilities and an integrated riot shotgun.",
+    "name": { "str_sp": "UICA Imaginifer MP" },
+    "description": "A supposedly non-combat refit of Wraitheon's Imaginifer series, outfitted for crowd control and riot suppression.  This unit is outfitted with a beanbag shotgun and a taser and has been painted in the white and blue scheme of UICA's military police.",
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "shot_beanbag": 400 },
     "special_attacks": [
       {
         "type": "gun",
         "move_cost": 150,
+        "targeting_cost": 200,
+        "targeting_timeout": 2,
         "cooldown": 2,
-        "gun_type": "mossberg_930",
+        "gun_type": "afs_shotgun",
+        "condition": { "not": { "u_has_any_effect": [ "afs_weapon_disabled", "blind" ] } },
         "ammo_type": "shot_beanbag",
         "fake_skills": [ [ "gun", 2 ], [ "shotgun", 2 ] ],
         "fake_dex": 9,
         "no_ammo_sound": "click click!",
-        "ranges": [ [ 0, 8, "DEFAULT" ] ]
+        "ranges": [ [ 2, 8, "DEFAULT" ] ]
       }
     ],
     "extend": { "flags": [ "DROPS_AMMO" ] },
+    "death_drops": { "groups": [ [ "dead_imaginifer_police", 1 ] ] },
     "//": "Medium instead of heavy armor, since this is a 'non-military' robot.",
     "armor": { "bash": 15, "cut": 20, "bullet": 30, "afs_laser": 10 }
   },
   {
-    "id": "mon_milbot_556",
+    "id": "mon_wraitheon_imaginifer",
     "type": "MONSTER",
     "copy-from": "mon_milbot_base",
     "name": "Wraitheon Imaginifer",
@@ -653,15 +657,17 @@
     "speed": 95,
     "default_faction": "WraitheonRobotics",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
-    "melee_skill": 6,
-    "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
+    "melee_skill": 5,
+    "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
     "starting_ammo": { "afs_7.50mm_caseless": 90 },
     "vision_day": 50,
     "vision_night": 50,
+    "grab_strength": 50,
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 2,
+        "condition": { "not": { "u_has_any_effect": [ "afs_weapon_disabled", "blind" ] } },
         "move_cost": 150,
         "gun_type": "afs_sr77",
         "ammo_type": "afs_7.50mm_caseless",
@@ -672,19 +678,32 @@
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
-        "targeting_cost": 10,
+        "targeting_cost": 200,
+        "targeting_timeout": 2,
         "targeting_timeout_extend": -1,
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
-      }
+      },
+      { "id": "grab", "cooldown": 7 },
+      {
+        "id": "smash",
+        "throw_strength": 48,
+        "cooldown": 30,
+        "condition": { "not": { "u_has_effect": "afs_android_crawling" } }
+      },
+      { "id": "android_crush", "cooldown": 3 },
+      { "id": "leg_sweep", "cooldown": 2 }
     ],
     "extend": { "flags": [ "DROPS_AMMO" ] },
-    "armor": { "bash": 37, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
+    "broken_itype": "broken_imaginifer",
+    "death_drops": { "groups": [ [ "dead_imaginifer", 1 ] ] },
+    "armor": { "bash": 37, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 },
+    "weakpoint_sets": [ "afs_wps_robot", "afs_wps_android" ]
   },
   {
-    "id": "mon_milbot_needle",
+    "id": "mon_wraitheon_imaginifer_stealth",
     "type": "MONSTER",
-    "copy-from": "mon_milbot_556",
+    "copy-from": "mon_wraitheon_imaginifer",
     "name": "Wraitheon Hashashiyyin",
     "description": "An imaginifer variant of unorthodox design, the Hashashiyyin dispenses with most of its armor in favor of active-camo systems and a lightweight, more agile frame.  Commonly employed in scouting and counter-sniping roles.  This unit is equipped for close range ambush, and weilds a 35x50mm dart gun.",
     "diff": 15,
@@ -694,23 +713,26 @@
       {
         "type": "gun",
         "move_cost": 150,
+        "targeting_cost": 200,
+        "targeting_timeout": 2,
         "cooldown": 2,
+        "condition": { "not": { "u_has_any_effect": [ "afs_weapon_disabled", "blind" ] } },
         "gun_type": "wasp_gun",
         "ammo_type": "3x35dart",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "ranges": [ [ 0, 4, "BURST" ], [ 4, 8, "AUTO" ], [ 9, 16, "DEFAULT" ] ],
+        "ranges": [ [ 3, 6, "BURST" ], [ 7, 8, "AUTO" ], [ 9, 16, "DEFAULT" ] ],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
-        "targeting_cost": 10,
         "targeting_timeout_extend": -1,
         "targeting_sound": "\"Hostile Detected.\"",
         "targeting_volume": 10
       }
     ],
     "extend": { "flags": [ "DROPS_AMMO" ] },
+    "death_drops": { "groups": [ [ "dead_imaginifer_stealth", 1 ] ] },
     "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   },
   {
@@ -1107,9 +1129,9 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ]
   },
   {
-    "id": "mon_uica_milbot_556",
+    "id": "mon_uica_imaginifer",
     "type": "MONSTER",
-    "copy-from": "mon_milbot_556",
+    "copy-from": "mon_wraitheon_imaginifer",
     "name": "UICA Imaginifer",
     "description": "Imaginifers are Wraitheon Industries standard military humaniforms, company parlance for an android designed to seamlessly integrate into standard infantry units.  This particular unit is currently equipped with light blue UICA livery and wields a SR-P77.  Its rugged design and technological sophistication make it far more formidable than the human soldiers its nominally meant to support.\n\nThe Wraitheon humaniforms are designed to take full advantage of a humanoid shape, not to look human; programmed for game theory, not for sapience.",
     "aggression": 0,

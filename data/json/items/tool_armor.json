@@ -502,7 +502,7 @@
       "NO_UNLOAD",
       "NO_RELOAD",
       "WATER_BREAK",
-      "CALORIES_INTAKE",
+      "CALORIE_BURN",
       "ELECTRONIC"
     ],
     "symbol": "[",
@@ -525,7 +525,7 @@
     "price": "50 USD",
     "price_postapoc": "1 USD",
     "material": [ "plastic" ],
-    "flags": [ "WATCH", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "flags": [ "WATCH", "CALORIE_BURN", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
     "symbol": "[",
     "use_action": [ "FITNESS_CHECK" ],
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]

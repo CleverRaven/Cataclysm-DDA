@@ -112,10 +112,7 @@
       [ "glasses_eye", 85 ],
       [ "sunglasses_bifocal", 25 ],
       [ "sunglasses_reading", 35 ],
-      [ "sunglasses_eye", 50 ],
-      [ "transition_glasses_bifocal", 5 ],
-      [ "transition_glasses_reading", 10 ],
-      [ "transition_glasses_eye", 20 ]
+      [ "sunglasses_eye", 50 ]
     ]
   },
   {

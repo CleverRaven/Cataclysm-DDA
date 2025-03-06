@@ -30,9 +30,6 @@
           { "item": "sunglasses_eye", "prob": 15 },
           { "item": "sunglasses_reading", "prob": 10 },
           { "item": "sunglasses_bifocal", "prob": 5 },
-          { "item": "transition_glasses_eye", "prob": 9 },
-          { "item": "transition_glasses_reading", "prob": 6 },
-          { "item": "transition_glasses_bifocal", "prob": 3 },
           { "item": "sunglasses", "prob": 20 },
           {
             "collection": [
@@ -1429,7 +1426,6 @@
       { "item": "jeans", "prob": 90 },
       { "item": "jeans_ripped", "prob": 10 },
       { "item": "jeans_skinny", "prob": 20 },
-      { "item": "jeans_red", "prob": 50 },
       { "item": "shorts", "prob": 70 },
       { "item": "shorts_denim", "prob": 35 },
       { "item": "b_shorts", "prob": 30 },
@@ -3947,7 +3943,6 @@
       { "item": "jeans", "prob": 80 },
       { "item": "jeans_ripped", "prob": 7 },
       { "item": "jeans_skinny", "prob": 15 },
-      { "item": "jeans_red", "prob": 20 },
       { "item": "leg_warmers", "prob": 20 },
       { "item": "leggings", "prob": 30 },
       { "item": "legguard_hard", "prob": 3 },

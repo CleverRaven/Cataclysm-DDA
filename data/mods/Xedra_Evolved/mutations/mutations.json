@@ -151,7 +151,7 @@
     "id": "GENERIC_UNCANNY_DODGE_TRAIT",
     "name": { "str": "The Trait That Gives you Uncanny Dodge", "//~": "NO_I18N" },
     "description": {
-      "str": "The Uncanny Dodge flag only works on traits or bionics, so this is a trait for powers that grant it.",
+      "str": "The uncanny dodge flag now works in effects, but preserve this trait for conditional logic such as with lilin.",
       "//~": "NO_I18N"
     },
     "points": 1,

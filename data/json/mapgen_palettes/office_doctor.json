@@ -73,6 +73,6 @@
     },
     "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "&": {  } },
-    "vehicles": { "^": { "vehicle": "medical_cart", "chance": 100, "rotation": 0 } }
+    "vehicles": { "^": { "vehicle": "medical_cart", "rotation": 0 } }
   }
 ]
