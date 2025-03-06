@@ -24,12 +24,12 @@
         "        bbbbbbbb        ",
         "       bbBBBBBBbb       ",
         "       bWWssssWWb       ",
-        "      bbWC.@.@cWbb      ",
+        "      bbWc.@.@cWbb      ",
         "      bBs......sBb      ",
         "      bBs..WW.@sBb      ",
         "      bBs@.WW..sBb      ",
         "      bBs......sBb      ",
-        "      bBWC.@.@cWBb      ",
+        "      bBWc.@.@cWBb      ",
         "      bbWWssssWWbb      ",
         "       bbBBBBBBbb       ",
         "        bbbbbbbb        ",
@@ -52,10 +52,7 @@
         "W": "t_scrap_wall"
       },
       "furniture": { "@": "f_chair", "B": "f_barricade_road", "c": "f_crate_o", "C": "f_crate_c", "s": "f_sandbag_half" },
-      "items": {
-        "c": { "item": "ammo_rifle_common", "chance": 75, "repeat": [ 1, 4 ] },
-        "C": { "item": "ammo_pistol_common", "chance": 75, "repeat": [ 1, 4 ] }
-      },
+      "items": { "c": { "item": "ammo_common_boxed_used", "chance": 75, "repeat": [ 1, 4 ] } },
       "npcs": { "@": { "class": "raider" } }
     }
   },
@@ -81,7 +78,7 @@
         "b        Wc@..W        b",
         "b        W.WW@s        b",
         "b        s@WW.W        b",
-        "b        W..@CW        b",
+        "b        W..@cW        b",
         "b        WWWsWW        b",
         "b                      b",
         "b                      b",
@@ -105,10 +102,7 @@
         "W": "t_scrap_wall"
       },
       "furniture": { "@": "f_chair", "B": "f_barricade_road", "c": "f_crate_o", "C": "f_crate_c", "s": "f_sandbag_half" },
-      "items": {
-        "c": { "item": "ammo_rifle_common", "chance": 75, "repeat": [ 1, 4 ] },
-        "C": { "item": "ammo_pistol_common", "chance": 75, "repeat": [ 1, 4 ] }
-      },
+      "items": { "c": { "item": "ammo_common_boxed_used", "chance": 75, "repeat": [ 1, 4 ] } },
       "npcs": { "@": { "class": "raider" } }
     }
   }

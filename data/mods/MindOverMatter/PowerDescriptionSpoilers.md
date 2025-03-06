@@ -155,10 +155,21 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 <summary><h3>Combat Dance</h3></summary>
 
 *Difficulty*: 8<br />
-*Duration*: 40 seconds to 3 minutes and 20 seconds, plus 5 to 11 seconds per level<br />
+*Duration*: 40 seconds to 3 minutes and 20 seconds, plus 12 seconds to 59 seconds per level<br />
 *Stamina Cost*: 5500, minus 125 per level to a minimum of 2250<br />
 *Channeling Time*: 100 moves, minus 4 moves per level to a minimum of 40<br />
-*Effects*: Provides a myriad of combat bonuses. Move cost is reduced by 10% and recoil reduced by 30.  In addition, pain is reduced by 3% per power level, and melee damage and attack speed are increased by 2% per power level. The psion is immune to the Stunned and Dazed effects.<br />
+*Effects*: Provides a myriad of combat bonuses depending on what other biokinetic powers the psion has active. 
+- With Overcome Pain: Incoming pain is reduced by 15% plus 3% per power level
+- With Physical Enhancement: Melee damage is increased by 15% + 3.5% per power level and the stamina consumption of melee attacks is reduced by 5% plus 1.5% per power level to a maximum of 70% reduction.
+- With Burst of Speed: Move 25% further plus 3% per power level.
+- With Flexibility: Dodge skill is increased by 4, plus 1 per power level.
+- With Adrenaline Trigger: Cardio multiplier increases by 15% + 1.5% per power level.
+- With Hardened Skin: The bonues from hardened skin are increased by 50% plus 4% per power level, to a maximum of double the base bonus. Also, the psion is immune to being dazed or stunned. 
+- With Hammerhand: The psion does 25% additional bash damage with unarmed attacks, plus 3% per power level, as well as an increased chance to directly pulp the corpse of your target.
+- With Enhance Mobility: The psion gains Uncanny Dodge.
+- With Heightened Reflexes: Move cost is reduced by 10% plus 2% per power level, to a maximum of 50%, and recoil reduced by 30. In addition, the psions gains 1 bonus dodge, plus 1 per 8 power levels.
+
+<br />
 *Prerequisites*: Heightened Reflexes 10, Physical Enhancement 10, Adrenaline Trigger 9 *or* Burst of Speed 6<br />
 </details>
 <details>
@@ -1395,7 +1406,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 4000, minus 65 per level to a minimum of 1750<br />
 *Channeling Time*: 95 moves, minus 4 moves per level to a minimum of 25<br />
-*Effects*: Touch a single target and teleport them through the Nether, sending them anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Blink).<br />
+*Effects*: Touch a single target and teleport them through the Nether, sending them anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Blink). The target must be no larger than 25L in volume plus 12.5L per power level.<br />
 *Prerequisites*: Stutterstep 10, Apportation 5 <br />
 </details>
 <details>
@@ -1406,7 +1417,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 20 seconds to 3 minutes and 20 seconds plus 10 to 40 seconds per power level<br />
 *Stamina Cost*: 3500, minus 100 per level to a minimum of 1500<br />
 *Channeling Time*: 100 moves, minus 5 moves per level to a minimum of 25<br />
-*Effects*: The psion maintains a reactive shield, forcefully teleporting any entity that hits them through the nether. This effect does not prevent the damage from getting hit. The entity is sent anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Displacement).<br />
+*Effects*: The psion maintains a reactive shield, forcefully teleporting any entity that hits them through the nether. This effect does not prevent the damage from getting hit. The entity is sent anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Displacement).  The target must be no larger than 25L in volume plus 12.5L per Displacement power level (not Reactive Displacement).<br />
 *Prerequisites*: Displacement 5 <br />
 </details>
 <details>
@@ -1505,7 +1516,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 10000, minus 200 per level to a minimum of 6000<br />
 *Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75. Attunement takes 8 hours, minus 20 minutes per power level of Gateway to a minimum of 30 minutes<br />
-*Effects*: Transport yourself through the Nether to an attuned location. This power works at any distance.  You may have a number of destinations simultaneously equal to 1 + 1 per 3 levels of Gateway (2.5 levels if you have the Good Memory trait, 4 levels if you have the Forgetful trait).<br />
+*Effects*: Transport yourself through the Nether to an attuned location. This power works at any distance.  You may have a number of destinations simultaneously equal to 1 + 1 per 3 levels of Gateway (2.5 levels if you have the Good Memory trait, 4 levels if you have the Forgetful trait).  You can always teleport yourself, and can carry 10L of gear, plus 7.5L per power level.<br />
 *Prerequisites*: Farstep 10, Loci Establishment 6 <br />
 </details>
 <details>
@@ -1518,6 +1529,17 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75.<br />
 *Effects*: Transport yourself and every adjacent creature through the Nether to an attuned location. This power works at any distance. This uses locations attuned to via Gateway.<br />
 *Prerequisites*: Gateway 8, Oubliette 2 <br />
+</details>
+<details>
+<summary><h3>Flickerflash Stance</h3></summary>
+
+*Difficulty*: 9<br />
+*Target*: Self<br />
+*Duration*: 23 seconds to or 1 minute 37 seconds, plus 3.5 to 14 seconds per power level<br />
+*Stamina Cost*: 7500, minus 225 per level to a minimum of 4500<br />
+*Channeling Time*: 75 moves, minus 4 moves per level to a minimum of 25<br />
+*Effects*: Begin constantly warping space and teleporting small distances to increase your combat prowess. This provides the UNCANNY_DODGE flag, adds 1 to hit per 5 power levels, adds 5% melee damage + 3% per power level, adds 1 bonus dodge plus 1 per 4 power levels, adds a flat 15% chance to dodge any attack, adds an additional 10% plus 2.5% per power level chance to dodge ranged attacks, and a -4 penalty to perception.  In addition, there is a 33% chance when attacking or being attacked that the psion will blink to a nearby square.<br />
+*Prerequisites*: Special (must be studied from notes)<br />
 </details>
 <details>
 <summary><h3>Breach</h3></summary>

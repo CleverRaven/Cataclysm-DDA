@@ -48,10 +48,7 @@
           { "item": "livingroom", "chance": 20, "repeat": [ 1, 2 ] }
         ]
       },
-      "vehicles": {
-        "*": { "vehicle": "forklift_vehicles", "chance": 100, "rotation": 90 },
-        ")": { "vehicle": "forklift_vehicles", "chance": 100, "rotation": 90 }
-      },
+      "vehicles": { "*": { "vehicle": "forklift_vehicles", "rotation": 90 }, ")": { "vehicle": "forklift_vehicles", "rotation": 90 } },
       "place_monster": [ { "group": "GROUP_MALL", "x": [ 37, 47 ], "y": [ 14, 23 ], "repeat": [ 2, 4 ] } ]
     }
   },

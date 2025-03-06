@@ -17,6 +17,7 @@
       "practice_teleport_transpose",
       "practice_teleport_displacement",
       "practice_teleport_reactive_displacement",
+      "practice_teleport_warped_strikes",
       "practice_teleport_ephemeral_walk",
       "practice_teleport_farstep",
       "practice_teleport_collapse",
@@ -27,8 +28,8 @@
       "practice_teleport_dilated_gateway",
       "practice_teleport_relocation",
       "practice_teleport_breach",
-      "practice_teleport_reality_tear",
-      "practice_teleport_warped_strikes"
+      "practice_teleport_warper_combat",
+      "practice_teleport_reality_tear"
     ],
     "difficulty": 1
   },
@@ -1584,6 +1585,39 @@
               "u_cancel_activity"
             ]
           }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: flickerflash stance",
+    "id": "practice_teleport_warper_combat",
+    "description": "Contemplate your powers and improve your ability to enact the TURQUOISE KEYSTONE protocols while in combat.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 8,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_teleportation", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_teleportation", -1 ] ]
+    ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEPORT_WARPER_COMBAT",
+        "condition": { "math": [ "u_spell_level('teleport_warper_combat') >= 1" ] },
+        "effect": [
+          { "set_string_var": "teleport_warper_combat", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_teleportation",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty = 9" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]

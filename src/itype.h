@@ -118,11 +118,13 @@ struct islot_tool {
     //ememory transferred per second
     units::ememory etransfer_rate = 0_KB;
 
-    std::vector<int> rand_charges;
     //type of edevice connection
     std::string e_port;
     //list of edevice types NOT supported for high speed file transfer
     std::vector<std::string> e_ports_banned;
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
 };
 
 constexpr float base_metabolic_rate =
@@ -137,7 +139,6 @@ struct rot_spawn_data {
     /** Range of monsters spawned */
     std::pair<int, int> rot_spawn_monster_amount;
 
-    void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
 };
 
@@ -147,7 +148,6 @@ struct islot_comestible {
         friend item;
 
         bool was_loaded = false;
-        void load( const JsonObject &jo );
         void deserialize( const JsonObject &jo );
 
         /** subtype, e.g. FOOD, DRINK, MED */
@@ -218,9 +218,9 @@ struct islot_comestible {
         material_id primary_material =
             material_id::NULL_ID(); //TO-DO: this overrides materials and shouldn't be necessary
         //** specific heats in J/(g K) and latent heat in J/g */
-        float specific_heat_liquid = 4.186f;
-        float specific_heat_solid = 2.108f;
-        float latent_heat = 333.0f;
+        float specific_heat_liquid = 4.186f; // NOLINT(cata-serialize)
+        float specific_heat_solid = 2.108f; // NOLINT(cata-serialize)
+        float latent_heat = 333.0f; // NOLINT(cata-serialize)
 
         /** A penalty applied to fun for every time this food has been eaten in the last 48 hours */
         int monotony_penalty = -1;
@@ -259,8 +259,6 @@ struct islot_brewable {
     time_duration time = 0_turns;
 
     bool was_loaded = false;
-
-    void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
 };
 
@@ -272,8 +270,6 @@ struct islot_compostable {
     time_duration time = 0_turns;
 
     bool was_loaded = false;
-
-    void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
 };
 
@@ -454,30 +450,30 @@ struct islot_armor {
         /**
          * Whether this item has ablative pockets
          */
-        bool ablative = false;
+        bool ablative = false; // NOLINT(cata-serialize)
         /**
          * Whether this item has pockets that generate additional encumbrance
          */
-        bool additional_pocket_enc = false;
+        bool additional_pocket_enc = false; // NOLINT(cata-serialize)
         /**
          * Whether this item has pockets that can be ripped off
          */
-        bool ripoff_chance = false;
+        bool ripoff_chance = false; // NOLINT(cata-serialize)
 
         /**
          * If the entire item is rigid
          */
-        bool rigid = false;
+        bool rigid = false; // NOLINT(cata-serialize)
 
         /**
          * If the entire item is comfortable
          */
-        bool comfortable = true;
+        bool comfortable = true; // NOLINT(cata-serialize)
 
         /**
          * Whether this item has pockets that are noisy
          */
-        bool noisy = false;
+        bool noisy = false; // NOLINT(cata-serialize)
         /**
          * Whitelisted clothing mods.
          * Restricted clothing mods must be listed here by id to be compatible.
@@ -487,27 +483,25 @@ struct islot_armor {
         /**
          * If the item in question has any sub coverage when testing for encumbrance
          */
-        bool has_sub_coverage = false;
+        bool has_sub_coverage = false; // NOLINT(cata-serialize)
 
         // Layer, encumbrance and coverage information for each body part.
         // This isn't directly loaded in but is instead generated from the loaded in
         // sub_data vector
-        std::vector<armor_portion_data> data;
+        std::vector<armor_portion_data> data; // NOLINT(cata-serialize)
 
         // Layer, encumbrance and coverage information for each sub body part.
         // This vector can have duplicates for body parts themselves.
         std::vector<armor_portion_data> sub_data;
 
         // all of the layers this item is involved in
-        std::vector<layer_level> all_layers;
-
-        bool was_loaded = false;
+        std::vector<layer_level> all_layers; // NOLINT(cata-serialize)
 
         int avg_env_resist() const;
         int avg_env_resist_w_filter() const;
         float avg_thickness() const;
 
-        void load( const JsonObject &jo );
+        bool was_loaded = false;
         void deserialize( const JsonObject &jo );
 
     private:
@@ -548,8 +542,6 @@ struct islot_pet_armor {
     bool power_armor = false;
 
     bool was_loaded = false;
-
-    void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
 };
 
@@ -621,17 +613,19 @@ struct islot_book {
         std::string name() const;
     };
     using recipe_list_t = std::set<recipe_with_description_t>;
-    recipe_list_t recipes;
+    recipe_list_t recipes; // NOLINT(cata-serialize)
     std::vector<book_proficiency_bonus> proficiencies;
 
-    bool was_loaded = false;
     bool is_scannable = false;
 
-    void load( const JsonObject &jo );
+    bool was_loaded = false;
     void deserialize( const JsonObject &jo );
 };
 
 struct islot_mod {
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
+
     /** If non-empty restrict mod to items with those base (before modifiers) ammo types */
     std::set<ammotype> acceptable_ammo;
 
@@ -687,8 +681,6 @@ struct islot_engine {
         int displacement = 0;
 
         bool was_loaded = false;
-
-        void load( const JsonObject &jo );
         void deserialize( const JsonObject &jo );
 };
 
@@ -701,8 +693,6 @@ struct islot_wheel {
         int width = 0;
 
         bool was_loaded = false;
-
-        void load( const JsonObject &jo );
         void deserialize( const JsonObject &jo );
 };
 
@@ -739,7 +729,6 @@ struct itype_variant_data {
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
 struct islot_gun : common_ranged_data {
     bool was_loaded = false;
-    void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
     /**
      * What skill this gun uses.
@@ -847,9 +836,9 @@ struct islot_gun : common_ranged_data {
     /**
     *  Multiplier of the chance for the gun to jam.
     */
-    double gun_jam_mult = 1;
+    double gun_jam_mult = 1.0;
 
-    std::map<ammotype, std::set<itype_id>> cached_ammos;
+    std::map<ammotype, std::set<itype_id>> cached_ammos; // NOLINT(cata-serialize)
 
     /**
      * Used for the skullgun cbm. Hurts the bodypart by that much when fired
@@ -864,11 +853,16 @@ class gun_type_type
         std::string name_;
 
     public:
+        gun_type_type() = default;
         /// @param name The untranslated name of the gun type. Must have been extracted
         /// for translation with the context "gun_type_type".
         explicit gun_type_type( const std::string &name ) : name_( name ) {}
         /// Translated name.
         std::string name() const;
+
+        void deserialize( const JsonValue &jo ) {
+            name_ = jo.get_string();
+        }
 
         friend bool operator==( const gun_type_type &l, const gun_type_type &r ) {
             return l.name_ == r.name_;
@@ -890,6 +884,9 @@ struct hash<gun_type_type> {
 } // namespace std
 
 struct islot_gunmod : common_ranged_data {
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
+
     /** Where is this gunmod installed (e.g. "stock", "rail")? */
     gunmod_location location;
 
@@ -915,7 +912,7 @@ struct islot_gunmod : common_ranged_data {
     /**
     * This value is used to reflect other factors affecting aiming speed except Fov
     */
-    double aim_speed_modifier = 0;
+    double aim_speed_modifier = 0.0;
 
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
@@ -923,8 +920,8 @@ struct islot_gunmod : common_ranged_data {
     /** Multiplies base loudness as provided by the currently loaded ammo */
     float loudness_multiplier = 1;
 
-    /** How many moves does this gunmod take to install? */
-    int install_time = -1;
+    /** How much time does this gunmod take to install? */
+    time_duration install_time = 0_seconds;
 
     /** Increases base gun energy consumption by this many times per shot */
     float energy_drain_multiplier = 1.0f;
@@ -998,6 +995,9 @@ struct islot_gunmod : common_ranged_data {
 };
 
 struct islot_magazine {
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
+
     /** What type of ammo this magazine can be loaded with */
     std::set<ammotype> type;
 
@@ -1014,12 +1014,12 @@ struct islot_magazine {
     int reload_time = 100;
 
     /** Multiplier for the gun jamming from physical damage */
-    double mag_jam_mult = 1 ;
+    double mag_jam_mult = 1.0 ;
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
     std::optional<itype_id> linkage;
 
-    std::map<ammotype, std::set<itype_id>> cached_ammos;
+    std::map<ammotype, std::set<itype_id>> cached_ammos; // NOLINT(cata-serialize)
     /** Map of [magazine type id] -> [set of gun itype_ids that accept the mag type ] */
     static std::map<itype_id, std::set<itype_id>> compatible_guns;
 };
@@ -1029,8 +1029,6 @@ struct islot_battery {
     units::energy max_capacity;
 
     bool was_loaded = false;
-
-    void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
 };
 
@@ -1058,6 +1056,12 @@ struct islot_ammo : common_ranged_data {
      * Default charges.
      */
     int def_charges = 1;
+
+    /**
+    * Number of items per above volume for @ref count_by_charges items;
+    * Overwrites generic item stack_size in finalize_pre()
+    */
+    int stack_size = 0;
 
     /**
      * Number of projectiles fired per round, e.g. shotgun shot.
@@ -1093,14 +1097,14 @@ struct islot_ammo : common_ranged_data {
      * This value is cached by item_factory based on ammo_effects and item material.
      * @warning It is not read from the json directly.
      */
-    bool cookoff = false;
+    bool cookoff = false; // NOLINT(cata-serialize)
 
     /**
      * Should this ammo apply a special explosion effect when in fire?
      * This value is cached by item_factory based on ammo_effects and item material.
      * @warning It is not read from the json directly.
      * */
-    bool special_cookoff = false;
+    bool special_cookoff = false; // NOLINT(cata-serialize)
 
     /**
      * The damage multiplier to apply after a critical hit.
@@ -1121,11 +1125,12 @@ struct islot_ammo : common_ranged_data {
     bool was_loaded = false;
 
     int dispersion_considering_length( units::length barrel_length ) const;
-    void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
 };
 
 struct islot_bionic {
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
     /**
      * Arbitrary difficulty scale, see bionics.cpp for its usage.
      */
@@ -1133,7 +1138,7 @@ struct islot_bionic {
     /**
      * Id of the bionic, see bionics.cpp for its usage.
      */
-    bionic_id id;
+    bionic_id id; // NOLINT(cata-serialize)
     /**
      * Whether this CBM is an upgrade of another.
      */
@@ -1148,8 +1153,6 @@ struct islot_bionic {
 struct islot_seed {
     // Generic factory stuff
     bool was_loaded = false;
-
-    void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
 
     /**
@@ -1167,15 +1170,15 @@ struct islot_seed {
     /**
      * What the plant sprouts into. Defaults to f_plant_seedling.
      */
-    furn_str_id seedling_form;
+    furn_str_id seedling_form; // NOLINT(cata-serialize)
     /**
      * What the plant grows into. Defaults to f_plant_mature.
      */
-    furn_str_id mature_form;
+    furn_str_id mature_form; // NOLINT(cata-serialize)
     /**
      * The plant's final growth stage. Defaults to f_plant_harvest.
      */
-    furn_str_id harvestable_form;
+    furn_str_id harvestable_form; // NOLINT(cata-serialize)
     /**
      * Type id of the fruit item.
      */
@@ -1230,8 +1233,6 @@ class islot_milling
         recipe_id recipe_;
 
         bool was_loaded = false;
-
-        void load( const JsonObject &jo );
         void deserialize( const JsonObject &jo );
 };
 

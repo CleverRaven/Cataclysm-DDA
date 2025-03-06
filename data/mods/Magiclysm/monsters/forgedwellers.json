@@ -42,7 +42,10 @@
     "aggression": 0,
     "aggro_character": false,
     "description": "A goblin like none you've ever seen before.  He directs workers and automatons with confidence and style.",
-    "death_drops": { "subtype": "collection", "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ] },
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo_common_loose", 18 ] ]
+    },
     "armor": { "heat": 40 }
   },
   {
@@ -56,7 +59,10 @@
     "aggro_character": false,
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "laze" }, "cooldown": 10 }, [ "scratch", 5 ] ],
-    "death_drops": { "subtype": "collection", "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ] },
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo_common_loose", 18 ] ]
+    },
     "armor": { "bash": 2, "cut": 12, "stab": 6, "bullet": 10, "heat": 40 }
   },
   {
@@ -69,7 +75,10 @@
     "aggro_character": false,
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "eshaper_shardspray", "min_level": 5 }, "cooldown": 10 } ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
-    "death_drops": { "subtype": "collection", "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ] },
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo_common_loose", 18 ] ]
+    },
     "armor": { "electric": 1, "heat": 40 }
   },
   {
@@ -174,7 +183,10 @@
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "path_settings": { "avoid_traps": true, "avoid_sharp": true, "avoid_dangerous_fields": true },
-    "death_drops": { "subtype": "collection", "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ] },
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo_common_loose", 18 ] ]
+    },
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "HUMAN", "PATH_AVOID_DANGER", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 23, "cut": 32, "heat": 35, "bullet": 26 }
   },

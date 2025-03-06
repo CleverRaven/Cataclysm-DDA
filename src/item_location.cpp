@@ -305,7 +305,7 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         units::mass weight_capacity() const override {
-            return units::mass_max;
+            return units::mass::max();
         }
 
         bool check_parent_capacity_recursive() const override {
@@ -468,11 +468,11 @@ class item_location::impl::item_on_person : public item_location::impl
         }
 
         units::volume volume_capacity() const override {
-            return units::volume_max;
+            return units::volume::max();
         }
 
         units::mass weight_capacity() const override {
-            return units::mass_max;
+            return units::mass::max();
         }
 
         bool check_parent_capacity_recursive() const override {
@@ -595,7 +595,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         units::mass weight_capacity() const override {
-            return units::mass_max;
+            return units::mass::max();
         }
 
         bool check_parent_capacity_recursive() const override {
