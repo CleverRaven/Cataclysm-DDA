@@ -5316,17 +5316,6 @@ const std::vector<const itype *> &Item_factory::all() const
     return templates_all_cache;
 }
 
-std::vector<const itype *> Item_factory::get_runtime_types() const
-{
-    std::vector<const itype *> res;
-    res.reserve( m_runtimes.size() );
-    for( const auto &e : m_runtimes ) {
-        res.push_back( e.second.get() );
-    }
-
-    return res;
-}
-
 /** Find all templates matching the UnaryPredicate function */
 std::vector<const itype *> Item_factory::find( const std::function<bool( const itype & )> &func )
 {

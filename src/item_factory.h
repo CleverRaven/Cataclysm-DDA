@@ -263,9 +263,6 @@ class Item_factory
         /** Get all item templates (both static and runtime) */
         const std::vector<const itype *> &all() const;
 
-        /** Get item types created at runtime. */
-        std::vector<const itype *> get_runtime_types() const;
-
         /** Find all item templates (both static and runtime) matching UnaryPredicate function */
         static std::vector<const itype *> find( const std::function<bool( const itype & )> &func );
 
