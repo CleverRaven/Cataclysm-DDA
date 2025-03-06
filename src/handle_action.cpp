@@ -87,7 +87,7 @@
 #include "timed_event.h"
 #include "translation.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
@@ -1718,12 +1718,17 @@ static void read()
     }
 }
 
-// Perform a reach attach using wielded weapon
+// Perform a reach attack
 static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
 
-    target_handler::trajectory traj = target_handler::mode_reach( you, you.get_wielded_item() );
+    target_handler::trajectory traj;
+    if( you.get_wielded_item() ) {
+        traj = target_handler::mode_reach( you, you.get_wielded_item() );
+    } else {
+        traj = target_handler::mode_unarmed_reach( you );
+    }
 
     if( !traj.empty() ) {
         you.reach_attack( traj.back() );
@@ -1749,6 +1754,12 @@ static void fire()
     const item_location weapon = you.get_wielded_item();
     // try reach weapon
     if( weapon && !weapon->is_gun() && weapon->current_reach_range( you ) > 1 ) {
+        reach_attack( you );
+        return;
+    }
+    if( !weapon &&
+        static_cast<int>( you.calculate_by_enchantment( 1,
+                          enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) > 1 ) {
         reach_attack( you );
         return;
     }
@@ -2583,9 +2594,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             read();
             break;
 
-        case ACTION_WIELD:
-            wield();
+        case ACTION_WIELD: {
+            item_location loc = game_menus::inv::wield();
+            if( loc ) {
+                player_character.wield( loc );
+            }
             break;
+        }
 
         case ACTION_PICK_STYLE:
             player_character.martial_arts_data->pick_style( player_character );

@@ -114,9 +114,24 @@
     "durability": 300,
     "type": "vehicle_part",
     "item": "i1_diesel",
+    "description": "A single-cylinder diesel engine.",
     "epower": "-200 W",
-    "power": "93250 W",
-    "description": "A single-cylinder diesel engine."
+    "power": "23300 W",
+    "energy_consumption": "58200 W",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 10, 20 ] },
+      { "item": "steel_chunk", "count": [ 10, 20 ] },
+      { "item": "scrap", "count": [ 10, 20 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 1 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    }
   },
   {
     "id": "diesel_engine_v6",

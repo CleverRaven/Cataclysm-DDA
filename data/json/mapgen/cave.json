@@ -515,7 +515,7 @@
       ],
       "terrain": { ".": "t_soil", ",": "t_dirt_underground", ">": "t_slope_up" },
       "furniture": {  },
-      "items": { "~": [ { "item": "monparts", "chance": 2 }, { "item": "trash_forest", "chance": 2 } ] }
+      "items": { "~": [ { "item": "monparts", "chance": 2 }, { "item": "SUS_trash_forest_no_manmade", "chance": 2 } ] }
     }
   },
   {

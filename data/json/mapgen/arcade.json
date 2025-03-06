@@ -51,6 +51,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": { "c": "f_counter", "F": "f_arcade_machine", "S": "f_sink", "B": "f_stool", "T": "f_locker", "x": "f_pinball_machine" },
+      "items": { "%": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "%": {  } },
       "vendingmachines": { "l": { "item_group": "vending_drink", "lootable": true }, "m": { "item_group": "vending_food", "lootable": true } },
       "place_items": [
@@ -94,7 +95,7 @@
       ],
       "palettes": [ "roof_palette" ],
       "place_items": [
-        { "item": "roof_trash", "x": [ 3, 20 ], "y": [ 11, 18 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_roof", "x": [ 3, 20 ], "y": [ 11, 18 ], "chance": 50, "repeat": [ 1, 3 ] },
         { "item": "child_items", "x": [ 3, 20 ], "y": [ 11, 18 ], "chance": 50, "repeat": [ 1, 3 ] }
       ],
       "place_nested": [

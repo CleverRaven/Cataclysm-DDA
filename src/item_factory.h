@@ -315,12 +315,8 @@ class Item_factory
                                  std::string_view member, const std::string &src );
 
         void load( islot_tool &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_comestible &slot, const JsonObject &jo, const std::string &src );
         void load( islot_mod &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_gun &slot, const JsonObject &jo, const std::string &src );
         void load( islot_gunmod &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_magazine &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_bionic &slot, const JsonObject &jo, const std::string &src );
         void load( relic &slot, const JsonObject &jo, std::string_view src );
 
         //json data handlers

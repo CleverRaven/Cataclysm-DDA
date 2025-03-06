@@ -62,7 +62,7 @@
         { "item": "snacks", "x": 18, "y": 11, "chance": 15 },
         { "item": "snacks", "x": 5, "y": 7, "chance": 15 },
         { "item": "smoke_shop", "x": 18, "y": 14, "chance": 5 },
-        { "item": "bar_trash", "x": 11, "y": [ 14, 15 ], "chance": 30 },
+        { "item": "SUS_trash_trashcan", "x": 11, "y": [ 14, 15 ], "chance": 30 },
         { "item": "alcohol", "x": 14, "y": 14, "chance": 10 }
       ]
     }
@@ -150,8 +150,8 @@
       "place_items": [
         { "item": "snacks", "x": 5, "y": 18, "chance": 25 },
         { "item": "snacks", "x": 15, "y": 15, "chance": 25 },
-        { "item": "bar_trash", "x": 14, "y": 7, "chance": 30 },
-        { "item": "bar_trash", "x": 6, "y": 2, "chance": 30 }
+        { "item": "SUS_trash_floor", "x": 14, "y": 7, "chance": 30 },
+        { "item": "SUS_trash_floor", "x": 6, "y": 2, "chance": 30 }
       ],
       "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": [ 3, 20 ], "y": [ 7, 8 ], "chance": 3 } ]
     }

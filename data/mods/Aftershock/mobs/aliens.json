@@ -166,7 +166,7 @@
       "PUSH_MON",
       "PUSH_VEH"
     ],
-    "armor": { "bash": 15, "electric": 3 }
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   },
   {
     "id": "afs_runner",
@@ -179,7 +179,7 @@
     "species": [ "MAMMAL" ],
     "volume": "386000 ml",
     "weight": "386 kg",
-    "hp": 120,
+    "hp": 40,
     "speed": 200,
     "material": [ "flesh" ],
     "symbol": "H",
@@ -193,8 +193,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "harvest": "alien_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ],
-    "armor": { "bash": 4, "cut": 1, "bullet": 1 }
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]
   },
   {
     "id": "afs_grazer",
@@ -225,8 +224,7 @@
     "baby_flags": [ "AUTUMN" ],
     "harvest": "alien_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "ATTACKMON" ],
-    "armor": { "bash": 4, "cut": 1, "bullet": 1 }
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "ATTACKMON" ]
   },
   {
     "id": "afs_mon_hevel",
@@ -269,7 +267,7 @@
     "species": [ "MAMMAL" ],
     "volume": "26625 ml",
     "weight": "26625 g",
-    "hp": 100,
+    "hp": 300,
     "speed": 165,
     "material": [ "flesh" ],
     "symbol": "v",
@@ -285,7 +283,7 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE" ],
-    "armor": { "bash": 1 }
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   },
   {
     "type": "MONSTER",
@@ -307,7 +305,7 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
-    "hp": 60,
+    "hp": 150,
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, { "type": "bite", "cooldown": 10 } ],
     "description": "A tall bird with two long, muscular legs, a long neck, and a long sharp beak.",
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "GRABS", "KEENNOSE", "WARM", "HIT_AND_RUN" ],
@@ -316,6 +314,6 @@
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE", "FRIEND_DIED" ],
     "categories": [ "WILDLIFE" ],
-    "armor": { "bash": 1, "cut": 1 }
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   }
 ]

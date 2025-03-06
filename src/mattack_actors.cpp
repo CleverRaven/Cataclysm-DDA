@@ -355,25 +355,11 @@ void grab::load_grab( const JsonObject &jo )
     was_loaded = true;
 }
 
-melee_actor::melee_actor()
-{
-    damage_max_instance = damage_instance();
-    // FIXME: Hardcoded damage type
-    damage_max_instance.add_damage( damage_bash, 9 );
-    min_mul = 0.5f;
-    max_mul = 1.0f;
-    move_cost = 100;
-}
-
 void melee_actor::load_internal( const JsonObject &obj, const std::string & )
 {
     // Optional:
-    if( obj.has_array( "damage_max_instance" ) ) {
-        damage_max_instance = load_damage_instance( obj.get_array( "damage_max_instance" ) );
-    } else if( obj.has_object( "damage_max_instance" ) ) {
-        damage_max_instance = load_damage_instance( obj );
-    }
-
+    optional( obj, was_loaded, "damage_max_instance", damage_max_instance,
+              damage_instance( damage_bash, 9 ) ); // FIXME: Hardcoded damage type
     optional( obj, was_loaded, "accuracy", accuracy, INT_MIN );
     optional( obj, was_loaded, "min_mul", min_mul, 0.5f );
     optional( obj, was_loaded, "max_mul", max_mul, 1.0f );

@@ -74,7 +74,11 @@
         { "item": "stash_drugs", "chance": 1 },
         { "item": "maps", "chance": 4 }
       ],
-      ".": [ { "item": "allsporting", "chance": 1 }, { "item": "laundry", "chance": 1 }, { "item": "trash", "chance": 1 } ]
+      ".": [
+        { "item": "allsporting", "chance": 1 },
+        { "item": "laundry", "chance": 1 },
+        { "item": "SUS_trash_floor", "chance": 1 }
+      ]
     },
     "monster": { ".": { "group": "GROUP_SEWER", "chance": 1 } }
   }

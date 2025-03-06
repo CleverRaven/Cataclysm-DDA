@@ -927,11 +927,12 @@ static void reload_a_revolver( Character &dummy, item &gun, item &ammo )
 {
     if( !dummy.is_wielding( gun ) ) {
         if( dummy.has_weapon() ) {
-            // to avoid dispose_option in player::unwield()
+            // to avoid dispose_option in avatar::unwield()
             dummy.i_add( *dummy.get_wielded_item() );
             dummy.remove_weapon();
         }
-        dummy.wield( gun );
+        bool success = dummy.wield( gun );
+        REQUIRE( success );
     }
     while( dummy.get_wielded_item()->remaining_ammo_capacity() > 0 ) {
         g->reload_weapon( false );
@@ -939,8 +940,8 @@ static void reload_a_revolver( Character &dummy, item &gun, item &ammo )
         process_activity( dummy );
         CAPTURE( dummy.get_wielded_item()->typeId() );
         CAPTURE( ammo.typeId() );
-        CHECK( !dummy.get_wielded_item()->empty() );
-        CHECK( dummy.get_wielded_item()->ammo_current() == ammo.type->get_id() );
+        REQUIRE( !dummy.get_wielded_item()->empty() );
+        REQUIRE( dummy.get_wielded_item()->ammo_current() == ammo.type->get_id() );
     }
 }
 
@@ -972,6 +973,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
         WHEN( "the player triggers auto reload until the revolver is full" ) {
             reload_a_revolver( dummy, *dummy.get_wielded_item(), *ammo );
+            REQUIRE( dummy.find_reloadables().empty() );
             WHEN( "the player triggers auto reload again" ) {
                 g->reload_weapon( false );
                 THEN( "no activity is generated" ) {
@@ -982,14 +984,44 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         GIVEN( "the player has another gun with ammo" ) {
             item_location gun2 = dummy.i_add( item( itype_sw_610, calendar::turn_zero, 0 ) );
             REQUIRE( gun2->ammo_remaining( ) == 0 );
-            REQUIRE( gun2.can_reload_with( ammo, false ) );
+            REQUIRE( ammo->charges >= gun2->ammo_capacity( ammo->ammo_type() ) );
+            REQUIRE( dummy.find_reloadables().size() == 2 );
             WHEN( "the player triggers auto reload until the first revolver is full" ) {
                 reload_a_revolver( dummy, *dummy.get_wielded_item(), *ammo );
+
+                THEN( "the first (wielded) revolver is full" ) {
+                    CHECK( dummy.get_wielded_item()->is_container_full() );
+                }
+                THEN( "one unloaded revolver remains" ) {
+                    CHECK( dummy.find_reloadables().size() == 1 );
+                }
+                THEN( "no activity is generated" ) {
+                    CHECK( !dummy.activity );
+                }
                 WHEN( "the player triggers auto reload until the second revolver is full" ) {
                     reload_a_revolver( dummy, *gun2, *ammo );
-                    WHEN( "the player triggers auto reload again" ) {
+
+                    THEN( "the second revolver is full" ) {
+                        CHECK( dummy.get_wielded_item()->is_container_full() );
+
+                    }
+                    THEN( "there are no more reloadables" ) {
+                        for( const item_location &it : dummy.find_reloadables() ) {
+                            CAPTURE( it.where() );
+                        }
+                        CHECK( dummy.find_reloadables().empty() );
+                    }
+                    THEN( "no activity is generated" ) {
+                        CAPTURE( dummy.activity.id() );
+                        CHECK( !dummy.activity );
+                    }
+                    WHEN( "the player triggers auto reload again with no reloadables" ) {
+                        CAPTURE( dummy.get_wielded_item()->ammo_remaining( ) );
+                        REQUIRE( dummy.find_reloadables().empty() );
+
                         g->reload_weapon( false );
                         THEN( "no activity is generated" ) {
+                            CAPTURE( dummy.activity.id() );
                             CHECK( !dummy.activity );
                         }
                     }

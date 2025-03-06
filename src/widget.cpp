@@ -278,7 +278,7 @@ std::string enum_to_string<bodypart_status>( bodypart_status stat )
         case bodypart_status::BITTEN:
             return "bitten";
         case bodypart_status::INFECTED:
-            return "infected";
+            return "septic";
         case bodypart_status::BROKEN:
             return "broken";
         case bodypart_status::SPLINTED:

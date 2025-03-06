@@ -704,7 +704,7 @@ struct sound_effect_handler {
             free( audio_src );
         }
     }
-
+  
     // called when sound effect is halted by SDL_Mixer; destroys the sound_effect_handler associated with this sound
     static void on_finish( int /* chan */, void *udata ) {
         sound_effect_handler *handler = static_cast<sound_effect_handler *>( udata );
@@ -856,10 +856,6 @@ struct sound_effect_handler {
     }
 };
 
-
-
-
-
 // Note: makes new Mix_Chunk, leaves s unaffected. Created mix_chunk is freed by make_audio().
 static Mix_Chunk *do_pitch_shift( const Mix_Chunk *s, float pitch )
 {
@@ -1008,8 +1004,9 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
 
     volume = selected_sound_effect.volume * get_option<int>( "AMBIENT_SOUND_VOLUME" ) * volume /
              ( 100 * 100 );
-    bool failed = sound_effect_handler::make_audio( static_cast<int>( channel ), effect_to_play, loops,
-                  volume, destroy_sound, selected_sound_effect, std::nullopt, fade_in_duration );
+    bool failed = sound_effect_handler::make_audio( static_cast<int>( channel ), effect_to_play, loops
+           volume, destroy_sound, selected_sound_effect, std::nullopt,
+           static_cast<float>( fade_in_duration ) );
 
     if( failed ) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError() << " id:" << id

@@ -144,6 +144,22 @@
     "melee_damage": { "bash": 6 }
   },
   {
+    "id": "changeling_dreamspark",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "dreamspark" },
+    "description": "The extracted essence of human dreams, used to fuel fae magicks.",
+    "weight": "0 g",
+    "volume": "1 ml",
+    "price": "0 USD",
+    "price_postapoc": "0 cent",
+    "material": [ "dreamstuff" ],
+    "symbol": "*",
+    "color": "cyan",
+    "melee_damage": { "bash": 6 },
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT", "NO_DROP" ]
+  },
+  {
     "type": "GENERIC",
     "id": "tanned_glimmer_pelt",
     "symbol": ",",

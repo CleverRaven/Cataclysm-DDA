@@ -502,7 +502,7 @@
       "NO_UNLOAD",
       "NO_RELOAD",
       "WATER_BREAK",
-      "CALORIES_INTAKE",
+      "CALORIE_BURN",
       "ELECTRONIC"
     ],
     "symbol": "[",
@@ -525,7 +525,7 @@
     "price": "50 USD",
     "price_postapoc": "1 USD",
     "material": [ "plastic" ],
-    "flags": [ "WATCH", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "flags": [ "WATCH", "CALORIE_BURN", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
     "symbol": "[",
     "use_action": [ "FITNESS_CHECK" ],
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
@@ -1138,7 +1138,8 @@
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0
+        "weight_multiplier": 0,
+        "ememory_max": "1 TB"
       }
     ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ] } ],
@@ -3671,7 +3672,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "military flight helmet" },
-    "description": "A military flight helmet.  Equipped with a visor, microphone, and noise dampening system.  The helmet is also fitted with plastic rails to allow for different load-outs.",
+    "description": "A military flight helmet.  Equipped with a visor, microphone, and noise dampening system.  The helmet is also fitted with plastic rail for a night-vision attachment.",
     "weight": "1324 g",
     "volume": "2 L",
     "price": "500 USD",
@@ -3689,7 +3690,7 @@
     "material_thickness": 5,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY", "DEAF", "SUN_GLASSES", "PADDED" ],
+    "flags": [ "VARSIZE", "STURDY", "DEAF", "SUN_GLASSES", "PADDED", "MODULE_HOLDER" ],
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -3706,35 +3707,30 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "moves": 250,
+        "description": "Pocket for a front night vision attachment.",
+        "flag_restriction": [ "HELMET_FRONT_ATTACHMENT" ],
+        "inherits_flags": false
       }
-    ],
-    "melee_damage": { "bash": 6 }
+    ]
   },
   {
     "id": "flight_helmet_on",
+    "copy-from": "flight_helmet",
     "type": "TOOL_ARMOR",
-    "category": "armor",
     "name": { "str": "military flight helmet (on)", "str_pl": "military flight helmets (on)" },
-    "description": "A military flight helmet with various LED devices blinking periodically.  Equipped with a visor, microphone, and noise dampening system.  The helmet is also fitted with plastic rails to allow for different load-outs.",
-    "weight": "1324 g",
-    "volume": "2 L",
-    "price": "500 USD",
-    "price_postapoc": "10 USD",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "uneven" },
-    "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "dark_gray",
-    "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5, "layers": [ "OUTER" ] }
-    ],
-    "warmth": 15,
-    "material_thickness": 5,
-    "environmental_protection": 2,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES", "TWO_WAY_RADIO", "PADDED" ],
-    "charges_per_use": 1,
+    "extend": { "flags": [ "PARTIAL_DEAF", "TWO_WAY_RADIO" ] },
+    "delete": { "flags": [ "DEAF" ] },
     "ammo": "battery",
     "power_draw": "60 mW",
     "revert_to": "flight_helmet",
@@ -3744,16 +3740,7 @@
       "menu_text": "Turn off",
       "msg": "The %s flicks off.",
       "target": "flight_helmet"
-    },
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ],
-    "melee_damage": { "bash": 6 }
+    }
   },
   {
     "type": "TOOL_ARMOR",

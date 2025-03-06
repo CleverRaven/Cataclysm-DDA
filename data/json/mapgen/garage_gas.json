@@ -69,13 +69,14 @@
         "S": "f_sink"
       },
       "gaspumps": { "&": {  } },
+      "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "t": {  } },
       "vendingmachines": { "L": { "item_group": "vending_drink", "lootable": true }, "l": { "item_group": "vending_food", "lootable": true } },
       "place_loot": [
         { "group": "magazines", "x": 26, "y": 10, "chance": 80, "repeat": [ 4, 12 ] },
         { "group": "magazines", "x": 26, "y": 13, "chance": 80, "repeat": [ 4, 12 ] },
-        { "group": "floor_trash", "x": 24, "y": 10, "chance": 90, "repeat": [ 1, 4 ] },
-        { "group": "floor_trash", "x": 24, "y": 13, "chance": 90, "repeat": [ 1, 4 ] },
+        { "group": "SUS_trash_floor", "x": 24, "y": 10, "chance": 90, "repeat": [ 1, 4 ] },
+        { "group": "SUS_trash_floor", "x": 24, "y": 13, "chance": 90, "repeat": [ 1, 4 ] },
         { "group": "alcohol", "x": 26, "y": 20, "chance": 60, "repeat": [ 1, 3 ] },
         { "group": "snacks", "x": 26, "y": 8, "chance": 80, "repeat": [ 2, 8 ] },
         { "group": "alcohol", "x": [ 27, 31 ], "y": 20, "chance": 75, "repeat": [ 1, 2 ] },

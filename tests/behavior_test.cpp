@@ -14,6 +14,7 @@
 #include "character_oracle.h"
 #include "coordinates.h"
 #include "item.h"
+#include "item_group.h"
 #include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -41,7 +42,7 @@ static const itype_id itype_lighter( "lighter" );
 static const itype_id itype_pencil( "pencil" );
 static const itype_id itype_sandwich_cheese_grilled( "sandwich_cheese_grilled" );
 static const itype_id itype_sweater( "sweater" );
-static const itype_id itype_water( "water" );
+static const itype_id itype_water_clean( "water_clean" );
 
 static const nested_mapgen_id nested_mapgen_test_seedling( "test_seedling" );
 
@@ -211,10 +212,19 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
     SECTION( "Thirsty" ) {
+        item_group_id grp_bottle_water( "test_bottle_water" );
+        const item_group::ItemList items = item_group::items_from( grp_bottle_water );
+
+        // make sure only water bottles are in this group
+        REQUIRE( items.size() == 1 );
+        REQUIRE( item_group::group_contains_item( grp_bottle_water, itype_water_clean ) );
+
         test_npc.set_thirst( 700 );
         REQUIRE( oracle.needs_water_badly( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
-        item_location water = test_npc.i_add( item( itype_water ) );
+
+        item_location water = test_npc.i_add( items.front() );
+
         REQUIRE( oracle.has_water( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "drink_water" );
         water.remove_item();

@@ -200,7 +200,7 @@
     "max_level": 1,
     "shape": "blast",
     "difficulty": 8,
-    "components": "spell_components_dreamdross_2",
+    "components": "spell_components_changeling_dreamsparks_2",
     "effect": "effect_on_condition",
     "effect_str": "EOC_CHANGELING_SPRING_HEALING_INCREASE_WHILE_OUTSIDE_INITIATE",
     "min_range": 10,

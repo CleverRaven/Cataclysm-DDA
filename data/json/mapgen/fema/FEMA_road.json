@@ -1,0 +1,47 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "fema_road_straight",
+    "object": {
+      "fill_ter": "t_railroad_rubble",
+      "place_vehicles": [ { "vehicle": "industrial_transport", "x": 11, "y": 13, "chance": 10, "rotation": [ 90, 270 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "fema_road_end",
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "place_vehicles": [ { "vehicle": "industrial_transport", "x": 11, "y": 13, "chance": 10, "rotation": [ 90, 270 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "fema_road_curved",
+    "object": {
+      "fill_ter": "t_railroad_rubble",
+      "place_vehicles": [ { "vehicle": "industrial_transport", "x": 11, "y": 13, "chance": 10, "rotation": [ 90, 270 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "fema_road_tee",
+    "object": {
+      "fill_ter": "t_railroad_rubble",
+      "place_vehicles": [ { "vehicle": "industrial_transport", "x": 11, "y": 13, "chance": 10, "rotation": [ 90, 270 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "fema_road_four_way",
+    "object": {
+      "fill_ter": "t_railroad_rubble",
+      "place_vehicles": [ { "vehicle": "industrial_transport", "x": 11, "y": 13, "chance": 10, "rotation": [ 90, 270 ] } ]
+    }
+  }
+]

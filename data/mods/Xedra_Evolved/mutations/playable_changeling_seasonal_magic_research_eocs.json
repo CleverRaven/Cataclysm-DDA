@@ -1,7 +1,7 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_CHANGELINPG_GRANT_INITIAL_SEASONAL_MAGIC",
+    "id": "EOC_CHANGELING_GRANT_INITIAL_SEASONAL_MAGIC",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
     "condition": {
@@ -43,6 +43,8 @@
     "condition": { "not": { "u_has_any_trait": [ "CHANGELING_COURT_SUMMER", "CHANGELING_COURT_WINTER" ] } },
     "effect": [
       { "u_add_trait": "CHANGELING_COURT_SUMMER" },
+      { "u_add_trait": "CHANGELING_DREAMSPARK_STORAGE_10" },
+      { "math": [ "u_maximum_dreamdross_storage_value = 10" ] },
       {
         "run_eoc_selector": [ "EOC_PICK_CHANGELING_SPRING_MAGIC", "EOC_PICK_CHANGELING_SUMMER_MAGIC" ],
         "title": "Choose the path of your magick.",
@@ -83,6 +85,8 @@
     "condition": { "not": { "u_has_any_trait": [ "CHANGELING_COURT_SUMMER", "CHANGELING_COURT_WINTER" ] } },
     "effect": [
       { "u_add_trait": "CHANGELING_COURT_WINTER" },
+      { "u_add_trait": "CHANGELING_DREAMSPARK_STORAGE_10" },
+      { "math": [ "u_maximum_dreamdross_storage_value = 10" ] },
       {
         "run_eoc_selector": [ "EOC_PICK_CHANGELING_AUTUMN_MAGIC", "EOC_PICK_CHANGELING_WINTER_MAGIC" ],
         "title": "Choose the path of your magick.",
@@ -123,7 +127,8 @@
     "condition": { "not": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_SPRING" } },
     "effect": [
       { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_SPRING" },
-      { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] }
+      { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] },
+      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] }
     ]
   },
   {
@@ -132,7 +137,8 @@
     "condition": { "not": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_SUMMER" } },
     "effect": [
       { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_SUMMER" },
-      { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] }
+      { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] },
+      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] }
     ]
   },
   {
@@ -141,16 +147,18 @@
     "condition": { "not": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_AUTUMN" } },
     "effect": [
       { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_AUTUMN" },
-      { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] }
+      { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] },
+      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PICK_CHANGELING_WINTER_MAGIC",
-    "condition": { "not": { "u_has_trait": "EOC_PICK_CHANGELING_WINTER_MAGIC" } },
+    "condition": { "not": { "u_has_trait": "CHANGELING_SEASONAL_MAGIC_WINTER" } },
     "effect": [
       { "u_add_trait": "CHANGELING_SEASONAL_MAGIC_WINTER" },
-      { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] }
+      { "math": [ "u_spell_level('changeling_research_new_seasonal_spells') = 1" ] },
+      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] }
     ]
   },
   {
@@ -164,6 +172,270 @@
     "false_effect": [
       { "math": [ "u_changeling_seasonal_magic_dreamdross_research_cost = 50" ] },
       { "math": [ "u_changeling_seasonal_magic_dreamdross_research_cost_modifier = 50" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS",
+    "condition": { "u_has_items": { "item": "scrap_dreamdross", "count": 1 } },
+    "effect": [
+      { "math": [ "u_dreamdross_to_dreamsparks_value = num_input('How much dreamdross to extract dreamsparks from?', 1)" ] },
+      { "u_add_effect": "effect_extracting_dreamsparks", "duration": "24 hours" },
+      { "u_assign_activity": "ACT_CHANGELING_DREAMDROSS_TO_DREAMSPARKS", "duration": 86400 },
+      {
+        "run_eocs": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS_PROCESS",
+        "time_in_future": { "math": [ "rng(300,900)" ] }
+      }
+    ],
+    "false_effect": [ { "u_message": "You need dreamdross to extract dreamsparks!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS_CANCELLING_ACTIVITY_CANCELS_EXTRACTING",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_CHANGELING_DREAMDROSS_TO_DREAMSPARKS", { "context_val": "activity" } ] },
+        { "u_has_effect": "effect_extracting_dreamsparks" }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_extracting_dreamsparks" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS_PROCESS",
+    "condition": { "u_has_effect": "effect_extracting_dreamsparks" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS_PROCESS_2",
+            "condition": {
+              "and": [
+                { "u_has_items": { "item": "scrap_dreamdross", "count": 1 } },
+                { "math": [ "u_dreamdross_to_dreamsparks_value > 0" ] }
+              ]
+            },
+            "effect": [
+              {
+                "if": {
+                  "and": [
+                    { "u_has_items": { "item": "changeling_dreamspark", "count": 10 } },
+                    { "u_has_trait": "CHANGELING_DREAMSPARK_STORAGE_10" }
+                  ]
+                },
+                "then": [
+                  "u_cancel_activity",
+                  {
+                    "u_message": "Dreamsparks are evanescent things, and to hold more would be to have them fade away.",
+                    "type": "mixed"
+                  }
+                ],
+                "else": {
+                  "if": {
+                    "and": [
+                      { "u_has_items": { "item": "changeling_dreamspark", "count": 20 } },
+                      { "u_has_trait": "CHANGELING_DREAMSPARK_STORAGE_20" }
+                    ]
+                  },
+                  "then": [
+                    "u_cancel_activity",
+                    {
+                      "u_message": "Dreamsparks are evanescent things, and to hold more would be to have them fade away.",
+                      "type": "mixed"
+                    }
+                  ],
+                  "else": {
+                    "if": {
+                      "and": [
+                        { "u_has_items": { "item": "changeling_dreamspark", "count": 30 } },
+                        { "u_has_trait": "CHANGELING_DREAMSPARK_STORAGE_30" }
+                      ]
+                    },
+                    "then": [
+                      "u_cancel_activity",
+                      {
+                        "u_message": "Dreamsparks are evanescent things, and to hold more would be to have them fade away.",
+                        "type": "mixed"
+                      }
+                    ],
+                    "else": {
+                      "if": {
+                        "and": [
+                          { "u_has_items": { "item": "changeling_dreamspark", "count": 40 } },
+                          { "u_has_trait": "CHANGELING_DREAMSPARK_STORAGE_40" }
+                        ]
+                      },
+                      "then": [
+                        "u_cancel_activity",
+                        {
+                          "u_message": "Dreamsparks are evanescent things, and to hold more would be to have them fade away.",
+                          "type": "mixed"
+                        }
+                      ],
+                      "else": {
+                        "if": {
+                          "and": [
+                            { "u_has_items": { "item": "changeling_dreamspark", "count": 50 } },
+                            { "u_has_trait": "CHANGELING_DREAMSPARK_STORAGE_50" }
+                          ]
+                        },
+                        "then": [
+                          "u_cancel_activity",
+                          {
+                            "u_message": "Dreamsparks are evanescent things, and to hold more would be to have them fade away.",
+                            "type": "mixed"
+                          }
+                        ],
+                        "else": [
+                          { "u_consume_item": "scrap_dreamdross", "count": 1 },
+                          { "u_spawn_item": "changeling_dreamspark", "suppress_message": true },
+                          { "math": [ "u_dreamdross_to_dreamsparks_value", "--" ] },
+                          {
+                            "run_eocs": "EOC_CHANGELING_TURN_DREAMDROSS_INTO_DREAMSPARKS_PROCESS",
+                            "time_in_future": { "math": [ "rng(300,900)" ] }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "false_effect": [ "u_cancel_activity" ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_UPGRADE_DREAMSPARK_STORAGE",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "math": [ "changeling_common_traits() >= 10" ] },
+        {
+          "u_has_any_trait": [
+            "CHANGELING_SEASONAL_MAGIC_SPRING",
+            "CHANGELING_SEASONAL_MAGIC_SUMMER",
+            "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+            "CHANGELING_SEASONAL_MAGIC_WINTER"
+          ]
+        },
+        { "not": { "u_has_trait": "CHANGELING_DREAMSPARK_STORAGE_50" } }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_dreamdross_to_dreamsparks_value = 0" ] },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "id": "changeling_dreamspark" } ],
+        "true_eocs": [
+          {
+            "id": "EOC_CHANGELING_UPGRADE_DREAMSPARK_STORAGE_COUNT_SPARKS",
+            "effect": [ { "math": [ "u_dreamdross_to_dreamsparks_value", "++" ] } ]
+          }
+        ]
+      },
+      { "u_spawn_item": "changeling_dreamspark", "suppress_message": true },
+      {
+        "if": { "and": [ { "math": [ "changeling_common_traits() >= 10" ] }, { "u_has_trait": "CHANGELING_DREAMSPARK_STORAGE_10" } ] },
+        "then": [
+          { "u_add_trait": "CHANGELING_DREAMSPARK_STORAGE_20" },
+          { "u_lose_trait": "CHANGELING_DREAMSPARK_STORAGE_10" },
+          { "math": [ "u_maximum_dreamdross_storage_value = 20" ] },
+          {
+            "u_spawn_item": "changeling_dreamspark",
+            "count": { "math": [ "u_dreamdross_to_dreamsparks_value" ] },
+            "suppress_message": true
+          }
+        ]
+      },
+      {
+        "if": { "and": [ { "math": [ "changeling_common_traits() >= 20" ] }, { "u_has_trait": "CHANGELING_DREAMSPARK_STORAGE_20" } ] },
+        "then": [
+          { "u_add_trait": "CHANGELING_DREAMSPARK_STORAGE_30" },
+          { "u_lose_trait": "CHANGELING_DREAMSPARK_STORAGE_20" },
+          { "math": [ "u_maximum_dreamdross_storage_value = 30" ] },
+          {
+            "u_spawn_item": "changeling_dreamspark",
+            "count": { "math": [ "u_dreamdross_to_dreamsparks_value" ] },
+            "suppress_message": true
+          }
+        ]
+      },
+      {
+        "if": { "and": [ { "math": [ "changeling_common_traits() >= 30" ] }, { "u_has_trait": "CHANGELING_DREAMSPARK_STORAGE_30" } ] },
+        "then": [
+          { "u_add_trait": "CHANGELING_DREAMSPARK_STORAGE_40" },
+          { "u_lose_trait": "CHANGELING_DREAMSPARK_STORAGE_30" },
+          { "math": [ "u_maximum_dreamdross_storage_value = 40" ] },
+          {
+            "u_spawn_item": "changeling_dreamspark",
+            "count": { "math": [ "u_dreamdross_to_dreamsparks_value" ] },
+            "suppress_message": true
+          }
+        ]
+      },
+      {
+        "if": { "and": [ { "math": [ "changeling_common_traits() >= 40" ] }, { "u_has_trait": "CHANGELING_DREAMSPARK_STORAGE_40" } ] },
+        "then": [
+          { "u_add_trait": "CHANGELING_DREAMSPARK_STORAGE_50" },
+          { "u_lose_trait": "CHANGELING_DREAMSPARK_STORAGE_40" },
+          { "math": [ "u_maximum_dreamdross_storage_value = 50" ] },
+          {
+            "u_spawn_item": "changeling_dreamspark",
+            "count": { "math": [ "u_dreamdross_to_dreamsparks_value" ] },
+            "suppress_message": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_CHECK_INVENTORY_FOR_EXTRA_DREAMSPARKS",
+    "recurrence": 300,
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "CHANGELING_SEASONAL_MAGIC_SPRING",
+            "CHANGELING_SEASONAL_MAGIC_SUMMER",
+            "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+            "CHANGELING_SEASONAL_MAGIC_WINTER"
+          ]
+        },
+        { "not": { "u_has_effect": "effect_extracting_dreamsparks" } }
+      ]
+    },
+    "deactivate_condition": {
+      "not": {
+        "u_has_any_trait": [
+          "CHANGELING_SEASONAL_MAGIC_SPRING",
+          "CHANGELING_SEASONAL_MAGIC_SUMMER",
+          "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+          "CHANGELING_SEASONAL_MAGIC_WINTER"
+        ]
+      }
+    },
+    "effect": [
+      { "math": [ "u_dreamdross_to_dreamsparks_value = 0" ] },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "id": "changeling_dreamspark" } ],
+        "true_eocs": [ "EOC_CHANGELING_UPGRADE_DREAMSPARK_STORAGE_COUNT_SPARKS" ]
+      },
+      {
+        "if": { "math": [ "u_dreamdross_to_dreamsparks_value > u_maximum_dreamdross_storage_value" ] },
+        "then": {
+          "u_consume_item": "changeling_dreamspark",
+          "count": { "math": [ "u_dreamdross_to_dreamsparks_value - u_maximum_dreamdross_storage_value " ] }
+        }
+      }
     ]
   },
   {

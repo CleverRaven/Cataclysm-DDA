@@ -444,11 +444,7 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
         temp_max = units::from_legacy_bodypart_temp_delta( temp_array.get_int( 1 ) );
     }
 
-    if( jo.has_array( "unarmed_damage" ) ) {
-        unarmed_bonus = true;
-        damage = damage_instance();
-        damage = load_damage_instance( jo.get_array( "unarmed_damage" ) );
-    }
+    optional( jo, was_loaded, "unarmed_damage", damage );
 
     if( jo.has_object( "armor" ) ) {
         armor = resistances();
@@ -502,6 +498,9 @@ void body_part_type::finalize_all()
 
 void body_part_type::finalize()
 {
+    if( !damage.empty() ) {
+        unarmed_bonus = true;
+    }
     finalize_damage_map( armor.resist_vals );
 }
 

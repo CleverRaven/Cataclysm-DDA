@@ -234,7 +234,7 @@
     "max_level": 1,
     "shape": "blast",
     "difficulty": 10,
-    "components": "spell_components_dreamdross_4",
+    "components": "spell_components_changeling_dreamsparks_4",
     "effect": "effect_on_condition",
     "effect_str": "EOC_CHANGELING_SUMMER_POWERFUL_SUNLIGHT_INITIATE",
     "min_duration": {

@@ -58,8 +58,8 @@
     "locations": [ "lake_surface" ],
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, 12 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "LAKE", "MAN_MADE" ]
+    "occurrences": [ 15, 100 ],
+    "flags": [ "GLOBALLY_UNIQUE", "CLASSIC", "LAKE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",

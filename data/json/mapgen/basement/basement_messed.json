@@ -66,7 +66,7 @@
         "b": "f_workbench"
       },
       "items": {
-        ".": [ { "item": "trash", "chance": 5 } ],
+        ".": [ { "item": "SUS_trash_floor", "chance": 5 } ],
         "r": [
           { "item": "livingroom", "chance": 30 },
           { "item": "bedroom", "chance": 30 },

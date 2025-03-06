@@ -52,7 +52,7 @@
         "D": { "item": "laundry", "chance": 15 },
         "W": { "item": "laundry", "chance": 15 },
         "t": { "item": "laundry", "chance": 5 },
-        "&": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] }
       },
       "place_items": [
         { "item": "behindcounter", "x": 7, "y": 12, "chance": 60 },
@@ -122,7 +122,7 @@
         "b": { "item": "gym", "chance": 30 },
         "L": { "item": "gym", "chance": 60, "repeat": [ 4, 9 ] },
         ".": { "item": "gym", "chance": 5 },
-        "&": { "item": "trash", "chance": 50, "repeat": [ 2, 4 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 2, 4 ] }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 5, 19 ], "y": [ 10, 18 ], "chance": 60, "repeat": [ 5, 10 ] } ]
@@ -186,7 +186,7 @@
         "E": { "item": "cannedfood", "chance": 70, "repeat": [ 2, 4 ] },
         "t": { "item": "snacks", "chance": 50, "repeat": [ 1, 3 ] },
         "D": { "item": "groce_frozen", "chance": 70, "repeat": [ 1, 2 ] },
-        "U": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] }
+        "U": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_loot": [ { "group": "cash_register_random", "x": [ 4, 6 ], "y": 18 } ],
@@ -308,7 +308,7 @@
         "r": { "item": "beauty", "chance": 100, "repeat": [ 1, 4 ] },
         "C": { "item": "SUS_hair_drawer", "chance": 100, "repeat": [ 1 ] },
         "t": { "item": "magazines", "chance": 100, "repeat": [ 2, 4 ] },
-        "&": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
+        "&": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 5, 18 ], "y": [ 5, 14 ], "chance": 60, "repeat": [ 6, 10 ] } ]
@@ -332,7 +332,7 @@
       "terrain": { ".": "t_linoleum_white", "|": "t_brick_wall", "+": "t_door_c" },
       "furniture": { "S": "f_sink", "T": "f_toilet", "a": "f_trashcan" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 6, "y2": 2 } ],
-      "items": { "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] } },
+      "items": { "a": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] }, "T": { "item": "SUS_toilet", "chance": 50 } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 6 ], "y": [ 1, 2 ], "chance": 60, "repeat": [ 1, 5 ] } ],
       "toilets": { "T": {  } }
@@ -356,7 +356,7 @@
       "terrain": { ".": "t_linoleum_white", "|": "t_brick_wall", "+": "t_door_c" },
       "furniture": { "S": "f_sink", "T": "f_toilet", "a": "f_trashcan" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 6, "y2": 2 } ],
-      "items": { "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] } },
+      "items": { "a": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] }, "T": { "item": "SUS_toilet", "chance": 50 } },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 6 ], "y": [ 1, 2 ], "chance": 60, "repeat": [ 1, 5 ] } ],
       "toilets": { "T": {  } }
@@ -425,8 +425,8 @@
         "U": "f_trashcan"
       },
       "items": {
-        "U": { "item": "restaur_trash", "chance": 70, "repeat": [ 2, 5 ] },
-        "d": { "item": "restaur_trash", "chance": 30, "repeat": [ 1, 3 ] },
+        "U": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] },
+        "d": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 3 ] },
         "T": { "item": "restaur_table", "chance": 15 },
         "f": { "item": "restaur_fridge", "chance": 50, "repeat": [ 2, 8 ] },
         "F": { "item": "restaur_fridge", "chance": 50, "repeat": [ 2, 8 ] },
@@ -514,7 +514,7 @@
       "items": {
         "b": { "item": "behindcounter", "chance": 60 },
         "$": { "item": "cash_register_random", "chance": 100 },
-        "U": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
+        "U": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] }
       },
       "place_items": [
         { "item": "magazines", "x": [ 5, 7 ], "y": 22, "chance": 80, "repeat": [ 3, 10 ] },
@@ -617,7 +617,7 @@
         "R": { "item": "supplies_electronics", "chance": 50, "repeat": [ 2, 5 ] },
         "t": { "item": "elecsto_books", "chance": 10 },
         "$": { "item": "cash_register_random", "chance": 100 },
-        "U": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
+        "U": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_ELECTRO", "x": [ 6, 18 ], "y": [ 13, 20 ], "chance": 80, "repeat": [ 5, 10 ] } ]
@@ -695,7 +695,7 @@
       "items": {
         "b": { "item": "behindcounter", "chance": 60 },
         "$": { "item": "cash_register_random", "chance": 100 },
-        "&": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] },
+        "&": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] },
         "B": { "item": "homebooks", "chance": 50, "repeat": [ 2, 5 ] },
         "K": { "item": "SUS_business_bookcase", "chance": 80 },
         "J": { "item": "SUS_engineering_bookcase", "chance": 75 },
@@ -782,7 +782,7 @@
         "D": { "item": "vet_hardrug", "chance": 20 },
         "u": { "item": "vet_utility", "chance": 85, "repeat": [ 1, 4 ] },
         "t": { "item": "magazines", "chance": 70, "repeat": [ 1, 6 ] },
-        "U": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
+        "U": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] }
       },
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_monster": [ { "group": "GROUP_VANILLA", "x": [ 4, 18 ], "y": [ 5, 11 ], "chance": 50, "repeat": [ 6, 10 ] } ]

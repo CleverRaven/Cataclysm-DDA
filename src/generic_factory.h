@@ -6,6 +6,7 @@
 #include <bitset>
 #include <cstddef>
 #include <cstdint>
+#include <limits>
 #include <list>
 #include <map>
 #include <set>
@@ -18,6 +19,7 @@
 #include <vector>
 
 #include "cached_options.h"
+#include "calendar.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -30,6 +32,8 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "units.h"
+
+class quantity;
 
 template <typename E> class enum_bitset;
 
@@ -602,7 +606,8 @@ inline void mandatory( const JsonObject &jo, const bool was_loaded, const std::s
  * The compiler will construct the appropriate one of these based on if the
  * type can support the operations being done.
  * So, it defaults to the false_type, but if it can use the *= operator
- * against a float, it then supports proportional, and the handle_proportional
+ * against a float OR defines member function handle_proportional (not both!),
+ * it then supports proportional, and the handle_proportional
  * template that isn't just a dummy is constructed.
  * Similarly, if it can use a += operator against it's own type, the non-dummy
  * handle_relative template is constructed.
@@ -611,8 +616,15 @@ template<typename T, typename = std::void_t<>>
 struct supports_proportional : std::false_type { };
 
 template<typename T>
-struct supports_proportional<T, std::void_t<decltype( std::declval<T &>() *= std::declval<float>() )>> :
-std::true_type {};
+struct supports_proportional<T, std::void_t<decltype( std::declval<T &>() *= std::declval<float>() )
+>> : std::true_type {};
+
+template<typename T, typename = std::void_t<>>
+struct supports_proportional_handler : std::false_type {};
+
+template<typename T>
+struct supports_proportional_handler<T, std::void_t<decltype( &T::handle_proportional )
+>> : std::true_type {};
 
 template<typename T, typename = std::void_t<>>
 struct supports_relative : std::false_type { };
@@ -672,8 +684,8 @@ static_assert( !supports_proportional<DebugLevel>::value, "enums should not supp
 // Dummy template:
 // Warn if it's trying to use proportional where it cannot, but otherwise just
 // return.
-template < typename MemberType, std::enable_if_t < !supports_proportional<MemberType>::value > * =
-           nullptr >
+template < typename MemberType, std::enable_if_t < !supports_proportional<MemberType>::value &&
+           !supports_proportional_handler<MemberType>::value > * = nullptr >
 inline bool handle_proportional( const JsonObject &jo, const std::string_view name, MemberType & )
 {
     if( jo.has_object( "proportional" ) ) {
@@ -714,6 +726,27 @@ inline bool handle_proportional( const JsonObject &jo, const std::string_view na
         } else {
             jo.throw_error_at( name, str_cat( "Invalid scalar for ", name ) );
         }
+    }
+    return false;
+}
+
+//handles proportional for a class/struct with member function handle_proportional
+template<typename MemberType, std::enable_if_t<supports_proportional_handler<MemberType>::value>* = nullptr>
+inline bool handle_proportional( const JsonObject &jo, const std::string_view name,
+                                 MemberType &member )
+{
+    if( jo.has_object( "proportional" ) ) {
+        JsonObject proportional = jo.get_object( "proportional" );
+        proportional.allow_omitted_members();
+        // We need to check this here, otherwise we get problems with unvisited members
+        if( !proportional.has_member( name ) ) {
+            return false;
+        }
+        bool handled = member.handle_proportional( proportional.get_member( name ) );
+        if( !handled ) {
+            jo.throw_error_at( name, str_cat( "Invalid scalar for ", name ) );
+        }
+        return handled;
     }
     return false;
 }
@@ -1113,9 +1146,10 @@ public:
                int > = 0 >
     bool operator()( const JsonObject &jo, const std::string_view member_name,
                      C &member, bool /*was_loaded*/ ) const {
-        return read_normal( jo, member_name, member ) ||
-        handle_proportional( jo, member_name, member ) ||
-        do_relative( jo, member_name, member );
+        const Derived &derived = static_cast<const Derived &>( *this );
+        return derived.read_normal( jo, member_name, member ) ||
+               handle_proportional( jo, member_name, member ) || //not every reader uses proportional
+               derived.do_relative( jo, member_name, member ); //readers can override relative handling
     }
 };
 
@@ -1328,6 +1362,124 @@ public:
             val.throw_error( "weighted_string_id_reader provided with invalid string_id" );
         }
     }
+};
+
+template<typename T>
+static T bound_check( T low, T high, const JsonValue &jv, T read_value )
+{
+    if( read_value < low ) {
+        jv.throw_error( string_format( "value below bound_reader's defined low bound" ) );
+        return low;
+    } else if( read_value > high ) {
+        jv.throw_error( string_format( "value above bound_reader's defined high bound" ) );
+        return high;
+    }
+    return read_value;
+}
+
+template<typename T, typename = std::void_t<>>
+struct supports_units : std::false_type {};
+
+template<typename T>
+struct supports_units < T, std::void_t < decltype( std::is_base_of<quantity, T>() )
+                        >> : std::true_type {};
+
+template<typename T, typename = std::void_t<>>
+struct supports_time : std::false_type {};
+
+template<typename T>
+struct supports_time < T, std::void_t < decltype( std::is_base_of<time_duration, T>() )
+                                        >> : std::true_type {};
+
+template<typename T, typename = std::void_t<>>
+struct supports_primitives : std::false_type {};
+
+template<typename T>
+struct supports_primitives < T, std::void_t < decltype( std::is_arithmetic_v<T> )
+                             >> : std::true_type {};
+
+/**
+ * Throws an error if a single read value is outside those bounds,
+ * then clamps that read value between low and, if included, high.
+ *
+ * bound_reader should not be used alone -- use an extending class
+ *
+ * TO-DO: handle proportional bounds?
+ */
+template <typename T>
+class bound_reader : public generic_typed_reader<bound_reader<T>>
+{
+public:
+    T low;
+    T high;
+
+    bound_reader() = default;
+    //override relative handling from generic_typed_reader: check bounds for (original + relative) value
+    bool do_relative( const JsonObject &jo, const std::string_view name, T &member ) const {
+        if( jo.has_object( "relative" ) ) {
+            JsonObject relative = jo.get_object( "relative" );
+            relative.allow_omitted_members();
+            // This needs to happen here, otherwise we get unvisited members
+            if( !relative.has_member( name ) ) {
+                return false;
+            }
+            JsonValue jv = relative.get_member( name );
+            T adder = read( jv );
+            member += adder;
+            //note: passes copy of parameter and then assigns the result to the parameter
+            member = bound_check( low, high, jv, member );
+            return true;
+        }
+        return false;
+    }
+
+    //reads value as usual for type (i.e. without bound check)
+    T read( const JsonValue &jv ) const {
+        T read_member;
+        if( !jv.read( read_member ) ) {
+            jv.throw_error( "bound_reader failed to read value" );
+        }
+        return read_member;
+    }
+
+    T get_next( const JsonValue &jv ) const {
+        return bound_check<T>( low, high, jv, read( jv ) );
+    }
+};
+
+//bound_reader for primitive numbers
+template<typename T, std::enable_if_t<supports_primitives<T>::value >* = nullptr >
+class numeric_bound_reader : public bound_reader<T>
+{
+public:
+    explicit numeric_bound_reader( T low = std::numeric_limits<T>::lowest(),
+                                   T high = std::numeric_limits<T>::max() ) {
+        bound_reader<T>::low = low;
+        bound_reader<T>::high = high;
+    };
+};
+
+//bound_reader for units:: namespace
+template<typename T, std::enable_if_t<supports_units<T>::value >* = nullptr >
+class units_bound_reader : public bound_reader<T>
+{
+public:
+    explicit units_bound_reader( T low = T::min(), T high = T::max() ) {
+        bound_reader<T>::low = low;
+        bound_reader<T>::high = high;
+    };
+};
+
+//bound_reader for time_duration, which is not a units::
+template <typename T = time_duration, std::enable_if_t<supports_time<T>::value >* = nullptr >
+class time_bound_reader : public bound_reader<T>
+{
+public:
+    explicit time_bound_reader( T low = 0_seconds,
+                                T high = calendar::INDEFINITELY_LONG_DURATION ) {
+        bound_reader<T>::low = low;
+        bound_reader<T>::high = high;
+    };
 };
 
 /**

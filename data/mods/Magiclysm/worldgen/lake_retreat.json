@@ -94,7 +94,7 @@
           { "item": "magic_shop_wands", "chance": 15 },
           { "item": "enchanted_small_items", "chance": 20 }
         ],
-        "R": { "item": "trash", "chance": 25, "repeat": [ 1, 2 ] },
+        "R": { "item": "SUS_trash_floor", "chance": 25, "repeat": [ 1, 2 ] },
         "W": { "item": "stash_wood", "chance": 25, "repeat": [ 1, 2 ] },
         "t": { "item": "livingroom", "chance": 25, "repeat": [ 1, 2 ] },
         "a": [
@@ -172,7 +172,7 @@
         ],
         "s": { "item": "oven", "chance": 20, "repeat": [ 2, 4 ] },
         "m": { "item": "fridge", "chance": 20, "repeat": [ 2, 4 ] },
-        "R": { "item": "trash", "chance": 25, "repeat": [ 1, 2 ] },
+        "R": { "item": "SUS_trash_floor", "chance": 25, "repeat": [ 1, 2 ] },
         "W": { "item": "stash_wood", "chance": 25, "repeat": [ 1, 2 ] },
         "t": { "item": "condiments", "chance": 25, "repeat": [ 1, 2 ] },
         "a": { "item": "jackets", "chance": 25, "repeat": [ 1, 2 ] },
@@ -242,6 +242,7 @@
       },
       "toilets": { "&": {  } },
       "items": {
+        "&": { "item": "SUS_toilet", "chance": 50 },
         "g": [
           { "item": "homebooks", "chance": 50, "repeat": [ 2, 4 ] },
           { "item": "magic_shop_books", "chance": 20 },
@@ -391,7 +392,7 @@
       ],
       "place_vehicles": [
         { "vehicle": "kayak_racing", "x": 11, "y": 2, "rotation": 180, "chance": 40, "status": 0 },
-        { "vehicle": "canoe", "x": 2, "y": 5, "rotation": 180, "chance": 100, "status": 0 }
+        { "vehicle": "canoe", "x": 2, "y": 5, "rotation": 180, "status": 0 }
       ],
       "place_loot": [ { "item": "rope_30", "x": 12, "y": 6, "chance": 100 }, { "item": "stepladder", "x": 17, "y": 1, "chance": 100 } ],
       "terrain": {

@@ -85,18 +85,7 @@
       "g": { "item": "guns_rifle_common_display", "repeat": [ 1, 5 ] },
       "H": { "item": "guns_pistol_common_display", "repeat": [ 1, 5 ] },
       "h": { "item": "guns_shotgun_common_display", "repeat": [ 1, 5 ] },
-      "i": {
-        "item": {
-          "entries": [
-            { "group": "ammo_pistol_common", "prob": 100 },
-            { "group": "ammo_pistol_rare", "prob": 20 },
-            { "group": "ammo_rifle_common", "prob": 100 },
-            { "group": "ammo_rifle_rare", "prob": 20 },
-            { "group": "ammo_shotgun_common", "prob": 10 }
-          ]
-        },
-        "repeat": [ 4, 10 ]
-      },
+      "i": { "item": "ammo_common_boxed", "repeat": 12 },
       "J": { "item": "mags_common_restricted_packaged", "repeat": [ 8, 20 ] },
       "K": {
         "item": {
@@ -123,7 +112,7 @@
       "O": { "item": "SUS_gunstore_optics_packaged", "repeat": [ 8, 16 ] },
       "o": { "item": "SUS_gunstore_hearing", "repeat": [ 12, 20 ] },
       "Q": { "item": "ammo_casings_gunsmith_bulk", "repeat": 15, "chance": 35 },
-      "r": { "item": "trash", "repeat": 5, "chance": 45 },
+      "r": { "item": "SUS_trash_trashcan", "repeat": 5, "chance": 45 },
       "s": { "item": "SUS_gunstore_crate", "chance": 80, "repeat": [ 1, 3 ] },
       "S": { "item": "SUS_gunstore_crate", "chance": 50, "repeat": [ 1, 3 ] },
       "t": { "item": "SUS_gunstore_carry_gear", "repeat": [ 12, 15 ] },
@@ -135,10 +124,11 @@
         "repeat": [ 3, 6 ],
         "chance": 60
       },
-      "w": { "item": "trash", "repeat": 30, "chance": 45 },
+      "w": { "item": "SUS_trash_dumpster", "repeat": 30, "chance": 45 },
       "Y": { "item": "SUS_gunstore_gear", "chance": 90, "repeat": [ 1, 4 ] },
       "=": { "item": "casings", "repeat": 100, "chance": 10 },
-      "`": { "item": "ammo_casings_gunsmith_bulk", "repeat": [ 12, 15 ] }
+      "`": { "item": "ammo_casings_gunsmith_bulk", "repeat": [ 12, 15 ] },
+      "&": { "item": "SUS_toilet", "chance": 50 }
     }
   },
   {
@@ -229,15 +219,13 @@
       "i": {
         "item": {
           "entries": [
-            { "group": "ammo_pistol_common", "prob": 100 },
-            { "group": "ammo_pistol_rare", "prob": 20 },
-            { "group": "ammo_rifle_common", "prob": 100 },
-            { "group": "ammo_rifle_rare", "prob": 20 },
-            { "group": "ammo_shotgun_common", "prob": 10 }
+            { "group": "ammo_common_boxed_used", "prob": 25 },
+            { "group": "ammo_common_boxed", "prob": 5 },
+            { "group": "ammo_common_boxed_looted", "prob": 70 }
           ]
         },
-        "repeat": [ 0, 3 ],
-        "chance": 40
+        "repeat": [ 0, 8 ],
+        "chance": 70
       },
       "J": { "item": "mags_common_restricted_packaged", "repeat": [ 3, 6 ], "chance": 50 },
       "K": {
@@ -265,7 +253,7 @@
       "O": { "item": "SUS_gunstore_optics_packaged", "repeat": [ 3, 5 ], "chance": 60 },
       "o": { "item": "SUS_gunstore_hearing", "repeat": [ 10, 16 ] },
       "Q": { "item": "ammo_casings_gunsmith_bulk", "repeat": 15, "chance": 35 },
-      "r": { "item": "trash", "repeat": 5, "chance": 45 },
+      "r": { "item": "SUS_trash_trashcan", "repeat": 5, "chance": 45 },
       "s": { "item": "SUS_gunstore_crate", "chance": 80, "repeat": [ 1, 3 ] },
       "S": { "item": "SUS_gunstore_crate", "chance": 50, "repeat": [ 1, 3 ] },
       "t": { "item": "SUS_gunstore_carry_gear", "repeat": [ 5, 7 ], "chance": 60 },
@@ -278,7 +266,7 @@
         "repeat": [ 3, 6 ],
         "chance": 60
       },
-      "w": { "item": "trash", "repeat": 30, "chance": 45 },
+      "w": { "item": "SUS_trash_dumpster", "repeat": 30, "chance": 45 },
       "Y": { "item": "SUS_gunstore_gear", "chance": 60, "repeat": [ 1, 4 ] },
       "y": {
         "item": {
@@ -290,7 +278,8 @@
         "chance": 50
       },
       "=": { "item": "casings", "repeat": 100, "chance": 10 },
-      "`": { "item": "ammo_casings_gunsmith_bulk", "repeat": [ 6, 8 ] }
+      "`": { "item": "ammo_casings_gunsmith_bulk", "repeat": [ 6, 8 ] },
+      "&": { "item": "SUS_toilet", "chance": 50 }
     }
   },
   {
@@ -371,18 +360,7 @@
       "E": { "item": "office_mess", "repeat": 3, "chance": 20 },
       "f": { "item": "fridgesnacks", "repeat": 10, "chance": 35 },
       "g": { "item": "cannedfood", "repeat": [ 40, 150 ] },
-      "i": {
-        "item": {
-          "entries": [
-            { "group": "ammo_pistol_common", "prob": 100 },
-            { "group": "ammo_pistol_rare", "prob": 20 },
-            { "group": "ammo_rifle_common", "prob": 100 },
-            { "group": "ammo_rifle_rare", "prob": 20 },
-            { "group": "ammo_shotgun_common", "prob": 10 }
-          ]
-        },
-        "repeat": [ 4, 10 ]
-      },
+      "i": { "item": "ammo_common_boxed_used", "repeat": 6 },
       "K": { "item": "guns_pistol_common", "repeat": [ 6, 10 ] },
       "n": {
         "item": {
@@ -398,7 +376,7 @@
             { "group": "SUS_gunstore_hearing", "count": [ 12, 20 ] },
             { "group": "SUS_gunstore_carry_gear", "count": [ 6, 8 ] },
             { "item": "blister_pack", "count": [ 14, 30 ] },
-            { "group": "trash", "count": [ 60, 100 ] }
+            { "group": "SUS_trash_floor", "count": [ 60, 100 ] }
           ]
         }
       },
@@ -420,7 +398,7 @@
         "item": {
           "subtype": "collection",
           "entries": [
-            { "group": "trash" },
+            { "group": "SUS_trash_dumpster" },
             { "item": "cup_plastic", "prob": 5 },
             { "item": "can_food_big", "prob": 10 },
             { "item": "can_food", "prob": 10 },
@@ -444,7 +422,8 @@
           ]
         },
         "chance": 15
-      }
+      },
+      "&": { "item": "SUS_toilet", "chance": 50 }
     }
   }
 ]

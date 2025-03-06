@@ -42,7 +42,7 @@
     },
     "items": {
       "^": [
-        { "item": "trash", "chance": 25, "repeat": 2 },
+        { "item": "SUS_trash_floor", "chance": 25, "repeat": 2 },
         { "item": "road", "chance": 1 },
         { "item": "allclothes_damaged", "chance": 3 },
         { "item": "stoner", "chance": 1 },
@@ -125,7 +125,7 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_flat_roof" },
-      "place_items": [ { "item": "roof_trash", "x": [ 10, 19 ], "y": [ 5, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 10, 19 ], "y": [ 5, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [ { "chunks": [ [ "null", 40 ], [ "roof_4x4_utility", 60 ] ], "x": 13, "y": 6 } ]
     }
   },
@@ -165,9 +165,9 @@
       "terrain": { "o": "t_door_o", "w": "t_window" },
       "furniture": { "#": "f_desk", "&": "f_trashcan", "O": "f_crate_o", "X": "f_crate_c" },
       "items": {
-        "#": { "item": "trash", "chance": 20 },
-        "&": { "item": "trash", "chance": 55, "repeat": 2 },
-        "{": { "item": "trash", "chance": 20 }
+        "#": { "item": "SUS_trash_floor", "chance": 20 },
+        "&": { "item": "SUS_trash_floor", "chance": 55, "repeat": 2 },
+        "{": { "item": "SUS_trash_floor", "chance": 20 }
       },
       "place_vehicles": [ { "chance": 60, "fuel": 0, "rotation": 180, "status": -1, "vehicle": "forklift_vehicles", "x": 16, "y": 10 } ]
     }
@@ -205,7 +205,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 6, 19 ], "y": [ 6, 17 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 6, 19 ], "y": [ 6, 17 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [ [ "null", 30 ], [ "roof_4x4_party", 10 ], [ "roof_4x4_utility", 40 ], [ "roof_5x5_coop", 5 ] ],
@@ -304,7 +304,7 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_tar_flat_roof" },
-      "place_items": [ { "item": "roof_trash", "x": [ 5, 17 ], "y": [ 7, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 5, 17 ], "y": [ 7, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [ { "chunks": [ [ "null", 50 ], [ "roof_4x4_utility", 50 ] ], "x": 6, "y": 8 } ]
     }
   },
@@ -343,7 +343,7 @@
       "palettes": [ "abwarehouse_palette" ],
       "terrain": { "-": "t_support_l", "D": "t_door_c", "w": "t_window" },
       "furniture": { "#": "f_desk", "O": "f_standing_tank", "X": "f_crate_c", "c": "f_chair", "{": "f_dumpster" },
-      "items": { "{": { "item": "trash", "chance": 35, "repeat": 2 }, "X": { "item": "crate_parts", "chance": 30 } }
+      "items": { "{": { "item": "SUS_trash_floor", "chance": 35, "repeat": 2 }, "X": { "item": "crate_parts", "chance": 30 } }
     }
   },
   {
@@ -381,8 +381,8 @@
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_tile_flat_roof" },
       "place_items": [
-        { "item": "roof_trash", "x": [ 4, 17 ], "y": [ 12, 20 ], "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "roof_trash", "x": [ 14, 17 ], "y": [ 7, 11 ], "chance": 50, "repeat": [ 1, 3 ] }
+        { "item": "SUS_trash_roof", "x": [ 4, 17 ], "y": [ 12, 20 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_roof", "x": [ 14, 17 ], "y": [ 7, 11 ], "chance": 50, "repeat": [ 1, 3 ] }
       ],
       "place_nested": [
         {
@@ -434,7 +434,7 @@
       "palettes": [ "abwarehouse_palette" ],
       "terrain": { "D": "t_region_groundcover_barren" },
       "furniture": { "D": "f_dumpster", "{": "f_warehouse_shelf" },
-      "items": { "D": { "item": "trash", "chance": 45, "repeat": 2 } },
+      "items": { "D": { "item": "SUS_trash_floor", "chance": 45, "repeat": 2 } },
       "place_items": [
         { "chance": 25, "item": "stash_food", "x": 16, "y": [ 14, 15 ] },
         { "chance": 20, "item": "stash_water", "x": 18, "y": [ 14, 15 ] }
@@ -475,7 +475,7 @@
       ],
       "palettes": [ "roof_palette" ],
       "terrain": { ".": "t_tile_flat_roof" },
-      "place_items": [ { "item": "roof_trash", "x": [ 8, 19 ], "y": [ 7, 16 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 8, 19 ], "y": [ 7, 16 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [ { "chunks": [ [ "null", 50 ], [ "roof_4x4_utility", 50 ] ], "x": 8, "y": [ 10, 12 ] } ]
     }
   }
