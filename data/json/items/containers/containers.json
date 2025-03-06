@@ -150,20 +150,10 @@
     "type": "GENERIC",
     "name": { "str": "durable plastic sack, cement" },
     "looks_like": "bag_plastic",
-    "description": "A large and sturdy sack, made out plastic material.  Stores cement and has instructions on how to use it to make mortar.  Activate the bag to learn the recipe.",
-    "//": "durasack woven polypropylene bags",
+    "description": "A large and sturdy sack, made out plastic material.  Stores cement and has instructions on how to use it to make mortar.",
+    "//": "book data is used so item can work as book and provide recipes",
     "copy-from": "bag_durasack",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Instructions on what to do with the contents of the bag.",
-      "effect_on_conditions": [ "EOC_CEMENT_INSTRUCTIONS" ]
-    }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_CEMENT_INSTRUCTIONS",
-    "condition": { "and": [ { "not": { "u_has_trait": "ILLITERATE" } }, { "not": "u_driving" } ] },
-    "effect": [ { "u_message": "You learn the recipe to make cement mortar.", "type": "good" }, { "u_learn_recipe": "mortar_build" } ]
+    "book_data": { "max_level": 0, "skill": "fabrication" }
   },
   {
     "id": "bag_canvas",
