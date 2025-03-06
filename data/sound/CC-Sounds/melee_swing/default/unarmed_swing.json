@@ -1,0 +1,15 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "melee_swing",
+    "variant": "default",
+    "volume": 110,
+    "files": [
+      "melee_swing/default/unarmed_swing_1.ogg",
+      "melee_swing/default/unarmed_swing_2.ogg",
+      "melee_swing/default/unarmed_swing_3.ogg",
+      "melee_swing/default/unarmed_swing_4.ogg",
+      "melee_swing/default/unarmed_swing_5.ogg"
+    ]
+  }
+]

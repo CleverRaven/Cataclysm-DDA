@@ -1,0 +1,9 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "explosion",
+    "variant": "default",
+    "volume": 100,
+    "files": [ "explosion/default/explosion_default_1.ogg", "explosion/default/explosion_default_2.ogg" ]
+  }
+]

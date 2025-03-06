@@ -1,0 +1,13 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "melee_hit_flesh",
+    "variant": "big_stabbing",
+    "volume": 100,
+    "files": [
+      "melee_hit_flesh/big_stabbing/big_stabbing_flesh_1.ogg",
+      "melee_hit_flesh/big_stabbing/big_stabbing_flesh_2.ogg",
+      "melee_hit_flesh/big_stabbing/big_stabbing_flesh_3.ogg"
+    ]
+  }
+]

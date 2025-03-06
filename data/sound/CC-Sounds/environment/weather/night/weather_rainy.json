@@ -1,0 +1,11 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "environment",
+    "variant": "WEATHER_RAINY",
+    "volume": 100,
+    "is_indoors": false,
+    "is_night": true,
+    "files": [ "environment/weather/night/night_rain.ogg" ]
+  }
+]

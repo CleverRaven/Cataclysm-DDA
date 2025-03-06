@@ -1,0 +1,14 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "melee_attack",
+    "variant": "monster_melee_hit",
+    "volume": 100,
+    "files": [
+      "melee_attack/monster_melee_hit/monster_melee_hit_1.ogg",
+      "melee_attack/monster_melee_hit/monster_melee_hit_2.ogg",
+      "melee_attack/monster_melee_hit/monster_melee_hit_3.ogg",
+      "melee_attack/monster_melee_hit/monster_melee_hit_4.ogg"
+    ]
+  }
+]

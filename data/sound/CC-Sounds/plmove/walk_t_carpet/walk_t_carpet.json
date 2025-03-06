@@ -1,0 +1,226 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_carpet_base",
+    "volume": 100,
+    "files": [
+      "plmove/walk_t_carpet/walk_t_carpet_1.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_2.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_3.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_4.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_5.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_6.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_7.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_8.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_carpet_red",
+    "volume": 100,
+    "files": [
+      "plmove/walk_t_carpet/walk_t_carpet_1.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_2.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_3.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_4.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_5.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_6.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_7.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_8.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_carpet_yellow",
+    "volume": 100,
+    "files": [
+      "plmove/walk_t_carpet/walk_t_carpet_1.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_2.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_3.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_4.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_5.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_6.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_7.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_8.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_carpet_green",
+    "volume": 100,
+    "files": [
+      "plmove/walk_t_carpet/walk_t_carpet_1.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_2.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_3.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_4.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_5.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_6.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_7.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_8.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_carpet_base_concrete",
+    "volume": 100,
+    "files": [
+      "plmove/walk_t_carpet/walk_t_carpet_1.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_2.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_3.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_4.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_5.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_6.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_7.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_8.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_carpet_concrete_red",
+    "volume": 100,
+    "files": [
+      "plmove/walk_t_carpet/walk_t_carpet_1.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_2.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_3.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_4.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_5.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_6.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_7.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_8.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_carpet_concrete_yellow",
+    "volume": 100,
+    "files": [
+      "plmove/walk_t_carpet/walk_t_carpet_1.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_2.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_3.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_4.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_5.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_6.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_7.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_8.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_carpet_concrete_green",
+    "volume": 100,
+    "files": [
+      "plmove/walk_t_carpet/walk_t_carpet_1.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_2.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_3.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_4.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_5.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_6.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_7.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_8.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_carpet_concrete_purple",
+    "volume": 100,
+    "files": [
+      "plmove/walk_t_carpet/walk_t_carpet_1.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_2.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_3.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_4.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_5.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_6.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_7.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_8.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_carpet_base_metal",
+    "volume": 100,
+    "files": [
+      "plmove/walk_t_carpet/walk_t_carpet_1.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_2.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_3.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_4.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_5.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_6.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_7.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_8.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_carpet_metal_red",
+    "volume": 100,
+    "files": [
+      "plmove/walk_t_carpet/walk_t_carpet_1.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_2.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_3.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_4.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_5.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_6.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_7.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_8.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_carpet_metal_yellow",
+    "volume": 100,
+    "files": [
+      "plmove/walk_t_carpet/walk_t_carpet_1.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_2.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_3.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_4.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_5.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_6.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_7.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_8.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_carpet_metal_green",
+    "volume": 100,
+    "files": [
+      "plmove/walk_t_carpet/walk_t_carpet_1.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_2.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_3.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_4.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_5.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_6.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_7.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_8.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "plmove",
+    "variant": "t_carpet_metal_purple",
+    "volume": 100,
+    "files": [
+      "plmove/walk_t_carpet/walk_t_carpet_1.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_2.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_3.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_4.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_5.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_6.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_7.ogg",
+      "plmove/walk_t_carpet/walk_t_carpet_8.ogg"
+    ]
+  }
+]
