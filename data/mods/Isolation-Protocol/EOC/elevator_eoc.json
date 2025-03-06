@@ -23,7 +23,12 @@
     "condition": { "math": [ "ISO_CURRENT_LEVEL % SAFEPOINT_INTERVAL == 0" ] },
     "effect": [
       {
-        "run_eocs": [ "EOC_ISO_MICROLAB_SAFE_TP", "EOC_ISO_BIONIC_VAMPIRE_POWER_RESTORE", "EOC_ISO_LAST_SCION_LEVEL_SPELLS" ]
+        "run_eocs": [
+          "EOC_ISO_MICROLAB_SAFE_TP",
+          "EOC_ISO_BIONIC_VAMPIRE_POWER_RESTORE",
+          "EOC_ISO_LAST_SCION_LEVEL_SPELLS",
+          "EOC_LAST_SCION_RETURN_STAFF"
+        ]
       }
     ],
     "false_effect": [

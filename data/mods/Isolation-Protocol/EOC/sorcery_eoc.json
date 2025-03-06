@@ -40,5 +40,25 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LAST_SCION_RETURN_STAFF",
+    "condition": { "u_has_trait": "iso_eldritch_sorcery" },
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "id": [ "iso_sorcerers_staff" ] } ],
+        "false_eocs": [
+          {
+            "id": "EOC_LAST_SCION_RETURN_STAFF_2",
+            "effect": [
+              { "u_spawn_item": "iso_sorcerers_staff", "suppress_message": true },
+              { "u_message": "Your lost staff has returned to you.", "type": "good" }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

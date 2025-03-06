@@ -134,5 +134,10 @@
     "id": "EOC_ISO_BIONIC_VAMPIRE_POWER_RESTORE",
     "condition": { "u_has_trait": "iso_bionic_vampire" },
     "effect": { "math": [ "u_val('power')", "+=", "500 * 1000000" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_LAST_SCION_LEVEL_SPELLS",
+    "condition": { "u_has_trait": "iso_eldritch_sorcery" }
   }
 ]

@@ -8,7 +8,7 @@
     "cannot_cast_message": "You can't cast any of the spells you know!",
     "get_level_formula_id": "iso_eldritch_sorcery_formula_get_level",
     "exp_for_level_formula_id": "iso_eldritch_sorcery_formula_exp_for_level",
-    "casting_xp_formula_id": "iso_eldritch_sorcery_formula_exp_per_cast"
+    "casting_xp_formula_id": "xiso_eldritch_sorcery_formula_exp_per_cast"
   },
   {
     "id": "iso_eldritch_basic_attack",
@@ -30,6 +30,34 @@
     "range_increment": 0.4,
     "max_range": 25,
     "base_energy_cost": 40,
-    "base_casting_time": 100
+    "base_casting_time": 200
+  },
+  {
+    "id": "iso_eldritch_cone_lightning",
+    "type": "SPELL",
+    "name": "Stormtenders' Fury",
+    "description": "Unleash a cone of lashing lightnings that scourge your enemies.  This enchantment also briefly stuns robotic enemies.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "RANDOM_DURATION", "VERBAL", "SOMATIC", "NO_LEGS", "LOUD" ],
+    "spell_class": "iso_eldritch_sorcery",
+    "magic_type": "iso_eldritch_sorcery",
+    "difficulty": 1,
+    "max_level": 30,
+    "effect": "attack",
+    "efffec_str": "sensor_stun",
+    "shape": "cone",
+    "damage_type": "electric",
+    "min_damage": { "math": [ "(u_spell_level('iso_eldritch_cone_lightning') * 1.1) + 8" ] },
+    "max_damage": { "math": [ "(u_spell_level('iso_eldritch_cone_lightning') * 2.7) + 20" ] },
+    "min_duration": 200,
+    "max_duration": 500,
+    "min_range": 5,
+    "range_increment": 0.4,
+    "max_range": 12,
+    "min_aoe": 40,
+    "max_aoe": 75,
+    "aoe_incredment": 0.9,
+    "base_energy_cost": 120,
+    "base_casting_time": 250
   }
 ]

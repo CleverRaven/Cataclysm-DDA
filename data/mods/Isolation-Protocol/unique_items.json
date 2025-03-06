@@ -123,5 +123,32 @@
         "encumbrance": 10
       }
     ]
+  },
+  {
+    "id": "iso_sorcerers_staff",
+    "type": "GENERIC",
+    "copy-from": "q_staff",
+    "looks_like": "rune_magus_weapon",
+    "name": { "str_sp": "Blackstaff" },
+    "description": "An enchanted staff, with diamonds and starmetal on the end to facilitate the channeling of arcane energies.  If lost, it will always return to you.",
+    "weight": "1530 g",
+    "volume": "1550 ml",
+    "longest_side": "185 cm",
+    "price": "39 USD",
+    "material": [ "wood", "diamond" ],
+    "symbol": "/",
+    "color": "white",
+    "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ],
+    "melee_damage": { "bash": 29 },
+    "enchantments": [ { "condition": "held", "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.5 } ] } ]
+  },
+  {
+    "id": "iso_sorcerers_robe",
+    "type": "ARMOR",
+    "name": { "str": "robe of the gloaming tower" },
+    "copy-from": "robe_wizard",
+    "looks_like": "robe_wizard",
+    "description": "A black robe fading into dark blue at the hem, indicating your status as one of the Arch-wizards of the Dreaming City."
   }
 ]
