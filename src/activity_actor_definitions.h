@@ -1539,15 +1539,15 @@ class insert_item_activity_actor : public activity_actor
         contents_change_handler handler;
         bool all_pockets_rigid;
         bool reopen_menu;
-        // allow put items into holster's nested  pocket
-        bool allow_fill_charge_item_nested;
+        // allow put charge items into holster's nested  pocket
+        bool allow_fill_count_by_charge_item_nested;
 
     public:
 
         insert_item_activity_actor() = default;
         insert_item_activity_actor( const item_location &holster, const drop_locations &holstered_list,
-                                    bool reopen_menu = false,bool allow_fill_charge_item_nested=true ) : holster( holster ), items( holstered_list ),
-            reopen_menu( reopen_menu ),allow_fill_charge_item_nested(allow_fill_charge_item_nested) {}
+                                    bool reopen_menu = false,bool allow_fill_count_by_charge_item_nested=true ) : holster( holster ), items( holstered_list ),
+            reopen_menu( reopen_menu ),allow_fill_count_by_charge_item_nested(allow_fill_count_by_charge_item_nested) {}
 
         const activity_id &get_type() const override {
             static const activity_id ACT_INSERT_ITEM( "ACT_INSERT_ITEM" );
