@@ -1,0 +1,35 @@
+[
+  {
+    "id": "iso_eldritch_sorcery",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "failure_cost_percent": 0.5,
+    "cannot_cast_flags": "NO_SPELLCASTING",
+    "cannot_cast_message": "You can't cast any of the spells you know!",
+    "get_level_formula_id": "iso_eldritch_sorcery_formula_get_level",
+    "exp_for_level_formula_id": "iso_eldritch_sorcery_formula_exp_for_level",
+    "casting_xp_formula_id": "iso_eldritch_sorcery_formula_exp_per_cast"
+  },
+  {
+    "id": "iso_eldritch_basic_attack",
+    "type": "SPELL",
+    "name": "Baleful Flames of Abhorrach",
+    "description": "Summon up a bolt of black flame from the Outer Darkness that alternately burns and freezes its target.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "VERBAL", "SOMATIC", "NO_LEGS", "SILENT", "NO_PROJECTILE" ],
+    "spell_class": "iso_eldritch_sorcery",
+    "magic_type": "iso_eldritch_sorcery",
+    "difficulty": 1,
+    "max_level": 30,
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "pure",
+    "min_damage": { "math": [ "(u_spell_level('iso_eldritch_basic_attack') * 1.8) + 5" ] },
+    "max_damage": { "math": [ "(u_spell_level('iso_eldritch_basic_attack') * 3.6) + 10" ] },
+    "min_range": 8,
+    "range_increment": 0.4,
+    "max_range": 25,
+    "base_energy_cost": 40,
+    "base_casting_time": 100
+  }
+]

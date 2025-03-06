@@ -21,7 +21,11 @@
     "type": "effect_on_condition",
     "id": "EOC_ISO_DECIDE_LEVEL",
     "condition": { "math": [ "ISO_CURRENT_LEVEL % SAFEPOINT_INTERVAL == 0" ] },
-    "effect": [ { "run_eocs": [ "EOC_ISO_MICROLAB_SAFE_TP", "EOC_ISO_BIONIC_VAMPIRE_POWER_RESTORE" ] } ],
+    "effect": [
+      {
+        "run_eocs": [ "EOC_ISO_MICROLAB_SAFE_TP", "EOC_ISO_BIONIC_VAMPIRE_POWER_RESTORE", "EOC_ISO_LAST_SCION_LEVEL_SPELLS" ]
+      }
+    ],
     "false_effect": [
       {
         "if": { "math": [ "ISO_CURRENT_LEVEL < 4" ] },
