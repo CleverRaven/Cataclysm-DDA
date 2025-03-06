@@ -92,6 +92,9 @@
   <PropertyGroup Label="Configuration">
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <EnableASAN>true</EnableASAN>
+  </PropertyGroup>
   <Import Project="Cataclysm.Cpp.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
@@ -116,6 +119,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release-NoTiles'">
     <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
