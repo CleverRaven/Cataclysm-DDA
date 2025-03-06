@@ -311,6 +311,22 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_autumn_freeze_in_place_target",
+    "name": [ "Baleful Gaze" ],
+    "desc": [ "Now they shall know fear." ],
+    "remove_message": "You can move again.",
+    "show_in_info": true,
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_freeze_in_place_self",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_freeze_target_in_place_not_winter",
     "name": [ "Grip of Winter" ],
     "desc": [ "Ice coats your lower limbs, freezing you in place." ],
