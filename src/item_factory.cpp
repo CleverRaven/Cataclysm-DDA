@@ -2570,6 +2570,17 @@ void Item_factory::check_definitions() const
     }
 }
 
+const itype *Item_factory::add_runtime( const itype_id &id, translation name,
+                                        translation description ) const
+{
+    itype *def = new itype();
+    def->id = id;
+    def->name = std::move( name );
+    def->description = std::move( description );
+    m_runtimes[ id ].reset( def );
+    return def;
+}
+
 //Returns the template with the given identification tag
 const itype *Item_factory::find_template( const itype_id &id ) const
 {
@@ -2589,23 +2600,13 @@ const itype *Item_factory::find_template( const itype_id &id ) const
     const recipe_id &making_id = recipe_id( id.c_str() );
     if( oter_str_id( id.c_str() ).is_valid() ||
         ( making_id.is_valid() && making_id.obj().is_blueprint() ) ) {
-        itype *def = new itype();
-        def->id = id;
-        def->name = no_translation( string_format( "DEBUG: %s", id.c_str() ) );
-        def->description = making_id.obj().description;
-        m_runtimes[ id ].reset( def );
-        return def;
+        return add_runtime( id, no_translation( string_format( "DEBUG: %s", id.c_str() ) ),
+                            making_id.obj().description );
     }
 
     debugmsg( "Missing item definition: %s", id.c_str() );
-
-    itype *def = new itype();
-    def->id = id;
-    def->name = no_translation( string_format( "undefined-%s", id.c_str() ) );
-    def->description = no_translation( string_format( "Missing item definition for %s.", id.c_str() ) );
-
-    m_runtimes[ id ].reset( def );
-    return def;
+    return add_runtime( id, no_translation( string_format( "undefined-%s", id.c_str() ) ),
+                        no_translation( string_format( "Missing item definition for %s.", id.c_str() ) ) );
 }
 
 Item_spawn_data *Item_factory::get_group( const item_group_id &group_tag )
