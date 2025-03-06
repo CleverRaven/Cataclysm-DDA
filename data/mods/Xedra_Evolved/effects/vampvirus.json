@@ -29,7 +29,8 @@
               { "u_lose_trait": "VAMPIRE_SILENT_MOVE" },
               { "math": [ "u_spell_level('vampire_smell_nearby_blood_spell') = -1" ] },
               { "math": [ "u_spell_level('vampire_stamina_for_blood_spell') = -1" ] },
-              { "u_message": "The light seems less bright and the air fresher.", "type": "good" }
+              { "u_message": "The light seems less bright and the air fresher.", "type": "good" },
+              { "u_add_effect": "curevamp", "duration": "72 h" }
             ]
           },
           {
