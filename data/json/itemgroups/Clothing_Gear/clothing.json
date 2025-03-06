@@ -3884,11 +3884,7 @@
     "type": "item_group",
     "//": "womens shirts",
     "subtype": "distribution",
-    "items": [
-      { "item": "halter_top", "prob": 30 },
-      { "item": "tank_top", "prob": 15 },
-      { "item": "camisole", "prob": 15 }
-    ]
+    "items": [ { "item": "halter_top", "prob": 30 }, { "item": "tank_top", "prob": 15 }, { "item": "camisole", "prob": 15 } ]
   },
   {
     "id": "underwear_unisex",
