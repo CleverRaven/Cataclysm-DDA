@@ -195,7 +195,7 @@
 #include "translation_cache.h"
 #include "translations.h"
 #include "trap.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_extended_description.h"
 #include "ui_manager.h"
 #include "uistate.h"
@@ -4412,6 +4412,7 @@ float game::natural_light_level( const int zlev ) const
 
     // Sunlight/moonlight related stuff
     ret = sun_moon_light_at( calendar::turn );
+    ret *= get_weather().weather_id->light_multiplier;
     ret += get_weather().weather_id->light_modifier;
 
     // Artifact light level changes here. Even though some of these only have an effect

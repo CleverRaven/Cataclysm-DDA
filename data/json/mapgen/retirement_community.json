@@ -1510,7 +1510,7 @@
         { "chance": 15, "rotation": 90, "vehicle": "parking_garage", "x": 148, "y": 15 },
         { "chance": 15, "rotation": 90, "vehicle": "parking_garage", "x": 154, "y": 15 },
         { "chance": 15, "rotation": 90, "vehicle": "parking_garage", "x": 162, "y": 15 },
-        { "chance": 100, "rotation": 90, "vehicle": "van_cargo", "x": 127, "y": 30 },
+        { "rotation": 90, "vehicle": "van_cargo", "x": 127, "y": 30 },
         { "chance": 15, "rotation": 0, "vehicle": "parking_garage", "x": 108, "y": 34 },
         { "chance": 15, "rotation": 0, "vehicle": "parking_garage", "x": 108, "y": 41 }
       ]

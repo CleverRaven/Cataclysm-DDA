@@ -2385,5 +2385,78 @@
     "type": "MIGRATION",
     "replace": "jacket_leather",
     "variant": "jacket_leather_red"
+  },
+  {
+    "id": "fancy_sunglasses",
+    "type": "MIGRATION",
+    "replace": "sunglasses"
+  },
+  {
+    "id": "fancy_sunglasses_eye",
+    "type": "MIGRATION",
+    "replace": "sunglasses_eye"
+  },
+  {
+    "id": "fancy_sunglasses_reading",
+    "type": "MIGRATION",
+    "replace": "sunglasses_reading"
+  },
+  {
+    "id": "fancy_sunglasses_bifocal",
+    "type": "MIGRATION",
+    "replace": "sunglasses_bifocal"
+  },
+  {
+    "id": "fancy_glasses_bifocal",
+    "type": "MIGRATION",
+    "replace": "glasses_bifocal"
+  },
+  {
+    "id": "fancy_glasses_reading",
+    "type": "MIGRATION",
+    "replace": "glasses_reading"
+  },
+  {
+    "id": "fancy_glasses_eye",
+    "type": "MIGRATION",
+    "replace": "glasses_eye"
+  },
+  {
+    "id": "fancy_transition_glasses_reading",
+    "type": "MIGRATION",
+    "replace": "sunglasses_reading"
+  },
+  {
+    "id": "fancy_transition_glasses_bifocal",
+    "type": "MIGRATION",
+    "replace": "sunglasses_bifocal"
+  },
+  {
+    "id": "fancy_transition_glasses_eye",
+    "type": "MIGRATION",
+    "replace": "sunglasses_eye"
+  },
+  {
+    "id": "transition_glasses_bifocal",
+    "type": "MIGRATION",
+    "replace": "sunglasses_bifocal",
+    "variant": "transition_bifocal_square"
+  },
+  {
+    "id": "transition_glasses_eye",
+    "type": "MIGRATION",
+    "replace": "sunglasses_eye",
+    "variant": "transition_corrective_round"
+  },
+  {
+    "id": "transition_glasses_reading",
+    "type": "MIGRATION",
+    "replace": "sunglasses_reading",
+    "variant": "transition_reading_aviator"
+  },
+  {
+    "id": "jeans_red",
+    "type": "MIGRATION",
+    "replace": "jeans"
   }
 ]

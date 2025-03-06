@@ -565,7 +565,7 @@
   {
     "type": "item_group",
     "id": "NC_OPS_eyes",
-    "items": [ [ "null", 40 ], [ "glasses_bal", 50 ], [ "sunglasses", 20 ], [ "fancy_sunglasses", 20 ] ]
+    "items": [ [ "null", 40 ], [ "glasses_bal", 50 ], [ "sunglasses", 20 ] ]
   },
   {
     "type": "item_group",

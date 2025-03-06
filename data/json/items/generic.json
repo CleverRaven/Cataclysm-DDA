@@ -383,7 +383,7 @@
     "qualities": [ [ "ROPE", 2 ] ],
     "price_postapoc": "50 cent",
     "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "uneven" },
-    "melee_damage": { "bash": 26 }
+    "melee_damage": { "bash": 12 }
   },
   {
     "type": "GENERIC",

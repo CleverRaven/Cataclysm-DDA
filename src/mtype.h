@@ -344,6 +344,12 @@ struct mtype {
          * of this type (if it's friendly).
          */
         itype_id revert_to_itype;
+
+        /**
+         * If this is not empty, the monster will become this item when mdeath::BROKEN
+         * is triggered. Overwrites the normal hardcoded broken item.
+         */
+        itype_id broken_itype;
         /**
          * If this monster is a rideable mech with built-in weapons, this is the weapons id
          */

@@ -431,7 +431,7 @@ static medical_column draw_health_summary( const int column_count, Character &yo
         // INFECTED block
         if( infected ) {
             const effect infected_effect = you.get_effect( effect_infected, part );
-            detail += string_format( _( "[ %s ]" ), colorize( _( "INFECTED" ), c_pink ) );
+            detail += string_format( _( "[ %s ]" ), colorize( _( "SEPTIC" ), c_pink ) );
             description += string_format( "[ %s ] - %s\n",
                                           colorize( infected_effect.get_speed_name(), c_pink ),
                                           infected_effect.disp_short_desc() );

@@ -115,7 +115,7 @@
         "  |  hhh  |  |L  L  L|  ",
         "  | httth |  |L  L SL|  ",
         " c| httth |  |   LS L|c ",
-        "||| httt  2  2   L  L|||",
+        "||| httt  2  2   £  L|||",
         " c|   hh  |  |&S   SL|F ",
         " c|ŧŧ    &|^^|LLLLLLL|F ",
         " c||||||||||||||||||||||",
@@ -124,10 +124,18 @@
       ],
       "palettes": [ "microlab_generic" ],
       "terrain": { "G": "t_card_science", "Q": "t_metal_floor" },
-      "furniture": { "C": "f_filing_cabinet", "Ȼ": "f_filing_cabinet", "L": "f_lab_bench", "S": "f_stool", "ŧ": "f_table" },
+      "furniture": {
+        "C": "f_filing_cabinet",
+        "Ȼ": "f_filing_cabinet",
+        "L": "f_lab_bench",
+        "£": "f_lab_bench",
+        "S": "f_stool",
+        "ŧ": "f_table"
+      },
       "item": {
         "C": { "item": "lab_file_teleportation_item", "chance": 5 },
         "Ȼ": [ { "item": "lab_file_teleportation_item", "chance": 5 }, { "item": "schematics_transporters", "chance": 30 } ],
+        "£": [ { "item": "phavian_psionic_teleportation_combat_book", "chance": 15 } ],
         "Q": { "item": "matrix_crystal_teleportation", "chance": 15 },
         "R": { "item": "lab_file_teleportation_item", "chance": 15 },
         "t": { "item": "lab_file_teleportation_item", "chance": 2 }

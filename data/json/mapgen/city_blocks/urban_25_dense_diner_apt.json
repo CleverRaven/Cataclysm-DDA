@@ -206,7 +206,7 @@
         "}": "t_ladder_up"
       },
       "furniture": { "!": "f_region_flower", "0": "f_stool", ")": "f_dumpster", "(": "f_recycle_bin" },
-      "place_vehicles": [ { "vehicle": "back_alley", "x": 4, "y": 5, "rotation": 90, "chance": 100 } ],
+      "place_vehicles": [ { "vehicle": "back_alley", "x": 4, "y": 5, "rotation": 90 } ],
       "place_loot": [
         { "item": "television", "x": 7, "y": 3, "chance": 75 },
         { "item": "television", "x": 12, "y": 18, "chance": 75 },

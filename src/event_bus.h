@@ -10,6 +10,7 @@
 class Creature;
 class event_subscriber;
 class item_location;
+class vehicle;
 
 class event_bus
 {
@@ -24,6 +25,7 @@ class event_bus
         void send( const cata::event & ) const;
         void send_with_talker( Creature *, Creature *, const cata::event & ) const;
         void send_with_talker( Creature *, item_location *, const cata::event & ) const;
+        void send_with_talker( vehicle *alpha, Creature *, const cata::event &e ) const;
         template<event_type Type, typename... Args>
         void send( Args &&... args ) const {
             send( cata::event::make<Type>( std::forward<Args>( args )... ) );

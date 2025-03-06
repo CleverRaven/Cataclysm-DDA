@@ -106,7 +106,7 @@
       { "group": "novels", "prob": 50, "count": [ 1, 3 ] },
       { "group": "textbooks", "prob": 30 },
       { "group": "cigar_box_unopened", "prob": 10 },
-      { "group": "ammo_common", "prob": 157 },
+      { "group": "ammo_common_boxed", "prob": 157 },
       { "group": "guns_common", "prob": 226 },
       { "item": "case_cigar", "prob": 5 },
       [ "vest", 40 ],
