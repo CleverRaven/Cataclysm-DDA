@@ -16,6 +16,7 @@
 
 #include "calendar.h"
 #include "color.h"
+#include "dialogue_helpers.h"
 #include "effect_source.h"
 #include "enums.h"
 #include "event.h"
@@ -169,6 +170,8 @@ class effect_type
             return int_dur_factor;
         }
         std::vector<enchantment_id> enchantments;
+        // encumbrance that always applies
+        std::map<bodypart_str_id, dbl_or_var> encumbrance;
         cata::flat_set<json_character_flag> immune_flags;
         cata::flat_set<json_character_flag> immune_bp_flags;
     protected:
