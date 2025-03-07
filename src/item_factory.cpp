@@ -2570,6 +2570,18 @@ void Item_factory::check_definitions() const
     }
 }
 
+const itype *Item_factory::add_runtime( const itype_id &id, translation name,
+                                        translation description ) const
+{
+    itype *def = new itype();
+    def->id = id;
+    def->name = std::move( name );
+    def->description = std::move( description );
+    m_runtimes[ id ].reset( def );
+    m_runtimes_dirty = true;
+    return def;
+}
+
 //Returns the template with the given identification tag
 const itype *Item_factory::find_template( const itype_id &id ) const
 {
@@ -2589,23 +2601,13 @@ const itype *Item_factory::find_template( const itype_id &id ) const
     const recipe_id &making_id = recipe_id( id.c_str() );
     if( oter_str_id( id.c_str() ).is_valid() ||
         ( making_id.is_valid() && making_id.obj().is_blueprint() ) ) {
-        itype *def = new itype();
-        def->id = id;
-        def->name = no_translation( string_format( "DEBUG: %s", id.c_str() ) );
-        def->description = making_id.obj().description;
-        m_runtimes[ id ].reset( def );
-        return def;
+        return add_runtime( id, no_translation( string_format( "DEBUG: %s", id.c_str() ) ),
+                            making_id.obj().description );
     }
 
     debugmsg( "Missing item definition: %s", id.c_str() );
-
-    itype *def = new itype();
-    def->id = id;
-    def->name = no_translation( string_format( "undefined-%s", id.c_str() ) );
-    def->description = no_translation( string_format( "Missing item definition for %s.", id.c_str() ) );
-
-    m_runtimes[ id ].reset( def );
-    return def;
+    return add_runtime( id, no_translation( string_format( "undefined-%s", id.c_str() ) ),
+                        no_translation( string_format( "Missing item definition for %s.", id.c_str() ) ) );
 }
 
 Item_spawn_data *Item_factory::get_group( const item_group_id &group_tag )
@@ -4740,6 +4742,7 @@ void Item_factory::clear()
 
     m_templates.clear();
     m_runtimes.clear();
+    m_runtimes_dirty = true;
 
     item_blacklist.clear();
 
@@ -5292,32 +5295,25 @@ bool Item_factory::has_template( const itype_id &id ) const
     return m_templates.count( id ) || m_runtimes.count( id );
 }
 
-std::vector<const itype *> Item_factory::all() const
+const std::vector<const itype *> &Item_factory::all() const
 {
     cata_assert( frozen );
+    // if (!m_runtimes_dirty) then runtimes haven't changed.
+    // Since frozen == true, m_templates haven't changed either.
+    if( m_runtimes_dirty ) {
+        templates_all_cache.clear();
+        templates_all_cache.reserve( m_templates.size() + m_runtimes.size() );
 
-    std::vector<const itype *> res;
-    res.reserve( m_templates.size() + m_runtimes.size() );
-
-    for( const auto &e : m_templates ) {
-        res.push_back( &e.second );
-    }
-    for( const auto &e : m_runtimes ) {
-        res.push_back( e.second.get() );
-    }
-
-    return res;
-}
-
-std::vector<const itype *> Item_factory::get_runtime_types() const
-{
-    std::vector<const itype *> res;
-    res.reserve( m_runtimes.size() );
-    for( const auto &e : m_runtimes ) {
-        res.push_back( e.second.get() );
+        for( const auto &e : m_templates ) {
+            templates_all_cache.push_back( &e.second );
+        }
+        for( const auto &e : m_runtimes ) {
+            templates_all_cache.push_back( e.second.get() );
+        }
+        m_runtimes_dirty = false;
     }
 
-    return res;
+    return templates_all_cache;
 }
 
 /** Find all templates matching the UnaryPredicate function */
@@ -5325,7 +5321,7 @@ std::vector<const itype *> Item_factory::find( const std::function<bool( const i
 {
     std::vector<const itype *> res;
 
-    std::vector<const itype *> opts = item_controller->all();
+    const std::vector<const itype *> &opts = item_controller->all();
 
     std::copy_if( opts.begin(), opts.end(), std::back_inserter( res ),
     [&func]( const itype * e ) {
