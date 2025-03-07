@@ -768,7 +768,7 @@
     "subtype": "distribution",
     "id": "boxed_460",
     "container-item": "460_ammo_box_20",
-    "items": [ { "item": "460sw", "charges": 20, "prob": 7 }, { "item": "460sw_jsp", "charges": 20, "prob": 8 } ]
+    "items": [ { "item": "460sw", "charges": 20, "prob": 7 }, { "item": "460sw_jhp", "charges": 20, "prob": 8 } ]
   },
   {
     "type": "item_group",
@@ -1760,7 +1760,7 @@
     "container-item": "460_ammo_box_20",
     "items": [
       { "item": "460sw", "charges": 1, "count": [ 10, 30 ], "prob": 7 },
-      { "item": "460sw_jsp", "charges": 1, "count": [ 10, 30 ], "prob": 8 }
+      { "item": "460sw_jhp", "charges": 1, "count": [ 10, 30 ], "prob": 8 }
     ]
   },
   {
@@ -2631,7 +2631,7 @@
     "subtype": "distribution",
     "id": "boxed_460_looted",
     "container-item": "460_ammo_box_20",
-    "items": [ { "item": "460sw", "charges": [ 0, 4 ], "prob": 7 }, { "item": "460sw_jsp", "charges": [ 0, 4 ], "prob": 8 } ]
+    "items": [ { "item": "460sw", "charges": [ 0, 4 ], "prob": 7 }, { "item": "460sw_jhp", "charges": [ 0, 4 ], "prob": 8 } ]
   },
   {
     "type": "item_group",
