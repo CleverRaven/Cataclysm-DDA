@@ -786,7 +786,7 @@ struct sound_effect_handler {
                 handler->current_sample_index += 1.0f * playback_speed;
                 if( handler->current_sample_index >= num_source_samples ) {
                     handler->loops_remaining--;
-                    handler->current_sample_index = static_cast<float>(std::fmod( handler->current_sample_index, num_source_samples )); // gcc 9 apparently hates std::fmodf???
+                    handler->current_sample_index = std::fmodf( handler->current_sample_index, num_source_samples );
                 }
             }
 
