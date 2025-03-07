@@ -71,5 +71,104 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_LAST_SCION_SPELL_GAINING_WHEN_PICK_UP_GUN",
+    "eoc_type": "EVENT",
+    "required_event": "character_wields_item",
+    "condition": { "and": [ { "u_has_wielded_with_skill": "gun" }, { "u_has_trait": "iso_eldritch_sorcery" } ] },
+    "effect": [
+      {
+        "if": { "u_has_wielded_with_ammotype": "10mm" },
+        "then": [
+          { "set_string_var": "iso_eldritch_cone_lightning", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          {
+            "set_string_var": "Stormtenders' Fulminating Fury",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
+      {
+        "if": { "u_has_wielded_with_ammotype": "223" },
+        "then": [
+          { "set_string_var": "iso_eldritch_cold_damage_blast", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          {
+            "set_string_var": "The Frozen Heart of R'shothai",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          }
+        ]
+      },
+      {
+        "if": { "u_has_wielded_with_ammotype": "9mm" },
+        "then": [
+          { "set_string_var": "iso_eldritch_blink", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          {
+            "set_string_var": "The Transportations of Immenar",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
+      {
+        "if": { "u_has_wielded_with_ammotype": "3006" },
+        "then": [
+          { "set_string_var": "iso_eldritch_polymorph", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          {
+            "set_string_var": "Tsath's Horrific Metamorphosis",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
+      {
+        "if": { "or": [ { "u_has_wielded_with_ammotype": "45" }, { "u_has_wielded_with_ammotype": "45colt" } ] },
+        "then": [
+          { "set_string_var": "iso_eldritch_imprisonment", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          {
+            "set_string_var": "The Adamantine Gaol of Emthys",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
+      {
+        "if": { "u_has_wielded_with_ammotype": "50" },
+        "then": [
+          { "set_string_var": "iso_eldritch_polymorph", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          {
+            "set_string_var": "Tsath's Horrific Metamorphosis",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "wielded_only": true } ],
+        "true_eocs": [ { "id": "EOC_ISO_LAST_SCION_DESTROY_GUN_WHEN_PICK_UP_GUN", "effect": [ "npc_die" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_1", "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_2" ],
+        "names": [ "Add <global_val:new_last_scion_spell_name> to Slot 1", "Add <global_val:new_last_scion_spell_name> to Slot 2" ],
+        "keys": [ "1", "2" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_1",
+    "condition": {
+      "u_query": "This will teleport you back to your sky island.  Any items inside the room will be teleported home alongside you.  Are you ready to leave?",
+      "default": false
+    },
+    "effect": [  ]
   }
 ]
