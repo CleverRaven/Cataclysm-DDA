@@ -3794,7 +3794,7 @@
       { "item": "socks", "prob": 70 },
       { "item": "socks_ankle", "prob": 50 },
       { "item": "socks_wool", "prob": 30 },
-      { "item": "thermal_socks", "prob": 10 }
+      { "item": "thermal_socks", "prob": 1 }
     ]
   },
   {
@@ -3853,11 +3853,7 @@
     "type": "item_group",
     "//": "womens shirts",
     "subtype": "distribution",
-    "items": [
-      { "item": "halter_top", "prob": 30 },
-      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 1 },
-      { "item": "cheerleader_top_short", "prob": 1 }
-    ]
+    "items": [ { "item": "halter_top", "prob": 30 }, { "item": "tank_top", "prob": 15 }, { "item": "camisole", "prob": 15 } ]
   },
   {
     "id": "underwear_unisex",
@@ -3865,8 +3861,8 @@
     "//": "unisex underwear",
     "subtype": "distribution",
     "items": [
-      { "item": "thermal_suit", "prob": 15 },
-      { "item": "thermal_outfit", "prob": 5 },
+      { "item": "thermal_suit", "prob": 1 },
+      { "item": "thermal_outfit", "prob": 1 },
       { "item": "long_undertop", "prob": 30 },
       { "item": "under_armor", "prob": 10 },
       { "item": "undershirt", "prob": 40 },
@@ -3961,7 +3957,7 @@
     "//": "womens pants and leg coverings for domestic locations.",
     "subtype": "distribution",
     "items": [
-      { "item": "nanoskirt", "prob": 10 },
+      { "item": "nanoskirt", "prob": 1 },
       { "item": "skirt", "prob": 50 },
       { "item": "skirt_long", "prob": 40 },
       { "item": "skirt_denim", "prob": 20 },
