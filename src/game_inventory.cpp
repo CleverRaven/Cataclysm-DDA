@@ -935,8 +935,10 @@ static std::string get_consume_needs_hint( Character &you )
     int kcal_ingested_yesterday = you.as_avatar()->get_daily_ingested_kcal( true );
     int kcal_spent_today = you.as_avatar()->get_daily_spent_kcal( false );
     int kcal_spent_yesterday = you.as_avatar()->get_daily_spent_kcal( true );
-    bool has_fitness_band =  you.cache_has_item_with( json_flag_CALORIE_BURN );
-    bool has_tracker = has_fitness_band || you.cache_has_item_with( json_flag_CALORIES_INTAKE );
+    bool has_fitness_band =  you.cache_has_item_with( json_flag_CALORIE_BURN ) ||
+                             you.has_flag( json_flag_CALORIE_BURN );
+    bool has_tracker = has_fitness_band || you.cache_has_item_with( json_flag_CALORIES_INTAKE ) ||
+                       you.has_flag( json_flag_CALORIES_INTAKE );
 
     std::string kcal_estimated_intake;
     if( kcal_ingested_today == 0 ) {
