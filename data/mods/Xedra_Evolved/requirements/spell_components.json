@@ -10,7 +10,7 @@
     "components": [ [ [ "changeling_dreamspark", 2 ] ] ]
   },
   {
-    "id": "spell_components_dreamdross_3",
+    "id": "spell_components_changeling_dreamsparks_3",
     "type": "requirement",
     "components": [ [ [ "changeling_dreamspark", 3 ] ] ]
   },

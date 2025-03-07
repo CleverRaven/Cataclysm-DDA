@@ -64,5 +64,59 @@
       },
       { "run_eocs": "EOC_CHANGELING_SPRING_HEALING_INCREASE_WHILE_OUTSIDE_APPLY_EFFECT" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SPRING_REMOVE_FATIGUE_AND_SLEEP_DEPRIVATION_INITIATE",
+    "condition": { "not": { "is_season": "autumn" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_CHANGELING_SPRING_REMOVE_FATIGUE_AND_SLEEP_DEPRIVATION_INITIATE_REMOVAL",
+            "effect": [
+              {
+                "if": { "math": [ "u_val('sleepiness') >= 1" ] },
+                "then": [
+                  {
+                    "math": [
+                      "u_val('sleepiness')",
+                      "-=",
+                      "(50 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 12) ) * rng(0.5,1.5)"
+                    ]
+                  },
+                  { "u_message": "Your tiredness just seems to fall away.", "type": "good" }
+                ]
+              },
+              {
+                "if": { "math": [ "u_val('sleep_deprivation') >= 1" ] },
+                "then": [
+                  {
+                    "math": [
+                      "u_val('sleep_deprivation')",
+                      "-=",
+                      "(100 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 24) ) * rng(0.5,1.5)"
+                    ]
+                  }
+                ]
+              },
+              {
+                "if": { "math": [ "u_val('sleepiness') < 0 " ] },
+                "then": [ { "math": [ "u_val('sleepiness') = 0" ] } ]
+              },
+              {
+                "if": { "math": [ "u_val('sleep_deprivation') < 0 " ] },
+                "then": [ { "math": [ "u_val('sleep_deprivation') = 0" ] } ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": {
+      "if": { "and": [ "u_is_outside", "is_day" ] },
+      "then": { "run_eocs": "EOC_CHANGELING_SPRING_REMOVE_FATIGUE_AND_SLEEP_DEPRIVATION_INITIATE_REMOVAL" },
+      "else": { "u_message": "During the autumn, you must be outdoors and in sunlight to shed your tiredness", "type": "bad" }
+    }
   }
 ]
