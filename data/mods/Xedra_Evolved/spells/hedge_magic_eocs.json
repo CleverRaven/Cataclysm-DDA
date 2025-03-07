@@ -279,6 +279,28 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_HEDGE_TURN_INTO_BEAR_UNWEAR_ITEM",
+    "eoc_type": "EVENT",
+    "required_event": "character_takeoff_item",
+    "condition": { "compare_string": [ "item_hedge_turn_into_bear", { "context_val": "itype" } ] },
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_hedge_turn_into_bear" } ],
+        "true_eocs": [
+          {
+            "id": "EOC_HEDGE_TURN_INTO_BEAR_UNWEAR_ITEM_FOLLOWUP",
+            "effect": [
+              { "u_consume_item": "item_hedge_turn_into_bear", "count": 1 },
+              { "u_spawn_item": "item_hedge_turn_into_bear_off", "suppress_message": true }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS",
     "condition": { "u_has_worn_with_flag": "SKINCHANGED" },
     "effect": [
