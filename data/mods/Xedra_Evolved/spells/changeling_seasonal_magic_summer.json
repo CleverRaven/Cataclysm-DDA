@@ -220,6 +220,43 @@
     "base_casting_time": 75
   },
   {
+    "id": "changeling_summer_create_thunderstorm_spell",
+    "type": "SPELL",
+    "name": "Summer Thunder",
+    "description": "Conjure up a thunderstorm, causing the sky to cloud over, rain to fall, and eventually lightning to flash.  You have no control over the storm once you set it in motion.  This glamour <color_red>will not work</color> if you are indoors or if the temperature is below freezing.",
+    "message": "",
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_summer",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 7,
+    "components": "spell_components_changeling_dreamsparks_3",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SUMMER_CREATE_THUNDERSTORM_INITIATE",
+    "min_duration": {
+      "math": [
+        "( ( 42810 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 11290) + (u_skill('deduction') * 20576) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 89750 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 24916) + (u_skill('deduction') * 49107) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 700 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 4) - (u_skill('deduction') * 8)), 400)" ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 30000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 50) - (u_skill('deduction') * 750)), 6000)"
+      ]
+    }
+  },
+  {
     "id": "changeling_summer_powerful_sunlight_spell",
     "type": "SPELL",
     "name": "Helios's Wrath",
