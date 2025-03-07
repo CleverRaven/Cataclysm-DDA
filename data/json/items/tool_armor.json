@@ -508,7 +508,7 @@
     "symbol": "[",
     "ammo": "battery",
     "charges_per_use": 1,
-    "use_action": [ "MP3", "CALORIES_INTAKE_TRACKER", "FITNESS_CHECK" ],
+    "use_action": [ "MP3", "CALORIES_INTAKE_TRACKER", "FITNESS_CHECK", "PORTABLE_GAME" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 20 } } ],
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
@@ -533,6 +533,7 @@
       "CALORIES_INTAKE_TRACKER",
       "FITNESS_CHECK",
       "WEATHER_TOOL",
+      "PORTABLE_GAME",
       { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "pocket_data": [
