@@ -1,7 +1,7 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_GRABBED_ARMS_MAKES_SOMATIC_SPELLS_HARDER",
+    "id": "EOC_ISO_GRABBED_ARMS_MAKES_SOMATIC_SPELLS_HARDER",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": {
@@ -22,7 +22,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_GRABBED_HANDS_MAKES_SOMATIC_SPELLS_HARDER",
+    "id": "EOC_ISO_GRABBED_HANDS_MAKES_SOMATIC_SPELLS_HARDER",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": {
@@ -39,6 +39,17 @@
           "(u_effect_intensity('grabbed', 'bodypart': 'hand_l') + u_effect_intensity('grabbed', 'bodypart': 'hand_r') ) / 5"
         ]
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_NOT_WIELDING_STAFF_MAKES_SORCERY_HARDER",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "not": { "u_has_wielded_with_flag": "MAGIC_FOCUS" } },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('cost', 'school': 'iso_eldritch_sorcery'", "=", "0.5" ] },
+      { "math": [ "u_spellcasting_adjustment('casting_time', 'school': 'iso_eldritch_sorcery'", "=", "1" ] }
     ]
   },
   {
