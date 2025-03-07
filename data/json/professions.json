@@ -452,10 +452,7 @@
   {
     "type": "profession_item_substitutions",
     "item": "blazer",
-    "sub": [
-      { "present": [ "WOOLALLERGY" ], "new": [ "jacket_leather_red" ] },
-      { "present": [ "VEGAN" ], "new": [ "jacket_light" ] }
-    ]
+    "sub": [ { "present": [ "WOOLALLERGY" ], "new": [ "jacket_leather" ] }, { "present": [ "VEGAN" ], "new": [ "jacket_light" ] } ]
   },
   {
     "type": "profession_item_substitutions",
@@ -8004,7 +8001,7 @@
         "entries": [
           { "item": "jeans" },
           { "item": "tshirt" },
-          { "item": "gosling_jacket" },
+          { "item": "jacket_leather" },
           { "item": "gloves_fingerless" },
           { "item": "socks" },
           { "item": "sneakers" },

@@ -496,7 +496,6 @@
               { "item": "jacket_army", "prob": 25 },
               { "item": "jacket_windbreaker", "prob": 20 },
               { "item": "jacket_varsity", "prob": 20 },
-              { "item": "gosling_jacket", "prob": 5 },
               { "item": "sweater", "prob": 50 },
               { "item": "turtleneck", "prob": 30 },
               { "item": "trenchcoat", "prob": 10 },
@@ -1426,7 +1425,6 @@
       { "item": "jeans", "prob": 90 },
       { "item": "jeans_ripped", "prob": 10 },
       { "item": "jeans_skinny", "prob": 20 },
-      { "item": "jeans_red", "prob": 50 },
       { "item": "shorts", "prob": 70 },
       { "item": "shorts_denim", "prob": 35 },
       { "item": "b_shorts", "prob": 30 },
@@ -1543,7 +1541,6 @@
       [ "jacket_varsity", 20 ],
       [ "jacket_jean", 35 ],
       [ "vest_jean", 15 ],
-      [ "gosling_jacket", 3 ],
       [ "blazer", 35 ],
       [ "towel", 40 ],
       [ "jacket_leather", 30 ],
@@ -1821,7 +1818,6 @@
       [ "jacket_leather", 30 ],
       [ "tacjacket", 30 ],
       [ "leather_police_jacket", 8 ],
-      [ "gosling_jacket", 5 ],
       [ "coat_rain", 50 ],
       [ "trenchcoat", 12 ],
       [ "trenchcoat_steampunk", 1 ],
@@ -2258,7 +2254,6 @@
       { "item": "jacket_light", "prob": 50 },
       { "item": "jacket_windbreaker", "prob": 25 },
       { "item": "jacket_varsity", "prob": 20 },
-      { "item": "gosling_jacket", "prob": 5 },
       { "item": "jacket_jean", "prob": 35 },
       { "item": "vest_jean", "prob": 20 },
       { "item": "blazer", "prob": 35 },
@@ -3181,7 +3176,6 @@
       [ "jacket_leather", 12 ],
       [ "tacjacket", 30 ],
       [ "jacket_varsity", 6 ],
-      [ "gosling_jacket", 1 ],
       [ "leather_police_jacket", 12 ],
       [ "jacket_jean", 8 ],
       [ "jacket_flannel", 6 ],
@@ -3474,7 +3468,6 @@
       { "item": "blazer", "prob": 35 },
       { "item": "jacket_leather", "prob": 30 },
       { "item": "leather_police_jacket", "prob": 10 },
-      { "item": "gosling_jacket", "prob": 5 },
       { "item": "coat_rain", "prob": 50 },
       { "item": "trenchcoat", "prob": 10 },
       { "item": "duster", "prob": 15 },
@@ -3542,7 +3535,6 @@
       [ "jacket_light", 50 ],
       [ "jacket_windbreaker", 25 ],
       [ "jacket_varsity", 20 ],
-      [ "gosling_jacket", 5 ],
       [ "jacket_jean", 35 ],
       [ "vest_jean", 20 ],
       [ "blazer", 35 ],
@@ -3795,7 +3787,7 @@
       { "item": "socks", "prob": 70 },
       { "item": "socks_ankle", "prob": 50 },
       { "item": "socks_wool", "prob": 30 },
-      { "item": "thermal_socks", "prob": 10 }
+      { "item": "thermal_socks", "prob": 1 }
     ]
   },
   {
@@ -3854,11 +3846,7 @@
     "type": "item_group",
     "//": "womens shirts",
     "subtype": "distribution",
-    "items": [
-      { "item": "halter_top", "prob": 30 },
-      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 1 },
-      { "item": "cheerleader_top_short", "prob": 1 }
-    ]
+    "items": [ { "item": "halter_top", "prob": 30 }, { "item": "tank_top", "prob": 15 }, { "item": "camisole", "prob": 15 } ]
   },
   {
     "id": "underwear_unisex",
@@ -3866,8 +3854,8 @@
     "//": "unisex underwear",
     "subtype": "distribution",
     "items": [
-      { "item": "thermal_suit", "prob": 15 },
-      { "item": "thermal_outfit", "prob": 5 },
+      { "item": "thermal_suit", "prob": 1 },
+      { "item": "thermal_outfit", "prob": 1 },
       { "item": "long_undertop", "prob": 30 },
       { "item": "under_armor", "prob": 10 },
       { "item": "undershirt", "prob": 40 },
@@ -3944,7 +3932,6 @@
       { "item": "jeans", "prob": 80 },
       { "item": "jeans_ripped", "prob": 7 },
       { "item": "jeans_skinny", "prob": 15 },
-      { "item": "jeans_red", "prob": 20 },
       { "item": "leg_warmers", "prob": 20 },
       { "item": "leggings", "prob": 30 },
       { "item": "legguard_hard", "prob": 3 },
@@ -3963,7 +3950,7 @@
     "//": "womens pants and leg coverings for domestic locations.",
     "subtype": "distribution",
     "items": [
-      { "item": "nanoskirt", "prob": 10 },
+      { "item": "nanoskirt", "prob": 1 },
       { "item": "skirt", "prob": 50 },
       { "item": "skirt_long", "prob": 40 },
       { "item": "skirt_denim", "prob": 20 },
@@ -4231,11 +4218,9 @@
           { "item": "tacjacket", "prob": 50 },
           { "item": "jacket_army", "prob": 30 },
           { "item": "leather_police_jacket", "prob": 10 },
-          { "item": "jacket_leather_red", "prob": 25 },
           { "item": "jacket_light", "prob": 60 },
           { "item": "jacket_windbreaker", "prob": 70 },
           { "item": "jacket_varsity", "prob": 30 },
-          { "item": "gosling_jacket", "prob": 5 },
           { "item": "poncho", "prob": 30 },
           { "item": "ski_jacket", "prob": 25 },
           { "group": "costume_jackets", "prob": 1 },

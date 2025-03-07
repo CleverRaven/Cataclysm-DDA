@@ -2376,6 +2376,17 @@
     "replace": "12_ammo_box_25"
   },
   {
+    "id": "gosling_jacket",
+    "type": "MIGRATION",
+    "replace": "jacket_leather"
+  },
+  {
+    "id": "jacket_leather_red",
+    "type": "MIGRATION",
+    "replace": "jacket_leather",
+    "variant": "jacket_leather_red"
+  },
+  {
     "id": "fancy_sunglasses",
     "type": "MIGRATION",
     "replace": "sunglasses"
@@ -2442,5 +2453,10 @@
     "type": "MIGRATION",
     "replace": "sunglasses_reading",
     "variant": "transition_reading_aviator"
+  },
+  {
+    "id": "jeans_red",
+    "type": "MIGRATION",
+    "replace": "jeans"
   }
 ]
