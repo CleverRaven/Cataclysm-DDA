@@ -1,9 +1,0 @@
-[
-  {
-    "type": "sound_effect",
-    "id": "engine_stop",
-    "variant": "combustion",
-    "volume": 100,
-    "files": [ "engine_stop/combustion/engine_stop_combustion.ogg" ]
-  }
-]

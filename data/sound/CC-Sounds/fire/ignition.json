@@ -1,9 +1,0 @@
-[
-  {
-    "type": "sound_effect",
-    "id": "fire",
-    "variant": "ignition",
-    "volume": 100,
-    "files": [ "fire/ignition.ogg" ]
-  }
-]

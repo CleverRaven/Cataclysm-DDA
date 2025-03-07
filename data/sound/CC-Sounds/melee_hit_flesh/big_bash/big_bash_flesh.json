@@ -1,9 +1,0 @@
-[
-  {
-    "type": "sound_effect",
-    "id": "melee_hit_flesh",
-    "variant": "big_bash",
-    "volume": 100,
-    "files": [ "melee_hit_flesh/big_bash/big_bash_flesh_1.ogg", "melee_hit_flesh/big_bash/big_bash_flesh_2.ogg" ]
-  }
-]
