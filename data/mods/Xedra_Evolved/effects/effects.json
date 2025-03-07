@@ -1631,7 +1631,7 @@
   {
     "type": "effect_type",
     "id": "effect_sylph_bonus_melee_range",
-    "name": [ "Gale-Cutting Strikes" ],
+    "name": [ "Breeze-Cutting Blows" ],
     "desc": [ "Your strikes cut the air and carry on to your foes." ],
     "apply_message": "",
     "remove_message": "Your blows no longer split the air itself.",

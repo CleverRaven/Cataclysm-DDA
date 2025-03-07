@@ -379,7 +379,7 @@
   {
     "id": "sylph_bonus_melee_range_spell",
     "type": "SPELL",
-    "name": "Gale-Cutting Strikes",
+    "name": "Breeze-Cutting Blows",
     "description": "The Sylph strikes through the air so precisely that the air itself is cut and carries their force outward.  While the spell is in effect, the Sylph can make melee strikes and affect distant targets.",
     "valid_targets": [ "self" ],
     "skill": "deduction",
