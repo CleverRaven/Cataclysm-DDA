@@ -1,0 +1,308 @@
+[
+  {
+    "id": "afs_telekinetic_move_item",
+    "type": "SPELL",
+    "name": "[Ψ]Far Hand",
+    "description": "Move a set of items towards or away from you.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_TELEKINETIC_FAR_HAND_SELECTOR",
+    "shape": "blast",
+    "magic_type": "aftershock_psionics",
+    "base_energy_cost": 1250,
+    "final_energy_cost": 500,
+    "energy_increment": -80,
+    "base_casting_time": 50,
+    "final_casting_time": 10,
+    "casting_time_increment": -4
+  },
+  {
+    "id": "afs_telekinetic_item_pull_real",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Far Hand Pull Items Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual effect that causes the far hand.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "item", "ground" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "directed_push",
+    "shape": "blast",
+    "min_damage": {
+      "math": [
+        "min( ( (u_spell_level('afs_telekinetic_move_item') * 0.4) + 1) * (scaling_factor(u_val('intelligence') ) * -1), 40)"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "min( ( (u_spell_level('afs_telekinetic_move_item') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) * -1), 40)"
+      ]
+    },
+    "min_range": {
+      "math": [ "min( ( (u_spell_level('afs_telekinetic_move_item') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)" ]
+    },
+    "max_range": {
+      "math": [ "min( ( (u_spell_level('afs_telekinetic_move_item') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)" ]
+    }
+  },
+  {
+    "id": "afs_telekinetic_item_push_real",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Far Hand Push Items Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual effect that causes the far hand.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "item", "ground" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "directed_push",
+    "shape": "blast",
+    "min_damage": {
+      "math": [ "min( ( (u_spell_level('afs_telekinetic_move_item') * 0.4) + 1) * scaling_factor(u_val('intelligence') ), 40)" ]
+    },
+    "max_damage": {
+      "math": [ "min( ( (u_spell_level('afs_telekinetic_move_item') * 0.9) + 4) * scaling_factor(u_val('intelligence') ), 40)" ]
+    },
+    "min_range": {
+      "math": [ "min( ( (u_spell_level('afs_telekinetic_move_item') * 0.9) + 2) * scaling_factor(u_val('intelligence') ), 40)" ]
+    },
+    "max_range": {
+      "math": [ "min( ( ( (u_spell_level('afs_telekinetic_move_item') * 0.9) + 2) * scaling_factor(u_val('intelligence') ) ), 40)" ]
+    }
+  },
+  {
+    "id": "afs_telekinetic_move_creature",
+    "type": "SPELL",
+    "name": "[Ψ]Force Shove",
+    "description": "Shove a target away or pull it towards you with a burst of psionic force.  The distance the target can be moved depends on its weight versus your power level; heavier things will not go as far, and if your target is too heavy, you may not be able to move it at all.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_TELEKINETIC_FORCE_SHOVE_SELECTOR",
+    "shape": "blast",
+    "max_range": 40,
+    "magic_type": "aftershock_psionics",
+    "base_energy_cost": 1750,
+    "final_energy_cost": 750,
+    "energy_increment": -80,
+    "base_casting_time": 50,
+    "final_casting_time": 10,
+    "casting_time_increment": -4
+  },
+  {
+    "id": "afs_telekinetic_force_shove_away_target",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Force Shove Away", "//~": "NO_I18N" },
+    "description": { "str": "The power that shoves a target away.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_TELEKINETIC_FORCE_SHOVE_PUSH_CHECKER",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( (u_spell_level('afs_telekinetic_move_creature') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ), 40)"
+      ]
+    },
+    "max_range": 40
+  },
+  {
+    "id": "afs_telekinetic_force_shove_toward_target",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Force Shove Toward", "//~": "NO_I18N" },
+    "description": { "str": "The power that shoves a target toward.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_TELEKINETIC_FORCE_SHOVE_PULL_CHECKER",
+    "shape": "blast",
+    "min_range": {
+      "math": [ "min( ( (u_spell_level('afs_telekinetic_move_creature') * 0.9) + 2) * scaling_factor(u_val('intelligence') ), 40)" ]
+    },
+    "max_range": 40
+  },
+  {
+    "id": "afs_telekinetic_force_shove_away",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Force Shove Push Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual effect that causes the force shove away.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": 30,
+    "effect": "directed_push",
+    "shape": "blast",
+    "min_damage": 0,
+    "max_damage": 30,
+    "damage_increment": 1,
+    "min_range": 50,
+    "max_range": 50
+  },
+  {
+    "id": "afs_telekinetic_force_shove_toward",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Force Shove Pull Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual effect that causes the force shove toward.  It's a bug if you have it.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": 30,
+    "effect": "directed_push",
+    "shape": "blast",
+    "min_damage": 0,
+    "max_damage": -30,
+    "damage_increment": -1,
+    "min_range": 50,
+    "max_range": 50
+  },
+  {
+    "id": "afs_telekinetic_momentum",
+    "type": "SPELL",
+    "name": "[Ψ]Momentum Alteration (C)",
+    "description": "Edit the momentum of yourself and nearby objects to your benefit, slowing damaging force and slightly increasing your speed.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_AFS_TELEKIN_MOMENTUM_INITIATE",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_spell_level('afs_telekinetic_momentum') * 1000) + 9000) * scaling_factor(u_val('intelligence') )" ] },
+    "max_duration": { "math": [ "( (u_spell_level('afs_telekinetic_momentum') * 2000) + 60000) * scaling_factor(u_val('intelligence') )" ] },
+    "magic_type": "aftershock_psionics",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_afs_telekinetic_momentum') > -1 ? 0 : max((3500 - (u_spell_level('afs_telekinetic_momentum') * 125)), 1750)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_afs_telekinetic_momentum') > -1 ? 10 : max((300 -(u_spell_level('afs_telekinetic_momentum') * 7.5)), 125)"
+      ]
+    }
+  },
+  {
+    "id": "afs_telekinetic_wave",
+    "type": "SPELL",
+    "name": "[Ψ]Wave of Force",
+    "description": "Unleash a telekinetic wave around you that indiscriminately knocks everything back.",
+    "message": "You knock everything nearby backwards!",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "WONDER", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [ { "id": "afs_telekinetic_wavepush", "hit_self": true } ],
+    "shape": "blast",
+    "min_damage": 12,
+    "max_damage": 12,
+    "magic_type": "aftershock_psionics",
+    "base_energy_cost": 5500,
+    "final_energy_cost": 2500,
+    "energy_increment": -125,
+    "base_casting_time": 50,
+    "final_casting_time": 20,
+    "casting_time_increment": -4
+  },
+  {
+    "id": "afs_telekinetic_wavepush",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Telekinetic Wave Push", "//~": "NO_I18N" },
+    "description": { "str": "Part of Wave of Force.  If you see this it's a bug.", "//~": "NO_I18N" },
+    "message": "",
+    "valid_targets": [ "ally", "hostile", "item" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "RANDOM_TARGET", "NO_EXPLOSION_SFX" ],
+    "effect": "directed_push",
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "damage_type": "psi_telekinetic_damage",
+    "min_damage": {
+      "math": [ "min( ( ( (u_spell_level('afs_telekinetic_wave') * 0.1) + 2) * scaling_factor(u_val('intelligence') ) ), 15)" ]
+    },
+    "max_damage": { "math": [ "( (u_spell_level('afs_telekinetic_wave') * 0.25) + 6) * (scaling_factor(u_val('intelligence') ) )" ] },
+    "min_range": 1,
+    "max_range": 1
+  },
+  {
+    "id": "afs_telekinetic_hammer",
+    "type": "SPELL",
+    "name": "[Ψ]Mindhammer",
+    "description": "Smash a single target or small area with a fist of telekinetic force.",
+    "message": "You smash your target with a fist of force.",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground" ],
+    "spell_class": "AFS_TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "damage_type": "psi_telekinetic_damage",
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": { "math": [ "( (u_spell_level('afs_telekinetic_hammer') * 1.25) + 18) * scaling_factor(u_val('intelligence') )" ] },
+    "max_damage": { "math": [ "( (u_spell_level('afs_telekinetic_hammer') * 3.5) + 55) * scaling_factor(u_val('intelligence') )" ] },
+    "min_bash_scaling": 1,
+    "max_bash_scaling": 1,
+    "min_range": {
+      "math": [ "min( ( ( (u_spell_level('afs_telekinetic_hammer') * 0.9) + 3) * scaling_factor(u_val('intelligence') ) ), 70)" ]
+    },
+    "max_range": 70,
+    "magic_type": "aftershock_psionics",
+    "base_energy_cost": 5750,
+    "final_energy_cost": 2750,
+    "energy_increment": -135,
+    "base_casting_time": 50,
+    "final_casting_time": 25,
+    "casting_time_increment": -2.5,
+    "sound_type": "combat",
+    "sound_description": "a heavy thud!"
+  }
+]

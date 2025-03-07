@@ -15,7 +15,7 @@
           "then": [
             {
               "u_location_variable": { "global_val": "invasion_map" },
-              "target_params": { "om_terrain": "barry_mi-go_scout_tower_1", "search_range": 500, "z": 0 }
+              "target_params": { "om_terrain": "barry_mi-go_scout_tower_1", "z": 0 }
             },
             { "u_teleport": { "global_val": "invasion_map" }, "force": true },
             { "run_eocs": [ "isherwood_mission_chris_spawn_eoc", "isherwood_mission_lisa_spawn_eoc" ] },
@@ -84,7 +84,7 @@
     "effect": [
       {
         "u_location_variable": { "global_val": "invasion_map" },
-        "target_params": { "om_terrain": "barry_mi-go_scout_tower_1", "search_range": 500, "z": 0 }
+        "target_params": { "om_terrain": "barry_mi-go_scout_tower_1", "z": 0 }
       },
       { "u_teleport": { "global_val": "invasion_map" }, "force": true },
       {
@@ -170,7 +170,7 @@
                 "effect": [
                   {
                     "u_location_variable": { "global_val": "invasion_map" },
-                    "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 }
+                    "target_params": { "om_terrain": "horse_farm_isherwood_13", "z": 0 }
                   },
                   { "u_teleport": { "global_val": "invasion_map" }, "force": true },
                   {
@@ -211,12 +211,7 @@
             "id": "EOC_BARRY_TRAVEL_HOME",
             "effect": [
               {
-                "u_set_goal": {
-                  "om_terrain": "horse_farm_isherwood_14",
-                  "om_special": "Isherwood Farm Mutable",
-                  "reveal_radius": 0,
-                  "search_range": 500
-                }
+                "u_set_goal": { "om_terrain": "horse_farm_isherwood_14", "om_special": "Isherwood Farm Mutable", "reveal_radius": 0 }
               }
             ]
           }
@@ -241,7 +236,7 @@
             "effect": [
               {
                 "u_location_variable": { "global_val": "barry_return_home_map" },
-                "target_params": { "om_terrain": "horse_farm_isherwood_13", "om_special": "Isherwood Farm Mutable", "search_range": 500, "z": 0 },
+                "target_params": { "om_terrain": "horse_farm_isherwood_13", "om_special": "Isherwood Farm Mutable", "z": 0 },
                 "furniture": "f_sofa",
                 "target_max_radius": 30,
                 "min_radius": 0,
@@ -342,7 +337,7 @@
       { "math": [ "is_isherwood_flee_eoc_activated = 0" ] },
       {
         "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
-        "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },
+        "target_params": { "om_terrain": "horse_farm_isherwood_13", "z": 0 },
         "furniture": "f_chair",
         "target_max_radius": 30,
         "min_radius": 0,
@@ -401,7 +396,7 @@
       },
       {
         "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
-        "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },
+        "target_params": { "om_terrain": "horse_farm_isherwood_13", "z": 0 },
         "furniture": "f_chair",
         "target_max_radius": 30,
         "min_radius": 0,
@@ -458,7 +453,7 @@
           { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "isherwood_barry_rescue_field" },
           {
             "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
-            "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },
+            "target_params": { "om_terrain": "horse_farm_isherwood_13", "z": 0 },
             "furniture": "f_chair",
             "target_max_radius": 30,
             "min_radius": 0,

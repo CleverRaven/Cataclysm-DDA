@@ -13,7 +13,7 @@
 #include <sstream>
 #include <string>
 #include <string_view>
-#include <type_traits>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -30,10 +30,10 @@
 #include "display.h"
 #include "flag.h"
 #include "flat_set.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "game_inventory.h"
+#include "generic_factory.h"
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
@@ -44,11 +44,14 @@
 #include "item_location.h"
 #include "itype.h"
 #include "localized_comparator.h"
+#include "magic_enchantment.h"
 #include "options.h"
 #include "output.h"
+#include "pimpl.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -57,7 +60,7 @@
 #include "translation_cache.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_iteminfo.h"
 #include "ui_manager.h"
 #include "uistate.h"
@@ -265,6 +268,7 @@ struct availability {
         bool has_proficiencies;
         bool has_all_skills;
         bool is_nested_category;
+        // Used as an indicator to see if crafting is called via camp. if not nullptr, we must be camp crafting
         inventory *inv_override;
     private:
         const recipe *rec;
@@ -488,7 +492,7 @@ static std::vector<std::string> recipe_info(
                   "when it is not</color>.\n" );
     }
     std::string reason;
-    bool npc_cant = avail.crafter.is_npc() && !recp.npc_can_craft( reason );
+    bool npc_cant = avail.crafter.is_npc() && !recp.npc_can_craft( reason ) && !avail.inv_override ;
     if( !can_craft_this && avail.apparently_craftable && !recp.is_nested() && !npc_cant ) {
         oss << _( "<color_red>Cannot be crafted because the same item is needed "
                   "for multiple components.</color>\n" );
@@ -985,6 +989,21 @@ static recipe_subset filter_recipes( const recipe_subset &available_recipes,
                                        recipe_subset::search_type::quality_result, progress_callback );
                     break;
 
+                case 'L':
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                       recipe_subset::search_type::length, progress_callback );
+                    break;
+
+                case 'V':
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                       recipe_subset::search_type::volume, progress_callback );
+                    break;
+
+                case 'M':
+                    filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
+                                       recipe_subset::search_type::mass, progress_callback );
+                    break;
+
                 case 'v':
                     filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 2 ),
                                        recipe_subset::search_type::covers, progress_callback );
@@ -1028,7 +1047,7 @@ static recipe_subset filter_recipes( const recipe_subset &available_recipes,
                 case 'r': {
                     recipe_subset result;
                     for( const itype *e : item_controller->all() ) {
-                        if( wildcard_match( e->nname( 1 ), qry_filter_str.substr( 2 ) ) ) {
+                        if( lcmatch( e->nname( 1 ), qry_filter_str.substr( 2 ) ) ) {
                             result.include( recipe_subset( available_recipes,
                                                            available_recipes.recipes_that_produce( e->get_id() ) ) );
                         }
@@ -1078,7 +1097,10 @@ static const std::vector<SearchPrefix> prefixes = {
     { 'm', to_translation( "yes" ), to_translation( "recipe <color_cyan>memorized</color> (or not)" ) },
     { 'P', to_translation( "Blacksmithing" ), to_translation( "<color_cyan>proficiency</color> used to craft" ) },
     { 'l', to_translation( "5" ), to_translation( "<color_cyan>difficulty</color> of the recipe as a number or range" ) },
-    { 'r', to_translation( "buttermilk" ), to_translation( "recipe's (<color_cyan>by</color>)<color_cyan>products</color>; use * as wildcard" ) },
+    { 'r', to_translation( "buttermilk" ), to_translation( "recipe's (<color_cyan>by</color>)<color_cyan>products</color>" ) },
+    { 'L', to_translation( "122 cm" ), to_translation( "result can contain item of <color_cyan>length</color>" ) },
+    { 'V', to_translation( "450 ml" ), to_translation( "result can contain item of <color_cyan>volume</color>" ) },
+    { 'M', to_translation( "250 kg" ), to_translation( "result can contain item of <color_cyan>mass</color>" ) },
     { 'v', to_translation( "head" ), to_translation( "<color_cyan>body part</color> the result covers" ) },
     { 'e', to_translation( "close to skin" ), to_translation( "<color_cyan>layer</color> the result covers" ) },
     { 'a', to_translation( "brisk" ), to_translation( "recipe's <color_cyan>activity level</color>" ) }
@@ -2014,8 +2036,14 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         } else if( action == "TOGGLE_RECIPE_UNREAD" && selection_ok( current, line, true ) ) {
             const recipe_id rcp = current[line]->ident();
             if( uistate.read_recipes.count( rcp ) ) {
+                for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                    uistate.read_recipes.erase( nested_rcp );
+                }
                 uistate.read_recipes.erase( rcp );
             } else {
+                for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                    uistate.read_recipes.insert( nested_rcp );
+                }
                 uistate.read_recipes.insert( rcp );
             }
             recalc_unread = highlight_unread_recipes;
@@ -2023,6 +2051,15 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         } else if( action == "MARK_ALL_RECIPES_READ" ) {
             bool current_list_has_unread = false;
             for( const recipe *const rcp : current ) {
+                for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                    if( !uistate.read_recipes.count( nested_rcp->ident() ) ) {
+                        current_list_has_unread = true;
+                        break;
+                    }
+                    if( current_list_has_unread ) {
+                        break;
+                    }
+                }
                 if( !uistate.read_recipes.count( rcp->ident() ) ) {
                     current_list_has_unread = true;
                     break;
@@ -2045,10 +2082,16 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             if( query_yn( query_str ) ) {
                 if( current_list_has_unread ) {
                     for( const recipe *const rcp : current ) {
+                        for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                            uistate.read_recipes.insert( nested_rcp->ident() );
+                        }
                         uistate.read_recipes.insert( rcp->ident() );
                     }
                 } else {
                     for( const recipe *const rcp : available_recipes ) {
+                        for( const recipe_id nested_rcp : rcp->nested_category_data ) {
+                            uistate.read_recipes.insert( nested_rcp->ident() );
+                        }
                         uistate.read_recipes.insert( rcp->ident() );
                     }
                 }
@@ -2290,7 +2333,8 @@ static void compare_recipe_with_item( const item &recipe_item, Character &crafte
         if( !to_compare ) {
             break;
         }
-        game_menus::inv::compare_items( recipe_item, *to_compare );
+        game_menus::inv::compare_item_menu menu( recipe_item, *to_compare );
+        menu.show();
     } while( true );
 }
 

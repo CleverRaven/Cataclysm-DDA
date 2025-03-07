@@ -361,7 +361,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
-      "place_vehicles": [ { "vehicle": "highway", "x": [ 15, 17 ], "y": 5, "fuel": -1, "status": 1, "chance": 100, "rotation": 270 } ]
+      "place_vehicles": [ { "vehicle": "highway", "x": [ 15, 17 ], "y": 5, "fuel": -1, "status": 1, "rotation": 270 } ]
     }
   },
   {
@@ -371,7 +371,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
-      "place_vehicles": [ { "vehicle": "highway", "x": [ 7, 9 ], "y": 11, "fuel": -1, "status": 1, "chance": 100, "rotation": 90 } ]
+      "place_vehicles": [ { "vehicle": "highway", "x": [ 7, 9 ], "y": 11, "fuel": -1, "status": 1, "rotation": 90 } ]
     }
   },
   {
@@ -381,7 +381,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
-      "place_vehicles": [ { "vehicle": "highway", "x": 11, "y": [ 14, 16 ], "fuel": -1, "status": 1, "chance": 100, "rotation": 0 } ]
+      "place_vehicles": [ { "vehicle": "highway", "x": 11, "y": [ 14, 16 ], "fuel": -1, "status": 1, "rotation": 0 } ]
     }
   },
   {
@@ -391,7 +391,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
-      "place_vehicles": [ { "vehicle": "highway", "x": 5, "y": [ 7, 9 ], "fuel": -1, "status": 1, "chance": 100, "rotation": 180 } ]
+      "place_vehicles": [ { "vehicle": "highway", "x": 5, "y": [ 7, 9 ], "fuel": -1, "status": 1, "rotation": 180 } ]
     }
   },
   {
@@ -681,7 +681,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
-      "place_vehicles": [ { "vehicle": "city_vehicles_wr", "x": [ 15, 17 ], "y": 5, "fuel": -1, "status": 1, "chance": 100, "rotation": 270 } ]
+      "place_vehicles": [ { "vehicle": "city_vehicles_wr", "x": [ 15, 17 ], "y": 5, "fuel": -1, "status": 1, "rotation": 270 } ]
     }
   },
   {
@@ -691,7 +691,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
-      "place_vehicles": [ { "vehicle": "city_vehicles_wr", "x": [ 7, 9 ], "y": 11, "fuel": -1, "status": 1, "chance": 100, "rotation": 90 } ]
+      "place_vehicles": [ { "vehicle": "city_vehicles_wr", "x": [ 7, 9 ], "y": 11, "fuel": -1, "status": 1, "rotation": 90 } ]
     }
   },
   {
@@ -701,7 +701,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
-      "place_vehicles": [ { "vehicle": "city_vehicles_wr", "x": 11, "y": [ 14, 16 ], "fuel": -1, "status": 1, "chance": 100, "rotation": 0 } ]
+      "place_vehicles": [ { "vehicle": "city_vehicles_wr", "x": 11, "y": [ 14, 16 ], "fuel": -1, "status": 1, "rotation": 0 } ]
     }
   },
   {
@@ -711,7 +711,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
-      "place_vehicles": [ { "vehicle": "city_vehicles_wr", "x": 5, "y": [ 7, 9 ], "fuel": -1, "status": 1, "chance": 100, "rotation": 180 } ]
+      "place_vehicles": [ { "vehicle": "city_vehicles_wr", "x": 5, "y": [ 7, 9 ], "fuel": -1, "status": 1, "rotation": 180 } ]
     }
   },
   {
@@ -803,8 +803,8 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_vehicles": [
-        { "vehicle": "semi_truck", "x": 15, "y": 4, "fuel": -1, "status": 1, "chance": 100, "rotation": 290 },
-        { "vehicle": "truck_trailer", "x": 18, "y": 12, "fuel": -1, "status": 1, "chance": 100, "rotation": 20 }
+        { "vehicle": "semi_truck", "x": 15, "y": 4, "fuel": -1, "status": 1, "rotation": 290 },
+        { "vehicle": "truck_trailer", "x": 18, "y": 12, "fuel": -1, "status": 1, "rotation": 20 }
       ]
     }
   },
@@ -816,8 +816,8 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_vehicles": [
-        { "vehicle": "semi_truck", "x": 19, "y": 15, "fuel": -1, "status": 1, "chance": 100, "rotation": 20 },
-        { "vehicle": "truck_trailer", "x": 11, "y": 18, "fuel": -1, "status": 1, "chance": 100, "rotation": 110 }
+        { "vehicle": "semi_truck", "x": 19, "y": 15, "fuel": -1, "status": 1, "rotation": 20 },
+        { "vehicle": "truck_trailer", "x": 11, "y": 18, "fuel": -1, "status": 1, "rotation": 110 }
       ]
     }
   },
@@ -829,8 +829,8 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_vehicles": [
-        { "vehicle": "semi_truck", "x": 8, "y": 19, "fuel": -1, "status": 1, "chance": 100, "rotation": 110 },
-        { "vehicle": "truck_trailer", "x": 5, "y": 11, "fuel": -1, "status": 1, "chance": 100, "rotation": 200 }
+        { "vehicle": "semi_truck", "x": 8, "y": 19, "fuel": -1, "status": 1, "rotation": 110 },
+        { "vehicle": "truck_trailer", "x": 5, "y": 11, "fuel": -1, "status": 1, "rotation": 200 }
       ]
     }
   },
@@ -842,8 +842,8 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_vehicles": [
-        { "vehicle": "semi_truck", "x": 4, "y": 8, "fuel": -1, "status": 1, "chance": 100, "rotation": 200 },
-        { "vehicle": "truck_trailer", "x": 12, "y": 5, "fuel": -1, "status": 1, "chance": 100, "rotation": 290 }
+        { "vehicle": "semi_truck", "x": 4, "y": 8, "fuel": -1, "status": 1, "rotation": 200 },
+        { "vehicle": "truck_trailer", "x": 12, "y": 5, "fuel": -1, "status": 1, "rotation": 290 }
       ]
     }
   },
@@ -855,11 +855,11 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_vehicles": [
-        { "vehicle": "city_pileup", "x": 12, "y": 8, "fuel": -1, "status": 1, "chance": 100, "rotation": 270 },
-        { "vehicle": "city_pileup", "x": 8, "y": 12, "fuel": -1, "status": 1, "chance": 100, "rotation": 0 },
-        { "vehicle": "city_pileup", "x": 12, "y": 16, "fuel": -1, "status": 1, "chance": 100, "rotation": 90 },
-        { "vehicle": "city_pileup", "x": 15, "y": 12, "fuel": -1, "status": 1, "chance": 100, "rotation": 180 },
-        { "vehicle": "city_pileup", "x": 12, "y": 12, "fuel": -1, "status": 1, "chance": 100, "rotation": 270 },
+        { "vehicle": "city_pileup", "x": 12, "y": 8, "fuel": -1, "status": 1, "rotation": 270 },
+        { "vehicle": "city_pileup", "x": 8, "y": 12, "fuel": -1, "status": 1, "rotation": 0 },
+        { "vehicle": "city_pileup", "x": 12, "y": 16, "fuel": -1, "status": 1, "rotation": 90 },
+        { "vehicle": "city_pileup", "x": 15, "y": 12, "fuel": -1, "status": 1, "rotation": 180 },
+        { "vehicle": "city_pileup", "x": 12, "y": 12, "fuel": -1, "status": 1, "rotation": 270 },
         {
           "vehicle": "city_pileup",
           "x": [ 8, 16 ],
@@ -934,11 +934,11 @@
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_vehicles": [
-        { "vehicle": "police_pileup", "x": 12, "y": 8, "fuel": -1, "status": 1, "chance": 100, "rotation": 270 },
-        { "vehicle": "police_pileup", "x": 8, "y": 12, "fuel": -1, "status": 1, "chance": 100, "rotation": 0 },
-        { "vehicle": "police_pileup", "x": 12, "y": 16, "fuel": -1, "status": 1, "chance": 100, "rotation": 90 },
-        { "vehicle": "police_pileup", "x": 16, "y": 12, "fuel": -1, "status": 1, "chance": 100, "rotation": 180 },
-        { "vehicle": "police_pileup", "x": 12, "y": 12, "fuel": -1, "status": 1, "chance": 100, "rotation": 270 },
+        { "vehicle": "police_pileup", "x": 12, "y": 8, "fuel": -1, "status": 1, "rotation": 270 },
+        { "vehicle": "police_pileup", "x": 8, "y": 12, "fuel": -1, "status": 1, "rotation": 0 },
+        { "vehicle": "police_pileup", "x": 12, "y": 16, "fuel": -1, "status": 1, "rotation": 90 },
+        { "vehicle": "police_pileup", "x": 16, "y": 12, "fuel": -1, "status": 1, "rotation": 180 },
+        { "vehicle": "police_pileup", "x": 12, "y": 12, "fuel": -1, "status": 1, "rotation": 270 },
         {
           "vehicle": "police_pileup",
           "x": [ 5, 16 ],

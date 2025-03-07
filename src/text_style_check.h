@@ -55,6 +55,7 @@ void text_style_check( Iter beg, Iter end,
             // remove unnecessary spaces before the symbol
             size_t fix_before_max = 0;
         } spaces;
+        // NOLINTBEGIN(readability-redundant-member-init)
         struct {
             bool yes = false;
             std::string str {};
@@ -62,6 +63,7 @@ void text_style_check( Iter beg, Iter end,
             std::string sym_desc {};
             std::string replace_desc {};
         } replace;
+        // NOLINTEND(readability-redundant-member-init)
     };
     // always put the longest (in u32) symbols at the front, since we'll iterate
     // and search for them in this order.

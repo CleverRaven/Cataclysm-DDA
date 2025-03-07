@@ -5,18 +5,23 @@
 #include <iosfwd>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <string>
+#include <string_view>
+#include <tuple>
 #include <utility>
 
 #include "avatar.h"
 #include "cached_options.h"
-#include "cata_imgui.h"
+#include "cata_imgui.h"  // IWYU pragma: keep
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
+#include "coordinates.h"
 #include "cursesdef.h"
-#include "display.h"
 #include "debug.h"
+#include "display.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
@@ -33,6 +38,7 @@
 #include "path_info.h"
 #include "point.h"
 #include "string_formatter.h"
+#include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
 #include "widget.h"

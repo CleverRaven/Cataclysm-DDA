@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_MOSSY_BOOMER_UPGRADE",
+    "id": "GROUP_MOSSY_BOOMER_UPGRADE",
     "default": "mon_boomer_moss",
     "//": "Upgrades for the Thorny Boomer.",
     "monsters": [
@@ -12,7 +12,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_GARDEN_ZOMBIE_UPGRADE",
+    "id": "GROUP_GARDEN_ZOMBIE_UPGRADE",
     "default": "mon_zombie_garden",
     "//": "Upgrades for the Thorny Shambler.",
     "monsters": [

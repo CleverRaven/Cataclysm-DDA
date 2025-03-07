@@ -4,19 +4,15 @@
 #include <cmath>
 #include <functional>
 #include <limits>
-#include <set>
 
 #include "character.h"
 #include "debug.h"
 #include "effect.h"
 #include "enum_conversions.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "init.h"
-#include "json_error.h"
 #include "messages.h"
 #include "move_mode.h"
 #include "output.h"

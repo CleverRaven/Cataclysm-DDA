@@ -21,11 +21,11 @@
         "s______________________ss#;;;;+ ;J;;;;;; #^.......s_____sssDDsss3.||Q||..a~~~~~~~~a..a~~~~~~~~a.",
         "s______________________ss#kkkk# ;J;;;;;; #........s_____ssssss.s3..|||...a~~~~~~~~a..a~~~~~~~~a.",
         "s______________________ss##oo##j i      u#........s_____s......s3........a~~~~~~~~a..a~~~~~gg~a.",
-        "sbbbbbb__________bbbbbbss....^####::))::##........s_____s.c.44.s3..|||...a~~~~~~~~a..a~~~~~gg~a.",
-        "s______________________ssssssssssssssssssssssssssss_____s.c.44.s3.||Q||..a~~~~~~~~a..a~~~~~~~~a.",
+        "sbbbbbb__________bbbbbbss....^####::))::##........s_____s.c..4.s3..|||...a~~~~~~~~a..a~~~~~gg~a.",
+        "s______________________ssssssssssssssssssssssssssss_____s.c....s3.||Q||..a~~~~~~~~a..a~~~~~~~~a.",
         "s_______________________________________________________s.c....s33|QQQ|..a~~~~~~~ga..a~~~~~~~~a.",
-        "s_______________________________________________________s.c.44.s..||Q||..a~~~~~~gga..a~~~~~~~~a.",
-        "s_______________________________________________________s.c.44.s...|||...a~~~~~~gga..a~~~~~~~~a.",
+        "s_______________________________________________________s.c....s..||Q||..a~~~~~~gga..a~~~~~~~~a.",
+        "s_______________________________________________________s.c..4.s...|||...a~~~~~~gga..a~~~~~~~~a.",
         "ssssssss________________________________________________s.c..............ag~~~~~gga..a~~~~~~~~a.",
         ".......s________________________________________________s.cccccccccccccccagg~~~gggacca~ff~~~gga.",
         ".......s_______________ssssssssssssssssssssssssssss_____s................aaaaaaaaaa..aaaaaaaaaa.",
@@ -71,7 +71,12 @@
         "4": "t_region_groundcover_urban"
       },
       "furniture": {
-        "4": "f_generator_broken",
+        "4": [
+          [ "f_generator_broken", 25 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_military_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
         "q": "f_dumpster",
         "e": "f_machinery_light",
         "f": "f_locker",
@@ -103,10 +108,10 @@
         { "group": "bags_trip", "chance": 80, "repeat": 1, "x": 38, "y": [ 4, 8 ] },
         { "group": "bags_trip", "chance": 80, "repeat": 1, "x": [ 26, 29 ], "y": 8 },
         { "group": "bags_trip", "chance": 80, "repeat": 2, "x": [ 34, 38 ], "y": 11 },
-        { "group": "bar_trash", "chance": 50, "repeat": 5, "x": 45, "y": 4 },
-        { "group": "bar_trash", "chance": 50, "repeat": 5, "x": 38, "y": 3 },
-        { "group": "bar_trash", "chance": 50, "repeat": 5, "x": 35, "y": 3 },
-        { "group": "bar_trash", "chance": 50, "repeat": 5, "x": 39, "y": 11 },
+        { "group": "SUS_trash_trashcan_public", "chance": 50, "repeat": 5, "x": 45, "y": 4 },
+        { "group": "SUS_trash_trashcan_public", "chance": 50, "repeat": 5, "x": 38, "y": 3 },
+        { "group": "SUS_trash_trashcan_public", "chance": 50, "repeat": 5, "x": 35, "y": 3 },
+        { "group": "SUS_trash_trashcan_public", "chance": 50, "repeat": 5, "x": 39, "y": 11 },
         { "group": "office", "chance": 50, "repeat": 5, "x": 33, "y": [ 10, 14 ] },
         { "group": "road", "chance": 50, "repeat": 10, "x": [ 75, 80 ], "y": [ 7, 20 ] },
         { "group": "road", "chance": 50, "repeat": 10, "x": [ 87, 92 ], "y": [ 7, 20 ] },
@@ -118,7 +123,7 @@
         { "group": "tools_mechanic", "chance": 50, "repeat": 4, "x": 81, "y": 8 }
       ],
       "items": {
-        "q": { "item": "trash", "chance": 30, "repeat": [ 2, 3 ] },
+        "q": { "item": "SUS_trash_dumpster", "chance": 30, "repeat": [ 2, 3 ] },
         "I": { "item": "office", "chance": 30, "repeat": [ 2, 3 ] }
       },
       "place_monster": [

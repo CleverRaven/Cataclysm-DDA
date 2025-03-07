@@ -693,19 +693,6 @@
     "valid_targets": [ "ally", "hostile" ]
   },
   {
-    "id": "death_amigara",
-    "type": "SPELL",
-    "name": { "str": "Amigara Death", "//~": "NO_I18N" },
-    "description": { "str": "Spawns an artifact and removes hypnosis if this is the last amigara.", "//~": "NO_I18N" },
-    "valid_targets": [ "hostile", "ally", "ground" ],
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "min_range": 48,
-    "max_range": 48,
-    "shape": "blast",
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_last_amigara_death"
-  },
-  {
     "id": "death_yrax_sphenocorona",
     "type": "SPELL",
     "name": { "str": "Sphenocorona Death?", "//~": "NO_I18N" },

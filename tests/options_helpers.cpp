@@ -1,7 +1,11 @@
 #include "options_helpers.h"
 
+#include <optional>
+
+#include "calendar.h"
 #include "options.h"
 #include "weather.h"
+#include "weather_type.h"
 
 override_option::override_option( const std::string &option, const std::string &value ) :
     option_( option )

@@ -1,0 +1,103 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "become_fire_fae",
+    "//": "Each potion is one trait",
+    "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },
+    "effect": [
+      { "u_message": "As you imbibe the concoction, you feel the stolen power fusing with your essence." },
+      {
+        "if": { "not": { "u_has_any_trait": [ "FALSE_ARVORE_HATRED", "FALSE_HOMULLUS_HATRED" ] } },
+        "then": { "u_add_trait": "FALSE_SALAMANDER_HATRED" },
+        "else": { "u_add_trait": "FAE_ENMITY" }
+      },
+      { "math": [ "u_vitamin('mutagen_flamekin')", "+=", "500" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen_flamekin')", "-=", "500" ] },
+      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+    ],
+    "false_effect": [ { "u_message": "The power attempts to take hold, but is rebuffed by something sinister within you." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "become_doll_fae",
+    "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },
+    "//": "Each potion is one trait",
+    "effect": [
+      { "u_message": "As you imbibe the concoction, you feel the stolen power fusing with your essence." },
+      {
+        "if": { "not": { "u_has_any_trait": [ "FALSE_ARVORE_HATRED", "FALSE_SALAMANDER_HATRED" ] } },
+        "then": { "u_add_trait": "FALSE_HOMULLUS_HATRED" },
+        "else": { "u_add_trait": "FAE_ENMITY" }
+      },
+      { "math": [ "u_vitamin('mutagen_dollkin')", "+=", "500" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen_dollkin')", "-=", "500" ] },
+      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+    ],
+    "false_effect": [ { "u_message": "The power attempts to take hold, but is rebuffed by something sinister within you." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "become_air_fae",
+    "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },
+    "effect": [
+      {
+        "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming attuned to the winds."
+      },
+      { "u_add_trait": "SYLPH" },
+      { "u_learn_recipe": "mutagen_airkin" },
+      { "u_learn_recipe": "ethereal_draught" }
+    ],
+    "false_effect": [ { "u_message": "The power attempts to take hold, but is rebuffed by something sinister within you." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "become_water_fae",
+    "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },
+    "effect": [
+      {
+        "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming attuned to the waters."
+      },
+      { "u_add_trait": "UNDINE" },
+      { "u_learn_recipe": "mutagen_waterkin" },
+      { "u_learn_recipe": "cerulean_poultice" }
+    ],
+    "false_effect": [ { "u_message": "The power attempts to take hold, but is rebuffed by something sinister within you." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "become_earth_fae",
+    "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },
+    "effect": [
+      {
+        "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming attuned to the earth."
+      },
+      { "u_add_trait": "IERDE" },
+      { "u_learn_recipe": "mutagen_earthkin" },
+      { "u_learn_recipe": "cthonic_poultice" }
+    ],
+    "false_effect": [ { "u_message": "The power attempts to take hold, but is rebuffed by something sinister within you." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "become_plant_fae",
+    "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },
+    "effect": [
+      { "u_message": "As you imbibe the concoction, you feel the stolen power fusing with your essence." },
+      {
+        "if": { "not": { "u_has_any_trait": [ "FALSE_HOMULLUS_HATRED", "FALSE_SALAMANDER_HATRED" ] } },
+        "then": { "u_add_trait": "FALSE_ARVORE_HATRED" },
+        "else": { "u_add_trait": "FAE_ENMITY" }
+      },
+      { "math": [ "u_vitamin('mutagen_plantkin')", "+=", "500" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
+      { "u_mutate": 0 },
+      { "math": [ "u_vitamin('mutagen_plantkin')", "-=", "500" ] },
+      { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] }
+    ],
+    "false_effect": [ { "u_message": "The power attempts to take hold, but is rebuffed by something sinister within you." } ]
+  }
+]

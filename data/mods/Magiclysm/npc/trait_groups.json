@@ -28,7 +28,6 @@
       { "trait": "QUICK", "prob": 10 },
       { "trait": "ROBUST", "prob": 10 },
       { "trait": "SPIRITUAL", "prob": 10 },
-      { "trait": "STYLISH", "prob": 10 },
       { "trait": "ALBINO", "prob": 5 },
       { "trait": "ASTHMA", "prob": 5 },
       { "trait": "CHEMIMBALANCE", "prob": 10 },

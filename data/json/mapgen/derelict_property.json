@@ -111,12 +111,12 @@
       "O": [
         { "item": "tools_carpentry", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "tools_construction", "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "trash", "chance": 40, "repeat": [ 1, 3 ] }
+        { "item": "SUS_trash_floor", "chance": 40, "repeat": [ 1, 3 ] }
       ],
       " ": { "item": "clutter_yard", "chance": 1, "repeat": [ 1, 2 ] },
-      ".": { "item": "bar_trash", "chance": 5, "repeat": [ 1, 2 ] },
+      ".": { "item": "SUS_trash_floor_heavy", "chance": 5, "repeat": [ 1, 2 ] },
       "C": { "item": "alcohol", "chance": 25 },
-      "c": { "item": "trash", "chance": 25, "repeat": [ 1, 4 ] },
+      "c": { "item": "SUS_trash_floor", "chance": 25, "repeat": [ 1, 4 ] },
       "@": { "item": "gear_homeless", "chance": 25 }
     },
     "toilets": { "T": {  } }

@@ -20,7 +20,7 @@ int detail::get_current_language_version()
 #if defined(LOCALIZE)
 #include "options.h"
 #include "system_locale.h"
-#include "ui.h"
+#include "uilist.h"
 
 std::string select_language()
 {

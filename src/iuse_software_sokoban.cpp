@@ -1,6 +1,8 @@
 #include "iuse_software_sokoban.h"
 
 #include <algorithm>
+#include <functional>
+#include <istream>
 #include <optional>
 #include <stdexcept>
 #include <string>
@@ -8,6 +10,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "input_context.h"
 #include "output.h"
@@ -303,9 +306,9 @@ int sokoban_game::start_game()
         }
 
         bMoved = false;
-        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            iDirX = vec->x;
-            iDirY = vec->y;
+        if( const std::optional<tripoint_rel_ms> vec = ctxt.get_direction_rel_ms( action ) ) {
+            iDirX = vec->x();
+            iDirY = vec->y();
             bMoved = true;
         } else if( action == "QUIT" ) {
             return iScore;

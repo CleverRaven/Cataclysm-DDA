@@ -46,7 +46,7 @@
         "holster": true,
         "min_item_length": "10 cm",
         "max_contains_volume": "1 L",
-        "max_contains_weight": "1000 g",
+        "max_contains_weight": "3000 g",
         "max_item_length": "40 cm",
         "//": "volume encumber set high since the whole vest is already scaled. This equals .4 overall",
         "volume_encumber_modifier": 1.2,
@@ -81,7 +81,8 @@
       { "pocket_type": "CONTAINER", "ammo_restriction": { "84x246mm": 1, "afs_82mm_flashbulb": 1 } },
       { "pocket_type": "CONTAINER", "ammo_restriction": { "84x246mm": 1, "afs_82mm_flashbulb": 1 } }
     ],
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE" ],
+    "flags": [ "BELTED", "WATERPROOF" ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": [ 3, 12 ],

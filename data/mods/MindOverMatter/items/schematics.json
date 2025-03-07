@@ -87,7 +87,7 @@
     "id": "schematics_grenade_inferno",
     "type": "BOOK",
     "name": { "str_sp": "inferno grenade schematics" },
-    "description": "This is a hand-written design document to enhance the normal explosive power of a grenade using matrix crystal dust.  In pen below is the note \"EXTREMELY DANGEROUS\".",
+    "description": "This is a design document to create a grenade using matrix crystal dust that explodes in a sea of pure flame.  In pen below is the note \"EXTREMELY DANGEROUS\".  You're not sure you could replicate the exact process with the tools available to you, but you could definitely come up with your own version.",
     "copy-from": "schematics_generic",
     "skill": "fabrication",
     "required_level": 5,

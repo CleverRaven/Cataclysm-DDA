@@ -1,9 +1,12 @@
-#include "cata_catch.h"
-
 #include <algorithm>
 #include <array>
+#include <cstddef>
+#include <functional>
+#include <vector>
 
+#include "cata_catch.h"
 #include "coordinates.h"
+#include "line.h"
 #include "map_iterator.h"
 #include "point.h"
 

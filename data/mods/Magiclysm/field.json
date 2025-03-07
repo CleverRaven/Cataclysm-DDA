@@ -225,5 +225,97 @@
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_smoke"
+  },
+  {
+    "id": "fd_dazzling_thaumic",
+    "//": "Like fd_dazzling, but thaumic zombies are immune to it",
+    "immune_mtypes": [
+      "mon_zombie_thaumic",
+      "mon_zombie_leyspark",
+      "mon_zombie_levinbolt",
+      "mon_zombie_manastorm",
+      "mon_zombie_queller",
+      "mon_zombie_disruptor",
+      "mon_zombie_magebreaker"
+    ],
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "dazzling",
+        "color": "light_red_yellow",
+        "sym": "#",
+        "light_emitted": 5,
+        "effects": [
+          {
+            "effect_id": "blind",
+            "body_part": "eyes",
+            "intensity": 2,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "chance_in_vehicle": 1,
+            "chance_inside_vehicle": 1,
+            "chance_outside_vehicle": 1
+          },
+          {
+            "effect_id": "blind",
+            "body_part": "eyes",
+            "intensity": 10,
+            "min_duration": "10 seconds",
+            "max_duration": "10 seconds",
+            "chance_in_vehicle": 5,
+            "chance_inside_vehicle": 5,
+            "chance_outside_vehicle": 5
+          }
+        ]
+      },
+      {
+        "//": "repeat last entry",
+        "effects": [
+          {
+            "effect_id": "blind",
+            "body_part": "eyes",
+            "intensity": 10,
+            "min_duration": "10 seconds",
+            "max_duration": "10 seconds",
+            "chance_in_vehicle": 1,
+            "chance_inside_vehicle": 1,
+            "chance_outside_vehicle": 1
+          }
+        ]
+      },
+      { "//": "repeat last entry" }
+    ],
+    "description_affix": "illuminated_by",
+    "immunity_data": { "immunity_flags_worn_any": [ [ "sensor", "FLASH_PROTECTION" ], [ "sensor", "BLIND" ] ], "flags": [ "BLIND" ] },
+    "priority": 4,
+    "half_life": "1 turns",
+    "phase": "plasma",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_laser"
+  },
+  {
+    "id": "fd_nullifying_field",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "emptiness",
+        "effects": [
+          {
+            "effect_id": "effect_disjunction",
+            "intensity": 1,
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "immune_inside_vehicle": false
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 5,
+    "priority": 8,
+    "half_life": "10 seconds",
+    "phase": "gas"
   }
 ]

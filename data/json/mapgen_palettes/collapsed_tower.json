@@ -26,7 +26,7 @@
       "w": "t_door_c",
       "y": "t_pavement_y",
       "z": "t_region_shrub_decorative",
-      "`": "t_hole",
+      "`": "t_open_air",
       "{": "t_door_glass_c",
       "|": "t_concrete_wall",
       "~": "t_water_sh"
@@ -52,6 +52,7 @@
       "X": "f_crate_c",
       "l": "f_locker"
     },
+    "items": { ";": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { ";": {  } }
   }
 ]

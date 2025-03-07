@@ -49,6 +49,7 @@
         }
       }
     },
+    "palettes": [ "parametrized_walls_palette" ],
     "toilets": { "t": {  } },
     "furniture": {
       "a": "f_fireplace",
@@ -165,8 +166,8 @@
         { "item": "gemstones", "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "O": { "item": "SUS_oven", "chance": 2 },
-      " ": { "item": "trash", "chance": 7 },
-      ".": { "item": "trash", "chance": 1 },
+      " ": { "item": "SUS_trash_floor", "chance": 7 },
+      ".": { "item": "SUS_trash_floor", "chance": 1 },
       "1": [ { "item": "SUS_dishes", "chance": 4 }, { "item": "SUS_silverware", "chance": 10 } ],
       "2": { "item": "SUS_cookware", "chance": 4 },
       "3": [ { "item": "SUS_utensils", "chance": 3 }, { "item": "SUS_knife_drawer", "chance": 3 } ],
@@ -180,9 +181,7 @@
     "nested": {
       "|": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 2 ], [ "general_graffiti", 10 ], [ "null", 75 ] ] },
       "#": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 2 ], [ "general_graffiti", 10 ], [ "null", 75 ] ] },
-      "v": {
-        "chunks": [ [ "looted_gunsafe_nested", 1 ], [ "jammed_gunsafe_nested", 10 ], [ "open_gunsafe_nested", 20 ], [ "null", 75 ] ]
-      },
+      "v": { "chunks": [ [ "null", 1 ] ] },
       "+": { "chunks": [ [ "destroyed_door_nested", 50 ], [ "null", 50 ] ] },
       "*": { "chunks": [ [ "destroyed_door_nested", 50 ], [ "null", 50 ] ] },
       "¶": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },

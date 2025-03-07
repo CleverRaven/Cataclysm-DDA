@@ -129,7 +129,7 @@
       { "text": "Hello.  Are you all right?  I just hit the button on your back.", "topic": "TALK_LULIYA" },
       { "text": "I'm not understanding that.  Can you try again?", "topic": "TALK_LULIYA" },
       {
-        "text": "Speak English ya <swear> robot.  We don't take kindly to that kind of thing here.  [You frown menacingly]",
+        "text": "Speak English ya <freaking> robot.  We don't take kindly to that kind of thing here.  [You frown menacingly]",
         "topic": "TALK_LULIYA"
       },
       { "text": "State your name and function machine.", "topic": "TALK_LULIYA" },

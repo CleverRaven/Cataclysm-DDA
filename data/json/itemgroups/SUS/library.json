@@ -21,14 +21,9 @@
     "//2": "This group is for a set of tailoring manuals and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "mag_tailor", "count": [ 0, 2 ], "prob": 40 },
-      { "item": "manual_tailor", "count": [ 0, 2 ], "prob": 30 },
-      { "item": "textbook_tailor", "count": [ 0, 2 ], "prob": 30 },
-      { "item": "tailor_portfolio", "prob": 5 },
-      { "item": "tailor_japanese", "prob": 2 },
+      { "group": "SUS_tailoring_bookcase", "count": [ 0, 2 ], "prob": 40 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
-      { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },
-      { "item": "scots_tailor", "prob": 3 }
+      { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
     ]
   },
   {
@@ -54,15 +49,9 @@
     "//2": "This group is for a set of mechanical engineering textbooks and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "mag_mechanics", "count": [ 0, 4 ], "prob": 40 },
-      { "item": "manual_mechanics", "count": [ 0, 1 ], "prob": 35 },
-      { "item": "textbook_mechanics", "count": [ 0, 2 ], "prob": 30 },
-      { "item": "book_icef", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "welding_book", "count": [ 0, 3 ], "prob": 30 },
-      { "item": "textbook_carpentry", "count": [ 0, 2 ], "prob": 25 },
+      { "group": "SUS_engineering_bookcase", "count": [ 0, 4 ], "prob": 40 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
-      { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },
-      { "item": "concrete_book", "count": [ 0, 2 ], "prob": 10 }
+      { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
     ]
   },
   {
@@ -89,16 +78,9 @@
     "//2": "This group is for a set of crafts manuals and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "mag_fabrication", "count": [ 0, 3 ], "prob": 20 },
-      { "item": "manual_fabrication", "count": [ 0, 2 ], "prob": 30 },
-      { "item": "textbook_fabrication", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "mag_carpentry", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "bronze_mag", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "glassblowing_book", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "theater_props", "count": [ 0, 1 ], "prob": 20 },
+      { "group": "SUS_crafts_bookcase", "count": [ 0, 2 ], "prob": 30 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
-      { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },
-      { "item": "jewelry_book", "count": [ 0, 1 ], "prob": 20 }
+      { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
     ]
   },
   {
@@ -130,21 +112,9 @@
     "//2": "This group is for a set of manuals and references for historical manufacturing techniques.",
     "subtype": "collection",
     "entries": [
-      { "item": "jewelry_book", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "textbook_armeast", "count": [ 0, 1 ], "prob": 10 },
-      { "item": "textbook_armwest", "count": [ 0, 1 ], "prob": 30 },
-      { "item": "textbook_armschina", "count": [ 0, 1 ], "prob": 25 },
-      { "item": "textbook_weapeast", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "textbook_weapwest", "count": [ 0, 2 ], "prob": 30 },
-      { "item": "textbook_weparabic", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "textbook_mesoam", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "bronze_book", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "bronze_mag", "count": [ 0, 1 ], "prob": 10 },
-      { "item": "recipe_arrows", "count": [ 0, 1 ], "prob": 30 },
+      { "group": "SUS_historical_manufacturing_bookcase", "count": [ 0, 1 ], "prob": 30 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
-      { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },
-      { "item": "recipe_bows", "count": [ 0, 2 ], "prob": 20 },
-      { "item": "ballista_book", "count": [ 0, 1 ], "prob": 15 }
+      { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
     ]
   },
   {
@@ -178,23 +148,9 @@
     "//2": "This group is for a set of electronics textbooks and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "mag_electronics", "count": [ 0, 2 ], "prob": 30 },
-      { "item": "manual_electronics", "count": [ 0, 3 ], "prob": 30 },
-      { "item": "textbook_electronics", "count": [ 0, 2 ], "prob": 30 },
-      { "item": "advanced_electronics", "count": [ 0, 2 ], "prob": 20 },
-      { "item": "ic_reference_electronics", "count": [ 0, 1 ], "prob": 60 },
-      { "item": "radio_book", "count": [ 0, 3 ], "prob": 25 },
-      {
-        "collection": [
-          { "item": "textbook_robots", "count": [ 0, 1 ], "prob": 20 },
-          { "item": "manual_computer", "count": [ 0, 2 ], "prob": 15 },
-          { "item": "computer_science", "count": [ 0, 2 ], "prob": 20 }
-        ],
-        "prob": 10
-      },
+      { "group": "SUS_electronics_bookcase", "count": [ 0, 2 ], "prob": 30 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
-      { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },
-      { "item": "repeater_mod_guide", "prob": 10 }
+      { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
     ]
   },
   {
@@ -219,14 +175,9 @@
     "//2": "This group is for a set of computer science and programming textbooks and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "manual_computer", "count": [ 0, 2 ], "prob": 20 },
-      { "item": "hackerman_computer", "count": [ 1, 4 ], "prob": 10 },
-      { "item": "webbasics_computer", "count": [ 1, 4 ], "prob": 30 },
-      { "item": "textbook_computer", "count": [ 0, 2 ], "prob": 30 },
-      { "item": "computer_science", "count": [ 0, 2 ], "prob": 30 },
+      { "group": "SUS_computers_bookcase", "count": [ 1, 4 ], "prob": 30 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
-      { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },
-      { "item": "SICP", "prob": 20 }
+      { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
     ]
   },
   {
@@ -251,14 +202,9 @@
     "//2": "This group is for a set of chemistry textbooks and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "textbook_biodiesel", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "textbook_gaswarfare", "count": [ 0, 1 ], "prob": 10 },
-      { "item": "textbook_chemistry", "count": [ 0, 2 ], "prob": 40 },
-      { "item": "textbook_extraction", "count": [ 0, 1 ], "prob": 10 },
-      { "item": "adv_chemistry", "count": [ 0, 2 ], "prob": 20 },
+      { "group": "SUS_chemistry_bookcase", "count": [ 0, 2 ], "prob": 20 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
-      { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },
-      { "item": "basic_chemistry", "count": [ 0, 1 ], "prob": 20 }
+      { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
     ]
   },
   {
@@ -288,19 +234,9 @@
     "//2": "This group is for a set of cooking manuals and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "mag_cooking", "count": [ 0, 3 ], "prob": 30 },
-      { "item": "cookbook", "count": [ 0, 2 ], "prob": 30 },
-      { "item": "cookbook_daintydishes", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "cookbook_foodfashions", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "cookbook_eatyrway", "prob": 16 },
-      { "item": "cookbook_liverforkids", "prob": 20 },
-      { "item": "cookbook_sushi", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "cookbook_italian", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "cookbook_mexican", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "family_cookbook", "prob": 5 },
+      { "group": "SUS_cooking_bookcase", "count": [ 0, 3 ], "prob": 30 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
-      { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },
-      { "item": "scots_cookbook", "prob": 1 }
+      { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
     ]
   },
   {
@@ -322,11 +258,9 @@
     "//2": "This group is for a set of medical manuals and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "manual_first_aid", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "textbook_firstaid", "count": [ 0, 1 ], "prob": 30 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },
-      { "item": "emergency_book", "count": [ 0, 2 ], "prob": 30 }
+      { "group": "SUS_medicine_bookcase", "count": [ 0, 2 ], "prob": 30 }
     ]
   },
   {
@@ -349,12 +283,9 @@
     "//2": "This group is for a set of business theory textbooks.",
     "subtype": "collection",
     "entries": [
-      { "item": "manual_business", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "textbook_business", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "manual_speech", "count": [ 0, 1 ], "prob": 20 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },
-      { "item": "textbook_speech", "count": [ 0, 1 ], "prob": 20 }
+      { "group": "SUS_business_bookcase", "count": [ 0, 1 ], "prob": 20 }
     ]
   },
   {
@@ -380,15 +311,9 @@
     "//2": "This group is for a set of bushcraft and wilderness survival manuals and references.",
     "subtype": "collection",
     "entries": [
-      { "item": "mag_survival", "count": [ 0, 3 ], "prob": 10 },
-      { "item": "manual_survival", "count": [ 0, 1 ], "prob": 30 },
-      { "item": "fun_survival", "count": [ 0, 1 ], "prob": 30 },
-      { "item": "atomic_survival", "count": [ 0, 2 ], "prob": 10 },
-      { "item": "textbook_survival", "count": [ 0, 2 ], "prob": 30 },
-      { "item": "survival_book", "count": [ 0, 1 ], "prob": 20 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },
-      { "item": "manual_swimming", "count": [ 0, 1 ], "prob": 10 }
+      { "group": "SUS_bushcraft_bookcase", "count": [ 0, 1 ], "prob": 20 }
     ]
   },
   {
@@ -459,7 +384,7 @@
     "//2": "This group is for a set of novels.",
     "subtype": "collection",
     "entries": [
-      { "group": "SUS_fiction_bookcase", "count": [ 4, 22 ], "prob": 400 },
+      { "group": "SUS_fiction_bookcase", "count": [ 1, 4 ], "prob": 40 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 }
     ]

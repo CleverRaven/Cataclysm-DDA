@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <functional>
 #include <initializer_list>
@@ -21,17 +22,21 @@
 #include "addiction.h"
 #include "bionics.h"
 #include "calendar_ui.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_martial_arts.h"
 #include "city.h"
 #include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "input_context.h"
-#include "inventory.h"
+#include "input_enums.h"
 #include "item.h"
 #include "json.h"
 #include "loading_ui.h"
@@ -45,17 +50,20 @@
 #include "mod_manager.h"
 #include "monster.h"
 #include "mutation.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
 #include "path_info.h"
 #include "pimpl.h"
 #include "player_difficulty.h"
+#include "point.h"
 #include "profession.h"
 #include "profession_group.h"
 #include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "scenario.h"
 #include "skill.h"
@@ -64,9 +72,10 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "units_utility.h"
 #include "veh_type.h"
@@ -75,6 +84,7 @@
 static const std::string flag_CHALLENGE( "CHALLENGE" );
 static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
+static const std::string flag_SKIP_DEFAULT_BACKGROUND( "SKIP_DEFAULT_BACKGROUND" );
 
 static const flag_id json_flag_auto_wield( "auto_wield" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
@@ -800,7 +810,8 @@ bool avatar::create( character_type type, const std::string &tempname )
     }
 
     // Don't apply the default backgrounds on a template
-    if( type != character_type::TEMPLATE ) {
+    if( type != character_type::TEMPLATE &&
+        !get_scenario()->has_flag( flag_SKIP_DEFAULT_BACKGROUND ) ) {
         add_default_background();
     }
 
@@ -889,6 +900,16 @@ void Character::set_skills_from_hobbies( bool no_override )
     }
 }
 
+void Character::set_recipes_from_hobbies()
+{
+    for( const profession *profession : hobbies ) {
+        for( const recipe_id &recipeID : profession->recipes() ) {
+            const recipe &r = recipe_dictionary::get_craft( recipeID->result() );
+            learn_recipe( &r );
+        }
+    }
+}
+
 void Character::set_proficiencies_from_hobbies()
 {
     for( const profession *profession : hobbies ) {
@@ -936,7 +957,8 @@ void Character::initialize( bool learn_recipes )
     set_skills_from_hobbies();
 
     // setup staring bank money
-    cash = rng( -200000, 200000 );
+    cash = prof->starting_cash().value_or( rng( -200000, 200000 ) );
+
     randomize_heartrate();
 
     //set stored kcal to a normal amount for your height
@@ -992,11 +1014,14 @@ void Character::initialize( bool learn_recipes )
     // Add hobby proficiencies
     set_proficiencies_from_hobbies();
 
+    // Add hobby recipes
+    set_recipes_from_hobbies();
+
     // Activate some mutations right from the start.
     for( const trait_id &mut : get_mutations() ) {
         const mutation_branch &branch = mut.obj();
         if( branch.starts_active ) {
-            my_mutations[mut].powered = true;
+            cached_mutations[mut].powered = true;
         }
     }
     trait_flag_cache.clear();
@@ -1279,7 +1304,7 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
     } while( true );
 }
 
-static std::string assemble_stat_details( avatar &u, const unsigned char sel )
+static std::string assemble_stat_details( avatar &u, int sel )
 {
     std::string description_str;
     switch( sel ) {
@@ -1440,7 +1465,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     const int max_stat_points = pool == pool_type::FREEFORM ? 20 : MAX_STAT;
     const int min_stat_points = 4;
 
-    unsigned char sel = 0;
+    int sel = 0;
 
     const bool screen_reader_mode = get_option<bool>( "SCREEN_READER_MODE" );
     std::string warning_text; // Used to move warnings from the header to the details pane
@@ -1473,6 +1498,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     tabs.set_up_tab_navigation( ctxt );
     details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
     ctxt.register_cardinal();
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     u.reset();
@@ -1555,11 +1581,12 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        const unsigned char id_for_curr_description = sel;
+        const int id_for_curr_description = sel;
 
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
-        } else if( details.handle_navigation( action, ctxt ) ) {
+        } else if( details.handle_navigation( action, ctxt )
+                   || navigate_ui_list( action, sel, 1, 4, true ) ) {
             // NO FURTHER ACTION REQUIRED
         } else if( action == "LEFT" ) {
             if( *stats[sel] > min_stat_points ) {
@@ -1571,10 +1598,6 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                 ( *stats[sel] )++;
                 details_recalc = true;
             }
-        } else if( action == "DOWN" ) {
-            sel = ( sel + 1 ) % 4;
-        } else if( action == "UP" ) {
-            sel = ( sel + 3 ) % 4;
         }
         if( sel != id_for_curr_description ) {
             details_recalc = true;
@@ -1807,6 +1830,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "SORT" );
+    ctxt.register_action( "RANDOMIZE" );
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         werase( w );
@@ -2165,6 +2189,8 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                 filterstring.clear();
                 recalc_traits = true;
             }
+        } else if( action == "RANDOMIZE" ) {
+            iCurrentLine[iCurWorkingPage] = rng( 0, traits_size[iCurWorkingPage] - 1 );
         }
         if( iCurWorkingPage != iPrevWorkingPage || iCurrentLine[iCurWorkingPage] != iPrevLine ) {
             details_recalc = true;
@@ -2388,6 +2414,15 @@ static std::string assemble_profession_details( const avatar &u, const input_con
             assembled += mission_type::get( mission_id )->tname() + "\n";
         }
     }
+
+    // Profession money
+    std::optional<int> cash = sorted_profs[cur_id]->starting_cash();
+
+    if( cash.has_value() ) {
+        assembled += "\n" + colorize( _( "Profession money:" ), COL_HEADER ) + "\n";
+        assembled += format_money( cash.value() ) + "\n";
+    }
+
     return assembled;
 }
 
@@ -2534,7 +2569,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
 
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, profs_length );
-        const int end_pos = iStartPos + std::min( iContentHeight, profs_length );
+        const int end_pos = iStartPos + std::min( { iContentHeight, profs_length, sorted_profs.size() } );
         std::string cur_prof_notes;
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
@@ -2889,7 +2924,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, hobbies_length );
-        const int end_pos = iStartPos + std::min( iContentHeight, hobbies_length );
+        const int end_pos = iStartPos + std::min( { iContentHeight, hobbies_length, sorted_hobbies.size() } );
         std::string cur_hob_notes;
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
@@ -3603,7 +3638,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, scens_length );
-        const int end_pos = iStartPos + std::min( iContentHeight, scens_length );
+        const int end_pos = iStartPos + std::min( { iContentHeight, scens_length, sorted_scens.size() } );
         std::string current_scenario_notes;
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
@@ -4772,7 +4807,7 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden,
         bool ignore_enchantments, const std::function<bool( const mutation_branch & )> &filter ) const
 {
     std::vector<trait_id> result;
-    result.reserve( my_mutations.size() + enchantment_cache->get_mutations().size() );
+    result.reserve( my_mutations.size() + old_mutation_cache->get_mutations().size() );
     for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
         const mutation_branch &mut = t.first.obj();
         if( include_hidden || mut.player_display ) {
@@ -4782,7 +4817,7 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden,
         }
     }
     if( !ignore_enchantments ) {
-        for( const trait_id &ench_trait : enchantment_cache->get_mutations() ) {
+        for( const trait_id &ench_trait : old_mutation_cache->get_mutations() ) {
             if( include_hidden || ench_trait->player_display ) {
                 bool found = false;
                 for( const trait_id &exist : result ) {
@@ -4802,30 +4837,36 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden,
     return result;
 }
 
+std::vector<trait_id> Character::get_functioning_mutations( bool include_hidden,
+        bool ignore_enchantments, const std::function<bool( const mutation_branch & )> &filter ) const
+{
+    std::vector<trait_id> result;
+    const auto &test = ignore_enchantments ? my_mutations : cached_mutations;
+    result.reserve( test.size() );
+    for( const std::pair<const trait_id, trait_data> &t : test ) {
+        if( t.second.corrupted == 0 ) {
+            const mutation_branch &mut = t.first.obj();
+            if( include_hidden || mut.player_display ) {
+                if( filter == nullptr || filter( mut ) ) {
+                    result.push_back( t.first );
+                }
+            }
+        }
+    }
+    return result;
+}
+
 std::vector<trait_and_var> Character::get_mutations_variants( bool include_hidden,
         bool ignore_enchantments ) const
 {
     std::vector<trait_and_var> result;
-    result.reserve( my_mutations.size() + enchantment_cache->get_mutations().size() );
-    for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
-        if( include_hidden || t.first.obj().player_display ) {
-            const std::string &variant = t.second.variant != nullptr ? t.second.variant->id : "";
-            result.emplace_back( t.first, variant );
-        }
-    }
-    if( !ignore_enchantments ) {
-        for( const trait_id &ench_trait : enchantment_cache->get_mutations() ) {
-            if( include_hidden || ench_trait->player_display ) {
-                bool found = false;
-                for( const trait_and_var &exist : result ) {
-                    if( exist.trait == ench_trait ) {
-                        found = true;
-                        break;
-                    }
-                }
-                if( !found ) {
-                    result.emplace_back( ench_trait, "" );
-                }
+    const auto &test = ignore_enchantments ? my_mutations : cached_mutations;
+    result.reserve( test.size() );
+    for( const std::pair<const trait_id, trait_data> &t : test ) {
+        if( t.second.corrupted == 0 ) {
+            if( include_hidden || t.first.obj().player_display ) {
+                const std::string &variant = t.second.variant != nullptr ? t.second.variant->id : "";
+                result.emplace_back( t.first, variant );
             }
         }
     }
@@ -4838,11 +4879,17 @@ void Character::clear_mutations()
         my_traits.erase( *my_traits.begin() );
     }
     while( !my_mutations.empty() ) {
-        const trait_id trait = my_mutations.begin()->first;
         my_mutations.erase( my_mutations.begin() );
+    }
+    while( !my_mutations_dirty.empty() ) {
+        my_mutations_dirty.erase( my_mutations_dirty.begin() );
+    }
+    while( !cached_mutations.empty() ) {
+        const trait_id trait = cached_mutations.begin()->first;
+        cached_mutations.erase( cached_mutations.begin() );
         mutation_loss_effect( trait );
     }
-    cached_mutations.clear();
+    old_mutation_cache->clear();
     recalc_sight_limits();
     calc_encumbrance();
 }

@@ -1,11 +1,21 @@
-#include "cata_assert.h"
+#include <algorithm>
+#include <cstddef>
+#include <exception>
+#include <functional>
+#include <limits>
+#include <memory>
+#include <ostream>
+#include <tuple>
+#include <utility>
+
 #include "cached_options.h"
+#include "cata_assert.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "line.h"
 #include "map_memory.h"
 #include "path_info.h"
 #include "string_formatter.h"
@@ -18,9 +28,9 @@ static constexpr int MM_SIZE = MAPSIZE * 2;
 #define dbg(x) DebugLog((x),D_MMAP) << __FILE__ << ":" << __LINE__ << ": "
 
 // Moved from coordinate_conversions.h to the only file using it.
-static tripoint mmr_to_sm_copy( const tripoint &p )
+static tripoint_abs_sm mmr_to_sm_copy( const tripoint &p )
 {
-    return tripoint( p.x * MM_REG_SIZE, p.y * MM_REG_SIZE, p.z );
+    return tripoint_abs_sm( p.x * MM_REG_SIZE, p.y * MM_REG_SIZE, p.z );
 }
 
 static cata_path find_mm_dir()
@@ -39,10 +49,10 @@ static cata_path find_region_path( const cata_path &dirname, const tripoint &p )
  */
 struct reg_coord_pair {
     tripoint reg;
-    point sm_loc;
+    point_abs_sm sm_loc;
 
-    explicit reg_coord_pair( const tripoint_abs_sm &p ) : sm_loc( p.xy().raw() ) {
-        reg = tripoint( sm_to_mmr_remain( sm_loc.x, sm_loc.y ), p.z() );
+    explicit reg_coord_pair( const tripoint_abs_sm &p ) : sm_loc( p.xy() ) {
+        reg = tripoint( sm_to_mmr_remain( sm_loc.x(), sm_loc.y() ), p.z() );
     }
 };
 
@@ -445,7 +455,7 @@ bool map_memory::save( const tripoint_abs_ms &pos )
     std::map<tripoint, mm_region> regions;
     for( auto &it : submaps ) {
         const reg_coord_pair p( it.first );
-        regions[p.reg].submaps[p.sm_loc.x][p.sm_loc.y] = it.second;
+        regions[p.reg].submaps[p.sm_loc.x()][p.sm_loc.y()] = it.second;
     }
     submaps.clear();
 

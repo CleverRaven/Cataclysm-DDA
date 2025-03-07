@@ -16,5 +16,16 @@
     "description": "For most or all of your life, you've had a secret; you are a predator.  While you don't need to drink blood or eat flesh or anything so crude, you must absorb the spiritual essence, the \"ruach\", of living beings in order to maintain your health and vitality.  You had to hide your condition before the Cataclysm, especially as things became stranger in the years leading up to it, but now you don't have to hide anymore.  On the other hand, your potential ruach supply has taken a drastic decline.",
     "points": 3,
     "traits": [ "LILIN_TRAITS", "LILIN_DRAIN_RUACH_MELEE" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "SKY_ISLAND_VAMPIRE",
+    "name": "Vampire",
+    "description": "As if the world ending and you being stranded on some flying island away from everything wasn't bad enough, you now feel a growing hunger for the blood of others.  Whether you decide to try and cure it or see what abilities can be gained from this condition is up to you.",
+    "//": "Doesn't give the vampire trait itself to give a grace period before that extra need kicks in.",
+    "//2": "Intentionally compatible with anything not blocking vampirism, and anything not compatible with vampirism will simply remove the effect without issue.",
+    "points": 3,
+    "traits": [ "START_AS_VAMPIRE" ]
   }
 ]

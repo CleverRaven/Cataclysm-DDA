@@ -6,10 +6,9 @@
 #include "enums.h"
 #include "item.h"
 #include "map.h"
+#include "mapdata.h"
 #include "output.h"
 #include "units.h"
-
-struct tripoint;
 
 size_t item_stack::size() const
 {
@@ -142,17 +141,17 @@ const item *item_stack::stacks_with( const item &it ) const
     return nullptr;
 }
 
-std::list<item> item_stack::use_charges( const itype_id &type, int &quantity, const tripoint &pos,
+std::list<item> item_stack::use_charges( const itype_id &type, int &quantity,
+        const tripoint_bub_ms &pos,
         const std::function<bool( const item & )> &filter, bool in_tools )
 {
-    const tripoint_bub_ms p{pos}; // TODO: Get rid of this when pos gets typed.
     std::list<item> ret;
     for( auto a = this->begin(); a != this->end() && quantity > 0; ) {
         // Liquid items on the ground could only be used if they're stored on terrain or furniture with LIQUIDCONT flag
         if( ( !a->made_of( phase_id::LIQUID ) ||
               ( a->made_of( phase_id::LIQUID ) &&
-                get_map().has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p ) ) ) &&
-            a->use_charges( type, quantity, ret, p, filter, nullptr, in_tools ) ) {
+                get_map().has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, pos ) ) ) &&
+            a->use_charges( type, quantity, ret, pos, filter, nullptr, in_tools ) ) {
             a = this->erase( a );
         } else {
             ++a;

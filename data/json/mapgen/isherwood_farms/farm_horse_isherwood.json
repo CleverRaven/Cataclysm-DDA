@@ -124,7 +124,7 @@
         { "class": "isherwood_jesse", "x": 54, "y": 44 },
         { "class": "isherwood_lisa", "x": 11, "y": 77 }
       ],
-      "place_vehicles": [ { "vehicle": "uncovered_wagon", "x": 78, "y": 19, "rotation": 180, "chance": 100, "status": 0 } ],
+      "place_vehicles": [ { "vehicle": "uncovered_wagon", "x": 78, "y": 19, "rotation": 180, "status": 0 } ],
       "palettes": [ "farm_horse" ],
       "terrain": {
         "p": "t_grass",
@@ -144,7 +144,7 @@
         "m": { "item": { "item": "soybean_seed" }, "furniture": "f_planter_harvest" },
         "u": { "item": { "item": "seed_beans" }, "furniture": "f_planter_harvest" }
       },
-      "items": { "k": { "item": "office", "chance": 30 }, "D": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] } },
+      "items": { "k": { "item": "office", "chance": 30 }, "D": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 2, 4 ] } },
       "place_loot": [
         { "item": "television", "x": 17, "y": 88, "chance": 100 },
         { "item": "stepladder", "x": 67, "y": 43, "chance": 100 },
@@ -391,7 +391,7 @@
       ],
       "palettes": [ "farm_horse" ],
       "terrain": { "_": "t_shingle_flat_roof", "*": "t_floor", " ": "t_open_air", ">": "t_stairs_down" },
-      "items": { "k": { "item": "bedroom", "chance": 60, "repeat": [ 2, 4 ] }, "D": { "item": "trash_cart", "chance": 50 } }
+      "items": { "k": { "item": "bedroom", "chance": 60, "repeat": [ 2, 4 ] }, "D": { "item": "SUS_trash_floor_light", "chance": 50 } }
     }
   },
   {

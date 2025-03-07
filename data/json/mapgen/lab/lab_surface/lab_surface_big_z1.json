@@ -164,7 +164,7 @@
         "########################################################################################################################"
       ],
       "items": {
-        "&": [ { "item": "tools_science", "chance": 10 }, { "item": "trash", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "&": [ { "item": "tools_science", "chance": 10 }, { "item": "SUS_trash_floor", "chance": 50, "repeat": [ 1, 2 ] } ],
         "C": [ { "item": "snacks", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "cannedfood", "chance": 30, "repeat": [ 1, 5 ] } ],
         "f": [
           { "item": "snacks", "chance": 60, "repeat": [ 2, 10 ] },
@@ -174,7 +174,7 @@
         "L": [
           { "item": "guns_pistol_common", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "mags_common", "chance": 40, "repeat": 5 },
-          { "item": "ammo_pistol_rare", "chance": 40, "repeat": [ 5, 10 ] }
+          { "item": "ammo_common_boxed", "chance": 40, "repeat": [ 5, 10 ] }
         ],
         "t": [ { "item": "snacks", "chance": 5 }, { "item": "dining", "chance": 10 } ],
         "U": { "item": "snacks", "chance": 70, "repeat": [ 1, 8 ] }

@@ -192,7 +192,8 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_npc_intercom_trade" } ] } },
-            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" } }
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "u_informed_robofac_of_exodii" } ] } }
           ]
         }
       },
@@ -202,7 +203,29 @@
         "condition": {
           "and": [
             { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_npc_intercom_trade" } ] } },
-            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" }
+            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" },
+            { "not": { "compare_string": [ "yes", { "u_val": "u_informed_robofac_of_exodii" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "[Press the button.]",
+        "topic": "TALK_ROBOFAC_INTERCOM_INTRO_3",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "u_informed_robofac_of_exodii" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "u_give_robofac_exodii_info" } ] } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_npc_intercom_trade" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "[Press the button.]",
+        "topic": "TALK_ROBOFAC_INTERCOM_INTRO_4",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "u_give_robofac_exodii_info" } ] },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_npc_intercom_trade" } ] } }
           ]
         }
       },
@@ -221,7 +244,8 @@
       "TALK_ROBOFAC_INTERCOM_SERVICES",
       "TALK_ROBOFAC_INTERCOM_SERVICES_FIRST",
       "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_END",
-      "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_MERCENARY_END"
+      "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_MERCENARY_END",
+      "TALK_ROBOFAC_INTERCOM_PROTOTYPE_NO"
     ],
     "type": "talk_topic",
     "dynamic_line": {
@@ -537,6 +561,17 @@
         "topic": "TALK_ROBOFAC_INTERCOM_INTRO_2",
         "effect": [ { "math": [ "u_talked_to_hub = 1" ] } ]
       },
+      {
+        "text": "Well truth be told, this encounter ain't quite so random.",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "mission_completed_u_scouted_bunker" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "u_informed_robofac_of_exodii" } ] } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_WHO_SENT_YOU",
+        "effect": [ { "math": [ "u_talked_to_hub = 1" ] } ]
+      },
       { "text": "[Leave.]", "topic": "TALK_DONE" }
     ]
   },
@@ -552,6 +587,237 @@
     "responses": [
       { "text": "I'm listening.", "topic": "MISSION_ROBOFAC_INTERCOM_1_OFFER" },
       { "text": "Risk my neck for the privilege of trading with you?  Maybe another time.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_WHO_SENT_YOU",
+    "type": "talk_topic",
+    "dynamic_line": "We are listening…\n\nYou detect a slight elevation in their voice, with a start you realize they are nervous.",
+    "responses": [
+      {
+        "text": "Actually I was just joking.  Our meeting is indeed a fortunate accident but now that I have your attention would you be interested in trading in some goods?",
+        "topic": "TALK_ROBOFAC_INTERCOM_INTRO",
+        "trial": { "type": "LIE", "difficulty": 80 },
+        "failure": { "effect": [ { "u_add_faction_trust": -3 }, { "u_add_effect": "robofac_surveillance", "duration": "30 days" } ] }
+      },
+      {
+        "text": "Some mercenaries I met mentioned this place, said its a good place to find some work and possibly some valuable post-apocalyptic gear.",
+        "topic": "TALK_ROBOFAC_INTERCOM_INTRO",
+        "trial": { "type": "LIE", "difficulty": 90 },
+        "failure": { "effect": [ { "u_add_faction_trust": -3 }, { "u_add_effect": "robofac_surveillance", "duration": "30 days" } ] }
+      },
+      {
+        "text": "You guys aren't as slick as you think.  You think no one's gonna notice a pristine looking meteorological station in the middle of nowhere with not a potted plant out of place?",
+        "topic": "TALK_ROBOFAC_EXODII_EXISTENCE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_EXODII_EXISTENCE",
+    "type": "talk_topic",
+    "dynamic_line": "Not without significantly advanced surveillance tech most of which were either decommissioned or destroyed post cataclysm.",
+    "responses": [
+      {
+        "text": "Actually a bunch of high tech dudes HAVE scouted out this place and wanted me to check it out.",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "knowledge_exodii_transdimensional_u_knows_exodiilore" } ] } },
+        "topic": "TALK_ROBOFAC_ABOUT_EXODII_1"
+      },
+      {
+        "text": "I am in tight with a bunch of inter-dimensional travellers who observed this base and sent me out to investigate this place.",
+        "condition": { "compare_string": [ "yes", { "u_val": "knowledge_exodii_transdimensional_u_knows_exodiilore" } ] },
+        "topic": "TALK_ROBOFAC_ABOUT_EXODII_2"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_ABOUT_EXODII_1",
+    "type": "talk_topic",
+    "dynamic_line": "I see and do you have more information regarding these interested parties?",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_informed_robofac_of_exodii", "value": "yes" },
+        { "math": [ "hub01_knows_exodii = 1" ] },
+        { "u_add_effect": "robofac_surveillance", "duration": "30 days" },
+        { "u_add_faction_trust": 1 }
+      ]
+    },
+    "responses": [
+      { "text": "Not really.", "topic": "TALK_ROBOFAC_EXODII_MORE_INFO" },
+      {
+        "text": "Not much actually but I do know they have pretty sweet looking technology as I saw them having advanced machinery everywhere.  Nothing like I've ever seen.",
+        "topic": "TALK_ROBOFAC_EXODII_MORE_INFO"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_EXODII_MORE_INFO",
+    "type": "talk_topic",
+    "dynamic_line": "We need more information on these folks, we will be making covert visual contact ourselves but for obvious reasons we can't get inside information without alerting these guys.  That's where you come in…we want you to gather as much information on these people without raising any suspicions and bring it back to us.  Most importantly find who they are and why are they here.",
+    "responses": [
+      { "text": "Right.  I'll be back with the juicy details.", "topic": "TALK_DONE" },
+      {
+        "text": "I don't know man sounds kind of dangerous.  What can I expect in return?",
+        "topic": "TALK_ROBOFAC_EXODII_INFO_REWARD"
+      },
+      {
+        "text": "Absolutely not, these guys are far more powerful than me and one wrong move will get me killed, besides I'm no rat.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_ABOUT_EXODII_2",
+    "type": "talk_topic",
+    "dynamic_line": "Inter-dimensional travellers you say?  What kind of tech do these beings operate?  And how were you able to communicate with them?",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_informed_robofac_of_exodii", "value": "yes" },
+        { "math": [ "hub01_knows_exodii = 1" ] },
+        { "u_add_effect": "robofac_surveillance", "duration": "30 days" },
+        { "u_add_faction_trust": 1 }
+      ]
+    },
+    "responses": [
+      { "text": "Alright listen up.", "topic": "TALK_GIVE_ROBOFAC_EXODII_INFO" },
+      { "text": "Information doesn't come cheap my friend.", "topic": "TALK_ROBOFAC_EXODII_INFO_REWARD" },
+      {
+        "text": "I've said more than I ought to have.  I'm leaving.",
+        "topic": "TALK_DONE",
+        "effect": { "u_add_faction_trust": -1 }
+      }
+    ]
+  },
+  {
+    "id": "TALK_GIVE_ROBOFAC_EXODII_INFO",
+    "type": "talk_topic",
+    "dynamic_line": "Well?",
+    "speaker_effect": { "effect": [ { "u_add_var": "u_give_robofac_exodii_info", "value": "yes" } ] },
+    "responses": [
+      {
+        "text": "They are a race of inter-dimensional beings who call themselves the Exodii.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
+        "topic": "TALK_FINISH_ROBOFAC_EXODII_DISCUSSION",
+        "effect": { "u_add_faction_trust": 1 }
+      },
+      {
+        "text": "They are a race of inter-dimensional beings who call themselves the Exodii and they use a mix of futuristic and ancient technology the latter being mostly due to their last landing place being a ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  While their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.",
+        "topic": "TALK_FINISH_ROBOFAC_EXODII_DISCUSSION",
+        "condition": { "compare_string": [ "yes", { "u_val": "u_talk_exodii_about_medieval_stock" } ] },
+        "effect": { "u_add_faction_trust": 2 }
+      },
+      {
+        "text": "They are a race of inter-dimensional beings who call themselves the Exodii.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        "topic": "TALK_FINISH_ROBOFAC_EXODII_DISCUSSION",
+        "condition": { "compare_string": [ "yes", { "u_val": "u_know_exodii_purpose2" } ] },
+        "effect": { "u_add_faction_trust": 2 }
+      },
+      {
+        "text": "They are a race of inter-dimensional beings who call themselves the Exodii and they use a mix of futuristic and ancient technology the latter being mostly due to their last landing place being a ancient battlefield of some sort.  These guys are more metal than man in my opinion and use automated machinery to do their fighting and heavy lifting.  However their choice for personal defense was more along the lines of ancient gear like spears and swords.  They do understand English to a certain extent and when talking they use a strange dialect they like to call Anglic.  They are here to mine this place of any useful metal, gather any tech they deem worth saving and maybe even grab a couple of survivors to join their ranks before they move out.",
+        "topic": "TALK_FINISH_ROBOFAC_EXODII_DISCUSSION",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "u_know_exodii_purpose2" } ] },
+            { "compare_string": [ "yes", { "u_val": "u_talk_exodii_about_medieval_stock" } ] }
+          ]
+        },
+        "effect": { "u_add_faction_trust": 3 }
+      }
+    ]
+  },
+  {
+    "id": "TALK_FINISH_ROBOFAC_EXODII_DISCUSSION",
+    "type": "talk_topic",
+    "dynamic_line": "Thank you for bringing this information to us…",
+    "responses": [
+      { "text": "Let's talk reward.", "topic": "TALK_ROBOFAC_EXODII_INFO_REWARD" },
+      {
+        "text": "No problem, if you ask me to choose between us and cyborg tyrants, you best believe I ain't betraying my race.  It's unnatural you know?  Please let me know if there is anything else I can do for you guys.",
+        "topic": "TALK_ROBOFAC_INTERCOM_INTRO_4",
+        "effect": [ { "u_add_faction_trust": 2 } ]
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_EXODII_INFO_REWARD",
+    "type": "talk_topic",
+    "dynamic_line": "For your services rendered we can either offer you some riot gear armor or the USP 9x19mm pistol with compatible magazines.",
+    "responses": [
+      {
+        "text": "Sounds equitable to me be back with that information in a jiff",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "knowledge_exodii_transdimensional_u_knows_exodiilore" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "u_give_robofac_exodii_info" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "That's too little for a whole lot of risk.  I'll pass on this.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "knowledge_exodii_transdimensional_u_knows_exodiilore" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "u_give_robofac_exodii_info" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "Deal!  Now listen close.",
+        "topic": "TALK_GIVE_ROBOFAC_EXODII_INFO",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "knowledge_exodii_transdimensional_u_knows_exodiilore" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "u_give_robofac_exodii_info" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "I'll take the riot armor.",
+        "topic": "TALK_ROBOFAC_INTERCOM_INTRO_4",
+        "condition": { "compare_string": [ "yes", { "u_val": "u_give_robofac_exodii_info" } ] },
+        "effect": [ { "u_spawn_item": "armor_riot" } ]
+      },
+      {
+        "text": "I'll take the USP.",
+        "condition": { "compare_string": [ "yes", { "u_val": "u_give_robofac_exodii_info" } ] },
+        "topic": "TALK_ROBOFAC_INTERCOM_INTRO_4",
+        "effect": [ { "u_spawn_item": "usp_9mm" }, { "u_spawn_item": "usp9mag", "count": 2 } ]
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_INTRO_3",
+    "type": "talk_topic",
+    "dynamic_line": "Ah its you.  Mind giving your fellow American information regarding possible terrorist cyborgs?",
+    "responses": [
+      {
+        "text": "You know what?  I've changed my mind.  I'll do your dirty work.  Give me some time to chat up these folks.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "knowledge_exodii_transdimensional_u_knows_exodiilore" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "u_give_robofac_exodii_info" } ] } }
+          ]
+        }
+      },
+      {
+        "text": "Please… I stopped being an American the moment the government left us to fend for ourselves.",
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Fine.  I'll tell you about these inter-dimensional beings.",
+        "topic": "TALK_ROBOFAC_ABOUT_EXODII_2",
+        "condition": { "compare_string": [ "yes", { "u_val": "knowledge_exodii_transdimensional_u_knows_exodiilore" } ] }
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_INTRO_4",
+    "type": "talk_topic",
+    "dynamic_line": "There is something else that has come up on our side which requires some field agents.  Would you like to hear about it?",
+    "responses": [
+      { "text": "Sounds like you have work for me?  Count me in.", "topic": "MISSION_ROBOFAC_INTERCOM_1_OFFER" },
+      { "text": "Maybe not right now.", "topic": "TALK_DONE" }
     ]
   },
   {

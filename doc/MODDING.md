@@ -2,7 +2,7 @@
 
 Certain features of the game can be modified without rebuilding the game from source code. This includes professions, monsters, npcs, and more. Just modify the pertinent files and run the game to see your changes.
 
-The majority of modding is done by editing JSON files. An in-depth review of all json files and their appropriate fields is available in [JSON_INFO.md](JSON_INFO.md).
+The majority of modding is done by editing JSON files. An in-depth review of all json files and their appropriate fields is available in [JSON/JSON_INFO.md](JSON/JSON_INFO.md).
 
 ## Other guides
 
@@ -71,7 +71,7 @@ Now that you have a basic mod, you can get around to actually putting some stuff
 It's a good idea to put different categories of additions into different json files. Any json files that are present in the mod folder or its subfolders will be detected and read by Cataclysm, but otherwise, there are no restrictions on what you can put where.
 
 ### JSON_INFO.md
-It's worth reading [JSON_INFO.md](JSON_INFO.md) to get a comprehensive list of everything you can do with these mods. The rest of this document will have a few examples to copy and paste, but it is by no means comprehensive. The base game's data is also defined in the same way as any mod you write, so taking a look through the game's json files (in `data/json`) can also teach you a lot. If the game finds any issues in your JSON syntax when you try to load a game world, it will spit out an error message, and you won't be able to load that game until the issue is fixed.
+It's worth reading [JSON/JSON_INFO.md](JSON/JSON_INFO.md) to get a comprehensive list of everything you can do with these mods. The rest of this document will have a few examples to copy and paste, but it is by no means comprehensive. The base game's data is also defined in the same way as any mod you write, so taking a look through the game's json files (in `data/json`) can also teach you a lot. If the game finds any issues in your JSON syntax when you try to load a game world, it will spit out an error message, and you won't be able to load that game until the issue is fixed.
 
 ### Adding a scenario
 Scenarios are what the game uses to determine your general situation when you create a character. They determine when and where your character may spawn in the world, and what professions can be used. They are also used to determine whether those professions can have mutations starting out. Below you will find the JSON definition for the game's built-in `Large Building` scenario.
@@ -138,7 +138,7 @@ Professions are what the game calls the character classes you can choose from wh
 ````
 
 ### Adding an item
-Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, just because there's so much that you can do with them, and every category of item is a little bit different.
+Items are where you really want to read the [JSON/JSON_INFO.md](JSON/JSON_INFO.md) file, just because there's so much that you can do with them, and every category of item is a little bit different.
 <!--I chose this one because it's about as basic an item as I could find. Everything else does something.-->
 ````json
 [

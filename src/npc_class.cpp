@@ -1,27 +1,30 @@
 #include "npc_class.h"
 
 #include <algorithm>
-#include <array>
-#include <cstddef>
 #include <iterator>
-#include <list>
 #include <set>
 #include <string>
 #include <utility>
 
 #include "avatar.h"
 #include "condition.h"
+#include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item_group.h"
-#include "itype.h"
-#include "json.h"
 #include "mutation.h"
 #include "npc.h"
 #include "rng.h"
+#include "shop_cons_rate.h"
 #include "skill.h"
+#include "string_formatter.h"
 #include "trait_group.h"
+#include "translations.h"
+#include "weighted_list.h"
+
+class item;
 
 static generic_factory<npc_class> npc_class_factory( "npc_class" );
 

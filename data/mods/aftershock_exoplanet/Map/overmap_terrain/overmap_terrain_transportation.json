@@ -4,6 +4,7 @@
     "id": "road",
     "name": "road",
     "copy-from": "generic_transportation",
+    "travel_cost_type": "road",
     "color": "dark_gray",
     "see_cost": "none",
     "extras": "road",
@@ -13,6 +14,7 @@
     "type": "overmap_terrain",
     "id": "bridge",
     "copy-from": "generic_bridge",
+    "travel_cost_type": "road",
     "color": "blue",
     "flags": [ "RAVINE" ]
   },
@@ -20,6 +22,7 @@
     "type": "overmap_terrain",
     "id": "bridge_road",
     "copy-from": "generic_bridge",
+    "travel_cost_type": "road",
     "name": "bridge structure",
     "flags": [ "RAVINE" ]
   },
@@ -28,6 +31,7 @@
     "id": "bridgehead_ground",
     "copy-from": "generic_bridge",
     "name": "bridgehead (ground)",
+    "travel_cost_type": "road",
     "sym": "v",
     "extras": "road",
     "flags": [ "RAVINE_EDGE" ]
@@ -38,6 +42,7 @@
     "copy-from": "generic_bridge",
     "name": "bridgehead structure",
     "sym": "^",
+    "travel_cost_type": "road",
     "flags": [ "RAVINE_EDGE" ]
   }
 ]

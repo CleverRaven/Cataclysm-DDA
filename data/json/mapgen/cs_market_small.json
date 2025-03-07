@@ -41,7 +41,10 @@
         "B": "f_bulletin",
         "!": [ "f_region_flower", "f_null" ]
       },
-      "items": { "g": { "item": "trash", "chance": 50, "repeat": [ 1, 4 ] }, "B": { "item": "bulletin_public", "chance": 75 } },
+      "items": {
+        "g": { "item": "SUS_trash_trashcan_public", "chance": 50, "repeat": [ 1, 4 ] },
+        "B": { "item": "bulletin_public", "chance": 75 }
+      },
       "place_nested": [
         { "chunks": [ { "param": "topleft_market_variant_nests", "fallback": "market_meat" } ], "x": 1, "y": 1 },
         { "chunks": [ { "param": "topright_market_variant_nests", "fallback": "market_clothes" } ], "x": 16, "y": 1 },

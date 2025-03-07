@@ -58,7 +58,6 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "weaponmaster_workshop_base",
-    "//": "todo: add more, heavier guns on racks",
     "object": {
       "mapgensize": [ 5, 5 ],
       "rows": [
@@ -71,12 +70,16 @@
       "place_item": [
         { "item": "brogyeki", "x": 0, "y": 1, "chance": 100 },
         { "item": "sapra", "x": 0, "y": 2, "chance": 100 },
-        { "item": "spear_dory", "x": 0, "y": 3, "chance": 100 }
+        { "item": "spear_dory", "x": 0, "y": 3, "chance": 100 },
+        { "item": "khuunaofaai", "x": 0, "y": 1, "chance": 100 },
+        { "item": "pamd71z", "x": 0, "y": 2, "chance": 100 },
+        { "item": "exodii_plasma_projectile", "x": 0, "y": 3, "chance": 100 },
+        { "item": "ree_33", "x": 0, "y": 2, "chance": 100 }
       ],
       "mapping": {
         "|": { "terrain": "t_scrap_wall" },
         "_": { "terrain": "t_scrap_floor" },
-        "S": { "terrain": "t_scrap_floor", "furniture": "f_rack" },
+        "S": { "terrain": "t_scrap_floor", "furniture": "f_rack_l" },
         "C": { "terrain": "t_scrap_floor", "furniture": "f_workbench" },
         "c": { "terrain": "t_scrap_floor", "furniture": "f_metal_table" },
         "L": { "terrain": "t_scrap_floor", "furniture": "f_exodii_lamp" },

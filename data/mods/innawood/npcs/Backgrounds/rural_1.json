@@ -18,7 +18,7 @@
   {
     "id": "BGSS_RURAL_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Well, it built up a bit.  There was that acid rain, it burnt up my crops.  Not that I'd been working the fields since… well, it'd been a <shitty> year and I hadn't done much worth doing.  There were explosions and things, and some strange sounds.  I was scared, kept to my shelter, practicing on my flute.  Then, one day, it was quiet.",
+    "dynamic_line": "Well, it built up a bit.  There was that acid rain, it burnt up my crops.  Not that I'd been working the fields since… well, it'd been a terrible year and I hadn't done much worth doing.  There were explosions and things, and some strange sounds.  I was scared, kept to my shelter, practicing on my flute.  Then, one day, it was quiet.",
     "responses": [
       { "text": "What happened next?", "topic": "BGSS_RURAL_1_STORY3" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },

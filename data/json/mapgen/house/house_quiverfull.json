@@ -1,6 +1,6 @@
 [
   {
-    "name": "GROUP_QUIVERFULL",
+    "id": "GROUP_QUIVERFULL",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_null", "weight": 900 },
@@ -17,7 +17,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "house_quiverfull" ],
-    "weight": 300,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

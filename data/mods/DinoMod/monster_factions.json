@@ -584,6 +584,25 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "shonisaurus",
+    "base_faction": "mixed_dino",
+    "friendly": [ "shonisaurus_juvenile", "shonisaurus_hatchling" ],
+    "by_mood": [ "shonisaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "shonisaurus_juvenile",
+    "base_faction": "small_mixed",
+    "friendly": [ "shonisaurus", "shonisaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "shonisaurus_hatchling",
+    "base_faction": "very_small_mixed",
+    "friendly": [ "shonisaurus", "shonisaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "plesiosaurus",
     "base_faction": "fishing_dino",
     "friendly": [ "plesiosaurus" ]

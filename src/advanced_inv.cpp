@@ -2,9 +2,10 @@
 
 #include <algorithm>
 #include <climits>
-#include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <cstdlib>
+#include <functional>
 #include <initializer_list>
 #include <iterator>
 #include <list>
@@ -12,12 +13,12 @@
 #include <optional>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "advanced_inv_listitem.h"
 #include "advanced_inv_pagination.h"
 #include "auto_pickup.h"
@@ -37,13 +38,13 @@
 #include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
-#include "input_enums.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "itype.h"
 #include "localized_comparator.h"
 #include "map.h"
 #include "messages.h"
@@ -53,13 +54,12 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
-#include "popup.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_iteminfo.h"
 #include "ui_manager.h"
 #include "uistate.h"
@@ -234,6 +234,8 @@ std::string advanced_inventory::get_sortname( advanced_inv_sortby sortby )
             return _( "barter value" );
         case SORTBY_PRICEPERVOLUME:
             return _( "barter value / volume" );
+        case SORTBY_PRICEPERWEIGHT:
+            return _( "barter value / weight" );
         case SORTBY_STACKS:
             return _( "amount" );
     }
@@ -287,6 +289,7 @@ void advanced_inventory::init()
 
 void advanced_inventory::print_items( side p, bool active )
 {
+    map &here = get_map();
     advanced_inventory_pane &pane = panes[p];
     const auto &items = pane.items;
     const catacurses::window &window = pane.window;
@@ -359,7 +362,7 @@ void advanced_inventory::print_items( side p, bool active )
             } else if( pane.in_vehicle() ) {
                 maxvolume = s.get_vehicle_stack().max_volume();
             } else {
-                maxvolume = get_map().max_volume( s.pos );
+                maxvolume = here.max_volume( s.pos );
             }
             formatted_head = string_format( "%3.1f %s  %s/%s %s",
                                             convert_weight( pane.in_vehicle() ? s.weight_veh : s.weight ),
@@ -471,7 +474,7 @@ void advanced_inventory::print_items( side p, bool active )
             // TODO: transition to the item_location system used for the normal inventory
             unsigned int charges_total = 0;
             for( const item_location &item : sitem.items ) {
-                charges_total += item->ammo_remaining();
+                charges_total += item->ammo_remaining( );
             }
             if( stolen ) {
                 item_name = string_format( "%s %s", stolen_string, it.display_money( sitem.items.size(),
@@ -655,9 +658,19 @@ struct advanced_inv_sorter {
                 break;
             case SORTBY_PRICEPERVOLUME: {
                 const double price_density1 = static_cast<double>( d1.items.front()->price( true ) ) /
-                                              static_cast<double>( std::max( 1, d1.volume.value() ) );
+                                              static_cast<double>( std::max( 1, d1.items.front()->volume().value() ) );
                 const double price_density2 = static_cast<double>( d2.items.front()->price( true ) ) /
-                                              static_cast<double>( std::max( 1, d2.volume.value() ) );
+                                              static_cast<double>( std::max( 1, d2.items.front()->volume().value() ) );
+                if( price_density1 != price_density2 ) {
+                    return price_density1 > price_density2;
+                }
+                break;
+            }
+            case SORTBY_PRICEPERWEIGHT: {
+                const double price_density1 = static_cast<double>( d1.items.front()->price( true ) ) /
+                                              static_cast<double>( std::max<std::int64_t>( 1, d1.items.front()->weight().value() ) );
+                const double price_density2 = static_cast<double>( d2.items.front()->price( true ) ) /
+                                              static_cast<double>( std::max<std::int64_t>( 1, d2.items.front()->weight().value() ) );
                 if( price_density1 != price_density2 ) {
                     return price_density1 > price_density2;
                 }
@@ -735,11 +748,11 @@ void advanced_inventory::recalc_pane( side p )
     if( pane.container &&
         pane.container_base_loc >= AIM_SOUTHWEST && pane.container_base_loc <= AIM_ALL ) {
 
-        const tripoint_rel_ms offset = player_character.pos_bub() - pane.container.pos_bub();
+        const tripoint_rel_ms offset = player_character.pos_abs() - pane.container.pos_abs();
 
         // If container is no longer adjacent or on the player's z-level, nullify it.
         if( std::abs( offset.x() ) > 1 || std::abs( offset.y() ) > 1 ||
-            player_character.pos_bub().z() != pane.container.pos_bub().z() ) {
+            player_character.posz() != pane.container.pos_abs().z() ) {
 
             pane.container = item_location::nowhere;
             pane.container_base_loc = NUM_AIM_LOCATIONS;
@@ -866,9 +879,10 @@ void advanced_inventory::redraw_pane( side p )
     }
 
     std::string fprefix = string_format( _( "[%s] Filter" ), ctxt.get_desc( "FILTER" ) );
+    const std::string &filter = pane.get_filter();
     if( !filter_edit ) {
-        if( !pane.filter.empty() ) {
-            mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s: %s >", fprefix, pane.filter );
+        if( !filter.empty() ) {
+            mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s: %s >", fprefix, filter );
         } else {
             mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s >", fprefix );
         }
@@ -876,10 +890,9 @@ void advanced_inventory::redraw_pane( side p )
     if( active ) {
         wattroff( w, c_white );
     }
-    if( !filter_edit && !pane.filter.empty() ) {
+    if( !filter_edit && !filter.empty() ) {
         std::string fsuffix = string_format( _( "[%s] Reset" ), ctxt.get_desc( "RESET_FILTER" ) );
-        mvwprintz( w, point( 6 + utf8_width( fprefix ), getmaxy( w ) - 1 ), c_white,
-                   pane.filter );
+        mvwprintz( w, point( 6 + utf8_width( fprefix ), getmaxy( w ) - 1 ), c_white, filter );
         mvwprintz( w, point( getmaxx( w ) - utf8_width( fsuffix ) - 2, getmaxy( w ) - 1 ), c_white, "%s",
                    fsuffix );
     }
@@ -901,11 +914,14 @@ bool advanced_inventory::fill_lists_with_pane_items( Character &player_character
             continue;
         }
         for( const item_location &it : listit.items ) {
+
+            // do not move liquids or gases
+            if( ( it->made_of_from_type( phase_id::LIQUID ) && !it->is_frozen_liquid() ) ||
+                it->made_of_from_type( phase_id::GAS ) ) {
+                continue;
+            }
             if( dpane.get_area() == AIM_INVENTORY ) {
-                if( ( it->made_of_from_type( phase_id::LIQUID ) && !it->is_frozen_liquid() ) ||
-                    it->made_of_from_type( phase_id::GAS ) ) {
-                    continue;
-                }
+
                 if( !player_character.can_stash_partial( *it ) ) {
                     continue;
                 }
@@ -1243,6 +1259,7 @@ bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
     sm.addentry( SORTBY_SPOILAGE,       true, 's', get_sortname( SORTBY_SPOILAGE ) );
     sm.addentry( SORTBY_PRICE,          true, 'b', get_sortname( SORTBY_PRICE ) );
     sm.addentry( SORTBY_PRICEPERVOLUME, true, 'r', get_sortname( SORTBY_PRICEPERVOLUME ) );
+    sm.addentry( SORTBY_PRICEPERWEIGHT, true, 'g', get_sortname( SORTBY_PRICEPERWEIGHT ) );
     sm.addentry( SORTBY_STACKS,         true, 't', get_sortname( SORTBY_STACKS ) );
     // Pre-select current sort.
     sm.selected = pane.sortby - SORTBY_NONE;
@@ -1275,6 +1292,7 @@ input_context advanced_inventory::register_ctxt() const
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "EXAMINE" );
     ctxt.register_action( "EXAMINE_CONTENTS" );
+    ctxt.register_action( "UNLOAD_CONTAINER" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "TOGGLE_AUTO_PICKUP" );
     ctxt.register_action( "TOGGLE_FAVORITE" );
@@ -1622,6 +1640,10 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     if( !query_charges( destarea, *sitem, action, amount_to_move ) ) {
         return false;
     }
+    item it_copy = *sitem->items.front();
+    if( it_copy.count_by_charges() ) {
+        it_copy.charges = std::min( amount_to_move, sitem->items.front()->charges );
+    }
     if( spane.get_area() == AIM_CONTAINER &&
         spane.container.get_item()->has_flag( json_flag_NO_UNLOAD ) ) {
         popup_getkey( _( "Source container can't be unloaded." ) );
@@ -1632,9 +1654,9 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             popup_getkey( _( "Destination container can't be reloaded." ) );
             return false;
         }
-        ret_val<void> can_contain = dpane.container->can_contain( *sitem->items.front() );
+        ret_val<void> can_contain = dpane.container->can_contain( it_copy );
         if( can_contain.success() ) {
-            can_contain = dpane.container.parents_can_contain_recursive( &*sitem->items.front() );
+            can_contain = dpane.container.parents_can_contain_recursive( &it_copy );
         }
         if( !can_contain.success() ) {
             popup_getkey( can_contain.str().empty() ?
@@ -1656,7 +1678,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
 
     if( srcarea == AIM_CONTAINER && destarea == AIM_INVENTORY &&
         spane.container.held_by( player_character ) ) {
-        popup_getkey( _( "The %s is already in your inventory." ), sitem->items.front()->tname() );
+        popup_getkey( _( "The %s is already in your inventory.  You may want to (U)nload" ),
+                      sitem->items.front()->tname() );
 
     } else if( srcarea == AIM_INVENTORY && destarea == AIM_WORN ) {
 
@@ -1685,7 +1708,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             player_character.takeoff( Character::worn_position_to_index( sitem->idx ) + 1 );
         } else {
             // important if item is worn
-            if( player_character.can_drop( *sitem->items.front() ).success() ) {
+            if( player_character.can_drop( it_copy ).success() ) {
                 if( destarea == AIM_CONTAINER ) {
                     do_return_entry();
                     start_activity( destarea, srcarea, sitem, amount_to_move, from_vehicle, to_vehicle );
@@ -1716,14 +1739,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         exit = true;
     } else {
         if( destarea == AIM_INVENTORY ) {
-            bool can_stash = false;
-            if( sitem->items.front()->count_by_charges() ) {
-                item dummy = *sitem->items.front();
-                dummy.charges = amount_to_move;
-                can_stash = player_character.can_stash( dummy );
-            } else {
-                can_stash = player_character.can_stash( *sitem->items.front() );
-            }
+            bool can_stash = player_character.can_stash( it_copy );
             if( !can_stash ) {
                 popup_getkey( _( "You have no space for the %s." ), sitem->items.front()->tname() );
                 return false;
@@ -1797,6 +1813,191 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         spane.scroll_by( +1 );
     } else if( ret == KEY_PPAGE || ret == KEY_UP ) {
         spane.scroll_by( -1 );
+    }
+}
+
+bool advanced_inventory::action_unload( advanced_inv_listitem *sitem,
+                                        advanced_inventory_pane &spane, advanced_inventory_pane &dpane )
+{
+    avatar &u = get_avatar();
+    item_location src = spane.container;
+    item_location dest = dpane.container;
+
+    if( !src && sitem ) {
+        src = sitem->items.front();
+    } else {
+        add_msg( m_info, _( "Nothing to unload." ) );
+        return false;
+    }
+
+    do_return_entry();
+    // always exit to proc do_return_entry, even when no activity was assigned
+    exit = true;
+    return u.unload( src, false, dest );
+}
+
+void advanced_inventory::process_action( const std::string &input_action )
+{
+    dest = src == advanced_inventory::side::left ? advanced_inventory::side::right :
+           advanced_inventory::side::left;
+    recalc = false;
+    // source and destination pane
+    advanced_inventory_pane &spane = panes[src];
+    advanced_inventory_pane &dpane = panes[dest];
+    // current item in source pane, might be null
+    advanced_inv_listitem *sitem = spane.get_cur_item_ptr();
+
+    aim_location changeSquare = NUM_AIM_LOCATIONS;
+    avatar &u = get_avatar();
+
+    const std::string &action = is_processing() ? "MOVE_ALL_ITEMS" : input_action;
+    if( action == "CATEGORY_SELECTION" ) {
+        inCategoryMode = !inCategoryMode;
+    } else if( action == "ITEMS_DEFAULT" ) {
+        for( side cside : {
+                 left, right
+             } ) {
+            advanced_inventory_pane &pane = panes[cside];
+            int i_location = cside == left ? save_state->saved_area : save_state->saved_area_right;
+            aim_location location = static_cast<aim_location>( i_location );
+            if( pane.get_area() != location || location == AIM_ALL ) {
+                pane.recalc = true;
+            }
+            pane.set_area( squares[location] );
+        }
+    } else if( action == "SAVE_DEFAULT" ) {
+        save_state->saved_area = panes[left].get_area();
+        save_state->saved_area_right = panes[right].get_area();
+        popup( _( "Default layout was saved." ) );
+    } else if( get_square( action, changeSquare ) ) {
+        change_square( changeSquare, dpane, spane );
+    } else if( action == "TOGGLE_FAVORITE" ) {
+        if( sitem == nullptr ) {
+            return;
+        }
+        for( item_location &item : sitem->items ) {
+            item->set_favorite( !item->is_favorite );
+        }
+        // In case we've merged faved and unfaved items
+        recalc = true;
+    } else if( action == "MOVE_SINGLE_ITEM" ||
+               action == "MOVE_VARIABLE_ITEM" ||
+               action == "MOVE_ITEM_STACK" ) {
+        exit = action_move_item( sitem, dpane, spane, action );
+    } else if( action == "MOVE_ALL_ITEMS" ) {
+        exit = move_all_items();
+        recalc = true;
+        if( exit ) {
+            if( get_option<bool>( "CLOSE_ADV_INV" ) ) {
+                move_all_items_and_waiting_to_quit = true;
+            }
+        }
+    } else if( action == "SORT" ) {
+        if( show_sort_menu( spane ) ) {
+            recalc = true;
+        }
+    } else if( action == "FILTER" ) {
+        const std::string &filter = spane.get_filter();
+        filter_edit = true;
+        if( ui ) {
+            spopup = std::make_unique<string_input_popup>();
+            spopup->max_length( 256 ).text( filter );
+            spopup->identifier( "item_filter" ).hist_use_uilist( false );
+            ui->mark_resize();
+        }
+
+        do {
+            if( ui ) {
+                ui_manager::redraw();
+            }
+            std::string new_filter = spopup->query_string( false );
+            if( spopup->canceled() ) {
+                // restore original filter
+                spane.set_filter( filter );
+            } else {
+                spane.set_filter( new_filter );
+            }
+        } while( !spopup->canceled() && !spopup->confirmed() );
+        filter_edit = false;
+        spopup = nullptr;
+    } else if( action == "RESET_FILTER" ) {
+        spane.set_filter( "" );
+    } else if( action == "TOGGLE_AUTO_PICKUP" ) {
+        if( sitem == nullptr ) {
+            return;
+        }
+        if( sitem->autopickup ) {
+            get_auto_pickup().remove_rule( &*sitem->items.front() );
+            sitem->autopickup = false;
+        } else {
+            get_auto_pickup().add_rule( &*sitem->items.front(), true );
+            sitem->autopickup = true;
+        }
+        recalc = true;
+    } else if( action == "EXAMINE" ) {
+        if( sitem == nullptr ) {
+            return;
+        }
+        action_examine( sitem, spane );
+    } else if( action == "EXAMINE_CONTENTS" ) {
+        if( sitem == nullptr ) {
+            return;
+        }
+        item_location sitem_location = sitem->items.front();
+        inventory_examiner examine_contents( u, sitem_location );
+        examine_contents.add_contained_items( sitem_location );
+        int examine_result = examine_contents.execute();
+        if( examine_result == NO_CONTENTS_TO_EXAMINE ) {
+            action_examine( sitem, spane );
+        }
+    } else if( action == "UNLOAD_CONTAINER" ) {
+        recalc = action_unload( sitem, spane, dpane );
+    } else if( action == "QUIT" ) {
+        exit = true;
+    } else if( action == "PAGE_DOWN" ) {
+        spane.scroll_page( linesPerPage, +1 );
+    } else if( action == "PAGE_UP" ) {
+        spane.scroll_page( linesPerPage, -1 );
+    } else if( action == "HOME" ) {
+        spane.scroll_to_start();
+    } else if( action == "END" ) {
+        spane.scroll_to_end();
+    } else if( action == "DOWN" ) {
+        if( inCategoryMode ) {
+            spane.scroll_category( +1 );
+        } else {
+            spane.scroll_by( +1 );
+        }
+    } else if( action == "UP" ) {
+        if( inCategoryMode ) {
+            spane.scroll_category( -1 );
+        } else {
+            spane.scroll_by( -1 );
+        }
+    } else if( action == "LEFT" ) {
+        src = left;
+    } else if( action == "RIGHT" ) {
+        src = right;
+    } else if( action == "TOGGLE_TAB" ) {
+        src = dest;
+    } else if( action == "TOGGLE_VEH" ) {
+        if( squares[spane.get_area()].can_store_in_vehicle() ) {
+            // swap the panes if going vehicle will show the same tile
+            if( spane.get_area() == dpane.get_area() && spane.in_vehicle() != dpane.in_vehicle() ) {
+                swap_panes();
+                // disallow for dragged vehicles
+            } else if( spane.get_area() != AIM_DRAGGED ) {
+                // Toggle between vehicle and ground
+                spane.set_area( squares[spane.get_area()], !spane.in_vehicle() );
+                spane.index = 0;
+                spane.recalc = true;
+                if( dpane.get_area() == AIM_ALL ) {
+                    dpane.recalc = true;
+                }
+            }
+        } else {
+            popup_getkey( _( "There's no vehicle storage space there." ) );
+        }
     }
 }
 
@@ -1886,8 +2087,7 @@ void advanced_inventory::display()
             do_return_entry();
             return;
         }
-        dest = src == advanced_inventory::side::left ? advanced_inventory::side::right :
-               advanced_inventory::side::left;
+
 
         if( ui ) {
             ui->invalidate_ui();
@@ -1897,165 +2097,11 @@ void advanced_inventory::display()
             ui_manager::redraw_invalidated();
         }
 
-        recalc = false;
-        // source and destination pane
-        advanced_inventory_pane &spane = panes[src];
-        advanced_inventory_pane &dpane = panes[dest];
-        // current item in source pane, might be null
-        advanced_inv_listitem *sitem = spane.get_cur_item_ptr();
-        aim_location changeSquare = NUM_AIM_LOCATIONS;
-
         if( !is_processing() && move_all_items_and_waiting_to_quit ) {
             break;
         }
 
-        const std::string action = is_processing() ? "MOVE_ALL_ITEMS" : ctxt.handle_input();
-        if( action == "CATEGORY_SELECTION" ) {
-            inCategoryMode = !inCategoryMode;
-        } else if( action == "ITEMS_DEFAULT" ) {
-            for( side cside : {
-                     left, right
-                 } ) {
-                advanced_inventory_pane &pane = panes[cside];
-                int i_location = cside == left ? save_state->saved_area : save_state->saved_area_right;
-                aim_location location = static_cast<aim_location>( i_location );
-                if( pane.get_area() != location || location == AIM_ALL ) {
-                    pane.recalc = true;
-                }
-                pane.set_area( squares[location] );
-            }
-        } else if( action == "SAVE_DEFAULT" ) {
-            save_state->saved_area = panes[left].get_area();
-            save_state->saved_area_right = panes[right].get_area();
-            popup( _( "Default layout was saved." ) );
-        } else if( get_square( action, changeSquare ) ) {
-            change_square( changeSquare, dpane, spane );
-        } else if( action == "TOGGLE_FAVORITE" ) {
-            if( sitem == nullptr ) {
-                continue;
-            }
-            for( item_location &item : sitem->items ) {
-                item->set_favorite( !item->is_favorite );
-            }
-            // In case we've merged faved and unfaved items
-            recalc = true;
-        } else if( action == "MOVE_SINGLE_ITEM" ||
-                   action == "MOVE_VARIABLE_ITEM" ||
-                   action == "MOVE_ITEM_STACK" ) {
-            exit = action_move_item( sitem, dpane, spane, action );
-        } else if( action == "MOVE_ALL_ITEMS" ) {
-            exit = move_all_items();
-            recalc = true;
-            if( exit ) {
-                if( get_option<bool>( "CLOSE_ADV_INV" ) ) {
-                    move_all_items_and_waiting_to_quit = true;
-                }
-            }
-        } else if( action == "SORT" ) {
-            if( show_sort_menu( spane ) ) {
-                recalc = true;
-            }
-        } else if( action == "FILTER" ) {
-            std::string filter = spane.filter;
-            filter_edit = true;
-            if( ui ) {
-                spopup = std::make_unique<string_input_popup>();
-                spopup->max_length( 256 ).text( filter );
-                spopup->identifier( "item_filter" ).hist_use_uilist( false );
-                ui->mark_resize();
-            }
-
-            do {
-                if( ui ) {
-                    ui_manager::redraw();
-                }
-                std::string new_filter = spopup->query_string( false );
-                if( spopup->canceled() ) {
-                    // restore original filter
-                    spane.set_filter( filter );
-                } else {
-                    spane.set_filter( new_filter );
-                }
-            } while( !spopup->canceled() && !spopup->confirmed() );
-            filter_edit = false;
-            spopup = nullptr;
-        } else if( action == "RESET_FILTER" ) {
-            spane.set_filter( "" );
-        } else if( action == "TOGGLE_AUTO_PICKUP" ) {
-            if( sitem == nullptr ) {
-                continue;
-            }
-            if( sitem->autopickup ) {
-                get_auto_pickup().remove_rule( &*sitem->items.front() );
-                sitem->autopickup = false;
-            } else {
-                get_auto_pickup().add_rule( &*sitem->items.front(), true );
-                sitem->autopickup = true;
-            }
-            recalc = true;
-        } else if( action == "EXAMINE" ) {
-            if( sitem == nullptr ) {
-                continue;
-            }
-            action_examine( sitem, spane );
-        } else if( action == "EXAMINE_CONTENTS" ) {
-            if( sitem == nullptr ) {
-                continue;
-            }
-            item_location sitem_location = sitem->items.front();
-            inventory_examiner examine_contents( player_character, sitem_location );
-            examine_contents.add_contained_items( sitem_location );
-            int examine_result = examine_contents.execute();
-            if( examine_result == NO_CONTENTS_TO_EXAMINE ) {
-                action_examine( sitem, spane );
-            }
-        } else if( action == "QUIT" ) {
-            exit = true;
-        } else if( action == "PAGE_DOWN" ) {
-            spane.scroll_page( linesPerPage, +1 );
-        } else if( action == "PAGE_UP" ) {
-            spane.scroll_page( linesPerPage, -1 );
-        } else if( action == "HOME" ) {
-            spane.scroll_to_start();
-        } else if( action == "END" ) {
-            spane.scroll_to_end();
-        } else if( action == "DOWN" ) {
-            if( inCategoryMode ) {
-                spane.scroll_category( +1 );
-            } else {
-                spane.scroll_by( +1 );
-            }
-        } else if( action == "UP" ) {
-            if( inCategoryMode ) {
-                spane.scroll_category( -1 );
-            } else {
-                spane.scroll_by( -1 );
-            }
-        } else if( action == "LEFT" ) {
-            src = left;
-        } else if( action == "RIGHT" ) {
-            src = right;
-        } else if( action == "TOGGLE_TAB" ) {
-            src = dest;
-        } else if( action == "TOGGLE_VEH" ) {
-            if( squares[spane.get_area()].can_store_in_vehicle() ) {
-                // swap the panes if going vehicle will show the same tile
-                if( spane.get_area() == dpane.get_area() && spane.in_vehicle() != dpane.in_vehicle() ) {
-                    swap_panes();
-                    // disallow for dragged vehicles
-                } else if( spane.get_area() != AIM_DRAGGED ) {
-                    // Toggle between vehicle and ground
-                    spane.set_area( squares[spane.get_area()], !spane.in_vehicle() );
-                    spane.index = 0;
-                    spane.recalc = true;
-                    if( dpane.get_area() == AIM_ALL ) {
-                        dpane.recalc = true;
-                    }
-                }
-            } else {
-                popup_getkey( _( "There's no vehicle storage space there." ) );
-            }
-        }
+        process_action( ctxt.handle_input() );
     }
 }
 
@@ -2205,7 +2251,9 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Check volume, this should work the same for inventory, map and vehicles, but not for worn
     if( destarea != AIM_WORN && destarea != AIM_WIELD ) {
         const units::volume free_volume = panes[dest].free_volume( squares[destarea] );
-        const int room_for = it.charges_per_volume( free_volume );
+        const units::mass free_mass = panes[dest].free_weight_capacity();
+        const int room_for = std::min( it.charges_per_volume( free_volume ),
+                                       it.charges_per_weight( free_mass ) );
         if( room_for <= 0 ) {
             if( destarea == AIM_INVENTORY ) {
                 popup_getkey( _( "You have no space for the %s." ), it.tname() );
@@ -2258,7 +2306,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     if( destarea == AIM_WORN ) {
         const itype_id &id = sitem.items.front()->typeId();
         // how many slots are available for the item?
-        const int slots_available = MAX_WORN_PER_TYPE - player_character.amount_worn( id );
+        const int slots_available = id->max_worn - player_character.amount_worn( id );
         // base the amount to equip on amount of slots available
         amount = std::min( slots_available, input_amount );
     }
@@ -2350,7 +2398,7 @@ void advanced_inventory::draw_minimap()
     }
 
     if( !invert_left || !invert_right ) {
-        player_character.draw( minimap, player_character.pos(), invert_left || invert_right );
+        player_character.draw( minimap, player_character.pos_bub(), invert_left || invert_right );
     }
 }
 

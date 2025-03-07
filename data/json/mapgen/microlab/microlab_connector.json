@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "microlab_sub_connector", "microlab_sub_connector_ratkin" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_concrete",
       "rows": [
@@ -147,7 +146,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "microlab_generic_sub_entry", "microlab_ratkin_sub_entry" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [

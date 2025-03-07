@@ -5,7 +5,6 @@
     "name": { "str": "power cord" },
     "description": "A power cord, like you've seen many times before: it's a short multi-stranded copper cord with a power outlet at the end.",
     "//": "This cable is automatically handled by vehicles/appliances and is used for connecting them to each other.  See vehicle part in furniture_and_terrain > appliances.json",
-    "to_hit": 1,
     "color": "dark_gray",
     "symbol": "&",
     "material": [ "copper", "plastic" ],
@@ -17,8 +16,7 @@
     "max_charges": 2,
     "initial_charges": 2,
     "use_action": { "type": "link_up", "menu_text": "Plug in / Manage connections", "targets": [ "vehicle_port" ] },
-    "flags": [ "CABLE_SPOOL", "NO_DROP", "SINGLE_USE" ],
-    "melee_damage": { "bash": 2 }
+    "flags": [ "CABLE_SPOOL", "NO_DROP", "SINGLE_USE" ]
   },
   {
     "type": "TOOL",
@@ -62,7 +60,7 @@
     "id": "extension_cable",
     "name": { "str": "extension cord" },
     "description": "A long 30-foot (or about 10 m) orange extension cord for extending cables or connecting appliances.  Could be used on any appliance or other household electrical system.",
-    "to_hit": 1,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "good" },
     "color": "light_blue",
     "symbol": "&",
     "material": [ "copper", "plastic" ],
@@ -99,7 +97,7 @@
     "id": "hd_tow_cable",
     "name": { "str": "heavy-duty tow cable" },
     "description": "An extremely heavy-duty 30-foot (or about 9 m) tow cable made from thick steel wire coated in plastic.  If attached to a vehicle, it could be used to pull another vehicle of any weight.",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "good" },
     "color": "light_blue",
     "symbol": "&",
     "material": [ "steel", "plastic" ],

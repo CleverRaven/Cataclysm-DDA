@@ -22,7 +22,7 @@
       "g": "t_bridge",
       "_": "t_pavement",
       "y": "t_pavement_y",
-      "`": "t_hole",
+      "`": "t_open_air",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "0": "t_window_empty",
@@ -32,6 +32,7 @@
     },
     "furniture": {
       "6": "f_console_broken",
+      "ϟ": "f_bulletin",
       ";": "f_toilet",
       "~": "f_shower",
       "@": "f_bed",

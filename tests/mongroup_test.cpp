@@ -1,18 +1,32 @@
+#include <cstdlib>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
 #include <string>
+#include <tuple>
+#include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "cata_catch.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "coordinates.h"
+#include "creature.h"
+#include "enums.h"
 #include "game.h"
-#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "mongroup.h"
+#include "monster.h"
 #include "mtype.h"
 #include "options.h"
 #include "options_helpers.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "type_id.h"
 
 static const mongroup_id GROUP_PETS( "GROUP_PETS" );
 static const mongroup_id GROUP_PET_DOGS( "GROUP_PET_DOGS" );
@@ -40,7 +54,7 @@ static void spawn_x_monsters( int x, const mongroup_id &grp, const std::vector<m
             rand_gets.emplace( tmp_get );
         }
 
-        mtype_id tmp_res = MonsterGroupManager::GetResultFromGroup( grp ).front().name;
+        mtype_id tmp_res = MonsterGroupManager::GetResultFromGroup( grp ).front().id;
         if( !tmp_res.is_null() ) {
             rand_results.emplace( tmp_res );
         }
@@ -196,12 +210,12 @@ TEST_CASE( "Nested_monster_groups_spawn_chance", "[mongroup]" )
 
     for( int i = 0; i < iters; i++ ) {
         MonsterGroupResult res = MonsterGroupManager::GetResultFromGroup( mg ).front();
-        auto iter = results.find( res.name );
-        CAPTURE( res.name.c_str() );
+        auto iter = results.find( res.id );
+        CAPTURE( res.id.c_str() );
         REQUIRE( iter != results.end() );
         if( iter != results.end() ) {
             layers[std::get<0>( iter->second )].second++;
-            std::get<2>( results[res.name] )++;
+            std::get<2>( results[res.id] )++;
         }
     }
 
@@ -279,6 +293,9 @@ static void test_multi_spawn( const mtype_id &old_mon, int range, int min, int m
 {
     const int upgrade_attempts = 100;
     clear_avatar();
+    // make sure tested scenarios haven't messed with our start time
+    calendar::start_of_cataclysm = calendar::turn_zero;
+    calendar::start_of_game = calendar::turn_zero;
 
     for( int i = 0; i < upgrade_attempts; i++ ) {
         clear_map();

@@ -96,9 +96,9 @@
       "i": { "item": "SUS_office_filing_cabinet", "chance": 80 },
       "I": { "item": "SUS_office_filing_cabinet", "chance": 80 },
       "l": { "item": "SUS_janitors_closet", "chance": 100 },
-      "a": { "item": "trash", "chance": 50, "repeat": [ 1, 3 ] },
-      "á": { "item": "trash", "chance": 50, "repeat": [ 1, 3 ] },
-      "A": { "item": "trash", "chance": 75, "repeat": [ 1, 10 ] },
+      "a": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 3 ] },
+      "á": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 3 ] },
+      "A": { "item": "SUS_trash_dumpster", "chance": 75, "repeat": [ 1, 10 ] },
       "Y": { "item": "forensic_locker", "chance": 90 },
       "E": { "item": "forensic_lab", "chance": 80, "repeat": [ 2, 6 ] }
     },

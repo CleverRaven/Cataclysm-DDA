@@ -860,7 +860,7 @@
       { "item": "bra" },
       { "item": "panties" },
       { "item": "sundress" },
-      { "item": "jacket_leather_red" },
+      { "item": "jacket_leather", "variant": "jacket_leather_brown" },
       { "item": "holy_symbol_wood" },
       { "item": "purse" },
       { "item": "gold_ring" },

@@ -3,12 +3,13 @@
 #define CATA_SRC_ITEM_FACTORY_H
 
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -228,6 +229,14 @@ class Item_factory
         void migrate_item_from_variant( item &obj, const std::string &from_variant );
 
         /**
+         * Add itype_id to m_runtimes.
+         *
+         * If the itype overrides an existing itype, the existing itype is deleted first.
+         * Return the newly created itype.
+         */
+        const itype *add_runtime( const itype_id &id, translation name, translation description ) const;
+
+        /**
          * Check if an item type is known to the Item_factory.
          * @param id Item type id (@ref itype::id).
          */
@@ -242,13 +251,6 @@ class Item_factory
         const itype *find_template( const itype_id &id ) const;
 
         /**
-         * Add a passed in itype to the collection of item types.
-         * If the item type overrides an existing type, the existing type is deleted first.
-         * @param def The new item type, must not be null.
-         */
-        void add_item_type( const itype &def );
-
-        /**
          * Check if an iuse is known to the Item_factory.
          * @param type Iuse type id.
          */
@@ -259,10 +261,7 @@ class Item_factory
         void load_item_blacklist( const JsonObject &json );
 
         /** Get all item templates (both static and runtime) */
-        std::vector<const itype *> all() const;
-
-        /** Get item types created at runtime. */
-        std::vector<const itype *> get_runtime_types() const;
+        const std::vector<const itype *> &all() const;
 
         /** Find all item templates (both static and runtime) matching UnaryPredicate function */
         static std::vector<const itype *> find( const std::function<bool( const itype & )> &func );
@@ -278,6 +277,9 @@ class Item_factory
         std::unordered_map<itype_id, itype> m_templates;
 
         mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
+        /** Runtimes rarely change. Used for cache templates_all_cache for the all() method. */
+        mutable bool m_runtimes_dirty = true;
+        mutable std::vector<const itype *> templates_all_cache;
 
         using GroupMap = std::map<item_group_id, std::unique_ptr<Item_spawn_data>>;
         GroupMap m_template_groups;
@@ -308,6 +310,10 @@ class Item_factory
                         const std::string &src );
 
         /**
+        * Load ememory_size, which is automatically calculated for books
+        */
+        void load_ememory_size( const JsonObject &jo, itype &def );
+        /**
          * Load item the item slot if present in json.
          * Checks whether the json object has a member of the given name and if so, loads the item
          * slot from that object. If the member does not exists, nothing is done.
@@ -316,13 +322,6 @@ class Item_factory
         void load_slot_optional( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
                                  std::string_view member, const std::string &src );
 
-        void load( islot_tool &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_comestible &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_mod &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_gun &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_gunmod &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_magazine &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_bionic &slot, const JsonObject &jo, const std::string &src );
         void load( relic &slot, const JsonObject &jo, std::string_view src );
 
         //json data handlers

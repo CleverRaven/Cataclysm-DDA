@@ -954,6 +954,7 @@
     "type": "bionic",
     "name": { "str": "Calorie Tracker" },
     "description": "A module implanted in your body measures your calorie intake and expenditure at all times.",
+    "flags": [ "CALORIE_BURN" ],
     "occupied_bodyparts": [ [ "torso", 1 ] ]
   },
   {

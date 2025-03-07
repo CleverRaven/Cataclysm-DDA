@@ -1,15 +1,19 @@
 #include "sleep.h"
 
-#include <iterator>
+#include <list>
 #include <optional>
 #include <string>
 
 #include "character.h"
+#include "debug.h"
 #include "flag.h"
-#include "game.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "item_stack.h"
 #include "map.h"
+#include "mapdata.h"
+#include "translations.h"
 #include "trap.h"
 #include "type_id.h"
 #include "veh_type.h"
@@ -55,7 +59,7 @@ const comfort_data &comfort_data::human()
     return human_comfort;
 }
 
-int comfort_data::human_comfort_at( const tripoint &p )
+int comfort_data::human_comfort_at( const tripoint_bub_ms &p )
 {
     const map &here = get_map();
     const optional_vpart_position vp = here.veh_at( p );
@@ -74,7 +78,7 @@ int comfort_data::human_comfort_at( const tripoint &p )
     }
 }
 
-bool comfort_data::try_get_sleep_aid_at( const tripoint &p, item &result )
+bool comfort_data::try_get_sleep_aid_at( const tripoint_bub_ms &p, item &result )
 {
     map &here = get_map();
     const optional_vpart_position vp = here.veh_at( p );
@@ -138,7 +142,8 @@ void comfort_data::deserialize_comfort( const JsonObject &jo, bool was_loaded,
     }
 }
 
-bool comfort_data::condition::is_condition_true( const Character &guy, const tripoint &p ) const
+bool comfort_data::condition::is_condition_true( const Character &guy,
+        const tripoint_bub_ms &p ) const
 {
     bool result = false;
     const map &here = get_map();
@@ -295,7 +300,7 @@ bool comfort_data::human_or_impossible() const
 
 // The logic isn't intuitive at all, but it works. Conditions are ORed together if `conditions_or`
 // is true and ANDed together if it's false. Somehow.
-bool comfort_data::are_conditions_true( const Character &guy, const tripoint &p ) const
+bool comfort_data::are_conditions_true( const Character &guy, const tripoint_bub_ms &p ) const
 {
     for( const condition &cond : conditions ) {
         const bool passed = cond.is_condition_true( guy, p );
@@ -306,7 +311,7 @@ bool comfort_data::are_conditions_true( const Character &guy, const tripoint &p 
     return !conditions_or;
 }
 
-comfort_data::response comfort_data::get_comfort_at( const tripoint &p ) const
+comfort_data::response comfort_data::get_comfort_at( const tripoint_bub_ms &p ) const
 {
     response result;
     result.data = this;

@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_MINER",
+    "id": "GROUP_MINER",
     "monsters": [ { "monster": "mon_zombie_miner" } ]
   },
   {

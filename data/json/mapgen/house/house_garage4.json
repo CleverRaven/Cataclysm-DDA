@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "house_garage4" ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -113,13 +112,13 @@
         " |....................| ",
         " |...................g| ",
         " |...................U| ",
-        " |.............<.....F| ",
+        " |.............<.....â| ",
         " |....................| ",
         " |...............JJZWJ| ",
         " |||||||||||||||||||||| ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [

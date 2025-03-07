@@ -92,7 +92,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_lighthouse_man_hay",
-    "dynamic_line": "You know, <very> good.  It is cozy here, there is a lot of space, and most importantly, it's safe.  We even started considering this place as our new home.  By the way, while I was fishing, a bottle with a piece of paper came to the shore of our island.  Here, take a look.\", he gave you a piece of paper, something was written on it: '0030045-0030045-35321700', with something similar to lightning scribbled nearby.  \"I wonder what it could mean…"
+    "dynamic_line": "You know, pretty good.  It is cozy here, there is a lot of space, and most importantly, it's safe.  We even started considering this place as our new home.  By the way, while I was fishing, a bottle with a piece of paper came to the shore of our island.  Here, take a look.\", he gave you a piece of paper, something was written on it: '0030045-0030045-35321700', with something similar to lightning scribbled nearby.  \"I wonder what it could mean…"
   },
   {
     "type": "talk_topic",
@@ -289,13 +289,7 @@
     "difficulty": 0,
     "value": 5000,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "lighthouse_ground",
-        "om_special": "Lighthouse Island",
-        "reveal_radius": 10,
-        "search_range": 360,
-        "cant_see": true
-      },
+      "assign_mission_target": { "om_terrain": "lighthouse_ground", "om_special": "Lighthouse Island", "reveal_radius": 10, "cant_see": true },
       "update_mapgen": [
         {
           "om_terrain": "lighthouse_ground",
@@ -376,9 +370,9 @@
       "offer": "So, we found the lighthouse.  Now, I need to clean it.  Want to help me with it?",
       "accepted": "Great.  Let's do it together.  I'll be right behind you.  We will clean floor by floor.  If you decide that the floor is clean, tell me about it, and we will move on to the next, and so on to the very top.",
       "rejected": "Well, it's your choice.",
-      "advice": "Be <very> careful.  These <name_b>s are most dangerous in tight spaces.",
+      "advice": "Be careful.  These <name_b>s are most dangerous in tight spaces.",
       "inquire": "<its_safe>",
-      "success": "Great, <very> great.  All that remains is to wash all the floors…",
+      "success": "Great, incredibly great.  All that remains is to wash all the floors…",
       "success_lie": "-",
       "failure": "-"
     }
@@ -443,7 +437,7 @@
       "rejected": "Well, it's your choice.",
       "advice": "Please, if you can, don't disassemble furniture here.  It can still be useful.",
       "inquire": "Did you find it?",
-      "success": "<very> good, <name_g>, thank you!  Now we are not afraid of hunger, rain, or other bad weather, he-he.  By the way, I have a small supply of fish, tackle, baits and rods.  If you are interested, I can share some with you.",
+      "success": "Very good, <name_g>, thank you!  Now we are not afraid of hunger, rain, or other bad weather, he-he.  By the way, I have a small supply of fish, tackle, baits and rods.  If you are interested, I can share some with you.",
       "success_lie": "-",
       "failure": "-"
     }

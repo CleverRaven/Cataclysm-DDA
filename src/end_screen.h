@@ -2,14 +2,16 @@
 #ifndef CATA_SRC_DEATH_SCREEN_H
 #define CATA_SRC_DEATH_SCREEN_H
 
-#include <iosfwd>
+#include <functional>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
-#include "ascii_art.h"
-#include "effect_on_condition.h"
 #include "type_id.h"
 
 class JsonObject;
+struct const_dialogue;
 
 struct end_screen {
     public:

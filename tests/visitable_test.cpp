@@ -7,19 +7,20 @@
 #include "ret_val.h"
 #include "type_id.h"
 
+static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_water( "water" );
 
 TEST_CASE( "visitable_summation" )
 {
     inventory test_inv;
 
-    item bottle_of_water( "bottle_plastic", calendar::turn );
-    item water_in_bottle( "water", calendar::turn );
+    item bottle_of_water( itype_bottle_plastic, calendar::turn );
+    item water_in_bottle( itype_water, calendar::turn );
     water_in_bottle.charges = bottle_of_water.get_remaining_capacity_for_liquid( water_in_bottle );
     bottle_of_water.put_in( water_in_bottle, pocket_type::CONTAINER );
     test_inv.add_item( bottle_of_water );
 
-    const item unlimited_water( "water", calendar::turn_zero, item::INFINITE_CHARGES );
+    const item unlimited_water( itype_water, calendar::turn_zero, item::INFINITE_CHARGES );
     test_inv.add_item( unlimited_water );
 
     CHECK( test_inv.charges_of( itype_water, item::INFINITE_CHARGES ) > 1 );

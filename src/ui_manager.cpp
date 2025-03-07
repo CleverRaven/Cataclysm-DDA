@@ -364,8 +364,8 @@ void ui_adaptor::redraw_invalidated( )
     }
     imgui_frame_started = true;
 
-    restore_on_out_of_scope<bool> prev_redraw_in_progress( redraw_in_progress );
-    restore_on_out_of_scope<bool> prev_restart_redrawing( restart_redrawing );
+    restore_on_out_of_scope prev_redraw_in_progress( redraw_in_progress );
+    restore_on_out_of_scope prev_restart_redrawing( restart_redrawing );
     redraw_in_progress = true;
 
     do {

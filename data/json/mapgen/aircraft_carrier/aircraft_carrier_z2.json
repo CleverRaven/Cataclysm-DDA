@@ -344,19 +344,19 @@
         { "vehicle": "helicopter_apache_1b", "x": 19, "y": 132, "chance": 20, "status": 1 },
         { "vehicle": "helicopter_osprey_2c", "x": 19, "y": 156, "chance": 50, "status": 1 },
         { "vehicle": "helicopter_osprey_2b", "x": 19, "y": 180, "chance": 50, "status": 1 },
-        { "vehicle": "inflatable_boat", "x": 14, "y": 61, "chance": 100, "rotation": 270 },
-        { "vehicle": "inflatable_boat", "x": 25, "y": 250, "chance": 100, "rotation": 90 },
-        { "vehicle": "engine_crane", "x": 66, "y": 91, "chance": 100, "rotation": 0 },
-        { "vehicle": "welding_cart", "x": [ 56, 65 ], "y": [ 31, 47 ], "chance": 100 },
-        { "vehicle": "engine_crane", "x": [ 25, 33 ], "y": [ 31, 47 ], "chance": 100 },
-        { "vehicle": "handjack", "x": [ 25, 33 ], "y": [ 49, 71 ], "chance": 100 },
-        { "vehicle": "inflatable_boat", "x": [ 25, 33 ], "y": [ 73, 94 ], "chance": 100, "rotation": 90 },
-        { "vehicle": "engine_crane", "x": [ 25, 33 ], "y": [ 97, 119 ], "chance": 100 },
-        { "vehicle": "welding_cart", "x": [ 25, 33 ], "y": [ 121, 143 ], "chance": 100 },
-        { "vehicle": "welding_cart", "x": [ 25, 33 ], "y": [ 145, 167 ], "chance": 100 },
-        { "vehicle": "welding_cart", "x": [ 25, 33 ], "y": [ 169, 191 ], "chance": 100 },
-        { "vehicle": "engine_crane", "x": [ 25, 33 ], "y": [ 193, 215 ], "chance": 100 },
-        { "vehicle": "handjack", "x": [ 25, 33 ], "y": [ 217, 236 ], "chance": 100 }
+        { "vehicle": "inflatable_boat", "x": 14, "y": 61, "rotation": 270 },
+        { "vehicle": "inflatable_boat", "x": 25, "y": 250, "rotation": 90 },
+        { "vehicle": "engine_crane", "x": 66, "y": 91, "rotation": 0 },
+        { "vehicle": "welding_cart", "x": [ 56, 65 ], "y": [ 31, 47 ] },
+        { "vehicle": "engine_crane", "x": [ 25, 33 ], "y": [ 31, 47 ] },
+        { "vehicle": "handjack", "x": [ 25, 33 ], "y": [ 49, 71 ] },
+        { "vehicle": "inflatable_boat", "x": [ 25, 33 ], "y": [ 73, 94 ], "rotation": 90 },
+        { "vehicle": "engine_crane", "x": [ 25, 33 ], "y": [ 97, 119 ] },
+        { "vehicle": "welding_cart", "x": [ 25, 33 ], "y": [ 121, 143 ] },
+        { "vehicle": "welding_cart", "x": [ 25, 33 ], "y": [ 145, 167 ] },
+        { "vehicle": "welding_cart", "x": [ 25, 33 ], "y": [ 169, 191 ] },
+        { "vehicle": "engine_crane", "x": [ 25, 33 ], "y": [ 193, 215 ] },
+        { "vehicle": "handjack", "x": [ 25, 33 ], "y": [ 217, 236 ] }
       ]
     }
   }

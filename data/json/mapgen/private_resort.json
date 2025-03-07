@@ -56,7 +56,7 @@
         "││││││││││││││││││││││││|......................|||||||..cc...|||+||#  F "
       ],
       "palettes": [ "p_resort_palette_main_floor" ],
-      "terrain": { "│": "t_hole", "L": "t_thconc_floor" },
+      "terrain": { "│": "t_open_air", "L": "t_thconc_floor" },
       "place_fields": [ { "field": "fd_bile", "x": [ 25, 46 ], "y": [ 5, 22 ], "repeat": [ 40, 60 ] } ],
       "items": {
         "N": [
@@ -97,7 +97,7 @@
       ],
       "place_vehicles": [
         { "vehicle": "pickup", "x": 13, "y": 13, "chance": 33, "rotation": 270 },
-        { "vehicle": "policesuv", "x": 11, "y": 7, "chance": 100, "rotation": 90 }
+        { "vehicle": "policesuv", "x": 11, "y": 7, "rotation": 90 }
       ]
     }
   },
@@ -222,8 +222,8 @@
         { "group": "GROUP_RESORT_MIXED_STAFF", "x": [ 48, 66 ], "y": [ 0, 7 ] }
       ],
       "place_vehicles": [
-        { "vehicle": "police_pileup", "x": 28, "y": 15, "chance": 100, "rotation": 270 },
-        { "vehicle": "police_pileup", "x": 43, "y": 20, "chance": 100, "rotation": 0 },
+        { "vehicle": "police_pileup", "x": 28, "y": 15, "rotation": 270 },
+        { "vehicle": "police_pileup", "x": 43, "y": 20, "rotation": 0 },
         { "vehicle": "limousine", "x": 35, "y": 42, "chance": 75, "rotation": 90 }
       ],
       "place_signs": [

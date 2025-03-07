@@ -128,7 +128,7 @@ static void CheckOpCall( UseLocalizedSortingCheck &Check, const MatchFinder::Mat
     }
 
     StringRef Arg0Text = getText( Result, Arg0Expr );
-    if( Arg0Text.endswith( "id" ) ) {
+    if( Arg0Text.ends_with( "id" ) ) {
         return;
     }
 

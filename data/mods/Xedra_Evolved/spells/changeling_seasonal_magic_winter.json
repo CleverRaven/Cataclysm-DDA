@@ -1,0 +1,477 @@
+[
+  {
+    "//": "Winter magic should focus on: darkness, silence, sleep, stasis, ice, snow, cold, wind, death.",
+    "//2": "Make sure to add each new spell to the proper research EoC in the playable_changeling_seasonal_magic_research_eocs file.",
+    "//3": "Seasonal magic can have direct damage spells, but they should always be relevantly themed to the season, accomplish some secondary effect (slowing, blinding, starting fires, terrain alteration, etc), have some limitation on targets, or otherwise be less efficient than 'Wizard casts fireball' ",
+    "id": "xe_fey_seasonal_magick_winter",
+    "type": "magic_type",
+    "energy_source": "MANA",
+    "cannot_cast_flags": [ "NO_FEY_MAGIC", "NO_SPELLCASTING" ],
+    "cannot_cast_message": "You can't use your glamours now!",
+    "failure_cost_percent": 0.75,
+    "max_book_level": 0,
+    "failure_chance_formula_id": "xe_fey_seasonal_magick_winter_failure_chance"
+  },
+  {
+    "id": "changeling_winter_walk_in_silence",
+    "type": "SPELL",
+    "name": "Footsteps in the Snow",
+    "description": "You and your nearby allies' footsteps make almost no sound when you move, like the footsteps of an animal traveling across new-fallen snow.  If used in winter, your footsteps are <color_green>totally silent</color>.  The glamour is <color_yellow>quicker to expire</color> in summer.",
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "self", "ally" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 1,
+    "effect": "attack",
+    "effect_str": "effect_changeling_winter_walk_in_silence",
+    "min_aoe": {
+      "math": [
+        "min( ( 1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.1) + (u_skill('deduction') * 0.2) ), 10)"
+      ]
+    },
+    "min_duration": {
+      "math": [
+        "( ( 5831 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 2882) + (u_skill('deduction') * 15385) ) ) * (global_what_is_the_season == 2 ? 0.6 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 19850 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 9850) + (u_skill('deduction') * 35482) ) ) * (global_what_is_the_season == 2 ? 0.4 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 150 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 4) - (u_skill('deduction') * 6)), 50)" ]
+    },
+    "base_casting_time": 75
+  },
+  {
+    "id": "changeling_winter_freeze_target_in_place_spell",
+    "type": "SPELL",
+    "name": "Grip of Winter",
+    "description": "Summon up thick ice around the target's lower limbs, freezing them in place.  Larger targets require more sorcerous might to affect.  If used in winter, the ice covers all of the target's limbs and they also <color_green>cannot attack</color> for the glamour's duration.  The glamour is <color_yellow>quicker to expire</color> in summer.",
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "ally", "hostile" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 2,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_WINTER_FREEZE_TARGET_IN_PLACE",
+    "min_range": {
+      "math": [
+        "min( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.5) + (u_skill('deduction') * 0.75) ), 15)"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "min( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.5) + (u_skill('deduction') * 0.75) ), 15)"
+      ]
+    },
+    "min_duration": {
+      "math": [
+        "( ( 251 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 245) + (u_skill('deduction') * 350) ) )  * (global_what_is_the_season == 2 ? 0.6 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 652 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 555) + (u_skill('deduction') * 791) ) )  * (global_what_is_the_season == 2 ? 0.4 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 200 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 4) - (u_skill('deduction') * 6)), 75)" ]
+    },
+    "base_casting_time": 100
+  },
+  {
+    "id": "changeling_winter_walk_on_water_spell",
+    "type": "SPELL",
+    "name": "Path of Rime",
+    "description": "You can create ice under your feet, allowing you to walk across water or other liquids without sinking into them.  The glamour is <color_yellow>quicker to expire</color> in summer.",
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 2,
+    "effect": "attack",
+    "effect_str": "effect_changeling_winter_walk_on_water",
+    "min_duration": {
+      "math": [
+        "( ( 2413 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 912) + (u_skill('deduction') * 3758) ) ) * (global_what_is_the_season == 2 ? 0.6 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 5682 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 2782) + (u_skill('deduction') * 8372) ) ) * (global_what_is_the_season == 2 ? 0.4 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 200 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 4) - (u_skill('deduction') * 6)), 75)" ]
+    },
+    "base_casting_time": 75
+  },
+  {
+    "id": "changeling_winter_feign_death_spell",
+    "type": "SPELL",
+    "name": "Stillness of the Tomb",
+    "description": "You and your nearby allies' footsteps make almost no sound when you move, like the footsteps of an animal traveling across new-fallen snow.  If used in winter, your footsteps are <color_green>totally silent</color>.  The glamour is <color_yellow>quicker to expire</color> in summer.",
+    "message": "",
+    "flags": [ "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 3,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_WINTER_FEIGN_DEATH",
+    "base_energy_cost": {
+      "math": [ "max( ( 100 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') - (u_skill('deduction') * 2)), 40)" ]
+    },
+    "base_casting_time": 25
+  },
+  {
+    "id": "changeling_winter_silence_spell",
+    "type": "SPELL",
+    "name": "The Rime-Stilled Tongue",
+    "description": "Instill ice into a single target's tongue, rendering it heavy and unwieldy in their mouth, and silent their voice with it.  The affected target will not be able to speak or make any noise at all.  The glamour <color_green>lasts much longer</color> in winter.",
+    "message": "Snow forms around your hand as you gesture at your target.",
+    "flags": [ "SOMATIC", "NO_LEGS", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "hostile" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 3,
+    "effect": "attack",
+    "effect_str": "effect_changeling_winter_silence",
+    "min_range": {
+      "math": [ "min( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.8) + u_skill('deduction')), 30)" ]
+    },
+    "max_range": {
+      "math": [ "min( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.8) + u_skill('deduction')), 30)" ]
+    },
+    "min_duration": {
+      "math": [
+        "( ( 788 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 253) + (u_skill('deduction') * 672) ) ) * (global_what_is_the_season == 4 ? 2.4 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 1531 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 585) + (u_skill('deduction') * 1585) ) ) * (global_what_is_the_season == 4 ? 5.9 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 150 - u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') - (u_skill('deduction') * 2)), 75)" ]
+    },
+    "base_casting_time": 25
+  },
+  {
+    "id": "changeling_winter_frozen_breath_spell",
+    "type": "SPELL",
+    "name": "Jack's Breath",
+    "description": "Draw in the chill air of winter and breathe out a cone of freezing air and ice, damaging and slowing your opponents.",
+    "message": "You breathe out a cone of freezing air.",
+    "flags": [ "SOMATIC", "RANDOM_DAMAGE", "SILENT", "RANDOM_DURATION", "SPLIT_DAMAGE", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "cone",
+    "difficulty": 4,
+    "effect": "attack",
+    "effect_str": "effect_changeling_winter_frozen_breath",
+    "damage_type": "cold",
+    "min_damage": {
+      "math": [ "( ( 4 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.25) + (u_skill('deduction') * 1.25) ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( ( 10 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.8) + (u_skill('deduction') * 3) ) )" ]
+    },
+    "min_duration": {
+      "math": [
+        "( ( 282 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 34) + (u_skill('deduction') * 56) ) ) * (global_what_is_the_season == 2 ? 0.6 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 642 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 82) + (u_skill('deduction') * 132) ) ) * (global_what_is_the_season == 2 ? 0.4 : 1)"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.1) + (u_skill('deduction') * 0.2) ) ), 7)"
+      ]
+    },
+    "max_range": 20,
+    "min_aoe": {
+      "math": [
+        "min( ( ( 30 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 1) + (u_skill('deduction') * 2) ) ) , 80)"
+      ]
+    },
+    "max_aoe": 75,
+    "base_energy_cost": {
+      "math": [ "max( ( 200 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 3) - (u_skill('deduction') * 5)), 100)" ]
+    },
+    "base_casting_time": 100
+  },
+  {
+    "id": "changeling_winter_neutralize_morale_spell",
+    "type": "SPELL",
+    "name": "The Frozen Heart",
+    "description": "Freeze out all emotion in your heart, rendering you perfectly calm.  This will cancel extremes of both positive and negative emotion and prevent you from feeling anything for the glamour's duration.  This latter effect <color_red>does not occur</color> in summer.",
+    "message": "",
+    "flags": [ "NO_LEGS", "SOMATIC", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 5,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_WINTER_NEUTRALIZE_MORALE",
+    "min_duration": {
+      "math": [
+        "( ( 2912 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 1582) + (u_skill('deduction') * 3184) ) ) * (global_what_is_the_season == 2 ? 0 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 6952 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 4185) + (u_skill('deduction') * 9052) ) ) * (global_what_is_the_season == 2 ? 0 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 500 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 2 ) - (u_skill('deduction') * 4)), 350)"
+      ]
+    },
+    "base_casting_time": 500
+  },
+  {
+    "id": "changeling_winter_see_craft_darkness_spell",
+    "type": "SPELL",
+    "name": "By Moon or by Starlight",
+    "//": "TODO: Once there is a distinction between total darkness and low light, this glamour should only work in low light",
+    "description": "Become at home in darkness, allowing you to read and perform normal crafting actions as long as there is even a bit of light available.  This glamour <color_yellow>only works outdoors</color> in summer.",
+    "message": "You open your eyes to the dark and the cold.",
+    "flags": [ "VERBAL", "NO_LEGS", "NO_HANDS", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 6,
+    "effect": "attack",
+    "effect_str": "effect_changeling_winter_see_craft_darkness",
+    "min_duration": {
+      "math": [
+        "( ( 48462 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 6451) + (u_skill('deduction') * 11715) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 108164 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 15985) + (u_skill('deduction') * 27054) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 450 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 2 ) - (u_skill('deduction') * 4)), 300)"
+      ]
+    },
+    "base_casting_time": 250
+  },
+  {
+    "id": "changeling_winter_hail_attack_spell",
+    "type": "SPELL",
+    "name": "Tears of the Cailleach",
+    "description": "Cause a short but furious winter storm in a target location, dropping fist-sized hailstones and ice on your enemies.  The glamour leaves behind a field of ice that makes movement very treacherous.  This ice <color_red>melts immediately</color> in the summer.",
+    "message": "",
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DAMAGE", "SILENT", "NO_LEGS", "RANDOM_DURATION", "SPLIT_DAMAGE" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 7,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_WINTER_HAIL_ATTACK",
+    "min_aoe": {
+      "math": [
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.2) + (u_skill('deduction') * 0.4) ) ), 10)"
+      ]
+    },
+    "max_aoe": 10,
+    "base_energy_cost": {
+      "math": [ "max( ( 650 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 3) - (u_skill('deduction') * 5)), 350)" ]
+    },
+    "base_casting_time": 250
+  },
+  {
+    "id": "changeling_winter_hail_attack_spell_bash_damage",
+    "type": "SPELL",
+    "name": { "str": "Tears of the Cailleach Bash Damage", "//~": "NO_I18N" },
+    "description": { "str": "Tears of the Cailleach Bash Damage subcomponent.  Having this spell is a bug.", "//~": "NO_I18N" },
+    "message": "",
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DAMAGE", "SILENT", "NO_LEGS", "RANDOM_DURATION", "SPLIT_DAMAGE" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 7,
+    "effect": "attack",
+    "damage_type": "bash",
+    "affected_body_parts": [ "head", "torso", "mouth", "eyes", "arm_l", "arm_r", "hand_r", "hand_l" ],
+    "min_damage": {
+      "math": [ "( ( 10 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 1.5) + (u_skill('deduction') * 2) ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( ( 25 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 4) + (u_skill('deduction') * 6) ) )" ]
+    },
+    "min_range": {
+      "math": [
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.35) + (u_skill('deduction') * 0.65) ) ), 15)"
+      ]
+    },
+    "max_range": 15,
+    "min_aoe": {
+      "math": [
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.2) + (u_skill('deduction') * 0.4) ) ) , 10)"
+      ]
+    },
+    "max_aoe": 10
+  },
+  {
+    "id": "changeling_winter_hail_attack_spell_cold_damage",
+    "type": "SPELL",
+    "name": { "str": "Tears of the Cailleach Cold Damage", "//~": "NO_I18N" },
+    "description": { "str": "Tears of the Cailleach Cold Damage.  Having this spell is a bug.", "//~": "NO_I18N" },
+    "message": "",
+    "flags": [ "RANDOM_DAMAGE", "SILENT", "NO_LEGS", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 7,
+    "effect": "attack",
+    "damage_type": "cold",
+    "min_damage": {
+      "math": [ "( ( 8 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 1) + (u_skill('deduction') * 1.8) ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( ( 20 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 3) + (u_skill('deduction') * 4) ) )" ]
+    },
+    "min_range": {
+      "math": [
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.35) + (u_skill('deduction') * 0.65) ) ), 15)"
+      ]
+    },
+    "max_range": 15,
+    "min_aoe": {
+      "math": [
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.2) + (u_skill('deduction') * 0.4) ) ) , 10)"
+      ]
+    },
+    "max_aoe": 10
+  },
+  {
+    "id": "changeling_winter_hail_attack_spell_ice_fields",
+    "type": "SPELL",
+    "name": { "str": "Tears of the Cailleach Ice Fields", "//~": "NO_I18N" },
+    "description": { "str": "Tears of the Cailleach Ice Fields.  Having this spell is a bug.", "//~": "NO_I18N" },
+    "message": "",
+    "flags": [ "SILENT", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 7,
+    "effect": "attack",
+    "min_range": {
+      "math": [
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.35) + (u_skill('deduction') * 0.65) ) ), 15)"
+      ]
+    },
+    "max_range": 20,
+    "min_aoe": {
+      "math": [
+        "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 0.2) + (u_skill('deduction') * 0.4) ) ), 10)"
+      ]
+    },
+    "max_aoe": 10,
+    "field_id": "fd_winter_magic_ice",
+    "min_field_intensity": 2,
+    "max_field_intensity": 3,
+    "field_intensity_variance": 0.5,
+    "field_chance": 1
+  },
+  {
+    "id": "changeling_winter_pure_area_darkness_spell",
+    "type": "SPELL",
+    "name": "The Long Dark",
+    "description": "Draw on the power of winter to recreate the polar night, blotting out the sun and plunging the nearby area into darkness.  This glamour's duration is <color_yellow>greatly reduced</color> in summer.",
+    "message": "",
+    "flags": [ "VERBAL", "NO_LEGS", "SOMATIC", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_winter",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 10,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_WINTER_PURE_AREA_DARKNESS",
+    "components": "spell_components_changeling_dreamspark_5",
+    "min_duration": {
+      "math": [
+        "( ( 3985 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 1678) + (u_skill('deduction') * 4985) ) ) * (global_what_is_the_season == 2 ? 0.3 : 1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 13347 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 6815) + (u_skill('deduction') * 12085) ) ) * (global_what_is_the_season == 2 ? 0.2 : 1)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 1300 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 8 ) - (u_skill('deduction') * 20)), 700)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 2000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_WINTER') * 10 ) - (u_skill('deduction') * 50)), 500)"
+      ]
+    }
+  }
+]

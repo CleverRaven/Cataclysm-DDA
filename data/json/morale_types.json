@@ -15,6 +15,11 @@
     "text": "Enjoyed a conversation"
   },
   {
+    "id": "morale_chat_uncaring",
+    "type": "morale_type",
+    "text": "Had to suffer through an inane conversation"
+  },
+  {
     "id": "morale_ate_with_table",
     "type": "morale_type",
     "text": "Ate with a table and chair"
@@ -288,11 +293,6 @@
     "id": "morale_perm_hoarder",
     "type": "morale_type",
     "text": "Hoarder"
-  },
-  {
-    "id": "morale_perm_fancy",
-    "type": "morale_type",
-    "text": "Stylish"
   },
   {
     "id": "morale_perm_optimist",

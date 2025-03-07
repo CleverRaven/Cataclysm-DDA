@@ -36,6 +36,7 @@
       ".": [ [ "f_region_flower", 1 ], [ "f_null", 100 ] ]
     },
     "nested": { "6": { "chunks": [ [ "null", 1 ], [ "1x1_trailmap", 2 ] ] } },
+    "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "T": {  } }
   },
   {

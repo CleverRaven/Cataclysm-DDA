@@ -35,7 +35,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_npcs": [ { "class": "bandit", "x": 14, "y": 12 }, { "class": "thug", "x": 16, "y": 10 } ],
       "items": {
-        " ": [ { "item": "trash", "chance": 1 }, { "item": "clutter_yard", "chance": 1 } ],
+        " ": [ { "item": "SUS_trash_floor", "chance": 1 }, { "item": "clutter_yard", "chance": 1 } ],
         "t": [
           { "item": "hazmat_suits", "chance": 70 },
           { "item": "hazmat_masks", "chance": 70 },

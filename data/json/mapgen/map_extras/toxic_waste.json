@@ -98,7 +98,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_TOXIC_WASTE",
+    "id": "GROUP_TOXIC_WASTE",
     "monsters": [
       { "monster": "mon_sewer_rat", "weight": 60 },
       { "monster": "mon_blob", "weight": 30 },
@@ -107,7 +107,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_TOXIC_WASTE_CORPSES",
+    "id": "GROUP_TOXIC_WASTE_CORPSES",
     "monsters": [
       { "monster": "mon_mutant_experimental", "weight": 60 },
       { "monster": "mon_mutant_antler", "weight": 30 },

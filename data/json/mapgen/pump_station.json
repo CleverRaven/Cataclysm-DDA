@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "pump_station_1" ], [ "pump_station_2" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -215,7 +214,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "pump_station_3" ], [ "pump_station_4" ], [ "pump_station_5" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

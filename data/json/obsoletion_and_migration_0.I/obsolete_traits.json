@@ -3,5 +3,15 @@
     "type": "TRAIT_MIGRATION",
     "id": "EAGLEEYED_NIGHT",
     "trait": "EAGLEEYED"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PROF_ASSASSIN_CONVICT",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "STYLISH",
+    "remove": true
   }
 ]

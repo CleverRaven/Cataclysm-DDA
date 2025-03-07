@@ -29,6 +29,7 @@ jobs:
       id: get-vars
       run: |
         echo "datetime=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
+        echo "datetime-seconds=$(/bin/date +%s)" >> $GITHUB_OUTPUT
         echo "ccache-path=$(echo '~/.cache/ccache')" >> $GITHUB_OUTPUT
 
     - name: ccache cache files
@@ -53,7 +54,7 @@ jobs:
         export EM_CONFIG=$EMSDK/.emscripten
         export CCACHE_COMPILERCHECK=string:3.1.51
         ccache --zero-stats
-        ccache -M 5G
+        ccache -M 20G
         ccache --show-stats
 
         ./build-scripts/build-emscripten.sh
@@ -63,7 +64,11 @@ jobs:
         emsdk activate ccache-git-emscripten-64bit
         export PATH="${PATH%%:*}/../../ccache/git-emscripten_64bit/bin":$PATH
         ccache --show-stats
-        ccache -M 5G
+        NOW=`/bin/date +%s`
+        DELTA=$(( $NOW - ${{ steps.get-vars.outputs.datetime-seconds }} ))
+        ccache --evict-older-than ${DELTA}s
+        ccache --show-stats
+        ccache -M 1G
         ccache -c
         ccache --show-stats
 

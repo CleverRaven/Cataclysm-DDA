@@ -91,7 +91,7 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
     const VarDecl *ZDecl = dyn_cast_or_null<VarDecl>( NextDecl );
 
     // Avoid altering bool variables
-    if( StringRef( XDecl->getType().getAsString() ).endswith( "ool" ) ) {
+    if( StringRef( XDecl->getType().getAsString() ).ends_with( "ool" ) ) {
         return;
     }
 

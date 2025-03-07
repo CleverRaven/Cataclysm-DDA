@@ -573,5 +573,50 @@
     "min_range": 1,
     "max_range": 1,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
+  },
+  {
+    "id": "wild_hunt_illumination_spell",
+    "type": "SPELL",
+    "name": { "str": "Witchfire monster", "//~": "NO_I18N" },
+    "description": { "str": "Illuminate the target so the hounds can get them.", "//~": "NO_I18N" },
+    "valid_targets": [ "ally", "hostile" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_wild_hunt_illumination",
+    "shape": "blast",
+    "min_duration": 6000,
+    "max_duration": 18000,
+    "min_range": 30,
+    "max_range": 30
+  },
+  {
+    "type": "SPELL",
+    "id": "wild_hunt_hound_baying",
+    "name": { "str": "Wild Hunt Hound Baying Self", "//~": "NO_I18N" },
+    "description": { "str": "Supernaturally disorients the target of the dog's baying.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "effect": "attack",
+    "effect_str": "wild_hunt_dazed",
+    "extra_effects": [ { "id": "wild_hunt_hound_baying_self", "hit_self": true } ],
+    "shape": "blast",
+    "min_range": 25,
+    "max_range": 25,
+    "min_duration": 15000,
+    "max_duration": 45000
+  },
+  {
+    "type": "SPELL",
+    "id": "wild_hunt_hound_baying_self",
+    "name": { "str": "Wild Hunt Hound Baying Self", "//~": "NO_I18N" },
+    "description": { "str": "Causes noise when the hound spots you.", "//~": "NO_I18N" },
+    "flags": [ "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN", "RANDOM_DURATION" ],
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "effect": "noise",
+    "shape": "blast",
+    "min_damage": 20,
+    "max_damage": 35
   }
 ]

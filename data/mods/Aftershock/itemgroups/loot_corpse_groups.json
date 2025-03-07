@@ -43,5 +43,27 @@
       { "item": "shocktonfa_off", "prob": 5 },
       { "item": "alloy_plate", "prob": 10 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "dead_imaginifer_police",
+    "entries": [ { "item": "afs_shotgun", "variant": "military" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "dead_imaginifer_stealth",
+    "entries": [ { "item": "wasp_gun" }, { "item": "afs_triple_stacker_pouch" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "dead_imaginifer",
+    "entries": [
+      { "item": "afs_sr77", "variant": "military" },
+      { "item": "afs_triple_stacker_pouch" },
+      { "item": "bot_wraitheon_kaburaya", "prob": 20, "count": [ 1, 2 ] }
+    ]
   }
 ]

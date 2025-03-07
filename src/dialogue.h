@@ -197,10 +197,10 @@ struct talk_response {
     bool ignore_conditionals = false;
 
     mission *mission_selected = nullptr;
-    skill_id skill = skill_id();
-    matype_id style = matype_id();
-    spell_id dialogue_spell = spell_id();
-    proficiency_id proficiency = proficiency_id();
+    skill_id skill;
+    matype_id style;
+    spell_id dialogue_spell;
+    proficiency_id proficiency;
 
     talk_effect_t success;
     talk_effect_t failure;
@@ -296,6 +296,14 @@ struct dialogue: public const_dialogue {
          */
         std::vector<talk_response> responses;
         void gen_responses( const talk_topic &topic );
+
+        // response conditional result cache
+        std::vector<bool> response_condition_exists;
+        std::vector<bool> response_condition_eval;
+
+        // add an already-generated response to this dialogue's responses
+        void add_gen_response( const talk_response &resp, bool insert_front, bool condition_exists = true,
+                               bool condition_result = true );
 
         void add_topic( const std::string &topic );
         void add_topic( const talk_topic &topic );

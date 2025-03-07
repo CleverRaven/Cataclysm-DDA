@@ -1,18 +1,21 @@
 #include "past_games_info.h"
 
 #include <algorithm>
+#include <filesystem>
 #include <map>
 #include <stdexcept>
 #include <string>
-#include <vector>
-#include <unordered_set>
 #include <utility>
+#include <vector>
 
 #include "achievement.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "event.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
+#include "hash_utils.h"
 #include "input.h"
 #include "json_loader.h"
 #include "memorial_logger.h"

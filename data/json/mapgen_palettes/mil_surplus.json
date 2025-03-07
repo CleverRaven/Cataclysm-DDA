@@ -73,6 +73,7 @@
       "[": "f_flagpole"
     },
     "item": { "[": { "item": "american_flag" } },
+    "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "&": {  } }
   },
   {
@@ -155,7 +156,7 @@
         { "item": "bags", "chance": 30 },
         { "item": "winter", "chance": 30 }
       ],
-      "U": { "item": "trash" }
+      "U": { "item": "SUS_trash_dumpster" }
     },
     "nested": { "T": { "chunks": [ "indoor_tent_3x3_N" ] } }
   },
@@ -244,7 +245,7 @@
         "chance": 2
       },
       "L": { "item": "SUS_janitors_closet", "chance": 50 },
-      " ": { "item": "trash_cart", "chance": 5 }
+      " ": { "item": "SUS_trash_floor_light", "chance": 5 }
     },
     "nested": {
       "|": { "chunks": [ [ "bile_field", 10 ], [ "shelter_graffiti", 5 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },

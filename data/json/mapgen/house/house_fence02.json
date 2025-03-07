@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence02_1",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [
@@ -64,7 +63,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence02_2",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen", "standard_domestic_lino_bathroom" ],
@@ -114,7 +112,6 @@
   {
     "type": "mapgen",
     "om_terrain": "house_fence02_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],

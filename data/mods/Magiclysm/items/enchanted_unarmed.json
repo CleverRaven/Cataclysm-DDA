@@ -30,7 +30,8 @@
     "weight": "970 g",
     "price_postapoc": "1 kUSD 240 USD",
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "ONLY_ONE", "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING", "RELIC_PINK" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING", "RELIC_PINK" ],
+    "max_worn": 1,
     "armor": [
       {
         "material": [

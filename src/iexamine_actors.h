@@ -2,9 +2,14 @@
 #ifndef CATA_SRC_IEXAMINE_ACTORS_H
 #define CATA_SRC_IEXAMINE_ACTORS_H
 
-#include "iexamine.h"
-
 #include <map>
+#include <optional>
+#include <string>
+#include <vector>
+
+#include "coords_fwd.h"
+#include "iexamine.h"
+#include "type_id.h"
 
 class Character;
 class item_location;

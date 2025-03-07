@@ -118,13 +118,20 @@
     "required_event": "character_wakes_up",
     "condition": {
       "and": [
-        { "u_has_trait": "THRESH_IERDE" },
+        {
+          "or": [
+            { "u_has_trait": "THRESH_IERDE" },
+            { "u_has_trait": "IERDE_SINK_INTO_EARTH" },
+            { "math": [ "u_sum_traits_of_category_char_has('IERDE') >= 15" ] }
+          ]
+        },
         {
           "or": [
             "u_is_outside",
             {
               "and": [
                 { "not": { "u_is_on_terrain": "t_rock_floor_no_roof" } },
+                { "not": { "u_is_on_terrain": "t_rock" } },
                 { "not": { "u_is_on_terrain": "t_rock_floor" } },
                 { "not": { "u_is_on_terrain": "t_rock_smooth" } },
                 { "not": { "u_is_on_terrain": "t_rock_wall_half" } },
@@ -220,7 +227,13 @@
     "id": "EOC_HOMULLUS_FAE_BAN_KILL_HUMAN",
     "eoc_type": "EVENT",
     "required_event": "character_kills_character",
-    "condition": { "u_has_trait": "THRESH_HOMULLUS" },
+    "condition": {
+      "or": [
+        { "u_has_trait": "THRESH_HOMULLUS" },
+        { "u_has_trait": "HOMULLUS_BACKSTAGE" },
+        { "math": [ "u_sum_traits_of_category_char_has('HOMULLUS') >= 15" ] }
+      ]
+    },
     "effect": [
       { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
       { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
@@ -237,10 +250,17 @@
     "required_event": "character_kills_monster",
     "condition": {
       "and": [
-        { "u_has_trait": "THRESH_HOMULLUS" },
+        {
+          "or": [
+            { "u_has_trait": "THRESH_HOMULLUS" },
+            { "u_has_trait": "HOMULLUS_BACKSTAGE" },
+            { "math": [ "u_sum_traits_of_category_char_has('HOMULLUS') >= 15" ] }
+          ]
+        },
         {
           "or": [
             { "and": [ { "npc_has_species": "HUMAN" }, { "not": { "npc_has_species": "ZOMBIE" } } ] },
+            { "and": [ { "npc_has_flag": "HUMAN" }, { "not": { "npc_has_species": "ZOMBIE" } } ] },
             { "npc_has_species": "FERAL" }
           ]
         }
@@ -526,6 +546,18 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_IRON_OR_STEEL_RECURRING_CHECK",
+    "condition": { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] },
+    "deactivate_condition": { "not": { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] } },
+    "recurrence": 1,
+    "effect": [
+      {
+        "run_eocs": [ "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_FOLLOWUP", "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_STEEL_FOLLOWUP" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_FOLLOWUP",
     "effect": {
       "u_run_inv_eocs": "all",
@@ -533,10 +565,7 @@
       "true_eocs": [
         {
           "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_RESULT_TRUE",
-          "effect": [
-            { "u_add_effect": "effect_arvore_sylph_undine_wearing_iron", "duration": "PERMANENT" },
-            { "run_eocs": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
-          ]
+          "effect": [ { "u_add_effect": "effect_arvore_sylph_undine_wearing_iron", "duration": "PERMANENT" } ]
         }
       ],
       "false_eocs": [
@@ -575,10 +604,7 @@
       "true_eocs": [
         {
           "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_STEEL_RESULT_TRUE",
-          "effect": [
-            { "u_add_effect": "effect_arvore_sylph_undine_wearing_steel", "duration": "PERMANENT" },
-            { "run_eocs": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
-          ],
+          "effect": [ { "u_add_effect": "effect_arvore_sylph_undine_wearing_steel", "duration": "PERMANENT" } ],
           "false_effect": [ { "u_lose_effect": "effect_arvore_sylph_undine_wearing_steel" } ]
         }
       ],
@@ -616,6 +642,18 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_IERDE_SALAMANDER_FAE_BAN_IRON_OR_STEEL_RECURRING_CHECK",
+    "condition": { "u_has_any_trait": [ "IERDE", "SALAMANDER", "IRON_ALLERGY" ] },
+    "deactivate_condition": { "not": { "u_has_any_trait": [ "IERDE", "SALAMANDER", "IRON_ALLERGY" ] } },
+    "recurrence": 1,
+    "effect": [
+      {
+        "run_eocs": [ "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP", "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_FOLLOWUP" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP",
     "effect": {
       "u_run_inv_eocs": "all",
@@ -623,10 +661,7 @@
       "true_eocs": [
         {
           "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_RESULT_TRUE",
-          "effect": [
-            { "u_add_effect": "effect_ierde_salamander_wearing_iron", "duration": "PERMANENT" },
-            { "run_eocs": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
-          ]
+          "effect": [ { "u_add_effect": "effect_ierde_salamander_wearing_iron", "duration": "PERMANENT" } ]
         }
       ],
       "false_eocs": [
@@ -665,10 +700,7 @@
       "true_eocs": [
         {
           "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_RESULT_TRUE",
-          "effect": [
-            { "u_add_effect": "effect_ierde_salamander_wearing_steel", "duration": "PERMANENT" },
-            { "run_eocs": "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
-          ],
+          "effect": [ { "u_add_effect": "effect_ierde_salamander_wearing_steel", "duration": "PERMANENT" } ],
           "false_effect": [ { "u_lose_effect": "effect_ierde_salamander_wearing_steel" } ]
         }
       ],

@@ -97,7 +97,7 @@
     "item": "software_blood_data",
     "start": {
       "effect": [ { "u_spawn_item": "vacutainer" }, { "u_spawn_item": "usb_drive" } ],
-      "assign_mission_target": { "om_terrain": "hospital_2", "search_range": 540, "reveal_radius": 3 }
+      "assign_mission_target": { "om_terrain": "hospital_2", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -203,7 +203,6 @@
         "om_special": "Lab_CORE_2x1x3",
         "reveal_radius": 1,
         "random": false,
-        "search_range": 200,
         "z": -4
       },
       "effect": [ { "u_spawn_item": "usb_drive_nano" } ]

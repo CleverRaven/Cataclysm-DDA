@@ -87,9 +87,39 @@
         { "id": "overlay_female_worn_camisole", "fg": 214 },
         { "id": "overlay_female_worn_cape_fp", "fg": 215 },
         { "id": "overlay_female_worn_cassock", "fg": 216 },
-        { "id": "overlay_female_worn_chainmail_hands", "fg": 217 },
-        { "id": "overlay_female_worn_chainmail_hauberk", "fg": 218 },
-        { "id": "overlay_female_worn_chainmail_suit", "fg": 219 },
+        {
+          "id": [
+            "overlay_female_worn_chainmail_junk_hands",
+            "overlay_female_worn_lc_chainmail_hands",
+            "overlay_female_worn_mc_chainmail_hands",
+            "overlay_female_worn_hc_chainmail_hands",
+            "overlay_female_worn_ch_chainmail_hands",
+            "overlay_female_worn_qt_chainmail_hands"
+          ],
+          "fg": 217
+        },
+        {
+          "id": [
+            "overlay_female_worn_chainmail_junk_hauberk",
+            "overlay_female_worn_lc_chainmail_hauberk",
+            "overlay_female_worn_mc_chainmail_hauberk",
+            "overlay_female_worn_hc_chainmail_hauberk",
+            "overlay_female_worn_ch_chainmail_hauberk",
+            "overlay_female_worn_qt_chainmail_hauberk"
+          ],
+          "fg": 218
+        },
+        {
+          "id": [
+            "overlay_female_worn_chainmail_junk_suit",
+            "overlay_female_worn_lc_chainmail_suit",
+            "overlay_female_worn_mc_chainmail_suit",
+            "overlay_female_worn_hc_chainmail_suit",
+            "overlay_female_worn_ch_chainmail_suit",
+            "overlay_female_worn_qt_chainmail_suit"
+          ],
+          "fg": 219
+        },
         { "id": "overlay_female_worn_chainmail_suit_faraday", "fg": 220 },
         { "id": "overlay_female_worn_chestwrap", "fg": 221 },
         { "id": "overlay_female_worn_chestwrap_fur", "fg": 222 },
@@ -369,9 +399,39 @@
         { "id": "overlay_male_worn_camisole", "fg": 496 },
         { "id": "overlay_male_worn_cape_fp", "fg": 497 },
         { "id": "overlay_male_worn_cassock", "fg": 498 },
-        { "id": "overlay_male_worn_chainmail_hands", "fg": 499 },
-        { "id": "overlay_male_worn_chainmail_hauberk", "fg": 500 },
-        { "id": "overlay_male_worn_chainmail_suit", "fg": 501 },
+        {
+          "id": [
+            "overlay_male_worn_chainmail_junk_hands",
+            "overlay_male_worn_lc_chainmail_hands",
+            "overlay_male_worn_mc_chainmail_hands",
+            "overlay_male_worn_hc_chainmail_hands",
+            "overlay_male_worn_ch_chainmail_hands",
+            "overlay_male_worn_qt_chainmail_hands"
+          ],
+          "fg": 499
+        },
+        {
+          "id": [
+            "overlay_male_worn_chainmail_junk_hauberk",
+            "overlay_male_worn_lc_chainmail_hauberk",
+            "overlay_male_worn_mc_chainmail_hauberk",
+            "overlay_male_worn_hc_chainmail_hauberk",
+            "overlay_male_worn_ch_chainmail_hauberk",
+            "overlay_male_worn_qt_chainmail_hauberk"
+          ],
+          "fg": 500
+        },
+        {
+          "id": [
+            "overlay_male_worn_chainmail_junk_suit",
+            "overlay_male_worn_lc_chainmail_suit",
+            "overlay_male_worn_mc_chainmail_suit",
+            "overlay_male_worn_hc_chainmail_suit",
+            "overlay_male_worn_ch_chainmail_suit",
+            "overlay_male_worn_qt_chainmail_suit"
+          ],
+          "fg": 501
+        },
         { "id": "overlay_male_worn_chainmail_suit_faraday", "fg": 502 },
         { "id": "overlay_male_worn_chestwrap", "fg": 503 },
         { "id": "overlay_male_worn_chestwrap_fur", "fg": 504 },
@@ -11571,7 +11631,7 @@
             "overlay_female_wielded_kirpan",
             "overlay_female_wielded_knife_baselard"
           ],
-          "fg": 5555,
+          "fg": 5554,
           "rotates": false
         },
         {
@@ -11583,12 +11643,12 @@
             "overlay_female_wielded_tonfa_wood",
             "overlay_female_wielded_tonfa"
           ],
-          "fg": 5560,
+          "fg": 5559,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_baton", "overlay_female_wielded_PR24-retracted" ],
-          "fg": 5561,
+          "fg": 5560,
           "rotates": false
         },
         { "id": "overlay_female_wielded_bio_shotgun_gun", "fg": 5520, "rotates": false },
@@ -11600,7 +11660,7 @@
             "overlay_female_wielded_shillelagh_weighted",
             "overlay_female_wielded_shillelagh_fake"
           ],
-          "fg": 5563,
+          "fg": 5562,
           "rotates": false
         },
         {
@@ -11610,7 +11670,7 @@
             "overlay_female_wielded_sword_crude",
             "overlay_female_wielded_sword_wood"
           ],
-          "fg": 5564,
+          "fg": 5563,
           "rotates": false
         },
         { "id": "overlay_female_wielded_bolas", "fg": 5545, "rotates": false },
@@ -11621,7 +11681,7 @@
             "overlay_female_wielded_cavalry_sabre",
             "overlay_female_wielded_wakizashi"
           ],
-          "fg": 5567,
+          "fg": 5566,
           "rotates": false
         },
         {
@@ -11658,7 +11718,7 @@
             "overlay_female_wielded_dao",
             "overlay_female_wielded_khopesh"
           ],
-          "fg": 5573,
+          "fg": 5572,
           "rotates": false
         },
         { "id": "overlay_female_wielded_disc_golf", "fg": 5546, "rotates": false },
@@ -11684,19 +11744,19 @@
         { "id": "overlay_female_wielded_frisbee", "fg": 5547, "rotates": false },
         {
           "id": [ "overlay_female_wielded_glass_shiv", "overlay_female_wielded_glass_shard" ],
-          "fg": 5576,
+          "fg": 5575,
           "rotates": false
         },
         { "id": "overlay_female_wielded_glock_17", "fg": 5467, "rotates": false },
         { "id": "overlay_female_wielded_hand_crossbow", "fg": 5537, "rotates": false },
         {
           "id": [ "overlay_female_wielded_hatchet", "overlay_female_wielded_hand_axe" ],
-          "fg": 5581,
+          "fg": 5580,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_hk417_13", "overlay_female_wielded_rm51_assault_rifle" ],
-          "fg": 5582,
+          "fg": 5581,
           "rotates": false
         },
         { "id": "overlay_female_wielded_hk_g36", "fg": 5478, "rotates": false },
@@ -11712,7 +11772,7 @@
         { "id": "overlay_female_wielded_hybridbow", "fg": 5534, "rotates": false },
         {
           "id": [ "overlay_female_wielded_i_staff", "overlay_female_wielded_shock_staff" ],
-          "fg": 5585,
+          "fg": 5584,
           "rotates": false
         },
         { "id": "overlay_female_wielded_iwi_tavor_x95_300blk", "fg": 5483, "rotates": false },
@@ -11730,7 +11790,7 @@
         },
         {
           "id": [ "overlay_female_wielded_katana", "overlay_female_wielded_estoc", "overlay_female_wielded_nodachi" ],
-          "fg": 5587,
+          "fg": 5586,
           "rotates": false
         },
         {
@@ -11745,7 +11805,7 @@
             "overlay_female_wielded_primitive_knife",
             "overlay_female_wielded_spike"
           ],
-          "fg": 5588,
+          "fg": 5587,
           "rotates": false
         },
         {
@@ -11756,7 +11816,7 @@
             "overlay_female_wielded_knife_hunting",
             "overlay_female_wielded_knife_rm42"
           ],
-          "fg": 5589
+          "fg": 5588
         },
         { "id": [ "overlay_female_wielded_ksg", "overlay_female_wielded_ksg-25" ], "fg": 5527, "rotates": false },
         {
@@ -11791,11 +11851,6 @@
             "overlay_female_wielded_bfg50"
           ],
           "fg": 5508,
-          "rotates": false
-        },
-        {
-          "id": [ "overlay_female_wielded_m16a4", "overlay_female_wielded_colt_ro635" ],
-          "fg": 5476,
           "rotates": false
         },
         { "id": [ "overlay_female_wielded_m1911", "overlay_female_wielded_deagle_44" ], "fg": 5468, "rotates": false },
@@ -11842,7 +11897,6 @@
         { "id": "overlay_female_wielded_m2browning", "fg": 5509, "rotates": false },
         { "id": "overlay_female_wielded_m2browning_sawn", "fg": 5510, "rotates": false },
         { "id": "overlay_female_wielded_m320", "fg": 5500, "rotates": false },
-        { "id": [ "overlay_female_wielded_m4a1", "overlay_female_wielded_h&k416a5" ], "fg": 5475, "rotates": false },
         { "id": "overlay_female_wielded_m79", "fg": 5470, "rotates": false },
         { "id": [ "overlay_female_wielded_mac_10", "overlay_female_wielded_mac_11" ], "fg": 5498, "rotates": false },
         {
@@ -11856,7 +11910,7 @@
             "overlay_female_wielded_blade_scythe",
             "overlay_female_wielded_butterfly_swords"
           ],
-          "fg": 5595,
+          "fg": 5594,
           "rotates": false
         },
         {
@@ -11875,6 +11929,16 @@
         { "id": [ "overlay_female_wielded_mgl", "overlay_female_wielded_rm802" ], "fg": 5501, "rotates": false },
         { "id": "overlay_female_wielded_mk23", "fg": 5505, "rotates": false },
         { "id": "overlay_female_wielded_model_10_revolver", "fg": 5497, "rotates": false },
+        {
+          "id": [ "overlay_female_wielded_modular_m16a4", "overlay_female_wielded_colt_ro635" ],
+          "fg": 5476,
+          "rotates": false
+        },
+        {
+          "id": [ "overlay_female_wielded_modular_m4_carbine", "overlay_female_wielded_h&k416a5" ],
+          "fg": 5475,
+          "rotates": false
+        },
         { "id": "overlay_female_wielded_nailgun", "fg": 5494, "rotates": false },
         { "id": "overlay_female_wielded_net", "fg": 5548, "rotates": false },
         { "id": "overlay_female_wielded_paintballgun", "fg": 5523, "rotates": false },
@@ -12069,7 +12133,7 @@
             "overlay_male_wielded_kirpan",
             "overlay_male_wielded_knife_baselard"
           ],
-          "fg": 5623,
+          "fg": 5622,
           "rotates": false
         },
         {
@@ -12081,12 +12145,12 @@
             "overlay_male_wielded_tonfa_wood",
             "overlay_male_wielded_tonfa"
           ],
-          "fg": 5628,
+          "fg": 5627,
           "rotates": false
         },
         {
           "id": [ "overlay_male_wielded_baton", "overlay_male_wielded_PR24-retracted" ],
-          "fg": 5629,
+          "fg": 5628,
           "rotates": false
         },
         { "id": "overlay_male_wielded_bio_shotgun_gun", "fg": 5434, "rotates": false },
@@ -12098,7 +12162,7 @@
             "overlay_male_wielded_shillelagh_weighted",
             "overlay_male_wielded_shillelagh_fake"
           ],
-          "fg": 5631,
+          "fg": 5630,
           "rotates": false
         },
         {
@@ -12108,7 +12172,7 @@
             "overlay_male_wielded_sword_crude",
             "overlay_male_wielded_sword_wood"
           ],
-          "fg": 5632,
+          "fg": 5631,
           "rotates": false
         },
         { "id": "overlay_male_wielded_bolas", "fg": 5459, "rotates": false },
@@ -12119,7 +12183,7 @@
             "overlay_male_wielded_cavalry_sabre",
             "overlay_male_wielded_wakizashi"
           ],
-          "fg": 5635,
+          "fg": 5634,
           "rotates": false
         },
         {
@@ -12156,7 +12220,7 @@
             "overlay_male_wielded_dao",
             "overlay_male_wielded_khopesh"
           ],
-          "fg": 5641,
+          "fg": 5640,
           "rotates": false
         },
         { "id": "overlay_male_wielded_disc_golf", "fg": 5460, "rotates": false },
@@ -12182,15 +12246,15 @@
         { "id": "overlay_male_wielded_frisbee", "fg": 5461, "rotates": false },
         {
           "id": [ "overlay_male_wielded_glass_shiv", "overlay_male_wielded_glass_shard" ],
-          "fg": 5644,
+          "fg": 5643,
           "rotates": false
         },
         { "id": "overlay_male_wielded_glock_17", "fg": 5381, "rotates": false },
         { "id": "overlay_male_wielded_hand_crossbow", "fg": 5451, "rotates": false },
-        { "id": [ "overlay_male_wielded_hatchet", "overlay_male_wielded_hand_axe" ], "fg": 5649, "rotates": false },
+        { "id": [ "overlay_male_wielded_hatchet", "overlay_male_wielded_hand_axe" ], "fg": 5648, "rotates": false },
         {
           "id": [ "overlay_male_wielded_hk417_13", "overlay_male_wielded_rm51_assault_rifle" ],
-          "fg": 5650,
+          "fg": 5649,
           "rotates": false
         },
         { "id": "overlay_male_wielded_hk_g36", "fg": 5392, "rotates": false },
@@ -12200,7 +12264,7 @@
         { "id": [ "overlay_male_wielded_hk_mp7", "overlay_male_wielded_ksub2000" ], "fg": 5421, "rotates": false },
         { "id": [ "overlay_male_wielded_hk_ump45", "overlay_male_wielded_hk_mp5k" ], "fg": 5417, "rotates": false },
         { "id": "overlay_male_wielded_hybridbow", "fg": 5448, "rotates": false },
-        { "id": [ "overlay_male_wielded_i_staff", "overlay_male_wielded_shock_staff" ], "fg": 5653, "rotates": false },
+        { "id": [ "overlay_male_wielded_i_staff", "overlay_male_wielded_shock_staff" ], "fg": 5652, "rotates": false },
         { "id": "overlay_male_wielded_iwi_tavor_x95_300blk", "fg": 5397, "rotates": false },
         {
           "id": [
@@ -12216,7 +12280,7 @@
         },
         {
           "id": [ "overlay_male_wielded_katana", "overlay_male_wielded_estoc", "overlay_male_wielded_nodachi" ],
-          "fg": 5655,
+          "fg": 5654,
           "rotates": false
         },
         {
@@ -12231,7 +12295,7 @@
             "overlay_male_wielded_primitive_knife",
             "overlay_male_wielded_spike"
           ],
-          "fg": 5656,
+          "fg": 5655,
           "rotates": false
         },
         {
@@ -12242,7 +12306,7 @@
             "overlay_male_wielded_knife_hunting",
             "overlay_male_wielded_knife_rm42"
           ],
-          "fg": 5657
+          "fg": 5656
         },
         { "id": [ "overlay_male_wielded_ksg", "overlay_male_wielded_ksg-25" ], "fg": 5441, "rotates": false },
         {
@@ -12275,7 +12339,6 @@
           "fg": 5422,
           "rotates": false
         },
-        { "id": [ "overlay_male_wielded_m16a4", "overlay_male_wielded_colt_ro635" ], "fg": 5390, "rotates": false },
         { "id": [ "overlay_male_wielded_m1911", "overlay_male_wielded_deagle_44" ], "fg": 5382, "rotates": false },
         { "id": "overlay_male_wielded_m1918", "fg": 5386, "rotates": false },
         {
@@ -12320,7 +12383,6 @@
         { "id": "overlay_male_wielded_m2browning", "fg": 5423, "rotates": false },
         { "id": "overlay_male_wielded_m2browning_sawn", "fg": 5424, "rotates": false },
         { "id": "overlay_male_wielded_m320", "fg": 5414, "rotates": false },
-        { "id": [ "overlay_male_wielded_m4a1", "overlay_male_wielded_h&k416a5" ], "fg": 5389, "rotates": false },
         { "id": "overlay_male_wielded_m79", "fg": 5384, "rotates": false },
         { "id": [ "overlay_male_wielded_mac_10", "overlay_male_wielded_mac_11" ], "fg": 5412, "rotates": false },
         {
@@ -12334,7 +12396,7 @@
             "overlay_male_wielded_blade_scythe",
             "overlay_male_wielded_butterfly_swords"
           ],
-          "fg": 5663,
+          "fg": 5662,
           "rotates": false
         },
         {
@@ -12353,6 +12415,16 @@
         { "id": [ "overlay_male_wielded_mgl", "overlay_male_wielded_rm802" ], "fg": 5415, "rotates": false },
         { "id": "overlay_male_wielded_mk23", "fg": 5419, "rotates": false },
         { "id": "overlay_male_wielded_model_10_revolver", "fg": 5411, "rotates": false },
+        {
+          "id": [ "overlay_male_wielded_modular_m16a4", "overlay_male_wielded_colt_ro635" ],
+          "fg": 5390,
+          "rotates": false
+        },
+        {
+          "id": [ "overlay_male_wielded_modular_m4_carbine", "overlay_male_wielded_h&k416a5" ],
+          "fg": 5389,
+          "rotates": false
+        },
         { "id": "overlay_male_wielded_nailgun", "fg": 5408, "rotates": false },
         { "id": "overlay_male_wielded_net", "fg": 5462, "rotates": false },
         { "id": "overlay_male_wielded_paintballgun", "fg": 5437, "rotates": false },
@@ -12972,34 +13044,34 @@
         { "id": "overlay_female_wielded_2h_flail_steel", "fg": 5551 },
         { "id": "overlay_female_wielded_2h_flail_wood", "fg": 5552 },
         { "id": "overlay_female_wielded_2x4", "fg": 5553 },
-        { "id": "overlay_female_wielded_ar15", "fg": 5554 },
-        { "id": "overlay_female_wielded_ax", "fg": 5556 },
-        { "id": "overlay_female_wielded_bat", "fg": 5557 },
-        { "id": "overlay_female_wielded_bat_metal", "fg": 5558 },
-        { "id": "overlay_female_wielded_bat_nerf", "fg": 5559 },
-        { "id": "overlay_female_wielded_battleaxe", "fg": 5562 },
-        { "id": "overlay_female_wielded_bowling_axe", "fg": 5565 },
-        { "id": "overlay_female_wielded_bowling_pin", "fg": 5566 },
-        { "id": "overlay_female_wielded_bwirebat", "fg": 5568 },
-        { "id": "overlay_female_wielded_cane", "fg": 5569 },
-        { "id": "overlay_female_wielded_crowbar", "fg": 5570 },
-        { "id": "overlay_female_wielded_crutches", "fg": 5571 },
-        { "id": "overlay_female_wielded_cudgel", "fg": 5572 },
-        { "id": "overlay_female_wielded_fire_ax", "fg": 5574 },
-        { "id": "overlay_female_wielded_glass_macuahuitl", "fg": 5575 },
-        { "id": "overlay_female_wielded_golf_club", "fg": 5577 },
-        { "id": "overlay_female_wielded_halberd", "fg": 5578 },
-        { "id": "overlay_female_wielded_hammer", "fg": 5579 },
-        { "id": "overlay_female_wielded_hammer_sledge", "fg": 5580 },
-        { "id": "overlay_female_wielded_hockey_stick", "fg": 5583 },
-        { "id": "overlay_female_wielded_homewrecker", "fg": 5584 },
-        { "id": "overlay_female_wielded_iceaxe", "fg": 5586 },
-        { "id": "overlay_female_wielded_kukri", "fg": 5590 },
-        { "id": "overlay_female_wielded_long_pole", "fg": 5591 },
-        { "id": "overlay_female_wielded_longsword", "fg": 5592 },
-        { "id": "overlay_female_wielded_lucern_hammer", "fg": 5593 },
-        { "id": "overlay_female_wielded_mace", "fg": 5594 },
-        { "id": "overlay_female_wielded_makeshift_crowbar", "fg": 5596 },
+        { "id": "overlay_female_wielded_ax", "fg": 5555 },
+        { "id": "overlay_female_wielded_bat", "fg": 5556 },
+        { "id": "overlay_female_wielded_bat_metal", "fg": 5557 },
+        { "id": "overlay_female_wielded_bat_nerf", "fg": 5558 },
+        { "id": "overlay_female_wielded_battleaxe", "fg": 5561 },
+        { "id": "overlay_female_wielded_bowling_axe", "fg": 5564 },
+        { "id": "overlay_female_wielded_bowling_pin", "fg": 5565 },
+        { "id": "overlay_female_wielded_bwirebat", "fg": 5567 },
+        { "id": "overlay_female_wielded_cane", "fg": 5568 },
+        { "id": "overlay_female_wielded_crowbar", "fg": 5569 },
+        { "id": "overlay_female_wielded_crutches", "fg": 5570 },
+        { "id": "overlay_female_wielded_cudgel", "fg": 5571 },
+        { "id": "overlay_female_wielded_fire_ax", "fg": 5573 },
+        { "id": "overlay_female_wielded_glass_macuahuitl", "fg": 5574 },
+        { "id": "overlay_female_wielded_golf_club", "fg": 5576 },
+        { "id": "overlay_female_wielded_halberd", "fg": 5577 },
+        { "id": "overlay_female_wielded_hammer", "fg": 5578 },
+        { "id": "overlay_female_wielded_hammer_sledge", "fg": 5579 },
+        { "id": "overlay_female_wielded_hockey_stick", "fg": 5582 },
+        { "id": "overlay_female_wielded_homewrecker", "fg": 5583 },
+        { "id": "overlay_female_wielded_iceaxe", "fg": 5585 },
+        { "id": "overlay_female_wielded_kukri", "fg": 5589 },
+        { "id": "overlay_female_wielded_long_pole", "fg": 5590 },
+        { "id": "overlay_female_wielded_longsword", "fg": 5591 },
+        { "id": "overlay_female_wielded_lucern_hammer", "fg": 5592 },
+        { "id": "overlay_female_wielded_mace", "fg": 5593 },
+        { "id": "overlay_female_wielded_makeshift_crowbar", "fg": 5595 },
+        { "id": "overlay_female_wielded_modular_ar15", "fg": 5596 },
         { "id": "overlay_female_wielded_morningstar", "fg": 5597 },
         { "id": "overlay_female_wielded_nailbat", "fg": 5598 },
         { "id": "overlay_female_wielded_nailboard", "fg": 5599 },
@@ -13015,34 +13087,34 @@
         { "id": "overlay_male_wielded_2h_flail_steel", "fg": 5619 },
         { "id": "overlay_male_wielded_2h_flail_wood", "fg": 5620 },
         { "id": "overlay_male_wielded_2x4", "fg": 5621 },
-        { "id": "overlay_male_wielded_ar15", "fg": 5622 },
-        { "id": "overlay_male_wielded_ax", "fg": 5624 },
-        { "id": "overlay_male_wielded_bat", "fg": 5625 },
-        { "id": "overlay_male_wielded_bat_metal", "fg": 5626 },
-        { "id": "overlay_male_wielded_bat_nerf", "fg": 5627 },
-        { "id": "overlay_male_wielded_battleaxe", "fg": 5630 },
-        { "id": "overlay_male_wielded_bowling_axe", "fg": 5633 },
-        { "id": "overlay_male_wielded_bowling_pin", "fg": 5634 },
-        { "id": "overlay_male_wielded_bwirebat", "fg": 5636 },
-        { "id": "overlay_male_wielded_cane", "fg": 5637 },
-        { "id": "overlay_male_wielded_crowbar", "fg": 5638 },
-        { "id": "overlay_male_wielded_crutches", "fg": 5639 },
-        { "id": "overlay_male_wielded_cudgel", "fg": 5640 },
-        { "id": "overlay_male_wielded_fire_ax", "fg": 5642 },
-        { "id": "overlay_male_wielded_glass_macuahuitl", "fg": 5643 },
-        { "id": "overlay_male_wielded_golf_club", "fg": 5645 },
-        { "id": "overlay_male_wielded_halberd", "fg": 5646 },
-        { "id": "overlay_male_wielded_hammer", "fg": 5647 },
-        { "id": "overlay_male_wielded_hammer_sledge", "fg": 5648 },
-        { "id": "overlay_male_wielded_hockey_stick", "fg": 5651 },
-        { "id": "overlay_male_wielded_homewrecker", "fg": 5652 },
-        { "id": "overlay_male_wielded_iceaxe", "fg": 5654 },
-        { "id": "overlay_male_wielded_kukri", "fg": 5658 },
-        { "id": "overlay_male_wielded_long_pole", "fg": 5659 },
-        { "id": "overlay_male_wielded_longsword", "fg": 5660 },
-        { "id": "overlay_male_wielded_lucern_hammer", "fg": 5661 },
-        { "id": "overlay_male_wielded_mace", "fg": 5662 },
-        { "id": "overlay_male_wielded_makeshift_crowbar", "fg": 5664 },
+        { "id": "overlay_male_wielded_ax", "fg": 5623 },
+        { "id": "overlay_male_wielded_bat", "fg": 5624 },
+        { "id": "overlay_male_wielded_bat_metal", "fg": 5625 },
+        { "id": "overlay_male_wielded_bat_nerf", "fg": 5626 },
+        { "id": "overlay_male_wielded_battleaxe", "fg": 5629 },
+        { "id": "overlay_male_wielded_bowling_axe", "fg": 5632 },
+        { "id": "overlay_male_wielded_bowling_pin", "fg": 5633 },
+        { "id": "overlay_male_wielded_bwirebat", "fg": 5635 },
+        { "id": "overlay_male_wielded_cane", "fg": 5636 },
+        { "id": "overlay_male_wielded_crowbar", "fg": 5637 },
+        { "id": "overlay_male_wielded_crutches", "fg": 5638 },
+        { "id": "overlay_male_wielded_cudgel", "fg": 5639 },
+        { "id": "overlay_male_wielded_fire_ax", "fg": 5641 },
+        { "id": "overlay_male_wielded_glass_macuahuitl", "fg": 5642 },
+        { "id": "overlay_male_wielded_golf_club", "fg": 5644 },
+        { "id": "overlay_male_wielded_halberd", "fg": 5645 },
+        { "id": "overlay_male_wielded_hammer", "fg": 5646 },
+        { "id": "overlay_male_wielded_hammer_sledge", "fg": 5647 },
+        { "id": "overlay_male_wielded_hockey_stick", "fg": 5650 },
+        { "id": "overlay_male_wielded_homewrecker", "fg": 5651 },
+        { "id": "overlay_male_wielded_iceaxe", "fg": 5653 },
+        { "id": "overlay_male_wielded_kukri", "fg": 5657 },
+        { "id": "overlay_male_wielded_long_pole", "fg": 5658 },
+        { "id": "overlay_male_wielded_longsword", "fg": 5659 },
+        { "id": "overlay_male_wielded_lucern_hammer", "fg": 5660 },
+        { "id": "overlay_male_wielded_mace", "fg": 5661 },
+        { "id": "overlay_male_wielded_makeshift_crowbar", "fg": 5663 },
+        { "id": "overlay_male_wielded_modular_ar15", "fg": 5664 },
         { "id": "overlay_male_wielded_morningstar", "fg": 5665 },
         { "id": "overlay_male_wielded_nailbat", "fg": 5666 },
         { "id": "overlay_male_wielded_nailboard", "fg": 5667 },

@@ -31,7 +31,7 @@
     "dodge": 8,
     "revert_to_itype": "bot_light_hack",
     "extend": { "flags": [ "STUMBLES", "HARDTOSHOOT" ] },
-    "armor": { "cut": 4 }
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   },
   {
     "id": "mon_scavbot_needle",
@@ -51,7 +51,6 @@
     "melee_skill": 3,
     "melee_dice_sides": 3,
     "dodge": 2,
-    "armor": { "bash": 8, "cut": 8, "stab": 4, "bullet": 6, "heat": 3 },
     "vision_day": 35,
     "diff": 10,
     "melee_damage": [ { "damage_type": "electric", "amount": 3 } ],
@@ -76,7 +75,8 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": [ "DROPS_AMMO" ] },
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   },
   {
     "id": "mon_eyebot_heater",
@@ -90,6 +90,6 @@
     "fear_triggers": [ "HURT" ],
     "emit_fields": [ { "emit_id": "emit_hot_air2_stream", "delay": "1 s" } ],
     "extend": { "flags": [ "PET_WONT_FOLLOW", "WARM" ] },
-    "armor": { "bash": 8, "cut": 10, "bullet": 8, "heat": 10 }
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   }
 ]

@@ -115,7 +115,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-NoTiles|Win32'">
     <EmbedManifest>false</EmbedManifest>
-    <TargetName>cataclysm-tiles</TargetName>
+    <TargetName>cataclysm-notiles</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <EmbedManifest>false</EmbedManifest>
@@ -123,7 +123,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-NoTiles|Win32'">
     <EmbedManifest>false</EmbedManifest>
-    <TargetName>cataclysm-tiles</TargetName>
+    <TargetName>cataclysm-notiles</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <EmbedManifest>false</EmbedManifest>
@@ -135,11 +135,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-NoTiles|x64'">
     <EmbedManifest>false</EmbedManifest>
-    <TargetName>cataclysm-tiles</TargetName>
+    <TargetName>cataclysm-notiles</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-NoTiles|ARM64EC'">
     <EmbedManifest>false</EmbedManifest>
-    <TargetName>cataclysm-tiles</TargetName>
+    <TargetName>cataclysm-notiles</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <EmbedManifest>false</EmbedManifest>
@@ -151,11 +151,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-NoTiles|x64'">
     <EmbedManifest>false</EmbedManifest>
-    <TargetName>cataclysm-tiles</TargetName>
+    <TargetName>cataclysm-notiles</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-NoTiles|ARM64EC'">
     <EmbedManifest>false</EmbedManifest>
-    <TargetName>cataclysm-tiles</TargetName>
+    <TargetName>cataclysm-notiles</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="!$(Configuration.Contains(NoTiles))">
     <ClCompile>

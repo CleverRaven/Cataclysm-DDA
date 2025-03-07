@@ -1,17 +1,15 @@
-#include "cata_catch.h"
-#include "stats_tracker.h"
-
 #include <algorithm>
 #include <functional>
 #include <map>
+#include <memory>
 #include <optional>
-#include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "achievement.h"
 #include "calendar.h"
+#include "cata_catch.h"
 #include "cata_variant.h"
 #include "character.h"
 #include "character_id.h"
@@ -19,12 +17,13 @@
 #include "event_bus.h"
 #include "event_statistics.h"
 #include "event_subscriber.h"
+#include "flexbuffer_json.h"
 #include "game.h"
-#include "game_constants.h"
-#include "json.h"
 #include "json_loader.h"
+#include "map_scale_constants.h"
 #include "options_helpers.h"
 #include "point.h"
+#include "stats_tracker.h"
 #include "type_id.h"
 
 static const event_statistic_id event_statistic_avatar_damage_taken( "avatar_damage_taken" );
@@ -114,16 +113,16 @@ TEST_CASE( "stats_tracker_total_events", "[stats]" )
 
     CHECK( s.get_events( ctd ).total( "damage", damage_to_u ) == 0 );
     CHECK( s.get_events( ctd ).total( "damage", damage_to_any ) == 0 );
-    b.send<ctd>( u_id, 10, body_part_bp_null, 0 );
+    b.send<ctd>( u_id, 10, bodypart_str_id::NULL_ID(), 0 );
     CHECK( s.get_events( ctd ).total( "damage", damage_to_u ) == 10 );
     CHECK( s.get_events( ctd ).total( "damage", damage_to_any ) == 10 );
-    b.send<ctd>( other_id, 10, body_part_bp_null, 0 );
+    b.send<ctd>( other_id, 10, bodypart_str_id::NULL_ID(), 0 );
     CHECK( s.get_events( ctd ).total( "damage", damage_to_u ) == 10 );
     CHECK( s.get_events( ctd ).total( "damage", damage_to_any ) == 20 );
-    b.send<ctd>( u_id, 10, body_part_bp_null, 0 );
+    b.send<ctd>( u_id, 10, bodypart_str_id::NULL_ID(), 0 );
     CHECK( s.get_events( ctd ).total( "damage", damage_to_u ) == 20 );
     CHECK( s.get_events( event_type::character_takes_damage ).total( "damage", damage_to_any ) == 30 );
-    b.send<event_type::character_takes_damage>( u_id, 5, body_part_bp_null, 0 );
+    b.send<event_type::character_takes_damage>( u_id, 5, bodypart_str_id::NULL_ID(), 0 );
     CHECK( s.get_events( event_type::character_takes_damage ).total( "damage", damage_to_u ) == 25 );
     CHECK( s.get_events( event_type::character_takes_damage ).total( "damage", damage_to_any ) == 35 );
 }
@@ -193,11 +192,11 @@ TEST_CASE( "stats_tracker_event_time_bounds", "[stats]" )
 
     CHECK( !s.get_events( ctd ).first() );
     CHECK( !s.get_events( ctd ).last() );
-    b.send<ctd>( u_id, 10, body_part_bp_null, 0 );
+    b.send<ctd>( u_id, 10, bodypart_str_id::NULL_ID(), 0 );
     CHECK( s.get_events( ctd ).first()->second.first == start );
     CHECK( s.get_events( ctd ).last()->second.last == calendar::turn );
     calendar::turn += 1_minutes;
-    b.send<ctd>( u_id, 10, body_part_bp_null, 0 );
+    b.send<ctd>( u_id, 10, bodypart_str_id::NULL_ID(), 0 );
     CHECK( s.get_events( ctd ).first()->second.first == start );
     CHECK( s.get_events( ctd ).last()->second.last == calendar::turn );
 }
@@ -337,7 +336,7 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
 
     SECTION( "damage" ) {
         const cata::event avatar_2_damage =
-            cata::event::make<event_type::character_takes_damage>( u_id, 2, body_part_bp_null, 0 );
+            cata::event::make<event_type::character_takes_damage>( u_id, 2, bodypart_str_id::NULL_ID(), 0 );
 
         send_game_start( b, u_id );
         CHECK( score_score_damage_taken->value( s ).get<int>() == 0 );
@@ -556,7 +555,7 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
 
     SECTION( "damage" ) {
         const cata::event avatar_2_damage =
-            cata::event::make<event_type::character_takes_damage>( u_id, 2, body_part_bp_null, 0 );
+            cata::event::make<event_type::character_takes_damage>( u_id, 2, bodypart_str_id::NULL_ID(), 0 );
         watch_stat damage_watcher;
         s.add_watcher( event_statistic_avatar_damage_taken, &damage_watcher );
 

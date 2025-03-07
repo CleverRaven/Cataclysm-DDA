@@ -1,0 +1,88 @@
+[
+  {
+    "type": "MONSTER",
+    "id": "mon_amalgamation_telekinetic_shielder",
+    "copy-from": "mon_amalgamation_abstract_small",
+    "symbol": "ä",
+    "name": { "str": "guardian amalgamation" },
+    "description": "A four-legged creature with a crab-like shell, with two eyes on stubby stalks and a small mouth filled with sharp fangs.  Three additional limbs with bulbous growths on their ends wave around, seemingly randomly except when they point briefly at one of the walking dead.",
+    "speed": 100,
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 3,
+        "move_cost": 150,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_penetration": 5 } ],
+        "hitsize_min": 4,
+        "min_mul": 0.5,
+        "max_mul": 1.2,
+        "infection_chance": 10,
+        "attack_upper": false
+      },
+      {
+        "id": "smash",
+        "attack_upper": false,
+        "throw_strength": 40,
+        "cooldown": { "math": [ "5 + rand(10)" ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "math": [ "u_effect_intensity('effect_amalgamation_telekinetic_shielder_counter') == 0" ] }
+          ]
+        }
+      },
+      {
+        "id": "psi_amalgamation_telekinetic_shielder_shield_other",
+        "type": "spell",
+        "spell_data": { "id": "amalgamation_telekinetic_shielder_shield_other_spell" },
+        "cooldown": { "math": [ "10 + rand(20)" ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "math": [ "u_effect_intensity('effect_amalgamation_telekinetic_shielder_counter') < 4" ] }
+          ]
+        },
+        "monster_message": "%1$s waves its three appendages in the air."
+      }
+    ],
+    "tracking_distance": 8,
+    "extend": { "flags": [ "KEEP_DISTANCE" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_amalgamation_telepathic_distractor",
+    "copy-from": "mon_amalgamation_abstract_small",
+    "symbol": "ä",
+    "name": { "str": "whispering amalgamation" },
+    "description": "A smooth, round body skittering around on seven jointed legs, this abomination does not seem to have any sensory organs at all.  When you look at it, you hear faint whispers in the back of your mind.",
+    "special_attacks": [
+      {
+        "id": "psi_whispering_amalgamation_telepathic_whispering",
+        "type": "spell",
+        "spell_data": { "id": "whispering_amalgamation_telepathic_whispering_spell" },
+        "cooldown": 2,
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "monster_message": ""
+      },
+      {
+        "id": "psi_whispering_amalgamation_apply_mindsight",
+        "type": "spell",
+        "spell_data": { "id": "whispering_amalgamation_apply_mindsight", "hit_self": true },
+        "cooldown": 1,
+        "allow_no_target": true,
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            {
+              "or": [ { "not": { "u_has_effect": "eff_mind_seeing_bonus_30" } }, { "not": { "u_has_effect": "eff_mind_seeing_bonus_10" } } ]
+            }
+          ]
+        },
+        "monster_message": ""
+      }
+    ],
+    "vision_day": 5,
+    "tracking_distance": 8,
+    "extend": { "flags": [ "MIND_SEEING", "KEEP_DISTANCE" ] }
+  }
+]

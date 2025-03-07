@@ -66,6 +66,7 @@
         "d": "f_dumpster"
       },
       "vendingmachines": { "1": { "item_group": "vending_drink", "lootable": true } },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_loot": [
         { "group": "mussto_stringinst", "x": [ 5, 10 ], "y": 10, "chance": 70, "repeat": [ 3, 7 ] },
@@ -126,7 +127,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "place_items": [ { "item": "roof_trash", "x": [ 2, 21 ], "y": [ 9, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [ { "item": "SUS_trash_roof", "x": [ 2, 21 ], "y": [ 9, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
           "chunks": [ [ "null", 5 ], [ "roof_2x2_utilities_d", 30 ], [ "roof_2x2_utilities", 50 ], [ "roof_6x6_survivor", 5 ] ],

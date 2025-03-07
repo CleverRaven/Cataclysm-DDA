@@ -15,15 +15,14 @@
 #include "calendar.h"
 #include "debug.h"
 #include "global_vars.h"
-#include "math_parser_type.h"
 #include "translation.h"
 
-class JsonArray;
 class JsonObject;
 class math_exp;
 class npc;
-struct dialogue;
+enum class math_type_t : int;
 struct const_dialogue;
+struct dialogue;
 
 using talkfunction_ptr = std::add_pointer_t<void ( npc & )>;
 using dialogue_fun_ptr = std::add_pointer_t<void( npc & )>;
@@ -56,6 +55,8 @@ struct abstract_str_or_var {
     std::optional<T> default_val;
     std::optional<std::function<T( const_dialogue const & )>> function;
     std::string evaluate( const_dialogue const & ) const;
+    abstract_str_or_var() = default;
+    explicit abstract_str_or_var( T str ) : str_val( str ) {};
 };
 
 using str_or_var = abstract_str_or_var<std::string>;
@@ -88,7 +89,7 @@ struct talk_effect_fun_t {
             if( !function ) {
                 return;
             }
-            return function( d );
+            function( d );
         }
 };
 

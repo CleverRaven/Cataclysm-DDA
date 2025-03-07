@@ -3,7 +3,6 @@
     "om_terrain": "exo_warehouse_1",
     "//": "A lost Exodii's warehouse, transported to our world during the portal storms.",
     "type": "mapgen",
-    "weight": 100,
     "method": "json",
     "object": {
       "faction_owner": [ { "id": "exodii", "x": [ 5, 17 ], "y": [ 5, 18 ] } ],
@@ -42,7 +41,6 @@
   {
     "om_terrain": "exo_warehouse_2",
     "type": "mapgen",
-    "weight": 100,
     "method": "json",
     "object": {
       "faction_owner": [ { "id": "exodii", "x": [ 5, 17 ], "y": [ 5, 18 ] } ],

@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "house_patio" ],
-    "weight": 200,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -125,7 +124,7 @@
       "rows": [
         "                        ",
         "         |||||||||||||| ",
-        "         |F.1.........| ",
+        "         |â.1.........| ",
         "         |............| ",
         "         |g...........| ",
         "         |............| ",
@@ -148,7 +147,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [

@@ -97,8 +97,9 @@
         "B": { "item": "glass_shop", "chance": 70, "repeat": [ 2, 10 ] },
         "Q": { "item": "glass_shop", "chance": 50, "repeat": [ 2, 10 ] },
         "q": { "item": "glass_workroom", "chance": 75, "repeat": [ 2, 5 ] },
-        "R": { "item": "trash", "chance": 66, "repeat": [ 1, 3 ] },
-        "U": { "item": "trash", "chance": 80, "repeat": [ 1, 5 ] }
+        "t": { "item": "SUS_toilet", "chance": 50 },
+        "R": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 3 ] },
+        "U": { "item": "SUS_trash_dumpster", "chance": 80, "repeat": [ 1, 5 ] }
       },
       "place_items": [
         { "item": "car_misc", "x": [ 11, 13 ], "y": [ 9, 9 ], "chance": 50, "repeat": [ 2, 10 ] },

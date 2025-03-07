@@ -6,6 +6,7 @@
 
 #include "cata_utility.h"
 #include "math_parser.h"
+#include "math_parser_type.h"
 #include "string_formatter.h"
 
 namespace

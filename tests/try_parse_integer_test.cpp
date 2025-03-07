@@ -1,5 +1,13 @@
+#include <clocale>
+#include <locale>
+#include <stdexcept>
+#include <string>
+#include <typeinfo>
+
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
+#include "demangle.h"
+#include "ret_val.h"
 #include "try_parse_integer.h"
 
 template<typename TestType>

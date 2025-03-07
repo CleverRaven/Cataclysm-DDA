@@ -4,7 +4,6 @@
     "om_terrain": "house_29",
     "//": "used by basement_chem",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

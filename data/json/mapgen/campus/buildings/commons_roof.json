@@ -8,7 +8,6 @@
       [ "campus_commons_0_2_3", "campus_commons_1_2_3" ],
       [ "campus_commons_0_3_3", "campus_commons_1_3_3" ]
     ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_open_air",
       "rows": [

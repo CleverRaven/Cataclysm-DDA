@@ -30,6 +30,11 @@
 #include "ui_manager.h"
 #include "wcwidth.h"
 
+
+#if defined(SDL_SOUND)
+#include "sdlsound.h"
+#endif
+
 //***********************************
 //Globals                           *
 //***********************************
@@ -559,7 +564,7 @@ static void CheckMessages()
         DispatchMessage( &msg );
     }
     if( needs_resize ) {
-        restore_on_out_of_scope<int> prev_lastchar( lastchar );
+        restore_on_out_of_scope prev_lastchar( lastchar );
         handle_resize( 0, 0 );
         refresh_display();
     }
@@ -654,6 +659,14 @@ void catacurses::init_interface()
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 
     initialized = true;
+
+#if defined(SDL_SOUND)
+    initSDLAudioOnly();
+    init_sound();
+    if( sound_init_success ) {
+        load_soundset();
+    }
+#endif
 }
 
 bool catacurses::supports_256_colors()

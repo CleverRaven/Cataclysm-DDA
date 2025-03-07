@@ -123,7 +123,7 @@
     "material": [ "plastic" ],
     "symbol": "P",
     "color": "light_red",
-    "charges_per_use": 100,
+    "charges_per_use": 14,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {

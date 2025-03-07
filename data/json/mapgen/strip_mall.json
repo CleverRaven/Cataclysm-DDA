@@ -52,7 +52,7 @@
         "3": { "chunks": [ [ "strip_mall_shop_c", 100 ] ] },
         "4": { "chunks": [ [ "strip_mall_shop_d", 100 ] ] }
       },
-      "items": { "D": { "item": "trash", "chance": 100, "repeat": [ 3, 8 ] } },
+      "items": { "D": { "item": "SUS_trash_dumpster", "chance": 100, "repeat": [ 3, 8 ] } },
       "place_vehicles": [
         { "chance": 15, "rotation": 180, "vehicle": "parking_garage", "x": 102, "y": 6 },
         { "chance": 15, "rotation": 180, "vehicle": "parking_garage", "x": 102, "y": 13 },

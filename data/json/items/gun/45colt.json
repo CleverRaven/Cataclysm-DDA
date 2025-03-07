@@ -80,7 +80,7 @@
     "clip_size": 6,
     "blackpowder_tolerance": 56,
     "//proportional": { "reload": 1.5 },
-    "flags": [ "NO_TURRET" ],
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 6 } } ],
     "melee_damage": { "bash": 8 }
   },

@@ -547,35 +547,5 @@
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     }
-  },
-  {
-    "type": "furniture",
-    "id": "f_active_backup_generator",
-    "name": "active backup generator",
-    "looks_like": "t_plut_generator",
-    "description": "A ubiquitous piece of compact machinery meant for running anything from the bathroom lights to electric stoves and other necessities when grid electricity is unavailable.  This one is currently running.  You can hear it humming slightly when you are very close.",
-    "symbol": "0",
-    "color": "green_white",
-    "move_cost_mod": -1,
-    "coverage": 80,
-    "required_str": 8,
-    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "active_backup_generator" },
-    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "ACTIVE_GENERATOR", "EASY_DECONSTRUCT" ],
-    "bash": {
-      "str_min": 5,
-      "str_max": 40,
-      "explosive": 10,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 8, 38 ] },
-        { "item": "steel_chunk", "count": [ 1, 6 ] },
-        { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "jp8", "charges": [ 1000, 10000 ], "container-item": "jerrycan_big", "prob": 25 },
-        { "item": "i4_diesel", "prob": 10 },
-        { "item": "bearing", "charges": [ 5, 60 ] }
-      ]
-    },
-    "deconstruct": { "items": [ { "item": "active_backup_generator" } ] }
   }
 ]

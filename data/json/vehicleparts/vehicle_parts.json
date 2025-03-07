@@ -588,11 +588,7 @@
       "install": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 3 }, { "id": "WRENCH", "level": 3 } ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "using": [ [ "vehicle_screw", 1 ] ] }
     },
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 0, 2 ] },
-      { "item": "steel_chunk", "count": [ 1, 3 ] },
-      { "item": "e_scrap", "count": [ 1, 2 ] }
-    ],
+    "breaks_into": [ { "item": "black_box" } ],
     "damage_reduction": { "all": 80 },
     "variants": [ { "symbols": ";", "symbols_broken": "*" } ]
   },
@@ -605,6 +601,8 @@
   {
     "type": "vehicle_part",
     "id": "big_portable_fridge",
+    "//": "add looks_like so that it rotates properly in vehicles",
+    "looks_like": "minifridge",
     "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
     "copy-from": "ap_big_portable_fridge"
   },
@@ -623,6 +621,8 @@
   {
     "type": "vehicle_part",
     "id": "big_portable_freezer",
+    "//": "add looks_like so that it rotates properly in vehicles",
+    "looks_like": "minifridge",
     "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
     "copy-from": "ap_big_portable_freezer"
   },

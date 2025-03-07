@@ -316,6 +316,28 @@
     ]
   },
   {
+    "id": "scar_h_mk20",
+    "copy-from": "scar_h",
+    "looks_like": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "FN SCAR-H sniper rifle" },
+    "description": "Sniper Support Rifle, this semi-auto variant of SCAR-H is designed for a long-range precision application, to be used by dedicated marksman.  Includes extended barrel, bipod, and a few additional attachment for greater comfort of a user.",
+    "variants": [
+      {
+        "id": "scar_h_mk20",
+        "name": { "str_sp": "FN SCAR-H MK 20 SSR" },
+        "description": "Sniper Support Rifle, this semi-auto variant of SCAR-H is designed for a long-range precision application, to be used by dedicated marksman.  Includes extended barrel, bipod, and a few additional attachment for greater comfort of a user."
+      }
+    ],
+    "dispersion": 165,
+    "weight": "4848 g",
+    "volume": "6200 ml",
+    "longest_side": "1041 mm",
+    "barrel_length": "508 mm",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "default_mods": [ "recoil_stock", "cheek_pad", "bipod", "rifle_scope_high_end_mount", "match_trigger", "muzzle_brake" ]
+  },
+  {
     "id": "M24",
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",

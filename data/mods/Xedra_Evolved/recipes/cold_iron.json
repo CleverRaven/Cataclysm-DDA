@@ -9,6 +9,7 @@
     "difficulty": 3,
     "time": "8 h",
     "flags": [ "SECRET" ],
+    "book_learn": [ [ "alchemy_recipe_cold_iron_ingot", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },

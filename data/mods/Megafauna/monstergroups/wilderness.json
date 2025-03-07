@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_FOREST",
+    "id": "GROUP_FOREST",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_sabcat", "weight": 25, "cost_multiplier": 0, "pack_size": [ 1, 1 ] },
@@ -86,7 +86,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_RIVER",
+    "id": "GROUP_RIVER",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_sabcat", "weight": 8, "cost_multiplier": 0, "pack_size": [ 1, 1 ] },
@@ -115,7 +115,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SWAMP",
+    "id": "GROUP_SWAMP",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_sabcat", "weight": 15, "cost_multiplier": 0, "pack_size": [ 1, 1 ] },
@@ -141,7 +141,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CAVE",
+    "id": "GROUP_CAVE",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_direwolf", "weight": 100, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },

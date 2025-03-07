@@ -1,26 +1,24 @@
 #include "map_helpers.h"
 
-#include "catch/catch.hpp"
-
-#include <functional>
-#include <list>
-#include <map>
 #include <memory>
-#include <utility>
+#include <optional>
 #include <vector>
 
+#include "avatar.h"
+#include "basecamp.h"
 #include "calendar.h"
-#include "cata_assert.h"
+#include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
 #include "clzones.h"
-#include "faction.h"
+#include "coordinates.h"
 #include "field.h"
 #include "game.h"
-#include "game_constants.h"
 #include "item.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapdata.h"
+#include "map_scale_constants.h"
+#include "monster.h"
 #include "npc.h"
 #include "overmapbuffer.h"
 #include "pocket_type.h"
@@ -28,6 +26,10 @@
 #include "ret_val.h"
 #include "submap.h"
 #include "type_id.h"
+
+static const itype_id itype_blindfold( "blindfold" );
+static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
+static const itype_id itype_wearable_light_on( "wearable_light_on" );
 
 static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_open_air( "t_open_air" );
@@ -81,10 +83,11 @@ void clear_creatures()
 
 void clear_npcs()
 {
+    map &here = get_map();
     // Reload to ensure that all active NPCs are in the overmap_buffer.
     g->reload_npcs();
     for( npc &n : g->all_npcs() ) {
-        n.die( nullptr );
+        n.die( & here, nullptr );
     }
     g->cleanup_dead();
 }
@@ -128,7 +131,7 @@ void clear_basecamps()
 {
     std::optional<basecamp *> camp;
     do {
-        const tripoint_abs_omt &avatar_pos = get_avatar().global_omt_location();
+        const tripoint_abs_omt &avatar_pos = get_avatar().pos_abs_omt();
         camp = overmap_buffer.find_camp( avatar_pos.xy() );
         if( camp && *camp != nullptr ) {
             ( **camp ).remove_camp( avatar_pos );
@@ -139,14 +142,18 @@ void clear_basecamps()
 void clear_map( int zmin, int zmax )
 {
     map &here = get_map();
+    if( const tripoint_abs_sm &abs_sub = here.get_abs_sub(); abs_sub.z() != 0 ) {
+        // Reset z level to 0
+        here.load( tripoint_abs_sm( abs_sub.xy(), 0 ), false );
+    }
     // Clearing all z-levels is rather slow, so just clear the ones I know the
     // tests use for now.
     for( int z = zmin; z <= zmax; ++z ) {
         clear_fields( z );
     }
     clear_zones();
-    wipe_map_terrain();
     clear_npcs();
+    wipe_map_terrain();
     clear_creatures();
     here.clear_traps();
     for( int z = zmin; z <= zmax; ++z ) {
@@ -158,9 +165,10 @@ void clear_map( int zmin, int zmax )
 
 void clear_map_and_put_player_underground()
 {
+    map &here = get_map();
     clear_map();
     // Make sure the player doesn't block the path of the monster being tested.
-    get_player_character().setpos( tripoint_bub_ms{ 0, 0, -2 } );
+    get_player_character().setpos( here, tripoint_bub_ms{ 0, 0, -2 } );
 }
 
 monster &spawn_test_monster( const std::string &monster_type, const tripoint_bub_ms &start,
@@ -220,8 +228,8 @@ void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_i
 
 void player_add_headlamp()
 {
-    item headlamp( "wearable_light_on" );
-    item battery( "medium_battery_cell" );
+    item headlamp( itype_wearable_light_on );
+    item battery( itype_medium_battery_cell );
     battery.ammo_set( battery.ammo_default(), -1 );
     headlamp.put_in( battery, pocket_type::MAGAZINE_WELL );
     Character &you = get_player_character();
@@ -230,7 +238,7 @@ void player_add_headlamp()
 
 void player_wear_blindfold()
 {
-    item blindfold( "blindfold" );
+    item blindfold( itype_blindfold );
     Character &you = get_player_character();
     you.worn.wear_item( you, blindfold, false, true );
 }

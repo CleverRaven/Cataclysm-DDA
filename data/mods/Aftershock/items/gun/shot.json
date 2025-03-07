@@ -111,7 +111,15 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "pistol" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "range": -6, "dispersion": 600, "durability": 10, "reload": 150, "clip_size": 1 },
+    "gun_data": {
+      "ammo": [ "shot" ],
+      "skill": "shotgun",
+      "range": -6,
+      "dispersion": 600,
+      "durability": 10,
+      "reload": 150,
+      "clip_size": 1
+    },
     "flags": [ "RELOAD_ONE", "NO_UNLOAD", "IRREMOVABLE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   }

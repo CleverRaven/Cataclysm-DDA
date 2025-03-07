@@ -150,8 +150,8 @@
       "furniture": { "s": "f_sandbag_half", "g": "f_active_backup_generator", "b": "f_barricade_road" },
       "monster": { "L": { "monster": "mon_turret_searchlight" } },
       "place_vehicles": [
-        { "vehicle": "policecar", "x": 12, "y": 15, "chance": 100, "status": 1, "rotation": 150 },
-        { "vehicle": "suv", "x": 15, "y": 17, "chance": 100, "status": 1, "rotation": 250 }
+        { "vehicle": "policecar", "x": 12, "y": 15, "status": 1, "rotation": 150 },
+        { "vehicle": "suv", "x": 15, "y": 17, "status": 1, "rotation": 250 }
       ],
       "place_monster": [
         { "group": "GROUP_ZOMBIE_COP", "x": [ 4, 20 ], "y": [ 4, 10 ], "repeat": [ 3, 6 ] },

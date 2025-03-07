@@ -7,6 +7,20 @@
     "companion_survival_rank_factor": 1,
     "display_category": "display_interaction",
     "sort_rank": 26000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You probably don't care about talking to other people much." },
+      { "level": 1, "description": "You know how to communicate." },
+      { "level": 3, "description": "You're a good communicator." },
+      { "level": 5, "description": "You know effective communication methods and sales tactics." },
+      { "level": 9, "description": "You're possibly a psychologist." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You're not used to talking to people." },
+      { "level": 1, "description": "You rarely offend people by accident." },
+      { "level": 3, "description": "You can communicate your ideas well." },
+      { "level": 5, "description": "You can make friends easily and drive a hard bargain." },
+      { "level": 9, "description": "You could sell ocean water to a hermit crab." }
+    ],
     "companion_skill_practice": [ { "skill": "recruiting", "weight": 15 }, { "skill": "recruiting", "weight": 70 } ]
   },
   {
@@ -15,6 +29,28 @@
     "name": { "str": "computers" },
     "description": "Your skill in accessing and manipulating computers.  Higher levels can allow a user to navigate complex software systems and even bypass their security.",
     "display_category": "display_interaction",
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You barely know the minimum of how to use a computer." },
+      { "level": 1, "description": "You knew how to surf the web back when that was possible." },
+      { "level": 3, "description": "You're aware what a \"command prompt\" is." },
+      { "level": 5, "description": "You know how to write code in a few scripting languages." },
+      { "level": 7, "description": "You have an in–depth knowledge of code and how computers function." },
+      { "level": 9, "description": "You have probably read the entire SICP." }
+    ],
+    "level_descriptions_practice": [
+      {
+        "level": 0,
+        "description": "You can navigate to the \"phone\" app on your smartphone and likely \"hunt and peck\" to type."
+      },
+      { "level": 1, "description": "You can probably touch-type." },
+      { "level": 3, "description": "You can debug a mod conflict for a video game." },
+      { "level": 5, "description": "You can make your own mods for a video game." },
+      { "level": 7, "description": "You can code your own video game." },
+      {
+        "level": 9,
+        "description": "You could get paid to bounty-hunt vulnerabilities in government databases, if any government was still around."
+      }
+    ],
     "sort_rank": 24000
   },
   {
@@ -26,6 +62,22 @@
     "companion_industry_rank_factor": 1,
     "display_category": "display_interaction",
     "sort_rank": 25000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You barely have any idea how your own body works." },
+      { "level": 1, "description": "You're at least aware the blood should stay inside you." },
+      { "level": 3, "description": "You have a decent idea of first aid." },
+      { "level": 5, "description": "You're well-trained in first aid." },
+      { "level": 7, "description": "You know a lot about how the body works and how to deal with many injuries." },
+      { "level": 9, "description": "You may know how to do simple surgeries." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You might be able to put a bandaid on a minor cut without passing out." },
+      { "level": 1, "description": "You can do basic first-aid techniques without panicking too much." },
+      { "level": 3, "description": "You're used to using a first-aid kit." },
+      { "level": 5, "description": "Dealing with injuries is becoming routine for you." },
+      { "level": 7, "description": "You could probably work in the ER." },
+      { "level": 9, "description": "You almost certainly can perform a simple surgery." }
+    ],
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
   },
   {
@@ -36,6 +88,20 @@
     "companion_industry_rank_factor": 1,
     "display_category": "display_interaction",
     "sort_rank": 22000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You know that cars are supposed to be able to go forward." },
+      { "level": 1, "description": "You know how to check your oil." },
+      { "level": 3, "description": "You know the basic ideas of how a car works." },
+      { "level": 5, "description": "You know how to fix most issues a car could have." },
+      { "level": 9, "description": "You know how to build a car from scratch." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You can change a wheel.  Potentially." },
+      { "level": 1, "description": "You can do the basics of car maintenance." },
+      { "level": 3, "description": "You can fix most common issues your car could have." },
+      { "level": 4, "description": "You can install an engine." },
+      { "level": 8, "description": "You're a skilled enough mechanic you can install a second engine." }
+    ],
     "companion_skill_practice": [ { "skill": "menial", "weight": 10 }, { "skill": "construction", "weight": 20 } ]
   },
   {
@@ -46,6 +112,23 @@
     "companion_survival_rank_factor": 1,
     "display_category": "display_interaction",
     "sort_rank": 23000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You know keys go in locks and traps go off if you step on them." },
+      { "level": 1, "description": "You know how to set basic traps." },
+      { "level": 3, "description": "You know how to set most traps and how most locks function." },
+      { "level": 5, "description": "You're a knowledgeable trapper and locksmith." },
+      { "level": 9, "description": "You have an intricate understanding of traps and locks." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You shouldn't try disarming anything, you'll only hurt yourself." },
+      { "level": 1, "description": "You might be able to pick the simplest locks and can disarm basic traps." },
+      { "level": 3, "description": "You can easily disarm most traps and pick some locks." },
+      { "level": 5, "description": "Lockpicking shouldn't be a problem for you." },
+      {
+        "level": 9,
+        "description": "You can disarm a landmine.  It's still extremely unsafe.  But you can.  Probably."
+      }
+    ],
     "companion_skill_practice": [ { "skill": "", "weight": 15 }, { "skill": "gathering", "weight": 15 }, { "skill": "trapping", "weight": 80 } ]
   },
   {
@@ -54,6 +137,22 @@
     "name": { "str": "vehicles" },
     "description": "Your skill in operating and steering a vehicle in motion, from cars and boats to helicopters and hot air balloons.  A higher level allows greater control over vehicles at higher speeds, and reduces the penalty of shooting while driving.",
     "display_category": "display_interaction",
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You know what a car looks like." },
+      { "level": 1, "description": "You know the basics of driving a car." },
+      { "level": 3, "description": "You know how to drive a car." },
+      { "level": 5, "description": "You probably know how to drive larger vehicles like a truck or bus." },
+      { "level": 7, "description": "You know how to drive even in difficult conditions." },
+      { "level": 9, "description": "You know tricks even racecar drivers use." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You don't even have a driver's license." },
+      { "level": 1, "description": "You were good enough to get a driver's license." },
+      { "level": 3, "description": "You've driven a car enough for it to become routine." },
+      { "level": 5, "description": "You're better than most drivers on the road.  Well, not that any are left." },
+      { "level": 7, "description": "You can keep control of most vehicles even in awkward conditions." },
+      { "level": 9, "description": "You could compete on a race track." }
+    ],
     "sort_rank": 27000
   },
   {
@@ -63,6 +162,21 @@
     "description": "Your athletic ability, including swimming endurance and ability to swim with weight.  Athletic skill also improves your overall cardio fitness and stamina.",
     "display_category": "display_interaction",
     "sort_rank": 21000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You don't even let people tell you that you should be more active." },
+      { "level": 1, "description": "You're at least aware exercise is good and that you should do it more." },
+      { "level": 3, "description": "You know how to exercise." },
+      { "level": 5, "description": "You know proper form and stretches." },
+      { "level": 9, "description": "You could be a personal trainer." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You're a couch potato." },
+      { "level": 1, "description": "You might be able to doggy paddle." },
+      { "level": 3, "description": "You're reasonably active and a decent swimmer." },
+      { "level": 5, "description": "You're active and a good swimmer." },
+      { "level": 7, "description": "You're very active and a great swimmer." },
+      { "level": 9, "description": "You could swim across the English Channel." }
+    ],
     "companion_skill_practice": [ { "skill": "", "weight": 5 }, { "skill": "gathering", "weight": 5 }, { "skill": "trapping", "weight": 5 } ]
   },
   {
@@ -73,6 +187,34 @@
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
     "sort_rank": 17000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You barely know which side of the hammer you should hold." },
+      { "level": 1, "description": "You know how to hold a hammer." },
+      {
+        "level": 3,
+        "description": "You're a decent DIYer and know how to craft a variety of wooden items or very basic metalworking."
+      },
+      { "level": 5, "description": "You're a fairly skilled DIYer and know how to craft a variety of metal items." },
+      {
+        "level": 7,
+        "description": "You're an exceptionally skilled DIYer and know how to smith basic tools and weapons."
+      },
+      { "level": 9, "description": "You know the ins and outs of making almost anything you can think of." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You can only craft the most basic things." },
+      { "level": 1, "description": "You can craft a few basic things." },
+      { "level": 3, "description": "You can craft a variety of useful stuff without much issue." },
+      {
+        "level": 5,
+        "description": "You can easily craft useful, if junky weapons and armor, but nothing too complex."
+      },
+      { "level": 7, "description": "You can craft even complex objects without fail." },
+      {
+        "level": 9,
+        "description": "You have created many things with your hands and you should have little issue crafting anything."
+      }
+    ],
     "companion_skill_practice": [
       { "skill": "", "weight": 10 },
       { "skill": "gathering", "weight": 10 },
@@ -89,6 +231,21 @@
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
     "sort_rank": 16000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You probably lived on takeout." },
+      { "level": 1, "description": "You know the basics of how not to burn your house down." },
+      { "level": 3, "description": "You know how to cook reasonably." },
+      { "level": 5, "description": "You know how to cook a wide variety of food." },
+      { "level": 9, "description": "You know how to cook the most advanced and complex dishes." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You'd burn a PB&J, somehow." },
+      { "level": 1, "description": "You can boil an egg." },
+      { "level": 3, "description": "You can cook a variety of recipes." },
+      { "level": 5, "description": "You can cook most recipes with ease." },
+      { "level": 7, "description": "You'd win a neighborhood bake-off." },
+      { "level": 9, "description": "You'd be an excellent chef, too bad all the zombies want to eat is you." }
+    ],
     "companion_skill_practice": [ { "skill": "menial", "weight": 15 } ]
   },
   {
@@ -99,6 +256,22 @@
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
     "sort_rank": 20000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You know nothing about tailoring." },
+      { "level": 1, "description": "You know the very basics of how to sew a patch over a small hole." },
+      { "level": 3, "description": "You know how to sew." },
+      { "level": 5, "description": "You know how to sew well." },
+      { "level": 7, "description": "You know how to sew with non-standard materials." },
+      { "level": 9, "description": "You're a very knowledgeable tailor." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You can put a shirt on without ripping it, at least." },
+      { "level": 1, "description": "You've held a sewing needle once or twice." },
+      { "level": 3, "description": "You can repair or sew simple clothing." },
+      { "level": 5, "description": "You can repair or sew more complex clothing." },
+      { "level": 7, "description": "You're skilled at working with non-standard materials like Kevlar." },
+      { "level": 9, "description": "You can sew anything you could dream of." }
+    ],
     "companion_skill_practice": [ { "skill": "menial", "weight": 15 } ]
   },
   {
@@ -109,6 +282,20 @@
     "companion_survival_rank_factor": 1,
     "display_category": "display_crafting",
     "sort_rank": 15000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You're aware the outdoors is gross." },
+      { "level": 1, "description": "You know the very basics of camping." },
+      { "level": 2, "description": "You know how to craft a fire drill to start fires without lighters." },
+      { "level": 5, "description": "You probably memorized most of the Scouting handbook." },
+      { "level": 9, "description": "You're exceptionally knowledgeable in all things outdoorsy." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You need to touch grass." },
+      { "level": 1, "description": "You've touched grass." },
+      { "level": 3, "description": "You might've been a cub scout as a kid." },
+      { "level": 5, "description": "You're a skilled scout and can pitch a tent with ease." },
+      { "level": 9, "description": "You could likely be dropped into a forest with nothing and thrive." }
+    ],
     "companion_skill_practice": [
       { "skill": "", "weight": 80 },
       { "skill": "gathering", "weight": 80 },
@@ -127,6 +314,29 @@
     "description": "Your skill in dealing with electrical systems, used in the craft and repair of objects with electrical components.  This skill is an important part of installing and managing bionic implants.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
+    "level_descriptions_theory": [
+      {
+        "level": 0,
+        "description": "You don't know the first thing about how electricity works.  It might as well be magic to you."
+      },
+      { "level": 1, "description": "You have a very rudimentary knowledge on how electricity works." },
+      { "level": 3, "description": "You have some idea of how electricity works." },
+      {
+        "level": 5,
+        "description": "You have a good understanding of how electricity works and were possibly an electrician."
+      },
+      { "level": 9, "description": "You have an intricate understanding of electronics and how they function." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You can turn a light switch on or off." },
+      { "level": 1, "description": "You can craft extremely basic electronics like flashlights." },
+      {
+        "level": 3,
+        "description": "You can craft some electrical gadgets and set up an at-home power grid without major fire hazards."
+      },
+      { "level": 5, "description": "You can craft a variety of useful electronics." },
+      { "level": 9, "description": "You can craft any electrical device you can think of." }
+    ],
     "sort_rank": 18000
   },
   {
@@ -140,6 +350,21 @@
     "companion_survival_rank_factor": 1,
     "display_category": "display_ranged",
     "sort_rank": 9000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You know what a bow looks like." },
+      { "level": 1, "description": "You know how to nock an arrow." },
+      { "level": 3, "description": "You know the basics of archery." },
+      { "level": 5, "description": "You're knowledgeable about archery." },
+      { "level": 9, "description": "You have a wealth of knowledge about archery." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You're lucky if the arrow doesn't spin sideways." },
+      { "level": 1, "description": "You can usually get the arrow to fly straight-ish." },
+      { "level": 3, "description": "You can usually hit an archery target." },
+      { "level": 5, "description": "You're a fairly skilled archer." },
+      { "level": 7, "description": "You're a skilled archer and might've done well in some competitions." },
+      { "level": 9, "description": "You'd've been a terror at the Battle of Agincourt." }
+    ],
     "companion_skill_practice": [
       { "skill": "", "weight": 5 },
       { "skill": "gathering", "weight": 5 },
@@ -156,6 +381,27 @@
     "tags": [ "combat_skill" ],
     "display_category": "display_ranged",
     "sort_rank": 7000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You don't even know how to aim a gun." },
+      { "level": 1, "description": "You know where the iron sights on a gun are." },
+      { "level": 3, "description": "You know the basics of aiming." },
+      { "level": 5, "description": "You know how to aim most ranged weapons fairly well." },
+      {
+        "level": 9,
+        "description": "You know how to aim even at long distances taking into account bullet drop and wind speed."
+      }
+    ],
+    "level_descriptions_practice": [
+      {
+        "level": 0,
+        "description": "Your hands shake, your aim is shit, and you close your eyes before each shot.  You could aim at the ground and somehow miss."
+      },
+      { "level": 1, "description": "Holding a gun steady is difficult for you." },
+      { "level": 3, "description": "You've been to the range a few times and can usually hit the target." },
+      { "level": 5, "description": "Your aim is pretty good even at medium ranges." },
+      { "level": 7, "description": "You have good aim even at fairly long ranges." },
+      { "level": 9, "description": "You're a veritable sniper." }
+    ],
     "companion_skill_practice": [ { "skill": "gathering", "weight": 60 }, { "skill": "combat", "weight": 5 } ]
   },
   {
@@ -166,6 +412,27 @@
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 30, "base_time": 100, "time_reduction_per_level": 5 },
     "display_category": "display_ranged",
+    "//": "mention mortars here if they will be implemented",
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You know nothing about launchers, cannons, or anything similar." },
+      { "level": 1, "description": "You've at least read about cannons or flamethrowers." },
+      { "level": 3, "description": "You probably built a spud launcher at some point." },
+      { "level": 5, "description": "You're skilled with various types of launchers." },
+      { "level": 9, "description": "You're a rare expert in knowledge about various types of launchers." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "Rather understandably, you have never fired any kind of launcher before." },
+      { "level": 1, "description": "You may have fired a spud cannon at some point." },
+      { "level": 3, "description": "You have experience firing launchers or flamethrowers, somehow." },
+      {
+        "level": 5,
+        "description": "Your growing level of experience with rocket launchers, flamethrowers, or cannons is worrying."
+      },
+      {
+        "level": 9,
+        "description": "You just want to watch the world burn, and you're really damn good at making sure it will."
+      }
+    ],
     "sort_rank": 14000
   },
   {
@@ -177,6 +444,27 @@
     "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
     "sort_rank": 10000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You can't tell a revolver from a semiautomatic." },
+      { "level": 1, "description": "You can tell a revolver from a semiautomatic." },
+      { "level": 3, "description": "You know the basics of handguns and their usage." },
+      { "level": 5, "description": "You're knowledgeable about handguns and their uses." },
+      {
+        "level": 9,
+        "description": "You know every trick and technique for firing handguns accurately and effectively."
+      }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "Hopefully it won't fly out of your hands when you fire one." },
+      { "level": 1, "description": "Handguns feel awkward to use for you." },
+      { "level": 3, "description": "You're comfortable with the usage of handguns." },
+      { "level": 5, "description": "You're quite skilled and accurate with handguns." },
+      { "level": 7, "description": "You could win a duel at high noon." },
+      {
+        "level": 9,
+        "description": "You're a deadeye with pistols and can likely hit someone at 20 yards from the hip with ease."
+      }
+    ],
     "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
   },
   {
@@ -188,6 +476,24 @@
     "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
     "sort_rank": 12000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "Rifles are complicated weaponry and you don't know anything about them." },
+      { "level": 1, "description": "You at least have rudimentary knowledge of rifles." },
+      { "level": 3, "description": "You can maintain your average standard-issue rifle." },
+      { "level": 5, "description": "You have an intricate knowledge of all the parts of a rifle and their use." },
+      {
+        "level": 9,
+        "description": "You can probably disassemble and reassemble your rifle in the dark with your hands tied together."
+      }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You've never fired a rifle before." },
+      { "level": 1, "description": "You can at least shoulder a rifle." },
+      { "level": 3, "description": "You're at least as competent as the average soldier straight out of boot camp." },
+      { "level": 5, "description": "Rifles feel familiar in your hands." },
+      { "level": 7, "description": "You're a genuinely good shot." },
+      { "level": 9, "description": "You could be a career sniper." }
+    ],
     "companion_skill_practice": [ { "skill": "hunting", "weight": 45 } ]
   },
   {
@@ -199,6 +505,22 @@
     "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
     "sort_rank": 13000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "\"Shot-guns?\"  But all guns are shot?" },
+      { "level": 1, "description": "You know what a shotgun is." },
+      {
+        "level": 3,
+        "description": "You know enough about shotguns to get mad about unrealistic pellet spread in video games."
+      },
+      { "level": 5, "description": "You're knowledgeable about the handling and maintenance of shotguns." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You couldn't hit the broad side of a barn." },
+      { "level": 1, "description": "You can usually hit a clay pigeon if it's just sitting there." },
+      { "level": 3, "description": "You probably have experience skeet shooting." },
+      { "level": 5, "description": "You're a very skilled skeet shooter." },
+      { "level": 9, "description": "You could snipe with most shotguns if you weren't limited by the spread." }
+    ],
     "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
   },
   {
@@ -210,6 +532,20 @@
     "time_to_attack": { "min_time": 20, "base_time": 30, "time_reduction_per_level": 1 },
     "display_category": "display_ranged",
     "sort_rank": 11000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You don't know the first thing about submachine guns." },
+      { "level": 1, "description": "You know very little about SMGs." },
+      { "level": 3, "description": "You know a decent bit about firing SMGs accurately." },
+      { "level": 5, "description": "You're knowledgeable about the tactics used with SMGs." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You've never held an SMG before." },
+      { "level": 1, "description": "You have minimal experience with SMGs." },
+      { "level": 3, "description": "You have some experience with SMGs." },
+      { "level": 5, "description": "You're fairly experienced with SMGs." },
+      { "level": 7, "description": "You're very experienced with SMGs." },
+      { "level": 9, "description": "You're a CQB expert with SMGs." }
+    ],
     "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
   },
   {
@@ -220,6 +556,36 @@
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 50, "base_time": 220, "time_reduction_per_level": 25 },
     "display_category": "display_ranged",
+    "level_descriptions_theory": [
+      {
+        "level": 0,
+        "description": "You've managed to avoid gym class your whole life and barely know how to throw a rock.  Impressive."
+      },
+      {
+        "level": 1,
+        "description": "You know how to throw things.  Which is good, since that's an inherent skill of being human."
+      },
+      { "level": 3, "description": "You know how to throw stuff with reasonable accuracy." },
+      { "level": 5, "description": "You know proper form and methods for throwing accurately." },
+      { "level": 9, "description": "You could teach sports.  The ones that involve throwing stuff anyway." }
+    ],
+    "level_descriptions_practice": [
+      {
+        "level": 0,
+        "description": "You're lucky if you don't drop the thing you're throwing at your feet.  Be extra careful with grenades."
+      },
+      {
+        "level": 1,
+        "description": "You can usually throw a rock at a person if they're not too far away, or moving."
+      },
+      { "level": 3, "description": "You can accurately throw a dodgeball at someone." },
+      { "level": 5, "description": "You can pitch a baseball across home plate into the strike zone reliably." },
+      { "level": 7, "description": "You've got a good fastball." },
+      {
+        "level": 9,
+        "description": "You could've become a professional pitcher.  At least beaning zombies doesn't give them a free walk to first base."
+      }
+    ],
     "sort_rank": 8000
   },
   {
@@ -232,6 +598,30 @@
     "companion_combat_rank_factor": 1,
     "display_category": "display_melee",
     "sort_rank": 1000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You have no idea how to do anything other than vaguely swing in their direction." },
+      { "level": 1, "description": "You can theoretically fight." },
+      {
+        "level": 3,
+        "description": "You've learned enough to avoid overswinging and falling off balance if you miss."
+      },
+      { "level": 5, "description": "Whether self-taught or trained, you've learned quite a lot about fighting." },
+      { "level": 9, "description": "You could teach a platoon of medieval soldiers how to fight in a war." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "Any fighting you do is mostly just panicked flailing." },
+      { "level": 1, "description": "Your panicked flailing has become somewhat more determined flailing." },
+      { "level": 3, "description": "Your fighting now actually resembles proper form and is far less clumsy." },
+      { "level": 5, "description": "You're a proper fighter and can use most techniques." },
+      {
+        "level": 7,
+        "description": "You're a skilled man-at-arms that wouldn't look out of place fighting on a medieval battlefield."
+      },
+      {
+        "level": 9,
+        "description": "In a world with guns you've dedicated yourself to mastering melee combat, and you're damn good at it too."
+      }
+    ],
     "companion_skill_practice": [
       { "skill": "", "weight": 5 },
       { "skill": "gathering", "weight": 5 },
@@ -250,6 +640,36 @@
     "companion_combat_rank_factor": 1,
     "display_category": "display_melee",
     "sort_rank": 3000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You don't even know how to swing a baseball bat properly." },
+      { "level": 1, "description": "You at least know how to swing a baseball bat." },
+      {
+        "level": 3,
+        "description": "You have a decent idea how to maneuver blunt weapons without falling off balance."
+      },
+      {
+        "level": 5,
+        "description": "You've learned how to leverage blunt weapons best to get powerful, accurate hits."
+      },
+      { "level": 9, "description": "You could teach a class on fighting with maces and hammers." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You've somehow gone through life without even swinging a stick for fun.  How awful." },
+      { "level": 1, "description": "You can swing a baseball bat." },
+      { "level": 3, "description": "You can reliably hit a pitch while at bat." },
+      {
+        "level": 5,
+        "description": "You're a decently skilled batter and good at using all sorts of bludgeons, improvised or otherwise."
+      },
+      {
+        "level": 7,
+        "description": "You can hit zombies over the head even with random junk and still make it look good."
+      },
+      {
+        "level": 9,
+        "description": "You can swing a heavy, poorly-weighted sledgehammer with pinpoint accuracy even against a moving target."
+      }
+    ],
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
   },
   {
@@ -261,6 +681,20 @@
     "companion_combat_rank_factor": 1,
     "display_category": "display_melee",
     "sort_rank": 4000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You don't even know how to play-swordfight." },
+      { "level": 1, "description": "You at least know which part of the sword you're supposed to hold." },
+      { "level": 3, "description": "You've learned how to cut properly with draw cuts and similar techniques." },
+      { "level": 5, "description": "You've learned how to fight with swords effectively." },
+      { "level": 9, "description": "You've studied the blade." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You'd probably hit with the flat of the blade more than the edge." },
+      { "level": 1, "description": "You can usually get a decent cut when chopping." },
+      { "level": 3, "description": "You can reliably keep good edge alignment when slicing." },
+      { "level": 5, "description": "You're a fairly skilled swordsman." },
+      { "level": 9, "description": "With your skill, in another life you could duel a samurai." }
+    ],
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
   },
   {
@@ -271,6 +705,32 @@
     "tags": [ "combat_skill" ],
     "display_category": "display_melee",
     "sort_rank": 6000,
+    "level_descriptions_theory": [
+      {
+        "level": 0,
+        "description": "For most people, jumping out of the way of danger is instinct, and you barely have that."
+      },
+      { "level": 1, "description": "You might know how to dodge." },
+      {
+        "level": 3,
+        "description": "You've learned how to minimize your movement with dodging to avoid overexerting yourself."
+      },
+      {
+        "level": 5,
+        "description": "You have a good grasp on various dodging techniques and ways to avoid being grabbed."
+      },
+      {
+        "level": 9,
+        "description": "You know how to do a dodge, duck, dip, dive, and how to win every game of dodgeball."
+      }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "Your reflexes are dull and you have two left feet.  Hope you don't trip." },
+      { "level": 1, "description": "You can at least dodge without tripping over your own feet." },
+      { "level": 3, "description": "You have decent reflexes and can dodge a dodgeball." },
+      { "level": 5, "description": "You're fairly squirrely, most enemies will have some difficulty hitting you." },
+      { "level": 9, "description": "You have exceptional reflexes and are very slippery and hard to pin down." }
+    ],
     "companion_skill_practice": [ { "skill": "hunting", "weight": 15 }, { "skill": "combat", "weight": 20 } ]
   },
   {
@@ -282,6 +742,20 @@
     "companion_combat_rank_factor": 1,
     "display_category": "display_melee",
     "sort_rank": 5000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You might not even be aware you're supposed to stab with a spear." },
+      { "level": 1, "description": "You understand the gist of thrusting weapons." },
+      { "level": 3, "description": "You know some of the techniques involved with thrusting weapons." },
+      { "level": 5, "description": "You're well-learned in fencing or spearmanship." },
+      { "level": 9, "description": "You could open a fencing school or start your own spear lessons." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You have a hard time spearing steak with a fork." },
+      { "level": 1, "description": "Stabbing is an awkward motion for you." },
+      { "level": 3, "description": "You're a decent fencer or spearman." },
+      { "level": 5, "description": "You're a skilled fencer or spearman." },
+      { "level": 9, "description": "You're a commando with a knife, a fencing expert, and an accomplished spearman." }
+    ],
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
   },
   {
@@ -294,6 +768,21 @@
     "companion_survival_rank_factor": 1,
     "display_category": "display_melee",
     "sort_rank": 2000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You've never had any interest in learning to fight." },
+      { "level": 1, "description": "You can theoretically throw a punch." },
+      { "level": 3, "description": "You know how to throw down." },
+      { "level": 5, "description": "You really know how to throw down." },
+      { "level": 9, "description": "You could probably teach your own martial art." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "Punching someone is more likely to hurt you than them." },
+      { "level": 1, "description": "You can throw a punch.  Not well, but you can throw one." },
+      { "level": 3, "description": "You're enough of a scrapper to fight with your fists if you have to." },
+      { "level": 5, "description": "You could win most bar fights." },
+      { "level": 7, "description": "You'd have your black belt if any dojos were still open." },
+      { "level": 9, "description": "You could have multiple black belts or box in the major leagues." }
+    ],
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
   },
   {
@@ -304,6 +793,26 @@
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
     "sort_rank": 19000,
+    "level_descriptions_theory": [
+      { "level": 0, "description": "You're not even theoretically a physicist." },
+      { "level": 1, "description": "You have the basic understanding of science on par with a high schooler." },
+      { "level": 3, "description": "You have a decent understanding of science on par with a college graduate." },
+      {
+        "level": 5,
+        "description": "You have a deep understanding of the scientific method and possibly have a degree in a scientific field."
+      },
+      { "level": 9, "description": "You likely have a PhD in a scientific field." }
+    ],
+    "level_descriptions_practice": [
+      { "level": 0, "description": "You skipped all your science classes." },
+      { "level": 1, "description": "You've at least done high school chemistry classes." },
+      { "level": 3, "description": "You've worked with a few chemicals and can follow simple procedures." },
+      {
+        "level": 5,
+        "description": "You can follow some more complicated procedures and likely took advanced chemistry courses."
+      },
+      { "level": 7, "description": "You can do some advanced chemistry, or just make drugs." }
+    ],
     "companion_skill_practice": [ { "skill": "menial", "weight": 15 } ]
   },
   {

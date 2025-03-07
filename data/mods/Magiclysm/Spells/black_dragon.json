@@ -32,7 +32,7 @@
     "base_casting_time": 200,
     "final_casting_time": 160,
     "casting_time_increment": -10,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 350
   },
   {
@@ -58,7 +58,7 @@
     "base_casting_time": 100,
     "final_casting_time": 64,
     "casting_time_increment": -9,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 350,
     "extra_effects": [ { "id": "dragon_bite" }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
@@ -89,7 +89,7 @@
     "effect_str": "dragon_shell_black",
     "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "shape": "blast",
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "spell_class": "NONE",
     "flags": [ "CONJURATION_SPELL", "CONCENTRATE" ],
     "difficulty": 1,
@@ -145,7 +145,7 @@
     "duration_increment": 1000,
     "base_casting_time": 200,
     "base_energy_cost": 400,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "difficulty": 0,
     "extra_effects": [ { "id": "eoc_enervation_setup", "hit_self": true } ],
     "flags": [ "ENERVATION_SPELL", "LOUD", "NO_HANDS", "NO_LEGS" ]
@@ -172,7 +172,7 @@
     "duration_increment": 2000,
     "base_casting_time": 100,
     "base_energy_cost": 150,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "difficulty": 0,
     "flags": [ "ENHANCEMENT_SPELL", "LOUD", "NO_HANDS", "NO_LEGS" ]
   },
@@ -226,7 +226,7 @@
     "base_casting_time": 200,
     "final_casting_time": 160,
     "casting_time_increment": -10,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 100
   },
   {
@@ -252,7 +252,7 @@
     "field_chance": 2,
     "field_intensity_increment": 0.1,
     "base_casting_time": 200,
-    "energy_source": "MANA",
+    "magic_type": "magiclysm_generic_magic",
     "base_energy_cost": 200,
     "flags": [ "EVOCATION_SPELL", "VERBAL", "NO_HANDS", "NO_LEGS", "LOUD", "SPLIT_DAMAGE" ]
   }

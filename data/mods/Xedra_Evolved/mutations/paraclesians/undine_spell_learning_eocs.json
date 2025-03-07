@@ -26,7 +26,11 @@
           ]
         },
         {
-          "or": [ { "math": [ "u_undine_is_connected_to_waters == 1" ] }, { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" } ]
+          "or": [
+            { "math": [ "u_undine_is_connected_to_waters == 1" ] },
+            { "test_eoc": "EOC_CONDITION_CHECK_UNDINE_IN_WATER" },
+            { "test_eoc": "EOC_CONDITION_SKY_ISLAND_ON_THE_ISLAND" }
+          ]
         }
       ]
     },

@@ -102,7 +102,9 @@ class bullet_animation : public basic_animation
 
 bool is_point_visible( const tripoint_bub_ms &p, int margin = 0 )
 {
-    return g->is_in_viewport( p, margin ) && get_player_view().sees( p );
+    const map &here = get_map();
+
+    return g->is_in_viewport( p, margin ) && get_player_view().sees( here, p );
 }
 
 bool is_radius_visible( const tripoint_bub_ms &center, int radius )
@@ -302,19 +304,10 @@ void explosion_handler::draw_explosion( const tripoint_bub_ms &p, const int r, c
     }
 }
 
-void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col )
-{
-    explosion_handler::draw_explosion( tripoint_bub_ms( p ), r, col );
-}
 #else
 void explosion_handler::draw_explosion( const tripoint_bub_ms &p, const int r, const nc_color &col )
 {
     draw_explosion_curses( *g, p, r, col );
-}
-
-void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc_color &col )
-{
-    draw_explosion_curses( *g, tripoint_bub_ms( p ), r, col );
 }
 #endif
 
@@ -664,9 +657,9 @@ void draw_line_curses( game &g, const tripoint_bub_ms &center,
         const Creature *critter = creatures.creature_at( p, true );
 
         // NPCs and monsters get drawn with inverted colors
-        if( critter && player_character.sees( *critter ) ) {
+        if( critter && player_character.sees( here, *critter ) ) {
             critter->draw( g.w_terrain, center, true );
-        } else if( noreveal && !player_character.sees( p ) ) {
+        } else if( noreveal && !player_character.sees( here,  p ) ) {
             // Draw a meaningless symbol. Avoids revealing tile, but keeps feedback
             const char sym = '?';
             const nc_color col = c_dark_gray;
@@ -686,7 +679,9 @@ void draw_line_curses( game &g, const tripoint_bub_ms &center,
 void game::draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center,
                       const std::vector<tripoint_bub_ms> &points, bool noreveal )
 {
-    if( !u.sees( p ) ) {
+    const map &here = get_map();
+
+    if( !u.sees( here, p ) ) {
         return;
     }
 
@@ -702,7 +697,9 @@ void game::draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center,
 void game::draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center,
                       const std::vector<tripoint_bub_ms> &points, bool noreveal )
 {
-    if( !u.sees( p ) ) {
+    const map &here = get_map();
+
+    if( !u.sees( here, p ) ) {
         return;
     }
 
@@ -892,6 +889,8 @@ void game::draw_async_anim( const tripoint_bub_ms &p, const std::string &tile_id
                             const std::string &ncstr,
                             const nc_color &nccol )
 {
+    const map &here = get_map();
+
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
         return;
@@ -901,7 +900,7 @@ void game::draw_async_anim( const tripoint_bub_ms &p, const std::string &tile_id
         return;
     }
 
-    if( !u.sees( p ) ) {
+    if( !u.sees( here, p ) ) {
         return;
     }
 
@@ -916,7 +915,8 @@ void game::draw_async_anim( const tripoint_bub_ms &p, const std::string &tile_id
     g->invalidate_main_ui_adaptor();
 }
 #else
-void game::draw_async_anim( const tripoint_bub_ms &p, const std::string &, const std::string &ncstr,
+void game::draw_async_anim( const tripoint_bub_ms &p, const std::string &,
+                            const std::string &ncstr,
                             const nc_color &nccol )
 {
     if( !ncstr.empty() ) {
@@ -1024,7 +1024,7 @@ void game::draw_vpart_override(
     const bool hilite, const point_rel_ms &mount )
 {
     if( use_tiles ) {
-        tilecontext->init_draw_vpart_override( p, id, part_mod, veh_dir, hilite, mount.raw() );
+        tilecontext->init_draw_vpart_override( p, id, part_mod, veh_dir, hilite, mount );
     }
 }
 #else

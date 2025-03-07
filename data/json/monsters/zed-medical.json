@@ -21,7 +21,7 @@
   {
     "id": "mon_zombie_medical_regenerating",
     "type": "MONSTER",
-    "name": { "str": "miracle lurker" },
+    "name": { "str": "regenerating zombie medic" },
     "description": "The zombified remains of a practitioner of medicine, you aren't certain what field - your focus is instead drawn to the way that its pink flesh snakes all over it, weaving its way over wounds and injuries.",
     "copy-from": "mon_zombie_regenerating",
     "death_drops": "mon_zombie_medical_death_drops",

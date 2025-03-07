@@ -20,6 +20,7 @@
 #include "enums.h"
 #include "filesystem.h"
 #include "input_context.h"
+#include "input_popup.h"
 #include "json.h"
 #include "json_loader.h"
 #include "mod_manager.h"
@@ -31,7 +32,7 @@
 #include "string_input_popup.h"
 #include "text_snippets.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 
 // single instance of world generator
@@ -147,7 +148,7 @@ WORLD *worldfactory::make_new_world( const std::vector<mod_id> &mods )
 
 WORLD *worldfactory::make_new_world( const std::string &name, const std::vector<mod_id> &mods )
 {
-    if( !is_lexically_valid( fs::u8path( name ) ) ) {
+    if( !is_lexically_valid( std::filesystem::u8path( name ) ) ) {
         return nullptr;
     }
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>( name );
@@ -183,21 +184,21 @@ WORLD *worldfactory::make_new_world( bool show_prompt, const std::string &world_
 static std::optional<std::string> prompt_world_name( const std::string &title,
         const std::string &cur_worldname )
 {
-    string_input_popup popup;
-    popup.max_length( max_worldname_len ).title( title ).text( cur_worldname );
+    string_input_popup_imgui popup( 50, cur_worldname );
+    popup.set_max_input_length( max_worldname_len );
+    popup.set_label( title );
 
     input_context ctxt( "STRING_INPUT" );
-    popup.description( string_format(
-                           _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
-                           ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
+    popup.set_description( string_format(
+                               _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
+                               ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
 
-    popup.custom_actions.emplace_back( "PICK_RANDOM_WORLDNAME", translation() );
-    popup.add_callback( "PICK_RANDOM_WORLDNAME", [&popup]() {
-        popup.text( get_next_valid_worldname() );
+    popup.add_callback( callback_input{ "PICK_RANDOM_WORLDNAME" }, [&popup]() {
+        popup.set_text( get_next_valid_worldname() );
         return true;
     } );
-    std::string message = popup.query_string();
-    return !popup.canceled() ? std::optional<std::string>( message ) : std::optional<std::string>();
+    std::string message = popup.query();
+    return message;
 }
 
 int worldfactory::show_worldgen_advanced( WORLD *world )
@@ -2137,10 +2138,10 @@ static bool isForbidden( const cata_path &candidate )
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )
 {
     cata_path worldpath = get_world( worldname )->folder_path();
-    std::set<fs::path> directory_paths;
+    std::set<std::filesystem::path> directory_paths;
 
     if( delete_folder ) {
-        fs::remove_all( worldpath.get_unrelative_path() );
+        std::filesystem::remove_all( worldpath.get_unrelative_path() );
         remove_world( worldname );
         return;
     }
@@ -2154,8 +2155,8 @@ void worldfactory::delete_world( const std::string &worldname, const bool delete
     file_paths.erase( end, file_paths.end() );
 
     for( cata_path &file_path : file_paths ) {
-        fs::path folder_path = file_path.get_unrelative_path().parent_path();
-        while( folder_path.filename() != fs::u8path( worldname ) ) {
+        std::filesystem::path folder_path = file_path.get_unrelative_path().parent_path();
+        while( folder_path.filename() != std::filesystem::u8path( worldname ) ) {
             directory_paths.insert( folder_path );
             folder_path = folder_path.parent_path();
         }

@@ -54,6 +54,7 @@
     "name": { "str": "zombie strider" },
     "description": "In front of you lies the most disgusting rendition of a starfish you've ever seen.  Not just the arms, but the legs and even the head have been horrendously deformed and stretched several meters long.  It walks around hunchback, looking through the remains of its head for its next victim.",
     "copy-from": "mon_zombie_base",
+    "species": [ "ZOMBIE" ],
     "diff": 10,
     "hp": 180,
     "speed": 60,

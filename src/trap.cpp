@@ -1,26 +1,28 @@
 #include "trap.h"
 
-#include <algorithm>
 #include <cmath>
-#include <set>
+#include <typeinfo>
 #include <vector>
 
 #include "assign.h"
+#include "bodypart.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "json.h"
-#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "translations.h"
 
 static const flag_id json_flag_ECHOLOCATION_DETECTABLE( "ECHOLOCATION_DETECTABLE" );
 static const flag_id json_flag_SONAR_DETECTABLE( "SONAR_DETECTABLE" );
@@ -259,7 +261,7 @@ bool trap::detected_by_echolocation() const
     return has_flag( json_flag_ECHOLOCATION_DETECTABLE );
 }
 
-bool trap::detect_trap( const tripoint &pos, const Character &p ) const
+bool trap::detect_trap( const tripoint_bub_ms &pos, const Character &p ) const
 {
     // * Buried landmines, the silent killer, have a visibility of 10.
     // Assuming no knowledge of traps or proficiencies, and average per/int (8 each),
@@ -280,7 +282,7 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 
     // The further away the trap is, the harder it is to spot.
     // Subtract 1 so that we don't get an unfair penalty when not quite on top of the trap.
-    const int distance_penalty = rl_dist( p.pos(), pos ) - 1;
+    const int distance_penalty = rl_dist( p.pos_bub(), pos ) - 1;
 
     int proficiency_effect = -1;
     // Without at least a basic traps proficiency, your skill level is effectively three levels lower.
@@ -314,18 +316,6 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 }
 
 // Whether or not, in the current state, the player can see the trap.
-bool trap::can_see( const tripoint &pos, const Character &p ) const
-{
-    if( is_null() ) {
-        // There is no trap at all, so logically one can not see it.
-        return false;
-    }
-    if( is_always_invisible() ) {
-        return false;
-    }
-    return visibility < 0 || p.knows_trap( pos );
-}
-
 bool trap::can_see( const tripoint_bub_ms &pos, const Character &p ) const
 {
     if( is_null() ) {
@@ -338,7 +328,7 @@ bool trap::can_see( const tripoint_bub_ms &pos, const Character &p ) const
     return visibility < 0 || p.knows_trap( pos );
 }
 
-void trap::trigger( const tripoint &pos ) const
+void trap::trigger( const tripoint_bub_ms &pos ) const
 {
     if( is_null() ) {
         return;
@@ -346,17 +336,17 @@ void trap::trigger( const tripoint &pos ) const
     act( pos, nullptr, nullptr );
 }
 
-void trap::trigger( const tripoint &pos, Creature &creature ) const
+void trap::trigger( const tripoint_bub_ms &pos, Creature &creature ) const
 {
-    return trigger( pos, &creature, nullptr );
+    trigger( pos, &creature, nullptr );
 }
 
-void trap::trigger( const tripoint &pos, item &item ) const
+void trap::trigger( const tripoint_bub_ms &pos, item &item ) const
 {
-    return trigger( pos, nullptr, &item );
+    trigger( pos, nullptr, &item );
 }
 
-void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
+void trap::trigger( const tripoint_bub_ms &pos, Creature *creature, item *item ) const
 {
     if( is_null() ) {
         return;
@@ -412,7 +402,7 @@ bool trap::triggered_by_sound( int vol, int dist ) const
     return !is_null() && ( rng( 0, 100 ) <= sound_chance );
 }
 
-void trap::on_disarmed( map &m, const tripoint &p ) const
+void trap::on_disarmed( map &m, const tripoint_bub_ms &p ) const
 {
     for( const auto &i : components ) {
         const itype_id &item_type = std::get<0>( i );
@@ -420,7 +410,7 @@ void trap::on_disarmed( map &m, const tripoint &p ) const
         const int charges = std::get<2>( i );
         m.spawn_item( p.xy(), item_type, quantity, charges );
     }
-    for( const tripoint_bub_ms &dest : m.points_in_radius( tripoint_bub_ms( p ), trap_radius ) ) {
+    for( const tripoint_bub_ms &dest : m.points_in_radius( p, trap_radius ) ) {
         m.remove_trap( dest );
     }
 }

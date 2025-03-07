@@ -1,0 +1,13 @@
+[
+  {
+    "id": "warg_food",
+    "copy-from": "cattlefodder_medium",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str": "warg food", "//~": "NO_I18N" },
+    "description": { "str": "A food that doesn't exist but is necessary for technical reasons.", "//~": "NO_I18N" },
+    "flags": [ "INEDIBLE" ],
+    "use_action": [ "PETFOOD" ],
+    "petfood": [ "WARG_FOOD" ]
+  }
+]

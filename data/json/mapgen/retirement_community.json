@@ -113,11 +113,11 @@
         "q": { "item": "SUS_junk_drawer", "chance": 100 },
         "M": { "item": "SUS_oven", "chance": 100 },
         "j": { "item": "coat_rack", "chance": 50 },
-        "Y": { "item": "trash", "chance": 50 },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 50 },
         "-": [ { "item": "SUS_appliances_cupboard", "chance": 100 }, { "item": "SUS_cookware", "chance": 100 } ],
         "J": [ { "item": "SUS_pantry", "chance": 100 }, { "item": "SUS_spice_collection", "chance": 100 } ],
         "b": { "item": "homebooks", "chance": 100, "repeat": [ 0, 2 ] },
-        "P": { "item": "trash", "chance": 100, "repeat": [ 2, 6 ] }
+        "P": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 2, 6 ] }
       },
       "place_item": [
         { "item": "television", "x": 10, "y": 17, "chance": 100 },
@@ -558,7 +558,7 @@
         "q": { "item": "SUS_junk_drawer", "chance": 100 },
         "M": { "item": "SUS_oven", "chance": 100 },
         "7": { "item": "coats_unisex", "chance": 50 },
-        "Y": { "item": "trash", "chance": 50 },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 50 },
         "-": [ { "item": "SUS_appliances_cupboard", "chance": 100 }, { "item": "SUS_cookware", "chance": 100 } ],
         "J": [ { "item": "SUS_pantry", "chance": 100 }, { "item": "SUS_spice_collection", "chance": 100 } ],
         "b": { "item": "homebooks", "chance": 100, "repeat": [ 0, 2 ] }
@@ -1043,7 +1043,7 @@
         "q": { "item": "SUS_junk_drawer", "chance": 100 },
         "M": { "item": "SUS_oven", "chance": 100 },
         "j": { "item": "coat_rack", "chance": 50 },
-        "Y": { "item": "trash", "chance": 50 },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 50 },
         "-": [ { "item": "SUS_appliances_cupboard", "chance": 100 }, { "item": "SUS_cookware", "chance": 100 } ],
         "J": [ { "item": "SUS_pantry", "chance": 100 }, { "item": "SUS_spice_collection", "chance": 100 } ],
         "b": { "item": "homebooks", "chance": 100, "repeat": [ 0, 2 ] }
@@ -1497,7 +1497,7 @@
         "Z": { "item": "SUS_dishes", "chance": 100 },
         "R": { "item": "SUS_kitchen_sink", "chance": 100 },
         "r": { "item": "SUS_dishes", "chance": 100 },
-        "P": { "item": "trash", "chance": 100, "repeat": [ 2, 6 ] }
+        "P": { "item": "SUS_trash_trashcan", "chance": 100, "repeat": [ 2, 6 ] }
       },
       "place_vehicles": [
         { "chance": 15, "rotation": 270, "vehicle": "parking_garage", "x": 4, "y": 3 },
@@ -1510,7 +1510,7 @@
         { "chance": 15, "rotation": 90, "vehicle": "parking_garage", "x": 148, "y": 15 },
         { "chance": 15, "rotation": 90, "vehicle": "parking_garage", "x": 154, "y": 15 },
         { "chance": 15, "rotation": 90, "vehicle": "parking_garage", "x": 162, "y": 15 },
-        { "chance": 100, "rotation": 90, "vehicle": "van_cargo", "x": 127, "y": 30 },
+        { "rotation": 90, "vehicle": "van_cargo", "x": 127, "y": 30 },
         { "chance": 15, "rotation": 0, "vehicle": "parking_garage", "x": 108, "y": 34 },
         { "chance": 15, "rotation": 0, "vehicle": "parking_garage", "x": 108, "y": 41 }
       ]
@@ -1745,8 +1745,8 @@
         { "monster": "mon_pigeon", "x": [ 2, 23 ], "y": [ 25, 47 ], "repeat": [ 2, 3 ] }
       ],
       "items": {
-        "Y": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] },
-        "T": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 7 ] },
+        "T": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 7 ] },
         "t": { "item": "barbecue", "chance": 20 },
         "₸": { "item": "liquor_and_spirits", "chance": 100, "repeat": 2 },
         "R": [ { "item": "tools_plumbing", "chance": 50 }, { "item": "tools_general", "chance": 50 } ]

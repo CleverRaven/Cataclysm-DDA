@@ -97,6 +97,7 @@
       "9": "t_carpet_concrete_yellow",
       "§": "t_water_pool_shallow_outdoors"
     },
+    "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "t": {  } }
   },
   {

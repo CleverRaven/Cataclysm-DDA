@@ -2,17 +2,16 @@
 #ifndef CATA_SRC_WEATHER_GEN_H
 #define CATA_SRC_WEATHER_GEN_H
 
-#include <iosfwd>
-#include <map>
+#include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "coordinates.h"
+#include "point.h"
 #include "type_id.h"
 #include "units.h"
 
 class JsonObject;
-struct tripoint;
 
 struct w_point {
     units::temperature temperature = 0_K;
@@ -71,9 +70,10 @@ class weather_generator
         units::temperature get_water_temperature() const;
         void test_weather( unsigned seed ) const;
         void sort_weather();
-        units::temperature get_weather_temperature( const tripoint &, const time_point &, unsigned ) const;
+        units::temperature get_weather_temperature( const tripoint_abs_ms &, const time_point &,
+                unsigned ) const;
 
-        static weather_generator load( const JsonObject &jo );
+        void load( const JsonObject &jo, bool was_loaded );
 };
 
 #endif // CATA_SRC_WEATHER_GEN_H

@@ -61,5 +61,13 @@
       [ "soldering_standard", 5 ],
       { "qualities": [ { "id": "SCREW", "level": 1 } ], "components": [ [ [ "circuit", 1 ] ] ] }
     ]
+  },
+  {
+    "type": "fault",
+    "id": "fault_emp_reboot",
+    "name": { "str": "rebooting" },
+    "description": "This device is rebooting after being shorted by an EMP.",
+    "item_prefix": "rebooting",
+    "flags": [ "ITEM_BROKEN" ]
   }
 ]

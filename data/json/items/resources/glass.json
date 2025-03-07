@@ -18,7 +18,7 @@
       "done_message": "You carefully place the shards on the ground, ready to be cracked by something passing by."
     },
     "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID", "SINGLE_USE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "cut": 6 },
     "weapon_category": [ "SHIVS" ]
   },
@@ -36,7 +36,7 @@
     "weight": "6577 g",
     "volume": "2655 ml",
     "longest_side": "122 cm",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "use_action": {
       "type": "place_trap",
       "trap": "tr_glass",
@@ -61,7 +61,7 @@
     "weight": "45900 g",
     "volume": "21200 ml",
     "longest_side": "122 cm",
-    "to_hit": -6,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 6 }
   },
   {
@@ -94,7 +94,7 @@
     "weight": "17514 g",
     "volume": "7070 ml",
     "longest_side": "122 cm",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 6 }
   }
 ]

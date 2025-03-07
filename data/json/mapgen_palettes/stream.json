@@ -36,11 +36,14 @@
     },
     "items": {
       "1": [
-        { "item": "trash", "chance": 2, "repeat": [ 0, 2 ], "damage": [ 0, 4 ] },
+        { "item": "SUS_trash_forest_manmade", "chance": 2, "repeat": [ 0, 2 ], "damage": [ 0, 4 ] },
         { "item": "creek_bed", "chance": 15, "repeat": [ 0, 2 ] },
         { "item": "wheels", "chance": 1, "damage": [ 2, 5 ] }
       ],
-      "2": [ { "item": "trash", "chance": 2, "repeat": [ 0, 2 ] }, { "item": "creek_bed", "chance": 10, "repeat": [ 0, 3 ] } ]
+      "2": [
+        { "item": "SUS_trash_forest_manmade", "chance": 2, "repeat": [ 0, 2 ] },
+        { "item": "creek_bed", "chance": 10, "repeat": [ 0, 3 ] }
+      ]
     }
   }
 ]

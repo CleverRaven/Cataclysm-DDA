@@ -89,33 +89,10 @@
   },
   {
     "type": "item_group",
-    "id": "ammo_pistol_rare",
-    "subtype": "distribution",
-    "copy-from": "ammo_pistol_rare",
-    "extend": { "entries": [ { "item": "afs_10mm_caseless_FMJ", "prob": 20 }, { "item": "afs_10mm_caseless_JHP", "prob": 15 } ] }
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_rifle_rare",
-    "//": "Less common rifle ammo including that only used by police/paramilitary forces.",
-    "subtype": "distribution",
-    "copy-from": "ammo_rifle_rare",
-    "extend": { "entries": [ { "item": "afs_7.50mm_caseless", "prob": 40 }, { "item": "afs_7.50mm_rp", "prob": 50 } ] }
-  },
-  {
-    "type": "item_group",
     "id": "ammo_rifle_milspec",
     "subtype": "distribution",
     "copy-from": "ammo_rifle_milspec",
     "extend": { "entries": [ { "item": "afs_7.50mm_caseless", "prob": 40 }, { "item": "afs_7.50mm_rp", "prob": 50 } ] }
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_shotgun_rare",
-    "//": "Less common shotgun ammo including that only used by police/paramilitary forces.",
-    "subtype": "distribution",
-    "copy-from": "ammo_shotgun_rare",
-    "extend": { "entries": [ { "item": "afs_25mm_shot", "prob": 10 } ] }
   },
   {
     "type": "item_group",

@@ -1,5 +1,21 @@
 [
   {
+    "id": "e_files",
+    "type": "ITEM_CATEGORY",
+    "name_header": { "str": "Files" },
+    "name_noun": { "ctxt": "item_category", "str": "file" },
+    "zone": "LOOT_OTHER",
+    "sort_rank": -25
+  },
+  {
+    "id": "software",
+    "type": "ITEM_CATEGORY",
+    "name_header": { "str": "Software" },
+    "name_noun": { "ctxt": "item_category", "str_sp": "software" },
+    "zone": "LOOT_OTHER",
+    "sort_rank": -24
+  },
+  {
     "id": "guns",
     "type": "ITEM_CATEGORY",
     "name_header": { "str": "Guns" },

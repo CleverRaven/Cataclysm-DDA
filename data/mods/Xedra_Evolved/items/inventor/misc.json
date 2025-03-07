@@ -111,10 +111,10 @@
   },
   {
     "id": "software_AI",
-    "copy-from": "software",
+    "copy-from": "abstract_software",
     "type": "TOOL",
     "name": { "str_sp": "IA software" },
-    "description": "A USB thumb drive with a simple intelligent agent to provide support in parsing big layers of information.",
+    "description": "A simple intelligent agent to provide support in parsing big layers of information.",
     "extend": { "flags": [ "INVENTOR_CRAFTED" ] },
     "qualities": [ [ "AI_TOOL", 1 ] ]
   },

@@ -557,7 +557,7 @@
   {
     "id": "TALK_DENY_EQUIPMENT",
     "type": "talk_topic",
-    "dynamic_line": [ "<no>, and if you ask again, <ill_kill_you>!", "<no><punc> <fuck_you>!" ],
+    "dynamic_line": [ "No, and if you ask again, I'll fucking obliterate you!", "No, fuck off!" ],
     "responses": [
       { "text": "Okay, okay, sorry.", "topic": "TALK_NONE" },
       { "text": "Seriously, give me more stuff!", "topic": "TALK_SHARE_EQUIPMENT" },

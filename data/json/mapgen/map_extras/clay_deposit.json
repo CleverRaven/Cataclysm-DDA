@@ -1,0 +1,53 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_clay_deposit",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "15x15_clay_deposit" ], "x": [ 0, 9 ], "y": [ 0, 9 ] },
+        { "chunks": [ [ "15x15_clay_deposit", 1 ], [ "null", 3 ] ], "x": [ 4, 5 ], "y": [ 4, 5 ] },
+        { "chunks": [ [ "15x15_clay_deposit", 1 ], [ "null", 3 ] ], "x": [ 0, 4 ], "y": [ 0, 9 ] },
+        { "chunks": [ [ "15x15_clay_deposit", 1 ], [ "null", 3 ] ], "x": [ 5, 9 ], "y": [ 0, 9 ] },
+        { "chunks": [ [ "15x15_clay_deposit", 1 ], [ "null", 3 ] ], "x": [ 0, 9 ], "y": [ 0, 4 ] },
+        { "chunks": [ [ "15x15_clay_deposit", 1 ], [ "null", 3 ] ], "x": [ 0, 9 ], "y": [ 5, 9 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "15x15_clay_deposit",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "place_nested": [
+        { "chunks": [ "7x7_clay_deposit" ], "x": [ 0, 8 ], "y": [ 0, 8 ] },
+        { "chunks": [ "7x7_clay_deposit" ], "x": [ 0, 8 ], "y": [ 0, 8 ] },
+        { "chunks": [ "7x7_clay_deposit" ], "x": [ 0, 8 ], "y": [ 0, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "7x7_clay_deposit",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "  xxx  ",
+        " xXXXx ",
+        "xXXXXXx",
+        "xXXXXXx",
+        "xXXXXXx",
+        " xXXXx ",
+        "  xxx  "
+      ],
+      "terrain": { "X": "t_clay", "x": [ "t_clay", "t_null" ] },
+      "furniture": {
+        "X": [ [ "f_burdock", 1 ], [ "f_dogbane", 1 ], [ "f_japanese_knotweed", 1 ], [ "f_null", 21 ] ],
+        "x": [ [ "f_burdock", 1 ], [ "f_dogbane", 1 ], [ "f_japanese_knotweed", 1 ], [ "f_null", 13 ] ]
+      },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

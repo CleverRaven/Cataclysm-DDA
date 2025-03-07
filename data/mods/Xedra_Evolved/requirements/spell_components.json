@@ -1,5 +1,30 @@
 [
   {
+    "id": "spell_components_changeling_dreamsparks",
+    "type": "requirement",
+    "components": [ [ [ "changeling_dreamspark", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_changeling_dreamsparks_2",
+    "type": "requirement",
+    "components": [ [ [ "changeling_dreamspark", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_changeling_dreamsparks_3",
+    "type": "requirement",
+    "components": [ [ [ "changeling_dreamspark", 3 ] ] ]
+  },
+  {
+    "id": "spell_components_changeling_dreamsparks_4",
+    "type": "requirement",
+    "components": [ [ [ "changeling_dreamspark", 4 ] ] ]
+  },
+  {
+    "id": "spell_components_changeling_dreamspark_5",
+    "type": "requirement",
+    "components": [ [ [ "changeling_dreamspark", 5 ] ] ]
+  },
+  {
     "id": "spell_components_dreamdross",
     "type": "requirement",
     "components": [ [ [ "scrap_dreamdross", 1 ] ] ]

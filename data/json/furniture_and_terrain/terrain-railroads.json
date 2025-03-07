@@ -639,5 +639,36 @@
     "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_recessed",
+    "type": "terrain",
+    "name": "recessed railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks sit flush with the road.  You could probably reclaim lengths of the track itself with a metalcutting tool like a hacksaw.",
+    "symbol": "X",
+    "color": "cyan",
+    "looks_like": "t_railroad_track",
+    "move_cost": 3,
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "mc_steel_lump", "count": [ 10, 20 ] },
+        { "item": "mc_steel_chunk", "count": [ 20, 40 ] },
+        { "item": "splinter", "count": [ 5, 15 ] }
+      ]
+    },
+    "hacksaw": {
+      "result": "t_rock_floor",
+      "duration": "30 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "railroad_track_item", "count": 2 }, { "item": "spike", "count": 6 }, { "item": "2x4", "count": 3 } ]
+    },
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
+    "flags": [ "RAIL", "TRANSPARENT", "NOCOLLIDE" ]
   }
 ]

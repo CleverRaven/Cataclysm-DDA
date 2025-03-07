@@ -1,9 +1,12 @@
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
-#include "character.h"
+#include "coordinates.h"
+#include "debug.h"
+#include "enums.h"
 #include "game.h"
 #include "messages.h"
 #include "monster.h"
@@ -13,6 +16,7 @@
 #include "output.h"
 #include "talker.h"
 #include "talker_avatar.h"
+#include "translation.h"
 #include "translations.h"
 
 static const efftype_id effect_pacified( "pacified" );
@@ -77,7 +81,7 @@ bool talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
     }
 
     for( int i = 0; i < count; i++ ) {
-        monster *const mon_ptr = g->place_critter_around( mtype, me_chr->pos(), 3 );
+        monster *const mon_ptr = g->place_critter_around( mtype, me_chr->pos_bub(), 3 );
         if( !mon_ptr ) {
             add_msg_debug( debugmode::DF_TALKER, "Cannot place u_buy_monster, no valid placement locations." );
             break;

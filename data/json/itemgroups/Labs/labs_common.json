@@ -61,7 +61,7 @@
         "distribution": [ { "item": "camera", "prob": 70, "charges": [ 0, 50 ] }, { "item": "camera_pro", "prob": 30, "charges": [ 0, 50 ] } ],
         "prob": 10
       },
-      { "item": "memory_card_unread", "prob": 15, "count": [ 2, 8 ] },
+      { "group": "used_memory_cards", "prob": 15, "count": [ 2, 4 ], "contents-group": "efiles_science" },
       { "item": "badge_doctor", "prob": 5, "count": [ 1, 2 ] },
       { "item": "wrapped_rad_badge", "prob": 7, "count": [ 1, 3 ] },
       { "item": "plastic_chunk", "prob": 30, "count": [ 1, 3 ] },

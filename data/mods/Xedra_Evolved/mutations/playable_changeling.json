@@ -38,18 +38,144 @@
     "valid": false,
     "purifiable": false,
     "types": [ "HERITAGE" ],
-    "player_display": false
+    "player_display": false,
+    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_COURT_SUMMER",
+    "name": { "str": "Summer Court" },
+    "points": 1,
+    "description": "You are a member of the Summer Court, sometimes called the Seelie Court, the faeries recognized as benevolent by mortals.  Or, at least, the faeries who are slightly less likely to levy a generational curses on those who wrong them.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true,
+    "cancels": [ "CHANGELING_COURT_WINTER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_COURT_WINTER",
+    "name": { "str": "Winter Court" },
+    "points": 1,
+    "description": "You are a member of the Winter Court, sometimes called the Unseelie Court, the faeries most feared by mortals.  Too bad there's so few of them around nowadays.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true,
+    "cancels": [ "CHANGELING_COURT_SUMMER" ]
   },
   {
     "type": "mutation",
     "id": "CHANGELING_MAGIC",
-    "name": { "str": "Changeling Magic" },
+    "name": { "str": "Glamour" },
     "points": 1,
     "description": "This provides the school trait for Changeling magic.  It should not be visible.",
     "valid": false,
     "purifiable": false,
     "player_display": false,
     "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "name": { "str": "Spring" },
+    "points": 1,
+    "description": "This provides the school trait for Spring seasonal magic.  It should not be visible.",
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_SEASONAL_MAGIC_SUMMER",
+    "name": { "str": "Summer" },
+    "points": 1,
+    "description": "This provides the school trait for Summer seasonal magic.  It should not be visible.",
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "name": { "str": "Autumn" },
+    "points": 1,
+    "description": "This provides the school trait for Autumn seasonal magic.  It should not be visible.",
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_SEASONAL_MAGIC_WINTER",
+    "name": { "str": "Winter" },
+    "points": 1,
+    "description": "This provides the school trait for Winter seasonal magic.  It should not be visible.",
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "cancels": [ "DREAMER", "DREAMSMITH", "EATER", "INVENTOR" ],
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DREAMSPARK_STORAGE_10",
+    "name": { "str": "Dreamspark Storage 10", "//~": "NO_I18N" },
+    "points": 1,
+    "description": { "str": "This is dreamspark storage.  It should not be visible.", "//~": "NO_I18N" },
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "integrated_armor": [ "integrated_dreamspark_storage_10" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DREAMSPARK_STORAGE_20",
+    "name": { "str": "Dreamspark Storage 20", "//~": "NO_I18N" },
+    "points": 1,
+    "description": { "str": "This is dreamspark storage.  It should not be visible.", "//~": "NO_I18N" },
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "integrated_armor": [ "integrated_dreamspark_storage_20" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DREAMSPARK_STORAGE_30",
+    "name": { "str": "Dreamspark Storage 30", "//~": "NO_I18N" },
+    "points": 1,
+    "description": { "str": "This is dreamspark storage.  It should not be visible.", "//~": "NO_I18N" },
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "integrated_armor": [ "integrated_dreamspark_storage_30" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DREAMSPARK_STORAGE_40",
+    "name": { "str": "Dreamspark Storage 40", "//~": "NO_I18N" },
+    "points": 1,
+    "description": { "str": "This is dreamspark storage.  It should not be visible.", "//~": "NO_I18N" },
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "integrated_armor": [ "integrated_dreamspark_storage_40" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DREAMSPARK_STORAGE_50",
+    "name": { "str": "Dreamspark Storage 50", "//~": "NO_I18N" },
+    "points": 1,
+    "description": { "str": "This is dreamspark storage.  It should not be visible.", "//~": "NO_I18N" },
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "integrated_armor": [ "integrated_dreamspark_storage_50" ]
   },
   {
     "type": "mutation",
@@ -306,6 +432,7 @@
     "points": 8,
     "description": "The Fair Folk have dealt with many mortal civilizations over the aeons, and have come to mutually beneficial arrangements with some of them.  Activate this trait to make your fae nature obvious, invoking those ancient agreements.  This <color_yellow>may anger</color> some who have especially bad relationships with the fae.",
     "prereqs": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
+    "prereqs2": [ "CHANGELING_NOBLE_COMMAND_COMMMONERS" ],
     "category": [ "FAIR_FOLK_NOBLE" ],
     "active": true,
     "activated_is_setup": true,
@@ -322,6 +449,107 @@
     "player_display": false,
     "ignored_by": [ "PLANT", "MIGO", "CHANGELING", "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
     "anger_relations": [ [ "CYBORG", 50 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_NOBLE",
+    "name": { "str": "Murmurs the Mighty One", "//~": "A reference to the A.E. poem 'A Call of the Sidhe' " },
+    "points": 3,
+    "description": "You are strong enough to defend a crossroads at twilight against all comers.  +3 Strength.",
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP_NOBLE",
+    "name": { "str": "All Dancing with Delight", "//~": "A reference to the Rose Fyleman poem 'Alms in Autumn' " },
+    "points": 3,
+    "description": "You are graceful enough to dance the night away beneath a crystal dome on a floor of mirror-bright silver.  +3 Dexterity.",
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "SPEED_UP_NOBLE",
+    "name": { "str": "At Speed Unthought Of", "//~": "A reference to the Lord Dunsany poem 'The Fairy Child' " },
+    "points": 3,
+    "description": "Your reactions are inhumanly quick.  +15 Speed.",
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "threshreq": [ "DEX_UP_NOBLE" ],
+    "prereqs2": [ "PARACLESIAN_STR_DEX_1", "PARACLESIAN_STR_DEX_2" ],
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 15 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "INT_UP_NOBLE",
+    "name": { "str": "Wisdom from the Well" },
+    "points": 3,
+    "description": "Like the legendary salmon who ate the nine acorns, you have gained a plethora of wisdom.  +3 Intelligence.",
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP_NOBLE",
+    "name": { "str": "Hear the Whole World Whispering", "//~": "A reference to the Charlotte Mew poem 'The Changeling' " },
+    "points": 3,
+    "description": "You senses are far more attuned to your surroundings than previously.  +3 Perception.",
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_DREAMWALKER",
+    "name": { "str": "Dreamwalker" },
+    "points": 2,
+    "description": "From the dreams of mortals, you can spin remnants of fantasy into material substance.  When you sleep near mortals, you have a chance to awaken with some dreamdross nearby.",
+    "prereqs": [ "PARACLESIAN_FAE_SIGHT_1", "PARACLESIAN_FAE_SIGHT_2" ],
+    "prereqs2": [ "PER_UP_NOBLE" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "//": "Ideally this would detect even non-allied NPCs nearby instead of just a location where NPCs are likely to be"
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_COMMAND_COMMMONERS",
+    "name": { "str": "Sovereign's Command" },
+    "points": 3,
+    "description": "Invoke your rights as one of noble birth and exert your authority over the commoner fae, forcing them to obey your commands.  The glamour will only last a short time, and the target is under no obligation to look on your favorably afterwards.",
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "spells_learned": [ [ "changeling_noble_command_commoners_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_CHARM_HUMANS",
+    "name": { "str": "Come Away, O Human Child", "//~": "A reference to the Yeats poem 'The Stolen Child' " },
+    "points": 3,
+    "description": "Glamour a human into defending you for a short period of time.  When the glamour ends, all effects end and the human will not be well-disposed toward you afterwards.",
+    "prereqs": [ "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
+    "prereqs2": [ "CHANGELING_NOBLE_COMMAND_COMMMONERS" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "spells_learned": [ [ "changeling_noble_charm_humans_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_INHUMAN_MINDSET",
+    "name": { "str": "Empty Your Heart of its Mortal Dream", "//~": "A reference to the Yeats poem 'The Hosting of the Sidhe' " },
+    "points": 8,
+    "description": "Your mindset is shifting to the alien morality of those from Under the Hill.  You can control this to some extent, though it may also overtake you in times of pain or stress.",
+    "prereqs": [ "CHANGELING_NOBLE_DREAMWALKER" ],
+    "prereqs2": [ "CHANGELING_NOBLE_CHARM_HUMANS" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_NOBLE" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activation_msg": "The mortal sentiments in your thoughts fade away.",
+    "enchantments": [
+      { "condition": "ACTIVE", "mutations": [ "PSYCHOPATH" ] },
+      { "condition": { "math": [ "u_pain('type': 'perceived')", ">=", "50" ] }, "mutations": [ "PSYCHOPATH" ] },
+      { "condition": { "math": [ "u_val('sleepiness')", ">=", "200" ] }, "mutations": [ "PSYCHOPATH" ] },
+      {
+        "condition": { "u_has_any_effect": [ "formication", "visuals", "hallu", "bite", "infected" ] },
+        "mutations": [ "PSYCHOPATH" ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -1116,6 +1344,47 @@
   },
   {
     "type": "mutation",
+    "id": "DEX_UP_SELKIE",
+    "name": { "str": "Bending Like the River" },
+    "points": 3,
+    "description": "Your movements are graceful whether on land or in the water.  +3 Dexterity.",
+    "prereqs": [ "PARACLESIAN_STR_DEX_1", "PARACLESIAN_STR_DEX_2" ],
+    "prereqs2": [ "SELKIE_WATERMOVE" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP_SELKIE",
+    "name": { "str": "Eyes On the Waterline" },
+    "points": 3,
+    "description": "Your sight is keen whether in or out of the water.  +2 Perception.",
+    "prereqs": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 2 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "INT_UP_SELKIE",
+    "name": { "str": "Thoughts like Clear Water" },
+    "points": 2,
+    "description": "Your mind flows easily from topic to topic while remembering the important details.  +2 Intelligence.",
+    "prereqs": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_BEGUILMENT",
+    "name": { "str": "Beguilement" },
+    "points": 3,
+    "description": "Glamour a human into defending you for a short period of time.  When the glamour ends, all effects end and the human will not be well-disposed toward you afterwards.",
+    "prereqs": [ "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "spells_learned": [ [ "selkie_beguilement_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SELKIE_FOG_CLOAK",
     "name": { "str": "Cloak of Fog" },
     "points": 2,
@@ -1207,7 +1476,7 @@
     "name": { "str": "The Waves my Bed" },
     "points": 1,
     "description": "Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.",
-    "prereqs": [ "SELKIE_BREATHING_WATER2" ],
+    "prereqs2": [ "DEX_UP_SELKIE" ],
     "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
     "comfort": [
       {
@@ -1248,6 +1517,92 @@
     "prereqs2": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
     "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
     "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_SELKIE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TROW_MAKE_NOISE",
+    "name": { "str": "The One Who Knocks" },
+    "points": 3,
+    "description": "Create a loud knocking sound within the glamour's range, to distract or lure your enemies away.",
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "spells_learned": [ [ "trow_make_noise_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "TROW_STONE_FISTS",
+    "name": { "str": "Fists of Stone" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Your tough skin and thick nails allow you to use yours hands to replace some simple tools.  Your punches hit harder as well.",
+    "types": [ "CLAWS" ],
+    "prereqs": [ "IERDE_SKIN_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "integrated_armor": [ "integrated_trow_fists" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TROW_LESS_METABOLISM_UNDERGROUND",
+    "name": { "str": "Stone-Eater" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The trow don't literally eat stones, but merely being underground fills you with strength and vigor.  You need half as much food and water while you're underground, and cold underground does not affect you.",
+    "types": [ "METABOLISM" ],
+    "prereqs": [ "PAINRESIST_TROW", "PAINRESIST_TROW2" ],
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
+        "values": [
+          { "value": "METABOLISM", "multiply": -0.5 },
+          { "value": "THIRST", "multiply": -0.5 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "TROW_WHILE_MINING_NO_EATING_OR_SLEEP",
+    "name": { "str": "Deep-Delver" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Once you begin mining, you can do it for hours without rest or sleep.  You need neither food nor drink nor rest for as long as you continue mining.",
+    "prereqs": [ "TROW_LESS_METABOLISM_UNDERGROUND" ],
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TROW_STEALTH_UNDERGROUND_ON_ROCK",
+    "name": { "str": "Amongst the Stones" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "While on rock or underground, you seem to subtly blend into your surroundings.  You are harder to spot on rocks or underground.",
+    "prereqs": [ "IERDE_SKIN_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            {
+              "or": [
+                { "u_is_on_terrain": "t_stone_masonry_floor_balcony" },
+                { "u_is_on_terrain": "t_stone_masonry_floor" },
+                { "u_is_on_terrain": "t_rock_floor_no_roof" },
+                { "u_is_on_terrain": "t_rock_floor" },
+                { "u_is_on_terrain": "t_marble_floor" },
+                { "u_is_on_terrain": "t_railroad_rubble" }
+              ]
+            },
+            { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z') <= -1" ] } ] }
+          ]
+        },
+        "values": [ { "value": "STEALTH_MODIFIER", "add": 25 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -1297,7 +1652,7 @@
         "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z') <= -1" ] } ] },
         "values": [ { "value": "PAIN", "multiply": -0.5 } ]
       },
-      { "values": [ { "value": "PAIN_PENALTY_MOD_STR", "multiply": -10 } ] }
+      { "values": [ { "value": "PAIN_PENALTY_MOD_STR", "multiply": -1 } ] }
     ]
   },
   {
@@ -1404,5 +1759,60 @@
       "THRESH_FAIR_FOLK_COMMONER_TROW"
     ],
     "flags": [ "MEND_ALL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Selkie gains the ability to grow a goblin fruit when near water or under the rain.",
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "spells_learned": [ [ "selkie_cultivate_goblin_fruit", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Brownie gains the ability to grow a goblin fruit when indoors and unobserved.",
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "spells_learned": [ [ "brownie_cultivate_goblin_fruit", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Pooka gains the ability to grow a goblin fruit when near animals.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "spells_learned": [ [ "pooka_cultivate_goblin_fruit", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "TROW_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Trow gains the ability to grow a goblin fruit when underground or at night.",
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "spells_learned": [ [ "trow_cultivate_goblin_fruit", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "NOBLE_CULTIVATE_GOBLIN_FRUIT",
+    "name": { "str": "Cultivate Goblin Fruit" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Noble gains the ability to grow a goblin fruit when near humans or Fae.",
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "spells_learned": [ [ "noble_cultivate_goblin_fruit", 1 ] ]
   }
 ]

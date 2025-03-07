@@ -72,8 +72,7 @@
     "id": "nested_scar_no_ammo",
     "type": "item_group",
     "subtype": "collection",
-    "//": "TODO: add SCAR H MK 20 SSR here instead of common SCAR.  Or maybe left this one and add another, dunno",
-    "items": [ { "item": "scar_h" }, { "group": "scar_mags", "count": [ 1, 3 ] } ]
+    "items": [ { "item": "scar_h_mk20" }, { "group": "scar_mags", "count": [ 1, 3 ] } ]
   },
   {
     "id": "scar_mags",

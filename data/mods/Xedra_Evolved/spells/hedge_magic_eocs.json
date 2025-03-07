@@ -133,7 +133,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HEDGE_SEE_NETHER_EYE_PASTE",
-    "effect": [ { "u_add_effect": "effect_hedge_nether_eye_paste", "duration": { "math": [ "1800 * rng(0.6,1.4)" ] } } ]
+    "effect": [
+      { "u_add_effect": "effect_hedge_nether_eye_paste", "duration": { "math": [ "1800 * rng(0.6,1.4)" ] } },
+      { "u_message": "You rub the paste on your eyes and feel it tingle." }
+    ]
   },
   {
     "type": "effect_on_condition",

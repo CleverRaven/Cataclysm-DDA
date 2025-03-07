@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "cached_options.h"
+#include "calendar.h"
 #include "character.h"
 #include "inventory.h"
 #include "item.h"
@@ -142,7 +143,7 @@ recipe_subset Character::get_recipes_from_ebooks( const inventory &crafting_inv 
 
     for( const std::list<item> *&stack : crafting_inv.const_slice() ) {
         const item &ereader = stack->front();
-        if( !ereader.is_ebook_storage() || !ereader.ammo_sufficient( this ) ||
+        if( !ereader.is_estorage() || !ereader.ammo_sufficient( this ) ||
             ereader.is_broken_on_active() ) {
             continue;
         }

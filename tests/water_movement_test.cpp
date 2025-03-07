@@ -1,18 +1,44 @@
+#include <cstdio>
+#include <filesystem>
+#include <fstream>
+#include <map>
 #include <memory>
+#include <string>
+#include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
 #include "avatar_action.h"
+#include "calendar.h"
 #include "cata_catch.h"
-#include "creature.h"
+#include "character.h"
+#include "coordinates.h"
 #include "game.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "mutation.h"
+#include "player_helpers.h"
+#include "point.h"
 #include "profession.h"
 #include "skill.h"
-#include "player_helpers.h"
+#include "string_formatter.h"
 #include "type_id.h"
+
+static const efftype_id effect_winded( "winded" );
+
+static const itype_id itype_flotation_vest( "flotation_vest" );
+static const itype_id itype_swim_fins( "swim_fins" );
+
+static const move_mode_id move_mode_crouch( "crouch" );
+static const move_mode_id move_mode_prone( "prone" );
+static const move_mode_id move_mode_run( "run" );
+static const move_mode_id move_mode_walk( "walk" );
+
+static const skill_id skill_swimming( "swimming" );
+
+static const trait_id trait_DISIMMUNE( "DISIMMUNE" );
 
 static void setup_test_lake()
 {
@@ -40,7 +66,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
 
     GIVEN( "avatar is above water at z0" ) {
         dummy.set_underwater( false );
-        dummy.setpos( test_origin );
+        dummy.setpos( here, test_origin );
         g->vertical_shift( 0 );
 
         WHEN( "avatar dives down" ) {
@@ -66,7 +92,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
 
     GIVEN( "avatar is underwater at z0" ) {
         dummy.set_underwater( true );
-        dummy.setpos( test_origin );
+        dummy.setpos( here, test_origin );
         g->vertical_shift( 0 );
 
         WHEN( "avatar dives down" ) {
@@ -92,7 +118,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
 
     GIVEN( "avatar is underwater at z-1" ) {
         dummy.set_underwater( true );
-        dummy.setpos( test_origin + tripoint::below );
+        dummy.setpos( here, test_origin + tripoint::below );
         g->vertical_shift( -1 );
 
         WHEN( "avatar dives down" ) {
@@ -118,7 +144,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
 
     GIVEN( "avatar is underwater at z-2" ) {
         dummy.set_underwater( true );
-        dummy.setpos( test_origin + tripoint( 0, 0, -2 ) );
+        dummy.setpos( here, test_origin + tripoint( 0, 0, -2 ) );
         g->vertical_shift( -2 );
 
         WHEN( "avatar dives down" ) {
@@ -147,14 +173,6 @@ TEST_CASE( "avatar_diving", "[diving]" )
     g->vertical_shift( 0 );
 }
 
-static const efftype_id effect_winded( "winded" );
-static const move_mode_id move_mode_crouch( "crouch" );
-static const move_mode_id move_mode_prone( "prone" );
-static const move_mode_id move_mode_run( "run" );
-static const move_mode_id move_mode_walk( "walk" );
-static const skill_id skill_swimming( "swimming" );
-static const trait_id trait_DISIMMUNE( "DISIMMUNE" );
-
 struct swimmer_stats {
     int strength = 0;
     int dexterity = 0;
@@ -165,7 +183,7 @@ struct swimmer_skills {
 };
 
 struct swimmer_gear {
-    std::vector<std::string> worn;
+    std::vector<itype_id> worn;
 };
 
 struct swimmer_traits {
@@ -227,8 +245,8 @@ static const std::unordered_map<std::string, swimmer_skills> skills_map = {
 
 static const std::unordered_map<std::string, swimmer_gear> gear_map = {
     {"none", {}},
-    {"fins", {{"swim_fins"}}},
-    {"flotation vest", {{"flotation_vest"}}},
+    {"fins", {{itype_swim_fins}}},
+    {"flotation vest", {{itype_flotation_vest}}},
 };
 
 static const std::unordered_map<std::string, swimmer_traits> traits_map = {
@@ -289,7 +307,7 @@ static int swimming_steps( avatar &swimmer )
         }
         last_moves = swimmer.get_moves();
     }
-    swimmer.setpos( left );
+    swimmer.setpos( here, left );
     return steps;
 }
 
@@ -311,7 +329,7 @@ static void configure_swimmer( avatar &swimmer, const move_mode_id move_mode,
         swimmer.toggle_trait( trait_id( trait ) );
     }
 
-    for( const std::string &worn : config.gear.worn ) {
+    for( const itype_id &worn : config.gear.worn ) {
         swimmer.wear_item( item( worn ), false );
     }
 
@@ -945,7 +963,7 @@ TEST_CASE( "export_scenario_swim_move_cost_and_distance_values", "[.]" )
     avatar &dummy = get_avatar();
 
     std::ofstream testfile;
-    testfile.open( fs::u8path( "swim-scenarios.csv" ), std::ofstream::trunc );
+    testfile.open( std::filesystem::u8path( "swim-scenarios.csv" ), std::ofstream::trunc );
     testfile << "scenario, move cost, steps" << std::endl;
 
     for( const swim_scenario &scenario : generate_scenarios() ) {
@@ -970,7 +988,7 @@ TEST_CASE( "export_profession_swim_cost_and_distance", "[.]" )
     avatar &dummy = get_avatar();
 
     std::ofstream testfile;
-    testfile.open( fs::u8path( "swim-profession.csv" ), std::ofstream::trunc );
+    testfile.open( std::filesystem::u8path( "swim-profession.csv" ), std::ofstream::trunc );
     testfile << "profession, move cost, steps" << std::endl;
 
     const std::vector<profession> &all = profession::get_all();
@@ -1006,7 +1024,7 @@ TEST_CASE( "export_swim_move_cost_and_distance_data", "[.]" )
     avatar &dummy = get_avatar();
 
     std::ofstream testfile;
-    testfile.open( fs::u8path( "swim-skill.csv" ), std::ofstream::trunc );
+    testfile.open( std::filesystem::u8path( "swim-skill.csv" ), std::ofstream::trunc );
     testfile << "athletics, move cost, steps" << std::endl;
     for( int i = 0; i <= 10; i++ ) {
         swimmer_config config( stats_map.at( "average" ), swimmer_skills{i}, gear_map.at( "none" ),
@@ -1016,7 +1034,7 @@ TEST_CASE( "export_swim_move_cost_and_distance_data", "[.]" )
     }
     testfile.close();
 
-    testfile.open( fs::u8path( "swim-strength.csv" ), std::ofstream::trunc );
+    testfile.open( std::filesystem::u8path( "swim-strength.csv" ), std::ofstream::trunc );
     testfile << "strength, move cost, steps" << std::endl;
     for( int i = 4; i <= 20; i++ ) {
         swimmer_config config( {i, 8}, skills_map.at( "none" ), gear_map.at( "none" ),
@@ -1026,7 +1044,7 @@ TEST_CASE( "export_swim_move_cost_and_distance_data", "[.]" )
     }
     testfile.close();
 
-    testfile.open( fs::u8path( "swim-dexterity.csv" ), std::ofstream::trunc );
+    testfile.open( std::filesystem::u8path( "swim-dexterity.csv" ), std::ofstream::trunc );
     testfile << "dexterity, move cost, steps" << std::endl;
     for( int i = 4; i <= 20; i++ ) {
         swimmer_config config( { 8, i }, skills_map.at( "none" ), gear_map.at( "none" ),

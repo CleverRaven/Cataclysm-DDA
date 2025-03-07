@@ -66,7 +66,8 @@
       [ [ "afs_circuitry_1", 4 ] ],
       [ [ "afs_energy_storage_3", 1 ] ],
       [ [ "afs_material_1", 7 ] ]
-    ]
+    ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ]
   },
   {
     "result": "bot_utilibot_beehive",
@@ -79,7 +80,8 @@
       [ [ "afs_energy_storage_3", 1 ] ],
       [ [ "afs_material_1", 8 ] ],
       [ [ "robot_controls", 1 ] ]
-    ]
+    ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ]
   },
   {
     "type": "recipe",
@@ -113,6 +115,35 @@
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "lens", 1 ] ]
+    ]
+  },
+  {
+    "result": "bot_shock_mine",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "electronics",
+    "decomp_learn": 6,
+    "reversible": true,
+    "difficulty": 4,
+    "time": "30 m",
+    "using": [ [ "soldering_standard", 3 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "sensor_module", 1 ] ],
+      [ [ "afs_material_1", 10 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "afs_energy_storage_3", 1 ] ],
+      [ [ "canister_empty", 1 ] ],
+      [ [ "cable", 60 ] ],
+      [ [ "afs_heat_1", 1 ] ]
     ]
   },
   {

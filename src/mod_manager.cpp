@@ -1,18 +1,19 @@
 #include "mod_manager.h"
 
 #include <algorithm>
+#include <filesystem>
 #include <functional>
 #include <iterator>
 #include <memory>
 #include <ostream>
 #include <queue>
-#include <type_traits>
 
 #include "assign.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "dependency_tree.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "json.h"
 #include "localized_comparator.h"
 #include "path_info.h"
@@ -154,6 +155,10 @@ void mod_manager::clear()
 void mod_manager::refresh_mod_list()
 {
     clear();
+
+    if( !dir_exist( PATH_INFO::user_moddir() ) ) {
+        assure_dir_exist( PATH_INFO::user_moddir() );
+    }
 
     std::map<mod_id, std::vector<mod_id>> mod_dependency_map;
     load_mods_from( PATH_INFO::moddir() );

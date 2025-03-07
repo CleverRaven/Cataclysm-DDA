@@ -70,7 +70,7 @@
     "type": "item_group",
     "id": "NC_BUNKER_MERCHANT_misc",
     "items": [
-      { "group": "ammo_reloaded", "prob": 100 },
+      { "group": "ammo_common_boxed", "prob": 100 },
       { "group": "everyday_gear", "prob": 100 },
       { "group": "guns_survival", "prob": 100 },
       { "group": "tools_survival", "prob": 100 },

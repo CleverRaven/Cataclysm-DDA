@@ -1,0 +1,22 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_rock_troll_statue",
+    "name": "rock troll statue",
+    "description": "A massive block of stone in the shape of a rock troll, because it used to be a rock troll.",
+    "looks_like": "f_statue",
+    "symbol": "T",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "SIGN" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 2, 12 ] } ]
+    }
+  }
+]

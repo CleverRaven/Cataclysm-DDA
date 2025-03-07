@@ -95,6 +95,26 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_LOSE_PACT_OF_GREEN_IF_ATTACKING_TRIFFID",
+    "eoc_type": "EVENT",
+    "required_event": "monster_takes_damage",
+    "condition": { "and": [ { "u_has_species": "PLANT" }, "has_beta" ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_ARVORE_LOSE_PACT_OF_GREEN_IF_ATTACKING_TRIFFID_2",
+            "condition": {
+              "and": [ { "npc_has_trait": "ARVORE_TRIFFID_NEUTRALITY" }, { "not": { "npc_has_trait": "effect_arvore_attacked_a_triffid" } } ]
+            },
+            "effect": [ { "npc_add_effect": "effect_arvore_attacked_a_triffid", "duration": { "math": [ "10800 + rand(43200)" ] } } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_BRIARS_SELECTOR",
     "effect": [
       {
@@ -249,24 +269,25 @@
             "id": "EOC_ARVORE_WALK_WILDS_TELEPORT_ACTION",
             "effect": [
               {
-                "if": {
-                  "u_query_tile": "line_of_sight",
-                  "target_var": { "global_val": "arvore_walk_wilds_location" },
-                  "range": {
-                    "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1.5) + 5) * (scaling_factor(u_val('perception') ) ) )" ]
-                  },
-                  "z_level": false,
-                  "message": "Select tree to step to."
+                "u_query_tile": "line_of_sight",
+                "target_var": { "context_val": "arvore_walk_wilds_location" },
+                "range": {
+                  "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1.5) + 5) * (scaling_factor(u_val('perception') ) ) )" ]
                 },
+                "z_level": false,
+                "message": "Select tree to step to."
+              },
+              {
+                "if": { "math": [ "has_var(_arvore_walk_wilds_location)" ] },
                 "then": {
                   "if": {
                     "or": [
-                      { "map_terrain_with_flag": "TREE", "loc": { "global_val": "arvore_walk_wilds_location" } },
-                      { "map_terrain_with_flag": "YOUNG", "loc": { "global_val": "arvore_walk_wilds_location" } }
+                      { "map_terrain_with_flag": "TREE", "loc": { "context_val": "arvore_walk_wilds_location" } },
+                      { "map_terrain_with_flag": "YOUNG", "loc": { "context_val": "arvore_walk_wilds_location" } }
                     ]
                   },
                   "then": [
-                    { "u_teleport": { "global_val": "arvore_walk_wilds_location" }, "force": true },
+                    { "u_teleport": { "context_val": "arvore_walk_wilds_location" }, "force": true },
                     { "u_message": "You step into the tree and step out of another one nearby.", "type": "neutral" }
                   ],
                   "else": { "u_message": "You must select a tree to step to." }
@@ -376,7 +397,7 @@
         { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
       ]
     },
-    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_arvore", "use_item_group": true, "suppress_message": true },
     "false_effect": [ { "u_message": "You must be surrounded by the wild to call forth a goblin fruit.", "type": "bad" } ]
   },
   {
@@ -545,22 +566,26 @@
       { "math": [ "u_vitamin('instability') = 0" ] },
       { "math": [ "u_pain() = 0" ] },
       { "math": [ "u_val('rad') = 0" ] },
-      { "u_lose_effect": "corroding" },
-      { "u_lose_effect": "onfire" },
-      { "u_lose_effect": "dazed" },
-      { "u_lose_effect": "stunned" },
-      { "u_lose_effect": "venom_blind" },
-      { "u_lose_effect": "formication" },
-      { "u_lose_effect": "blisters" },
-      { "u_lose_effect": "frostbite" },
-      { "u_lose_effect": "frostbite_recovery" },
-      { "u_lose_effect": "wet" },
-      { "u_lose_effect": "slimed" },
-      { "u_lose_effect": "migo_atmosphere" },
-      { "u_lose_effect": "fetid_goop" },
-      { "u_lose_effect": "sap" },
-      { "u_lose_effect": "nausea" },
-      { "u_lose_effect": "bleed" }
+      {
+        "u_lose_effect": [
+          "corroding",
+          "onfire",
+          "dazed",
+          "stunned",
+          "venom_blind",
+          "formication",
+          "blisters",
+          "frostbite",
+          "frostbite_recovery",
+          "wet",
+          "slimed",
+          "migo_atmosphere",
+          "fetid_goop",
+          "sap",
+          "nausea",
+          "bleed"
+        ]
+      }
     ]
   },
   {
@@ -733,17 +758,14 @@
     "id": "EOC_ARVORE_TREE_SINGING",
     "effect": [
       {
-        "if": {
-          "u_query_tile": "around",
-          "target_var": { "global_val": "arvore_treesung_location" },
-          "message": "Select nearby tree"
-        },
-        "then": {
-          "if": { "map_terrain_with_flag": "TREE", "loc": { "global_val": "arvore_treesung_location" } },
-          "then": { "u_assign_activity": "ACT_ARVORE_TREESINGING", "duration": "45 minutes" },
-          "else": { "u_message": "You must be near a tree to treesing to it." }
-        },
-        "else": { "u_message": "Canceled" }
+        "u_choose_adjacent_highlight": { "context_val": "arvore_treesung_location" },
+        "condition": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "loc" } },
+        "message": "Select nearby tree",
+        "failure_message": "You must be near a tree to treesing to it"
+      },
+      {
+        "if": { "math": [ "has_var(_arvore_treesung_location)" ] },
+        "then": { "u_assign_activity": "ACT_ARVORE_TREESINGING", "duration": "45 minutes" }
       }
     ]
   },

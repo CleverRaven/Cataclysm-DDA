@@ -1,0 +1,137 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ZENIT_CONTROL",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "zenit_setup",
+            "condition": { "math": [ "u_setup != 1" ] },
+            "effect": [
+              { "math": [ "u_setup = 1" ] },
+              { "math": [ "u_timer_zenit_shock_mines = 0" ] },
+              { "math": [ "u_timer_zenit_shock_att  = 0" ] },
+              { "math": [ "u_timer_zenit_smoke  = 0" ] }
+            ]
+          }
+        ]
+      },
+      { "u_location_variable": { "context_val": "my_loc" } },
+      { "npc_location_variable": { "context_val": "t_loc" } },
+      { "math": [ "_distance = distance('u', 'npc')" ] },
+      {
+        "switch": { "math": [ "_distance" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": [
+              { "run_eocs": [ "eoc_zenit_shock_mines" ] },
+              { "run_eocs": [ "eoc_zenit_smoke" ], "variables": { "tar": { "context_val": "my_loc" } } }
+            ]
+          },
+          {
+            "case": 6,
+            "effect": [ { "run_eocs": [ "eoc_zenit_shock_att" ], "variables": { "tar": { "context_val": "t_loc" } } } ]
+          },
+          { "case": 12, "effect": [ { "run_eocs": [ "eoc_zenit_def" ] } ] },
+          {
+            "case": 25,
+            "effect": [ { "run_eocs": [ "eoc_zenit_smoke", "eoc_zenit_def" ], "variables": { "tar": { "context_val": "t_loc" } } } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_zenit_def",
+    "type": "effect_on_condition",
+    "condition": { "not": { "npc_has_any_effect": [ "afs_ai_defensive" ] } },
+    "effect": [
+      { "u_add_effect": "afs_ai_defensive", "duration": "10 minutes" },
+      {
+        "run_eocs": [
+          {
+            "id": "avatar_sees_zenit_def",
+            "condition": "player_see_u",
+            "effect": [ { "message": "The Zenit crouches forward, hiding most of its body behind its upper armor plate." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_zenit_undef",
+    "type": "effect_on_condition",
+    "condition": { "and": [ { "u_has_any_effect": [ "afs_ai_defensive" ] } ] },
+    "effect": [
+      { "u_lose_effect": "afs_ai_defensive" },
+      {
+        "run_eocs": [
+          {
+            "id": "avatar_sees_zenit_undef",
+            "condition": "player_see_u",
+            "effect": [ { "message": "The Zenit raises its body." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_zenit_shock_att",
+    "type": "effect_on_condition",
+    "condition": { "and": [ { "expects_vars": [ "tar" ] }, { "math": [ "time_since(u_timer_zenit_shock_att) > time(' 12 s')" ] } ] },
+    "effect": [
+      { "run_eocs": [ "eoc_zenit_undef" ], "alpha_talker": "u" },
+      { "math": [ "u_timer_zenit_shock_att = time('now')" ] },
+      { "u_cast_spell": { "id": "spell_electric_chain_2" }, "loc": { "context_val": "tar" } },
+      {
+        "run_eocs": [
+          {
+            "id": "avatar_sees_zenit_shock_att",
+            "condition": "player_see_u",
+            "effect": [ { "message": "The Zenit emits an explosion of arcing electricity." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_zenit_shock_mines",
+    "type": "effect_on_condition",
+    "condition": { "and": [ { "math": [ "time_since(u_timer_zenit_shock_mines) > time(' 5 m')" ] } ] },
+    "effect": [
+      { "run_eocs": [ "eoc_zenit_undef" ], "alpha_talker": "u" },
+      { "math": [ "u_timer_zenit_shock_mines = time('now')" ] },
+      { "u_spawn_monster": "mon_shock_mine", "real_count": 30, "min_radius": 5, "max_radius": 13 },
+      {
+        "run_eocs": [
+          {
+            "id": "avatar_sees_zenit_shock_mines",
+            "condition": "player_see_u",
+            "effect": [ { "message": "Several mines are expelled from the Zenit's munitions bay" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eoc_zenit_smoke",
+    "type": "effect_on_condition",
+    "condition": { "and": [ { "expects_vars": [ "tar" ] }, { "math": [ "time_since(u_timer_zenit_smoke) > time(' 40 s')" ] } ] },
+    "effect": [
+      { "run_eocs": [ "eoc_zenit_undef" ], "alpha_talker": "u" },
+      { "math": [ "u_timer_zenit_smoke = time('now')" ] },
+      { "u_cast_spell": { "id": "quadraphract_smoke_mortar" }, "loc": { "context_val": "tar" } },
+      {
+        "run_eocs": [
+          {
+            "id": "avatar_sees_zenit_smoke",
+            "condition": "player_see_u",
+            "effect": [ { "message": "Several bomblets are expelled from the Zenit's munitions bay" } ]
+          }
+        ]
+      }
+    ]
+  }
+]

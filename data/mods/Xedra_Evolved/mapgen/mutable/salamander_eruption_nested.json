@@ -1,0 +1,314 @@
+[
+  {
+    "type": "palette",
+    "id": "salamander_eruption_palette",
+    "terrain": { "#": "t_obsidian_wall", " ": "t_obsidian_floor", "$": "t_obsidian_roof" },
+    "furniture": { "$": "f_boulder_large" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "spiral_cw",
+    "object": {
+      "palettes": [ "salamander_eruption_palette" ],
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "######",
+        "     #",
+        "#### #",
+        "#  # #",
+        "#    #",
+        "######"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "spiral_ccw",
+    "object": {
+      "palettes": [ "salamander_eruption_palette" ],
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "######",
+        "#     ",
+        "# ####",
+        "# #  #",
+        "#    #",
+        "######"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "spiral_boulder_cw",
+    "object": {
+      "palettes": [ "salamander_eruption_palette" ],
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "$$$$$$",
+        "     $",
+        "$$$$ $",
+        "$  $ $",
+        "$    $",
+        "$$$$$$"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "spiral_boulder_ccw",
+    "object": {
+      "palettes": [ "salamander_eruption_palette" ],
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "$$$$$$",
+        "$     ",
+        "$ $$$$",
+        "$ $  $",
+        "$    $",
+        "$$$$$$"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "salamander_tunnel_entrance",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "     ## ",
+        "      ##",
+        "        ",
+        "        ",
+        "#       ",
+        "##      ",
+        "###     ",
+        "###     "
+      ],
+      "terrain": { " ": "t_rock_floor", "#": "t_rock" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "//": "walls of tunnel that can shift from side to side to make the tunnel wind",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "salamander_tunnel_bounds_h",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "###№      №###",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "terrain": { "#": "t_rock", "№": [ [ "t_salamander_veins", 10 ], [ "t_rock", 90 ] ] }
+    }
+  },
+  {
+    "//": "walls of tunnel that can shift from side to side to make the tunnel wind",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "salamander_tunnel_bounds_h1",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "###№          ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "terrain": { "#": "t_rock", "№": [ [ "t_salamander_veins", 10 ], [ "t_rock", 90 ] ] }
+    }
+  },
+  {
+    "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "salamander_tunnel_bounds_v",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "#             ",
+        "#             ",
+        "#             ",
+        "№             ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "№             ",
+        "#             ",
+        "#             ",
+        "#             "
+      ],
+      "terrain": { "#": "t_rock", "№": [ [ "t_salamander_veins", 10 ], [ "t_rock", 90 ] ] }
+    }
+  },
+  {
+    "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "salamander_tunnel_bounds_v1",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "#             ",
+        "#             ",
+        "#             ",
+        "№             ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "terrain": { "#": "t_rock", "№": [ [ "t_salamander_veins", 10 ], [ "t_rock", 90 ] ] }
+    }
+  },
+  {
+    "//": "walls of mine tunnel that can shift from side to side to make the tunnel wind",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "salamander_tunnel_bounds_v2",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "№             ",
+        "#             ",
+        "#             ",
+        "#             "
+      ],
+      "terrain": { "#": "t_rock", "№": [ [ "t_salamander_veins", 10 ], [ "t_rock", 90 ] ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "salamander_sinkhole",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_terrain": [ { "ter": "t_obsidian_floor", "x": 0, "y": 0 } ],
+      "place_traps": [ { "trap": "tr_sinkhole", "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "salamander_toxic_gas",
+    "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_gas_vent", "x": 0, "y": 0, "intensity": 2, "age": 20 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fallen_adventurer",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_items": [ { "item": "map_extra_fallen_adventurer", "x": [ 0, 0 ], "y": [ 0, 0 ], "chance": 100 } ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 0 ], "y": [ 0, 0 ] }, { "field": "fd_gibs_flesh", "x": [ 0, 0 ], "y": [ 0, 0 ] } ]
+    }
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "map_extra_fallen_adventurer",
+    "//": "Nested group to damage the container-item",
+    "entries": [ { "group": "map_extra_fallen_adventurer_corpse", "prob": 100, "damage": [ 3, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "map_extra_fallen_adventurer_corpse",
+    "container-item": "corpse_fae",
+    "entries": [ { "group": "changeling_bannerman_death_drops", "prob": 100 } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mine_lava",
+    "object": {
+      "palettes": [ "salamander_eruption_palette" ],
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "*   ",
+        "**  ",
+        " ** ",
+        "  **"
+      ],
+      "terrain": { "*": "t_lava" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "//": "slopes down to be used where appropriate",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "transition_down",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "<<",
+        "<<"
+      ],
+      "terrain": { "<": "t_slope_down" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "//": "slopes up to be used where appropriate",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "transition_up",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        ">>",
+        ">>"
+      ],
+      "terrain": { ">": "t_slope_up" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

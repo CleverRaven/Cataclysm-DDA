@@ -100,7 +100,7 @@
         "0": "f_afs_shuttle_manuevering_thruster"
       },
       "items": {
-        "T": { "item": "afs_wraitheon_smart_rifle_cache", "chance": 100 },
+        "T": { "item": "afs_wraitheon_carsh_site_cache", "chance": 100 },
         ",": { "item": "afs_shuttle_debris", "chance": 30 },
         "#": { "item": "afs_shuttle_debris", "chance": 6 }
       },

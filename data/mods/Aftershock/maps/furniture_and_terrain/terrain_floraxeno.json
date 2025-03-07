@@ -80,7 +80,7 @@
     "color": "red",
     "move_cost": 3,
     "coverage": 20,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "GRAZABLE" ],
     "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "yum_lichen_harv" } ],
     "transforms_into": "t_lichen_harvested",
@@ -123,7 +123,7 @@
     "move_cost_mod": 8,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHORT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHORT", "SHRUB" ],
     "bash": {
       "str_min": 4,
       "str_max": 61,

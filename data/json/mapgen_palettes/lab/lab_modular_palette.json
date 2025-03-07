@@ -112,7 +112,7 @@
       "ɤ": "f_counter_gate_c"
     },
     "items": {
-      "Y": [ { "item": "trash", "chance": 20, "repeat": [ 1, 3 ] } ],
+      "Y": [ { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 3 ] } ],
       "P": [ { "item": "file_room", "chance": 100, "repeat": [ 3, 4 ] }, { "item": "low_level_badges_mutagen", "chance": 10 } ],
       "o": [ { "item": "saline_bottle_random", "chance": 100 } ],
       "8": [
@@ -120,7 +120,8 @@
         { "item": "SUS_bathroom_cabinet", "chance": 20 },
         { "item": "SUS_bathroom_medicine", "chance": 20 },
         { "item": "harddrugs", "chance": 2 }
-      ]
+      ],
+      "t": { "item": "SUS_toilet", "chance": 50 }
     }
   },
   {
@@ -231,7 +232,7 @@
         { "item": "camping", "chance": 5, "repeat": [ 1, 2 ] }
       ],
       "V": { "item": "home_display_case", "chance": 50 },
-      "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] },
       "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
       "2": { "item": "SUS_cookware", "chance": 100 },
       "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
@@ -266,7 +267,12 @@
     "terrain": { ";": "t_thconc_floor", "1": "t_elevator_control_off", "2": "t_elevator", "7": "t_sewage_pump", "0": "t_sewage_pipe" },
     "furniture": {
       "ƃ": "f_warehouse_shelf",
-      "W": "f_generator_broken",
+      "W": [
+        [ "f_generator_broken", 25 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "Z": "f_control_station",
       "₸": "f_machinery_electronic",
       "≠": [ "f_foot_locker", "f_foot_locker_aluminum" ],
@@ -299,7 +305,13 @@
       "2": "t_elevator"
     },
     "furniture": {
-      "W": "f_generator_broken",
+      "W": [
+        [ "f_generator_broken", 25 ],
+        [ "f_portable_generator", 5 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "Z": "f_control_station",
       "₸": "f_machinery_electronic",
       "≠": [ "f_foot_locker", "f_foot_locker_aluminum" ],
@@ -337,7 +349,13 @@
     "//": "for mutagen research areas of labs.",
     "palettes": [ "lab_common_palette" ],
     "furniture": {
-      "W": "f_generator_broken",
+      "W": [
+        [ "f_generator_broken", 25 ],
+        [ "f_portable_generator", 5 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "Z": "f_control_station",
       "₸": "f_machinery_electronic",
       "1": "f_CTscan",
@@ -441,7 +459,7 @@
         { "item": "supplies_reagents_lab", "chance": 5, "repeat": [ 1, 2 ] }
       ],
       "V": { "item": "mut_lab", "chance": 50 },
-      "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] },
       "8": [
         { "item": "SUS_bathroom_cabinet", "chance": 30 },
         { "item": "SUS_bathroom_medicine", "chance": 40 },
@@ -462,7 +480,13 @@
     "//": "for normal medical clinic areas of labs.",
     "terrain": { "1": "t_elevator_control_off", "2": "t_elevator" },
     "furniture": {
-      "W": "f_generator_broken",
+      "W": [
+        [ "f_generator_broken", 25 ],
+        [ "f_portable_generator", 5 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "ɔ": "f_autodoc",
       "Я": "f_autodoc_couch",
       "Z": "f_control_station",
@@ -561,7 +585,7 @@
         { "item": "supplies_reagents_lab", "chance": 5, "repeat": [ 1, 2 ] }
       ],
       "V": { "item": "softdrugs", "chance": 50 },
-      "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+      "Y": { "item": "SUS_trash_trashcan", "chance": 30, "repeat": [ 1, 4 ] },
       "8": [
         { "item": "SUS_bathroom_cabinet", "chance": 30 },
         { "item": "SUS_bathroom_medicine", "chance": 40 },

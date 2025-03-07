@@ -1,26 +1,34 @@
-#include <iosfwd>
-#include <list>
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "flag.h"
 #include "game.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "options_helpers.h"
 #include "player_helpers.h"
-#include "test_statistics.h"
+#include "point.h"
 #include "type_id.h"
+#include "weather_type.h"
 
 static const efftype_id effect_grabbed( "grabbed" );
+
+static const itype_id itype_test_hazmat_suit( "test_hazmat_suit" );
+static const itype_id itype_test_longshirt( "test_longshirt" );
+static const itype_id itype_test_sunglasses( "test_sunglasses" );
+static const itype_id itype_test_umbrella( "test_umbrella" );
+static const itype_id itype_test_zentai( "test_zentai" );
 
 static const ter_str_id ter_t_rock_wall( "t_rock_wall" );
 
@@ -115,19 +123,19 @@ TEST_CASE( "suffering_from_albinism", "[char][suffer][albino]" )
     // The values should still be correct
 
     // Need sunglasses to protect the eyes, no matter how covered the rest of the body is
-    item shades( "test_sunglasses" );
+    item shades( itype_test_sunglasses );
     // Umbrella can protect completely
-    item umbrella( "test_umbrella" );
+    item umbrella( itype_test_umbrella );
 
     // hazmat suit has 100% coverage, but eyes and mouth are exposed
-    item hazmat( "test_hazmat_suit" );
+    item hazmat( itype_test_hazmat_suit );
     // zentai has 100% coverage over all body parts
-    item zentai( "test_zentai" );
+    item zentai( itype_test_zentai );
     // long-sleeve shirt has 90% coverage on torso and arms
-    item longshirt( "test_longshirt" );
+    item longshirt( itype_test_longshirt );
 
     GIVEN( "avatar is in sunlight with the albino trait" ) {
-        REQUIRE( g->is_in_sunlight( dummy.pos() ) );
+        REQUIRE( g->is_in_sunlight( dummy.pos_bub() ) );
 
         dummy.toggle_trait( trait_ALBINO );
         REQUIRE( dummy.has_trait( trait_ALBINO ) );
@@ -219,13 +227,13 @@ TEST_CASE( "suffering_from_sunburn", "[char][suffer][sunburn]" )
     int focus_lost = 0;
     int pain_felt = 0;
 
-    item shades( "test_sunglasses" );
-    item umbrella( "test_umbrella" );
-    item zentai( "test_zentai" );
-    item longshirt( "test_longshirt" );
+    item shades( itype_test_sunglasses );
+    item umbrella( itype_test_umbrella );
+    item zentai( itype_test_zentai );
+    item longshirt( itype_test_longshirt );
 
     GIVEN( "avatar is in sunlight with the solar sensitivity trait" ) {
-        REQUIRE( g->is_in_sunlight( dummy.pos() ) );
+        REQUIRE( g->is_in_sunlight( dummy.pos_bub() ) );
 
         dummy.toggle_trait( trait_SUNBURN );
         REQUIRE( dummy.has_trait( trait_SUNBURN ) );

@@ -1,29 +1,46 @@
+#include <algorithm>
+#include <cmath>
+#include <cstdio>
+#include <functional>
+#include <list>
+#include <map>
 #include <memory>
+#include <optional>
+#include <regex>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
 #include <vector>
 
-#include "all_enum_values.h"
-#include "ammo.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "city.h"
 #include "common_types.h"
 #include "coordinates.h"
+#include "debug.h"
 #include "enums.h"
 #include "game.h"
-#include "game_constants.h"
 #include "global_vars.h"
+#include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapbuffer.h"
 #include "omdata.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
+#include "point.h"
+#include "recipe.h"
+#include "rng.h"
 #include "test_data.h"
 #include "type_id.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -393,7 +410,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     g->place_player_overmap( { project_to<coords::omt>( overmap_origin + ( 6 * point::north_west ) ), 0 } );
     // Don't inherit overmap state from initialization or previous tests.
     overmap_buffer.clear();
-    for( int i = 0; i < 7; ++i ) {
+    for( int attempt_no = 0; attempt_no < 3; ++attempt_no ) {
         // First we just touch all the overmaps in an area to cause them to generate.
         for( const point_abs_om &om_cur : closest_points_first( overmap_origin, 0, 3 ) ) {
             point_abs_omt omt_start = project_to<coords::omt>( om_cur );
@@ -500,9 +517,17 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
 
             if( found ) {
                 FAIL( "oter_type_id was found in map but had SHOULD_NOT_SPAWN flag" );
-            } else if( !test_data::overmap_terrain_coverage_whitelist.count( id ) &&
-                       !id->has_flag( oter_flags::ocean ) ) {
-                missing.push_back( id );
+            } else {
+                bool is_whitelisted = id->has_flag( oter_flags::ocean );
+                for( const std::regex &wl : test_data::overmap_terrain_coverage_whitelist ) {
+                    std::cmatch m;
+                    is_whitelisted = is_whitelisted || (
+                                         // ensure the full string matches. Don't accept substrings.
+                                         std::regex_match( id_s.c_str(), m, wl ) && m.prefix().length() == 0 && m.suffix().length() == 0 );
+                }
+                if( !is_whitelisted ) {
+                    missing.emplace_back( id_s );
+                }
             }
         }
     }

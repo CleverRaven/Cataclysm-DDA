@@ -284,7 +284,7 @@
         { "monster": "GROUP_NECROPOLIS_VAULT", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
       ],
-      "place_vehicles": [ { "vehicle": "humvee", "x": 42, "y": 20, "chance": 100, "rotation": 270 } ]
+      "place_vehicles": [ { "vehicle": "humvee", "x": 42, "y": 20, "rotation": 270 } ]
     }
   },
   {
@@ -504,7 +504,7 @@
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
         { "monster": "GROUP_NECROPOLIS_SEWERS", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
       ],
-      "place_vehicles": [ { "vehicle": "humvee", "x": 13, "y": 16, "chance": 100, "rotation": 270 } ]
+      "place_vehicles": [ { "vehicle": "humvee", "x": 13, "y": 16, "rotation": 270 } ]
     }
   },
   {

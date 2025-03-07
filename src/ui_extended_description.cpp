@@ -1,12 +1,20 @@
 #include "ui_extended_description.h"
 
+#include <imgui/imgui.h>
+
 #include "character.h"
+#include "color.h"
+#include "creature.h"
 #include "creature_tracker.h"
-#include "faction.h"
 #include "map.h"
+#include "mapdata.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "type_id.h"
 #include "ui_manager.h"
-#include "vehicle.h"
-#include "veh_type.h"
+#include "viewer.h"
+#include "vpart_position.h"
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
@@ -30,8 +38,10 @@ static description_target &operator--( description_target &c )
 
 static const Creature *seen_critter( const tripoint_bub_ms &p )
 {
+    const map &here = get_map();
+
     const Creature *critter = get_creature_tracker().creature_at( p, true );
-    if( critter != nullptr && get_player_view().sees( *critter ) ) {
+    if( critter != nullptr && get_player_view().sees( here, *critter ) ) {
         return critter;
     }
 
@@ -77,6 +87,8 @@ extended_description_window::extended_description_window( tripoint_bub_ms &p ) :
                        ImGuiWindowFlags_NoNavInputs ),
     p( p )
 {
+    const map &here = get_map();
+
     ctxt = input_context( "EXTENDED_DESCRIPTION" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
@@ -93,25 +105,25 @@ extended_description_window::extended_description_window( tripoint_bub_ms &p ) :
     if( critter ) {
         creature_description = critter->extended_description();
     }
-    bool sees = get_player_character().sees( p );
-    const furn_id &furn = get_map().furn( p );
+    bool sees = get_player_character().sees( here, p );
+    const furn_id &furn = here.furn( p );
     if( sees && furn ) {
         furniture_description = furn->extended_description();
     }
-    const ter_id &ter = get_map().ter( p );
+    const ter_id &ter = here.ter( p );
     if( sees && ter ) {
         terrain_description = ter->extended_description();
     }
-    const optional_vpart_position &vp = get_map().veh_at( p );
+    const optional_vpart_position &vp = here.veh_at( p );
     if( sees && vp ) {
         veh_app_description = vp.extended_description();
     }
 
     if( critter ) {
         switch_target = description_target::creature;
-    } else if( get_map().has_furn( p ) ) {
+    } else if( here.has_furn( p ) ) {
         switch_target = description_target::furniture;
-    } else if( get_map().veh_at( p ) ) {
+    } else if( here.veh_at( p ) ) {
         switch_target = description_target::vehicle;
     }
 

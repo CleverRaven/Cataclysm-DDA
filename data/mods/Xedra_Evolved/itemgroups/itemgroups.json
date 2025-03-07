@@ -267,6 +267,19 @@
   },
   {
     "type": "item_group",
+    "id": "bannerlord_armor",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mt_chainmail_arms", "prob": 45 },
+      { "item": "mt_chainmail_hood", "prob": 45 },
+      { "item": "mt_chainmail_hands", "prob": 45 },
+      { "item": "mt_chainmail_legs", "prob": 45 },
+      { "item": "mt_chainmail_vest", "prob": 45 },
+      { "item": "mt_chainmail_feet", "prob": 45 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "redcap_armor",
     "subtype": "distribution",
     "entries": [
