@@ -1,0 +1,22 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_iso_eldritch_cold_damage_blast",
+    "name": [ "Void-chilled" ],
+    "desc": [ "You are frozen to the bone." ],
+    "rating": "bad",
+    "show_in_info": true,
+    "remove_message": "The chill fades away.",
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.15 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_iso_eldritch_imprisonment",
+    "name": [ "The Adamantine Gaol of Emthys" ],
+    "desc": [ "You are totally immobile and invulnerable." ],
+    "rating": "bad",
+    "show_in_info": true,
+    "remove_message": "You can move again.",
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE", "CANNOT_TAKE_DAMAGE" ]
+  }
+]

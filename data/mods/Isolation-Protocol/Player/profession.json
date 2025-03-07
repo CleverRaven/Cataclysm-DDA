@@ -255,13 +255,15 @@
       { "level": 2, "name": "dodge" },
       { "level": 7, "name": "speech" }
     ],
-    "traits": [ "iso_trait", "iso_eldritch_sorcery", "ELFA_EARS" ],
+    "spells": [ { "id": "iso_eldritch_basic_attack", "level": 2 } ],
+    "traits": [ "iso_trait", "iso_eldritch_sorcery", "ELFA_EARS", "BEAUTIFUL3", "LIGHTSTEP" ],
     "items": {
       "both": {
         "entries": [
           { "item": "iso_sorcerers_staff" },
           { "item": "iso_sorcerers_robe" },
-          { "item": "socks_wool" },
+          { "item": "cloak_black" },
+          { "item": "leather_pouch" },
           { "item": "boots" },
           { "item": "loincloth" }
         ]

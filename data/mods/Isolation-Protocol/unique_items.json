@@ -130,7 +130,7 @@
     "copy-from": "q_staff",
     "looks_like": "rune_magus_weapon",
     "name": { "str_sp": "Blackstaff" },
-    "description": "An enchanted staff, with diamonds and starmetal on the end to facilitate the channeling of arcane energies.  If lost, it will always return to you.",
+    "description": "An enchanted ebony staff, with diamonds and starmetal on the end to facilitate the channeling of arcane energies.  If lost, it will always return to you.",
     "weight": "1530 g",
     "volume": "1550 ml",
     "longest_side": "185 cm",

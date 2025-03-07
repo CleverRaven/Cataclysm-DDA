@@ -138,6 +138,77 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ISO_LAST_SCION_LEVEL_SPELLS",
-    "condition": { "u_has_trait": "iso_eldritch_sorcery" }
+    "//": "Unfortunately there's no current way to iterate through known spells other than doing it individually",
+    "condition": { "u_has_trait": "iso_eldritch_sorcery" },
+    "effect": [
+      {
+        "if": { "math": [ "u_spell_level('iso_eldritch_basic_attack') < 30" ] },
+        "then": { "math": [ "u_spell_level('iso_eldritch_basic_attack')", "+=", "1" ] }
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_spell_level('iso_eldritch_cone_lightning') > 0" ] },
+            { "math": [ "u_spell_level('iso_eldritch_cone_lightning') < 30" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "u_spell_level('iso_eldritch_cone_lightning')", "+=", "1" ] },
+          {
+            "math": [ "u_iso_eldritch_cone_lightning_level_tracker == u_spell_level('iso_eldritch_cone_lightning')" ]
+          }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_spell_level('iso_eldritch_cold_damage_blast') > 0" ] },
+            { "math": [ "u_spell_level('iso_eldritch_cold_damage_blast') < 30" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "u_spell_level('iso_eldritch_cold_damage_blast')", "+=", "1" ] },
+          {
+            "math": [ "u_iso_eldritch_cold_damage_blast_level_tracker == u_spell_level('iso_eldritch_cold_damage_blast')" ]
+          }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_spell_level('iso_eldritch_blink') > 0" ] },
+            { "math": [ "u_spell_level('iso_eldritch_blink') < 30" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "u_spell_level('iso_eldritch_blink')", "+=", "1" ] },
+          { "math": [ "u_iso_eldritch_blink_level_tracker == u_spell_level('iso_eldritch_blink')" ] }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_spell_level('iso_eldritch_polymorph') > 0" ] },
+            { "math": [ "u_spell_level('iso_eldritch_polymorph') < 30" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "u_spell_level('iso_eldritch_polymorph')", "+=", "1" ] },
+          { "math": [ "u_iso_eldritch_polymorph_level_tracker == u_spell_level('iso_eldritch_polymorph')" ] }
+        ]
+      },
+      {
+        "if": {
+          "and": [
+            { "math": [ "u_spell_level('iso_eldritch_imprisonment') > 0" ] },
+            { "math": [ "u_spell_level('iso_eldritch_imprisonment') < 30" ] }
+          ]
+        },
+        "then": [
+          { "math": [ "u_spell_level('iso_eldritch_imprisonment')", "+=", "1" ] },
+          { "math": [ "u_iso_eldritch_imprisonment_level_tracker == u_spell_level('iso_eldritch_imprisonment')" ] }
+        ]
+      }
+    ]
   }
 ]
