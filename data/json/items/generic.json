@@ -3581,6 +3581,16 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_turret_searchlight",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken milspec searchlight" },
+    "weight": "117 kg",
+    "volume": "108500 ml",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
     "id": "fire_brick",
     "symbol": ",",
     "color": "brown",
