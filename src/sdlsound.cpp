@@ -236,35 +236,35 @@ int bool_or( const std::optional<bool> &opt, int defl )
 } // namespace
 
 struct sfx_map {
-        void clear() {
-            effects.clear();
-        }
+    void clear() {
+        effects.clear();
+    }
 
-        std::vector<sound_effect> &operator[]( const sfx_args &key ) {
-            return emplace_sfx( effects, key.id, key.variant, season_from_string( key.season ),
-                                in_or_out_from_int( bool_or( key.indoors, -1 ) ), tod_from_int( bool_or( key.night, -1 ) ) );
-        }
+    std::vector<sound_effect> &operator[]( const sfx_args &key ) {
+        return emplace_sfx( effects, key.id, key.variant, season_from_string( key.season ),
+                            in_or_out_from_int( bool_or( key.indoors, -1 ) ), tod_from_int( bool_or( key.night, -1 ) ) );
+    }
 
-        const std::vector<sound_effect> *find( const sfx_args &key ) const {
-            return find_sfx( effects, key.id, key.variant, season_from_string( key.season ),
-                             in_or_out_from_int( bool_or( key.indoors, -1 ) ), tod_from_int( bool_or( key.night, -1 ) ) );
-        }
+    const std::vector<sound_effect> *find( const sfx_args &key ) const {
+        return find_sfx( effects, key.id, key.variant, season_from_string( key.season ),
+                         in_or_out_from_int( bool_or( key.indoors, -1 ) ), tod_from_int( bool_or( key.night, -1 ) ) );
+    }
 
-        std::vector<sound_effect> *end() const {
-            return nullptr;
-        }
+    std::vector<sound_effect> *end() const {
+        return nullptr;
+    }
 
-        const std::vector<sound_effect> *find( const std::string &id, const std::string &variant,
-                                               const std::string &season, const std::optional<bool> &is_indoors,
-                                               const std::optional<bool> &is_night ) const {
-            return find_closest_sfx( effects, id, "", variant, "default", season_from_string( season ),
-                                     sfx_season::NONE, in_or_out_from_int( bool_or( is_indoors, -1 ) ), sfx_in_or_out::EITHER,
-                                     tod_from_int( bool_or( is_night, -1 ) ), sfx_time_of_day::ANY );
-        }
+    const std::vector<sound_effect> *find( const std::string &id, const std::string &variant,
+                                           const std::string &season, const std::optional<bool> &is_indoors,
+                                           const std::optional<bool> &is_night ) const {
+        return find_closest_sfx( effects, id, "", variant, "default", season_from_string( season ),
+                                 sfx_season::NONE, in_or_out_from_int( bool_or( is_indoors, -1 ) ), sfx_in_or_out::EITHER,
+                                 tod_from_int( bool_or( is_night, -1 ) ), sfx_time_of_day::ANY );
+    }
 
-    private:
-        std::map<std::string, std::map<std::string, std::map<sfx_season, std::map<sfx_in_or_out, std::map<sfx_time_of_day, std::vector<sound_effect>>>>>>
-        effects;
+private:
+    std::map<std::string, std::map<std::string, std::map<sfx_season, std::map<sfx_in_or_out, std::map<sfx_time_of_day, std::vector<sound_effect>>>>>>
+    effects;
 
 };
 
@@ -744,19 +744,19 @@ struct sound_effect_handler {
             int num_source_samples = handler->audio_src->alen / bytes_per_sample;
 
             for( int dst_index = 0; dst_index < len / bytes_per_sample &&
-                 handler->current_sample_index < num_source_samples; dst_index++ ) {
+                    handler->current_sample_index < num_source_samples; dst_index++ ) {
                 int low_index = std::floor( handler->current_sample_index );
                 int high_index = std::ceil( handler->current_sample_index );
                 if( high_index == num_source_samples ) {
                     high_index = 0;    // make sound wrap around
                 }
                 if( low_index ==
-                    num_source_samples ) { // when time isn't slowed, low_index will probably always equal high_index and thus require the same treatment
+                        num_source_samples ) { // when time isn't slowed, low_index will probably always equal high_index and thus require the same treatment
                     low_index = 0;
                 }
 
                 for( int ear_offset = 0; ear_offset < 4;
-                     ear_offset += 2 ) { // have to handle each ear seperately for stereo audio
+                        ear_offset += 2 ) { // have to handle each ear seperately for stereo audio
                     sample low_value;
                     sample high_value;
 
@@ -836,7 +836,7 @@ struct sound_effect_handler {
             // (on_finish would still be required)
             int out = Mix_RegisterEffect( channel, slowed_time_effect, on_finish, handler );
             if( out ==
-                0 ) { // returns zero if SDL failed to setup the effect, meaning we better cancel the sound.
+                    0 ) { // returns zero if SDL failed to setup the effect, meaning we better cancel the sound.
                 // To prevent use after free, stop the playback right now.
                 failed = true;
                 dbg( D_WARNING ) << "Mix_RegisterEffect failed: " << Mix_GetError();
