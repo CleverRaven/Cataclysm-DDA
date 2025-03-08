@@ -167,6 +167,10 @@
         { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 2, 12 ], "y": [ 5, 10 ], "density": 0.02, "repeat": [ 2, 3 ] },
         { "monster": "GROUP_MI-GO_BASE_BOSS", "x": [ 12, 13 ], "y": [ 7, 8 ], "density": 0.01, "repeat": [ 0, 1 ] },
         { "monster": "GROUP_MI-GO_PRISONERS", "x": [ 2, 8 ], "y": [ 3, 10 ], "density": 0.02, "repeat": [ 2, 3 ] }
+      ],
+      "place_monster": [
+        { "monster": "mon_mi_go_guard_human", "x": 4, "y": 7, "chance": 25 },
+        { "monster": "mon_mi_go_experiment", "x": 9, "y": 11, "chance": 30 }
       ]
     }
   },
@@ -484,7 +488,8 @@
         "4": { "class": "mi-go_prisoner" },
         "6": { "class": "mi-go_prisoner" }
       },
-      "place_monsters": [ { "monster": "GROUP_MI-GO_PRISONERS", "x": [ 2, 8 ], "y": [ 3, 10 ], "density": 0.02, "repeat": [ 2, 3 ] } ]
+      "place_monsters": [ { "monster": "GROUP_MI-GO_PRISONERS", "x": [ 2, 8 ], "y": [ 3, 10 ], "density": 0.02, "repeat": [ 2, 3 ] } ],
+      "place_monster": [ { "monster": "mon_mi_go_experiment", "x": 10, "y": 5, "chance": 30 } ]
     }
   }
 ]

@@ -22,7 +22,12 @@
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
       { "trait": "SCHIZOPHRENIC", "prob": 25 },
-      { "trait": "FORGETFUL", "prob": 35 }
+      { "trait": "FORGETFUL", "prob": 35 },
+      { "trait": "MIGO_EXPERIMENT_MINOR", "prob": 40 },
+      { "trait": "MIGO_NEURAL_LINK", "prob": 15 },
+      { "trait": "MIGO_VISION", "prob": 20 },
+      { "trait": "FLIMSY", "prob": 30 },
+      { "trait": "UNSTABLE", "prob": 25 }
     ],
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 3 ] }, { "constant": -5 } ] } },
@@ -36,6 +41,14 @@
   {
     "type": "item_group",
     "id": "naked_prisoner"
+  },
+  {
+    "type": "effect_type",
+    "id": "comforted_mutations",
+    "name": [ "Accepted" ],
+    "desc": [ "You feel more at peace with the changes to your body." ],
+    "apply_message": "You feel more accepting of your changed body.",
+    "rating": "good"
   },
   {
     "type": "snippet",
@@ -134,7 +147,13 @@
             { "compare_string": [ "yes", { "npc_val": "mission_target", "default_str": "" } ] }
           ]
         }
-      },
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FRIEND",
+    "responses": [
       {
         "text": "How are you feeling?",
         "topic": "TALK_MI-GO_PRISONER_FEELINGS",
@@ -145,7 +164,135 @@
         "topic": "TALK_MI-GO_PRISONER_MIGO_INFO",
         "condition": { "compare_string": [ "yes", { "npc_val": "rescued_by_player", "default_str": "" } ] }
       },
-      { "text": "I'll be going now.", "topic": "TALK_DONE" }
+      {
+        "text": "Have you noticed any changes to your body since the experiments?",
+        "topic": "TALK_MI-GO_PRISONER_MUTATIONS",
+        "condition": {
+          "and": [
+            { "compare_string": [ "yes", { "npc_val": "rescued_by_player", "default_str": "" } ] },
+            {
+              "or": [
+                { "npc_has_trait": "MIGO_EXPERIMENT_MINOR" },
+                { "npc_has_trait": "MIGO_NEURAL_LINK" },
+                { "npc_has_trait": "MIGO_VISION" },
+                { "npc_has_trait": "FRAIL" },
+                { "npc_has_trait": "UNSTABLE" }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MI-GO_PRISONER_MUTATIONS",
+    "dynamic_line": {
+      "npc_has_trait": "MIGO_EXPERIMENT_MINOR",
+      "yes": "I've noticed some strange crystalline patches on my skin. They... they did something to me. Sometimes I feel phantom sensations, like something's crawling underneath.",
+      "no": {
+        "npc_has_trait": "MIGO_NEURAL_LINK",
+        "yes": "There's something at the base of my skull. I can feel it. Sometimes I get these... flashes of information. Like I can sense electronics or pick up signals. It's terrifying.",
+        "no": {
+          "npc_has_trait": "MIGO_VISION",
+          "yes": "My eyes... they changed my eyes. I can see in the dark better now, and sometimes I see colors that shouldn't be there. UV patterns on flowers, electromagnetic fields around power lines...",
+          "no": {
+            "npc_has_trait": "FRAIL",
+            "yes": "I feel... weaker. Like they hollowed me out somehow. My bones ache and I get tired so easily now.",
+            "no": {
+              "npc_has_trait": "UNSTABLE",
+              "yes": "Sometimes I feel like my body is... shifting. Changing in subtle ways. I'll wake up and my fingers seem longer, or my skin feels different. It's subtle but terrifying.",
+              "no": "I don't think they changed me physically, but mentally... I'm not the same person anymore."
+            }
+          }
+        }
+      }
+    },
+    "responses": [
+      {
+        "text": "That's fascinating. These changes might actually help you survive.",
+        "topic": "TALK_MI-GO_PRISONER_MUTATIONS_POSITIVE",
+        "condition": { "u_has_intelligence": 10 }
+      },
+      {
+        "text": "That sounds horrible. I'm sorry they did this to you.",
+        "topic": "TALK_MI-GO_PRISONER_MUTATIONS_SYMPATHY"
+      },
+      {
+        "text": "We should be careful. We don't know what these changes might do to you.",
+        "topic": "TALK_MI-GO_PRISONER_MUTATIONS_CAUTION"
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_MI-GO_PRISONER_INTRO" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MI-GO_PRISONER_MUTATIONS_POSITIVE",
+    "dynamic_line": {
+      "npc_has_trait": "MIGO_EXPERIMENT_MINOR",
+      "yes": "I... I never thought of it that way. You think this could be useful somehow?",
+      "no": {
+        "npc_has_trait": "MIGO_NEURAL_LINK",
+        "yes": "Useful? I guess... I have noticed I can sometimes sense electrical devices before I see them. Maybe you're right.",
+        "no": {
+          "npc_has_trait": "MIGO_VISION",
+          "yes": "I suppose being able to see in the dark is helpful. And sometimes I notice things others don't because of these... enhancements.",
+          "no": {
+            "npc_has_trait": "FRAIL",
+            "yes": "I don't see how being weaker helps me survive, but... I guess I appreciate your optimism.",
+            "no": {
+              "npc_has_trait": "UNSTABLE",
+              "yes": "You think so? I'm terrified of what I might become. But maybe you're right... adaptability could be valuable now.",
+              "no": "Maybe. I still feel violated, but I'll try to look at it as a survival advantage."
+            }
+          }
+        }
+      }
+    },
+    "responses": [
+      {
+        "text": "That's the spirit. Use every advantage you can get in this world.",
+        "topic": "TALK_MI-GO_PRISONER_INTRO",
+        "effect": { "npc_add_effect": "comforted_mutations", "duration": "PERMANENT" },
+        "opinion": { "trust": 1, "value": 1 },
+        "condition": { "not": { "npc_has_effect": "comforted_mutations" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MI-GO_PRISONER_MUTATIONS_SYMPATHY",
+    "dynamic_line": [
+      "Thanks for understanding. Most people would just see me as a freak now.",
+      "It helps to know someone cares. I'm still trying to come to terms with what I've become.",
+      "Thank you. It's hard to accept these changes, but at least I'm not alone."
+    ],
+    "responses": [
+      {
+        "text": "You're still human where it counts.",
+        "topic": "TALK_MI-GO_PRISONER_INTRO",
+        "effect": { "npc_add_effect": "comforted_mutations", "duration": "PERMANENT" },
+        "opinion": { "trust": 2, "value": 1 },
+        "condition": { "not": { "npc_has_effect": "comforted_mutations" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MI-GO_PRISONER_MUTATIONS_CAUTION",
+    "dynamic_line": [
+      "You're right. For all I know, these changes could be killing me slowly... or worse.",
+      "I worry about that too. What if I'm becoming something else? Something not human?",
+      "Do you think I should be monitored? What if these changes progress further?"
+    ],
+    "responses": [
+      {
+        "text": "We'll figure it out together. You're not alone in this.",
+        "topic": "TALK_MI-GO_PRISONER_INTRO",
+        "effect": { "npc_add_effect": "comforted_mutations", "duration": "PERMANENT" },
+        "condition": { "not": { "npc_has_effect": "comforted_prisoner" } },
+        "opinion": { "trust": 1, "value": 1 }
+      }
     ]
   },
   {
@@ -160,7 +307,11 @@
       {
         "text": "Let's go. Stay close.",
         "topic": "TALK_DONE",
-        "effect": [ "follow", { "set_string_var": "yes", "target_var": { "npc_val": "rescued_by_player" } } ],
+        "effect": [
+          "follow",
+          { "set_string_var": "yes", "target_var": { "npc_val": "rescued_by_player" } },
+          { "npc_add_var": "rescued_by_player", "value": "yes" }
+        ],
         "opinion": { "trust": 4, "value": 4, "fear": -1, "anger": -1 }
       }
     ]

@@ -1,27 +1,351 @@
 [
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Hello?\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mi-go_prisoner", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Papaya!\"",
     "volume": 32
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Who's there?\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Can you help me?\"",
     "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human" ],
+    "sound": "\"Bzzt... return... specimen...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human_human" ],
+    "sound": "\"Kkkrrsshh... cerebral... extraction...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human" ],
+    "sound": "\"Bzzt... reporting... anomalies...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human" ],
+    "sound": "\"Specimen... escape... recapture...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"Neural... patterns... interesting...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"Harvesting... memories...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"Integration... proceeding...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"Bzzt... resistance... futile...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"Assimilation... inevitable...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"Join... the... collective...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"We... are... many...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"Your... knowledge... ours...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"The... messenger... comes...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"The... harbinger... awaits...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"Your... mind... belongs...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_experiment" ],
+    "sound": "\"We... see... through... you...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_experiment" ],
+    "sound": "\"We... are... watching...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_experiment" ],
+    "sound": "\"Return... to... chamber...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_experiment" ],
+    "sound": "\"Experiment... continues...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_experiment" ],
+    "sound": "\"Specimen... valuable... return...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"Data... collection... interrupted...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"Rejoin... the... study...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human" ],
+    "sound": "\"Subject... identification... required...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human" ],
+    "sound": "\"Compliance... expected...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human" ],
+    "sound": "\"Resistance... cataloged...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human" ],
+    "sound": "\"Bzzt... recapture... authorized...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"Analysis... incomplete...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"Your... contribution... noted...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"The... stars... know...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"Yuggoth... calls...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_experiment" ],
+    "sound": "\"Memory... extraction... pending...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_experiment" ],
+    "sound": "\"Kkkrrsshh... valuable... specimen...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_experiment" ],
+    "sound": "\"Bzzt... return... for... completion...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_experiment" ],
+    "sound": "\"Integration... with... collective... pending...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"The... process... unfinished...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"Your... purpose... unfulfilled...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"We... need... more... data...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human" ],
+    "sound": "\"Unauthorized... departure...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human" ],
+    "sound": "\"Specimen... status... compromised...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human" ],
+    "sound": "\"Reclamation... teams... dispatched...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"Your... mind... ours...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"Knowledge... must... be... shared...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
+    "sound": "\"Join... us...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human" ],
+    "sound": "\"Containment... protocols... active...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human" ],
+    "sound": "\"Defense... systems... engaged...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human" ],
+    "sound": "\"Security... override... initiated...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human" ],
+    "sound": "\"Target... acquisition... complete...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_guard_human" ],
+    "sound": "\"Termination... authorized...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_experiment" ],
+    "sound": "\"Help... us...\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_experiment" ],
+    "sound": "\"Please... kill... me...\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_experiment" ],
+    "sound": "\"Can't... control... thoughts...\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_experiment" ],
+    "sound": "\"They're... in... my... head...\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_experiment" ],
+    "sound": "\"Not... human... anymore...\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_experiment" ],
+    "sound": "\"Why... did... they... change... us...\"",
+    "volume": 8
   },
   {
     "type": "speech",
@@ -31,7 +355,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Can you repeat that?\"",
     "volume": 20
   },
@@ -49,31 +373,31 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Come here!\"",
     "volume": 32
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Please, don't!\"",
     "volume": 32
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "a horrified scream!",
     "volume": 32
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "a little girl's wailing!",
     "volume": 32
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"So, what is this thing supposed to be, exactly?\"",
     "volume": 20
   },
@@ -199,25 +523,25 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "an anguished wail!",
     "volume": 32
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"You're gonna rot in hell for this!\"",
     "volume": 32
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"You hear me!?\"",
     "volume": 32
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"You're gonna rot in hell, you pieces of shit!\"",
     "volume": 32
   },
@@ -1447,13 +1771,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Oh you motherfucking shellfish, you're going down.\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_feral_prisoner" ],
     "sound": "\"I… I feel weak…\"",
     "volume": 15
   },
@@ -1495,19 +1819,19 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"G… geddoff me you… you bastard…\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"GET WELL SOON!\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon", "mon_feral_prisoner" ],
     "sound": "\"Did-a-chuk?\"",
     "volume": 15
   },
@@ -1537,7 +1861,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon", "mon_feral_prisoner" ],
     "sound": "\"Dad-a-chuk?\"",
     "volume": 15
   },
@@ -1555,7 +1879,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi-go_surgeon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi-go_surgeon", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Yeah.  I can't believe he stayed alive that long.\"",
     "volume": 10
   },
@@ -1567,13 +1891,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"Burning… from the inside…\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver", "mon_pathetic_prisoner", "mon_feral_prisoner" ],
     "sound": "\"This smell… Don't know…\"",
     "volume": 10
   },

@@ -3,7 +3,7 @@
     "id": "mon_pathetic_prisoner",
     "type": "MONSTER",
     "name": { "str": "pathetic prisoner" },
-    "description": "A human who has spent too long in mi-go captivity. Their eyes are vacant, their movements aimless. They occasionally mutter incomprehensible phrases.",
+    "description": "A human who has spent too long in mi-go captivity.  Their eyes are vacant, their movements aimless.  They occasionally mutter incomprehensible phrases.",
     "default_faction": "mi-go",
     "bodytype": "human",
     "species": [ "HUMAN" ],
@@ -28,6 +28,7 @@
     "chat_topics": [ "TALK_PATHETIC_PRISONER" ],
     "harvest": "human",
     "death_drops": "default_zombie_death_drops",
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "PARROT", 100 ] ],
     "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
     "zombify_into": "mon_zombie",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_MORALE", "HUMAN", "GUILT_HUMAN", "CONVERSATION" ]
@@ -46,7 +47,7 @@
     "harvest": "human",
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "chat_topics": [ "TALK_FERAL_PRISONER" ],
-    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "PARROT", 100 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_MORALE", "HUMAN", "GUILT_HUMAN", "PUSH_MON", "CONVERSATION" ]
   },
   {
@@ -55,7 +56,7 @@
     "name": { "str": "drained captive" },
     "default_faction": "mi-go",
     "species": [ "HUMAN" ],
-    "harvest": "human",
+    "harvest": "human", 
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "death_drops": "default_zombie_death_drops",
     "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },

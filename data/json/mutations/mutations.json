@@ -10602,5 +10602,45 @@
     "threshreq": [ "THRESH_CHIROPTERAN" ],
     "category": [ "CHIROPTERAN" ],
     "integrated_armor": [ "integrated_vampire_fangs" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MIGO_EXPERIMENT_MINOR",
+    "name": { "str": "Mi-go Experiment Subject" },
+    "points": -1,
+    "visibility": 1,
+    "ugliness": 1,
+    "description": "Small patches of your skin have a peculiar crystalline quality, and occasionally you feel phantom sensations. The mi-go experimented on you, leaving subtle changes.",
+    "valid": false,
+    "purifiable": false,
+    "category": [ "MUTCAT_MEDICAL" ],
+    "social_modifiers": { "persuade": -3 },
+    "flags": [ "MUTAGEN_AVOID" ]
+  },
+  {
+    "type": "mutation",
+    "id": "MIGO_NEURAL_LINK",
+    "name": { "str": "Neural Interface" },
+    "points": 1,
+    "visibility": 0,
+    "description": "There's a small crystalline growth at the base of your skull. Sometimes you experience flashes of information or can perceive faint electromagnetic fields. A result of mi-go neural experimentation.",
+    "valid": false,
+    "purifiable": false,
+    "category": [ "MUTCAT_MEDICAL" ],
+    "flags": [ "MUTAGEN_AVOID", "INT_UP_1" ],
+    "encumbrance_always": [ [ "head", 5 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "MIGO_VISION",
+    "name": { "str": "Altered Vision" },
+    "points": 2,
+    "visibility": 1,
+    "ugliness": 1,
+    "description": "Your eyes have subtle crystalline patterns in the iris. You can see slightly better in the dark and occasionally perceive ultraviolet light.",
+    "valid": false,
+    "purifiable": false,
+    "category": [ "MUTCAT_MEDICAL", "NIGHTVISION" ],
+    "flags": [ "MUTAGEN_AVOID" ]
   }
 ]
