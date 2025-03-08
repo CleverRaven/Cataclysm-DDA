@@ -7,16 +7,11 @@
     "symbol": "#",
     "color": "dark_gray",
     "move_cost_mod": 2,
-    "coverage": 60,
+    "coverage": 15,
     "required_str": 10,
-    "flags": [ "MOUNTABLE", "SHORT", "FLAT_SURF" ],
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
-    },
+    "flags": [ "SHORT", "FLAT_SURF" ],
+    "bash": { "str_min": 1, "str_max": 1, "items": [ { "item": "mortar_m224", "count": 1 } ] },
+    "deconstruct": { "items": [ { "item": "mortar_m224", "count": 1 } ] },
     "//range": [
       "charge; muzzle velocity; min range, max range",
       "0, 210, 70,  400 ",
@@ -41,9 +36,10 @@
         ]
       },
       "aim_deviation": { "math": [ "max(0.02, 0.1 / u_skill('launcher'))" ] },
+      "flight_time": "15 seconds",
       "effect_on_conditions": [
         {
-          "id": "EOC_SHOT",
+          "id": "EOC_60MM_SHOT",
           "effect": [
             { "u_add_effect": "aimed_60mm", "duration": "3 minutes" },
             { "math": [ "u_skill_exp('launcher', 'format': 'percentage')++" ] },

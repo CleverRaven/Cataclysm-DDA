@@ -4,6 +4,8 @@
 #include <cstddef>
 #include <memory>
 #include <utility>
+#include <cmath>
+#include <set>
 
 #include "ammo_effect.h"
 #include "calendar.h"
@@ -18,15 +20,16 @@
 #include "explosion.h"
 #include "flexbuffer_json.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "generic_factory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
-#include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "messages.h"
@@ -37,10 +40,12 @@
 #include "overmapbuffer.h"
 #include "point.h"
 #include "ret_val.h"
+#include "rng.h"
 #include "talker.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "uilist.h"
+#include "value_ptr.h"
 #include "veh_appliance.h"
 
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
@@ -373,8 +378,8 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
         add_msg( _( "Target is too close." ) );
         return;
     }
-
-    you.assign_activity( ACT_MORTAR_AIMING, to_moves<int>( aim_duration.evaluate( d ) ) );
+    time_duration aim_dur = aim_duration.evaluate( d );
+    you.assign_activity( ACT_MORTAR_AIMING, to_moves<int>( aim_dur ) );
 
     tripoint_abs_ms target_abs_ms = project_to<coords::ms>( target );
 
@@ -387,8 +392,12 @@ void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) 
     target_abs_ms.z() = overmap_buffer.highest_omt_point( project_to<coords::omt>( target_abs_ms ) );
 
     for( ammo_effect_str_id ammo_eff : loc.get_item()->ammo_data()->ammo->ammo_effects ) {
-        get_timed_events().add( timed_event_type::EXPLOSION, calendar::turn + 20_seconds,
-                                target_abs_ms, ammo_eff.obj().aoe_explosion_data );
+        if( ammo_eff.obj().aoe_explosion_data.power > 0 ) {
+            get_timed_events().add( timed_event_type::EXPLOSION,
+                                    calendar::turn + flight_time.evaluate( d ) + aim_dur,
+                                    target_abs_ms, ammo_eff.obj().aoe_explosion_data );
+        }
+
     }
 
     loc->charges--;
@@ -417,6 +426,7 @@ void mortar_examine_actor::load( const JsonObject &jo, const std::string &src )
 
     aim_deviation = get_dbl_or_var( jo, "aim_deviation", false, 0.0f );
     aim_duration = get_duration_or_var( jo, "aim_duration", false, 0_seconds );
+    flight_time = get_duration_or_var( jo, "flight_time", false, 0_seconds );
 
     for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
         eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );

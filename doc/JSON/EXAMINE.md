@@ -179,16 +179,6 @@ Mandatory
 Integer
 How far this mortar can shoot, in meters.
 
-#### `booster`
-Optional
-Item id
-Mortars can have a boosters they can give the player after use, if the target close enough; specific amount of boosters given defined in booster_distances.
-
-#### `booster_distances`
-Optional
-Array of objects `amount` and `distance`
-If defined, the game check each `distance`, and if target distance is less than `distance`, the game return you amount of boosters defined in `amount`.
-
 #### `condition`
 Optional, defaults to true.
 Condition
@@ -206,8 +196,13 @@ Percent of the distance between you and aiming point, that you may miss; aim_dev
 
 #### `aim_duration`
 Optional, defaults to 0 seconds.
-Integer or variable object
+Duration or variable object
 How long you gonna aim before actually shooting a projectile.
+
+#### `flight_time`
+Optional, defaults to 0 seconds.
+Duration or variable object
+How long the projectile gonna fly before explosion occur.
 
 #### `effect_on_conditions`
 Optional
@@ -219,7 +214,7 @@ Effect on condition, that would be fired in the end of shooting. Additional cont
 
 #### Example
 ```json
-    {
+    "examine_action": {
       "type": "mortar",
       "ammo": [ "mortar_60mm" ],
       "condition": { "math": [ "u_skill('launcher') >= 1" ] },
@@ -233,19 +228,17 @@ Effect on condition, that would be fired in the end of shooting. Additional cont
         ]
       },
       "aim_deviation": { "math": [ "max(0.02, 0.1 / u_skill('launcher'))" ] },
-      "booster": "60mm_propellant",
-      "booster_distances": [
-        { "amount": 4, "distance": 400 },
-        { "amount": 3, "distance": 1340 },
-        { "amount": 2, "distance": 2150 },
-        { "amount": 1, "distance": 2890 }
-      ],
+      "flight_time": "15 seconds",
       "effect_on_conditions": [
         {
-          "id": "EOC_SHOT",
+          "id": "EOC_60MM_SHOT",
           "effect": [
             { "u_add_effect": "aimed_60mm", "duration": "3 minutes" },
-            { "math": [ "u_skill_exp('launcher', 'format': 'percentage')++" ] }
+            { "math": [ "u_skill_exp('launcher', 'format': 'percentage')++" ] },
+            { "if": { "math": [ "distance('u', _target) <= 400 " ] }, "then": { "u_spawn_item": "60mm_propellant" } },
+            { "if": { "math": [ "distance('u', _target) <= 1340" ] }, "then": { "u_spawn_item": "60mm_propellant" } },
+            { "if": { "math": [ "distance('u', _target) <= 2150" ] }, "then": { "u_spawn_item": "60mm_propellant" } },
+            { "if": { "math": [ "distance('u', _target) <= 2890" ] }, "then": { "u_spawn_item": "60mm_propellant" } }
           ]
         }
       ]

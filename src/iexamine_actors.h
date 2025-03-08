@@ -6,14 +6,18 @@
 #include <optional>
 #include <string>
 #include <vector>
+#include <functional>
 
 #include "coords_fwd.h"
-#include "dialogue.h"
 #include "iexamine.h"
+#include "dialogue_helpers.h"
 #include "type_id.h"
+#include "translation.h"
 
 class Character;
 class item_location;
+
+struct const_dialogue;
 
 class appliance_convert_examine_actor : public iexamine_actor
 {
@@ -98,6 +102,7 @@ class mortar_examine_actor : public iexamine_actor
         translation condition_fail_msg;
         dbl_or_var aim_deviation;
         duration_or_var aim_duration;
+        duration_or_var flight_time;
         std::vector<effect_on_condition_id> eocs;
 
     public:
