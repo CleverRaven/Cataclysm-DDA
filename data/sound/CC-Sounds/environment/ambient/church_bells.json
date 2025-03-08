@@ -1,0 +1,9 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "environment",
+    "variant": "church_bells",
+    "volume": 100,
+    "files": [ "environment/ambient/church_bells.ogg" ]
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "reload",
+    "variant": "default",
+    "volume": 45,
+    "files": [ "reload/default.ogg" ]
+  }
+]

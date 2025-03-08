@@ -1,0 +1,15 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "mon_bite",
+    "variant": "bite_hit",
+    "volume": 100,
+    "files": [
+      "mon_bite/bite_hit/bite_hit_1.ogg",
+      "mon_bite/bite_hit/bite_hit_2.ogg",
+      "mon_bite/bite_hit/bite_hit_3.ogg",
+      "mon_bite/bite_hit/bite_hit_4.ogg",
+      "mon_bite/bite_hit/bite_hit_5.ogg"
+    ]
+  }
+]

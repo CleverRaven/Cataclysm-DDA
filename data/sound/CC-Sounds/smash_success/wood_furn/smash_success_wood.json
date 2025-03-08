@@ -1,0 +1,212 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_bench",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_bench_wooden",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_bench_park",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_barstool",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_chair_plywood",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_chair_black",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_chair_white",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_stool",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_chair",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_bookcase",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_entertainment_center",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_coffin_c",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_coffin_o",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_crate_c",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_crate_o",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_dresser",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_rack_wood",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_rack_coat",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_wardrobe",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_wood_keg",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_chest",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_pallet_belted",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_pallet_belted_open",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_counter",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_cupboard",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_counter_gate_c",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_counter_gate_o",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_desk",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_table",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "f_coffee_table",
+    "volume": 60,
+    "files": [ "smash_success/wood_furn/smash_success_wood.ogg" ]
+  }
+]

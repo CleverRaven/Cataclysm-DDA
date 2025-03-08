@@ -1,0 +1,16 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "melee_swing",
+    "variant": "small_cutting",
+    "volume": 100,
+    "files": [
+      "melee_swing/small_cutting/small_cutting_swing_1.ogg",
+      "melee_swing/small_cutting/small_cutting_swing_2.ogg",
+      "melee_swing/small_cutting/small_cutting_swing_3.ogg",
+      "melee_swing/small_cutting/small_cutting_swing_4.ogg",
+      "melee_swing/small_cutting/small_cutting_swing_5.ogg",
+      "melee_swing/small_cutting/small_cutting_swing_6.ogg"
+    ]
+  }
+]

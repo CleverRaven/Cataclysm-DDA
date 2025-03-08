@@ -1,0 +1,16 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "melee_hit_flesh",
+    "variant": "small_stabbing",
+    "volume": 100,
+    "files": [
+      "melee_hit_flesh/small_stabbing/small_stabbing_flesh_1.ogg",
+      "melee_hit_flesh/small_stabbing/small_stabbing_flesh_2.ogg",
+      "melee_hit_flesh/small_stabbing/small_stabbing_flesh_3.ogg",
+      "melee_hit_flesh/small_stabbing/small_stabbing_flesh_4.ogg",
+      "melee_hit_flesh/small_stabbing/small_stabbing_flesh_5.ogg",
+      "melee_hit_flesh/small_stabbing/small_stabbing_flesh_6.ogg"
+    ]
+  }
+]

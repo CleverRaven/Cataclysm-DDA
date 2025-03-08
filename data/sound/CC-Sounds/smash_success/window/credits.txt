@@ -1,0 +1,7 @@
+"close_window" and "open_window" by PhilStrahl (https://freesound.org/people/PhilStrahl/sounds/497030/) licensed under CC-BY
+"close_curtain" and "open_curtain" by Tats14 (https://freesound.org/people/Tats14/sounds/408784/) licensed under CC-BY-NC
+"window_smash_success" by cmusounddesign (https://freesound.org/people/cmusounddesign/sounds/84708/) licensed under CC-BY
+"window_smash_success" by cmusounddesign (https://freesound.org/people/cmusounddesign/sounds/84708/) licensed under CC-BY
+"wood_smash_success" by egomassive (https://freesound.org/people/egomassive/sounds/536777/) licensed under CC0
+"window_boarded_smash_success" is a combination of "window_smash_success" and "wood_smash_success"
+"window_frame_smash_success" by dasebr (https://freesound.org/people/dasebr/sounds/212698/) licensed under CC0

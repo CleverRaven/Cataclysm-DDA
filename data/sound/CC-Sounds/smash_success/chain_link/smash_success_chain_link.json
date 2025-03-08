@@ -1,0 +1,51 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_chaingate_l",
+    "volume": 50,
+    "files": [ "smash_success/chain_link/smash_success_chain_link.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_chaingate_c",
+    "volume": 50,
+    "files": [ "smash_success/chain_link/smash_success_chain_link.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_chaingate_o",
+    "volume": 50,
+    "files": [ "smash_success/chain_link/smash_success_chain_link.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_chainfence",
+    "volume": 50,
+    "files": [ "smash_success/chain_link/smash_success_chain_link.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_chickenwire_fence",
+    "volume": 50,
+    "files": [ "smash_success/chain_link/smash_success_chain_link.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_screened_porch_wall",
+    "volume": 50,
+    "files": [ "smash_success/chain_link/smash_success_chain_link.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_success",
+    "variant": "t_quietfarm_border_fence",
+    "volume": 50,
+    "files": [ "smash_success/chain_link/smash_success_chain_link.ogg" ]
+  }
+]

@@ -1,0 +1,5 @@
+| File Name        | Author   | License   | Link                            |
+|------------------|----------|-----------|---------------------------------|
+| 556_auto_rifle_shot_01.ogg | DoctorBoomstick | **CC BY 4.0** | Audio was recorded by myself at nominal distance from a shooter firing a 5.56mm rifle on an outdoor gun range, a Sig Sauer MCX Spear LT, and touching up the resulting audio |
+| 556_auto_rifle_shot_02.ogg | DoctorBoomstick | **CC BY 4.0** | Audio was recorded by myself at nominal distance from a shooter firing a 5.56mm rifle on an outdoor gun range, a Sig Sauer MCX Spear LT, and touching up the resulting audio |
+| 556_auto_rifle_shot_03.ogg | DoctorBoomstick | **CC BY 4.0** | Audio was recorded by myself at nominal distance from a shooter firing a 5.56mm rifle on an outdoor gun range, a Sig Sauer MCX Spear LT, and touching up the resulting audio |

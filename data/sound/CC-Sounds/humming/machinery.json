@@ -1,0 +1,9 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "humming",
+    "variant": "machinery",
+    "volume": 100,
+    "files": [ "humming/machinery.ogg" ]
+  }
+]

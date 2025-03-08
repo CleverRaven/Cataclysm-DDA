@@ -1,0 +1,16 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "radio",
+    "variant": "inaudible_chatter",
+    "volume": 100,
+    "files": [
+      "radio/inaudible_chatter.ogg",
+      "radio/inaudible_chatter_1.ogg",
+      "radio/inaudible_chatter_2.ogg",
+      "radio/inaudible_chatter_3.ogg",
+      "radio/inaudible_chatter_4.ogg",
+      "radio/inaudible_chatter_5.ogg"
+    ]
+  }
+]

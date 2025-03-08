@@ -1,0 +1,155 @@
+Return-Path: <coagmusic@gmail.com>
+X-Original-To: Fris0uman@protonmail.com
+Delivered-To: Fris0uman@protonmail.com
+Authentication-Results: mailin035.protonmail.ch; dkim=pass (Good 2048
+    bit rsa-sha256 signature) header.d=gmail.com header.a=rsa-sha256
+Authentication-Results: mailin035.protonmail.ch; arc=none smtp.remote-ip=209.85.221.46
+Authentication-Results: mailin035.protonmail.ch; dkim=pass (2048-bit key)
+ header.d=gmail.com header.i=@gmail.com header.b="ZZz2XdRh"
+Authentication-Results: mailin035.protonmail.ch; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: mailin035.protonmail.ch; dmarc=pass (p=none dis=none)
+ header.from=gmail.com
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46]) (using
+ TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256) (No
+ client certificate requested) by mailin035.protonmail.ch (Postfix) with ESMTPS id
+ 4KW2TT4t52z9vNPk for <Fris0uman@protonmail.com>; Sat,
+  2 Apr 2022 16:25:49 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id w4so8244785wrg.12
+        for <Fris0uman@protonmail.com>; Sat, 02 Apr 2022 09:25:49 -0700 (PDT)
+Received: from smtpclient.apple (host-89-241-8-96.as13285.net. [89.241.8.96])
+        by smtp.gmail.com with ESMTPSA id
+ l9-20020a5d6d89000000b00203d62072c4sm5217121wrs.43.2022.04.02.09.25.48
+        for <Fris0uman@protonmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 02 Apr 2022 09:25:48 -0700 (PDT)
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:from:mime-version:subject:date:message-id
+         :references:in-reply-to:to;
+        bh=Jcjwo9KN6ubVSfTT9en28IL5ITplXzaOE92IYz6Ner8=;
+        b=ZZz2XdRhS0mCGzBp4Uf7jqT9BHCeovmzlZMypoEJ1MF7QYDP8r9QOcxr1r9TF80hCC
+         ukApZsGoYeM+ajJg+cs1iy6MWBrzQ0T3bK+xEZcFjjmun2Zw8aVuKXKmQE2iexQzqYqb
+         A8K+79f7RWLEDinvbGOHVevdboyvWenHfK9QdsddYC9SyslQwXIOcmwu7UWlFpSytGFr
+         HYHyDXErZTfu1UdAHirEVcIkFUzXt+lRvN8MrukaTYKiwshoQ6FY917e1CvaT7XYGtTo
+         j4uKhGznzzewvoyKjxc1MNTC9s9TCgEMe2gPl6TB6GOLM5yulVT+mf8a9ckXDgU6LoJI
+         fG7Q==
+X-Google-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:in-reply-to:to;
+        bh=Jcjwo9KN6ubVSfTT9en28IL5ITplXzaOE92IYz6Ner8=;
+        b=c9PHpitpBO1dmb0HrBwy8uQC/wBycvjKmTbYmzvqxqPYL6lqtvENT+J+zs0/oWnLh+
+         7EClr2XSQ4hI2z4aZkj2yelcmuD6C4878jv/WaGjK2Ll5in2BKIwB8dTk6laF3OLnzch
+         O6Zi0OTxbntNAcdnDgE30ufAZosp/GL88GzVZm+UsGvVS+xifSQL9CBEfiLQBgU9eLWW
+         gO+4cpf0PvwhywofWXyr1PPpppk+0iIPcLtopJRHhPdoehkBcX+GqFFiU8Ym69DG5JAH
+         Cb16jAuOlD3NNkvKVFwJaDFDbwhvcVqtbVFuzVBLkky2wSFb9KqBIPVnta3ZeOXvShXn
+         6CFQ==
+X-Gm-Message-State: AOAM532S9zrRvLTe3n6f2avEZsRKctmdjf0oM4c7fujMm418ocxSdCbV
+ PM/L15QMrmIeSKWt8/DAJ57lAJYektY=
+X-Google-Smtp-Source: ABdhPJyzDLSR6echOXO0rs9j/t42xsghd3ujYh2gTQhe+Z/UyaZfWmpDXhP2LoVQSYme30COHunlAw==
+X-Received: by 2002:a5d:4f8a:0:b0:205:8ff4:c301 with SMTP id
+ d10-20020a5d4f8a000000b002058ff4c301mr11455990wru.41.1648916749124;
+        Sat, 02 Apr 2022 09:25:49 -0700 (PDT)
+Content-Type: text/html
+Content-Transfer-Encoding: 7bit
+From: Just a ghost <coagmusic@gmail.com>
+Mime-Version: 1.0
+Subject: Re: CO.AG music license clarification
+Date: Sat, 2 Apr 2022 17:25:47 +0100
+Message-Id: <A4CD1B26-C4D2-4474-9313-1335EAFDB682@gmail.com>
+References: <d077C0bTn5NNT_Jr4NKg-LPYmTkskYt9gS2h24Jz9q5sj5u5IyoDGwv5TDIixbRG_WDglnmot7kmo8tmwfMOq633S2ZgIcEXhZbvNXvDR5U=@protonmail.com>
+In-Reply-To: <d077C0bTn5NNT_Jr4NKg-LPYmTkskYt9gS2h24Jz9q5sj5u5IyoDGwv5TDIixbRG_WDglnmot7kmo8tmwfMOq633S2ZgIcEXhZbvNXvDR5U=@protonmail.com>
+To: Fris0uman <Fris0uman@protonmail.com>
+X-Mailer: iPhone Mail (19D52)
+X-Pm-Spam: 0yeiAEic27iBOIJCpz91cGctFogIjgCwMINnjlJ3bjIgowgMClnJIc9Gy6ICdCIwI
+ UgLjZkFQRNVfgAjMkQE9ogWT5mFQZMXghB3cSbwB9icmpWJYblG0pBSeyc1ARvIHwDIIJxVuztFI
+ 2Yy9ogZTwC4MOcTzuxVXDIuABGMCf0xUSVEMO91T0Tf5FERlxl8TI5EvlRGI2cyNB0aXuW9aIFG2
+ slWYWYsJ5cZSwi0bLAjgWNkUFRJ99NTlJ1BUSV0fgIDSkUMJBBOiymVdYdWllJHIHc0VRpYXg24b
+ KsCyuxVKFIyskuMDuDUOMIjx2QjLGIpxRlc3pCBZbBi3t5CbWYslBpc3u2UabVm0uxVXDIuABGMC
+ FkVUTFUJG9FTkUN9NlIFlmRbcBilpFWbCbpBBjcyt21bb52shBSenYzVQgZWkW5ZdNXltBicWYsl
+ 4gXGvHJcdlmkcJXZibbB9hY2121Zcl2j0F2WWXtdlsYWvmNLb1Vcw0ibjLgABGU1B1BXUM1gGB1U
+ iOzB5kZWgXIZbFW0lh2YycTBYgUEjmVcbJ3kg4GXCMw4hUIEfUxTTVUTHF0USRCBRZT0IiBOV1EM
+ ulGI2Y1xVkZGuGlII1GlhN3c2ZcVAwbigjALTlUNR9VRFUM95HT0J0xXTUkgXFkUiORB90dWtWQZ
+ cJHphRnbmYlxxpIGgmUbb9GuyV2ZHIoR4gYWczZNbBijyFGa1cuxAuLTESBMSl0NBZ1XETEl1lIE
+ h3NcZU2gzFGaGI0FxlIG0XNYI9Gu2BSZWYpxBEZCN0lSI9GyLREIHIpN5hZ2yHVdZxVuuADISMEB
+ lNS0J1NXR50FNBCRXZzNdlYWhGhIcByhLREIUSg0Igb3gEsRcl2n0FmbXdlJBuLCg3QbbVmjzNXZ
+ XYpJlcbH2iBbYxWpuxFZTLuABEMSN0lSXZ1BElET0XVF1lIEh3NcZU2gzFGaGIgEFsdmgWQaRtEJ
+ vBSTicEBBzSyuWdaYRX1gUmcnZvJxubV1GFIdhGvzdicGIvRFpbWulxbLATuEBSM0SNlZBX1EElT
+ XV0Gl1EI3chNUgZ2zGFaIEGgsFmdWagQtJREvSBTcBiEzBySWaudR1YXgmUcZJnvuxVbGIuVVsdm
+ l3BbLZWyg02bGZt9luYWtG4XM4CwfRFI0UDNJPX0fFlRVVEYM9FVUSF55vIElGRIcN2y0BXaWau9
+ F2IGsWlYYJWsc5SZibwAEgLjMEVST91OE91T0TB14gSUsmVUYkXgwVmc3b0JBpcygHMdZ9GtulWY
+ GIul9yY2jmVcdxG5g4GXCMw4JDIFfkRVS5UfMJEUFIlJVpY2kmVdIZHphBSYHIlJF5bGuGlIINFw
+ o1WYXYzVBCIFuFxTIBi9iACL3ciIB7OihCJIYR3pi42biOiA5iaWi3gbLACifxWb2cvNUicm7iBO
+ IJCT6ISQDIuAwgNCSlBITQ0itAiOjMsUJQICEk9UXB1SJRUR1QJR4iT0wiAOI0HszJCImcklogIj
+ yjYINgD3mBTO2MzMM4Nm0TYYOEG1iJTOCNgIB9fS
+X-Pm-Origin: external
+X-Pm-Transfer-Encryption: TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+X-Pm-Content-Encryption: on-delivery
+X-Pm-Spamscore: 0
+X-Pm-Spam-Action: inbox
+
+-----BEGIN PGP MESSAGE-----
+Version: ProtonMail
+
+wV4Daucjt5mqgysSAQdAeEU5djCR+Rukl09WRCVXHT6Eqzq8bHryhsw3FeRp
+MVgwYPkHLs57NOgtQdHpFsMwhkcMy1RdaJQ+WCWcZICePLAsy6ALfXdN1ADM
+lDwBW9vN0sNCAdYgDoizSYQZuAqSa1Hvuz0EcmRqnzDSun/Qjw2Uf25Ao+vN
+0qQDrsNQ/Nays6Qc6KadM+3GBThUJVfwlXQfurqxqjFi3GGbVzYdR9aWwjLA
+BupN9Wt8LTlFzztgtNARrNQraT907oVNFSuBaRB7AejaKZ0uZKfZ/znk8kHf
+cdgXjdyGFoHH43wY71LOkGAUAuDI10mocjoGoqwXo3mA0zpFlovOWrMcOCYk
+PfGzIzb6G37H46SOVPpbsWhFTyM7hOoqpfZwIOlPIzv9DHq7eVaOVx5npWLh
+sDnVonPhV+O8mcOO7EaPeB9a2VPETdLXigFQaQSAIRaY20uBA+BN5JNMKfw8
+c8r0bwgxEHGGzntLIYJ6KVh2W+p1bUxkVXgHUySuLPBPpsV3Qhrg54asVrEf
+4wvlulCJP/N5woJVDiuTkHDWR+nviSW7Ib0SM8OTs+8C44BOBIEr3xnV7P43
+kK+wZlLrYLx4WYTGQ7AzjTP6yrA7fpi26jKM9Skw8SN5Uo3ranPY2neNxwFA
+irJKXf6Gi406l5UxPQIastqaxtVAV0gjUVP0iyKHxpxuT6mP0CJJmWQVMRsm
+RaYwIBLYCUzjwtBE/OssYJFQJ1EcEmqVZ5joF/aZlnKfj3QawlJfk1BD3dhR
+KZWlhMJMf6V8TeaBm3E25kPvqekhyeu7St5uag1a8U1TzK99lLB0KZt3ywSW
+/AN7cUMEz40HBl06qvuZ8HgiEpa3XESmqrUUyROiKpDFqlHUYzxzLF3+hp/L
+BNK72fTPAt8VHMz+6aYE0SJ3qK7aBdvXvBjpvpMtxpXzrp/A9OHFQjb4M5ix
+CNICkHwZeVhhhT0WfkjfMT/dpVdQrK2gKKkRlzTeI7PB6yAj7Oa+go1zrou4
+/ExYqtPSUlaHVnb5NfJw2VA2dUn2nvlZ2vZnztHtA93C7vD5wYS+oAmFOoRi
+C5rpcHoOBrxVVDjWigkNq3iodYhlwb0rimVFT7/L6XFAdosubsVWtqDvAxtw
+PD1kQJ45B0CBtJCAsowuF/HX9amEfg6nX3DCcL+3qGEvI3oJnqyKZtgwydYc
+C5+wmM5o2c29jDKhNV4HdXPDABCNggrMRkzqnMx2T60bD4U9Hb1haA2XXR7Y
+H63zK6GOu7wXZi+DEHOe7JzPzWboS5UOeURQlLFI/PQIA5YytZJc2TB9menD
+BzKh1S+K/4nkEkowNuw191JGXPO2ZxsbCv71kzX0/ZoZnNsaoeTkgmYOnPM2
+RPiN6yKsyrdiDhLCa1o7luYyjMTl1KRBLiN2KNF5N1OkK65E8nmPU4UCDr7o
+Ivyo51FKaS0Bfp4kYddjcRe+0lMk8bS/wIOgknBDH+WAIyPm4zNQiqCoApO3
+=gpn2
+-----END PGP MESSAGE-----
+
+
+
+Thanks for getting in touch and let me know yes it should be fine to use my 
+music as long as credit is given in the description of your game
+Music by CO.AG
+
+
+Sent from my iPhone
+
+> On 2 Apr 2022, at 4:15 pm, Fris0uman <Fris0uman@protonmail.com> wrote:
+>
+> ﻿
+> Hi,
+> I'm currently working on a soundpack 
+> <https://github.com/Fris0uman/CDDA-Soundpacks> for the game Cataclysm: Dark 
+> Days Ahead <https://cataclysmdda.org/> and the music 
+> <https://github.com/Fris0uman/CDDA-Music-Packs> in it is sourced from your 
+> work. I would like to get this pack included with the game  and in order to do 
+> so I need to make sure that every asset used has a license compatible with the 
+> cc-by-sa license of the game.
+> I found this statement for your work
+>
+>     All the music is copyright and royalty free so feel free to use it for
+>     your presentations or projects. All I ask if you do wish to use any of my
+>     music is you credit me in your description and sent me a message
+>
+> ​But that doesn't quite constitue a license, would you be okay with your work 
+> being used under a CC BY <https://creativecommons.org/licenses/by/4.0/> 
+> license?And if not what license would you be okay with?
+>
+> Sincerly
+>
+> Fris0uman
