@@ -1,0 +1,340 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_brick_wall",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_brick_wall_halfway",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_adobe_brick_wall_halfway",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_adobe_brick_wall",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_pallet_brick",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_pallet_brick_adobe",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_brick_wall",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_brick_wall_halfway",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_adobe_brick_wall_halfway",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_adobe_brick_wall",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_pallet_brick",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_chimney",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_rubble",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_brick_stack_short",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_brick_stack_mid",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_brick_stack_tall",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_adobe_stack_short",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_adobe_stack_mid",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "f_adobe_stack_tall",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_embrasure_brick",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_brick_roof",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_embrasure_adobe_brick",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_brick_floor",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_brick_oven_base",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_brick_oven_struct",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_brick_oven",
+    "volume": 80,
+    "files": [
+      "smash_fail/brick/smash_fail_brick.ogg",
+      "smash_fail/brick/smash_fail_brick_1.ogg",
+      "smash_fail/brick/smash_fail_brick_2.ogg",
+      "smash_fail/brick/smash_fail_brick_3.ogg",
+      "smash_fail/brick/smash_fail_brick_4.ogg"
+    ]
+  }
+]

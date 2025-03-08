@@ -1,0 +1,9 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "explosion",
+    "variant": "huge",
+    "volume": 100,
+    "files": [ "explosion/huge/explosion_huge_1.ogg", "explosion/huge/explosion_huge_2.ogg" ]
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "environment",
+    "variant": "police_siren",
+    "volume": 100,
+    "files": [ "environment/ambient/police_siren.ogg" ]
+  }
+]

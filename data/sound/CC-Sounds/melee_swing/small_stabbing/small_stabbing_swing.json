@@ -1,0 +1,14 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "melee_swing",
+    "variant": "small_stabbing",
+    "volume": 100,
+    "files": [
+      "melee_swing/small_stabbing/small_stabbing_swing_1.ogg",
+      "melee_swing/small_stabbing/small_stabbing_swing_2.ogg",
+      "melee_swing/small_stabbing/small_stabbing_swing_3.ogg",
+      "melee_swing/small_stabbing/small_stabbing_swing_4.ogg"
+    ]
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "close_door",
+    "variant": "f_gunsafe_o",
+    "volume": 100,
+    "files": [ "close_door/gun_safe/close_safe.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "close_door",
+    "variant": "f_safe_o",
+    "volume": 100,
+    "files": [ "close_door/gun_safe/close_safe.ogg" ]
+  }
+]

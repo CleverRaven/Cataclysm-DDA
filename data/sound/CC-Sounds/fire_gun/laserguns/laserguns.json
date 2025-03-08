@@ -1,0 +1,107 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "laser_rifle",
+    "volume": 100,
+    "files": [ "fire_gun/laserguns/lasergun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "plasma_rifle",
+    "volume": 100,
+    "files": [ "fire_gun/laserguns/lasergun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "gatling_mech_laser",
+    "volume": 100,
+    "files": [ "fire_gun/laserguns/lasergun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "coilgun",
+    "volume": 100,
+    "files": [ "fire_gun/laserguns/lasergun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "yrax_deterrent_laser",
+    "volume": 100,
+    "files": [ "fire_gun/laserguns/lasergun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "hm12",
+    "volume": 100,
+    "files": [ "fire_gun/laserguns/lasergun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "v29_turret",
+    "volume": 100,
+    "files": [ "fire_gun/laserguns/lasergun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "plasma_gun",
+    "volume": 100,
+    "files": [ "fire_gun/laserguns/lasergun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "recon_mech_laser",
+    "volume": 100,
+    "files": [ "fire_gun/laserguns/lasergun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "gatling_mech_laser_single",
+    "volume": 100,
+    "files": [ "fire_gun/laserguns/lasergun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "recon_mech_laser_single",
+    "volume": 100,
+    "files": [ "fire_gun/laserguns/lasergun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "v29",
+    "volume": 100,
+    "files": [ "fire_gun/laserguns/lasergun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "yrax_deterrent_laser",
+    "volume": 100,
+    "files": [ "fire_gun/laserguns/lasergun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "bio_laser_gun",
+    "volume": 100,
+    "files": [ "fire_gun/laserguns/lasergun_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "emp_gun",
+    "volume": 100,
+    "files": [ "fire_gun/laserguns/lasergun_1.ogg" ]
+  }
+]

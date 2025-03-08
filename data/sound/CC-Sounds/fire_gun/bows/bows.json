@@ -1,0 +1,191 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "bullet_crossbow",
+    "volume": 100,
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "compositecrossbow",
+    "volume": 100,
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "compcrossbow",
+    "volume": 100,
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "huge_crossbow",
+    "volume": 100,
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "hand_crossbow",
+    "volume": 100,
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "rep_crossbow",
+    "volume": 100,
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "crossbow",
+    "volume": 100,
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "wristrocket",
+    "volume": 100,
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "sling",
+    "volume": 100,
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "slingshot",
+    "volume": 100,
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "staff_sling",
+    "volume": 100,
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "variant": "compositebow",
+    "volume": 100,
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "volume": 100,
+    "variant": "reflexbow",
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "volume": 100,
+    "variant": "compgreatbow",
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "volume": 100,
+    "variant": "compbow",
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "volume": 100,
+    "variant": "compbow_high",
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "volume": 100,
+    "variant": "compbow_low",
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "volume": 100,
+    "variant": "longbow",
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "volume": 100,
+    "variant": "recurbow",
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "volume": 100,
+    "variant": "reflexrecurvebow",
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "volume": 100,
+    "variant": "shortbow",
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "volume": 100,
+    "variant": "selfbow",
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "volume": 100,
+    "variant": "takedown_recurbow",
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "volume": 100,
+    "variant": "woodgreatbow",
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "volume": 100,
+    "variant": "doublespeargun",
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "volume": 100,
+    "variant": "minispeargun",
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "fire_gun",
+    "volume": 100,
+    "variant": "speargun",
+    "files": [ "fire_gun/bows/bow_1.ogg" ]
+  }
+]

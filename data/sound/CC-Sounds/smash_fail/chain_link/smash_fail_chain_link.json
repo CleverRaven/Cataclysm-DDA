@@ -1,0 +1,79 @@
+[
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_chaingate_l",
+    "volume": 50,
+    "files": [
+      "smash_fail/chain_link/smash_fail_chain_link.ogg",
+      "smash_fail/chain_link/smash_fail_chain_link_1.ogg",
+      "smash_fail/chain_link/smash_fail_chain_link_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_chaingate_c",
+    "volume": 50,
+    "files": [
+      "smash_fail/chain_link/smash_fail_chain_link.ogg",
+      "smash_fail/chain_link/smash_fail_chain_link_1.ogg",
+      "smash_fail/chain_link/smash_fail_chain_link_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_chaingate_o",
+    "volume": 50,
+    "files": [
+      "smash_fail/chain_link/smash_fail_chain_link.ogg",
+      "smash_fail/chain_link/smash_fail_chain_link_1.ogg",
+      "smash_fail/chain_link/smash_fail_chain_link_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_chainfence",
+    "volume": 50,
+    "files": [
+      "smash_fail/chain_link/smash_fail_chain_link.ogg",
+      "smash_fail/chain_link/smash_fail_chain_link_1.ogg",
+      "smash_fail/chain_link/smash_fail_chain_link_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_chickenwire_fence",
+    "volume": 50,
+    "files": [
+      "smash_fail/chain_link/smash_fail_chain_link.ogg",
+      "smash_fail/chain_link/smash_fail_chain_link_1.ogg",
+      "smash_fail/chain_link/smash_fail_chain_link_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_screened_porch_wall",
+    "volume": 50,
+    "files": [
+      "smash_fail/chain_link/smash_fail_chain_link.ogg",
+      "smash_fail/chain_link/smash_fail_chain_link_1.ogg",
+      "smash_fail/chain_link/smash_fail_chain_link_2.ogg"
+    ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "smash_fail",
+    "variant": "t_quietfarm_border_fence",
+    "volume": 50,
+    "files": [
+      "smash_fail/chain_link/smash_fail_chain_link.ogg",
+      "smash_fail/chain_link/smash_fail_chain_link_1.ogg",
+      "smash_fail/chain_link/smash_fail_chain_link_2.ogg"
+    ]
+  }
+]
