@@ -1060,9 +1060,7 @@ XE Chronomancy Unique XP style
 [Xedra Evolvd] Yet even more seasonal magic
 Isolation Protocol: Office Levels
 [MoM] Finish Heightened Senses docs
-[Xedra Evolved] Singular Boann's Island
 [MOM] Add some biokinesis utility powers
-[MoM] Guided Evolution requires additional concentration
 [MOM] Add warped strikes teleporter power
 [Magiclysm] Add `Morphogenic Mastery` Biomancer spell
 [MoM] Give feral teleporters Warped Strikes
