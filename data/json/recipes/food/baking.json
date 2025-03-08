@@ -83,7 +83,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "walnut_shelled", 4 ] ],
-      [ [ "honey_bottled", 1 ], [ "syrup", 1 ] ],
+      [ [ "honey_bottled", 1 ], [ "syrup", 1 ], [ "syrup_corn", 1 ] ],
       [ [ "any_butter", 1, "LIST" ] ],
       [ [ "sugar", 2 ] ],
       [ [ "flour_any", 10, "LIST" ] ],
