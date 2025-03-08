@@ -1630,6 +1630,27 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_sylph_bonus_melee_range",
+    "name": [ "Breeze-Cutting Blows" ],
+    "desc": [ "Your strikes cut the air and carry on to your foes." ],
+    "apply_message": "",
+    "remove_message": "Your blows no longer split the air itself.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MELEE_RANGE_MODIFIER",
+            "add": {
+              "math": [ "( (u_spell_level('sylph_bonus_melee_range_spell') * 0.25 ) + 1 ) * scaling_factor( u_val('dexterity') )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_sylph_climb_flying",
     "//": "Hidden, paired with the previous effect sometimes but not always.",
     "name": [ "" ],
