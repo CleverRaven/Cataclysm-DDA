@@ -336,7 +336,7 @@
     "id": "SKYISLAND_UPGRADE_scouting6",
     "type": "mission_definition",
     "name": "Upgrade: Scouting 6",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a warpforged telescope from                                                    .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a warpforged telescope from sensors and telescopes.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_scouting6",
     "count": 1,
@@ -389,13 +389,13 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "microscope_dissecting", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "book_newage_witchcraftbeg", 1 ] ],
-      [ [ "warptoken", 12 ] ],
-      [ [ "platinum_small", 10 ] ],
-      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
-      [ [ "hd_tow_cable", 1 ] ]
+      [ [ "tele_sight", 1 ] ],
+      [ [ "cantilever_small", 1 ] ],
+      [ [ "survivor_scope", 3 ] ],
+      [ [ "warptoken", 16 ] ],
+      [ [ "plastic_chunk", 20 ] ],
+      [ [ "beeper", 1 ], [ "stereo", 1 ], [ "chimes", 1 ] ],
+      [ [ "radio", 1 ] ]
     ]
   },
   {
@@ -454,21 +454,29 @@
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "//": "The components below allow all CBMs that enhances eyes or vision.",
+    "//2": "Two petrified eyes in a sky island run is a daunting task, so the other components are easier to find to compensate.",
     "components": [
-      [ [ "microscope_dissecting", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "book_newage_witchcraftbeg", 1 ] ],
-      [ [ "warptoken", 12 ] ],
-      [ [ "platinum_small", 10 ] ],
-      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
-      [ [ "hd_tow_cable", 1 ] ]
+      [
+        [ "bio_eye_optic", 1 ],
+        [ "bio_armor_eyes", 1 ],
+        [ "bio_ar", 1 ],
+        [ "bio_eye_enhancer", 1 ],
+        [ "bio_infrared", 1 ],
+        [ "bio_night_vision", 1 ]
+      ],
+      [ [ "steroid_eyedrops", 50 ], [ "eyedrops", 50 ] ],
+      [ [ "warptoken", 20 ] ],
+      [ [ "petrified_eye", 2 ] ],
+      [ [ "magic_8_ball", 3 ] ],
+      [ [ "steel_lump", 10 ] ]
     ]
   },
   {
     "id": "SKYISLAND_UPGRADE_scouting8",
     "type": "mission_definition",
     "name": "Upgrade: Scouting 8",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Other Eye of the Island from                     .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Other Eye of the Island from outworldly sensors and esoteric notes.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveals a huge amount of the map around exit points and mission targets.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_scouting8",
     "count": 1,
@@ -520,21 +528,21 @@
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "//": "Yrax sensors are very hard to find, so the other components are few to compensate.",
     "components": [
-      [ [ "microscope_dissecting", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "book_newage_witchcraftbeg", 1 ] ],
-      [ [ "warptoken", 12 ] ],
-      [ [ "platinum_small", 10 ] ],
-      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
-      [ [ "hd_tow_cable", 1 ] ]
+      [ [ "exodii_sensor", 3 ] ],
+      [ [ "self_monitoring_module", 2 ] ],
+      [ [ "yrax_sensor", 1 ] ],
+      [ [ "warptoken", 24 ] ],
+      [ [ "book_newage_witchcraftadv", 1 ] ],
+      [ [ "gold_small", 100 ] ]
     ]
   },
   {
     "id": "SKYISLAND_UPGRADE_scoutingclairvoyance1",
     "type": "mission_definition",
     "name": "Upgrade: Scouting Clairvoyance 1",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft             from                     .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: See everything near you for a short time when beginning a mission.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Higher Viewpoint from notes on the psychic and things that belong to the dead.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: See everything near you for a short time when beginning a mission.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_scouting8",
     "count": 1,
@@ -565,7 +573,7 @@
     "id": "upgradekey_scoutingclairvoyance1",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "                " },
+    "name": { "str": "Higher Viewpoint" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting Clairvoyance 1",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -586,21 +594,21 @@
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "//": "The clay urn is craftable, the porcelain urn is 100% likely to be found in retirement centers and a crystal urn can be found in one mansion out of two.",
     "components": [
-      [ [ "microscope_dissecting", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "book_newage_witchcraftbeg", 1 ] ],
-      [ [ "warptoken", 12 ] ],
-      [ [ "platinum_small", 10 ] ],
-      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
-      [ [ "hd_tow_cable", 1 ] ]
+      [ [ "book_newage_inpsychic", 1 ], [ "book_newage_beyondveil", 1 ] ],
+      [ [ "clay_urn", 1 ] ],
+      [ [ "porcelain_urn", 1 ] ],
+      [ [ "crystal_urn", 1 ] ],
+      [ [ "warptoken", 16 ] ],
+      [ [ "corpse_ash", 3000 ] ]
     ]
   },
   {
     "id": "SKYISLAND_UPGRADE_scoutingclairvoyance2",
     "type": "mission_definition",
-    "name": "Upgrade: Scouting 8",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Other Eye of the Island from                     .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: See everything near you at the start of a mission of a longer time.",
+    "name": "Upgrade: Scouting Clairvoyance 2",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the All-Seeing Effigy from the remains of the observers and detection tools.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: See everything near you at the start of a mission of a longer time.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_scoutingclairvoyance2",
     "count": 1,
@@ -631,7 +639,7 @@
     "id": "upgradekey_scoutingclairvoyance2",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "                       " },
+    "name": { "str": "All-Seeing Effigy" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Scouting Clairvoyance 2",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -641,7 +649,7 @@
     "color": "white"
   },
   {
-    "result": "upgradekey_scouting8",
+    "result": "upgradekey_scoutingclairvoyance2",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "category": "CC_WARP",
@@ -653,13 +661,46 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "microscope_dissecting", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "book_newage_witchcraftbeg", 1 ] ],
-      [ [ "warptoken", 12 ] ],
-      [ [ "platinum_small", 10 ] ],
-      [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
-      [ [ "hd_tow_cable", 1 ] ]
+      [
+        [ "broken_lab_security_drone_BM", 1 ],
+        [ "broken_lab_security_drone_YM", 1 ],
+        [ "broken_lab_security_drone_GR", 1 ],
+        [ "broken_lab_security_drone_GM", 1 ],
+        [ "broken_lab_security_drone_BM2", 1 ]
+      ],
+      [
+        [ "broken_lab_security_drone_BM", 1 ],
+        [ "broken_lab_security_drone_YM", 1 ],
+        [ "broken_lab_security_drone_GR", 1 ],
+        [ "broken_lab_security_drone_GM", 1 ],
+        [ "broken_lab_security_drone_BM2", 1 ]
+      ],
+      [
+        [ "broken_lab_security_drone_BM", 1 ],
+        [ "broken_lab_security_drone_YM", 1 ],
+        [ "broken_lab_security_drone_GR", 1 ],
+        [ "broken_lab_security_drone_GM", 1 ],
+        [ "broken_lab_security_drone_BM2", 1 ]
+      ],
+      [
+        [ "broken_lab_security_drone_BM", 1 ],
+        [ "broken_lab_security_drone_YM", 1 ],
+        [ "broken_lab_security_drone_GR", 1 ],
+        [ "broken_lab_security_drone_GM", 1 ],
+        [ "broken_lab_security_drone_BM2", 1 ]
+      ],
+      [
+        [ "broken_lab_security_drone_BM", 1 ],
+        [ "broken_lab_security_drone_YM", 1 ],
+        [ "broken_lab_security_drone_GR", 1 ],
+        [ "broken_lab_security_drone_GM", 1 ],
+        [ "broken_lab_security_drone_BM2", 1 ]
+      ],
+      [ [ "pathfinding_module", 5 ] ],
+      [ [ "warptoken", 22 ] ],
+      [ [ "light_detector", 5 ] ],
+      [ [ "emf_detector", 1 ] ],
+      [ [ "geiger_off", 1 ] ]
     ]
   },
   {
