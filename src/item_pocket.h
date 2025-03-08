@@ -292,7 +292,7 @@ class item_pocket
         std::optional<item> remove_item( const item &it );
         std::optional<item> remove_item( const item_location &it );
         // spills any contents that can't fit into the pocket, largest items first
-        void overflow( const tripoint_bub_ms &pos, const item_location &loc );
+        void overflow( map &here, const tripoint_bub_ms &pos, const item_location &loc );
         bool spill_contents( const tripoint_bub_ms &pos );
         bool spill_contents( map *here, const tripoint_bub_ms &pos );
         void on_pickup( Character &guy, item *avoid = nullptr );

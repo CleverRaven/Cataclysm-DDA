@@ -97,7 +97,7 @@ TEST_CASE( "mapgen_remove_vehicles" )
     clear_avatar();
     // this position should prevent pointless mapgen
     tripoint_bub_ms const start_loc( HALF_MAPSIZE_X + SEEX - 2, HALF_MAPSIZE_Y + SEEY - 1, 0 );
-    get_avatar().setpos( start_loc );
+    get_avatar().setpos( here, start_loc );
     clear_map();
     REQUIRE( here.get_vehicles().empty() );
 

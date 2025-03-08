@@ -82,7 +82,7 @@
 #include "talker.h"
 #include "teleport.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "vehicle.h"
@@ -626,7 +626,6 @@ void npc::deactivate_or_discharge_bionic_weapon( bool stow_real_weapon )
 
 void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 {
-    map &here = get_map();
     // if we're already using a bio_weapon, keep using it
     if( is_using_bionic_weapon() ) {
         return;
@@ -654,7 +653,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     item_location weapon = get_wielded_item();
     const item &weap = weapon ? *weapon : null_item_reference();
 
-    int ammo_count = weap.ammo_remaining( here, this );
+    int ammo_count = weap.ammo_remaining( this );
     const units::energy ups_drain = weap.get_gun_ups_drain();
     if( ups_drain > 0_kJ ) {
         ammo_count = units::from_kilojoule( static_cast<std::int64_t>( ammo_count ) ) / ups_drain;
@@ -913,7 +912,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
         add_msg_activate();
 
-        teleport::teleport( *this );
+        teleport::teleport_creature( *this );
         mod_moves( -100 );
     } else if( bio.id == bio_blood_anal ) {
         add_msg_activate();
@@ -1215,6 +1214,8 @@ ret_val<void> Character::can_deactivate_bionic( bionic &bio, bool eff_only ) con
 
 bool Character::deactivate_bionic( bionic &bio, bool eff_only )
 {
+    const map &here = get_map();
+
     const auto can_deactivate = can_deactivate_bionic( bio, eff_only );
     bio_flag_cache.clear();
     if( !can_deactivate.success() ) {
@@ -1247,7 +1248,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
         if( bio.get_uid() == get_weapon_bionic_uid() ) {
             bio.set_weapon( *get_wielded_item() );
             add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
-            if( get_player_view().sees( pos_bub() ) ) {
+            if( get_player_view().sees( here, pos_bub( here ) ) ) {
                 if( male ) {
                     add_msg_if_npc( m_info, _( "<npcname> withdraws his %s." ), weapon.tname() );
                 } else {
@@ -1408,7 +1409,7 @@ void Character::burn_fuel( bionic &bio )
         for( item *fuel_source : result.connected_fuel ) {
             item *fuel;
             // Fuel may be ammo or in container
-            if( fuel_source->ammo_remaining( here ) ) {
+            if( fuel_source->ammo_remaining( ) ) {
                 fuel = &fuel_source->first_ammo();
             } else {
                 fuel = fuel_source->all_items_ptr( pocket_type::CONTAINER ).front();
@@ -1816,6 +1817,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
 void Character::bionics_uninstall_failure( monster &installer, Character &patient, int difficulty,
         int success, float adjusted_skill )
 {
+    const map &here = get_map();
 
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful removal.  We use this to determine consequences for failing.
@@ -1829,7 +1831,7 @@ void Character::bionics_uninstall_failure( monster &installer, Character &patien
                               adjusted_skill ) );
     const int fail_type = std::min( 5, failure_level );
 
-    bool u_see = sees( patient );
+    bool u_see = sees( here, patient );
 
     if( u_see || patient.is_avatar() ) {
         if( fail_type <= 0 ) {
@@ -2220,6 +2222,8 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
 bool Character::uninstall_bionic( const bionic &bio, monster &installer, Character &patient,
                                   float adjusted_skill )
 {
+    const map &here = get_map();
+
     viewer &player_view = get_player_view();
     if( installer.ammo[itype_anesthetic] <= 0 ) {
         add_msg_if_player_sees( installer, _( "The %s's anesthesia kit looks empty." ), installer.name() );
@@ -2264,7 +2268,7 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
         if( patient.is_avatar() ) {
             add_msg( m_neutral, _( "Your parts are jiggled back into their familiar places." ) );
             add_msg( m_mixed, _( "Successfully removed %s." ), bio.info().name );
-        } else if( patient.is_npc() && player_view.sees( patient ) ) {
+        } else if( patient.is_npc() && player_view.sees( here, patient ) ) {
             add_msg( m_neutral, _( "%s's parts are jiggled back into their familiar places." ),
                      patient.disp_name() );
             add_msg( m_mixed, _( "Successfully removed %s." ), bio.info().name );
@@ -3316,7 +3320,6 @@ bionic_id Character::get_remote_fueled_bionic() const
 
 std::vector<item *> Character::get_bionic_fuels( const bionic_id &bio )
 {
-    map &here = get_map();
     std::vector<item *> stored_fuels;
 
     for( item_location it : top_items_loc() ) {
@@ -3324,7 +3327,7 @@ std::vector<item *> Character::get_bionic_fuels( const bionic_id &bio )
             continue;
         }
         for( const material_id &mat : bio->fuel_opts ) {
-            if( it->ammo_remaining( here ) && it->first_ammo().made_of( mat ) ) {
+            if( it->ammo_remaining( ) && it->first_ammo().made_of( mat ) ) {
                 // Ammo from magazines
                 stored_fuels.emplace_back( it.get_item() );
             } else {
@@ -3344,7 +3347,6 @@ std::vector<item *> Character::get_bionic_fuels( const bionic_id &bio )
 
 std::vector<item *> Character::get_cable_ups()
 {
-    map &here = get_map();
     std::vector<item *> stored_fuels;
 
     int n = cache_get_items_with( flag_CABLE_SPOOL, []( const item & it ) {
@@ -3358,7 +3360,7 @@ std::vector<item *> Character::get_cable_ups()
     // So if there are multiple cables and some of them are only partially connected this may add wrong ups
     for( item_location it : all_items_loc() ) {
         if( it->has_flag( flag_IS_UPS ) && it->get_var( "cable" ) == "plugged_in" &&
-            it->ammo_remaining( here ) ) {
+            it->ammo_remaining( ) ) {
             stored_fuels.emplace_back( it.get_item() );
             n--;
         }
@@ -3368,7 +3370,7 @@ std::vector<item *> Character::get_cable_ups()
     }
 
     if( n > 0 && weapon.has_flag( flag_IS_UPS ) && weapon.get_var( "cable" ) == "plugged_in" &&
-        weapon.ammo_remaining( here ) ) {
+        weapon.ammo_remaining( ) ) {
         stored_fuels.emplace_back( &weapon.first_ammo() );
     }
 
@@ -3465,7 +3467,7 @@ void Character::update_bionic_power_capacity()
     for( const bionic_id &bid : get_bionics() ) {
         max_power_level_cached += bid->capacity;
     }
-    max_power_level_cached = clamp( max_power_level_cached, 0_kJ, units::energy_max );
+    max_power_level_cached = clamp( max_power_level_cached, 0_kJ, units::energy::max() );
 
     set_power_level( get_power_level() );
 }

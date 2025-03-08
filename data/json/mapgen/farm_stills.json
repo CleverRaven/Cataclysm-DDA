@@ -263,7 +263,7 @@
         "                        ",
         "                        ",
         "  ####  ####            ",
-        "###.F####.g###          ",
+        "###.â####.g###          ",
         "#............#          ",
         "#a..r..e..c..#          ",
         "#a..r..e..c..#          ",
@@ -285,7 +285,7 @@
         "#####Δ##################",
         "    ###                 "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "terrain": { "Δ": "t_ramp_up_high", ".": "t_dirtfloor", "#": "t_wall_log" },
       "furniture": {
         "G": "f_table",
@@ -300,7 +300,7 @@
         "X": "f_wood_keg",
         "W": "f_wood_keg"
       },
-      "place_vehicles": [ { "vehicle": "bikeshop", "x": 22, "y": 19, "chance": 100, "rotation": 90 } ],
+      "place_vehicles": [ { "vehicle": "bikeshop", "x": 22, "y": 19, "rotation": 90 } ],
       "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 500 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 500 ] } },
       "items": {
         "%": { "item": "wines_worthy", "chance": 70, "repeat": [ 1, 2 ] },

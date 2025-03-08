@@ -63,6 +63,7 @@
         "c": "f_chair",
         "n": "f_slab"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "place_loot": [
         { "item": "shovel", "repeat": 1, "x": 17, "y": 4 },
@@ -73,7 +74,7 @@
         { "chance": 3, "item": "creepy", "x": 21, "y": 20 },
         { "chance": 3, "item": "creepy", "x": 4, "y": 19 },
         { "chance": 3, "item": "creepy", "x": 4, "y": 3 },
-        { "chance": 20, "item": "trash", "x": 22, "y": 20 }
+        { "chance": 20, "item": "SUS_trash_trashcan_public", "x": 22, "y": 20 }
       ],
       "place_monsters": [ { "chance": 2, "density": 0.5, "monster": "GROUP_ZOMBIE", "x": [ 0, 18 ], "y": [ 0, 6 ] } ]
     }

@@ -6,9 +6,8 @@
 #include <string>
 #include <vector>
 
-#include "activity_type.h"
 #include "coordinates.h"
-#include "point.h"
+#include "type_id.h"
 
 class Character;
 class avatar;

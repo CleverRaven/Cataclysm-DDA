@@ -151,19 +151,9 @@
     "name": { "str": "durable plastic sack, cement" },
     "looks_like": "bag_plastic",
     "description": "A large and sturdy sack, made out plastic material.  Stores cement and has instructions on how to use it to make mortar.",
-    "//": "durasack woven polypropylene bags",
+    "//": "book data is used so item can work as book and provide recipes",
     "copy-from": "bag_durasack",
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Instructions on what to do with the contents of the bag.",
-      "effect_on_conditions": [ "EOC_CEMENT_INSTRUCTIONS" ]
-    }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_CEMENT_INSTRUCTIONS",
-    "condition": { "and": [ { "not": { "u_has_trait": "ILLITERATE" } }, { "not": "u_driving" } ] },
-    "effect": [ { "u_learn_recipe": "mortar_build" } ]
+    "book_data": { "max_level": 0, "skill": "fabrication" }
   },
   {
     "id": "bag_canvas",
@@ -1186,7 +1176,16 @@
       "type": "transform",
       "moves": 500,
       "need_empty": true
-    }
+    },
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "223_ammo_box_500",
+        "name": { "str": ".223/5.56 ammo box", "str_pl": ".223/5.56 ammo boxes" },
+        "description": "This box is pretty hefty, holding 500 rounds of .223 or 5.56 ammo.  It's made of a thick cardboard plastered with text about the ammo, and the manufacturer's logo.",
+        "weight": 0
+      }
+    ]
   },
   {
     "id": "box_small_folded",

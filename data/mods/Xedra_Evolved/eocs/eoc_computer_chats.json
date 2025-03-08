@@ -1,0 +1,12 @@
+[
+  {
+    "id": "EOC_OFFWORLD_ACQUISITIONS_ASSETS",
+    "type": "effect_on_condition",
+    "effect": { "open_dialogue": { "topic": "OFFWORLD_ACQUISITIONS_ASSETS_COMPUTER_MAIN" } }
+  },
+  {
+    "id": "EOC_OFFWORLD_ACQUISITIONS_RAW_MATERIALS",
+    "type": "effect_on_condition",
+    "effect": { "open_dialogue": { "topic": "OFFWORLD_ACQUISITIONS_RAW_MATERIALS_COMPUTER_MAIN" } }
+  }
+]

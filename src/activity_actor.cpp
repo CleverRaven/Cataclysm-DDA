@@ -94,7 +94,7 @@
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -177,11 +177,6 @@ static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
 
 static const ammotype ammo_plutonium( "plutonium" );
 
-static const damage_type_id damage_acid( "acid" );
-static const damage_type_id damage_bash( "bash" );
-static const damage_type_id damage_cut( "cut" );
-static const damage_type_id damage_stab( "stab" );
-
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_gliding( "gliding" );
@@ -206,11 +201,12 @@ static const furn_str_id furn_f_safe_o( "f_safe_o" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 
+static const item_group_id
+Item_spawn_data_SUS_trash_forest_no_manmade( "SUS_trash_forest_no_manmade" );
 static const item_group_id Item_spawn_data_forage_autumn( "forage_autumn" );
 static const item_group_id Item_spawn_data_forage_spring( "forage_spring" );
 static const item_group_id Item_spawn_data_forage_summer( "forage_summer" );
 static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
-static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_detergent( "detergent" );
@@ -261,6 +257,7 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
+static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_traps( "traps" );
 
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -400,7 +397,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     gun_mode gun = weapon->gun_current_mode();
     // We need to make sure RAS weapon is loaded/reloaded in case the aim activity was temp. suspended
     // therefore the order of evaluation matters here
-    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining( here ) && !reload_loc ) {
+    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining( ) && !reload_loc ) {
         if( !load_RAS_weapon() ) {
             aborted = true;
             act.moves_left = 0;
@@ -454,7 +451,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     }
 
     gun_mode gun = weapon->gun_current_mode();
-    who.fire_gun( &here, fin_trajectory.back(), gun.qty, *gun, reload_loc );
+    who.fire_gun( here, fin_trajectory.back(), gun.qty, *gun, reload_loc );
 
     if( !get_option<bool>( "AIM_AFTER_FIRING" ) ) {
         restore_view();
@@ -566,7 +563,7 @@ bool aim_activity_actor::load_RAS_weapon()
         {
             return false;
         }
-        if( square_dist( you.pos_bub(), you.ammo_location.pos_bub() ) > 1 )
+        if( square_dist( you.pos_abs(), you.ammo_location.pos_abs() ) > 1 )
         {
             return false;
         }
@@ -586,7 +583,6 @@ bool aim_activity_actor::load_RAS_weapon()
 
 void aim_activity_actor::unload_RAS_weapon()
 {
-    map &here = get_map();
     avatar &you = get_avatar();
     item_location weapon = get_weapon();
     if( !weapon || !should_unload_RAS ) {
@@ -595,7 +591,7 @@ void aim_activity_actor::unload_RAS_weapon()
 
     gun_mode gun = weapon->gun_current_mode();
     if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        if( gun->ammo_remaining( here ) ) {
+        if( gun->ammo_remaining( ) ) {
             item_location loc = item_location( you, gun.target );
             you.unload( loc, true );
         }
@@ -760,7 +756,6 @@ void gunmod_remove_activity_actor::finish( player_activity &act, Character &who 
 
 bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
 {
-    map &here = get_map();
     if( gunmod.has_flag( flag_BRASS_CATCHER ) ) {
         // Exclude brass catchers so that removing them wouldn't spill the casings
         return true;
@@ -772,7 +767,7 @@ bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
     // Character::gunmod_remove
     // Remove one of them before making gunmod_unload take time
     item_location loc = item_location( who, &gunmod );
-    return !( gunmod.ammo_remaining( here ) && !who.unload( loc, true ) );
+    return !( gunmod.ammo_remaining( ) && !who.unload( loc, true ) );
 }
 
 void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, item &mod )
@@ -852,6 +847,8 @@ static int hack_level( const Character &who, item_location &tool )
 
 static hack_result hack_attempt( Character &who, item_location &tool )
 {
+    map &here = get_map();
+
     // TODO: Remove this once player -> Character migration is complete
     {
         who.practice( skill_computer, 20 );
@@ -863,10 +860,10 @@ static hack_result hack_attempt( Character &who, item_location &tool )
     int success = std::ceil( normal_roll( hack_level( who, tool ), hack_stddev ) );
     if( success < 0 ) {
         who.add_msg_if_player( _( "You cause a short circuit!" ) );
-        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
+        tool->ammo_consume( tool->ammo_required(), here, tool.pos_bub( here ), &who );
 
         if( success <= -5 ) {
-            tool->ammo_consume( ( tool->ammo_required() * 2 ), tool.pos_bub(), &who );
+            tool->ammo_consume( ( tool->ammo_required() * 2 ), here, tool.pos_bub( here ), &who );
         }
         return hack_result::FAIL;
     } else if( success < 6 ) {
@@ -982,8 +979,6 @@ void bookbinder_copy_activity_actor::do_turn( player_activity &, Character &p )
 
 void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p )
 {
-    map &here = get_map();
-
     if( !book_binder->can_contain( item( itype_paper, calendar::turn, pages ) ).success() ) {
         debugmsg( "Book binder can not contain '%s' recipe when it should.", rec_id.str() );
         act.set_to_null();
@@ -1001,7 +996,7 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
 
         const std::vector<const item *> writing_tools_filter =
         p.crafting_inventory().items_with( [&]( const item & it ) {
-            return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_remaining( here ) >= it.ammo_required() ;
+            return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_remaining( ) >= it.ammo_required() ;
         } );
 
         std::vector<tool_comp> writing_tools;
@@ -1186,6 +1181,8 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
 
 void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
+    map &here = get_map();
+
     std::string method = "HACKSAW";
 
     if( !veh_pos.has_value() ) {
@@ -1196,7 +1193,7 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
                 ammo_consumed *= iter->second;
             }
 
-            tool->ammo_consume( ammo_consumed, tool.pos_bub(), &who );
+            tool->ammo_consume( ammo_consumed, here, tool.pos_bub( here ), &who );
             sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
             if( calendar::once_every( 1_minutes ) ) {
                 //~ Sound of a metal sawing tool at work!
@@ -1420,6 +1417,8 @@ std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( Js
 
 void glide_activity_actor::do_turn( player_activity &act, Character &you )
 {
+    map &here = get_map();
+
     tripoint_rel_ms heading;
     if( jump_direction == 0 ) {
         heading = tripoint_rel_ms::south;
@@ -1446,8 +1445,8 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         heading = tripoint_rel_ms::south_east;
     }
     const tripoint_abs_ms newpos = you.pos_abs() + heading;
-    const tripoint_bub_ms checknewpos = you.pos_bub() + heading;
-    if( !get_map().is_open_air( you.pos_bub() ) || heading == tripoint_rel_ms::zero ) {
+    const tripoint_bub_ms checknewpos = you.pos_bub( here ) + heading;
+    if( !here.is_open_air( you.pos_bub( here ) ) || heading == tripoint_rel_ms::zero ) {
         you.add_msg_player_or_npc( m_good,
                                    _( "You come to a gentle landing." ),
                                    _( "<npcname> comes to a gentle landing." ) );
@@ -1456,11 +1455,11 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         act.set_to_null();
         return;
     }   // Have we crashed into a wall?
-    if( get_map().impassable( checknewpos ) ) {
+    if( here.impassable( checknewpos ) ) {
         you.add_msg_player_or_npc( m_bad,
                                    _( "You collide with %s, bringing an abrupt halt to your glide." ),
                                    _( "<npcname> collides with %s, bringing an abrupt halt to their glide." ),
-                                   get_map().tername( checknewpos ) );
+                                   here.tername( checknewpos ) );
         you.remove_effect( effect_gliding );
         you.gravity_check();
         act.set_to_null();
@@ -1501,9 +1500,7 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         moved_tiles = 0;
     }
     you.mod_moves( -you.get_speed() * 0.5 );
-    get_map().update_visibility_cache( you.posz() );
-    get_map().update_visibility_cache( you.posx() );
-    get_map().update_visibility_cache( you.posy() );
+    here.update_visibility_cache( you.posz() );
     if( you.is_avatar() ) {
         g->update_map( you );
     }
@@ -1984,13 +1981,15 @@ bool read_activity_actor::player_readma( avatar &you )
 
 bool read_activity_actor::npc_read( npc &learner )
 {
+    map &here = get_map();
+
     const cata::value_ptr<islot_book> &islotbook = book->type->book;
     const skill_id &skill = islotbook->skill;
 
     // NPCs don't need to identify the book or learn recipes yet.
     // NPCs don't read to other NPCs yet.
     const bool display_messages = learner.get_fac_id() == faction_your_followers &&
-                                  get_player_character().sees( learner );
+                                  get_player_character().sees( here, learner );
 
     const int book_fun = learner.book_fun_for( *book, learner );
     if( book_fun != 0 ) {
@@ -2219,7 +2218,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             continue;
         }
         // Spill out any invalid contents first
-        target.overflow();
+        target.overflow( here );
 
         item &leftovers = *target;
         // Make a copy to be put in the destination location
@@ -2241,7 +2240,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 
         // This is for hauling across zlevels, remove when going up and down stairs
         // is no longer teleportation
-        const tripoint_bub_ms src = target.pos_bub();
+        const tripoint_bub_ms src = target.pos_bub( here );
         const int distance = src.z() == dest.z() ? std::max( rl_dist( src, dest ), 1 ) : 1;
         // Yuck, I'm sticking weariness scaling based on activity level here
         const float weary_mult = who.exertion_adjusted_move_multiplier( exertion_level() );
@@ -2426,8 +2425,10 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
 
 void boltcutting_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
+    map &here = get_map();
+
     if( tool->ammo_sufficient( &who ) ) {
-        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
+        tool->ammo_consume( tool->ammo_required(), here, tool.pos_bub( here ), &who );
     } else {
         if( who.is_avatar() ) {
             who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
@@ -2736,6 +2737,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
 std::optional<tripoint_bub_ms> lockpick_activity_actor::select_location( avatar &you )
 {
+    map &here = get_map();
+
     if( you.cant_do_mounted() ) {
         return std::nullopt;
     }
@@ -2752,7 +2755,8 @@ std::optional<tripoint_bub_ms> lockpick_activity_actor::select_location( avatar 
     };
 
     std::optional<tripoint_bub_ms> target = choose_adjacent_highlight(
-            _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), is_pickable, false );
+            here, _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), is_pickable,
+            false );
     if( !target ) {
         return std::nullopt;
     }
@@ -3041,6 +3045,8 @@ void efile_activity_actor::start( player_activity &act, Character &who )
 
 void efile_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     auto edevice_reduce_charge = [&]( item_location & edevice ) {
         if( calendar::once_every( charge_time( action_type ) ) ) {
             if( !edevice->ammo_sufficient( &who ) ) {
@@ -3049,7 +3055,7 @@ void efile_activity_actor::do_turn( player_activity &act, Character &who )
                                                    edevice->display_name() ) );
                 return false;
             }
-            edevice->ammo_consume( edevice->ammo_required(), edevice.pos_bub(), &who );
+            edevice->ammo_consume( edevice->ammo_required(), here, edevice.pos_bub( here ), &who );
             add_msg_debug( debugmode::DF_ACT_EBOOK, "%s power check", edevice->display_name() );
         }
         return true;
@@ -3987,8 +3993,6 @@ void unload_activity_actor::finish( player_activity &act, Character &who )
 
 void unload_activity_actor::unload( Character &who, item_location &target )
 {
-    map &here = get_map();
-
     int qty = 0;
     item &it = *target.get_item();
     bool actually_unloaded = false;
@@ -4063,7 +4067,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         who.add_msg_if_player( _( "You unload your %s." ), it.tname() );
     }
 
-    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining( here ) == 0 ) {
+    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining( ) == 0 ) {
         target.remove_item();
     }
 
@@ -4108,7 +4112,7 @@ bool craft_activity_actor::check_if_craft_okay( item_location &craft_item, Chara
     item *craft = craft_item.get_item();
 
     // item_location::get_item() will return nullptr if the item is lost
-    if( !craft || square_dist( craft_item.pos_bub(), crafter.pos_bub() ) > 1 ) {
+    if( !craft || square_dist( craft_item.pos_abs(), crafter.pos_abs() ) > 1 ) {
         crafter.add_msg_player_or_npc(
             _( "You no longer have the in progress craft in your possession.  "
                "You stop crafting.  "
@@ -4144,6 +4148,8 @@ void craft_activity_actor::start( player_activity &act, Character &crafter )
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
 {
+    map &here = get_map();
+
     if( !check_if_craft_okay( craft_item, crafter ) ) {
         act.set_to_null();
         return;
@@ -4153,7 +4159,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     item &craft = *craft_item.get_item();
 
     const std::optional<tripoint_bub_ms> location = craft_item.where() == item_location::type::character
-            ? std::optional<tripoint_bub_ms>() : std::optional<tripoint_bub_ms>( craft_item.pos_bub() );
+            ? std::optional<tripoint_bub_ms>() : std::optional<tripoint_bub_ms>( craft_item.pos_bub( here ) );
     const recipe &rec = craft.get_making();
     if( !use_cached_workbench_multiplier ) {
         cached_workbench_multiplier = crafter.workbench_crafting_speed_multiplier( craft, location );
@@ -5079,7 +5085,7 @@ static bool is_bulk_load( const item_location &lhs, const item_location &rhs )
                 break;
             case item_location::type::map:
             case item_location::type::vehicle:
-                return lhs.pos_bub() == rhs.pos_bub();
+                return lhs.pos_abs() == rhs.pos_abs();
                 break;
             default:
                 break;
@@ -5338,6 +5344,8 @@ void reload_activity_actor::make_reload_sound( Character &who, item &reloadable 
 
 void reload_activity_actor::finish( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     act.set_to_null();
     if( !can_reload() ) {
         return;
@@ -5413,7 +5421,8 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     switch( reload_query.ret ) {
         case 1:
             // This case is only reachable if wield_check is true
-            who.wield( reloadable );
+
+            who.wield( target_loc );
             add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
                      reloadable_name );
             break;
@@ -5425,7 +5434,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
                                                   _( "The %s no longer fits in your inventory so you drop it instead." ),
                                                   reloadable_name );
             }
-            get_map().add_item_or_charges( loc.pos_bub(), reloadable );
+            here.add_item_or_charges( loc.pos_bub( here ), reloadable );
             loc.remove_item();
             break;
     }
@@ -5749,6 +5758,8 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
 
 void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     if( !check_if_disassemble_okay( target, who ) ) {
         act.set_to_null();
         return;
@@ -5758,7 +5769,7 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
     item &craft = *target;
 
     const std::optional<tripoint_bub_ms> location = target.where() == item_location::type::character
-            ? std::optional<tripoint_bub_ms>() : std::optional<tripoint_bub_ms>( target.pos_bub() );
+            ? std::optional<tripoint_bub_ms>() : std::optional<tripoint_bub_ms>( target.pos_bub( here ) );
     if( !use_cached_workbench_multiplier ) {
         cached_workbench_multiplier = who.workbench_crafting_speed_multiplier( craft, location );
         use_cached_workbench_multiplier = true;
@@ -5882,8 +5893,10 @@ void oxytorch_activity_actor::start( player_activity &act, Character &who )
 
 void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
+    map &here = get_map();
+
     if( tool->ammo_sufficient( &who ) ) {
-        tool->ammo_consume( tool->ammo_required(), tool.pos_bub(), &who );
+        tool->ammo_consume( tool->ammo_required(), here, tool.pos_bub( here ), &who );
         sfx::play_activity_sound( "tool", "oxytorch", sfx::get_heard_volume( target ) );
         if( calendar::once_every( 2_turns ) ) {
             sounds::sound( target, 10, sounds::sound_t::destructive_activity, _( "hissssssssss!" ) );
@@ -6346,6 +6359,8 @@ void prying_activity_actor::start( player_activity &act, Character &who )
 
 void prying_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
+    map &here = get_map();
+
     std::string method = "CROWBAR";
 
     if( tool->ammo_sufficient( &who, method ) ) {
@@ -6354,7 +6369,7 @@ void prying_activity_actor::do_turn( player_activity &/*act*/, Character &who )
         if( iter != tool->type->ammo_scale.end() ) {
             ammo_consumed *= iter->second;
         }
-        tool->ammo_consume( ammo_consumed, tool.pos_bub(), &who );
+        tool->ammo_consume( ammo_consumed, here, tool.pos_bub( here ), &who );
         if( prying_nails ) {
             sfx::play_activity_sound( "tool", "hammer", sfx::get_heard_volume( target ) );
         }
@@ -7178,6 +7193,8 @@ void firstaid_activity_actor::start( player_activity &act, Character & )
 
 void firstaid_activity_actor::finish( player_activity &act, Character &who )
 {
+    map &here = get_map();
+
     static const std::string iuse_name_string( "heal" );
 
     item_location it = act.targets.front();
@@ -7217,12 +7234,12 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
         it.remove_item();
     } else if( used_tool->is_medication() ) {
         if( !it->count_by_charges() ||
-            it->use_charges( it->typeId(), charges_consumed, used, it.pos_bub() ) ) {
+            it->use_charges( it->typeId(), charges_consumed, used, it.pos_bub( here ) ) ) {
             it.remove_item();
         }
     } else if( used_tool->is_tool() ) {
         if( used_tool->type->charges_to_use() ) {
-            it->activation_consume( charges_consumed, it.pos_bub(), &who );
+            it->activation_consume( charges_consumed, it.pos_bub( here ), &who );
         }
     }
 
@@ -7356,7 +7373,8 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
     // 10% to drop a item/items from this group.
     if( one_in( 10 ) ) {
         const std::vector<item *> dropped =
-            here.put_items_from_loc( Item_spawn_data_trash_forest, who.pos_bub(), calendar::turn );
+            here.put_items_from_loc( Item_spawn_data_SUS_trash_forest_no_manmade, who.pos_bub(),
+                                     calendar::turn );
         // same as above
         std::vector<item *> handled;
         for( item * const &it : dropped ) {
@@ -7921,7 +7939,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
 
-                            if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining( here ) == 0 ) {
+                            if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining( ) == 0 ) {
                                 if( this_veh != nullptr ) {
                                     vehicle_part &vp_this = this_veh->part( this_part );
                                     this_veh->remove_item( vp_this, it->first );
@@ -8233,12 +8251,13 @@ std::unique_ptr<activity_actor> vehicle_unfolding_activity_actor::deserialize( J
 
 int heat_activity_actor::get_available_heater( Character &p, item_location &loc ) const
 {
-    map &here = get_map();
+    const map &here = get_map();
+
     int available_heater = 0;
     if( !loc->has_no_links() ) {
         available_heater = loc->link().t_veh->connected_battery_power_level( here ).first;
     } else if( !loc->has_flag( flag_USE_UPS ) ) {
-        available_heater = loc->ammo_remaining( here );
+        available_heater = loc->ammo_remaining( );
     } else if( loc->has_flag( flag_USE_UPS ) ) {
         available_heater = units::to_kilojoule( p.available_ups() );
     }
@@ -8329,7 +8348,7 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
             here.veh_at( h.vpt ).value().vehicle().discharge_battery( here, requirements.ammo *
                     h.heating_effect );
         } else {
-            h.loc->activation_consume( requirements.ammo, h.loc.pos_bub(), &p );
+            h.loc->activation_consume( requirements.ammo, h.loc.pos_bub( here ), &p );
         }
     }
     p.add_msg_if_player( m_good, _( "You heated your items." ) );
@@ -8455,127 +8474,212 @@ std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
-void pulp_activity_actor::start( player_activity &act, Character & )
+void pulp_activity_actor::start( player_activity &act, Character &you )
 {
+    // indefinitely long so activity won't end until we pulp all the corpses
+    // we then end the activity manually
     act.moves_total = calendar::INDEFINITELY_LONG;
     act.moves_left = calendar::INDEFINITELY_LONG;
+    you.recoil = MAX_RECOIL;
+
+    pd = g->calculate_character_ability_to_pulp( you );
 }
 
 void pulp_activity_actor::do_turn( player_activity &act, Character &you )
 {
     map &here = get_map();
 
-    const item_location weapon = you.get_wielded_item();
-    int weap_cut = 0;
-    int weap_stab = 0;
-    int weap_bash = 0;
-    int mess_radius = 1;
-
-    if( weapon ) {
-        // FIXME: Hardcoded damage types
-        weap_cut = weapon->damage_melee( damage_cut );
-        weap_stab = weapon->damage_melee( damage_stab );
-        weap_bash = weapon->damage_melee( damage_bash );
-        if( weapon->has_flag( flag_MESSY ) ) {
-            mess_radius = 2;
-        }
-    }
-
-    // Stabbing weapons are a lot less effective at pulping
-    const int cut_power = std::max( weap_cut, weap_stab / 2 );
-
-    ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( you.get_arm_str() + weap_bash ) * ( cut_power + 1.0f ) );
-    float pulp_effort = you.str_cur + weap_bash;
-
-    // Multiplier to get the chance right + some bonus for survival skill
-    pulp_power *= 40 + you.get_skill_level( skill_survival ) * 5;
-
-    int moves = 0;
-    for( auto pos_iter = placement.cbegin(); pos_iter != placement.end();/*left - out*/ ) {
-        const tripoint_bub_ms &pos = here.get_bub( *pos_iter );
+    for( const tripoint_abs_ms &pos_abs : placement ) {
+        tripoint_bub_ms pos = here.get_bub( pos_abs );
         map_stack corpse_pile = here.i_at( pos );
         for( item &corpse : corpse_pile ) {
             if( !corpse.is_corpse() || !corpse.can_revive() ) {
-                // Don't smash non-rezing corpses
+                // Don't smash non-rezing corpses or random items
                 continue;
             }
 
-            const mtype *corpse_mtype = corpse.get_mtype();
-            const bool acid_immune = you.is_immune_damage( damage_acid ) ||
-                                     you.is_immune_field( fd_acid );
-            if( !pulp_acid && corpse_mtype->bloodType().obj().has_acid  && !acid_immune ) {
-                //don't smash acid zombies when auto pulping unprotected
-                continue;
+            if( corpse.damage() < corpse.max_damage() ) {
+                bool can_pulp = punch_corpse_once( corpse, you, pos, here );
+                if( !can_pulp ) {
+                    ++unpulped_corpses_qty;
+                    continue;
+                }
+                return; // pulp at most one corpse per turn
             }
-            while( corpse.damage() < corpse.max_damage() ) {
-                // Increase damage as we keep smashing ensuring we eventually smash the target.
-                if( x_in_y( pulp_power, corpse.volume() / 250_ml ) ) {
-                    corpse.inc_damage();
-                    if( corpse.damage() == corpse.max_damage() ) {
-                        num_corpses++;
-                    }
-                }
-
-                if( x_in_y( pulp_power, corpse.volume() / 250_ml ) ) {
-                    // Splatter some blood around
-                    // Splatter a bit more randomly, so that it looks cooler
-                    const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
-                    const tripoint_bub_ms dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
-                    const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
-                                                     corpse.get_mtype()->gibType() :
-                                                     corpse.get_mtype()->bloodType();
-                    here.add_splatter_trail( type_blood, pos, dest );
-                }
-
-                // mixture of isaac clarke stomps and swinging your weapon
-                you.burn_energy_all( -pulp_effort );
-                you.recoil = MAX_RECOIL;
-
-                if( one_in( 4 ) ) {
-                    // Smashing may not be butchery, but it involves some zombie anatomy
-                    you.practice( skill_survival, 2, 2 );
-                }
-
-                float stamina_ratio = static_cast<float>( you.get_stamina() ) / you.get_stamina_max();
-                moves += to_moves<int>( 6_seconds ) / std::max( 0.25f,
-                         stamina_ratio ) * you.exertion_adjusted_move_multiplier( act.exertion_level() );
-                if( stamina_ratio < 0.33 || you.is_npc() ) {
-                    you.set_moves( std::min( 0, you.get_moves() - moves ) );
-                    return;
-                }
-                if( moves >= you.get_moves() ) {
-                    // Enough for this turn;
-                    you.set_moves( you.get_moves() - moves );
-                    return;
-                }
-            }
-            corpse.set_flag( flag_PULPED );
         }
-        //Upon reach here, we have cleared one maptile
-        pos_iter = placement.erase( pos_iter );
     }
 
-    // If we reach this, all corpses have been pulped, finish the activity
+    // if we are here, that means we survived the whole previous loop
+    // without pulping anything. I.e. we are done.
+    // Stop the activity.
+    act.moves_total = 0;
     act.moves_left = 0;
-    if( num_corpses == 0 ) {
-        you.add_msg_if_player( m_bad, _( "The corpse moved before you could finish smashing it!" ) );
-        return;
+}
+
+bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
+        tripoint_bub_ms pos, map &here )
+{
+    const mtype *corpse_mtype = corpse.get_mtype();
+    if( corpse_mtype == nullptr ) {
+        debugmsg( string_format( "Tried to pulp not-a-corpse (id %s)", corpse.typeId().c_str() ) );
+        return false;
     }
-    // TODO: Factor in how long it took to do the smashing.
-    you.add_msg_player_or_npc( n_gettext( "The corpse is thoroughly pulped.",
-                                          "The corpses are thoroughly pulped.", num_corpses ),
-                               n_gettext( "<npcname> finished pulping the corpse.",
-                                          "<npcname> finished pulping the corpses.", num_corpses ) );
+
+    pd = g->calculate_pulpability( you, *corpse_mtype, pd );
+
+    if( !g->can_pulp_corpse( you, *corpse_mtype, pd ) ) {
+        way_too_long_to_pulp = true;
+        return false;
+    }
+
+    add_msg_debug( debugmode::DF_ACTIVITY, "time to pulp: %s", pd.time_to_pulp );
+
+    // 10 minutes
+    if( pd.time_to_pulp > 600 && !too_long_to_pulp ) {
+        if( you.query_yn( "Pulping one or more corpses in this pile would take too much time.  Continue?" ) ) {
+            too_long_to_pulp = true;
+        } else {
+            too_long_to_pulp_interrupted = true;
+            return false;
+        }
+    }
+
+    // how much damage you need to deal each second to match expected pulp time
+    const float corpse_damage = 4000.0 / pd.time_to_pulp + float_corpse_damage_accum;
+    float_corpse_damage_accum = corpse_damage - static_cast<int>( corpse_damage ) ;
+
+    // Increase damage as we keep smashing ensuring we eventually smash the target.
+    corpse.mod_damage( static_cast<int>( corpse_damage ) );
+    if( corpse.damage() == corpse.max_damage() ) {
+        ++num_corpses;
+        corpse.set_flag( flag_PULPED );
+    }
+
+    const float corpse_volume = units::to_liter( corpse_mtype->volume );
+
+    if( one_in( corpse_volume / pd.pulp_power ) ) {
+        // Splatter some blood around
+        // Splatter a bit more randomly, so that it looks cooler
+        const int radius = pd.mess_radius + x_in_y( pd.pulp_power, 500 ) + x_in_y( pd.pulp_power, 1000 );
+        const tripoint_bub_ms dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
+        const field_type_id type_blood = ( pd.mess_radius > 1 && x_in_y( pd.pulp_power, 10000 ) ) ?
+                                         corpse.get_mtype()->gibType() :
+                                         corpse.get_mtype()->bloodType();
+        here.add_splatter_trail( type_blood, pos, dest );
+    }
+
+    if( pd.stomps_only ) {
+        you.burn_energy_legs( -pd.pulp_effort );
+    } else if( pd.weapon_only ) {
+        you.burn_energy_arms( -pd.pulp_effort );
+    } else {
+        you.burn_energy_all( -pd.pulp_effort );
+    }
+
+    if( one_in( 128 ) ) {
+        you.practice( skill_survival, 1, 2, true );
+        you.practice( skill_swimming, 1, 5, true );
+        if( pd.unknown_prof.has_value() ) {
+            you.practice_proficiency( pd.unknown_prof.value(), 5_seconds );
+        }
+    }
+
+    return true;
 }
 
 void pulp_activity_actor::finish( player_activity &act, Character &you )
 {
+    act.moves_left = 0;
+
+    send_final_message( you );
+
     if( you.is_npc() ) {
         you.as_npc()->revert_after_activity();
         you.as_npc()->pulp_location.reset();
     } else {
         act.set_to_null();
+    }
+}
+
+void pulp_activity_actor::send_final_message( Character &you ) const
+{
+
+    if( way_too_long_to_pulp && num_corpses == 0 ) {
+        you.add_msg_player_or_npc( n_gettext(
+                                       _( "You cannot pulp this corpse, for you have no tool heavy enough to deal with it quickly." ),
+                                       _( "You cannot pulp these corpses, for you have no tool heavy enough to deal with it quickly." ),
+                                       unpulped_corpses_qty ),
+                                   n_gettext(
+                                       _( "<npcname> cannot pulp this corpse without a heavier tool." ),
+                                       _( "<npcname> cannot pulp these corpses without a heavier tool." ),
+                                       unpulped_corpses_qty ) );
+        return;
+    }
+
+    if( too_long_to_pulp_interrupted && num_corpses == 0 ) {
+        you.add_msg_if_player( n_gettext(
+                                   _( "You interrupted pulping of this corpse, for you have no tool heavy enough to deal with it quickly." ),
+                                   _( "You interrupted pulping of these corpses, for you have no tool heavy enough to deal with it quickly." ),
+                                   unpulped_corpses_qty ) );
+        return;
+    }
+
+    std::string tools;
+    if( pd.stomps_only ) {
+        tools = string_format( ", with nothing but your %s",
+                               you.get_random_body_part_of_type( body_part_type::type::leg )->accusative_multiple );
+    } else if( pd.weapon_only ) {
+        tools = string_format( " with your %s", pd.bash_tool );
+    } else {
+        tools = string_format( " mixing your %s with powerful stomps", pd.bash_tool );
+    }
+    if( pd.can_cut_precisely ) {
+        tools += string_format( " and a trusty %s", pd.cut_tool );
+    }
+
+    std::string skill;
+    if( you.get_skill_level( skill_survival ) < 2 ) {
+        skill = string_format( "even if your moves still lack the experience" );
+        if( you.get_skill_level( skill_swimming ) < 2 ) {
+            skill += " and your body is not fit";
+        }
+    } else if( you.get_skill_level( skill_swimming ) < 2 ) {
+        skill = "even if your body is not fit";
+    } else {
+        skill = "";
+    }
+
+    std::string pry = ".";
+    if( pd.pry_tool == pd.bash_tool ) {
+        // use default assignment
+    } else if( pd.used_pry ) {
+        pry = string_format( ".  You also were lucky to carry %, it helped a lot with more armoured bodies.",
+                             pd.pry_tool );
+    } else if( pd.couldnt_use_pry ) {
+        pry = string_format( ".  You wish you had anything like a crowbar, you had a really hard time without it." );
+    }
+
+    you.add_msg_player_or_npc(
+        //~ %1$s is message about tools used in pulping, %2$s is a note if your skill is too low (optional, can be empty),
+        //~ 3$s is message about you using/not being able to use prying tool (optional, can be `.`).
+        //~ see pulp_activity_actor::send_final_message() for full context
+        n_gettext( "You finished pulping the corpse%1$s, %2$s%3$s",
+                   "You finished pulping the corpses%1$s, %2$s%3$s", unpulped_corpses_qty ),
+        n_gettext( "<npcname> finished pulping the corpse.",
+                   "<npcname> finished pulping the corpses.", unpulped_corpses_qty ),
+        tools, skill, pry
+    );
+
+    if( way_too_long_to_pulp ) {
+        you.add_msg_player_or_npc(
+            n_gettext( "You left one corpse unpulped, for you have no tool heavy enough to deal with it.",
+                       "You left some corpses unpulped, for you have no tool heavy enough to deal with it.",
+                       unpulped_corpses_qty ),
+            n_gettext( "<npcname> left one corpse unpulped, for %1$s has no tool heavy enough to deal with it.",
+                       "<npcname> left some corpses unpulped, for %1$s has no tool heavy enough to deal with it.",
+                       unpulped_corpses_qty ),
+            you.male ? pgettext( "npc", "he" ) : pgettext( "npc", "she" )
+        );
     }
 }
 
@@ -8585,7 +8689,22 @@ void pulp_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "num_corpses", num_corpses );
     jsout.member( "placement", placement );
-    jsout.member( "pulp_acid", pulp_acid );
+    jsout.member( "pulp_power", pd.pulp_power );
+    jsout.member( "pulp_effort", pd.pulp_effort );
+    jsout.member( "mess_radius", pd.mess_radius );
+    jsout.member( "unpulped_corpses_qty", unpulped_corpses_qty );
+    jsout.member( "can_pry_armor", pd.can_pry_armor );
+    jsout.member( "too_long_to_pulp", too_long_to_pulp );
+    jsout.member( "too_long_to_pulp_interrupted", too_long_to_pulp_interrupted );
+    jsout.member( "way_too_long_to_pulp", way_too_long_to_pulp );
+    jsout.member( "stomps_only", pd.stomps_only );
+    jsout.member( "weapon_only", pd.weapon_only );
+    jsout.member( "can_cut_precisely", pd.can_cut_precisely );
+    jsout.member( "used_pry", pd.used_pry );
+    jsout.member( "couldnt_use_pry", pd.couldnt_use_pry );
+    jsout.member( "bash_tool", pd.bash_tool );
+    jsout.member( "cut_tool", pd.cut_tool );
+    jsout.member( "pry_tool", pd.pry_tool );
 
     jsout.end_object();
 }
@@ -8598,7 +8717,22 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
 
     data.read( "num_corpses", actor.num_corpses );
     data.read( "placement", actor.placement );
-    data.read( "pulp_acid", actor.pulp_acid );
+    data.read( "pulp_power", actor.pd.pulp_power );
+    data.read( "pulp_effort", actor.pd.pulp_effort );
+    data.read( "mess_radius", actor.pd.mess_radius );
+    data.read( "unpulped_corpses_qty", actor.unpulped_corpses_qty );
+    data.read( "can_pry_armor", actor.pd.can_pry_armor );
+    data.read( "too_long_to_pulp", actor.too_long_to_pulp );
+    data.read( "too_long_to_pulp_interrupted", actor.too_long_to_pulp_interrupted );
+    data.read( "way_too_long_to_pulp", actor.way_too_long_to_pulp );
+    data.read( "stomps_only", actor.pd.stomps_only );
+    data.read( "weapon_only", actor.pd.weapon_only );
+    data.read( "can_cut_precisely", actor.pd.can_cut_precisely );
+    data.read( "used_pry", actor.pd.used_pry );
+    data.read( "couldnt_use_pry", actor.pd.couldnt_use_pry );
+    data.read( "bash_tool", actor.pd.bash_tool );
+    data.read( "cut_tool", actor.pd.cut_tool );
+    data.read( "pry_tool", actor.pd.pry_tool );
 
     return actor.clone();
 }

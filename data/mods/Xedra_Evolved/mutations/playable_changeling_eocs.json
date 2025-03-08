@@ -43,7 +43,8 @@
             "effect_changeling_invisibility",
             "effect_changeling_right_of_passage",
             "effect_changeling_summer_run_for_long_periods",
-            "effect_changeling_winter_feign_death"
+            "effect_changeling_winter_feign_death",
+            "effect_changeling_autumn_freeze_in_place_self"
           ]
         },
         {
@@ -66,7 +67,11 @@
       "and": [
         { "u_has_effect": "effect_changeling_using_glamour_removes_checker" },
         {
-          "u_has_any_effect": [ "effect_changeling_summer_run_for_long_periods", "effect_changeling_winter_feign_death" ]
+          "u_has_any_effect": [
+            "effect_changeling_summer_run_for_long_periods",
+            "effect_changeling_winter_feign_death",
+            "effect_changeling_autumn_freeze_in_place_self"
+          ]
         }
       ]
     },
@@ -234,11 +239,13 @@
       ]
     },
     "effect": [
+      { "message": "You cast a spell and effects are being removed", "type": "debug" },
       {
         "u_lose_effect": [
           "effect_changeling_using_glamour_removes_checker",
           "effect_changeling_summer_run_for_long_periods",
-          "effect_changeling_winter_feign_death"
+          "effect_changeling_winter_feign_death",
+          "effect_changeling_autumn_freeze_in_place_self"
         ]
       }
     ]
@@ -247,12 +254,14 @@
     "type": "effect_on_condition",
     "id": "EOC_CHANGELING_EFFECTS_REMOVED_LOSE_EFFECTS",
     "effect": [
+      { "message": "Effects are being removed", "type": "debug" },
       {
         "u_lose_effect": [
           "effect_changeling_invisibility",
           "effect_changeling_right_of_passage",
           "effect_changeling_summer_run_for_long_periods",
-          "effect_changeling_winter_feign_death"
+          "effect_changeling_winter_feign_death",
+          "effect_changeling_autumn_freeze_in_place_self"
         ]
       },
       { "u_lose_trait": "CHANGELING_DISGUISE_AS_NATURE_BUSH" },
@@ -269,7 +278,7 @@
     "required_event": "avatar_moves",
     "condition": {
       "or": [
-        { "u_has_any_effect": [ "effect_changeling_winter_feign_death" ] },
+        { "u_has_any_effect": [ "effect_changeling_winter_feign_death", "effect_changeling_autumn_freeze_in_place_self" ] },
         {
           "u_has_any_trait": [
             "CHANGELING_DISGUISE_AS_NATURE_BUSH",
@@ -282,7 +291,8 @@
       ]
     },
     "effect": [
-      { "u_lose_effect": [ "effect_changeling_winter_feign_death" ] },
+      { "message": "You moved and effects are being removed", "type": "debug" },
+      { "u_lose_effect": [ "effect_changeling_winter_feign_death", "effect_changeling_autumn_freeze_in_place_self" ] },
       { "run_eocs": "EOC_CHANGELING_DISGUISE_AS_NATURE_END" }
     ]
   },

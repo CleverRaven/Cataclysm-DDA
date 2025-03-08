@@ -1,7 +1,10 @@
 #include "inventory_ui.h"
 
-#include <cstdint>
+#include <chrono>
 #include <optional>
+#include <stdexcept>
+#include <tuple>
+#include <unordered_set>
 
 #include "activity_actor_definitions.h"
 #include "avatar_action.h"
@@ -10,20 +13,29 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "flag.h"
+#include "flat_set.h"
+#include "flexbuffer_json.h"
 #include "game_inventory.h"
-#include "inventory.h"
 #include "input.h"
+#include "input_enums.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
 #include "item_tname.h"
+#include "itype.h"
+#include "json.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
@@ -32,18 +44,19 @@
 #include "options.h"
 #include "output.h"
 #include "point.h"
-#include "popup.h"
 #include "ret_val.h"
 #include "sdltiles.h"
-#include "localized_comparator.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "trade_ui.h"
+#include "translation.h"
+#include "translation_cache.h"
 #include "translations.h"
 #include "type_id.h"
-#include "uistate.h"
+#include "uilist.h"
 #include "ui_iteminfo.h"
 #include "ui_manager.h"
+#include "uistate.h"
 #include "units.h"
 #include "units_utility.h"
 #include "vehicle.h"
@@ -254,8 +267,6 @@ class selection_column_preset : public inventory_selector_preset
     public:
         selection_column_preset() = default;
         std::string get_caption( const inventory_entry &entry ) const override {
-            map &here = get_map();
-
             std::string res;
             const size_t available_count = entry.get_available_count();
             const item_location &item = entry.any_item();
@@ -270,10 +281,10 @@ class selection_column_preset : public inventory_selector_preset
             if( item->is_money() ) {
                 cata_assert( available_count == entry.get_stack_size() );
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                    res += item->display_money( available_count, item->ammo_remaining( here ),
+                    res += item->display_money( available_count, item->ammo_remaining( ),
                                                 entry.get_selected_charges() );
                 } else {
-                    res += item->display_money( available_count, item->ammo_remaining( here ) );
+                    res += item->display_money( available_count, item->ammo_remaining( ) );
                 }
             } else {
                 res += item->display_name( available_count );
@@ -723,12 +734,10 @@ std::function<bool( const inventory_entry & )> inventory_selector_preset::get_fi
 
 std::string inventory_selector_preset::get_caption( const inventory_entry &entry ) const
 {
-    map &here = get_map();
-
     size_t count = entry.get_stack_size();
     std::string disp_name;
     if( entry.any_item()->is_money() ) {
-        disp_name = entry.any_item()->display_money( count, entry.any_item()->ammo_remaining( here ) );
+        disp_name = entry.any_item()->display_money( count, entry.any_item()->ammo_remaining( ) );
     } else if( entry.is_collation_header() && entry.any_item()->count_by_charges() ) {
         item temp( *entry.any_item() );
         temp.charges = entry.get_total_charges();
@@ -1312,7 +1321,7 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
             return !e.is_collated() &&
                    e.get_category_ptr() == entry.get_category_ptr() &&
                    entry_item.where() == found_entry_item.where() &&
-                   entry_item.pos_bub() == found_entry_item.pos_bub() &&
+                   entry_item.pos_abs() == found_entry_item.pos_abs() &&
                    entry_item.parent_item() == found_entry_item.parent_item() &&
                    entry_item->is_collapsed() == found_entry_item->is_collapsed() &&
                    entry_item->link_length() == found_entry_item->link_length() &&
@@ -3208,6 +3217,8 @@ void inventory_selector::_categorize( inventory_column &col )
 
 void inventory_selector::_uncategorize( inventory_column &col )
 {
+    const map &here = get_map();
+
     for( inventory_entry *entry : col.get_entries( return_item, true ) ) {
         // find the topmost parent of the entry's item and categorize it by that
         // to form the hierarchy
@@ -3220,7 +3231,7 @@ void inventory_selector::_uncategorize( inventory_column &col )
         if( ancestor.where() != item_location::type::character ) {
             const std::string name = to_upper_case( remove_color_tags( ancestor.describe() ) );
             const item_category map_cat( name, no_translation( name ), translation(), 100 );
-            custom_category = naturalize_category( map_cat, ancestor.pos_bub() );
+            custom_category = naturalize_category( map_cat, ancestor.pos_bub( here ) );
         } else {
             custom_category = wielded_worn_category( ancestor, u );
         }
@@ -3441,8 +3452,6 @@ std::vector<item_location> get_possible_reload_targets( const item_location &tar
 // todo: this should happen when the entries are created, but that's a different refactoring
 void ammo_inventory_selector::set_all_entries_chosen_count()
 {
-    map &here = get_map();
-
     for( inventory_column *col : columns ) {
         for( inventory_entry *entry : col->get_entries( return_item, true ) ) {
             for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
@@ -3451,7 +3460,7 @@ void ammo_inventory_selector::set_all_entries_chosen_count()
                     item::reload_option tmp_opt( &u, loc, it );
                     int count = entry->get_available_count();
                     if( it->has_flag( flag_SPEEDLOADER ) || it->has_flag( flag_SPEEDLOADER_CLIP ) ) {
-                        count = it->ammo_remaining( here );
+                        count = it->ammo_remaining( );
                     }
                     tmp_opt.qty( count );
                     entry->chosen_count = tmp_opt.qty();

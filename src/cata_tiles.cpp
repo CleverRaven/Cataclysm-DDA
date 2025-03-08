@@ -4,53 +4,72 @@
 #include <algorithm>
 #include <array>
 #include <bitset>
+#include <chrono>
+#include <climits>
 #include <cmath>
 #include <cstdint>
+#include <cstring>
+#include <filesystem>
+#include <fstream>
+#include <functional>
 #include <iterator>
 #include <optional>
 #include <set>
+#include <sstream>
 #include <stdexcept>
 #include <tuple>
 #include <unordered_set>
+#include <variant>
 
 #include "action.h"
 #include "avatar.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
 #include "clzones.h"
+#include "colony.h"
 #include "color.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "cursesport.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "enum_conversions.h"
+#include "enums.h"
 #include "field.h"
 #include "field_type.h"
-#include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "game.h"
-#include "game_constants.h"
 #include "input.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "json_loader.h"
+#include "level_cache.h"
+#include "lightmap.h"
+#include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_extras.h"
 #include "map_memory.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
+#include "maptile_fwd.h"
+#include "mdarray.h"
 #include "mod_tileset.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "npc_attack.h"
+#include "omdata.h"
 #include "output.h"
 #include "overlay_ordering.h"
 #include "overmap.h"
@@ -63,17 +82,19 @@
 #include "sdltiles.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "submap.h"
 #include "tileray.h"
-#include "translations.h"
+#include "translation.h"
 #include "trap.h"
 #include "type_id.h"
 #include "units_utility.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "weather_type.h"
 #include "weighted_list.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
@@ -1364,9 +1385,10 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
 
     avatar &you = get_avatar();
     //limit the render area to maximum view range (121x121 square centered on player)
-    const point min_visible( you.posx() % SEEX, you.posy() % SEEY );
-    const point max_visible( ( you.posx() % SEEX ) + ( MAPSIZE - 1 ) * SEEX,
-                             ( you.posy() % SEEY ) + ( MAPSIZE - 1 ) * SEEY );
+    const tripoint_bub_ms you_pos = you.pos_bub( here );
+    const point min_visible( you_pos.x() % SEEX, you_pos.y() % SEEY );
+    const point max_visible( ( you_pos.x() % SEEX ) + ( MAPSIZE - 1 ) * SEEX,
+                             ( you_pos.y() % SEEY ) + ( MAPSIZE - 1 ) * SEEY );
     const int draw_min_z = std::max( you.posz() - max_draw_depth, -OVERMAP_DEPTH );
 
     const level_cache &ch = here.access_cache( center.z() );
@@ -1625,7 +1647,7 @@ void cata_tiles::draw( const point &dest, const tripoint_bub_ms &center, int wid
 
                         if( g->display_overlay_state( ACTION_DISPLAY_VISIBILITY ) &&
                             g->displaying_visibility_creature && !invisible[0] ) {
-                            const bool visibility = g->displaying_visibility_creature->sees( pos );
+                            const bool visibility = g->displaying_visibility_creature->sees( here, pos );
 
                             // color overlay.
                             SDL_Color block_color = visibility ? windowsPalette[catacurses::green] :
@@ -4009,6 +4031,8 @@ bool cata_tiles::draw_vpart( const tripoint_bub_ms &p, lit_level ll, int &height
 bool cata_tiles::draw_critter_at_below( const tripoint_bub_ms &p, const lit_level, int &,
                                         const std::array<bool, 5> &invisible, const bool memorize_only )
 {
+    const map &here = get_map();
+
     if( memorize_only ) {
         return false;
     }
@@ -4017,7 +4041,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint_bub_ms &p, const lit_leve
     const auto low_override = draw_below_override.find( p );
     const bool low_overridden = low_override != draw_below_override.end();
     if( low_overridden ? !low_override->second : ( invisible[0] ||
-            get_map().dont_draw_lower_floor( p ) ) ) {
+            here.dont_draw_lower_floor( p ) ) ) {
         return false;
     }
 
@@ -4034,7 +4058,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint_bub_ms &p, const lit_leve
     // Check if the player can actually see the critter. We don't care if
     // it's via infrared or not, just whether or not they're seen. If not,
     // we can bail.
-    if( !you.sees( *critter ) && !you.sees_with_specials( *critter ) ) {
+    if( !you.sees( here, *critter ) && !you.sees_with_specials( *critter ) ) {
         return false;
     }
 
@@ -4046,6 +4070,8 @@ bool cata_tiles::draw_critter_at_below( const tripoint_bub_ms &p, const lit_leve
 bool cata_tiles::draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &height_3d,
                                   const std::array<bool, 5> &invisible, const bool memorize_only )
 {
+    const map &here = get_map();
+
     if( memorize_only ) {
         return false;
     }
@@ -4077,7 +4103,7 @@ bool cata_tiles::draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &h
         }
         const Creature &critter = *pcritter;
 
-        if( !you.sees( critter ) ) {
+        if( !you.sees( here, critter ) ) {
             const_dialogue d( get_const_talker_for( you ), get_const_talker_for( critter ) );
             enchant_cache::special_vision sees_with_special = you.enchantment_cache->get_vision( d );
             if( !sees_with_special.is_empty() ) {
@@ -4126,7 +4152,7 @@ bool cata_tiles::draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &h
                 result = draw_from_id_string( chosen_id, ent_category, ent_subcategory, p,
                                               subtile, rot_facing, ll, false, height_3d );
                 draw_entity_with_overlays( *m, p, ll, height_3d );
-                sees_player = m->sees( you );
+                sees_player = m->sees( here, you );
                 attitude = m->attitude_to( you );
             }
         }
@@ -4137,7 +4163,7 @@ bool cata_tiles::draw_critter_at( const tripoint_bub_ms &p, lit_level ll, int &h
             if( pl->is_avatar() ) {
                 is_player = true;
             } else {
-                sees_player = pl->sees( you );
+                sees_player = pl->sees( here, you );
                 attitude = pl->attitude_to( you );
             }
         }
@@ -4205,7 +4231,7 @@ bool cata_tiles::draw_critter_above( const tripoint_bub_ms &p, lit_level ll, int
 
     // Draw shadow
     if( draw_from_id_string( "shadow", TILE_CATEGORY::NONE, empty_string, p,
-                             0, 0, ll, false, height_3d ) && scan_p.z() - 1 > you.posz() && you.sees( critter ) ) {
+                             0, 0, ll, false, height_3d ) && scan_p.z() - 1 > you.posz() && you.sees( here, critter ) ) {
 
         bool is_player = false;
         bool sees_player = false;
@@ -4214,7 +4240,7 @@ bool cata_tiles::draw_critter_above( const tripoint_bub_ms &p, lit_level ll, int
         // Get critter status disposition if monster
         const monster *m = dynamic_cast<const monster *>( &critter );
         if( m != nullptr ) {
-            sees_player = m->sees( you );
+            sees_player = m->sees( here, you );
             attitude = m->attitude_to( you );
         }
 
@@ -4224,7 +4250,7 @@ bool cata_tiles::draw_critter_above( const tripoint_bub_ms &p, lit_level ll, int
             if( pl->is_avatar() ) {
                 is_player = true;
             } else {
-                sees_player = pl->sees( you );
+                sees_player = pl->sees( here, you );
                 attitude = pl->attitude_to( you );
             }
         }
@@ -4846,11 +4872,13 @@ void cata_tiles::draw_hit_frame()
 }
 void cata_tiles::draw_line()
 {
+    map &here = get_map();
+
     if( line_trajectory.empty() ) {
         return;
     }
     static std::string line_overlay = "animation_line";
-    if( !is_target_line || get_player_view().sees( line_pos ) ) {
+    if( !is_target_line || get_player_view().sees( here, line_pos ) ) {
         for( auto it = line_trajectory.begin(); it != line_trajectory.end() - 1; ++it ) {
             draw_from_id_string( line_overlay, *it, 0, 0, lit_level::LIT, false );
         }

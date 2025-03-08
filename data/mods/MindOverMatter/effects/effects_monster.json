@@ -268,6 +268,7 @@
     "desc": [ "A barrier of telekinetic force is protecting you." ],
     "show_in_info": true,
     "flags": [ "TELEKIN_SHIELD" ],
+    "removes_effects": [ "effect_monster_inertial_barrier" ],
     "enchantments": [
       {
         "incoming_damage_mod": [
@@ -289,12 +290,53 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_whispering_amalgamation_whispers",
+    "name": [ "Maddening Whispers" ],
+    "desc": [ "Your mind is filled with whispers just below the threshold of understanding, making it almost impossible to think." ],
+    "apply_message": "A chorus of whispers just below the threshold of understanding fills your mind.",
+    "remove_message": "The whispers finally fall silent",
+    "show_in_info": true,
+    "max_duration": "5 seconds",
+    "//": "It is deliberate that even if you kill the whispering amalgamation, the whispers can last a few seconds afterwards. Who, or what, is actually doing the whispering?",
+    "enchantments": [
+      {
+        "skills": [
+          {
+            "value": "metaphysics",
+            "add": {
+              "math": [
+                "-3 + u_has_proficiency('prof_concentration_basic') + u_has_proficiency('prof_concentration_intermediate') + u_has_proficiency('prof_concentration_master')"
+              ]
+            }
+          }
+        ]
+      },
+      { "values": [ { "value": "PERCEPTION", "add": -2 } ] }
+    ],
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.75 },
+      { "limb_score": "night_vis", "modifier": 0.75 },
+      { "limb_score": "reaction", "modifier": 0.8 }
+    ],
+    "immune_flags": [ "TEEPSHIELD" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_teleport_reactive_displacement_monster",
     "name": [ "Reactive Displacement" ],
     "desc": [ "You will automatically teleport enemies that strike you away from yourself." ],
     "show_in_info": true,
     "rating": "good",
     "enchantments": [ { "hit_me_effect": [ { "id": "teleport_reactive_displacement_monster_teleport" } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_warped_strikes",
+    "name": [ "Warped Strikes" ],
+    "desc": [ "Your melee attacks travel further than the range of your weapons makes it seem like they should." ],
+    "show_in_info": true,
+    "rating": "good"
   },
   {
     "type": "effect_type",
@@ -434,5 +476,17 @@
       { "str": "You are in constant communication with your allies, looking out for each other in combat.", "//~": "NO_I18N" }
     ],
     "base_mods": { "bash_mod": [ 1.5 ], "cut_mod": [ 1.5 ], "dodge_mod": [ 1.5 ], "hit_mod": [ 1.5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_amalgamation_telekinetic_shielder_counter",
+    "//": "Hidden counter, used to prevent the guardian amalgamation from shielding too many targets at once.",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 5,
+    "int_add_val": 1,
+    "int_decay_step": -1,
+    "int_decay_tick": 60,
+    "int_decay_remove": true
   }
 ]

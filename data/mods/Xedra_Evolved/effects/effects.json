@@ -558,7 +558,7 @@
     "type": "effect_type",
     "id": "eyegleam_craft_in_darkness",
     "rating": "good",
-    "flags": [ "CRAFT_IN_DARKNESS" ]
+    "flags": [ "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ]
   },
   {
     "type": "effect_type",
@@ -1630,6 +1630,27 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_sylph_bonus_melee_range",
+    "name": [ "Breeze-Cutting Blows" ],
+    "desc": [ "Your strikes cut the air and carry on to your foes." ],
+    "apply_message": "",
+    "remove_message": "Your blows no longer split the air itself.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MELEE_RANGE_MODIFIER",
+            "add": {
+              "math": [ "( (u_spell_level('sylph_bonus_melee_range_spell') * 0.25 ) + 1 ) * scaling_factor( u_val('dexterity') )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_sylph_climb_flying",
     "//": "Hidden, paired with the previous effect sometimes but not always.",
     "name": [ "" ],
@@ -2258,6 +2279,13 @@
     "name": [ { "str": "Lilin Mutation", "//~": "NO_I18N" } ],
     "desc": [ { "str": "You are gaining Lilin powers.  This should only be visible for a moment.", "//~": "NO_I18N" } ],
     "max_intensity": 3
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_extracting_dreamsparks",
+    "//": "Hidden effect, used to distinguish magical quick weather change from the weather returning to normal",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -2900,6 +2928,18 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_chronomancy_field",
+    "name": [ "Chronomancy Field" ],
+    "desc": [
+      "You have engaged some of your temporal abilities and any kills you make while this is active will grant you insight."
+    ],
+    "apply_message": "You gain an increased awareness of the 4th dimension and how it interacts with the universe.",
+    "remove_message": "Your awareness of the 4th dimension fades.",
+    "rating": "good",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "effect_xedra_time_freeze",
     "name": [ "Frozen in Time" ],
     "desc": [ "You are completely frozen in time." ],
@@ -3110,6 +3150,14 @@
     "type": "effect_type",
     "//": "Required to make Boann banish monsters.  Without it, she will aim the banish at herself every time.",
     "id": "boann_retaliation_mark",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "//": "Checks if you have every single vampiric power when trying to learn new ones.",
+    "id": "effect_vampire_all_gift_check",
     "name": [ "" ],
     "desc": [ "" ],
     "show_in_info": false

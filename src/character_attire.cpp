@@ -14,6 +14,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -25,7 +26,6 @@
 #include "fire.h"
 #include "flag.h"
 #include "flexbuffer_json.h"
-#include "game.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item_contents.h"
@@ -41,7 +41,6 @@
 #include "output.h"
 #include "pimpl.h"
 #include "pocket_type.h"
-#include "point.h"
 #include "relic.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -323,6 +322,8 @@ Character::wear( item_location item_wear, bool interactive )
 std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, const item &to_wear,
         bool interactive, bool do_calc_encumbrance, bool do_sort_items, bool quiet )
 {
+    const map &here = get_map();
+
     const bool was_deaf = guy.is_deaf();
     const bool supertinymouse = guy.get_size() == creature_size::tiny;
     guy.last_item = to_wear.typeId();
@@ -371,7 +372,7 @@ std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, cons
                                    _( "This %s is too small to wear comfortably!  Maybe it could be refitted." ),
                                    to_wear.tname() );
         }
-    } else if( guy.is_npc() && get_player_view().sees( guy ) && !quiet ) {
+    } else if( guy.is_npc() && get_player_view().sees( here, guy ) && !quiet ) {
         guy.add_msg_if_npc( _( "<npcname> puts on their %s." ), to_wear.tname() );
     }
 
@@ -1504,7 +1505,6 @@ int outfit::amount_worn( const itype_id &clothing ) const
 bool outfit::takeoff( item_location loc, std::list<item> *res, Character &guy )
 {
     item &it = *loc;
-
     const auto ret = guy.can_takeoff( it, res );
     if( !ret.success() ) {
         add_msg( m_info, "%s", ret.c_str() );
@@ -1516,6 +1516,9 @@ bool outfit::takeoff( item_location loc, std::list<item> *res, Character &guy )
     } );
 
     it.on_takeoff( guy );
+    cata::event e = cata::event::make<event_type::character_takeoff_item>( guy.getID(),
+                    it.typeId() );
+    get_event_bus().send_with_talker( &guy, &loc, e );
     item takeoff_copy( it );
     worn.erase( iter );
     if( res == nullptr ) {
@@ -1876,6 +1879,8 @@ item &outfit::front()
 void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
                             std::list<item> &worn_remains, bool &armor_destroyed )
 {
+    const map &here = get_map();
+
     sub_bodypart_id sbp;
     sub_bodypart_id secondary_sbp;
     // if this body part has sub part locations roll one
@@ -1932,8 +1937,8 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
         }
 
         if( destroy ) {
-            if( get_player_view().sees( guy ) ) {
-                SCT.add( point( guy.posx(), guy.posy() ), direction::NORTH, remove_color_tags( pre_damage_name ),
+            if( get_player_view().sees( here, guy ) ) {
+                SCT.add( guy.pos_bub( here ).xy().raw(), direction::NORTH, remove_color_tags( pre_damage_name ),
                          m_neutral, _( "destroyed" ), m_info );
             }
             destroyed_armor_msg( guy, pre_damage_name );
@@ -2043,7 +2048,6 @@ std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy )
 void outfit::fire_options( Character &guy, std::vector<std::string> &options,
                            std::vector<std::function<void()>> &actions )
 {
-    map &here = get_map();
     for( item &clothing : worn ) {
         std::vector<item *> guns = clothing.items_with( []( const item & it ) {
             return it.is_gun();
@@ -2055,7 +2059,7 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
             options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
                                               guns.front()->tname(),
                                               clothing.type_name(),
-                                              guns.front()->ammo_remaining( here ) ) );
+                                              guns.front()->ammo_remaining( ) ) );
 
             actions.emplace_back( [&] { guy.invoke_item( &clothing, "holster" ); } );
 
@@ -2121,8 +2125,10 @@ void outfit::best_pocket( Character &guy, const item &it, const item *avoid,
 
 void outfit::overflow( Character &guy )
 {
+    map &here = get_map();
+
     for( item_location &clothing : top_items_loc( guy ) ) {
-        clothing.overflow();
+        clothing.overflow( here );
     }
 }
 
@@ -2242,9 +2248,9 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
             }
         }
         if( !covered ) {
-            // some clothing flags provide warmth without providing coverage or encumberance
+            // some clothing flags provide warmth without providing coverage or encumbrance
             // these are included in the worn list so that players aren't confused about why body parts are warm
-            // but not included in the later coverage and encumberance calculations
+            // but not included in the later coverage and encumbrance calculations
             if( ( bp == body_part_hand_l || bp == body_part_hand_r ) && armor.has_flag( flag_POCKETS ) &&
                 person.can_use_pockets() ) {
                 //~ name of a clothing/armor item, indicating it has pockets providing hand warmth

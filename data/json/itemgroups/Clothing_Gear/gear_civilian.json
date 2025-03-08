@@ -73,7 +73,7 @@
     "type": "item_group",
     "//": "Regular items for the homeless.",
     "items": [
-      { "group": "trash", "prob": 30 },
+      { "group": "SUS_trash_floor", "prob": 30 },
       { "group": "donated_clothes", "prob": 25 },
       { "group": "gear_survival", "prob": 5 },
       { "group": "contraband", "prob": 20 },
@@ -369,7 +369,6 @@
       [ "vest_jean", 15 ],
       [ "jacket_leather", 30 ],
       [ "leather_police_jacket", 10 ],
-      [ "gosling_jacket", 15 ],
       [ "bra", 30 ],
       [ "undershirt", 30 ],
       [ "boxer_shorts", 30 ],

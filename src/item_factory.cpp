@@ -10,6 +10,7 @@
 #include <optional>
 #include <stdexcept>
 #include <unordered_set>
+#include <variant>
 
 #include "ammo.h"
 #include "assign.h"
@@ -170,21 +171,6 @@ bool item_is_blacklisted( const itype_id &id )
     return item_blacklist.blacklist.count( id );
 }
 
-static void assign( const JsonObject &jo, const std::string_view name,
-                    std::map<gun_mode_id, gun_modifier_data> &mods )
-{
-    if( !jo.has_array( name ) ) {
-        return;
-    }
-    mods.clear();
-    for( JsonArray curr : jo.get_array( name ) ) {
-        translation text;
-        curr.read( 1, text );
-        mods.emplace( gun_mode_id( curr.get_string( 0 ) ), gun_modifier_data( text,
-                      curr.get_int( 2 ), curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>() ) );
-    }
-}
-
 static bool assign_coverage_from_json( const JsonObject &jo, const std::string &key,
                                        body_part_set &parts )
 {
@@ -325,6 +311,18 @@ void Item_factory::finalize_pre( itype &obj )
         obj.ammo_scale.emplace( func2, 0 );
     }
 
+    if( obj.gunmod ) {
+        // convert aim_speed to FoV and aim_speed_modifier automatically, if FoV is not set
+        if( obj.gunmod->aim_speed >= 0 && obj.gunmod->field_of_view <= 0 ) {
+            if( obj.gunmod->aim_speed > 6 ) {
+                obj.gunmod->aim_speed_modifier = 5 * ( obj.gunmod->aim_speed - 6 );
+                obj.gunmod->field_of_view = 480;
+            } else {
+                obj.gunmod->field_of_view = 480 - 30 * ( 6 - obj.gunmod->aim_speed );
+            }
+        }
+    }
+
     if( get_option<bool>( "NO_FAULTS" ) ) {
         obj.faults.clear();
     }
@@ -349,11 +347,23 @@ void Item_factory::finalize_pre( itype &obj )
     // for ammo and comestibles stack size defaults to count of initial charges
     // Set max stack size to 200 to prevent integer overflow
     if( obj.count_by_charges() ) {
+        if( obj.comestible ) {
+            obj.stack_size = obj.comestible->stack_size;
+        } else if( obj.ammo ) {
+            obj.stack_size = obj.ammo->stack_size;
+        }
         if( obj.stack_size == 0 ) {
             obj.stack_size = obj.charges_default();
         } else if( obj.stack_size > 200 ) {
             debugmsg( obj.id.str() + " stack size is too large, reducing to 200" );
             obj.stack_size = 200;
+        }
+    }
+
+    //limit tool charges
+    if( obj.tool ) {
+        if( obj.tool->def_charges > obj.tool->max_charges ) {
+            debugmsg( "initial_charges is larger than max_charges for %s", obj.id.str() );
         }
     }
 
@@ -392,7 +402,16 @@ void Item_factory::finalize_pre( itype &obj )
 
     // Finalize vitamins in food
     if( obj.comestible ) {
+        // The value here is in kcal, but is stored as simply calories
+        obj.comestible->default_nutrition.calories *= 1000;
         obj.comestible->default_nutrition.finalize_vitamins();
+
+        if( !obj.comestible->primary_material.is_null() ) {
+            obj.materials.clear();
+            obj.materials.emplace( obj.comestible->primary_material, 1 );
+            obj.mat_portion_total = 1;
+            obj.default_mat = obj.comestible->primary_material;
+        }
 
         bool is_not_boring = false;
         float specific_heat_solid = 0.0f;
@@ -409,7 +428,7 @@ void Item_factory::finalize_pre( itype &obj )
             is_not_boring = is_not_boring || m == material_junk;
         };
 
-        for( const std::pair <const material_id, int> &pair : obj.comestible->materials ) {
+        for( const std::pair <const material_id, int> &pair : obj.materials ) {
             add_spi( pair.first, pair.second );
         }
 
@@ -422,6 +441,10 @@ void Item_factory::finalize_pre( itype &obj )
         if( obj.comestible->monotony_penalty == -1 ) {
             obj.comestible->monotony_penalty = is_not_boring ? 0 : 2;
         }
+    }
+
+    if( obj.bionic ) {
+        obj.bionic->id = bionic_id( obj.id.str() );
     }
 
     // for ammo not specifying loudness derive value from other properties
@@ -663,6 +686,13 @@ void Item_factory::finalize_pre( itype &obj )
             }
         }
 
+        int max_recoil = static_cast<int>( MAX_RECOIL );
+        if( obj.gun->sight_dispersion > max_recoil ) {
+            obj.gun->sight_dispersion = max_recoil;
+        }
+        if( obj.gun->durability > 10 ) {
+            obj.gun->durability = 10;
+        }
     }
 
     set_allergy_flags( obj );
@@ -2390,12 +2420,6 @@ void Item_factory::check_definitions() const
             } else if( type->gunmod->sight_dispersion < 0 && type->gunmod->field_of_view > 0 ) {
                 msg += "gunmod must have both sight_dispersion and field_of_view set or neither of them set\n";
             }
-            if( type->gunmod->usable.empty() ) {
-                msg += "gunmod does not specify mod targets\n";
-            }
-            if( type->gunmod->install_time < 0 ) {
-                msg += "gunmod does not specify install time\n";
-            }
         }
         if( type->mod ) {
             for( const ammotype &at : type->mod->ammo_modifier ) {
@@ -2546,6 +2570,18 @@ void Item_factory::check_definitions() const
     }
 }
 
+const itype *Item_factory::add_runtime( const itype_id &id, translation name,
+                                        translation description ) const
+{
+    itype *def = new itype();
+    def->id = id;
+    def->name = std::move( name );
+    def->description = std::move( description );
+    m_runtimes[ id ].reset( def );
+    m_runtimes_dirty = true;
+    return def;
+}
+
 //Returns the template with the given identification tag
 const itype *Item_factory::find_template( const itype_id &id ) const
 {
@@ -2565,23 +2601,13 @@ const itype *Item_factory::find_template( const itype_id &id ) const
     const recipe_id &making_id = recipe_id( id.c_str() );
     if( oter_str_id( id.c_str() ).is_valid() ||
         ( making_id.is_valid() && making_id.obj().is_blueprint() ) ) {
-        itype *def = new itype();
-        def->id = id;
-        def->name = no_translation( string_format( "DEBUG: %s", id.c_str() ) );
-        def->description = making_id.obj().description;
-        m_runtimes[ id ].reset( def );
-        return def;
+        return add_runtime( id, no_translation( string_format( "DEBUG: %s", id.c_str() ) ),
+                            making_id.obj().description );
     }
 
     debugmsg( "Missing item definition: %s", id.c_str() );
-
-    itype *def = new itype();
-    def->id = id;
-    def->name = no_translation( string_format( "undefined-%s", id.c_str() ) );
-    def->description = no_translation( string_format( "Missing item definition for %s.", id.c_str() ) );
-
-    m_runtimes[ id ].reset( def );
-    return def;
+    return add_runtime( id, no_translation( string_format( "undefined-%s", id.c_str() ) ),
+                        no_translation( string_format( "Missing item definition for %s.", id.c_str() ) ) );
 }
 
 Item_spawn_data *Item_factory::get_group( const item_group_id &group_tag )
@@ -2653,15 +2679,10 @@ bool Item_factory::load_definition( const JsonObject &jo, const std::string &src
     return false;
 }
 
-void islot_milling::load( const JsonObject &jo )
+void islot_milling::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "into", into_ );
     optional( jo, was_loaded, "recipe", recipe_ );
-}
-
-void islot_milling::deserialize( const JsonObject &jo )
-{
-    load( jo );
 }
 
 static void load_memory_card_data( memory_card_info &mcd, const JsonObject &jo )
@@ -2692,66 +2713,57 @@ static void load_memory_card_data( memory_card_info &mcd, const JsonObject &jo )
     }
 }
 
-void islot_ammo::load( const JsonObject &jo )
+void islot_ammo::deserialize( const JsonObject &jo )
 {
-    bool strict = false;
+    numeric_bound_reader not_negative{ 0 };
+    numeric_bound_reader positive{ 1 };
+    numeric_bound_reader positive_float{ 1.0f };
 
     mandatory( jo, was_loaded, "ammo_type", type );
     optional( jo, was_loaded, "casing", casing, std::nullopt );
     optional( jo, was_loaded, "drop", drop, itype_id::NULL_ID() );
-    assign( jo, "drop_chance", drop_chance, strict, 0.0f, 1.0f );
+    optional( jo, was_loaded, "drop_chance", drop_chance, numeric_bound_reader{ 0.0f, 1.0f }, 1.0f );
+    optional( jo, was_loaded, "stack_size", stack_size, positive );
     optional( jo, was_loaded, "drop_active", drop_active, true );
     optional( jo, was_loaded, "projectile_count", count, 1 );
-    optional( jo, was_loaded, "shot_spread", shot_spread, 0 );
-    assign( jo, "shot_damage", shot_damage, strict );
+    optional( jo, was_loaded, "shot_spread", shot_spread, not_negative );
+    optional( jo, was_loaded, "shot_damage", shot_damage );
     // Damage instance assign reader handles pierce and prop_damage
-    assign( jo, "damage", damage, strict );
-    assign( jo, "range", range, strict, 0 );
-    assign( jo, "range_multiplier", range_multiplier, strict, 1.0f );
-    assign( jo, "dispersion", dispersion, strict, 0 );
+    optional( jo, was_loaded, "damage", damage );
+    optional( jo, was_loaded, "range", range, not_negative );
+    optional( jo, was_loaded, "range_multiplier", range_multiplier, positive_float,
+              1.0f );
+    optional( jo, was_loaded, "dispersion", dispersion, not_negative );
     optional( jo, was_loaded, "dispersion_modifier", disp_mod_by_barrels, {} );
-    assign( jo, "recoil", recoil, strict, 0 );
-    optional( jo, was_loaded, "recovery_chance", recovery_chance, 0 );
-    assign( jo, "count", def_charges, strict, 1 );
-    assign( jo, "loudness", loudness, strict, 0 );
-    assign( jo, "effects", ammo_effects, strict );
-    assign( jo, "critical_multiplier", critical_multiplier, strict, 1.0f );
+    optional( jo, was_loaded, "recoil", recoil, not_negative );
+    optional( jo, was_loaded, "recovery_chance", recovery_chance, not_negative );
+    optional( jo, was_loaded, "count", def_charges, positive, 1 );
+    optional( jo, was_loaded, "loudness", loudness, not_negative, -1 );
+    optional( jo, was_loaded, "effects", ammo_effects, auto_flags_reader<ammo_effect_str_id> {} );
+    optional( jo, was_loaded, "critical_multiplier", critical_multiplier, positive_float, 2.0f );
     optional( jo, was_loaded, "show_stats", force_stat_display, false );
-}
-
-void islot_ammo::deserialize( const JsonObject &jo )
-{
-    load( jo );
 }
 
 void Item_factory::load_ammo( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        assign( jo, "stack_size", def.stack_size, src == "dda", 1 );
         if( def.was_loaded ) {
-            if( def.ammo ) {
-                def.ammo->was_loaded = true;
-            } else {
+            if( !def.ammo ) {
                 def.ammo = cata::make_value<islot_ammo>();
-                def.ammo->was_loaded = true;
             }
         } else {
             def.ammo = cata::make_value<islot_ammo>();
         }
-        def.ammo->load( jo );
+        def.ammo->deserialize( jo );
+        def.ammo->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
 
-void islot_engine::load( const JsonObject &jo )
-{
-    optional( jo, was_loaded, "displacement", displacement );
-}
-
 void islot_engine::deserialize( const JsonObject &jo )
 {
-    load( jo );
+    optional( jo, was_loaded, "displacement", displacement );
 }
 
 void Item_factory::load_engine( const JsonObject &jo, const std::string &src )
@@ -2759,29 +2771,22 @@ void Item_factory::load_engine( const JsonObject &jo, const std::string &src )
     itype def;
     if( load_definition( jo, src, def ) ) {
         if( def.was_loaded ) {
-            if( def.engine ) {
-                def.engine->was_loaded = true;
-            } else {
+            if( !def.engine ) {
                 def.engine = cata::make_value<islot_engine>();
-                def.engine->was_loaded = true;
             }
         } else {
             def.engine = cata::make_value<islot_engine>();
         }
-        def.engine->load( jo );
+        def.engine->deserialize( jo );
+        def.engine->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
 
-void islot_wheel::load( const JsonObject &jo )
+void islot_wheel::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "diameter", diameter );
     optional( jo, was_loaded, "width", width );
-}
-
-void islot_wheel::deserialize( const JsonObject &jo )
-{
-    load( jo );
 }
 
 void Item_factory::load_wheel( const JsonObject &jo, const std::string &src )
@@ -2789,16 +2794,31 @@ void Item_factory::load_wheel( const JsonObject &jo, const std::string &src )
     itype def;
     if( load_definition( jo, src, def ) ) {
         if( def.was_loaded ) {
-            if( def.wheel ) {
-                def.wheel->was_loaded = true;
-            } else {
+            if( !def.wheel ) {
                 def.wheel = cata::make_value<islot_wheel>();
-                def.wheel->was_loaded = true;
             }
         } else {
             def.wheel = cata::make_value<islot_wheel>();
         }
-        def.wheel->load( jo );
+        def.wheel->deserialize( jo );
+        def.wheel->was_loaded = true;
+        load_basic_info( jo, def, src );
+    }
+}
+
+void Item_factory::load_comestible( const JsonObject &jo, const std::string &src )
+{
+    itype def;
+    if( load_definition( jo, src, def ) ) {
+        if( def.was_loaded ) {
+            if( !def.comestible ) {
+                def.comestible = cata::make_value<islot_comestible>();
+            }
+        } else {
+            def.comestible = cata::make_value<islot_comestible>();
+        }
+        def.comestible->deserialize( jo );
+        def.comestible->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -2824,56 +2844,98 @@ void itype_variant_data::load( const JsonObject &jo )
     optional( jo, false, "expand_snippets", expand_snippets );
 }
 
-void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::string &src )
+
+/*
+* Reads an array of gun modes in the following format:
+* [ gun_mode_id, display name, shots, flag ]
+*/
+class gun_modes_reader : public generic_typed_reader<gun_modes_reader>
 {
-    bool strict = src == "dda";
-    assign( jo, "skill", slot.skill_used, strict );
-    assign( jo, "ammo", slot.ammo, strict );
-    assign( jo, "range", slot.range, strict );
-    // Damage instance assign reader handles pierce
-    assign( jo, "ranged_damage", slot.damage, strict,
-            damage_instance( damage_type_id::NULL_ID(), -20, -20, -20, -20 ) );
-    assign( jo, "dispersion", slot.dispersion, strict );
-    assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, static_cast<int>( MAX_RECOIL ) );
-    assign( jo, "recoil", slot.recoil, strict, 0 );
-    assign( jo, "handling", slot.handling, strict );
-    assign( jo, "durability", slot.durability, strict, 0, 10 );
-    assign( jo, "loudness", slot.loudness, strict );
-    assign( jo, "clip_size", slot.clip, strict, 0 );
-    assign( jo, "reload", slot.reload_time, strict, 0 );
-    assign( jo, "reload_noise", slot.reload_noise, strict );
-    assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 0 );
-    assign( jo, "barrel_volume", slot.barrel_volume, strict, 0_ml );
-    assign( jo, "barrel_length", slot.barrel_length, strict, 0_mm );
-    assign( jo, "built_in_mods", slot.built_in_mods, strict );
-    assign( jo, "default_mods", slot.default_mods, strict );
-    assign( jo, "energy_drain", slot.energy_drain, strict, 0_kJ );
-    assign( jo, "blackpowder_tolerance", slot.blackpowder_tolerance, strict, 0 );
-    assign( jo, "min_cycle_recoil", slot.min_cycle_recoil, strict, 0 );
-    assign( jo, "ammo_effects", slot.ammo_effects, strict );
-    assign( jo, "ammo_to_fire", slot.ammo_to_fire, strict, 0 );
-    assign( jo, "heat_per_shot", slot.heat_per_shot, strict, 0.0 );
-    assign( jo, "cooling_value", slot.cooling_value, strict, 0.0 );
-    assign( jo, "overheat_threshold", slot.overheat_threshold, strict, -1.0 );
-    optional( jo, false, "gun_jam_mult", slot.gun_jam_mult, 1 );
-
-    if( jo.has_array( "valid_mod_locations" ) ) {
-        slot.valid_mod_locations.clear();
-        for( JsonArray curr : jo.get_array( "valid_mod_locations" ) ) {
-            slot.valid_mod_locations.emplace( gunmod_location( curr.get_string( 0 ) ),
-                                              curr.get_int( 1 ) );
+    public:
+        std::pair<gun_mode_id, gun_modifier_data> get_next( const JsonValue &val ) const {
+            if( val.test_array() ) {
+                JsonArray arr = val.get_array();
+                int arr_size = arr.size();
+                if( !( arr_size == 3 || arr_size == 4 ) ) {
+                    arr.throw_error( "gun mode array must be in format [ gun_mode_id, display name, shots, *flag ]" );
+                }
+                std::set<std::string> flags;
+                // flags can be an array of strings or a single flag string
+                if( arr_size == 4 ) {
+                    const JsonValue &flag_opt = arr[3];
+                    if( flag_opt.test_array() ) {
+                        for( const JsonValue &flag_val : flag_opt.get_array() ) {
+                            flags.insert( flag_val );
+                        }
+                    } else {
+                        flags.insert( arr[3].get_string() );
+                    }
+                }
+                translation gmd_name;
+                gmd_name.deserialize( arr[1] );
+                gun_modifier_data gmd( gmd_name, arr[2].get_int(), flags );
+                return std::pair<gun_mode_id, gun_modifier_data>( gun_mode_id( arr[0].get_string() ), gmd );
+            } else {
+                val.throw_error( "gun modes must be an array of arrays" );
+            }
+            return std::pair<gun_mode_id, gun_modifier_data>( gun_mode_id::NULL_ID(), gun_modifier_data() );
         }
-    }
+};
 
-    assign( jo, "modes", slot.modes );
-    assign( jo, "hurt_part_when_fired", slot.hurt_part_when_fired );
+void islot_gun::deserialize( const JsonObject &jo )
+{
+    numeric_bound_reader<int> not_negative = numeric_bound_reader<int> { 0 };
+    numeric_bound_reader<double> not_negative_float = numeric_bound_reader<double> { 0 };
+
+    optional( jo, was_loaded, "skill", skill_used, skill_id::NULL_ID() );
+    optional( jo, was_loaded, "ammo", ammo, auto_flags_reader<ammotype> {} );
+    optional( jo, was_loaded, "range", range );
+    // Damage instance optional reader handles pierce
+    optional( jo, was_loaded, "ranged_damage", damage );
+    optional( jo, was_loaded, "dispersion", dispersion );
+    optional( jo, was_loaded, "sight_dispersion", sight_dispersion, 30 );
+    optional( jo, was_loaded, "recoil", recoil, not_negative );
+    optional( jo, was_loaded, "handling", handling, -1 );
+    optional( jo, was_loaded, "durability", durability, numeric_bound_reader<int> {0, 10} );
+    optional( jo, was_loaded, "loudness", loudness );
+    optional( jo, was_loaded, "clip_size", clip, not_negative );
+    optional( jo, was_loaded, "reload", reload_time, not_negative, 100 );
+    optional( jo, was_loaded, "reload_noise", reload_noise, to_translation( "click." ) );
+    optional( jo, was_loaded, "reload_noise_volume", reload_noise_volume, not_negative );
+    optional( jo, was_loaded, "barrel_volume", barrel_volume, units_bound_reader<units::volume> {0_ml} );
+    optional( jo, was_loaded, "barrel_length", barrel_length, units_bound_reader<units::length> {0_mm} );
+    optional( jo, was_loaded, "built_in_mods", built_in_mods, auto_flags_reader<itype_id> {} );
+    optional( jo, was_loaded, "default_mods", default_mods, auto_flags_reader<itype_id> {} );
+    optional( jo, was_loaded, "energy_drain", energy_drain, units_bound_reader<units::energy> {0_kJ} );
+    optional( jo, was_loaded, "blackpowder_tolerance", blackpowder_tolerance, not_negative, 8 );
+    optional( jo, was_loaded, "min_cycle_recoil", min_cycle_recoil, not_negative );
+    optional( jo, was_loaded, "ammo_effects", ammo_effects, auto_flags_reader<ammo_effect_str_id> {} );
+    optional( jo, was_loaded, "ammo_to_fire", ammo_to_fire, not_negative, 1 );
+    optional( jo, was_loaded, "heat_per_shot", heat_per_shot, not_negative_float );
+    optional( jo, was_loaded, "cooling_value", cooling_value, not_negative_float,
+              100.0 );
+    optional( jo, was_loaded, "overheat_threshold", overheat_threshold, numeric_bound_reader<double> {-1.0},
+              -1.0 );
+    optional( jo, was_loaded, "gun_jam_mult", gun_jam_mult, not_negative_float, 1.0 );
+    optional( jo, was_loaded, "valid_mod_locations", valid_mod_locations,
+              weighted_string_id_reader<gunmod_location, int> {0} );
+    optional( jo, was_loaded, "modes", modes, gun_modes_reader {} );
+    optional( jo, was_loaded, "hurt_part_when_fired", hurt_part_when_fired );
 }
 
 void Item_factory::load_gun( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.gun, jo, src );
+        if( def.was_loaded ) {
+            if( !def.gun ) {
+                def.gun = cata::make_value<islot_gun>();
+            }
+        } else {
+            def.gun = cata::make_value<islot_gun>();
+        }
+        def.gun->deserialize( jo );
+        def.gun->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -2893,7 +2955,7 @@ void Item_factory::load_armor( const JsonObject &jo, const std::string &src )
         } else {
             def.armor = cata::make_value<islot_armor>();
         }
-        def.armor->load( jo );
+        def.armor->deserialize( jo );
         load_basic_info( jo, def, src );
     }
 }
@@ -2903,16 +2965,14 @@ void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src 
     itype def;
     if( load_definition( jo, src, def ) ) {
         if( def.was_loaded ) {
-            if( def.pet_armor ) {
-                def.pet_armor->was_loaded = true;
-            } else {
+            if( !def.pet_armor ) {
                 def.pet_armor = cata::make_value<islot_pet_armor>();
-                def.pet_armor->was_loaded = true;
             }
         } else {
             def.pet_armor = cata::make_value<islot_pet_armor>();
         }
-        def.pet_armor->load( jo );
+        def.pet_armor->deserialize( jo );
+        def.pet_armor->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -3049,7 +3109,7 @@ static void get_proportional( const JsonObject &jo, const std::string_view membe
     }
 }
 
-void islot_armor::load( const JsonObject &jo )
+void islot_armor::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "armor", sub_data );
 
@@ -3115,12 +3175,7 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "valid_mods", valid_mods );
 }
 
-void islot_armor::deserialize( const JsonObject &jo )
-{
-    load( jo );
-}
-
-void islot_pet_armor::load( const JsonObject &jo )
+void islot_pet_armor::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "material_thickness", thickness, 0 );
     optional( jo, was_loaded, "max_pet_vol", max_vol, volume_reader{}, 0_ml );
@@ -3131,62 +3186,39 @@ void islot_pet_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "power_armor", power_armor, false );
 }
 
-void islot_pet_armor::deserialize( const JsonObject &jo )
+void islot_tool::deserialize( const JsonObject &jo )
 {
-    load( jo );
-}
+    numeric_bound_reader not_negative{ 0 };
+    numeric_bound_reader positive{ 1 };
 
-void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::string &src )
-{
-    bool strict = src == "dda";
-
-    assign( jo, "ammo", slot.ammo_id, strict );
-    assign( jo, "max_charges", slot.max_charges, strict, 0 );
-    assign( jo, "initial_charges", slot.def_charges, strict, 0 );
-    assign( jo, "charges_per_use", slot.charges_per_use, strict, 0 );
-    assign( jo, "charge_factor", slot.charge_factor, strict, 1 );
-    assign( jo, "turns_per_charge", slot.turns_per_charge, strict, 0 );
-    assign( jo, "fuel_efficiency", slot.fuel_efficiency, strict, -1.0f );
-    assign( jo, "power_draw", slot.power_draw, strict, 0_W );
-    assign( jo, "revert_msg", slot.revert_msg, strict );
-    assign( jo, "sub", slot.subtype, strict );
-    assign( jo, "etransfer_rate", slot.etransfer_rate, strict );
-    assign( jo, "e_port", slot.e_port, strict );
-
-    if( slot.def_charges > slot.max_charges ) {
-        jo.throw_error_at( "initial_charges", "initial_charges is larger than max_charges" );
-    }
-
-    if( jo.has_array( "rand_charges" ) ) {
-        if( jo.has_member( "initial_charges" ) ) {
-            jo.throw_error_at(
-                "rand_charges",
-                "You can have a fixed initial amount of charges, or randomized.  Not both." );
-        }
-        for( const int charge : jo.get_array( "rand_charges" ) ) {
-            slot.rand_charges.push_back( charge );
-        }
-        if( slot.rand_charges.size() == 1 ) {
-            // see item::item(...) for the use of this array
-            jo.throw_error_at(
-                "rand_charges",
-                "a rand_charges array with only one entry will be ignored, it needs at least 2 "
-                "entries!" );
-        }
-    }
-
-    if( jo.has_array( "e_ports_banned" ) ) {
-        for( std::string port : jo.get_array( "e_ports_banned" ) ) {
-            slot.e_ports_banned.push_back( port );
-        }
-    }
+    optional( jo, was_loaded, "ammo", ammo_id, auto_flags_reader<ammotype> {} );
+    optional( jo, was_loaded, "max_charges", max_charges, not_negative, 0 );
+    optional( jo, was_loaded, "initial_charges", def_charges, not_negative, 0 );
+    optional( jo, was_loaded, "charges_per_use", charges_per_use, not_negative, 0 );
+    optional( jo, was_loaded, "charge_factor", charge_factor, positive, 1 );
+    optional( jo, was_loaded, "turns_per_charge", turns_per_charge, not_negative, 0 );
+    optional( jo, was_loaded, "fuel_efficiency", fuel_efficiency, numeric_bound_reader{-1.0f}, -1.0f );
+    optional( jo, was_loaded, "power_draw", power_draw, units_bound_reader<units::power> { 0_W }, 0_W );
+    optional( jo, was_loaded, "revert_msg", revert_msg );
+    optional( jo, was_loaded, "sub", subtype );
+    optional( jo, was_loaded, "etransfer_rate", etransfer_rate, units_bound_reader<units::ememory> { 0_KB } );
+    optional( jo, was_loaded, "e_port", e_port );
+    optional( jo, was_loaded, "e_ports_banned", e_ports_banned, auto_flags_reader<std::string> {} );
 }
 
 void Item_factory::load_tool( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.tool, jo, src );
+        if( def.was_loaded ) {
+            if( !def.tool ) {
+                def.tool = cata::make_value<islot_tool>();
+            }
+        } else {
+            def.tool = cata::make_value<islot_tool>();
+        }
+        def.tool->deserialize( jo );
+        def.tool->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -3196,49 +3228,44 @@ void Item_factory::load( relic &slot, const JsonObject &jo, const std::string_vi
     slot.load( jo );
 }
 
-void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::string &src )
+/*
+* Reads an array of toolmod ammo-to-itype maps in the following format:
+* [ [ ammotype, [itype1, itype2, ..] ], .. ]
+*/
+class magazine_adaptor_reader : public generic_typed_reader<magazine_adaptor_reader>
 {
-    bool strict = src == "dda";
-
-    if( jo.has_array( "ammo_modifier" ) ) {
-        for( const std::string id : jo.get_array( "ammo_modifier" ) ) {
-            slot.ammo_modifier.insert( ammotype( id ) );
+    public:
+        std::pair<ammotype, std::set<itype_id>> get_next( const JsonValue &val ) const {
+            std::pair<ammotype, std::set<itype_id>> ret;
+            if( !val.read( ret, false ) ) {
+                val.throw_error( "magazine adaptor must be array in the form [ [ ammotype, [itype1, itype2, ..] ], .. ] " );
+            }
+            return ret;
         }
-    } else if( jo.has_string( "ammo_modifier" ) ) {
-        slot.ammo_modifier.insert( ammotype( jo.get_string( "ammo_modifier" ) ) );
-    }
-    assign( jo, "capacity_multiplier", slot.capacity_multiplier, strict );
+};
 
-    if( jo.has_member( "acceptable_ammo" ) ) {
-        slot.acceptable_ammo.clear();
-        for( const std::string &e : jo.get_tags( "acceptable_ammo" ) ) {
-            slot.acceptable_ammo.insert( ammotype( e ) );
-        }
-    }
-
-    JsonArray mags = jo.get_array( "magazine_adaptor" );
-    if( !mags.empty() ) {
-        slot.magazine_adaptor.clear();
-    }
-    for( JsonArray arr : mags ) {
-        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
-        // compatible magazines for this ammo type
-        for( const std::string line : arr.get_array( 1 ) ) {
-            slot.magazine_adaptor[ ammo ].insert( itype_id( line ) );
-        }
-    }
-
-    JsonArray pockets = jo.get_array( "pocket_mods" );
-    if( !pockets.empty() ) {
-        optional( jo, false, "pocket_mods", slot.add_pockets );
-    }
+void islot_mod::deserialize( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "ammo_modifier", ammo_modifier, auto_flags_reader<ammotype> {} );
+    optional( jo, was_loaded, "capacity_multiplier", capacity_multiplier, 1.0f );
+    optional( jo, was_loaded, "acceptable_ammo", acceptable_ammo, auto_flags_reader<ammotype> {} );
+    optional( jo, was_loaded, "magazine_adaptor", magazine_adaptor, magazine_adaptor_reader{} );
+    optional( jo, was_loaded, "pocket_mods", add_pockets );
 }
 
 void Item_factory::load_toolmod( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.mod, jo, src );
+        if( def.was_loaded ) {
+            if( !def.mod ) {
+                def.mod = cata::make_value<islot_mod>();
+            }
+        } else {
+            def.mod = cata::make_value<islot_mod>();
+        }
+        def.mod->deserialize( jo );
+        def.mod->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -3249,7 +3276,9 @@ void Item_factory::load_tool_armor( const JsonObject &jo, const std::string &src
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.tool, jo, src );
+        def.tool = cata::make_value<islot_tool>();
+        def.tool->deserialize( jo );
+        def.tool->was_loaded = true;
         if( def.was_loaded ) {
             if( def.armor ) {
                 def.armor->was_loaded = true;
@@ -3260,12 +3289,12 @@ void Item_factory::load_tool_armor( const JsonObject &jo, const std::string &src
         } else {
             def.armor = cata::make_value<islot_armor>();
         }
-        def.armor->load( jo );
+        def.armor->deserialize( jo );
         load_basic_info( jo, def, src );
     }
 }
 
-void islot_book::load( const JsonObject &jo )
+void islot_book::deserialize( const JsonObject &jo )
 {
     optional( jo, was_loaded, "max_level", level, 0 );
     optional( jo, was_loaded, "required_level", req, 0 );
@@ -3282,26 +3311,19 @@ void islot_book::load( const JsonObject &jo )
     optional( jo, was_loaded, "scannable", is_scannable, true );
 }
 
-void islot_book::deserialize( const JsonObject &jo )
-{
-    load( jo );
-}
-
 void Item_factory::load_book( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
         if( def.was_loaded ) {
-            if( def.book ) {
-                def.book->was_loaded = true;
-            } else {
+            if( !def.book ) {
                 def.book = cata::make_value<islot_book>();
-                def.book->was_loaded = true;
             }
         } else {
             def.book = cata::make_value<islot_book>();
         }
-        def.book->load( jo );
+        def.book->deserialize( jo );
+        def.book->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -3318,176 +3340,73 @@ void Item_factory::load_ememory_size( const JsonObject &jo, itype &def )
     assign( jo, "ememory_size", def.ememory_size );
 }
 
-void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std::string &src )
+/**
+ * Loads vitamin JSON for generic_factory
+ * Format must be an array of array-pairs: [[a,b],[c,d]]
+ * where a/c are string_id, b/d are int OR vitamin_units::mass string
+ */
+class vitamins_reader : public generic_typed_reader<vitamins_reader>
 {
-    bool strict = src == "dda";
-
-    JsonObject relative = jo.get_object( "relative" );
-    JsonObject proportional = jo.get_object( "proportional" );
-    relative.allow_omitted_members();
-    proportional.allow_omitted_members();
-
-    // !slot.comesttype.empty() for was_loaded - we don't have a proper was_loaded, but
-    // if it's been loaded before, this should have a value. If it's not, we'll catch it later.
-    mandatory( jo, !slot.comesttype.empty(), "comestible_type", slot.comesttype );
-    assign( jo, "tool", slot.tool, strict );
-    assign( jo, "charges", slot.def_charges, strict, 1 );
-    assign( jo, "quench", slot.quench, strict );
-    assign( jo, "fun", slot.fun, strict );
-    assign( jo, "stim", slot.stim, strict );
-    assign( jo, "sleepiness_mod", slot.sleepiness_mod, strict );
-    assign( jo, "healthy", slot.healthy, strict );
-    assign( jo, "parasites", slot.parasites, strict, 0 );
-    assign( jo, "freezing_point", slot.freeze_point, strict );
-    assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
-    assign( jo, "cooks_like", slot.cooks_like, strict );
-    assign( jo, "smoking_result", slot.smoking_result, strict );
-    assign( jo, "petfood", slot.petfood, strict );
-
-    for( const JsonObject jsobj : jo.get_array( "contamination" ) ) {
-        slot.contamination.emplace( diseasetype_id( jsobj.get_string( "disease" ) ),
-                                    static_cast<float>( jsobj.get_float( "probability" ) ) );
-    }
-
-    if( jo.has_member( "primary_material" ) ) {
-        material_id mat( jo.get_string( "primary_material" ) );
-        // Overwrite the materials (set by copy-from)
-        slot.materials.clear();
-        slot.materials.emplace( mat, 1 );
-    } else if( jo.has_member( "material" ) ) {
-        // Overwrite the materials (set by copy-from)
-        slot.materials.clear();
-
-        if( jo.has_array( "material" ) && jo.get_array( "material" ).test_object() ) {
-            for( JsonObject m : jo.get_array( "material" ) ) {
-                const material_id mat_id( m.get_string( "type" ) );
-                int portion = m.get_int( "portion", 1 );
-                slot.materials.emplace( mat_id, portion );
-            }
-        } else {
-            for( const std::string &m : jo.get_tags( "material" ) ) {
-                slot.materials.emplace( m, 1 );
-            }
-        }
-    }
-
-    assign( jo, "monotony_penalty", slot.monotony_penalty, strict );
-    assign( jo, "addiction_potential", slot.default_addict_potential, strict );
-    if( jo.has_member( "addiction_type" ) ) {
-        slot.addictions.clear();
-        if( jo.has_string( "addiction_type" ) ) {
-            slot.addictions.emplace( addiction_id( jo.get_string( "addiction_type" ) ),
-                                     slot.default_addict_potential );
-        } else { //"addiction_type" is an array
-            for( JsonValue jval : jo.get_array( "addiction_type" ) ) {
-                if( jval.test_string() ) {
-                    slot.addictions.emplace( addiction_id( jval.get_string() ), slot.default_addict_potential );
-                } else { //nested object with addiction + potential
-                    JsonObject jobj = jval.get_object();
-                    slot.addictions.emplace( addiction_id( jobj.get_string( "addiction" ) ),
-                                             jobj.get_int( "potential" ) );
+    public:
+        std::pair<vitamin_id, std::variant<int, vitamin_units::mass>> get_next(
+        const JsonValue &val ) const {
+            if( val.test_array() ) {
+                JsonArray arr = val.get_array();
+                if( arr.size() == 2 ) {
+                    vitamin_id vit( arr[0].get_string() );
+                    if( arr[1].test_int() ) {
+                        return std::pair( vit, std::variant<int, vitamin_units::mass>( arr[1].get_int() ) );
+                    } else {
+                        vitamin_units::mass val = read_from_json_string( arr[1], vitamin_units::mass_units );
+                        return std::pair( vit, std::variant<int, vitamin_units::mass>( val ) );
+                    }
+                } else {
+                    arr.throw_error( "vitamins reader read array without exactly two entries" );
                 }
             }
+            val.throw_error( "vitamins reader read non-array" );
         }
-    } else if( jo.has_member( "addiction_potential" ) ) {
-        // copy-from'd while only changing the general potential, so assign new potential to all addictions
-        for( std::pair<const addiction_id, int> &add : slot.addictions ) {
-            add.second = slot.default_addict_potential;
-        }
-    }
+};
 
-    bool got_calories = false;
+void islot_comestible::deserialize( const JsonObject &jo )
+{
+    std::string src = "dda";
 
-    if( jo.has_member( "calories" ) ) {
-        // The value here is in kcal, but is stored as simply calories
-        slot.default_nutrition.calories = 1000 * jo.get_int( "calories" );
-        got_calories = true;
+    mandatory( jo, was_loaded, "comestible_type", comesttype );
+    optional( jo, was_loaded, "tool", tool, itype_id::NULL_ID() );
+    optional( jo, was_loaded, "charges", def_charges, numeric_bound_reader<int> {1}, 0 );
+    optional( jo, was_loaded, "stack_size", stack_size );
+    optional( jo, was_loaded, "quench", quench );
+    optional( jo, was_loaded, "fun", fun );
+    optional( jo, was_loaded, "stim", stim );
+    optional( jo, was_loaded, "sleepiness_mod", sleepiness_mod );
+    optional( jo, was_loaded, "healthy", healthy );
+    optional( jo, was_loaded, "parasites", parasites, numeric_bound_reader<int> {0} );
+    optional( jo, was_loaded, "freezing_point", freeze_point );
+    optional( jo, was_loaded, "spoils_in", spoils, time_bound_reader{1_hours} );
+    optional( jo, was_loaded, "cooks_like", cooks_like );
+    optional( jo, was_loaded, "smoking_result", smoking_result );
+    optional( jo, was_loaded, "petfood", petfood );
+    optional( jo, was_loaded, "monotony_penalty", monotony_penalty, -1 );
+    optional( jo, was_loaded, "calories", default_nutrition.calories );
 
-    } else if( relative.has_member( "calories" ) ) {
-        // The value here is in kcal, but is stored as simply calories
-        slot.default_nutrition.calories += 1000 * relative.get_int( "calories" );
-        got_calories = true;
+    optional( jo, was_loaded, "contamination", contamination,
+              weighted_string_id_reader<diseasetype_id, float> {1.0} );
+    optional( jo, was_loaded, "primary_material", primary_material, material_id::NULL_ID() );
+    optional( jo, was_loaded, "vitamins", default_nutrition.vitamins_,
+              vitamins_reader {} );
+    optional( jo, was_loaded, "addiction_potential", default_addict_potential );
 
-    } else if( proportional.has_member( "calories" ) ) {
-        // The value here is in kcal, but is stored as simply calories
-        slot.default_nutrition.calories *= proportional.get_float( "calories" );
-        got_calories = true;
-
-    } else if( jo.has_member( "nutrition" ) ) {
-        // The value here is in kcal, but is stored as simply calories
-        slot.default_nutrition.calories = jo.get_int( "nutrition" ) * islot_comestible::kcal_per_nutr *
-                                          1000;
-    }
+    optional( jo, was_loaded, "addiction_type", addictions,
+              weighted_string_id_reader<addiction_id, int> {default_addict_potential} );
 
     for( JsonValue jv : jo.get_array( "consumption_effect_on_conditions" ) ) {
-        slot.consumption_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        consumption_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
-
-    if( jo.has_member( "nutrition" ) && got_calories ) {
-        jo.throw_error_at( "nutrition", "cannot specify both nutrition and calories" );
-    }
-
-    // any specification of vitamins suppresses use of material defaults @see Item_factory::finalize
-    if( jo.has_array( "vitamins" ) ) {
-        slot.default_nutrition.clear_vitamins();
-        slot.default_nutrition.finalized = false;
-        for( JsonArray pair : jo.get_array( "vitamins" ) ) {
-            vitamin_id vit( pair.get_string( 0 ) );
-            if( pair.has_int( 1 ) ) {
-                slot.default_nutrition.set_vitamin( vit, pair.get_int( 1 ) );
-            } else {
-                vitamin_units::mass val = read_from_json_string( pair[1], vitamin_units::mass_units );
-                slot.default_nutrition.set_vitamin( vit, val );
-            }
-        }
-
-    } else if( relative.has_array( "vitamins" ) ) {
-        for( JsonArray pair : relative.get_array( "vitamins" ) ) {
-            vitamin_id vit( pair.get_string( 0 ) );
-            if( pair.has_int( 1 ) ) {
-                slot.default_nutrition.add_vitamin( vit, pair.get_int( 1 ) );
-            } else {
-                vitamin_units::mass val = read_from_json_string( pair[1], vitamin_units::mass_units );
-                slot.default_nutrition.add_vitamin( vit, val );
-            }
-        }
-    }
-
-    if( jo.has_object( "rot_spawn" ) ) {
-        JsonObject jo_rot = jo.get_object( "rot_spawn" );
-        if( jo_rot.has_string( "monster" ) ) {
-            slot.rot_spawn_monster = mtype_id( jo_rot.get_string( "monster" ) );
-            slot.rot_spawn_group = mongroup_id::NULL_ID();
-            load_min_max( slot.rot_spawn_monster_amount, jo_rot, "amount" );
-        }
-        if( jo_rot.has_string( "group" ) ) {
-            slot.rot_spawn_group = mongroup_id( jo_rot.get_string( "group" ) );
-            slot.rot_spawn_monster = mtype_id::NULL_ID();
-        }
-        if( jo_rot.has_int( "chance" ) ) {
-            assign( jo_rot, "chance", slot.rot_spawn_chance, strict, 0, 100 );
-        }
-    }
-}
-
-void islot_brewable::load( const JsonObject &jo )
-{
-    optional( jo, was_loaded, "time", time, 1_turns );
-    if( jo.has_array( "results" ) ) {
-        for( std::string entry : jo.get_string_array( "results" ) ) {
-            results[itype_id( entry )] = 1;
-        }
-    } else {
-        mandatory( jo, was_loaded, "results", results );
-    }
+    optional( jo, was_loaded, "rot_spawn", rot_spawn );
 }
 
 void islot_brewable::deserialize( const JsonObject &jo )
-{
-    load( jo );
-}
-
-void islot_compostable::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "time", time, 1_turns );
     if( jo.has_array( "results" ) ) {
@@ -3501,20 +3420,17 @@ void islot_compostable::load( const JsonObject &jo )
 
 void islot_compostable::deserialize( const JsonObject &jo )
 {
-    load( jo );
-}
-
-void Item_factory::load_comestible( const JsonObject &jo, const std::string &src )
-{
-    itype def;
-    if( load_definition( jo, src, def ) ) {
-        assign( jo, "stack_size", def.stack_size, src == "dda", 1 );
-        load_slot( def.comestible, jo, src );
-        load_basic_info( jo, def, src );
+    optional( jo, was_loaded, "time", time, 1_turns );
+    if( jo.has_array( "results" ) ) {
+        for( std::string entry : jo.get_string_array( "results" ) ) {
+            results[itype_id( entry )] = 1;
+        }
+    } else {
+        mandatory( jo, was_loaded, "results", results );
     }
 }
 
-void islot_seed::load( const JsonObject &jo )
+void islot_seed::deserialize( const JsonObject &jo )
 {
     assign( jo, "grow", grow, false, 1_days );
     optional( jo, was_loaded, "fruit_div", fruit_div, 1 );
@@ -3526,124 +3442,104 @@ void islot_seed::load( const JsonObject &jo )
               ter_furn_flag::TFLAG_PLANTABLE );
 }
 
-void islot_seed::deserialize( const JsonObject &jo )
+void islot_gunmod::deserialize( const JsonObject &jo )
 {
-    load( jo );
-}
-
-void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::string &src )
-{
-    bool strict = src == "dda";
-
-    assign( jo, "damage_modifier", slot.damage, strict,
-            damage_instance( damage_type_id::NULL_ID(), -20, -20, -20, -20 ) );
-    assign( jo, "loudness_modifier", slot.loudness );
-    assign( jo, "loudness_multiplier", slot.loudness_multiplier );
-    assign( jo, "location", slot.location );
-    assign( jo, "dispersion_modifier", slot.dispersion );
-    assign( jo, "field_of_view", slot.field_of_view );
-    assign( jo, "sight_dispersion", slot.sight_dispersion );
-    assign( jo, "aim_speed_modifier", slot.aim_speed_modifier );
-    assign( jo, "aim_speed", slot.aim_speed, strict, -1 );
-    assign( jo, "handling_modifier", slot.handling, strict );
-    assign( jo, "range_modifier", slot.range );
-    assign( jo, "range_multiplier", slot.range_multiplier );
-    assign( jo, "consume_chance", slot.consume_chance );
-    assign( jo, "consume_divisor", slot.consume_divisor );
-    assign( jo, "shot_spread_multiplier_modifier", slot.shot_spread_multiplier_modifier );
-    assign( jo, "ammo_effects", slot.ammo_effects, strict );
-    assign( jo, "energy_drain_multiplier", slot.energy_drain_multiplier );
-    assign( jo, "energy_drain_modifier", slot.energy_drain_modifier );
-    assign( jo, "ammo_to_fire_multiplier", slot.ammo_to_fire_multiplier );
-    assign( jo, "ammo_to_fire_modifier", slot.ammo_to_fire_modifier );
-    assign( jo, "weight_multiplier", slot.weight_multiplier );
-    assign( jo, "overwrite_min_cycle_recoil", slot.overwrite_min_cycle_recoil );
-    assign( jo, "overheat_threshold_modifier", slot.overheat_threshold_modifier );
-    assign( jo, "overheat_threshold_multiplier", slot.overheat_threshold_multiplier );
-    assign( jo, "cooling_value_modifier", slot.cooling_value_modifier );
-    assign( jo, "cooling_value_multiplier", slot.cooling_value_multiplier );
-    assign( jo, "heat_per_shot_modifier", slot.heat_per_shot_modifier );
-    assign( jo, "heat_per_shot_multiplier", slot.heat_per_shot_multiplier );
-    // convert aim_speed to FoV and aim_speed_modifier automatically, if FoV is not set
-    if( slot.aim_speed >= 0 && slot.field_of_view <= 0 ) {
-        if( slot.aim_speed > 6 ) {
-            slot.aim_speed_modifier = 5 * ( slot.aim_speed - 6 );
-            slot.field_of_view = 480;
-        } else {
-            slot.field_of_view = 480 - 30 * ( 6 - slot.aim_speed );
-        }
-    }
-    if( jo.has_int( "install_time" ) ) {
-        slot.install_time = jo.get_int( "install_time" );
-    } else if( jo.has_string( "install_time" ) ) {
-        slot.install_time = to_moves<int>( read_from_json_string<time_duration>
-                                           ( jo.get_member( "install_time" ),
-                                             time_duration::units ) );
-    }
-
-    if( jo.has_member( "mod_targets" ) ) {
-        slot.usable.clear();
-        for( const auto &t : jo.get_tags( "mod_targets" ) ) {
-            slot.usable.insert( gun_type_type( t ) );
-        }
-    }
-
-    assign( jo, "mode_modifier", slot.mode_modifier );
-    assign( jo, "reload_modifier", slot.reload_modifier );
-    assign( jo, "min_str_required_mod", slot.min_str_required_mod );
-    assign( jo, "min_str_required_mod_if_prone", slot.min_str_required_mod_if_prone );
-    if( jo.has_array( "add_mod" ) ) {
-        slot.add_mod.clear();
-        for( JsonArray curr : jo.get_array( "add_mod" ) ) {
-            slot.add_mod.emplace( gunmod_location( curr.get_string( 0 ) ), curr.get_int( 1 ) );
-        }
-    }
-
-    assign( jo, "is_bayonet", slot.is_bayonet );
-    assign( jo, "blacklist_mod", slot.blacklist_mod );
-    assign( jo, "blacklist_slot", slot.blacklist_slot );
-    assign( jo, "barrel_length", slot.barrel_length );
+    mandatory( jo, was_loaded, "install_time", install_time );
+    mandatory( jo, was_loaded, "mod_targets", usable, auto_flags_reader<gun_type_type> {} );
+    optional( jo, was_loaded, "damage_modifier", damage );
+    optional( jo, was_loaded, "loudness_modifier", loudness );
+    optional( jo, was_loaded, "loudness_multiplier", loudness_multiplier, 1 );
+    optional( jo, was_loaded, "location", location );
+    optional( jo, was_loaded, "dispersion_modifier", dispersion );
+    optional( jo, was_loaded, "field_of_view", field_of_view, -1 );
+    optional( jo, was_loaded, "sight_dispersion", sight_dispersion, -1 );
+    optional( jo, was_loaded, "aim_speed_modifier", aim_speed_modifier, 0.0 );
+    optional( jo, was_loaded, "aim_speed", aim_speed, numeric_bound_reader{ -1 }, -1 );
+    optional( jo, was_loaded, "handling_modifier", handling );
+    optional( jo, was_loaded, "range_modifier", range );
+    optional( jo, was_loaded, "range_multiplier", range_multiplier, 1.0 );
+    optional( jo, was_loaded, "consume_chance", consume_chance, 10000 );
+    optional( jo, was_loaded, "consume_divisor", consume_divisor, 1 );
+    optional( jo, was_loaded, "shot_spread_multiplier_modifier", shot_spread_multiplier_modifier );
+    optional( jo, was_loaded, "ammo_effects", ammo_effects );
+    optional( jo, was_loaded, "energy_drain_multiplier", energy_drain_multiplier, 1.0f );
+    optional( jo, was_loaded, "energy_drain_modifier", energy_drain_modifier );
+    optional( jo, was_loaded, "ammo_to_fire_multiplier", ammo_to_fire_multiplier, 1.0f );
+    optional( jo, was_loaded, "ammo_to_fire_modifier", ammo_to_fire_modifier );
+    optional( jo, was_loaded, "weight_multiplier", weight_multiplier, 1.0f );
+    optional( jo, was_loaded, "overwrite_min_cycle_recoil", overwrite_min_cycle_recoil, -1 );
+    optional( jo, was_loaded, "overheat_threshold_modifier", overheat_threshold_modifier );
+    optional( jo, was_loaded, "overheat_threshold_multiplier", overheat_threshold_multiplier, 1.0f );
+    optional( jo, was_loaded, "cooling_value_modifier", cooling_value_modifier );
+    optional( jo, was_loaded, "cooling_value_multiplier", cooling_value_multiplier, 1.0f );
+    optional( jo, was_loaded, "heat_per_shot_modifier", heat_per_shot_modifier );
+    optional( jo, was_loaded, "heat_per_shot_multiplier", heat_per_shot_multiplier, 1.0f );
+    optional( jo, was_loaded, "mode_modifier", mode_modifier, gun_modes_reader{} );
+    optional( jo, was_loaded, "reload_modifier", reload_modifier );
+    optional( jo, was_loaded, "min_str_required_mod", min_str_required_mod );
+    optional( jo, was_loaded, "min_str_required_mod_if_prone", min_str_required_mod_if_prone );
+    optional( jo, was_loaded, "is_bayonet", is_bayonet );
+    optional( jo, was_loaded, "blacklist_mod", blacklist_mod, auto_flags_reader<itype_id> {} );
+    optional( jo, was_loaded, "blacklist_slot", blacklist_slot, auto_flags_reader<gunmod_location> {} );
+    optional( jo, was_loaded, "barrel_length", barrel_length );
+    optional( jo, was_loaded, "add_mod", add_mod, weighted_string_id_reader<gunmod_location, int> {1} );
 }
 
 void Item_factory::load_gunmod( const JsonObject &jo, const std::string &src )
 {
+    //NOTE: this loads both a gunmod and toolmod islot, and is an exception to load_X functions
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.gunmod, jo, src );
-        load_slot( def.mod, jo, src );
+        if( def.was_loaded ) {
+            if( !def.gunmod ) {
+                def.gunmod = cata::make_value<islot_gunmod>();
+                def.mod = cata::make_value<islot_mod>();
+            }
+        } else {
+            def.gunmod = cata::make_value<islot_gunmod>();
+            def.mod = cata::make_value<islot_mod>();
+        }
+        def.gunmod->deserialize( jo );
+        def.gunmod->was_loaded = true;
+        def.mod->deserialize( jo );
+        def.mod->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
 
-void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::string &src )
+void islot_magazine::deserialize( const JsonObject &jo )
 {
-    bool strict = src == "dda";
-    assign( jo, "ammo_type", slot.type, strict );
-    assign( jo, "capacity", slot.capacity, strict, 0 );
-    assign( jo, "count", slot.count, strict, 0 );
-    assign( jo, "default_ammo", slot.default_ammo, strict );
-    assign( jo, "reload_time", slot.reload_time, strict, 0 );
-    optional( jo, false, "mag_jam_mult", slot.mag_jam_mult, 1 );
-    assign( jo, "linkage", slot.linkage, strict );
+    numeric_bound_reader not_negative{ 0 };
+
+    optional( jo, was_loaded, "ammo_type", type, auto_flags_reader<ammotype> {} );
+    optional( jo, was_loaded, "capacity", capacity, not_negative );
+    optional( jo, was_loaded, "count", count, not_negative );
+    optional( jo, was_loaded, "default_ammo", default_ammo, itype_id::NULL_ID() );
+    optional( jo, was_loaded, "reload_time", reload_time, not_negative, 100 );
+    optional( jo, was_loaded, "mag_jam_mult", mag_jam_mult, numeric_bound_reader{1.0}, 1.0 );
+    optional( jo, was_loaded, "linkage", linkage );
 }
 
 void Item_factory::load_magazine( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.magazine, jo, src );
+        if( def.was_loaded ) {
+            if( !def.magazine ) {
+                def.magazine = cata::make_value<islot_magazine>();
+            }
+        } else {
+            def.magazine = cata::make_value<islot_magazine>();
+        }
+        def.magazine->deserialize( jo );
+        def.magazine->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
 
-void islot_battery::load( const JsonObject &jo )
-{
-    mandatory( jo, was_loaded, "max_capacity", max_capacity );
-}
-
 void islot_battery::deserialize( const JsonObject &jo )
 {
-    load( jo );
+    mandatory( jo, was_loaded, "max_capacity", max_capacity );
 }
 
 void Item_factory::load_battery( const JsonObject &jo, const std::string &src )
@@ -3651,41 +3547,38 @@ void Item_factory::load_battery( const JsonObject &jo, const std::string &src )
     itype def;
     if( load_definition( jo, src, def ) ) {
         if( def.was_loaded ) {
-            if( def.battery ) {
-                def.battery->was_loaded = true;
-            } else {
+            if( !def.battery ) {
                 def.battery = cata::make_value<islot_battery>();
-                def.battery->was_loaded = true;
             }
         } else {
             def.battery = cata::make_value<islot_battery>();
         }
-        def.battery->load( jo );
+        def.battery->deserialize( jo );
+        def.battery->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
 
-void Item_factory::load( islot_bionic &slot, const JsonObject &jo, const std::string &src )
+void islot_bionic::deserialize( const JsonObject &jo )
 {
-    bool strict = src == "dda";
-
-    if( jo.has_member( "bionic_id" ) ) {
-        assign( jo, "bionic_id", slot.id, strict );
-    } else {
-        assign( jo, "id", slot.id, strict );
-    }
-
-    assign( jo, "difficulty", slot.difficulty, strict, 0 );
-    assign( jo, "is_upgrade", slot.is_upgrade );
-
-    assign( jo, "installation_data", slot.installation_data );
+    optional( jo, was_loaded, "difficulty", difficulty, numeric_bound_reader{0} );
+    optional( jo, was_loaded, "is_upgrade", is_upgrade );
+    optional( jo, was_loaded, "installation_data", installation_data );
 }
 
 void Item_factory::load_bionic( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.bionic, jo, src );
+        if( def.was_loaded ) {
+            if( !def.bionic ) {
+                def.bionic = cata::make_value<islot_bionic>();
+            }
+        } else {
+            def.bionic = cata::make_value<islot_bionic>();
+        }
+        def.bionic->deserialize( jo );
+        def.bionic->was_loaded = true;
         load_basic_info( jo, def, src );
     }
 }
@@ -4275,7 +4168,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     load_ememory_size( jo, def );
 
     if( jo.has_member( "thrown_damage" ) ) {
-        def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
+        optional( jo, false, "thrown_damage", def.thrown_damage );
     } else {
         // TODO: Move to finalization
         def.thrown_damage.clear();
@@ -4319,33 +4212,16 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.color = color_from_string( jo.get_string( "color" ) );
     }
 
-    if( jo.has_member( "material" ) ) {
-        def.materials.clear();
-        def.mat_portion_total = 0;
-        auto add_mat = [&def]( const material_id & m, int portion ) {
-            const auto res = def.materials.emplace( m, portion );
-            if( res.second ) {
-                def.mat_portion_total += portion;
-            }
-        };
-        bool first = true;
-        if( jo.has_array( "material" ) && jo.get_array( "material" ).test_object() ) {
-            for( JsonObject mat : jo.get_array( "material" ) ) {
-                add_mat( material_id( mat.get_string( "type" ) ), mat.get_int( "portion", 1 ) );
-                if( first ) {
-                    def.default_mat = material_id( mat.get_string( "type" ) );
-                    first = false;
-                }
-            }
-        } else {
-            for( const std::string &mat : jo.get_tags( "material" ) ) {
-                add_mat( material_id( mat ), 1 );
-                if( first ) {
-                    def.default_mat = material_id( mat );
-                    first = false;
-                }
-            }
+    optional( jo, def.was_loaded, "material", def.materials,
+              weighted_string_id_reader<material_id, int> {1} );
+    bool first_pair = true;
+    def.mat_portion_total = 0;
+    for( const std::pair<const string_id<material_type>, int> &pair : def.materials ) {
+        if( first_pair ) {
+            def.default_mat = pair.first;
+            first_pair = false;
         }
+        def.mat_portion_total += pair.second;
     }
 
     if( jo.has_member( "chat_topics" ) ) {
@@ -4510,22 +4386,27 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "armor_data", def.armor, src == "dda" );
     assign( jo, "pet_armor_data", def.pet_armor, src == "dda" );
     assign( jo, "book_data", def.book, src == "dda" );
-    load_slot_optional( def.gun, jo, "gun_data", src );
-    load_slot_optional( def.bionic, jo, "bionic_data", src );
+    //this is temporary; gunmods/tools are presently the only types that use gun_data
+    if( def.gunmod || def.tool ) {
+        bool gun_loaded = def.gun ? def.gun->was_loaded : false;
+        optional( jo, gun_loaded, "gun_data", def.gun );
+    }
     assign( jo, "ammo_data", def.ammo, src == "dda" );
     assign( jo, "seed_data", def.seed, src == "dda" );
     assign( jo, "brewable", def.brewable, src == "dda" );
     assign( jo, "compostable", def.compostable, src == "dda" );
     load_slot_optional( def.relic_data, jo, "relic_data", src );
     assign( jo, "milling", def.milling_data, src == "dda" );
-
     // optional gunmod slot may also specify mod data
     if( jo.has_member( "gunmod_data" ) ) {
-        // use the same JsonObject for the two load_slot calls to avoid
-        // warnings about unvisited Json members
+        //TO-DO: this is temporary, remove it when "type": "ITEM" is figured out
         JsonObject jo_gunmod = jo.get_object( "gunmod_data" );
-        load_slot( def.gunmod, jo_gunmod, src );
-        load_slot( def.mod, jo_gunmod, src );
+        def.gunmod = cata::make_value<islot_gunmod>();
+        def.mod = cata::make_value<islot_mod>();
+        def.gunmod->deserialize( jo_gunmod );
+        def.gunmod->was_loaded = true;
+        def.mod->deserialize( jo_gunmod );
+        def.mod->was_loaded = true;
     }
 
     if( jo.has_string( "abstract" ) ) {
@@ -4861,6 +4742,7 @@ void Item_factory::clear()
 
     m_templates.clear();
     m_runtimes.clear();
+    m_runtimes_dirty = true;
 
     item_blacklist.clear();
 
@@ -5413,32 +5295,25 @@ bool Item_factory::has_template( const itype_id &id ) const
     return m_templates.count( id ) || m_runtimes.count( id );
 }
 
-std::vector<const itype *> Item_factory::all() const
+const std::vector<const itype *> &Item_factory::all() const
 {
     cata_assert( frozen );
+    // if (!m_runtimes_dirty) then runtimes haven't changed.
+    // Since frozen == true, m_templates haven't changed either.
+    if( m_runtimes_dirty ) {
+        templates_all_cache.clear();
+        templates_all_cache.reserve( m_templates.size() + m_runtimes.size() );
 
-    std::vector<const itype *> res;
-    res.reserve( m_templates.size() + m_runtimes.size() );
-
-    for( const auto &e : m_templates ) {
-        res.push_back( &e.second );
-    }
-    for( const auto &e : m_runtimes ) {
-        res.push_back( e.second.get() );
-    }
-
-    return res;
-}
-
-std::vector<const itype *> Item_factory::get_runtime_types() const
-{
-    std::vector<const itype *> res;
-    res.reserve( m_runtimes.size() );
-    for( const auto &e : m_runtimes ) {
-        res.push_back( e.second.get() );
+        for( const auto &e : m_templates ) {
+            templates_all_cache.push_back( &e.second );
+        }
+        for( const auto &e : m_runtimes ) {
+            templates_all_cache.push_back( e.second.get() );
+        }
+        m_runtimes_dirty = false;
     }
 
-    return res;
+    return templates_all_cache;
 }
 
 /** Find all templates matching the UnaryPredicate function */
@@ -5446,7 +5321,7 @@ std::vector<const itype *> Item_factory::find( const std::function<bool( const i
 {
     std::vector<const itype *> res;
 
-    std::vector<const itype *> opts = item_controller->all();
+    const std::vector<const itype *> &opts = item_controller->all();
 
     std::copy_if( opts.begin(), opts.end(), std::back_inserter( res ),
     [&func]( const itype * e ) {

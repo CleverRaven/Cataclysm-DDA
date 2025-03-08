@@ -4,7 +4,8 @@
     "type": "magic_type",
     "energy_source": "MANA",
     "get_level_formula_id": "xedra_chronomancer_formula_get_level",
-    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level"
+    "exp_for_level_formula_id": "xedra_chronomancer_formula_exp_for_level",
+    "casting_xp_formula_id": "xedra_chronomancer_formula_exp_per_cast"
   },
   {
     "id": "xedra_chronomancer_time_freeze_target",

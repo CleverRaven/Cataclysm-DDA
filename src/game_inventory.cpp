@@ -74,12 +74,10 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
-static const bionic_id bio_fitnessband( "bio_fitnessband" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const flag_id json_flag_CALORIES_INTAKE( "CALORIES_INTAKE" );
-
-static const itype_id itype_fitness_band( "fitness_band" );
+static const flag_id json_flag_CALORIE_BURN( "CALORIE_BURN" );
 
 static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
@@ -589,7 +587,7 @@ class pickup_inventory_preset : public inventory_selector_preset
             if( ignore_liquidcont && loc.where() == item_location::type::map &&
                 !loc->made_of( phase_id::SOLID ) ) {
                 map &here = get_map();
-                if( here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
+                if( here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub( here ) ) ) {
                     return false;
                 }
             }
@@ -791,12 +789,14 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
+            map &here = get_map();
+
             const item &med = *loc;
 
             if(
                 ( loc->made_of_from_type( phase_id::LIQUID ) &&
                   loc.where() != item_location::type::container ) &&
-                !get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
+                !here.has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub( here ) ) ) {
                 return _( "Can't drink spilt liquids." );
             }
             if(
@@ -935,8 +935,10 @@ static std::string get_consume_needs_hint( Character &you )
     int kcal_ingested_yesterday = you.as_avatar()->get_daily_ingested_kcal( true );
     int kcal_spent_today = you.as_avatar()->get_daily_spent_kcal( false );
     int kcal_spent_yesterday = you.as_avatar()->get_daily_spent_kcal( true );
-    bool has_fitness_band =  you.is_wearing( itype_fitness_band ) || you.has_bionic( bio_fitnessband );
-    bool has_tracker = has_fitness_band || you.cache_has_item_with( json_flag_CALORIES_INTAKE );
+    bool has_fitness_band =  you.cache_has_item_with( json_flag_CALORIE_BURN ) ||
+                             you.has_flag( json_flag_CALORIE_BURN );
+    bool has_tracker = has_fitness_band || you.cache_has_item_with( json_flag_CALORIES_INTAKE ) ||
+                       you.has_flag( json_flag_CALORIES_INTAKE );
 
     std::string kcal_estimated_intake;
     if( kcal_ingested_today == 0 ) {
@@ -1291,8 +1293,6 @@ class gunmod_remove_inventory_preset : public inventory_selector_preset
             }, _( "SUCCESS CHANCE" ) );
         }
 
-        map &here = get_map();
-
         bool is_shown( const item_location &loc ) const override {
             return loc->is_gunmod() && !loc->is_irremovable();
         }
@@ -1308,7 +1308,7 @@ class gunmod_remove_inventory_preset : public inventory_selector_preset
                   mod.type->gunmod->location.name() == "mechanism" ||
                   mod.type->gunmod->location.name() == "loading port" ||
                   mod.type->gunmod->location.name() == "bore" ) &&
-                ( gun.ammo_remaining( here ) > 0 || gun.magazine_current() ) ) {
+                ( gun.ammo_remaining( ) > 0 || gun.magazine_current() ) ) {
                 return _( "must be unloaded before removing this mod" );
             }
 
@@ -1617,8 +1617,6 @@ item_location game_menus::inv::ebookread( Character &you, item_location &ereader
 
 drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereader )
 {
-    map &here = get_map();
-
     std::set<itype_id> already_saved;
     for( const item *efile : ereader->efiles() ) {
         if(
@@ -1638,7 +1636,7 @@ drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereade
                  !already_saved.count( loc->typeId() ) );
     } );
 
-    const int available_charges = ereader->ammo_remaining( here );
+    const int available_charges = ereader->ammo_remaining( );
     auto make_raw_stats = [&available_charges, &ereader](
                               const std::vector<std::pair<item_location, int>> &locs
     ) {
@@ -1680,9 +1678,11 @@ drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereade
 drop_locations game_menus::inv::edevice_select( Character &who, item_location &used_edevice,
         bool browse_equals, bool auto_include_used_edevice, bool unusable_only, efile_action action )
 {
+    const map &here = get_map();
+
     const inventory_filter_preset preset( [&]( const item_location & loc ) {
         //make sure this is an edevice before we make edevice calls
-        if( loc->is_estorage() && loc->is_owned_by( who, true ) && who.sees( loc.pos_bub() ) ) {
+        if( loc->is_estorage() && loc->is_owned_by( who, true ) && who.sees( here, loc.pos_bub( here ) ) ) {
             efile_activity_actor::edevice_compatible compat =
                 efile_activity_actor::edevices_compatible( used_edevice, loc );
             bool is_tool_has_charge = !loc->is_tool() || loc->ammo_sufficient( &who );
@@ -1752,8 +1752,6 @@ drop_locations game_menus::inv::edevice_select( Character &who, item_location &u
 drop_locations game_menus::inv::efile_select( Character &who, item_location &used_edevice,
         const std::vector<item_location> &target_edevices, efile_action action, bool from_used_edevice )
 {
-    map &here = get_map();
-
     item_location to_edevice = used_edevice;
     std::vector<item_location> from_edevices = target_edevices;
 
@@ -1771,7 +1769,7 @@ drop_locations game_menus::inv::efile_select( Character &who, item_location &use
         return item::is_efile( loc ) && ( !copying || loc->is_ecopiable() );
     } );
 
-    const int available_charges = to_edevice->ammo_remaining( here );
+    const int available_charges = to_edevice->ammo_remaining( );
     auto make_raw_stats = [&]( const std::vector<std::pair<item_location, int>> &locs ) {
         std::vector<item_location> efiles;
         efiles.reserve( locs.size() );
@@ -2702,8 +2700,6 @@ void game_menus::inv::swap_letters()
 static item_location autodoc_internal( Character &you, Character &patient,
                                        const inventory_selector_preset &preset, int radius, bool surgeon = false )
 {
-    map &here = get_map();
-
     inventory_pick_selector inv_s( you, preset );
     std::string hint;
     int drug_count = 0;
@@ -2719,8 +2715,8 @@ static item_location autodoc_internal( Character &you, Character &patient,
                 return it.has_quality( qual_ANESTHESIA );
             } );
             for( const item *anesthesia_item : a_filter ) {
-                if( anesthesia_item->ammo_remaining( here ) >= 1 ) {
-                    drug_count += anesthesia_item->ammo_remaining( here );
+                if( anesthesia_item->ammo_remaining( ) >= 1 ) {
+                    drug_count += anesthesia_item->ammo_remaining( );
                 }
             }
             hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
@@ -3069,7 +3065,7 @@ class select_ammo_inventory_preset : public inventory_selector_preset
             }
 
             if( loc->made_of( phase_id::LIQUID ) && loc.where() == item_location::type::map ) {
-                if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub() ) ) {
+                if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.pos_bub( here ) ) ) {
                     return false;
                 }
             }
@@ -3078,7 +3074,7 @@ class select_ammo_inventory_preset : public inventory_selector_preset
                 return false;
             }
 
-            if( !empty && loc->is_magazine() && !loc->ammo_remaining( here ) ) {
+            if( !empty && loc->is_magazine() && !loc->ammo_remaining( ) ) {
                 return false;
             }
 
@@ -3086,7 +3082,7 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
             for( item_location &p : opts ) {
                 if( ( loc->has_flag( flag_SPEEDLOADER ) && p->allows_speedloader( loc->typeId() ) &&
-                      loc->ammo_remaining( here ) > 1 && p->ammo_remaining( here ) < 1 ) &&
+                      loc->ammo_remaining( ) > 1 && p->ammo_remaining( ) < 1 ) &&
                     p.can_reload_with( loc, true ) ) {
                     return true;
                 }
@@ -3101,21 +3097,19 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
         // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
-            map &here = get_map();
-
             item_location left = lhs.any_item();
             item_location right = rhs.any_item();
 
-            if( left->ammo_remaining( here ) == 0 || right->ammo_remaining( here ) == 0 ) {
-                return ( left->ammo_remaining( here ) != 0 ) > ( right->ammo_remaining( here ) != 0 );
+            if( left->ammo_remaining( ) == 0 || right->ammo_remaining( ) == 0 ) {
+                return ( left->ammo_remaining( ) != 0 ) > ( right->ammo_remaining( ) != 0 );
             }
 
             if( left.obtain_cost( you ) != right.obtain_cost( you ) ) {
                 return left.obtain_cost( you ) < right.obtain_cost( you );
             }
 
-            if( left->ammo_remaining( here ) != right->ammo_remaining( here ) ) {
-                return left->ammo_remaining( here ) > right->ammo_remaining( here );
+            if( left->ammo_remaining( ) != right->ammo_remaining( ) ) {
+                return left->ammo_remaining( ) > right->ammo_remaining( );
             }
 
             return inventory_selector_preset::sort_compare( lhs, rhs );

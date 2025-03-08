@@ -92,9 +92,9 @@ tripoint_bub_ms map_cursor::pos_bub() const
     return g ? get_map().get_bub( pos_abs_ ) : pos_bub_;
 }
 
-tripoint_bub_ms map_cursor::pos_bub( map *here ) const
+tripoint_bub_ms map_cursor::pos_bub( const map &here ) const
 {
-    return g ? here->get_bub( pos_abs_ ) : pos_bub_;
+    return g ? here.get_bub( pos_abs_ ) : pos_bub_;
 }
 
 tripoint_abs_ms map_cursor::pos_abs() const

@@ -3,8 +3,8 @@
 #include <string>
 
 #include "calendar.h"
+#include "cata_catch.h"
 #include "cata_scope_helpers.h"
-#include "catch/catch.hpp"
 #include "game.h"
 #include "scenario.h"
 #include "string_id.h"

@@ -24,6 +24,17 @@
     "flags": [ "MAN_MADE", "CLASSIC" ]
   },
   {
+    "id": "mx_dormant",
+    "type": "map_extra",
+    "name": { "str": "Corpses" },
+    "description": "There are a lot of dead corpses here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_dormant" },
+    "min_max_zlevel": [ -7, 7 ],
+    "sym": "d",
+    "color": "light_red",
+    "flags": [ "MAN_MADE", "CLASSIC" ]
+  },
+  {
     "id": "mx_drugdeal",
     "type": "map_extra",
     "name": { "str": "Drug Deal" },

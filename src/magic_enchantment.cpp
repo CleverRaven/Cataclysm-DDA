@@ -80,6 +80,7 @@ namespace io
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
             case enchant_vals::mod::REGEN_HP_AWAKE: return "REGEN_HP_AWAKE";
             case enchant_vals::mod::MUT_INSTABILITY_MOD: return "MUT_INSTABILITY_MOD";
+            case enchant_vals::mod::MUT_ADDITIONAL_OPTIONS: return "MUT_ADDITIONAL_OPTIONS";
             case enchant_vals::mod::RANGE_DODGE: return "RANGE_DODGE";
             case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
@@ -93,6 +94,7 @@ namespace io
             case enchant_vals::mod::PAIN_PENALTY_MOD_PER: return "PAIN_PENALTY_MOD_PER";
             case enchant_vals::mod::PAIN_PENALTY_MOD_SPEED: return "PAIN_PENALTY_MOD_SPEED";
             case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
+            case enchant_vals::mod::MELEE_RANGE_MODIFIER: return "MELEE_RANGE_MODIFIER";
             case enchant_vals::mod::MELEE_TO_HIT: return "MELEE_TO_HIT";
             case enchant_vals::mod::RANGED_DAMAGE: return "RANGED_DAMAGE";
 			case enchant_vals::mod::RANGED_ARMOR_PENETRATION: return "RANGED_ARMOR_PENETRATION";
@@ -1083,8 +1085,8 @@ enchantment::special_vision enchantment::get_vision( const const_dialogue &d ) c
         return {};
     }
 
-    const double distance = rl_dist_exact( d.const_actor( true )->pos_bub(),
-                                           d.const_actor( false )->pos_bub() );
+    const double distance = rl_dist_exact( d.const_actor( true )->pos_abs(),
+                                           d.const_actor( false )->pos_abs() );
 
     // first iterate over structs that has ignores_aiming_cone true
     // to prevent cata_tiles::draw_critter_at() from picking texture
@@ -1186,8 +1188,8 @@ enchant_cache::special_vision enchant_cache::get_vision( const const_dialogue &d
         return {};
     }
 
-    const double distance = rl_dist_exact( d.const_actor( true )->pos_bub(),
-                                           d.const_actor( false )->pos_bub() );
+    const double distance = rl_dist_exact( d.const_actor( true )->pos_abs(),
+                                           d.const_actor( false )->pos_abs() );
 
     for( const special_vision &struc : special_vision_vector ) {
         if( struc.ignores_aiming_cone && struc.range >= distance && struc.condition( d ) ) {

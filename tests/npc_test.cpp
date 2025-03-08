@@ -49,8 +49,8 @@ class Creature;
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_sleep( "sleep" );
 
+static const item_group_id Item_spawn_data_SUS_trash_forest_manmade( "SUS_trash_forest_manmade" );
 static const item_group_id Item_spawn_data_test_NPC_guns( "test_NPC_guns" );
-static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
 static const itype_id itype_M24( "M24" );
 static const itype_id itype_bat( "bat" );
@@ -341,6 +341,8 @@ static void check_npc_movement( const tripoint_bub_ms &origin )
 
 static npc *make_companion( const tripoint_bub_ms &npc_pos )
 {
+    map &here = get_map();
+
     shared_ptr_fast<npc> guy = make_shared_fast<npc>();
     guy->normalize();
     guy->randomize();
@@ -350,7 +352,7 @@ static npc *make_companion( const tripoint_bub_ms &npc_pos )
     guy->companion_mission_role_id.clear();
     guy->guard_pos = std::nullopt;
     clear_character( *guy );
-    guy->setpos( npc_pos );
+    guy->setpos( here, npc_pos );
     talk_function::follow( *guy );
 
     return get_creature_tracker().creature_at<npc>( npc_pos );
@@ -619,7 +621,7 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
     float danger_around = hostile.danger_assessment();
     CHECK( danger_around > 1.0f );
     // Now give them a TON of junk
-    for( item &some_trash : item_group::items_from( Item_spawn_data_trash_forest ) ) {
+    for( item &some_trash : item_group::items_from( Item_spawn_data_SUS_trash_forest_manmade ) ) {
         hostile.i_add( some_trash );
     }
     hostile.wield_better_weapon();

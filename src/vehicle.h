@@ -40,6 +40,7 @@
 #include "point.h"
 #include "ret_val.h"
 #include "safe_reference.h"
+#include "talker.h"
 #include "tileray.h"
 #include "type_id.h"
 #include "units.h"
@@ -311,7 +312,7 @@ struct vehicle_part {
         int item_capacity( const itype_id &stuffing_id ) const;
 
         /** Amount of fuel, charges or ammunition currently contained by a part */
-        int ammo_remaining( const map &here ) const;
+        int ammo_remaining() const;
         int remaining_ammo_capacity() const;
 
         /** Type of fuel used by an engine */
@@ -324,7 +325,7 @@ struct vehicle_part {
          * @param qty maximum ammo (capped by part capacity) or negative to fill to capacity
          * @return amount of ammo actually set or negative on failure
          */
-        int ammo_set( const map &here, const itype_id &ammo, int qty = -1 );
+        int ammo_set( const itype_id &ammo, int qty = -1 );
 
         /** Remove all fuel, charges or ammunition (if any) from this part */
         void ammo_unset();
@@ -346,7 +347,7 @@ struct vehicle_part {
         units::energy consume_energy( const itype_id &ftype, units::energy wanted_energy );
 
         /* @return true if part in current state be reloaded optionally with specific itype_id */
-        bool can_reload( const map &here, const item &obj = item() ) const;
+        bool can_reload( const item &obj = item() ) const;
 
         // No need to serialize this, it can simply be reinitialized after starting a new game.
         turret_cpu cpu; //NOLINT(cata-serialize)
@@ -362,7 +363,7 @@ struct vehicle_part {
          *  Try adding @param liquid to tank optionally limited by @param qty
          *  @return whether any of the liquid was consumed (which may be less than qty)
          */
-        bool fill_with( const map &here, item &liquid, int qty = INT_MAX );
+        bool fill_with( item &liquid, int qty = INT_MAX );
 
         /** Current faults affecting this part (if any) */
         const std::set<fault_id> &faults() const;
@@ -807,6 +808,10 @@ class vpart_display
 class vehicle
 {
     private:
+        // TODO: Get rid of untyped overload.
+        // Miscellaneous key/value pairs.
+        std::unordered_map<std::string, std::string> values;
+        bool has_structural_part( const point &dp ) const;
         bool has_structural_part( const point_rel_ms &dp ) const;
         bool is_structural_part_removed() const;
         void open_or_close( map &here, int part_index, bool opening );
@@ -869,6 +874,15 @@ class vehicle
         template<typename Vehicle>
         static std::map<Vehicle *, float> search_connected_vehicles( const map &here, Vehicle *start );
     public:
+        std::vector<std::string> chat_topics; // What it has to say.
+        void set_value( const std::string &key, const std::string &value );
+        void remove_value( const std::string &key );
+        std::string get_value( const std::string &key ) const;
+        std::optional<std::string> maybe_get_value( const std::string &key ) const;
+        void clear_values();
+        void add_chat_topic( const std::string &topic );
+        int get_passenger_count( bool hostile ) const;
+
         /**
          * Find a possibly off-map vehicle. If necessary, loads up its submap through
          * the global MAPBUFFER and pulls it from there. For this reason, you should only
@@ -954,7 +968,7 @@ class vehicle
         // deserializes parts from json to parts vector (clearing it first)
         void deserialize_parts( const JsonArray &data );
         // Vehicle parts list - all the parts on a single tile
-        int print_part_list( const map &here, const catacurses::window &win, int y1, int max_y, int width,
+        int print_part_list( const catacurses::window &win, int y1, int max_y, int width,
                              int p,
                              int hl = -1, bool detail = false, bool include_fakes = true ) const;
 
@@ -1460,7 +1474,7 @@ class vehicle
          * Note that empty tanks don't count at all. The value is the amount as it would be
          * reported by @ref fuel_left, it is always greater than 0. The key is the fuel item type.
          */
-        std::map<itype_id, int> fuels_left( const map &here ) const;
+        std::map<itype_id, int> fuels_left( ) const;
 
         /**
          * All the individual fuel items that are in all the tanks in the vehicle.
@@ -1543,7 +1557,7 @@ class vehicle
         void power_parts( map &here );
 
         // Current and total battery power (kJ) level as a pair
-        std::pair<int, int> battery_power_level( const map &here ) const;
+        std::pair<int, int> battery_power_level( ) const;
 
         // Current and total battery power (kJ) level of all connected vehicles as a pair
         std::pair<int, int> connected_battery_power_level( const map &here ) const;
@@ -1582,6 +1596,8 @@ class vehicle
 
         // get the total mass of vehicle, including cargo and passengers
         units::mass total_mass( map &here ) const;
+        // get the mass of vehicle, excluding cargo and passengers
+        units::mass unloaded_mass() const;
         // Get the total mass of the vehicle minus the weight of any creatures that are
         // powering it; ie, the mass of the vehicle that the wheels are supporting
         units::mass weight_on_wheels( map &here ) const;
@@ -1867,7 +1883,7 @@ class vehicle
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
          */
-        void make_active( map &here, item_location &loc );
+        void make_active( item_location &loc );
         /**
          * Try to add an item to part's cargo.
          * @return iterator to added item or std::nullopt if it can't be put here (not a cargo part, adding
@@ -2544,5 +2560,7 @@ class MapgenRemovePartHandler : public RemovePartHandler
             return m;
         }
 };
-
+std::unique_ptr<talker> get_talker_for( vehicle &me );
+std::unique_ptr<const_talker> get_talker_for( const vehicle &me );
+std::unique_ptr<talker> get_talker_for( vehicle *me );
 #endif // CATA_SRC_VEHICLE_H

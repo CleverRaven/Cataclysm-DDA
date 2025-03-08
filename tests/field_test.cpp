@@ -417,13 +417,14 @@ TEST_CASE( "fungal_haze_test", "[field]" )
 
 TEST_CASE( "player_in_field_test", "[field][player]" )
 {
+    map &here = get_map();
     fields_test_setup();
     clear_avatar();
     const tripoint_bub_ms p{ 33, 33, 0 };
 
     Character &dummy = get_avatar();
-    const tripoint_bub_ms prev_char_pos = dummy.pos_bub();
-    dummy.setpos( p );
+    const tripoint_bub_ms prev_char_pos = dummy.pos_bub( here );
+    dummy.setpos( here, p );
 
     map &m = get_map();
 
@@ -450,7 +451,7 @@ TEST_CASE( "player_in_field_test", "[field][player]" )
     }
 
     clear_avatar();
-    dummy.setpos( prev_char_pos );
+    dummy.setpos( here, prev_char_pos );
     fields_test_cleanup();
 }
 
@@ -495,7 +496,7 @@ TEST_CASE( "player_double_effect_field_test", "[field][player]" )
     Character &dummy = get_avatar();
     map &m = get_map();
 
-    dummy.setpos( p );
+    dummy.setpos( m, p );
     m.add_field( p, field_fd_test, 1 );
 
     m.creature_in_field( dummy );
@@ -519,7 +520,7 @@ TEST_CASE( "player_single_effect_field_test_head", "[field][player]" )
     item head_armor( itype_test_hazmat_hat );
     dummy.wear_item( head_armor );
 
-    dummy.setpos( p );
+    dummy.setpos( m, p );
     m.add_field( p, field_fd_test, 1 );
 
     m.creature_in_field( dummy );
@@ -543,7 +544,7 @@ TEST_CASE( "player_single_effect_field_test_torso", "[field][player]" )
     item torso_armor( itype_test_hazmat_shirt );
     dummy.wear_item( torso_armor );
 
-    dummy.setpos( p );
+    dummy.setpos( m, p );
     m.add_field( p, field_fd_test, 1 );
 
     m.creature_in_field( dummy );
@@ -569,7 +570,7 @@ TEST_CASE( "player_single_effect_field_test_all", "[field][player]" )
     item head_armor( itype_test_hazmat_hat );
     dummy.wear_item( head_armor );
 
-    dummy.setpos( p );
+    dummy.setpos( m, p );
     m.add_field( p, field_fd_test, 1 );
 
     m.creature_in_field( dummy );

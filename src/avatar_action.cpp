@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <climits>
 #include <cstdlib>
-#include <list>
 #include <map>
 #include <memory>
 #include <ostream>
@@ -39,6 +38,7 @@
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "math_defines.h"
 #include "messages.h"
@@ -50,13 +50,14 @@
 #include "output.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "point.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -184,6 +185,8 @@ static bool check_water_affect_items( avatar &you )
 
 bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
 {
+    map &here = get_map();
+
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
     if( ( !g->check_safe_mode_allowed() ) || in_shell ) {
@@ -213,14 +216,16 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
 
     const bool is_riding = you.is_mounted();
     tripoint_bub_ms dest_loc;
+    const tripoint_bub_ms you_pos = you.pos_bub( here );
+
     if( d.z() == 0 && ( you.has_effect( effect_stunned ) || you.has_effect( effect_psi_stunned ) ) ) {
-        dest_loc.x() = rng( you.posx() - 1, you.posx() + 1 );
-        dest_loc.y() = rng( you.posy() - 1, you.posy() + 1 );
+        dest_loc.x() = rng( you_pos.x() - 1, you_pos.x() + 1 );
+        dest_loc.y() = rng( you_pos.y() - 1, you_pos.y() + 1 );
         dest_loc.z() = you.posz();
     } else {
-        dest_loc.x() = you.posx() + d.x();
-        dest_loc.y() = you.posy() + d.y();
-        dest_loc.z() = you.posz() + d.z();
+        dest_loc.x() = you_pos.x() + d.x();
+        dest_loc.y() = you_pos.y() + d.y();
+        dest_loc.z() = you_pos.z() + d.z();
     }
 
     if( dest_loc == you.pos_bub() ) {
@@ -265,7 +270,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
-    point_rel_ms new_d( dest_loc.xy().raw() + point_rel_ms( -you.posx(), -you.posy() ) );
+    point_rel_ms new_d = dest_loc.xy() - you_pos.xy();
 
     if( !g->is_tileset_isometric() ) {
         if( new_d.x() > 0 ) {
@@ -350,7 +355,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
     }
 
     dbg( D_PEDANTIC_INFO ) << "game:plmove: From (" <<
-                           you.posx() << "," << you.posy() << "," << you.posz() << ") to (" <<
+                           you_pos.x() << "," << you_pos.y() << "," << you_pos.z() << ") to (" <<
                            dest_loc.x() << "," << dest_loc.y() << "," << dest_loc.z() << ")";
 
     if( g->disable_robot( dest_loc ) ) {
@@ -507,7 +512,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
                 add_msg( m_info, _( "%s to dive underwater." ),
                          press_x( ACTION_MOVE_DOWN ) );
             }
-            avatar_action::swim( get_map(), get_avatar(), dest_loc );
+            avatar_action::swim( here, get_avatar(), dest_loc );
         }
 
         g->on_move_effects();
@@ -597,6 +602,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint_rel_ms &d )
 
 void avatar_action::swim( map &m, avatar &you, const tripoint_bub_ms &p )
 {
+    map &here = get_map();
+
     if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
         dbg( D_ERROR ) << "game:plswim: Tried to swim in "
                        << m.tername( p ) << "!";
@@ -642,7 +649,8 @@ void avatar_action::swim( map &m, avatar &you, const tripoint_bub_ms &p )
             popup( _( "You need to breathe but you can't swim!  Get to dry land, quick!" ) );
         }
     }
-    bool diagonal = p.x() != you.posx() && p.y() != you.posy();
+    const tripoint_bub_ms you_pos = you.pos_bub( here );
+    bool diagonal = p.x() != you_pos.x() && p.y() != you_pos.y();
     if( you.in_vehicle ) {
         m.unboard_vehicle( you.pos_bub() );
     }
@@ -655,8 +663,8 @@ void avatar_action::swim( map &m, avatar &you, const tripoint_bub_ms &p )
             return;
         }
     }
-    tripoint_abs_ms old_abs_pos = m.get_abs( you.pos_bub() );
-    you.setpos( p );
+    tripoint_abs_ms old_abs_pos = you.pos_abs();
+    you.setpos( m, p );
     g->update_map( you );
 
     cata_event_dispatch::avatar_moves( old_abs_pos, you, m );
@@ -704,7 +712,8 @@ void avatar_action::autoattack( avatar &you, map &m )
         return;
     }
     const item_location weapon = you.get_wielded_item();
-    int reach = weapon ? weapon->reach_range( you ) : 1;
+    int reach = weapon ? weapon->reach_range( you ) : std::max( 1,
+                static_cast<int>( you.calculate_by_enchantment( 1, enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) );
     std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
     critters.erase( std::remove_if( critters.begin(), critters.end(), [&you,
     reach]( const Creature * c ) {
@@ -948,12 +957,14 @@ void avatar_action::eat( avatar &you, item_location &loc,
                          const std::string &consume_menu_filter,
                          activity_id type )
 {
+    map &here = get_map();
+
     if( !loc ) {
         you.cancel_activity();
         add_msg( _( "Never mind." ) );
         return;
     }
-    loc.overflow();
+    loc.overflow( here );
     you.assign_activity( consume_activity_actor( loc, consume_menu_selections,
                          consume_menu_selected_items, consume_menu_filter, type ) );
     you.last_item = item( *loc ).typeId();
@@ -971,6 +982,8 @@ void avatar_action::eat_or_use( avatar &you, item_location loc )
 void avatar_action::plthrow( avatar &you, item_location loc,
                              const std::optional<tripoint_bub_ms> &blind_throw_from_pos )
 {
+    map &here = get_map();
+
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
     if( in_shell ) {
@@ -1061,9 +1074,9 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     // Shift our position to our "peeking" position, so that the UI
     // for picking a throw point lets us target the location we couldn't
     // otherwise see.
-    const tripoint_bub_ms original_player_position = you.pos_bub();
+    const tripoint_abs_ms original_player_position = you.pos_abs();
     if( blind_throw_from_pos ) {
-        you.setpos( *blind_throw_from_pos, false );
+        you.setpos( here, *blind_throw_from_pos, false );
     }
 
     g->temp_exit_fullscreen();
@@ -1125,6 +1138,8 @@ void avatar_action::use_item( avatar &you )
 
 void avatar_action::use_item( avatar &you, item_location &loc, std::string const &method )
 {
+    map &here = get_map();
+
     if( you.has_effect( effect_incorporeal ) ) {
         you.add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
         return;
@@ -1146,7 +1161,7 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
         return;
     }
 
-    loc.overflow();
+    loc.overflow( here );
 
     if( loc->is_comestible() && loc->is_frozen_liquid() ) {
         add_msg( _( "Try as you might, you can't consume frozen liquids." ) );

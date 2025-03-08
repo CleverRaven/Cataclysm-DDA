@@ -23,7 +23,6 @@
 #include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
-#include "vpart_position.h"
 
 static const itype_id itype_UPS_ON( "UPS_ON" );
 static const itype_id itype_battery_ups( "battery_ups" );
@@ -49,7 +48,7 @@ static void test_repair( const std::vector<item> &tools, bool plug_in_tools, boo
 
     const tripoint_bub_ms test_origin( 60, 60, 0 );
     Character &player_character = get_player_character();
-    player_character.setpos( test_origin );
+    player_character.setpos( here, test_origin );
     const item debug_backpack( itype_debug_backpack );
     player_character.wear_item( debug_backpack );
 

@@ -198,7 +198,7 @@ struct body_part_type {
 
         std::vector<std::pair<bodypart_str_id, mod_id>> src;
 
-        /** Sub-location of the body part used for encumberance, coverage and determining protection
+        /** Sub-location of the body part used for encumbrance, coverage and determining protection
          */
         std::vector<sub_bodypart_str_id> sub_parts;
 
@@ -279,7 +279,6 @@ struct body_part_type {
         //Morale parameters
         float hot_morale_mod = 0.0f;
         float cold_morale_mod = 0.0f;
-        float stylish_bonus = 0.0f;
         int squeamish_penalty = 0;
         bool feels_discomfort = true;
 

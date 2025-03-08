@@ -2,59 +2,72 @@
 
 #include <algorithm>
 #include <array>
+#include <climits>
 #include <cmath>
 #include <cstdlib>
+#include <functional>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
 #include <ostream>
 #include <set>
 #include <stdexcept>
+#include <tuple>
 #include <type_traits>
+#include <typeinfo>
 #include <unordered_map>
 
 #include "all_enum_values.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "character_id.h"
 #include "city.h"
 #include "clzones.h"
-#include "colony.h"
 #include "common_types.h"
 #include "computer.h"
 #include "condition.h"
 #include "coordinates.h"
+#include "creature.h"
+#include "creature_tracker.h"
+#include "cube_direction.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "drawing_primitives.h"
 #include "enum_conversions.h"
 #include "enums.h"
-#include "field.h"
 #include "field_type.h"
+#include "flat_set.h"
 #include "game.h"
-#include "game_constants.h"
 #include "generic_factory.h"
 #include "global_vars.h"
 #include "input.h"
+#include "input_enums.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_factory.h"
 #include "item_group.h"
 #include "itype.h"
+#include "jmapgen_flags.h"
 #include "level_cache.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "mapgenformat.h"
 #include "memory_fast.h"
+#include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "npc.h"
@@ -65,15 +78,19 @@
 #include "overmapbuffer.h"
 #include "pocket_type.h"
 #include "point.h"
+#include "regional_settings.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "submap.h"
+#include "talker.h"
 #include "text_snippets.h"
 #include "tileray.h"
 #include "to_string_id.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
+#include "uilist.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
@@ -82,7 +99,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weighted_list.h"
-#include "creature_tracker.h"
 
 static const field_type_str_id field_fd_blood( "fd_blood" );
 static const field_type_str_id field_fd_fire( "fd_fire" );
@@ -496,7 +512,8 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
 // Assumptions:
 // - The map supplied is empty, i.e. no grid entries are in use
 // - The map supports Z levels.
-void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save_results )
+void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save_results,
+                    bool run_post_process )
 {
     dbg( D_INFO ) << "map::generate( g[" << g.get() << "], p[" << p << "], "
                   "when[" << to_string( when ) << "] )";
@@ -662,13 +679,15 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         }
 
         // Apply post-process generators
-        const tripoint_abs_omt omt_point = { p.x(), p.y(), gridz };
-        oter_id omt = overmap_buffer.ter( omt_point );
-        if( any_missing || !save_results ) {
-            if( omt->has_flag(
-                    oter_flags::pp_generate_riot_damage ) || ( omt->has_flag( oter_flags::road ) &&
-                            overmap_buffer.is_in_city( omt_point ) ) ) {
-                GENERATOR_riot_damage( *this, omt_point );
+        if( run_post_process ) {
+            if( any_missing || !save_results ) {
+                const tripoint_abs_omt omt_point = { p.x(), p.y(), gridz };
+                oter_id omt = overmap_buffer.ter( omt_point );
+                if( omt->has_flag(
+                        oter_flags::pp_generate_riot_damage ) || ( omt->has_flag( oter_flags::road ) &&
+                                overmap_buffer.is_in_city( omt_point ) ) ) {
+                    GENERATOR_riot_damage( *this, omt_point );
+                }
             }
         }
     }
@@ -1608,6 +1627,7 @@ class mapgen_value
     public:
         using StringId = to_string_id_t<Id>;
         struct void_;
+
         using Id_unless_string =
             std::conditional_t<std::is_same_v<Id, std::string>, void_, Id>;
 
@@ -2993,14 +3013,14 @@ class jmapgen_vehicle : public jmapgen_piece_with_has_vehicle_collision
 {
     public:
         mapgen_value<vgroup_id> type;
-        jmapgen_int chance;
+        int chance;
         std::vector<units::angle> rotation;
         int fuel;
         int status;
         std::string faction;
         jmapgen_vehicle( const JsonObject &jsi, const std::string_view/*context*/ ) :
             type( jsi.get_member( "vehicle" ) )
-            , chance( jsi, "chance", 1, 1 )
+            , chance( jsi.get_int( "chance", 100 ) )
             //, rotation( jsi.get_int( "rotation", 0 ) ) // unless there is a way for the json parser to
             // return a single int as a list, we have to manually check this in the constructor below
             , fuel( jsi.get_int( "fuel", -1 ) )
@@ -3019,7 +3039,7 @@ class jmapgen_vehicle : public jmapgen_piece_with_has_vehicle_collision
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &/*context*/ ) const override {
-            if( !x_in_y( chance.get(), 100 ) ) {
+            if( !x_in_y( chance, 100 ) ) {
                 return;
             }
             vgroup_id chosen_id = type.get( dat );
@@ -4575,6 +4595,61 @@ const mapgen_palette &string_id<mapgen_palette>::obj() const
     return it->second;
 }
 
+void debug_palettes::debug_view_all_palettes()
+{
+    uilist palette_list;
+    palette_list.title = _( "Viewing all palettes" );
+    // awfulness. we need a vector so we can track the return value
+    std::vector<palette_id> all_palettes;
+    all_palettes.reserve( palettes.size() );
+    for( auto &pair : palettes ) {
+        all_palettes.push_back( pair.first );
+    }
+    // sort them alphabetically before display, why not.
+    std::sort( all_palettes.begin(), all_palettes.end(), [](
+    const palette_id & lhs, const palette_id & rhs ) {
+        return localized_compare( lhs.str(), rhs.str() );
+    } );
+    for( palette_id &some_palette : all_palettes ) {
+        palette_list.addentry( some_palette.str() );
+    }
+    palette_list.query();
+
+    const int index_num = palette_list.ret;
+    if( index_num < 0 || static_cast<size_t>( index_num ) >= all_palettes.size() ) {
+        return; // user cancelled
+    }
+
+    const mapgen_palette &actual_palette = mapgen_palette::get( all_palettes[index_num] );
+    // why do we put *these* in a vector? Solely so we can sort alphabetically.
+    std::vector<map_key> symbols_list;
+    for( const auto &placing : actual_palette.format_placings ) {
+        symbols_list.push_back( placing.first );
+    }
+
+    std::sort( symbols_list.begin(), symbols_list.end(), [](
+    const map_key & lhs, const map_key & rhs ) {
+        return localized_compare( lhs.str, rhs.str );
+    } );
+
+    uilist palette_symbols;
+    //FIXME: extract for translation!
+    palette_symbols.title = string_format( "Viewing palette '%s'  ",
+                                           all_palettes[index_num].c_str() );
+
+    for( const map_key &something : symbols_list ) {
+        // First three arguments are dummy parameters, uilist is just a means of display. our return value is discarded.
+        // FIXME: Find a way to map the symbol to the underlying ID of what will be placed, put it into the second column instead of empty string
+        palette_symbols.addentry_col( 0, true, input_event(), something.str, "" );
+    }
+
+    palette_symbols.query();
+
+    // little trick, return to palette listing after second uilist unless they quit out of the first uilist
+    debug_palettes::debug_view_all_palettes();
+
+}
+
 template<>
 bool string_id<mapgen_palette>::is_valid() const
 {
@@ -4721,14 +4796,18 @@ void mapgen_palette::add( const mapgen_palette &rh, const add_palette_context &c
     parameters.check_and_merge( rh.parameters, actual_context );
 }
 
-mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::string_view,
+mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, std::string_view src,
         const std::string &context, bool require_id, bool allow_recur )
 {
     mapgen_palette new_pal;
+    bool extending = src != "DDA" && jo.has_bool( "extending" ) && jo.get_bool( "extending" );
+    require_id |= extending;
     mapgen_palette::placing_map &format_placings = new_pal.format_placings;
     auto &keys_with_terrain = new_pal.keys_with_terrain;
     if( require_id ) {
         new_pal.id = palette_id( jo.get_string( "id" ) );
+        const auto iter = palettes.find( new_pal.id );
+        extending &= iter != palettes.end();
     }
 
     jo.read( "parameters", new_pal.parameters.map );
@@ -4746,6 +4825,11 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
             }
             new_pal.palettes_used.clear();
         }
+    }
+
+    if( extending ) {
+        add_palette_context add_context{ context, &new_pal.parameters };
+        new_pal.add( new_pal.id, add_context );
     }
 
     // mandatory: every character in rows must have matching entry, unless fill_ter is set
@@ -4786,7 +4870,6 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     new_pal.load_place_mapings<jmapgen_zone>( jo, "zones", format_placings, c );
     new_pal.load_place_mapings<jmapgen_ter_furn_transform>( jo, "ter_furn_transforms",
             format_placings, c );
-    new_pal.load_place_mapings<jmapgen_faction>( jo, "faction_owner_character", format_placings, c );
 
     for( mapgen_palette::placing_map::value_type &p : format_placings ) {
         p.second.erase(
@@ -7112,7 +7195,7 @@ std::vector<item *> map::place_items(
                 !e->magazine_current() ) {
                 e->put_in( item( e->magazine_default(), e->birthday() ), pocket_type::MAGAZINE_WELL );
             }
-            if( rng( 0, 99 ) < ammo && e->ammo_default() && e->ammo_remaining( *this ) == 0 ) {
+            if( rng( 0, 99 ) < ammo && e->ammo_default() && e->ammo_remaining( ) == 0 ) {
                 e->ammo_set( e->ammo_default() );
             }
         }
@@ -7399,10 +7482,10 @@ computer *map::add_computer( const tripoint_bub_ms &p, const std::string &name, 
     submap *const place_on_submap = get_submap_at( p, l );
     if( place_on_submap == nullptr ) {
         debugmsg( "Tried to add computer at (%d,%d) but the submap is not loaded", l.x(), l.y() );
-        static computer null_computer = computer( name, security, p );
+        static computer null_computer = computer( name, security, *this, p );
         return &null_computer;
     }
-    place_on_submap->set_computer( l, computer( name, security, p ) );
+    place_on_submap->set_computer( l, computer( name, security, *this, p ) );
     return place_on_submap->get_computer( l );
 }
 

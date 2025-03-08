@@ -88,6 +88,7 @@
       "z": "f_safe_l"
     },
     "vendingmachines": { "V": { "lootable": true } },
+    "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "T": {  } }
   },
   {

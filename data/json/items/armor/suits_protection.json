@@ -3151,7 +3151,7 @@
     ],
     "warmth": 25,
     "material_thickness": 0.8,
-    "flags": [ "VARSIZE", "FANCY", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
     "id": "touring_suit",

@@ -63,13 +63,13 @@
       ],
       "place_items": [
         { "chance": 99, "item": "house_suicide_shotgun", "x": 10, "y": 9 },
-        { "chance": 35, "item": "trash", "x": 13, "y": 14 },
-        { "chance": 35, "item": "trash", "x": 11, "y": 11 },
-        { "chance": 35, "item": "trash", "x": 6, "y": [ 10, 11 ] },
-        { "chance": 35, "item": "trash", "x": 12, "y": 9 },
-        { "chance": 35, "item": "trash", "x": 11, "y": 8 },
-        { "chance": 35, "item": "trash", "x": 7, "y": 7 },
-        { "chance": 35, "item": "trash", "x": 8, "y": 5 },
+        { "chance": 35, "item": "SUS_trash_trashcan", "x": 13, "y": 14 },
+        { "chance": 35, "item": "SUS_trash_trashcan", "x": 11, "y": 11 },
+        { "chance": 35, "item": "SUS_trash_trashcan", "x": 6, "y": [ 10, 11 ] },
+        { "chance": 35, "item": "SUS_trash_trashcan", "x": 12, "y": 9 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 11, "y": 8 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 7, "y": 7 },
+        { "chance": 35, "item": "SUS_trash_floor", "x": 8, "y": 5 },
         { "chance": 75, "item": "camping", "x": 11, "y": 21 }
       ],
       "place_monsters": [ { "chance": 3, "density": 1, "monster": "GROUP_ZOMBIE", "x": 8, "y": 18 } ],
@@ -124,7 +124,7 @@
         "                        ",
         "                        ",
         "       |||||            ",
-        "       |F.g|            ",
+        "       |â.g|            ",
         "   |||||...||||||||     ",
         "   |2......1......|     ",
         "   |..............|     ",
@@ -145,7 +145,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "nested": {
         "1": {
           "chunks": [ [ "null", 60 ], [ "room_7x7_wine_cellar_W", 10 ], [ "room_7x7_recroom_W", 30 ], [ "7x7_tent_indoors", 15 ] ]

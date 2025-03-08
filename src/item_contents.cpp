@@ -39,7 +39,7 @@
 #include "string_formatter.h"
 #include "translation.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 
 static const flag_id json_flag_CASING( "CASING" );
@@ -895,7 +895,8 @@ void item_contents::force_insert_item( const item &it, pocket_type pk_type )
 
 std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &it,
         item_location &this_loc, const item *avoid, const bool allow_sealed, const bool ignore_settings,
-        const bool nested, bool ignore_rigidity )
+        const bool nested, bool ignore_rigidity, bool allow_nested
+                                                                  )
 {
     // @TODO: this could be made better by doing a plain preliminary volume check.
     // if the total volume of the parent is not sufficient, a child won't have enough either.
@@ -915,7 +916,10 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             // that needs to be something a player explicitly does
             continue;
         }
-        valid_pockets.emplace_back( &pocket );
+        if( allow_nested ) {
+            //if not allow check nested pockets ,it is no need to save valid pockets
+            valid_pockets.emplace_back( &pocket );
+        }
         if( !ignore_settings && !pocket.settings.accepts_item( it ) ) {
             // Item forbidden by whitelist / blacklist
             continue;
@@ -934,23 +938,25 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             ret.second = &pocket;
         }
     }
-    const bool parent_pkt_selected = !!ret.second;
-    for( item_pocket *pocket : valid_pockets ) {
-        std::pair<item_location, item_pocket *const> nested_content_pocket =
-            pocket->best_pocket_in_contents( this_loc, it, avoid, allow_sealed, ignore_settings );
-        if( !nested_content_pocket.second ||
-            ( !nested_content_pocket.second->rigid() && pocket->remaining_volume() < it.volume() ) ) {
-            // no nested pocket found, or the nested pocket is soft and the parent is full
-            continue;
-        }
-        if( parent_pkt_selected ) {
-            if( ret.second->better_pocket( *nested_content_pocket.second, it, true ) ) {
-                // item is whitelisted in nested pocket, prefer that over parent pocket
-                ret = nested_content_pocket;
+    if( allow_nested ) {
+        const bool parent_pkt_selected = !!ret.second;
+        for( item_pocket *pocket : valid_pockets ) {
+            std::pair<item_location, item_pocket *const> nested_content_pocket =
+                pocket->best_pocket_in_contents( this_loc, it, avoid, allow_sealed, ignore_settings );
+            if( !nested_content_pocket.second ||
+                ( !nested_content_pocket.second->rigid() && pocket->remaining_volume() < it.volume() ) ) {
+                // no nested pocket found, or the nested pocket is soft and the parent is full
+                continue;
             }
-            continue;
+            if( parent_pkt_selected ) {
+                if( ret.second->better_pocket( *nested_content_pocket.second, it, true ) ) {
+                    // item is whitelisted in nested pocket, prefer that over parent pocket
+                    ret = nested_content_pocket;
+                }
+                continue;
+            }
+            ret = nested_content_pocket;
         }
-        ret = nested_content_pocket;
     }
     return ret;
 }
@@ -1241,10 +1247,10 @@ bool item_contents::spill_contents( map *here, const tripoint_bub_ms &pos )
     return spilled;
 }
 
-void item_contents::overflow( const tripoint_bub_ms &pos, const item_location &loc )
+void item_contents::overflow( map &here, const tripoint_bub_ms &pos, const item_location &loc )
 {
     for( item_pocket &pocket : contents ) {
-        pocket.overflow( pos, loc );
+        pocket.overflow( here, pos, loc );
     }
 }
 
@@ -1275,8 +1281,8 @@ int item_contents::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos,
             }
             // assuming only one mag
             item &mag = pocket.front();
-            const int res = mag.ammo_consume( qty, here, pos, nullptr );
-            if( res && mag.ammo_remaining( *here ) == 0 ) {
+            const int res = mag.ammo_consume( qty, *here, pos, nullptr );
+            if( res && mag.ammo_remaining( ) == 0 ) {
                 if( mag.has_flag( STATIC( flag_id( "MAG_DESTROY" ) ) ) ) {
                     pocket.remove_item( mag );
                 } else if( mag.has_flag( STATIC( flag_id( "MAG_EJECT" ) ) ) ) {

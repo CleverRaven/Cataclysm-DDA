@@ -139,7 +139,6 @@
       [ "folding_poncho", 10 ],
       [ "jacket_leather_mod", 5 ],
       [ "american_flag", 5 ],
-      [ "jacket_leather_red", 10 ],
       [ "jacket_army", 3 ],
       [ "jacket_army_modern", 7 ],
       [ "jacket_flannel", 10 ],
@@ -210,7 +209,7 @@
   {
     "type": "item_group",
     "id": "npc_eyes",
-    "items": [ [ "null", 80 ], [ "glasses_safety", 20 ], [ "sunglasses", 20 ], [ "fancy_sunglasses", 10 ] ]
+    "items": [ [ "null", 80 ], [ "glasses_safety", 20 ], [ "sunglasses", 20 ] ]
   },
   {
     "type": "item_group",

@@ -77,14 +77,14 @@ std::vector<std::string> talker_character_const::get_grammatical_genders() const
     return me_chr_const->get_grammatical_genders();
 }
 
-int talker_character_const::posx() const
+int talker_character_const::posx( const map &here ) const
 {
-    return me_chr_const->posx();
+    return me_chr_const->posx( here );
 }
 
-int talker_character_const::posy() const
+int talker_character_const::posy( const map &here ) const
 {
-    return me_chr_const->posy();
+    return me_chr_const->posy( here );
 }
 
 int talker_character_const::posz() const
@@ -92,9 +92,9 @@ int talker_character_const::posz() const
     return me_chr_const->posz();
 }
 
-tripoint_bub_ms talker_character_const::pos_bub() const
+tripoint_bub_ms talker_character_const::pos_bub( const map &here ) const
 {
-    return me_chr_const->pos_bub();
+    return me_chr_const->pos_bub( here );
 }
 
 tripoint_abs_ms talker_character_const::pos_abs() const
@@ -161,6 +161,13 @@ dealt_damage_instance talker_character_const::deal_damage( Creature *source, bod
 }
 
 void talker_character::set_pos( tripoint_bub_ms new_pos )
+{
+    map &here = get_map();
+
+    me_chr->setpos( here, new_pos );
+}
+
+void talker_character::set_pos( tripoint_abs_ms new_pos )
 {
     me_chr->setpos( new_pos );
 }
@@ -914,7 +921,9 @@ bool talker_character_const::can_see() const
 
 bool talker_character_const::can_see_location( const tripoint_bub_ms &pos ) const
 {
-    return me_chr_const->sees( pos );
+    const map &here = get_map();
+
+    return me_chr_const->sees( here, pos );
 }
 
 void talker_character::set_sleepiness( int amount )

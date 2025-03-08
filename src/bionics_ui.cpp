@@ -39,7 +39,7 @@
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
@@ -223,7 +223,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
     for( const bionic &bio : *p->my_bionics ) {
         for( const item *fuel_source : p->get_bionic_fuels( bio.id ) ) {
             const item *fuel;
-            if( fuel_source->ammo_remaining( here ) ) {
+            if( fuel_source->ammo_remaining( ) ) {
                 fuel = &fuel_source->first_ammo();
             } else {
                 fuel = *fuel_source->all_items_top().begin();
@@ -574,6 +574,9 @@ static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlight
 
 void avatar::power_bionics()
 {
+    // Required because available power includes electricity via cables.
+    const map &here = get_map();
+
     sorted_bionics passive = filtered_bionics( *my_bionics, TAB_PASSIVE );
     sorted_bionics active = filtered_bionics( *my_bionics, TAB_ACTIVE );
     bionic *bio_last = nullptr;
@@ -990,7 +993,7 @@ void avatar::power_bionics()
                             } else {
                                 activate_bionic( bio, false, &close_ui );
                                 // Exit this ui if we are firing a complex bionic
-                                if( close_ui && tmp->get_weapon().shots_remaining( this ) > 0 ) {
+                                if( close_ui && tmp->get_weapon().shots_remaining( here, this ) > 0 ) {
                                     break;
                                 }
                             }

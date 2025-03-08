@@ -327,7 +327,6 @@
       },
       [ "goggles_welding", 70 ],
       [ "glasses_monocle", 2 ],
-      [ "fancy_sunglasses", 15 ],
       [ "fc_hairpin", 5 ],
       [ "barrette", 5 ],
       [ "pearl_collar", 1 ],
@@ -405,7 +404,6 @@
       [ "blazer", 35 ],
       [ "jacket_leather", 30 ],
       [ "jacket_varsity", 15 ],
-      [ "gosling_jacket", 25 ],
       [ "coat_fur", 6 ],
       [ "coat_faux_fur", 10 ],
       [ "peacoat", 30 ],
@@ -1125,28 +1123,8 @@
       { "item": "mag_porn", "prob": 35 },
       { "item": "hairpin", "prob": 5 },
       { "item": "purse", "prob": 15 },
-      { "item": "armrig", "prob": 1 }
-    ]
-  },
-  {
-    "id": "bowling_trash",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "wrapper", "prob": 50 },
-      { "item": "wrapper_foil", "prob": 5 },
-      { "item": "bottle_glass", "prob": 50 },
-      { "item": "bottle_plastic", "prob": 70 },
-      { "item": "can_drink", "prob": 60 },
-      { "item": "flyer", "prob": 30 },
-      { "item": "box_small", "prob": 30 },
-      { "item": "cotton_patchwork", "prob": 20 },
-      { "item": "bag_plastic", "prob": 20 },
-      { "item": "bag_zipper", "prob": 3 },
-      { "item": "bag_zipper_gallon", "prob": 1 },
-      { "item": "news_regional", "prob": 15 },
-      { "item": "mag_news", "prob": 15 },
-      { "item": "scorecard", "prob": 40 }
+      { "item": "armrig", "prob": 1 },
+      { "group": "SUS_toilet", "prob": 80 }
     ]
   },
   {
@@ -1237,7 +1215,6 @@
           { "item": "scarf", "prob": 15 },
           { "item": "sunglasses", "prob": 25 },
           { "item": "fitover_sunglasses", "prob": 20 },
-          { "item": "fancy_sunglasses", "prob": 20 },
           { "item": "canteen", "prob": 20 },
           { "item": "camelbak", "prob": 20 }
         ]
@@ -2139,8 +2116,7 @@
     "type": "item_group",
     "items": [
       { "group": "camping", "prob": 50 },
-      { "group": "ammo_rifle_common_loose", "prob": 2 },
-      { "group": "ammo_pistol_common_loose", "prob": 2 },
+      { "group": "ammo_common_loose", "prob": 2 },
       { "group": "tools_survival", "prob": 5 },
       { "group": "clothing_outdoor_shoes", "prob": 7 },
       { "group": "clothing_outdoor_torso", "prob": 7 },

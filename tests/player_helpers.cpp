@@ -44,7 +44,6 @@ static const move_mode_id move_mode_walk( "walk" );
 
 int get_remaining_charges( const itype_id &tool_id )
 {
-    map &here = get_map();
     const inventory crafting_inv = get_player_character().crafting_inventory();
     std::vector<const item *> items =
     crafting_inv.items_with( [tool_id]( const item & i ) {
@@ -52,7 +51,7 @@ int get_remaining_charges( const itype_id &tool_id )
     } );
     int remaining_charges = 0;
     for( const item *instance : items ) {
-        remaining_charges += instance->ammo_remaining( here );
+        remaining_charges += instance->ammo_remaining( );
     }
     return remaining_charges;
 }
@@ -78,6 +77,8 @@ bool character_has_item_with_var_val( const Character &they, const std::string &
 
 void clear_character( Character &dummy, bool skip_nutrition )
 {
+    map &here = get_map();
+
     dummy.set_body();
     dummy.normalize(); // In particular this clears martial arts style
 
@@ -155,7 +156,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.cash = 0;
 
     const tripoint_bub_ms spot( 60, 60, 0 );
-    dummy.setpos( spot );
+    dummy.setpos( here, spot );
     dummy.clear_values();
     dummy.magic = pimpl<known_magic>();
     dummy.forget_all_recipes();

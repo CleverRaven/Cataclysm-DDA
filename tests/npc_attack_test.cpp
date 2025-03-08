@@ -3,7 +3,7 @@
 #include <optional>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "character.h"
 #include "character_id.h"
 #include "coordinates.h"
@@ -50,14 +50,15 @@ namespace npc_attack_setup
 {
 static npc &spawn_main_npc()
 {
+    map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
-    get_player_character().setpos( { main_npc_start, -1 } );
+    get_player_character().setpos( here, { main_npc_start, -1 } );
     REQUIRE( creatures.creature_at<Creature>( main_npc_start_tripoint ) == nullptr );
-    const character_id model_id = get_map().place_npc( main_npc_start, npc_template_test_talker );
+    const character_id model_id = here.place_npc( main_npc_start, npc_template_test_talker );
 
     npc &model_npc = *g->find_npc( model_id );
     clear_character( model_npc );
-    model_npc.setpos( main_npc_start_tripoint );
+    model_npc.setpos( here, main_npc_start_tripoint );
 
     g->load_npcs();
 
@@ -83,7 +84,9 @@ static monster *spawn_zombie_at_range( const int range )
 
 TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
 {
-    get_player_character().setpos( main_npc_start_tripoint );
+    map &here = get_map();
+
+    get_player_character().setpos( here, main_npc_start_tripoint );
     clear_map_and_put_player_underground();
     clear_vehicles();
     scoped_weather_override sunny_weather( weather_sunny );
@@ -166,7 +169,6 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
             }
         }
         WHEN( "NPC has an exoskeleton" ) {
-            map &here = get_map();
             main_npc.clear_worn();
             item armor( itype_combat_exoskeleton_medium );
             std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
@@ -183,7 +185,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
                 battery.ammo_set( battery.ammo_default() );
                 worn_armor.put_in( battery, pocket_type::MAGAZINE_WELL );
 
-                REQUIRE( worn_armor.ammo_remaining( here ) > 0 );
+                REQUIRE( worn_armor.ammo_remaining( ) > 0 );
 
                 THEN( "NPC activates their exoskeleton successfully" ) {
 

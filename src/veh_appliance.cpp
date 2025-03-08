@@ -1,7 +1,6 @@
 #include "cached_options.h"
 #include "game.h"
 #include "handle_liquid.h"
-#include "imgui/imgui.h"
 #include "inventory.h"
 #include "itype.h"
 #include "map_iterator.h"
@@ -12,7 +11,7 @@
 #include "player_activity.h"
 #include "skill.h"
 #include "string_input_popup.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "veh_appliance.h"
@@ -223,7 +222,7 @@ void veh_app_interact::draw_info( map &here )
 
     // Onboard battery power
     if( !veh->batteries.empty() ) {
-        std::pair<int, int> battery = veh->battery_power_level( here );
+        std::pair<int, int> battery = veh->battery_power_level( );
         nc_color batt_col = c_yellow;
         if( battery.second > 0 ) {
             batt_col = battery.first == 0 ? c_light_red :
@@ -307,10 +306,10 @@ void veh_app_interact::draw_info( map &here )
     wnoutrefresh( w_info );
 }
 
-bool veh_app_interact::can_refill( const map &here )
+bool veh_app_interact::can_refill( )
 {
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        if( vpr.part().can_reload( here ) ) {
+        if( vpr.part().can_reload( ) ) {
             return true;
         }
     }
@@ -331,7 +330,7 @@ bool veh_app_interact::can_siphon()
 
 // Helper function for selecting a part in the parts list.
 // If only one part is available, don't prompt the player.
-static vehicle_part *pick_part( const map &here, const std::vector<vehicle_part *> &parts,
+static vehicle_part *pick_part( const std::vector<vehicle_part *> &parts,
                                 const std::string &query_msg )
 {
     if( parts.empty() ) {
@@ -347,7 +346,7 @@ static vehicle_part *pick_part( const map &here, const std::vector<vehicle_part 
                 !vpr->get_base().empty() ) {
                 units::volume mult = 250_ml / item::find_type(
                                          vpr->ammo_current() )->stack_size;
-                double vcur = to_liter( vpr->ammo_remaining( here ) * mult );
+                double vcur = to_liter( vpr->ammo_remaining( ) * mult );
                 double vmax = to_liter( vpr->ammo_capacity( vpr->get_base().only_item().ammo_type() ) * mult );
                 //~ Vehicle part name, capacity (current/max L) and name of contents
                 enttxt = string_format( _( "%1$s (%2$.1f/%3$.1fL %4$s)" ), vname, round_up( vcur, 1 ),
@@ -367,27 +366,27 @@ static vehicle_part *pick_part( const map &here, const std::vector<vehicle_part 
     return pt;
 }
 
-void veh_app_interact::refill( const map &here )
+void veh_app_interact::refill( )
 {
     std::vector<vehicle_part *> ptlist;
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        if( vpr.part().can_reload( here ) ) {
+        if( vpr.part().can_reload( ) ) {
             ptlist.emplace_back( &vpr.part() );
         }
     }
-    vehicle_part *pt = pick_part( here, ptlist, _( "Which part to refill?" ) );
+    vehicle_part *pt = pick_part( ptlist, _( "Which part to refill?" ) );
     if( pt == nullptr ) {
         return;
     }
 
-    auto validate = [&pt, &here]( const item & obj ) {
+    auto validate = [&pt]( const item & obj ) {
         if( pt->is_tank() ) {
             if( obj.is_watertight_container() && obj.num_item_stacks() == 1 ) {
                 // we are assuming only one pocket here, and it's a liquid so only one item
-                return pt->can_reload( here, obj.only_item() );
+                return pt->can_reload( obj.only_item() );
             }
         } else if( pt->is_fuel_store() ) {
-            bool can_reload = pt->can_reload( here,  obj );
+            bool can_reload = pt->can_reload( obj );
             //check base item for fuel_stores that can take multiple types of ammunition (like the fuel_bunker)
             if( pt->get_base().can_reload_with( obj, true ) ) {
                 return true;
@@ -428,7 +427,7 @@ void veh_app_interact::siphon( map &here )
             ptlist.emplace_back( &vpr.part() );
         }
     }
-    vehicle_part *pt = pick_part( here, ptlist, _( "Which part to siphon from?" ) );
+    vehicle_part *pt = pick_part( ptlist, _( "Which part to siphon from?" ) );
     if( pt == nullptr ) {
         return;
     }
@@ -558,10 +557,10 @@ void veh_app_interact::populate_app_actions( map &here )
 
     /******************** General actions ********************/
     // Refill
-    app_actions.emplace_back( [this, &here]() {
-        refill( here );
+    app_actions.emplace_back( [this]() {
+        refill( );
     } );
-    imenu.addentry( -1, can_refill( here ), ctxt.keys_bound_to( "REFILL" ).front(),
+    imenu.addentry( -1, can_refill( ), ctxt.keys_bound_to( "REFILL" ).front(),
                     ctxt.get_action_name( "REFILL" ) );
     // Siphon
     app_actions.emplace_back( [&here, this]() {

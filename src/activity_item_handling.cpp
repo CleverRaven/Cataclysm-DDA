@@ -446,7 +446,7 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
 {
     map &here = get_map();
 
-    put_into_vehicle_or_drop( you, reason, items, &here, you.pos_bub( &here ) );
+    put_into_vehicle_or_drop( you, reason, items, &here, you.pos_bub( here ) );
 }
 
 void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
@@ -848,7 +848,7 @@ bool already_done( construction const &build, tripoint_bub_ms const &loc )
 
 static activity_reason_info find_base_construction(
     Character &you,
-    const inventory &inv,
+    const tripoint_bub_ms &inv_from_loc,
     const tripoint_bub_ms &loc,
     const std::optional<construction_id> &part_con_idx,
     const construction_id &idx )
@@ -878,14 +878,10 @@ static activity_reason_info find_base_construction(
     }
 
     const construction &build = con == nullptr ? idx.obj() : *con;
-    bool pcb = player_can_build( you, inv, build, true );
-    //already done?
     if( already_done( build, loc ) ) {
         return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, build.id );
     }
-
-    const bool has_skill = you.meets_skill_requirements( build );
-    if( !has_skill ) {
+    if( !you.meets_skill_requirements( build ) ) {
         return activity_reason_info::build( do_activity_reason::DONT_HAVE_SKILL, false, build.id );
     }
     //if there's an appropriate partial construction on the tile, then we can work on it, no need to check inventories.
@@ -896,16 +892,15 @@ static activity_reason_info find_base_construction(
         }
         return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, build.id );
     }
-    //can build?
-    if( cc ) {
-        if( pcb ) {
-            return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, build.id );
-        }
+    if( !cc ) {
+        return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
+    }
+    const inventory &inv = you.crafting_inventory( inv_from_loc, PICKUP_RANGE );
+    if( !player_can_build( you, inv, build, true ) ) {
         //can't build with current inventory, do not look for pre-req
         return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, build.id );
     }
-
-    return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
+    return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, build.id );
 }
 
 static bool are_requirements_nearby(
@@ -1295,12 +1290,11 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             }
             nearest_src_loc = route.back();
         }
-        const inventory pre_inv = you.crafting_inventory( nearest_src_loc, PICKUP_RANGE );
         if( !zones.empty() ) {
             const blueprint_options &options = dynamic_cast<const blueprint_options &>
                                                ( zones.front().get_options() );
             const construction_id index = options.get_index();
-            return find_base_construction( you, pre_inv, src_loc, part_con_idx,
+            return find_base_construction( you, nearest_src_loc, src_loc, part_con_idx,
                                            index );
         }
     } else if( act == ACT_MULTIPLE_FARM ) {
@@ -1570,8 +1564,8 @@ static std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> requirements_map(
                         if( comp_elem.by_charges() ) {
                             // we don't care if there are 10 welders with 5 charges each
                             // we only want the one welder that has the required charge.
-                            if( stack_elem.ammo_remaining( here, &you ) >= comp_elem.count ) {
-                                temp_map[stack_elem.typeId()] += stack_elem.ammo_remaining( here, &you );
+                            if( stack_elem.ammo_remaining( &you ) >= comp_elem.count ) {
+                                temp_map[stack_elem.typeId()] += stack_elem.ammo_remaining( &you );
                             }
                         } else {
                             temp_map[stack_elem.typeId()] += stack_elem.count();
@@ -2459,7 +2453,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                             moved_something = true;
                         }
                     }
-                    if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining( here ) == 0 ) {
+                    if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining( ) == 0 ) {
                         if( vpr_src ) {
                             vpr_src->vehicle().remove_item( vpr_src->part(), it->first );
                         } else {
@@ -3109,8 +3103,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
                     for( const tripoint_bub_ms &point_elem :
                          here.points_in_radius( src_loc, /*radius=*/PICKUP_RANGE - 1, /*radiusz=*/0 ) ) {
                         // we don't want to place the components where they could interfere with our ( or someone else's ) construction spots
-                        if( !you.sees( point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
-                                                         point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
+                        if( !you.sees( here, point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
+                                                               point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
                             continue;
                         }
                         candidates.push_back( point_elem );
@@ -3788,8 +3782,8 @@ int get_auto_consume_moves( Character &you, const bool food )
 
     if( best_comestible ) {
         //The moves it takes you to walk there and back.
-        int consume_moves = 2 * you.run_cost( 100, false ) * std::max( rl_dist( you.pos_bub(),
-                            best_comestible.pos_bub() ), 1 );
+        int consume_moves = 2 * you.run_cost( 100, false ) * std::max( rl_dist( you.pos_abs(),
+                            best_comestible.pos_abs() ), 1 );
         consume_moves += to_moves<int>( you.get_consume_time( *best_comestible ) );
 
         you.consume( best_comestible );

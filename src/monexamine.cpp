@@ -34,9 +34,10 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "talker.h"  // IWYU pragma: keep
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 #include "value_ptr.h"
 
@@ -606,8 +607,6 @@ bool Character::can_mount( const monster &critter ) const
 
 bool monexamine::pet_menu( monster &z )
 {
-    map &here = get_map();
-
     enum choices {
         swap_pos = 0,
         push_monster,
@@ -762,7 +761,7 @@ bool monexamine::pet_menu( monster &z )
         int max_charge = type.magazine->capacity;
         float charge_percent;
         if( z.battery_item ) {
-            charge_percent = static_cast<float>( z.battery_item->ammo_remaining( here ) ) / max_charge * 100;
+            charge_percent = static_cast<float>( z.battery_item->ammo_remaining( ) ) / max_charge * 100;
         } else {
             charge_percent = 0.0;
         }

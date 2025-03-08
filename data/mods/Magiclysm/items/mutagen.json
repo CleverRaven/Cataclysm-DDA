@@ -10,7 +10,7 @@
       "type": "consume_drug",
       "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
-      "vitamins": [ [ "mutagen_manatouched", 450, 550 ] ]
+      "vitamins": [ [ "mutagen_manatouched", 500 ] ]
     }
   },
   {
@@ -50,7 +50,7 @@
       "type": "consume_drug",
       "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
-      "vitamins": [ [ "mutagen_black_dragon", 450, 550 ] ]
+      "vitamins": [ [ "mutagen_black_dragon", 500 ] ]
     }
   }
 ]

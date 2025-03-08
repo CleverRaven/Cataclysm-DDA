@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "coords_fwd.h"
+#include "item.h"
 #include "type_id.h"
 
 class Character;

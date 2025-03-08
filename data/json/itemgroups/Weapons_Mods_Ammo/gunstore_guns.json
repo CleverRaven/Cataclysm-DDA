@@ -42,6 +42,7 @@
       { "group": "guns_pistol_common_boxed_223", "prob": 17 },
       { "group": "guns_pistol_common_boxed_300", "prob": 8 },
       { "group": "guns_pistol_common_boxed_57", "prob": 2 },
+      { "group": "guns_pistol_common_boxed_460", "prob": 2 },
       { "group": "guns_pistol_common_boxed_32", "prob": 1 },
       { "group": "guns_pistol_common_boxed_38super", "prob": 1 },
       { "group": "guns_pistol_common_boxed_other", "prob": 2 }
@@ -675,6 +676,13 @@
     "id": "boxed_p50",
     "container-item": "box_pistol",
     "items": [ { "item": "p50" }, { "group": "firearm_box_extras" }, { "item": "fnp90mag" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "guns_pistol_common_boxed_460",
+    "container-item": "box_pistol",
+    "items": [ { "item": "460_xvr" }, { "group": "firearm_box_extras" } ]
   },
   {
     "type": "item_group",

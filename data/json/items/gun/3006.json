@@ -257,7 +257,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "3006",
+    "ammo": [ "3006" ],
     "dispersion": 75,
     "durability": 8,
     "clip_size": 4,

@@ -81,8 +81,9 @@
       },
       "items": {
         "o": { "item": "novels", "chance": 70, "repeat": [ 1, 10 ] },
-        "r": { "item": "trash", "chance": 70, "repeat": [ 1, 3 ] },
-        "R": { "item": "trash", "chance": 80, "repeat": [ 1, 5 ] },
+        "r": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 1, 3 ] },
+        "t": { "item": "SUS_toilet", "chance": 50 },
+        "R": { "item": "SUS_trash_dumpster", "chance": 80, "repeat": [ 1, 5 ] },
         "d": { "item": "SUS_office_desk", "chance": 33 },
         "e": { "item": "SUS_fridge_breakroom", "chance": 70 },
         "P": { "item": "electronics", "chance": 70, "repeat": [ 1, 4 ] },
@@ -336,8 +337,9 @@
       },
       "items": {
         "o": { "item": "novels", "chance": 70, "repeat": [ 1, 10 ] },
-        "r": { "item": "trash", "chance": 70, "repeat": [ 1, 3 ] },
-        "R": { "item": "trash", "chance": 80, "repeat": [ 1, 5 ] },
+        "r": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 1, 3 ] },
+        "t": { "item": "SUS_toilet", "chance": 50 },
+        "R": { "item": "SUS_trash_dumpster", "chance": 80, "repeat": [ 1, 5 ] },
         "d": { "item": "SUS_office_desk", "chance": 33 },
         "e": { "item": "SUS_fridge_breakroom", "chance": 70 },
         "P": { "item": "electronics", "chance": 70, "repeat": [ 1, 4 ] },

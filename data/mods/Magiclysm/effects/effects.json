@@ -1387,6 +1387,22 @@
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
+    "id": "effect_biomancer_control_mutations",
+    "type": "effect_type",
+    "name": [ "Morphogenic Mastery" ],
+    "desc": [ "You are able to exert conscious control over any mutations to your body." ],
+    "apply_message": "You feel…strange.",
+    "remove_message": "The strange feeling passes and you feel more like yourself.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MUT_ADDITIONAL_OPTIONS", "add": { "math": [ "1 + ( u_spell_level('biomancer_control_mutations') / 5)" ] } }
+        ]
+      }
+    ]
+  },
+  {
     "id": "effect_biomancer_carrion_feast",
     "type": "effect_type",
     "name": [ "Carrion Feast" ],
@@ -2152,6 +2168,13 @@
       { "u_remove_item_with": "thought_shield_item" },
       { "u_remove_item_with": "thought_shield_plus_item" }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_thaumic_zombie_magical_disruption",
+    "name": [ "Mana Blockage" ],
+    "desc": [ "It's harder for you to draw on your mana than it should be." ],
+    "max_duration": "1 m"
   },
   {
     "id": "effect_dust_reborn",

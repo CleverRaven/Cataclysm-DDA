@@ -12,7 +12,6 @@
       [ "boots_combat", 10 ],
       [ "cassock", 1 ],
       [ "child_book", 5 ],
-      [ "fancy_sunglasses", 5 ],
       [ "flask_hip", 5 ],
       [ "jedi_cloak", 1 ],
       [ "jersey", 1 ],
@@ -136,7 +135,7 @@
       "items": {
         "X": { "item": "grave_memories", "chance": 1 },
         "b": { "item": "church", "chance": 20 },
-        "&": { "item": "trash", "chance": 66, "repeat": [ 1, 3 ] },
+        "&": { "item": "SUS_trash_trashcan_public", "chance": 66, "repeat": [ 1, 3 ] },
         "Y": { "item": "jackets", "chance": 33, "repeat": [ 1, 3 ] }
       },
       "vehicles": { "Á": { "vehicle": "FUNERAL", "chance": 20, "rotation": 90 } }

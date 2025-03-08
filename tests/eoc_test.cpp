@@ -370,18 +370,19 @@ TEST_CASE( "EOC_transform_radius", "[eoc][timed_event]" )
 
 TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
 {
+    map &here = get_map();
     clear_avatar();
     clear_map();
     shared_ptr_fast<npc> guy = make_shared_fast<npc>();
     overmap_buffer.insert_npc( guy );
     npc &npc = *guy;
     clear_character( npc );
-    std::optional<tripoint_bub_ms> const dest = random_point( get_map(), [](
+    std::optional<tripoint_bub_ms> const dest = random_point( here, [](
     tripoint_bub_ms const & p ) {
         return p.xy() != get_avatar().pos_bub().xy();
     } );
     REQUIRE( dest.has_value() );
-    npc.setpos( { dest.value().xy(), get_avatar().posz() } );
+    npc.setpos( here, { dest.value().xy(), get_avatar().posz() } );
 
     tripoint_abs_ms const start = get_avatar().pos_abs();
     tripoint_abs_ms const end = npc.pos_abs();
@@ -792,6 +793,8 @@ TEST_CASE( "EOC_stored_condition_test", "[eoc]" )
 
 TEST_CASE( "dialogue_copy", "[eoc]" )
 {
+    map &here = get_map();
+
     standard_npc dude;
     dialogue d( get_talker_for( get_avatar() ), get_talker_for( &dude ) );
     dialogue d_copy( d );
@@ -801,7 +804,7 @@ TEST_CASE( "dialogue_copy", "[eoc]" )
 
     item hammer( itype_hammer );
     item_location hloc( map_cursor( tripoint_bub_ms::zero ), &hammer );
-    computer comp( "test_computer", 0, tripoint_bub_ms::zero );
+    computer comp( "test_computer", 0, here, tripoint_bub_ms::zero );
     dialogue d2( get_talker_for( hloc ), get_talker_for( comp ) );
     dialogue d2_copy( d2 );
     d2_copy.set_value( "suppress", "1" );
@@ -818,6 +821,8 @@ TEST_CASE( "dialogue_copy", "[eoc]" )
 
 TEST_CASE( "EOC_meta_test", "[eoc]" )
 {
+    map &here = get_map();
+
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
@@ -825,7 +830,7 @@ TEST_CASE( "EOC_meta_test", "[eoc]" )
     monster zombie( mon_zombie );
     item hammer( itype_hammer );
     item_location hloc( map_cursor( tripoint_bub_ms::zero ), &hammer );
-    computer comp( "test_computer", 0, tripoint_bub_ms::zero );
+    computer comp( "test_computer", 0, here, tripoint_bub_ms::zero );
 
     dialogue d_empty( std::make_unique<talker>(), std::make_unique<talker>() );
     dialogue d_avatar( get_talker_for( get_avatar() ), std::make_unique<talker>() );
@@ -1278,7 +1283,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     for( loop = 0; loop < 1000; loop++ ) {
         arm_shooter( get_avatar(), itype_shotgun_s );
         get_avatar().recoil = 0;
-        get_avatar().fire_gun( &here, target_pos, 1, *get_avatar().get_wielded_item() );
+        get_avatar().fire_gun( here, target_pos, 1, *get_avatar().get_wielded_item() );
         if( !npc_dst_ranged.get_value( "test_event_last_event" ).empty() ) {
             break;
         }
@@ -1297,7 +1302,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     for( loop = 0; loop < 1000; loop++ ) {
         arm_shooter( get_avatar(), itype_shotgun_s );
         get_avatar().recoil = 0;
-        get_avatar().fire_gun( &here, mon_dst_ranged.pos_bub(), 1, *get_avatar().get_wielded_item() );
+        get_avatar().fire_gun( here, mon_dst_ranged.pos_bub(), 1, *get_avatar().get_wielded_item() );
         if( !mon_dst_ranged.get_value( "test_event_last_event" ).empty() ) {
             break;
         }

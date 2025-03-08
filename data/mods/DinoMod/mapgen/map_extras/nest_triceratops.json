@@ -71,7 +71,7 @@
           "chance": 20
         }
       ],
-      "place_items": [ { "item": "trash_forest", "x": [ 4, 17 ], "y": [ 6, 15 ], "repeat": [ 1, 3 ], "chance": 40 } ]
+      "place_items": [ { "item": "SUS_trash_forest_no_manmade", "x": [ 4, 17 ], "y": [ 6, 15 ], "repeat": [ 1, 3 ], "chance": 40 } ]
     }
   }
 ]

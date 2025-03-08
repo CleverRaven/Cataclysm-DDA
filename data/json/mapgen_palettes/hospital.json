@@ -110,12 +110,12 @@
       "S": { "item": "public_sink", "chance": 60 }
     },
     "vehicles": {
-      "^": { "vehicle": "hospital_bed", "chance": 100, "rotation": [ 0, 90, 180, 270 ] },
-      ")": { "vehicle": "hospital_bed", "chance": 100, "rotation": 180 },
-      "(": { "vehicle": "hospital_bed", "chance": 100, "rotation": 90 },
-      "ɱ": { "vehicle": "laundry_cart", "chance": 100, "rotation": 0 },
-      "ƃ": { "vehicle": "wheelchair", "chance": 100, "rotation": 0 },
-      "Г": { "vehicle": "medical_cart", "chance": 100, "rotation": 0 },
+      "^": { "vehicle": "hospital_bed", "rotation": [ 0, 90, 180, 270 ] },
+      ")": { "vehicle": "hospital_bed", "rotation": 180 },
+      "(": { "vehicle": "hospital_bed", "rotation": 90 },
+      "ɱ": { "vehicle": "laundry_cart", "rotation": 0 },
+      "ƃ": { "vehicle": "wheelchair", "rotation": 0 },
+      "Г": { "vehicle": "medical_cart", "rotation": 0 },
       "ւ": { "vehicle": "ambulance", "chance": 75, "rotation": 270 },
       "Á": { "vehicle": "parking_garage", "chance": 75, "rotation": 180 }
     },
@@ -197,8 +197,6 @@
       "i": "f_bench",
       "j": "f_curtain",
       "k": "f_curtain_open",
-      "l": "f_autodoc",
-      "m": "f_autodoc_couch",
       "n": "f_autoclave",
       "p": [ "f_heavy_duty_fridge", "f_heavy_duty_freezer" ],
       "q": "f_glass_fridge",
@@ -213,16 +211,16 @@
       "z": "f_trashcan"
     },
     "toilets": { "T": {  } },
-    "items": { "4": [ { "item": "saline_bottle_random", "chance": 100 } ] },
+    "items": { "T": { "item": "SUS_toilet", "chance": 50 }, "4": [ { "item": "saline_bottle_random", "chance": 100 } ] },
     "vehicles": {
-      "ɱ": { "vehicle": "laundry_cart", "chance": 100, "rotation": 90 },
-      "ƃ": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 },
-      "ɔ": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 },
-      "Ƨ": { "vehicle": "swivel_chair", "chance": 100, "rotation": 0 },
-      "^": { "vehicle": "hospital_bed", "chance": 100, "rotation": 0 },
-      "Я": { "vehicle": "hospital_bed", "chance": 100, "rotation": 90 },
-      "Г": { "vehicle": "hospital_bed", "chance": 100, "rotation": 180 },
-      "ւ": { "vehicle": "hospital_bed", "chance": 100, "rotation": 270 }
+      "ɱ": { "vehicle": "laundry_cart", "rotation": 90 },
+      "ƃ": { "vehicle": "wheelchair", "rotation": 90 },
+      "ɔ": { "vehicle": "wheelchair", "rotation": 90 },
+      "Ƨ": { "vehicle": "swivel_chair", "rotation": 0 },
+      "^": { "vehicle": "hospital_bed", "rotation": 0 },
+      "Я": { "vehicle": "hospital_bed", "rotation": 90 },
+      "Г": { "vehicle": "hospital_bed", "rotation": 180 },
+      "ւ": { "vehicle": "hospital_bed", "rotation": 270 }
     }
   }
 ]

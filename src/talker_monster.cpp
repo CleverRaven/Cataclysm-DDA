@@ -9,6 +9,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
+#include "map.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -24,14 +25,14 @@ std::string talker_monster_const::get_name() const
     return me_mon_const->get_name();
 }
 
-int talker_monster_const::posx() const
+int talker_monster_const::posx( const map &here ) const
 {
-    return me_mon_const->posx();
+    return me_mon_const->posx( here );
 }
 
-int talker_monster_const::posy() const
+int talker_monster_const::posy( const map &here ) const
 {
-    return me_mon_const->posy();
+    return me_mon_const->posy( here );
 }
 
 int talker_monster_const::posz() const
@@ -39,9 +40,9 @@ int talker_monster_const::posz() const
     return me_mon_const->posz();
 }
 
-tripoint_bub_ms talker_monster_const::pos_bub() const
+tripoint_bub_ms talker_monster_const::pos_bub( const map &here ) const
 {
-    return me_mon_const->pos_bub();
+    return me_mon_const->pos_bub( here );
 }
 
 tripoint_abs_ms talker_monster_const::pos_abs() const
@@ -190,7 +191,9 @@ int talker_monster_const::get_grab_strength() const
 
 bool talker_monster_const::can_see_location( const tripoint_bub_ms &pos ) const
 {
-    return me_mon_const->sees( pos );
+    const map &here = get_map();
+
+    return me_mon_const->sees( here, pos );
 }
 
 int talker_monster_const::get_volume() const

@@ -71,13 +71,14 @@
         "A": { "item": "SUS_hair_drawer", "chance": 100, "repeat": [ 1 ] },
         "B": { "item": "SUS_dishes", "chance": 100 },
         "D": { "item": "SUS_silverware", "chance": 100 },
-        "d": { "item": "trash", "chance": 100, "repeat": [ 2, 4 ] },
+        "d": { "item": "SUS_trash_dumpster", "chance": 100, "repeat": [ 2, 4 ] },
         "e": { "item": "waitingroom", "chance": 100, "repeat": [ 2, 4 ] },
         "f": { "item": "SUS_fridge_partial_empty", "chance": 100 },
         "K": { "item": "SUS_bathroom_sink", "chance": 100 },
         "l": { "item": "SUS_desks_bedroom_unisex", "chance": 50 },
         "r": { "item": "beauty", "chance": 100, "repeat": [ 1, 4 ] },
-        "T": { "item": "trash", "chance": 50, "repeat": [ 1, 2 ] }
+        "t": { "item": "SUS_toilet", "chance": 50 },
+        "T": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 2 ] }
       },
       "place_loot": [
         { "group": "SUS_janitors_closet", "chance": 100, "repeat": [ 0, 2 ], "x": [ 10, 12 ], "y": [ 3 ] },

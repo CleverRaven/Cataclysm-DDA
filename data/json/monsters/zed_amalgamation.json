@@ -176,7 +176,7 @@
     "copy-from": "mon_amalgamation_abstract_small",
     "//": "Small, nasty glass cannon spawning in groups  WP: mandible, leg",
     "name": { "str": "swarming amalgamation" },
-    "description": "An small, flat creature dashing around erratically on seven short legs.  Its form is dominated by an oversized set of black mandibles on an almost comically small head, featureless apart from a single, black eye.  The rest of the body is covered with sickly white skin crisscrossed by black veins.",
+    "description": "A small, flat creature dashing around erratically on seven short legs.  Its form is dominated by an oversized set of black mandibles on an almost comically small head, featureless apart from a single black eye.  The rest of the body is covered with sickly white skin crisscrossed by black veins.",
     "volume": "20 L",
     "weight": "20 kg",
     "hp": 35,
@@ -317,7 +317,7 @@
     "death_function": { "effect": { "id": "death_shock_blast", "hit_self": true } },
     "harvest": "zombie_amalgamation_electric",
     "extend": {
-      "flags": [ "ELECTRIC" ],
+      "flags": [ "ELECTRIC", "PULP_PRYING" ],
       "families": [ "prof_electromagnetics" ],
       "weakpoint_sets": [ "wps_amalgamation_armor", "wps_amalgamation_electric" ]
     }
@@ -365,7 +365,7 @@
     "extend": {
       "weakpoint_sets": [ "wps_amalgamation_armor", "wps_amalgamation_mandible", "wps_amalgamation_tail" ],
       "families": [ "prof_wp_nat_armored" ],
-      "flags": [ "GRABS" ]
+      "flags": [ "GRABS", "PULP_PRYING" ]
     },
     "armor": { "bash": 20, "cut": 25, "stab": 30, "acid": 12, "bullet": 40, "electric": 12 }
   }

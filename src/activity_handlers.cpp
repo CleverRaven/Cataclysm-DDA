@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
-#include <cstdint>
 #include <cstdlib>
 #include <iterator>
 #include <memory>
@@ -15,11 +14,10 @@
 #include <string>
 #include <type_traits>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 
 #include "activity_actor.h"
-#include "activity_type.h"
-#include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
@@ -32,7 +30,6 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
-#include "colony.h"
 #include "color.h"
 #include "construction.h"
 #include "coordinates.h"
@@ -40,14 +37,13 @@
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "fault.h"
-#include "field_type.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -59,44 +55,44 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
-#include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "line.h"
 #include "magic.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "npc_opinion.h"
 #include "omdata.h"
 #include "output.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
-#include "recipe.h"
-#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "text_snippets.h"
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
@@ -104,8 +100,6 @@
 #include "vpart_position.h"
 #include "weakpoint.h"
 #include "weather.h"
-
-enum class creature_size : int;
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -192,7 +186,12 @@ static const furn_str_id furn_f_compost_full( "f_compost_full" );
 static const furn_str_id furn_f_fvat_empty( "f_fvat_empty" );
 static const furn_str_id furn_f_fvat_wood_empty( "f_fvat_wood_empty" );
 static const furn_str_id furn_f_fvat_wood_full( "f_fvat_wood_full" );
+static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
+static const furn_str_id furn_f_kiln_metal_empty( "f_kiln_metal_empty" );
+static const furn_str_id furn_f_kiln_portable_empty( "f_kiln_portable_empty" );
+static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
 static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
+static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
@@ -479,6 +478,8 @@ void activity_handlers::butcher_do_turn( player_activity *act, Character * )
 
 static bool do_cannibalism_piss_people_off( Character &you )
 {
+    const map &here = get_map();
+
     if( !you.is_avatar() ) {
         return true; // NPCs dont accidentally cause player hate
     }
@@ -489,7 +490,7 @@ static bool do_cannibalism_piss_people_off( Character &you )
     }
 
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_active() && guy.sees( you ) && !guy.okay_with_eating_humans() ) {
+        if( guy.is_active() && guy.sees( here, you ) && !guy.okay_with_eating_humans() ) {
             guy.say( _( "<swear!>?  Are you butchering them?  That's not okay, <fuck_you>." ) );
             // massive opinion penalty
             guy.op_of_u.trust -= 5;
@@ -1237,7 +1238,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                 // TODO: smarter NPC liquid handling
                 // If we're not bleeding the animal we don't care about the blood being wasted
                 if( you.is_npc() || action != butcher_type::BLEED ) {
-                    drop_on_map( you, item_drop_reason::deliberate, { obj }, &here, you.pos_bub( &here ) );
+                    drop_on_map( you, item_drop_reason::deliberate, { obj }, &here, you.pos_bub( here ) );
                 } else {
                     liquid_handler::handle_all_liquid( obj, 1 );
                 }
@@ -1428,6 +1429,8 @@ static void butchery_quarter( item *corpse_item, const Character &you )
 
 void activity_handlers::butcher_finish( player_activity *act, Character *you )
 {
+    map &here = get_map();
+
     // No targets means we are done
     if( act->targets.empty() ) {
         act->set_to_null();
@@ -1459,7 +1462,7 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
 
     // Dump items from the "container" before destroying it.
     // Presumably, the character would be doing this while setting up for butchering.
-    corpse_item.spill_contents( target.pos_bub() );
+    corpse_item.spill_contents( &here, target.pos_bub( here ) );
     corpse_item.erase_var( butcher_progress_var( action ) );
 
     if( action == butcher_type::QUARTER ) {
@@ -1468,7 +1471,6 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
         return;
     }
 
-    map &here = get_map();
     if( action == butcher_type::DISMEMBER ) {
         here.add_splatter( type_gib, you->pos_bub(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
     }
@@ -1709,7 +1711,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
             case liquid_source_type::VEHICLE:
                 if( part_num != -1 ) {
                     const vehicle_part &pt = source_veh->part( part_num );
-                    if( pt.is_leaking() && !pt.ammo_remaining( here ) ) {
+                    if( pt.is_leaking() && !pt.ammo_remaining( ) ) {
                         act_ref.set_to_null(); // leaky tank spilled while we were transferring
                         return;
                     }
@@ -1925,11 +1927,27 @@ void activity_handlers::start_fire_finish( player_activity *act, Character *you 
         return;
     }
 
-    it.activation_consume( 1, you->pos_bub(), you );
-
     you->practice( skill_survival, act->index, 5 );
 
-    firestarter_actor::resolve_firestarter_use( you, &here, here.get_bub( act->placement ) );
+    const furn_id &f_id = here.furn( here.get_bub( act->placement ) );
+    const bool is_smoking_rack = f_id == furn_f_metal_smoking_rack ||
+                                 f_id == furn_f_smoking_rack;
+    const bool is_kiln = f_id == furn_f_kiln_empty ||
+                         f_id == furn_f_kiln_metal_empty || f_id == furn_f_kiln_portable_empty;
+
+    firestarter_actor::start_type st = firestarter_actor::start_type::FIRE;
+
+    if( is_smoking_rack ) {
+        st = firestarter_actor::start_type::SMOKER;
+    } else if( is_kiln ) {
+        st = firestarter_actor::start_type::KILN;
+    }
+
+    it.activation_consume( 1, you->pos_bub(), you );
+
+    firestarter_actor::resolve_firestarter_use( you, &here, here.get_bub( act->placement ),
+            st );
+
     act->set_to_null();
 }
 
@@ -1964,7 +1982,12 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
     }
 
     item &firestarter = *act->targets.front();
-    if( firestarter.has_flag( flag_REQUIRES_TINDER ) ) {
+
+    const furn_id f_id = here.furn( here.get_bub( act->placement ) );
+    const bool is_smoker = f_id == furn_f_smoking_rack ||
+                           f_id == furn_f_metal_smoking_rack;
+
+    if( firestarter.has_flag( flag_REQUIRES_TINDER ) && !is_smoker ) {
         if( !here.tinder_at( where ) ) {
             inventory_filter_preset preset( []( const item_location & loc ) {
                 return loc->has_flag( flag_TINDER );
@@ -2004,7 +2027,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
 
     you->mod_moves( -you->get_moves() );
     const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-    const float light = actor->light_mod( &here, you->pos_bub( &here ) );
+    const float light = actor->light_mod( &here, you->pos_bub( here ) );
     act->moves_left -= light * 100;
     if( light < 0.1 ) {
         add_msg( m_bad, _( "There is not enough sunlight to start a fire now.  You stop trying." ) );
@@ -2192,16 +2215,14 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, Character *you
     // to 10 watt (suspicious claims from some manufacturers) sustained output.
     // It takes 2.4 minutes to produce 1kj at just slightly under 7 watts (25 kj per hour)
     // time-based instead of speed based because it's a sustained activity
-    map &here = get_map();
-
     item &hand_crank_item = *act->targets.front();
 
     int time_to_crank = to_seconds<int>( 144_seconds );
     // Modify for weariness
     time_to_crank /= you->exertion_adjusted_move_multiplier( act->exertion_level() );
     if( calendar::once_every( time_duration::from_seconds( time_to_crank ) ) ) {
-        if( hand_crank_item.ammo_capacity( ammo_battery ) > hand_crank_item.ammo_remaining( here ) ) {
-            hand_crank_item.ammo_set( itype_battery, hand_crank_item.ammo_remaining( here ) + 1 );
+        if( hand_crank_item.ammo_capacity( ammo_battery ) > hand_crank_item.ammo_remaining( ) ) {
+            hand_crank_item.ammo_set( itype_battery, hand_crank_item.ammo_remaining( ) + 1 );
         } else {
             act->moves_left = 0;
             add_msg( m_info, _( "You've charged the battery completely." ) );
@@ -2219,7 +2240,6 @@ void activity_handlers::vibe_do_turn( player_activity *act, Character *you )
     //Using a vibrator takes time (10 minutes), not speed
     //Linear increase in morale during action with a small boost at end
     //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
-    map &here = get_map();
     item &vibrator_item = *act->targets.front();
 
     if( you->encumb( bodypart_id( "mouth" ) ) >= 30 ) {
@@ -2228,10 +2248,10 @@ void activity_handlers::vibe_do_turn( player_activity *act, Character *you )
     }
 
     if( calendar::once_every( 1_minutes ) ) {
-        if( vibrator_item.ammo_remaining( here, you ) > 0 ) {
+        if( vibrator_item.ammo_remaining( you ) > 0 ) {
             vibrator_item.ammo_consume( 1, you->pos_bub(), you );
             you->add_morale( morale_feeling_good, 3, 40 );
-            if( vibrator_item.ammo_remaining( here, you ) == 0 ) {
+            if( vibrator_item.ammo_remaining( you ) == 0 ) {
                 add_msg( m_info, _( "The %s runs out of batteries." ), vibrator_item.tname() );
             }
         } else {
@@ -2452,7 +2472,7 @@ struct weldrig_hack {
 
         map &here = get_map();
 
-        part->vehicle().charge_battery( here, pseudo.ammo_remaining( here ),
+        part->vehicle().charge_battery( here, pseudo.ammo_remaining( ),
                                         false ); // return unused charges without cable loss
     }
 
@@ -2534,7 +2554,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
 
         if( attempt != repair_item_actor::AS_CANT ) {
             if( ploc && ploc->where() == item_location::type::map ) {
-                used_tool->ammo_consume( used_tool->ammo_required(), ploc->pos_bub(), you );
+                used_tool->ammo_consume( used_tool->ammo_required(), ploc->pos_bub( here ), you );
             } else {
                 you->consume_charges( *used_tool, used_tool->ammo_required() );
             }
@@ -2636,7 +2656,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
             ammo_name = item::nname( used_tool->ammo_current() );
         }
 
-        int ammo_remaining = used_tool->ammo_remaining( here, you, true );
+        int ammo_remaining = used_tool->ammo_remaining_linked( here, you );
 
         std::set<itype_id> valid_entries = actor->get_valid_repair_materials( fix );
         const inventory &crafting_inv = you->crafting_inventory();
@@ -3106,6 +3126,8 @@ void activity_handlers::socialize_finish( player_activity *act, Character *you )
 
 void activity_handlers::operation_do_turn( player_activity *act, Character *you )
 {
+    const map &here = get_map();
+
     /**
     - values[0]: Difficulty
     - values[1]: success
@@ -3125,7 +3147,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
     const bionic_id bid( act->str_values[cbm_id] );
     const bool autodoc = act->str_values[is_autodoc] == "true";
     Character &player_character = get_player_character();
-    const bool u_see = player_character.sees( you->pos_bub() ) &&
+    const bool u_see = player_character.sees( here, you->pos_bub( here ) ) &&
                        ( !player_character.has_effect( effect_narcosis ) ||
                          player_character.has_bionic( bio_painkiller ) ||
                          player_character.has_flag( json_flag_PAIN_IMMUNE ) );
@@ -3138,8 +3160,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
     const time_duration message_freq = difficulty * 2_minutes;
     time_duration time_left = time_duration::from_moves( act->moves_left );
 
-    map &here = get_map();
-    if( autodoc && here.inbounds( you->pos_bub() ) ) {
+    if( autodoc && here.inbounds( you->pos_bub( here ) ) ) {
         const std::list<tripoint_bub_ms> autodocs = here.find_furnitures_with_flag_in_radius(
                     you->pos_bub(), 1,
                     ter_furn_flag::TFLAG_AUTODOC );

@@ -1110,9 +1110,21 @@
         "topic": "TALK_DONE",
         "effect": { "math": [ "u_skill('driving') = 10" ] }
       },
-      { "text": "Sets pos_x to -1.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_x') = -1" ] } },
-      { "text": "Sets pos_y to -2.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_y') = -2" ] } },
-      { "text": "Sets pos_z to -3.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_z') = -3" ] } },
+      {
+        "text": "Moves character one tile to the west.",
+        "topic": "TALK_DONE",
+        "effect": { "math": [ "u_val('pos_x') = u_val('pos_x') - 1" ] }
+      },
+      {
+        "text": "Moves character two tiles to the south.",
+        "topic": "TALK_DONE",
+        "effect": { "math": [ "u_val('pos_y') = u_val('pos_y') + 2" ] }
+      },
+      {
+        "text": "Sets character z level to -3.",
+        "topic": "TALK_DONE",
+        "effect": { "math": [ "u_val('pos_z') = -3" ] }
+      },
       { "text": "Sets pain to 17.", "topic": "TALK_DONE", "effect": { "math": [ "u_pain() = 17" ] } },
       { "text": "Sets power to 18.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('power') = 18" ] } },
       {
@@ -1175,7 +1187,7 @@
   {
     "type": "item_group",
     "id": "test_npc_eyes",
-    "items": [ [ "glasses_safety", 20 ], [ "sunglasses", 20 ], [ "fancy_sunglasses", 10 ] ]
+    "items": [ [ "glasses_safety", 20 ], [ "sunglasses", 20 ] ]
   },
   {
     "type": "item_group",
@@ -1368,6 +1380,19 @@
         "topic": "TALK_DONE",
         "show_condition": { "math": [ "0 > 1" ] },
         "show_reason": "zero isn't greater than one."
+      },
+      { "text": "All done", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_RANDOM",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      {
+        "condition": { "math": [ "rand(10)", ">", "5" ] },
+        "text": "You will see this response half of the time.",
+        "topic": "TALK_DONE"
       },
       { "text": "All done", "topic": "TALK_DONE" }
     ]

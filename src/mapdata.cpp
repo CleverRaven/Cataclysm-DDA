@@ -464,8 +464,8 @@ bool map_shoot_info::load( const JsonObject &jsobj, const std::string_view membe
     return true;
 }
 
-furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass_max ),
-    allowed_volume( units::volume_max ) {}
+furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass::max() ),
+    allowed_volume( units::volume::max() ) {}
 
 bool furn_workbench_info::load( const JsonObject &jsobj, const std::string_view member )
 {

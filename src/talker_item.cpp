@@ -11,7 +11,6 @@
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
-#include "map.h"
 #include "messages.h"
 #include "units.h"
 
@@ -29,29 +28,29 @@ std::string talker_item_const::get_name() const
     return me_it_const->get_item()->type_name();
 }
 
-int talker_item_const::posx() const
+int talker_item_const::posx( const map &here ) const
 {
-    return me_it_const->pos_bub().x();
+    return me_it_const->pos_bub( here ).x();
 }
 
-int talker_item_const::posy() const
+int talker_item_const::posy( const map &here ) const
 {
-    return me_it_const->pos_bub().y();
+    return me_it_const->pos_bub( here ).y();
 }
 
 int talker_item_const::posz() const
 {
-    return me_it_const->pos_bub().z();
+    return me_it_const->pos_abs().z();
 }
 
-tripoint_bub_ms talker_item_const::pos_bub() const
+tripoint_bub_ms talker_item_const::pos_bub( const map &here ) const
 {
-    return me_it_const->pos_bub();
+    return me_it_const->pos_bub( here );
 }
 
 tripoint_abs_ms talker_item_const::pos_abs() const
 {
-    return get_map().get_abs( me_it_const->pos_bub() );
+    return me_it_const->pos_abs();
 }
 
 tripoint_abs_omt talker_item_const::pos_abs_omt() const
@@ -99,9 +98,7 @@ int talker_item_const::get_hp_max( const bodypart_id & ) const
 
 units::energy talker_item_const::power_cur() const
 {
-    map &here = get_map();
-
-    return 1_mJ * me_it_const->get_item()->ammo_remaining( here );
+    return 1_mJ * me_it_const->get_item()->ammo_remaining( );
 }
 
 units::energy talker_item_const::power_max() const

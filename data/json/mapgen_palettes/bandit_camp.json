@@ -36,7 +36,7 @@
     },
     "items": {
       "z": [
-        { "item": "trash", "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "SUS_trash_dumpster", "chance": 50, "repeat": [ 1, 3 ] },
         { "item": "antique", "chance": 5 },
         { "item": "antique", "chance": 5 },
         { "item": "art", "chance": 5 }
@@ -52,8 +52,8 @@
       ],
       "K": [ { "item": "keg_beer", "chance": 50 }, { "item": "keg_wine_intact", "chance": 33 } ],
       "o": { "item": "homebooks", "chance": 75, "repeat": [ 1, 5 ] },
-      " ": { "item": "bar_trash", "chance": 2 },
-      ".": { "item": "bar_trash", "chance": 5 },
+      " ": { "item": "SUS_trash_floor", "chance": 2 },
+      ".": { "item": "SUS_trash_floor", "chance": 5 },
       "@": { "item": "army_bed", "chance": 50 },
       "A": { "item": "stash_wood", "chance": 80, "repeat": [ 1, 10 ] },
       "d": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50 } ]

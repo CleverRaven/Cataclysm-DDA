@@ -3,19 +3,23 @@
 #include <algorithm>
 #include <array>
 #include <cctype>
-#include <clocale>
+#include <cerrno>
 #include <cmath>
-#include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <iomanip>
 #include <iterator>
 #include <limits>
+#include <locale>
 #include <memory>
 #include <optional>
 #include <set>
 #include <sstream>
+#include <stack>
 #include <string>
+#include <string_view>
 #include <tuple>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
 
@@ -24,28 +28,29 @@
 #include "ascii_art.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "body_part_set.h"
 #include "bodygraph.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
-#include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "city.h"
 #include "clothing_mod.h"
-#include "clzones.h"
 #include "color.h"
 #include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dispersion.h"
-#include "display.h"
 #include "effect.h" // for weed_msg
 #include "effect_source.h"
+#include "enum_bitset.h"
 #include "enum_traits.h"
 #include "enums.h"
 #include "explosion.h"
@@ -54,8 +59,10 @@
 #include "field_type.h"
 #include "fire.h"
 #include "flag.h"
+#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "gun_mode.h"
 #include "iexamine.h"
 #include "inventory.h"
@@ -73,8 +80,11 @@
 #include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
+#include "map_scale_constants.h"
+#include "mapdata.h"
 #include "martialarts.h"
 #include "material.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "mod_manager.h"
 #include "monster.h"
@@ -99,24 +109,27 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_id_utils.h"
+#include "subbodypart.h"
+#include "talker.h"
 #include "text_snippets.h"
-#include "translations.h"
 #include "trait_group.h"
+#include "translation.h"
+#include "translations.h"
 #include "trap.h"
 #include "try_parse_integer.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
-#include "veh_type.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 #include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"
+#include "weighted_list.h"
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
@@ -309,8 +322,6 @@ item::item() : bday( calendar::start_of_cataclysm )
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
 {
-    map &here = get_map();
-
     contents = item_contents( type->pockets );
     if( type->countdown_interval > 0_seconds ) {
         countdown_point = calendar::turn + type->countdown_interval;
@@ -333,14 +344,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
             debugmsg( "Tried to set charges for item %s that could not have them!", tname() );
         }
     } else {
-        if( type->tool && type->tool->rand_charges.size() > 1 ) {
-            const int charge_roll = rng( 1, type->tool->rand_charges.size() - 1 );
-            const int charge_count = rng( type->tool->rand_charges[charge_roll - 1],
-                                          type->tool->rand_charges[charge_roll] );
-            ammo_set( ammo_default(), charge_count );
-        } else {
-            charges = type->charges_default();
-        }
+        charges = type->charges_default();
     }
 
     if( has_flag( flag_SPAWN_ACTIVE ) ) {
@@ -401,8 +405,8 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         last_temp_check = bday;
 
     } else if( type->tool ) {
-        if( ammo_remaining( here ) && !ammo_types().empty() ) {
-            ammo_set( ammo_default(), ammo_remaining( here ) );
+        if( ammo_remaining( ) && !ammo_types().empty() ) {
+            ammo_set( ammo_default(), ammo_remaining( ) );
         }
     }
 
@@ -2999,8 +3003,6 @@ void item::magazine_info( std::vector<iteminfo> &info, const iteminfo_query *par
 void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /* batch */,
                       bool /* debug */ ) const
 {
-    map &here = get_map();
-
     // Skip this section for guns and items without ammo data
     if( is_gun() || !has_ammo_data() ||
         !parts->test( iteminfo_parts::AMMO_REMAINING_OR_TYPES ) ) {
@@ -3011,9 +3013,9 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     if( !ammo.damage.empty() || ammo.force_stat_display ) {
         if( is_ammo() ) {
             info.emplace_back( "AMMO", _( "<bold>Ammunition type</bold>: " ), ammo_type()->name() );
-        } else if( ammo_remaining( here ) > 0 ) {
+        } else if( ammo_remaining( ) > 0 ) {
             info.emplace_back( "AMMO", _( "<bold>Ammunition</bold>: " ),
-                               ammo_data()->nname( ammo_remaining( here ) ) );
+                               ammo_data()->nname( ammo_remaining( ) ) );
         }
 
         const std::string space = "  ";
@@ -3144,8 +3146,6 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminfo_query *parts,
                      int /* batch */, bool /* debug */ ) const
 {
-    map &here = get_map();
-
     const std::string space = "  ";
     const islot_gun &gun = *mod->type->gun;
     const Skill &skill = *mod->gun_skill();
@@ -3155,7 +3155,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     const item *loaded_mod = mod;
     item tmp;
     const itype *curammo = nullptr;
-    if( mod->ammo_required() && !mod->ammo_remaining( here ) ) {
+    if( mod->ammo_required() && !mod->ammo_remaining( ) ) {
         tmp = *mod;
         if( tmp.ammo_types().size() == 1 && *tmp.ammo_types().begin() == ammotype::NULL_ID() ) {
             itype_id default_bore_type_id = itype_id::NULL_ID();
@@ -3417,7 +3417,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         const bool is_default_fire_mode = loaded_mod->gun_current_mode().tname() == "DEFAULT";
         //if empty, use the temporary gun loaded with default ammo
         const item::sound_data data = ( mod->ammo_required() &&
-                                        !mod->ammo_remaining( here ) ) ? tmp.gun_noise( is_default_fire_mode ) : loaded_mod->gun_noise(
+                                        !mod->ammo_remaining( ) ) ? tmp.gun_noise( is_default_fire_mode ) : loaded_mod->gun_noise(
                                           is_default_fire_mode );
         const int loudness = data.volume;
         info.emplace_back( "GUN", _( "Loudness with current fire mode: " ), "", iteminfo::lower_is_better,
@@ -3460,7 +3460,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( mod->has_ammo_data() && parts->test( iteminfo_parts::AMMO_REMAINING ) ) {
         info.emplace_back( "AMMO", _( "Ammunition: " ), string_format( "<stat>%s</stat>",
-                           mod->ammo_data()->nname( mod->ammo_remaining( here ) ) ) );
+                           mod->ammo_data()->nname( mod->ammo_remaining( ) ) ) );
     }
 
     if( mod->ammo_required() > 1 && parts->test( iteminfo_parts::AMMO_TO_FIRE ) ) {
@@ -4079,7 +4079,7 @@ void item::pet_armor_protection_info( std::vector<iteminfo> &info,
     }
 }
 
-// simple struct used for organizing encumberance in an ordered set
+// simple struct used for organizing encumbrance in an ordered set
 struct armor_encumb_data {
     int encumb;
     int encumb_max;
@@ -4793,7 +4793,6 @@ void item::battery_info( std::vector<iteminfo> &info, const iteminfo_query * /*p
 void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
                       bool /*debug*/ ) const
 {
-    map &here = get_map();
     avatar &player_character = get_avatar();
 
     if( !is_tool() ) {
@@ -4803,7 +4802,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     insert_separation_line( info );
     if( !ammo_types().empty() && parts->test( iteminfo_parts::TOOL_CHARGES ) ) {
         info.emplace_back( "TOOL", string_format( _( "<bold>Charges</bold>: %d" ),
-                           ammo_remaining( here ) ) );
+                           ammo_remaining( ) ) );
     }
 
     if( !magazine_integral() ) {
@@ -4882,11 +4881,11 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         if( has_ammo_data() ) {
             // Candle items that use ammo instead of charges
             // The capacity should never be zero but clang complains about it
-            percent_left = 100 * ammo_remaining( here ) / std::max( ammo_capacity( ammo_data()->ammo->type ),
+            percent_left = 100 * ammo_remaining( ) / std::max( ammo_capacity( ammo_data()->ammo->type ),
                            1 );
         } else if( type->maximum_charges() > 0 ) {
             // Candle items that use charges instead of ammo
-            percent_left = 100 * ammo_remaining( here ) / type->maximum_charges();
+            percent_left = 100 * ammo_remaining( ) / type->maximum_charges();
         }
 
         std::string feedback;
@@ -6739,6 +6738,8 @@ void item::on_wield( Character &you )
 
 void item::handle_pickup_ownership( Character &c )
 {
+    const map &here = get_map();
+
     if( is_owned_by( c ) ) {
         return;
     }
@@ -6747,7 +6748,7 @@ void item::handle_pickup_ownership( Character &c )
         set_owner( c );
     } else {
         if( !is_owned_by( c ) && c.is_avatar() ) {
-            const auto sees_stealing = [&c, this]( const Creature & cr ) {
+            const auto sees_stealing = [&c, this, &here]( const Creature & cr ) {
                 const npc *const as_npc = cr.as_npc();
                 const monster *const as_monster = cr.as_monster();
                 bool owned_by = false;
@@ -6756,8 +6757,8 @@ void item::handle_pickup_ownership( Character &c )
                 } else if( as_monster ) {
                     owned_by = is_owned_by( *as_monster );
                 }
-                return &cr != &c && owned_by && rl_dist( cr.pos_bub(), c.pos_bub() ) < MAX_VIEW_DISTANCE &&
-                       cr.sees( c.pos_bub() );
+                return &cr != &c && owned_by && rl_dist( cr.pos_abs(), c.pos_abs() ) < MAX_VIEW_DISTANCE &&
+                       cr.sees( here, c.pos_bub( here ) );
             };
             const auto sort_criteria = []( const Creature * lhs, const Creature * rhs ) {
                 const npc *const lnpc = lhs->as_npc();
@@ -6998,7 +6999,6 @@ std::string item::display_money( unsigned int quantity, unsigned int total,
 
 std::string item::display_name( unsigned int quantity ) const
 {
-    map &here = get_map();
     std::string name = tname( quantity );
     std::string sidetxt;
     std::string amt;
@@ -7026,7 +7026,7 @@ std::string item::display_name( unsigned int quantity ) const
     } else if( magazine_current() ) {
         show_amt = true;
         const item *mag = magazine_current();
-        amount = ammo_remaining( here );
+        amount = ammo_remaining( );
         const itype *adata = mag->ammo_data();
         if( adata ) {
             max_amount = mag->ammo_capacity( adata->ammo->type );
@@ -7036,11 +7036,11 @@ std::string item::display_name( unsigned int quantity ) const
         }
     } else if( is_tool() && has_flag( flag_USES_NEARBY_AMMO ) ) {
         show_amt = true;
-        amount = ammo_remaining( here, player_character.as_character() );
+        amount = ammo_remaining( player_character.as_character() );
     } else if( !ammo_types().empty() ) {
         // anything that can be reloaded including tools, magazines, guns and auxiliary gunmods
         // but excluding bows etc., which have ammo, but can't be reloaded
-        amount = ammo_remaining( here );
+        amount = ammo_remaining( );
         const itype *adata = ammo_data();
         if( adata ) {
             max_amount = ammo_capacity( adata->ammo->type );
@@ -7188,7 +7188,6 @@ int item::price( bool practical ) const
 
 int item::price_no_contents( bool practical, std::optional<int> price_override ) const
 {
-    map &here = get_map();
     if( rotten() ) {
         return 0;
     }
@@ -7205,7 +7204,7 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
 
     } else if( is_tool() && type->tool->max_charges != 0 ) {
         // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
-        price *= ammo_remaining( here ) / static_cast< double >( std::max( type->charges_default(), 1 ) );
+        price *= ammo_remaining( ) / static_cast< double >( std::max( type->charges_default(), 1 ) );
 
     }
 
@@ -7240,7 +7239,6 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
 // TODO: MATERIALS add a density field to materials.json
 units::mass item::weight( bool include_contents, bool integral ) const
 {
-    map &here = get_map();
     if( is_null() ) {
         return 0_gram;
     }
@@ -7305,7 +7303,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
 
     }
 
-    // prevent units::mass_max * 1.0, which results in -units::mass_max
+    // prevent units::mass::max() * 1.0, which results in -units::mass::max()
     if( ret_mul != 1 ) {
         ret *= ret_mul;
     }
@@ -7322,7 +7320,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
     // if this is an ammo belt add the weight of any implicitly contained linkages
     if( type->magazine && type->magazine->linkage ) {
         item links( *type->magazine->linkage );
-        links.charges = ammo_remaining( here );
+        links.charges = ammo_remaining( );
         ret += links.weight();
     }
 
@@ -7673,9 +7671,13 @@ damage_instance item::base_damage_thrown() const
 int item::reach_range( const Character &guy ) const
 {
     int res = 1;
+    int reach_attack_add = has_flag( flag_REACH_ATTACK ) ? has_flag( flag_REACH3 ) ? 2 : 1 : 0;
 
-    if( has_flag( flag_REACH_ATTACK ) ) {
-        res = has_flag( flag_REACH3 ) ? 3 : 2;
+    res += reach_attack_add;
+
+    if( !is_gun() ) {
+        res = std::max( 1, static_cast<int>( guy.calculate_by_enchantment( res,
+                                             enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) );
     }
 
     // for guns consider any attached gunmods
@@ -7685,7 +7687,9 @@ int item::reach_range( const Character &guy ) const
                 continue;
             }
             if( m.second.melee() ) {
-                res = std::max( res, m.second.qty );
+                res = std::max( res, std::max( 1,
+                                               static_cast<int>( guy.calculate_by_enchantment( m.second.qty + reach_attack_add,
+                                                       enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) ) );
             }
         }
     }
@@ -7701,6 +7705,11 @@ int item::current_reach_range( const Character &guy ) const
         res = has_flag( flag_REACH3 ) ? 3 : 2;
     } else if( is_gun() && !is_gunmod() && gun_current_mode().melee() ) {
         res = gun_current_mode().target->gun_range();
+    }
+
+    if( !is_gun() || ( is_gun() && !is_gunmod() && gun_current_mode().melee() ) ) {
+        res = std::max( 1, static_cast<int>( guy.calculate_by_enchantment( res,
+                                             enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) );
     }
 
     if( is_gun() && !is_gunmod() ) {
@@ -10703,10 +10712,10 @@ ret_val<void> item::can_contain_partial_directly( const item &it ) const
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &this_loc,
         const item *avoid, const bool allow_sealed, const bool ignore_settings,
-        const bool nested, bool ignore_rigidity )
+        const bool nested, bool ignore_rigidity, bool allow_nested )
 {
     return contents.best_pocket( it, this_loc, avoid, allow_sealed, ignore_settings,
-                                 nested, ignore_rigidity );
+                                 nested, ignore_rigidity, allow_nested );
 }
 
 bool item::spill_contents( Character &c )
@@ -10749,9 +10758,9 @@ bool item::spill_open_pockets( Character &guy, const item *avoid )
     return contents.spill_open_pockets( guy, avoid );
 }
 
-void item::overflow( const tripoint_bub_ms &pos, const item_location &loc )
+void item::overflow( map &here, const tripoint_bub_ms &pos, const item_location &loc )
 {
-    contents.overflow( pos, loc );
+    contents.overflow( here, pos, loc );
 }
 
 book_proficiency_bonuses item::get_book_proficiency_bonuses() const
@@ -11145,9 +11154,7 @@ units::mass item::gun_base_weight() const
 }
 int item::gun_recoil( const Character &p, bool bipod, bool ideal_strength ) const
 {
-    map &here = get_map();
-
-    if( !is_gun() || ( ammo_required() && !ammo_remaining( here ) ) ) {
+    if( !is_gun() || ( ammo_required() && !ammo_remaining( ) ) ) {
         return 0;
     }
 
@@ -11235,13 +11242,11 @@ int item::gun_range( const Character *p ) const
     return std::max( 0, ret );
 }
 
-int item::shots_remaining( const Character *carrier ) const
+int item::shots_remaining( const map &here, const Character *carrier ) const
 {
-    map &here = get_map();
-
     int ret = 1000; // Arbitrary large number for things that do not require ammo.
     if( ammo_required() ) {
-        ret = std::min( ammo_remaining( here,  carrier, true ) / ammo_required(), ret );
+        ret = std::min( ammo_remaining_linked( here,  carrier ) / ammo_required(), ret );
     }
     if( get_gun_energy_drain() > 0_kJ ) {
         ret = std::min( static_cast<int>( energy_remaining( carrier ) / get_gun_energy_drain() ), ret );
@@ -11265,7 +11270,7 @@ int item::ammo_remaining( const map &here, const std::set<ammotype> &ammo, const
     // Magazine in the item
     const item *mag = magazine_current();
     if( mag ) {
-        ret += mag->ammo_remaining( here );
+        ret += mag->ammo_remaining( );
     }
 
     // Cable connections
@@ -11316,17 +11321,26 @@ int item::ammo_remaining( const map &here, const std::set<ammotype> &ammo, const
 
     return ret;
 }
-int item::ammo_remaining( const map &here, const Character *carrier,
-                          const bool include_linked ) const
+
+int item::ammo_remaining_linked( const map &here, const Character *carrier ) const
 {
     std::set<ammotype> ammo = ammo_types();
-    return ammo_remaining( here, ammo, carrier, include_linked );
+    return ammo_remaining( here, ammo, carrier, true );
+}
+int item::ammo_remaining( const Character *carrier ) const
+{
+    std::set<ammotype> ammo = ammo_types();
+    return ammo_remaining( get_map(), ammo, carrier, false ); // get_map() is a dummy parameter here.
 }
 
-int item::ammo_remaining( const bool include_linked ) const
+int item::ammo_remaining_linked( const map &here ) const
 {
-    map &here = get_map();
-    return ammo_remaining( here, nullptr, include_linked );
+    return ammo_remaining_linked( here, nullptr );
+}
+
+int item::ammo_remaining( ) const
+{
+    return ammo_remaining( nullptr );
 }
 
 bool item::uses_energy() const
@@ -11391,17 +11405,15 @@ units::energy item::energy_remaining( const Character *carrier, bool ignoreExter
 
 int item::remaining_ammo_capacity() const
 {
-    map &here = get_map();
-
     if( ammo_types().empty() ) {
         return 0;
     }
 
     const itype *loaded_ammo = ammo_data();
     if( loaded_ammo == nullptr ) {
-        return ammo_capacity( item::find_type( ammo_default() )->ammo->type ) - ammo_remaining( here );
+        return ammo_capacity( item::find_type( ammo_default() )->ammo->type ) - ammo_remaining( );
     } else {
-        return ammo_capacity( loaded_ammo->ammo->type ) - ammo_remaining( here );
+        return ammo_capacity( loaded_ammo->ammo->type ) - ammo_remaining( );
     }
 }
 
@@ -11466,14 +11478,14 @@ bool item::ammo_sufficient( const Character *carrier, int qty ) const
     map &here = get_map();
 
     if( count_by_charges() ) {
-        return ammo_remaining( here, carrier, true ) >= qty;
+        return ammo_remaining_linked( here, carrier ) >= qty;
     }
 
     if( is_comestible() ) {
         return true;
     }
 
-    return shots_remaining( carrier ) >= qty;
+    return shots_remaining( here, carrier ) >= qty;
 }
 
 bool item::ammo_sufficient( const Character *carrier, const std::string &method, int qty ) const
@@ -11488,10 +11500,10 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
 
 int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier )
 {
-    return item::ammo_consume( qty, &get_map(), pos, carrier );
+    return item::ammo_consume( qty, get_map(), pos, carrier );
 }
 
-int item::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, Character *carrier )
+int item::ammo_consume( int qty, map &here, const tripoint_bub_ms &pos, Character *carrier )
 {
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
@@ -11503,7 +11515,7 @@ int item::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, Characte
     if( is_tool_with_carrier && has_flag( flag_USES_NEARBY_AMMO ) ) {
         const ammotype ammo = ammo_type();
         if( !ammo.is_null() ) {
-            const inventory &carrier_inventory = carrier->crafting_inventory( here );
+            const inventory &carrier_inventory = carrier->crafting_inventory( &here );
             itype_id ammo_type = ammo->default_ammotype();
             const int charges_avalable = carrier_inventory.charges_of( ammo_type, INT_MAX );
 
@@ -11519,18 +11531,18 @@ int item::ammo_consume( int qty, map *here, const tripoint_bub_ms &pos, Characte
     // Consume power from appliances/vehicles connected with cables
     if( has_link_data() ) {
         if( link().t_veh && link().efficiency >= MIN_LINK_EFFICIENCY ) {
-            qty = link().t_veh->discharge_battery( *here, qty, true );
+            qty = link().t_veh->discharge_battery( here, qty, true );
         } else {
-            const optional_vpart_position vp = here->veh_at( link().t_abs_pos );
+            const optional_vpart_position vp = here.veh_at( link().t_abs_pos );
             if( vp ) {
-                qty = vp->vehicle().discharge_battery( *here, qty, true );
+                qty = vp->vehicle().discharge_battery( here, qty, true );
             }
         }
     }
 
     // Consume charges loaded in the item or its magazines
     if( is_magazine() || uses_magazine() ) {
-        qty -= contents.ammo_consume( qty, here, pos );
+        qty -= contents.ammo_consume( qty, &here, pos );
         if( ammo_capacity( ammo_battery ) == 0 && carrier != nullptr ) {
             carrier->invalidate_weight_carried_cache();
         }
@@ -11732,8 +11744,6 @@ itype_id item::ammo_current() const
 
 const item &item::loaded_ammo() const
 {
-    map &here = get_map();
-
     const item *mag = magazine_current();
     if( mag ) {
         return mag->loaded_ammo();
@@ -11751,7 +11761,7 @@ const item &item::loaded_ammo() const
         }
     }
 
-    if( is_gun() && ammo_remaining( here ) != 0 ) {
+    if( is_gun() && ammo_remaining( ) != 0 ) {
         return contents.first_ammo();
     }
     return null_item_reference();
@@ -11996,8 +12006,6 @@ item *item::gunmod_find_by_flag( const flag_id &flag )
 
 ret_val<void> item::is_gunmod_compatible( const item &mod ) const
 {
-    map &here = get_map();
-
     if( !mod.is_gunmod() ) {
         debugmsg( "Tried checking compatibility of non-gunmod" );
         return ret_val<void>::make_failure();
@@ -12045,7 +12053,7 @@ ret_val<void> item::is_gunmod_compatible( const item &mod ) const
                  mod.type->gunmod->location.name() == "mechanism" ||
                  mod.type->gunmod->location.name() == "loading port" ||
                  mod.type->gunmod->location.name() == "bore" ) &&
-               ( ammo_remaining( here ) > 0 || magazine_current() ) ) {
+               ( ammo_remaining( ) > 0 || magazine_current() ) ) {
         return ret_val<void>::make_failure( _( "must be unloaded before installing this mod" ) );
 
     } else if( gunmod_find( itype_stock_none ) &&
@@ -12274,8 +12282,6 @@ int item::reload_option::moves() const
 
 void item::reload_option::qty( int val )
 {
-    map &here = get_map();
-
     bool ammo_in_container = ammo->is_ammo_container();
     bool ammo_in_liquid_container = ammo->is_watertight_container();
     item &ammo_obj = ( ammo_in_container || ammo_in_liquid_container ) ?
@@ -12307,7 +12313,7 @@ void item::reload_option::qty( int val )
     bool ammo_by_charges = ammo_obj.is_ammo() || ammo_in_liquid_container;
     int available_ammo;
     if( ammo->has_flag( flag_SPEEDLOADER ) || ammo->has_flag( flag_SPEEDLOADER_CLIP ) ) {
-        available_ammo = ammo_obj.ammo_remaining( here );
+        available_ammo = ammo_obj.ammo_remaining( );
     } else {
         available_ammo = ammo_by_charges ? ammo_obj.charges : ammo_obj.count();
     }
@@ -12342,8 +12348,6 @@ void item::casings_handle( const std::function<bool( item & )> &func )
 
 bool item::reload( Character &u, item_location ammo, int qty )
 {
-    map &here = get_map();
-
     if( qty <= 0 ) {
         debugmsg( "Tried to reload zero or less charges" );
         return false;
@@ -12369,7 +12373,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
     if( is_watertight_container() && ammo->made_of_from_type( phase_id::LIQUID ) ) {
         limit = get_remaining_capacity_for_liquid( *ammo );
     } else if( ammo->is_ammo() ) {
-        limit = ammo_capacity( ammo->ammo_type() ) - ammo_remaining( here );
+        limit = ammo_capacity( ammo->ammo_type() ) - ammo_remaining( );
     }
 
     if( ammo->ammo_type() == ammo_plutonium ) {
@@ -12618,6 +12622,8 @@ bool item::getlight( float &luminance, units::angle &width, units::angle &direct
 
 int item::getlight_emit() const
 {
+    const map &here = get_map();
+
     float lumint = type->light_emission;
 
     if( lumint == 0 ) {
@@ -12628,7 +12634,7 @@ int item::getlight_emit() const
         has_flag( flag_USES_BIONIC_POWER ) ) {
         return lumint;
     }
-    if( ammo_remaining( true ) == 0 ) {
+    if( ammo_remaining_linked( here ) == 0 ) {
         return 0;
     }
     if( has_flag( flag_CHARGEDIM ) && is_tool() && !has_flag( flag_USE_UPS ) ) {
@@ -12647,8 +12653,8 @@ int item::getlight_emit() const
         // Falloff starts at 1/5 total charge and scales linearly from there to 0.
         const ammotype &loaded_ammo = ammo_data()->ammo->type;
         if( ammo_capacity( loaded_ammo ) &&
-            ammo_remaining( true ) < ( ammo_capacity( loaded_ammo ) / 5 ) ) {
-            lumint *= ammo_remaining( true ) * 5.0 / ammo_capacity( loaded_ammo );
+            ammo_remaining_linked( here ) < ( ammo_capacity( loaded_ammo ) / 5 ) ) {
+            lumint *= ammo_remaining_linked( here ) * 5.0 / ammo_capacity( loaded_ammo );
         }
     }
     return lumint;
@@ -14528,8 +14534,8 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
     }
 
     const bool power_in = link().charge_rate > 0;
-    if( power_in ? ammo_remaining( here ) >= ammo_capacity( ammo_battery ) :
-        ammo_remaining( here ) <= 0 ) {
+    if( power_in ? ammo_remaining( ) >= ammo_capacity( ammo_battery ) :
+        ammo_remaining( ) <= 0 ) {
         return 0;
     }
 
@@ -14550,19 +14556,19 @@ int item::charge_linked_batteries( vehicle &linked_veh, int turns_elapsed )
         const int battery_deficit = linked_veh.discharge_battery( here, transfer_total, true );
         // Around 85% efficient by default; a few of the discharges don't actually recharge
         if( battery_deficit == 0 && ( !short_time_passed || rng_float( 0.0, 1.0 ) <= link().efficiency ) ) {
-            ammo_set( itype_battery, ammo_remaining( here ) + transfer_total );
+            ammo_set( itype_battery, ammo_remaining( ) + transfer_total );
         }
     } else {
         // Around 85% efficient by default; a few of the discharges don't actually charge
         if( !short_time_passed || rng_float( 0.0, 1.0 ) <= link().efficiency ) {
             const int battery_surplus = linked_veh.charge_battery( here, transfer_total, true );
             if( battery_surplus == 0 ) {
-                ammo_set( itype_battery, ammo_remaining( here ) - transfer_total );
+                ammo_set( itype_battery, ammo_remaining( ) - transfer_total );
             }
         } else {
             const std::pair<int, int> linked_levels = linked_veh.connected_battery_power_level( here );
             if( linked_levels.first < linked_levels.second ) {
-                ammo_set( itype_battery, ammo_remaining( here ) - transfer_total );
+                ammo_set( itype_battery, ammo_remaining( ) - transfer_total );
             }
         }
     }
@@ -14690,7 +14696,7 @@ bool item::process_tool( Character *carrier, const tripoint_bub_ms &pos )
     // if insufficient available charges shutdown the tool
     if( ( type->tool->power_draw > 0_W || type->tool->turns_per_charge > 0 ) &&
         ( ( uses_energy() && energy_remaining( carrier ) < energy_per_second() ) ||
-          ( !uses_energy() && ammo_remaining( here, carrier, true ) == 0 ) ) ) {
+          ( !uses_energy() && ammo_remaining_linked( here, carrier ) == 0 ) ) ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }
@@ -15470,7 +15476,7 @@ bool item::on_drop( const tripoint_bub_ms &pos, map &m )
 
     avatar &player_character = get_avatar();
 
-    return type->drop_action && type->drop_action.call( &player_character, *this, pos );
+    return type->drop_action && type->drop_action.call( &player_character, *this, &m, pos );
 }
 
 time_duration item::age() const
@@ -16028,4 +16034,12 @@ void disp_mod_by_barrel::deserialize( const JsonObject &jo )
 {
     mandatory( jo, false, "barrel_length", barrel_length );
     mandatory( jo, false, "dispersion", dispersion_modifier );
+}
+
+void rot_spawn_data::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "monster", rot_spawn_monster, mtype_id::NULL_ID() );
+    optional( jo, false, "group", rot_spawn_group, mongroup_id::NULL_ID() );
+    optional( jo, false, "chance", rot_spawn_chance );
+    optional( jo, false, "amount", rot_spawn_monster_amount, {1, 1} );
 }

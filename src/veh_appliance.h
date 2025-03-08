@@ -2,12 +2,24 @@
 #ifndef CATA_SRC_VEH_APPLIANCE_H
 #define CATA_SRC_VEH_APPLIANCE_H
 
-#include "coordinates.h"
-#include "input_context.h"
-#include "player_activity.h"
+#include <functional>
+#include <optional>
+#include <vector>
 
-class vehicle;
+#include "coordinates.h"
+#include "cursesdef.h"
+#include "input_context.h"
+#include "item.h"
+#include "memory_fast.h"
+#include "player_activity.h"
+#include "point.h"
+#include "type_id.h"
+#include "uilist.h"
+
+class Character;
+class map;
 class ui_adaptor;
+class vehicle;
 
 vpart_id vpart_appliance_from_item( const itype_id &item_id );
 bool place_appliance( map &here, const tripoint_bub_ms &p, const vpart_id &vpart,
@@ -91,7 +103,7 @@ class veh_app_interact
          * Checks whether the current appliance can be refilled (excludes batteries).
          * @returns True if the appliance contains a part that can be refilled.
         */
-        bool can_refill( const map &here );
+        bool can_refill( );
         /**
          * Checks whether the player can siphon liquids from the appliance.
          * Requires an item with HOSE quality and a part containing liquid.
@@ -104,7 +116,7 @@ class veh_app_interact
          * parts are eligible, the player is prompted to select one. A refill activity
          * is created and assigned to 'act' to be assigned to the player once run returns.
         */
-        void refill( const map &here );
+        void refill( );
         /**
          * Function associated with the "SIPHON" action.
          * Checks all appliance parts for a liquid containing part that can be siphoned.

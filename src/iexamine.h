@@ -113,6 +113,8 @@ void part_con( Character &you, const tripoint_bub_ms &examp );
 void water_source( Character &, const tripoint_bub_ms &examp );
 void finite_water_source( Character &, const tripoint_bub_ms &examp );
 void kiln_empty( Character &you, const tripoint_bub_ms &examp );
+bool kiln_prep( Character &you, const tripoint_bub_ms &examp );
+bool kiln_fire( Character &you, const tripoint_bub_ms &examp );
 void kiln_full( Character &you, const tripoint_bub_ms &examp );
 void stook_empty( Character &, const tripoint_bub_ms &examp );
 void stook_full( Character &, const tripoint_bub_ms &examp );
@@ -139,6 +141,8 @@ void on_smoke_out( const tripoint_bub_ms &examp,
 void mill_finalize( Character &, const tripoint_bub_ms &examp );
 void quern_examine( Character &you, const tripoint_bub_ms &examp );
 void smoker_options( Character &you, const tripoint_bub_ms &examp );
+bool smoker_prep( Character &you, const tripoint_bub_ms &examp );
+bool smoker_fire( Character &you, const tripoint_bub_ms &examp );
 void open_safe( Character &you, const tripoint_bub_ms &examp );
 void workbench( Character &you, const tripoint_bub_ms &examp );
 void workbench_internal( Character &you, const tripoint_bub_ms &examp,

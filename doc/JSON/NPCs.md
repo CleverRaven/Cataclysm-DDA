@@ -1015,7 +1015,7 @@ Condition | Type | Description
 --- | --- | ---
 `"is_season"` | string or [variable object](#variable-object) | `true` if the current season matches `is_season`, which must be one of "`spring"`, `"summer"`, `"autumn"`, or `"winter"`.
 `"is_day"` | simple string | `true` if it is currently daytime (sun is at or above the [civil dawn](https://en.wikipedia.org/wiki/Dawn#Civil_dawn) point)
-`"u_is_outside"`<br/>`"npc_is_outside"`  | simple string | `true` if you or the NPC is on a tile without a roof.
+`"u_is_outside"`<br/>`"npc_is_outside"`<br/>`"is_outside"`  | simple string or object | `true` if you or the NPC is on a tile without a roof. if `is_outside`, you can pass a variable with coordinates to check if this tile is outside, like `{ "is_outside": { "context_val": "loc" } }`
 `"u_is_underwater"`<br/>`"npc_is_underwater"`  | simple string | `true` if you or the NPC is underwater.
 `"one_in_chance"` | int or [variable object](#variable-object) | `true` if a one in `one_in_chance` random chance occurs.
 `"x_in_y_chance"` | object | `true` if a `x` in `y` random chance occurs. `x` and `y` are either ints  or [variable object](#variable-object).
@@ -1424,7 +1424,7 @@ These can be read or written to with `val()`.
 | `morale` | ✅* | The current morale. Assigment only works for monsters. |
 | `owed` | ✅ | Amount of money the Character owes the avatar. |
 | `pkill` | ✅ | Current painkiller level. |
-| `pos_x`<br/>`pos_y`<br/>`pos_z` | ✅ | Coordinate in the reality bubble |
+| `pos_x`<br/>`pos_y`<br/>`pos_z` | ✅ | Absolute coordinate of the character |
 | `power` | ✅ | Bionic or item power. Bionic power is returned in millijoules. Item power is returned in battery charges. |
 | `power_percentage` | ✅ | Percentage of max bionic or item power. |
 | `power_max` | ❌ | Max bionic or item power. Bionic power is returned in millijoules. Item power is returned in battery charges. |
@@ -1441,6 +1441,11 @@ These can be read or written to with `val()`.
 | `volume` | ❌ | Current volume in mL. Only works for monsters |
 | `weight` | ❌ | Current weight in mg. |
 | `count`  | ❌ | Count of an item. |
+| `vehicle_facing`  | ❌ | Angle that the vehicle is facing. Only works for vehicles. 0 is North |
+| `current_speed`  | ❌ | Vehicle's current speed. Only works for vehicles. |
+| `unloaded_weight`  | ❌ | How much the vehicle would weigh without passengers or cargo. Only works for vehicles. |
+| `friendly_passenger_count`  | ❌ | How many people plus monsters are onboard that are not hostile. Only works for vehicles. |
+| `hostile_passenger_count`  | ❌ | How many people plus monsters are onboard that are not friendly. Only works for vehicles. |
 
 
 #### Math functions defined in JSON

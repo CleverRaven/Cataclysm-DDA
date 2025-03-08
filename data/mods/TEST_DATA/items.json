@@ -107,7 +107,7 @@
     "color": "light_red",
     "sided": true,
     "warmth": 0,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "SKINTIGHT" ],
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "SKINTIGHT" ],
     "max_worn": 1,
     "name": { "str": "ring of strength +1", "str_pl": "rings of strength +1" },
     "description": "A copper ring that makes you a little stronger when you wear it.",
@@ -1666,7 +1666,7 @@
     "name": { "str_sp": "TEST pine nuts" },
     "weight": "30 g",
     "color": "brown",
-    "spoils_in": 1080,
+    "spoils_in": "45 days",
     "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -2084,7 +2084,7 @@
       }
     ],
     "material_thickness": 2,
-    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
     "melee_damage": { "bash": 5 }
   },
@@ -3345,7 +3345,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take the %s.",
-      "vitamins": [ [ "calcium", 100, 100 ], [ "iron", 100, 100 ], [ "vitC", 100, 100 ] ]
+      "vitamins": [ [ "calcium", 100 ], [ "iron", 100 ], [ "vitC", 100 ] ]
     }
   },
   {
@@ -5032,7 +5032,6 @@
     "name": { "str": "TEST 500kcal" },
     "description": "This one's 500kcal, and some vitamins.",
     "price": "0 cent",
-    "spoils_in": 0,
     "calories": 500,
     "material": [ "stone" ],
     "weight": "100 g",

@@ -10,14 +10,15 @@
 #include <set>
 #include <tuple>
 
-#include "avatar.h"
 #include "bodypart.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "damage.h"
 #include "debug.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "explosion.h"
 #include "field.h"
@@ -26,6 +27,7 @@
 #include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "material.h"
 #include "messages.h"
@@ -210,7 +212,7 @@ void vehicle::smart_controller_handle_turn( map &here,
 
     int cur_battery_level;
     int max_battery_level;
-    std::tie( cur_battery_level, max_battery_level ) = battery_power_level( here );
+    std::tie( cur_battery_level, max_battery_level ) = battery_power_level( );
     int battery_level_percent = max_battery_level == 0 ? 0 : cur_battery_level * 100 /
                                 max_battery_level;
 
@@ -1182,7 +1184,7 @@ veh_collision vehicle::part_collision( map &here, int part, const tripoint_abs_m
             }
 
             if( vpi.has_flag( "SHARP" ) ) {
-                critter->bleed();
+                critter->bleed( here );
             } else {
                 sounds::sound( pos, 20, sounds::sound_t::combat, snd, false, "smash_success", "hit_vehicle" );
             }
@@ -1249,7 +1251,7 @@ void vehicle::handle_trap( map *here, const tripoint_bub_ms &p, vehicle_part &vp
 
     Character &player_character = get_player_character();
     const Character *driver = get_driver( *here );
-    const bool seen = player_character.sees( p );
+    const bool seen = player_character.sees( *here, p );
     const bool known = tr.can_see( p, player_character );
     const bool damage_done = vp_wheel.info().durability <= veh_data.damage;
     if( seen && damage_done ) {
@@ -2208,10 +2210,11 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             continue;
         }
 
+        const tripoint_bub_ms rider_pos = rider->pos_bub( here );
         const tripoint_bub_ms part_pos = veh.bub_part_pos( here, ps );
         if( rider->pos_bub() != part_pos ) {
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
-                      rider->posx(), rider->posy(), rider->posz(),
+                      rider_pos.x(), rider_pos.y(), rider_pos.z(),
                       part_pos.x(), part_pos.y(), part_pos.z() );
             veh.part( ps ).remove_flag( vp_flag::passenger_flag );
             continue;

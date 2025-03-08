@@ -727,7 +727,7 @@
         "c": [ { "item": "SUS_breakfast_cupboard", "chance": 10 }, { "item": "SUS_coffee_cupboard", "chance": 10 } ]
       },
       "toilets": { "t": {  } },
-      "place_vehicles": [ { "vehicle": "farm_vehicles", "x": 13, "y": 41, "chance": 100, "rotation": 180 } ]
+      "place_vehicles": [ { "vehicle": "farm_vehicles", "x": 13, "y": 41, "rotation": 180 } ]
     },
     "om_terrain": [ [ "ranch_camp_58", "ranch_camp_59", "ranch_camp_60" ], [ "ranch_camp_67", "ranch_camp_68", "ranch_camp_69" ] ],
     "type": "mapgen"
@@ -1073,7 +1073,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "standard_domestic_basement_palette" ],
       "terrain": { "ƃ": "t_ramp_up_high", ".": "t_dirtfloor", "|": "t_brick_wall" },
       "furniture": {
         "a": "f_rack_wood",

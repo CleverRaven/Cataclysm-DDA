@@ -72,7 +72,7 @@
 #include "talker.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
@@ -506,7 +506,7 @@ bool Character::check_eligible_containers_for_crafting( const recipe &rec, int b
 
         // also check if we're currently in a vehicle that has the necessary storage
         if( charges_to_store > 0 ) {
-            if( optional_vpart_position vp = here.veh_at( pos_bub( &here ) ) ) {
+            if( optional_vpart_position vp = here.veh_at( pos_bub( here ) ) ) {
                 const itype_id &ftype = prod.typeId();
                 int fuel_cap = vp->vehicle().fuel_capacity( here, ftype );
                 int fuel_amnt = vp->vehicle().fuel_left( here, ftype );
@@ -647,7 +647,7 @@ const inventory &Character::crafting_inventory( map *here, const tripoint_bub_ms
 {
     tripoint_bub_ms inv_pos = src_pos;
     if( src_pos == tripoint_bub_ms::zero ) {
-        inv_pos = pos_bub( here );
+        inv_pos = pos_bub( *here );
     }
     if( crafting_cache.valid
         && moves == crafting_cache.moves
@@ -2157,7 +2157,7 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
             it.spill_contents( *this );
         }
         // todo: make a proper solution that overflows with the proper item_location
-        it.overflow( pos_bub() );
+        it.overflow( m, pos_bub( m ) );
     }
     empty_buckets( *this );
     return ret;
@@ -2809,7 +2809,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
     // Get the proper recipe - the one for disassembly, not assembly
     const requirement_data dis_requirements = dis.disassembly_requirements();
-    const tripoint_bub_ms loc = target.pos_bub();
+    const tripoint_bub_ms loc = target.pos_bub( here );
 
     // Get the item to disassemble, and make a copy to keep its data (damage/components)
     // after the original has been removed.

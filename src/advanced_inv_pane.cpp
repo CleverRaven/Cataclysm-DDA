@@ -3,7 +3,6 @@
 #include <cstddef>
 #include <iterator>
 #include <list>
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -13,6 +12,7 @@
 #include "cata_assert.h"
 #include "character.h"
 #include "character_attire.h"
+#include "enums.h"
 #include "flag.h"
 #include "item.h"
 #include "item_search.h"
@@ -475,7 +475,7 @@ units::mass advanced_inventory_pane::free_weight_capacity() const
     } else if( area == AIM_INVENTORY || area == AIM_WORN ) {
         return get_player_character().free_weight_capacity();
     } else {
-        return units::mass_max;
+        return units::mass::max();
     }
 }
 

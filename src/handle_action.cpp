@@ -87,7 +87,7 @@
 #include "timed_event.h"
 #include "translation.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
@@ -236,6 +236,10 @@ class user_turn
 
 input_context game::get_player_input( std::string &action )
 {
+    const map &here = get_map();
+
+    const tripoint_bub_ms pos = u.pos_bub( here );
+
     input_context ctxt;
     if( uquit == QUIT_WATCH ) {
         ctxt = input_context( "DEFAULTMODE", keyboard_mode::keycode );
@@ -264,9 +268,9 @@ input_context game::get_player_input( std::string &action )
         ctxt = get_default_mode_input_context();
     }
 
-    m.update_visibility_cache( u.posz() );
+    m.update_visibility_cache( pos.z() );
     const visibility_variables &cache = m.get_visibility_variables_cache();
-    const level_cache &map_cache = m.get_cache_ref( u.posz() );
+    const level_cache &map_cache = m.get_cache_ref( pos.z() );
     const auto &visibility_cache = map_cache.visibility_cache;
 #if defined(TILES)
     // Mark cata_tiles draw caches as dirty
@@ -296,8 +300,8 @@ input_context game::get_player_input( std::string &action )
 
         //x% of the Viewport, only shown on visible areas
         const weather_animation_t weather_info = weather.weather_id->weather_animation;
-        point offset( u.view_offset.xy().raw() + point( -getmaxx( w_terrain ) / 2 + u.posx(),
-                      -getmaxy( w_terrain ) / 2 + u.posy() ) );
+        point offset( u.view_offset.xy().raw() + point( -getmaxx( w_terrain ) / 2 + pos.x(),
+                      -getmaxy( w_terrain ) / 2 + pos.y() ) );
 
 #if defined(TILES)
         if( g->is_tileset_isometric() ) {
@@ -349,7 +353,7 @@ input_context game::get_player_input( std::string &action )
                     const point iRand( rng( iStart.x, iEnd.x - 1 ), rng( iStart.y, iEnd.y - 1 ) );
                     const point map( iRand + offset );
 
-                    const tripoint_bub_ms mapp( map.x, map.y, u.posz() );
+                    const tripoint_bub_ms mapp( map.x, map.y, pos.z() );
 
                     if( m.inbounds( mapp ) && m.is_outside( mapp ) &&
                         m.get_visibility( visibility_cache[mapp.x()][mapp.y()], cache ) ==
@@ -371,10 +375,10 @@ input_context game::get_player_input( std::string &action )
                     const direction oCurDir = iter->getDirection();
                     const int width = utf8_width( iter->getText() );
                     for( int i = 0; i < width; ++i ) {
-                        tripoint_bub_ms tmp( iter->getPosX() + i, iter->getPosY(), get_map().get_abs_sub().z() );
+                        tripoint_bub_ms tmp( iter->getPosX() + i, iter->getPosY(), here.get_abs_sub().z() );
                         const Creature *critter = creatures.creature_at( tmp, true );
 
-                        if( critter != nullptr && u.sees( *critter ) ) {
+                        if( critter != nullptr && u.sees( here, *critter ) ) {
                             i = -1;
                             int iPos = iter->getStep() + iter->getStepOffset();
                             for( auto iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2 ) {
@@ -574,8 +578,10 @@ static void pldrive( point_rel_ms d )
 
 static void open()
 {
+    map &here = get_map();
+
     avatar &player_character = get_avatar();
-    const std::optional<tripoint_bub_ms> openp_ = choose_adjacent_highlight( _( "Open where?" ),
+    const std::optional<tripoint_bub_ms> openp_ = choose_adjacent_highlight( here, _( "Open where?" ),
             pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
             ACTION_OPEN, false );
 
@@ -583,7 +589,6 @@ static void open()
         return;
     }
     const tripoint_bub_ms openp = *openp_;
-    map &here = get_map();
 
     player_character.mod_moves( -to_moves<int>( 1_seconds ) );
 
@@ -660,8 +665,10 @@ static void open()
 
 static void close()
 {
+    map &here = get_map();
+
     if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_highlight(
-                _( "Close where?" ),
+                here, _( "Close where?" ),
                 pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
                 ACTION_CLOSE, false ) ) {
         doors::close_door( get_map(), get_player_character(), *pnt );
@@ -903,12 +910,6 @@ static void haul_toggle()
     get_avatar().toggle_hauling();
 }
 
-static bool is_smashable_corpse( const item &maybe_corpse )
-{
-    return maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
-           maybe_corpse.can_revive();
-}
-
 static void smash()
 {
     const bool allow_floor_bash = debug_mode; // Should later become "true"
@@ -923,7 +924,7 @@ static void smash()
     // terrain smashing unless it's actually possible.
     bool smashable_corpse_at_target = false;
     for( const item &maybe_corpse : get_map().i_at( smashp ) ) {
-        if( is_smashable_corpse( maybe_corpse ) ) {
+        if( maybe_corpse.can_revive() ) {
             smashable_corpse_at_target = true;
             break;
         }
@@ -1022,19 +1023,13 @@ avatar::smash_result avatar::smash( tripoint_bub_ms &smashp )
 
     bool should_pulp = false;
     for( const item &maybe_corpse : here.i_at( smashp ) ) {
-        if( is_smashable_corpse( maybe_corpse ) ) {
-            if( maybe_corpse.get_mtype()->bloodType()->has_acid &&
-                !is_immune_field( fd_acid ) ) {
-                if( !query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
-                    return ret; // Player doesn't want an acid bath
-                }
-            }
+        if( maybe_corpse.can_revive() ) {
             should_pulp = true; // There is at least one corpse to pulp
         }
     }
 
     if( should_pulp ) {
-        assign_activity( pulp_activity_actor( here.get_abs( smashp ), true ) );
+        assign_activity( pulp_activity_actor( here.get_abs( smashp ) ) );
         return ret; // don't smash terrain if we've smashed a corpse
     }
 
@@ -1723,12 +1718,17 @@ static void read()
     }
 }
 
-// Perform a reach attach using wielded weapon
+// Perform a reach attack
 static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
 
-    target_handler::trajectory traj = target_handler::mode_reach( you, you.get_wielded_item() );
+    target_handler::trajectory traj;
+    if( you.get_wielded_item() ) {
+        traj = target_handler::mode_reach( you, you.get_wielded_item() );
+    } else {
+        traj = target_handler::mode_unarmed_reach( you );
+    }
 
     if( !traj.empty() ) {
         you.reach_attack( traj.back() );
@@ -1754,6 +1754,12 @@ static void fire()
     const item_location weapon = you.get_wielded_item();
     // try reach weapon
     if( weapon && !weapon->is_gun() && weapon->current_reach_range( you ) > 1 ) {
+        reach_attack( you );
+        return;
+    }
+    if( !weapon &&
+        static_cast<int>( you.calculate_by_enchantment( 1,
+                          enchant_vals::mod::MELEE_RANGE_MODIFIER ) ) > 1 ) {
         reach_attack( you );
         return;
     }
@@ -2588,9 +2594,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             read();
             break;
 
-        case ACTION_WIELD:
-            wield();
+        case ACTION_WIELD: {
+            item_location loc = game_menus::inv::wield();
+            if( loc ) {
+                player_character.wield( loc );
+            }
             break;
+        }
 
         case ACTION_PICK_STYLE:
             player_character.martial_arts_data->pick_style( player_character );
@@ -3098,6 +3108,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
 bool game::handle_action()
 {
+    map &here = get_map();
+
     std::string action;
     input_context ctxt;
     action_id act = ACTION_NULL;
@@ -3177,7 +3189,7 @@ bool game::handle_action()
             // No auto-move actions have or can be set at this point.
             player_character.clear_destination();
             destination_preview.clear();
-            act = handle_action_menu();
+            act = handle_action_menu( here );
             if( act == ACTION_NULL ) {
                 return false;
             }
@@ -3224,7 +3236,7 @@ bool game::handle_action()
             if( !mouse_pos ) {
                 return false;
             }
-            if( !player_character.sees( *mouse_pos ) ) {
+            if( !player_character.sees( here, *mouse_pos ) ) {
                 // Not clicked in visible terrain
                 return false;
             }

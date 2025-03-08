@@ -21,7 +21,7 @@
 #include "point.h"
 #include "ret_val.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "veh_type.h"
@@ -53,7 +53,7 @@ player_activity veh_shape::start( const tripoint_bub_ms &pos )
     const auto target_ui_cb = make_shared_fast<game::draw_callback_t>(
     [&]() {
         const avatar &you = get_avatar();
-        g->draw_cursor_unobscuring( you.pos_bub( &here ) + you.view_offset );
+        g->draw_cursor_unobscuring( you.pos_bub( here ) + you.view_offset );
     } );
     g->add_draw_callback( target_ui_cb );
     ui_adaptor ui;

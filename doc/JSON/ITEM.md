@@ -183,7 +183,7 @@ See [GAME_BALANCE.md](/doc/design-balance-lore/GAME_BALANCE.md#to-hit-value)
     "damage_type": "bullet",  // Type of the damage that would be dealt
     "amount": 39,             // Amount of damage to be dealt
     "armor_penetration": 2,   // Flat armor penetration
-    "barrels": [              // Replaces the `amount` when weapon has barrel lenghth defined, allow to change the damage of the single round depending on the barrel length.
+    "barrels": [              // Replaces the `amount` when weapon has barrel length defined, allow to change the damage of the single round depending on the barrel length.
       { "barrel_length": "28 mm", "amount": 13 },  // If weapon has barrel lengh this or less, this amount of the damage would be applied
       { "barrel_length": "30 mm", "amount": 14 },
       { "barrel_length": "35 mm", "amount": 15 },
@@ -694,7 +694,6 @@ CBMs can be defined like this:
                             // Comestibles with any material of junk food (id: "junk") default to 0. All other comestibles default to 2 when unspecified.
                             // Can't drop fun below 0, unless the comestible also has the "NEGATIVE_MONOTONY_OK" flag.
 "calories" : 0,             // Hunger satisfied (in kcal)
-"nutrition" : 0,            // Hunger satisfied (OBSOLETE)
 "tool" : "apparatus",       // Tool required to be eaten/drank
 "charges" : 4,              // Number of uses when spawned
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
@@ -708,7 +707,7 @@ CBMs can be defined like this:
   { "type": "flesh", "portion": 3 }, // See Generic Item attributes for type and portion details
   { "type": "wheat", "portion": 5 }
 ],
-"primary_material": "meat",       // What the primary material ID is. Materials determine specific heat.
+"primary_material": "meat",       // Overwrites generic item "material" field. Materials determine specific heat.
 "rot_spawn": {                    // Defines what creature would be spawned when this item rots away. Primarily used for eggs
   "group": "GROUP_EGG_CHICKEN",   // id of monster group that would be spawned. Cannot be used with "monster"
   "monster": "mon_moose_calf",    // id of a monster that would be spawned. Cannot be used with "group"
@@ -831,7 +830,7 @@ Guns can be defined like this:
                            // additional some gun specific entries:
 "skill": "pistol",         // Skill used for firing
 "ammo": [ "357", "38" ],   // Ammo types accepted for reloading
-"ranged_damage": 0,        // Ranged damage when fired
+"ranged_damage": 0,        // Ranged damage when fired (see #ammo)
 "range": 0,                // Range when fired
 "dispersion": 32,          // Inaccuracy of gun, measured in 100ths of Minutes Of Angle (MOA)
 // When sight_dispersion and aim_speed are present in a gun mod, the aiming system picks the "best"
@@ -983,7 +982,6 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "charges_per_use": 1,      // Charges consumed per tool use
 "initial_charges": 75,     // Charges when spawned
 "max_charges": 75,         // Maximum charges tool can hold
-"rand_charges": [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25). (The endpoints are included.)
 "power_draw": "50 mW",          // Energy consumption per second
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "revert_msg": "The torch fades out.", // Message, that would be printed, when revert_to is used

@@ -1219,16 +1219,6 @@
   },
   {
     "type": "mutation",
-    "id": "STYLISH",
-    "name": { "str": "Stylish" },
-    "points": 2,
-    "description": "Practicality is far less important than style.  Your morale is improved by wearing fashionable and attractive clothing.",
-    "starting_trait": true,
-    "random_at_chargen": false,
-    "valid": false
-  },
-  {
-    "type": "mutation",
     "id": "LIGHTSTEP",
     "name": { "str": "Light Step" },
     "points": 1,
@@ -1330,7 +1320,6 @@
     "points": 2,
     "description": "You derive enjoyment from killing things.  Putting end to life seem to spark some dark satisfaction and thrill, and you crave it every moment.",
     "starting_trait": true,
-    "random_at_chargen": false,
     "valid": false,
     "social_modifiers": { "intimidate": 10 },
     "types": [ "HUMAN_EMPATHY" ],

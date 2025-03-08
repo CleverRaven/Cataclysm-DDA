@@ -6,44 +6,46 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "11111111111qq11111111111",
-        "19..Gssssssss.9.9.9.9.9.",
-        "1...sssCMMMMMMMCMM..9.9.",
-        "19.s#*o#o#o#o#o#o##.....",
-        "1..s#,,{    }     #.9.9.",
-        "19.s#,,           #.....",
-        "1..s#             o.9.9.",
-        "19.s#             o.....",
-        "1..s#             #.9.9.",
-        "1..s#<>           #.....",
-        "1..s####||+|      #.9.9.",
-        "1..s..^#t,,|8,,6,,o...ss",
-        "1..s...#88j|7,,,,,*sssss",
-        "1.9s9..#o###l,,,,6#s....",
-        "1..ssssssss#6c65i6#s9...",
-        "1.9.9.9.9.s###oo###s....",
-        "1.]......9ssssssssss9...",
-        "1.......9.s909.9[.......",
-        "1........9s0009.........",
-        "1...9...9.s000.9...9....",
-        "1........9s0009.........",
-        "1.......9..909..........",
-        "1........9..9..9........",
-        "111111111111111111111111"
+        "£££££££££££çç£££££££££££",
+        "£µ..p````````.µ.µ.µ.µ.µ.",
+        "£...```ù%%%%%%%ù%%..µ.µ.",
+        "£µ.`#*o#o#o#o#o#o##.....",
+        "£..`#,,{    }     #.µ.µ.",
+        "£µ.`#,,           #.....",
+        "£..`#             o.µ.µ.",
+        "£µ.`#             o.....",
+        "£..`#             #.µ.µ.",
+        "£..`#<>           #.....",
+        "£..`####||+|      #.µ.µ.",
+        "£..`..^#t,,|7,,1,,o...``",
+        "£..`...#88S|7,,,,,*`````",
+        "£.µ`µ..#o###F,,,,1#`....",
+        "£..````````#2,35O4#`µ...",
+        "£.µ.µ.µ.µ.`###oo###`....",
+        "£.]......µ``````````µ...",
+        "£.......µ.`µ0µ.µ[.......",
+        "£........µ`000µ.........",
+        "£...µ...µ.`000.µ...µ....",
+        "£........µ`000µ.........",
+        "£.......µ..µ0µ..........",
+        "£........µ..µ..µ........",
+        "££££££££££££££££££££££££"
       ],
-      "palettes": [ "parametrized_linoleum_palette", "house_w_foundation_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette", "parametrized_linoleum_palette", "standard_domestic_landscaping_palette" ],
       "terrain": {
         ".": "t_region_groundcover_urban",
+        ",": "t_linoleum_white",
         "[": "t_region_groundcover_urban",
         "]": "t_region_groundcover_urban",
         "!": "t_fence",
+        "ù": "t_column",
         "@": "t_fencegate_c",
-        "1": "t_quietfarm_border_fence",
+        "£": "t_quietfarm_border_fence",
         "5": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "6": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "7": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "8": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
-        "9": [
+        "µ": [
           [ "t_region_groundcover_urban", 60 ],
           "t_region_tree_shade",
           [ "t_region_tree_fruit", 2 ],
@@ -55,19 +57,7 @@
         "j": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "l": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
-        "q": "t_quietfarm_border_fence_closed"
-      },
-      "furniture": { "c": "f_cupboard", "5": "f_sink", "6": "f_cupboard", "7": "f_cupboard", "8": "f_counter" },
-      "items": {
-        "5": { "item": "SUS_kitchen_sink", "chance": 100 },
-        "6": { "item": "SUS_pantry", "chance": 60 },
-        "7": [ { "item": "SUS_breakfast_cupboard", "chance": 80 }, { "item": "SUS_coffee_cupboard", "chance": 70 } ],
-        "8": [
-          { "item": "SUS_hair_drawer", "chance": 50 },
-          { "item": "SUS_bathroom_cabinet", "chance": 50 },
-          { "item": "softdrugs", "chance": 20, "repeat": [ 1, 2 ] },
-          { "item": "harddrugs", "chance": 2 }
-        ]
+        "ç": "t_quietfarm_border_fence_closed"
       },
       "nested": {
         "{": { "chunks": [ "livingroom_5x5_W_1" ] },
@@ -94,12 +84,12 @@
         "----#|||||__||||||#-----",
         "----#_______+[    #-----",
         "----#>R|||+||     o-----",
-        "----####TT 8|     o-----",
-        "------^#   j|     #-----",
-        "-------sw t8#u#oo##-----",
-        "-------##o###~~~~~s-----",
-        "-----------s~~~~~~s-----",
-        "-----------CssssssC-----",
+        "----####BB 8|     o-----",
+        "------^#   S|     #-----",
+        "-------£w t8#¶#oo##-----",
+        "-------##o###~~~~~£-----",
+        "-----------£~~~~~~£-----",
+        "-----------££££££££-----",
         "------------------------",
         "------------------------",
         "------------------------",
@@ -109,11 +99,15 @@
         "------------------------",
         "------------------------"
       ],
-      "palettes": [ "house_w_foundation_palette" ],
-      "terrain": { "_": "t_floor", "H": "t_floor", "s": "t_screened_porch_wall", "R": "t_floor", "u": "t_door_glass_c" },
-      "furniture": { "8": "f_counter" },
-      "items": {
-        "8": [ { "item": "shower", "chance": 10 }, { "item": "cleaning", "chance": 3 }, { "item": "softdrugs", "chance": 5 } ]
+      "palettes": [ "domestic_general_and_variant_palette" ],
+      "terrain": {
+        "-": "t_open_air",
+        "~": "t_thconc_floor",
+        ",": "t_linoleum_white",
+        "_": "t_floor",
+        "H": "t_floor",
+        "£": "t_screened_porch_wall",
+        "R": "t_floor"
       },
       "nested": {
         "{": { "chunks": [ "bedroom_4x4_adult_2_S" ] },
@@ -244,18 +238,12 @@
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "LEEL",
-        " EE ",
+        "¤@@¤",
+        " @@ ",
         "y   ",
-        "O   "
+        "D   "
       ],
-      "palettes": [ "house_w_nest_palette" ],
-      "items": {
-        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
-        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
-        "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
-        "L": { "item": "bedroom", "chance": 20, "repeat": [ 1, 2 ] }
-      }
+      "palettes": [ "domestic_general_and_variant_palette" ]
     }
   },
   {
@@ -266,19 +254,13 @@
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "O   L",
-        "O  EE",
-        "B  EE",
-        "    L",
+        "D   ¤",
+        "D  @@",
+        "h  @@",
+        "    ¤",
         "     "
       ],
-      "palettes": [ "house_w_nest_palette" ],
-      "items": {
-        "O": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
-        "E": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
-        "I": { "item": "SUS_desks_bedroom_unisex", "chance": 40, "repeat": [ 1, 2 ] },
-        "L": { "item": "homebooks", "chance": 10, "repeat": [ 1, 2 ] }
-      }
+      "palettes": [ "domestic_general_and_variant_palette" ]
     }
   }
 ]

@@ -72,6 +72,7 @@
         "t": "f_table",
         "{": "f_locker"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "vendingmachines": { "v": { "lootable": true } },
       "place_items": [
@@ -82,8 +83,8 @@
         { "item": "snacks", "x": 3, "y": 6, "chance": 25 },
         { "item": "magazines", "x": 17, "y": 7, "chance": 75 },
         { "item": "magazines", "x": 6, "y": 3, "chance": 75 },
-        { "item": "trash", "x": 14, "y": 20, "chance": 10 },
-        { "item": "trash", "x": 15, "y": 9, "chance": 10 },
+        { "item": "SUS_trash_trashcan", "x": 14, "y": 20, "chance": 10 },
+        { "item": "SUS_trash_trashcan", "x": 15, "y": 9, "chance": 10 },
         { "item": "supplies_electronics", "x": 21, "y": 17, "chance": 10 },
         { "item": "SUS_fridge_breakroom", "x": 1, "y": 9, "chance": 10 },
         { "item": "kitchen", "x": [ 2, 3 ], "y": 9, "chance": 50 }

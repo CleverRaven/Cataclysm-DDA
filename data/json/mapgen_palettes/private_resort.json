@@ -44,9 +44,9 @@
     },
     "toilets": { "$": {  } },
     "items": {
-      "$": { "item": "stash_drugs_illegals", "chance": 75 },
+      "$": [ { "item": "stash_drugs_illegals", "chance": 75 }, { "item": "SUS_toilet", "chance": 50 } ],
       "Y": { "item": "mansion_safe_nogun", "chance": 100, "repeat": [ 3, 8 ] },
-      "l": { "item": "trash", "chance": 66, "repeat": [ 1, 3 ] },
+      "l": { "item": "SUS_trash_trashcan", "chance": 66, "repeat": [ 1, 3 ] },
       "e": { "item": "SUS_office_desk", "chance": 50 },
       "K": { "item": "unisex_coat_rack", "chance": 33, "repeat": [ 1, 3 ] },
       "i": { "item": "underwear", "chance": 100 },
@@ -170,7 +170,7 @@
     },
     "terrain": {
       "f": "t_carpet_red",
-      "#": "t_carpet_red",
+      "C": "t_carpet_red",
       "S": "t_carpet_red",
       "T": "t_carpet_red",
       "H": "t_carpet_red",
@@ -223,14 +223,14 @@
       "W": { "item": "laundry", "chance": 33, "repeat": [ 1, 6 ] },
       "z": { "item": "laundry", "chance": 33, "repeat": [ 1, 6 ] },
       "Z": { "item": "crate_wine", "chance": 50, "repeat": [ 1, 2 ] },
-      "_": { "item": "roof_trash", "chance": 1 },
+      "_": { "item": "SUS_trash_roof", "chance": 1 },
       "d": { "item": "dresser", "chance": 50, "repeat": [ 3, 6 ] },
       "B": { "item": "shower", "chance": 50, "repeat": [ 0, 1 ] },
       "b": { "item": "bed", "chance": 50, "repeat": [ 0, 2 ] },
       "T": { "item": "livingroom", "chance": 33, "repeat": [ 0, 3 ] },
       "^": { "item": "private_resort_coffee_table", "chance": 33, "repeat": [ 1, 3 ] },
       "L": { "item": "SUS_janitors_closet", "chance": 100 },
-      "#": [
+      "w": [
         { "item": "bar_table", "chance": 40, "repeat": [ 1, 2 ] },
         { "item": "bar_alcohol", "chance": 25, "repeat": [ 0, 2 ] }
       ]

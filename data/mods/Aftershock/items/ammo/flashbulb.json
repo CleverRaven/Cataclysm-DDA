@@ -13,7 +13,7 @@
     "longest_side": "246 mm",
     "weight": "3200 g",
     "ammo_type": "afs_82mm_flashbulb",
-    "damage": [ { "damage_type": "pure", "amount": 15 }, { "damage_type": "heat", "amount": 220 } ],
+    "damage": [ { "damage_type": "afs_laser", "amount": 300, "armor_penetration": 50 } ],
     "range": 120,
     "dispersion": 15,
     "recoil": 45,

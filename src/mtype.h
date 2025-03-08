@@ -177,6 +177,7 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_PLASTIC,
        mon_flag_POISON,
        mon_flag_PRIORITIZE_TARGETS,
+       mon_flag_PULP_PRYING,
        mon_flag_PUSH_MON,
        mon_flag_PUSH_VEH,
        mon_flag_QUEEN,
@@ -343,6 +344,12 @@ struct mtype {
          * of this type (if it's friendly).
          */
         itype_id revert_to_itype;
+
+        /**
+         * If this is not empty, the monster will become this item when mdeath::BROKEN
+         * is triggered. Overwrites the normal hardcoded broken item.
+         */
+        itype_id broken_itype;
         /**
          * If this monster is a rideable mech with built-in weapons, this is the weapons id
          */

@@ -102,7 +102,7 @@
     "description": "A bracelet made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
     "material": [ "bone" ],
     "color": "white",
-    "flags": [ "NO_WEAR_EFFECT", "FANCY", "NO_SALVAGE" ]
+    "flags": [ "NO_WEAR_EFFECT", "NO_SALVAGE" ]
   },
   {
     "id": "cowrie_hair_beads",
@@ -112,7 +112,7 @@
     "description": "An assortment of cowrie shells used to decorate locs or braids.",
     "material": [ "bone" ],
     "color": "white",
-    "flags": [ "NO_WEAR_EFFECT", "FANCY", "NO_SALVAGE" ]
+    "flags": [ "NO_WEAR_EFFECT", "NO_SALVAGE" ]
   },
   {
     "id": "cowrie_necklace",
@@ -122,7 +122,7 @@
     "description": "A necklace made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
     "material": [ "bone" ],
     "color": "white",
-    "flags": [ "NO_WEAR_EFFECT", "FANCY", "NO_SALVAGE" ]
+    "flags": [ "NO_WEAR_EFFECT", "NO_SALVAGE" ]
   },
   {
     "id": "diamond_dental_grill",
@@ -273,7 +273,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "diving_watch",
@@ -452,7 +452,7 @@
     "material": [ { "type": "silver", "portion": 8 }, { "type": "gold", "portion": 2 } ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "garnet_gold_cufflinks",
@@ -467,7 +467,7 @@
     "looks_like": "cufflinks",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "diamond_gold_cufflinks",
@@ -594,7 +594,7 @@
     "looks_like": "cufflinks",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "diamond_silver_cufflinks",
@@ -749,7 +749,7 @@
     "looks_like": "cufflinks",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "diamond_platinum_cufflinks",
@@ -899,7 +899,7 @@
         "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
       }
     ],
-    "flags": [ "FANCY", "BELTED", "NO_WEAR_EFFECT", "OVERSIZE" ]
+    "flags": [ "BELTED", "NO_WEAR_EFFECT", "OVERSIZE" ]
   },
   {
     "id": "gold_dental_grill",
@@ -929,7 +929,7 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_hairpin",
@@ -941,7 +941,7 @@
     "price_postapoc": "25 cent",
     "material": [ "gold" ],
     "color": "yellow",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_locket",
@@ -965,7 +965,7 @@
         "item_restriction": [ "wallet_photo" ]
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_medal",
@@ -1007,7 +1007,7 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_ring",
@@ -1031,7 +1031,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "gold_watch",
@@ -1046,7 +1046,7 @@
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "flags": [ "WATCH", "ALARMCLOCK", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
     "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
@@ -1061,7 +1061,7 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "silver_watch",
@@ -1076,7 +1076,7 @@
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
-    "flags": [ "WATCH", "ALARMCLOCK", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
+    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
@@ -1100,7 +1100,7 @@
         "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "BELTED", "OVERSIZE" ]
+    "flags": [ "NO_WEAR_EFFECT", "BELTED", "OVERSIZE" ]
   },
   {
     "id": "silver_ear",
@@ -1114,7 +1114,7 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "sf_watch",
@@ -1130,7 +1130,7 @@
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "flags": [ "WATCH", "ALARMCLOCK", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
+    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
@@ -1158,8 +1158,7 @@
     "volume": "10 ml",
     "material": [ "wood" ],
     "symbol": ".",
-    "color": "brown",
-    "delete": { "flags": [ "SUPER_FANCY" ] }
+    "color": "brown"
   },
   {
     "id": "holy_symbol",
@@ -1304,7 +1303,7 @@
     "material": [ "stone" ],
     "symbol": "[",
     "color": "green",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "pearl_collar",
@@ -1318,7 +1317,7 @@
     "material": [ "stone" ],
     "symbol": "[",
     "color": "white",
-    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "platinum_watch",
@@ -1334,7 +1333,7 @@
     "symbol": "[",
     "color": "white",
     "sided": true,
-    "flags": [ "WATCH", "ALARMCLOCK", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
     "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
@@ -1350,7 +1349,7 @@
     "symbol": "[",
     "color": "white",
     "sided": true,
-    "flags": [ "FANCY", "BELTED", "NO_WEAR_EFFECT", "OVERSIZE" ],
+    "flags": [ "BELTED", "NO_WEAR_EFFECT", "OVERSIZE" ],
     "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
@@ -1381,7 +1380,7 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "platinum_hairpin",
@@ -1394,7 +1393,7 @@
     "price_postapoc": "50 cent",
     "material": [ "platinum" ],
     "color": "white",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "platinum_locket",
@@ -1418,7 +1417,7 @@
         "item_restriction": [ "wallet_photo" ]
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "platinum_necklace",
@@ -1432,7 +1431,7 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "platinum_ring",
@@ -1455,7 +1454,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "ring_engagement",
@@ -1478,7 +1477,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "ring_purity",
@@ -1501,7 +1500,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "ring_signet",
@@ -1524,7 +1523,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "ring_wedding",
@@ -1547,7 +1546,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "silver_necklace",
@@ -1561,7 +1560,7 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "silver_hairpin",
@@ -1574,7 +1573,7 @@
     "price_postapoc": "10 cent",
     "material": [ "silver" ],
     "color": "light_gray",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "silver_locket",
@@ -1598,7 +1597,7 @@
         "item_restriction": [ "wallet_photo" ]
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "silver_medal",
@@ -1635,7 +1634,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "leather_collar",
@@ -2021,7 +2020,7 @@
     "looks_like": "gold_ear",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "amethyst_gold_earring",
@@ -2149,7 +2148,7 @@
     "looks_like": "silver_ear",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "amethyst_silver_earring",
@@ -2306,7 +2305,7 @@
     "looks_like": "platinum_ear",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "amethyst_platinum_earring",
@@ -2433,7 +2432,7 @@
         "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "amethyst_gold_ring",
@@ -2563,7 +2562,7 @@
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
+    "flags": [ "NO_WEAR_EFFECT" ],
     "armor": [
       {
         "coverage": 0,
@@ -2729,7 +2728,7 @@
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ],
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ],
     "armor": [
       {
         "coverage": 0,
@@ -2868,7 +2867,7 @@
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "OVERSIZE" ],
+    "flags": [ "NO_WEAR_EFFECT", "OVERSIZE" ],
     "armor": [ { "coverage": 20, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
@@ -3000,7 +2999,7 @@
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "OVERSIZE" ],
+    "flags": [ "NO_WEAR_EFFECT", "OVERSIZE" ],
     "armor": [ { "coverage": 20, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
@@ -3160,7 +3159,7 @@
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "flags": [ "FANCY", "BELTED", "NO_WEAR_EFFECT", "OVERSIZE" ],
+    "flags": [ "BELTED", "NO_WEAR_EFFECT", "OVERSIZE" ],
     "armor": [ { "coverage": 20, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
@@ -3279,7 +3278,7 @@
     "looks_like": "gold_necklace",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "diamond_gold_pendant_necklace",
@@ -3406,7 +3405,7 @@
     "looks_like": "silver_necklace",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "diamond_silver_pendant_necklace",
@@ -3561,7 +3560,7 @@
     "looks_like": "platinum_necklace",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "diamond_platinum_pendant_necklace",
@@ -3689,7 +3688,7 @@
     "symbol": "[",
     "color": "red",
     "material_thickness": 1,
-    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ],
+    "flags": [ "NO_WEAR_EFFECT" ],
     "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
   {
@@ -3818,7 +3817,7 @@
     "symbol": "[",
     "color": "red",
     "material_thickness": 1,
-    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ],
+    "flags": [ "NO_WEAR_EFFECT" ],
     "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
   {
@@ -3959,7 +3958,7 @@
     "symbol": "[",
     "color": "red",
     "material_thickness": 1,
-    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ],
+    "flags": [ "NO_WEAR_EFFECT" ],
     "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
   {
@@ -4119,7 +4118,7 @@
         "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ]
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "BELTED", "OVERSIZE" ]
+    "flags": [ "NO_WEAR_EFFECT", "BELTED", "OVERSIZE" ]
   },
   {
     "id": "silver_anklet",
@@ -4142,7 +4141,7 @@
         "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ]
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "BELTED", "OVERSIZE" ]
+    "flags": [ "NO_WEAR_EFFECT", "BELTED", "OVERSIZE" ]
   },
   {
     "id": "bat_anklet",
@@ -4225,7 +4224,7 @@
     "material": [ "gold" ],
     "symbol": "o",
     "color": "yellow",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_lip_ring_stud",
@@ -4239,7 +4238,7 @@
     "material": [ "gold" ],
     "symbol": ".",
     "color": "yellow",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "silver_lip_ring_loop",
@@ -4253,7 +4252,7 @@
     "material": [ "silver" ],
     "symbol": "o",
     "color": "light_gray",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "silver_lip_ring_stud",
@@ -4267,7 +4266,7 @@
     "material": [ "silver" ],
     "symbol": ".",
     "color": "light_gray",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_nose_ring_loop",
@@ -4281,7 +4280,7 @@
     "material": [ "gold" ],
     "symbol": "o",
     "color": "yellow",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_nose_ring_stud",
@@ -4295,7 +4294,7 @@
     "material": [ "gold" ],
     "symbol": ".",
     "color": "yellow",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "silver_nose_ring_loop",
@@ -4309,7 +4308,7 @@
     "material": [ "silver" ],
     "symbol": "o",
     "color": "light_gray",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "silver_nose_ring_stud",
@@ -4323,7 +4322,7 @@
     "material": [ "silver" ],
     "symbol": ".",
     "color": "light_gray",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "gold_toe_ring",
@@ -4346,7 +4345,7 @@
         "specifically_covers": [ "foot_toes_l", "foot_toes_r" ]
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "silver_toe_ring",
@@ -4369,7 +4368,7 @@
         "specifically_covers": [ "foot_toes_l", "foot_toes_r" ]
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "simple_pistol_cartridge_necklace",
@@ -4558,7 +4557,7 @@
     "symbol": "[",
     "color": "yellow",
     "armor": [ { "encumbrance": 0, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ],
-    "flags": [ "NO_WEAR_EFFECT", "BELTED", "FANCY" ]
+    "flags": [ "NO_WEAR_EFFECT", "BELTED" ]
   },
   {
     "id": "fancy_rifle_cartridge_necklace",
@@ -4684,7 +4683,7 @@
     "material": [ "silver" ],
     "symbol": ".",
     "color": "white",
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
     "id": "necklace_teeth",

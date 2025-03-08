@@ -234,7 +234,7 @@ void ter_furn_transform::transform( map &m, const tripoint_bub_ms &location ) co
             m.add_field( location, field_potential->first, fld.second.get_field_intensity(),
                          fld.second.get_field_age(), true );
             m.remove_field( location, fld.first );
-            if( you.sees( location ) && !field_potential->second.first.empty() ) {
+            if( you.sees( m, location ) && !field_potential->second.first.empty() ) {
                 you.add_msg_if_player( field_potential->second.first.translated(),
                                        field_potential->second.second ? m_good : m_bad );
             }
@@ -279,21 +279,21 @@ void ter_furn_transform::transform( map &m, const tripoint_bub_ms &location ) co
 
     if( ter_potential ) {
         m.ter_set( location, ter_potential->first );
-        if( you.sees( location ) && !ter_potential->second.first.empty() ) {
+        if( you.sees( m, location ) && !ter_potential->second.first.empty() ) {
             you.add_msg_if_player( ter_potential->second.first.translated(),
                                    ter_potential->second.second ? m_good : m_bad );
         }
     }
     if( furn_potential ) {
         m.furn_set( location, furn_potential->first );
-        if( you.sees( location ) && !furn_potential->second.first.empty() ) {
+        if( you.sees( m, location ) && !furn_potential->second.first.empty() ) {
             you.add_msg_if_player( furn_potential->second.first.translated(),
                                    furn_potential->second.second ? m_good : m_bad );
         }
     }
     if( trap_potential ) {
         m.trap_set( location, trap_potential->first );
-        if( you.sees( location ) && !trap_potential->second.first.empty() ) {
+        if( you.sees( m, location ) && !trap_potential->second.first.empty() ) {
             you.add_msg_if_player( trap_potential->second.first.translated(),
                                    trap_potential->second.second ? m_good : m_bad );
         }
