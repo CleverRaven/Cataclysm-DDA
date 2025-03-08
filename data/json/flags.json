@@ -170,6 +170,11 @@
     "info": "This item enables you to keep track of calorie intake."
   },
   {
+    "id": "CALORIE_BURN",
+    "type": "json_flag",
+    "info": "This item enables you to keep track of calorie consumption.  Includes CALORIES_INTAKE."
+  },
+  {
     "id": "CASELESS_ROUNDS",
     "type": "json_flag",
     "info": "Being caseless rounds, these <bad>cannot be disassembled or reloaded</bad>."

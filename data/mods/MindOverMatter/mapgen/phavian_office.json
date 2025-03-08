@@ -75,7 +75,7 @@
         "o": { "item": "novels", "chance": 80, "repeat": [ 4, 8 ] },
         "T": { "item": "SUS_toilet", "chance": 50 }
       },
-      "vehicles": { "h": { "vehicle": "swivel_chair", "chance": 100 } },
+      "vehicles": { "h": { "vehicle": "swivel_chair" } },
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 6, 10 ], "chance": 60 } ]
     }
   },

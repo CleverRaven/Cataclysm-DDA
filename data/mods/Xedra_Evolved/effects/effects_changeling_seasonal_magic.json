@@ -102,6 +102,20 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_spring_charm_control_target",
+    "name": [ "Ishtar's Folly" ],
+    "desc": [ "Your devotion is stronger than adamant." ],
+    "max_duration": "1 hours",
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "incoming_damage_mod": [ { "type": "bash", "multiply": -0.1 }, { "type": "cut", "multiply": -0.1 }, { "type": "stab", "multiply": -0.1 } ],
+        "values": [ { "value": "SPEED", "multiply": 0.05 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_summer_light",
     "name": [ "Bonefire's Light" ],
     "desc": [ "A wisp of flickering insubstantial fire hovers near your shoulder." ],
@@ -297,6 +311,22 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_autumn_freeze_in_place_target",
+    "name": [ "Baleful Gaze" ],
+    "desc": [ "You cannot move!" ],
+    "remove_message": "You can move again.",
+    "show_in_info": true,
+    "flags": [ "CANNOT_ATTACK", "CANNOT_MOVE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_freeze_in_place_self",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_winter_freeze_target_in_place_not_winter",
     "name": [ "Grip of Winter" ],
     "desc": [ "Ice coats your lower limbs, freezing you in place." ],
@@ -393,5 +423,29 @@
     "name": [ "Frozen Heart" ],
     "desc": [ "All emotions are frozen out." ],
     "enchantments": [ { "mutations": [ "PSYCHOPATH" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_see_craft_darkness",
+    "name": [ "By Moon or By Starlight" ],
+    "desc": [ "You are at home in the dark." ],
+    "//": "flags can't be conditional so here we are",
+    "enchantments": [
+      {
+        "condition": { "not": { "is_season": "summer" } },
+        "ench_effects": [ { "effect": "effect_changeling_winter_see_craft_darkness_actual", "intensity": 1 } ]
+      },
+      {
+        "condition": { "and": [ { "is_season": "summer" }, "u_is_outside" ] },
+        "ench_effects": [ { "effect": "effect_changeling_winter_see_craft_darkness_actual", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_winter_see_craft_darkness_actual",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ]
   }
 ]

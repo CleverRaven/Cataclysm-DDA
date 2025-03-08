@@ -46,11 +46,20 @@ class item_contents
 
         /**
          * Return an item_location and a pointer to the best pocket that can contain the item @it.
-         * Check all items contained in every pocket of CONTAINER pocket type.
+         * if param allow_nested=true Check all items contained in every pocket of CONTAINER pocket type,
+         * otherwise, only check this item contents' pockets.
+         * @param it the item that function will find the best pocket that can contain it
+         * @param this_loc location of it
+         * @param avoid item that will be avoided in recursive lookup item pocket
+         * @param allow_sealed allow use sealed pocket
+         * @param ignore_settings ignore pocket setting
+         * @param nested whether the current call is nested (used recursively).
+         * @param ignore_rigidity ignore pocket rigid
+         * @param allow_nested whether nested pockets should be checked
          */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &this_loc,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
-                bool nested = false, bool ignore_rigidity = false );
+                bool nested = false, bool ignore_rigidity = false, bool allow_nested = true );
 
         units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::length min_containable_length() const;

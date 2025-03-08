@@ -569,10 +569,7 @@
         { "group": "SUS_coffee_cupboard", "x": 155, "y": 44, "chance": 60 },
         { "group": "SUS_coffee_cupboard", "x": 155, "y": 45, "chance": 60 }
       ],
-      "place_vehicles": [
-        { "vehicle": "football_vehicles", "x": 109, "y": 34, "chance": 100 },
-        { "vehicle": "football_vehicles", "x": 59, "y": 87, "chance": 100 }
-      ],
+      "place_vehicles": [ { "vehicle": "football_vehicles", "x": 109, "y": 34 }, { "vehicle": "football_vehicles", "x": 59, "y": 87 } ],
       "place_monsters": [
         { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.2 },
         { "monster": "GROUP_HOUSE", "x": [ 24, 47 ], "y": [ 0, 23 ], "density": 0.2 },

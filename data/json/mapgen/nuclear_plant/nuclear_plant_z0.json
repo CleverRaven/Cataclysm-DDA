@@ -355,17 +355,17 @@
         { "furn": "f_diesel_generator", "x": 242, "y": 111 }
       ],
       "place_vehicles": [
-        { "vehicle": "oa_work_light", "x": 206, "y": 56, "chance": 100, "rotation": 180 },
-        { "vehicle": "oa_work_light", "x": 102, "y": 163, "chance": 100, "rotation": 180 },
-        { "vehicle": "engine_crane", "x": 355, "y": 173, "chance": 100, "rotation": 180 },
-        { "vehicle": "welding_cart", "x": 100, "y": 163, "chance": 100, "rotation": 180 },
-        { "vehicle": "welding_cart", "x": 188, "y": 56, "chance": 100, "rotation": 180 },
-        { "vehicle": "welding_cart", "x": 282, "y": 163, "chance": 100, "rotation": 180 },
-        { "vehicle": "welding_cart", "x": 169, "y": 136, "chance": 100, "rotation": 0 },
+        { "vehicle": "oa_work_light", "x": 206, "y": 56, "rotation": 180 },
+        { "vehicle": "oa_work_light", "x": 102, "y": 163, "rotation": 180 },
+        { "vehicle": "engine_crane", "x": 355, "y": 173, "rotation": 180 },
+        { "vehicle": "welding_cart", "x": 100, "y": 163, "rotation": 180 },
+        { "vehicle": "welding_cart", "x": 188, "y": 56, "rotation": 180 },
+        { "vehicle": "welding_cart", "x": 282, "y": 163, "rotation": 180 },
+        { "vehicle": "welding_cart", "x": 169, "y": 136, "rotation": 0 },
         { "vehicle": "train_electrical_loco1300", "x": 159, "y": 34, "chance": 90, "rotation": 0, "status": 1 },
         { "vehicle": "excavator", "x": 283, "y": 82, "chance": 85, "rotation": 180 },
         { "vehicle": "semi_truck", "x": 280, "y": 108, "chance": 85, "rotation": 180 },
-        { "vehicle": "forklift", "x": 179, "y": 129, "chance": 100, "rotation": 0, "status": 0 },
+        { "vehicle": "forklift", "x": 179, "y": 129, "rotation": 0, "status": 0 },
         { "vehicle": "miniature_train_loco", "x": 215, "y": 102, "chance": 95, "rotation": 90, "status": 0 },
         { "vehicle": "miniature_train_loco", "x": 64, "y": 123, "chance": 95, "rotation": 0, "status": 0 }
       ]

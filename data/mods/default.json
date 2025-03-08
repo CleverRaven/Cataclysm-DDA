@@ -4,6 +4,6 @@
     "id": "dev:default",
     "name": "default",
     "description": "contains all the mods recommended by the developers",
-    "dependencies": [ "dda", "no_npc_food", "personal_portal_storms", "no_fungal_growth", "No_Rail_Stations" ]
+    "dependencies": [ "dda", "no_npc_food", "personal_portal_storms", "No_Rail_Stations" ]
   }
 ]

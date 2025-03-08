@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_CALENDAR_H
 #define CATA_SRC_CALENDAR_H
 
+#include <limits>
 #include <optional>
 #include <string>
 #include <utility>
@@ -90,16 +91,6 @@ bool once_every( const time_duration &event_frequency );
  * represent a larger unit (hours/days/years), then this will result in integer overflow.
  */
 extern const int INDEFINITELY_LONG;
-
-/**
- * The expected duration of the cataclysm
- *
- * Large duration that can be used to approximate infinite amounts of time.
- *
- * This number can't be safely converted to a number of moves without causing
- * an integer overflow.
- */
-extern const time_duration INDEFINITELY_LONG_DURATION;
 
 /// @returns Whether the eternal season is enabled.
 bool eternal_season();
@@ -525,6 +516,17 @@ class time_point
 
 namespace calendar
 {
+
+/**
+ * The expected duration of the cataclysm
+ *
+ * Large duration that can be used to approximate infinite amounts of time.
+ *
+ * This number can't be safely converted to a number of moves without causing
+ * an integer overflow.
+ */
+inline constexpr time_duration INDEFINITELY_LONG_DURATION(
+    time_duration::from_turns( std::numeric_limits<int>::max() ) );
 
 /**
  * A time point that is always before the current turn, even when the game has

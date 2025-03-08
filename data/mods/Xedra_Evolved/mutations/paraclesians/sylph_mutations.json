@@ -173,6 +173,18 @@
   },
   {
     "type": "mutation",
+    "id": "SYLPH_BONUS_MELEE_RANGE",
+    "name": { "str": "Breeze-Cutting Blows" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability to strike so precisely that the air will carry their melee attacks a short distance.",
+    "prereqs": [ "SYLPH_BONUS_RANGE", "SYLPH_DEX_BONUS_2" ],
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "sylph_bonus_melee_range_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SLOWFALL",
     "name": { "str": "Slow Fall" },
     "points": 3,

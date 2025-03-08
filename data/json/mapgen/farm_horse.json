@@ -1266,10 +1266,10 @@
       ],
       "palettes": [ "paddock" ],
       "place_vehicles": [
-        { "vehicle": "disconnected_floodlight", "chance": 100, "x": [ 1 ], "y": [ 16 ] },
-        { "vehicle": "disconnected_floodlight", "chance": 100, "x": [ 1 ], "y": [ 31 ] },
-        { "vehicle": "disconnected_floodlight", "chance": 100, "rotation": 180, "x": [ 45 ], "y": [ 16 ] },
-        { "vehicle": "disconnected_floodlight", "chance": 100, "rotation": 180, "x": [ 45 ], "y": [ 31 ] }
+        { "vehicle": "disconnected_floodlight", "x": [ 1 ], "y": [ 16 ] },
+        { "vehicle": "disconnected_floodlight", "x": [ 1 ], "y": [ 31 ] },
+        { "vehicle": "disconnected_floodlight", "rotation": 180, "x": [ 45 ], "y": [ 16 ] },
+        { "vehicle": "disconnected_floodlight", "rotation": 180, "x": [ 45 ], "y": [ 31 ] }
       ]
     }
   },

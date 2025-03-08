@@ -368,7 +368,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of the Trees" },
-    "description": "In a wooden bowl, Faewild and Dreamdross are mixed together.  The mixture has fae and human blood added to it and parts from the plant fae and then all mixed again until it's a uniform blend.  The resulting mixture will eventually dissolve into a deep green liquid.",
+    "description": "In a wooden bowl, Faewild and Dreamdross are mixed together along with ground-up leaves.  The mixture has fae and human blood added to it and parts from the plant fae and then all mixed again until it's a uniform blend.  The resulting mixture will eventually dissolve into a deep green liquid.",
     "weight": "50 g",
     "volume": "2 ml",
     "price": "150 cent",
@@ -448,7 +448,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of the Flames" },
-    "description": ".",
+    "description": "Heat Faewild and Dreamdross over a roaring fire and the mix in the ashes until you have a thick paste.  That paste is mixed with parts taken from the Fair Folk and united with a dollop of fae, and human blood.  The resulting mixture will eventually dissolve into a scarlet liquid that shines with its own light.",
     "weight": "50 g",
     "volume": "2 ml",
     "price": "150 cent",
@@ -460,7 +460,7 @@
     "quench": 2,
     "healthy": 7,
     "fun": -30,
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "flags": [ "LIGHT_5", "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "consumption_effect_on_conditions": [ "become_fire_fae" ]
   },
   {
