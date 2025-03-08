@@ -196,7 +196,7 @@ jobs:
     - name: Run tests
       if: ${{ github.ref_name != 'master' }}
       run: |
-          .\Cataclysm-test-vcpkg-static-Release-x64.exe --min-duration 20 --rng-seed time --order lex --reporter cata-ci-reporter --wait-for-keypress exit
+          .\Cataclysm-test-vcpkg-static-Release-x64.exe --min-duration 20 --rng-seed time --order lex --wait-for-keypress exit
 
     - name: Dump disk usage logs if job failed
       if: failure()

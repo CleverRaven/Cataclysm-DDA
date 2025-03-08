@@ -98,7 +98,7 @@
           { "item": "tshirt_cropped", "prob": 21 }
         ]
       },
-      { "distribution": [ { "item": "sunglasses", "prob": 80 }, { "item": "fancy_sunglasses", "prob": 20 } ] },
+      { "item": "sunglasses", "prob": 80 },
       { "distribution": [ { "group": "alcohol", "prob": 50 } ] },
       { "distribution": [ { "item": "mp3", "charges": [ 0, 100 ] } ] },
       { "distribution": [ { "item": "lowtops", "prob": 80 }, { "item": "bastsandals", "prob": 20 } ] },
@@ -145,8 +145,8 @@
     "subtype": "collection",
     "id": "jackson_drops",
     "entries": [
-      { "item": "jacket_leather_red", "prob": 100 },
-      { "item": "jeans_red", "prob": 100 },
+      { "item": "jacket_leather", "variant": "jacket_leather_red", "prob": 100 },
+      { "item": "red_jeans", "prob": 100 },
       { "item": "socks", "prob": 100 },
       { "item": "dance_shoes", "prob": 100 },
       { "item": "glove_jackson", "prob": 100 }
@@ -157,5 +157,75 @@
     "id": "shia_stuff",
     "subtype": "distribution",
     "entries": [ { "item": "knife_small", "variant": "knife_steak", "prob": 3 }, { "item": "ax", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "magazines_akm",
+    "//": "Collections of magazines for the gun. Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
+    "items": [
+      { "item": "akmag10", "prob": 300 },
+      { "item": "akmag20", "prob": 400 },
+      { "item": "akmag30", "prob": 500 },
+      { "item": "akmag40", "prob": 100 },
+      { "item": "akmag90", "prob": 500 },
+      { "item": "akdrum75", "prob": 50 }
+    ]
+  },
+  {
+    "id": "nested_draco",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "draco", "charges": [ 0, 30 ] },
+      { "item": "akmag30" },
+      { "item": "akmag30", "prob": 50 },
+      { "item": "akmag90", "prob": 20 },
+      { "group": "on_hand_762" }
+    ]
+  },
+  {
+    "id": "nested_draco_mini",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "draco_mini", "charges": [ 0, 30 ] },
+      { "item": "akmag30" },
+      { "item": "akmag30", "prob": 50 },
+      { "item": "akmag90", "prob": 20 },
+      { "group": "on_hand_762" }
+    ]
+  },
+  {
+    "id": "nested_draco_micro",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "draco_micro", "charges": [ 0, 30 ] },
+      { "item": "akmag30" },
+      { "item": "akmag30", "prob": 50 },
+      { "item": "akmag90", "prob": 20 },
+      { "group": "on_hand_762" }
+    ]
+  },
+  {
+    "id": "nested_mk47",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "mk47", "charges": [ 0, 30 ] },
+      { "item": "akmag30" },
+      { "item": "akmag30", "prob": 50 },
+      { "item": "akmag90", "prob": 20 },
+      { "group": "on_hand_762" }
+    ]
   }
 ]

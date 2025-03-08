@@ -170,7 +170,7 @@
     },
     "terrain": {
       "f": "t_carpet_red",
-      "#": "t_carpet_red",
+      "C": "t_carpet_red",
       "S": "t_carpet_red",
       "T": "t_carpet_red",
       "H": "t_carpet_red",
@@ -230,7 +230,7 @@
       "T": { "item": "livingroom", "chance": 33, "repeat": [ 0, 3 ] },
       "^": { "item": "private_resort_coffee_table", "chance": 33, "repeat": [ 1, 3 ] },
       "L": { "item": "SUS_janitors_closet", "chance": 100 },
-      "#": [
+      "w": [
         { "item": "bar_table", "chance": 40, "repeat": [ 1, 2 ] },
         { "item": "bar_alcohol", "chance": 25, "repeat": [ 0, 2 ] }
       ]

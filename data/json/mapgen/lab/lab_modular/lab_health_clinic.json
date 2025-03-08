@@ -134,7 +134,7 @@
         { "chunks": [ [ "lab_medical_9x9_N", 95 ], [ "lab_medical_9x9_N_autodoc", 5 ] ], "x": 1, "y": 14 },
         { "chunks": [ "lab_medical_boss_child" ], "x": 9, "y": 9 }
       ],
-      "vehicles": { "ƃ": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 } }
+      "vehicles": { "ƃ": { "vehicle": "wheelchair", "rotation": 90 } }
     }
   },
   {
@@ -171,9 +171,9 @@
       ],
       "palettes": [ "lab_common_palette", "lab_medical_palette" ],
       "vehicles": {
-        "ƃ": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 },
-        "Г": { "vehicle": "hospital_bed", "chance": 100, "rotation": 90 },
-        "ւ": { "vehicle": "hospital_bed", "chance": 100, "rotation": 270 }
+        "ƃ": { "vehicle": "wheelchair", "rotation": 90 },
+        "Г": { "vehicle": "hospital_bed", "rotation": 90 },
+        "ւ": { "vehicle": "hospital_bed", "rotation": 270 }
       },
       "computers": {
         "6": {

@@ -309,6 +309,16 @@
     "volume": "10ml"
   },
   {
+    "id": "460sw_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "GENERIC",
+    "name": { "str": ".460 S&W Magnum casing" },
+    "description": "An empty casing from a .460 S&W Magnum round.",
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
     "id": "45_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",

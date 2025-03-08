@@ -103,7 +103,7 @@
         "{": "f_dumpster"
       },
       "place_items": [
-        { "chance": 5, "item": "ammo_shotgun_rare", "x": 8, "y": 15 },
+        { "chance": 5, "item": "ammo_common_boxed", "x": 8, "y": 15 },
         { "chance": 50, "item": "camping", "x": 6, "y": 12 },
         { "chance": 50, "item": "glass_set", "x": 6, "y": 14 },
         { "chance": 25, "item": "clothing_work_boots", "x": 7, "y": 9 },

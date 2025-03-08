@@ -69,7 +69,7 @@
 #include "timed_event.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "vehicle.h"

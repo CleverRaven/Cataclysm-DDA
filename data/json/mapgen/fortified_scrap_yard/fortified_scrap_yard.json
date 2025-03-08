@@ -149,17 +149,7 @@
         { "item": "wrench_large", "x": 6, "y": 8, "chance": 100 }
       ],
       "mapping": { "/": { "traps": [ [ "tr_rollmat", 100 ] ] } },
-      "place_vehicles": [
-        {
-          "vehicle": "underlift_tow_truck_lack_wheels",
-          "x": 15,
-          "y": 9,
-          "chance": 100,
-          "fuel": 70,
-          "status": 0,
-          "rotation": 90
-        }
-      ],
+      "place_vehicles": [ { "vehicle": "underlift_tow_truck_lack_wheels", "x": 15, "y": 9, "fuel": 70, "status": 0, "rotation": 90 } ],
       "place_zones": [
         { "type": "LOOT_ITEM_GROUP", "filter": "SCRAPPER_Shop", "faction": "wasteland_scavengers", "x": 4, "y": 4 },
         {

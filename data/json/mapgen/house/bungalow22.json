@@ -64,7 +64,7 @@
         "?": { "item": "table_foyer", "chance": 60 }
       },
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 9, "y": 0 } ],
-      "vehicles": { "&": { "vehicle": "swivel_chair", "chance": 100, "status": 1 } },
+      "vehicles": { "&": { "vehicle": "swivel_chair", "status": 1 } },
       "place_loot": [
         { "item": "2x4", "x": 5, "y": 10, "chance": 80, "repeat": [ 2, 3 ] },
         { "item": "hatchet", "x": 4, "y": 18, "chance": 40 },

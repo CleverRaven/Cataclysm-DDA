@@ -383,7 +383,7 @@
     "qualities": [ [ "ROPE", 2 ] ],
     "price_postapoc": "50 cent",
     "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "uneven" },
-    "melee_damage": { "bash": 26 }
+    "melee_damage": { "bash": 12 }
   },
   {
     "type": "GENERIC",
@@ -3577,6 +3577,16 @@
     "color": "green",
     "name": { "str": "broken laser turret" },
     "weight": "40 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_searchlight",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken milspec searchlight" },
+    "weight": "117 kg",
+    "volume": "108500 ml",
     "copy-from": "broken_turret"
   },
   {

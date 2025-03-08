@@ -17,7 +17,7 @@
 #include "string_editor_window.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 
 namespace

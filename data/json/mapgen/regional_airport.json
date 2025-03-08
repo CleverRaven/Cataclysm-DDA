@@ -64,8 +64,8 @@
         { "group": "GROUP_SMALL_STATION", "x": [ 24, 47 ], "y": [ 24, 47 ], "chance": 35, "repeat": [ 1, 4 ] }
       ],
       "place_vehicles": [
-        { "vehicle": "golf_cart", "x": 106, "y": 20, "chance": 100, "rotation": 90 },
-        { "vehicle": "golf_cart", "x": 110, "y": 20, "chance": 100, "rotation": 90 },
+        { "vehicle": "golf_cart", "x": 106, "y": 20, "rotation": 90 },
+        { "vehicle": "golf_cart", "x": 110, "y": 20, "rotation": 90 },
         { "vehicle": "helicopters", "chance": 40, "fuel": -1, "rotation": 180, "status": -1, "x": 32, "y": 36 }
       ],
       "place_loot": [ { "group": "cash_register_random", "x": 99, "y": [ 20, 21 ] } ]
