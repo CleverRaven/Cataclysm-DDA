@@ -576,7 +576,7 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
     ui.no_mana = no_mana;
 
     bool target_Creatures = casting.is_valid_target( spell_target::ally ) ||
-                            ( casting.is_valid_target( spell_target::hostile ) ) ||
+                            casting.is_valid_target( spell_target::hostile ) ||
                             casting.is_valid_target( spell_target::self );
     bool target_Vehicles = casting.is_valid_target( spell_target::vehicle );
     if( target_Creatures && target_Vehicles ) {

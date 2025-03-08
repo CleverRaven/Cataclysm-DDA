@@ -1918,8 +1918,8 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
         dialogue d;
         optional_vpart_position veh = get_map().veh_at( target );
         Creature *victim = creatures.creature_at<Creature>( potential_target );
-        if( victim && sp.is_valid_target( spell_target::ally ) ||
-            sp.is_valid_target( spell_target::hostile ) || sp.is_valid_target( spell_target::self ) ) {
+        if( victim && ( sp.is_valid_target( spell_target::ally ) ||
+                        sp.is_valid_target( spell_target::hostile ) || sp.is_valid_target( spell_target::self ) ) ) {
             d = dialogue( get_talker_for( victim ), get_talker_for( caster ) );
         } else if( sp.is_valid_target( spell_target::vehicle ) && veh ) {
             d = dialogue( get_talker_for( veh.value().vehicle() ), get_talker_for( caster ) );

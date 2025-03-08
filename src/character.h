@@ -3329,7 +3329,7 @@ class Character : public Creature, public visitable
          * @param range The maximal distance (@ref rl_dist), vehicles at this distance or less
          * are included.
          */
-        std::vector<vehicle *> get_visible_vehicles( const int range ) const;
+        std::vector<vehicle *> get_visible_vehicles( int range ) const;
         /** Returns the mutation visibility threshold for the observer ( *this ) */
         int get_mutation_visibility_cap( const Character *observed ) const;
         /** Returns an enumeration of visible mutations with colors */
