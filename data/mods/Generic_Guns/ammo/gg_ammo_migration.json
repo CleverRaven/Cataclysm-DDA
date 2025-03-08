@@ -228,7 +228,7 @@
     "replace": "bp_pistol_magnum_ball"
   },
   {
-    "id": [ "357mag_jhp", "44magnum", "454_Casull", "500_Magnum", "50ae_jhp" ],
+    "id": [ "357mag_jhp", "44magnum", "454_Casull", "500_Magnum", "50ae_jhp", "460sw", "460sw_jhp" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_jhp"
   },
