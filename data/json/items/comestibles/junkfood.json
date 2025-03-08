@@ -546,7 +546,7 @@
     "description": "A simple syrup, made of just sugar and water.  Used usually as a sweetener for stuff like cocktails.",
     "price": "6 USD",
     "price_postapoc": "7 USD 50 cent",
-    "material": [ "junk" ],
+    "material": [ "water", "sugar" ],
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 16,
