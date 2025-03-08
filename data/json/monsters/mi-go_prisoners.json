@@ -56,7 +56,7 @@
     "name": { "str": "drained captive" },
     "default_faction": "mi-go",
     "species": [ "HUMAN" ],
-    "harvest": "human", 
+    "harvest": "human",
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "death_drops": "default_zombie_death_drops",
     "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
