@@ -691,8 +691,7 @@ std::vector < sfx::channel > channels_to_end = {};
 
 // need a mutex so that make_audio() and slowed_time_effect() don't modify channels_to_end simultaneously
 std::mutex channels_to_end_mutex;
-}
-// namespace
+} // namespace
 
 // used with SDL's Mix_RegisterEffect(). each sound that is currently playing has one. needed to dynamically control playback speed for slowing time
 struct sound_effect_handler {
