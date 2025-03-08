@@ -15,7 +15,7 @@
     "variants": [
       {
         "id": "22lr_ammo_box_50",
-        "name": { "str": "22 LR ammo box", "str_pl": ".22 LR ammo boxes" },
+        "name": { "str": ".22 LR ammo box", "str_pl": ".22 LR ammo boxes" },
         "description": "This box holds 50 rounds of 22 LR ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
         "weight": 0
       }
@@ -70,7 +70,7 @@
     "id": "22lr_ammo_tray",
     "copy-from": "9mm_ammo_box_20",
     "type": "GENERIC",
-    "name": { "str": "22 LR ammo tray" },
+    "name": { "str": ".22 LR ammo tray" },
     "description": "A small plastic tray, meant to hold 50 rounds of .22 LR ammo.",
     "weight": "5 g",
     "volume": "46 ml",
@@ -399,7 +399,7 @@
     "variants": [
       {
         "id": "ammo_box_army_10_50bmg",
-        "name": { "str": ".50 BMG ammo box", "str_pl": ".50 BMG gauge ammo boxes" },
+        "name": { "str": ".50 BMG ammo box", "str_pl": ".50 BMG ammo boxes" },
         "description": "A small painted in white ammo box.  Black text printed on the front says \"10 CARTRIDGES\n12.7x99MM BALL M33\n(50 Browning)\"",
         "weight": 0
       }
@@ -436,7 +436,7 @@
     "variants": [
       {
         "id": "ammo_box_army_20_308",
-        "name": { "str": "7.62x51mm ammo box", "str_pl": "7.62x51mm ammo box ammo boxes" },
+        "name": { "str": "7.62x51mm ammo box", "str_pl": "7.62x51mm ammo boxes" },
         "description": "A small, plain brown ammo box.  Black text printed on the front says:\"20 ROUNDS 7.62MM BALL M80\"",
         "weight": 0
       }
