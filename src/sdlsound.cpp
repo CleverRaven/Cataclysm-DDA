@@ -687,12 +687,11 @@ namespace
 {
 // Because we're not allowed to call Mix_HaltChannel inside audio callbacks, slowed_time_effect() adds the channel the sound effect is playing on to this list when it wants to stop the sound.
 // whenever make_audio() is called, it will halt any channels in this list.
-std::vector < sfx::channel > channels_to_end = {};
+static std::vector < sfx::channel > channels_to_end = {};
 
 // need a mutex so that make_audio() and slowed_time_effect() don't modify channels_to_end simultaneously
-std::mutex channels_to_end_mutex;
+static std::mutex channels_to_end_mutex;
 }
-// namespace
 
 // used with SDL's Mix_RegisterEffect(). each sound that is currently playing has one. needed to dynamically control playback speed for slowing time
 struct sound_effect_handler {
