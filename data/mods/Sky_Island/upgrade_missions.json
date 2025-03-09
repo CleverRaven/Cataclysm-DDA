@@ -2458,7 +2458,7 @@
     "id": "SKYISLAND_UPGRADE_bonusmissions4",
     "type": "mission_definition",
     "name": "Unlock: Four Missions per Expedition",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft                       from              .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Every expedition will now have 4 different randomly assigned missions, increasing the possibility for earning warp shards.  Completing a mission also extends the time left on current expedition by 1 warp pulse.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Petrified Duty's Call from old money and a spiral stone.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Every expedition will now have 4 different randomly assigned missions, increasing the possibility for earning warp shards.  Completing a mission also extends the time left on current expedition by 1 warp pulse.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_bonusmissions4",
     "count": 1,
@@ -2479,7 +2479,7 @@
         { "math": [ "bonusmissions = 4" ] },
         { "u_forget_recipe": "upgradekey_bonusmissions4" },
         {
-          "u_message": "Your strength is an extension of the island's will.  Let order be maintained.\nIn every future expedition, you will now be given 4 random missions.",
+          "u_message": "Some disrupt the warpstream by their very existence, a problem you will solve through violence.\nIn every future expedition, you will now be given 4 random missions.",
           "type": "mixed"
         }
       ]
@@ -2489,7 +2489,7 @@
     "id": "upgradekey_bonusmissions4",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "                            " },
+    "name": { "str": "Petrified Duty's Call" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Four Missions per Expedition",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -2511,32 +2511,22 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "jade_brooch", 1 ], [ "crown_golden", 1 ], [ "crown_golden_survivor", 1 ] ],
-      [ [ "warptoken", 6 ] ],
-      [ [ "platinum_small", 100 ] ],
-      [ [ "gold_small", 200 ] ],
-      [ [ "silver_small", 500 ] ],
-      [ [ "diamond", 5 ] ],
-      [ [ "ruby", 1 ] ],
-      [ [ "emerald", 1 ] ],
-      [ [ "onyx", 1 ] ],
-      [ [ "garnet", 1 ] ],
-      [ [ "sapphire", 1 ] ],
-      [ [ "opal", 1 ] ],
-      [ [ "pearl", 1 ] ],
-      [ [ "citrine", 1 ] ],
-      [ [ "peridot", 1 ] ],
-      [ [ "amethyst", 1 ] ],
-      [ [ "tourmaline", 1 ] ],
-      [ [ "aquamarine", 1 ] ],
-      [ [ "alexandrite", 1 ] ]
+      [ [ "warptoken", 8 ] ],
+      [ [ "money_bundle_one", 2 ] ],
+      [ [ "money_bundle_two", 2 ] ],
+      [ [ "money_bundle_five", 2 ] ],
+      [ [ "money_bundle_ten", 2 ] ],
+      [ [ "money_bundle_twenty", 2 ] ],
+      [ [ "money_bundle_fifty", 2 ] ],
+      [ [ "money_bundle_hundred", 2 ] ],
+      [ [ "spiral_stone", 1 ] ]
     ]
   },
   {
     "id": "SKYISLAND_UPGRADE_bonusmissions5",
     "type": "mission_definition",
     "name": "Unlock: Five Missions per Expedition",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft                          from                      .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Every expedition will now have 53 different randomly assigned missions, increasing the possibility for earning warp shards.  Completing a mission also extends the time left on current expedition by 1 warp pulse.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Oath of the Island's Enforcer from massive amounts of ink.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Every expedition will now have 53 different randomly assigned missions, increasing the possibility for earning warp shards.  Completing a mission also extends the time left on current expedition by 1 warp pulse.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_bonusmissions5",
     "count": 1,
@@ -2557,7 +2547,7 @@
         { "math": [ "bonusmissions = 5" ] },
         { "u_forget_recipe": "upgradekey_bonusmissions5" },
         {
-          "u_message": "Your strength is an extension of the island's will.  Let order be maintained.\nIn every future expedition, you will now be given 3 random missions.",
+          "u_message": "Your mmind fills with many transgressors that the Island has marked or will mark for death.  Carrying the Island's sentences is your responsibility, a duty you've accepted in full.\nIn every future expedition, you will now be given 5 random missions.",
           "type": "mixed"
         }
       ]
@@ -2567,7 +2557,7 @@
     "id": "upgradekey_bonusmissions5",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "                            " },
+    "name": { "str": "Oath of the Island's Enforcer" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Five Missions per Expedition",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -2587,28 +2577,14 @@
     "time": "15 m",
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
-    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "components": [
-      [ [ "jade_brooch", 1 ], [ "crown_golden", 1 ], [ "crown_golden_survivor", 1 ] ],
-      [ [ "warptoken", 6 ] ],
-      [ [ "platinum_small", 100 ] ],
-      [ [ "gold_small", 200 ] ],
-      [ [ "silver_small", 500 ] ],
-      [ [ "diamond", 5 ] ],
-      [ [ "ruby", 1 ] ],
-      [ [ "emerald", 1 ] ],
-      [ [ "onyx", 1 ] ],
-      [ [ "garnet", 1 ] ],
-      [ [ "sapphire", 1 ] ],
-      [ [ "opal", 1 ] ],
-      [ [ "pearl", 1 ] ],
-      [ [ "citrine", 1 ] ],
-      [ [ "peridot", 1 ] ],
-      [ [ "amethyst", 1 ] ],
-      [ [ "tourmaline", 1 ] ],
-      [ [ "aquamarine", 1 ] ],
-      [ [ "alexandrite", 1 ] ]
-    ]
+    "tools": [
+      [ [ "fakeitem_statue", -1 ] ],
+      [ [ "black_pen", 5000 ] ],
+      [ [ "blue_pen", 5000 ] ],
+      [ [ "red_pen", 5000 ] ],
+      [ [ "green_pen", 5000 ] ]
+    ],
+    "components": [ [ [ "warptoken", 10 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "id": "SKYISLAND_UPGRADE_hardmissions1",
