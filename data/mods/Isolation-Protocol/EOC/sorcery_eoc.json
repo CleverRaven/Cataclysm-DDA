@@ -48,8 +48,8 @@
     "required_event": "opens_spellbook",
     "condition": { "not": { "u_has_wielded_with_flag": "MAGIC_FOCUS" } },
     "effect": [
-      { "math": [ "u_spellcasting_adjustment('cost', 'school': 'iso_eldritch_sorcery'", "=", "0.5" ] },
-      { "math": [ "u_spellcasting_adjustment('casting_time', 'school': 'iso_eldritch_sorcery'", "=", "1" ] }
+      { "math": [ "u_spellcasting_adjustment('cost', 'school': 'iso_eldritch_sorcery')", "=", "0.5" ] },
+      { "math": [ "u_spellcasting_adjustment('casting_time', 'school': 'iso_eldritch_sorcery')", "=", "1" ] }
     ]
   },
   {
@@ -74,32 +74,30 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ISO_LAST_SCION_STORE_SPELL_LEVELS_RECURRING",
+    "recurrence": 60,
+    "condition": { "u_has_trait": "iso_eldritch_sorcery" },
+    "deactivate_condition": { "not": { "u_has_trait": "iso_eldritch_sorcery" } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_ISO_LAST_SCION_STORE_SPELL_LEVELS",
+            "condition": { "u_has_trait": "iso_eldritch_sorcery" },
+            "effect": [  ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ISO_LAST_SCION_SPELL_GAINING_WHEN_PICK_UP_GUN",
     "eoc_type": "EVENT",
     "required_event": "character_wields_item",
+    "//": "Ammo below listed in order of rarity according to item_demographics in the test data.  Everything lower than 410shot has a weight of 1 and multiple types could be combined to a single spell",
     "condition": { "and": [ { "u_has_wielded_with_skill": "gun" }, { "u_has_trait": "iso_eldritch_sorcery" } ] },
     "effect": [
-      {
-        "if": { "u_has_wielded_with_ammotype": "10mm" },
-        "then": [
-          { "set_string_var": "iso_eldritch_cone_lightning", "target_var": { "global_val": "new_last_scion_spell_id" } },
-          {
-            "set_string_var": "Stormtenders' Fulminating Fury",
-            "target_var": { "global_val": "new_last_scion_spell_name" }
-          },
-          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
-        ]
-      },
-      {
-        "if": { "u_has_wielded_with_ammotype": "223" },
-        "then": [
-          { "set_string_var": "iso_eldritch_cold_damage_blast", "target_var": { "global_val": "new_last_scion_spell_id" } },
-          {
-            "set_string_var": "The Frozen Heart of R'shothai",
-            "target_var": { "global_val": "new_last_scion_spell_name" }
-          }
-        ]
-      },
       {
         "if": { "u_has_wielded_with_ammotype": "9mm" },
         "then": [
@@ -108,11 +106,113 @@
             "set_string_var": "The Transportations of Immenar",
             "target_var": { "global_val": "new_last_scion_spell_name" }
           },
+          { "math": [ "new_last_scion_spell_level == u_iso_eldritch_blink_stored_level" ] },
           { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
         ]
       },
       {
+        "if": { "u_has_wielded_with_ammotype": "22" },
+        "then": [
+          { "set_string_var": "iso_eldritch_stun_blind_deaf", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          {
+            "set_string_var": "Inescapable Tesseract of Thought",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          },
+          { "math": [ "new_last_scion_spell_level == u_iso_eldritch_stun_blind_deaf_stored_level" ] },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
+      { "if": { "u_has_wielded_with_ammotype": "223" }, "then": [  ] },
+      {
+        "if": { "u_has_wielded_with_ammotype": "45" },
+        "then": [
+          { "set_string_var": "iso_eldritch_cone_lightning", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          {
+            "set_string_var": "Stormtenders' Fulminating Fury",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          },
+          { "math": [ "new_last_scion_spell_level == u_iso_eldritch_cone_lightning_stored_level" ] },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
+      { "if": { "u_has_wielded_with_ammotype": "380" }, "then": [  ] },
+      {
+        "if": { "u_has_wielded_with_ammotype": "40" },
+        "then": [
+          { "set_string_var": "iso_eldritch_imprisonment", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          {
+            "set_string_var": "The Adamantine Gaol of Emthys",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          },
+          { "math": [ "new_last_scion_spell_level == u_iso_eldritch_imprisonment_stored_level" ] },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
+      {
+        "if": { "u_has_wielded_with_ammotype": "762" },
+        "then": [
+          { "set_string_var": "iso_eldritch_cold_damage_blast", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          {
+            "set_string_var": "The Frozen Heart of R'shothai",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          },
+          { "math": [ "new_last_scion_spell_level == u_iso_eldritch_cold_damage_blast_stored_level" ] },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
+      { "if": { "u_has_wielded_with_ammotype": "357mag" }, "then": [  ] },
+      { "if": { "u_has_wielded_with_ammotype": "shot" }, "then": [  ] },
+      {
+        "if": { "u_has_wielded_with_ammotype": "308" },
+        "then": [
+          { "set_string_var": "iso_eldritch_imprisonment", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          {
+            "set_string_var": "The Adamantine Gaol of Emthys",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          },
+          { "math": [ "new_last_scion_spell_level == u_iso_eldritch_imprisonment_stored_level" ] },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
+      { "if": { "u_has_wielded_with_ammotype": "38" }, "then": [  ] },
+      { "if": { "u_has_wielded_with_ammotype": "44c" }, "then": [  ] },
+      {
         "if": { "u_has_wielded_with_ammotype": "3006" },
+        "then": [
+          { "set_string_var": "iso_eldritch_polymorph", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          {
+            "set_string_var": "Tsath's Horrific Metamorphosis",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          },
+          { "math": [ "new_last_scion_spell_level == u_iso_eldritch_polymorph_stored_level" ] },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
+      {
+        "if": { "u_has_wielded_with_ammotype": "45colt" },
+        "then": [
+          { "set_string_var": "iso_eldritch_destroy_nether", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          {
+            "set_string_var": "Thricefold Abjuration of the Outside",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          },
+          { "math": [ "new_last_scion_spell_level == u_iso_eldritch_destroy_nether_stored_level" ] },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
+      { "if": { "u_has_wielded_with_ammotype": "762R" }, "then": [  ] },
+      { "if": { "u_has_wielded_with_ammotype": "10mm" } },
+      { "if": { "u_has_wielded_with_ammotype": "270win" }, "then": [  ] },
+      { "if": { "u_has_wielded_with_ammotype": "410shot" }, "then": [  ] },
+      { "if": { "u_has_wielded_with_ammotype": "123ln" }, "then": [  ] },
+      { "if": { "u_has_wielded_with_ammotype": "300" }, "then": [  ] },
+      { "if": { "u_has_wielded_with_ammotype": "303" }, "then": [  ] },
+      { "if": { "u_has_wielded_with_ammotype": "30carbine" }, "then": [  ] },
+      { "if": { "u_has_wielded_with_ammotype": "32" }, "then": [  ] },
+      { "if": { "u_has_wielded_with_ammotype": "338lapua" }, "then": [  ] },
+      { "if": { "u_has_wielded_with_ammotype": "357sig" }, "then": [  ] },
+      {
+        "if": { "u_has_wielded_with_ammotype": "50" },
         "then": [
           { "set_string_var": "iso_eldritch_polymorph", "target_var": { "global_val": "new_last_scion_spell_id" } },
           {
@@ -123,18 +223,7 @@
         ]
       },
       {
-        "if": { "or": [ { "u_has_wielded_with_ammotype": "45" }, { "u_has_wielded_with_ammotype": "45colt" } ] },
-        "then": [
-          { "set_string_var": "iso_eldritch_imprisonment", "target_var": { "global_val": "new_last_scion_spell_id" } },
-          {
-            "set_string_var": "The Adamantine Gaol of Emthys",
-            "target_var": { "global_val": "new_last_scion_spell_name" }
-          },
-          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
-        ]
-      },
-      {
-        "if": { "u_has_wielded_with_ammotype": "50" },
+        "if": { "u_has_wielded_with_ammotype": "40x46mm" },
         "then": [
           { "set_string_var": "iso_eldritch_polymorph", "target_var": { "global_val": "new_last_scion_spell_id" } },
           {

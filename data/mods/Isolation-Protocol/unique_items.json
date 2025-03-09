@@ -139,9 +139,8 @@
     "symbol": "/",
     "color": "white",
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ],
-    "melee_damage": { "bash": 29 },
-    "enchantments": [ { "condition": "held", "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.5 } ] } ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "RELIC_PINK", "MAGIC_FOCUS" ],
+    "melee_damage": { "bash": 29 }
   },
   {
     "id": "iso_sorcerers_robe",
