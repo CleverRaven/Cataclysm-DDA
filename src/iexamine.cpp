@@ -137,8 +137,8 @@ static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_vis
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
-static const efftype_id effect_stunned("stunned");
-static const efftype_id effect_downed("downed");
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_downed( "downed" );
 
 
 static const quality_id qual_CUT("CUT");
