@@ -759,9 +759,7 @@ struct sound_effect_handler {
                     channels_to_end_mutex.unlock();
                 }
             }
-
         } else {
-
 
             // assuming the sound ISN'T over, we need to fill stream with (len/bytes_per_sample) samples from handler->audio_src in this loop.
             for( int dst_index = 0; dst_index < len / bytes_per_sample &&
