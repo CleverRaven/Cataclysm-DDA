@@ -132,8 +132,8 @@ static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slow_descent( "slow_descent" );
+static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_downed( "downed" ); // NOLINT(cata-unused-statics)
 static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
 static const efftype_id effect_teleglow( "teleglow" );
