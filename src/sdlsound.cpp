@@ -739,7 +739,7 @@ struct sound_effect_handler {
             0 ) { // then we have no more audio to load; the sound effect is over and we're just waiting for SDL to finish playing it and for the main thread to call Mix_HaltChannel()
             memset( stream, 0,
                     len ); // since the sound is over, tell SDL_Mixer to play nothing by setting all the samples to 0 (faster than iterating through the whole thing)
-
+             
             // the sound effect won't end on its own, we need to tell the main thread to stop it.
             // however, we don't want to do that as soon as we finish SENDING audio since the audio device won't be done playing it yet.
             // therefore, we let the sound loop an extra time to finish playing.
