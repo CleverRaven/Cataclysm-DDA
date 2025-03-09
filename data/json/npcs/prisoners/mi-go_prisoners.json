@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "mi-go_prisoner",
-    "//": "A regular prisoner that can be rescued - 25% chance",
+    "//": "A regular prisoner that can be rescued",
     "name_suffix": "Prisoner",
     "class": "NC_PRISONER",
     "attitude": 0,

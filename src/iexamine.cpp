@@ -137,7 +137,11 @@ static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_vis
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+static const efftype_id effect_stunned("stunned");
+static const efftype_id effect_downed("downed");
 
+
+static const quality_id qual_CUT("CUT");
 static const furn_str_id furn_f_arcfurnace_empty( "f_arcfurnace_empty" );
 static const furn_str_id furn_f_arcfurnace_full( "f_arcfurnace_full" );
 static const furn_str_id furn_f_compost_empty( "f_compost_empty" );
@@ -3997,6 +4001,120 @@ void iexamine::fvat_empty( Character &you, const tripoint_bub_ms &examp )
     }
 }
 
+void iexamine::migo_cocoon(Character& you, const tripoint_bub_ms& examp)
+{
+    map& here = get_map();
+
+    if (!you.has_quality(qual_CUT)) {
+        add_msg(m_info, _("You need a cutting tool to open this cocoon."));
+        return;
+    }
+
+    if (!query_yn(_("Try to open the mi-go cocoon? The fluid inside looks... alive."))) {
+        return;
+    }
+
+    sounds::sound(examp, 10, sounds::sound_t::combat, _("*rip*"), true, "tear", "fabric");
+
+    here.furn_set(examp, furn_str_id("f_migo_cocoon_open"));
+
+    int outcome = rng(1, 100);
+
+    if (outcome <= 60) {
+        int prisoner_type = rng(1, 100);
+
+        if (prisoner_type <= 40) { // 40% 
+            add_msg(m_warning, _("A dazed prisoner stumbles out of the cocoon."));
+            monster pathetic_prisoner(mtype_id("mon_pathetic_prisoner"), examp);
+            pathetic_prisoner.add_effect(effect_stunned, rng(3_turns, 8_turns));
+            g->place_critter_at(make_shared_fast<monster>(pathetic_prisoner), examp);
+        }
+        else if (prisoner_type <= 50) { // 10% - feral prisoner
+            add_msg(m_warning, _("A prisoner falls out of the cocoon, looking disoriented."));
+            monster feral_prisoner(mtype_id("mon_feral_prisoner"), examp);
+            feral_prisoner.add_effect(effect_stunned, rng(3_turns, 8_turns));
+            g->place_critter_at(make_shared_fast<monster>(feral_prisoner), examp);
+        }
+        else if (prisoner_type <= 75) { // 25% - drained captive
+            add_msg(m_warning, _("A barely alive human falls limply from the cocoon."));
+            monster drained_captive(mtype_id("mon_drained_captive"), examp);
+            g->place_critter_at(make_shared_fast<monster>(drained_captive), examp);
+        }
+        else { // 25% - Real human survivor
+            add_msg(m_good, _("A human survivor falls out of the cocoon!"));
+
+            shared_ptr_fast<npc> prisoner = make_shared_fast<npc>();
+            prisoner->normalize();
+
+            string_id<npc_template> npc_type("mi-go_prisoner");
+            if (!npc_type.is_valid()) {
+                add_msg(m_debug, "Invalid NPC template: mi-go_prisoner");
+                return;
+            }
+
+            prisoner->load_npc_template(npc_type);
+
+            prisoner->set_all_parts_hp_cur(rng(10, 75));
+            prisoner->add_effect(efftype_id("stunned"), rng(5_turns, 20_turns));
+            prisoner->add_effect(efftype_id("downed"), rng(5_turns, 20_turns));
+
+            tripoint_abs_ms abs_pos = here.get_abs(examp);
+            prisoner->spawn_at_precise(abs_pos);
+            prisoner->set_fac(faction_id("no_faction"));
+            overmap_buffer.insert_npc(prisoner);
+
+            if (one_in(3)) {
+                add_msg(m_warning, _("The survivor has strange crystalline implants visible under their skin."));
+                trait_id mi_go_trait = trait_id("MIGO_EXPERIMENT_MINOR");
+                if (mi_go_trait.is_valid()) {
+                    prisoner->set_mutation(mi_go_trait);
+                }
+            }
+            add_msg(m_info, _("They appear to be in shock and covered in some kind of bioluminescent fluid."));
+            prisoner->add_effect(efftype_id("migo_serum"), rng(10_minutes, 30_minutes));
+        }
+    }
+    else if (outcome <= 75) { // 15% monster
+        add_msg(m_bad, _("Something monstrous bursts from the cocoon!"));
+
+        std::vector<mtype_id> monster_types = {
+            mtype_id("mon_zombie"),
+            mtype_id("mon_zombie_brute"),
+            mtype_id("mon_mi_go_experiment"),
+            mtype_id("mon_mi_go_guard_human")
+        };
+
+        mtype_id mon_type = random_entry(monster_types);
+        monster cocoon_monster(mon_type, examp);
+        cocoon_monster.add_effect(effect_stunned, rng(3_turns, 8_turns));
+        g->place_critter_at(make_shared_fast<monster>(cocoon_monster), examp);
+    }
+    else if (outcome <= 90) { // 15% corpse
+        add_msg(m_neutral, _("You find a partially dissected human corpse inside the cocoon."));
+
+        item body = item::make_corpse(mtype_id("mon_human"), calendar::turn, "Human Victim");
+        here.add_item_or_charges(examp, body);
+
+        if (one_in(3)) {
+            here.put_items_from_loc(item_group_id("everyday_gear"), examp, calendar::turn);
+        }
+    }
+    else { // 10% empty with biomaterials
+        add_msg(m_neutral, _("The cocoon is empty, but contains some strange biomaterials."));
+
+        here.spawn_item(examp, itype_id("slime_scrap"), rng(1, 4));
+        if (one_in(3)) {
+            here.spawn_item(examp, itype_id("chitin_piece"), rng(1, 2));
+        }
+    }
+
+    if (one_in(10) && !you.has_trait(trait_id("INFRESIST"))) {
+        add_msg(m_bad, _("You feel something wet and sticky on your hands. The fluid seems to be seeping into your skin."));
+        you.add_effect(efftype_id("migo_serum"), rng(10_minutes, 30_minutes));
+    }
+
+    you.mod_moves(-to_moves<int>(20_seconds));
+}
 void iexamine::fvat_full( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
@@ -7778,6 +7896,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "fireplace", &iexamine::fireplace },
             { "ledge", &iexamine::ledge },
             { "autodoc", &iexamine::autodoc },
+            { "migo_cocoon", &iexamine::migo_cocoon }, 
             { "quern_examine", &iexamine::quern_examine },
             { "smoker_options", &iexamine::smoker_options },
             { "open_safe", &iexamine::open_safe },

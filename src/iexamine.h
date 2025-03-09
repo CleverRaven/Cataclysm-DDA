@@ -150,6 +150,8 @@ void workbench_internal( Character &you, const tripoint_bub_ms &examp,
 void workout( Character &you, const tripoint_bub_ms &examp );
 void invalid( Character &you, const tripoint_bub_ms &examp );
 
+void migo_cocoon(Character& you, const tripoint_bub_ms& examp);
+
 bool pour_into_keg( const tripoint_bub_ms &pos, item &liquid );
 std::optional<tripoint_bub_ms> getGasPumpByNumber( const tripoint_bub_ms &p, int number );
 bool toPumpFuel( const tripoint_bub_ms &src, const tripoint_bub_ms &dst, int units );
