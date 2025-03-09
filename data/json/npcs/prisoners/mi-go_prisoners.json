@@ -59,36 +59,36 @@
       "Can you get me out of this hell hole? I don't know how much longer I can take it.",
       "Who are you? Are you real? I thought I was going to die in here.",
       "Can you please save me? I have to get out of here before they come back.",
-      "Hallelujah, rescue! I thought everyone was dead or... changed.",
+      "Hallelujah, rescue! I thought everyone was dead or… changed.",
       "I can't believe my eyes. Thank you, thank you for coming!",
-      "You're… you're actually human! The mi-go... they've been experimenting on us."
+      "You're… you're actually human! The mi-go… they've been experimenting on us."
     ]
   },
   {
     "type": "snippet",
     "category": "<migo_prisoner_schizo>",
     "text": [
-      "The walls... they whisper... can you hear them too? Please, we have to leave...",
-      "They're still in my head... chittering... watching through my eyes...",
-      "Don't trust the shadows! They... they move when you're not looking!",
-      "The voices won't stop... they keep telling me to go back to the chamber..."
+      "The walls… they whisper… can you hear them too? Please, we have to leave…",
+      "They're still in my head… chittering… watching through my eyes…",
+      "Don't trust the shadows! They… they move when you're not looking!",
+      "The voices won't stop… they keep telling me to go back to the chamber…"
     ]
   },
   {
     "type": "snippet",
     "category": "<migo_prisoner_forgetful>",
     "text": [
-      "What day is it? How long have I been here? I can't... I can't remember anything clearly.",
-      "I... I can't remember how I got here. Everything before is just... fog.",
-      "My memories keep slipping away... Did they take them? What did they do to my mind?",
-      "I'm trying to remember my name... my home... but it's all fragments..."
+      "What day is it? How long have I been here? I can't… I can't remember anything clearly.",
+      "I… I can't remember how I got here. Everything before is just… fog.",
+      "My memories keep slipping away… Did they take them? What did they do to my mind?",
+      "I'm trying to remember my name… my home… but it's all fragments…"
     ]
   },
   {
     "type": "snippet",
     "category": "<migo_prisoner_rescued>",
     "text": [
-      "Thank you again for rescuing me. Those... things... were doing experiments on us.",
+      "Thank you again for rescuing me. Those… things… were doing experiments on us.",
       "I still have trouble sleeping. But at least I'm free now.",
       "I'm trying to adjust to being free again. It's not easy after what they did to us.",
       "Do you think there are more people trapped in those alien structures?",
@@ -189,20 +189,20 @@
     "id": "TALK_MI-GO_PRISONER_MUTATIONS",
     "dynamic_line": {
       "npc_has_trait": "MIGO_EXPERIMENT_MINOR",
-      "yes": "I've noticed some strange crystalline patches on my skin. They... they did something to me. Sometimes I feel phantom sensations, like something's crawling underneath.",
+      "yes": "I've noticed some strange crystalline patches on my skin. They… they did something to me. Sometimes I feel phantom sensations, like something's crawling underneath.",
       "no": {
         "npc_has_trait": "MIGO_NEURAL_LINK",
-        "yes": "There's something at the base of my skull. I can feel it. Sometimes I get these... flashes of information. Like I can sense electronics or pick up signals. It's terrifying.",
+        "yes": "There's something at the base of my skull. I can feel it. Sometimes I get these… flashes of information. Like I can sense electronics or pick up signals. It's terrifying.",
         "no": {
           "npc_has_trait": "MIGO_VISION",
-          "yes": "My eyes... they changed my eyes. I can see in the dark better now, and sometimes I see colors that shouldn't be there. UV patterns on flowers, electromagnetic fields around power lines...",
+          "yes": "My eyes… they changed my eyes. I can see in the dark better now, and sometimes I see colors that shouldn't be there. UV patterns on flowers, electromagnetic fields around power lines…",
           "no": {
             "npc_has_trait": "FRAIL",
-            "yes": "I feel... weaker. Like they hollowed me out somehow. My bones ache and I get tired so easily now.",
+            "yes": "I feel… weaker. Like they hollowed me out somehow. My bones ache and I get tired so easily now.",
             "no": {
               "npc_has_trait": "UNSTABLE",
-              "yes": "Sometimes I feel like my body is... shifting. Changing in subtle ways. I'll wake up and my fingers seem longer, or my skin feels different. It's subtle but terrifying.",
-              "no": "I don't think they changed me physically, but mentally... I'm not the same person anymore."
+              "yes": "Sometimes I feel like my body is… shifting. Changing in subtle ways. I'll wake up and my fingers seem longer, or my skin feels different. It's subtle but terrifying.",
+              "no": "I don't think they changed me physically, but mentally… I'm not the same person anymore."
             }
           }
         }
@@ -230,19 +230,19 @@
     "id": "TALK_MI-GO_PRISONER_MUTATIONS_POSITIVE",
     "dynamic_line": {
       "npc_has_trait": "MIGO_EXPERIMENT_MINOR",
-      "yes": "I... I never thought of it that way. You think this could be useful somehow?",
+      "yes": "I… I never thought of it that way. You think this could be useful somehow?",
       "no": {
         "npc_has_trait": "MIGO_NEURAL_LINK",
-        "yes": "Useful? I guess... I have noticed I can sometimes sense electrical devices before I see them. Maybe you're right.",
+        "yes": "Useful? I guess… I have noticed I can sometimes sense electrical devices before I see them. Maybe you're right.",
         "no": {
           "npc_has_trait": "MIGO_VISION",
-          "yes": "I suppose being able to see in the dark is helpful. And sometimes I notice things others don't because of these... enhancements.",
+          "yes": "I suppose being able to see in the dark is helpful. And sometimes I notice things others don't because of these… enhancements.",
           "no": {
             "npc_has_trait": "FRAIL",
-            "yes": "I don't see how being weaker helps me survive, but... I guess I appreciate your optimism.",
+            "yes": "I don't see how being weaker helps me survive, but… I guess I appreciate your optimism.",
             "no": {
               "npc_has_trait": "UNSTABLE",
-              "yes": "You think so? I'm terrified of what I might become. But maybe you're right... adaptability could be valuable now.",
+              "yes": "You think so? I'm terrified of what I might become. But maybe you're right… adaptability could be valuable now.",
               "no": "Maybe. I still feel violated, but I'll try to look at it as a survival advantage."
             }
           }
@@ -281,7 +281,7 @@
     "type": "talk_topic",
     "id": "TALK_MI-GO_PRISONER_MUTATIONS_CAUTION",
     "dynamic_line": [
-      "You're right. For all I know, these changes could be killing me slowly... or worse.",
+      "You're right. For all I know, these changes could be killing me slowly… or worse.",
       "I worry about that too. What if I'm becoming something else? Something not human?",
       "Do you think I should be monitored? What if these changes progress further?"
     ],
@@ -300,7 +300,7 @@
     "id": "TALK_MI-GO_PRISONER_FOLLOW",
     "dynamic_line": {
       "npc_has_trait": "SCHIZOPHRENIC",
-      "yes": "Yes! Yes, we need to go... they're coming back... I can hear them in the walls...",
+      "yes": "Yes! Yes, we need to go… they're coming back… I can hear them in the walls…",
       "no": "Oh thank god! Yes, please get me out of here. I'll follow you."
     },
     "responses": [
@@ -321,7 +321,7 @@
     "id": "TALK_MI-GO_PRISONER_REJECTED",
     "dynamic_line": {
       "npc_has_trait": "FORGETFUL",
-      "yes": "What? No, wait... where am I supposed to go? I can't even remember how I got here!",
+      "yes": "What? No, wait… where am I supposed to go? I can't even remember how I got here!",
       "no": "What? You can't just leave me here! Please! They'll come back for me!"
     },
     "responses": [
@@ -344,7 +344,7 @@
     "category": "<migo_prisoner_feelings>",
     "text": [
       "I'm still processing everything that happened. It's a lot to take in.",
-      "Physically, I'm recovering. Mentally... that's going to take a lot longer.",
+      "Physically, I'm recovering. Mentally… that's going to take a lot longer.",
       "I'm just grateful to be alive. Many others weren't so lucky.",
       "Every noise makes me jump now. I don't know if I'll ever feel safe again.",
       "I keep wondering why they took us. What were they trying to learn?"
@@ -354,8 +354,8 @@
     "type": "snippet",
     "category": "<migo_prisoner_feelings_schizo>",
     "text": [
-      "The voices... they don't stop. Sometimes I hear the mi-go chittering inside my head.",
-      "I see things... shadows moving... lights that aren't there... am I going crazy?",
+      "The voices… they don't stop. Sometimes I hear the mi-go chittering inside my head.",
+      "I see things… shadows moving… lights that aren't there… am I going crazy?",
       "Sometimes I think I'm still there, that this is just another of their experiments.",
       "I can't tell what's real anymore. Are you real? Am I?"
     ]
@@ -364,9 +364,9 @@
     "type": "snippet",
     "category": "<migo_prisoner_feelings_forgetful>",
     "text": [
-      "I keep losing track of time. Where we are. What we're doing. It's like... parts of my memory are just gone.",
+      "I keep losing track of time. Where we are. What we're doing. It's like… parts of my memory are just gone.",
       "I struggle to remember my life before the capture. Did I have a family? A job?",
-      "My thoughts are... fragmented. Like puzzle pieces that don't fit together anymore.",
+      "My thoughts are… fragmented. Like puzzle pieces that don't fit together anymore.",
       "I find myself staring into space, not knowing how long I've been sitting there."
     ]
   },
@@ -398,7 +398,7 @@
     "type": "snippet",
     "category": "<migo_prisoner_info>",
     "text": [
-      "They communicate with clicks and whistles. Sometimes I could feel them... in my head.",
+      "They communicate with clicks and whistles. Sometimes I could feel them… in my head.",
       "They were studying us. Taking samples, running tests. Some people never came back from the procedures.",
       "I overheard them communicating. They call themselves 'mi-go'. They're not from Earth.",
       "They're extremely intelligent. I saw them operating machinery that seemed impossible.",
@@ -409,20 +409,20 @@
     "type": "snippet",
     "category": "<migo_prisoner_info_schizo>",
     "text": [
-      "They can get inside your head... change how you think... make you see things that aren't there...",
+      "They can get inside your head… change how you think… make you see things that aren't there…",
       "They're watching us right now! Through our eyes! They can see everything we do!",
-      "I heard them talking about 'the messenger' and 'the harbinger'. Something's coming...",
-      "They have a hive mind. All connected. All one. They tried to connect me too..."
+      "I heard them talking about 'the messenger' and 'the harbinger'. Something's coming…",
+      "They have a hive mind. All connected. All one. They tried to connect me too…"
     ]
   },
   {
     "type": "snippet",
     "category": "<migo_prisoner_info_forgetful>",
     "text": [
-      "There's so much I can't remember clearly... but they had this chamber... for mind experiments...",
-      "I think they were extracting... memories? Knowledge? Something from our brains.",
-      "They kept records of everything. Charts, data... but I can't remember the details...",
-      "They were... selecting people. For different tests. I don't remember what happened to me..."
+      "There's so much I can't remember clearly… but they had this chamber… for mind experiments…",
+      "I think they were extracting… memories? Knowledge? Something from our brains.",
+      "They kept records of everything. Charts, data… but I can't remember the details…",
+      "They were… selecting people. For different tests. I don't remember what happened to me…"
     ]
   },
   {
@@ -447,8 +447,8 @@
     "id": "TALK_PATHETIC_PRISONER",
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
-      "yes": [ "Authority... please... they're in my head...", "You wear the symbol... are you real?", "Can't... focus... help..." ],
-      "no": [ "The stars... they sing...", "*mumbles incoherently*", "Not real... you're not real...", "The walls have eyes..." ]
+      "yes": [ "Authority… please… they're in my head…", "You wear the symbol… are you real?", "Can't… focus… help…" ],
+      "no": [ "The stars… they sing…", "*mumbles incoherently*", "Not real… you're not real…", "The walls have eyes…" ]
     },
     "responses": [ { "text": "Are you okay?", "topic": "TALK_PATHETIC_PRISONER_CONVERSE" }, { "text": "[Leave]", "topic": "TALK_DONE" } ]
   },
@@ -456,9 +456,9 @@
     "type": "talk_topic",
     "id": "TALK_PATHETIC_PRISONER_CONVERSE",
     "dynamic_line": [
-      "Brain... hurts... can't think straight...",
+      "Brain… hurts… can't think straight…",
       "*stares through you with unfocused eyes*",
-      "They... studied us... changed things..."
+      "They… studied us… changed things…"
     ],
     "responses": [
       { "text": "I'll help you get out of here.", "topic": "TALK_PATHETIC_PRISONER_HELP" },
@@ -468,13 +468,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_PATHETIC_PRISONER_HELP",
-    "dynamic_line": [ "No... can't leave... they'll find me...", "*shakes head violently*", "Too late for me... save yourself..." ],
+    "dynamic_line": [ "No… can't leave… they'll find me…", "*shakes head violently*", "Too late for me… save yourself…" ],
     "responses": [ { "text": "[Leave]", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_FERAL_PRISONER",
-    "dynamic_line": [ "*looks at you with wild eyes*", "*breathes heavily*", "Help... me..." ],
+    "dynamic_line": [ "*looks at you with wild eyes*", "*breathes heavily*", " Help…  me…" ],
     "responses": [
       { "text": "It's okay, I'm here to help.", "topic": "TALK_FERAL_PRISONER_HELP" },
       { "text": "[Leave]", "topic": "TALK_DONE" }
@@ -489,7 +489,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_DRAINED_CAPTIVE",
-    "dynamic_line": "...",
+    "dynamic_line": "…",
     "responses": [
       { "text": "Hello?", "topic": "TALK_DRAINED_CAPTIVE_HELLO" },
       { "text": "[Check pulse]", "topic": "TALK_DRAINED_CAPTIVE_PULSE" },
@@ -499,19 +499,19 @@
   {
     "type": "talk_topic",
     "id": "TALK_DRAINED_CAPTIVE_HELLO",
-    "dynamic_line": "...",
+    "dynamic_line": "…",
     "responses": [ { "text": "Can you hear me?", "topic": "TALK_DRAINED_CAPTIVE_HEAR" }, { "text": "[Leave]", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_DRAINED_CAPTIVE_HEAR",
-    "dynamic_line": "...",
+    "dynamic_line": "…",
     "responses": [ { "text": "[Leave]", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_DRAINED_CAPTIVE_PULSE",
-    "dynamic_line": "Their pulse is weak but steady. They're alive, but completely unresponsive. Their pupils don't react to light.",
+    "dynamic_line": "Their pulse is weak but steady.  They're alive, but completely unresponsive.  Their pupils don't react to light.",
     "responses": [ { "text": "[Leave]", "topic": "TALK_DONE" } ]
   }
 ]
