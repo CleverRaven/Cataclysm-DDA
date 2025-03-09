@@ -3214,6 +3214,9 @@ static void CheckMessages()
                 gamepad::handle_scheduler_event( ev );
                 break;
             case SDL_MOUSEMOTION:
+                if( ! enable_mouse ) {
+                    break;
+                }
                 if( get_option<std::string>( "HIDE_CURSOR" ) == "show" ||
                     get_option<std::string>( "HIDE_CURSOR" ) == "hidekb" ) {
                     if( !SDL_ShowCursor( -1 ) ) {
@@ -3226,6 +3229,9 @@ static void CheckMessages()
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
+                if( ! enable_mouse ) {
+                    break;
+                }
                 switch( ev.button.button ) {
                     case SDL_BUTTON_LEFT:
                         last_input = input_event( MouseInput::LeftButtonPressed, input_event_t::mouse );
@@ -3243,6 +3249,9 @@ static void CheckMessages()
                 break;
 
             case SDL_MOUSEBUTTONUP:
+                if( ! enable_mouse ) {
+                    break;
+                }
                 switch( ev.button.button ) {
                     case SDL_BUTTON_LEFT:
                         last_input = input_event( MouseInput::LeftButtonReleased, input_event_t::mouse );
@@ -3260,6 +3269,9 @@ static void CheckMessages()
                 break;
 
             case SDL_MOUSEWHEEL:
+                if( ! enable_mouse ) {
+                    break;
+                }
                 if( ev.wheel.y > 0 ) {
                     last_input = input_event( MouseInput::ScrollWheelUp, input_event_t::mouse );
                 } else if( ev.wheel.y < 0 ) {
@@ -3697,6 +3709,12 @@ void catacurses::init_interface()
     init_term_size_and_scaling_factor();
 
     WinCreate();
+
+    if( enable_mouse ) {
+        ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NoMouse;
+    } else {
+        ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+    }
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
     fartilecontext = std::make_shared<cata_tiles>( renderer, geometry, ts_cache );

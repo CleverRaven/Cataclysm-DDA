@@ -11,6 +11,7 @@
 // options.cpp).
 
 extern bool keycode_mode;
+extern bool enable_mouse;
 extern bool log_from_top;
 extern int message_ttl;
 extern int message_cooldown;
