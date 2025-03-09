@@ -2,8 +2,8 @@
   {
     "id": "island_bound_share_waterwalking_spell",
     "type": "SPELL",
-    "name": "Share waterwalking",
-    "description": "Grant waterwalking to island-bound NPCs when using a waterwalking stone near them.",
+    "name": { "str": "Share water walking", "//~": "NO_I18N" },
+    "description": { "str": "Grant water walking to island-bound NPCs when using a waterwalking stone near them.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "spell_class": "NONE",
     "flags": [ "NO_FAIL", "NO_EXPLOSION_SFX" ],

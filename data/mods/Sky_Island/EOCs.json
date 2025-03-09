@@ -75,6 +75,21 @@
         ]
       },
       {
+        "run_eocs": [
+          {
+            "id": "EOC_PLAYER_START_CLAIRVVOYANCE",
+            "condition": { "math": [ "scoutingclairvoyancetime >= 1" ] },
+            "effect": [
+              {
+                "u_add_effect": "effect_warped_super_clairvoyance",
+                "intensity": 1,
+                "duration": { "global_val": "var", "var_name": "scoutingclairvoyancetime", "default": "3 s" }
+              }
+            ]
+          }
+        ]
+      },
+      {
         "u_run_npc_eocs": [
           {
             "id": "EOC_initiate_randomport_npc_follower",
@@ -134,6 +149,21 @@
                 "u_add_effect": "effect_warped_phasing",
                 "intensity": 1,
                 "duration": { "global_val": "var", "var_name": "invistime", "default": "3 s" }
+              }
+            ]
+          },
+          {
+            "run_eocs": [
+              {
+                "id": "EOC_NPC_START_CLAIRVVOYANCE",
+                "condition": { "math": [ "scoutingclairvoyancetime >= 1" ] },
+                "effect": [
+                  {
+                    "u_add_effect": "effect_warped_super_clairvoyance",
+                    "intensity": 1,
+                    "duration": { "global_val": "var", "var_name": "scoutingclairvoyancetime", "default": "3 s" }
+                  }
+                ]
               }
             ]
           }
@@ -391,6 +421,67 @@
     ]
   },
   {
+    "id": "EOC_return_OM_teleport_one_follower",
+    "//": "This EOC returns a single follower home, and nothing else.",
+    "effect": [
+      { "u_teleport": { "global_val": "OM_HQ_origin_npc" }, "force": true },
+      {
+        "location_variable_adjust": { "global_val": "OM_HQ_origin_npc" },
+        "x_adjust": [ -2, -1, 1, 2 ],
+        "y_adjust": [ -2, -1, 1, 2 ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_follower_died",
+    "//": "This EOC is called when a NPC dies.  Before anything else happens, it checks if the NPC is island-bound and has a lifeshield mote.  If so, it warps them home safe and sound, and all their stuff comes back with them.  Otherwise, it moves on to other death checks below.",
+    "eoc_type": "NPC_DEATH",
+    "condition": { "and": [ { "u_has_trait": "mut_skyisland_island_bound" }, { "u_has_item": "warphome" } ] },
+    "effect": [
+      "u_prevent_death",
+      { "run_eocs": [ "EOC_return_OM_teleport_one_follower", "EOC_healall" ] },
+      {
+        "message": "As <u_name> dies, the mote of warp essence on them jolts with a brilliant energy.  They vanish and the mote is spent, but you know that they are alive and well."
+      }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_deathconfirmed_follower" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_deathconfirmed_follower",
+    "//": "The follower's death is now confirmed and not protected.  The true effect is when they die on the island, and the false effect is when you die out in the world.  Both make them incorporeal, which saves them from damage but also makes them drop all items behind, then heal them slightly to prevent death.",
+    "//2": "If they're not island-bound, then they die as usual.",
+    "condition": { "and": [ { "not": { "u_has_trait": "awayfromhome" } }, { "u_has_trait": "mut_skyisland_island_bound" } ] },
+    "effect": [
+      "u_prevent_death",
+      { "u_add_effect": "downed", "duration": 1 },
+      { "u_add_effect": "incorporeal", "duration": 500 },
+      { "run_eocs": [ "EOC_death_heal" ] },
+      { "message": "As they die, <u_name> vanishes for a second then reappears, injured but alive." }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_deathconfirmed_follower_island_bound_check",
+            "condition": { "u_has_trait": "mut_skyisland_island_bound" },
+            "effect": [
+              "u_prevent_death",
+              { "u_add_effect": "incorporeal", "duration": 1 },
+              { "u_add_effect": "downed", "duration": 1 },
+              { "run_eocs": [ "EOC_death_heal" ] },
+              { "run_eocs": "EOC_return_OM_teleport_one_follower", "time_in_future": "1 s" },
+              {
+                "message": "As <u_name> dies, their body suddenly vanish.  They were sent back to the island, leaving everything they carried behind."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_HEAL_NEWBIE",
     "//": "Runs when using the HEAL function from the Heart of the Island.  Runs a checklist.  If you're under a certain amount of won raids, it heals you for free.  If you're over and you have 4 warp shards, it takes those and heals you.  If you can't pay, it does nothing.",
@@ -427,7 +518,8 @@
         "u_message": "Your body mends itself in the blink of an eye.  Underlying health issues may persist, but your structural integrity is restored."
       },
       { "math": [ "u_hp('ALL') = 999" ] },
-      { "run_eocs": [ "EOC_healextras" ] }
+      { "run_eocs": [ "EOC_healextras" ] },
+      { "run_eocs": [ "EOC_healall_follower" ] }
     ],
     "false_effect": [
       {
@@ -499,7 +591,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_return_heal",
+    "global": true,
+    "run_for_npcs": true,
     "//": "Similar to the death heal, but only increases health, never reduces it.  This is to make sure you don't wind up in a scenario where your health is WORSE than if you had died.  To permit some recovery on the island, you are not cured of any afflictions, so warping home while, for example, on fire, means you can still die at home, at which point you WILL be penalized.  This is intended, because even here the worst case scenario is not worse than dying, which it previously was.",
+    "condition": { "or": [ "u_is_avatar", { "u_has_trait": "mut_skyisland_island_bound" } ] },
     "effect": [
       { "math": [ "u_hp('torso') = max( u_hp('torso'), 15)" ] },
       { "math": [ "u_hp('head') = max( u_hp('head'), 15)" ] },
@@ -508,6 +603,26 @@
       { "math": [ "u_hp('leg_l') = max( u_hp('leg_l'), 15)" ] },
       { "math": [ "u_hp('leg_r') = max( u_hp('leg_r'), 15)" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_healall_follower",
+    "//": "Just a simple EOC that heals island-bound followers, without causing a popup.  Will only work at home.",
+    "global": true,
+    "run_for_npcs": true,
+    "condition": {
+      "and": [
+        { "not": " u_is_avatar" },
+        { "not": { "u_has_trait": "awayfromhome" } },
+        { "u_has_trait": "mut_skyisland_island_bound" }
+      ]
+    },
+    "effect": [
+      { "u_message": "<u_name>'s body mends itself in the blink of an eye." },
+      { "math": [ "u_hp('ALL') = 999" ] },
+      { "run_eocs": [ "EOC_healextras" ] }
+    ],
+    "false_effect": [ { "message": "<u_name> doesn't feel any better." } ]
   },
   {
     "type": "effect_on_condition",

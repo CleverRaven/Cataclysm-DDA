@@ -118,5 +118,16 @@
     "desc": [ "" ],
     "rating": "good",
     "enchantments": [ { "condition": "always", "values": [ { "value": "PHASE_DISTANCE", "add": 1 } ] } ]
+  },
+  {
+    "id": "effect_warped_super_clairvoyance",
+    "type": "effect_type",
+    "name": [ "Warped Omniscience" ],
+    "desc": [ "Nothing escapes your sight." ],
+    "apply_message": "Your vision expands until you see everything.",
+    "remove_message": "Your sight returns to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "flags": [ "SUPER_CLAIRVOYANCE" ]
   }
 ]
