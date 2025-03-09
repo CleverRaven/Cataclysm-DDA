@@ -132,13 +132,13 @@ static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slow_descent( "slow_descent" );
+static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_downed( "downed" ); // NOLINT(cata-unused-statics)
 static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
-static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_downed( "downed" );
 
 
 static const quality_id qual_CUT( "CUT" );
@@ -4010,7 +4010,7 @@ void iexamine::migo_cocoon( Character &you, const tripoint_bub_ms &examp )
         return;
     }
 
-    if( !query_yn( _( "Try to open the mi-go cocoon? The fluid inside looks... alive." ) ) ) {
+    if( !query_yn( _( "Try to open the mi-go cocoon?  The fluid inside looks…  alive." ) ) ) {
         return;
     }
 
@@ -4045,7 +4045,7 @@ void iexamine::migo_cocoon( Character &you, const tripoint_bub_ms &examp )
 
             string_id<npc_template> npc_type( "mi-go_prisoner" );
             if( !npc_type.is_valid() ) {
-                add_msg( m_debug, "Invalid NPC template: mi-go_prisoner" );
+                add_msg( m_debug, _( "Invalid NPC template: mi-go_prisoner" ) );
                 return;
             }
 
@@ -4106,7 +4106,7 @@ void iexamine::migo_cocoon( Character &you, const tripoint_bub_ms &examp )
 
     if( one_in( 10 ) && !you.has_trait( trait_id( "INFRESIST" ) ) ) {
         add_msg( m_bad,
-                 _( "You feel something wet and sticky on your hands. The fluid seems to be seeping into your skin." ) );
+                 _( "You feel something wet and sticky on your hands.  The fluid seems to be seeping into your skin." ) );
         you.add_effect( efftype_id( "migo_serum" ), rng( 10_minutes, 30_minutes ) );
     }
 
