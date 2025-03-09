@@ -509,8 +509,8 @@
     "copy-from": "762x39_clip",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "9x19mm 10-round clip" },
-    "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load ten rounds of 9x19mm into a compatible firearm.",
+    "name": { "str": "Mauser C96 10-round clip" },
+    "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load ten rounds of 9x19mm into a Mauser C96.",
     "ammo_type": [ "9mm" ],
     "flags": [ "SPEEDLOADER" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 10 } } ]
