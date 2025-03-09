@@ -117,13 +117,15 @@ npc_attack_rating npc_attack_rating::operator-=( const int rhs )
 
 void npc_attack_spell::use( npc &source, const tripoint_bub_ms &location ) const
 {
+    const map &here = get_map();
+
     spell &sp = source.magic->get_spell( attack_spell_id );
     if( source.has_weapon() && !source.get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) &&
         !sp.has_flag( spell_flag::NO_HANDS ) && !source.has_flag( json_flag_SUBTLE_SPELL ) ) {
         source.unwield();
     }
     add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is casting %s", source.disp_name(), sp.name() );
-    source.cast_spell( sp, false, location );
+    source.cast_spell( sp, false, here.get_abs( location ) );
 }
 
 npc_attack_rating npc_attack_spell::evaluate( const npc &source,
@@ -249,6 +251,8 @@ npc_attack_rating npc_attack_spell::evaluate_tripoint(
 
 void npc_attack_melee::use( npc &source, const tripoint_bub_ms &location ) const
 {
+    map &here = get_map();
+
     if( !source.is_wielding( weapon ) ) {
         if( !source.wield( weapon ) ) {
             debugmsg( "ERROR: npc tried to equip a weapon it couldn't wield" );
@@ -260,13 +264,13 @@ void npc_attack_melee::use( npc &source, const tripoint_bub_ms &location ) const
         debugmsg( "ERROR: npc tried to attack null critter" );
         return;
     }
-    int target_distance = rl_dist( source.pos_bub(), location );
+    int target_distance = rl_dist( source.pos_bub( here ), location );
     if( !source.is_adjacent( critter, true ) ) {
         if( target_distance <= weapon.reach_range( source ) ) {
             add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is attempting a reach attack",
                            source.disp_name() );
             // check for friendlies in the line of fire
-            std::vector<tripoint_bub_ms> path = line_to( source.pos_bub(), location );
+            std::vector<tripoint_bub_ms> path = line_to( source.pos_bub( here ), location );
             path.pop_back(); // Last point is the target
             bool can_attack = true;
             for( const tripoint_bub_ms &path_point : path ) {
@@ -279,7 +283,7 @@ void npc_attack_melee::use( npc &source, const tripoint_bub_ms &location ) const
                 }
             }
             if( can_attack ) {
-                source.reach_attack( location );
+                source.reach_attack( here, location );
             } else if( can_move_melee( source ) ) {
                 source.avoid_friendly_fire();
             } else {
@@ -436,6 +440,8 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
 
 void npc_attack_gun::use( npc &source, const tripoint_bub_ms &location ) const
 {
+    map &here = get_map();
+
     if( !source.is_wielding( gun ) ) {
         if( !source.wield( gun ) ) {
             debugmsg( "ERROR: npc tried to equip a weapon it couldn't wield" );
@@ -452,7 +458,7 @@ void npc_attack_gun::use( npc &source, const tripoint_bub_ms &location ) const
         return;
     }
 
-    if( has_obstruction( source.pos_bub(), location, false ) ||
+    if( has_obstruction( source.pos_bub( here ), location, false ) ||
         ( source.rules.has_flag( ally_rule::avoid_friendly_fire ) &&
           !source.wont_hit_friend( location, gun, false ) ) ) {
         if( can_move( source ) ) {
@@ -463,20 +469,20 @@ void npc_attack_gun::use( npc &source, const tripoint_bub_ms &location ) const
         return;
     }
 
-    const int dist = rl_dist( source.pos_bub(), location );
+    const int dist = rl_dist( source.pos_bub( here ), location );
 
     // Only aim if we aren't in risk of being hit
     // TODO: Get distance to closest enemy
     if( dist > 1 && source.aim_per_move( gun, source.recoil ) > 0 &&
         source.confident_gun_mode_range( gunmode, source.recoil ) < dist ) {
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is aiming", source.disp_name() );
-        source.aim( Target_attributes( source.pos_bub(), location ) );
+        source.aim( Target_attributes( source.pos_bub( here ), location ) );
     } else {
         if( source.is_hallucination() ) {
             gun_mode mode = source.get_wielded_item()->gun_current_mode();
             source.pretend_fire( &source, mode.qty, *mode );
         } else {
-            source.fire_gun( location );
+            source.fire_gun( here, location );
         }
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s fires %s", source.disp_name(),
                        gun.display_name() );
@@ -649,6 +655,8 @@ std::vector<npc_attack_rating> npc_attack_activate_item::all_evaluations( const 
 
 void npc_attack_throw::use( npc &source, const tripoint_bub_ms &location ) const
 {
+    map &here = get_map();
+
     if( !source.is_wielding( thrown_item ) ) {
         if( !source.wield( thrown_item ) ) {
             debugmsg( "ERROR: npc tried to equip a weapon it couldn't wield" );
@@ -656,7 +664,7 @@ void npc_attack_throw::use( npc &source, const tripoint_bub_ms &location ) const
         return;
     }
 
-    if( has_obstruction( source.pos_bub(), location, false ) ||
+    if( has_obstruction( source.pos_bub( here ), location, false ) ||
         ( source.rules.has_flag( ally_rule::avoid_friendly_fire ) &&
           !source.wont_hit_friend( location, thrown_item, true ) ) ) {
         if( can_move( source ) ) {
@@ -677,7 +685,7 @@ void npc_attack_throw::use( npc &source, const tripoint_bub_ms &location ) const
     } else {
         source.remove_weapon();
     }
-    source.throw_item( location, thrown );
+    source.throw_item( here, location, thrown );
 }
 
 bool npc_attack_throw::can_use( const npc &source ) const
@@ -745,12 +753,15 @@ tripoint_range<tripoint_bub_ms> npc_attack_throw::targetable_points( const npc &
 npc_attack_rating npc_attack_throw::evaluate(
     const npc &source, const Creature *target ) const
 {
-    npc_attack_rating effectiveness( std::nullopt, source.pos_bub() );
+    map &here = get_map();
+    const tripoint_bub_ms pos = source.pos_bub( here );
+
+    npc_attack_rating effectiveness( std::nullopt, pos );
     if( !can_use( source ) ) {
         // please don't throw your pants...
         return effectiveness;
     }
-    const inventory &available_weapons = source.crafting_inventory( tripoint_bub_ms::zero, -1 );
+    const inventory &available_weapons = source.crafting_inventory( here, tripoint_bub_ms::zero, -1 );
     if( &thrown_item == source.evaluate_best_weapon() &&
         available_weapons.amount_of( thrown_item.typeId() ) <= 1 &&
         available_weapons.charges_of( thrown_item.typeId() ) <= 1 ) {
@@ -768,9 +779,9 @@ npc_attack_rating npc_attack_throw::evaluate(
         // Calculated for all targetable points, not just those with targets
         if( throw_now ) {
             // TODO: Take into account distance to allies too
-            const int distance_to_me = rl_dist( potential, source.pos_bub() );
+            const int distance_to_me = rl_dist( potential, pos );
             int result = npc_attack_constants::base_throw_now + distance_to_me;
-            if( !has_obstruction( source.pos_bub(), potential, avoids_friendly_fire ) ) {
+            if( !has_obstruction( pos, potential, avoids_friendly_fire ) ) {
                 // More likely to pick a target tile that isn't obstructed
                 result += 100;
             }

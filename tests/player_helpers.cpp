@@ -44,7 +44,9 @@ static const move_mode_id move_mode_walk( "walk" );
 
 int get_remaining_charges( const itype_id &tool_id )
 {
-    const inventory crafting_inv = get_player_character().crafting_inventory();
+    map &here = get_map();
+
+    const inventory crafting_inv = get_player_character().crafting_inventory( here );
     std::vector<const item *> items =
     crafting_inv.items_with( [tool_id]( const item & i ) {
         return i.typeId() == tool_id;

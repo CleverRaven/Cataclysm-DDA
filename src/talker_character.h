@@ -175,7 +175,7 @@ class talker_character_const: virtual public const_talker
         bool is_warm() const override;
 
         bool can_see() const override;
-        bool can_see_location( const tripoint_bub_ms &pos ) const override;
+        bool can_see_location( const map &here, const tripoint_bub_ms &pos ) const override;
         int morale_cur() const override;
         int focus_cur() const override;
         int focus_effective_cur() const override;
@@ -233,7 +233,7 @@ class talker_character: virtual public talker
             return me_chr;
         }
 
-        void set_pos( tripoint_bub_ms new_pos ) override;
+        void set_pos( map &here, tripoint_bub_ms new_pos ) override;
         void set_pos( tripoint_abs_ms new_pos ) override;
 
         // stats, skills, traits, bionics, and magic

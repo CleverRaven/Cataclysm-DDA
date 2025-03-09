@@ -217,7 +217,7 @@ TEST_CASE( "player_morale_murdered_innocent", "[player_morale]" )
     clear_avatar();
     Character &player = get_player_character();
     player_morale &m = *player.morale;
-    tripoint_bub_ms next_to = player.adjacent_tile();
+    tripoint_bub_ms next_to = player.adjacent_tile( here );
     standard_npc innocent( "Lapin", next_to, {}, 0, 8, 8, 8, 7 );
     // Innocent as could be.
     faction_id lapin( "lapin" );
@@ -242,7 +242,7 @@ TEST_CASE( "player_morale_kills_hostile_bandit", "[player_morale]" )
     clear_avatar();
     Character &player = get_player_character();
     player_morale &m = *player.morale;
-    tripoint_bub_ms next_to = player.adjacent_tile();
+    tripoint_bub_ms next_to = player.adjacent_tile( here );
     standard_npc badguy( "Raider", next_to, {}, 0, 8, 8, 8, 7 );
     // Always-hostile
     faction_id hells_raiders( "hells_raiders" );

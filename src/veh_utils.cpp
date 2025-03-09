@@ -63,7 +63,9 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
 
 vehicle_part *most_repairable_part( vehicle &veh, Character &who )
 {
-    const inventory &inv = who.crafting_inventory();
+    map &here = get_map();
+
+    const inventory &inv = who.crafting_inventory( here );
     vehicle_part *vp_broken = nullptr;
     vehicle_part *vp_most_damaged = nullptr;
     int most_damage = 0;
@@ -106,7 +108,8 @@ bool repair_part( map &here, vehicle &veh, vehicle_part &pt, Character &who )
                                   ? vp.install_requirements()
                                   : vp.repair_requirements() * pt.get_base().repairable_levels();
 
-    const inventory &inv = who.crafting_inventory( who.pos_bub(), PICKUP_RANGE, !who.is_npc() );
+    const inventory &inv = who.crafting_inventory( here,  who.pos_bub( here ), PICKUP_RANGE,
+                           !who.is_npc() );
     inventory map_inv;
     // allow NPCs to use welding rigs they can't see ( on the other side of a vehicle )
     // as they have the handicap of not being able to use the veh interaction menu

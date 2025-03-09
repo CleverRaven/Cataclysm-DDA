@@ -317,6 +317,8 @@ static void load_available_constructions( std::vector<construction_group_str_id>
         std::map<construction_category_id, std::vector<construction_group_str_id>> &cat_available,
         bool hide_unconstructable )
 {
+    map &here = get_map();
+
     cat_available.clear();
     available.clear();
     if( !finalized ) {
@@ -326,7 +328,7 @@ static void load_available_constructions( std::vector<construction_group_str_id>
     avatar &player_character = get_avatar();
     for( construction &it : constructions ) {
         if( it.on_display && ( !hide_unconstructable ||
-                               player_can_build( player_character, player_character.crafting_inventory(), it ) ) ) {
+                               player_can_build( player_character, player_character.crafting_inventory( here ), it ) ) ) {
             bool already_have_it = false;
             for( auto &avail_it : available ) {
                 if( avail_it == it.group ) {
@@ -365,13 +367,14 @@ static void draw_grid( const catacurses::window &w, const int list_width )
 
 static nc_color construction_color( const construction_group_str_id &group, bool highlight )
 {
+    map &here = get_map();
     nc_color col = c_dark_gray;
     Character &player_character = get_player_character();
     if( player_character.has_trait( trait_DEBUG_HS ) ) {
         col = c_white;
     } else {
         std::vector<construction *> cons = player_can_build_valid_constructions( player_character,
-                                           player_character.crafting_inventory(), group );
+                                           player_character.crafting_inventory( here ), group );
         if( !cons.empty() ) {
             col = c_white;
             for( const auto &pr : cons.front()->required_skills ) {
@@ -475,6 +478,8 @@ static shared_ptr_fast<game::draw_callback_t> construction_preview_callback(
 
 construction_id construction_menu( const bool blueprint )
 {
+    map &here = get_map();
+
     if( !finalized ) {
         debugmsg( "construction_menu called before finalization" );
         return construction_id( -1 );
@@ -522,7 +527,7 @@ construction_id construction_menu( const bool blueprint )
     int total_project_breakpoints = 0;
     int current_construct_breakpoint = 0;
     avatar &player_character = get_avatar();
-    const inventory &total_inv = player_character.crafting_inventory();
+    const inventory &total_inv = player_character.crafting_inventory( here );
 
     input_context ctxt( "CONSTRUCTION" );
     ctxt.register_navigate_ui_list();
@@ -1224,15 +1229,15 @@ std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<construct
 
 void place_construction( std::vector<construction_group_str_id> const &groups )
 {
+    map &here = get_map();
+
     avatar &player_character = get_avatar();
-    const inventory &total_inv = player_character.crafting_inventory();
+    const inventory &total_inv = player_character.crafting_inventory( here );
 
     std::pair<std::map<tripoint_bub_ms, const construction *>, std::vector<construction *>>
             valid_pair = valid_constructions_near_player( groups, total_inv, player_character );
     std::map<tripoint_bub_ms, const construction *> &valid = valid_pair.first;
     std::vector<construction *> &cons = valid_pair.second;
-    map &here = get_map();
-
     bool blink = true;
     std::optional<tripoint_bub_ms> mouse_pos;
 
@@ -2085,13 +2090,15 @@ void construct::do_turn_deconstruct( const tripoint_bub_ms &p, Character &who )
 
 void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
 {
+    const map &here = get_map();
+
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( p ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( p, 10, sounds::sound_t::activity, _( "hsh!" ) );
     }
-    if( !who.knows_trap( p ) ) {
-        get_map().maybe_trigger_trap( p, who, true );
+    if( !who.knows_trap( here, p ) ) {
+        here.maybe_trigger_trap( p, who, true );
     }
 }
 

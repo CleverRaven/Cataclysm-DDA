@@ -253,7 +253,8 @@ struct trap {
          * Can player/npc p see this kind of trap, either by their memory (they known there is
          * the trap) or by the visibility of the trap (the trap is not hidden at all)?
          */
-        bool can_see( const tripoint_bub_ms &pos, const Character &p ) const;
+        bool can_see( const map &here, const tripoint_bub_ms &pos, const Character &p ) const;
+        bool can_see( const tripoint_abs_ms &pos, const Character &p ) const;
 
         bool has_trigger_msg() const {
             return trigger_message_u && trigger_message_npc;
