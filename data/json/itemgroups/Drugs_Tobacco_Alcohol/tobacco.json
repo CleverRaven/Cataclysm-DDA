@@ -9,7 +9,7 @@
       { "item": "cigar", "prob": 10, "count": [ 1, 5 ] },
       { "item": "ecig", "prob": 10, "count": [ 1, 40 ] },
       { "item": "advanced_ecig", "prob": 8, "charges": [ 1, 100 ] },
-      [ "nicotine_liquid", 15 ],
+      { "group": "nicotine_liquid_bottle_part", "prob": 15 },
       [ "pipe_tobacco", 10 ]
     ]
   },

@@ -84,7 +84,7 @@
         ],
         "prob": 80
       },
-      { "item": "duct_tape", "charges": [ 20, 200 ], "prob": 30 },
+      { "group": "duct_tape_roll_part", "prob": 30 },
       { "group": "superglue", "prob": 20 },
       { "distribution": [ { "item": "pockknife" }, { "item": "boxcutter" } ], "prob": 60 },
       { "item": "glowstick", "count": [ 0, 2 ], "charges": 1400, "prob": 30 },

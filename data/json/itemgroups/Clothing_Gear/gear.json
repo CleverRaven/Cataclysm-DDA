@@ -171,7 +171,7 @@
       { "group": "tools_survival", "prob": 100 },
       { "group": "tools_tailor", "prob": 20 },
       { "group": "ammo_pocket_batteries_full", "prob": 10 },
-      [ "duct_tape", 10 ],
+      { "group": "duct_tape_roll", "prob": 10 },
       { "group": "superglue", "prob": 5 },
       [ "plastichoboreel", 5 ],
       [ "survivormap", 5 ],

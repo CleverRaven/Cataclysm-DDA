@@ -248,7 +248,7 @@
       { "item": "candle", "prob": 50, "charges": 100 },
       [ "scissors", 30 ],
       [ "soap", 45 ],
-      [ "moisturizer", 45 ],
+      { "item": "moisturizer", "prob": 60, "charges": [ 1, -1 ], "container-item": "bottle_plastic_small" },
       { "item": "tailors_kit", "prob": 25, "charges": 400 },
       { "item": "shavingkit", "prob": 20, "charges": 10 },
       { "item": "elec_hairtrimmer", "prob": 20, "charges": 50 },

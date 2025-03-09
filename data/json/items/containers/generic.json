@@ -277,5 +277,22 @@
         "moves": 300
       }
     ]
+  },
+  {
+    "id": "bag_paper_charcoal",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "paper sack" },
+    "looks_like": "bag_plastic",
+    "description": "Bulky paper bag, generally used to store light materials like charcoal.",
+    "//": "for 16 lbs of charcoal (6978 units, rounded up to 7000)",
+    "weight": "300 g",
+    "volume": "600 ml",
+    "price": "85 cent",
+    "price_postapoc": "1 cent",
+    "material": [ "paper" ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "40 L", "max_contains_weight": "13 kg", "moves": 500 } ],
+    "symbol": ")",
+    "color": "white"
   }
 ]

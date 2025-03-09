@@ -1056,7 +1056,7 @@
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "boots_steel" },
-          { "item": "duct_tape" },
+          { "group": "duct_tape_roll" },
           { "item": "screwdriver" },
           { "item": "wristwatch" },
           { "item": "mag_cars" },
