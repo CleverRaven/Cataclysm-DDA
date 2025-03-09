@@ -885,5 +885,15 @@
         "weight": 0
       }
     ]
+  },
+  {
+    "id": "460_ammo_box_20",
+    "copy-from": "9mm_ammo_box_20",
+    "type": "GENERIC",
+    "name": { "str": ".460 S&W Magnum ammo box", "str_pl": ".460 S&W Magnum ammo boxes" },
+    "description": "This box holds 20 rounds of .460 S&W Magnum ammo.  It's made of a thin cardboard plastered with text about the ammo, and the manufacturer's logo.",
+    "weight": "17 g",
+    "volume": "189 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "135 ml", "max_contains_weight": "750 g", "rigid": true } ]
   }
 ]
