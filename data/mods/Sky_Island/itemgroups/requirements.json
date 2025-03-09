@@ -1,0 +1,74 @@
+[
+  {
+    "id": "any_badge",
+    "type": "requirement",
+    "//": "For when a recipe calls for a badge.",
+    "components": [
+      [
+        [ "badge_fbi", 1 ],
+        [ "badge_swat", 1 ],
+        [ "badge_deputy", 1 ],
+        [ "badge_doctor", 1 ],
+        [ "badge_marshal", 1 ],
+        [ "badge_foodkid", 1 ],
+        [ "badge_detective", 1 ],
+        [ "badge_cardboard", 1 ],
+        [ "badge_detective", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "any_tiara",
+    "type": "requirement",
+    "//": "For when a recipe calls for a tiara.",
+    "components": [
+      [
+        [ "dark tiara", 1 ],
+        [ "vampire tiara", 1 ],
+        [ "opal and gold tiara", 1 ],
+        [ "ruby and gold tiara", 1 ],
+        [ "onyx and gold tiara", 1 ],
+        [ "pearl and gold tiara", 1 ],
+        [ "opal and silver tiara", 1 ],
+        [ "garnet and gold tiara", 1 ],
+        [ "peridot and gold tiara", 1 ],
+        [ "pearl and silver tiara", 1 ],
+        [ "emerald and gold tiara", 1 ],
+        [ "citrine and gold tiara", 1 ],
+        [ "diamond and gold tiara", 1 ],
+        [ "onyx and platinum tiara", 1 ],
+        [ "ruby and platinum tiara", 1 ],
+        [ "opal and platinum tiara", 1 ],
+        [ "garnet and silver tiara", 1 ],
+        [ "sapphire and gold tiara", 1 ],
+        [ "amethyst and gold tiara", 1 ],
+        [ "pearl and platinum tiara", 1 ],
+        [ "citrine and silver tiara", 1 ],
+        [ "peridot and silver tiara", 1 ],
+        [ "emerald and silver tiara", 1 ],
+        [ "diamond and silver tiara", 1 ],
+        [ "blue topaz and gold tiara", 1 ],
+        [ "tourmaline and gold tiara", 1 ],
+        [ "sapphire and silver tiara", 1 ],
+        [ "aquamarine and gold tiara", 1 ],
+        [ "garnet and platinum tiara", 1 ],
+        [ "amethyst and silver tiara", 1 ],
+        [ "diamond and platinum tiara", 1 ],
+        [ "citrine and platinum tiara", 1 ],
+        [ "alexandrite and gold tiara", 1 ],
+        [ "emerald and platinum tiara", 1 ],
+        [ "peridot and platinum tiara", 1 ],
+        [ "blue topaz and silver tiara", 1 ],
+        [ "tourmaline and silver tiara", 1 ],
+        [ "amethyst and platinum tiara", 1 ],
+        [ "sapphire and platinum tiara", 1 ],
+        [ "aquamarine and silver tiara", 1 ],
+        [ "alexandrite and silver tiara", 1 ],
+        [ "blue topaz and platinum tiara", 1 ],
+        [ "aquamarine and platinum tiara", 1 ],
+        [ "tourmaline and platinum tiara", 1 ],
+        [ "alexandrite and platinum tiara", 1 ]
+      ]
+    ]
+  }
+]

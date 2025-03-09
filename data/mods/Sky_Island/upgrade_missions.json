@@ -1039,7 +1039,7 @@
     "id": "SKYISLAND_UPGRADE_landing6",
     "type": "mission_definition",
     "name": "Upgrade: Landing 6",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft                  from                         .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 130 seconds.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Familiarity Gemstone from maps and flags.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 130 seconds.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_landing6",
     "count": 1,
@@ -1071,7 +1071,7 @@
     "id": "upgradekey_landing6",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "                " },
+    "name": { "str": "Familiarity Gemstone" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 6",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -1093,20 +1093,34 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "chainmail_suit_faraday", 1 ], [ "sharksuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
-      [ [ "warptoken", 12 ] ],
-      [ [ "book_fict_soft_ya_myeyes", 1 ] ],
-      [ [ "fur", 40 ] ],
-      [ [ "glasses_monocle", 1 ] ],
-      [ [ "heroin", 1 ] ],
-      [ [ "coke", 20 ] ]
+      [ [ "pride_flag", 2 ], [ "national_flag", 2 ], [ "american_flag", 2 ], [ "state_flag", 2 ] ],
+      [ [ "pride_flag", 2 ], [ "national_flag", 2 ], [ "american_flag", 2 ], [ "state_flag", 2 ] ],
+      [ [ "pride_flag", 2 ], [ "national_flag", 2 ], [ "american_flag", 2 ], [ "state_flag", 2 ] ],
+      [ [ "warptoken", 16 ] ],
+      [
+        [ "roadmap", 3 ],
+        [ "subwaystationmap", 3 ],
+        [ "survivormap", 3 ],
+        [ "trailmap", 3 ],
+        [ "touristmap", 3 ],
+        [ "restaurantmap", 3 ]
+      ],
+      [
+        [ "roadmap", 3 ],
+        [ "subwaystationmap", 3 ],
+        [ "survivormap", 3 ],
+        [ "trailmap", 3 ],
+        [ "touristmap", 3 ],
+        [ "restaurantmap", 3 ]
+      ],
+      [ [ "labmap", 5 ], [ "id_science_visitor_1", 5 ] ]
     ]
   },
   {
     "id": "SKYISLAND_UPGRADE_landing7",
     "type": "mission_definition",
     "name": "Upgrade: Landing 7",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft             from                            .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 140 seconds.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Warm Welcome from painkillers and winter clothes.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 140 seconds.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_landing7",
     "count": 1,
@@ -1115,7 +1129,7 @@
     "has_generic_rewards": false,
     "start": {
       "effect": [
-        { "u_learn_recipe": "upgradekey_landing5" },
+        { "u_learn_recipe": "upgradekey_landing7" },
         {
           "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 140 seconds.",
           "popup": true
@@ -1138,7 +1152,7 @@
     "id": "upgradekey_landing7",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "                 " },
+    "name": { "str": "Warm Welcome" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 7",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -1160,20 +1174,19 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "chainmail_suit_faraday", 1 ], [ "sharksuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
-      [ [ "warptoken", 12 ] ],
-      [ [ "book_fict_soft_ya_myeyes", 1 ] ],
-      [ [ "fur", 40 ] ],
-      [ [ "glasses_monocle", 1 ] ],
-      [ [ "heroin", 1 ] ],
-      [ [ "coke", 20 ] ]
+      [ [ "oxycodone", 200 ], [ "tramadol", 200 ] ],
+      [ [ "poppy_pain", 20 ], [ "morphine", 10 ] ],
+      [ [ "warptoken", 20 ] ],
+      [ [ "thermal_suit", 5 ] ],
+      [ [ "coat_winter", 5 ] ],
+      [ [ "plastic_jack_o_lantern", 1 ] ]
     ]
   },
   {
     "id": "SKYISLAND_UPGRADE_landing8",
     "type": "mission_definition",
     "name": "Upgrade: Landing 8",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Grace of the Island from experimental materials and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 150 seconds.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Emissary's Herald from insignias and proofs of authority.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Reveal a huge section of the map around your landing point, and increase the warpcloak invisibility grace period at the start of each expedition to 150 seconds.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_landing8",
     "count": 1,
@@ -1205,7 +1218,7 @@
     "id": "upgradekey_landing8",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "                 " },
+    "name": { "str": "Emissary's Herald" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing 8",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -1226,21 +1239,26 @@
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "//": "Yes, the badges and tiaras are intended to be written like this.  It allows to use multiple types, as long as the total is enough.",
     "components": [
-      [ [ "chainmail_suit_faraday", 1 ], [ "sharksuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
-      [ [ "warptoken", 12 ] ],
-      [ [ "book_fict_soft_ya_myeyes", 1 ] ],
-      [ [ "fur", 40 ] ],
-      [ [ "glasses_monocle", 1 ] ],
-      [ [ "heroin", 1 ] ],
-      [ [ "coke", 20 ] ]
+      [ [ "any_badge", 1, "LIST" ] ],
+      [ [ "any_badge", 1, "LIST" ] ],
+      [ [ "any_badge", 1, "LIST" ] ],
+      [ [ "warptoken", 24 ] ],
+      [ [ "jade_brooch", 3 ] ],
+      [ [ "any_tiara", 2, "LIST" ] ],
+      [ [ "any_tiara", 2, "LIST" ] ],
+      [ [ "any_tiara", 2, "LIST" ] ],
+      [ [ "bronze_medal", 1 ], [ "silver_medal", 1 ], [ "gold_medal", 1 ], [ "service_medal", 1 ] ],
+      [ [ "suit", 1 ] ],
+      [ [ "ring_signet", 3 ] ]
     ]
   },
   {
     "id": "SKYISLAND_UPGRADE_landingboost_waterwalking",
     "type": "mission_definition",
     "name": "Upgrade: Landing Boost: Waterwalking",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft                 from                               .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: While under the effect of the warpcloak, you can walk on water.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Cloaking Buoyancy from things from water and things that float.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: While under the effect of the warpcloak, you can walk on water.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_landingboost_waterwalking",
     "count": 1,
@@ -1271,7 +1289,7 @@
     "id": "upgradekey_landingboost_waterwalking",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "                 " },
+    "name": { "str": "Cloaking Buoyancy" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing Boost: Waterwalking.",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -1293,20 +1311,18 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "chainmail_suit_faraday", 1 ], [ "sharksuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
-      [ [ "warptoken", 12 ] ],
-      [ [ "book_fict_soft_ya_myeyes", 1 ] ],
-      [ [ "fur", 40 ] ],
-      [ [ "glasses_monocle", 1 ] ],
-      [ [ "heroin", 1 ] ],
-      [ [ "coke", 20 ] ]
+      [ [ "flotation_vest_ms", 1 ], [ "flotation_vest", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
+      [ [ "warp_waterwalking_stone", 5 ] ],
+      [ [ "folded_inflatable_boat", 1 ] ],
+      [ [ "stationary_water_purifier", 1 ] ],
+      [ [ "soup_fish", 10 ] ]
     ]
   },
   {
     "id": "SKYISLAND_UPGRADE_landing_flight",
     "type": "mission_definition",
     "name": "Upgrade: Landing Boost: Flight",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft              from                    .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: While under the effect of the warpcloak, you can fly.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft an Inverted Gravity Bubble from things that used to fly and things that could make someone fly.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: While under the effect of the warpcloak, you can fly.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_landing8",
     "count": 1,
@@ -1337,7 +1353,7 @@
     "id": "upgradekey_landing_flight",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "                 " },
+    "name": { "str": "Inverted Gravity Bubble" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing Boost: Flight.",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -1359,20 +1375,19 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "chainmail_suit_faraday", 1 ], [ "sharksuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
-      [ [ "warptoken", 12 ] ],
-      [ [ "book_fict_soft_ya_myeyes", 1 ] ],
-      [ [ "fur", 40 ] ],
-      [ [ "glasses_monocle", 1 ] ],
-      [ [ "heroin", 1 ] ],
-      [ [ "coke", 20 ] ]
+      [ [ "mutant_bug_hydrogen_sacs", 300 ] ],
+      [ [ "warptoken", 16 ] ],
+      [ [ "book_fict_soft_ya_hilo", 1 ] ],
+      [ [ "iv_mutagen_bird", 2 ] ],
+      [ [ "feather", 100 ], [ "down_feather", 100 ] ],
+      [ [ "meth", 10 ] ]
     ]
   },
   {
     "id": "SKYISLAND_UPGRADE_landing_phase",
     "type": "mission_definition",
     "name": "Upgrade: Landing Boost: Phasing",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft                           from experimental materials and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: While under the effect of the warpcloak, you can pass through non-thick walls.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Universal Access Pass from different tools granting access to restricted areas.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: While under the effect of the warpcloak, you can pass through non-thick walls.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_landing8",
     "count": 1,
@@ -1403,7 +1418,7 @@
     "id": "upgradekey_landing_phase",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "                 " },
+    "name": { "str": "Universal Access Pass" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Landing Boost: Phasing.",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -1425,13 +1440,13 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "chainmail_suit_faraday", 1 ], [ "sharksuit", 1 ], [ "armor_samurai", 1 ], [ "armor_junk_plate", 1 ] ],
-      [ [ "warptoken", 12 ] ],
-      [ [ "book_fict_soft_ya_myeyes", 1 ] ],
-      [ [ "fur", 40 ] ],
-      [ [ "glasses_monocle", 1 ] ],
-      [ [ "heroin", 1 ] ],
-      [ [ "coke", 20 ] ]
+      [ [ "altered_keyring", 1 ], [ "bio_probability_travel", 1 ], [ "bio_teleport", 1 ], [ "teleporter", 3 ] ],
+      [ [ "phase_immersion_suit", 1 ] ],
+      [ [ "warptoken", 22 ] ],
+      [ [ "book_lockpick", 1 ] ],
+      [ [ "crude_picklock", 25 ] ],
+      [ [ "picklocks", 1 ] ],
+      [ [ "colander_steel", 5 ] ]
     ]
   },
   {
