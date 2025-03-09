@@ -1916,7 +1916,7 @@
       [ [ "wine_marloss", 1 ] ],
       [ [ "resonance_measurement_device", 1 ], [ "nre_recorder", 1 ] ],
       [ [ "pure_meth", 6 ] ],
-      [ [ "friday", 1 ] ],
+      [ [ "friday", 1 ], [ "spirit_island", 1 ] ],
       [ [ "violin_golden", 1 ] ]
     ]
   },
@@ -5156,7 +5156,7 @@
     "id": "SKYISLAND_UPGRADE_windblock",
     "type": "mission_definition",
     "name": "Upgrade: Personal windblock",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a                   from                    .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: The winds cannot affect you while on the island.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Wind Redirector from wind-blocking clothes and creams.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: The winds cannot affect you while on the island.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_windblock",
     "count": 1,
@@ -5187,7 +5187,7 @@
     "id": "upgradekey_windblock",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "                   " },
+    "name": { "str": "Wind Redirector" },
     "description": "This strange metaphysical artifact will make the island protect you from the winds while you are not earthside.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: personal windblock.",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -5210,30 +5210,17 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [
-        [ "sunglasses", 1 ],
-        [ "sunglasses_eye", 1 ],
-        [ "sunglasses_bifocal", 1 ],
-        [ "sunglasses_reading", 1 ],
-        [ "fitover_sunglasses", 1 ]
-      ],
-      [
-        [ "sunglasses", 1 ],
-        [ "sunglasses_eye", 1 ],
-        [ "sunglasses_bifocal", 1 ],
-        [ "sunglasses_reading", 1 ],
-        [ "fitover_sunglasses", 1 ]
-      ],
-      [ [ "umbrella", 1 ], [ "teleumbrella", 1 ] ],
-      [ [ "sundress", 1 ] ],
-      [ [ "glass_shard", 176 ] ]
+      [ [ "jacket_windbreaker", 3 ] ],
+      [ [ "survival_book", 1 ] ],
+      [ [ "milk_cream", 5 ], [ "moisturizer", 5 ], [ "bristol_sherry", 5 ] ],
+      [ [ "any_tallow", 24, "LIST" ] ]
     ]
   },
   {
     "id": "SKYISLAND_UPGRADE_personal_temperature_adaptation",
     "type": "mission_definition",
     "name": "Upgrade: Personal temperature adjustement",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a                   from                    .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Temperature cannot affect you while on the island.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Climate Self-Injector from temperature-controlling devices and various parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Temperature cannot affect you while on the island.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_windblock",
     "count": 1,
@@ -5264,7 +5251,7 @@
     "id": "upgradekey_temperature_control",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "                   " },
+    "name": { "str": "Climate Self-Injector" },
     "description": "This strange metaphysical artifact will make the island protect you from temperature while you are not earthside.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: personal temperature adaptation.",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -5288,22 +5275,16 @@
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
       [
-        [ "sunglasses", 1 ],
-        [ "sunglasses_eye", 1 ],
-        [ "sunglasses_bifocal", 1 ],
-        [ "sunglasses_reading", 1 ],
-        [ "fitover_sunglasses", 1 ]
+        [ "thermal_outfit", 20 ],
+        [ "thermal_suit", 20 ],
+        [ "bio_climate", 1 ],
+        [ "bio_heatsink", 1 ],
+        [ "exodii_ac_kit", 3 ]
       ],
-      [
-        [ "sunglasses", 1 ],
-        [ "sunglasses_eye", 1 ],
-        [ "sunglasses_bifocal", 1 ],
-        [ "sunglasses_reading", 1 ],
-        [ "fitover_sunglasses", 1 ]
-      ],
-      [ [ "umbrella", 1 ], [ "teleumbrella", 1 ] ],
-      [ [ "sundress", 1 ] ],
-      [ [ "glass_shard", 176 ] ]
+      [ [ "mountable_cooler", 3 ], [ "condensor_coil", 30 ], [ "evaporator_coil", 30 ] ],
+      [ [ "mountable_heater", 3 ], [ "element", 30 ] ],
+      [ [ "air_compressor", 1 ], [ "1l_gold" ] ],
+      [ [ "railroad_track_item", 1 ] ]
     ]
   },
   {
@@ -5357,6 +5338,7 @@
     "category": "CC_WARP",
     "subcategory": "CSC_WARP_UPGRADES",
     "//": "Intended to be hard to craft, as a follower who cannot truly die has a lot of potential.",
+    "//2": "On top of that, they also gain the benefits of all compatible island upgrades and consumables.  This upgrade is a strong, if indirect, power boost due to that.",
     "skill_used": "survival",
     "difficulty": 0,
     "time": "15 m",
@@ -5364,23 +5346,12 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [
-        [ "sunglasses", 1 ],
-        [ "sunglasses_eye", 1 ],
-        [ "sunglasses_bifocal", 1 ],
-        [ "sunglasses_reading", 1 ],
-        [ "fitover_sunglasses", 1 ]
-      ],
-      [
-        [ "sunglasses", 1 ],
-        [ "sunglasses_eye", 1 ],
-        [ "sunglasses_bifocal", 1 ],
-        [ "sunglasses_reading", 1 ],
-        [ "fitover_sunglasses", 1 ]
-      ],
-      [ [ "umbrella", 1 ], [ "teleumbrella", 1 ] ],
-      [ [ "sundress", 1 ] ],
-      [ [ "glass_shard", 176 ] ]
+      [ [ "chess", 1 ], [ "small_chess", 1 ], [ "checkers", 1 ], [ "small_checkers", 1 ] ],
+      [ [ "dnd", 1 ], [ "dnd_2", 1 ], [ "dnd_3", 1 ], [ "g_warhammer", 1 ], [ "g_warhammer40k", 1 ] ],
+      [ [ "cuffs", 1 ] ],
+      [ [ "pom_poms", 1 ] ],
+      [ [ "gloves_wsurvivor", 1 ] ],
+      [ [ "warptoken", 10 ] ]
     ]
   }
 ]
