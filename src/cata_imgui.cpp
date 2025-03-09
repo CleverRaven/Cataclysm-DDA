@@ -7,6 +7,7 @@
 #undef IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui_freetype.h>
 
+#include "cached_options.h"
 #include "color.h"
 #include "input.h"
 #include "output.h"
@@ -584,7 +585,17 @@ void cataimgui::client::end_frame()
 void cataimgui::client::process_input( void *input )
 {
     if( any_window_shown() ) {
-        ImGui_ImplSDL2_ProcessEvent( static_cast<const SDL_Event *>( input ) );
+        const SDL_Event* evt = static_cast<const SDL_Event *>( input );
+        if (! enable_mouse) {
+            switch (evt->type) {
+                case SDL_MOUSEMOTION:
+                case SDL_MOUSEWHEEL:
+                case SDL_MOUSEBUTTONDOWN:
+                case SDL_MOUSEBUTTONUP:
+                return;
+            }
+        }
+        ImGui_ImplSDL2_ProcessEvent( evt );
     }
 }
 
