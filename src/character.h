@@ -1555,6 +1555,7 @@ class Character : public Creature, public visitable
         /** Applies encumbrance from mutations and bionics only */
         void mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const;
 
+        void apply_effect_encumbrance( std::map<bodypart_id, encumbrance_data> &vals ) const;
         void apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals ) const;
 
         /** Applies encumbrance from BMI */

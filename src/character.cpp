@@ -4004,6 +4004,7 @@ void Character::calc_encumbrance( const item &new_item )
     worn.item_encumb( enc, new_item, *this );
     mut_cbm_encumb( enc );
     calc_bmi_encumb( enc );
+    apply_effect_encumbrance( enc );
 
     for( const std::pair<const bodypart_id, encumbrance_data> &elem : enc ) {
         set_part_encumbrance_data( elem.first, elem.second );
@@ -4176,6 +4177,21 @@ int Character::encumb( const bodypart_id &bp ) const
         return 0;
     }
     return get_part_encumbrance_data( bp ).encumbrance;
+}
+
+void Character::apply_effect_encumbrance( std::map<bodypart_id, encumbrance_data> &vals ) const
+{
+    // Required to guard against errors from calc_encumbrance being called by invalid characters in Character::Character()
+    if( effects->size() == 0 ) {
+        return;
+    }
+
+    const_dialogue d( get_const_talker_for( *this ), nullptr );
+    for( const auto &effect : *effects ) {
+        for( const std::pair<const bodypart_str_id, dbl_or_var> &enc : effect.first->encumbrance ) {
+            vals[enc.first].encumbrance += enc.second.evaluate( d );
+        }
+    }
 }
 
 void Character::apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals ) const
