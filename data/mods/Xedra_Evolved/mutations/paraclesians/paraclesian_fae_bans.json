@@ -636,7 +636,8 @@
     "condition": { "u_has_any_trait": [ "IERDE", "SALAMANDER", "IRON_ALLERGY" ] },
     "effect": [
       {
-        "run_eocs": [ "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP", "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_FOLLOWUP" ]
+        "run_eocs": [ "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP", "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_FOLLOWUP" ],
+        "time_in_future": 1
       }
     ]
   },

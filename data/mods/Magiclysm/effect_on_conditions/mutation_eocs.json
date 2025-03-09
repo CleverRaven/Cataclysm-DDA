@@ -89,7 +89,12 @@
     "eoc_type": "EVENT",
     "required_event": "character_takeoff_item",
     "condition": { "u_has_trait": "IRON_ALLERGY" },
-    "effect": [ { "run_eocs": [ "EOC_IRON_ALLERGY_WEARING_IRON_FOLLOWUP", "EOC_IRON_ALLERGY_WEARING_STEEL_FOLLOWUP" ] } ]
+    "effect": [
+      {
+        "run_eocs": [ "EOC_IRON_ALLERGY_WEARING_IRON_FOLLOWUP", "EOC_IRON_ALLERGY_WEARING_STEEL_FOLLOWUP" ],
+        "time_in_future": 1
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
