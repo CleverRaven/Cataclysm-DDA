@@ -19,17 +19,6 @@ list(REMOVE_ITEM CATACLYSM_DDA_SOURCES ${MAIN_CPP} ${MESSAGES_CPP})
 
 file(GLOB CATACLYSM_DDA_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 
-# Get GIT version strings
-add_custom_target(
-        get_version
-        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/version.h
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-
-add_custom_command(
-        OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/version.h
-        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_SOURCE_DIR}/version.cmake
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-
 # Build tiles version if requested
 if (TILES)
     add_library(
@@ -74,8 +63,6 @@ if (TILES)
                 ${MAIN_CPP}
                 ${MESSAGES_CPP})
     endif ()
-
-    add_dependencies(cataclysm-tiles-common get_version)
 
     target_link_libraries(cataclysm-tiles PRIVATE cataclysm-tiles-common)
     target_compile_definitions(cataclysm-tiles-common PUBLIC TILES )
@@ -190,7 +177,6 @@ if (CURSES)
                 ${MESSAGES_CPP})
     endif ()
 
-    add_dependencies(cataclysm-common get_version)
     target_link_libraries(cataclysm PRIVATE cataclysm-common)
 
     if (LOCALIZE)
