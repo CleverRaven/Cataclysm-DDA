@@ -1728,7 +1728,7 @@
     "id": "SKYISLAND_UPGRADE_stability5",
     "type": "mission_definition",
     "name": "Upgrade: Stability 5",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft                    from                         .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will begin every expedition with the ability to withstand 13 pulses instead of the default 8, allowing you to stay out 62.5% longer before warpsickness takes over.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Explorer's Ward from things helping to withstand harsh conditions.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will begin every expedition with the ability to withstand 13 pulses instead of the default 8, allowing you to stay out 62.5% longer before warpsickness takes over.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_stability4",
     "count": 1,
@@ -1759,7 +1759,7 @@
     "id": "upgradekey_stability5",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "                            " },
+    "name": { "str": "Explorer's Ward" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 5",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -1781,19 +1781,19 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "panacea", 1 ], [ "purifier_smart_shot", 1 ] ],
-      [ [ "warptoken", 25 ] ],
-      [ [ "plut_cell", 5 ] ],
-      [ [ "dimensional_anchor", 1 ], [ "broken_dimensional_anchor", 1 ] ],
-      [ [ "c4", 1 ] ],
-      [ [ "fidget_spinner", 1 ] ]
+      [ [ "ballistic_vest_heavy", 2 ] ],
+      [ [ "warptoken", 30 ] ],
+      [ [ "alien_pod_resin", 5 ] ],
+      [ [ "oxygen_tank", 5 ], [ "scuba_tank", 5 ] ],
+      [ [ "iv_mutagen_medical", 1 ] ],
+      [ [ "caviar_egg_sandwich", 1 ] ]
     ]
   },
   {
     "id": "SKYISLAND_UPGRADE_stability6",
     "type": "mission_definition",
     "name": "Upgrade: Stability 6",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft                      from experimental materials and miscellaneous parts.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will begin every expedition with the ability to withstand 14 pulses instead of the default 8, allowing you to stay out 75% longer before warpsickness takes over.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft an Island-Bound Armor from various armors from this world and from others.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will begin every expedition with the ability to withstand 14 pulses instead of the default 8, allowing you to stay out 75% longer before warpsickness takes over.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_stability6",
     "count": 1,
@@ -1824,7 +1824,7 @@
     "id": "upgradekey_stability6",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "              " },
+    "name": { "str": "Island-Bound Armor" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 6",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -1846,19 +1846,19 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "panacea", 1 ], [ "purifier_smart_shot", 1 ] ],
-      [ [ "warptoken", 25 ] ],
-      [ [ "plut_cell", 5 ] ],
-      [ [ "dimensional_anchor", 1 ], [ "broken_dimensional_anchor", 1 ] ],
-      [ [ "c4", 1 ] ],
-      [ [ "fidget_spinner", 1 ] ]
+      [ [ "warptoken", 35 ] ],
+      [ [ "helmet_acidchitin", 1 ], [ "helmet_bronze", 1 ] ],
+      [ [ "armor_acidchitin", 1 ], [ "cuirass_bronze", 1 ] ],
+      [ [ "armguard_acidchitin", 1 ], [ "armguard_bronze", 1 ] ],
+      [ [ "legguard_acidchitin", 1 ], [ "legguard_bronze", 1 ] ],
+      [ [ "hard_steel_armor", 1 ], [ "migo_plate", 1 ], [ "migo_sideplate", 1 ] ]
     ]
   },
   {
     "id": "SKYISLAND_UPGRADE_stability7",
     "type": "mission_definition",
     "name": "Upgrade: Stability 7",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft                      from                           .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will begin every expedition with the ability to withstand 15 pulses instead of the default 8, allowing you to stay out 87.5% longer before warpsickness takes over.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Triune Anchor from a jade statue and rare ressources.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will begin every expedition with the ability to withstand 15 pulses instead of the default 8, allowing you to stay out 87.5% longer before warpsickness takes over.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_stability7",
     "count": 1,
@@ -1889,7 +1889,7 @@
     "id": "upgradekey_stability7",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "                                     " },
+    "name": { "str": "Triune Anchor" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Stability 7",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -1911,12 +1911,13 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "panacea", 1 ], [ "purifier_smart_shot", 1 ] ],
-      [ [ "warptoken", 25 ] ],
-      [ [ "plut_cell", 5 ] ],
-      [ [ "dimensional_anchor", 1 ], [ "broken_dimensional_anchor", 1 ] ],
-      [ [ "c4", 1 ] ],
-      [ [ "fidget_spinner", 1 ] ]
+      [ [ "corpse_yugg_jade", 1 ] ],
+      [ [ "warptoken", 40 ] ],
+      [ [ "wine_marloss", 1 ] ],
+      [ [ "resonance_measurement_device", 1 ], [ "nre_recorder", 1 ] ],
+      [ [ "pure_meth", 6 ] ],
+      [ [ "friday", 1 ] ],
+      [ [ "violin_golden", 1 ] ]
     ]
   },
   {
