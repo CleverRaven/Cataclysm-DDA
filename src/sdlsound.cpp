@@ -744,8 +744,9 @@ struct sound_effect_handler {
             // however, we don't want to do that as soon as we finish SENDING audio since the audio device won't be done playing it yet.
             // therefore, we let the sound loop an extra time to finish playing.
 
-            // we still need to update handler->current_sample_index because as previously stated, we
-            handler->current_sample_index += len / bytes_per_sample * playback_speed;
+            // we still need to update handler->current_sample_index so it loops properly
+            int num_samples = len / bytes_per_sample;
+            handler->current_sample_index += num_samples * playback_speed;
             if( handler->current_sample_index >= num_source_samples ) {
                 handler->loops_remaining--;
             }
