@@ -814,8 +814,6 @@ struct sound_effect_handler {
                     }
                 }
             }
-
-
         }
     }
 
