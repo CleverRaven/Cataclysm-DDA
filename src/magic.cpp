@@ -65,6 +65,7 @@
 #include "translations.h"
 #include "uilist.h"
 #include "units.h"
+#include "vpart_position.h"
 
 struct species_type;
 
