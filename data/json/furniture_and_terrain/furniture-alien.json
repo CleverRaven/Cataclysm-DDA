@@ -842,7 +842,7 @@
     "type": "furniture",
     "id": "f_migo_cocoon",
     "name": "mi-go stasis cocoon",
-    "description": "A strange organic pod containing a being in suspended animation. The surface has a slimy, almost translucent quality.  It could be cutted to reveal what's inside.",
+    "description": "A strange organic pod containing a being in suspended animation. The surface has a slimy, almost translucent quality.  It could be cut to reveal what's inside.",
     "symbol": "C",
     "color": "gray",
     "move_cost_mod": 1,
