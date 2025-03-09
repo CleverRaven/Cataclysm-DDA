@@ -2115,7 +2115,7 @@
     "id": "SKYISLAND_UPGRADE_exit3",
     "type": "mission_definition",
     "name": "Unlock: Four Exits per Expedition",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the                           from                          .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Every expedition will now have four different locations you can exit from.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Thrice-Sided Door from locks and doormats.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Every expedition will now have four different locations you can exit from.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_exit3",
     "count": 1,
@@ -2146,7 +2146,7 @@
     "id": "upgradekey_exit3",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "                           ", "str_pl": "                      " },
+    "name": { "str": "Thrice-Sided Door", "str_pl": "Thrice-Sided Doors" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Four Exits per Expedition",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -2168,18 +2168,18 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "grapnel", 1 ] ],
-      [ [ "warptoken", 1 ] ],
-      [ [ "roller_shoes_off", 1 ], [ "folded_skateboard_generic", 1 ] ],
-      [ [ "fire_ax", 1 ], [ "crash_axe", 1 ] ],
-      [ [ "halligan", 1 ], [ "ny_hook", 1 ] ]
+      [ [ "doormat", 5 ] ],
+      [ [ "warptoken", 3 ] ],
+      [ [ "oven_door", 2 ], [ "door_lock", 5 ] ],
+      [ [ "vehicle_dashboard", 1 ], [ "vehicle_controls", 1 ] ],
+      [ [ "indoor_volleyball", 1 ] ]
     ]
   },
   {
     "id": "SKYISLAND_UPGRADE_exit4",
     "type": "mission_definition",
     "name": "Unlock: Five Exits per Expedition",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the                           from                          .  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Every expedition will now have four different locations you can exit from.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft an Intangible Door Stopper from door hinges and breaching tools.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: Every expedition will now have four different locations you can exit from.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_exit4",
     "count": 1,
@@ -2210,7 +2210,7 @@
     "id": "upgradekey_exit4",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "                           ", "str_pl": "                      " },
+    "name": { "str": "Intangible Door Stopper", "str_pl": "Intangible Door Stoppers" },
     "description": "This strange metaphysical artifact will empower the island and unlock a permanent upgrade for all future runs.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED UPGRADE: Five Exits per Expedition",
     "volume": "25000 ml",
     "weight": "15000 g",
@@ -2232,11 +2232,11 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "grapnel", 1 ] ],
-      [ [ "warptoken", 1 ] ],
-      [ [ "roller_shoes_off", 1 ], [ "folded_skateboard_generic", 1 ] ],
-      [ [ "fire_ax", 1 ], [ "crash_axe", 1 ] ],
-      [ [ "halligan", 1 ], [ "ny_hook", 1 ] ]
+      [ [ "bite_suit", 1 ] ],
+      [ [ "warptoken", 5 ] ],
+      [ [ "carpentry_book", 1 ], [ "textbook_carpentry", 1 ] ],
+      [ [ "hinge", 20 ] ],
+      [ [ "remington_870_breacher", 1 ], [ "shotgun_d", 3 ] ]
     ]
   },
   {
