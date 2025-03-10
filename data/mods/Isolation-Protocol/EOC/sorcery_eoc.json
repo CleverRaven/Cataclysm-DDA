@@ -74,6 +74,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ISO_LAST_SCION_LEVEL_SPELLS",
+    "condition": { "u_has_trait": "iso_eldritch_sorcery" },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ISO_LAST_SCION_STORE_SPELL_LEVELS_RECURRING",
     "recurrence": 60,
     "condition": { "u_has_trait": "iso_eldritch_sorcery" },
@@ -84,7 +90,24 @@
           {
             "id": "EOC_ISO_LAST_SCION_STORE_SPELL_LEVELS",
             "condition": { "u_has_trait": "iso_eldritch_sorcery" },
-            "effect": [  ]
+            "effect": [
+              { "math": [ "u_iso_eldritch_stun_blind_deaf_stored_level = u_spell_level('iso_eldritch_stun_blind_deaf')" ] },
+              { "math": [ "u_iso_eldritch_blink_stored_level = u_spell_level('iso_eldritch_blink')" ] },
+              {
+                "math": [ "u_iso_eldritch_line_biting_acid_stored_level = u_spell_level('iso_eldritch_line_biting_acid')" ]
+              },
+              {
+                "math": [ "u_iso_eldritch_cone_lightning_stored_level = u_spell_level('iso_eldritch_cone_lightning')" ]
+              },
+              {
+                "math": [ "u_iso_eldritch_cold_damage_blast_stored_level = u_spell_level('iso_eldritch_cold_damage_blast')" ]
+              },
+              { "math": [ "u_iso_eldritch_polymorph_stored_level = u_spell_level('iso_eldritch_polymorph')" ] },
+              {
+                "math": [ "u_iso_eldritch_destroy_nether_stored_level = u_spell_level('iso_eldritch_destroy_nether')" ]
+              },
+              { "math": [ "u_iso_eldritch_imprisonment_stored_level = u_spell_level('iso_eldritch_imprisonment')" ] }
+            ]
           }
         ]
       }
@@ -99,108 +122,122 @@
     "condition": { "and": [ { "u_has_wielded_with_skill": "gun" }, { "u_has_trait": "iso_eldritch_sorcery" } ] },
     "effect": [
       {
-        "if": { "u_has_wielded_with_ammotype": "9mm" },
-        "then": [
-          { "set_string_var": "iso_eldritch_blink", "target_var": { "global_val": "new_last_scion_spell_id" } },
-          {
-            "set_string_var": "The Transportations of Immenar",
-            "target_var": { "global_val": "new_last_scion_spell_name" }
-          },
-          { "math": [ "new_last_scion_spell_level == u_iso_eldritch_blink_stored_level" ] },
-          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
-        ]
-      },
-      {
-        "if": { "u_has_wielded_with_ammotype": "22" },
+        "if": {
+          "and": [ { "u_has_wielded_with_ammotype": "9mm" }, { "math": [ "u_spell_level('iso_eldritch_stun_blind_deaf') == -1" ] } ]
+        },
         "then": [
           { "set_string_var": "iso_eldritch_stun_blind_deaf", "target_var": { "global_val": "new_last_scion_spell_id" } },
           {
             "set_string_var": "Inescapable Tesseract of Thought",
             "target_var": { "global_val": "new_last_scion_spell_name" }
           },
-          { "math": [ "new_last_scion_spell_level == u_iso_eldritch_stun_blind_deaf_stored_level" ] },
+          { "math": [ "new_last_scion_spell_level = u_iso_eldritch_stun_blind_deaf_stored_level" ] },
           { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
         ]
       },
-      { "if": { "u_has_wielded_with_ammotype": "223" }, "then": [  ] },
       {
-        "if": { "u_has_wielded_with_ammotype": "45" },
+        "if": { "and": [ { "u_has_wielded_with_ammotype": "22" }, { "math": [ "u_spell_level('iso_eldritch_blink') == -1" ] } ] },
+        "then": [
+          { "set_string_var": "iso_eldritch_blink", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          {
+            "set_string_var": "The Transportations of Immenar",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          },
+          { "math": [ "new_last_scion_spell_level = u_iso_eldritch_blink_stored_level" ] },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
+      {
+        "if": {
+          "and": [ { "u_has_wielded_with_ammotype": "223" }, { "math": [ "u_spell_level('iso_eldritch_line_biting_acid') == -1" ] } ]
+        },
+        "then": [
+          { "set_string_var": "iso_eldritch_line_biting_acid", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          {
+            "set_string_var": "The Thousandfold Maws of the Black Goat",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          },
+          { "math": [ "new_last_scion_spell_level = u_iso_eldritch_line_biting_acid_stored_level" ] },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
+      {
+        "if": {
+          "and": [ { "u_has_wielded_with_ammotype": "45" }, { "math": [ "u_spell_level('iso_eldritch_cone_lightning') == -1" ] } ]
+        },
         "then": [
           { "set_string_var": "iso_eldritch_cone_lightning", "target_var": { "global_val": "new_last_scion_spell_id" } },
           {
             "set_string_var": "Stormtenders' Fulminating Fury",
             "target_var": { "global_val": "new_last_scion_spell_name" }
           },
-          { "math": [ "new_last_scion_spell_level == u_iso_eldritch_cone_lightning_stored_level" ] },
+          { "math": [ "new_last_scion_spell_level = u_iso_eldritch_cone_lightning_stored_level" ] },
           { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
         ]
       },
       { "if": { "u_has_wielded_with_ammotype": "380" }, "then": [  ] },
+      { "if": { "u_has_wielded_with_ammotype": "40" }, "then": [  ] },
       {
-        "if": { "u_has_wielded_with_ammotype": "40" },
-        "then": [
-          { "set_string_var": "iso_eldritch_imprisonment", "target_var": { "global_val": "new_last_scion_spell_id" } },
-          {
-            "set_string_var": "The Adamantine Gaol of Emthys",
-            "target_var": { "global_val": "new_last_scion_spell_name" }
-          },
-          { "math": [ "new_last_scion_spell_level == u_iso_eldritch_imprisonment_stored_level" ] },
-          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
-        ]
-      },
-      {
-        "if": { "u_has_wielded_with_ammotype": "762" },
+        "if": {
+          "and": [ { "u_has_wielded_with_ammotype": "762" }, { "math": [ "u_spell_level('iso_eldritch_cold_damage_blast') == -1" ] } ]
+        },
         "then": [
           { "set_string_var": "iso_eldritch_cold_damage_blast", "target_var": { "global_val": "new_last_scion_spell_id" } },
           {
             "set_string_var": "The Frozen Heart of R'shothai",
             "target_var": { "global_val": "new_last_scion_spell_name" }
           },
-          { "math": [ "new_last_scion_spell_level == u_iso_eldritch_cold_damage_blast_stored_level" ] },
+          { "math": [ "new_last_scion_spell_level = u_iso_eldritch_cold_damage_blast_stored_level" ] },
           { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
         ]
       },
       { "if": { "u_has_wielded_with_ammotype": "357mag" }, "then": [  ] },
       { "if": { "u_has_wielded_with_ammotype": "shot" }, "then": [  ] },
-      {
-        "if": { "u_has_wielded_with_ammotype": "308" },
-        "then": [
-          { "set_string_var": "iso_eldritch_imprisonment", "target_var": { "global_val": "new_last_scion_spell_id" } },
-          {
-            "set_string_var": "The Adamantine Gaol of Emthys",
-            "target_var": { "global_val": "new_last_scion_spell_name" }
-          },
-          { "math": [ "new_last_scion_spell_level == u_iso_eldritch_imprisonment_stored_level" ] },
-          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
-        ]
-      },
+      { "if": { "u_has_wielded_with_ammotype": "308" }, "then": [  ] },
       { "if": { "u_has_wielded_with_ammotype": "38" }, "then": [  ] },
       { "if": { "u_has_wielded_with_ammotype": "44c" }, "then": [  ] },
       {
-        "if": { "u_has_wielded_with_ammotype": "3006" },
+        "if": {
+          "and": [ { "u_has_wielded_with_ammotype": "3006" }, { "math": [ "u_spell_level('iso_eldritch_polymorph') == -1" ] } ]
+        },
         "then": [
           { "set_string_var": "iso_eldritch_polymorph", "target_var": { "global_val": "new_last_scion_spell_id" } },
           {
             "set_string_var": "Tsath's Horrific Metamorphosis",
             "target_var": { "global_val": "new_last_scion_spell_name" }
           },
-          { "math": [ "new_last_scion_spell_level == u_iso_eldritch_polymorph_stored_level" ] },
+          { "math": [ "new_last_scion_spell_level = u_iso_eldritch_polymorph_stored_level" ] },
           { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
         ]
       },
       {
-        "if": { "u_has_wielded_with_ammotype": "45colt" },
+        "if": {
+          "and": [ { "u_has_wielded_with_ammotype": "45colt" }, { "math": [ "u_spell_level('iso_eldritch_destroy_nether') == -1" ] } ]
+        },
         "then": [
           { "set_string_var": "iso_eldritch_destroy_nether", "target_var": { "global_val": "new_last_scion_spell_id" } },
           {
             "set_string_var": "Thricefold Abjuration of the Outside",
             "target_var": { "global_val": "new_last_scion_spell_name" }
           },
-          { "math": [ "new_last_scion_spell_level == u_iso_eldritch_destroy_nether_stored_level" ] },
+          { "math": [ "new_last_scion_spell_level = u_iso_eldritch_destroy_nether_stored_level" ] },
           { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
         ]
       },
-      { "if": { "u_has_wielded_with_ammotype": "762R" }, "then": [  ] },
+      {
+        "if": {
+          "and": [ { "u_has_wielded_with_ammotype": "762R" }, { "math": [ "u_spell_level('iso_eldritch_imprisonment') == -1" ] } ]
+        },
+        "then": [
+          { "set_string_var": "iso_eldritch_imprisonment", "target_var": { "global_val": "new_last_scion_spell_id" } },
+          {
+            "set_string_var": "The Adamantine Gaol of Emthys",
+            "target_var": { "global_val": "new_last_scion_spell_name" }
+          },
+          { "math": [ "new_last_scion_spell_level = u_iso_eldritch_imprisonment_stored_level" ] },
+          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+        ]
+      },
       { "if": { "u_has_wielded_with_ammotype": "10mm" } },
       { "if": { "u_has_wielded_with_ammotype": "270win" }, "then": [  ] },
       { "if": { "u_has_wielded_with_ammotype": "410shot" }, "then": [  ] },
@@ -211,28 +248,8 @@
       { "if": { "u_has_wielded_with_ammotype": "32" }, "then": [  ] },
       { "if": { "u_has_wielded_with_ammotype": "338lapua" }, "then": [  ] },
       { "if": { "u_has_wielded_with_ammotype": "357sig" }, "then": [  ] },
-      {
-        "if": { "u_has_wielded_with_ammotype": "50" },
-        "then": [
-          { "set_string_var": "iso_eldritch_polymorph", "target_var": { "global_val": "new_last_scion_spell_id" } },
-          {
-            "set_string_var": "Tsath's Horrific Metamorphosis",
-            "target_var": { "global_val": "new_last_scion_spell_name" }
-          },
-          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
-        ]
-      },
-      {
-        "if": { "u_has_wielded_with_ammotype": "40x46mm" },
-        "then": [
-          { "set_string_var": "iso_eldritch_polymorph", "target_var": { "global_val": "new_last_scion_spell_id" } },
-          {
-            "set_string_var": "Tsath's Horrific Metamorphosis",
-            "target_var": { "global_val": "new_last_scion_spell_name" }
-          },
-          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
-        ]
-      },
+      { "if": { "u_has_wielded_with_ammotype": "50" }, "then": [  ] },
+      { "if": { "u_has_wielded_with_ammotype": "40x46mm" }, "then": [  ] },
       {
         "u_run_inv_eocs": "all",
         "search_data": [ { "wielded_only": true } ],
@@ -246,7 +263,10 @@
     "effect": [
       {
         "run_eoc_selector": [ "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_1", "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_2" ],
-        "names": [ "Add <global_val:new_last_scion_spell_name> to Slot 1", "Add <global_val:new_last_scion_spell_name> to Slot 2" ],
+        "names": [
+          "Add <global_val:new_last_scion_spell_name> to Slot 1: <u_val:last_scion_spell_name_slot_one>",
+          "Add <global_val:new_last_scion_spell_name> to Slot 2: <u_val:last_scion_spell_name_slot_two>"
+        ],
         "keys": [ "1", "2" ]
       }
     ]
@@ -255,9 +275,40 @@
     "type": "effect_on_condition",
     "id": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_1",
     "condition": {
-      "u_query": "This will teleport you back to your sky island.  Any items inside the room will be teleported home alongside you.  Are you ready to leave?",
+      "u_query": "Would you like to replace <u_val:last_scion_spell_name_slot_one> with: <global_val:new_last_scion_spell_name>?",
       "default": false
     },
-    "effect": [  ]
+    "effect": [
+      {
+        "set_string_var": { "global_val": "new_last_scion_spell_name" },
+        "target_var": { "u_val": "last_scion_spell_name_slot_one" }
+      },
+      { "math": [ "u_spell_level(u_last_scion_spell_id_slot_one) = -1" ] },
+      {
+        "set_string_var": { "global_val": "new_last_scion_spell_id" },
+        "target_var": { "u_val": "last_scion_spell_id_slot_one" }
+      },
+      { "math": [ "u_spell_level(new_last_scion_spell_id) = new_last_scion_spell_level" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_2",
+    "condition": {
+      "u_query": "Would you like to replace <u_val:last_scion_spell_name_slot_one> with: <global_val:new_last_scion_spell_name>?",
+      "default": false
+    },
+    "effect": [
+      {
+        "set_string_var": { "global_val": "new_last_scion_spell_name" },
+        "target_var": { "u_val": "last_scion_spell_name_slot_two" }
+      },
+      { "math": [ "u_spell_level(u_last_scion_spell_id_slot_two) = -1" ] },
+      {
+        "set_string_var": { "global_val": "new_last_scion_spell_id" },
+        "target_var": { "u_val": "last_scion_spell_id_slot_two" }
+      },
+      { "math": [ "u_spell_level(new_last_scion_spell_id) = new_last_scion_spell_level" ] }
+    ]
   }
 ]
