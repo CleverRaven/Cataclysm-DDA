@@ -9,7 +9,8 @@
     "cannot_cast_message": "Your powers do not come as you call them!",
     "get_level_formula_id": "iso_eldritch_sorcery_formula_get_level",
     "exp_for_level_formula_id": "iso_eldritch_sorcery_formula_exp_for_level",
-    "casting_xp_formula_id": "xiso_eldritch_sorcery_formula_exp_per_cast"
+    "casting_xp_formula_id": "iso_eldritch_sorcery_formula_exp_per_cast",
+    "failure_chance_formula_id": "iso_eldritch_sorcery_failure_chance"
   },
   {
     "id": "iso_eldritch_basic_attack",
@@ -76,12 +77,39 @@
     ]
   },
   {
+    "id": "iso_eldritch_summon_hindering_darkness",
+    "type": "SPELL",
+    "name": "The Crawling Tendrils of Utternight",
+    "description": "Summon a darkness so thick as to be tangible, wrapping around the limbs of those in the target area and hindering their movements.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "CONJURATION_SPELL", "VERBAL", "SOMATIC", "NO_LEGS", "IGNORE_WALLS" ],
+    "spell_class": "iso_eldritch_sorcery",
+    "magic_type": "iso_eldritch_sorcery",
+    "difficulty": 4,
+    "max_level": 30,
+    "effect": "attack",
+    "shape": "blast",
+    "min_range": 5,
+    "range_increment": 0.25,
+    "max_range": 15,
+    "min_aoe": 3,
+    "max_aoe": 10,
+    "aoe_increment": 0.2,
+    "base_energy_cost": 250,
+    "base_casting_time": 150,
+    "field_id": "fd_crawling_darkness",
+    "min_field_intensity": 1,
+    "max_field_intensity": 1,
+    "field_intensity_increment": 1,
+    "field_chance": 1
+  },
+  {
     "id": "iso_eldritch_line_biting_acid",
     "type": "SPELL",
     "name": "The Thousandfold Maws of the Black Goat",
     "description": "Weaken the fabric of reality in a small area, allowing the Black Goat to smell any prey within.  Its terrible mouths will manifest, biting and slavering its caustic juices over all unfortunate targets.",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "RANDOM_DURATION", "VERBAL", "SOMATIC", "NO_LEGS", "LOUD" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "RANDOM_DURATION", "VERBAL", "SOMATIC", "NO_LEGS" ],
     "spell_class": "iso_eldritch_sorcery",
     "magic_type": "iso_eldritch_sorcery",
     "difficulty": 3,
@@ -184,6 +212,22 @@
     "aoe_increment": 0.2,
     "base_energy_cost": 100,
     "base_casting_time": 75
+  },
+  {
+    "id": "iso_eldritch_damage_shield",
+    "type": "SPELL",
+    "name": "Impenetrable Coruscating Scales of Vishkan",
+    "description": "Summon the power of an elder wyrm, creating a shell of impenetrable dragon scales around your body.  The scales will withstand a number of blows before the enchant collapse, though their lambent glow will give away your position in the dark.  The enchantment will last several blows before collapsing, and may be canceled at any time.",
+    "valid_targets": [ "self" ],
+    "flags": [ "ENHANCEMENT_SPELL", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "spell_class": "iso_eldritch_sorcery",
+    "magic_type": "iso_eldritch_sorcery",
+    "difficulty": 6,
+    "max_level": 30,
+    "effect": "effect_on_condition",
+    "shape": "EOC_ISO_ELDRITCH_DAMAGE_SHIELD_INITIATE",
+    "base_energy_cost": { "math": [ "u_effect_intensity('effect_iso_eldritch_damage_shield') > -1 ? 0 : 500" ] },
+    "base_casting_time": { "math": [ "u_effect_intensity('effect_iso_eldritch_damage_shield') > -1 ? 10 : 350" ] }
   },
   {
     "id": "iso_eldritch_destroy_nether",

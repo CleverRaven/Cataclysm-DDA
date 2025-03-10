@@ -76,7 +76,7 @@
     "type": "effect_on_condition",
     "id": "EOC_ISO_LAST_SCION_LEVEL_SPELLS",
     "condition": { "u_has_trait": "iso_eldritch_sorcery" },
-    "effect": [  ]
+    "effect": [ { "u_level_spell_class": "iso_eldritch_sorcery", "levels": 1 } ]
   },
   {
     "type": "effect_on_condition",
@@ -91,22 +91,48 @@
             "id": "EOC_ISO_LAST_SCION_STORE_SPELL_LEVELS",
             "condition": { "u_has_trait": "iso_eldritch_sorcery" },
             "effect": [
-              { "math": [ "u_iso_eldritch_stun_blind_deaf_stored_level = u_spell_level('iso_eldritch_stun_blind_deaf')" ] },
-              { "math": [ "u_iso_eldritch_blink_stored_level = u_spell_level('iso_eldritch_blink')" ] },
               {
-                "math": [ "u_iso_eldritch_line_biting_acid_stored_level = u_spell_level('iso_eldritch_line_biting_acid')" ]
+                "if": { "math": [ "u_spell_level('iso_eldritch_stun_blind_deaf') > 0" ] },
+                "then": { "math": [ "u_iso_eldritch_stun_blind_deaf_stored_level = u_spell_level('iso_eldritch_stun_blind_deaf')" ] }
               },
               {
-                "math": [ "u_iso_eldritch_cone_lightning_stored_level = u_spell_level('iso_eldritch_cone_lightning')" ]
+                "if": { "math": [ "u_spell_level('iso_eldritch_summon_hindering_darkness') > 0" ] },
+                "then": {
+                  "math": [ "u_iso_eldritch_summon_hindering_darkness_stored_level = u_spell_level('iso_eldritch_summon_hindering_darkness')" ]
+                }
               },
               {
-                "math": [ "u_iso_eldritch_cold_damage_blast_stored_level = u_spell_level('iso_eldritch_cold_damage_blast')" ]
+                "if": { "math": [ "u_spell_level('iso_eldritch_blink') > 0" ] },
+                "then": { "math": [ "u_iso_eldritch_blink_stored_level = u_spell_level('iso_eldritch_blink')" ] }
               },
-              { "math": [ "u_iso_eldritch_polymorph_stored_level = u_spell_level('iso_eldritch_polymorph')" ] },
               {
-                "math": [ "u_iso_eldritch_destroy_nether_stored_level = u_spell_level('iso_eldritch_destroy_nether')" ]
+                "if": { "math": [ "u_spell_level('iso_eldritch_damage_shield') > 0" ] },
+                "then": { "math": [ "u_iso_eldritch_damage_shield_stored_level = u_spell_level('iso_eldritch_damage_shield')" ] }
               },
-              { "math": [ "u_iso_eldritch_imprisonment_stored_level = u_spell_level('iso_eldritch_imprisonment')" ] }
+              {
+                "if": { "math": [ "u_spell_level('iso_eldritch_line_biting_acid') > 0" ] },
+                "then": { "math": [ "u_iso_eldritch_line_biting_acid_stored_level = u_spell_level('iso_eldritch_line_biting_acid')" ] }
+              },
+              {
+                "if": { "math": [ "u_spell_level('iso_eldritch_cone_lightning') > 0" ] },
+                "then": { "math": [ "u_iso_eldritch_cone_lightning_stored_level = u_spell_level('iso_eldritch_cone_lightning')" ] }
+              },
+              {
+                "if": { "math": [ "u_spell_level('iso_eldritch_cold_damage_blast') > 0" ] },
+                "then": { "math": [ "u_iso_eldritch_cold_damage_blast_stored_level = u_spell_level('iso_eldritch_cold_damage_blast')" ] }
+              },
+              {
+                "if": { "math": [ "u_spell_level('iso_eldritch_polymorph') > 0" ] },
+                "then": { "math": [ "u_iso_eldritch_polymorph_stored_level = u_spell_level('iso_eldritch_polymorph')" ] }
+              },
+              {
+                "if": { "math": [ "u_spell_level('iso_eldritch_destroy_nether') > 0" ] },
+                "then": { "math": [ "u_iso_eldritch_destroy_nether_stored_level = u_spell_level('iso_eldritch_destroy_nether')" ] }
+              },
+              {
+                "if": { "math": [ "u_spell_level('iso_eldritch_imprisonment') > 0" ] },
+                "then": { "math": [ "u_iso_eldritch_imprisonment_stored_level = u_spell_level('iso_eldritch_imprisonment')" ] }
+              }
             ]
           }
         ]
@@ -135,29 +161,87 @@
     "//": "Ammo below listed in order of rarity according to item_demographics in the test data.  Everything lower than 410shot has a weight of 1 and multiple types could be combined to a single spell",
     "effect": [
       {
-        "if": {
-          "and": [ { "u_has_wielded_with_ammotype": "9mm" }, { "math": [ "u_spell_level('iso_eldritch_stun_blind_deaf') == -1" ] } ]
-        },
+        "if": { "u_has_wielded_with_ammotype": "9mm" },
         "then": [
-          { "set_string_var": "iso_eldritch_stun_blind_deaf", "target_var": { "global_val": "new_last_scion_spell_id" } },
           {
-            "set_string_var": "Inescapable Tesseract of Thought",
-            "target_var": { "global_val": "new_last_scion_spell_name" }
+            "if": {
+              "and": [ { "u_has_wielded_with_skill": "pistol" }, { "math": [ "u_spell_level('iso_eldritch_stun_blind_deaf') == -1" ] } ]
+            },
+            "then": [
+              { "set_string_var": "iso_eldritch_stun_blind_deaf", "target_var": { "global_val": "new_last_scion_spell_id" } },
+              {
+                "set_string_var": "Inescapable Tesseract of Thought",
+                "target_var": { "global_val": "new_last_scion_spell_name" }
+              },
+              { "math": [ "new_last_scion_spell_level = u_iso_eldritch_stun_blind_deaf_stored_level" ] },
+              { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+            ]
           },
-          { "math": [ "new_last_scion_spell_level = u_iso_eldritch_stun_blind_deaf_stored_level" ] },
-          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+          {
+            "if": {
+              "and": [
+                { "u_has_wielded_with_skill": "smg" },
+                { "math": [ "u_spell_level('iso_eldritch_summon_hindering_darkness') == -1" ] }
+              ]
+            },
+            "then": [
+              {
+                "set_string_var": "iso_eldritch_summon_hindering_darkness",
+                "target_var": { "global_val": "new_last_scion_spell_id" }
+              },
+              {
+                "set_string_var": "The Crawling Tendrils of Utternight",
+                "target_var": { "global_val": "new_last_scion_spell_name" }
+              },
+              { "math": [ "new_last_scion_spell_level = u_iso_eldritch_summon_hindering_darkness_stored_level" ] },
+              { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+            ]
+          },
+          {
+            "if": {
+              "and": [ { "u_has_wielded_with_skill": "rifle" }, { "math": [ "u_spell_level('iso_eldritch_stun_blind_deaf') == -1" ] } ]
+            },
+            "then": [
+              { "set_string_var": "iso_eldritch_stun_blind_deaf", "target_var": { "global_val": "new_last_scion_spell_id" } },
+              {
+                "set_string_var": "Inescapable Tesseract of Thought",
+                "target_var": { "global_val": "new_last_scion_spell_name" }
+              },
+              { "math": [ "new_last_scion_spell_level = u_iso_eldritch_stun_blind_deaf_stored_level" ] },
+              { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+            ]
+          }
         ]
       },
       {
-        "if": { "and": [ { "u_has_wielded_with_ammotype": "22" }, { "math": [ "u_spell_level('iso_eldritch_blink') == -1" ] } ] },
+        "if": { "u_has_wielded_with_ammotype": "22" },
         "then": [
-          { "set_string_var": "iso_eldritch_blink", "target_var": { "global_val": "new_last_scion_spell_id" } },
           {
-            "set_string_var": "The Transportations of Immenar",
-            "target_var": { "global_val": "new_last_scion_spell_name" }
+            "if": { "and": [ { "u_has_wielded_with_skill": "pistol" }, { "math": [ "u_spell_level('iso_eldritch_blink') == -1" ] } ] },
+            "then": [
+              { "set_string_var": "iso_eldritch_blink", "target_var": { "global_val": "new_last_scion_spell_id" } },
+              {
+                "set_string_var": "The Transportations of Immenar",
+                "target_var": { "global_val": "new_last_scion_spell_name" }
+              },
+              { "math": [ "new_last_scion_spell_level = u_iso_eldritch_blink_stored_level" ] },
+              { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+            ]
           },
-          { "math": [ "new_last_scion_spell_level = u_iso_eldritch_blink_stored_level" ] },
-          { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+          {
+            "if": {
+              "and": [ { "u_has_wielded_with_skill": "rifle" }, { "math": [ "u_spell_level('iso_eldritch_damage_shield') == -1" ] } ]
+            },
+            "then": [
+              { "set_string_var": "iso_eldritch_damage_shield", "target_var": { "global_val": "new_last_scion_spell_id" } },
+              {
+                "set_string_var": "The Transportations of Immenar",
+                "target_var": { "global_val": "new_last_scion_spell_name" }
+              },
+              { "math": [ "new_last_scion_spell_level = u_iso_eldritch_damage_shield_stored_level" ] },
+              { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
+            ]
+          }
         ]
       },
       {

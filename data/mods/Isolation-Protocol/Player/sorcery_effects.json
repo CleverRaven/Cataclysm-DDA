@@ -1,5 +1,42 @@
 [
   {
+    "id": "fd_crawling_darkness",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "darkness", "move_cost": 2, "light_override": 0.0 } ],
+    "half_life": "1 minutes",
+    "percent_spread": 50
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_iso_eldritch_damage_shield",
+    "name": [ "Mageshield" ],
+    "desc": [ "You are invincible." ],
+    "rating": "good",
+    "remove_message": "Your mageshield fades as the attack impacts it.",
+    "enchantments": [ { "values": [ { "value": "FORCEFIELD", "add": 1 }, { "value": "LUMINATION", "add": 4 } ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_ELDRITCH_DAMAGE_SHIELD_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_iso_eldritch_damage_shield" } },
+    "effect": { "u_add_effect": "effect_iso_eldritch_damage_shield", "duration": "PERMANENT" },
+    "false_effect": { "u_lose_effect": "effect_iso_eldritch_damage_shield" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_ELDRITCH_DAMAGE_SHIELD_COUNTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_effect": "effect_iso_eldritch_damage_shield" },
+    "effect": [
+      { "math": [ "u_iso_eldritch_damage_shield_counter", "++" ] },
+      {
+        "if": { "math": [ "u_iso_eldritch_damage_shield_counter > ( (u_spell_level('iso_eldritch_damage_shield') / 4 ) + 1)" ] },
+        "then": { "u_lose_effect": "effect_iso_eldritch_damage_shield" }
+      }
+    ]
+  },
+  {
     "type": "effect_type",
     "id": "effect_iso_eldritch_cold_damage_blast",
     "name": [ "Void-chilled" ],
