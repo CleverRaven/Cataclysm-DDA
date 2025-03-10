@@ -1276,7 +1276,7 @@ class npc : public Character
 
         // The preceding are in npcmove.cpp
 
-        bool query_yn( const std::string &mes ) const override;
+        bool query_yn( const std::string &msg ) const override;
 
         std::vector<std::string> extended_description() const override;
         std::string get_epilogue() const;
