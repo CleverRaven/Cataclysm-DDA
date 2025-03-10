@@ -29,14 +29,19 @@
               { "u_lose_trait": "VAMPIRE_SILENT_MOVE" },
               { "math": [ "u_spell_level('vampire_smell_nearby_blood_spell') = -1" ] },
               { "math": [ "u_spell_level('vampire_stamina_for_blood_spell') = -1" ] },
-              { "u_message": "The light seems less bright and the air fresher.", "type": "good" }
+              { "u_message": "The light seems less bright and the air fresher.", "type": "good" },
+              { "u_add_effect": "curevamp", "duration": "72 h" }
             ]
           },
           {
             "id": "EOC_REDUCE_VAMPVIRUS1",
             "condition": { "math": [ "u_effect_intensity('vampire_virus') == 2" ] },
             "effect": [
-              { "u_add_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" },
+              {
+                "u_add_effect": "vampire_virus",
+                "intensity": { "math": [ "u_effect_intensity('vampire_virus') - 1" ] },
+                "duration": "PERMANENT"
+              },
               { "u_lose_trait": "VAMPIRE2" },
               { "u_lose_trait": "COAGULANTWEAVE" },
               { "u_lose_trait": "BLOODHEAL" },
@@ -57,7 +62,11 @@
             "id": "EOC_REDUCE_VAMPVIRUS2",
             "condition": { "math": [ "u_effect_intensity('vampire_virus') == 3" ] },
             "effect": [
-              { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" },
+              {
+                "u_add_effect": "vampire_virus",
+                "intensity": { "math": [ "u_effect_intensity('vampire_virus') - 1" ] },
+                "duration": "PERMANENT"
+              },
               { "u_lose_trait": "VAMPIRE3" },
               { "u_lose_trait": "BLOODBANK" },
               { "u_lose_trait": "HYPNOTIC_GAZE" },
