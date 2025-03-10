@@ -118,8 +118,21 @@
     "id": "EOC_ISO_LAST_SCION_SPELL_GAINING_WHEN_PICK_UP_GUN",
     "eoc_type": "EVENT",
     "required_event": "character_wields_item",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_has_wielded_with_skill": "pistol" },
+            { "u_has_wielded_with_skill": "rifle" },
+            { "u_has_wielded_with_skill": "shotgun" },
+            { "u_has_wielded_with_skill": "smg" },
+            { "u_has_wielded_with_skill": "gun" }
+          ]
+        },
+        { "u_has_trait": "iso_eldritch_sorcery" }
+      ]
+    },
     "//": "Ammo below listed in order of rarity according to item_demographics in the test data.  Everything lower than 410shot has a weight of 1 and multiple types could be combined to a single spell",
-    "condition": { "and": [ { "u_has_wielded_with_skill": "gun" }, { "u_has_trait": "iso_eldritch_sorcery" } ] },
     "effect": [
       {
         "if": {
@@ -251,9 +264,20 @@
       { "if": { "u_has_wielded_with_ammotype": "50" }, "then": [  ] },
       { "if": { "u_has_wielded_with_ammotype": "40x46mm" }, "then": [  ] },
       {
-        "u_run_inv_eocs": "all",
-        "search_data": [ { "wielded_only": true } ],
-        "true_eocs": [ { "id": "EOC_ISO_LAST_SCION_DESTROY_GUN_WHEN_PICK_UP_GUN", "effect": [ "npc_die" ] } ]
+        "run_eocs": [
+          {
+            "id": "EOC_ISO_LAST_SCION_SPELL_GAINING_WHEN_PICK_UP_GUN_REMOVE_GUN",
+            "condition": { "u_has_trait": "iso_eldritch_sorcery" },
+            "effect": [
+              {
+                "u_run_inv_eocs": "all",
+                "search_data": [ { "wielded_only": true } ],
+                "true_eocs": [ { "id": "EOC_ISO_LAST_SCION_DESTROY_GUN_WHEN_PICK_UP_GUN", "effect": [ "npc_die" ] } ]
+              }
+            ]
+          }
+        ],
+        "time_in_future": 0
       }
     ]
   },
@@ -274,41 +298,37 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_1",
-    "condition": {
-      "u_query": "Would you like to replace <u_val:last_scion_spell_name_slot_one> with: <global_val:new_last_scion_spell_name>?",
-      "default": false
-    },
     "effect": [
       {
         "set_string_var": { "global_val": "new_last_scion_spell_name" },
         "target_var": { "u_val": "last_scion_spell_name_slot_one" }
       },
+      { "message": "Spell name for slot 1 is <u_val:last_scion_spell_name_slot_one>", "type": "debug" },
       { "math": [ "u_spell_level(u_last_scion_spell_id_slot_one) = -1" ] },
       {
         "set_string_var": { "global_val": "new_last_scion_spell_id" },
         "target_var": { "u_val": "last_scion_spell_id_slot_one" }
       },
-      { "math": [ "u_spell_level(new_last_scion_spell_id) = new_last_scion_spell_level" ] }
+      { "message": "Spell id for slot 1 is <u_val:last_scion_spell_id_slot_one>", "type": "debug" },
+      { "math": [ "u_spell_level(last_scion_spell_id_slot_one) = new_last_scion_spell_level" ] }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_2",
-    "condition": {
-      "u_query": "Would you like to replace <u_val:last_scion_spell_name_slot_one> with: <global_val:new_last_scion_spell_name>?",
-      "default": false
-    },
     "effect": [
       {
         "set_string_var": { "global_val": "new_last_scion_spell_name" },
         "target_var": { "u_val": "last_scion_spell_name_slot_two" }
       },
+      { "message": "Spell name for slot 2 is <u_val:last_scion_spell_name_slot_two>", "type": "debug" },
       { "math": [ "u_spell_level(u_last_scion_spell_id_slot_two) = -1" ] },
       {
         "set_string_var": { "global_val": "new_last_scion_spell_id" },
         "target_var": { "u_val": "last_scion_spell_id_slot_two" }
       },
-      { "math": [ "u_spell_level(new_last_scion_spell_id) = new_last_scion_spell_level" ] }
+      { "message": "Spell id for slot 2 is <u_val:last_scion_spell_id_slot_two>", "type": "debug" },
+      { "math": [ "u_spell_level(last_scion_spell_id_slot_two) = new_last_scion_spell_level" ] }
     ]
   }
 ]
