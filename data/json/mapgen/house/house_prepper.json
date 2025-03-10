@@ -63,7 +63,7 @@
         { "item": "gear_survival", "x": [ 18, 21 ], "y": 21, "chance": 50, "repeat": [ 1, 4 ] }
       ],
       "place_monsters": [
-        { "monster": "GROUP_PREPPER_HOUSE", "x": [ 2, 21 ], "y": [ 13, 21 ], "density": 2 },
+        { "monster": "GROUP_PREPPER_HOUSE", "x": [ 2, 21 ], "y": [ 13, 21 ], "density": 0.4 },
         { "monster": "GROUP_PEST", "x": [ 2, 21 ], "y": [ 13, 21 ], "chance": 3 }
       ]
     }
