@@ -104,7 +104,7 @@
     "id": "bp_30carbine",
     "copy-from": "30carbine",
     "type": "AMMO",
-    "name": { "str_sp": ".30 Carbine, black powder" },
+    "name": { "str_sp": ".30 Carbine FMJ, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -118,7 +118,7 @@
     "id": "reloaded_30carbine",
     "copy-from": "30carbine",
     "type": "AMMO",
-    "name": { "str_sp": ".30 Carbine, reloaded" },
+    "name": { "str_sp": ".30 Carbine FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 },
     "extend": { "effects": [ "RECYCLED" ] }
   },
@@ -127,7 +127,7 @@
     "copy-from": "bp_30carbine",
     "type": "AMMO",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
-    "name": { "str_sp": ".30 Carbine, matchhead powder" },
+    "name": { "str_sp": ".30 Carbine FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_30carbine",
     "extend": { "effects": [ "MATCHHEAD" ] }
