@@ -586,14 +586,14 @@ void cataimgui::client::end_frame()
 void cataimgui::client::process_input( void *input )
 {
     if( any_window_shown() ) {
-        const SDL_Event* evt = static_cast<const SDL_Event *>( input );
-        if (! enable_mouse) {
-            switch (evt->type) {
+        const SDL_Event *evt = static_cast<const SDL_Event *>( input );
+        if( ! enable_mouse ) {
+            switch( evt->type ) {
                 case SDL_MOUSEMOTION:
                 case SDL_MOUSEWHEEL:
                 case SDL_MOUSEBUTTONDOWN:
                 case SDL_MOUSEBUTTONUP:
-                return;
+                    return;
             }
         }
         ImGui_ImplSDL2_ProcessEvent( evt );
