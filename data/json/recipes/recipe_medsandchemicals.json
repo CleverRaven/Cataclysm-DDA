@@ -235,6 +235,8 @@
         [ "honeydew", 2 ],
         [ "honey_bottled", 2 ],
         [ "syrup", 2 ],
+        [ "syrup_simple", 2 ],
+        [ "syrup_corn", 2 ],
         [ "wax", 1 ]
       ]
     ]

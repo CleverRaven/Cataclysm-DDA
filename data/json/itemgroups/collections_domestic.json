@@ -913,6 +913,8 @@
       { "item": "junk_burrito", "prob": 50 },
       { "prob": 10, "group": "chili_can_medium_2" },
       { "item": "syrup", "prob": 10 },
+      { "item": "syrup_corn", "prob": 4 },
+      { "item": "syrup_simple", "prob": 1 },
       { "item": "coffee_syrup", "prob": 10 },
       { "prob": 10, "group": "yeast_various" },
       { "prob": 5, "group": "yogurt_starter_culture_bag_plastic_4" },

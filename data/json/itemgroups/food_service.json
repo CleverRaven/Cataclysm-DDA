@@ -220,6 +220,7 @@
       { "item": "water_clean", "prob": 50 },
       { "item": "water_mineral", "prob": 20 },
       { "item": "grenadine_syrup", "prob": 40 },
+      { "item": "syrup_simple", "prob": 60 },
       { "item": "oj", "prob": 40 },
       { "item": "pineapple_juice", "prob": 35 },
       { "item": "juice", "prob": 35 },
@@ -772,6 +773,7 @@
       { "item": "hot_sauce", "prob": 50 },
       { "prob": 20, "group": "cinnamon_various_full" },
       { "item": "syrup", "prob": 50 },
+      { "item": "syrup_corn", "prob": 5 },
       { "prob": 45, "group": "seasoning_salt_various_full" },
       { "prob": 50, "group": "seasoning_italian_various_full" },
       { "prob": 40, "group": "curry_powder_various_full" },
@@ -922,6 +924,7 @@
       [ "sausage", 10 ],
       [ "bratwurst_sausage", 10 ],
       [ "syrup", 10 ],
+      [ "syrup_corn", 5 ],
       [ "sweet_sausage", 2 ],
       [ "soup_meat", 10 ]
     ]
@@ -966,6 +969,7 @@
       [ "onion_rings", 10 ],
       [ "sauce_red", 8 ],
       [ "syrup", 10 ],
+      [ "syrup_corn", 10 ],
       [ "soup_fish", 10 ]
     ]
   },
@@ -1405,6 +1409,7 @@
       [ "tofu", 8 ],
       [ "sausage", 10 ],
       [ "syrup", 10 ],
+      [ "syrup_corn", 10 ],
       [ "sweet_sausage", 2 ],
       [ "soup_meat", 10 ]
     ]
