@@ -2,6 +2,7 @@
 
 int fov_3d_z_range;
 bool keycode_mode;
+bool enable_mouse;
 bool log_from_top;
 int message_ttl;
 int message_cooldown;
