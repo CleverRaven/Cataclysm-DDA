@@ -4173,6 +4173,34 @@ You cast a `this_spell_can_target_only_robots` spell; if it success, `EOC_ROBOT_
 ```
 
 
+#### `u_level_spell_class`, `npc_level_spell_class`
+
+Modifies the levels of all known spells of a given class.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_level_spell_class" / "npc_level_spell_class" | **mandatory** | `trait_id` | The `spell_class` that will be affected, can specifiy `"all"` instead of a class to affect all spells known by a character. |
+| "levels" | optional | int | Default value of `1` if unspecified.  The levels that will be added or removed from the affected class | 
+| "random" | optional | boolean | Dafault value of `false`.  If true, only a single spell of the specified class will be affected. |
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster | Furniture | Item | Vehicle |
+| ------ | --------- | --------- | ---- | ------- | --- | ---- |
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ | ❌ |
+
+##### Examples
+
+The avatar levels up all spells of the MAGUS class by 5 levels, and a single spell of any classes by 30 levels
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST_ARCHMAGUSIFY",
+    "global": true,
+    "effect": [ { "u_level_spell_class": "MAGUS", "levels": 5 }, { "u_level_spell_class": "all", "levels": 30, "random": true } ]
+  }
+```
+
 #### `u_assign_activity`, `npc_assign_activity`
 
 NPC or character will start an activity
