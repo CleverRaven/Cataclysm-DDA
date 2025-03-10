@@ -10589,6 +10589,15 @@ std::vector<Creature *> Character::get_visible_creatures( const int range ) cons
     } );
 }
 
+std::vector<vehicle *> Character::get_visible_vehicles( const int range ) const
+{
+    const map &here = get_map();
+
+    return g->get_vehicles_if( [this, range, &here]( const vehicle & veh ) -> bool {
+        return rl_dist( pos_abs(), veh.pos_abs() ) <= range && sees( here, veh.pos_bub( here ) );
+    } );
+}
+
 std::vector<Creature *> Character::get_targetable_creatures( const int range, bool melee ) const
 {
     map &here = get_map();

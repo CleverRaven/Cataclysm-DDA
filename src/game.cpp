@@ -13663,6 +13663,17 @@ std::vector<npc *> game::get_npcs_if( const std::function<bool( const npc & )> &
     return result;
 }
 
+std::vector<vehicle *> game::get_vehicles_if( const std::function<bool( const vehicle & )> &pred )
+{
+    std::vector<vehicle *> result;
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
+        if( pred( *veh.v ) ) {
+            result.push_back( veh.v );
+        }
+    }
+    return result;
+}
+
 template<>
 bool game::non_dead_range<monster>::iterator::valid()
 {

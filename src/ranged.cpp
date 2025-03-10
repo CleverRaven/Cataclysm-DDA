@@ -244,6 +244,13 @@ class target_ui
             Reload
         };
 
+        enum class LegalTargets : int {
+            Creatures, // Only target creatures
+            Vehicles, // Only target vehicles
+            Both // Target either
+        };
+        LegalTargets targeting_Mode = LegalTargets::Creatures;
+
         // Initialize UI and run the event loop
         target_handler::trajectory run();
 
@@ -271,10 +278,12 @@ class target_ui
         // Use set_cursor_pos() to modify
         tripoint_bub_ms dst;
         // Creature currently under cursor. nullptr if aiming at empty tile,
-        // yourself or a creature you cannot see
+        // yourself or a creature you cannot see, or targeting mode doesn't allow creatures
         Creature *dst_critter = nullptr;
+        // Vehicle currently under cursor. nullptr if aiming at empty tile or if targeting mode doesn't allow vehicle targets
+        vehicle *dst_veh = nullptr;
         // List of visible hostile targets
-        std::vector<Creature *> targets;
+        std::vector<tripoint_bub_ms> targets;
 
         // Window
         catacurses::window w_target;
@@ -565,6 +574,16 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
     ui.range = casting.range( you );
     ui.no_fail = no_fail;
     ui.no_mana = no_mana;
+
+    bool target_Creatures = casting.is_valid_target( spell_target::ally ) ||
+                            casting.is_valid_target( spell_target::hostile ) ||
+                            casting.is_valid_target( spell_target::self );
+    bool target_Vehicles = casting.is_valid_target( spell_target::vehicle );
+    if( target_Creatures && target_Vehicles ) {
+        ui.targeting_Mode = target_ui::LegalTargets::Both;
+    } else if( target_Vehicles ) {
+        ui.targeting_Mode = target_ui::LegalTargets::Vehicles;
+    }
 
     restore_on_out_of_scope view_offset_prev( you.view_offset );
     return ui.run();
@@ -2069,6 +2088,15 @@ static bool pl_sees( const Creature &cr )
     return u.sees( here,  cr ) || u.sees_with_specials( cr );
 }
 
+// Whether player character knows vehicle's position and can roughly track it with the aim cursor
+static bool pl_sees( const optional_vpart_position &ovp )
+{
+    const map &here = get_map();
+
+    Character &u = get_player_character();
+    return u.sees( here,  ovp.value().pos_bub( here ) );
+}
+
 static int print_aim( const target_ui &ui, Character &you, const catacurses::window &w,
                       int line_number, input_context &ctxt, const item &weapon, const tripoint_bub_ms &pos,
                       item_location &load_loc )
@@ -3106,14 +3134,39 @@ bool target_ui::set_cursor_pos( const tripoint_bub_ms &new_pos )
 
     // Cache creature under cursor
     if( src != dst ) {
-        Creature *cr = get_creature_tracker().creature_at( dst, true );
-        if( cr && pl_sees( *cr ) ) {
-            dst_critter = cr;
+        if( targeting_Mode == LegalTargets::Creatures ) {
+            Creature *cr = get_creature_tracker().creature_at( dst, true );
+            if( cr && pl_sees( *cr ) ) {
+                dst_critter = cr;
+            } else {
+                dst_critter = nullptr;
+            }
+        } else if( targeting_Mode == LegalTargets::Vehicles ) {
+            optional_vpart_position ovp = here.veh_at( dst );
+            if( ovp.has_value() && pl_sees( ovp ) ) {
+                dst_veh = &ovp.value().vehicle();
+            } else {
+                dst_veh = nullptr;
+            }
         } else {
-            dst_critter = nullptr;
+            Creature *cr = get_creature_tracker().creature_at( dst, true );
+            if( cr && pl_sees( *cr ) ) {
+                dst_critter = cr;
+                dst_veh = nullptr;
+            } else {
+                optional_vpart_position ovp = here.veh_at( dst );
+                if( ovp.has_value() && pl_sees( ovp ) ) {
+                    dst_veh = &ovp.value().vehicle();
+                    dst_critter = nullptr;
+                } else {
+                    dst_veh = nullptr;
+                    dst_critter = nullptr;
+                }
+            }
         }
     } else {
         dst_critter = nullptr;
+        dst_veh = nullptr;
     }
 
     // Update mode-specific stuff
@@ -3162,10 +3215,19 @@ void target_ui::update_target_list()
     }
 
     // Get targets in range and sort them by distance (targets[0] is the closest)
-    targets = you->get_targetable_creatures( range, mode == TargetMode::Reach );
-    std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
-        return rl_dist_exact( lhs->pos_bub(), you->pos_bub() ) < rl_dist_exact( rhs->pos_bub(),
-                you->pos_bub() );
+    if( targeting_Mode == LegalTargets::Both || targeting_Mode == LegalTargets::Vehicles ) {
+        for( vehicle *target : you->get_visible_vehicles( range ) ) {
+            targets.push_back( target->pos_bub( get_map() ) );
+        }
+    }
+    if( targeting_Mode == LegalTargets::Both || targeting_Mode == LegalTargets::Creatures ) {
+        for( Creature *target : you->get_targetable_creatures( range, mode == TargetMode::Reach ) ) {
+            targets.push_back( target->pos_bub() );
+        }
+    }
+    std::sort( targets.begin(), targets.end(), [&]( const tripoint_bub_ms lhs,
+    const tripoint_bub_ms rhs ) {
+        return rl_dist_exact( lhs, you->pos_bub() ) < rl_dist_exact( rhs, you->pos_bub() );
     } );
 }
 
@@ -3181,7 +3243,7 @@ tripoint_bub_ms target_ui::choose_initial_target()
 
     // Try closest creature
     if( !targets.empty() ) {
-        return targets[0]->pos_bub();
+        return targets[0];
     }
 
     // Try closest practice target
@@ -3283,6 +3345,9 @@ bool target_ui::confirm_non_enemy_target()
             return false;
         }
     }
+    if( targeting_Mode == LegalTargets::Vehicles ) {
+        return true;
+    }
     npc *const who = dynamic_cast<npc *>( dst_critter );
     if( who && !who->guaranteed_hostile() ) {
         return query_yn( _( "Really attack %s?" ), who->get_name().c_str() );
@@ -3371,13 +3436,19 @@ void target_ui::cycle_targets( int direction )
         return;
     }
 
+    tripoint_bub_ms dst_pos;
     if( dst_critter ) {
-        auto t = std::find( targets.begin(), targets.end(), dst_critter );
+        dst_pos = dst_critter->pos_bub();
+    } else if( dst_veh ) {
+        dst_pos = dst_veh->pos_bub( get_map() );
+    }
+    if( dst_critter || dst_veh ) {
+        auto t = std::find( targets.begin(), targets.end(), dst_pos );
         size_t new_target = 0;
         if( t != targets.end() ) {
             size_t idx = std::distance( targets.begin(), t );
             new_target = ( idx + targets.size() + direction ) % targets.size();
-            set_cursor_pos( targets[new_target]->pos_bub() );
+            set_cursor_pos( targets[new_target] );
             return;
         }
     }
@@ -3385,9 +3456,9 @@ void target_ui::cycle_targets( int direction )
     // There is either no creature under the cursor or the player can't see it.
     // Use the closest/farthest target in this case
     if( direction == 1 ) {
-        set_cursor_pos( targets.front()->pos_bub() );
+        set_cursor_pos( targets.front() );
     } else {
-        set_cursor_pos( targets.back()->pos_bub() );
+        set_cursor_pos( targets.back() );
     }
 }
 
@@ -4169,6 +4240,13 @@ void target_ui::panel_target_info( int &text_y, bool fill_with_blank_if_no_targe
                 }
                 mvwprintw( w_target, point( 1, text_y ), buf[i] );
             }
+        }
+    } else if( dst_veh ) {
+        if( you->sees( here, dst_veh->pos_bub( here ) ) ) {
+            mvwprintz( w_target, point( 1, text_y ), c_light_gray, _( "Vehicle: " ) );
+            mvwprintz( w_target, point( 1 + utf8_width( _( "Vehicle: " ) ), text_y ), c_white, "%s",
+                       dst_veh->name );
+            text_y ++;
         }
     } else if( fill_with_blank_if_no_target ) {
         // Fill with blank lines to prevent other panels from jumping around
