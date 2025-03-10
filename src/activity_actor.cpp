@@ -5109,7 +5109,7 @@ void insert_item_activity_actor::start( player_activity &act, Character &who )
 }
 
 static ret_val<void> try_insert( item_location &holster, drop_location &holstered_item,
-                                 int *charges_added, Character *carrier )
+                                 int *charges_added, Character *carrier, bool allow_fill_charge_item_nested )
 {
     item &it = *holstered_item.first;
     ret_val<void> ret = ret_val<void>::make_failure( _( "item can't be stored there" ) );
@@ -5173,7 +5173,8 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
     }
     int charges_to_insert = std::min( holstered_item.second, max_parent_charges.value() );
     *charges_added = holster->fill_with( it, charges_to_insert, /*unseal_pockets=*/true,
-                                         /*allow_sealed=*/true, /*ignore_settings*/true, /*into_bottom*/true, carrier );
+                                         /*allow_sealed=*/true, /*ignore_settings*/true, /*into_bottom*/true, /*allow_nested*/allow_fill_charge_item_nested,
+                                         carrier );
     if( *charges_added <= 0 ) {
         return ret_val<void>::make_failure( _( "item can't be stored there" ) );
     }
@@ -5198,7 +5199,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
         ret_val<void> ret = ret_val<void>::make_failure( _( "item can't be stored there" ) );
 
         if( !it.count_by_charges() ) {
-            ret = try_insert( holster, holstered_item, nullptr, carrier );
+            ret = try_insert( holster, holstered_item, nullptr, carrier, false );
 
             if( ret.success() ) {
                 //~ %1$s: item to put in the container, %2$s: container to put item in
@@ -5210,7 +5211,8 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
             }
         } else {
             int charges_added = 0;
-            ret = try_insert( holster, holstered_item, &charges_added, carrier );
+            ret = try_insert( holster, holstered_item, &charges_added, carrier,
+                              allow_fill_count_by_charge_item_nested );
 
             if( ret.success() ) {
                 item copy( it );
@@ -5279,6 +5281,7 @@ void insert_item_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "handler", handler );
     jsout.member( "all_pockets_rigid", all_pockets_rigid );
     jsout.member( "reopen_menu", reopen_menu );
+    jsout.member( "allow_fill_charge_item_nested", allow_fill_count_by_charge_item_nested );
 
     jsout.end_object();
 }
@@ -5294,6 +5297,7 @@ std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonVal
     data.read( "handler", actor.handler );
     data.read( "all_pockets_rigid", actor.all_pockets_rigid );
     data.read( "reopen_menu", actor.reopen_menu );
+    data.read( "allow_fill_charge_item_nested", actor.allow_fill_count_by_charge_item_nested );
 
     return actor.clone();
 }
