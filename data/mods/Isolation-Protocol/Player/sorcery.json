@@ -225,7 +225,8 @@
     "difficulty": 6,
     "max_level": 30,
     "effect": "effect_on_condition",
-    "shape": "EOC_ISO_ELDRITCH_DAMAGE_SHIELD_INITIATE",
+    "effect_str": "EOC_ISO_ELDRITCH_DAMAGE_SHIELD_INITIATE",
+    "shape": "blast",
     "base_energy_cost": { "math": [ "u_effect_intensity('effect_iso_eldritch_damage_shield') > -1 ? 0 : 500" ] },
     "base_casting_time": { "math": [ "u_effect_intensity('effect_iso_eldritch_damage_shield') > -1 ? 10 : 350" ] }
   },
