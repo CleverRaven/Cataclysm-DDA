@@ -34,7 +34,7 @@
     "value": 150000,
     "urgent": true,
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
-    "deadline": [ "30 days", "48 days" ],
+    "deadline": [ "2 days", "3 days" ],
     "dialogue": {
       "describe": "I'm… short… of breath…",
       "offer": "I'm asthmatic.  I need you to get an inhaler for me…",
@@ -67,7 +67,7 @@
     "urgent": true,
     "goal_condition": { "or": [ { "u_has_item": "antibiotics" }, { "u_has_item": "strong_antibiotic" }, { "u_has_item": "panacea" } ] },
     "origins": [ "ORIGIN_OPENER_NPC" ],
-    "deadline": [ "24 days", "48 days" ],
+    "deadline": "1 day",
     "dialogue": {
       "describe": "This infection is bad, totally bad…",
       "offer": "I'm infected.  Badly.  I need you to get some good antibiotics for me…",
