@@ -263,9 +263,9 @@
     "type": "talk_topic",
     "id": "TALK_MI-GO_PRISONER_MUTATIONS_SYMPATHY",
     "dynamic_line": [
-      "Thanks for understanding. Most people would just see me as a freak now.",
-      "It helps to know someone cares. I'm still trying to come to terms with what I've become.",
-      "Thank you. It's hard to accept these changes, but at least I'm not alone."
+      "Thanks for understanding.  Most people would just see me as a freak now.",
+      "It helps to know someone cares.  I'm still trying to come to terms with what I've become.",
+      "Thank you.  It's hard to accept these changes, but at least I'm not alone."
     ],
     "responses": [
       {
@@ -281,9 +281,9 @@
     "type": "talk_topic",
     "id": "TALK_MI-GO_PRISONER_MUTATIONS_CAUTION",
     "dynamic_line": [
-      "You're right. For all I know, these changes could be killing me slowly… or worse.",
-      "I worry about that too. What if I'm becoming something else? Something not human?",
-      "Do you think I should be monitored? What if these changes progress further?"
+      "You're right.  For all I know, these changes could be killing me slowly… or worse.",
+      "I worry about that too.  What if I'm becoming something else?  Something not human?",
+      "Do you think I should be monitored?  What if these changes progress further?"
     ],
     "responses": [
       {
@@ -300,8 +300,8 @@
     "id": "TALK_MI-GO_PRISONER_FOLLOW",
     "dynamic_line": {
       "npc_has_trait": "SCHIZOPHRENIC",
-      "yes": "Yes! Yes, we need to go… they're coming back… I can hear them in the walls…",
-      "no": "Oh thank god! Yes, please get me out of here. I'll follow you."
+      "yes": "Yes!  Yes, we need to go… they're coming back…  I can hear them in the walls…",
+      "no": "Oh thank god!  Yes, please get me out of here.  I'll follow you."
     },
     "responses": [
       {
@@ -321,8 +321,8 @@
     "id": "TALK_MI-GO_PRISONER_REJECTED",
     "dynamic_line": {
       "npc_has_trait": "FORGETFUL",
-      "yes": "What? No, wait… where am I supposed to go? I can't even remember how I got here!",
-      "no": "What? You can't just leave me here! Please! They'll come back for me!"
+      "yes": "What?  No, wait… where am I supposed to go?  I can't even remember how I got here!",
+      "no": "What?  You can't just leave me here! Please!  They'll come back for me!"
     },
     "responses": [
       {
@@ -343,30 +343,30 @@
     "type": "snippet",
     "category": "<migo_prisoner_feelings>",
     "text": [
-      "I'm still processing everything that happened. It's a lot to take in.",
-      "Physically, I'm recovering. Mentally… that's going to take a lot longer.",
-      "I'm just grateful to be alive. Many others weren't so lucky.",
-      "Every noise makes me jump now. I don't know if I'll ever feel safe again.",
-      "I keep wondering why they took us. What were they trying to learn?"
+      "I'm still processing everything that happened.  It's a lot to take in.",
+      "Physically, I'm recovering.  Mentally… that's going to take a lot longer.",
+      "I'm just grateful to be alive.  Many others weren't so lucky.",
+      "Every noise makes me jump now.  I don't know if I'll ever feel safe again.",
+      "I keep wondering why they took us.  What were they trying to learn?"
     ]
   },
   {
     "type": "snippet",
     "category": "<migo_prisoner_feelings_schizo>",
     "text": [
-      "The voices… they don't stop. Sometimes I hear the mi-go chittering inside my head.",
+      "The voices… they don't stop.  Sometimes I hear the mi-go chittering inside my head.",
       "I see things… shadows moving… lights that aren't there… am I going crazy?",
       "Sometimes I think I'm still there, that this is just another of their experiments.",
-      "I can't tell what's real anymore. Are you real? Am I?"
+      "I can't tell what's real anymore.  Are you real? Am I?"
     ]
   },
   {
     "type": "snippet",
     "category": "<migo_prisoner_feelings_forgetful>",
     "text": [
-      "I keep losing track of time. Where we are. What we're doing. It's like… parts of my memory are just gone.",
-      "I struggle to remember my life before the capture. Did I have a family? A job?",
-      "My thoughts are… fragmented. Like puzzle pieces that don't fit together anymore.",
+      "I keep losing track of time.  Where we are. What we're doing. It's like… parts of my memory are just gone.",
+      "I struggle to remember my life before the capture.  Did I have a family? A job?",
+      "My thoughts are… fragmented.  Like puzzle pieces that don't fit together anymore.",
       "I find myself staring into space, not knowing how long I've been sitting there."
     ]
   },
@@ -398,11 +398,11 @@
     "type": "snippet",
     "category": "<migo_prisoner_info>",
     "text": [
-      "They communicate with clicks and whistles. Sometimes I could feel them… in my head.",
-      "They were studying us. Taking samples, running tests. Some people never came back from the procedures.",
-      "I overheard them communicating. They call themselves 'mi-go'. They're not from Earth.",
-      "They're extremely intelligent. I saw them operating machinery that seemed impossible.",
-      "The mi-go seem to be collecting humans for some purpose. Research, maybe, or something worse."
+      "They communicate with clicks and whistles.  Sometimes I could feel them… in my head.",
+      "They were studying us.  Taking samples, running tests. Some people never came back from the procedures.",
+      "I overheard them communicating.  They call themselves 'mi-go'. They're not from Earth.",
+      "They're extremely intelligent.  I saw them operating machinery that seemed impossible.",
+      "The mi-go seem to be collecting humans for some purpose.  Research, maybe, or something worse."
     ]
   },
   {
@@ -410,9 +410,9 @@
     "category": "<migo_prisoner_info_schizo>",
     "text": [
       "They can get inside your head… change how you think… make you see things that aren't there…",
-      "They're watching us right now! Through our eyes! They can see everything we do!",
-      "I heard them talking about 'the messenger' and 'the harbinger'. Something's coming…",
-      "They have a hive mind. All connected. All one. They tried to connect me too…"
+      "They're watching us right now!  Through our eyes!  They can see everything we do!",
+      "I heard them talking about 'the messenger' and 'the harbinger'.  Something's coming…",
+      "They have a hive mind.  All connected.  All one.  They tried to connect me too…"
     ]
   },
   {
@@ -420,9 +420,9 @@
     "category": "<migo_prisoner_info_forgetful>",
     "text": [
       "There's so much I can't remember clearly… but they had this chamber… for mind experiments…",
-      "I think they were extracting… memories? Knowledge? Something from our brains.",
+      "I think they were extracting… memories?  Knowledge?  Something from our brains.",
       "They kept records of everything. Charts, data… but I can't remember the details…",
-      "They were… selecting people. For different tests. I don't remember what happened to me…"
+      "They were… selecting people.  For different tests. I don't remember what happened to me…"
     ]
   },
   {

@@ -26,325 +26,325 @@
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human" ],
-    "sound": "\"Bzzt... return... specimen...\"",
+    "sound": "\"Bzzt… return… specimen…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human_human" ],
-    "sound": "\"Kkkrrsshh... cerebral... extraction...\"",
+    "sound": "\"Kkkrrsshh… cerebral… extraction…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human" ],
-    "sound": "\"Bzzt... reporting... anomalies...\"",
+    "sound": "\"Bzzt… reporting… anomalies…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human" ],
-    "sound": "\"Specimen... escape... recapture...\"",
+    "sound": "\"Specimen… escape… recapture…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"Neural... patterns... interesting...\"",
+    "sound": "\"Neural… patterns… interesting…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"Harvesting... memories...\"",
+    "sound": "\"Harvesting… memories…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"Integration... proceeding...\"",
+    "sound": "\"Integration… proceeding…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"Bzzt... resistance... futile...\"",
+    "sound": "\"Bzzt… resistance… futile…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"Assimilation... inevitable...\"",
+    "sound": "\"Assimilation… inevitable…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"Join... the... collective...\"",
+    "sound": "\"Join… the… collective…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"We... are... many...\"",
+    "sound": "\"We… are… many…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"Your... knowledge... ours...\"",
+    "sound": "\"Your… knowledge… ours…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"The... messenger... comes...\"",
+    "sound": "\"The… messenger… comes…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"The... harbinger... awaits...\"",
+    "sound": "\"The… harbinger… awaits…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"Your... mind... belongs...\"",
+    "sound": "\"Your… mind… belongs…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_experiment" ],
-    "sound": "\"We... see... through... you...\"",
+    "sound": "\"We… see… through… you…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_experiment" ],
-    "sound": "\"We... are... watching...\"",
+    "sound": "\"We… are… watching…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_experiment" ],
-    "sound": "\"Return... to... chamber...\"",
+    "sound": "\"Return… to… chamber…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_experiment" ],
-    "sound": "\"Experiment... continues...\"",
+    "sound": "\"Experiment… continues…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_experiment" ],
-    "sound": "\"Specimen... valuable... return...\"",
+    "sound": "\"Specimen… valuable… return…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"Data... collection... interrupted...\"",
+    "sound": "\"Data… collection… interrupted…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"Rejoin... the... study...\"",
+    "sound": "\"Rejoin… the… study…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human" ],
-    "sound": "\"Subject... identification... required...\"",
+    "sound": "\"Subject… identification… required…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human" ],
-    "sound": "\"Compliance... expected...\"",
+    "sound": "\"Compliance… expected…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human" ],
-    "sound": "\"Resistance... cataloged...\"",
+    "sound": "\"Resistance… cataloged…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human" ],
-    "sound": "\"Bzzt... recapture... authorized...\"",
+    "sound": "\"Bzzt… recapture… authorized…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"Analysis... incomplete...\"",
+    "sound": "\"Analysis… incomplete…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"Your... contribution... noted...\"",
+    "sound": "\"Your… contribution… noted…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"The... stars... know...\"",
+    "sound": "\"The… stars… know…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"Yuggoth... calls...\"",
+    "sound": "\"Yuggoth… calls…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_experiment" ],
-    "sound": "\"Memory... extraction... pending...\"",
+    "sound": "\"Memory… extraction… pending…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_experiment" ],
-    "sound": "\"Kkkrrsshh... valuable... specimen...\"",
+    "sound": "\"Kkkrrsshh… valuable… specimen…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_experiment" ],
-    "sound": "\"Bzzt... return... for... completion...\"",
+    "sound": "\"Bzzt… return… for… completion…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_experiment" ],
-    "sound": "\"Integration... with... collective... pending...\"",
+    "sound": "\"Integration… with… collective… pending…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"The... process... unfinished...\"",
+    "sound": "\"The… process… unfinished…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"Your... purpose... unfulfilled...\"",
+    "sound": "\"Your… purpose… unfulfilled…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"We... need... more... data...\"",
+    "sound": "\"We… need… more… data…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human" ],
-    "sound": "\"Unauthorized... departure...\"",
+    "sound": "\"Unauthorized… departure…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human" ],
-    "sound": "\"Specimen... status... compromised...\"",
+    "sound": "\"Specimen… status… compromised…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human" ],
-    "sound": "\"Reclamation... teams... dispatched...\"",
+    "sound": "\"Reclamation… teams… dispatched…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"Your... mind... ours...\"",
+    "sound": "\"Your… mind… ours…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"Knowledge... must... be... shared...\"",
+    "sound": "\"Knowledge… must… be… shared…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human", "mon_mi_go_experiment" ],
-    "sound": "\"Join... us...\"",
+    "sound": "\"Join… us…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human" ],
-    "sound": "\"Containment... protocols... active...\"",
+    "sound": "\"Containment… protocols… active…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human" ],
-    "sound": "\"Defense... systems... engaged...\"",
+    "sound": "\"Defense… systems… engaged…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human" ],
-    "sound": "\"Security... override... initiated...\"",
+    "sound": "\"Security… override… initiated…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human" ],
-    "sound": "\"Target... acquisition... complete...\"",
+    "sound": "\"Target… acquisition… complete…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_guard_human" ],
-    "sound": "\"Termination... authorized...\"",
+    "sound": "\"Termination… authorized…\"",
     "volume": 10
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_experiment" ],
-    "sound": "\"Help... us...\"",
+    "sound": "\"Help… us…\"",
     "volume": 8
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_experiment" ],
-    "sound": "\"Please... kill... me...\"",
+    "sound": "\"Please… kill… me…\"",
     "volume": 8
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_experiment" ],
-    "sound": "\"Can't... control... thoughts...\"",
+    "sound": "\"Can't… control… thoughts…\"",
     "volume": 8
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_experiment" ],
-    "sound": "\"They're... in... my... head...\"",
+    "sound": "\"They're… in… my… head…\"",
     "volume": 8
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_experiment" ],
-    "sound": "\"Not... human... anymore...\"",
+    "sound": "\"Not… human… anymore…\"",
     "volume": 8
   },
   {
     "type": "speech",
     "speaker": [ "mon_mi_go_experiment" ],
-    "sound": "\"Why... did... they... change... us...\"",
+    "sound": "\"Why… did… they… change… us…\"",
     "volume": 8
   },
   {
