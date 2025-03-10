@@ -1098,9 +1098,13 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
                    secondary_skill_total, secondary_difficulty );
     // The primary required skill counts extra compared to the secondary skills, before factoring in the
     // weight added by the required level.
+    float primary_skill_level = get_skill_level( making.skill_used );
+    if( making.skill_used.is_null() ) {
+        primary_skill_level = static_cast<float>( MAX_SKILL );
+    }
     const float weighted_skill_average =
         ( ( 2.0f * std::max( making.difficulty,
-                             1 ) * get_skill_level( making.skill_used ) ) + secondary_skill_total ) /
+                             1 ) * primary_skill_level ) + secondary_skill_total ) /
         // No DBZ
         std::max( 1.f, ( 2.0f * std::max( making.difficulty, 1 ) + secondary_difficulty ) );
     add_msg_debug( debugmode::DF_CRAFTING, "Weighted skill average: %g", weighted_skill_average );
