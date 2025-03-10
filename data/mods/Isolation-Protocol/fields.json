@@ -1,0 +1,9 @@
+[
+  {
+    "id": "fd_crawling_darkness",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "darkness", "move_cost": 2, "light_override": 0.0 } ],
+    "half_life": "1 minutes",
+    "percent_spread": 50
+  }
+]
