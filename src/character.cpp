@@ -13047,7 +13047,7 @@ void Character::search_surroundings()
 bool Character::wield( item &it, std::optional<int> obtain_cost )
 {
     if( it.is_null() ) {
-        add_msg_if_player( m_info, _( "ERROR: Null item. Shouldn't ever see this message." ) );
+        add_msg_if_player( m_info, _( "ERROR: Null item.  Shouldn't ever see this message." ) );
         return false;
     }
     invalidate_inventory_validity_cache();
