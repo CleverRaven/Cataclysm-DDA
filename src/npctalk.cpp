@@ -5608,6 +5608,36 @@ talk_effect_fun_t::func f_die( bool is_npc )
     };
 }
 
+talk_effect_fun_t::func f_die_advanced( const JsonObject &jo, std::string_view member,
+                                        const std::string_view, bool is_npc )
+{
+    JsonObject job = jo.get_object( member );
+    std::optional<bool> remove_corpse = job.get_bool( "remove_corpse" );
+    std::optional<bool> supress_message = job.get_bool( "supress_message" );
+    std::optional<bool> remove_from_creature_tracker = job.get_bool( "remove_from_creature_tracker" );
+
+    return [remove_corpse, supress_message, remove_from_creature_tracker,
+                   is_npc]( dialogue const & d ) {
+        map &here = get_map();
+
+        if( d.actor( is_npc )->get_monster() ) {
+            monster &mon = *d.actor( is_npc )->get_monster();
+            if( remove_from_creature_tracker ) {
+                get_creature_tracker().remove( mon );
+                return;
+            }
+            mon.death_drops = remove_corpse.has_value() ? !remove_corpse.value() : mon.death_drops;
+            mon.quiet_death = supress_message.has_value() ? supress_message.value() : mon.quiet_death;
+        } else if( d.actor( is_npc )->get_npc() ) {
+            npc &guy_npc = *d.actor( is_npc )->get_npc();
+            guy_npc.spawn_corpse = remove_corpse.has_value() ? !remove_corpse.value() : guy_npc.spawn_corpse;
+            guy_npc.quiet_death = supress_message.has_value() ? supress_message.value() : guy_npc.quiet_death;
+        }
+
+        d.actor( is_npc )->die( &here );
+    };
+}
+
 talk_effect_fun_t::func f_cancel_activity( bool is_npc )
 {
     return [is_npc]( dialogue const & d ) {
@@ -7755,6 +7785,7 @@ parsers = {
     { "u_add_bionic", "npc_add_bionic", jarg::member, &talk_effect_fun::f_add_bionic },
     { "u_lose_bionic", "npc_lose_bionic", jarg::member, &talk_effect_fun::f_lose_bionic },
     { "u_attack", "npc_attack", jarg::member, &talk_effect_fun::f_attack },
+    { "u_die", "npc_die", jarg::object, &talk_effect_fun::f_die_advanced},
     { "u_spawn_monster", "npc_spawn_monster", jarg::member, &talk_effect_fun::f_spawn_monster },
     { "u_spawn_npc", "npc_spawn_npc", jarg::member, &talk_effect_fun::f_spawn_npc },
     { "u_set_field", "npc_set_field", jarg::member, &talk_effect_fun::f_field },

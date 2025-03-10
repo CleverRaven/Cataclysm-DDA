@@ -2996,12 +2996,14 @@ void npc::die( map *here, Creature *nkiller )
     dead = true;
     Character::die( here, nkiller );
 
-    if( is_hallucination() || lifespan_end ) {
-        add_msg_if_player_sees( *this, _( "%s disappears." ), get_name().c_str() );
-        return;
-    }
+    if( !quiet_death ) {
+        if( is_hallucination() || lifespan_end ) {
+            add_msg_if_player_sees( *this, _( "%s disappears." ), get_name().c_str() );
+            return;
+        }
 
-    add_msg_if_player_sees( *this, _( "%s dies!" ), get_name() );
+        add_msg_if_player_sees( *this, _( "%s dies!" ), get_name() );
+    }
 
     if( Character *ch = dynamic_cast<Character *>( killer ) ) {
         get_event_bus().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
@@ -3054,7 +3056,9 @@ void npc::die( map *here, Creature *nkiller )
         }
     }
 
-    place_corpse( here );
+    if( spawn_corpse ) {
+        place_corpse( here );
+    }
 }
 
 void npc::prevent_death()
