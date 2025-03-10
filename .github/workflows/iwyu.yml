@@ -19,7 +19,7 @@ concurrency:
   group: iwyu-${{ github.event.pull_request.number || github.ref_name }}
   cancel-in-progress: true
 jobs:
-  run:
+  iwyu:
     runs-on: ubuntu-24.04
     env:
         COMPILER: clang++-19
@@ -41,11 +41,10 @@ jobs:
     - name: build IWYU
       id: build-iwyu
       run: |
-        cmake -B iwyu-build -DCMAKE_PREFIX_PATH=/usr/lib/llvm-19 include-what-you-use-src
+        cmake -B iwyu-build -DCMAKE_PREFIX_PATH=/usr/lib/llvm-19 -DCMAKE_BUILD_TYPE=Release include-what-you-use-src
         cmake --build iwyu-build --parallel 4
         echo "IWYU_SRC_DIR=${PWD}/include-what-you-use-src">> "$GITHUB_OUTPUT"
         echo "IWYU_BIN_DIR=${PWD}/iwyu-build/bin">> "$GITHUB_OUTPUT"
-    - uses: ammaraskar/gcc-problem-matcher@master
     - name: determine changed files
       if: ${{ github.event_name == 'pull_request' }}
       uses: actions/github-script@v7
@@ -68,6 +67,7 @@ jobs:
       working-directory: Cataclysm-DDA
       run: |
         set -x
+        echo ::group::Building compilation database
         cmake -B build \
             -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
             -DCMAKE_CXX_COMPILER=$COMPILER \
@@ -76,54 +76,16 @@ jobs:
             -DSOUND=${SOUND:-0} \
             -DLOCALIZE=${LOCALIZE:-0} \
             .
+        echo ::endgroup::
+
         # and include database too, for get_affected_files.py
         make includes -j4 --silent TILES=${TILES:-0} SOUND=${SOUND:-0} LOCALIZE=${LOCALIZE:-0}
-    - name: run the thing
+    - uses: ammaraskar/gcc-problem-matcher@master
+    - name: run IWYU
       working-directory: Cataclysm-DDA
       env:
         IWYU_SRC_DIR: ${{ steps.build-iwyu.outputs.IWYU_SRC_DIR }}
         IWYU_BIN_DIR: ${{ steps.build-iwyu.outputs.IWYU_BIN_DIR }}
       run: |
-        PATH="${PATH}:${IWYU_BIN_DIR}"
-        mkdir -p out
-
-        CHECK_ALL=no
-        if [[ -f ./files_changed ]]; then
-            CHECK_ALL=$( cat ./files_changed | grep -E -i 'tools/iwyu|github/workflows/iwyu.yml|CMakeLists.txt|build-scripts/get_affected_files.py' && echo yes || echo no )
-        fi
-        if [[ "${CHECK_ALL}" = "no" ]] && [[ -f ./files_changed ]]; then
-            FILES_LIST=$( python3 build-scripts/get_affected_files.py --changed-files-list ./files_changed )
-        else
-            FILES_LIST=$( find src/ tests/ -maxdepth 1 -name '*.cpp' | sort )
-        fi
-        FILES_LIST=$( printf "%s\n" ${FILES_LIST[@]} | grep -v -f tools/iwyu/bad_files.txt )
-
-        if [[ "${CHECK_ALL}" = "no" ]] && [[ "${FILES_LIST}" == "" ]]; then
-          echo "Nothing to check, exiting"
-          exit 0
-        fi
-
-        # actually run it, store output in a log file, display only errors to the user
-        python ${IWYU_SRC_DIR}/iwyu_tool.py ${FILES_LIST} -p build \
-            --output-format clang --jobs 4  -- \
-            -Xiwyu "--mapping_file=${PWD}/tools/iwyu/cata.imp" \
-            -Xiwyu --cxx17ns -Xiwyu --comment_style=long -Xiwyu --max_line_length=1000 \
-            -Xiwyu --error=1 \
-          | tee out/iwyu-output.log \
-          |  grep -v ' note: #includes/fwd-decls are correct' \
-          || true
-
-        # scan the log file to determine the exit code
-        if grep --quiet -v ' note: #includes/fwd-decls are correct' out/iwyu-output.log ; then
-          exit 1
-        else
-          exit 0
-        fi
-
-    - name: show full logs
-      if: always()
-      working-directory: Cataclysm-DDA
-      run: |
-        # uninstall problem matcher to prevent duplicate annotations
-        echo "::remove-matcher owner=gcc-problem-matcher::"
-        cat out/iwyu-output.log || true
+        PATH="${PATH}:${IWYU_BIN_DIR}:${IWYU_SRC_DIR}"
+        python build-scripts/ci-iwyu-run.py
