@@ -4345,6 +4345,22 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "syrup_simple",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "5 m",
+    "charges": 24,
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "BOIL", "level": 2 } ],
+    "tools": [ [ [ "water_boiling_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "water", 1 ] ], [ [ "sugar", 42 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "maple_candy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -4438,7 +4454,7 @@
       ]
     ],
     "components": [
-      [ [ "syrup", 1 ] ],
+      [ [ "syrup", 1 ], [ "syrup_corn", 1 ] ],
       [ [ "meat_red", 3, "LIST" ], [ "can_chicken", 3 ] ],
       [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
       [
@@ -5230,6 +5246,7 @@
         [ "sugar", 10 ],
         [ "artificial_sweetener", 10 ],
         [ "syrup", 3 ],
+        [ "syrup_corn", 3 ],
         [ "beet_syrup", 3 ]
       ],
       [
@@ -5541,7 +5558,7 @@
         [ "cottage_cheese", 1 ]
       ],
       [ [ "eggs_any_shape", 1, "LIST" ] ],
-      [ [ "syrup", 2 ] ],
+      [ [ "syrup", 2 ], [ "syrup_corn", 2 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water_clean", 1 ] ]
     ]
@@ -5571,7 +5588,7 @@
         [ "con_milk", 1 ]
       ],
       [ [ "eggs_any_shape", 1, "LIST" ] ],
-      [ [ "syrup", 1 ] ],
+      [ [ "syrup", 1 ], [ "syrup_corn", 1 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water_clean", 1 ] ],
       [ [ "sweet_fruit_like", 2, "LIST" ], [ "jam_fruit", 2 ] ]
@@ -5602,7 +5619,7 @@
         [ "con_milk", 1 ]
       ],
       [ [ "eggs_any_shape", 1, "LIST" ] ],
-      [ [ "syrup", 2 ] ],
+      [ [ "syrup", 2 ], [ "syrup_corn", 2 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water_clean", 1 ] ],
       [ [ "candy2", 2 ], [ "chocolate", 3 ], [ "choc_drink", 4 ] ]
@@ -5679,7 +5696,7 @@
         [ "con_milk", 1 ]
       ],
       [ [ "eggs_any_shape", 1, "LIST" ] ],
-      [ [ "syrup", 1 ] ],
+      [ [ "syrup", 1 ], [ "syrup_corn", 1 ] ],
       [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water_clean", 1 ] ]
@@ -5709,7 +5726,7 @@
         [ "con_milk", 1 ]
       ],
       [ [ "eggs_any_shape", 1, "LIST" ] ],
-      [ [ "syrup", 1 ] ],
+      [ [ "syrup", 1 ], [ "syrup_corn", 1 ] ],
       [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water_clean", 1 ] ],
@@ -5740,7 +5757,7 @@
         [ "con_milk", 1 ]
       ],
       [ [ "eggs_any_shape", 1, "LIST" ] ],
-      [ [ "syrup", 1 ] ],
+      [ [ "syrup", 1 ], [ "syrup_corn", 1 ] ],
       [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water_clean", 1 ] ],
@@ -5927,7 +5944,14 @@
     "components": [
       [ [ "flour_any", 30, "LIST" ] ],
       [ [ "sweet_fruit_like", 8, "LIST" ] ],
-      [ [ "sugar", 20 ], [ "syrup", 4 ], [ "beet_syrup", 4 ], [ "molasses", 4 ], [ "artificial_sweetener", 20 ] ],
+      [
+        [ "sugar", 20 ],
+        [ "syrup", 4 ],
+        [ "syrup_corn", 4 ],
+        [ "beet_syrup", 4 ],
+        [ "molasses", 4 ],
+        [ "artificial_sweetener", 20 ]
+      ],
       [ [ "water_clean", 1 ] ]
     ],
     "charges": 8
@@ -7909,6 +7933,8 @@
       [
         [ "sugar", 10 ],
         [ "syrup", 4 ],
+        [ "syrup_corn", 3 ],
+        [ "syrup_simple", 5 ],
         [ "beet_syrup", 5 ],
         [ "molasses", 1 ],
         [ "honey_bottled", 3 ],
