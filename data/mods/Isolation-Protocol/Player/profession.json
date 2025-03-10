@@ -39,7 +39,7 @@
     "type": "profession",
     "copy-from": "specops",
     "id": "iso_cop",
-    "name": "Xedra Remediator",
+    "name": "XEDRA Remediator",
     "description": "The sole survivor of a XEDRA containment team, fighting to keep the horrors of the lab from escaping into the world above.",
     "points": 4,
     "traits": [ "iso_trait", "iso_backup" ],
