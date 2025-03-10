@@ -493,7 +493,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
             if( game_map ) {
                 Creature *critter = creatures.creature_at( p );
                 if( critter != nullptr ) {
-                    critter->draw( w, center.xy(), false );
+                    critter->draw( w, *m, center.xy(), false );
                 } else {
                     m->drawsq( w, p, params );
                 }
@@ -537,7 +537,7 @@ void editmap::draw_main_ui_overlay()
 
     // update target point
     if( critter != nullptr ) {
-        critter->draw( g->w_terrain, target, true );
+        critter->draw( g->w_terrain, here, target, true );
     } else {
         here.drawsq( g->w_terrain, target, drawsq_params().highlight( true ).center( target ) );
     }

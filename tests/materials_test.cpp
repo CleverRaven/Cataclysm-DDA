@@ -9,6 +9,7 @@
 #include "fire.h"
 #include "item.h"
 #include "item_location.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "map_scale_constants.h"
 #include "material.h"
@@ -93,6 +94,8 @@ TEST_CASE( "Portioned_material_flammability", "[material]" )
 
 TEST_CASE( "Glass_portion_breakability", "[material] [slow]" )
 {
+    map &here = get_map();
+
     clear_creatures();
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     item mostly_glass( itype_test_glass_pipe_mostly_glass );
@@ -105,7 +108,7 @@ TEST_CASE( "Glass_portion_breakability", "[material] [slow]" )
         REQUIRE( dude.wield( mostly_glass ) );
         int shatter_count = 0;
         for( int i = 0; i < num_iters; i++ ) {
-            dealt_projectile_attack atk = dude.throw_item( target_pos, *dude.get_wielded_item() );
+            dealt_projectile_attack atk = dude.throw_item( here, target_pos, *dude.get_wielded_item() );
             if( atk.proj.proj_effects.find( ammo_effect_SHATTER_SELF ) != atk.proj.proj_effects.end() ) {
                 shatter_count++;
             }
@@ -118,7 +121,7 @@ TEST_CASE( "Glass_portion_breakability", "[material] [slow]" )
         REQUIRE( dude.wield( mostly_steel ) );
         int shatter_count = 0;
         for( int i = 0; i < num_iters; i++ ) {
-            dealt_projectile_attack atk = dude.throw_item( target_pos, *dude.get_wielded_item() );
+            dealt_projectile_attack atk = dude.throw_item( here, target_pos, *dude.get_wielded_item() );
             if( atk.proj.proj_effects.find( ammo_effect_SHATTER_SELF ) != atk.proj.proj_effects.end() ) {
                 shatter_count++;
             }

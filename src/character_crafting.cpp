@@ -13,6 +13,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
+#include "map.h"
 #include "pimpl.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -185,6 +186,8 @@ recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
 
 recipe_subset &Character::get_group_available_recipes() const
 {
+    map &here = get_map();
+
     if( !test_mode && calendar::turn == cached_recipe_turn && cached_recipe_subset->size() > 0 ) {
         return *cached_recipe_subset;
     }
@@ -193,7 +196,7 @@ recipe_subset &Character::get_group_available_recipes() const
     cached_recipe_subset->clear();
 
     for( const Character *guy : get_crafting_group() ) {
-        cached_recipe_subset->include( guy->get_available_recipes( crafting_inventory() ) );
+        cached_recipe_subset->include( guy->get_available_recipes( crafting_inventory( here ) ) );
     }
 
     return *cached_recipe_subset;

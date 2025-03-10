@@ -1347,7 +1347,8 @@ nc_color monster::color_with_effects() const
     return ret;
 }
 
-bool monster::avoid_trap( const tripoint_bub_ms & /* pos */, const trap &tr ) const
+bool monster::avoid_trap( const map & /* here */, const tripoint_bub_ms & /* pos */,
+                          const trap &tr ) const
 {
     // The trap position is not used, monsters are to stupid to remember traps. Actually, they do
     // not even see them.
@@ -2741,7 +2742,7 @@ float monster::fall_damage_mod() const
     return 0.0f;
 }
 
-int monster::impact( const int force, const tripoint_bub_ms &p )
+int monster::impact( const int force, map &here, const tripoint_bub_ms &p )
 {
     if( force <= 0 ) {
         return force;
@@ -2749,7 +2750,7 @@ int monster::impact( const int force, const tripoint_bub_ms &p )
 
     const float mod = fall_damage_mod();
     int total_dealt = 0;
-    if( get_map().has_flag( ter_furn_flag::TFLAG_SHARP, p ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) ) {
         const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_type( damage_cut,
                                          bodypart_id( "torso" ) ) );
         apply_damage( nullptr, bodypart_id( "torso" ), cut_damage );

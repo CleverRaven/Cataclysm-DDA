@@ -1714,10 +1714,8 @@ void Character::mount_creature( monster &z )
     mod_moves( -100 );
 }
 
-bool Character::check_mount_will_move( const tripoint_bub_ms &dest_loc )
+bool Character::check_mount_will_move( const map &here, const tripoint_bub_ms &dest_loc )
 {
-    const map &here = get_map();
-
     if( !is_mounted() || mounted_creature->has_flag( mon_flag_COMBAT_MOUNT ) ) {
         return true;
     }
@@ -2092,7 +2090,7 @@ bool Character::uncanny_dodge()
     if( !( can_dodge_bio || can_dodge_stam || can_dodge_both ) ) {
         return false;
     }
-    tripoint_bub_ms adjacent{ adjacent_tile() };
+    tripoint_bub_ms adjacent{ adjacent_tile( here ) };
 
     const optional_vpart_position veh_part = here.veh_at( pos_bub( here ) );
     if( in_vehicle && veh_part && veh_part.avail_part_with_feature( "SEATBELT" ) ) {
@@ -3216,14 +3214,14 @@ void Character::invalidate_weight_carried_cache()
     cached_weight_carried = std::nullopt;
 }
 
-units::mass Character::best_nearby_lifting_assist() const
+units::mass Character::best_nearby_lifting_assist( map &here ) const
 {
-    return best_nearby_lifting_assist( this->pos_bub() );
+    return best_nearby_lifting_assist( here, this->pos_bub( here ) );
 }
 
-units::mass Character::best_nearby_lifting_assist( const tripoint_bub_ms &world_pos ) const
+units::mass Character::best_nearby_lifting_assist( map &here,
+        const tripoint_bub_ms &world_pos ) const
 {
-    map &here = get_map();
     int mech_lift = 0;
     if( is_mounted() ) {
         auto *mons = mounted_creature.get();
@@ -3232,7 +3230,7 @@ units::mass Character::best_nearby_lifting_assist( const tripoint_bub_ms &world_
         }
     }
     int lift_quality = std::max( { this->max_quality( qual_LIFT ), mech_lift,
-                                   map_selector( this->pos_bub(), PICKUP_RANGE ).max_quality( qual_LIFT ),
+                                   map_selector( this->pos_bub( here ), PICKUP_RANGE ).max_quality( qual_LIFT ),
                                    vehicle_selector( here, world_pos, 4, true, true ).max_quality( qual_LIFT )
                                  } );
     return lifting_quality_to_mass( lift_quality );
@@ -3250,6 +3248,8 @@ units::mass Character::weight_carried_with_tweaks( const std::vector<std::pair<i
 
 units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) const
 {
+    map &here = get_map();
+
     const std::map<const item *, int> empty;
     const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
             empty;
@@ -3274,7 +3274,7 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
 
     // Exclude wielded item if using lifting tool
     if( ( weaponweight + ret <= weight_capacity() ) || ( g->new_game ||
-            best_nearby_lifting_assist() < weaponweight ) ) {
+            best_nearby_lifting_assist( here ) < weaponweight ) ) {
         ret += weaponweight;
         using_lifting_assist = false;
     } else {
@@ -6087,7 +6087,7 @@ bool Character::pour_into( const vpart_reference &vp, item &liquid ) const
 float Character::rest_quality() const
 {
     map &here = get_map();
-    const tripoint_bub_ms your_pos = pos_bub();
+    const tripoint_bub_ms your_pos = pos_bub( here );
     float rest = 0.0f;
     const float ur_act_level = instantaneous_activity_level();
     // Negative morales are penalties
@@ -6102,7 +6102,7 @@ float Character::rest_quality() const
     if( has_effect( effect_sleep ) ) {
         // Beds should normally have a maximum of 2C warmth, rest == 1.0 on a pristine bed. Less comfortable beds provide less rest quality.
         // Cannot be lower than 0, even though some beds(like *the bare ground*) have negative floor_bedding_warmth. Maybe this should change?
-        rest += ( std::max( units::to_kelvin_delta( floor_bedding_warmth( your_pos ) ),
+        rest += ( std::max( units::to_kelvin_delta( floor_bedding_warmth( here, your_pos ) ),
                             0.f ) / 2.0f ) ;
         return std::max( rest, 0.0f );
     }
@@ -6113,9 +6113,9 @@ float Character::rest_quality() const
         if( here.has_flag_ter_or_furn( "CAN_SIT", your_pos.xy() ) || has_vehicle_seat ) {
             // If not performing any real exercise (not even moving around), chairs allow you to rest a little bit.
             rest += 0.2f;
-        } else if( floor_bedding_warmth( your_pos ) > 0_C_delta ) {
+        } else if( floor_bedding_warmth( here, your_pos ) > 0_C_delta ) {
             // Any comfortable bed can substitute for a chair, but only if you don't have one.
-            rest += 0.2f * ( units::to_celsius_delta( floor_bedding_warmth( your_pos ) ) / 2.0f );
+            rest += 0.2f * ( units::to_celsius_delta( floor_bedding_warmth( here, your_pos ) ) / 2.0f );
         }
         if( ur_act_level <= NO_EXERCISE ) {
             rest += 0.2f;
@@ -6531,6 +6531,8 @@ std::string Character::activity_level_str() const
 
 void Character::mend_item( item_location &&obj, bool interactive )
 {
+    map &here = get_map();
+
     if( has_trait( trait_DEBUG_HS ) ) {
         uilist menu;
         menu.text = _( "Toggle which fault?" );
@@ -6556,7 +6558,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         return;
     }
 
-    const inventory &inv = crafting_inventory();
+    const inventory &inv = crafting_inventory( here );
 
     struct mending_option {
         fault_id fault;
@@ -7108,26 +7110,27 @@ int Character::get_cardio_acc_base() const
     return base_cardio_acc;
 }
 
-bool Character::invoke_item( item *used )
+bool Character::invoke_item( item *used, map &here )
 {
-    return invoke_item( used, pos_bub() );
+    return invoke_item( used, here, pos_bub( here ) );
 }
 
-bool Character::invoke_item( item *, const tripoint_bub_ms &, int )
+bool Character::invoke_item( item *, map &, const tripoint_bub_ms &, int )
 {
     return false;
 }
 
-bool Character::invoke_item( item *used, const std::string &method )
+bool Character::invoke_item( item *used, const std::string &method, map &here )
 {
-    return invoke_item( used, method, pos_bub() );
+    return invoke_item( used, method, here, pos_bub( here ) );
 }
 
-bool Character::invoke_item( item *used, const std::string &method, const tripoint_bub_ms &pt,
+bool Character::invoke_item( item *used, const std::string &method, map &here,
+                             const tripoint_bub_ms &pt,
                              int pre_obtain_moves )
 {
     if( method.empty() ) {
-        return invoke_item( used, pt, pre_obtain_moves );
+        return invoke_item( used, here, pt, pre_obtain_moves );
     }
 
     if( used->is_broken() ) {
@@ -7488,10 +7491,12 @@ void Character::signal_nemesis()
 
 void Character::vomit()
 {
+    map &here = get_map();
+
     get_event_bus().send<event_type::throws_up>( getID() );
 
     if( stomach.contains() != 0_ml ) {
-        get_map().add_field( adjacent_tile(), fd_bile, 1 );
+        here.add_field( adjacent_tile( here ), fd_bile, 1 );
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
     }
     // needed to ensure digesting vitamin_type::DRUGs are also emptied, even on an empty stomach.
@@ -7528,15 +7533,16 @@ void Character::vomit()
 }
 
 // adjacent_tile() returns a safe, unoccupied adjacent tile. If there are no such tiles, returns player position instead.
-tripoint_bub_ms Character::adjacent_tile() const
+tripoint_bub_ms Character::adjacent_tile( map &here ) const
 {
     std::vector<tripoint_bub_ms> ret;
     ret.reserve( 4 );
     int dangerous_fields = 0;
-    map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint_bub_ms &p : here.points_in_radius( pos_bub(), 1 ) ) {
-        if( p == pos_bub() ) {
+    const tripoint_bub_ms pos = pos_bub( here );
+
+    for( const tripoint_bub_ms &p : here.points_in_radius( pos, 1 ) ) {
+        if( p == pos ) {
             // Don't consider player position
             continue;
         }
@@ -7549,7 +7555,7 @@ tripoint_bub_ms Character::adjacent_tile() const
         const trap &curtrap = here.tr_at( p );
         // If we don't known a trap here, the spot "appears" to be good, so consider it.
         // Same if we know a benign trap (as it's not dangerous).
-        if( curtrap.can_see( p, *this ) && !curtrap.is_benign() ) {
+        if( curtrap.can_see( here, p, *this ) && !curtrap.is_benign() ) {
             continue;
         }
         // Only consider tile if unoccupied, passable and has no traps
@@ -7567,7 +7573,7 @@ tripoint_bub_ms Character::adjacent_tile() const
         }
     }
 
-    return random_entry( ret, pos_bub() ); // player position if no valid adjacent tiles
+    return random_entry( ret, pos ); // player position if no valid adjacent tiles
 }
 
 void Character::set_fac_id( const std::string &my_fac_id )
@@ -9278,9 +9284,9 @@ bool Character::can_use_floor_warmth() const
            has_activity( ACT_STUDY_SPELL );
 }
 
-units::temperature_delta Character::floor_bedding_warmth( const tripoint_bub_ms &pos )
+units::temperature_delta Character::floor_bedding_warmth( const map &here,
+        const tripoint_bub_ms &pos )
 {
-    map &here = get_map();
     const trap &trap_at_pos = here.tr_at( pos );
     const ter_id &ter_at_pos = here.ter( pos );
     const furn_id &furn_at_pos = here.furn( pos );
@@ -9299,7 +9305,7 @@ units::temperature_delta Character::floor_bedding_warmth( const tripoint_bub_ms 
     }
 }
 
-units::temperature_delta Character::floor_item_warmth( const tripoint_bub_ms &pos )
+units::temperature_delta Character::floor_item_warmth( map &here, const tripoint_bub_ms &pos )
 {
     units::temperature_delta item_warmth = 0_C_delta;
 
@@ -9318,8 +9324,6 @@ units::temperature_delta Character::floor_item_warmth( const tripoint_bub_ms &po
         }
     };
 
-    map &here = get_map();
-
     if( const optional_vpart_position veh_here = here.veh_at( pos ) ) {
         if( const std::optional<vpart_reference> ovp = veh_here.cargo() ) {
             warm( ovp->items() );
@@ -9330,10 +9334,10 @@ units::temperature_delta Character::floor_item_warmth( const tripoint_bub_ms &po
     return item_warmth;
 }
 
-units::temperature_delta Character::floor_warmth( const tripoint_bub_ms &pos ) const
+units::temperature_delta Character::floor_warmth( map &here, const tripoint_bub_ms &pos ) const
 {
-    const units::temperature_delta item_warmth = floor_item_warmth( pos );
-    units::temperature_delta bedding_warmth = floor_bedding_warmth( pos );
+    const units::temperature_delta item_warmth = floor_item_warmth( here, pos );
+    units::temperature_delta bedding_warmth = floor_bedding_warmth( here,  pos );
 
     // If the PC has fur, etc, that will apply too
     const units::temperature_delta floor_mut_warmth = enchantment_cache->modify_value(
@@ -9799,8 +9803,10 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 std::list<item> Character::use_charges( const itype_id &what, int qty, const int radius,
                                         const std::function<bool( const item & )> &filter, bool in_tools )
 {
+    map &here = get_map();
+
     std::list<item> res;
-    inventory inv = crafting_inventory( pos_bub(), radius, true );
+    inventory inv = crafting_inventory( here, pos_bub( here ), radius, true );
 
     if( qty <= 0 ) {
         return res;
@@ -10664,33 +10670,33 @@ void Character::echo_pulse()
     // Sound travels farther underwater
     if( has_effect( effect_subaquatic_sonar ) && is_underwater() ) {
         pulse_range = 16;
-        sounds::sound( this->pos_bub(), 5, sounds::sound_t::movement, _( "boop." ), true,
+        sounds::sound( this->pos_bub( here ), 5, sounds::sound_t::movement, _( "boop." ), true,
                        "none", "none" );
     } else if( !has_effect( effect_subaquatic_sonar ) && is_underwater() ) {
         add_msg_if_player( m_warning, _( "You can't echolocate underwater!" ) );
         return;
     } else {
-        sounds::sound( this->pos_bub(), 5, sounds::sound_t::movement, _( "chirp." ), true,
+        sounds::sound( this->pos_bub( here ), 5, sounds::sound_t::movement, _( "chirp." ), true,
                        "none", "none" );
     }
-    for( tripoint_bub_ms origin : points_in_radius( pos_bub(), pulse_range ) ) {
-        if( here.move_cost( origin ) == 0 && here.sees( pos_bub(), origin, pulse_range, false ) ) {
+    for( tripoint_bub_ms origin : points_in_radius( pos_bub( here ), pulse_range ) ) {
+        if( here.move_cost( origin ) == 0 && here.sees( pos_bub( here ), origin, pulse_range, false ) ) {
             sounds::sound( origin, 5, sounds::sound_t::sensory, _( "clack." ), true,
                            "none", "none" );
             // This only counts obstacles which can be moved through, so the echo is pretty quiet.
-        } else if( is_obstacle( origin ) && here.sees( pos_bub(), origin, pulse_range, false ) ) {
+        } else if( is_obstacle( origin ) && here.sees( pos_bub( here ), origin, pulse_range, false ) ) {
             sounds::sound( origin, 1, sounds::sound_t::sensory, _( "click." ), true,
                            "none", "none" );
         }
         const trap &tr = here.tr_at( origin );
-        if( !knows_trap( origin ) && tr.detected_by_echolocation() ) {
-            const std::string direction = direction_name( direction_from( pos_bub(), origin ) );
+        if( !knows_trap( here, origin ) && tr.detected_by_echolocation() ) {
+            const std::string direction = direction_name( direction_from( pos_bub( here ), origin ) );
             add_msg_if_player( m_warning, _( "You detect a %1$s to the %2$s!" ),
                                tr.name(), direction );
             add_known_trap( origin, tr );
         }
         Creature *critter = get_creature_tracker().creature_at( origin, true );
-        if( critter && here.sees( pos_bub(), origin, pulse_range, false ) ) {
+        if( critter && here.sees( pos_bub( here ), origin, pulse_range, false ) ) {
             switch( critter->get_size() ) {
                 case creature_size::tiny:
                     echo_volume = 1;
@@ -10796,10 +10802,15 @@ void Character::echo_pulse()
     }
 }
 
-bool Character::knows_trap( const tripoint_bub_ms &pos ) const
+bool Character::knows_trap( const map &here, const tripoint_bub_ms &pos ) const
 {
-    const tripoint_abs_ms p = get_map().get_abs( pos );
+    const tripoint_abs_ms p = here.get_abs( pos );
     return known_traps.count( p ) > 0;
+}
+
+bool Character::knows_trap( const tripoint_abs_ms &pos ) const
+{
+    return known_traps.count( pos ) > 0;
 }
 
 void Character::add_known_trap( const tripoint_bub_ms &pos, const trap &t )
@@ -12085,14 +12096,14 @@ void Character::invalidate_pseudo_items()
     pseudo_items_valid = false;
 }
 
-bool Character::avoid_trap( const tripoint_bub_ms &pos, const trap &tr ) const
+bool Character::avoid_trap( const map &here, const tripoint_bub_ms &pos, const trap &tr ) const
 {
     /** @EFFECT_DEX increases chance to avoid traps */
 
     /** @EFFECT_DODGE increases chance to avoid traps */
     int myroll = dice( 3, round( dex_cur + get_skill_level( skill_dodge ) * 1.5 ) );
     int traproll;
-    if( tr.can_see( pos, *this ) ) {
+    if( tr.can_see( here, pos, *this ) ) {
         traproll = dice( 3, tr.get_avoidance() );
     } else {
         traproll = dice( 6, tr.get_avoidance() );
@@ -12651,7 +12662,7 @@ float Character::fall_damage_mod() const
 }
 
 // force is maximum damage to hp before scaling
-int Character::impact( const int force, const tripoint_bub_ms &p )
+int Character::impact( const int force, map &here, const tripoint_bub_ms &p )
 {
     // Falls over ~30m are fatal more often than not
     // But that would be quite a lot considering 21 z-levels in game
@@ -12673,10 +12684,9 @@ int Character::impact( const int force, const tripoint_bub_ms &p )
 
     // Being slammed against things rather than landing means we can't
     // control the impact as well
-    const bool slam = p != pos_bub();
+    const bool slam = p != pos_bub( here );
     std::string target_name = "a swarm of bugs";
     Creature *critter = get_creature_tracker().creature_at( p );
-    map &here = get_map();
     if( critter != this && critter != nullptr ) {
         target_name = critter->disp_name();
         // Slamming into creatures and NPCs
@@ -12836,10 +12846,9 @@ bool Character::can_fly()
 }
 
 // FIXME: Relies on hardcoded bash damage type
-void Character::knock_back_to( const tripoint_bub_ms &to )
+void Character::knock_back_to( map &here, const tripoint_bub_ms &to )
 {
-    map &here = get_map();
-    if( to == pos_bub() ) {
+    if( to == pos_bub( here ) ) {
         return;
     }
 
@@ -12851,7 +12860,7 @@ void Character::knock_back_to( const tripoint_bub_ms &to )
         add_effect( effect_stunned, 1_turns );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
         if( ( str_max - 6 ) / 4 > critter->type->size ) {
-            critter->knock_back_from( pos_bub() ); // Chain reaction!
+            critter->knock_back_from( here, pos_bub( here ) ); // Chain reaction!
             critter->apply_damage( this, bodypart_id( "torso" ), ( str_max - 6 ) / 4 );
             critter->add_effect( effect_stunned, 1_turns );
         } else if( ( str_max - 6 ) / 4 == critter->type->size ) {
@@ -13016,14 +13025,15 @@ void Character::search_surroundings()
     // Search for traps in a larger area than before because this is the only
     // way we can "find" traps that aren't marked as visible.
     // Detection formula takes care of likelihood of seeing within this range.
-    for( const tripoint_bub_ms &tp : here.points_in_radius( pos_bub(), 5 ) ) {
+    for( const tripoint_bub_ms &tp : here.points_in_radius( pos_bub( here ), 5 ) ) {
         const trap &tr = here.tr_at( tp );
-        if( tr.is_null() || tp == pos_bub() ) {
+        if( tr.is_null() || tp == pos_bub( here ) ) {
             continue;
         }
         // Note that echolocation and SONAR also do this separately in echo_pulse()
-        if( has_active_bionic( bio_ground_sonar ) && !knows_trap( tp ) && tr.detected_by_ground_sonar() ) {
-            const std::string direction = direction_name( direction_from( pos_bub(), tp ) );
+        if( has_active_bionic( bio_ground_sonar ) && !knows_trap( here, tp ) &&
+            tr.detected_by_ground_sonar() ) {
+            const std::string direction = direction_name( direction_from( pos_bub( here ), tp ) );
             add_msg_if_player( m_warning, _( "Your ground sonar detected a %1$s to the %2$s!" ),
                                tr.name(), direction );
             add_known_trap( tp, tr );
@@ -13031,7 +13041,7 @@ void Character::search_surroundings()
         if( !sees( here, tp ) ) {
             continue;
         }
-        if( tr.can_see( tp, *this ) ) {
+        if( tr.can_see( here, tp, *this ) ) {
             // Already seen, or can never be seen
             continue;
         }
@@ -13040,7 +13050,7 @@ void Character::search_surroundings()
             if( !tr.is_trivial_to_spot() ) {
                 // Only bug player about traps that aren't trivial to spot.
                 const std::string direction = direction_name(
-                                                  direction_from( pos_bub(), tp ) );
+                                                  direction_from( pos_bub( here ), tp ) );
                 practice_proficiency( proficiency_prof_spotting, 1_minutes );
                 // Seeing a trap set properly gives you a little bonus to trapsetting profs.
                 practice_proficiency( proficiency_prof_traps, 10_seconds );
@@ -13289,10 +13299,10 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
             set_moves( pre_obtain_moves );
             return;
         }
-        invoke_item( &used, method, loc.pos_bub( here ), pre_obtain_moves );
+        invoke_item( &used, method, here, loc.pos_bub( here ), pre_obtain_moves );
 
     } else if( used.type->can_use( "PETFOOD" ) ) { // NOLINT(bugprone-branch-clone)
-        invoke_item( &used, method, loc.pos_bub( here ), pre_obtain_moves );
+        invoke_item( &used, method, here, loc.pos_bub( here ), pre_obtain_moves );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      used.is_food() ) ) ) {
@@ -13325,7 +13335,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
             }
         }
     } else if( used.type->has_use() ) {
-        invoke_item( &used, method, loc.pos_bub( here ), pre_obtain_moves );
+        invoke_item( &used, method, here, loc.pos_bub( here ), pre_obtain_moves );
     } else if( used.has_flag( flag_SPLINT ) ) {
         ret_val<void> need_splint = can_wear( *loc );
         if( need_splint.success() ) {
@@ -13335,7 +13345,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
             add_msg( m_info, need_splint.str() );
         }
     } else if( used.is_relic() ) {
-        invoke_item( &used, method, loc.pos_bub( here ), pre_obtain_moves );
+        invoke_item( &used, method, here, loc.pos_bub( here ), pre_obtain_moves );
     } else {
         if( !is_armed() ) {
             add_msg( m_info, _( "You are not wielding anything you could use." ) );
@@ -13346,9 +13356,9 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
     }
 }
 
-int Character::climbing_cost( const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const
+int Character::climbing_cost( const map &here, const tripoint_bub_ms &from,
+                              const tripoint_bub_ms &to ) const
 {
-    map &here = get_map();
     if( !here.valid_move( from, to, false, true ) ) {
         return 0;
     }

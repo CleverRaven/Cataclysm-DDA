@@ -329,7 +329,7 @@ class const_talker
         virtual bool can_see() const {
             return false;
         }
-        virtual bool can_see_location( const tripoint_bub_ms & ) const {
+        virtual bool can_see_location( const map &, const tripoint_bub_ms & ) const {
             return false;
         }
         virtual bool is_mute() const {
@@ -744,7 +744,7 @@ class talker: virtual public const_talker
         virtual vehicle *get_vehicle() {
             return nullptr;
         }
-        virtual void set_pos( tripoint_bub_ms ) {}
+        virtual void set_pos( map &, tripoint_bub_ms ) {}
         virtual void set_pos( tripoint_abs_ms ) {}
         virtual void update_missions( const std::vector<mission *> & ) {}
         virtual void set_str_max( int ) {}
