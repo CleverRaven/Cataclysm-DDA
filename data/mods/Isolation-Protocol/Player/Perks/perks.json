@@ -82,6 +82,7 @@
     "description": "You have spent long centuries poring over mouldering tomes and wresting knowledge from spirits who dwell within the translunary spheres and have forgotten more enchantments than some upstart conjurer will ever learn.\n\nWhen you pick up a ranged weapon, you will absorb its power into a new spell.",
     "category": [ "iso_start_perk" ],
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "enchantments": [ "iso_eldritch_sorcery_buff" ]
   }
 ]
