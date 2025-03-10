@@ -5224,6 +5224,13 @@
   },
   {
     "type": "effect_type",
+    "id": "aimed_60mm",
+    "max_duration": "3 m",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "triffid_fiber_indigestion",
     "name": [ "Uneasy stomach", "Bloated stomach", "Strained stomach", "Overloaded stomach" ],
     "desc": [ "Your stomach constantly feels like it's full, even when you haven't eaten in awhile." ],
