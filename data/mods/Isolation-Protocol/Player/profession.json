@@ -256,7 +256,7 @@
       { "level": 7, "name": "speech" }
     ],
     "spells": [ { "id": "iso_eldritch_basic_attack", "level": 2 } ],
-    "traits": [ "iso_trait", "iso_eldritch_sorcery", "ELFA_EARS", "BEAUTIFUL3", "LIGHTSTEP" ],
+    "traits": [ "iso_trait", "iso_eldritch_sorcery", "ELFA_EARS", "BEAUTIFUL3", "LIGHTSTEP", "FEL_EYE", "FEL_NV" ],
     "items": {
       "both": {
         "entries": [
