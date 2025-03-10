@@ -206,5 +206,66 @@
       }
     },
     "description": "Builders and merchants of magical wonders.  They expect to weather this Cataclysm through trade and innovation.  They will take any coin from any land."
+  },
+  {
+    "type": "faction",
+    "id": "druid_circle",
+    "name": "The Circle of Nature",
+    "likes_u": 5,
+    "respects_u": 5,
+    "known_by_u": false,
+    "size": 5,
+    "power": 100,
+    "//": "90 days worth of food for 10 people, at 3000kcal/day and full RDA of iron/calcium/vitC",
+    "fac_food_supply": { "calories": 2700000000, "vitamins": { "iron": 86400, "calcium": 86400, "vitC": 86400 } },
+    "wealth": 1000,
+    "relations": {
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      }
+    },
+    "description": "Surviving druids who weathered the Cataclysm in the wild places."
   }
 ]
