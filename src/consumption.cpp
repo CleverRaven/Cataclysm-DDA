@@ -47,7 +47,6 @@
 #include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
-#include "material.h"
 #include "messages.h"
 #include "monster.h"
 #include "mutation.h"
