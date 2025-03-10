@@ -1,0 +1,20 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_WARY_SLEEPER",
+	"name": [ "Wary Sleeper" ],
+	"desc": [
+      "Your premotion abilities has developed to such a level that you sense movement of creatures around you even when you sleep."
+    "eoc_type": "EVENT",
+    "required_event": "character_attempt_to_fall_asleep",
+    "condition": {
+	      "and": [
+        { "test_eoc": "EOC__PERK_WARY_SLEEPER_ACTIVATE" },
+        { "not": { "u_has_effect": "perk_wary_sleeper" } },
+        { "u_has_trait": "perk_wary_sleeper" }
+	]
+  },
+  {
+  "effect": { "u_eocs": "EOC_PERK_WARY_SLEEPER_ACTIVATE" } 
+  }
+]

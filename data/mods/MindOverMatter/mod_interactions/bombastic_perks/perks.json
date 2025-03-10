@@ -68,6 +68,15 @@
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MUT_INSTABILITY_MOD", "add": -2 } ] } ]
   },
   {
+    "type": "mutation",
+    "id": "perk_wary_sleeper",
+    "name": { "str": "Wary Sleeper" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your premotion abilities has developed to such a level that you sense movement around you even when you sleep."
+  },
+  {
     "//": "Playstyle perks begin here",
     "type": "mutation",
     "id": "perk_burning_bright",
