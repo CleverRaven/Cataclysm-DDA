@@ -310,7 +310,7 @@
         "target_var": { "u_val": "last_scion_spell_id_slot_one" }
       },
       { "message": "Spell id for slot 1 is <u_val:last_scion_spell_id_slot_one>", "type": "debug" },
-      { "math": [ "u_spell_level(last_scion_spell_id_slot_one) = new_last_scion_spell_level" ] }
+      { "math": [ "u_spell_level(u_last_scion_spell_id_slot_one) = new_last_scion_spell_level" ] }
     ]
   },
   {
@@ -328,7 +328,7 @@
         "target_var": { "u_val": "last_scion_spell_id_slot_two" }
       },
       { "message": "Spell id for slot 2 is <u_val:last_scion_spell_id_slot_two>", "type": "debug" },
-      { "math": [ "u_spell_level(last_scion_spell_id_slot_two) = new_last_scion_spell_level" ] }
+      { "math": [ "u_spell_level(u_last_scion_spell_id_slot_two) = new_last_scion_spell_level" ] }
     ]
   }
 ]
