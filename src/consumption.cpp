@@ -858,11 +858,6 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     }
 
     if( edible || drinkable ) {
-        for( const auto &elem : food.type->materials ) {
-            if( !elem.first->edible() ) {
-                return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
-            }
-        }
         // For all those folks who loved eating Marloss berries.  D:< mwuhahaha
         if( has_trait( trait_M_DEPENDENT ) && !food.has_flag( flag_MYCUS_OK ) ) {
             return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
