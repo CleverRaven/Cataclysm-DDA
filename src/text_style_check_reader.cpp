@@ -1,3 +1,11 @@
+#include <functional>
+#include <iterator>
+#include <string>
+
+#include "cached_options.h"
+#include "catacharset.h"
+#include "debug.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "text_style_check.h"
 

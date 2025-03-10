@@ -11,7 +11,6 @@
 
 #include "action.h"
 #include "activity_actor_definitions.h"
-#include "activity_type.h"
 #include "advanced_inv.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
@@ -22,6 +21,7 @@
 #include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_attire.h"
@@ -57,8 +57,9 @@
 #include "itype.h"
 #include "iuse.h"
 #include "level_cache.h"
-#include "line.h"
 #include "magic.h"
+#include "magic_enchantment.h"
+#include "magic_type.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -70,12 +71,12 @@
 #include "move_mode.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
 #include "panels.h"
 #include "player_activity.h"
+#include "point.h"
 #include "popup.h"
 #include "ranged.h"
 #include "rng.h"
@@ -87,8 +88,8 @@
 #include "timed_event.h"
 #include "translation.h"
 #include "translations.h"
-#include "uilist.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -99,6 +100,8 @@
 #include "weather.h"
 #include "weather_type.h"
 #include "worldfactory.h"
+
+enum class direction : unsigned int;
 
 #if defined(TILES)
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
