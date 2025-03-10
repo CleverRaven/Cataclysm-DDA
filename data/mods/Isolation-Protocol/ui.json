@@ -4,35 +4,35 @@
     "copy-from": "legacy_classic_sidebar",
     "type": "widget",
     "id": "legacy_classic_sidebar",
-    "extend": { "widgets": [ "iso_danger" ] }
+    "extend": { "widgets": [ "iso_danger", "mana_for_last_scion" ] }
   },
   {
     "//": "Extend with the danger widget",
     "copy-from": "legacy_compact_sidebar",
     "type": "widget",
     "id": "legacy_compact_sidebar",
-    "extend": { "widgets": [ "iso_danger" ] }
+    "extend": { "widgets": [ "iso_danger", "mana_for_last_scion" ] }
   },
   {
     "//": "Extend with the danger widget",
     "copy-from": "legacy_labels_narrow_sidebar",
     "type": "widget",
     "id": "legacy_labels_narrow_sidebar",
-    "extend": { "widgets": [ "iso_danger" ] }
+    "extend": { "widgets": [ "iso_danger", "mana_for_last_scion" ] }
   },
   {
     "//": "Extend with the danger widget",
     "copy-from": "legacy_labels_sidebar",
     "type": "widget",
     "id": "legacy_labels_sidebar",
-    "extend": { "widgets": [ "iso_danger" ] }
+    "extend": { "widgets": [ "iso_danger", "mana_for_last_scion" ] }
   },
   {
     "//": "Extend with the danger widget",
     "copy-from": "structured_sidebar",
     "type": "widget",
     "id": "structured_sidebar",
-    "extend": { "widgets": [ "iso_danger" ] }
+    "extend": { "widgets": [ "iso_danger", "mana_for_last_scion" ] }
   },
   {
     "id": "iso_danger",
@@ -79,5 +79,21 @@
         "condition": { "and": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER >= 25" ] } ] }
       }
     ]
+  },
+  {
+    "id": "mana_for_last_scion",
+    "type": "widget",
+    "style": "text",
+    "label": "Mana",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "clauses": [
+      {
+        "id": "mana_numbers",
+        "text": "<color_pink><u_val:mana></color>     Max: <color_pink><u_val:mana_max></color>     %: <color_pink><u_val:mana_percentage></color>",
+        "parse_tags": true,
+        "condition": { "u_has_trait": "iso_eldritch_sorcery" }
+      }
+    ],
+    "padding": 0
   }
 ]
