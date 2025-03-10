@@ -10,5 +10,22 @@
     "color": "yellow",
     "material": [ "steel" ],
     "price": "8 kUSD"
+  },
+  {
+    "type": "GENERIC",
+    "id": "small_vehicle_controls",
+    "name": { "str": "small driver vehicle controls", "str_pl": "sets of small driver svehicle controls" },
+    "description": "A set of various vehicle controls for small drivers.  Useful for crafting.",
+    "weight": "6000 g",
+    "to_hit": -4,
+    "color": "light_cyan",
+    "symbol": "$",
+    "material": [ "plastic", "steel" ],
+    "volume": "3 L",
+    "category": "veh_parts",
+    "price": "400 USD",
+    "price_postapoc": "5 USD",
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "melee_damage": { "bash": 2 }
   }
 ]
