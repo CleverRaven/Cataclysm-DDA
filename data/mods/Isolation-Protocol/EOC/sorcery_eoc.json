@@ -335,7 +335,7 @@
           { "run_eocs": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT" }
         ]
       },
-      { "if": { "u_has_wielded_with_ammotype": "10mm" } },
+      { "if": { "u_has_wielded_with_ammotype": "10mm" }, "then": [  ] },
       { "if": { "u_has_wielded_with_ammotype": "270win" }, "then": [  ] },
       { "if": { "u_has_wielded_with_ammotype": "410shot" }, "then": [  ] },
       { "if": { "u_has_wielded_with_ammotype": "123ln" }, "then": [  ] },
@@ -370,12 +370,23 @@
     "id": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT",
     "effect": [
       {
-        "run_eoc_selector": [ "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_1", "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_2" ],
+        "run_eoc_selector": [
+          "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_1",
+          "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_2",
+          "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_3",
+          "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_4",
+          "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_5",
+          "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_6"
+        ],
         "names": [
           "Add <global_val:new_last_scion_spell_name> to Slot 1: <u_val:last_scion_spell_name_slot_one>",
-          "Add <global_val:new_last_scion_spell_name> to Slot 2: <u_val:last_scion_spell_name_slot_two>"
+          "Add <global_val:new_last_scion_spell_name> to Slot 2: <u_val:last_scion_spell_name_slot_two>",
+          "Add <global_val:new_last_scion_spell_name> to Slot 3: <u_val:last_scion_spell_name_slot_three>",
+          "Add <global_val:new_last_scion_spell_name> to Slot 4: <u_val:last_scion_spell_name_slot_four>",
+          "Add <global_val:new_last_scion_spell_name> to Slot 5: <u_val:last_scion_spell_name_slot_five>",
+          "Add <global_val:new_last_scion_spell_name> to Slot 6: <u_val:last_scion_spell_name_slot_six>"
         ],
-        "keys": [ "1", "2" ]
+        "keys": [ "1", "2", "3", "4", "5", "6" ]
       }
     ]
   },
@@ -413,6 +424,82 @@
       },
       { "message": "Spell id for slot 2 is <u_val:last_scion_spell_id_slot_two>", "type": "debug" },
       { "math": [ "u_spell_level(u_last_scion_spell_id_slot_two) = new_last_scion_spell_level" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_3",
+    "condition": { "math": [ "last_scion_number_of_spell_slots >= 3" ] },
+    "effect": [
+      {
+        "set_string_var": { "global_val": "new_last_scion_spell_name" },
+        "target_var": { "u_val": "last_scion_spell_name_slot_three" }
+      },
+      { "message": "Spell name for slot 3 is <u_val:last_scion_spell_name_slot_three>", "type": "debug" },
+      { "math": [ "u_spell_level(u_last_scion_spell_id_slot_three) = -1" ] },
+      {
+        "set_string_var": { "global_val": "new_last_scion_spell_id" },
+        "target_var": { "u_val": "last_scion_spell_id_slot_three" }
+      },
+      { "message": "Spell id for slot 2 is <u_val:last_scion_spell_id_slot_three>", "type": "debug" },
+      { "math": [ "u_spell_level(u_last_scion_spell_id_slot_three) = new_last_scion_spell_level" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_4",
+    "condition": { "math": [ "last_scion_number_of_spell_slots >= 4" ] },
+    "effect": [
+      {
+        "set_string_var": { "global_val": "new_last_scion_spell_name" },
+        "target_var": { "u_val": "last_scion_spell_name_slot_four" }
+      },
+      { "message": "Spell name for slot 3 is <u_val:last_scion_spell_name_slot_four>", "type": "debug" },
+      { "math": [ "u_spell_level(u_last_scion_spell_id_slot_four) = -1" ] },
+      {
+        "set_string_var": { "global_val": "new_last_scion_spell_id" },
+        "target_var": { "u_val": "last_scion_spell_id_slot_four" }
+      },
+      { "message": "Spell id for slot 2 is <u_val:last_scion_spell_id_slot_four>", "type": "debug" },
+      { "math": [ "u_spell_level(u_last_scion_spell_id_slot_four) = new_last_scion_spell_level" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_5",
+    "condition": { "math": [ "last_scion_number_of_spell_slots >= 5" ] },
+    "effect": [
+      {
+        "set_string_var": { "global_val": "new_last_scion_spell_name" },
+        "target_var": { "u_val": "last_scion_spell_name_slot_five" }
+      },
+      { "message": "Spell name for slot 3 is <u_val:last_scion_spell_name_slot_five>", "type": "debug" },
+      { "math": [ "u_spell_level(u_last_scion_spell_id_slot_five) = -1" ] },
+      {
+        "set_string_var": { "global_val": "new_last_scion_spell_id" },
+        "target_var": { "u_val": "last_scion_spell_id_slot_five" }
+      },
+      { "message": "Spell id for slot 2 is <u_val:last_scion_spell_id_slot_five>", "type": "debug" },
+      { "math": [ "u_spell_level(u_last_scion_spell_id_slot_five) = new_last_scion_spell_level" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_LAST_SCION_SPELL_GAINING_CHOOSE_SLOT_6",
+    "condition": { "math": [ "last_scion_number_of_spell_slots >= 6" ] },
+    "effect": [
+      {
+        "set_string_var": { "global_val": "new_last_scion_spell_name" },
+        "target_var": { "u_val": "last_scion_spell_name_slot_six" }
+      },
+      { "message": "Spell name for slot 3 is <u_val:last_scion_spell_name_slot_six>", "type": "debug" },
+      { "math": [ "u_spell_level(u_last_scion_spell_id_slot_six) = -1" ] },
+      {
+        "set_string_var": { "global_val": "new_last_scion_spell_id" },
+        "target_var": { "u_val": "last_scion_spell_id_slot_six" }
+      },
+      { "message": "Spell id for slot 2 is <u_val:last_scion_spell_id_slot_six>", "type": "debug" },
+      { "math": [ "u_spell_level(u_last_scion_spell_id_slot_six) = new_last_scion_spell_level" ] }
     ]
   }
 ]
