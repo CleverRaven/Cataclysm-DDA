@@ -74,7 +74,7 @@
       { "item": "soldering_iron", "prob": 30 },
       { "item": "soldering_iron_portable", "prob": 30, "charges": [ 0, 50 ] },
       { "item": "solder_wire", "prob": 30 },
-      { "item": "duct_tape", "prob": 30, "count": [ 1, 2 ] }
+      { "group": "duct_tape_roll_part", "prob": 30, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -99,7 +99,10 @@
             "prob": 20
           },
           {
-            "collection": [ { "item": "plastic_sheet", "prob": 100, "count": [ 3, 6 ] }, { "item": "duct_tape", "prob": 100, "count": [ 1, 5 ] } ],
+            "collection": [
+              { "item": "plastic_sheet", "prob": 100, "count": [ 3, 6 ] },
+              { "group": "duct_tape_roll_part", "prob": 100, "count": [ 1, 5 ] }
+            ],
             "prob": 60
           }
         ],
@@ -217,7 +220,7 @@
       { "item": "screwdriver_set", "prob": 15 },
       { "item": "pliers", "prob": 5 },
       { "group": "superglue", "prob": 5 },
-      { "item": "duct_tape", "prob": 10, "count": [ 1, 2 ] }
+      { "group": "duct_tape_roll_part", "prob": 10, "count": [ 1, 2 ] }
     ]
   },
   {
