@@ -1141,8 +1141,9 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "You cannot forget anything at all, ever.  This grants you the ability to memorize books for you to read in your head later and makes you able to store mental images so detailled it's almost as if you were taking pictures with your mind.",
+    "description": "You cannot forget anything at all, ever.  Skills you've \"forgotten\" come back to you instantly.  It also grants you the ability to memorize books for you to read in your head later and makes you able to store mental images so detailled it's almost as if you were taking pictures with your mind.",
     "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SKILL_RUST_BONUS_XP", "multiply": 9.0 } ] } ],
     "integrated_armor": [ "integrated_memory" ]
   },
   {
