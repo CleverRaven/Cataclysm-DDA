@@ -125,6 +125,12 @@
     "components": [ [ [ "300blk_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ] ]
   },
   {
+    "id": "ammo_460sw",
+    "type": "requirement",
+    "//": "Components required for .460 S&W ammo",
+    "components": [ [ [ "460sw_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ] ]
+  },
+  {
     "id": "22_casehead",
     "type": "requirement",
     "//": "References needed for boltfaces and magazines using .22 lr or derivatives",
@@ -317,6 +323,7 @@
         [ "10mm_casing", 1 ],
         [ "44_casing", 1 ],
         [ "454_casing", 1 ],
+        [ "460sw_casing", 1 ],
         [ "45_casing", 1 ],
         [ "45colt_casing", 1 ],
         [ "46mm_casing", 1 ],

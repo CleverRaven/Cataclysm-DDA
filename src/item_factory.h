@@ -229,6 +229,14 @@ class Item_factory
         void migrate_item_from_variant( item &obj, const std::string &from_variant );
 
         /**
+         * Add itype_id to m_runtimes.
+         *
+         * If the itype overrides an existing itype, the existing itype is deleted first.
+         * Return the newly created itype.
+         */
+        const itype *add_runtime( const itype_id &id, translation name, translation description ) const;
+
+        /**
          * Check if an item type is known to the Item_factory.
          * @param id Item type id (@ref itype::id).
          */
@@ -253,10 +261,7 @@ class Item_factory
         void load_item_blacklist( const JsonObject &json );
 
         /** Get all item templates (both static and runtime) */
-        std::vector<const itype *> all() const;
-
-        /** Get item types created at runtime. */
-        std::vector<const itype *> get_runtime_types() const;
+        const std::vector<const itype *> &all() const;
 
         /** Find all item templates (both static and runtime) matching UnaryPredicate function */
         static std::vector<const itype *> find( const std::function<bool( const itype & )> &func );
@@ -272,6 +277,9 @@ class Item_factory
         std::unordered_map<itype_id, itype> m_templates;
 
         mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
+        /** Runtimes rarely change. Used for cache templates_all_cache for the all() method. */
+        mutable bool m_runtimes_dirty = true;
+        mutable std::vector<const itype *> templates_all_cache;
 
         using GroupMap = std::map<item_group_id, std::unique_ptr<Item_spawn_data>>;
         GroupMap m_template_groups;

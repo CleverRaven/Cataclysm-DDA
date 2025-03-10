@@ -3310,8 +3310,11 @@ void npc::on_load( map *here )
     shop_restock();
 }
 
-bool npc::query_yn( const std::string &/*msg*/ ) const
+bool npc::query_yn( const std::string &msg ) const
 {
+    add_msg_debug( debugmode::DF_NPC,
+                   "%s declines this query_yn because they are a npc (automatic, always declines).\n %s",
+                   disp_name(), msg );
     // NPCs don't like queries - most of them are in the form of "Do you want to get hurt?".
     return false;
 }

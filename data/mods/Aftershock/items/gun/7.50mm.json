@@ -225,6 +225,7 @@
     "modes": [ [ "DEFAULT", "SMART TRACK", 2 ] ],
     "built_in_mods": [ "afs_smart_scope" ],
     "skill": "smartgun",
+    "valid_mod_locations": [ [ "sling", 1 ] ],
     "symbol": "(",
     "color": "red",
     "ammo": [ "afs_7.50mm_smart" ],
@@ -242,7 +243,6 @@
         "item_restriction": [ "afs_vahagn_smartgun_mag" ]
       }
     ],
-    "valid_mod_locations": [ [ "grip", 1 ], [ "sights mount", 1 ], [ "sling", 1 ], [ "underbarrel", 1 ] ],
     "melee_damage": { "bash": 12 },
     "flags": [ "NEVER_JAMS", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
     "ammo_effects": [ "VAHAGN" ],

@@ -1915,8 +1915,17 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
         if( !sp.is_valid_target( caster, potential_target ) ) {
             continue;
         }
+        dialogue d;
+        optional_vpart_position veh = get_map().veh_at( target );
         Creature *victim = creatures.creature_at<Creature>( potential_target );
-        dialogue d( victim ? get_talker_for( victim ) : nullptr, get_talker_for( caster ) );
+        if( victim && ( sp.is_valid_target( spell_target::ally ) ||
+                        sp.is_valid_target( spell_target::hostile ) || sp.is_valid_target( spell_target::self ) ) ) {
+            d = dialogue( get_talker_for( victim ), get_talker_for( caster ) );
+        } else if( sp.is_valid_target( spell_target::vehicle ) && veh ) {
+            d = dialogue( get_talker_for( veh.value().vehicle() ), get_talker_for( caster ) );
+        } else {
+            d = dialogue( nullptr, get_talker_for( caster ) );
+        }
         const tripoint_abs_ms target_abs = get_map().get_abs( potential_target );
         write_var_value( var_type::context, "spell_location", &d,
                          target_abs.to_string() );

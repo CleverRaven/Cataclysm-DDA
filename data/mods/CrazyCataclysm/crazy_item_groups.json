@@ -145,7 +145,7 @@
     "subtype": "collection",
     "id": "jackson_drops",
     "entries": [
-      { "item": "jacket_leather_red", "prob": 100 },
+      { "item": "jacket_leather", "variant": "jacket_leather_red", "prob": 100 },
       { "item": "red_jeans", "prob": 100 },
       { "item": "socks", "prob": 100 },
       { "item": "dance_shoes", "prob": 100 },

@@ -45,7 +45,7 @@
       { "item": "afs_medigel", "prob": 100, "count": [ 4, 10 ] },
       { "item": "afs_stimpack", "prob": 100, "count": [ 3, 10 ] },
       { "item": "afs_painkiller", "prob": 100, "count": [ 3, 10 ] },
-      { "item": "medical_tape", "charges": 30 },
+      { "group": "medical_tape_roll_part" },
       { "group": "quikclot_bag_plastic_5", "count": [ 4, 8 ] },
       { "group": "drugs_analgesic", "prob": 100, "count": [ 2, 4 ] },
       { "group": "augustmoon_shop_money" }

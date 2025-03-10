@@ -21,7 +21,7 @@
     "id": "GREAT_LIBRARY_Shop_Supplies",
     "subtype": "distribution",
     "items": [
-      { "item": "duct_tape", "charges": [ 35, 50 ] },
+      { "group": "duct_tape_roll_part" },
       { "group": "superglue", "count": [ 0, 1 ] },
       { "item": "paper", "count": [ 150, 200 ] },
       { "item": "cardboard", "count": [ 10, 20 ] }

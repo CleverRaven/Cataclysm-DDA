@@ -983,6 +983,14 @@
     "entries": [ { "item": "raging_bull" }, { "group": "on_hand_454" } ]
   },
   {
+    "id": "nested_460_xvr",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "460_xvr" }, { "group": "on_hand_460sw" } ]
+  },
+  {
     "id": "nested_tokarev",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
