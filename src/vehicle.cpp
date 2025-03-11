@@ -1154,6 +1154,7 @@ units::power vehicle::part_vpower_w( map &here, const vehicle_part &vp,
     if( pwr < 0_W ) {
         return pwr; // Consumers always draw full power, even if broken
     }
+    pwr = enchantment_cache.modify_value( enchant_vals::mod::ENGINE_POWER, pwr );
     if( at_full_hp ) {
         return pwr; // Assume full hp
     }
@@ -1514,6 +1515,23 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
     return false;
 }
 
+void vehicle::recalculate_enchantment_cache()
+{
+    enchantment_cache.clear();
+
+    for( vehicle_part &part : parts ) {
+        if( part.removed ) {
+            continue;
+        }
+        for( const enchantment_id &ench_id : part.info().enchantments ) {
+            const enchantment &ench = ench_id.obj();
+            if( ench.is_active( *this, part.enabled ) && ench.is_vehicle_relevant() ) {
+                enchantment_cache.force_add( ench, *this );
+            }
+        }
+    }
+}
+
 bool vehicle::is_appliance() const
 {
     return has_tag( flag_APPLIANCE );
@@ -1594,6 +1612,7 @@ int vehicle::install_part( map &here, const point_rel_ms &dp, vehicle_part &&vp 
     const int vp_installed_index = parts.size() - 1;
     refresh( );
     coeff_air_changed = true;
+    recalculate_enchantment_cache();
     return vp_installed_index;
 }
 
@@ -3634,7 +3653,7 @@ units::mass vehicle::total_mass( map &here ) const
         calc_mass_center( here, false );
     }
 
-    return mass_cache;
+    return enchantment_cache.modify_value( enchant_vals::mod::TOTAL_WEIGHT, mass_cache );
 }
 
 units::mass vehicle::unloaded_mass() const
@@ -3647,7 +3666,7 @@ units::mass vehicle::unloaded_mass() const
         m_total += vp.part().base.weight();
 
     }
-    return m_total;
+    return enchantment_cache.modify_value( enchant_vals::mod::TOTAL_WEIGHT, m_total );
 }
 
 units::mass vehicle::weight_on_wheels( map &here ) const
@@ -3663,7 +3682,8 @@ units::mass vehicle::weight_on_wheels( map &here ) const
             }
         }
     }
-    return vehicle_mass - animal_mass;
+    return enchantment_cache.modify_value( enchant_vals::mod::TOTAL_WEIGHT,
+                                           vehicle_mass - animal_mass );
 }
 
 const point_rel_ms &vehicle::rotated_center_of_mass( map &here ) const
@@ -5016,7 +5036,8 @@ float vehicle::handling_difficulty( map &here ) const
     // TestVehicle but on fungal bed (0.5 friction) and bad steering = 10
     // TestVehicle but turned 90 degrees during this turn (0 align) = 10
     const float diff_mod = ( 1.0f - steer ) + ( 1.0f - ktraction ) + ( 1.0f - aligned );
-    return velocity * diff_mod / vehicles::vmiph_per_tile;
+    return enchantment_cache.modify_value( enchant_vals::mod::TURNING_DIFFICULTY,
+                                           velocity * diff_mod / vehicles::vmiph_per_tile );
 }
 
 units::power vehicle::engine_fuel_usage( const vehicle_part &vp ) const
@@ -5024,7 +5045,8 @@ units::power vehicle::engine_fuel_usage( const vehicle_part &vp ) const
     if( !is_engine_on( vp ) || is_perpetual_type( vp ) ) {
         return 0_W;
     }
-    const units::power usage = vp.info().energy_consumption;
+    units::power usage = vp.info().energy_consumption;
+    usage = enchantment_cache.modify_value( enchant_vals::mod::FUEL_USAGE, usage );
     if( vp.has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
         return usage * 2;
     }

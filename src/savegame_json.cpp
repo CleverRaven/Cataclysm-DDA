@@ -3526,6 +3526,7 @@ void vehicle::deserialize( const JsonObject &data )
     // that can't be used as it currently stands because it would also
     // make it instantly fire all its turrets upon load.
     of_turn = 0;
+    recalculate_enchantment_cache();
 }
 
 void vehicle::deserialize_parts( const JsonArray &data )

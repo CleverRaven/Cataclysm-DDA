@@ -36,9 +36,11 @@
 #include "item_location.h"
 #include "item_stack.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "math_parser_diag_value.h"
 #include "npc.h"
+#include "pimpl.h"
 #include "point.h"
 #include "ret_val.h"
 #include "safe_reference.h"
@@ -888,6 +890,8 @@ class vehicle
         void clear_values();
         void add_chat_topic( const std::string &topic );
         int get_passenger_count( bool hostile ) const;
+        enchant_cache enchantment_cache;
+        void recalculate_enchantment_cache();
 
         /**
          * Find a possibly off-map vehicle. If necessary, loads up its submap through
