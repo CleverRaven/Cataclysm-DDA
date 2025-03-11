@@ -386,7 +386,8 @@
           "Add <global_val:new_last_scion_spell_name> to Slot 5: <u_val:last_scion_spell_name_slot_five>",
           "Add <global_val:new_last_scion_spell_name> to Slot 6: <u_val:last_scion_spell_name_slot_six>"
         ],
-        "keys": [ "1", "2", "3", "4", "5", "6" ]
+        "keys": [ "1", "2", "3", "4", "5", "6" ],
+        "hide_failing": true
       }
     ]
   },

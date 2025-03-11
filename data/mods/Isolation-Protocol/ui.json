@@ -35,6 +35,13 @@
     "extend": { "widgets": [ "iso_danger", "mana_for_last_scion" ] }
   },
   {
+    "//": "Extend with the danger widget",
+    "copy-from": "spacebar",
+    "type": "widget",
+    "id": "spacebar",
+    "extend": { "widgets": [ "iso_danger", "spacebar_last_scion_mana_bar_block" ] }
+  },
+  {
     "id": "iso_danger",
     "type": "widget",
     "label": "Ambient normality",
@@ -81,6 +88,14 @@
     ]
   },
   {
+    "id": "spacebar_last_scion_mana_bar_block",
+    "type": "widget",
+    "style": "layout",
+    "label": "mana_bar",
+    "arrange": "minimum_columns",
+    "widgets": [ "spacebar_separator_2", "mana_for_last_scion" ]
+  },
+  {
     "id": "mana_for_last_scion",
     "type": "widget",
     "style": "text",
@@ -89,7 +104,7 @@
     "clauses": [
       {
         "id": "mana_numbers",
-        "text": "<color_pink><u_val:mana></color>     Max: <color_pink><u_val:mana_max></color>     %: <color_pink><u_val:mana_percentage></color>",
+        "text": "<color_pink><u_val:mana></color>         Max: <color_pink><u_val:mana_max></color>        %: <color_pink><u_val:mana_percentage></color>",
         "parse_tags": true,
         "condition": { "u_has_trait": "iso_eldritch_sorcery" }
       }

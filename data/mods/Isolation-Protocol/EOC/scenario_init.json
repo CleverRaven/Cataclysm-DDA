@@ -16,7 +16,7 @@
       { "set_string_var": "Nothing", "target_var": { "u_val": "last_scion_spell_name_slot_three" } },
       { "set_string_var": "Nothing", "target_var": { "u_val": "last_scion_spell_name_slot_four" } },
       { "set_string_var": "Nothing", "target_var": { "u_val": "last_scion_spell_name_slot_five" } },
-      { "set_string_var": "Nothing", "target_var": { "u_val": "last_scion_spell_name_slot_sive" } },
+      { "set_string_var": "Nothing", "target_var": { "u_val": "last_scion_spell_name_slot_six" } },
       { "set_string_var": "spell_feline_leap", "target_var": { "u_val": "last_scion_spell_id_slot_one" } },
       { "set_string_var": "spell_feline_leap", "target_var": { "u_val": "last_scion_spell_id_slot_two" } },
       { "set_string_var": "spell_feline_leap", "target_var": { "u_val": "last_scion_spell_id_slot_three" } },
