@@ -41,7 +41,7 @@
     "name": { "str": "Baleful Flames of Abhorrach Cold Damage", "//~": "NO_I18N" },
     "description": { "str": "The cold damage part.  IT's a bug if you have it", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
-    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "VERBAL", "SOMATIC", "NO_LEGS", "SILENT", "NO_PROJECTILE" ],
+    "flags": [ "EVOCATION_SPELL", "RANDOM_DAMAGE", "NO_LEGS", "SILENT", "NO_PROJECTILE" ],
     "spell_class": "iso_eldritch_sorcery",
     "magic_type": "iso_eldritch_sorcery",
     "difficulty": 1,
