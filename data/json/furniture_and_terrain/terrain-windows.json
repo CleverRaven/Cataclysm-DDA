@@ -40,10 +40,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -223,10 +220,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -258,7 +252,6 @@
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "duct_tape", "charges": [ 15, 25 ] },
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
@@ -1882,10 +1875,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -2150,10 +2140,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "reinforced_glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -2438,10 +2425,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 2 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 2 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -2717,10 +2701,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "reinforced_glass_sheet", "count": 2 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 2 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -2985,10 +2966,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 3 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 3 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -3277,10 +3255,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "reinforced_glass_sheet", "count": 3 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 3 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -3565,10 +3540,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_sheet", "count": 3 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 3 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -3858,10 +3830,7 @@
     "connects_to": "WALL",
     "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
-    "deconstruct": {
-      "ter_set": "t_window_empty",
-      "items": [ { "item": "reinforced_glass_sheet", "count": 3 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
-    },
+    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 3 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 12,

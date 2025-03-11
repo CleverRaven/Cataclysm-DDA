@@ -96,7 +96,7 @@
       [ "string_36", 25 ],
       [ "toilet_paper", 10 ],
       { "item": "handflare", "prob": 15, "charges": 300 },
-      [ "duct_tape", 25 ],
+      { "group": "duct_tape_roll_part", "prob": 25 },
       { "group": "superglue", "prob": 45 },
       { "item": "flashlight", "prob": 25, "charges": [ 0, 300 ] },
       [ "thread", 20 ],
@@ -1174,7 +1174,7 @@
       { "item": "mask_dust", "prob": 15 },
       { "item": "manual_mechanics", "prob": 35 },
       { "item": "manual_fabrication", "prob": 20 },
-      { "item": "duct_tape", "prob": 70, "charges": [ 50, 200 ] },
+      { "group": "duct_tape_roll_part", "prob": 70 },
       { "item": "misc_repairkit", "prob": 15 },
       { "group": "tools_toolbox", "prob": 2 }
     ]
@@ -1233,7 +1233,7 @@
           { "item": "multitool", "prob": 30 },
           { "item": "screwdriver_set", "prob": 20 },
           { "item": "socket_screwdriver_set", "prob": 20 },
-          { "item": "duct_tape", "prob": 50 },
+          { "group": "duct_tape_roll", "prob": 50 },
           { "group": "superglue", "prob": 10 },
           { "item": "misc_repairkit", "prob": 25 },
           { "group": "tools_toolbox", "prob": 2 }
@@ -1945,7 +1945,7 @@
       { "item": "saline", "prob": 15, "charges": [ 1, 5 ] },
       { "item": "smoxygen_tank", "prob": 10, "charges": [ 0, 12 ] },
       { "group": "full_1st_aid", "prob": 30 },
-      [ "medical_tape", 35 ],
+      { "group": "medical_tape_roll_part", "prob": 35 },
       [ "blood", 5 ],
       { "item": "anesthetic_kit", "prob": 10, "charges": [ 0, -1 ] }
     ]
@@ -2048,7 +2048,7 @@
       [ "thread", 15 ],
       [ "yarn", 15 ],
       [ "sinew", 15 ],
-      [ "duct_tape", 15 ],
+      { "group": "duct_tape_roll", "prob": 15 },
       { "group": "superglue", "prob": 5 },
       [ "feather", 15 ],
       [ "mag_animecon", 15 ],
