@@ -2252,15 +2252,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Check how many items you can stash. extra check because free_volume() doesn't account for pockets the item would not fit .
     if( destarea == AIM_INVENTORY ) {
         int copies_remaining = amount;
-
-        // absolutely cursed, if I just feed copies_remaining, ignore_pkt_settings gets optimized out and copies remaining gets interpreted as bool for
-        // bool can_stash_partial( const item &it, bool ignore_pkt_settings = false ); overload, meaning I never get into
-        // the correct overload:
-        // bool can_stash_partial( const item &it, int &copies_remaining, bool ignore_pkt_settings = false );
-        // negating the whole reason I overload it (no need to do copy item tomfoolery here), by forcing me to do timfoolery with int references
-        int &tmp = copies_remaining;
-        player_character.can_stash_partial( it, tmp, /*ignore_pkt_settings=*/false );
-
+        player_character.can_stash_partial( it, copies_remaining, /*ignore_pkt_settings=*/false );
         amount -= copies_remaining;
         if( amount <= 0 ) {
             popup_getkey( _( "No pocket can contain the %s." ), it.tname() );
