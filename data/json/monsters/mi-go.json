@@ -388,7 +388,7 @@
     "name": { "str": "mi-go human guard construct" },
     "description": "A horrifying amalgamation of human and mi-go technology.  This once-human subject has been heavily modified with crystalline implants and biomechanical components.  It moves with mechanical precision and seems to be following some kind of programmed directive.",
     "default_faction": "mi-go",
-    "species": [ "CYBORG", "MUTANT" ],
+    "species": [ "MUTANT" ],
     "diff": 20,
     "volume": "62500 ml",
     "weight": "81500 g",
