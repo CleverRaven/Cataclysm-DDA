@@ -203,7 +203,7 @@
             "condition": { "math": [ "u_spell_level_sum('school': 'PYROKINETIC') >= 30" ] }
           }
         ],
-		        "topic": "TALK_PERK_MENU_SELECT"
+        "topic": "TALK_PERK_MENU_SELECT"
       },
       {
         "condition": { "not": { "u_has_trait": "perk_wary_sleeper" } },
@@ -222,7 +222,7 @@
           },
           {
             "set_condition": "perk_condition",
-            "condition": { "math": [ "u_spell_level('biokin_overcome_pain') >= 5" ] },
+            "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 5" ] },
               ]
             }
           }
