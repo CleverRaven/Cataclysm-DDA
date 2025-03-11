@@ -1,0 +1,67 @@
+[
+  {
+    "id": "exo_standard_underlayer",
+    "type": "TOOL_ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "robofac_enviro_suit",
+    "name": { "str": "exosuit underlayer" },
+    "description": "A form-fitting suit meant to be worn by an exosuit pilot.  Although not a requirement for the operation of an exosuit, it features haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor.  This standard model uses a scale mail of overlapping plastic disks for incidental protection.",
+    "weight": "610 g",
+    "volume": "3500 ml",
+    "color": "brown",
+    "material": [ "nomex", "plastic" ],
+    "environmental_protection": 5,
+    "armor": [
+      {
+        "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100
+      },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "head", "mouth", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 100
+      }
+    ],
+    "warmth": 10,
+    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
+  },
+  {
+    "id": "exo_combat_underlayer",
+    "type": "TOOL_ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "robofac_enviro_suit",
+    "name": { "str": "exosuit combat underlayer" },
+    "description": "A form-fitting suit meant to be worn by an exosuit pilot.  Although not a requirement for the operation of an exosuit, it features haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor.  This model includes tough Kevlar to protect from spalling.",
+    "material": [ "nomex", "kevlar" ],
+    "environmental_protection": 5,
+    "armor": [
+      {
+        "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100
+      },
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100
+      },
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "head", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 100
+      }
+    ],
+    "warmth": 10,
+    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
+  }
+]

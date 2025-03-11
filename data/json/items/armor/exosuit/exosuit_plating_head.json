@@ -1,0 +1,150 @@
+[
+  {
+    "id": "exo_helmet_steel",
+    "type": "ARMOR",
+    "category": "exosuit",
+    "name": { "str": "steel helmet plate (exosuit)", "str_pl": "steel helmet plates (exosuit)" },
+    "description": "Designed to attach to an exosuit's helmet, this is a sturdy plate of tempered steel.",
+    "weight": "5 kg",
+    "volume": "5 L",
+    "material": [ "qt_steel", "qt_steel" ],
+    "symbol": "[",
+    "looks_like": "power_armor_helmet_basic",
+    "color": "light_gray",
+    "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_HELMET_PLATE" ],
+    "non_functional": "damaged_exo_helmet_steel",
+    "armor": [
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
+        "covers": [ "head", "eyes", "mouth" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
+    "id": "damaged_exo_helmet_steel",
+    "type": "ARMOR",
+    "copy-from": "exo_helmet_steel",
+    "name": { "str": "damaged steel helmet plate (exosuit)", "str_pl": "damaged steel helmet plates (exosuit)" },
+    "description": "The remains of a steel helmet plate after taking a strong impact.  Can be restored to full effectiveness via reforging.",
+    "looks_like": "exo_helmet_steel",
+    "non_functional": "destroyed_exo_helmet_steel",
+    "armor": [
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "head", "eyes", "mouth" ],
+        "coverage": 85,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
+    "id": "destroyed_exo_helmet_steel",
+    "type": "ARMOR",
+    "copy-from": "exo_helmet_steel",
+    "name": { "str": "destroyed steel helmet plate (exosuit)", "str_pl": "destroyed steel helmet plates (exosuit)" },
+    "description": "The remains of a steel helmet plate after taking a strong impact.  Can be recycled at a nanofabricator.",
+    "looks_like": "exo_helmet_steel",
+    "extend": { "flags": [ "NO_REPAIR" ] }
+  },
+  {
+    "id": "exo_helmet_plastic",
+    "type": "ARMOR",
+    "copy-from": "exo_helmet_steel",
+    "name": { "str": "plastic helmet plate (exosuit)", "str_pl": "plastic helmet plates (exosuit)" },
+    "description": "Designed to attach to an exosuit's helmet, this is a plate of plastic.",
+    "weight": "1250 g",
+    "material": [ "plastic", "qt_steel" ],
+    "looks_like": "power_armor_helmet_basic",
+    "non_functional": "damaged_exo_helmet_plastic",
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 12 } ],
+        "covers": [ "head", "eyes", "mouth" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
+    "id": "damaged_exo_helmet_plastic",
+    "type": "ARMOR",
+    "copy-from": "exo_helmet_plastic",
+    "name": { "str": "damaged plastic helmet plate (exosuit)", "str_pl": "damaged plastic helmet plates (exosuit)" },
+    "description": "The remains of a plastic helmet plate after taking a strong impact.  Can be restored to full effectiveness via reforging.",
+    "looks_like": "exo_helmet_plastic",
+    "non_functional": "destroyed_exo_helmet_plastic",
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 6 } ],
+        "covers": [ "head", "eyes", "mouth" ],
+        "coverage": 85,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
+    "id": "destroyed_exo_helmet_plastic",
+    "type": "ARMOR",
+    "copy-from": "exo_helmet_plastic",
+    "name": { "str": "shattered plastic helmet plate (exosuit)", "str_pl": "shattered plastic helmet plates (exosuit)" },
+    "description": "The remains of a plastic helmet plate after taking a strong impact.  No longer provides functional protection, just weight.",
+    "looks_like": "exo_helmet_steel",
+    "extend": { "flags": [ "NO_REPAIR" ] }
+  },
+  {
+    "id": "exo_helmet_comp",
+    "type": "ARMOR",
+    "copy-from": "exo_helmet_steel",
+    "name": { "str": "composite helmet plate (exosuit)", "str_pl": "composite helmet plates (exosuit)" },
+    "description": "Designed to attach to an exosuit's helmet, this is a plate of layered ceramic and steel.",
+    "weight": "7500 g",
+    "material": [ "qt_steel" ],
+    "looks_like": "power_armor_helmet_basic",
+    "non_functional": "damaged_exo_helmet_comp",
+    "extend": { "flags": [ "NO_REPAIR" ] },
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "ceramic", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "head", "eyes", "mouth" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
+    "id": "damaged_exo_helmet_comp",
+    "type": "ARMOR",
+    "copy-from": "exo_helmet_comp",
+    "name": { "str": "damaged composite helmet plate (exosuit)", "str_pl": "damaged composite helmet plates (exosuit)" },
+    "description": "The remains of a composite helmet plate after taking a strong impact.",
+    "material": [ "qt_steel" ],
+    "looks_like": "power_armor_helmet_basic",
+    "non_functional": "destroyed_exo_helmet_comp",
+    "extend": { "flags": [ "NO_REPAIR" ] },
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "ceramic", "covered_by_mat": 100, "thickness": 1 }
+        ],
+        "covers": [ "head", "eyes", "mouth" ],
+        "coverage": 85,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
+    "id": "destroyed_exo_helmet_comp",
+    "type": "ARMOR",
+    "copy-from": "exo_helmet_comp",
+    "name": { "str": "shattered composite helmet plate (exosuit)", "str_pl": "shattered composite helmet plates (exosuit)" },
+    "description": "The remains of a vacuum-cast composite helmet plate after taking a strong impact.  No longer provides functional protection, just weight.",
+    "looks_like": "exo_helmet_comp",
+    "extend": { "flags": [ "NO_REPAIR" ] }
+  }
+]
