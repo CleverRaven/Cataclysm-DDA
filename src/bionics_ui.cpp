@@ -1,11 +1,11 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
 #include <optional>
-#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -30,7 +30,7 @@
 #include "item_location.h"
 #include "localized_comparator.h"
 #include "make_static.h"
-#include "npc.h"
+#include "map.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
@@ -39,8 +39,8 @@
 #include "translation.h"
 #include "translations.h"
 #include "type_id.h"
-#include "uilist.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "vehicle.h"
