@@ -76,7 +76,7 @@
     "valid": false,
     "description": "Your premotion abilities has developed to such a level that you sense movement around you even when you sleep.",
     "active": true,
-	"enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "MOTION_ALARM", "add": 10 } ] } ]
+	  "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "MOTION_ALARM", "add": 10 } ] } ]
   },  
   {
     "//": "Playstyle perks begin here",
