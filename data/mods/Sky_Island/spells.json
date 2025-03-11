@@ -3,7 +3,7 @@
     "id": "island_bound_share_waterwalking_spell",
     "type": "SPELL",
     "name": { "str": "Share water walking", "//~": "NO_I18N" },
-    "description": { "str": "Grant water walking to island-bound NPCs when using a waterwalking stone near them.", "//~": "NO_I18N" },
+    "description": { "str": "Grant water walking to island-bound NPCs when using a flotation stone near them.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "spell_class": "NONE",
     "flags": [ "NO_FAIL", "NO_EXPLOSION_SFX" ],
@@ -19,7 +19,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SHARE_WATERWALKING",
-    "condition": { "u_has_trait": "mut_skyisland_island_bound" },
+    "condition": { "and": [ { "math": [ "difficulty_island_bound_followers >= 2" ] }, { "u_has_trait": "mut_skyisland_island_bound" } ] },
     "effect": [ { "u_add_effect": "effect_warped_waterwalking", "duration": 180 } ]
   }
 ]

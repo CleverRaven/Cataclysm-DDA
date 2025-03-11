@@ -100,14 +100,10 @@
   {
     "type": "mutation",
     "id": "mut_skyisland_island_bound",
-    "name": { "str": "Island-Bound", "//~": "NO_I18N" },
-    "description": {
-      "str": "Hidden trait to track which NPCs are protected by the island.  The player shouldn't see this.",
-      "//~": "NO_I18N"
-    },
+    "name": "Attuned to the Island",
+    "description": "This person benefits from all the Island's curses and blessings, unless you decide otherwise.",
     "points": 0,
     "valid": false,
-    "player_display": false,
     "purifiable": false
   }
 ]

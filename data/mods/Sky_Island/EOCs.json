@@ -18,7 +18,7 @@
     "global": true,
     "run_for_npcs": true,
     "//": "Checks for all upgrade traits the player has unlocked, then grant them to all island-bound followers.",
-    "condition": { "and": [ { "not": { "           ": "                   " } }, { "u_has_trait": "mut_skyisland_island_bound" } ] },
+    "condition": { "and": [ { "math": [ "difficulty_island_bound_followers >= 2" ] }, { "u_has_trait": "mut_skyisland_island_bound" } ] },
     "effect": [
       {
         "run_eocs": [
@@ -146,7 +146,7 @@
       {
         "run_eocs": [
           {
-            "id": "EOC_PLAYER_START_CLAIRVVOYANCE",
+            "id": "EOC_PLAYER_START_CLAIRVOYANCE",
             "condition": { "math": [ "scoutingclairvoyancetime >= 1" ] },
             "effect": [
               {
@@ -179,7 +179,13 @@
           },
           {
             "id": "EOC_NPC_GAIN_WARPCLOAK",
-            "condition": { "and": [ { "u_has_trait": "mut_skyisland_island_bound" }, "u_following" ] },
+            "condition": {
+              "and": [
+                { "u_has_trait": "mut_skyisland_island_bound" },
+                { "math": [ "difficulty_island_bound_followers >= 2" ] },
+                "u_following"
+              ]
+            },
             "effect": [
               {
                 "u_add_effect": "warpcloak",
@@ -190,7 +196,14 @@
           },
           {
             "id": "EOC_NPC_WARPCLOAK_WATERWALK",
-            "condition": { "and": [ { "u_has_trait": "mut_skyisland_island_bound" }, "u_following", { "math": [ "landing_waterwalk == 1" ] } ] },
+            "condition": {
+              "and": [
+                { "u_has_trait": "mut_skyisland_island_bound" },
+                { "math": [ "difficulty_island_bound_followers >= 2" ] },
+                "u_following",
+                { "math": [ "landing_waterwalk == 1" ] }
+              ]
+            },
             "effect": [
               {
                 "u_add_effect": "effect_warped_waterwalking_hidden",
@@ -201,7 +214,14 @@
           },
           {
             "id": "EOC_NPC_WARPCLOAK_FLIGHT",
-            "condition": { "and": [ { "u_has_trait": "mut_skyisland_island_bound" }, "u_following", { "math": [ "landing_flight == 1" ] } ] },
+            "condition": {
+              "and": [
+                { "u_has_trait": "mut_skyisland_island_bound" },
+                { "math": [ "difficulty_island_bound_followers >= 2" ] },
+                "u_following",
+                { "math": [ "landing_flight == 1" ] }
+              ]
+            },
             "effect": [
               {
                 "u_add_effect": "effect_warped_flight",
@@ -212,7 +232,14 @@
           },
           {
             "id": "EOC_NPC_WARPCLOAK_PHASING",
-            "condition": { "and": [ { "u_has_trait": "mut_skyisland_island_bound" }, "u_following", { "math": [ "landing_phase == 1" ] } ] },
+            "condition": {
+              "and": [
+                { "u_has_trait": "mut_skyisland_island_bound" },
+                { "math": [ "difficulty_island_bound_followers >= 2" ] },
+                "u_following",
+                { "math": [ "landing_phase == 1" ] }
+              ]
+            },
             "effect": [
               {
                 "u_add_effect": "effect_warped_phasing",
@@ -224,8 +251,15 @@
           {
             "run_eocs": [
               {
-                "id": "EOC_NPC_START_CLAIRVVOYANCE",
-                "condition": { "math": [ "scoutingclairvoyancetime >= 1" ] },
+                "id": "EOC_NPC_START_CLAIRVOYANCE",
+                "condition": {
+                  "and": [
+                    { "u_has_trait": "mut_skyisland_island_bound" },
+                    { "math": [ "difficulty_island_bound_followers >= 2" ] },
+                    "u_following",
+                    { "math": [ "scoutingclairvoyancetime >= 1" ] }
+                  ]
+                },
                 "effect": [
                   {
                     "u_add_effect": "effect_warped_super_clairvoyance",
@@ -506,7 +540,13 @@
     "id": "EOC_follower_died",
     "//": "This EOC is called when a NPC dies.  Before anything else happens, it checks if the NPC is island-bound and has a lifeshield mote.  If so, it warps them home safe and sound, and all their stuff comes back with them.  Otherwise, it moves on to other death checks below.",
     "eoc_type": "NPC_DEATH",
-    "condition": { "and": [ { "u_has_trait": "mut_skyisland_island_bound" }, { "u_has_item": "warphome" } ] },
+    "condition": {
+      "and": [
+        { "u_has_trait": "mut_skyisland_island_bound" },
+        { "math": [ "difficulty_island_bound_followers >= 2" ] },
+        { "u_has_item": "warphome" }
+      ]
+    },
     "effect": [
       "u_prevent_death",
       { "run_eocs": [ "EOC_return_OM_teleport_one_follower", "EOC_healall" ] },
@@ -521,7 +561,13 @@
     "id": "EOC_deathconfirmed_follower",
     "//": "The follower's death is now confirmed and not protected.  The true effect is when they die on the island, and the false effect is when you die out in the world.  Both make them incorporeal, which saves them from damage but also makes them drop all items behind, then heal them slightly to prevent death.",
     "//2": "If they're not island-bound, then they die as usual.",
-    "condition": { "and": [ { "not": { "u_has_trait": "awayfromhome" } }, { "u_has_trait": "mut_skyisland_island_bound" } ] },
+    "condition": {
+      "and": [
+        { "not": { "u_has_trait": "awayfromhome" } },
+        { "u_has_trait": "mut_skyisland_island_bound" },
+        { "math": [ "difficulty_island_bound_followers >= 2" ] }
+      ]
+    },
     "effect": [
       "u_prevent_death",
       { "u_add_effect": "downed", "duration": 1 },
@@ -534,7 +580,7 @@
         "run_eocs": [
           {
             "id": "EOC_deathconfirmed_follower_island_bound_check",
-            "condition": { "u_has_trait": "mut_skyisland_island_bound" },
+            "condition": { "and": [ { "u_has_trait": "mut_skyisland_island_bound" }, { "math": [ "difficulty_island_bound_followers >= 2" ] } ] },
             "effect": [
               "u_prevent_death",
               { "u_add_effect": "incorporeal", "duration": 1 },
@@ -663,7 +709,14 @@
     "global": true,
     "run_for_npcs": true,
     "//": "Similar to the death heal, but only increases health, never reduces it.  This is to make sure you don't wind up in a scenario where your health is WORSE than if you had died.  To permit some recovery on the island, you are not cured of any afflictions, so warping home while, for example, on fire, means you can still die at home, at which point you WILL be penalized.  This is intended, because even here the worst case scenario is not worse than dying, which it previously was.",
-    "condition": { "or": [ "u_is_avatar", { "u_has_trait": "mut_skyisland_island_bound" } ] },
+    "condition": {
+      "or": [
+        "u_is_avatar",
+        {
+          "and": [ { "u_has_trait": "mut_skyisland_island_bound" }, { "math": [ "difficulty_island_bound_followers >= 2" ] } ]
+        }
+      ]
+    },
     "effect": [
       { "math": [ "u_hp('torso') = max( u_hp('torso'), 15)" ] },
       { "math": [ "u_hp('head') = max( u_hp('head'), 15)" ] },
@@ -683,6 +736,7 @@
       "and": [
         { "not": " u_is_avatar" },
         { "not": { "u_has_trait": "awayfromhome" } },
+        { "math": [ "difficulty_island_bound_followers >= 2" ] },
         { "u_has_trait": "mut_skyisland_island_bound" }
       ]
     },
@@ -766,6 +820,7 @@
       { "math": [ "u_spell_level('warp_home') = -1" ] },
       { "math": [ "u_spell_level('warped_return') = -1" ] },
       { "u_learn_recipe": "warp_skyward_beacon" },
+      { "math": [ "difficulty_island_bound_followers = 1" ] },
       { "math": [ "has_set_difficulty = 1" ] }
     ]
   },
@@ -887,7 +942,7 @@
       { "u_forget_recipe": "warp_skyward_beacon" },
       { "math": [ "u_spell_level('warp_home') = 0" ] },
       { "math": [ "u_spell_exp('warp_home') = 0" ] },
-      { "math": [ "has_set_difficulty = 1" ] }
+      { "run_eocs": "EOC_difficultycheck_4" }
     ]
   },
   {
@@ -901,7 +956,7 @@
       { "u_forget_recipe": "warp_skyward_beacon" },
       { "math": [ "u_spell_level('warped_return') = 0" ] },
       { "math": [ "u_spell_exp('warped_return') = 0" ] },
-      { "math": [ "has_set_difficulty = 1" ] }
+      { "run_eocs": "EOC_difficultycheck_4" }
     ]
   },
   {
@@ -914,7 +969,7 @@
       { "math": [ "u_spell_level('warp_home') = -1" ] },
       { "math": [ "u_spell_level('warped_return') = -1" ] },
       { "u_learn_recipe": "warp_skyward_beacon" },
-      { "math": [ "has_set_difficulty = 1" ] }
+      { "run_eocs": "EOC_difficultycheck_4" }
     ]
   },
   {
@@ -927,6 +982,92 @@
       { "math": [ "u_spell_level('warp_home') = -1" ] },
       { "u_forget_recipe": "warp_skyward_beacon" },
       { "math": [ "u_spell_level('warped_return') = -1" ] },
+      { "run_eocs": "EOC_difficultycheck_4" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_difficultycheck_4",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_island_bound_difficulty_1",
+          "EOC_island_bound_difficulty_2",
+          "EOC_island_bound_difficulty_3",
+          "EOC_island_bound_difficulty_4",
+          "EOC_island_bound_difficulty_5"
+        ],
+        "names": [ "No Others", "One Person, At a Cost", "One Person, Free of Charge", "Many, At a Cost", "Many, Free of Charge" ],
+        "title": "Select Options for Attuning Others",
+        "keys": [ "1", "2", "3", "4", "5" ],
+        "descriptions": [
+          "Set the possibility of making followers share the island's blessings and curses, including warp disintegration and the inability to truly die.\nWith this option, you cannot make others benefit from the island.  If changing this setting from another option to this one, others will stop benefitting from the island until you change this setting again.\nThe default Sky Island experience NPC-wise.",
+          "Set the possibility of making followers share the island's blessings and curses, including warp disintegration and the inability to truly die.\nWith this option, you will receive a one-time use difficult recipe to attune another to the island through dialogue.  Choose them well, as you can only make one other person gain this effect.",
+          "Set the possibility of making followers share the island's blessings and curses, including warp disintegration and the inability to truly die.\nWith this option, your will gain the ability to attune a single person to the island, free of charge.  Choose them well, as you can only make one other person gain this effect.",
+          "Set the possibility of making followers share the island's blessings and curses, including warp disintegration and the inability to truly die.\nWith this option, you will receive a difficult recipe that will allow you to attune one person to the island through dialogue each time you craft it.  You will eventually have your own eternal squad, but it will take a lot of time before you reach that point.",
+          "Set the possibility of making followers share the island's blessings and curses, including warp disintegration and the inability to truly die.\nWith this option, your will gain the ability to attune as many as you want to the island, free of charge.\nThis will quickly result in you having an army that cannot ever truly die, making the game easier with each new recruit.  This is an incredibly powerful effect, even if you lack the social skills to reliably recruit others."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_island_bound_difficulty_1",
+    "effect": [
+      {
+        "u_message": "Only you benefit from the Island's power.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "finish_mission": "SKYISLAND_UPGRADE_island_bound_follower", "success": false },
+      { "u_forget_recipe": "upgradekey_island_bound_follower" },
+      { "math": [ "difficulty_island_bound_followers = 1" ] },
+      { "math": [ "has_set_difficulty = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_island_bound_difficulty_2",
+    "effect": [
+      {
+        "u_message": "Recipe for Strands of Intertwined Fates obtainable.  You may gain it in the habitability upgrade section of the Heart of the Island.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "math": [ "difficulty_island_bound_followers = 2" ] },
+      { "math": [ "has_set_difficulty = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_island_bound_difficulty_3",
+    "effect": [
+      {
+        "u_message": "You can attune a single follower through dialogue.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "finish_mission": "SKYISLAND_UPGRADE_island_bound_follower", "success": false },
+      { "u_forget_recipe": "upgradekey_island_bound_follower" },
+      { "math": [ "difficulty_island_bound_followers = 3" ] },
+      { "math": [ "has_set_difficulty = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_island_bound_difficulty_4",
+    "effect": [
+      {
+        "u_message": "Recipe for Strands of Intertwined Fates obtainable.  You may gain it in the habitability upgrade section of the Heart of the Island.  You can craft it over and over but need to use the ability it grants you before being able to craft it again.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "math": [ "difficulty_island_bound_followers = 4" ] },
+      { "math": [ "has_set_difficulty = 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_island_bound_difficulty_5",
+    "effect": [
+      {
+        "u_message": "You can attune as many as you want through dialogue.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
+      },
+      { "finish_mission": "SKYISLAND_UPGRADE_island_bound_follower", "success": false },
+      { "u_forget_recipe": "upgradekey_island_bound_follower" },
+      { "math": [ "difficulty_island_bound_followers = 5" ] },
       { "math": [ "has_set_difficulty = 1" ] }
     ]
   },

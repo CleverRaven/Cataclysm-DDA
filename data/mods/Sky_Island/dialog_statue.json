@@ -298,11 +298,9 @@
                 {
                   "and": [ { "math": [ "difficulty_island_bound_followers = 2" ] }, { "math": [ "total_island_bound_followers = 0" ] } ]
                 },
-                { "math": [ "difficulty_island_bound_followers = 3" ] }
+                { "math": [ "difficulty_island_bound_followers = 4" ] }
               ]
             },
-            { "math": [ "islandrank >= 4" ] },
-            { "math": [ "bonuspulses >= 5" ] },
             { "math": [ "available_island_bound_followers = 0" ] }
           ]
         },
