@@ -388,13 +388,13 @@
     "name": { "str": "mi-go human guard construct" },
     "description": "A horrifying amalgamation of human and mi-go technology.  This once-human subject has been heavily modified with crystalline implants and biomechanical components.  It moves with mechanical precision and seems to be following some kind of programmed directive.",
     "default_faction": "mi-go",
-    "species": [ "CYBORG", "HUMAN" ],
+    "species": [ "CYBORG", "MUTANT" ],
     "diff": 20,
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 120,
     "speed": 110,
-    "material": [ "flesh", "steel" ],
+    "material": [ "flesh", "bone" ],
     "weakpoint_sets": [ "wps_mi-go", "wps_natural_armor" ],
     "families": [ "prof_wp_mi-go_basic", "prof_wp_mi-go_advanced", "prof_wp_nat_armored" ],
     "symbol": "M",
@@ -422,10 +422,7 @@
         "move_cost": 150
       }
     ],
-    "death_drops": {
-      "subtype": "collection",
-      "items": [ { "item": "scrap", "count": [ 1, 3 ], "prob": 80 }, { "group": "default_zombie_death_drops", "prob": 40 } ]
-    },
+    "death_drops": "default_zombie_death_drops",
     "death_function": { "corpse_type": "NORMAL" },
     "flags": [
       "SEES",
@@ -434,8 +431,8 @@
       "NO_BREATHE",
       "BASHES",
       "GROUP_BASH",
-      "ELECTRONIC",
       "PATH_AVOID_DANGER",
+      "FILTHY",
       "PRIORITIZE_TARGETS"
     ]
   },
@@ -443,13 +440,13 @@
     "type": "harvest",
     "id": "CBM_MIGO_GUARD",
     "entries": [
-      { "drop": "bio_ethanol", "type": "bionic", "flags": [ "FILTHY" ] },
-      { "drop": "burnt_out_bionic", "type": "bionic", "flags": [ "FILTHY" ] },
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "bio_power_storage", "type": "bionic", "flags": [ "FILTHY" ], "max": 1 }
-    ]
+      { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "bone_human", "type": "bone", "mass_ratio": 0.05 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.02 },
+      { "drop": "human_brain", "type": "flesh", "mass_ratio": 0.0007, "max": 1 },
+      { "drop": "slime_scrap", "type": "flesh", "mass_ratio": 0.1 }
+    ],
+    "message": "As you butcher the mi-go guard construct, you discover that much of the human's internal organs have been replaced with crystalline structures and organic circuitry.  What appear to be cybernetics are actually living tissue melded with alien biotechnology."
   },
   {
     "type": "MONSTER",
@@ -487,7 +484,9 @@
     "id": "migo_experiment_harvest",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "mutant_brain", "type": "flesh", "mass_ratio": 0.0007, "max": 1 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "bone_mi-go", "type": "bone", "mass_ratio": 0.05 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.05 },
       { "drop": "slime_scrap", "type": "flesh", "mass_ratio": 0.05 }
     ]
