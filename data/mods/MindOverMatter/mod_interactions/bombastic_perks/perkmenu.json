@@ -203,7 +203,7 @@
             "condition": { "math": [ "u_spell_level_sum('school': 'PYROKINETIC') >= 30" ] }
           }
         ],
-        "topic": "TALK_PERK_MENU_SELECT"
+		        "topic": "TALK_PERK_MENU_SELECT"
       },
 	        {
         "condition": { "not": { "u_has_trait": "perk_wary_sleeper" } },
@@ -216,7 +216,7 @@
 		},
 		{ "set_string_var": "perk_wary_sleeper", "target_var": { "context_val": "trait_id" } },
         {
-		"set_string_var": "Must have the Clairsentience Power Premonition 5+.",
+		"set_string_var": "Must have the Clairsentience power Premonition 5+.",
 		"target_var": { "context_val": "trait_requirement_description" },
 		"i18n": true
 		},
@@ -229,6 +229,8 @@
             }
           }
         ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
       {
         "text": "================== Psionic Playstyle perks are below this line ==================",
         "topic": "TALK_PERK_MENU_PSIONICS"
