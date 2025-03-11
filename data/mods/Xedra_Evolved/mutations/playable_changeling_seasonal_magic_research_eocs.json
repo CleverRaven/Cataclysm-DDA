@@ -607,7 +607,11 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_2",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_spring_growing_plants_spell", "changeling_spring_prevent_bad_conditions_spell" ],
+        "u_roll_remainder": [
+          "changeling_spring_growing_plants_spell",
+          "changeling_spring_prevent_bad_conditions_spell",
+          "changeling_spring_summon_flower_warriors_spell"
+        ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],

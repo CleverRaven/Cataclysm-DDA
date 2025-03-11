@@ -18,6 +18,72 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SPRING_SUMMON_FLOWER_WARRIORS",
+    "effect": [
+      {
+        "math": [
+          "u_spell_low_duration = ( ( 30.51 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 5.10) + (u_skill('deduction') * 9.52) ) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spell_high_duration = ( ( 75.12 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 12.04) + (u_skill('deduction') * 21.85) ) )"
+        ]
+      },
+      {
+        "u_query_tile": "line_of_sight",
+        "target_var": { "context_val": "changeling_spring_summon_flower_warriors_location" },
+        "range": {
+          "math": [
+            "min( ( ( 2 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.35) + (u_skill('deduction') * 0.65) ) ), 12)"
+          ]
+        },
+        "z_level": true,
+        "message": "Select foliage."
+      },
+      {
+        "if": { "math": [ "has_var(_changeling_spring_summon_flower_warriors_location)" ] },
+        "then": {
+          "if": {
+            "or": [
+              { "map_terrain_with_flag": "PLOWABLE", "loc": { "context_val": "changeling_spring_summon_flower_warriors_location" } },
+              {
+                "map_terrain_with_flag": "TREE",
+                "loc": { "context_val": "changeling_spring_summon_flower_warriors_location" }
+              },
+              {
+                "map_terrain_with_flag": "SHRUB",
+                "loc": { "context_val": "changeling_spring_summon_flower_warriors_location" }
+              },
+              {
+                "map_terrain_with_flag": "YOUNG",
+                "loc": { "context_val": "changeling_spring_summon_flower_warriors_location" }
+              }
+            ]
+          },
+          "then": [
+            {
+              "u_spawn_monster": "mon_fetch_daffodil_warrior",
+              "real_count": {
+                "math": [
+                  "min( ( ( 1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.1) + (u_skill('deduction') * 0.3) ) ), 8)"
+                ]
+              },
+              "min_radius": 1,
+              "max_radius": 4,
+              "lifespan": { "math": [ "rng(u_spell_low_duration,u_spell_high_duration)" ] },
+              "spawn_message": "The foliage grows and sprouts in a flash and a daffodil warrior steps forth.",
+              "spawn_message_plural": "The foliage grows and sprouts in a flash and a group of daffodil warriors step forth."
+            }
+          ],
+          "else": { "u_message": "You must spin the daffodil warriors out of greenery.", "type": "bad" }
+        },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_SPRING_HEALING_INCREASE_WHILE_OUTSIDE_INITIATE",
     "condition": "u_is_avatar",
     "effect": [
