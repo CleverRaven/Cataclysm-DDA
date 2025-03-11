@@ -7899,6 +7899,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "3 m",
     "qualities": [ { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "plank_short", 1 ] ], [ [ "sheet_metal_small", 1 ], [ [ "splinter", 3 ] ] ]
+    "components": [ [ [ "plank_short", 1 ] ], [ [ "sheet_metal_small", 1 ] ], [ [ "splinter", 3 ] ] ]
   }
 ]
