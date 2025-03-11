@@ -4778,7 +4778,7 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1 L",
         "max_contains_weight": "1 kg",
-        "item_restriction": [ "duct_tape", "medical_tape", "toilet_paper" ],
+        "item_restriction": [ "duct_tape", "medical_tape" ],
         "volume_multiplier": 0.75
       }
     ],

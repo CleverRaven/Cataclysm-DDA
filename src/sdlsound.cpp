@@ -729,27 +729,40 @@ struct sound_effect_handler {
         using sample = int16_t; // because AUDIO_S16 is two bytes per ear (signed integer samples)
         constexpr int bytes_per_sample = sizeof( sample ) *
                                          2; // 2 samples per ear (is there a better terminology for this?)
+
+        float playback_speed = is_time_slowed() ? sound_speed_factor : 1; //
+        int num_source_samples = handler->audio_src->alen / bytes_per_sample;
+
         cata_assert( audio_format == AUDIO_S16 );
 
-        // check if the sound effect should end bc we done looping
-        //  (note: we let the sound loop an extra time here because when handler->loops_remaining == -1,
-        //   that means we're done SENDING audio, but that doesn't mean the audio device is done PLAYING it so we don't want the main thread to call).
-        if( !handler->marked_for_termination && handler->loops_remaining < -1 ) {
-            if( channels_to_end_mutex.try_lock() ) { // try_lock(); we do NOT want the audio thread to block.
-                handler->marked_for_termination = true;
-                channels_to_end.push_back( static_cast<sfx::channel>
-                                           ( channel ) ); // the main thread will call Mix_HaltAudio to end the sound effect when make_audio() is next called
-                channels_to_end_mutex.unlock();
-            }
-        }
-
         if( handler->loops_remaining <
-            0 ) { // then we have no more audio to load; the sound effect is over and we're just waiting for SDL to finish playing it and for the main thread to call Mix_HaltAudio()
+            0 ) { // then we have no more audio to load; the sound effect is over and we're just waiting for SDL to finish playing it and for the main thread to call Mix_HaltChannel()
             memset( stream, 0,
-                    len ); // since the sound is over, tell SDL_Mixer to play nothing by setting all the samples to 0
+                    len ); // since the sound is over, tell SDL_Mixer to play nothing by setting all the samples to 0 (faster than iterating through the whole thing)
+
+            // the sound effect won't end on its own, we need to tell the main thread to stop it.
+            // however, we don't want to do that as soon as we finish SENDING audio since the audio device won't be done playing it yet.
+            // therefore, we let the sound loop an extra time to finish playing.
+
+            // we still need to update handler->current_sample_index so it loops properly
+            int num_samples = len / bytes_per_sample;
+            handler->current_sample_index += num_samples * playback_speed;
+            if( handler->current_sample_index >= num_source_samples ) {
+                handler->loops_remaining--;
+            }
+
+            // check if the sound effect should end bc we done looping
+            if( !handler->marked_for_termination && handler->loops_remaining < -1 ) {
+                if( channels_to_end_mutex.try_lock() ) { // try_lock(); we do NOT want the audio thread to block.
+                    handler->marked_for_termination = true;
+                    channels_to_end.push_back( static_cast<sfx::channel>
+                                               ( channel ) ); // the main thread will call Mix_HaltChannel to end the sound effect when make_audio() is next called
+                    channels_to_end_mutex.unlock();
+                }
+            }
+
         } else {
-            float playback_speed = is_time_slowed() ? sound_speed_factor : 1;
-            int num_source_samples = handler->audio_src->alen / bytes_per_sample;
+
 
             // assuming the sound ISN'T over, we need to fill stream with (len/bytes_per_sample) samples from handler->audio_src in this loop.
             for( int dst_index = 0; dst_index < len / bytes_per_sample &&
@@ -814,7 +827,7 @@ struct sound_effect_handler {
                             std::optional<float> fade_in_duration ) {
 
         // tell SDL to halt all sound effects that are done playing
-        if( channels_to_end_mutex.try_lock() ) { // no rush if we can't halt it immediately, we don't want to block
+        if( channels_to_end_mutex.try_lock() ) {  // no rush if we can't halt it immediately, we don't want to block
             for( sfx::channel channel : channels_to_end ) {
                 int success = Mix_HaltChannel( static_cast<int>( channel ) );
                 if( success != 0 ) {

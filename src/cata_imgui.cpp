@@ -7,6 +7,7 @@
 #undef IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui/imgui_freetype.h>
 
+#include "catacharset.h"
 #include "color.h"
 #include "input.h"
 #include "output.h"

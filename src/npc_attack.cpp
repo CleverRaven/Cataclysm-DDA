@@ -35,6 +35,7 @@
 
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
 
+static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
 namespace npc_attack_constants
@@ -77,7 +78,7 @@ static bool can_move( const npc &source )
 static bool can_move_melee( const npc &source )
 {
     return can_move( source ) && source.rules.engagement != combat_engagement::FREE_FIRE &&
-           source.rules.engagement != combat_engagement::NO_MOVE;
+           source.rules.engagement != combat_engagement::NO_MOVE && !source.has_flag( json_flag_CANNOT_MOVE );
 }
 
 bool npc_attack_rating::operator>( const npc_attack_rating &rhs ) const
@@ -287,7 +288,7 @@ void npc_attack_melee::use( npc &source, const tripoint_bub_ms &location ) const
             }
         } else {
             source.update_path( location );
-            if( source.path.size() > 1 ) {
+            if( source.path.size() > 1 && !source.has_flag( json_flag_CANNOT_MOVE ) ) {
                 bool clear_path = can_move_melee( source );
                 if( clear_path && source.mem_combat.formation_distance == -1 ) {
                     source.move_to_next();
@@ -324,8 +325,10 @@ void npc_attack_melee::use( npc &source, const tripoint_bub_ms &location ) const
                                    source.disp_name() );
                     source.melee_attack( *critter, true );
                 }
-            } else {
+            } else if( !source.has_flag( json_flag_CANNOT_MOVE ) ) {
                 source.look_for_player( get_player_character() );
+            } else {
+                source.move_pause();
             }
         }
     } else if( source.mem_combat.formation_distance != -1 &&
