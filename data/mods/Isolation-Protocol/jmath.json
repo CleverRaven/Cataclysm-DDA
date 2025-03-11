@@ -21,6 +21,6 @@
     "type": "jmath_function",
     "id": "iso_eldritch_sorcery_failure_chance",
     "num_args": 0,
-    "return": "u_pain() / 2"
+    "return": "u_pain() / 200"
   }
 ]
