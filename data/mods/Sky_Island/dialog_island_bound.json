@@ -1,0 +1,45 @@
+[
+  {
+    "id": [ "TALK_FRIEND" ],
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [
+      {
+        "text": "[Attune this follower to the Island]",
+        "condition": {
+          "or": [
+            {
+              "and": [
+                { "math": [ "available_island_bound_followers = 1" ] },
+                { "not": { "u_has_trait": "awayfromhome" } },
+                { "math": [ "difficulty_island_bound_followers >= 2" ] }
+              ]
+            },
+            {
+              "and": [
+                { "math": [ "total_island_bound_followers = 10" ] },
+                { "not": { "u_has_trait": "awayfromhome" } },
+                { "math": [ "difficulty_island_bound_followers = 3" ] }
+              ]
+            },
+            {
+              "and": [ { "not": { "u_has_trait": "awayfromhome" } }, { "math": [ "difficulty_island_bound_followers = 5" ] } ]
+            }
+          ]
+        },
+        "effect": [
+          { "math": [ "available_island_bound_followers = 0" ] },
+          { "math": [ "total_island_bound_followers += 1" ] },
+          { "npc_add_trait": "mut_skyisland_island_bound" }
+        ],
+        "topic": "TALK_ATTUNE_OTHER"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ATTUNE_OTHER",
+    "dynamic_line": "[A multitude of small red strands exit your body and wrap around you and <npc_name> before vanishing.  <npc_name> is now attuned to the island, having gained all its curses and blessings.]",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  }
+]
