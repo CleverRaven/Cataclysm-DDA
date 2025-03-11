@@ -104,7 +104,7 @@
     "clauses": [
       {
         "id": "mana_numbers",
-        "text": "<color_pink><u_val:mana></color>         Max: <color_pink><u_val:mana_max></color>        %: <color_pink><u_val:mana_percentage></color>",
+        "text": "<color_pink><u_val:last_scion_mana></color>         Max: <color_pink><u_val:last_scion_max_mana></color>        %: <color_pink><u_val:last_scion_max_percent></color>",
         "parse_tags": true,
         "condition": { "u_has_trait": "iso_eldritch_sorcery" }
       }

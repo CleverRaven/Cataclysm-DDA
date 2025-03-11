@@ -1,6 +1,19 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_ISO_RECORD_MANA_FOR_LAST_SCION",
+    "//": "Not sure why the uvals aren't workin?",
+    "recurrence": 1,
+    "condition": { "u_has_trait": "iso_eldritch_sorcery" },
+    "deactivate_condition": { "not": { "u_has_trait": "iso_eldritch_sorcery" } },
+    "effect": [
+      { "math": [ " u_last_scion_mana = u_val('mana')" ] },
+      { "math": [ " u_last_scion_max_mana = u_val('mana_max')" ] },
+      { "math": [ " u_last_scion_max_percent = u_val('mana_percentage')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ISO_GRABBED_ARMS_MAKES_SOMATIC_SPELLS_HARDER",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
@@ -65,7 +78,7 @@
             "id": "EOC_LAST_SCION_RETURN_STAFF_2",
             "effect": [
               { "u_spawn_item": "iso_sorcerers_staff", "suppress_message": true },
-              { "u_message": "Your lost staff has returned to you.", "type": "good" }
+              { "u_message": "Your lost staff has returned to you.", "type": "good", "popup": true }
             ]
           }
         ]
@@ -152,6 +165,7 @@
             { "u_has_wielded_with_skill": "rifle" },
             { "u_has_wielded_with_skill": "shotgun" },
             { "u_has_wielded_with_skill": "smg" },
+            { "u_has_wielded_with_skill": "launcher" },
             { "u_has_wielded_with_skill": "gun" }
           ]
         },
@@ -235,7 +249,7 @@
             "then": [
               { "set_string_var": "iso_eldritch_damage_shield", "target_var": { "global_val": "new_last_scion_spell_id" } },
               {
-                "set_string_var": "The Transportations of Immenar",
+                "set_string_var": "Impenetrable Coruscating Scales of Vishkan",
                 "target_var": { "global_val": "new_last_scion_spell_name" }
               },
               { "math": [ "new_last_scion_spell_level = u_iso_eldritch_damage_shield_stored_level" ] },
@@ -442,7 +456,7 @@
         "set_string_var": { "global_val": "new_last_scion_spell_id" },
         "target_var": { "u_val": "last_scion_spell_id_slot_three" }
       },
-      { "message": "Spell id for slot 2 is <u_val:last_scion_spell_id_slot_three>", "type": "debug" },
+      { "message": "Spell id for slot 3 is <u_val:last_scion_spell_id_slot_three>", "type": "debug" },
       { "math": [ "u_spell_level(u_last_scion_spell_id_slot_three) = new_last_scion_spell_level" ] }
     ]
   },
@@ -455,13 +469,13 @@
         "set_string_var": { "global_val": "new_last_scion_spell_name" },
         "target_var": { "u_val": "last_scion_spell_name_slot_four" }
       },
-      { "message": "Spell name for slot 3 is <u_val:last_scion_spell_name_slot_four>", "type": "debug" },
+      { "message": "Spell name for slot 4 is <u_val:last_scion_spell_name_slot_four>", "type": "debug" },
       { "math": [ "u_spell_level(u_last_scion_spell_id_slot_four) = -1" ] },
       {
         "set_string_var": { "global_val": "new_last_scion_spell_id" },
         "target_var": { "u_val": "last_scion_spell_id_slot_four" }
       },
-      { "message": "Spell id for slot 2 is <u_val:last_scion_spell_id_slot_four>", "type": "debug" },
+      { "message": "Spell id for slot 4 is <u_val:last_scion_spell_id_slot_four>", "type": "debug" },
       { "math": [ "u_spell_level(u_last_scion_spell_id_slot_four) = new_last_scion_spell_level" ] }
     ]
   },
@@ -474,13 +488,13 @@
         "set_string_var": { "global_val": "new_last_scion_spell_name" },
         "target_var": { "u_val": "last_scion_spell_name_slot_five" }
       },
-      { "message": "Spell name for slot 3 is <u_val:last_scion_spell_name_slot_five>", "type": "debug" },
+      { "message": "Spell name for slot 5 is <u_val:last_scion_spell_name_slot_five>", "type": "debug" },
       { "math": [ "u_spell_level(u_last_scion_spell_id_slot_five) = -1" ] },
       {
         "set_string_var": { "global_val": "new_last_scion_spell_id" },
         "target_var": { "u_val": "last_scion_spell_id_slot_five" }
       },
-      { "message": "Spell id for slot 2 is <u_val:last_scion_spell_id_slot_five>", "type": "debug" },
+      { "message": "Spell id for slot 5 is <u_val:last_scion_spell_id_slot_five>", "type": "debug" },
       { "math": [ "u_spell_level(u_last_scion_spell_id_slot_five) = new_last_scion_spell_level" ] }
     ]
   },
@@ -493,13 +507,13 @@
         "set_string_var": { "global_val": "new_last_scion_spell_name" },
         "target_var": { "u_val": "last_scion_spell_name_slot_six" }
       },
-      { "message": "Spell name for slot 3 is <u_val:last_scion_spell_name_slot_six>", "type": "debug" },
+      { "message": "Spell name for slot 6 is <u_val:last_scion_spell_name_slot_six>", "type": "debug" },
       { "math": [ "u_spell_level(u_last_scion_spell_id_slot_six) = -1" ] },
       {
         "set_string_var": { "global_val": "new_last_scion_spell_id" },
         "target_var": { "u_val": "last_scion_spell_id_slot_six" }
       },
-      { "message": "Spell id for slot 2 is <u_val:last_scion_spell_id_slot_six>", "type": "debug" },
+      { "message": "Spell id for slot 6 is <u_val:last_scion_spell_id_slot_six>", "type": "debug" },
       { "math": [ "u_spell_level(u_last_scion_spell_id_slot_six) = new_last_scion_spell_level" ] }
     ]
   }
