@@ -14,6 +14,75 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ISLAND_BOUND_SHARE_UPGRADES",
+    "global": true,
+    "run_for_npcs": true,
+    "//": "Checks for all upgrade traits the player has unlocked, then grant them to all island-bound followers.",
+    "condition": { "and": [ { "not": { "           ": "                   " } }, { "u_has_trait": "mut_skyisland_island_bound" } ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "island_bound_share_sunblock",
+            "condition": { "math": [ "sunblock = 1" ] },
+            "effect": [ { "u_add_trait": "mut_skyisland_sunblock" } ]
+          },
+          {
+            "id": "island_bound_share_windblock",
+            "condition": { "math": [ "windblock = 1" ] },
+            "effect": [ { "u_add_trait": "mut_skyisland_windblock" } ]
+          },
+          {
+            "id": "island_bound_share_temperature_adaptation",
+            "condition": { "math": [ "temperature_adaptation = 1" ] },
+            "effect": [ { "u_add_trait": "mut_skyisland_personal_temperature_adaptation" } ]
+          },
+          {
+            "id": "island_bound_share_container_1",
+            "condition": { "math": [ "securitylevel = 1" ] },
+            "effect": [ { "u_add_trait": "mut_secure_container_1" } ]
+          },
+          {
+            "id": "island_bound_share_container_2",
+            "condition": { "math": [ "securitylevel = 2" ] },
+            "effect": [ { "u_lose_trait": "mut_secure_container_1" }, { "u_add_trait": "mut_secure_container_2" } ]
+          },
+          {
+            "id": "island_bound_share_container_3",
+            "condition": { "math": [ "securitylevel = 3" ] },
+            "effect": [
+              { "u_lose_trait": "mut_secure_container_1" },
+              { "u_lose_trait": "mut_secure_container_2" },
+              { "u_add_trait": "mut_secure_container_3" }
+            ]
+          },
+          {
+            "id": "island_bound_share_container_4",
+            "condition": { "math": [ "securitylevel = 4" ] },
+            "effect": [
+              { "u_lose_trait": "mut_secure_container_1" },
+              { "u_lose_trait": "mut_secure_container_2" },
+              { "u_lose_trait": "mut_secure_container_3" },
+              { "u_add_trait": "mut_secure_container_4" }
+            ]
+          },
+          {
+            "id": "island_bound_share_container_5",
+            "condition": { "math": [ "securitylevel = 5" ] },
+            "effect": [
+              { "u_lose_trait": "mut_secure_container_1" },
+              { "u_lose_trait": "mut_secure_container_2" },
+              { "u_lose_trait": "mut_secure_container_3" },
+              { "u_lose_trait": "mut_secure_container_4" },
+              { "u_add_trait": "mut_secure_container_5" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_initiate_randomport",
     "//": "The actual EOC that teleports the player and NPCs that follow to the ground.  If this fails, it will be checked and corrected in the following EOC_safely_landed event, which is also where most values are initialized.  A target location must already be stored when this is called.  When this begins, it also memorizes the player's exact position on leaving, which is where they'll return to when the mission ends or they die.  Note that this also gives a bit of warpcloak before the teleport even happens, so if the player spawns over a pit or hole they will not be injured.",
     "effect": [

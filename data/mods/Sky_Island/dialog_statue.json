@@ -3,7 +3,8 @@
     "type": "effect_on_condition",
     "id": "EOC_statue_startdialog",
     "//": "Called when interacting with the Island Heart.  Starts the main dialog tree.",
-    "effect": [ { "open_dialogue": { "topic": "SKYISLAND_UPGRADE" } } ]
+    "//2": "It also checks for island-bound followers and grant them all applicable upgrades.",
+    "effect": [ { "open_dialogue": { "topic": "SKYISLAND_UPGRADE" } }, { "run_eocs": [ "EOC_ISLAND_BOUND_SHARE_UPGRADES" ] } ]
   },
   {
     "type": "talk_topic",

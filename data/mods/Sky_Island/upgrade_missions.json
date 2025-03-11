@@ -1858,7 +1858,7 @@
     "id": "SKYISLAND_UPGRADE_stability7",
     "type": "mission_definition",
     "name": "Upgrade: Stability 7",
-    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Triune Anchor from a jade statue and rare ressources.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will begin every expedition with the ability to withstand 15 pulses instead of the default 8, allowing you to stay out 87.5% longer before warpsickness takes over.",
+    "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Triune Anchor from the corpse of a yugg and rare ressources.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: You will begin every expedition with the ability to withstand 15 pulses instead of the default 8, allowing you to stay out 87.5% longer before warpsickness takes over.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "upgradekey_stability7",
     "count": 1,
@@ -1911,7 +1911,7 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "corpse_yugg_jade", 1 ] ],
+      [ [ "corpse_yugg_jade", 1 ], [ "corpse_yugg_rubber", 1 ], [ "corpse_yugg_mutflesh", 1 ] ],
       [ [ "warptoken", 40 ] ],
       [ [ "wine_marloss", 1 ] ],
       [ [ "resonance_measurement_device", 1 ], [ "nre_recorder", 1 ] ],
@@ -5098,6 +5098,7 @@
       "effect": [
         { "u_add_trait": "mut_skyisland_sunblock" },
         { "u_forget_recipe": "upgradekey_sunblock" },
+        { "math": [ "sunblock = 1" ] },
         {
           "u_message": "The sun's rays shift a little.  As long as you are on the island, any harm they could do to you will be negated.",
           "type": "mixed"
@@ -5176,6 +5177,7 @@
       "effect": [
         { "u_add_trait": "mut_skyisland_windblock" },
         { "u_forget_recipe": "upgradekey_windblock" },
+        { "math": [ "windblock = 1" ] },
         {
           "u_message": "The winds shift a little.  As long as you are on the island, they will not touch you.",
           "type": "mixed"
@@ -5240,6 +5242,7 @@
       "effect": [
         { "u_add_trait": "mut_skyisland_personal_temperature_adaptation" },
         { "u_forget_recipe": "upgradekey_temperature_control" },
+        { "math": [ "temperature_adaptation = 1" ] },
         {
           "u_message": "Your skin shimmer for a second.  As long as you are on the island, you won't be affected by temperature.",
           "type": "mixed"
