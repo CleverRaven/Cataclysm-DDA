@@ -2251,10 +2251,15 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     Character &player_character = get_player_character();
     // Check how many items you can stash. extra check because free_volume() doesn't account for pockets the item would not fit .
     if( destarea == AIM_INVENTORY ) {
-        int copies_remaining = input_amount;
-        player_character.can_stash( it, copies_remaining );
+        item it_copy = it;
+        if( by_charges ) {
+            it_copy.charges = 1;
+        }
+
+        int copies_remaining = amount;
+        player_character.can_stash( it_copy, copies_remaining );
+
         amount -= copies_remaining;
-        popup_getkey( _( "input_amount : %i, amount remaining: %i." ), input_amount, copies_remaining );
         if( amount <= 0 ) {
             popup_getkey( _( "No pocket can contain the %s." ), it.tname() );
             return false;
