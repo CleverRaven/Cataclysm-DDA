@@ -7892,5 +7892,13 @@
     "time": "4 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "meat_tainted", 6 ] ], [ [ "bone_tainted", 3 ] ], [ [ "sinew", 2 ] ] ]
+  },
+  {
+    "result": "shovel_snow",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "3 m",
+    "qualities": [ { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "plank_short", 1 ] ], [ [ "sheet_metal_small", 1 ], [ [ "splinter", 3 ] ] ]
   }
 ]
