@@ -1575,7 +1575,7 @@ void advanced_inventory::start_activity(
             }
         }
 
-        const insert_item_activity_actor act( panes[dest].container, target_inserts );
+        const insert_item_activity_actor act( panes[dest].container, target_inserts, false, false );
         player_character.assign_activity( act );
     }
 }

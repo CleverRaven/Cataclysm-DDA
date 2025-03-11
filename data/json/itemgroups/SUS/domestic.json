@@ -129,7 +129,7 @@
       { "item": "string_36", "count": [ 1, 4 ], "prob": 80 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 50 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 20 },
-      { "item": "duct_tape", "prob": 40, "charges": [ 25, 400 ] },
+      { "group": "duct_tape_roll_part", "prob": 40 },
       { "group": "superglue", "prob": 30 },
       { "item": "plastic_straw", "prob": 70, "count": [ 1, 6 ] },
       { "item": "plastic_straw", "prob": 40, "count": [ 1, 6 ] },
@@ -290,7 +290,7 @@
       { "item": "solder_wire", "prob": 40 },
       { "group": "superglue", "prob": 40 },
       { "item": "knitting_needles", "prob": 40 },
-      { "item": "duct_tape", "prob": 40, "charges": [ 5, 160 ] },
+      { "group": "duct_tape_roll_part", "prob": 40 },
       { "item": "wax_paraffin", "prob": 10 },
       { "item": "zipper_short_plastic", "prob": 35 },
       { "item": "zipper_short_plastic", "prob": 15 },
@@ -333,7 +333,7 @@
       { "group": "tools_common", "count": 2 },
       { "group": "superglue", "prob": 90 },
       { "item": "boxcutter", "prob": 85 },
-      { "item": "duct_tape", "prob": 85, "charges": [ 5, 200 ] },
+      { "group": "duct_tape_roll_part", "prob": 85 },
       { "item": "flashlight", "prob": 80, "charges": [ 100, 300 ] },
       { "item": "toothbrush_plain", "custom-flags": [ "FILTHY" ], "prob": 80 },
       { "item": "bottle_opener", "prob": 75 },
@@ -399,7 +399,7 @@
       { "group": "small_candles_in_box", "prob": 25 },
       { "item": "corkscrew", "prob": 70 },
       { "group": "adhesive_bandages_box_used", "prob": 60 },
-      { "item": "duct_tape", "prob": 40, "charges": [ 100, 400 ] },
+      { "group": "duct_tape_roll_part", "prob": 40 },
       { "group": "superglue", "prob": 30 },
       { "item": "light_battery_cell", "count": 4, "prob": 50, "charges": 100 },
       { "group": "batteries", "prob": 50 },
@@ -536,7 +536,10 @@
       { "item": "hotplate", "prob": 10 },
       { "item": "hotplate_induction", "prob": 1 },
       { "item": "snow_machine_home", "prob": 5 },
-      { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 5 },
+      {
+        "collection": [ { "group": "charcoal_bag_part", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ],
+        "prob": 5
+      },
       {
         "collection": [
           { "item": "small_propane_tank", "prob": 70, "count": [ 1, 2 ], "charges": [ 1000, 3000 ] },
@@ -1006,6 +1009,7 @@
       },
       { "item": "mirror", "prob": 25 },
       { "item": "sponge", "count": [ 1, 3 ], "prob": 75 },
+      { "item": "moisturizer", "prob": 60, "charges": [ 1, -1 ], "container-item": "bottle_plastic_small" },
       { "item": "chem_hydrogen_peroxide", "prob": 40, "charges": [ 1, -1 ] },
       {
         "collection": [

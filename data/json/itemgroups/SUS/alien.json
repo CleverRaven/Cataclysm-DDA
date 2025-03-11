@@ -154,7 +154,7 @@
         "collection": [
           { "item": "chem_agar", "prob": 20 },
           { "item": "lye", "prob": 45 },
-          { "item": "lye_powder", "prob": 20, "charges": [ 100, 200 ] },
+          { "group": "lye_powder_bottle_part", "prob": 20 },
           { "item": "chem_sulphur", "prob": 30, "charges": [ 100, -1 ], "container-item": "bottle_plastic_small" },
           { "item": "chem_peptone_broth", "prob": 95 }
         ],

@@ -911,6 +911,11 @@ class item : public visitable
          * Fill item with an item up to @amount number of items. This works for any item with container pockets.
          * @param contained item to fill the container with.
          * @param amount Amount to fill item with, capped by remaining capacity
+         * @param unseal_pockets If true, unseal the final pocket thar contained fill with if it is sealed
+         * @param allow_sealed Allow filling contained into a sealed pocket
+         * @param ignore_settings Ignore each pocket's setting
+         * @param into_bottom Insert item to pocket content list end
+         * @param allow_nested Allow fill contained nested pocket in item's pockets
          * @returns amount of contained that was put into it
          */
         int fill_with( const item &contained, int amount = INFINITE_CHARGES,
@@ -918,6 +923,7 @@ class item : public visitable
                        bool allow_sealed = false,
                        bool ignore_settings = false,
                        bool into_bottom = false,
+                       bool allow_nested = true,
                        Character *carrier = nullptr );
 
         /**
