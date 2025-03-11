@@ -23,6 +23,17 @@
       { "u_add_effect": "warpsickness", "intensity": 6, "duration": "PERMANENT" },
       { "run_eocs": [ "EOC_create_slaughter", "EOC_SKY_ISLAND_CLIMATE_RESET" ] },
       {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_safely_landed_island_bound",
+            "condition": { "and": [ { "u_has_trait": "mut_skyisland_island_bound" }, { "math": [ "difficulty_island_bound_followers >= 2" ] } ] },
+            "effect": [ { "u_add_trait": "awayfromhome" }, { "u_add_effect": "warpsickness", "intensity": 6, "duration": "PERMANENT" } ]
+          }
+        ],
+        "npc_range": 10,
+        "local": true
+      },
+      {
         "switch": { "math": [ "bonusmissions" ] },
         "cases": [
           { "case": 1, "effect": [ { "run_eocs": "EOC_create_bonus" } ] },

@@ -300,6 +300,15 @@
                 "y_adjust": [ -2, -1, 1, 2 ]
               }
             ]
+          },
+          {
+            "id": "EOC_island_bound_not_awayfromhome",
+            "condition": { "u_has_trait": "mut_skyisland_island_bound" },
+            "effect": [
+              { "u_remove_item_with": "warphome" },
+              { "u_lose_trait": "awayfromhome" },
+              { "u_lose_effect": [ "warpsickness", "warpdisintegration" ] }
+            ]
           }
         ],
         "npc_range": 10,
