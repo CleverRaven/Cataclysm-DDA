@@ -3045,6 +3045,7 @@ class Character : public Creature, public visitable
         bool can_stash( const item &it, bool ignore_pkt_settings = false );
         bool can_stash( const item &it, int &copies_remaining, bool ignore_pkt_settings = false );
         bool can_stash_partial( const item &it, bool ignore_pkt_settings = false );
+        bool can_stash_partial( const item &it, int &copies_remaining, bool ignore_pkt_settings = false );
         void initialize_stomach_contents();
 
         /** Stable base metabolic rate due to traits */
