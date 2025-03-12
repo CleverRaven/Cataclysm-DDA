@@ -294,6 +294,35 @@
     ]
   },
   {
+    "id": "ammunition_tube_mortar",
+    "type": "GENERIC",
+    "category": "container",
+    "name": "mortar container",
+    "description": "A small, thick cylindrical container.  Designed to store a single mortar rounds.",
+    "//": "cylinder of 393.7 mm H x 76.2 mm W",
+    "weight": "272 g",
+    "volume": "1795 ml",
+    "material": [ { "type": "cardboard" } ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "1500 ml", "max_contains_weight": "3000 g" } ],
+    "symbol": "0",
+    "color": "black",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ammunition_tube_mortar_m720a1",
+        "name": { "str": "mortar container" },
+        "weight": 0,
+        "description": "A long, thick cylindrical container.  Dark, shabby surface has printed:\nCOMP B\nB643\nCARTRIDGE 60MM HE\nW/FUZE MO M734A1\nFOR M224 MORTAR"
+      },
+      {
+        "id": "ammunition_tube_mortar_m768",
+        "name": { "str": "mortar container" },
+        "weight": 0,
+        "description": "A long, thick cylindrical container.  Dark, shabby surface has printed:\nCOMP B\nB643\nCARTRIDGE 60MM HE\nW/FUZE PD M783\nFOR M224 MORTAR"
+      }
+    ]
+  },
+  {
     "id": "ammunition_box_grenade",
     "type": "GENERIC",
     "category": "container",
@@ -312,35 +341,6 @@
         "name": { "str": "grenade container" },
         "weight": 0,
         "description": "A small, thick cylindrical container.  Dark, shabby surface has printed:\n1330-00-133-8244 G881\nCOMP B 1 GRENADE HAND FRAG DELAY M67 W/FUZE M213\nCONTAINER M415A1 UAC"
-      }
-    ]
-  },
-  {
-    "id": "ammunition_tube_mortar",
-    "type": "GENERIC",
-    "category": "container",
-    "name": "mortar container",
-    "description": "A small, thick cylindrical container.  Designed to store a single mortar rounds.",
-    "//": "cylinder of 393.7 mm H x 76.2 mm W",
-    "weight": "272 g",
-    "volume": "1795 ml",
-    "material": [ { "type": "cardboard" } ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "1500 ml", "max_contains_weight": "3000 g" } ],
-    "symbol": "0",
-    "color": "black",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "ammunition_tube_mortar_m720a1",
-        "name": { "str": "grenade container" },
-        "weight": 0,
-        "description": "A long, thick cylindrical container.  Dark, shabby surface has printed:\nCOMP B \nB643\n CARTRIDGE 60MM HE\nW/FUZE MO M734A1\nFOR M224 MORTAR"
-      },
-      {
-        "id": "ammunition_tube_mortar_m768",
-        "name": { "str": "grenade container" },
-        "weight": 0,
-        "description": "A long, thick cylindrical container.  Dark, shabby surface has printed:\nCOMP B \nB643\n CARTRIDGE 60MM HE\nW/FUZE PD M783\nFOR M224 MORTAR"
       }
     ]
   },
