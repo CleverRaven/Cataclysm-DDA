@@ -199,7 +199,8 @@
       "FAE_CREATURE",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "MAGIC_USER"
     ],
     "armor": {
       "bash": 22,
@@ -264,12 +265,23 @@
         "spell_data": { "id": "wild_hunt_illumination_spell" },
         "cooldown": 45,
         "condition": { "not": { "npc_has_effect": "wild_hunt_illumination_spell" } },
-        "monster_message": "%1$s makes a gestures with one hand a glow springs up around you!"
+        "monster_message": "%1$s makes a gestures with one hand and a glow springs up around you!"
       }
     ],
     "death_drops": "changeling_wild_hunt_death_drops",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "FAE_CREATURE", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "HUMAN",
+      "FAE_CREATURE",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER",
+      "MAGIC_USER"
+    ],
     "armor": {
       "bash": 22,
       "cut": 36,

@@ -260,6 +260,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_autumn_detect_magic_user",
+    "name": [ "Witch's Warning" ],
+    "desc": [ "You can sense nearby uses of magick." ],
+    "apply_message": "",
+    "remove_message": "Your awareness of sorcerers.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "or": [ { "npc_has_flag": "MAGIC_USER" }, { "and": [ "npc_is_character", { "math": [ "n_spell_count() >= 6" ] } ] } ]
+            },
+            "distance": { "math": [ "( u_spell_level('animist_detect_wizards') * 2) + 3" ] },
+            "descriptions": [ { "id": "fae_sense", "symbol": "?", "color": "cyan", "text": "You sense a sorcerer here." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_autumn_touch_of_frailty_character",
     "name": [ "Touch of Frailty" ],
     "desc": [ "A glamour is prematurely aging you." ],

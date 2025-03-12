@@ -552,6 +552,7 @@
       "FAE_CREATURE",
       "STUN_IMMUNE",
       "HAS_MIND",
+      "MAGIC_USER",
       "BASHES",
       "DESTROYS",
       "PUSH_MON",
