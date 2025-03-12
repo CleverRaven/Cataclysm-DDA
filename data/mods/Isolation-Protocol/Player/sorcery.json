@@ -279,7 +279,7 @@
     "name": "Tsath's Horrific Metamorphosis",
     "description": "Twist the target's body, mutating them into a stumbling mass of flesh whose many mouths can only keen out the song of their suffering.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "TRANSFORMATION_SPELL", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "flags": [ "TRANSFORMATION_SPELL", "RANDOM_DAMAGE", "VERBAL", "SOMATIC", "NO_LEGS" ],
     "spell_class": "iso_eldritch_sorcery",
     "magic_type": "iso_eldritch_sorcery",
     "difficulty": 8,
