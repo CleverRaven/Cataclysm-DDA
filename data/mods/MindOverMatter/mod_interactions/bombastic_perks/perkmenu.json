@@ -222,7 +222,7 @@
           },
           {
             "set_condition": "perk_condition",
-            "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 5" ] }
+            "condition": { "math": [ "u_spell_level('clair_danger_sense') >= 5" ] },
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"

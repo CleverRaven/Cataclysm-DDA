@@ -39,7 +39,6 @@
 #include "input.h"
 #include "input_context.h"
 #include "make_static.h"
-#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
@@ -329,9 +328,7 @@ void monmove()
             m.creature_in_field( critter );
         }
 
-        if( !critter.is_dead() && !critter.is_hallucination() &&
-            rl_dist( u.pos_abs(), critter.pos_abs() ) <= u.enchantment_cache->modify_value(
-                enchant_vals::mod::MOTION_ALARM, 0 ) ) {
+        if( !critter.is_dead() && !critter.is_hallucination() && rl_dist( u.pos_abs(), critter.pos_abs() ) <= u.enchantment_cache->modify_value( enchant_vals::mod::MOTION_ALARM, 0 ) ) {
             if( u.has_active_bionic( bio_alarm ) ) {
                 u.mod_power_level( -bio_alarm->power_trigger );
                 add_msg( m_warning, _( "Your motion alarm goes off!" ) );
