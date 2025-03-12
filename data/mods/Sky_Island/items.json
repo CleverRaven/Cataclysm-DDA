@@ -579,7 +579,7 @@
     ]
   },
   {
-    "id": "sky_island_sunblock",
+    "id": "sky_island_windblock",
     "type": "ARMOR",
     "name": { "str": "Personal Windblock" },
     "description": "The island is protecting you against the winds as long as you are on it.",

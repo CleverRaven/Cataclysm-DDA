@@ -281,8 +281,8 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_personal_temperature_adaptation" } },
-            { "math": [ "skyisland_bunker_temperature_adaptation = 1" ] },
-            { "math": [ "skyisland_personal_temperature_adaptation = 0" ] }
+            { "math": [ "skyisland_bunker_temperature_adaptation == 1" ] },
+            { "math": [ "skyisland_personal_temperature_adaptation == 0" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_personal_temperature_adaptation" } ],
@@ -296,12 +296,12 @@
             {
               "or": [
                 {
-                  "and": [ { "math": [ "difficulty_island_bound_followers = 2" ] }, { "math": [ "total_island_bound_followers = 0" ] } ]
+                  "and": [ { "math": [ "difficulty_island_bound_followers == 2" ] }, { "math": [ "total_island_bound_followers == 0" ] } ]
                 },
-                { "math": [ "difficulty_island_bound_followers = 4" ] }
+                { "math": [ "difficulty_island_bound_followers == 4" ] }
               ]
             },
-            { "math": [ "available_island_bound_followers = 0" ] }
+            { "math": [ "available_island_bound_followers == 0" ] }
           ]
         },
         "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_island_bound_follower" } ],

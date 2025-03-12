@@ -10,20 +10,20 @@
           "or": [
             {
               "and": [
-                { "math": [ "available_island_bound_followers = 1" ] },
+                { "math": [ "available_island_bound_followers == 1" ] },
                 { "not": { "u_has_trait": "awayfromhome" } },
                 { "math": [ "difficulty_island_bound_followers >= 2" ] }
               ]
             },
             {
               "and": [
-                { "math": [ "total_island_bound_followers = 10" ] },
+                { "math": [ "total_island_bound_followers == 1" ] },
                 { "not": { "u_has_trait": "awayfromhome" } },
-                { "math": [ "difficulty_island_bound_followers = 3" ] }
+                { "math": [ "difficulty_island_bound_followers == 3" ] }
               ]
             },
             {
-              "and": [ { "not": { "u_has_trait": "awayfromhome" } }, { "math": [ "difficulty_island_bound_followers = 5" ] } ]
+              "and": [ { "not": { "u_has_trait": "awayfromhome" } }, { "math": [ "difficulty_island_bound_followers == 5" ] } ]
             }
           ]
         },

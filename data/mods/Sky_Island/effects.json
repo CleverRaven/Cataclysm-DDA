@@ -82,7 +82,7 @@
     "flags": [ "INVISIBLE", "FEATHER_FALL" ],
     "max_intensity": 2,
     "int_dur_factor": "10 s",
-    "decay_messages": [ [ "Your warpcloak is about to fade away." ] ],
+    "decay_messages": [ [ "Your warpcloak is about to fade away.", "bad" ] ],
     "remove_message": "You fully materialize.  You're not invisible anymore!"
   },
   {

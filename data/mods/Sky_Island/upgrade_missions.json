@@ -662,39 +662,11 @@
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
       [
-        [ "broken_lab_security_drone_BM", 1 ],
-        [ "broken_lab_security_drone_YM", 1 ],
-        [ "broken_lab_security_drone_GR", 1 ],
-        [ "broken_lab_security_drone_GM", 1 ],
-        [ "broken_lab_security_drone_BM2", 1 ]
-      ],
-      [
-        [ "broken_lab_security_drone_BM", 1 ],
-        [ "broken_lab_security_drone_YM", 1 ],
-        [ "broken_lab_security_drone_GR", 1 ],
-        [ "broken_lab_security_drone_GM", 1 ],
-        [ "broken_lab_security_drone_BM2", 1 ]
-      ],
-      [
-        [ "broken_lab_security_drone_BM", 1 ],
-        [ "broken_lab_security_drone_YM", 1 ],
-        [ "broken_lab_security_drone_GR", 1 ],
-        [ "broken_lab_security_drone_GM", 1 ],
-        [ "broken_lab_security_drone_BM2", 1 ]
-      ],
-      [
-        [ "broken_lab_security_drone_BM", 1 ],
-        [ "broken_lab_security_drone_YM", 1 ],
-        [ "broken_lab_security_drone_GR", 1 ],
-        [ "broken_lab_security_drone_GM", 1 ],
-        [ "broken_lab_security_drone_BM2", 1 ]
-      ],
-      [
-        [ "broken_lab_security_drone_BM", 1 ],
-        [ "broken_lab_security_drone_YM", 1 ],
-        [ "broken_lab_security_drone_GR", 1 ],
-        [ "broken_lab_security_drone_GM", 1 ],
-        [ "broken_lab_security_drone_BM2", 1 ]
+        [ "broken_lab_security_drone_BM", 5 ],
+        [ "broken_lab_security_drone_YM", 5 ],
+        [ "broken_lab_security_drone_GR", 5 ],
+        [ "broken_lab_security_drone_GM", 5 ],
+        [ "broken_lab_security_drone_BM2", 5 ]
       ],
       [ [ "pathfinding_module", 5 ] ],
       [ [ "warptoken", 22 ] ],
@@ -1093,25 +1065,15 @@
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
-      [ [ "pride_flag", 2 ], [ "national_flag", 2 ], [ "american_flag", 2 ], [ "state_flag", 2 ] ],
-      [ [ "pride_flag", 2 ], [ "national_flag", 2 ], [ "american_flag", 2 ], [ "state_flag", 2 ] ],
-      [ [ "pride_flag", 2 ], [ "national_flag", 2 ], [ "american_flag", 2 ], [ "state_flag", 2 ] ],
+      [ [ "pride_flag", 6 ], [ "national_flag", 6 ], [ "american_flag", 6 ], [ "state_flag", 6 ] ],
       [ [ "warptoken", 16 ] ],
       [
-        [ "roadmap", 3 ],
-        [ "subwaystationmap", 3 ],
-        [ "survivormap", 3 ],
-        [ "trailmap", 3 ],
-        [ "touristmap", 3 ],
-        [ "restaurantmap", 3 ]
-      ],
-      [
-        [ "roadmap", 3 ],
-        [ "subwaystationmap", 3 ],
-        [ "survivormap", 3 ],
-        [ "trailmap", 3 ],
-        [ "touristmap", 3 ],
-        [ "restaurantmap", 3 ]
+        [ "roadmap", 6 ],
+        [ "subwaystationmap", 6 ],
+        [ "survivormap", 6 ],
+        [ "trailmap", 6 ],
+        [ "touristmap", 6 ],
+        [ "restaurantmap", 6 ]
       ],
       [ [ "labmap", 5 ], [ "id_science_visitor_1", 5 ] ]
     ]
@@ -1239,16 +1201,11 @@
     "flags": [ "SECRET", "BLIND_EASY" ],
     "reversible": false,
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "//": "Yes, the badges and tiaras are intended to be written like this.  It allows to use multiple types, as long as the total is enough.",
     "components": [
-      [ [ "any_badge", 1, "LIST" ] ],
-      [ [ "any_badge", 1, "LIST" ] ],
-      [ [ "any_badge", 1, "LIST" ] ],
+      [ [ "any_badge", 3, "LIST" ] ],
       [ [ "warptoken", 24 ] ],
       [ [ "jade_brooch", 3 ] ],
-      [ [ "any_tiara", 2, "LIST" ] ],
-      [ [ "any_tiara", 2, "LIST" ] ],
-      [ [ "any_tiara", 2, "LIST" ] ],
+      [ [ "any_tiara", 6, "LIST" ] ],
       [ [ "bronze_medal", 1 ], [ "silver_medal", 1 ], [ "gold_medal", 1 ], [ "service_medal", 1 ] ],
       [ [ "suit", 1 ] ],
       [ [ "ring_signet", 3 ] ]
@@ -5286,7 +5243,7 @@
       ],
       [ [ "mountable_cooler", 3 ], [ "condensor_coil", 30 ], [ "evaporator_coil", 30 ] ],
       [ [ "mountable_heater", 3 ], [ "element", 30 ] ],
-      [ [ "air_compressor", 1 ], [ "1l_gold" ] ],
+      [ [ "air_compressor", 1 ], [ "1l_gold", 1 ] ],
       [ [ "railroad_track_item", 1 ] ]
     ]
   },
