@@ -1,7 +1,6 @@
 #include "mission.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <list>
 #include <set>
 
 #include "assign.h"
@@ -11,7 +10,6 @@
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
 #include "item.h"
 #include "rng.h"
 
