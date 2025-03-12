@@ -39,6 +39,7 @@
 #include "input.h"
 #include "input_context.h"
 #include "make_static.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_scale_constants.h"
