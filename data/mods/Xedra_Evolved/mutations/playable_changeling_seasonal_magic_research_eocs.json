@@ -628,7 +628,11 @@
     "id": "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_SPRING_TIER_3",
     "effect": [
       {
-        "u_roll_remainder": [ "changeling_spring_protective_plant_armor_spell", "changeling_spring_remove_fatigue_and_sleep_deprivation_spell" ],
+        "u_roll_remainder": [
+          "changeling_spring_protective_plant_armor_spell",
+          "changeling_spring_remove_fatigue_and_sleep_deprivation_spell",
+          "changeling_spring_summon_rain_shower_spell"
+        ],
         "type": "spell",
         "message": "Your research bears fruit!  You learn the %s glamour.",
         "true_eocs": [ "EOC_CHANGELING_RESEARCH_SEASONAL_MAGIC_DREAMDROSS_COST_UPDATER" ],
