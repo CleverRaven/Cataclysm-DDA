@@ -3420,8 +3420,6 @@
     "symbol": "[",
     "looks_like": "duffelbag",
     "color": "green",
-    "encumbrance": 12,
-    "max_encumbrance": 82,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
