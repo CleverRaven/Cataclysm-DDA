@@ -1612,7 +1612,6 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "2 h",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "forging_standard", 8 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER_FINE", "level": 1 }, { "id": "GRIND", "level": 2 } ],
