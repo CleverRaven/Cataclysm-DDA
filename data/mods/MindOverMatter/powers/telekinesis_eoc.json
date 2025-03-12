@@ -65,6 +65,7 @@
             "if": "u_is_avatar",
             "then": [
               { "npc_message": "You hurl your target.", "type": "good" },
+              { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
               {
                 "run_eocs": [
                   {
