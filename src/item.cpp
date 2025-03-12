@@ -10701,6 +10701,16 @@ ret_val<void> item::can_contain_partial( const item &it ) const
     return can_contain( i_copy );
 }
 
+ret_val<void> item::can_contain_partial( const item &it, int &copies_remaining,
+        bool nested ) const
+{
+    item i_copy = it;
+    if( i_copy.count_by_charges() ) {
+        i_copy.charges = 1;
+    }
+    return can_contain( i_copy, copies_remaining, nested );
+}
+
 ret_val<void> item::can_contain_partial_directly( const item &it ) const
 {
     item i_copy = it;
