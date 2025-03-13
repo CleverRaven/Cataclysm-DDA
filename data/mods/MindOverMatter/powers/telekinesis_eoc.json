@@ -150,9 +150,9 @@
     "effect": [
       {
         "run_eoc_selector": [ "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_SELECTOR_PUSH", "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_SELECTOR_PULL" ],
-        "names": [ "Push", "Pull" ],
+        "names": [ "Shove", "Pull" ],
         "keys": [ "1", "2" ],
-        "descriptions": [ "Push something away from you.", "Pull something toward you." ]
+        "descriptions": [ "Shove a target in particular direction.", "Pull something toward you." ]
       }
     ]
   },
