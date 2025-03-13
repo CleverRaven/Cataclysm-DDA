@@ -46,7 +46,6 @@
     "latent_heat": 800,
     "freezing_point": -460,
     "conductive": false,
-    "edible": true,
     "chip_resist": 10,
     "breathability": "POOR",
     "dmg_adj": [ "bothered", "annoyed", "irritated", "destroyed" ],

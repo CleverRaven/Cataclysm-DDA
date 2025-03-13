@@ -4555,8 +4555,14 @@ You pick `first` and `center` locations and store it, then mirror them to create
 ```
 
 #### `u_die`, `npc_die`
-You or an NPC will instantly die.
+Alpha or beta talker will instantly die.
 If the target is an item, it will be deleted.
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "remove_corpse" | optional | bool | default false; if true, the corpse and all inside of it won't be spawned on death | 
+| "supress_message" | optional | bool | default false; if true, death would omit death message | 
+| "remove_from_creature_tracker" | optional | bool | default false; if true, and talker is monster, the monster instead removed from creature tracker, resulting not only in monster disappearing without message and corpse, but also bypasses any death effect they could fire before their death | 
 
 ##### Valid talkers:
 
@@ -4566,7 +4572,7 @@ If the target is an item, it will be deleted.
 
 ##### Examples
 
-You and NPC both die
+Alpha and beta both die
 ```json
 {
   "type": "effect_on_condition",
@@ -4575,33 +4581,14 @@ You and NPC both die
 }
 ```
 
-Removes a corpse around you (corpses are handled as items)
-
+beta talker dies without a message and without a corpse
 ```json
   {
-    "id": "EOC_CORPSE_REMOVAL",
     "type": "effect_on_condition",
-    "effect": [
-      { "message": "Select target", "u_query_tile": "around", "target_var": { "context_val": "delete_this_corpse" } },
-      {
-        "if": { "math": [ "has_var(_delete_this_corpse)" ] },
-        "then": [
-          {
-            "u_map_run_item_eocs": "all",
-            "search_data": [ { "id": "corpse" } ],
-            "loc": { "context_val": "delete_this_corpse" },
-            "min_radius": 0,
-            "max_radius": 0,
-            "true_eocs": [ { "id": "EOC_CORPSE_REMOVAL_SUCCESS", "effect": [ "npc_die", { "u_message": "*poof*", "type": "good" } ] } ],
-            "false_eocs": [ { "id": "EOC_CORPSE_REMOVAL_FAIL", "effect": [ { "u_message": "There is no corpse there.", "type": "bad" } ] } ]
-          }
-        ],
-        "else": [ { "u_message": "Canceled" } ]
-      }
-    ]
-  }
+    "id": "ded_no_corpse",
+    "effect": [ { "npc_die": { "remove_corpse": true, "supress_message": true } } ]
+  },
 ```
-
 
 #### `u_prevent_death`, `npc_prevent_death`
 You or NPC will be prevented from death. Intended for use in EoCs has `NPC_DEATH` or `EVENT(character_dies)` type (Take care that u will be the dying npc in these events).
