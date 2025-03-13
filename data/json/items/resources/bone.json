@@ -30,7 +30,7 @@
     "weight": "17700 g",
     "volume": "19550 ml",
     "longest_side": "110 cm",
-    "//1": "Values based roughly on an adult female African elephant femur.",
+    "//1": "Values based roughly on an adult female African elephant femur. 61 times the size of the normal bone.",
     "symbol": "I",
     "color": "white",
     "material": [ "bone" ],
@@ -38,7 +38,10 @@
     "price_postapoc": "20 cent",
     "//2": "While it would make sense to be able to mill it, the bone won't fit into a mill…",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
-    "melee_damage": { "bash": 15 }
+    "melee_damage": { "bash": 15 },
+    "calories": 10436,
+    "vitamins": [ [ "calcium", "1561750 mg" ], [ "meat_allergen", 1 ] ],
+    "flags": [ "RAW", "INEDIBLE" ]
   },
   {
     "type": "COMESTIBLE",
