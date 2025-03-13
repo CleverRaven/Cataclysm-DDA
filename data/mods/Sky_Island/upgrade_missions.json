@@ -544,7 +544,7 @@
     "name": "Upgrade: Scouting Clairvoyance 1",
     "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Higher Viewpoint from notes on the psychic and things that belong to the dead.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: See everything near you for a short time when beginning a mission.",
     "goal": "MGOAL_FIND_ITEM",
-    "item": "upgradekey_scouting8",
+    "item": "upgradekey_scoutingclairvoyance1",
     "count": 1,
     "difficulty": 0,
     "value": 0,
@@ -1212,19 +1212,19 @@
     ]
   },
   {
-    "id": "SKYISLAND_UPGRADE_landingboost_waterwalking",
+    "id": "SKYISLAND_UPGRADE_landing_water_walking",
     "type": "mission_definition",
     "name": "Upgrade: Landing Boost: Waterwalking",
     "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft a Cloaking Buoyancy from things from water and things that float.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: While under the effect of the warpcloak, you can walk on water.",
     "goal": "MGOAL_FIND_ITEM",
-    "item": "upgradekey_landingboost_waterwalking",
+    "item": "upgradekey_landing_waterwalking",
     "count": 1,
     "difficulty": 0,
     "value": 0,
     "has_generic_rewards": false,
     "start": {
       "effect": [
-        { "u_learn_recipe": "upgradekey_landingboost_waterwalking" },
+        { "u_learn_recipe": "upgradekey_landing_waterwalking" },
         {
           "u_message": "Somehow, you understand the statue is calling out for something that can strengthen its power.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nEFFECT: While under the effect of the warpcloak, you can walk on water.",
           "popup": true
@@ -1234,7 +1234,7 @@
     "end": {
       "effect": [
         { "math": [ "landing_waterwalk = 1" ] },
-        { "u_forget_recipe": "upgradekey_landingboost_waterwalking" },
+        { "u_forget_recipe": "upgradekey_landing_waterwalking" },
         {
           "u_message": "You feel the warp ripple around you.  While under the effect of the warpcloak, you can walk on water.",
           "type": "mixed"
@@ -1243,7 +1243,7 @@
     }
   },
   {
-    "id": "upgradekey_landingboost_waterwalking",
+    "id": "upgradekey_landing_waterwalking",
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "Cloaking Buoyancy" },
@@ -1256,7 +1256,7 @@
     "color": "white"
   },
   {
-    "result": "upgradekey_landingboost_waterwalking",
+    "result": "upgradekey_landing_waterwalking",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "category": "CC_WARP",
@@ -1281,7 +1281,7 @@
     "name": "Upgrade: Landing Boost: Flight",
     "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft an Inverted Gravity Bubble from things that used to fly and things that could make someone fly.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: While under the effect of the warpcloak, you can fly.",
     "goal": "MGOAL_FIND_ITEM",
-    "item": "upgradekey_landing8",
+    "item": "upgradekey_landing_flight",
     "count": 1,
     "difficulty": 0,
     "value": 0,
@@ -1346,7 +1346,7 @@
     "name": "Upgrade: Landing Boost: Phasing",
     "description": "Completing this mission will unlock a permanent upgrade for all future expeditions.\n\nCraft the Universal Access Pass from different tools granting access to restricted areas.  The Heart of the Island has already placed the recipe inside your mind.\n\nEFFECT: While under the effect of the warpcloak, you can pass through non-thick walls.",
     "goal": "MGOAL_FIND_ITEM",
-    "item": "upgradekey_landing8",
+    "item": "upgradekey_landing_phase",
     "count": 1,
     "difficulty": 0,
     "value": 0,

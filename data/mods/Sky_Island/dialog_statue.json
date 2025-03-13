@@ -481,22 +481,24 @@
         "text": "Upgrade: Scouting Clairvoyance",
         "condition": {
           "and": [
-            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting_clairvoyance" } },
-            { "math": [ "scoutingdistancetargets == 4" ] }
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scoutingclairvoyance1" } },
+            { "math": [ "scoutingdistancetargets == 4" ] },
+            { "math": [ "scoutingclairvoyancetime < 10" ] }
           ]
         },
-        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_scouting_clairvoyance" } ],
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_scoutingclairvoyance1" } ],
         "topic": "SKYISLAND_UPGRADES_FEATURES"
       },
       {
         "text": "Upgrade: Scouting Clairvoyance 2",
         "condition": {
           "and": [
-            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting_clairvoyance_2" } },
-            { "math": [ "scouting_clairvoyance == 1" ] }
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scoutingclairvoyance2" } },
+            { "math": [ "scouting_clairvoyance == 1" ] },
+            { "math": [ "scoutingclairvoyancetime == 20" ] }
           ]
         },
-        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_scouting_clairvoyance_2" } ],
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_scoutingclairvoyance2" } ],
         "topic": "SKYISLAND_UPGRADES_FEATURES"
       },
       {
@@ -588,7 +590,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing_water_walking" } },
-            { "math": [ "landing_water_walking == 0" ] },
+            { "math": [ "landing_waterwalk == 0" ] },
             { "math": [ "scoutingdistancelanding >= 16" ] }
           ]
         },
@@ -611,12 +613,12 @@
         "text": "Upgrade: Landing Phasing",
         "condition": {
           "and": [
-            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing_phasing" } },
-            { "math": [ "landing_water_phasing == 0" ] },
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing_phase" } },
+            { "math": [ "landing_phase == 0" ] },
             { "math": [ "scoutingdistancelanding >= 20" ] }
           ]
         },
-        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_landing_phasing" } ],
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_landing_phase" } ],
         "topic": "SKYISLAND_UPGRADES_FEATURES"
       },
       {
