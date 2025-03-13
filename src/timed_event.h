@@ -101,7 +101,7 @@ class timed_event_manager
                   const tripoint_abs_ms &where, int strength, const std::string &string_id, submap sr,
                   const std::string &key = "" );
         void add( timed_event_type type, const time_point &when, const tripoint_abs_ms &where,
-                 explosion_data expl_data );
+                  explosion_data expl_data );
         /// @returns Whether at least one element of the given type is queued.
         bool queued( timed_event_type type ) const;
         /// @returns One of the queued events of the given type, or `nullptr`
