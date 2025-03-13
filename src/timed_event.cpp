@@ -106,8 +106,6 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, const tripo
     , faction_id( -1 )
     , map_square( p )
     , strength( -1 )
-    , string_id( )
-    , key( )
 {
     map_point = project_to<coords::sm>( map_square );
     expl_data = explos_data;
