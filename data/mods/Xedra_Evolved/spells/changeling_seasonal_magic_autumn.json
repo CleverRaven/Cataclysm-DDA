@@ -193,10 +193,21 @@
     "difficulty": 7,
     "effect": "ter_transform",
     "effect_str": "ter_changeling_autumn_plant_harvest",
+    "components": "spell_components_changeling_dreamsparks_3",
     "min_range": 1,
+    "min_aoe": {
+      "math": [
+        "min( ( 0 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.05) - (u_skill('deduction') * 0.1)), 3)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( 0 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.05) - (u_skill('deduction') * 0.1)), 3)"
+      ]
+    },
     "base_energy_cost": {
       "math": [
-        "max( ( 800 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 5) - (u_skill('deduction') * 8)), 600) * (global_what_is_the_season == 1 ? 10000 : 1)"
+        "max( ( 800 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 8) - (u_skill('deduction') * 15)), 300)"
       ]
     },
     "base_casting_time": {
@@ -204,6 +215,49 @@
         "max( ( 30000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 250) - (u_skill('deduction') * 500)), 6000)"
       ]
     }
+  },
+  {
+    "id": "changeling_autumn_freeze_in_place_spell",
+    "type": "SPELL",
+    "name": "Balor's Gaze",
+    "description": "It is said that Balor could kill with a glance.  While this glamour is not quite so powerful, you can freeze your target in place, as long as you also take no action but to fix them with your stare.",
+    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "hostile" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 8,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_AUTUMN_FREEZE_IN_PLACE",
+    "components": "spell_components_changeling_dreamsparks",
+    "min_range": 8,
+    "base_energy_cost": {
+      "math": [
+        "max( ( 600 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 7) - (u_skill('deduction') * 12)), 250)"
+      ]
+    },
+    "base_casting_time": 25
+  },
+  {
+    "id": "changeling_autumn_freeze_in_place_remover",
+    "type": "SPELL",
+    "name": { "str": "Balor's Gaze Remover", "//~": "NO_I18N" },
+    "description": { "str": "Gets Rid of Balor's Gaze on the target.", "//~": "NO_I18N" },
+    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_autumn",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 8,
+    "effect": "remove_effect",
+    "effect_str": "effect_changeling_autumn_freeze_in_place_target",
+    "min_aoe": 12
   },
   {
     "id": "changeling_autumn_create_confusion_mist_spell",

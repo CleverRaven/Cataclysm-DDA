@@ -229,6 +229,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "460sw",
+    "name": ".460 S&W Magnum",
+    "default": "460sw"
+  },
+  {
+    "type": "ammunition_type",
     "id": "45colt",
     "name": ".45 Colt",
     "default": "45colt_cowboy"

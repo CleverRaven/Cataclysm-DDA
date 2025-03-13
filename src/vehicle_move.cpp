@@ -1352,10 +1352,7 @@ void vehicle::selfdrive( map &here, const int trn, const int acceleration )
 
 bool vehicle::check_is_heli_landed( map &here )
 {
-    // @TODO - when there are chasms that extend below z-level 0 - perhaps the heli
-    // will be able to descend into them but for now, assume z-level-0 == the ground.
-    if( pos_abs().z() == 0 ||
-        !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pos_bub( here ) ) ) {
+    if( !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NO_FLOOR, pos_bub( here ) ) ) {
         is_flying = false;
         return true;
     }

@@ -5,7 +5,7 @@
     "subtype": "collection",
     "container-item": "ifak_pouch",
     "items": [
-      { "item": "medical_tape", "charges": 20 },
+      { "group": "medical_tape_roll_part" },
       { "item": "tourniquet_upper" },
       { "group": "quikclot_bag_plastic_5" },
       { "item": "bandages", "count": 9 },

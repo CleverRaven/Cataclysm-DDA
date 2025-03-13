@@ -473,6 +473,7 @@
     "required_str": -1,
     "move_cost_mod": 0,
     "flags": [ "TRANSPARENT", "SHORT", "SHRUB", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "examine_action": "harvest_furn",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "dogbane_harv" } ],
     "bash": {
       "str_min": 2,

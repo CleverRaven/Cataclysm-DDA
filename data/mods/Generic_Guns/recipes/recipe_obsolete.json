@@ -1138,5 +1138,15 @@
     "type": "recipe",
     "result": "ruger_charger_auto",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_460sw",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_460sw_jhp",
+    "obsolete": true
   }
 ]

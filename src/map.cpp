@@ -8848,7 +8848,7 @@ void map::spawn_monsters_submap_group( const tripoint_rel_sm &gp, mongroup &grou
     for( monster &tmp : group.monsters ) {
         for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
             const tripoint_bub_ms local_pos = random_entry_removed( locations );
-            const tripoint_abs_ms abs_pos = get_map().get_abs( local_pos );
+            const tripoint_abs_ms abs_pos = get_abs( local_pos );
             if( !tmp.can_move_to( local_pos ) ) {
                 continue; // target can not contain the monster
             }
@@ -8864,7 +8864,10 @@ void map::spawn_monsters_submap_group( const tripoint_rel_sm &gp, mongroup &grou
                                tmp.wander_pos.to_string_writable() );
             }
 
-            monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ), local_pos );
+            // This usage of get_map() rather than the actual map used is due to the called operation's hidden usage of
+            // the reality bubble map, so the reference has to be adjusted to match that.
+            monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ),
+                                    get_map().get_bub( abs_pos ) );
             if( placed ) {
                 placed->on_load();
             }

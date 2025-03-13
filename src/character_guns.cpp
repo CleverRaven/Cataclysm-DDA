@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "calendar.h"
 #include "character.h"
 #include "color.h"
 #include "coordinates.h"
@@ -258,7 +259,8 @@ void Character::gunmod_add( item &gun, item &mod )
         actions[prompt.ret]();
     }
 
-    const int moves = !has_trait( trait_DEBUG_HS ) ? moved_mod.type->gunmod->install_time : 0;
+    const int moves = !has_trait( trait_DEBUG_HS ) ? to_moves<int>
+                      ( moved_mod.type->gunmod->install_time ) : 0;
 
     assign_activity( gunmod_add_activity_actor( moves, tool ) );
     activity.targets.emplace_back( wielded_gun );
@@ -289,7 +291,8 @@ bool Character::gunmod_remove( item &gun, item &mod )
     }
 
     // Removing gunmod takes only half as much time as installing it
-    const int moves = has_trait( trait_DEBUG_HS ) ? 0 : mod.type->gunmod->install_time / 2;
+    const int moves = has_trait( trait_DEBUG_HS ) ? 0 : to_moves<int>
+                      ( mod.type->gunmod->install_time ) / 2;
     item_location gun_loc = item_location( *this, &gun );
     assign_activity( gunmod_remove_activity_actor( moves, gun_loc, static_cast<int>( gunmod_idx ) ) );
     return true;

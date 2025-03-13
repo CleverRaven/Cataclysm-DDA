@@ -508,9 +508,45 @@
     "symbol": "[",
     "ammo": "battery",
     "charges_per_use": 1,
-    "use_action": [ "CAMERA", "MP3", "CALORIES_INTAKE_TRACKER", "FITNESS_CHECK" ],
+    "use_action": [ "MP3", "CALORIES_INTAKE_TRACKER", "FITNESS_CHECK", "PORTABLE_GAME" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 20 } } ],
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "id": "smart_watch_adv",
+    "name": { "str": "advanced smart watch", "str_pl": "advanced smart watches" },
+    "copy-from": "smart_watch",
+    "description": "A touchscreen watch that comes with many uses, such as a calendar, alarm, and even a fitness app, for when you want to check your health on the go!  This is more expensive model, featuring shock-resistant and waterproof case and a bunch of additional sensors.",
+    "price": "700 USD",
+    "price_postapoc": "10 USD",
+    "etransfer_rate": "30 MB",
+    "e_port": "phone",
+    "e_ports_banned": [ "USB-A", "memory card", "camera" ],
+    "extend": { "flags": [ "WATER_FRIENDLY", "THERMOMETER", "HYGROMETER", "BAROMETER" ] },
+    "delete": { "flags": [ "WATER_BREAK", "FRAGILE" ] },
+    "use_action": [
+      "E_FILE_DEVICE",
+      "EBOOKSAVE",
+      "CAMERA",
+      "MP3",
+      "CALORIES_INTAKE_TRACKER",
+      "FITNESS_CHECK",
+      "WEATHER_TOOL",
+      "PORTABLE_GAME",
+      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
+    ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 30 } },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0,
+        "ememory_max": "64 GB"
+      }
+    ]
   },
   {
     "type": "TOOL_ARMOR",

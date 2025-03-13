@@ -1364,6 +1364,27 @@
     ]
   },
   {
+    "result": "broken_turret_searchlight",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 50 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "directed_floodlight", 3 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "frame", 5 ] ],
+      [ [ "motor_tiny", 3 ] ],
+      [ [ "long_extension_cable", 1 ] ],
+      [ [ "solar_cell", 1 ] ]
+    ]
+  },
+  {
     "result": "broken_science_bot",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

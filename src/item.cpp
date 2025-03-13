@@ -344,14 +344,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
             debugmsg( "Tried to set charges for item %s that could not have them!", tname() );
         }
     } else {
-        if( type->tool && type->tool->rand_charges.size() > 1 ) {
-            const int charge_roll = rng( 1, type->tool->rand_charges.size() - 1 );
-            const int charge_count = rng( type->tool->rand_charges[charge_roll - 1],
-                                          type->tool->rand_charges[charge_roll] );
-            ammo_set( ammo_default(), charge_count );
-        } else {
-            charges = type->charges_default();
-        }
+        charges = type->charges_default();
     }
 
     if( has_flag( flag_SPAWN_ACTIVE ) ) {
@@ -10708,6 +10701,16 @@ ret_val<void> item::can_contain_partial( const item &it ) const
     return can_contain( i_copy );
 }
 
+ret_val<void> item::can_contain_partial( const item &it, int &copies_remaining,
+        bool nested ) const
+{
+    item i_copy = it;
+    if( i_copy.count_by_charges() ) {
+        i_copy.charges = 1;
+    }
+    return can_contain( i_copy, copies_remaining, nested );
+}
+
 ret_val<void> item::can_contain_partial_directly( const item &it ) const
 {
     item i_copy = it;
@@ -12946,6 +12949,7 @@ int item::fill_with( const item &contained, const int amount,
                      const bool allow_sealed,
                      const bool ignore_settings,
                      const bool into_bottom,
+                     const bool allow_nested,
                      Character *carrier )
 {
     if( amount <= 0 ) {
@@ -12968,7 +12972,7 @@ int item::fill_with( const item &contained, const int amount,
                 contained_item.charges = 1;
             }
             pocket = best_pocket( contained_item, loc, /*avoid=*/nullptr, allow_sealed,
-                                  ignore_settings ).second;
+                                  ignore_settings, false, false, allow_nested ).second;
         }
         if( pocket == nullptr ) {
             break;

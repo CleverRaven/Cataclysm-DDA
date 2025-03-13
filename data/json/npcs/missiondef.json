@@ -34,7 +34,7 @@
     "value": 150000,
     "urgent": true,
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
-    "deadline": [ "30 days", "48 days" ],
+    "deadline": [ "2 days", "3 days" ],
     "dialogue": {
       "describe": "I'm… short… of breath…",
       "offer": "I'm asthmatic.  I need you to get an inhaler for me…",
@@ -67,7 +67,7 @@
     "urgent": true,
     "goal_condition": { "or": [ { "u_has_item": "antibiotics" }, { "u_has_item": "strong_antibiotic" }, { "u_has_item": "panacea" } ] },
     "origins": [ "ORIGIN_OPENER_NPC" ],
-    "deadline": [ "24 days", "48 days" ],
+    "deadline": "1 day",
     "dialogue": {
       "describe": "This infection is bad, totally bad…",
       "offer": "I'm infected.  Badly.  I need you to get some good antibiotics for me…",
@@ -811,12 +811,12 @@
     "id": "MISSION_LEARN_ABOUT_CATTAIL_JELLY",
     "type": "mission_definition",
     "name": { "str": "Gather cattail stalks to create cattail jelly" },
-    "description": "Gather <color_light_blue>80 cattail stalks</color> from the swamp and bring them back to <color_light_red>learn how to craft cattail jelly</color>.  Raise your <color_light_blue>survival skill to at least 1</color> by harvesting cattail stalks.  <color_light_blue>Bring back the provided bag</color> as well.",
+    "description": "Gather <color_light_blue>60 cattail stalks</color> from the swamp and bring them back to <color_light_red>learn how to craft cattail jelly</color>.  Raise your <color_light_blue>survival skill to at least 1</color> by harvesting cattail stalks.  <color_light_blue>Bring back the provided bag with the 60 cattail stalks in them</color> as well.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": {
       "and": [
-        { "u_has_item": "duffelbag" },
-        { "u_has_items": { "item": "cattail_stalk", "count": 80 } },
+        { "u_has_item": "swag_bag" },
+        { "u_has_items": { "item": "cattail_stalk", "count": 60 } },
         { "math": [ "u_skill('survival') >= 1" ] }
       ]
     },
@@ -825,26 +825,26 @@
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "start": {
-      "effect": [ { "u_spawn_item": "duffelbag" } ],
+      "effect": [ { "u_spawn_item": "swag_bag" } ],
       "assign_mission_target": { "om_terrain": "forest_water", "reveal_radius": 3 }
     },
     "end": {
       "effect": [
-        { "u_sell_item": "cattail_stalk", "count": 80 },
-        { "u_sell_item": "duffelbag" },
-        { "npc_consume_item": "cattail_stalk", "count": 80 },
+        { "u_sell_item": "cattail_stalk", "count": 60 },
+        { "u_sell_item": "swag_bag" },
+        { "npc_consume_item": "cattail_stalk", "count": 60 },
         { "u_learn_recipe": "cattail_jelly" },
         { "u_message": "You learn how to craft cattail jelly.", "popup": true },
-        { "u_spawn_item": "cattail_jelly", "container": "bag_zipper", "count": 7 }
+        { "u_spawn_item": "cattail_jelly", "container": "bag_zipper", "count": 5 }
       ]
     },
     "dialogue": {
       "describe": "Medical services are a little sparse following <the_cataclysm>, but people have been surviving using their wits and the bounty of Mother Nature for a long time.  Care to learn a little?",
-      "offer": "Did you know that cattails are a source of a jelly that works as an antiseptic and analgesic?  Something like that is likely to be mighty helpful out here.  I want you to take this bag, head to the nearest swamp, collect 80 cattail stalks, and bring them back here.  In exchange, I'll show you how to harvest the jelly.",
-      "accepted": "Great!  This bag should be big enough to hold all of the stalks we'll need.  Don't forget to bring it back.",
+      "offer": "Did you know that cattails are a source of a jelly that works as an antiseptic and analgesic?  Something like that is likely to be mighty helpful out here.  I want you to take this bag, head to the nearest swamp, collect 60 cattail stalks, and bring them back here.  In exchange, I'll show you how to harvest the jelly.",
+      "accepted": "Great!  <color_yellow>This bag should be big enough to hold all of the stalks we'll need.  Don't forget to bring it back.</color>",
       "rejected": "Your loss.",
       "advice": "The cattails grow in the fresh water in swamps.  You can't miss them.",
-      "inquire": "Got those cattail stalks yet?  Don't forget to bring back my bag and to work on improving your survival skill as well.",
+      "inquire": "Got those cattail stalks yet?  Don't forget to <color_yellow>bring back my bag with the stalks in them</color> and to work on improving your survival skill as well.",
       "success": "Great!  Hand them over and I'll show you how this works.",
       "success_lie": "OK, then hand them over.",
       "failure": "Well, that's a shame."

@@ -37,30 +37,29 @@
   },
   {
     "type": "profession",
-    "copy-from": "cop",
+    "copy-from": "specops",
     "id": "iso_cop",
-    "name": "Police Officer",
-    "requirement": "achievement_reach_police_station",
-    "description": "A small-town deputy who got the call and was ready to come to the rescue.  If only you'd known what you were getting into…",
+    "name": "XEDRA Remediator",
+    "description": "The sole survivor of a XEDRA containment team, fighting to keep the horrors of the lab from escaping into the world above.",
     "points": 4,
-    "traits": [ "PROF_POLICE", "iso_trait", "iso_backup" ],
+    "traits": [ "iso_trait", "iso_backup" ],
     "items": {
       "both": {
         "entries": [
-          { "item": "pants_army" },
+          { "item": "xedra_enviro_suit" },
+          { "item": "iso_armor_anchor" },
+          { "item": "xedra_rubber_mantle" },
           { "item": "socks" },
-          { "item": "badge_deputy" },
-          { "item": "police_belt" },
-          { "item": "boots" },
-          { "item": "whistle" },
           { "item": "wristwatch" },
-          { "item": "baton" },
+          { "item": "tac_helmet" },
           { "group": "charged_smart_phone" },
-          { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
-          { "item": "sheriffshirt", "variant": "sheriff" }
+          { "item": "iso_lewis_gun", "ammo-item": "3006", "charges": 47 },
+          { "item": "iso_lewis_mag", "ammo-item": "3006", "charges": 47 },
+          { "item": "iso_lewis_mag", "ammo-item": "3006", "charges": 47 },
+          { "item": "smokebomb", "count": 2 },
+          { "item": "grenade", "count": 2 },
+          { "item": "iso_science_security_black" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -237,6 +236,38 @@
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "iso_last_scion",
+    "name": "Last Scion",
+    "description": "The last survivor of an elder race, physically frail but in command of powerful sorceries wrested from the Outer Dark.",
+    "points": 6,
+    "skills": [
+      { "level": 7, "name": "spellcraft" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "bashing" },
+      { "level": 3, "name": "survival" },
+      { "level": 2, "name": "traps" },
+      { "level": 2, "name": "firstaid" },
+      { "level": 2, "name": "dodge" },
+      { "level": 7, "name": "speech" }
+    ],
+    "spells": [ { "id": "iso_eldritch_basic_attack", "level": 2 } ],
+    "traits": [ "iso_trait", "iso_eldritch_sorcery", "ELFA_EARS", "BEAUTIFUL3", "LIGHTSTEP", "FEL_EYE", "NO_CBM_INSTALLATION" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "iso_sorcerers_staff" },
+          { "item": "iso_sorcerers_robe" },
+          { "item": "cloak_black" },
+          { "item": "leather_pouch" },
+          { "item": "boots" },
+          { "item": "loincloth" }
+        ]
+      },
+      "female": { "entries": [ { "item": "undershirt" } ] }
     }
   }
 ]

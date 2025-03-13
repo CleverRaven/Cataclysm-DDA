@@ -47,7 +47,7 @@
       { "item": "cotton_patchwork", "prob": 1 },
       { "item": "disinfectant", "prob": 35, "charges": [ 1, 10 ] },
       [ "medical_gauze", 10 ],
-      [ "medical_tape", 45 ],
+      { "group": "medical_tape_roll_part", "prob": 45 },
       [ "jar_glass_sealed", 20 ],
       [ "jar_3l_glass_sealed", 15 ],
       { "item": "oxygen_tank", "prob": 50, "charges": [ 0, 24 ] },
