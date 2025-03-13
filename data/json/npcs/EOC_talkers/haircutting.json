@@ -1284,7 +1284,7 @@
         "text": "Get a clean shave.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_NECKBEARD" },
@@ -1334,7 +1334,7 @@
         "text": "Get a neck beard.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_SIDEBURNS" },
@@ -1383,7 +1383,7 @@
         "text": "Get some sideburns.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_3DAYSTUBBLE" },
@@ -1429,7 +1429,7 @@
         "text": "Get a soul patch.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_3DAYSTUBBLE" },
@@ -1475,7 +1475,7 @@
         "text": "Get a chin strip.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_3DAYSTUBBLE" },
@@ -1521,7 +1521,7 @@
         "text": "Get some 3-day stubble.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_ZAPPA" },
@@ -1561,7 +1561,7 @@
         "text": "Get a toothbrush mustache.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_ZAPPA" },
@@ -1601,7 +1601,7 @@
         "text": "Get a chin strap.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_ZAPPA" },
@@ -1641,7 +1641,7 @@
         "text": "Get a mustache.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_GOATEE" },
@@ -1680,7 +1680,7 @@
         "text": "Get a walrus mustache.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_GOATEE" },
@@ -1719,7 +1719,7 @@
         "text": "Get a Zappa.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_GOATEE" },
@@ -1758,7 +1758,7 @@
         "text": "Get a goatee.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_BEARD" },
@@ -1788,7 +1788,7 @@
         "text": "Get a circle beard.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_BEARD" },
@@ -1818,7 +1818,7 @@
         "text": "Get a short boxed beard.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_BEARD" },
@@ -1848,7 +1848,7 @@
         "text": "Get a horseshoe.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_BEARD" },
@@ -1878,7 +1878,7 @@
         "text": "Get some mutton chops.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_BEARD" },
@@ -1908,7 +1908,7 @@
         "text": "Get a gunslinger beard.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_BEARD" },
@@ -1938,7 +1938,7 @@
         "text": "Get a chin curtain.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_BEARD" },
@@ -1968,7 +1968,7 @@
         "text": "Get a handlebar mustache.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_BEARD" },
@@ -1998,7 +1998,7 @@
         "text": "Get a Van Dyke.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_BEARD" },
@@ -2028,7 +2028,7 @@
         "text": "Get a regular beard.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
@@ -2055,7 +2055,7 @@
         "text": "Get a anchor beard.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
@@ -2082,7 +2082,7 @@
         "text": "Get a royale beard.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [
                 { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
@@ -2109,7 +2109,7 @@
         "text": "Get a Shenandoah.",
         "condition": {
           "and": [
-            { "u_has_trait": "natural_hair_growth" },
+            { "u_has_trait": "natural_beard_growth" },
             {
               "or": [ { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" }, { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" } ]
             }
@@ -2130,7 +2130,7 @@
       },
       {
         "text": "Get a long beard.",
-        "condition": { "and": [ { "u_has_trait": "natural_hair_growth" }, { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" } ] },
+        "condition": { "and": [ { "u_has_trait": "natural_beard_growth" }, { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" } ] },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2146,7 +2146,7 @@
       },
       {
         "text": "Get a clean shave.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2162,7 +2162,7 @@
       },
       {
         "text": "Get a neck beard.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2178,7 +2178,7 @@
       },
       {
         "text": "Get some sideburns.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2194,7 +2194,7 @@
       },
       {
         "text": "Get a soul patch.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2210,7 +2210,7 @@
       },
       {
         "text": "Get a chin strip.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2226,7 +2226,7 @@
       },
       {
         "text": "Get some 3-day stubble.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2242,7 +2242,7 @@
       },
       {
         "text": "Get a toothbrush mustache.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2258,7 +2258,7 @@
       },
       {
         "text": "Get a chin strap.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2274,7 +2274,7 @@
       },
       {
         "text": "Get a mustache.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2290,7 +2290,7 @@
       },
       {
         "text": "Get a walrus mustache.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2306,7 +2306,7 @@
       },
       {
         "text": "Get a Zappa.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2322,7 +2322,7 @@
       },
       {
         "text": "Get a goatee.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2338,7 +2338,7 @@
       },
       {
         "text": "Get a circle beard.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2354,7 +2354,7 @@
       },
       {
         "text": "Get a short boxed beard.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2370,7 +2370,7 @@
       },
       {
         "text": "Get a horseshoe.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2386,7 +2386,7 @@
       },
       {
         "text": "Get some mutton chops.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2402,7 +2402,7 @@
       },
       {
         "text": "Get a gunslinger beard.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2418,7 +2418,7 @@
       },
       {
         "text": "Get a chin curtain.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2434,7 +2434,7 @@
       },
       {
         "text": "Get a handlebar mustache.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2450,7 +2450,7 @@
       },
       {
         "text": "Get a Van Dyke.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2466,7 +2466,7 @@
       },
       {
         "text": "Get a regular beard.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2482,7 +2482,7 @@
       },
       {
         "text": "Get a anchor beard.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2498,7 +2498,7 @@
       },
       {
         "text": "Get a royale beard.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2514,7 +2514,7 @@
       },
       {
         "text": "Get a Shenandoah.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2530,7 +2530,7 @@
       },
       {
         "text": "Get a long beard.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
@@ -2546,7 +2546,7 @@
       },
       {
         "text": "Get a very long beard.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
         "effect": [
           { "run_eocs": "reset_all_beard_types" },
           {
