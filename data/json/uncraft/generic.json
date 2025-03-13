@@ -599,7 +599,6 @@
     "components": [ [ [ "bone_human", 4 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
-  },
   {
     "result": "skull_human_tainted",
     "type": "uncraft",
