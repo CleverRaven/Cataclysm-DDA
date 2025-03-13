@@ -13126,14 +13126,12 @@ bool Character::wield( item &it, std::optional<int> obtain_cost )
         wielded->on_wield( *this );
         inv->update_invlet( *wielded );
         inv->update_cache_with_item( *wielded );
+        cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
+        get_event_bus().send_with_talker( this, &wielded, e );
     } else {
         last_item = to_wield.typeId();
+        get_event_bus().send<event_type::character_wields_item>( getID(), item().typeId() );
     }
-
-
-    cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
-    get_event_bus().send_with_talker( this, &wielded, e );
-
     return true;
 }
 
