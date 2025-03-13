@@ -40,14 +40,14 @@
     "followup": "MISSION_EQUIP_PRISONER",
     "dialogue": {
       "describe": { "str": "I need to get away from here!" },
-      "offer": { "str": "Could you escort me to a safe location? I need to get as far away from this alien structure as possible." },
-      "accepted": { "str": "Thank you! I'll follow you. Just lead the way to somewhere safe." },
-      "rejected": { "str": "I understand. I'll try to make it on my own." },
-      "advice": { "str": "We should avoid any alien structures. I don't want to be captured again." },
+      "offer": { "str": "Could you escort me to a safe location?  I need to get as far away from this alien structure as possible." },
+      "accepted": { "str": "Thank you!  I'll follow you.  Just lead the way to somewhere safe." },
+      "rejected": { "str": "I understand.  I'll try to make it on my own." },
+      "advice": { "str": "We should avoid any alien structures.  I don't want to be captured again." },
       "inquire": { "str": "Have we reached somewhere safe yet?" },
-      "success": { "str": "Thank you so much for getting me out of there. I'll never forget what you did for me." },
-      "success_lie": { "str": "Thanks, I guess..." },
-      "failure": { "str": "I knew I shouldn't have trusted anyone in this world..." }
+      "success": { "str": "Thank you so much for getting me out of there.  I'll never forget what you did for me." },
+      "success_lie": { "str": "Thanks, I guess…" },
+      "failure": { "str": "I knew I shouldn't have trusted anyone in this world…" }
     }
   },
   {
@@ -65,14 +65,14 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I can't survive out there without some basic gear.",
-      "offer": "If I'm going to survive in this world, I'll need some equipment. Could you help me find a backpack first?",
-      "accepted": "Thank you. I'll make good use of it.",
-      "rejected": "I understand. I'll try to find something myself.",
+      "offer": "If I'm going to survive in this world, I'll need some equipment.  Could you help me find a backpack first?",
+      "accepted": "Thank you.  I'll make good use of it.",
+      "rejected": "I understand.  I'll try to find something myself.",
       "advice": "Houses or stores might have what we need.",
       "inquire": "Have you found a backpack?",
-      "success": "This will help me carry supplies. Now I need some clothes.",
-      "success_lie": "That's... not a backpack.",
-      "failure": "I understand. It's hard to find good equipment these days."
+      "success": "This will help me carry supplies.  Now I need some clothes.",
+      "success_lie": "That's… not a backpack.",
+      "failure": "I understand.  It's hard to find good equipment these days."
     }
   },
   {
@@ -90,12 +90,12 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I need some proper clothes.",
-      "offer": "I can't go around like this. Could you help me find some clothes? Some jeans would be nice.",
-      "accepted": "Thanks. Anything is better than what I have now.",
-      "rejected": "I understand. Maybe I'll find something myself.",
+      "offer": "I can't go around like this.  Could you help me find some clothes?  Some jeans would be nice.",
+      "accepted": "Thanks.  Anything is better than what I have now.",
+      "rejected": "I understand.  Maybe I'll find something myself.",
       "advice": "Residential areas would be the best place to look.",
       "inquire": "Did you find some jeans for me?",
-      "success": "This will help keep me warm and protected. Thank you.",
+      "success": "This will help keep me warm and protected.  Thank you.",
       "success_lie": "That's not going to help me much.",
       "failure": "I'll manage somehow."
     }
@@ -125,12 +125,12 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I need something to defend myself with.",
-      "offer": "There are dangerous things out there. Could you help me find a weapon? A hunting knife would be perfect for the start.",
-      "accepted": "Thank you. I'll feel safer with something to defend myself.",
-      "rejected": "I understand. I'll be careful.",
+      "offer": "There are dangerous things out there.  Could you help me find a weapon?  A hunting knife would be perfect for the start.",
+      "accepted": "Thank you.  I'll feel safer with something to defend myself.",
+      "rejected": "I understand.  I'll be careful.",
       "advice": "Maybe check hardware stores or houses.",
       "inquire": "Did you find a weapon I could use?",
-      "success": "With this, I might have a chance out there. Thank you for all your help. I can join you if you need another pair of hands.",
+      "success": "With this, I might have a chance out there.  Thank you for all your help.  I can join you if you need another pair of hands.",
       "success_lie": "That's not a weapon I can use.",
       "failure": "I'll have to be extra careful then."
     }
