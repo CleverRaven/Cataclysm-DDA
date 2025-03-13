@@ -116,7 +116,7 @@
       "ter_set": "t_rock_floor",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     },
@@ -370,7 +370,7 @@
       "ter_set": "t_rock_floor",
       "items": [
         { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 12 ] },
         { "item": "log", "count": [ 0, 1 ] },
         { "item": "splinter", "count": [ 10, 20 ] }
@@ -523,7 +523,7 @@
       "items": [
         { "item": "pipe", "count": [ 2, 4 ] },
         { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "steel_chunk", "count": [ 0, 1 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 1 ] },
         { "item": "power_supply", "count": [ 0, 1 ] }
       ]
@@ -587,7 +587,7 @@
       "ter_set": "t_railroad_rubble",
       "items": [
         { "item": "steel_lump", "count": [ 0, 1 ] },
-        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "splinter", "count": [ 6, 12 ] }
       ]
@@ -596,7 +596,7 @@
       "ter_set": "t_railroad_rubble",
       "items": [
         { "item": "steel_lump", "count": [ 0, 1 ] },
-        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "splinter", "count": [ 6, 12 ] }
       ]
@@ -622,7 +622,7 @@
       "ter_set": "t_railroad_rubble",
       "items": [
         { "item": "steel_lump", "count": [ 0, 1 ] },
-        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "splinter", "count": [ 6, 12 ] }
       ]
@@ -631,7 +631,7 @@
       "ter_set": "t_railroad_rubble",
       "items": [
         { "item": "steel_lump", "count": [ 0, 1 ] },
-        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "splinter", "count": [ 6, 12 ] }
       ]

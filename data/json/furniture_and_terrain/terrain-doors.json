@@ -2403,7 +2403,7 @@
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
-      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "mc_steel_chunk", "count": [ 3, 8 ] } ]
     },
     "bash": {
       "str_min": 80,
@@ -2601,7 +2601,7 @@
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
-      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "mc_steel_chunk", "count": [ 3, 8 ] } ]
     },
     "bash": {
       "str_min": 80,
@@ -2774,7 +2774,7 @@
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
-      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "mc_steel_chunk", "count": [ 3, 8 ] } ]
     },
     "bash": {
       "str_min": 80,
@@ -2801,7 +2801,7 @@
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
-      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "mc_steel_chunk", "count": [ 3, 8 ] } ]
     },
     "symbol": "+",
     "color": "cyan",
@@ -2841,7 +2841,7 @@
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
-      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "mc_steel_chunk", "count": [ 3, 8 ] } ]
     },
     "bash": {
       "str_min": 80,
@@ -2880,7 +2880,7 @@
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
-      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "mc_steel_chunk", "count": [ 3, 8 ] } ]
     },
     "bash": {
       "str_min": 45,
@@ -2891,7 +2891,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_floor",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 12 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
@@ -2920,7 +2920,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 12 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
@@ -2952,7 +2952,7 @@
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
-      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "mc_steel_chunk", "count": [ 3, 8 ] } ]
     },
     "bash": {
       "str_min": 45,
@@ -2963,7 +2963,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 12 ] },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]

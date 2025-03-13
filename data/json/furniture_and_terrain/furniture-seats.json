@@ -14,7 +14,7 @@
     "required_str": 8,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT", "SMALL_HIDE" ],
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "nuts_bolts", "charges": 12 }, { "item": "steel_chunk", "count": 8 } ]
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "nuts_bolts", "charges": 12 }, { "item": "lc_steel_chunk", "count": 8 } ]
     },
     "bash": {
       "str_min": 10,
@@ -222,7 +222,7 @@
       "sound": "metal screeching!",
       "sound_fail": "crash!",
       "items": [
-        { "item": "steel_chunk", "count": 1 },
+        { "item": "lc_steel_chunk", "count": 1 },
         { "item": "scrap", "charges": [ 3, 20 ] },
         { "item": "sheet_cotton", "count": [ 0, 1 ] },
         { "item": "cotton_patchwork", "count": [ 3, 10 ] }
@@ -307,7 +307,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "charges": [ 20, 65 ] },
-        { "item": "steel_chunk", "count": [ 0, 5 ] },
+        { "item": "lc_steel_chunk", "count": [ 0, 5 ] },
         { "item": "pipe", "count": [ 1, 2 ] }
       ]
     },
@@ -316,7 +316,7 @@
         { "item": "pipe_fittings", "count": 4 },
         { "item": "scrap", "charges": 15 },
         { "item": "sheet_metal", "count": 1 },
-        { "item": "steel_chunk", "count": 8 },
+        { "item": "lc_steel_chunk", "count": 8 },
         { "item": "pipe", "count": 4 }
       ]
     }
@@ -362,7 +362,7 @@
     "required_str": 12,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 8 }, { "item": "nuts_bolts", "charges": 20 }, { "item": "steel_chunk", "count": 12 } ]
+      "items": [ { "item": "2x4", "count": 8 }, { "item": "nuts_bolts", "charges": 20 }, { "item": "lc_steel_chunk", "count": 12 } ]
     },
     "bash": {
       "str_min": 10,
@@ -400,7 +400,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "leather", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 1, 14 ] },
+        { "item": "lc_steel_chunk", "count": [ 1, 14 ] },
         { "item": "scrap", "charges": [ 10, 65 ] }
       ]
     }
@@ -525,13 +525,13 @@
     "comfort": 1,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CAN_SIT" ],
-    "deconstruct": { "items": [ { "item": "cotton_patchwork", "count": 40 }, { "item": "steel_chunk", "count": 10 } ] },
+    "deconstruct": { "items": [ { "item": "cotton_patchwork", "count": 40 }, { "item": "lc_steel_chunk", "count": 10 } ] },
     "bash": {
       "str_min": 9,
       "str_max": 25,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "sheet_cotton", "count": 1 }, { "item": "steel_chunk", "count": [ 1, 3 ] } ]
+      "items": [ { "item": "sheet_cotton", "count": 1 }, { "item": "lc_steel_chunk", "count": [ 1, 3 ] } ]
     }
   },
   {
