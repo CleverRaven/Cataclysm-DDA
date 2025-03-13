@@ -192,7 +192,7 @@
       "yes": "I've noticed some strange crystalline patches on my skin.  They… they did something to me.  Sometimes I feel phantom sensations, like something's crawling underneath.",
       "no": {
         "npc_has_trait": "MIGO_NEURAL_LINK",
-        "yes": "There's something at the base of my skull.  I can feel it.  Sometimes I get these… flashes of information.  Like I can sense electronics or pick up signals. It's terrifying.",
+        "yes": "There's something at the base of my skull.  I can feel it.  Sometimes I get these… flashes of information.  Like I can sense electronics or pick up signals.  It's terrifying.",
         "no": {
           "npc_has_trait": "MIGO_VISION",
           "yes": "My eyes… they changed my eyes.  I can see in the dark better now, and sometimes I see colors that shouldn't be there.  UV patterns on flowers, electromagnetic fields around power lines…",
