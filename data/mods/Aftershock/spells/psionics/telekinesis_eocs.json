@@ -59,11 +59,44 @@
         "then": { "run_eocs": "EOC_AFS_TELEKINETIC_PUSH_DOWN_CHECKER" },
         "else": [
           {
-            "npc_cast_spell": { "id": "afs_telekinetic_force_shove_away", "min_level": { "math": [ "u_afs_telekinesis_shove_spell_level" ] } },
-            "loc": { "context_val": "loc" }
-          },
-          { "npc_message": "You hurl your target away.", "type": "good" },
-          { "run_eocs": "EOC_AFS_TELEKINETIC_PUSH_DOWN_CHECKER" }
+            "if": "npc_is_avatar",
+            "then": [
+              { "npc_message": "You hurl your target.", "type": "good" },
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_AFS_TELEKINETIC_PUSH_DIRECTION_PICKER",
+                    "effect": [
+                      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "u_pos" } },
+                      {
+                        "npc_choose_adjacent_highlight": { "context_val": "push_direction_incorrect" },
+                        "target_var": { "context_val": "u_pos" },
+                        "message": "Select direction."
+                      },
+                      {
+                        "mirror_coordinates": { "context_val": "push_direction_correct" },
+                        "center_var": { "context_val": "u_pos" },
+                        "relative_var": { "context_val": "push_direction_incorrect" }
+                      },
+                      {
+                        "u_knockback": { "math": [ "u_afs_telekinesis_shove_spell_level" ] },
+                        "stun": 1,
+                        "dam_mult": 2,
+                        "direction_var": { "context_val": "push_direction_correct" }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "else": [
+              {
+                "npc_cast_spell": { "id": "telekinetic_force_shove_away", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } },
+                "loc": { "context_val": "loc" }
+              },
+              { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" }
+            ]
+          }
         ]
       }
     ]
