@@ -131,7 +131,6 @@ static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_slow_descent( "slow_descent" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
@@ -4053,8 +4052,7 @@ void iexamine::migo_cocoon( Character &you, const tripoint_bub_ms &examp )
 
             prisoner->set_all_parts_hp_cur( rng( 10, 75 ) );
             prisoner->add_effect( efftype_id( "stunned" ), rng( 5_turns, 20_turns ) );
-            prisoner->add_effect( efftype_id( "downed" ), rng( 5_turns, 20_turns ) );
-
+            
             tripoint_abs_ms abs_pos = here.get_abs( examp );
             prisoner->spawn_at_precise( abs_pos );
             prisoner->set_fac( faction_id( "no_faction" ) );
