@@ -13102,8 +13102,6 @@ bool Character::wield( item &it, std::optional<int> obtain_cost )
     add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
     mod_moves( -mv );
 
-
-
     item to_wield;
     if( has_item( it ) ) {
         to_wield = i_rem( &it );
