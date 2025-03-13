@@ -45,8 +45,6 @@
 static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
 static const oter_type_str_id oter_type_bridgehead_ramp( "bridgehead_ramp" );
 
-static const oter_str_id oter_open_air( "open_air" );
-
 // Moved from obsolete coordinate_conversions.h to its only remaining user.
 static int omt_to_sm_copy( int a )
 {

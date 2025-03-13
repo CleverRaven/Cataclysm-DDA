@@ -68,7 +68,7 @@ struct timed_event {
     // that storing data in header and templates
     // is horrible if you need to expand it
     timed_event( timed_event_type e_t, const time_point &w, const tripoint_abs_ms &p,
-                 const explosion_data explos_data );
+                 explosion_data explos_data );
 
     // When the time runs out
     void actualize();
@@ -101,7 +101,7 @@ class timed_event_manager
                   const tripoint_abs_ms &where, int strength, const std::string &string_id, submap sr,
                   const std::string &key = "" );
         void add( timed_event_type type, const time_point &when, const tripoint_abs_ms &where,
-                  const explosion_data expl_data );
+                 explosion_data expl_data );
         /// @returns Whether at least one element of the given type is queued.
         bool queued( timed_event_type type ) const;
         /// @returns One of the queued events of the given type, or `nullptr`

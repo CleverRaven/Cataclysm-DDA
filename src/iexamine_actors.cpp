@@ -48,10 +48,10 @@
 #include "value_ptr.h"
 #include "veh_appliance.h"
 
+static const activity_id ACT_MORTAR_AIMING( "ACT_MORTAR_AIMING" );
+
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
-
-static const activity_id ACT_MORTAR_AIMING( "ACT_MORTAR_AIMING" );
 
 void appliance_convert_examine_actor::load( const JsonObject &jo, const std::string & )
 {
