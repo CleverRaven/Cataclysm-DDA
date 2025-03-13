@@ -23,7 +23,7 @@
     "flags": [ "RAW", "INEDIBLE", "LUPINE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
     "id": "large_bone",
     "name": { "str": "large bone" },
     "description": "A huge bone of a large creature.",
