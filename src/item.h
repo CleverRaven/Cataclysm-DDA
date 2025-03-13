@@ -1775,6 +1775,8 @@ class item : public visitable
                                    bool allow_nested = true ) const;
         ret_val<void> can_contain( const itype &tp ) const;
         ret_val<void> can_contain_partial( const item &it ) const;
+        ret_val<void> can_contain_partial( const item &it, int &copies_remaining,
+                                           bool nested = false ) const;
         ret_val<void> can_contain_directly( const item &it ) const;
         ret_val<void> can_contain_partial_directly( const item &it ) const;
         /*@}*/

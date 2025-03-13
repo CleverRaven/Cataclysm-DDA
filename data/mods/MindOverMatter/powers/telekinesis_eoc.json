@@ -25,9 +25,9 @@
     "condition": "u_is_avatar",
     "effect": {
       "run_eoc_selector": [ "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PUSH", "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR_PULL" ],
-      "names": [ "Push", "Pull" ],
+      "names": [ "Shove", "Pull" ],
       "keys": [ "1", "2" ],
-      "descriptions": [ "Shove a target away from you.", "Grab a target and pull them towards you." ]
+      "descriptions": [ "Shove a target in a particular direction.", "Grab a target and pull them towards you." ]
     },
     "false_effect": { "u_cast_spell": { "id": "telekinetic_force_shove_away_target" }, "targeted": true }
   },
@@ -62,11 +62,44 @@
         "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
         "else": [
           {
-            "npc_cast_spell": { "id": "telekinetic_force_shove_away", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } },
-            "loc": { "context_val": "loc" }
-          },
-          { "npc_message": "You hurl your target away.", "type": "good" },
-          { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" }
+            "if": "npc_is_avatar",
+            "then": [
+              { "npc_message": "You hurl your target.", "type": "good" },
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_TELEKINETIC_PUSH_DIRECTION_PICKER",
+                    "effect": [
+                      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "u_pos" } },
+                      {
+                        "npc_choose_adjacent_highlight": { "context_val": "push_direction_incorrect" },
+                        "target_var": { "context_val": "u_pos" },
+                        "message": "Select direction."
+                      },
+                      {
+                        "mirror_coordinates": { "context_val": "push_direction_correct" },
+                        "center_var": { "context_val": "u_pos" },
+                        "relative_var": { "context_val": "push_direction_incorrect" }
+                      },
+                      {
+                        "u_knockback": { "math": [ "u_telekinesis_shove_spell_level" ] },
+                        "stun": 1,
+                        "dam_mult": 2,
+                        "direction_var": { "context_val": "push_direction_correct" }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "else": [
+              {
+                "npc_cast_spell": { "id": "telekinetic_force_shove_away", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } },
+                "loc": { "context_val": "loc" }
+              },
+              { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" }
+            ]
+          }
         ]
       }
     ]
@@ -117,9 +150,9 @@
     "effect": [
       {
         "run_eoc_selector": [ "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_SELECTOR_PUSH", "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_SELECTOR_PULL" ],
-        "names": [ "Push", "Pull" ],
+        "names": [ "Shove", "Pull" ],
         "keys": [ "1", "2" ],
-        "descriptions": [ "Push something away from you.", "Pull something toward you." ]
+        "descriptions": [ "Shove a target in particular direction.", "Pull something toward you." ]
       }
     ]
   },
@@ -154,11 +187,44 @@
         "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
         "else": [
           {
-            "npc_cast_spell": { "id": "telekinetic_force_shove_away", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } },
-            "loc": { "context_val": "loc" }
-          },
-          { "npc_message": "You hurl your target away.", "type": "good" },
-          { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" }
+            "if": "npc_is_avatar",
+            "then": [
+              { "npc_message": "You hurl your target.", "type": "good" },
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_TELEKINETIC_PUSH_DIRECTION_PICKER_2",
+                    "effect": [
+                      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,0,0)" }, "target_var": { "context_val": "u_pos" } },
+                      {
+                        "npc_choose_adjacent_highlight": { "context_val": "push_direction_incorrect" },
+                        "target_var": { "context_val": "u_pos" },
+                        "message": "Select direction."
+                      },
+                      {
+                        "mirror_coordinates": { "context_val": "push_direction_correct" },
+                        "center_var": { "context_val": "u_pos" },
+                        "relative_var": { "context_val": "push_direction_incorrect" }
+                      },
+                      {
+                        "u_knockback": { "math": [ "u_telekinesis_shove_spell_level" ] },
+                        "stun": 1,
+                        "dam_mult": 5,
+                        "direction_var": { "context_val": "push_direction_correct" }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "else": [
+              {
+                "npc_cast_spell": { "id": "telekinetic_force_shove_away", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } },
+                "loc": { "context_val": "loc" }
+              },
+              { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" }
+            ]
+          }
         ]
       }
     ]
