@@ -10105,7 +10105,7 @@
     "description": "Your feet have grown into strong and large rabbit feet.  This makes your kicks pack a little more oomph.  Emphasis on little.  It also offers some warmth, and the lucky part is but superstition.  The downside is you are unable to wear shoes.",
     "types": [ "FEET" ],
     "category": [ "RABBIT" ],
-    "flags": [ "QUADRUPED_RUN" ],
+    "flags": [ "QUADRUPED_RUN", "TOUGH_FEET" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,

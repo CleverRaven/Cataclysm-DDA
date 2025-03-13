@@ -62,5 +62,12 @@
       }
     },
     "values": [ { "value": "POWER_TRICKLE", "add": -5000 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "iso_eldritch_sorcery_buff",
+    "name": { "str": "Scion of the Dreaming City" },
+    "description": "Your people may be gone, but you survive.",
+    "values": [ { "value": "NIGHT_VIS", "add": 3 }, { "value": "MAX_HP", "multiply": -0.25 } ]
   }
 ]

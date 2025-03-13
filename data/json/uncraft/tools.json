@@ -306,5 +306,21 @@
     "difficulty": 1,
     "time": "2 m",
     "components": [ [ [ "pot_canning_clay", 1 ] ], [ [ "clay_pot", 1 ] ], [ [ "fire_brick", 2 ] ] ]
+  },
+  {
+    "result": "shovel_snow",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "3 m",
+    "qualities": [ { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "plank_short", 1 ] ], [ [ "sheet_metal_small", 1 ] ], [ [ "splinter", 2 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "rake",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "3 m",
+    "qualities": [ { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "plank_short", 1 ] ], [ [ "wire", 1 ] ], [ [ "scrap", 2 ] ] ]
   }
 ]

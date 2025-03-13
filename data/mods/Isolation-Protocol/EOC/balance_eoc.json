@@ -12,7 +12,8 @@
       { "math": [ "u_hp('arm_r')", "+=", "2" ] },
       { "math": [ "u_hp('leg_l')", "+=", "2" ] },
       { "math": [ "u_hp('leg_r')", "+=", "2" ] },
-      { "math": [ "u_pain()", "-=", "4" ] }
+      { "math": [ "u_pain()", "-=", "4" ] },
+      { "if": { "u_has_trait": "iso_eldritch_sorcery" }, "then": { "math": [ "u_val('mana')", "+=", "25" ] } }
     ]
   },
   {
