@@ -1,6 +1,7 @@
 #include "path_info.h"
 
 #include <cstdlib>
+#include <filesystem>
 #include <string>
 
 #include "debug.h"

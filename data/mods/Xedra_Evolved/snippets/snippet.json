@@ -56,5 +56,52 @@
       "Why did you start it?  It is obviously not possible.",
       "How did I…?  Ugh, nevermind."
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_notes",
+    "text": [
+      {
+        "id": "lab_notes_interdimensional_magick_1",
+        "name": "excerpt 1, Infinite Dimensions, Finite Magickal Systems",
+        "text": "Excerpt from 'Infinite Dimensions, Finite Magickal Systems by Tyco Arendt':\n\nThrough the efforts of our Offworld Aquisitions Teams and especially the efforts of our Specter Agents we have become aware of numerous worlds where different 'supernatural milieus' exist.  These are worlds what can be lumped together as magick exists but depending on the dimension the process of use and effects can be vastly different."
+      },
+      {
+        "id": "lab_notes_interdimensional_magick_2",
+        "name": "excerpt 2, Infinite Dimensions, Finite Magickal Systems",
+        "text": "Excerpt from 'Infinite Dimensions, Finite Magickal Systems by Tyco Arendt':\n\nWe have encountered dimensions running the gamut of imagined systems of supernatural abilities, ranging from Vancian style Magicians, mana pool systems, and psionically empowered individuals, all the way to what can only be termed as Super Heroic worlds."
+      },
+      {
+        "id": "lab_notes_interdimensional_magick_3",
+        "name": "excerpt 3, Infinite Dimensions, Finite Magickal Systems",
+        "text": "Excerpt from 'Infinite Dimensions, Finite Magickal Systems by Tyco Arendt':\n\nVia our aquisition teams we have brought numerous practitioners back to Cradle-Earth with an incredible variety of results as to whether or not their powers function in our dimension.  Most strangely the broad form which their powers manifest as tends to have little bearing on whether their abilities function here.  We have yet to determine causation of this phenomena nor achieved any control of it."
+      },
+      {
+        "id": "lab_notes_interdimensional_magick_4",
+        "name": "excerpt 4, Infinite Dimensions, Finite Magickal Systems",
+        "text": "Excerpt from 'Infinite Dimensions, Finite Magickal Systems by Tyco Arendt':\n\nThreat Classification: Vancian Magick\nJetIota\n\nVancian Magick is any system that requires the practitioners to learn/memorize a spell and then forget it upon casting at which point it must be relearned again prior to being able to cast again.  Preparation is key for these types of thaumaturgic assets and without being properly prepared for what they face they can be no more threatening than your average citizen.  Conversely we have found that more users of this type of magick retain their powers on Cradle-Earth than any other type than superhumans."
+      },
+      {
+        "id": "lab_notes_interdimensional_magick_5",
+        "name": "excerpt 5, Infinite Dimensions, Finite Magickal Systems",
+        "text": "Excerpt from 'Infinite Dimensions, Finite Magickal Systems by Tyco Arendt':\n\nThreat Classification: Superhuman\nRubyNu\n\n***QUARANTINE***\n\nUpon identification of any subjects manifesting true superhuman abilities all agents and aquisition teams must immediately return to Xedra Facilities on Cradle-Earth within 12 hours or be written off when the dimensional coordinates are permanently blacklisted in our transportation system.  This reaction may seem extreme but any planet that develops superhuman attributes such as strength and endurance is at risk of also developing superintelligent, superperceptive individuals.  We are titling this hypothetical superhuman type as Sphinxes because Sphinxes eat the people who are less intelligent than themselves.  These individuals could potentially identify our presence on their dimension through variables we cannot even comprehend.  Whether our morality viewed them as good or evil would be irrevalent as we have no defense against this type of cultural/intellectual domination."
+      },
+      {
+        "id": "lab_notes_interdimensional_magick_6a",
+        "//": "should override lab_notes_interdimensional_magick_6, but mods cannot override snippets yet",
+        "name": "excerpt 6, Infinite Dimensions, Finite Magickal Systems",
+        "text": "Excerpt from 'Infinite Dimensions, Finite Magickal Systems by Tyco Arendt':\n\nThreat Classification: Psionics\nOpalPsi\n\nPsionically empowered individuals can often be disarmed using specific methods common across dimensions.  Identification of empowered individuals can be difficult in civilizations that either refuse or lack the knowledge of how to identify psionic individuals."
+      },
+      {
+        "id": "lab_notes_gracken_first_contact_1",
+        "name": "XE843 First Contact Notes: Section A",
+        "text": "Alternative Physics Realm UMB-16 is a high energy, low ambiently lit dimension.  Colloquially known among the Aquisitions teams as a 'shadow realm'.  High energy refers to the amount of various radiations emanating from unknown sources that provide an equivalent amount of energy to multiple Sols.  This has resulted in an ecosystem where predation shouldn't need to exist but does.  Every creature we dissected appears to absorb tens of thousands of calories worth of ambient radiation every cycle.  Our observations over time showed that despite this abundance of energy, every lifeform we encountered also had a predation cycle they would undergo in which they prey on one or more of the other shadow creatures."
+      },
+      {
+        "id": "lab_notes_gracken_first_contact_2",
+        "name": "XE843 First Contact Notes: Section B",
+        "text": "UMB-16 is populated by a wide variety of creatures and many of them are harvestable for rare isotopes found in their organs.  Offworld Aquisition Team: Immanentized Eschaton were harvesting isotope rich organs at 1315 Cradle-Time when a humanoid shadow creature approached unnoticed.  It spoke to them in English with a mishmash of accents, (later identifed as accents belonging to teams that had deployed to UMB-16) and that it was authorized to negotiate our presence in it's home dimension.  A return location and date were set and all teams were withdrawn and planned missions for before that date were scrapped.  Debate at the highest levels raged."
+      }
+    ]
   }
 ]

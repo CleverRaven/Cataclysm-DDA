@@ -179,7 +179,7 @@ void spell_effect::short_range_teleport( const spell &sp, Creature &caster,
         debugmsg( "ERROR: Teleport argument(s) invalid" );
         return;
     }
-    teleport::teleport( caster, min_distance, max_distance, safe, false );
+    teleport::teleport_creature( caster, min_distance, max_distance, safe, false );
 }
 
 static void swap_pos( Creature &caster, const tripoint_bub_ms &target )
@@ -999,7 +999,7 @@ static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint_bub_
                                           message_prefix, intensity_name );
                 caster.as_character()->hurtall( 10, nullptr );
                 caster.add_effect( effect_teleglow, 630_minutes );
-                teleport::teleport( caster );
+                teleport::teleport_creature( caster );
                 break;
         }
         break;
@@ -1915,8 +1915,17 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster,
         if( !sp.is_valid_target( caster, potential_target ) ) {
             continue;
         }
+        dialogue d;
+        optional_vpart_position veh = get_map().veh_at( target );
         Creature *victim = creatures.creature_at<Creature>( potential_target );
-        dialogue d( victim ? get_talker_for( victim ) : nullptr, get_talker_for( caster ) );
+        if( victim && ( sp.is_valid_target( spell_target::ally ) ||
+                        sp.is_valid_target( spell_target::hostile ) || sp.is_valid_target( spell_target::self ) ) ) {
+            d = dialogue( get_talker_for( victim ), get_talker_for( caster ) );
+        } else if( sp.is_valid_target( spell_target::vehicle ) && veh ) {
+            d = dialogue( get_talker_for( veh.value().vehicle() ), get_talker_for( caster ) );
+        } else {
+            d = dialogue( nullptr, get_talker_for( caster ) );
+        }
         const tripoint_abs_ms target_abs = get_map().get_abs( potential_target );
         write_var_value( var_type::context, "spell_location", &d,
                          target_abs.to_string() );

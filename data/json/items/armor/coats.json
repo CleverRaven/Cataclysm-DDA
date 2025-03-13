@@ -1465,7 +1465,7 @@
     "id": "jacket_leather",
     "type": "ARMOR",
     "name": { "str": "leather jacket" },
-    "description": "A jacket made from leather.  Offers more protection than your average cotton or denim jacket.",
+    "description": "A jacket made from leather, offering more protection than your average cotton or denim jacket.",
     "weight": "1450 g",
     "volume": "2000 ml",
     "price": "179 USD",
@@ -1512,99 +1512,38 @@
     "warmth": 25,
     "material_thickness": 1.0,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
-  },
-  {
-    "id": "jacket_leather_red",
-    "type": "ARMOR",
-    "name": { "str": "red leather jacket" },
-    "description": "A candy-apple-red leather jacket with black strips and shoulder protrusions.  It has a number of zippers and snaps in the front and a low-cut neck.  The leather it's made of isn't especially thick, so it's not as protective as you might have liked.",
-    "weight": "1000 g",
-    "volume": "1500 ml",
-    "price": "179 USD",
-    "price_postapoc": "5 USD",
-    "material": [ "leather" ],
-    "symbol": "[",
-    "looks_like": "jacket_leather",
-    "color": "red",
-    "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 6, 10 ] },
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 90, "encumbrance": [ 0, 0 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
-    ],
-    "pocket_data": [
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "variant_type": "generic",
+    "variants": [
       {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 80,
-        "max_item_length": "10 cm"
+        "id": "jacket_leather_black",
+        "name": { "str": "black leather jacket" },
+        "description": "This one is a dark black.",
+        "weight": 100,
+        "append": true
       },
       {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 80,
-        "max_item_length": "10 cm"
+        "id": "jacket_leather_brown",
+        "name": { "str": "brown leather jacket" },
+        "description": "This one is a dark shade of brown.",
+        "weight": 100,
+        "append": true
       },
       {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 80,
-        "max_item_length": "10 cm"
+        "id": "jacket_leather_biker",
+        "name": { "str": "biker leather jacket" },
+        "description": "This one has the symbol of a local biker gang on it.",
+        "weight": 10,
+        "append": true
       },
       {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 80,
-        "max_item_length": "10 cm"
+        "id": "jacket_leather_red",
+        "name": { "str": "red leather jacket" },
+        "description": "This one is bright red.",
+        "weight": 1,
+        "append": true
       }
-    ],
-    "warmth": 20,
-    "material_thickness": 0.75,
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
-  },
-  {
-    "id": "gosling_jacket",
-    "type": "ARMOR",
-    "name": { "str": "scorpion ornamented jacket" },
-    "description": "A light cotton padded nylon jacket with a white surface.  It has two pockets on the front, mainly for putting your hands in.  A golden scorpion is embedded on its back.  Fit for a real human being, and a real hero.",
-    "weight": "900 g",
-    "volume": "1500 ml",
-    "price": "80 USD",
-    "price_postapoc": "2 USD 50 cent",
-    "material": [ "nylon", "cotton" ],
-    "symbol": "[",
-    "looks_like": "jacket_leather",
-    "color": "white",
-    "armor": [
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 5, 8 ] },
-      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 3, 3 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 6, 6 ] }
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "400 ml",
-        "max_contains_weight": "1 kg",
-        "moves": 70,
-        "max_item_length": "10 cm"
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "400 ml",
-        "max_contains_weight": "1 kg",
-        "moves": 70,
-        "max_item_length": "10 cm"
-      }
-    ],
-    "warmth": 15,
-    "material_thickness": 0.8,
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    ]
   },
   {
     "id": "jacket_light",
@@ -2579,7 +2518,7 @@
     "price": "180 USD",
     "price_postapoc": "70 cent",
     "symbol": "[",
-    "looks_like": "jacket_leather_red",
+    "looks_like": "jacket_leather",
     "color": "red",
     "armor": [
       {

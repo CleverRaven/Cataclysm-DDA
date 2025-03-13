@@ -248,8 +248,12 @@
     "items": {
       "a": { "item": "fireplace_fill", "chance": 30, "repeat": [ 2, 5 ] },
       "d": [
-        { "item": "SUS_dresser_mens", "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] }
+        {
+          "item": {
+            "subtype": "distribution",
+            "entries": [ { "group": "SUS_dresser_mens", "prob": 50 }, { "group": "SUS_dresser_womens", "prob": 50 } ]
+          }
+        }
       ],
       "e": { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] },
       "f": [

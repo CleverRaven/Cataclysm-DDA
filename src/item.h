@@ -911,6 +911,11 @@ class item : public visitable
          * Fill item with an item up to @amount number of items. This works for any item with container pockets.
          * @param contained item to fill the container with.
          * @param amount Amount to fill item with, capped by remaining capacity
+         * @param unseal_pockets If true, unseal the final pocket thar contained fill with if it is sealed
+         * @param allow_sealed Allow filling contained into a sealed pocket
+         * @param ignore_settings Ignore each pocket's setting
+         * @param into_bottom Insert item to pocket content list end
+         * @param allow_nested Allow fill contained nested pocket in item's pockets
          * @returns amount of contained that was put into it
          */
         int fill_with( const item &contained, int amount = INFINITE_CHARGES,
@@ -918,6 +923,7 @@ class item : public visitable
                        bool allow_sealed = false,
                        bool ignore_settings = false,
                        bool into_bottom = false,
+                       bool allow_nested = true,
                        Character *carrier = nullptr );
 
         /**
@@ -1769,12 +1775,27 @@ class item : public visitable
                                    bool allow_nested = true ) const;
         ret_val<void> can_contain( const itype &tp ) const;
         ret_val<void> can_contain_partial( const item &it ) const;
+        ret_val<void> can_contain_partial( const item &it, int &copies_remaining,
+                                           bool nested = false ) const;
         ret_val<void> can_contain_directly( const item &it ) const;
         ret_val<void> can_contain_partial_directly( const item &it ) const;
         /*@}*/
+        /**
+         * Return an item_location and a pointer to the best pocket that can contain the item @it.
+         * if param allow_nested=true, Check all items contained in every pocket of CONTAINER pocket type,
+         * otherwise, only check this item's pockets.
+         * @param it the item that function wil find the best pocket that can contain it
+         * @param this_loc location of it
+         * @param avoid item that will be avoided in recursive lookup item pocket
+         * @param allow_sealed allow use sealed pocket
+         * @param ignore_settings ignore pocket setting
+         * @param nested whether the current call is nested (used recursively).
+         * @param ignore_rigidity ignore pocket rigid
+         * @param allow_nested whether nested pockets should be checked
+         */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &this_loc,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
-                bool nested = false, bool ignore_rigidity = false );
+                bool nested = false, bool ignore_rigidity = false, bool allow_nested = true );
 
         units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::length min_containable_length() const;

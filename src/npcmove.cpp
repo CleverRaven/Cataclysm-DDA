@@ -170,6 +170,9 @@ static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
 
+static const json_character_flag json_flag_CANNOT_ATTACK( "CANNOT_ATTACK" );
+static const json_character_flag json_flag_CANNOT_MOVE( "CANNOT_MOVE" );
+
 static const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 
 static const skill_id skill_firstaid( "firstaid" );
@@ -1380,7 +1383,8 @@ void npc::move()
      * them from inadvertently getting themselves run over and/or cause vehicle related errors.
      * NPCs flee from uncontained fires within 3 tiles
      */
-    if( !in_vehicle && ( sees_dangerous_field( pos_bub() ) || has_effect( effect_npc_fire_bad ) ) ) {
+    if( !in_vehicle && ( sees_dangerous_field( pos_bub() ) || has_effect( effect_npc_fire_bad ) ) &&
+        !has_flag( json_flag_CANNOT_MOVE ) ) {
         if( sees_dangerous_field( pos_bub() ) ) {
             path.clear();
         }
@@ -1397,26 +1401,29 @@ void npc::move()
      * something nasty is going to happen.
      */
 
-    if( !ai_cache.dangerous_explosives.empty() ) {
+    if( !ai_cache.dangerous_explosives.empty() && !has_flag( json_flag_CANNOT_MOVE ) ) {
         action = npc_escape_explosion;
-    } else if( is_enemy() && vehicle_danger( avoidance_vehicles_radius ) >= 0 ) {
+    } else if( is_enemy() && vehicle_danger( avoidance_vehicles_radius ) >= 0 &&
+               !has_flag( json_flag_CANNOT_MOVE ) ) {
         // TODO: Think about how this actually needs to work, for now assume flee from player
         ai_cache.target = g->shared_from( player_character );
         action = method_of_fleeing();
     } else if( ( target == &player_character && attitude == NPCATT_FLEE_TEMP ) ||
                has_effect( effect_npc_run_away ) ) {
-        if( hp_percentage() > 30 && target && rl_dist( pos_bub(), target->pos_bub() ) <= 1 ) {
+        if( hp_percentage() > 30 && target && rl_dist( pos_bub(), target->pos_bub() ) <= 1 &&
+            !has_flag( json_flag_CANNOT_ATTACK ) ) {
             action = method_of_attack();
-        } else {
+        } else if( !has_flag( json_flag_CANNOT_MOVE ) ) {
             action = method_of_fleeing();
         }
     } else if( has_effect( effect_asthma ) && ( has_charges( itype_inhaler, 1 ) ||
                has_charges( itype_oxygen_tank, 1 ) ||
                has_charges( itype_smoxygen_tank, 1 ) ) ) {
         action = npc_heal;
-    } else if( target != nullptr && ai_cache.danger > 0 ) {
+    } else if( target != nullptr && ai_cache.danger > 0 && !has_flag( json_flag_CANNOT_ATTACK ) ) {
         action = method_of_attack();
-    } else if( !ai_cache.sound_alerts.empty() && !is_walking_with() ) {
+    } else if( !ai_cache.sound_alerts.empty() && !is_walking_with() &&
+               !has_flag( json_flag_CANNOT_MOVE ) ) {
         tripoint_abs_ms cur_s_abs_pos = ai_cache.s_abs_pos;
         if( !ai_cache.guard_pos ) {
             ai_cache.guard_pos = pos_abs();
@@ -1461,7 +1468,8 @@ void npc::move()
             action = address_player();
             print_action( "address_player %s", action );
         }
-        if( action == npc_undecided && ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
+        if( action == npc_undecided && ai_cache.sound_alerts.empty() && ai_cache.guard_pos &&
+            !has_flag( json_flag_CANNOT_MOVE ) ) {
             tripoint_abs_ms return_guard_pos = *ai_cache.guard_pos;
             add_msg_debug( debugmode::DF_NPC, "NPC %s: returning to guard spot at x(%d) y(%d)", get_name(),
                            return_guard_pos.x(), return_guard_pos.y() );
@@ -1469,7 +1477,8 @@ void npc::move()
         }
     }
 
-    if( action == npc_undecided && is_walking_with() && goto_to_this_pos ) {
+    if( action == npc_undecided && is_walking_with() && goto_to_this_pos &&
+        !has_flag( json_flag_CANNOT_MOVE ) ) {
         action = npc_goto_to_this_pos;
     }
 
@@ -1483,11 +1492,11 @@ void npc::move()
     if( action == npc_undecided && is_walking_with() && rules.has_flag( ally_rule::follow_close ) &&
         rl_dist( pos_bub(), player_character.pos_bub() ) > follow_distance() &&
         !( player_character.in_vehicle &&
-           in_vehicle ) ) {
+           in_vehicle ) && !has_flag( json_flag_CANNOT_MOVE ) ) {
         action = npc_follow_player;
     }
 
-    if( action == npc_undecided && attitude == NPCATT_ACTIVITY ) {
+    if( action == npc_undecided && attitude == NPCATT_ACTIVITY && !has_flag( json_flag_CANNOT_MOVE ) ) {
         if( has_stashed_activity() ) {
             if( !check_outbounds_activity( get_stashed_activity(), true ) ) {
                 assign_stashed_activity();
@@ -1537,7 +1546,7 @@ void npc::move()
                 goal = pos_abs_omt();
             }
         }
-        if( is_stationary( true ) && !assigned_camp ) {
+        if( is_stationary( true ) && !assigned_camp && !has_flag( json_flag_CANNOT_MOVE ) ) {
             // if we're in a vehicle, stay in the vehicle
             if( in_vehicle ) {
                 action = npc_pause;
@@ -1556,13 +1565,13 @@ void npc::move()
         }
 
         // check if in vehicle before rushing off to fetch things
-        if( is_walking_with() && player_character.in_vehicle ) {
+        if( is_walking_with() && player_character.in_vehicle && !has_flag( json_flag_CANNOT_MOVE ) ) {
             action = npc_follow_embarked;
             path.clear();
         } else if( fetching_item ) {
             // Set to true if find_item() found something
             action = npc_pickup;
-        } else if( is_following() ) {
+        } else if( is_following() && !has_flag( json_flag_CANNOT_MOVE ) ) {
             // No items, so follow the player?
             action = npc_follow_player;
         }
@@ -1588,7 +1597,7 @@ void npc::move()
             ( action == npc_follow_player &&
               ( rl_dist( pos_bub(), player_character.pos_bub() ) <= follow_distance() ||
                 posz() != player_character.posz() ) )
-        ) ) {
+        ) && !has_flag( json_flag_CANNOT_ATTACK ) ) {
         action = method_of_attack();
     }
 
@@ -1615,6 +1624,10 @@ void npc::execute_action( npc_action action )
     map &here = get_map();
     switch( action ) {
         case npc_do_attack:
+            if( has_flag( json_flag_CANNOT_ATTACK ) ) {
+                move_pause();
+                break;
+            }
             ai_cache.current_attack->use( *this, ai_cache.current_attack_evaluation.target() );
             ai_cache.current_attack.reset();
             ai_cache.current_attack_evaluation = npc_attack_rating{};
@@ -2661,7 +2674,7 @@ npc_action npc::address_player()
                 set_attitude( NPCATT_NULL );
                 return npc_pause;
             }
-        } else if( has_omt_destination() ) {
+        } else if( has_omt_destination() && !has_flag( json_flag_CANNOT_MOVE ) ) {
             return npc_goto_destination;
         } else { // At goal. Now, waiting on nearby player
             return npc_pause;
@@ -2683,7 +2696,7 @@ npc_action npc::long_term_goal_action()
         set_omt_destination();
     }
 
-    if( has_omt_destination() ) {
+    if( has_omt_destination() && !has_flag( json_flag_CANNOT_MOVE ) ) {
         if( mission != NPC_MISSION_TRAVELLING ) {
             set_mission( NPC_MISSION_TRAVELLING );
             set_attitude( attitude );
@@ -2925,6 +2938,10 @@ bool npc::can_move_to( const tripoint_bub_ms &p, bool no_bashing ) const
 
 void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint_bub_ms> *nomove )
 {
+    if( has_flag( json_flag_CANNOT_MOVE ) ) {
+        move_pause();
+        return;
+    }
     tripoint_bub_ms p = pt;
     map &here = get_map();
     const tripoint_bub_ms pos = pos_bub( here );
@@ -2977,7 +2994,7 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
 
     Creature *critter = creatures.creature_at( p );
     if( critter != nullptr ) {
-        if( critter == this ) { // We're just pausing!
+        if( critter == this || has_flag( json_flag_CANNOT_ATTACK ) ) { // We're just pausing!
             move_pause();
             return;
         }

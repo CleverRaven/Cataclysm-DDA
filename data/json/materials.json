@@ -2163,6 +2163,21 @@
   },
   {
     "type": "material",
+    "id": "plutonium",
+    "name": "Plutonium",
+    "density": 19.84,
+    "specific_heat_liquid": 0.13,
+    "specific_heat_solid": 0.13,
+    "latent_heat": 273,
+    "conductive": true,
+    "chip_resist": 1,
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 0 },
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched"
+  },
+  {
+    "type": "material",
     "id": "uran_cell",
     "name": "Uranium cell",
     "density": 19.0,
@@ -2197,6 +2212,39 @@
       "explosion_data": { "chance_hot": 2, "chance_cold": 2, "factor": 1, "fiery": true, "size_factor": 0.15 }
     },
     "resist": { "bash": 6, "cut": 6, "acid": 7, "heat": 3, "bullet": 3 }
+  },
+  {
+    "type": "material",
+    "id": "gas",
+    "name": "Gas",
+    "density": 30,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "chip_resist": 0,
+    "repaired_with": "null",
+    "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 0 },
+    "dmg_adj": [ "agitated", "thinned", "culled", "eradicated" ],
+    "bash_dmg_verb": "ripples",
+    "cut_dmg_verb": "passed through"
+  },
+  {
+    "type": "material",
+    "id": "nitrogen",
+    "name": "Nitrogen",
+    "copy-from": "gas"
+  },
+  {
+    "type": "material",
+    "id": "oxygen",
+    "name": "Oxygen",
+    "copy-from": "gas"
+  },
+  {
+    "type": "material",
+    "id": "hydrogen",
+    "name": "Hydrogen",
+    "copy-from": "gas"
   },
   {
     "type": "material",

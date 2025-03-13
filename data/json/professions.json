@@ -452,10 +452,7 @@
   {
     "type": "profession_item_substitutions",
     "item": "blazer",
-    "sub": [
-      { "present": [ "WOOLALLERGY" ], "new": [ "jacket_leather_red" ] },
-      { "present": [ "VEGAN" ], "new": [ "jacket_light" ] }
-    ]
+    "sub": [ { "present": [ "WOOLALLERGY" ], "new": [ "jacket_leather" ] }, { "present": [ "VEGAN" ], "new": [ "jacket_light" ] } ]
   },
   {
     "type": "profession_item_substitutions",
@@ -515,18 +512,7 @@
   {
     "type": "profession_item_substitutions",
     "item": "sunglasses",
-    "sub": [
-      { "present": [ "HYPEROPIC" ], "new": [ "fitover_sunglasses" ] },
-      { "present": [ "MYOPIC" ], "new": [ "fitover_sunglasses" ] }
-    ]
-  },
-  {
-    "type": "profession_item_substitutions",
-    "item": "fancy_sunglasses",
-    "sub": [
-      { "present": [ "HYPEROPIC" ], "new": [ "fitover_sunglasses" ] },
-      { "present": [ "MYOPIC" ], "new": [ "fitover_sunglasses" ] }
-    ]
+    "sub": [ { "present": [ "HYPEROPIC", "MYOPIC" ], "new": [ "fitover_sunglasses" ] } ]
   },
   {
     "type": "profession_item_substitutions",
@@ -1070,7 +1056,7 @@
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "boots_steel" },
-          { "item": "duct_tape" },
+          { "group": "duct_tape_roll" },
           { "item": "screwdriver" },
           { "item": "wristwatch" },
           { "item": "mag_cars" },
@@ -1330,7 +1316,7 @@
           { "item": "sports_drink" },
           { "item": "wristwatch" },
           { "item": "fanny" },
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" }
         ]
@@ -1369,7 +1355,7 @@
           { "item": "boots" },
           { "item": "beret" },
           { "item": "silver_watch" },
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "item": "binoculars" },
           { "item": "cigar", "entry-wrapper": "case_cigar", "count": 2 },
           { "item": "id_military", "container-item": "wallet_leather" },
@@ -2590,7 +2576,7 @@
           { "item": "polo_shirt" },
           { "item": "boots" },
           { "item": "wristwatch" },
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] }
@@ -3161,7 +3147,7 @@
           { "item": "boots_steel" },
           { "item": "pants_cargo" },
           { "item": "jacket_leather" },
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "item": "hat_boonie" },
           { "item": "diving_watch" },
           { "item": "caff_gum" },
@@ -6442,7 +6428,7 @@
       "both": {
         "entries": [
           { "item": "gold_watch" },
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "item": "water_mineral" },
           { "item": "money_strap_twenty" },
           { "group": "charged_cigs" },
@@ -6885,7 +6871,7 @@
           { "item": "longshirt" },
           { "item": "kevlar" },
           { "item": "mbag" },
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "item": "socks" },
           { "item": "lowtops" },
           { "item": "pockknife" },
@@ -7731,7 +7717,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "item": "platinum_watch" },
           { "item": "knit_scarf_loose" },
           { "item": "gloves_liner" },
@@ -7802,7 +7788,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "fancy_sunglasses" },
+          { "item": "sunglasses" },
           { "item": "platinum_watch" },
           { "item": "knit_scarf_loose" },
           { "item": "gloves_liner" },
@@ -8015,7 +8001,7 @@
         "entries": [
           { "item": "jeans" },
           { "item": "tshirt" },
-          { "item": "gosling_jacket" },
+          { "item": "jacket_leather" },
           { "item": "gloves_fingerless" },
           { "item": "socks" },
           { "item": "sneakers" },

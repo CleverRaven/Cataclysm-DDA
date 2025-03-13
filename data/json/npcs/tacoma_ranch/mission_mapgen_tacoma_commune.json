@@ -47,7 +47,7 @@
       { "item": "cotton_patchwork", "prob": 1 },
       { "item": "disinfectant", "prob": 35, "charges": [ 1, 10 ] },
       [ "medical_gauze", 10 ],
-      [ "medical_tape", 45 ],
+      { "group": "medical_tape_roll_part", "prob": 45 },
       [ "jar_glass_sealed", 20 ],
       [ "jar_3l_glass_sealed", 15 ],
       { "item": "oxygen_tank", "prob": 50, "charges": [ 0, 24 ] },
@@ -587,7 +587,7 @@
       ],
       "terrain": { "w": "t_wall", ".": "t_dirtfloor", "+": "t_door_c", "r": "t_dirtfloor", "c": "t_dirtfloor", "b": "t_dirtfloor" },
       "furniture": { "r": "f_rack", "c": "f_counter", "b": "f_makeshift_bed" },
-      "place_vehicles": [ { "vehicle": "armored_car", "chance": 100, "rotation": 0, "x": 15, "y": 7, "faction": "tacoma_commune" } ],
+      "place_vehicles": [ { "vehicle": "armored_car", "rotation": 0, "x": 15, "y": 7, "faction": "tacoma_commune" } ],
       "place_npcs": [ { "class": "ranch_scrapper_1", "x": 13, "y": 12 } ],
       "place_nested": [ { "chunks": [ "tacoma_commune_chopshop_12_roof" ], "x": 0, "y": 0, "z": 1 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]

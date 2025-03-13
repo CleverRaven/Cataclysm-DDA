@@ -162,6 +162,20 @@
     "fun": 1
   },
   {
+    "id": "phavian_psionic_teleportation_combat_book",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Proposal: TURQUOISE KEYSTONE", "str_pl": "copies of Proposal: TURQUOISE KEYSTONE" },
+    "description": "A formal report with a mostly-blank cover page, stamped with the Project PHAVIAN logo at the top and a red \"TURQUOISE KEYSTONE - EYES ONLY\" centered underneath.  Skimming through it, you see a lot of very worrying phrases in light of recent events, like \"…the sudden but so-far unexplained increase in our mathematicians' prowess…\" or \"…E71 is now capable of passing through two meters of solid matter.\"  The main topic of the document seems to be using teleportation (\"LOST RAIN\", as the report calls it) in combat.  By lengthening the space between the teleporter and their target to build up momentum on their strikes, warping space to make near-misses turn into hits, or teleporting fractions of a meter to avoid incoming attacks or put themselves in a better position to make strikes, the TURQUOISE KEYSTONE practitioner can vastly increase their prowess in close-quarters combat.  Written at the bottom of the last page is, \"We had better test this soon--I think we're going to need it.\"",
+    "copy-from": "recipe_lab_elec",
+    "skill": "metaphysics",
+    "required_level": 2,
+    "max_level": 2,
+    "intelligence": 12,
+    "time": "45 m",
+    "fun": 1
+  },
+  {
     "id": "phavian_psionic_telepathic_mental_engineering_book",
     "type": "BOOK",
     "category": "manuals",

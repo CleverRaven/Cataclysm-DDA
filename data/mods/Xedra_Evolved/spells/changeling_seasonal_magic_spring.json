@@ -187,6 +187,35 @@
     }
   },
   {
+    "id": "changeling_spring_remove_fatigue_and_sleep_deprivation_spell",
+    "type": "SPELL",
+    "name": "Ending the Long Slumber",
+    "description": "Like a hibernating animal shaking off the last remnants of sleep when the snow melts, you can shed sleepiness and fatigue.  The glamour requires that you be <color_yellow>outdoors in sunlight</color> if used in autumn.",
+    "message": "",
+    "flags": [ "VERBAL", "NO_HANDS", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 5,
+    "components": "spell_components_changeling_dreamsparks",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SPRING_REMOVE_FATIGUE_AND_SLEEP_DEPRIVATION_INITIATE",
+    "base_energy_cost": {
+      "math": [
+        "max( ( 550 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 6) - (u_skill('deduction') * 12)), 250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max( ( 6000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 75) - (u_skill('deduction') * 125)), 500)"
+      ]
+    }
+  },
+  {
     "id": "changeling_spring_healing_increase_while_outside_spell",
     "type": "SPELL",
     "name": "New Growth",
@@ -224,5 +253,91 @@
         "max( ( 2000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 50) - (u_skill('deduction') * 75)), 250)"
       ]
     }
+  },
+  {
+    "id": "changeling_spring_charm_control_target_spell",
+    "type": "SPELL",
+    "name": "Ishtar's Folly",
+    "description": "By spinning the energy of desire into a group of human or fae targets, you can fill them with so overpowering a love for you that they will furiously defend you against all threats.  This glamour is <color_yellow>less likely to succeed</color> in the autumn.",
+    "message": "With a whispered hymn, you weave a glamour over your targets.",
+    "flags": [ "VERBAL", "RECHARM", "RANDOM_DURATION", "RANDOM_DAMAGE", "NO_LEGS", "SILENT" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "ground", "hostile", "ally" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 9,
+    "components": "spell_components_changeling_dreamsparks_3",
+    "effect": "charm_monster",
+    "extra_effects": [ { "id": "changeling_spring_charm_control_target_extra_buffs" } ],
+    "min_range": 15,
+    "min_damage": {
+      "math": [
+        "( ( 42 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 1) + (u_skill('deduction') * 4) ) ) * (global_what_is_the_season == 3 ? 0.6 : 1)"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( ( 78 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 2.5) + (u_skill('deduction') * 12) ) ) * (global_what_is_the_season == 3 ? 0.4 : 1)"
+      ]
+    },
+    "min_duration": {
+      "math": [ "( ( 1385 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 254) + (u_skill('deduction') * 544) ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( ( 3482 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 518) + (u_skill('deduction') * 815) ) )" ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( 0 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.1) + (u_skill('deduction') * 0.25)), 4)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( 0 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.1) + (u_skill('deduction') * 0.25)), 4)"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 1100 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 12) - (u_skill('deduction') * 25)), 650)"
+      ]
+    },
+    "base_casting_time": 75,
+    "targeted_monster_species": [ "FERAL", "HUMAN", "CHANGELING", "ARVORE", "HOMULLUS", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ]
+  },
+  {
+    "id": "changeling_spring_charm_control_target_extra_buffs",
+    "type": "SPELL",
+    "name": { "str": "Ishtar's Folly Target buffs", "//~": "NO_I18N" },
+    "description": { "str": "Extra buffs for targets affected by Ishtar's Folly.", "//~": "NO_I18N" },
+    "flags": [ "SILENT", "RANDOM_DURATION" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "ally" ],
+    "teachable": false,
+    "skill": "deduction",
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "effect_changeling_spring_charm_control_target",
+    "min_range": 15,
+    "min_duration": {
+      "math": [ "( ( 1385 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 254) + (u_skill('deduction') * 544) ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( ( 3482 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 518) + (u_skill('deduction') * 815) ) )" ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( 0 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.1) + (u_skill('deduction') * 0.25)), 4)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( 0 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.1) + (u_skill('deduction') * 0.25)), 4)"
+      ]
+    },
+    "targeted_monster_species": [ "FERAL", "HUMAN", "CHANGELING", "ARVORE", "HOMULLUS", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ]
   }
 ]

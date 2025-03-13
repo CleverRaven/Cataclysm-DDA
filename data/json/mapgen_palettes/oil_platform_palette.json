@@ -271,7 +271,7 @@
       "▀": { "item": "pool_table", "chance": 60 }
     },
     "vehicles": {
-      "Ƨ": { "vehicle": "swivel_chair", "chance": 100, "rotation": [ 0, 90, 180, 270 ] },
+      "Ƨ": { "vehicle": "swivel_chair", "rotation": [ 0, 90, 180, 270 ] },
       "²": { "vehicle": "trolley", "chance": 70, "rotation": [ 0, 90, 180, 270 ] },
       "→": { "vehicle": "helicopters", "chance": 20, "rotation": [ 0, 90, 180, 270 ] },
       "n": { "vehicle": "inflatable_boat", "chance": 80 }

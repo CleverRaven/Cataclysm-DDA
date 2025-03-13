@@ -85,18 +85,7 @@
       "g": { "item": "guns_rifle_common_display", "repeat": [ 1, 5 ] },
       "H": { "item": "guns_pistol_common_display", "repeat": [ 1, 5 ] },
       "h": { "item": "guns_shotgun_common_display", "repeat": [ 1, 5 ] },
-      "i": {
-        "item": {
-          "entries": [
-            { "group": "ammo_pistol_common", "prob": 100 },
-            { "group": "ammo_pistol_rare", "prob": 20 },
-            { "group": "ammo_rifle_common", "prob": 100 },
-            { "group": "ammo_rifle_rare", "prob": 20 },
-            { "group": "ammo_shotgun_common", "prob": 10 }
-          ]
-        },
-        "repeat": [ 4, 10 ]
-      },
+      "i": { "item": "ammo_common_boxed", "repeat": 12 },
       "J": { "item": "mags_common_restricted_packaged", "repeat": [ 8, 20 ] },
       "K": {
         "item": {
@@ -230,15 +219,13 @@
       "i": {
         "item": {
           "entries": [
-            { "group": "ammo_pistol_common", "prob": 100 },
-            { "group": "ammo_pistol_rare", "prob": 20 },
-            { "group": "ammo_rifle_common", "prob": 100 },
-            { "group": "ammo_rifle_rare", "prob": 20 },
-            { "group": "ammo_shotgun_common", "prob": 10 }
+            { "group": "ammo_common_boxed_used", "prob": 25 },
+            { "group": "ammo_common_boxed", "prob": 5 },
+            { "group": "ammo_common_boxed_looted", "prob": 70 }
           ]
         },
-        "repeat": [ 0, 3 ],
-        "chance": 40
+        "repeat": [ 0, 8 ],
+        "chance": 70
       },
       "J": { "item": "mags_common_restricted_packaged", "repeat": [ 3, 6 ], "chance": 50 },
       "K": {
@@ -373,18 +360,7 @@
       "E": { "item": "office_mess", "repeat": 3, "chance": 20 },
       "f": { "item": "fridgesnacks", "repeat": 10, "chance": 35 },
       "g": { "item": "cannedfood", "repeat": [ 40, 150 ] },
-      "i": {
-        "item": {
-          "entries": [
-            { "group": "ammo_pistol_common", "prob": 100 },
-            { "group": "ammo_pistol_rare", "prob": 20 },
-            { "group": "ammo_rifle_common", "prob": 100 },
-            { "group": "ammo_rifle_rare", "prob": 20 },
-            { "group": "ammo_shotgun_common", "prob": 10 }
-          ]
-        },
-        "repeat": [ 4, 10 ]
-      },
+      "i": { "item": "ammo_common_boxed_used", "repeat": 6 },
       "K": { "item": "guns_pistol_common", "repeat": [ 6, 10 ] },
       "n": {
         "item": {
