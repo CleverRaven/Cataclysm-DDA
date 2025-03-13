@@ -245,7 +245,7 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                         const weakpoint_attack &wp_attack )
 {
     const bool do_animation = get_option<bool>( "ANIMATION_PROJECTILES" );
-
+    //test
     double range = rl_dist( source, target_arg );
 
     creature_tracker &creatures = get_creature_tracker();
