@@ -13129,7 +13129,7 @@ bool Character::wield( item &it, std::optional<int> obtain_cost )
         inv->update_invlet( *wielded );
         inv->update_cache_with_item( *wielded );
     } else {
-        to_wield.typeId();
+        last_item = to_wield.typeId();
     }
 
 
