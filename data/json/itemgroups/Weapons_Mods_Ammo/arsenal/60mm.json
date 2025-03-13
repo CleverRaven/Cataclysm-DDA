@@ -24,6 +24,6 @@
     "type": "item_group",
     "id": "milspec_arsenal_60mm_gun&mags",
     "subtype": "collection",
-    "items": [ { "group": "mortar_m224", "prob": 80 } ]
+    "items": [ { "item": "mortar_m224", "prob": 80 } ]
   }
 ]
