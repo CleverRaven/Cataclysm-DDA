@@ -247,6 +247,18 @@
         "condition": { "u_has_trait": "natural_hair_growth" },
         "effect": { "u_lose_trait": "natural_hair_growth" }
       },
+      {
+        "text": "Could you fix it to where I can grow my facial hair out, please?",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_trait": "natural_beard_growth" } },
+        "effect": { "u_add_trait": "natural_beard_growth" }
+      },
+      {
+        "text": "I'd like it if my facial hair didn't grow out anymore.  Can you help me with that?",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_trait": "natural_beard_growth" },
+        "effect": { "u_lose_trait": "natural_beard_growth" }
+      },
       { "text": "That's a bit rich for my blood.  <done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "That's a bit rich for my blood.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
