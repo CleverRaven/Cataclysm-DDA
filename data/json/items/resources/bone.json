@@ -34,6 +34,7 @@
     "symbol": "I",
     "color": "white",
     "material": [ "bone" ],
+    "comestible_type": "FOOD",
     "price": "0 cent",
     "price_postapoc": "20 cent",
     "//2": "While it would make sense to be able to mill it, the bone won't fit into a mill…",
