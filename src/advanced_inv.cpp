@@ -19,6 +19,7 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
 #include "advanced_inv_pagination.h"
 #include "auto_pickup.h"
@@ -2247,19 +2248,25 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         popup_getkey( _( "Spilt gasses cannot be picked up.  They will disappear over time." ) );
         return false;
     }
-
-    // Check volume, this should work the same for inventory, map and vehicles, but not for worn
-    if( destarea != AIM_WORN && destarea != AIM_WIELD ) {
+    Character &player_character = get_player_character();
+    // Check how many items you can stash. extra check because free_volume() doesn't account for pockets the item would not fit .
+    if( destarea == AIM_INVENTORY ) {
+        int copies_remaining = amount;
+        player_character.can_stash_partial( it, copies_remaining, /*ignore_pkt_settings=*/false );
+        amount -= copies_remaining;
+        if( amount <= 0 ) {
+            popup_getkey( _( "No pocket can contain the %s." ), it.tname() );
+            return false;
+        }
+    }
+    // Check volume, this should work the same map and vehicles, but not for worn
+    else if( destarea != AIM_WIELD && destarea != AIM_WORN ) {
         const units::volume free_volume = panes[dest].free_volume( squares[destarea] );
         const units::mass free_mass = panes[dest].free_weight_capacity();
         const int room_for = std::min( it.charges_per_volume( free_volume ),
                                        it.charges_per_weight( free_mass ) );
         if( room_for <= 0 ) {
-            if( destarea == AIM_INVENTORY ) {
-                popup_getkey( _( "You have no space for the %s." ), it.tname() );
-            } else {
-                popup_getkey( _( "Destination area is full.  Remove some items first." ) );
-            }
+            popup_getkey( _( "Destination area is full.  Remove some items first." ) );
             return false;
         }
         amount = std::min( room_for, amount );
@@ -2287,7 +2294,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
             amount = std::min( cntmax, amount );
         }
     }
-    Character &player_character = get_player_character();
+
     // Inventory has a weight capacity, map and vehicle don't have that
     if( destarea == AIM_INVENTORY || destarea == AIM_WORN || destarea == AIM_WIELD ) {
         const units::mass unitweight = it.weight() / ( by_charges ? it.charges : 1 );

@@ -712,15 +712,6 @@ void Item_factory::finalize_pre( itype &obj )
             int healthy = std::max( obj.comestible->healthy, 1 ) * 10;
             auto mat = obj.materials;
 
-            // TODO: migrate inedible comestibles to appropriate alternative types.
-            for( auto m = mat.begin(); m != mat.end(); ) {
-                if( !m->first->edible() ) {
-                    m = mat.erase( m );
-                } else {
-                    m++;
-                }
-            }
-
             // For comestibles composed of multiple edible materials we calculate the average.
             for( const auto &v : vitamin::all() ) {
                 if( !vitamins.count( v.first ) ) {
