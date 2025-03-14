@@ -66,6 +66,7 @@
 #include "messages.h"
 #include "mission_companion.h"
 #include "mtype.h"
+#include "monster.h"
 #include "mutation.h"
 #include "npc.h"
 #include "omdata.h"
