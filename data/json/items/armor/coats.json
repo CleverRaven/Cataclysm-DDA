@@ -2134,7 +2134,7 @@
     ],
     "warmth": 50,
     "material_thickness": 1.0,
-    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "COLLAR", "OUTER" ]
   },
   {
     "id": "robe",
