@@ -1,0 +1,22 @@
+[
+ {
+    "id": "xe_micro_missiles",
+    "type": "GUN",
+    "name": { "str": "micro-missile launcher" },
+    "description": "A micro-missile launcher designed to fit on the combat cyborg chassis.  It can fire 4 micro-missiles before reloading.",
+    "volume": "2250 ml",
+    "price": "750 USD",
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "looks_like": "bio_int_enhancer",
+    "color": "magenta",
+    "skill": "launcher",
+    "ammo": [ "273x44" ],
+    "dispersion": 190,
+    "durability": 6,
+    "clip_size": 4,
+    "reload": 150,
+    "flags": [ "NEVER_JAMS", "BIONIC_WEAPON", "TRADER_AVOID", "ZERO_WEIGHT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "273x44": 4 } } ]
+  }
+]
