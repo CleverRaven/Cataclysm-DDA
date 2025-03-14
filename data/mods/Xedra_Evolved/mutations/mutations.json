@@ -876,6 +876,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "flags": [ "CANNIBAL" ],
     "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -4 } ] } ]
   },
   {
