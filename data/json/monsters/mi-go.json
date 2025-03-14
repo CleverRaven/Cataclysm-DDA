@@ -452,7 +452,7 @@
     "type": "MONSTER",
     "id": "mon_mi_go_experiment",
     "name": { "str": "mi-go experiment" },
-    "description": "A grotesque fusion of human and alien flesh.  This unfortunate subject appears to have been modified extensively with grafted tissues and organs.  Multiple limbs protrude at odd angles, and parts of its skin have been replaced with chitinous plating. It moves erratically and emits distorted sounds that might once have been human speech.",
+    "description": "A grotesque fusion of human and alien flesh.  This unfortunate subject appears to have been modified extensively with grafted tissues and organs.  Multiple limbs protrude at odd angles, and parts of its skin have been replaced with chitinous plating.  It moves erratically and emits distorted sounds that might once have been human speech.",
     "default_faction": "mi-go",
     "species": [ "MUTANT", "HUMAN" ],
     "diff": 16,
