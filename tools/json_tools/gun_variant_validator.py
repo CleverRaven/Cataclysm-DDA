@@ -142,7 +142,6 @@ NAME_CHECK_BLACKLIST = {
     "m1911a1_38super",
     "plasma_gun",
     "bbgun",
-    "460_xvr",
 }
 # Stripped from gun/mag names before checking for an identifier
 BAD_IDENTIFIERS = [
