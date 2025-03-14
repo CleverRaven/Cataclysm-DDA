@@ -4071,7 +4071,7 @@ void iexamine::migo_cocoon( Character &you, const tripoint_bub_ms &examp )
             prisoner->load_npc_template( npc_type );
 
             prisoner->set_all_parts_hp_cur( rng( 10, 75 ) );
-            prisoner->add_effect( efftype_id( "stunned" ), rng( 5_turns, 20_turns ) );
+            prisoner->add_effect( efftype_id( effect_stunned ), rng( 5_turns, 20_turns ) );
 
             tripoint_abs_ms abs_pos = here.get_abs( examp );
             prisoner->spawn_at_precise( abs_pos );
