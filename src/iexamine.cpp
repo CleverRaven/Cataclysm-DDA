@@ -171,9 +171,9 @@ static const furn_str_id furn_f_stook_full( "f_stook_full" );
 static const furn_str_id furn_f_water_mill( "f_water_mill" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
 static const furn_str_id furn_f_wind_mill( "f_wind_mill" );
+static const faction_id faction_no_faction( "no_faction" );
 static const furn_str_id furn_f_wind_mill_active( "f_wind_mill_active" );
 
-static const faction_id faction_no_faction( "no_faction" );
 
 static const item_group_id Item_spawn_data_everyday_gear( "everyday_gear" );
 
@@ -4074,7 +4074,7 @@ void iexamine::migo_cocoon( Character &you, const tripoint_bub_ms &examp )
 
             tripoint_abs_ms abs_pos = here.get_abs( examp );
             prisoner->spawn_at_precise( abs_pos );
-            prisoner->set_fac( faction_id( "no_faction" ) );
+            prisoner->set_fac( faction_no_faction );
             overmap_buffer.insert_npc( prisoner );
 
             if( one_in( 3 ) ) {
@@ -4120,7 +4120,7 @@ void iexamine::migo_cocoon( Character &you, const tripoint_bub_ms &examp )
         }
     }
 
-    if( one_in( 10 ) && !you.has_trait( trait_id( "INFRESIST" ) ) ) {
+    if( one_in( 10 ) && !you.has_trait( trait_INFRESIST ) ) {
         add_msg( m_bad,
                  _( "You feel something wet and sticky on your hands.  The fluid seems to be seeping into your skin." ) );
         you.add_effect( effect_migo_serum, rng( 10_minutes, 30_minutes ) );
