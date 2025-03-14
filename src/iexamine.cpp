@@ -142,6 +142,8 @@ static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
 
+static const faction_id faction_no_faction( "no_faction" );
+
 static const furn_str_id furn_f_arcfurnace_empty( "f_arcfurnace_empty" );
 static const furn_str_id furn_f_arcfurnace_full( "f_arcfurnace_full" );
 static const furn_str_id furn_f_compost_empty( "f_compost_empty" );
@@ -171,7 +173,6 @@ static const furn_str_id furn_f_stook_full( "f_stook_full" );
 static const furn_str_id furn_f_water_mill( "f_water_mill" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
 static const furn_str_id furn_f_wind_mill( "f_wind_mill" );
-static const faction_id faction_no_faction( "no_faction" );
 static const furn_str_id furn_f_wind_mill_active( "f_wind_mill_active" );
 
 
