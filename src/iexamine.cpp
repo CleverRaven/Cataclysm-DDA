@@ -246,7 +246,7 @@ static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
-static const quality_id qual_CUT("CUT");
+static const quality_id qual_CUT( "CUT" );
 static const quality_id qual_DIG( "DIG" );
 static const quality_id qual_DRILL( "DRILL" );
 static const quality_id qual_GRASS_CUT( "GRASS_CUT" );
