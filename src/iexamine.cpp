@@ -175,6 +175,8 @@ static const furn_str_id furn_f_wind_mill_active( "f_wind_mill_active" );
 
 static const faction_id faction_no_faction( "no_faction" );
 
+static const item_group_id Item_spawn_data_everyday_gear( "everyday_gear" );
+
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
@@ -4032,7 +4034,7 @@ void iexamine::migo_cocoon( Character &you, const tripoint_bub_ms &examp )
 
     sounds::sound( examp, 10, sounds::sound_t::combat, _( "*rip*" ), true, "tear", "fabric" );
 
-    here.furn_set( examp, furn_str_id( "f_migo_cocoon_open" ) );
+    here.furn_set( examp, furn_f_migo_cocoon_open );
 
     int outcome = rng( 1, 100 );
 
@@ -4041,17 +4043,17 @@ void iexamine::migo_cocoon( Character &you, const tripoint_bub_ms &examp )
 
         if( prisoner_type <= 40 ) { // 40%
             add_msg( m_warning, _( "A dazed prisoner stumbles out of the cocoon." ) );
-            monster pathetic_prisoner( mtype_id( "mon_pathetic_prisoner" ), examp );
+            monster pathetic_prisoner( mon_pathetic_prisoner, examp );
             pathetic_prisoner.add_effect( effect_stunned, rng( 3_turns, 8_turns ) );
             g->place_critter_at( make_shared_fast<monster>( pathetic_prisoner ), examp );
         } else if( prisoner_type <= 50 ) { // 10% - feral prisoner
             add_msg( m_warning, _( "A prisoner falls out of the cocoon, looking disoriented." ) );
-            monster feral_prisoner( mtype_id( "mon_feral_prisoner" ), examp );
+            monster feral_prisoner( mon_feral_prisoner, examp );
             feral_prisoner.add_effect( effect_stunned, rng( 3_turns, 8_turns ) );
             g->place_critter_at( make_shared_fast<monster>( feral_prisoner ), examp );
         } else if( prisoner_type <= 75 ) { // 25% - drained captive
             add_msg( m_warning, _( "A barely alive human falls limply from the cocoon." ) );
-            monster drained_captive( mtype_id( "mon_drained_captive" ), examp );
+            monster drained_captive( mon_drained_captive, examp );
             g->place_critter_at( make_shared_fast<monster>( drained_captive ), examp );
         } else { // 25% - Real human survivor
             add_msg( m_good, _( "A human survivor falls out of the cocoon!" ) );
@@ -4078,23 +4080,22 @@ void iexamine::migo_cocoon( Character &you, const tripoint_bub_ms &examp )
             if( one_in( 3 ) ) {
                 add_msg( m_warning,
                          _( "The survivor has strange crystalline implants visible under their skin." ) );
-                trait_id mi_go_trait = trait_id( "MIGO_EXPERIMENT_MINOR" );
-                if( mi_go_trait.is_valid() ) {
-                    prisoner->set_mutation( mi_go_trait );
+                if( trait_MIGO_EXPERIMENT_MINOR.is_valid() ) {
+                    prisoner->set_mutation( trait_MIGO_EXPERIMENT_MINOR );
                 }
             }
             add_msg( m_info,
                      _( "They appear to be in shock and covered in some kind of bioluminescent fluid." ) );
-            prisoner->add_effect( efftype_id( "migo_serum" ), rng( 10_minutes, 30_minutes ) );
+            prisoner->add_effect( effect_migo_serum, rng( 10_minutes, 30_minutes ) );
         }
     } else if( outcome <= 75 ) { // 15% monster
         add_msg( m_bad, _( "Something monstrous bursts from the cocoon!" ) );
 
         std::vector<mtype_id> monster_types = {
-            mtype_id( "mon_zombie" ),
-            mtype_id( "mon_zombie_brute" ),
-            mtype_id( "mon_mi_go_experiment" ),
-            mtype_id( "mon_mi_go_guard_human" )
+            mon_zombie,
+            mon_zombie_brute,
+            mon_mi_go_experiment,
+            mon_mi_go_guard_human
         };
 
         mtype_id mon_type = random_entry( monster_types );
@@ -4104,25 +4105,25 @@ void iexamine::migo_cocoon( Character &you, const tripoint_bub_ms &examp )
     } else if( outcome <= 90 ) { // 15% corpse
         add_msg( m_neutral, _( "You find a partially dissected human corpse inside the cocoon." ) );
 
-        item body = item::make_corpse( mtype_id( "mon_human" ), calendar::turn, "Human Victim" );
+        item body = item::make_corpse( mon_human, calendar::turn, "Human Victim" );
         here.add_item_or_charges( examp, body );
 
         if( one_in( 3 ) ) {
-            here.put_items_from_loc( item_group_id( "everyday_gear" ), examp, calendar::turn );
+            here.put_items_from_loc( Item_spawn_data_everyday_gear, examp, calendar::turn );
         }
     } else { // 10% empty with biomaterials
         add_msg( m_neutral, _( "The cocoon is empty, but contains some strange biomaterials." ) );
 
-        here.spawn_item( examp, itype_id( "slime_scrap" ), rng( 1, 4 ) );
+        here.spawn_item( examp, itype_slime_scrap, rng( 1, 4 ) );
         if( one_in( 3 ) ) {
-            here.spawn_item( examp, itype_id( "chitin_piece" ), rng( 1, 2 ) );
+            here.spawn_item( examp, itype_chitin_piece, rng( 1, 2 ) );
         }
     }
 
     if( one_in( 10 ) && !you.has_trait( trait_id( "INFRESIST" ) ) ) {
         add_msg( m_bad,
                  _( "You feel something wet and sticky on your hands.  The fluid seems to be seeping into your skin." ) );
-        you.add_effect( efftype_id( "migo_serum" ), rng( 10_minutes, 30_minutes ) );
+        you.add_effect( effect_migo_serum, rng( 10_minutes, 30_minutes ) );
     }
 
     you.mod_moves( -to_moves<int>( 20_seconds ) );
