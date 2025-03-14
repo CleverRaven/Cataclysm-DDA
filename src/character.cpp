@@ -13121,30 +13121,36 @@ bool Character::wield( item &it, std::optional<int> obtain_cost )
     add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
     mod_moves( -mv );
 
-    bool had_item = has_item( it );
-    if( combine_stacks ) {
-        wielded->combine( it );
+    item to_wield;
+    if( has_item( it ) ) {
+        to_wield = i_rem( &it );
     } else {
-        set_wielded_item( it );
+        // is_null means fists
+        to_wield = it.is_null() ? item() : it;
     }
 
-    if( had_item ) {
-        i_rem( &it );
+    if( combine_stacks ) {
+        wielded->combine( to_wield );
+    } else {
+        set_wielded_item( to_wield );
     }
 
     // set_wielded_item invalidates the weapon item_location, so get it again
     wielded = get_wielded_item();
-    last_item = wielded->typeId();
     recoil = MAX_RECOIL;
 
-    wielded->on_wield( *this );
-
-    cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
-    get_event_bus().send_with_talker( this, &wielded, e );
-
-    inv->update_invlet( *wielded );
-    inv->update_cache_with_item( *wielded );
-
+    // if fists are wielded get_wielded_item returns item_location::nowhere, which is a nullptr
+    if( wielded ) {
+        last_item = wielded->typeId();
+        wielded->on_wield( *this );
+        inv->update_invlet( *wielded );
+        inv->update_cache_with_item( *wielded );
+        cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
+        get_event_bus().send_with_talker( this, &wielded, e );
+    } else {
+        last_item = to_wield.typeId();
+        get_event_bus().send<event_type::character_wields_item>( getID(), item().typeId() );
+    }
     return true;
 }
 
