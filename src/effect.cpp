@@ -11,6 +11,7 @@
 #include "character.h"
 #include "color.h"
 #include "debug.h"
+#include "condition.h"
 #include "effect_source.h"
 #include "enums.h"
 #include "event.h"
@@ -1606,6 +1607,11 @@ void load_effect_type( const JsonObject &jo, const std::string_view src )
         std::string enchant_name = "INLINE_ENCH_" + new_etype.id.str() + "_" + std::to_string(
                                        enchant_num++ );
         new_etype.enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
+    }
+    JsonObject eaObj = jo.get_object( "encumbrance" );
+    for( JsonMember ea : jo.get_object( "encumbrance" ) ) {
+        const bodypart_str_id bp = bodypart_str_id( ea.name() );
+        new_etype.encumbrance[bp] = get_dbl_or_var( eaObj, bp.str(), true );
     }
     effect_types[new_etype.id] = new_etype;
 }
