@@ -97,9 +97,8 @@ work requires some extra steps.
 #### Extreme tl;dr for Ubuntu Focal (including WSL)
 The following set of commands should take you from zero to running clang-tidy equivalent to the CI job. This will lint all sources in a random order.
 ```sh
-sudo apt install build-essential cmake clang-12 libclang-12-dev llvm-12 llvm-12-dev llvm-12-tools pip
+sudo apt install build-essential cmake clang-12 libclang-12-dev llvm-12 llvm-12-dev llvm-12-tools python-is-python3 pip
 sudo pip install compiledb lit
-test -f /usr/bin/python || sudo ln -s /usr/bin/python3 /usr/bin/python
 # The following command invokes clang-tidy exactly like CI does
 COMPILER=clang++-12 CLANG=clang++-12 CMAKE=1 CATA_CLANG_TIDY=plugin TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-build.sh
 COMPILER=clang++-12 CLANG=clang++-12 CMAKE=1 CATA_CLANG_TIDY=plugin TILES=1 LOCALIZE=0 ./build-scripts/clang-tidy-run.sh
