@@ -30,7 +30,7 @@
     "bleed_rate": 80,
     "vision_day": 45,
     "vision_night": 15,
-    "harvest": "demihuman",
+    "harvest": "vampire",
     "path_settings": { "max_dist": 5 },
     "grab_strength": 20,
     "special_attacks": [
@@ -76,7 +76,7 @@
     "bleed_rate": 40,
     "vision_day": 30,
     "vision_night": 15,
-    "harvest": "demihuman",
+    "harvest": "vampire",
     "path_settings": { "max_dist": 5 },
     "grab_strength": 20,
     "special_attacks": [

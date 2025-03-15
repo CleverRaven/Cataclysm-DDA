@@ -37,6 +37,53 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BLOOD_DRINKING_INEDIBLE",
+    "eoc_type": "EVENT",
+    "required_event": "character_eats_item",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "animal_blood", { "context_val": "itype" } ] },
+            { "compare_string": [ "blood_tainted", { "context_val": "itype" } ] }
+          ]
+        },
+        { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] }
+      ]
+    },
+    "effect": [ { "u_message": "You still feel as hungry as before.  This blood cannot sustain you.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONSUME_VAMPIRE_BLOOD",
+    "eoc_type": "EVENT",
+    "required_event": "character_eats_item",
+    "condition": {
+      "and": [
+        { "compare_string": [ "vampire_blood", { "context_val": "itype" } ] },
+        { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] }
+      ]
+    },
+    "effect": [ { "u_message": "You need the blood of the living, not the blood of the dead.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONSUME_VAMPIRE_BLOOD_NON_VAMPIRE",
+    "eoc_type": "EVENT",
+    "required_event": "character_eats_item",
+    "condition": {
+      "and": [
+        { "compare_string": [ "vampire_blood", { "context_val": "itype" } ] },
+        { "not": { "u_has_effect": "vampire_virus" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you drink, some of the vampire blood enters your gums.", "type": "mixed" },
+      { "u_add_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_BLOOD_FUN",
     "eoc_type": "EVENT",
     "required_event": "character_eats_item",
@@ -54,6 +101,15 @@
       ]
     },
     "effect": [ { "u_add_morale": "morale_drank_blood", "bonus": 30, "max_bonus": 60, "duration": "20 m", "decay_start": "10 m" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_BLOOD_NUMBER_UI",
+    "//": "Until the day UI widgets can directly access vitamin levels, this will have to be.",
+    "recurrence": 1,
+    "condition": { "u_has_effect": "vampire_virus" },
+    "deactivate_condition": { "not": { "u_has_effect": "vampire_virus" } },
+    "effect": [ { "math": [ "u_blood_amount_for_graph = u_vitamin('human_blood_vitamin')" ] } ]
   },
   {
     "type": "effect_on_condition",
