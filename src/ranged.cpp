@@ -1092,7 +1092,8 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
 
         weakpoint_attack wp_attack;
         wp_attack.weapon = &gun;
-        itype_id projectile_use_ammo_id = gun.has_ammo_data()? gun.ammo_data()->get_id():itype_id::NULL_ID();
+        itype_id projectile_use_ammo_id = gun.has_ammo_data() ? gun.ammo_data()->get_id() :
+                                          itype_id::NULL_ID();
         projectile proj = make_gun_projectile( gun );
 
         for( damage_unit &elem : proj.impact.damage_units ) {
@@ -1114,11 +1115,13 @@ int Character::fire_gun( map &here, const tripoint_bub_ms &target, int shots, it
                 continue;
             }
             if( monster *const m = hit_entry.first->as_monster() ) {
-                cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(), gun_id,projectile_use_ammo_id,
+                cata::event e = cata::event::make<event_type::character_ranged_attacks_monster>( getID(), gun_id,
+                                projectile_use_ammo_id,
                                 m->type->id );
                 get_event_bus().send_with_talker( this, m, e );
             } else if( Character *const c = hit_entry.first->as_character() ) {
-                cata::event e = cata::event::make<event_type::character_ranged_attacks_character>( getID(), gun_id,projectile_use_ammo_id,
+                cata::event e = cata::event::make<event_type::character_ranged_attacks_character>( getID(), gun_id,
+                                projectile_use_ammo_id,
                                 c->getID(), c->get_name() );
                 get_event_bus().send_with_talker( this, c, e );
             }
