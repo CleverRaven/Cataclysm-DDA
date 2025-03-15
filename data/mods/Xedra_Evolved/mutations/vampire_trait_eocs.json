@@ -64,20 +64,22 @@
         { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] }
       ]
     },
-    "effect": [ { "u_message": "You need the blood of the living, not the blood of the dead.", "type": "bad" } ],
-    "false_effect": [
-      {
-        "run_eocs": [
-          {
-            "id": "EOC_CONSUME_VAMPIRE_BLOOD_NOT_A_VAMPIRE",
-            "condition": { "and": [ { "not": { "u_has_trait": "VAMPIRE" } }, { "not": { "u_has_effect": "vampire_virus" } } ] },
-            "effect": [
-              { "u_message": "As you drink, some of the vampire blood enters your gums.", "type": "mixed" },
-              { "u_add_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" }
-            ]
-          }
-        ]
-      }
+    "effect": [ { "u_message": "You need the blood of the living, not the blood of the dead.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONSUME_VAMPIRE_BLOOD_NON_VAMPIRE",
+    "eoc_type": "EVENT",
+    "required_event": "character_eats_item",
+    "condition": {
+      "and": [
+        { "compare_string": [ "vampire_blood", { "context_val": "itype" } ] },
+        { "not": { "u_has_effect": "vampire_virus" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you drink, some of the vampire blood enters your gums.", "type": "mixed" },
+      { "u_add_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" }
     ]
   },
   {
