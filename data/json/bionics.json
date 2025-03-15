@@ -26,6 +26,7 @@
     "name": { "str": "Alarm System" },
     "description": "A motion-detecting alarm system will notice almost all movement within a fifteen-foot radius, and will silently alert you.  This is very useful during sleep, or if you suspect a cloaked pursuer.",
     "occupied_bodyparts": [ [ "torso", 2 ], [ "head", 1 ] ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MOTION_ALARM", "add": 5 } ] } ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "1 J",
     "react_cost": "1 J",
