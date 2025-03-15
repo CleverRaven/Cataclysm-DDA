@@ -2350,6 +2350,12 @@ void monster::set_hp( const int hp )
     this->hp = hp;
 }
 
+void monster::apply_damage( Creature *source, bodypart_id hurt, const damage_instance &dam,
+                            const bool bypass_med )
+{
+    apply_damage( source, hurt, dam.total_damage(), bypass_med );
+}
+
 void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
                             const bool /*bypass_med*/ )
 {
