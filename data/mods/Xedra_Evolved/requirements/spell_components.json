@@ -162,6 +162,15 @@
     ]
   },
   {
+    "id": "spell_components_hedge_luck_spell",
+    "type": "requirement",
+    "tools": [
+      [ [ "candle_lit", -1 ] ],
+      [ [ "pen", 4 ], [ "pencil", 4 ], [ "blue_pen", 4 ], [ "green_pen", 4 ], [ "black_pen", 4 ], [ "red_pen", 4 ] ]
+    ],
+    "components": [ [ [ "coin_penny", 1 ] ], [ [ "paper", 1 ] ] ]
+  },
+  {
     "id": "spell_components_hedge_evil_eye_ward",
     "type": "requirement",
     "tools": [  ],
