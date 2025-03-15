@@ -1232,7 +1232,7 @@
     "difficulty": 5,
     "time": "15 h",
     "book_learn": [ [ "textbook_weapwest", 4 ], [ "recipe_melee", 5 ], [ "textbook_weparabic", 4 ], [ "textbook_armschina", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1558,7 +1558,7 @@
     "time": "744m",
     "autolearn": true,
     "book_learn": [ [ "textbook_weapwest", 3 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "lc_steel_standard", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
