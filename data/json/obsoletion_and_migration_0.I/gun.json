@@ -691,7 +691,6 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "8x40mm", [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ] ] ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ] } ],
     "melee_damage": { "bash": 12 }

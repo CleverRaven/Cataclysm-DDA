@@ -188,6 +188,7 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "3006" ],
+    "default_ammo": "3006",
     "reload_time": 180,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 47 } } ],

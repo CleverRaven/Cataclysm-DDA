@@ -3880,8 +3880,8 @@
     "name": { "str": "XL chitinous armor" },
     "copy-from": "test_armor_chitin",
     "relative": {
-      "weight": 200,
-      "volume": 1000,
+      "weight": "200 g",
+      "volume": "1000 ml",
       "price": "1 USD",
       "material_thickness": 2,
       "environmental_protection": 2,
@@ -3895,8 +3895,8 @@
     "name": { "str": "XL chitinous armor" },
     "copy-from": "test_armor_chitin",
     "relative": {
-      "weight": 200,
-      "volume": 1000,
+      "weight": "200 g",
+      "volume": "1000 ml",
       "price": "1 USD",
       "material_thickness": 2,
       "environmental_protection": 2,
