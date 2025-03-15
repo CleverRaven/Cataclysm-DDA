@@ -8,6 +8,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_spring_reduce_scent",
+    "name": [ "Scent of Fresh Flowers" ],
+    "desc": [ "A sweet scent fills the air." ],
+    "remove_message": "The scent of flowers fades away.",
+    "enchantments": [
+      { "mutations": [ "ARVORE_MOSS", "BARK" ] },
+      {
+        "values": [
+          {
+            "value": "SCENT_MASK",
+            "multiply": {
+              "math": [
+                "( -0.15 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.015) - (u_skill('deduction') * 0.035) ) * (global_what_is_the_season == 3 ? 0.5 : 1)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_spring_prevent_bad_conditions",
     "name": [ "Spring Cleansing" ],
     "desc": [ "You feel like you've just come outside after a long winter." ],
@@ -233,6 +255,28 @@
             { "frequency": "4 seconds", "spell_effects": [ { "id": "changeling_summer_powerful_sunlight_spell_aura_effects" } ] }
           ]
         }
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_autumn_detect_magic_user",
+    "name": [ "Witch's Warning" ],
+    "desc": [ "You can sense nearby uses of magick." ],
+    "apply_message": "",
+    "remove_message": "Your awareness of sorcerers.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "special_vision": [
+          {
+            "condition": {
+              "or": [ { "npc_has_flag": "MAGIC_USER" }, { "and": [ "npc_is_character", { "math": [ "n_spell_count() >= 6" ] } ] } ]
+            },
+            "distance": { "math": [ "( u_spell_level('animist_detect_wizards') * 2) + 3" ] },
+            "descriptions": [ { "id": "fae_sense", "symbol": "?", "color": "cyan", "text": "You sense a sorcerer here." } ]
+          }
+        ]
       }
     ]
   },

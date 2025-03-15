@@ -49,11 +49,39 @@
         "max( ( 150 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 3) - (u_skill('deduction') * 4)), 50) * (global_what_is_the_season == 3 ? 4 : 1)"
       ]
     },
-    "base_casting_time": {
+    "base_casting_time": 100
+  },
+  {
+    "id": "changeling_spring_reduce_scent_spell",
+    "type": "SPELL",
+    "name": "Scent of Fresh Flowers",
+    "description": "Cover your own scent with the scent of fresh-blooming flowers, marking it harder for animals (or the dead) to track you.  The glamour's is <color_yellow>less effective</color> in the autumn.",
+    "message": "A pleasant scent fills the air",
+    "flags": [ "VERBAL", "SOMATIC", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 2,
+    "effect": "attack",
+    "effect_str": "effect_changeling_spring_reduce_scent",
+    "min_duration": {
       "math": [
-        "max( ( 150 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 3) - (u_skill('deduction') * 5)), 75)  * (global_what_is_the_season == 3 ? 4 : 1)"
+        "( ( 27095 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 4521) + (u_skill('deduction') * 6241) ) )"
       ]
-    }
+    },
+    "max_duration": {
+      "math": [
+        "( ( 70912 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 8491) + (u_skill('deduction') * 18405) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [ "max( ( 200 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 2) - (u_skill('deduction') * 6)), 75)" ]
+    },
+    "base_casting_time": 250
   },
   {
     "id": "changeling_spring_minor_restore_stamina_and_pain_spell",
@@ -149,6 +177,37 @@
     }
   },
   {
+    "id": "changeling_spring_summon_flower_warriors_spell",
+    "type": "SPELL",
+    "name": "War of the Flowers",
+    "description": "Endless fields of daffodil warriors fight and die at the pleasure of their overlords in the battles constantly waging in the Bright Lands.  While this is a simpler glamour that that which creates those armies, you can still spin up a small group of daffodil warriors from some nearby foliage.",
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 4,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SPRING_SUMMON_FLOWER_WARRIORS",
+    "min_duration": {
+      "math": [ "( ( 3051 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 510) + (u_skill('deduction') * 952) ) )" ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 7512 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 1204) + (u_skill('deduction') * 2185) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "max( ( 500 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 6) - (u_skill('deduction') * 10)), 200)"
+      ]
+    },
+    "base_casting_time": 300
+  },
+  {
     "id": "changeling_spring_protective_plant_armor_spell",
     "type": "SPELL",
     "name": "Viridian Cuirass",
@@ -212,6 +271,45 @@
     "base_casting_time": {
       "math": [
         "max( ( 6000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 75) - (u_skill('deduction') * 125)), 500)"
+      ]
+    }
+  },
+  {
+    "id": "changeling_spring_summon_rain_shower_spell",
+    "type": "SPELL",
+    "name": "Spring Shower",
+    "description": "Cause the sky to cloud over and a soft spring rain to fall.  Reweave the glamour to dispel it.  You cannot summon the rains if the weather is below freezing.",
+    "message": "",
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_LEGS" ],
+    "magic_type": "xe_fey_seasonal_magick_spring",
+    "spell_class": "CHANGELING_SEASONAL_MAGIC_SPRING",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "max_level": 1,
+    "shape": "blast",
+    "difficulty": 5,
+    "components": "spell_components_changeling_dreamsparks",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CHANGELING_SPRING_SUMMON_RAIN_SHOWER",
+    "min_duration": {
+      "math": [
+        "( ( 55653 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 14677) + (u_skill('deduction') * 26749) ) )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( 125650 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 20548) + (u_skill('deduction') * 68740) ) )"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_controlling_weather_rains') > -1 ? 0 : max( ( 500 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 4) - (u_skill('deduction') * 8)), 250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_controlling_weather_rains') > -1 ? 0 : max( ( 45000 - (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 75) - (u_skill('deduction') * 1000)), 6000)"
       ]
     }
   },
