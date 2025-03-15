@@ -160,10 +160,8 @@ dealt_damage_instance talker_character_const::deal_damage( Creature *source, bod
     return source->deal_damage( source, bp, dam );
 }
 
-void talker_character::set_pos( tripoint_bub_ms new_pos )
+void talker_character::set_pos( map &here,  tripoint_bub_ms new_pos )
 {
-    map &here = get_map();
-
     me_chr->setpos( here, new_pos );
 }
 
@@ -919,10 +917,8 @@ bool talker_character_const::can_see() const
                                           me_chr_const->has_flag( json_flag_SEESLEEP ) );
 }
 
-bool talker_character_const::can_see_location( const tripoint_bub_ms &pos ) const
+bool talker_character_const::can_see_location( const map &here, const tripoint_bub_ms &pos ) const
 {
-    const map &here = get_map();
-
     return me_chr_const->sees( here, pos );
 }
 

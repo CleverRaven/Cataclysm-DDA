@@ -1983,7 +1983,9 @@ static hint_rating rate_action_change_side( const avatar &you, const item &it )
 
 static hint_rating rate_action_disassemble( avatar &you, const item &it )
 {
-    if( you.can_disassemble( it, you.crafting_inventory() ).success() ) {
+    map &here = get_map();
+
+    if( you.can_disassemble( it, you.crafting_inventory( here ) ).success() ) {
         // Possible right now
         return hint_rating::good;
     } else if( it.is_disassemblable() ) {
@@ -2231,6 +2233,8 @@ int game::inventory_item_menu( item_location locThisItem,
                                const std::function<int()> &iWidth,
                                UNUSED const inventory_item_menu_position position )
 {
+    map &here = get_map();
+
     int cMenu = static_cast<int>( '+' );
 
     item &oThisItem = *locThisItem;
@@ -2448,7 +2452,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     u.takeoff( locThisItem.obtain( u ) );
                     break;
                 case 'd':
-                    u.drop( locThisItem, u.pos_bub() );
+                    u.drop( locThisItem, here, u.pos_bub( here ) );
                     break;
                 case 'U':
                     u.unload( locThisItem );
@@ -4279,7 +4283,7 @@ void game::draw_pixel_minimap( const catacurses::window &w )
 
 void game::draw_critter( const Creature &critter, const tripoint_bub_ms &center )
 {
-    const map &here = get_map();
+    map &here = get_map();
 
     const tripoint_bub_ms critter_pos = critter.pos_bub( here );
     const int my = POSY + ( critter_pos.y() - center.y() );
@@ -4305,7 +4309,7 @@ void game::draw_critter( const Creature &critter, const tripoint_bub_ms &center 
         return;
     }
     if( u.sees( here, critter ) || &critter == &u ) {
-        critter.draw( w_terrain, point_bub_ms( center.xy() ), false );
+        critter.draw( w_terrain, here, center.xy(), false );
         return;
     }
     const_dialogue d( get_const_talker_for( u ), get_const_talker_for( critter ) );
@@ -6014,6 +6018,8 @@ void game::control_vehicle()
 
 bool game::npc_menu( npc &who )
 {
+    map &here = get_map();
+
     enum choices : int {
         talk = 0,
         swap_pos,
@@ -6055,7 +6061,7 @@ bool game::npc_menu( npc &who )
     if( choice == talk ) {
         u.talk_to( get_talker_for( who ) );
     } else if( choice == swap_pos ) {
-        if( !prompt_dangerous_tile( who.pos_bub() ) ) {
+        if( !prompt_dangerous_tile( who.pos_bub( here ) ) ) {
             return true;
         }
         if( u.get_grab_type() == object_type::NONE ) {
@@ -6080,10 +6086,10 @@ bool game::npc_menu( npc &who )
 
         }
         // TODO: Make NPCs protest when displaced onto dangerous crap
-        tripoint_bub_ms oldpos = who.pos_bub();
-        who.move_away_from( u.pos_bub(), true );
+        tripoint_bub_ms oldpos = who.pos_bub( here );
+        who.move_away_from( u.pos_bub( here ), true );
         u.mod_moves( -20 );
-        if( oldpos != who.pos_bub() ) {
+        if( oldpos != who.pos_bub( here ) ) {
             add_msg( _( "%s moves out of the way." ), who.get_name() );
         } else {
             add_msg( m_warning, _( "%s has nowhere to go!" ), who.get_name() );
@@ -6136,7 +6142,7 @@ bool game::npc_menu( npc &who )
                 u.i_rem( &used );
             }
         } else {
-            bool did_use = u.invoke_item( &used, heal_string, who.pos_bub() );
+            bool did_use = u.invoke_item( &used, heal_string, here, who.pos_bub( here ) );
             if( did_use ) {
                 // Note: exiting a body part selection menu counts as use here
                 u.mod_moves( -300 );
@@ -6558,7 +6564,7 @@ std::optional<tripoint_bub_ms> game::look_debug()
 
 void game::draw_look_around_cursor( const tripoint_bub_ms &lp, const visibility_variables &cache )
 {
-    const map &here = get_map();
+    map &here = get_map();
 
     if( !liveview.is_enabled() ) {
 #if defined( TILES )
@@ -6576,7 +6582,7 @@ void game::draw_look_around_cursor( const tripoint_bub_ms &lp, const visibility_
         if( visibility == visibility_type::CLEAR ) {
             const Creature *const creature = get_creature_tracker().creature_at( lp, true );
             if( creature != nullptr && u.sees( here, *creature ) ) {
-                creature->draw( w_terrain, view_center, true );
+                creature->draw( w_terrain, here, view_center, true );
             } else {
                 m.drawsq( w_terrain, lp, drawsq_params().highlight( true ).center( view_center ) );
             }
@@ -6892,7 +6898,7 @@ void game::print_trap_info( const tripoint_bub_ms &lp, const catacurses::window 
                             int &line )
 {
     const trap &tr = m.tr_at( lp );
-    if( tr.can_see( lp, u ) ) {
+    if( tr.can_see( m, lp, u ) ) {
         std::string tr_name = tr.name();
         mvwprintz( w_look, point( column, ++line ), tr.color, tr_name );
     }
@@ -9619,14 +9625,18 @@ void game::insert_item()
 
 void game::unload_container()
 {
+    map &here = get_map();
+
     if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent( _( "Unload where?" ) ) ) {
-        u.drop( game_menus::inv::unload_container(), *pnt );
+        u.drop( game_menus::inv::unload_container(), here, *pnt );
     }
 }
 
 void game::drop_in_direction( const tripoint_bub_ms &pnt )
 {
-    u.drop( game_menus::inv::multidrop( u ), pnt );
+    map &here = get_map();
+
+    u.drop( game_menus::inv::multidrop( u ), here, pnt );
 }
 
 // Used to set up the first Hotkey in the display set
@@ -9743,6 +9753,8 @@ static std::string wrap60( const std::string &text )
 // Butchery sub-menu and time calculation
 static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int index = -1 )
 {
+    map &here = get_map();
+
     avatar &player_character = get_avatar();
     constexpr int num_butcher_types = static_cast<int>( butcher_type::NUM_TYPES );
 
@@ -9754,7 +9766,7 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
         if( index != -1 ) {
             const mtype &corpse = *corpses[index]->get_mtype();
             const float factor = corpse.harvest->get_butchery_requirements().get_fastest_requirements(
-                                     player_character.crafting_inventory(),
+                                     player_character.crafting_inventory( here ),
                                      corpse.size, bt ).first;
             time_to_cut = butcher_time_to_cut( player_character, *corpses[index], bt ) * factor;
             has_started[bt_i] = butcher_get_progress( *corpses[index], bt ) > 0;
@@ -9763,7 +9775,7 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
             for( const map_stack::iterator &it : corpses ) {
                 const mtype &corpse = *it->get_mtype();
                 const float factor = corpse.harvest->get_butchery_requirements().get_fastest_requirements(
-                                         player_character.crafting_inventory(),
+                                         player_character.crafting_inventory( here ),
                                          corpse.size, bt ).first;
                 time_to_cut += butcher_time_to_cut( player_character, *it, bt ) * factor;
                 has_started[bt_i] |= butcher_get_progress( *it, bt ) > 0;
@@ -10011,6 +10023,8 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
 
 void game::butcher()
 {
+    map &here = get_map();
+
     static const std::string salvage_string = "salvage";
     if( u.controlling_vehicle ) {
         add_msg( m_info, _( "You can't butcher while driving!" ) );
@@ -10040,7 +10054,7 @@ void game::butcher()
     std::vector<map_stack::iterator> disassembles;
     std::vector<map_stack::iterator> salvageables;
     map_stack items = m.i_at( u.pos_bub() );
-    const inventory &crafting_inv = u.crafting_inventory();
+    const inventory &crafting_inv = u.crafting_inventory( here );
 
     // TODO: Properly handle different material whitelists
     // TODO: Improve quality of this section
@@ -10480,7 +10494,6 @@ void game::reload_weapon( bool try_everything )
     reload_item();
 }
 
-
 bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
 {
     if( !repeat_safe_mode_warnings && safe_mode_warning_logged ) {
@@ -10772,7 +10785,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint_bub_ms &dest_l
 
     const trap &tr = m.tr_at( dest_loc );
 
-    if( tr.can_see( dest_loc, u ) && !tr.is_benign() && !veh_dest ) {
+    if( tr.can_see( m, dest_loc, u ) && !tr.is_benign() && !veh_dest ) {
         harmful_stuff.push_back( tr.name() );
         if( harmful_stuff.size() == max ) {
             return harmful_stuff;
@@ -12198,7 +12211,7 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
             // Approximate critter's "stopping power" with its max hp
             force = std::min<float>( 1.5f * critter.type->hp, flvel );
             const int damage = rng( force, force * 2.0f ) / 6;
-            c->impact( damage, pt );
+            c->impact( damage, here, pt );
             // Multiply zed damage by 6 because no body parts
             const int zed_damage = std::max( 0,
                                              ( damage - critter.get_armor_type( damage_bash, bodypart_id( "torso" ) ) ) * 6 );
@@ -12218,7 +12231,7 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
                 force = flvel - 1;
             }
             const int damage = rng( force, force * 2.0f ) / 9;
-            c->impact( damage, pt );
+            c->impact( damage, here, pt );
             if( here.is_bashable( pt ) ) {
                 // Only go through if we successfully make the tile passable
                 here.bash( pt, flvel );
@@ -12277,7 +12290,7 @@ bool game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
                 force = std::max( force / 2 - 5, 0 );
             }
             if( force > 0 ) {
-                int dmg = c->impact( force, pos );
+                int dmg = c->impact( force, here, pos );
                 // TODO: Make landing damage the floor
                 here.bash( pos, dmg / 4, false, false, false );
             }
@@ -12411,7 +12424,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
 
-        const int cost = u.climbing_cost( pos, stairs );
+        const int cost = u.climbing_cost( here, pos, stairs );
         add_msg_debug( debugmode::DF_GAME, "Climb cost %d", cost );
         const bool can_climb_here = cost > 0 ||
                                     u.has_flag( json_flag_CLIMB_NO_LADDER ) || wall_cling || climb_flying;
@@ -14075,7 +14088,7 @@ void game::climb_down_using( const tripoint_bub_ms &examp, climbing_aid_id aid_i
     // Scan the height of the drop and what's in the way.
     const climbing_aid::fall_scan fall( examp );
 
-    int estimated_climb_cost = you.climbing_cost( tripoint_bub_ms( fall.pos_bottom() ), examp );
+    int estimated_climb_cost = you.climbing_cost( here, fall.pos_bottom(), examp );
     const float fall_mod = you.fall_damage_mod();
     add_msg_debug( debugmode::DF_IEXAMINE, "Climb cost %d", estimated_climb_cost );
     add_msg_debug( debugmode::DF_IEXAMINE, "Fall damage modifier %.2f", fall_mod );

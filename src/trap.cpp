@@ -316,7 +316,12 @@ bool trap::detect_trap( const tripoint_bub_ms &pos, const Character &p ) const
 }
 
 // Whether or not, in the current state, the player can see the trap.
-bool trap::can_see( const tripoint_bub_ms &pos, const Character &p ) const
+bool trap::can_see( const map &here, const tripoint_bub_ms &pos, const Character &p ) const
+{
+    return trap::can_see( here.get_abs( pos ), p );
+}
+
+bool trap::can_see( const tripoint_abs_ms &pos, const Character &p ) const
 {
     if( is_null() ) {
         // There is no trap at all, so logically one can not see it.

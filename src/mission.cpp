@@ -381,6 +381,8 @@ void mission::step_complete( const int _step )
 
 void mission::wrap_up()
 {
+    map &here = get_map();
+
     avatar &player_character = get_avatar();
     if( player_character.getID() != player_id ) {
         // This is called from npctalk.cpp, the npc should only offer the option to wrap up mission
@@ -394,7 +396,7 @@ void mission::wrap_up()
     std::vector<item_comp> comps;
     switch( type->goal ) {
         case MGOAL_FIND_ITEM_GROUP: {
-            inventory tmp_inv = player_character.crafting_inventory();
+            inventory tmp_inv = player_character.crafting_inventory( here );
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
             item_group_id grp_type = type->group_id;
@@ -480,6 +482,8 @@ void mission::wrap_up()
 
 bool mission::is_complete( const character_id &_npc_id ) const
 {
+    map &here = get_map();
+
     if( status == mission_status::success ) {
         return true;
     }
@@ -497,7 +501,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
         }
 
         case MGOAL_FIND_ITEM_GROUP: {
-            inventory tmp_inv = player_character.crafting_inventory();
+            inventory tmp_inv = player_character.crafting_inventory( here );
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
             item_group_id grp_type = type->group_id;
@@ -529,7 +533,6 @@ bool mission::is_complete( const character_id &_npc_id ) const
                 return false;
             }
             item item_sought( type->item_id );
-            map &here = get_map();
             int found_quantity = 0;
             bool charges = item_sought.count_by_charges();
             bool software = item_sought.is_software();
