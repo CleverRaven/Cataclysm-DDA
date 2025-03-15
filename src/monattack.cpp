@@ -3888,7 +3888,7 @@ bool mattack::evolve_kill_strike( monster *z )
     damage_instance damage( z->type->melee_damage );
     damage.mult_damage( 1.33f );
     damage.add( damage_instance( damage_stab, dice( z->type->melee_dice, z->type->melee_sides ),
-                                 rng( 5, 15 ), 1.0, 0.5 ) );
+                                 z->type->melee_dice_ap + rng( 5, 15 ), 1.0, 0.5 ) );
 
     if( target->dodge_check( z, bodypart_id( "torso" ), damage ) ) {
         game_message_type msg_type = target->is_avatar() ? m_warning : m_info;

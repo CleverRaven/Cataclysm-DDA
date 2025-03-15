@@ -49,6 +49,7 @@
     "aggression": 50,
     "morale": 100,
     "melee_skill": 3,
+    "melee_dice": 4,
     "melee_dice_sides": 3,
     "dodge": 2,
     "vision_day": 35,

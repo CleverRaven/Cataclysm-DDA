@@ -60,10 +60,10 @@
     "color": "red",
     "aggression": 50,
     "morale": 100,
-    "melee_skill": 3,
-    "melee_dice": 3,
-    "melee_dice_sides": 3,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "melee_skill": 6,
+    "melee_dice": 16,
+    "melee_dice_sides": 2,
+    "melee_dice_ap": 6,
     "vision_day": 50,
     "vision_night": 35,
     "revert_to_itype": "bot_chickenbot",
@@ -132,9 +132,9 @@
     "aggression": 50,
     "morale": 100,
     "melee_skill": 5,
-    "melee_dice": 5,
-    "melee_dice_sides": 5,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "melee_dice": 16,
+    "melee_dice_sides": 2,
+    "melee_dice_ap": 6,
     "vision_day": 50,
     "revert_to_itype": "bot_tankbot",
     "starting_ammo": { "40x46mm_m433": 200, "556": 3000 },
@@ -214,8 +214,9 @@
     "morale": 100,
     "aggro_character": false,
     "melee_skill": 10,
-    "melee_dice": 3,
-    "melee_dice_sides": 12,
+    "melee_dice": 16,
+    "melee_dice_sides": 2,
+    "melee_dice_ap": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "path_settings": { "max_dist": 5 },
     "revert_to_itype": "bot_tripod",
@@ -253,7 +254,7 @@
       "PRIORITIZE_TARGETS",
       "FIREPROOF"
     ],
-    "armor": { "bash": 37, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
+    "armor": { "bash": 30, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
   },
   {
     "id": "afs_mon_sentinel_lx",
@@ -273,8 +274,9 @@
     "aggression": 50,
     "morale": 100,
     "melee_skill": 6,
-    "melee_dice": 3,
-    "melee_dice_sides": 4,
+    "melee_dice": 4,
+    "melee_dice_sides": 5,
+    "melee_dice_ap": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 8,
     "vision_day": 6,
@@ -321,8 +323,8 @@
     "color": "light_gray",
     "scents_tracked": [ "sc_human" ],
     "melee_skill": 2,
-    "melee_dice": 1,
-    "melee_dice_sides": 4,
+    "melee_dice": 4,
+    "melee_dice_sides": 3,
     "dodge": 3,
     "special_attacks": [ [ "SEARCHLIGHT", 1 ] ],
     "luminance": 60,
@@ -351,6 +353,8 @@
     "color": "green",
     "morale": 80,
     "aggression": 0,
+    "melee_dice": 4,
+    "melee_dice_sides": 5,
     "anger_triggers": [ "HURT" ],
     "vision_day": 50,
     "death_function": { "corpse_type": "BROKEN" },
@@ -386,6 +390,9 @@
     "weight": "680388 g",
     "luminance": 10,
     "melee_skill": 2,
+    "melee_dice": 4,
+    "melee_dice_sides": 5,
+    "melee_dice_ap": 4,
     "speed": 80,
     "hp": 400,
     "armor": { "bash": 12, "cut": 20, "bullet": 12, "acid": 80, "heat": 20 },
@@ -415,7 +422,8 @@
     "morale": 20,
     "aggression": 50,
     "melee_dice": 4,
-    "melee_dice_sides": 6,
+    "melee_dice_sides": 5,
+    "melee_dice_ap": 4,
     "special_attacks": [ { "id": "smash", "throw_strength": 96 } ],
     "extend": { "flags": [ "BASHES", "DESTROYS", "ATTACKMON" ] }
   },
@@ -438,6 +446,10 @@
     "aggression": 50,
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "vision_day": 50,
+    "melee_skill": 6,
+    "melee_dice": 4,
+    "melee_dice_sides": 5,
+    "melee_dice_ap": 4,
     "bleed_rate": 0,
     "death_function": { "corpse_type": "BROKEN" },
     "special_attacks": [ { "id": "zenit_control", "cooldown": 5 } ],
@@ -453,7 +465,7 @@
       "PATH_AVOID_DANGER",
       "STUN_IMMUNE"
     ],
-    "armor": { "bash": 37, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
+    "armor": { "bash": 30, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
   },
   {
     "id": "mon_utilibot_fire",
@@ -466,6 +478,7 @@
     "melee_skill": 3,
     "melee_dice": 4,
     "melee_dice_sides": 5,
+    "melee_dice_ap": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "starting_ammo": { "water": 1000 },
     "special_attacks": [
@@ -496,7 +509,7 @@
     "color": "green",
     "melee_skill": 8,
     "melee_dice": 1,
-    "melee_dice_sides": 6,
+    "melee_dice_sides": 8,
     "morale": 20,
     "starting_ammo": { "afs_foamtoxic": 400 },
     "death_function": { "corpse_type": "BROKEN", "message": "The Croplord crashes into the ground." },
@@ -530,9 +543,8 @@
     "symbol": "R",
     "color": "white",
     "morale": 100,
-    "melee_skill": 8,
-    "melee_dice": 1,
-    "melee_dice_sides": 2,
+    "melee_dice": 4,
+    "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "attack_effs": [ { "id": "bleed", "chance": 20, "duration": 3 } ],
     "vision_day": 50,
@@ -560,7 +572,8 @@
     "revert_to_itype": "bot_skitterbot_rat",
     "melee_skill": 3,
     "melee_dice": 2,
-    "melee_dice_sides": 2,
+    "melee_dice_sides": 3,
+    "melee_dice_ap": 2,
     "special_attacks": [ { "type": "leap", "cooldown": 2, "move_cost": 0, "max_range": 2, "min_consider_range": 3 }, [ "TAZER", 10 ] ],
     "extend": { "flags": [ "CLIMBS", "HIT_AND_RUN", "SMELLS" ] },
     "armor": { "bash": 8, "cut": 10, "bullet": 15 }
@@ -579,8 +592,9 @@
     "vision_day": 20,
     "revert_to_itype": "bot_skitterbot_grab",
     "melee_skill": 3,
-    "melee_dice": 4,
-    "melee_dice_sides": 2,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "melee_dice_ap": 2,
     "attack_effs": [ { "id": "downed", "chance": 20, "duration": 5 } ],
     "grab_strength": 50,
     "special_attacks": [ { "id": "grab", "cooldown": 2 } ],
@@ -599,6 +613,8 @@
     "speed": 200,
     "hp": 30,
     "vision_day": 20,
+    "melee_dice": 1,
+    "melee_dice_sides": 5,
     "revert_to_itype": "bot_skitterbot_hunter",
     "starting_ammo": { "8mm_caseless": 120 },
     "special_attacks": [
@@ -658,7 +674,9 @@
     "default_faction": "WraitheonRobotics",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "melee_skill": 5,
-    "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
+    "melee_dice": 4,
+    "melee_dice_sides": 5,
+    "melee_dice_ap": 4,
     "starting_ammo": { "afs_7.50mm_caseless": 90 },
     "vision_day": 50,
     "vision_night": 50,
@@ -697,7 +715,7 @@
     "extend": { "flags": [ "DROPS_AMMO" ] },
     "broken_itype": "broken_imaginifer",
     "death_drops": { "groups": [ [ "dead_imaginifer", 1 ] ] },
-    "armor": { "bash": 37, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 },
+    "armor": { "bash": 30, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 },
     "weakpoint_sets": [ "afs_wps_robot", "afs_wps_android" ]
   },
   {
@@ -775,6 +793,9 @@
     "name": { "str_sp": "Wraitheon Fulgent" },
     "description": "An autonomous anti-personnel weapons platform, mounting a laser on an insectoid chassis.  The Fulgent designation excels at 'controlling' riots and (sometimes simultaneously) putting down potential freedom fighters.",
     "default_faction": "WraitheonRobotics",
+    "melee_dice": 4,
+    "melee_dice_sides": 5,
+    "melee_dice_ap": 4,
     "diff": 20,
     "special_attacks": [
       {
@@ -794,7 +815,7 @@
         "targeting_volume": 20
       }
     ],
-    "armor": { "bash": 37, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
+    "armor": { "bash": 30, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
   },
   {
     "id": "mon_wraitheon_irradiant",
@@ -806,6 +827,9 @@
     "diff": 40,
     "speed": 150,
     "color": "pink",
+    "melee_dice": 4,
+    "melee_dice_sides": 5,
+    "melee_dice_ap": 4,
     "extend": { "flags": [ "FIREPROOF" ] },
     "special_attacks": [
       {
@@ -828,7 +852,7 @@
       },
       { "type": "leap", "cooldown": 10, "max_range": 8 }
     ],
-    "armor": { "bash": 37, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
+    "armor": { "bash": 30, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
   },
   {
     "id": "mon_wraitheon_isohypsa",
@@ -876,6 +900,9 @@
     "description": "An autonomous weapons platform, made to disrupt or disable electronics - especially other robots - with an electromagnetic pulse.",
     "default_faction": "WraitheonRobotics",
     "diff": 10,
+    "melee_dice": 4,
+    "melee_dice_sides": 5,
+    "melee_dice_ap": 4,
     "special_attacks": [
       {
         "type": "gun",
@@ -894,7 +921,7 @@
         "targeting_volume": 10
       }
     ],
-    "armor": { "bash": 37, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
+    "armor": { "bash": 30, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
   },
   {
     "id": "mon_shock_mine",
@@ -1063,8 +1090,8 @@
     "aggression": -50,
     "morale": 100,
     "melee_skill": 2,
-    "melee_dice": 2,
-    "melee_dice_sides": 4,
+    "melee_dice": 4,
+    "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "bash", "amount": 20 } ],
     "vision_night": 100,
     "death_function": { "corpse_type": "BROKEN" },
@@ -1090,7 +1117,7 @@
       "PATH_AVOID_FIRE",
       "STUN_IMMUNE"
     ],
-    "armor": { "bash": 37, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
+    "armor": { "bash": 30, "cut": 50, "bullet": 60, "afs_laser": 30, "afs_plasma": 20, "electric": 10 }
   },
   {
     "type": "GENERIC",
