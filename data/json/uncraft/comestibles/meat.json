@@ -1,0 +1,10 @@
+[
+  {
+    "result": "large_bone",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "27 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "bone", 61 ] ] ]
+  }
+]
