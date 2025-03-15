@@ -2120,7 +2120,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
 
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
     if( !is_hallucination() && type->melee_dice > 0 ) {
-        damage.add_damage( damage_bash, dice( type->melee_dice, type->melee_sides ) );
+        damage.add_damage( damage_bash, dice( type->melee_dice, type->melee_sides ), type->melee_dice_ap );
     }
 
     modify_damage_dealt_with_enchantments( damage );
