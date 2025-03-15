@@ -7349,7 +7349,7 @@ void overmap::place_mongroups()
         float spawn_density = get_option<float>( "SPAWN_DENSITY" );
 
         for( city &elem : cities ) {
-            if( elem.size > city_spawn_threshold || !one_in( city_spawn_chance ) ) {
+            if( elem.size > city_spawn_threshold || one_in( city_spawn_chance ) ) {
 
                 // with the default numbers (80 scalar, 1 density), a size 16 city
                 // will produce 1280 zombies.
