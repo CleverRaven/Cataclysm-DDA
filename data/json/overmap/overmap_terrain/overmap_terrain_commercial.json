@@ -177,7 +177,13 @@
       "office_tower_2_b3_roof",
       "office_tower_collapse_a1",
       "office_tower_collapse_b_a1",
-      "office_tower_2_a1_tower_lab"
+      "office_tower_2_a1_2_hidden_lab",
+      "office_tower_2_b1_2_hidden_lab",
+      "office_tower_2_a1_3_hidden_lab",
+      "office_tower_2_a2_3_hidden_lab",
+      "office_tower_2_b1_3_hidden_lab",
+      "office_tower_2_b2_3_hidden_lab",
+      "office_tower_2_b3_3_hidden_lab"
     ],
     "name": "office tower",
     "vision_levels": "large_city_building",
