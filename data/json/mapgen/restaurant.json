@@ -647,7 +647,7 @@
         { "monster": "GROUP_PLAGUE_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 },
         { "monster": "GROUP_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 }
       ],
-      "place_nested": [ { "chunks": [ [ "NPC_pizzaiolo_spawn", 5 ], [ "null", 50 ] ], "x": 7, "y": 5 } ],
+      "place_nested": [ { "chunks": [ [ "NPC_pizzaiolo_spawn", 5 ], [ "null", 85 ] ], "x": 7, "y": 5 } ],
       "place_zones": [ { "type": "NPC_INVESTIGATE_ONLY", "faction": "no_faction", "x": [ 5, 9 ], "y": [ 3, 14 ] } ]
     }
   },
