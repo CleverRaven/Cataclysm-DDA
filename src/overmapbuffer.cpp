@@ -840,6 +840,18 @@ std::vector<oter_id> overmapbuffer::predecessors( const tripoint_abs_omt &p )
     return om_loc.om->predecessors( om_loc.local );
 }
 
+int overmapbuffer::highest_omt_point( tripoint_abs_omt loc )
+{
+    for( int i = OVERMAP_HEIGHT; i >= OVERMAP_DEPTH * -1; i-- ) {
+        loc.z() = i;
+        if( !ter( loc )->can_see_down_through() ) {
+            return i;
+        }
+    }
+
+    return 0;
+}
+
 bool overmapbuffer::reveal( const point_abs_omt &center, int radius, int z )
 {
     return reveal( tripoint_abs_omt( center, z ), radius );

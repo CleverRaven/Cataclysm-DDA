@@ -59,6 +59,7 @@
       { "group": "milspec_arsenal_40x53_gun&mags&cans", "prob": 50 },
       { "group": "milspec_arsenal_66_gun&mags", "prob": 30 },
       { "group": "milspec_arsenal_84x246_gun&mags&cans", "prob": 192 },
+      { "group": "milspec_arsenal_60mm_gun&ammo", "prob": 30 },
       { "group": "milspec_arsenal_atgm_gun", "prob": 10 }
     ]
   },
@@ -95,6 +96,7 @@
       { "group": "ammo_can_belt40mm_full", "count": [ 2, 4 ], "prob": 50 },
       { "group": "ammo_box_84x246mm_any_full", "count": [ 3, 6 ], "prob": 192 },
       { "item": "LAW_Packed", "count": [ 2, 6 ], "prob": 30 },
+      { "group": "ammo_can_60mm_any_full", "count": [ 3, 6 ], "prob": 30 },
       { "item": "atgm_heat", "count": [ 2, 6 ], "prob": 10 }
     ]
   },
@@ -127,6 +129,7 @@
       { "group": "milspec_arsenal_40x53_gun&mags", "count": [ 1, 2 ], "prob": 50 },
       { "group": "milspec_arsenal_66_gun&mags", "count": [ 1, 2 ], "prob": 30 },
       { "group": "milspec_arsenal_84x246_gun&mags", "count": [ 1, 2 ], "prob": 192 },
+      { "item": "mortar_m224", "prob": 30 },
       { "group": "milspec_arsenal_atgm_gun", "count": [ 1, 2 ], "prob": 10 }
     ]
   },

@@ -255,6 +255,82 @@
     ]
   },
   {
+    "id": "ammunition_can_pa124",
+    "type": "GENERIC",
+    "name": "heavy-duty ammo can",
+    "//0": "PA-124",
+    "copy-from": "ammunition_can_30",
+    "description": "A huge metal box with handles on each end.  It is almost inconveniently big, but can hold a lot of heavy items inside.",
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "weight": "4082 g",
+    "volume": "23670 ml",
+    "longest_side": "470 mm",
+    "//": "307.34 x 158.75 x 485.14 mm",
+    "price": "25 USD",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "14772 ml",
+        "max_contains_weight": "160 kg",
+        "max_item_length": "438 mm"
+      }
+    ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ammunition_can_pa124_60mm_m720a1_8",
+        "name": { "str": "8 60mm ammo can" },
+        "weight": 0,
+        "description": "A solid, high metal box with a small handle on top.  Front side has printed:\n<color_yellow>1310-01-418-4362 BA16\n8 CARTRIDGE, 60 MM, HE, M720A1 W/FUZE MO M734A1 FOR\nM224 MORTAR</color>"
+      },
+      {
+        "id": "ammunition_can_pa124_60mm_m768_8",
+        "name": { "str": "8 60mm ammo can" },
+        "weight": 0,
+        "description": "A solid, high metal box with a small handle on top.  Front side has printed:\n<color_yellow>1310-01-487-1944 BA17\n8 CARTRIDGE, 60 MM, HE, M768\nW/FUZE, PD/DLY, M783 FOR\nM224 MORTAR</color>"
+      }
+    ]
+  },
+  {
+    "id": "ammunition_tube_mortar",
+    "type": "GENERIC",
+    "category": "container",
+    "name": "mortar container",
+    "description": "A small, thick cylindrical container.  Designed to store a single mortar rounds.",
+    "//": "cylinder of 393.7 mm H x 76.2 mm W",
+    "weight": "272 g",
+    "volume": "1795 ml",
+    "material": [ { "type": "cardboard" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "3000 g",
+        "max_item_length": "390 mm"
+      }
+    ],
+    "symbol": "0",
+    "color": "black",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ammunition_tube_mortar_m720a1",
+        "name": { "str": "mortar container" },
+        "weight": 0,
+        "description": "A long, thick cylindrical container.  Dark, shabby surface has printed:\nCOMP B\nB643\nCARTRIDGE 60MM HE\nW/FUZE MO M734A1\nFOR M224 MORTAR"
+      },
+      {
+        "id": "ammunition_tube_mortar_m768",
+        "name": { "str": "mortar container" },
+        "weight": 0,
+        "description": "A long, thick cylindrical container.  Dark, shabby surface has printed:\nCOMP B\nB643\nCARTRIDGE 60MM HE\nW/FUZE PD M783\nFOR M224 MORTAR"
+      }
+    ]
+  },
+  {
     "id": "ammunition_box_grenade",
     "type": "GENERIC",
     "category": "container",
@@ -263,15 +339,7 @@
     "weight": "411 g",
     "volume": "590 ml",
     "material": [ { "type": "cardboard" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "watertight": true,
-        "max_contains_volume": "550 ml",
-        "max_contains_weight": "5000 g"
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "550 ml", "max_contains_weight": "5000 g" } ],
     "symbol": "0",
     "color": "black",
     "variant_type": "gun",
