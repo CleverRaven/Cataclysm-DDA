@@ -318,12 +318,12 @@ TEST_CASE( "ammo_set_items_with_MAGAZINE_WELL_pockets_without_magazine",
         REQUIRE( cz75.magazine_default()->magazine->default_ammo.str() == ammo9mm_id.str() );
         WHEN( "set 9mm ammo in the gun w/o magazine w/o quantity" ) {
             cz75.ammo_set( ammo9mm_id );
-            THEN( "gun with cz75mag_16rd magazine has 16 rounds of 9mm" ) {
-                CHECK( cz75.ammo_remaining( ) == 16 );
+            THEN( "gun with cz75mag_10rd magazine has 10 rounds of 9mm" ) {
+                CHECK( cz75.ammo_remaining( ) == 10 );
                 CHECK( cz75.ammo_current().str() == ammo9mm_id.str() );
                 REQUIRE( cz75.magazine_current() != nullptr );
-                CHECK( cz75.magazine_current()->typeId() == itype_cz75mag_16rd );
-                CHECK( cz75.magazine_current()->ammo_remaining( ) == 16 );
+                CHECK( cz75.magazine_current()->typeId() == itype_cz75mag_10rd );
+                CHECK( cz75.magazine_current()->ammo_remaining( ) == 10 );
                 CHECK( cz75.magazine_current()->ammo_current().str() == ammo9mm_id.str() );
             }
         }
