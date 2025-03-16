@@ -355,6 +355,7 @@
     ],
     "ascii_picture": "scar-H",
     "barrel_length": "413 mm",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "price": "4 kUSD 239 USD"
   },
   {
