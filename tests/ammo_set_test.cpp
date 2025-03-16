@@ -15,6 +15,7 @@
 static const itype_id itype_M24( "M24" );
 static const itype_id itype_box_small( "box_small" );
 static const itype_id itype_cz75( "cz75" );
+static const itype_id itype_cz75mag_10rd( "cz75mag_10rd" );
 static const itype_id itype_cz75mag_16rd( "cz75mag_16rd" );
 static const itype_id itype_cz75mag_20rd( "cz75mag_20rd" );
 static const itype_id itype_cz75mag_26rd( "cz75mag_26rd" );
@@ -305,7 +306,8 @@ TEST_CASE( "ammo_set_items_with_MAGAZINE_WELL_pockets_without_magazine",
         REQUIRE( cz75.is_gun() );
         REQUIRE_FALSE( cz75.is_magazine() );
         REQUIRE( cz75.magazine_current() == nullptr );
-        REQUIRE( cz75.magazine_compatible().size() == 3 );
+        REQUIRE( cz75.magazine_compatible().size() == 4 );
+        REQUIRE( cz75.magazine_compatible().count( itype_cz75mag_10rd ) == 1 );
         REQUIRE( cz75.magazine_compatible().count( itype_cz75mag_16rd ) == 1 );
         REQUIRE( cz75.magazine_compatible().count( itype_cz75mag_20rd ) == 1 );
         REQUIRE( cz75.magazine_compatible().count( itype_cz75mag_26rd ) == 1 );
