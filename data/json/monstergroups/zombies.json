@@ -571,7 +571,7 @@
       { "monster": "mon_zombie_prisoner_fat", "weight": 350, "cost_multiplier": 2 },
       { "monster": "mon_zombie_prisoner_tough", "weight": 350, "cost_multiplier": 2 },
       { "monster": "mon_zombie_static", "weight": 10, "cost_multiplier": 3 },
-      { "monster": "mon_feral_prisoner", "weight": 30, "cost_multiplier": 1 },
+      { "monster": "mon_feral_prisoner", "weight": 30, "cost_multiplier": 1 }
     ]
   },
   {
