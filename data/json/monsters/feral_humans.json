@@ -574,7 +574,7 @@
     "id": "mon_feral_prisoner",
     "type": "MONSTER",
     "name": { "str": "feral prisoner" },
-    "description": "This prisoner has somehow avoided turning undead up to now, though based on how the other zombies seem to ignore this shiv-wielding, blood-stained maniac, they are likely not far off that fate."
+    "description": "This prisoner has somehow avoided turning undead up to now, though based on how the other zombies seem to ignore this shiv-wielding, blood-stained maniac, they are likely not far off that fate.",
     "copy-from": "mon_feral_human_pipe",
     "melee_skill": 5,
     "dodge": 3,
