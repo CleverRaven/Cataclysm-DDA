@@ -2723,7 +2723,7 @@
     "desc": [ "You can feel the tiny spores sinking directly into your flesh." ],
     "apply_message": [
       [
-        "You feel your skin prickle with an uncomfortable feeling, and as you try to rub away the specks of dust you realize they've started to embed themselves, sinking into the skin.",
+        "You feel your skin prickle with an uncomfortable feeling, and as you try to rub away the specks of dust you realize they've started to embed themselves, sinking into your skin.",
         "bad"
       ]
     ],
