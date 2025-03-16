@@ -1,0 +1,32 @@
+[
+  {
+    "type": "palette",
+    "id": "superstore_palette",
+    "parameters": {
+      "exterior_wall_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_concrete_wall_b", 1 ], [ "t_concrete_wall_brown", 1 ] ] } }
+    },
+    "terrain": {
+      "O": "t_pavement",
+      "|": "t_pavement_y",
+      "/": "t_region_groundcover_urban",
+      "_": "t_sidewalk",
+      "+": "t_thconc_floor_no_roof",
+      "■": { "param": "exterior_wall_type", "fallback": "t_concrete_wall" },
+      "░": "t_concrete_wall",
+      "$": "t_door_glass_lab_o"
+    }
+  },
+  {
+    "type": "palette",
+    "id": "roof_palette_superstore",
+    "terrain": {
+      "O": "t_flat_roof",
+      "|": "t_flat_roof",
+      "■": "t_flat_roof"
+    },
+    "furniture": {
+      "|": "f_ground_cable",
+      "■": "f_air_conditioner"
+    }
+  }
+]
