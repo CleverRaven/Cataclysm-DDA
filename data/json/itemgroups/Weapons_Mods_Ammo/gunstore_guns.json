@@ -922,7 +922,7 @@
     "id": "guns_rifle_common_boxed_308",
     "items": [
       { "group": "boxed_ar10", "prob": 89 },
-      { "group": "boxed_scar17s", "prob": 89 },
+      { "group": "boxed_scar17s", "prob": 20 },
       { "group": "boxed_m1a", "prob": 100 },
       { "group": "boxed_falmag", "prob": 11 },
       { "group": "boxed_hk_g3", "prob": 1 },
