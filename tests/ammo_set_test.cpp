@@ -311,7 +311,7 @@ TEST_CASE( "ammo_set_items_with_MAGAZINE_WELL_pockets_without_magazine",
         REQUIRE( cz75.magazine_compatible().count( itype_cz75mag_16rd ) == 1 );
         REQUIRE( cz75.magazine_compatible().count( itype_cz75mag_20rd ) == 1 );
         REQUIRE( cz75.magazine_compatible().count( itype_cz75mag_26rd ) == 1 );
-        REQUIRE( cz75.magazine_default() == itype_cz75mag_16rd );
+        REQUIRE( cz75.magazine_default() == itype_cz75mag_10rd );
         const ammotype &amtype = ammo9mm_id->ammo->type;
         REQUIRE( cz75.ammo_capacity( amtype ) == 0 );
         REQUIRE( !cz75.ammo_default().is_null() );
