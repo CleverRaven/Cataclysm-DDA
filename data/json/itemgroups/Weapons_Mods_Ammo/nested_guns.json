@@ -216,6 +216,14 @@
     "entries": [ { "item": "ruger_lcr_38", "charges": [ 0, 5 ] }, { "group": "on_hand_38" } ]
   },
   {
+    "id": "nested_ruger_sw642",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "sw642", "charges": [ 0, 5 ] }, { "group": "on_hand_38" } ]
+  },
+  {
     "id": "nested_sig_mosquito",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

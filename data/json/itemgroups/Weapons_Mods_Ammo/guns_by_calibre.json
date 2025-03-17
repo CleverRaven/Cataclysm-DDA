@@ -87,7 +87,11 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_38",
-    "items": [ { "group": "nested_ruger_lcr_38", "prob": 66 }, { "group": "nested_model_10_revolver", "prob": 100 } ]
+    "items": [
+      { "group": "nested_ruger_lcr_38", "prob": 66 },
+      { "group": "nested_model_10_revolver", "prob": 100 },
+      { "group": "nested_sw642", "prob": 81 }
+    ]
   },
   {
     "type": "item_group",
@@ -264,6 +268,7 @@
     "id": "guns_pistol_common_everyday_carry_38",
     "items": [
       { "item": "ruger_lcr_38", "prob": 66, "charges": [ 0, -1 ] },
+      { "item": "sw642", "prob": 100, "charges": [ 0, -1 ] },
       { "item": "model_10_revolver", "prob": 10, "charges": [ 0, -1 ] }
     ]
   },
@@ -396,7 +401,11 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_38",
-    "items": [ { "item": "ruger_lcr_38", "prob": 66 }, { "item": "model_10_revolver", "prob": 100 } ]
+    "items": [
+      { "item": "ruger_lcr_38", "prob": 66 },
+      { "item": "model_10_revolver", "prob": 100 },
+      { "item": "sw642", "prob": 81 }
+    ]
   },
   {
     "type": "item_group",

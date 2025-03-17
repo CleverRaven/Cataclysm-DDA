@@ -386,7 +386,11 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_boxed_380",
-    "items": [ { "group": "boxed_rugerlcp", "prob": 231 }, { "group": "boxed_hptcf380", "prob": 100 }, { "group": "boxed_swbodyguard", "prob": 1673 } ]
+    "items": [
+      { "group": "boxed_rugerlcp", "prob": 231 },
+      { "group": "boxed_hptcf380", "prob": 100 },
+      { "group": "boxed_swbodyguard", "prob": 1673 }
+    ]
   },
   {
     "type": "item_group",
@@ -490,7 +494,11 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_boxed_38",
-    "items": [ { "group": "boxed_ruger_lcr_38", "prob": 66 }, { "group": "boxed_model_10_revolver", "prob": 100 } ]
+    "items": [
+      { "group": "boxed_ruger_lcr_38", "prob": 66 },
+      { "group": "boxed_model_10_revolver", "prob": 100 },
+      { "group": "boxed_sw642", "prob": 81 }
+    ]
   },
   {
     "type": "item_group",
@@ -498,6 +506,13 @@
     "id": "boxed_ruger_lcr_38",
     "container-item": "box_pistol",
     "items": [ { "item": "ruger_lcr_38" }, { "group": "firearm_box_extras" }, { "item": "38_speedloader5", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_sw642",
+    "container-item": "box_pistol",
+    "items": [ { "item": "sw642" }, { "group": "firearm_box_extras" }, { "item": "38_speedloader5", "prob": 5 } ]
   },
   {
     "type": "item_group",
