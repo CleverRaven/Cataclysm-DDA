@@ -246,6 +246,7 @@
     "id": "guns_pistol_common_boxed_22",
     "items": [
       { "group": "boxed_walther_p22", "prob": 45 },
+      { "group": "boxed_sr22", "prob": 405 },
       { "group": "boxed_ruger_lcr_22", "prob": 2 },
       { "group": "boxed_22_revolver", "prob": 75 },
       { "group": "boxed_sig_mosquito", "prob": 65 },
@@ -262,6 +263,13 @@
     "id": "boxed_walther_p22",
     "container-item": "box_pistol",
     "items": [ { "item": "walther_p22" }, { "group": "firearm_box_extras" }, { "item": "wp22mag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_sr22",
+    "container-item": "box_pistol",
+    "items": [ { "item": "sr22" }, { "group": "firearm_box_extras" }, { "item": "sr22_mag", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",

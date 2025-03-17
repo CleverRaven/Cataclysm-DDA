@@ -31,6 +31,7 @@
     "id": "guns_pistol_common_22",
     "items": [
       { "group": "nested_walther_p22", "prob": 45 },
+      { "group": "nested_sr22", "prob": 405 },
       { "group": "nested_ruger_lcr_22", "prob": 2 },
       { "group": "nested_rough_rider_pistol", "prob": 61 },
       { "group": "nested_rough_rider_pistol_9", "prob": 14 },
@@ -209,6 +210,7 @@
     "id": "guns_pistol_common_everyday_carry_22",
     "items": [
       { "item": "sig_mosquito", "prob": 6, "charges": [ 0, -1 ] },
+      { "item": "sr22", "prob": 80, "charges": [ 0, -1 ] },
       { "item": "walther_p22", "prob": 45, "charges": [ 0, -1 ] },
       { "item": "ruger_lcr_22", "prob": 2, "charges": [ 0, -1 ] },
       { "item": "ruger_mk4", "prob": 16, "charges": [ 0, -1 ] },
@@ -342,6 +344,7 @@
     "id": "guns_pistol_common_display_22",
     "items": [
       { "item": "walther_p22", "prob": 45 },
+      { "item": "sr22", "prob": 405 },
       { "item": "ruger_lcr_22", "prob": 2 },
       { "item": "rough_rider_pistol", "prob": 61 },
       { "item": "rough_rider_pistol_9", "prob": 14 },

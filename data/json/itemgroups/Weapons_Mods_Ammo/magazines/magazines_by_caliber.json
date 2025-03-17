@@ -91,6 +91,7 @@
       { "item": "22_speedloader8", "prob": 1 },
       { "item": "mosquitomag", "prob": 20 },
       { "item": "wp22mag", "prob": 23 },
+      { "item": "sr22_mag", "prob": 98 },
       { "item": "ruger_mk4_mag", "prob": 39 },
       { "item": "1911_22_mag", "prob": 26 }
     ]
@@ -107,6 +108,7 @@
       { "item": "22_speedloader8", "prob": 1 },
       { "item": "mosquitomag", "prob": 20 },
       { "item": "wp22mag", "prob": 23 },
+      { "item": "sr22_mag", "prob": 98 },
       { "item": "ruger_mk4_mag", "prob": 39 },
       { "item": "1911_22_mag", "prob": 26 }
     ]
