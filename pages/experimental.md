@@ -10,9 +10,6 @@ The most recent stable release is {{ site.github.latest_release.tag_name }} {{ s
 # Latest Experimental
 Cataclysm: DDA is under constant development. As such, stable can lag behind with features. If you would like access to the bleeding edge of features and any bugs that may come along with them, you can download the latest experimental builds below.
 
-### MSVC builds (Windows only)
-Builds tagged with `-msvc` are built with Microsoft Visual C++ compiler. If you are not developing or triaging a bug, the two build types should be equivalent and you can pick either.
-
 ------------------
 <!-- Trying to display all releases seems to cause issues with only ~15 loading, so make a counter
      and only display the most recent 10 releases for which at least one artifact was generated -->
