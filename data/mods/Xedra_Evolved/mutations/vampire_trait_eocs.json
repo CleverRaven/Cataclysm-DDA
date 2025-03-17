@@ -113,6 +113,117 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_ADD_ONE_WEAKNESS",
+    "//": "This EOC adds a single vampiric weakness when ran.",
+    "//2": "This EOC is intended to be ran multiple times, to properly assign the intended amount of weaknesses to the player.",
+    "//3": "When adding new weaknesses, make sure to also add them to the roll_remainder below so the player can obtain them.",
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "VAMPIRE_WEAKNESS_MORE_BLOOD",
+          "VAMPIRE_WEAKNESS_GROTESQUE",
+          "VAMPIRE_WEAKNESS_EARTH_SLEEP",
+          "VAMPIRE_WEAKNESS_HOLY_BURN",
+          "VAMPIRE_WEAKNESS_VAST_WATER_BURN",
+          "VAMPIRE_WEAKNESS_ANIMAL_HATE",
+          "VAMPIRE_WEAKNESS_FIRE_VULNERABLE",
+          "VAMPIRE_WEAKNESS_COLD_BLOODED",
+          "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD",
+          "VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD",
+          "VAMPIRE_WEAKNESS_BLOOD_CRAVING"
+        ],
+        "type": "mutation",
+        "false_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS_FAIL" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_ADD_ONE_WEAKNESS_FAIL",
+    "effect": [ { "u_message": "The EOC failed to give you a weakness.  Please report this on Github.", "popup": "true" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_MORE_BLOOD_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_MORE_BLOOD", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "Your thirst for blood intensifies.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_EARTH_SLEEP_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_EARTH_SLEEP", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "You long for a good day of sleep surrounded by the earth.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_HOLY_BURN_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_HOLY_BURN", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "You feel unholy, as if your presence wouldn't be tolerated by holy ground.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_VAST_WATER_BURN_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_VAST_WATER_BURN", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "You think about crossing a river, but visions of your flesh melting disturb you.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_ANIMAL_HATE_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_ANIMAL_HATE", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "Nearby animals start looking at you with eyes filled with hate.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_FIRE_VULNERABLE_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_FIRE_VULNERABLE", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "Your body feels much more vulnerable to fire.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_COLD_BLOODED_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_COLD_BLOODED", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "Your body grows cold.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_NEED_LIVING_BLOOD_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "You daydream of drinking blood directly from the veins of the living for a moment.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_NEED_HUMAN_BLOOD_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "All bloods, except the blood of regular humans, suddenly feel far less appealing.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_BLOOD_CRAVING_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_BLOOD_CRAVING", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "You feel a painful craving for blood for a second, then it passes.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_SET_VAMPIRE_TRAIT_NUMBERS_FOR_NPC_USE",
     "//": "This is necessary for powers whose effect on NPCs is variable, since the jmath equations return the avatar's traits",
     "eoc_type": "EVENT",
