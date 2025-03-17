@@ -1535,7 +1535,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "P365 10-round magazine" },
-    "description": "A compact, steel magazine for use in the P365",
+    "description": "A compact, steel magazine for use in the P365.",
     "weight": "50 g",
     "volume": "68 ml",
     "longest_side": "85 mm",

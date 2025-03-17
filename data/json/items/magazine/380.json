@@ -88,13 +88,13 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": ".380 conceal carry magazine" },
-    "description": "A 6 round box magazine for the .380 conceal carry handgun.",
+    "description": "A 6-round box magazine for the .380 conceal carry handgun.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "swbodyguard",
         "name": { "str": "S&W M&P Bodyguard magazine" },
-        "description": "A small, 6 round magazine for the M&P Bodyguard."
+        "description": "A small, 6-round magazine for the M&P Bodyguard."
       }
     ],
     "weight": "35 g",
