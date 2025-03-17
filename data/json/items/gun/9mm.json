@@ -98,7 +98,16 @@
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
+        "item_restriction": [
+          "glockmag_10",
+          "glock17_10",
+          "glockmag",
+          "glockbigmag",
+          "glock17_17",
+          "glock17_22",
+          "glock_drum_50rd",
+          "glock_drum_100rd"
+        ]
       }
     ],
     "melee_damage": { "bash": 8 }
@@ -823,7 +832,7 @@
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ]
+        "item_restriction": [ "glock17_10", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ]
       }
     ],
     "melee_damage": { "bash": 8 }
@@ -1114,7 +1123,7 @@
       {
         "magazine_well": "230 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "cz75mag_16rd", "cz75mag_20rd", "cz75mag_26rd" ]
+        "item_restriction": [ "cz75mag_10rd", "cz75mag_16rd", "cz75mag_20rd", "cz75mag_26rd" ]
       }
     ],
     "melee_damage": { "bash": 8 }
@@ -1302,7 +1311,16 @@
       {
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
+        "item_restriction": [
+          "glockmag_10",
+          "glock17_10",
+          "glockmag",
+          "glockbigmag",
+          "glock17_17",
+          "glock17_22",
+          "glock_drum_50rd",
+          "glock_drum_100rd"
+        ]
       }
     ],
     "melee_damage": { "bash": 6 }
@@ -1358,7 +1376,16 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
+        "item_restriction": [
+          "glockmag_10",
+          "glock17_10",
+          "glockmag",
+          "glockbigmag",
+          "glock17_17",
+          "glock17_22",
+          "glock_drum_50rd",
+          "glock_drum_100rd"
+        ]
       }
     ],
     "melee_damage": { "bash": 8 }

@@ -187,5 +187,13 @@
     "name": { "str": "ant stomach" },
     "description": "The two stomachs of a giant ant.  One stomach is for digestion and one stomach is for storing food for the colony.",
     "proportional": { "weight": 1.5, "volume": 1.5, "calories": 1.25 }
+  },
+  {
+    "id": "vampire_blood",
+    "type": "COMESTIBLE",
+    "copy-from": "demihuman_blood",
+    "name": { "str_sp": "vampire blood" },
+    "description": "Blood extracted from a vampire.  Drinking it feels like a bad idea but there might be other ways to use it.",
+    "material": "vampire_blood"
   }
 ]

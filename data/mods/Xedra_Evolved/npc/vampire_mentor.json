@@ -16,6 +16,7 @@
     "name": "Vampire Mentor",
     "job_description": "An ancient vampire, willing to assist those who want to further their curse",
     "common": false,
+    "sells_belongings": false,
     "skills": [
       { "skill": "speech", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "chemistry", "bonus": { "rng": [ 2, 3 ] } },
@@ -34,12 +35,8 @@
       { "group": "Appearance_demographics" },
       { "group": "BG_survival_story_UNIVERSAL" },
       { "group": "NPC_starting_traits" },
-      { "trait": "VAMPIRE", "prob": 100 },
-      { "trait": "VAMPIRE2", "prob": 100 },
-      { "trait": "VAMPIRE3", "prob": 100 },
-      { "trait": "VAMPIRE4", "prob": 100 },
-      { "trait": "MENTOR_PEACE", "prob": 100 },
-      { "trait": "BLOOD_DRINKER", "prob": 100 }
+      { "group": "trait_group_complete_vampire" },
+      { "trait": "MENTOR_PEACE", "prob": 100 }
     ]
   },
   {
