@@ -847,7 +847,7 @@
     "looks_like": "1911",
     "//": "Based on https://ruger.com/products/sr22Pistol/specSheets/3600.html",
     "name": { "str": ".22 plinking handgun" },
-    "description": "A small handgun with a short barrel. Feeds from 10 round magazines.",
+    "description": "A small handgun with a short barrel.  Feeds from 10 round magazines.",
     "ascii_picture": "m1911",
     "weight": "496 g",
     "volume": "369 ml",
