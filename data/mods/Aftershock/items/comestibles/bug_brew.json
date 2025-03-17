@@ -62,7 +62,7 @@
     "charges": 5,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "76 hours", "results": [ "afs_mealgrub_jelly", "afs_mealgrub_spores" ] }
+    "brewable": { "brew_time": "76 hours", "brew_results": [ "afs_mealgrub_jelly", "afs_mealgrub_spores" ] }
   },
   {
     "type": "COMESTIBLE",

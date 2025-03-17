@@ -65,7 +65,7 @@
     "category": "veh_parts",
     "price": "900 USD",
     "price_postapoc": "50 USD",
-    "ammo": [ "plutonium" ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "tool_ammo": [ "plutonium" ]
   }
 ]

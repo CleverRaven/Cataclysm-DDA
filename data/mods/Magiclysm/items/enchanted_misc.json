@@ -196,9 +196,9 @@
     "material": [ "glass" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "thread" ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "thread": 1000 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "thread": 1000 } } ],
+    "tool_ammo": [ "thread" ]
   },
   {
     "id": "borealmosin_clip",

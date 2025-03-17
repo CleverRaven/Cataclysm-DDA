@@ -31,11 +31,11 @@
     "symbol": "?",
     "looks_like": "mag_guns",
     "color": "pink",
-    "skill": "smg",
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "smg",
+    "read_fun": 1
   },
   {
     "id": "manual_smg",
@@ -109,9 +109,9 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "green",
-    "skill": "smg",
     "max_level": 3,
     "intelligence": 3,
-    "time": "15 m"
+    "time": "15 m",
+    "read_skill": "smg"
   }
 ]

@@ -521,7 +521,6 @@
     "price_postapoc": "20 cent",
     "extend": { "flags": [ "FRAGILE_MELEE", "WATER_BREAK_ACTIVE" ] },
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the wizard cane on.",
@@ -538,7 +537,8 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "wizard_cane_cheap_on",
@@ -572,7 +572,6 @@
     "price_postapoc": "1 USD 50 cent",
     "extend": { "flags": [ "WATER_BREAK_ACTIVE" ] },
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the wizard cane on.",
@@ -589,7 +588,8 @@
         "default_magazine": "light_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "wizard_cane_on",
@@ -1844,7 +1844,6 @@
     "material": [ "wood", "iron" ],
     "symbol": "/",
     "color": "brown",
-    "ammo": [ "battery" ],
     "charges_per_use": 2,
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
@@ -1859,7 +1858,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 32 }
+    "melee_damage": { "bash": 32 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "shocktonfa_off",
@@ -1876,7 +1876,6 @@
     "material": [ "plastic", "steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "use_action": [ "SHOCKTONFA_OFF" ],
@@ -1890,7 +1889,8 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 14 }
+    "melee_damage": { "bash": 14 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "shocktonfa_on",

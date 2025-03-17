@@ -57,7 +57,6 @@
     "material": [ "wood", "steel" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "thread" ],
     "sub": "sewing_kit",
     "charges_per_use": 1,
     "qualities": [ [ "SEW", 4 ], [ "SEW_CURVED", 1 ], [ "KNIT", 1 ], [ "LEATHER_AWL", 2 ], [ "CUT", 2 ], [ "FABRIC_CUT", 2 ] ],
@@ -106,7 +105,8 @@
         "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "tool_ammo": [ "thread" ]
   },
   {
     "id": "sheet_fibercloth",

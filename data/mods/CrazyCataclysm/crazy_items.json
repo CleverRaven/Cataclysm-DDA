@@ -119,7 +119,6 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo": [ "gasoline" ],
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasoline": 50 }, "watertight": true } ],
     "techniques": [ "RAPID", "WBLOCK_2" ],
@@ -132,7 +131,8 @@
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ] ],
     "flags": [ "FIRE", "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "melee_damage": { "bash": 4, "cut": 31 }
+    "melee_damage": { "bash": 4, "cut": 31 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "firekatana_on",
@@ -146,7 +146,6 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "red",
-    "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasoline": 50 }, "watertight": true } ],
     "turns_per_charge": 30,
     "revert_to": "firekatana_off",
@@ -165,7 +164,8 @@
       }
     ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ],
-    "melee_damage": { "bash": 4, "cut": 31 }
+    "melee_damage": { "bash": 4, "cut": 31 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "zweifire_off",
@@ -180,7 +180,6 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo": [ "gasoline" ],
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasoline": 50 }, "watertight": true } ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
@@ -193,7 +192,8 @@
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 1 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
-    "melee_damage": { "bash": 17, "cut": 40 }
+    "melee_damage": { "bash": 17, "cut": 40 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "red_jeans",
@@ -257,7 +257,6 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "red",
-    "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasoline": 50 }, "watertight": true } ],
     "turns_per_charge": 30,
     "revert_to": "zweifire_off",
@@ -281,7 +280,8 @@
       }
     ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH", "ALWAYS_TWOHAND" ],
-    "melee_damage": { "bash": 17, "cut": 40 }
+    "melee_damage": { "bash": 17, "cut": 40 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "type": "GENERIC",

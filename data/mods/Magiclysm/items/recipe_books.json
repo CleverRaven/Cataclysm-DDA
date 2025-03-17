@@ -11,13 +11,13 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "black_white",
-    "skill": "spellcraft",
     "required_level": 1,
     "max_level": 3,
     "intelligence": 10,
     "time": "32 m",
-    "fun": 1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "spellcraft",
+    "read_fun": 1
   },
   {
     "id": "black_dragons_historical",
@@ -31,13 +31,13 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "black_white",
-    "skill": "chemistry",
     "required_level": 8,
     "max_level": 8,
     "intelligence": 11,
     "time": "37 m",
-    "fun": -2,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "alchemy_basic",
@@ -51,13 +51,13 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
-    "skill": "chemistry",
     "required_level": 3,
     "max_level": 5,
     "intelligence": 9,
     "time": "20 m",
-    "fun": 1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "chemistry",
+    "read_fun": 1
   },
   {
     "id": "necro_basic",
@@ -72,13 +72,13 @@
     "symbol": "?",
     "color": "black",
     "looks_like": "summon_undead_spellbook",
-    "skill": "tailor",
     "required_level": 4,
     "max_level": 6,
     "intelligence": 9,
     "time": "20 m",
-    "fun": -2,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "tailor",
+    "read_fun": -2
   },
   {
     "id": "alchemy_illegal",
@@ -92,12 +92,12 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
-    "skill": "chemistry",
     "required_level": 5,
     "max_level": 6,
     "intelligence": 10,
     "time": "20 m",
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "read_skill": "chemistry"
   },
   {
     "id": "alchemy_master",
@@ -111,13 +111,13 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
-    "skill": "chemistry",
     "required_level": 6,
     "max_level": 9,
     "intelligence": 12,
     "time": "20 m",
-    "fun": -2,
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "read_skill": "chemistry",
+    "read_fun": -2
   },
   {
     "id": "techno_basic",
@@ -132,13 +132,13 @@
     "symbol": "?",
     "color": "black",
     "looks_like": "manual_gun",
-    "skill": "mechanics",
     "required_level": 3,
     "max_level": 5,
     "intelligence": 9,
     "time": "20 m",
-    "fun": 1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "mechanics",
+    "read_fun": 1
   },
   {
     "id": "book_mythological",
@@ -154,10 +154,10 @@
     "material": [ "paper" ],
     "volume": "1250 ml",
     "time": "1 h",
-    "fun": 0,
-    "skill": "fabrication",
     "price": "300 USD",
-    "required_level": 8
+    "required_level": 8,
+    "read_skill": "fabrication",
+    "read_fun": 0
   },
   {
     "id": "cooking_poison",
@@ -171,13 +171,13 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
-    "skill": "cooking",
     "required_level": 4,
     "max_level": 6,
     "intelligence": 9,
     "time": "20 m",
-    "fun": 1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "cooking",
+    "read_fun": 1
   },
   {
     "id": "metal_legends",
@@ -191,13 +191,13 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
-    "skill": "fabrication",
     "required_level": 4,
     "max_level": 6,
     "intelligence": 9,
     "time": "20 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "fabrication",
+    "read_fun": -1
   },
   {
     "id": "magic_armormaking",
@@ -211,13 +211,13 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
-    "skill": "tailor",
     "required_level": 6,
     "max_level": 8,
     "intelligence": 10,
     "time": "25 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "tailor",
+    "read_fun": -1
   },
   {
     "id": "enchantment_basic",
@@ -231,13 +231,13 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
-    "skill": "fabrication",
     "required_level": 6,
     "max_level": 8,
     "intelligence": 10,
     "time": "25 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "fabrication",
+    "read_fun": -1
   },
   {
     "id": "weapon_enchanting_guide",
@@ -252,12 +252,12 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "blue",
-    "skill": "fabrication",
     "required_level": 4,
     "max_level": 4,
     "intelligence": 10,
     "time": "60 m",
-    "fun": -1
+    "read_skill": "fabrication",
+    "read_fun": -1
   },
   {
     "id": "history_botanical_enchantment",
@@ -274,13 +274,13 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white",
-    "skill": "spellcraft",
     "required_level": 4,
     "max_level": 4,
     "intelligence": 10,
     "time": "25 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "spellcraft",
+    "read_fun": -1
   },
   {
     "id": "arcane_archer_companion",
@@ -295,13 +295,13 @@
     "symbol": "?",
     "color": "black",
     "looks_like": "manual_gun",
-    "skill": "fabrication",
     "required_level": 3,
     "max_level": 4,
     "intelligence": 9,
     "time": "25 m",
-    "fun": 1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "fabrication",
+    "read_fun": 1
   },
   {
     "id": "journeyman_enchanting",
@@ -314,12 +314,12 @@
     "price": "80 USD",
     "material": [ "paper" ],
     "looks_like": "manual_gun",
-    "skill": "fabrication",
     "required_level": 4,
     "max_level": 5,
     "intelligence": 9,
     "time": "25 m",
     "symbol": "?",
-    "color": "light_gray"
+    "color": "light_gray",
+    "read_skill": "fabrication"
   }
 ]

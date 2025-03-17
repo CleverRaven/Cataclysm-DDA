@@ -64,7 +64,6 @@
     "time": "15 m",
     "chapters": 18,
     "//": "Extra chapters to account for talking about magic",
-    "fun": 2,
     "weight": "484 g",
     "volume": "654 ml",
     "longest_side": "23 cm",
@@ -72,7 +71,8 @@
     "price_postapoc": "15 USD",
     "material": [ "paper" ],
     "copy-from": "book_nonf_soft_tpl",
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "read_fun": 2
   },
   {
     "type": "BOOK",
@@ -88,7 +88,6 @@
     "color": "light_gray",
     "time": "20 m",
     "chapters": 15,
-    "fun": 1,
     "weight": "1000 g",
     "volume": "885 ml",
     "longest_side": "23 cm",
@@ -96,7 +95,8 @@
     "price_postapoc": "10 USD",
     "material": [ "paper" ],
     "copy-from": "book_nonf_soft_tpl",
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "read_fun": 1
   },
   {
     "type": "BOOK",
@@ -112,7 +112,6 @@
     "color": "light_gray",
     "time": "20 m",
     "chapters": 15,
-    "fun": 1,
     "weight": "1000 g",
     "volume": "885 ml",
     "longest_side": "23 cm",
@@ -120,7 +119,8 @@
     "price_postapoc": "10 USD",
     "material": [ "paper" ],
     "copy-from": "book_nonf_soft_tpl",
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "read_fun": 1
   },
   {
     "type": "BOOK",

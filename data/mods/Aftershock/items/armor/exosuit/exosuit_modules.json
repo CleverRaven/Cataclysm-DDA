@@ -464,7 +464,6 @@
     "material": [ "vacuum_carbide", "qt_steel" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": [ "ammonia_liquid" ],
     "use_action": { "type": "cast_spell", "spell_id": "spell_exosuit_jetpack", "no_fail": true, "level": 5 },
     "charges_per_use": 1,
     "flags": [ "CANT_WEAR", "EXO_LARGE_GADGET" ],
@@ -477,7 +476,8 @@
         "ammo_restriction": { "ammonia_liquid": 10 }
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "tool_ammo": [ "ammonia_liquid" ]
   },
   {
     "id": "exosuit_med_injector",
@@ -489,12 +489,12 @@
     "material": [ "ceramic", "qt_steel" ],
     "symbol": "!",
     "color": "white",
-    "ammo": [ "ampoule" ],
     "flags": [ "CANT_WEAR", "EXO_SMALL_GADGET" ],
     "max_worn": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ampoule": 4 } } ],
     "charges_per_use": 1,
-    "use_action": [ "JET_INJECTOR" ]
+    "use_action": [ "JET_INJECTOR" ],
+    "tool_ammo": [ "ampoule" ]
   },
   {
     "id": "exo_trickle_charger",

@@ -70,7 +70,6 @@
     "symbol": "/",
     "color": "yellow",
     "charged_qualities": [ [ "GRIND", 2 ], [ "SAW_M", 10 ] ],
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "power_draw": "800 W",
     "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
@@ -78,7 +77,8 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
-    "melee_damage": { "bash": 2, "cut": 2 }
+    "melee_damage": { "bash": 2, "cut": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "GENERIC",
@@ -126,9 +126,9 @@
     "symbol": ";",
     "color": "dark_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 1000, "coal": 5000 } } ],
-    "ammo": [ "charcoal", "coal" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 13 }
+    "melee_damage": { "bash": 13 },
+    "tool_ammo": [ "charcoal", "coal" ]
   },
   {
     "id": "carding_paddles",
@@ -161,10 +161,10 @@
     "material": [ "plastic", "wood" ],
     "symbol": ";",
     "color": "white",
-    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "300 W" },
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "vac_mold",
@@ -180,10 +180,10 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
-    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "600 W" },
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "chipper",
@@ -287,7 +287,6 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
     "charges_per_use": 5,
     "qualities": [ [ "SCREW", 1 ] ],
@@ -296,7 +295,8 @@
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "uneven" },
-    "melee_damage": { "bash": 3, "cut": 1 }
+    "melee_damage": { "bash": 3, "cut": 1 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "corded_powerdrill",
@@ -311,14 +311,14 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "qualities": [ [ "SCREW", 1 ] ],
     "charged_qualities": [ [ "DRILL", 3 ] ],
     "charges_per_use": 5,
     "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "2200 W" } ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "uneven" },
-    "melee_damage": { "bash": 3, "cut": 1 }
+    "melee_damage": { "bash": 3, "cut": 1 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "cordless_impact_wrench",
@@ -335,7 +335,6 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
     "charges_per_use": 10,
     "qualities": [ [ "WRENCH", 1 ] ],
@@ -344,7 +343,8 @@
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "uneven" },
-    "melee_damage": { "bash": 3, "cut": 1 }
+    "melee_damage": { "bash": 3, "cut": 1 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "distaff_spindle",
@@ -378,12 +378,12 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 7920 } } ],
     "charges_per_use": 3960,
     "use_action": [ "JACKHAMMER", { "type": "link_up", "cable_length": 33, "charge_rate": "2200 W" } ],
     "flags": [ "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
-    "melee_damage": { "bash": 14, "stab": 6 }
+    "melee_damage": { "bash": 14, "stab": 6 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "hacksaw",
@@ -588,13 +588,13 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "gasoline" ],
     "//": "Consumes 0.6 L/h",
     "charges_per_use": 300,
     "use_action": [ "JACKHAMMER" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 1200 } } ],
     "flags": [ "DIG_TOOL", "POWERED" ],
-    "melee_damage": { "bash": 14, "stab": 6 }
+    "melee_damage": { "bash": 14, "stab": 6 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "kiln",
@@ -609,10 +609,10 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1500 W" } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "large_repairkit",
@@ -627,7 +627,6 @@
     "material": [ "steel", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "qualities": [
       [ "HAMMER_FINE", 1 ],
@@ -662,7 +661,8 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "makeshift_hammer",
@@ -734,7 +734,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "tape" ],
     "charges_per_use": 5,
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 2 ], [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", 7 ], [ "FABRIC_CUT", 1 ] ],
     "use_action": [
@@ -748,7 +747,8 @@
         "move_cost": 1000
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE", "USES_NEARBY_AMMO" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "USES_NEARBY_AMMO" ],
+    "tool_ammo": [ "tape" ]
   },
   {
     "id": "multitool",
@@ -828,7 +828,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "weldgas" ],
     "//": "power usage: acy torch delivers about 20 kj per gram adjusted for efficiency, needs about 800 degrees c to ignite steel, which is specific heat 420j so to ignite a kg of steel, it is about 16units of acetylene",
     "charges_per_use": 8,
     "//0": "above is for 1/2 kg of steel - currently a door is 7 kg of material to cut",
@@ -837,7 +836,8 @@
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "weldtank", "smallweldtank", "tinyweldtank" ] } ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "tool_ammo": [ "weldgas" ]
   },
   {
     "id": "paint_brush",
@@ -982,14 +982,14 @@
     "color": "light_gray",
     "charges_per_use": 1,
     "charged_qualities": [ [ "GRIND", 2 ] ],
-    "ammo": [ "battery" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
     "use_action": [ { "type": "link_up", "cable_length": 5, "charge_rate": "1600 W" } ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "primitive_hammer",
@@ -1023,7 +1023,6 @@
     "symbol": "/",
     "color": "yellow",
     "charged_qualities": [ [ "SAW_M", 3 ], [ "SAW_W", 2 ] ],
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "power_draw": "800 W",
     "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
@@ -1031,7 +1030,8 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
-    "melee_damage": { "bash": 2, "cut": 2 }
+    "melee_damage": { "bash": 2, "cut": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "robofac_gun_kit",
@@ -1157,7 +1157,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "qualities": [
       [ "HAMMER_FINE", 1 ],
@@ -1196,7 +1195,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "soldering_iron",
@@ -1211,7 +1211,6 @@
     "material": [ { "type": "plastic", "portion": 75 }, { "type": "copper", "portion": 25 } ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
       {
@@ -1226,7 +1225,8 @@
     ],
     "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
-    "melee_damage": { "stab": 2 }
+    "melee_damage": { "stab": 2 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "soldering_iron_portable",
@@ -1320,7 +1320,6 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "battery" ],
     "charges_per_use": 20,
     "charged_qualities": [ [ "WELD", 2 ] ],
     "use_action": [
@@ -1356,7 +1355,8 @@
       { "type": "link_up", "cable_length": 7, "charge_rate": "3000 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "welder_crude",
@@ -1371,7 +1371,6 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_red",
-    "ammo": [ "battery" ],
     "charges_per_use": 40,
     "charged_qualities": [ [ "WELD", 1 ] ],
     "use_action": [
@@ -1407,7 +1406,8 @@
       { "type": "link_up", "cable_length": 7, "charge_rate": "1500 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "welding_kit",
@@ -1422,7 +1422,6 @@
     "material": [ "steel", "asbestos" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "battery" ],
     "charges_per_use": 20,
     "charged_qualities": [ [ "WELD", 2 ] ],
     "use_action": [
@@ -1460,7 +1459,8 @@
       { "type": "link_up", "cable_length": 7, "charge_rate": "3000 W" }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "wood_smoother",
@@ -1604,9 +1604,9 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1500 W" } ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "propane_torch",
@@ -1620,7 +1620,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "propane" ],
     "flags": [ "ALLOWS_REMOTE_USE", "FIRESTARTER" ],
     "pocket_data": [
       {
@@ -1629,7 +1628,8 @@
       }
     ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "tool_ammo": [ "propane" ]
   },
   {
     "id": "block_and_tackle",

@@ -2120,7 +2120,6 @@
     "price_postapoc": "10 cent",
     "material": [ "aluminum", "plastic" ],
     "flags": [ "WATER_BREAK", "FRAGILE_MELEE" ],
-    "ammo": [ "battery" ],
     "charges_per_use": 4,
     "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "35 W" } ],
     "charged_qualities": [ [ "WINNOW", 1 ] ],
@@ -2128,7 +2127,8 @@
     "volume": "19265 ml",
     "//": "Based on https://www.amazon.com/dp/B000U9WXEC, although the volume calculated from package dimensions has been multiplied by 0.5 because there really is not a reasonable way to calculate fan volume without the numbers going into extremes",
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "GENERIC",
@@ -3179,7 +3179,7 @@
     "price": "10 USD",
     "extend": { "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "money": 200000000 } } ],
-    "ammo": [ "money" ]
+    "tool_ammo": [ "money" ]
   },
   {
     "id": "robofac_test_data",

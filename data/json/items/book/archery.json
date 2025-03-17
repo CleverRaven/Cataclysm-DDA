@@ -95,10 +95,10 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
-    "skill": "archery",
     "max_level": 1,
     "intelligence": 2,
     "time": "7 m",
-    "fun": 1
+    "read_skill": "archery",
+    "read_fun": 1
   }
 ]

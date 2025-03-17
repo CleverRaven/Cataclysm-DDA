@@ -13,10 +13,10 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "speech",
     "max_level": 1,
     "intelligence": 5,
-    "time": "8 m"
+    "time": "8 m",
+    "read_skill": "speech"
   },
   {
     "id": "manual_business",
@@ -51,11 +51,11 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "green",
-    "skill": "speech",
     "max_level": 3,
     "intelligence": 6,
     "time": "25 m",
-    "fun": -1
+    "read_skill": "speech",
+    "read_fun": -1
   },
   {
     "id": "textbook_business",
@@ -91,12 +91,12 @@
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "blue",
-    "skill": "speech",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 9,
     "time": "30 m",
-    "fun": -1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "read_skill": "speech",
+    "read_fun": -1
   }
 ]

@@ -7,10 +7,10 @@
     "copy-from": "fake_crafting_tool",
     "name": { "str": "basecamp kiln" },
     "sub": "char_kiln",
-    "ammo": [ "charcoal" ],
     "//1": "250 liters of materials can produce 100 liters of charcoal.",
     "//3": "50000 charges of charcoal is 250 liters, the size of the largest charcoal kiln.",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 50000 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 50000 } } ],
+    "tool_ammo": [ "charcoal" ]
   },
   {
     "id": "fake_char_smoker",
@@ -20,9 +20,9 @@
     "copy-from": "fake_crafting_tool",
     "name": { "str": "basecamp charcoal smoker" },
     "sub": "char_smoker",
-    "ammo": [ "charcoal" ],
     "//1": "holds 450 liters of charcoal. a full smoking rack cycle of 20L of stuff would consume 15,000 charcoal (75 liters, 15.6kg of charcoal)",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 90000 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 90000 } } ],
+    "tool_ammo": [ "charcoal" ]
   },
   {
     "id": "fake_forge",
@@ -42,8 +42,8 @@
     "copy-from": "fake_crafting_tool",
     "name": { "str": "basecamp clay kiln" },
     "sub": "brick_kiln",
-    "ammo": [ "charcoal", "coal" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000, "coal": 10000 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000, "coal": 10000 } } ],
+    "tool_ammo": [ "charcoal", "coal" ]
   },
   {
     "id": "fake_fireplace",
@@ -52,9 +52,9 @@
     "name": { "str": "basecamp fireplace" },
     "//": "A fake fireplace used for basecamps.",
     "sub": "hotplate",
-    "ammo": [ "tinder" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50000 } } ],
-    "charge_factor": 25
+    "charge_factor": 25,
+    "tool_ammo": [ "tinder" ]
   },
   {
     "id": "fake_woodstove",
@@ -63,9 +63,9 @@
     "name": { "str": "basecamp stove" },
     "//": "A fake stove used for basecamps.",
     "sub": "hotplate",
-    "ammo": [ "tinder" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50000 } } ],
-    "charge_factor": 10
+    "charge_factor": 10,
+    "tool_ammo": [ "tinder" ]
   },
   {
     "id": "fake_drop_hammer",

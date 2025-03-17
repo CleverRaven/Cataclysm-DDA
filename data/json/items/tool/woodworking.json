@@ -51,7 +51,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "red",
-    "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 450 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
@@ -75,7 +74,8 @@
       ]
     },
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "chainsaw_on",
@@ -138,7 +138,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "red",
-    "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 450 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
@@ -162,7 +161,8 @@
       ]
     },
     "flags": [ "POLEARM", "NONCONDUCTIVE", "FRAGILE_MELEE", "REACH_ATTACK" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "polesaw_on",
@@ -221,7 +221,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
       "type": "effect_on_conditions",
@@ -246,7 +245,8 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
-    "melee_damage": { "bash": 2, "cut": 4 }
+    "melee_damage": { "bash": 2, "cut": 4 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "circsaw_on",
@@ -382,7 +382,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "red",
-    "ammo": [ "battery" ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
     "use_action": {
@@ -410,7 +409,8 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "elec_chainsaw_on",

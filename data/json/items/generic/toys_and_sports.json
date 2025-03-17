@@ -12,7 +12,6 @@
     "material": [ "plastic" ],
     "symbol": "|",
     "color": "pink",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
@@ -24,7 +23,8 @@
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_minus_disposable_cell"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "creepy_doll",
@@ -214,7 +214,6 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "plastic", "aluminum" ],
-    "ammo": [ "battery" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -226,7 +225,8 @@
     "charges_per_use": 50,
     "//2": "670 grams for the target with a bit extra for the generic laser + connectors",
     "weight": "800 g",
-    "volume": "3500 ml"
+    "volume": "3500 ml",
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "GENERIC",
@@ -291,7 +291,6 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "longest_side": "180 cm",
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "SINGLE_USE", "ELECTRONIC" ],
     "pocket_data": [
       {
@@ -310,6 +309,7 @@
       "need_charges": 100,
       "moves": 20
     },
-    "melee_damage": { "bash": 18 }
+    "melee_damage": { "bash": 18 },
+    "tool_ammo": [ "battery" ]
   }
 ]

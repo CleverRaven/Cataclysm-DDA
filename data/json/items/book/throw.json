@@ -35,11 +35,11 @@
     "symbol": "?",
     "looks_like": "mag_glam",
     "color": "pink",
-    "skill": "throw",
     "max_level": 1,
     "intelligence": 1,
     "time": "8 m",
-    "fun": 1
+    "read_skill": "throw",
+    "read_fun": 1
   },
   {
     "id": "manual_throw",
@@ -95,9 +95,9 @@
     "symbol": "?",
     "looks_like": "manual_gun",
     "color": "green",
-    "skill": "throw",
     "max_level": 3,
     "intelligence": 3,
-    "time": "15 m"
+    "time": "15 m",
+    "read_skill": "throw"
   }
 ]

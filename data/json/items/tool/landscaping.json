@@ -349,7 +349,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "green",
-    "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 600 } } ],
     "charges_per_use": 5,
     "use_action": {
@@ -374,7 +373,8 @@
       ]
     },
     "flags": [ "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 4, "cut": 8 }
+    "melee_damage": { "bash": 4, "cut": 8 },
+    "tool_ammo": [ "gasoline" ]
   },
   {
     "id": "trimmer_on",

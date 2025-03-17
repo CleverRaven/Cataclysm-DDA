@@ -13,7 +13,6 @@
     "color": "brown",
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
     "charges_per_use": 1,
-    "ammo": [ "crystallized_mana" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -23,7 +22,8 @@
         "item_restriction": [ "small_mana_crystal" ]
       }
     ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "tool_ammo": [ "crystallized_mana" ]
   },
   {
     "abstract": "disp_wand",

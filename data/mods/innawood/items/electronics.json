@@ -28,7 +28,6 @@
     "material": [ "wood", "copper", "steel" ],
     "symbol": ":",
     "color": "light_gray",
-    "ammo": [ "battery" ],
     "use_action": [ "HAND_CRANK" ],
     "pocket_data": [
       {
@@ -37,7 +36,8 @@
         "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT", "BATTERY_HEAVY" ],
         "default_magazine": "battery_car_clay"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "magazine_battery_mod",
@@ -67,7 +67,6 @@
     "price_postapoc": "7 USD 50 cent",
     "material": [ "steel", "copper", "plastic" ],
     "symbol": ";",
-    "ammo": [ "battery" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "300 W" } ],
     "pocket_data": [
       {
@@ -82,6 +81,7 @@
           "storage_battery"
         ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   }
 ]
