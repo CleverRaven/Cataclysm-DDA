@@ -747,6 +747,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "can_only_eat": [ "blood", "hblood", "fae_blood", "vampire_blood" ],
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "NO_THIRST" ],
     "vitamin_rates": [ [ "vitC", -500 ], [ "iron", -500 ], [ "calcium", -500 ] ],
     "//": "When weariness can be modified through Json, this mutation should make the player immune to it.",
@@ -875,6 +876,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "flags": [ "CANNIBAL" ],
     "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -4 } ] } ]
   },
   {
