@@ -13077,12 +13077,20 @@ bool Character::wield( item &it, std::optional<int> obtain_cost )
     invalidate_inventory_validity_cache();
     invalidate_leak_level_cache();
 
+    item_location wielded = get_wielded_item();
+
     if( has_wield_conflicts( it ) ) {
         const bool is_unwielding = is_wielding( it );
         const auto ret = can_unwield( it );
 
         if( !ret.success() ) {
             add_msg_if_player( m_info, "%s", ret.c_str() );
+            return false;
+        }
+
+        if( wielded->has_item( it ) ) {
+            add_msg_if_player( m_info,
+                               _( "You need to put the bag away before trying to wield something from it." ) );
             return false;
         }
 
@@ -13096,13 +13104,6 @@ bool Character::wield( item &it, std::optional<int> obtain_cost )
             }
             return true;
         }
-    }
-
-    item_location wielded = get_wielded_item();
-    if( wielded && wielded->has_item( it ) ) {
-        add_msg_if_player( m_info,
-                           _( "You need to put the bag away before trying to wield something from it." ) );
-        return false;
     }
 
     if( !can_wield( it ).success() ) {
