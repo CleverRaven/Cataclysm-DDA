@@ -67,6 +67,7 @@
     "description": "The craft of the wise, provenance of cunning men, wise women, soothsayers, knowers, herb-witches, and curse-lifters throughout history.  With the proper components, and at the proper times and places, they can perform miracles.",
     "starting_trait": false,
     "purifiable": false,
-    "valid": false
+    "valid": false,
+    "spells_learned": [ [ "hedge_luck_spell", 0 ] ]
   }
 ]
