@@ -391,7 +391,8 @@ bool computer_session::can_activate( computer_action action )
 
         case COMPACT_RELEASE:
         case COMPACT_RELEASE_DISARM:
-            return get_map().has_nearby_ter( get_player_character().pos_bub(), ter_t_t_reinforced_glass_lab, 25 );
+            return get_map().has_nearby_ter( get_player_character().pos_bub(), ter_t_t_reinforced_glass_lab,
+                                             25 );
 
         case COMPACT_RELEASE_BIONICS:
             return get_map().has_nearby_ter( get_player_character().pos_bub(), ter_t_reinforced_glass_lab, 3 );
