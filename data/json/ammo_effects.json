@@ -393,6 +393,16 @@
     "explosion": { "power": 7980, "shrapnel": { "casing_mass": 8725, "fragment_mass": 0.5 } }
   },
   {
+    "id": "EXPLOSIVE_60mmHE",
+    "type": "ammo_effect",
+    "explosion": { "power": 250, "shrapnel": 500 }
+  },
+  {
+    "id": "EXPLOSIVE_60mmHE2",
+    "type": "ammo_effect",
+    "explosion": { "power": 358, "shrapnel": 430 }
+  },
+  {
     "id": "FLASHBANG",
     "type": "ammo_effect",
     "//": "Blinds and deafens nearby targets",

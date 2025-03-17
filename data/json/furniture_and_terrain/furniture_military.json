@@ -1,0 +1,55 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_m224_mortar",
+    "name": "M224 mortar",
+    "description": "Deployed and ready to be used 60 mm mortar.  You are lucky you don't need to scavenge actual firing tables, as they are clipped tightly to the mortar itself.  However you can use it only for indirect fire, with a substantial precision loss.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost_mod": 2,
+    "coverage": 15,
+    "required_str": 10,
+    "flags": [ "SHORT", "FLAT_SURF" ],
+    "bash": { "str_min": 1, "str_max": 1, "items": [ { "item": "mortar_m224", "count": 1 } ] },
+    "deconstruct": { "items": [ { "item": "mortar_m224", "count": 1 } ] },
+    "//range": [
+      "charge; muzzle velocity; min range, max range",
+      "0, 210, 70,  400 ",
+      "1, 415, 250, 1340",
+      "2, 560, 350, 2150",
+      "3, 680, 500, 2890",
+      "4, 810, 650, 3490",
+      "aim deviation: 10% of total distance, decreased by laucnher skill to 2%",
+      "aim duration: 16 seconds, decreased by launcher skill to 5 seconds, if you already aimed the gun properly; the first shot gonna take up to 190 secodns, decreased by launcher skill to 60 seconds"
+    ],
+    "examine_action": {
+      "type": "mortar",
+      "ammo": [ "mortar_60mm" ],
+      "condition": { "math": [ "u_skill('launcher') >= 1" ] },
+      "condition_fail_msg": "You have absolutely no idea how to use this mortar.",
+      "range": 3490,
+      "aim_duration": {
+        "math": [
+          "u_effect_duration('aimed_60mm') > 1",
+          " ? max(5, 16 / u_skill('launcher'))",
+          " : max(60, 190 / u_skill('launcher'))"
+        ]
+      },
+      "aim_deviation": { "math": [ "max(0.02, 0.1 / u_skill('launcher'))" ] },
+      "flight_time": "15 seconds",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_60MM_SHOT",
+          "effect": [
+            { "u_add_effect": "aimed_60mm", "duration": "3 minutes" },
+            { "math": [ "u_skill_exp('launcher', 'format': 'percentage')++" ] },
+            { "if": { "math": [ "distance('u', _target) <= 400 " ] }, "then": { "u_spawn_item": "60mm_propellant" } },
+            { "if": { "math": [ "distance('u', _target) <= 1340" ] }, "then": { "u_spawn_item": "60mm_propellant" } },
+            { "if": { "math": [ "distance('u', _target) <= 2150" ] }, "then": { "u_spawn_item": "60mm_propellant" } },
+            { "if": { "math": [ "distance('u', _target) <= 2890" ] }, "then": { "u_spawn_item": "60mm_propellant" } }
+          ]
+        }
+      ]
+    }
+  }
+]
