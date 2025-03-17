@@ -56,6 +56,29 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "pipe_dowel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "mechanics",
+    "difficulty": 1,
+    "time": "2 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [
+        [ "wire", 4 ],
+        [ "lc_wire", 4 ],
+        [ "mc_wire", 4 ],
+        [ "hc_wire", 4 ],
+        [ "qt_wire", 4 ],
+        [ "ch_wire", 4 ],
+        [ "cable", 4 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pipe_cleaner",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
