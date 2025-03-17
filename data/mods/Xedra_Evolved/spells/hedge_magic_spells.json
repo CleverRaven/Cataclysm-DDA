@@ -272,9 +272,9 @@
     "shape": "blast",
     "components": "spell_components_hedge_luck_spell",
     "max_level": 1,
-    "base_casting_time": 2500,
-    "min_duration": 10000,
-    "max_duration": 86000
+    "base_casting_time": 250000,
+    "min_duration": 1000000,
+    "max_duration": 8600000
   },
   {
     "id": "hedge_clairvoyance_cone",
