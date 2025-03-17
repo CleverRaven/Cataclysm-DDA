@@ -696,6 +696,7 @@
             "m11": 1,
             "m17": 1,
             "p226_9mm": 1,
+            "p365": 1,
             "sp2022": 1,
             "hi_power_9mm": 1,
             "walther_p38": 1,
@@ -730,6 +731,7 @@
             "rough_rider_pistol": 1,
             "rough_rider_pistol_9": 1,
             "rossi_gallery": 1,
+            "sr22": 1,
             "sw617": 1
           }
         },
@@ -780,7 +782,7 @@
         {
           "type": "380",
           "weight": 48,
-          "items": { "mac_11": 1, "rugerlcp": 1, "hptcf380": 1, "rifle_380": 1, "hpt3895": 1 }
+          "items": { "mac_11": 1, "rugerlcp": 1, "hptcf380": 1, "rifle_380": 1, "hpt3895": 1, "swbodyguard": 1 }
         },
         {
           "type": "40",
@@ -873,7 +875,7 @@
         {
           "type": "38",
           "weight": 19,
-          "items": { "2_shot_special": 1, "model_10_revolver": 1, "rifle_38": 1, "ruger_lcr_38": 1 }
+          "items": { "2_shot_special": 1, "model_10_revolver": 1, "rifle_38": 1, "ruger_lcr_38": 1, "sw642": 1 }
         },
         {
           "type": "44",
@@ -1032,6 +1034,7 @@
             "p220_10": 1,
             "p226_357sig": 1,
             "p226_9mm": 1,
+            "p365": 1,
             "p50": 1,
             "pistol_flintlock": 1,
             "pressin": 1,
@@ -1055,11 +1058,14 @@
             "sp2022": 1,
             "surv_hand_cannon": 1,
             "surv_six_shooter": 1,
+            "sr22": 1,
             "sw_500": 1,
             "sw_610": 1,
             "sw617": 1,
             "sw_619": 1,
             "sw629": 1,
+            "sw642": 1,
+            "swbodyguard": 1,
             "TDI_10": 1,
             "tokarev": 1,
             "usp_45": 1,
