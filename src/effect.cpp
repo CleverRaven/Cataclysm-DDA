@@ -1065,6 +1065,17 @@ void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<bodypart_id> &
     }
 }
 
+void effect::decay( std::vector<efftype_id> &rem_ids, const time_point &time )
+{
+    // Add to removal list if duration is <= 0
+    // Decay duration if not permanent
+    if( duration <= 0_turns ) {
+        rem_ids.push_back( get_id() );
+    } else if( !is_permanent() ) {
+        mod_duration( -1_turns );
+    }
+}
+
 bool effect::use_part_descs() const
 {
     return eff_type->part_descs;

@@ -308,6 +308,11 @@ class effect
         void decay( std::vector<efftype_id> &rem_ids, std::vector<bodypart_id> &rem_bps,
                     const time_point &time, bool player, const effects_map &eff_map = effects_map() );
 
+        /** Decays effect durations for vehicles which use simplified rules, pushing their id and bp's back to rem_ids for removal later
+         *  if their duration is <= 0. This is called in the middle of a loop through all effects, which is
+         *  why we aren't allowed to remove the effects here. */
+        void decay( std::vector<efftype_id> &rem_ids, const time_point &time );
+
         /** Returns the remaining duration of an effect. */
         time_duration get_duration() const;
         /** Returns the maximum duration of an effect. */

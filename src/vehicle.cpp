@@ -1519,6 +1519,15 @@ void vehicle::recalculate_enchantment_cache()
 {
     enchantment_cache.clear();
 
+    for( const auto &elem : effects ) {
+        for( const enchantment_id &ench_id : elem.first->enchantments ) {
+            const enchantment &ench = ench_id.obj();
+            if( ench.is_active( *this, true ) ) {
+                enchantment_cache.force_add( ench, *this );
+            }
+        }
+    }
+
     for( vehicle_part &part : parts ) {
         if( part.removed ) {
             continue;
@@ -1530,6 +1539,105 @@ void vehicle::recalculate_enchantment_cache()
             }
         }
     }
+}
+
+void vehicle::add_effect( const effect_source &source, const efftype_id &eff_id,
+                          const time_duration &dur, bool permanent, int intensity )
+{
+    if( !eff_id.is_valid() ) {
+        debugmsg( "Invalid effect, ID: %s", eff_id.c_str() );
+        return;
+    }
+    const effect_type &type = eff_id.obj();
+
+    // Then check if the effect is blocked by another
+    for( auto &elem : effects ) {
+        for( const auto &blocked_effect : elem.second.get_blocks_effects() ) {
+            if( blocked_effect == eff_id ) {
+                // The effect is blocked by another, return
+                return;
+            }
+        }
+    }
+
+    bool found = false;
+    // Check if we already have it
+    auto found_effect = effects.find( eff_id );
+    if( found_effect != effects.end() ) {
+        found = true;
+        effect &e = found_effect->second;
+        // If we do, mod the duration, factoring in the mod value
+        e.mod_duration( dur * e.get_dur_add_perc() / 100 );
+        // Limit to max duration
+        if( e.get_duration() > e.get_max_duration() ) {
+            e.set_duration( e.get_max_duration() );
+        }
+        // Adding a permanent effect makes it permanent
+        if( e.is_permanent() ) {
+            e.pause_effect();
+        }
+    }
+
+    if( !found ) {
+        // If we don't already have it then add a new one
+
+        // Now we can make the new effect for application
+        effect e( effect_source( source ), &type, dur, bodypart_str_id::NULL_ID(), permanent, intensity,
+                  calendar::turn );
+        // Bound to max duration
+        if( e.get_duration() > e.get_max_duration() ) {
+            e.set_duration( e.get_max_duration() );
+        }
+
+        // Force intensity if it is duration based
+        if( e.get_int_dur_factor() != 0_turns ) {
+            const int intensity = std::ceil( e.get_duration() / e.get_int_dur_factor() );
+            e.set_intensity( std::max( 1, intensity ) );
+        }
+        // Bound new effect intensity by [1, max intensity]
+        if( e.get_intensity() < 1 ) {
+            add_msg_debug( debugmode::DF_CREATURE, "Bad intensity, ID: %s", e.get_id().c_str() );
+            e.set_intensity( 1 );
+        } else if( e.get_intensity() > e.get_max_intensity() ) {
+            e.set_intensity( e.get_max_intensity() );
+        }
+        effects[eff_id] = e;
+    }
+}
+
+void vehicle::process_effects()
+{
+    map &here = get_map();
+
+    // id's of all effects to be removed.
+    std::vector<efftype_id> rem_ids;
+
+    // Decay/removal of effects
+    for( auto &elem : effects ) {
+        // Add any effects that others remove to the removal list
+        for( const auto &removed_effect : elem.second.get_removes_effects() ) {
+            rem_ids.push_back( removed_effect );
+        }
+        effect &e = elem.second;
+        const int prev_int = e.get_intensity();
+        // Run decay effects, marking effects for removal as necessary.
+        e.decay( rem_ids, calendar::turn );
+    }
+
+    // Actually remove effects. This should be the last thing done in process_effects().
+    for( size_t i = 0; i < rem_ids.size(); ++i ) {
+        remove_effect( rem_ids[i] );
+    }
+}
+
+void vehicle::remove_effect( const efftype_id &eff_id )
+{
+    effects.erase( eff_id );
+}
+
+bool vehicle::has_effect( const efftype_id &eff_id ) const
+{
+    return effects.count( eff_id );
 }
 
 bool vehicle::is_appliance() const
