@@ -152,13 +152,7 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 270,
-    "pocket_data": [
-      {
-        "magazine_well": "40 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "swbodyguard_mag" ]
-      }
-    ],
+    "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "swbodyguard_mag" ] } ],
     "melee_damage": { "bash": 8 }
   }
 ]

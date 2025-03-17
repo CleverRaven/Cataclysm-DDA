@@ -514,12 +514,7 @@
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 5,
-    "valid_mod_locations": [
-      [ "mechanism", 2 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "mechanism", 2 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
