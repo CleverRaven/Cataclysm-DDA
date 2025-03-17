@@ -30,8 +30,8 @@
     "id": "common_magazines_restricted_9mm",
     "//": "Collections of magazines for 9mm guns that are sold in gunstores, such as Glocks, M9s, that are limited to 10 rounds or less so that they can be sold in gunstores.  If 10 round or less magazines aren't present, use the lowest current capacity magazine.",
     "items": [
-      { "item": "glock17_17", "prob": 48 },
-      { "item": "glockmag", "prob": 52 },
+      { "item": "glock17_10", "prob": 48 },
+      { "item": "glockmag_10", "prob": 52 },
       { "item": "m9mag_10rd", "prob": 20 },
       { "item": "px4mag_10rd", "prob": 20 },
       { "item": "usp9mag_10rd", "prob": 20 },
@@ -40,7 +40,7 @@
       { "item": "bhp9mag_13rd", "prob": 18 },
       { "item": "ppq9mag_10rd", "prob": 15 },
       { "group": "magazines_restricted_9mm_hipoint_c9", "prob": 30 },
-      { "item": "cz75mag_16rd", "prob": 40 },
+      { "item": "cz75mag_10rd", "prob": 40 },
       { "group": "magazines_9mm_ccp", "prob": 5 },
       { "item": "sp2022mag_10rd_9mm", "prob": 10 },
       { "item": "mp5mag_10rd", "prob": 19 },
@@ -69,7 +69,7 @@
     "//": "Collections of magazines for 10mm guns that are sold in gunstores, such as Glocks, that are limited to 10 rounds or less.",
     "items": [
       { "item": "glock_29mag", "prob": 39 },
-      { "item": "glock_20mag", "prob": 61 },
+      { "item": "glock_20mag_10", "prob": 61 },
       { "item": "40_speedloader6", "prob": 16 },
       { "item": "m1911_10mag", "prob": 3 },
       { "item": "p220_10_mag", "prob": 21 },
@@ -142,7 +142,8 @@
     "//": "Collections of magazines for 40 S&W guns that are sold in gunstores, such as the Glock 22.",
     "items": [
       { "group": "magazines_40_glock", "prob": 100 },
-      { "item": "px4_40mag", "prob": 21 },
+      { "item": "px4_40mag", "prob": 16 },
+      { "item": "px4_40mag_10", "prob": 5 },
       { "item": "bhp40mag", "prob": 3 },
       { "item": "hptjcpmag", "prob": 30 }
     ]
@@ -153,8 +154,8 @@
     "id": "common_magazines_restricted_40sw",
     "//": "Collections of magazines for 40 S&W guns that are sold in gunstores, such as the Glock 22, that are limited to 10 rounds or less.",
     "items": [
-      { "item": "glock40mag", "prob": 100 },
-      { "item": "px4_40mag", "prob": 21 },
+      { "item": "glock40mag_10", "prob": 100 },
+      { "item": "px4_40mag_10", "prob": 21 },
       { "item": "bhp40mag", "prob": 3 },
       { "item": "hptjcpmag", "prob": 30 }
     ]
@@ -187,7 +188,7 @@
     "id": "common_magazines_restricted_45",
     "//": "Collections of magazines for 45 ACP guns that are sold in gunstores, such as Glocks, 1911s, that are limited to 10 rounds or less.",
     "items": [
-      { "item": "glock_21mag", "prob": 100 },
+      { "item": "glock_21mag_10", "prob": 100 },
       { "item": "thompson_mag", "prob": 21 },
       { "item": "usc10mag", "prob": 18 },
       { "group": "magazines_45_1911", "prob": 1107 },
