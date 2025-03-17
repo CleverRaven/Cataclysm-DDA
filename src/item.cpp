@@ -9419,30 +9419,31 @@ item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &
         return armor_status::UNDAMAGED;
     }
     /*
-    * Armor damage chance is calculated using the logistics function. 
-    *  No matter the damage dealt, an armor piece has at at most 80% chance of being damaged.  
+    * Armor damage chance is calculated using the logistics function.
+    *  No matter the damage dealt, an armor piece has at at most 80% chance of being damaged.
     *  Chance of damage is 40% when the premitigation damage is equal to armor*1.333
     *  Sturdy items will not take damage if premitigation damage isn't higher than armor*1.333.
-    * 
+    *
     *  Non fragile items are considered to always have at least 10 points of armor, this is to prevent
     *  regular clothes from exploding into ribbons whenever you get punched.
     */
-    armors_own_resist = has_flag( flag_FRAGILE ) ? armors_own_resist * 0.6666 : std::max( 10.0, armors_own_resist*1.3333);
-    double damage_chance = 0.8 / ( 1.0 + std::exp( -( premitigated.amount - armors_own_resist ) ) ) * enchant_multiplier;
+    armors_own_resist = has_flag( flag_FRAGILE ) ? armors_own_resist * 0.6666 : std::max( 10.0,
+                        armors_own_resist * 1.3333 );
+    double damage_chance = 0.8 / ( 1.0 + std::exp( -( premitigated.amount - armors_own_resist ) ) ) *
+                           enchant_multiplier;
 
     // Scale chance of article taking damage based on the number of parts it covers.
     // This represents large articles being able to take more punishment
     // before becoming ineffective or being destroyed
-    damage_chance = damage_chance/ get_covered_body_parts().count();
-    if (has_flag( flag_STURDY ) && premitigated.amount < armors_own_resist) {
+    damage_chance = damage_chance / get_covered_body_parts().count();
+    if( has_flag( flag_STURDY ) && premitigated.amount < armors_own_resist ) {
         return armor_status::UNDAMAGED;
-    }
-    else if( x_in_y( damage_chance, 1.0) ) {
+    } else if( x_in_y( damage_chance, 1.0 ) ) {
         return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
-        armor_status::DAMAGED;
+               armor_status::DAMAGED;
     } else {
         return armor_status::UNDAMAGED;
-    }	
+    }
 }
 
 
