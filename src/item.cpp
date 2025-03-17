@@ -9441,9 +9441,8 @@ item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &
     } else if( x_in_y( damage_chance, 1.0 ) ) {
         return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
                armor_status::DAMAGED;
-    } else {
-        return armor_status::UNDAMAGED;
     }
+    return armor_status::UNDAMAGED;
 }
 
 
