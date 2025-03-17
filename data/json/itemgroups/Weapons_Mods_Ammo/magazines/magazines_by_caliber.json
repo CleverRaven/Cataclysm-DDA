@@ -287,6 +287,7 @@
     "items": [
       { "group": "magazines_hipoint380", "prob": 44 },
       { "item": "rugerlcpmag", "prob": 100 },
+      { "item": "swbodyguard_mag", "prob": 724 },
       { "item": "hpt3895mag_10rd", "prob": 4 }
     ]
   },

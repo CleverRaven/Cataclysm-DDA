@@ -55,7 +55,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_380",
-    "items": [ { "group": "nested_rugerlcp", "prob": 231 }, { "group": "nested_hptcf380", "prob": 100 } ]
+    "items": [ { "group": "nested_rugerlcp", "prob": 231 }, { "group": "nested_hptcf380", "prob": 100 }, { "group": "nested_swbodyguard", "prob": 1673 } ]
   },
   {
     "type": "item_group",

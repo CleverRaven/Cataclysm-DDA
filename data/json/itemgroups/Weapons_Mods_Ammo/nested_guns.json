@@ -425,6 +425,19 @@
     ]
   },
   {
+    "id": "nested_swbodyguard",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "swbodyguard", "charges": [ 0, 6 ] },
+      { "item": "swbodyguard_mag" },
+      { "item": "swbodyguard_mag", "prob": 50 },
+      { "group": "on_hand_380" }
+    ]
+  },
+  {
     "id": "nested_hi_power_9mm",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

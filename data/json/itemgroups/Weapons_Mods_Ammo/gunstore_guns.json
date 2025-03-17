@@ -370,7 +370,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_boxed_380",
-    "items": [ { "group": "boxed_rugerlcp", "prob": 231 }, { "group": "boxed_hptcf380", "prob": 100 } ]
+    "items": [ { "group": "boxed_rugerlcp", "prob": 231 }, { "group": "boxed_hptcf380", "prob": 100 }, { "group": "boxed_swbodyguard", "prob": 1673 } ]
   },
   {
     "type": "item_group",
@@ -378,6 +378,13 @@
     "id": "boxed_rugerlcp",
     "container-item": "box_pistol",
     "items": [ { "item": "rugerlcp" }, { "group": "firearm_box_extras" }, { "item": "rugerlcpmag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_swbodyguardp",
+    "container-item": "box_pistol",
+    "items": [ { "item": "swbodyguard" }, { "group": "firearm_box_extras" }, { "item": "swbodyguard_mag", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
