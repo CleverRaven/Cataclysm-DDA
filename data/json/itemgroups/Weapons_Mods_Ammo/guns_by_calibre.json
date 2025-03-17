@@ -55,7 +55,11 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_380",
-    "items": [ { "group": "nested_rugerlcp", "prob": 231 }, { "group": "nested_hptcf380", "prob": 100 }, { "group": "nested_swbodyguard", "prob": 1673 } ]
+    "items": [
+      { "group": "nested_rugerlcp", "prob": 231 },
+      { "group": "nested_hptcf380", "prob": 100 },
+      { "group": "nested_swbodyguard", "prob": 1673 }
+    ]
   },
   {
     "type": "item_group",
@@ -225,7 +229,11 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_380",
-    "items": [ { "item": "rugerlcp", "prob": 231, "charges": [ 0, -1 ] }, { "item": "hptcf380", "prob": 15, "charges": [ 0, -1 ] } ]
+    "items": [
+      { "item": "rugerlcp", "prob": 231, "charges": [ 0, -1 ] },
+      { "item": "hptcf380", "prob": 15, "charges": [ 0, -1 ] },
+      { "item": "swbodyguard", "prob": 1673, "charges": [ 0, -1 ] }
+    ]
   },
   {
     "type": "item_group",
@@ -356,7 +364,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_380",
-    "items": [ { "item": "rugerlcp", "prob": 231 }, { "item": "hptcf380", "prob": 100 } ]
+    "items": [ { "item": "rugerlcp", "prob": 231 }, { "item": "hptcf380", "prob": 100 }, { "item": "swbodyguard", "prob": 1673 } ]
   },
   {
     "type": "item_group",

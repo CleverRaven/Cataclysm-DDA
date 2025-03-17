@@ -382,7 +382,7 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "boxed_swbodyguardp",
+    "id": "boxed_swbodyguard",
     "container-item": "box_pistol",
     "items": [ { "item": "swbodyguard" }, { "group": "firearm_box_extras" }, { "item": "swbodyguard_mag", "count": [ 1, 2 ] } ]
   },
