@@ -343,7 +343,7 @@
     "copy-from": "scar_h",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "civilian FN SCAR-H" },
+    "name": { "str": "civilian FN SCAR-H rifle" },
     "description": "A highly accurate and modular battle rifle specially designed for the United States Special Operations Command.  This one is a civilian model, limited to semi-auto.",
     "variant_type": "gun",
     "variants": [

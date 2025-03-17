@@ -185,7 +185,6 @@ TYPE_DESCRIPTORS = [
     "blunderbuss",
     "cannon",
     "carbine",
-    "civilian",
     "coilgun",
     # Not great, but weird can get a pass
     "combination gun",

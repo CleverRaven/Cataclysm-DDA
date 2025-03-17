@@ -175,7 +175,7 @@
     "id": "scar_16s",
     "copy-from": "scar_l",
     "type": "GUN",
-    "name": { "str": "civilian FN SCAR-L" },
+    "name": { "str": "civilian FN SCAR-L rifle" },
     "description": "A highly accurate and modular rifle specially designed for the United States Special Operations Command, in semi-auto only to be sold on the civilian market.",
     "variant_type": "gun",
     "variants": [
