@@ -7,6 +7,7 @@
     "items": [
       { "group": "nested_glock_17", "prob": 73 },
       { "group": "nested_glock_19", "prob": 100 },
+      { "group": "nested_p365", "prob": 161 },
       { "group": "nested_m9", "prob": 22 },
       { "group": "nested_px4", "prob": 5 },
       { "group": "nested_hi_power_9mm", "prob": 9 },
@@ -186,6 +187,7 @@
     "items": [
       { "item": "glock_17", "prob": 7, "charges": [ 0, -1 ] },
       { "item": "glock_19", "prob": 100, "charges": [ 0, -1 ] },
+      { "item": "p365", "prob": 161, "charges": [ 0, -1 ] },
       { "item": "m9", "variant": "m9", "prob": 2, "charges": [ 0, -1 ] },
       { "item": "px4", "prob": 5, "charges": [ 0, -1 ] },
       { "item": "hi_power_9mm", "prob": 2, "charges": [ 0, -1 ] },
@@ -316,6 +318,7 @@
     "items": [
       { "item": "glock_17", "prob": 73 },
       { "item": "glock_19", "prob": 100 },
+      { "item": "p365", "prob": 161 },
       { "item": "m9", "variant": "m9", "prob": 22 },
       { "item": "px4", "prob": 5 },
       { "item": "hi_power_9mm", "prob": 9 },

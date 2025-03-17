@@ -8,6 +8,7 @@
     "//3": "Collections of magazines for 9mm guns that are sold in gunstores, such as Glocks, M9s.",
     "items": [
       { "group": "magazines_9mm_glock", "prob": 100 },
+      { "item": "p365_mag", "prob": 161 },
       { "group": "magazines_9mm_m9", "prob": 20 },
       { "group": "magazines_9mm_px4", "prob": 20 },
       { "group": "magazines_9mm_usp", "prob": 20 },
@@ -32,6 +33,7 @@
     "items": [
       { "item": "glock17_17", "prob": 48 },
       { "item": "glockmag", "prob": 52 },
+      { "item": "p365_mag", "prob": 161 },
       { "item": "m9mag_10rd", "prob": 20 },
       { "item": "px4mag_10rd", "prob": 20 },
       { "item": "usp9mag_10rd", "prob": 20 },

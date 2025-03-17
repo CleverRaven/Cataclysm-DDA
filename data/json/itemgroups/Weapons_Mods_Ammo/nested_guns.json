@@ -26,6 +26,19 @@
     ]
   },
   {
+    "id": "nested_p365",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "p365", "charges": [ 0, 10 ] },
+      { "item": "p365_mag" },
+      { "item": "p365_mag", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
     "id": "nested_glock_20",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

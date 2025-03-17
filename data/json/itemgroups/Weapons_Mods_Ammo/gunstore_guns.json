@@ -54,6 +54,7 @@
     "items": [
       { "group": "boxed_glock_17", "prob": 73 },
       { "group": "boxed_glock_19", "prob": 100 },
+      { "group": "boxed_p365", "prob": 161 },
       { "group": "boxed_m9", "prob": 22 },
       { "group": "boxed_px4", "prob": 5 },
       { "group": "boxed_hi_power_9mm", "prob": 9 },
@@ -83,6 +84,13 @@
     "id": "boxed_glock_19",
     "container-item": "box_pistol",
     "items": [ { "item": "glock_19" }, { "group": "firearm_box_extras" }, { "item": "glockmag", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_p365",
+    "container-item": "box_pistol",
+    "items": [ { "item": "p365" }, { "group": "firearm_box_extras" }, { "item": "p365_mag", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
