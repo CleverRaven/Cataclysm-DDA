@@ -50,7 +50,7 @@
                     "effect": [
                       {
                         "u_query_tile": "line_of_sight",
-                        "target_var": { "global_val": "teleporter_item_apport_location" },
+                        "target_var": { "context_val": "teleporter_item_apport_location" },
                         "range": {
                           "math": [
                             "min( ( ( (u_spell_level('teleport_item_apport') * 1.25) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
@@ -64,16 +64,16 @@
                         "then": {
                           "if": {
                             "or": [
-                              { "map_terrain_with_flag": "WALL", "loc": { "global_val": "teleporter_item_apport_location" } },
+                              { "map_terrain_with_flag": "WALL", "loc": { "context_val": "teleporter_item_apport_location" } },
                               {
                                 "map_terrain_with_flag": "DOOR",
-                                "loc": { "global_val": "teleporter_item_apport_location" }
+                                "loc": { "context_val": "teleporter_item_apport_location" }
                               }
                             ]
                           },
                           "then": { "u_message": "You cannot apport an item inside a solid object.", "type": "bad" },
                           "else": [
-                            { "npc_teleport": { "global_val": "teleporter_item_apport_location" } },
+                            { "npc_teleport": { "context_val": "teleporter_item_apport_location" } },
                             {
                               "u_message": "The item in your hands grows freezing cold for a moment before vanishing.",
                               "type": "neutral"
