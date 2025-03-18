@@ -10,7 +10,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "[",
     "looks_like": "hat_hard",
-    "ammo": [ "battery" ],
     "color": "green",
     "warmth": 20,
     "material_thickness": 1.1,
@@ -52,7 +51,8 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "PSYSHIELD_PARTIAL", "MUNDANE", "INVENTOR_CRAFTED" ]
+    "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "PSYSHIELD_PARTIAL", "MUNDANE", "INVENTOR_CRAFTED" ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "helmet_inventor_on",
@@ -166,7 +166,6 @@
     "looks_like": "legguard_hard",
     "color": "light_red",
     "flags": [ "MORPHIC", "STURDY", "OUTER", "BELTED", "MUNDANE", "INVENTOR_CRAFTED" ],
-    "ammo": "battery",
     "use_action": {
       "target": "inventor_leg_weight_on",
       "msg": "You turn on the weight suspension system.",
@@ -204,7 +203,8 @@
     ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 35000 } ] } ]
-    }
+    },
+    "tool_ammo": "battery"
   },
   {
     "id": "inventor_leg_weight_on",
@@ -228,7 +228,6 @@
     "looks_like": "legguard_hard",
     "color": "light_red",
     "flags": [ "MORPHIC", "STURDY", "OUTER", "SOFT", "MUNDANE", "INVENTOR_CRAFTED" ],
-    "ammo": "battery",
     "charges_per_use": 150,
     "use_action": { "type": "cast_spell", "spell_id": "jump_boots_leap", "no_fail": true, "level": 0 },
     "pocket_data": [
@@ -271,7 +270,8 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "aura_force",
@@ -283,7 +283,6 @@
     "volume": "660 ml",
     "material": [ "aluminum", "leather", "steel", "copper" ],
     "symbol": "[",
-    "ammo": [ "battery" ],
     "color": "blue",
     "warmth": 0,
     "material_thickness": 3,
@@ -339,7 +338,8 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID", "BELTED", "MUNDANE", "INVENTOR_CRAFTED" ]
+    "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID", "BELTED", "MUNDANE", "INVENTOR_CRAFTED" ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "aura_force_on",
@@ -378,7 +378,6 @@
         "type": "transform"
       }
     ],
-    "ammo": [ "battery" ],
     "material_thickness": 0.1,
     "flags": [
       "MORPHIC",
@@ -438,7 +437,8 @@
         }
       ]
     },
-    "armor": [ { "coverage": 10, "encumbrance": 1, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
+    "armor": [ { "coverage": 10, "encumbrance": 1, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "vision_halo_on",
@@ -547,7 +547,6 @@
     "volume": "155 ml",
     "weight": "300 g",
     "longest_side": "25 cm",
-    "ammo": [ "battery" ],
     "melee_damage": { "electric": 10 },
     "max_worn": 1,
     "flags": [ "MORPHIC", "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED" ],
@@ -580,7 +579,8 @@
       ]
     },
     "material_thickness": 0.3,
-    "armor": [ { "encumbrance": 4, "coverage": 45, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 45, "covers": [ "arm_l", "arm_r" ] } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -604,7 +604,6 @@
     "material": [ "aluminum" ],
     "symbol": "[",
     "looks_like": "mask_gas",
-    "ammo": [ "battery" ],
     "color": "dark_gray",
     "material_thickness": 0.4,
     "environmental_protection": 4,
@@ -638,7 +637,8 @@
         "need_charges_msg": "The mask's charge is too low.",
         "type": "transform"
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "wolf_mask_act",
@@ -687,7 +687,6 @@
     "weight": "100 g",
     "volume": "50 ml",
     "looks_like": "wristwatch",
-    "ammo": [ "battery" ],
     "material": [ "kevlar", "steel" ],
     "symbol": "[",
     "color": "light_gray",
@@ -724,6 +723,7 @@
       "STURDY",
       "PADDED"
     ],
-    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ],
+    "tool_ammo": [ "battery" ]
   }
 ]

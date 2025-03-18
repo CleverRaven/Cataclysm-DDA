@@ -53,10 +53,10 @@
     "flags": [ "VARSIZE", "PADDED", "SUN_GLASSES", "FRAGILE" ],
     "environmental_protection_with_filter": 16,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
-    "ammo": "gasfilter_m",
     "use_action": [ "GASMASK_ACTIVATE" ],
     "tick_action": [ "GASMASK" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "tool_ammo": "gasfilter_m"
   },
   {
     "id": "tac_helmet_uicas",

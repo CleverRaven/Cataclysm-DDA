@@ -1945,7 +1945,6 @@
     "warmth": 10,
     "material_thickness": 0.5,
     "environmental_protection": 4,
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "Your optical cloak flickers as it becomes transparent.",
@@ -1964,7 +1963,8 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "optical_cloak_on",

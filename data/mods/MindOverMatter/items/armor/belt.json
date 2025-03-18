@@ -13,7 +13,6 @@
     "looks_like": "leather_belt",
     "color": "yellow",
     "material_thickness": 1.5,
-    "ammo": [ "battery" ],
     "flags": [ "BELTED", "OVERSIZE", "NONCONDUCTIVE", "NO_REPAIR", "COMBAT_TOGGLEABLE" ],
     "use_action": [
       {
@@ -60,7 +59,8 @@
           ]
         }
       ]
-    }
+    },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "psionic_shield_belt_on",
@@ -111,7 +111,6 @@
     "looks_like": "leather_belt",
     "color": "red",
     "material_thickness": 1.5,
-    "ammo": [ "battery" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -154,7 +153,8 @@
           "ench_effects": [ { "effect": "effect_suppression_belt_fire_protection", "intensity": 1 } ]
         }
       ]
-    }
+    },
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "psionic_fire_shield_belt_on",

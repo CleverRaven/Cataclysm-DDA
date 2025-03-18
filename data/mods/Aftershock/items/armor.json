@@ -110,7 +110,6 @@
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "WATCH", "BELTED", "STURDY", "WATER_FRIENDLY" ],
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [ "E_FILE_DEVICE", "EBOOKSAVE", "PORTABLE_GAME", { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" } ],
     "pocket_data": [
@@ -129,7 +128,8 @@
         "ememory_max": "1 TB"
       }
     ],
-    "qualities": [ [ "HACK", 1 ] ]
+    "qualities": [ [ "HACK", 1 ] ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "q_solarpack",

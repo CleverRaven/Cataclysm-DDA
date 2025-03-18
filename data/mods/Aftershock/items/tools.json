@@ -381,7 +381,6 @@
     "copy-from": "UPS_OFF",
     "name": { "str": "UPS", "str_pl": "UPSes" },
     "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable",
-    "ammo": [ "battery" ],
     "sided": true,
     "price": "1300 USD",
     "price_postapoc": "1300 USD",
@@ -395,7 +394,8 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "UPS_ON",
@@ -403,7 +403,6 @@
     "copy-from": "UPS_ON",
     "name": { "str": "UPS", "str_pl": "UPSes" },
     "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable",
-    "ammo": [ "battery" ],
     "sided": true,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ],
     "flags": [ "RECHARGE", "BELTED", "NO_UNLOAD", "NO_RELOAD", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS" ],
@@ -415,7 +414,8 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "bionic_maintenance_toolkit",
@@ -517,7 +517,6 @@
     "color": "dark_gray",
     "material": [ "glass", "titanium" ],
     "copy-from": "sunglasses",
-    "ammo": [ "battery" ],
     "charges_per_use": 2,
     "use_action": [
       "E_FILE_DEVICE",
@@ -550,7 +549,8 @@
         "ememory_max": "1 TB"
       }
     ],
-    "armor": [ { "covers": [ "eyes", "torso" ] } ]
+    "armor": [ { "covers": [ "eyes", "torso" ] } ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "type": "TOOL",
@@ -723,7 +723,6 @@
       "SOFT",
       "TRADER_AVOID"
     ],
-    "ammo": [ "battery" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -732,7 +731,8 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "afs_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
-    ]
+    ],
+    "tool_ammo": [ "battery" ]
   },
   {
     "id": "diamond_press",

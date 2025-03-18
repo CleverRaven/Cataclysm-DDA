@@ -289,7 +289,6 @@
         "layers": [ "OUTER" ]
       }
     ],
-    "ammo": "battery",
     "flags": [
       "USE_UPS",
       "STURDY",
@@ -316,7 +315,8 @@
         "type": "transform"
       },
       "MANAGE_EXOSUIT"
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "modular_exosuit_on",
@@ -518,7 +518,6 @@
         "layers": [ "OUTER" ]
       }
     ],
-    "ammo": "battery",
     "flags": [
       "USE_UPS",
       "STURDY",
@@ -542,7 +541,8 @@
         "type": "transform"
       },
       "MANAGE_EXOSUIT"
-    ]
+    ],
+    "tool_ammo": "battery"
   },
   {
     "id": "modular_exosuit_light_on",

@@ -142,7 +142,6 @@
     "material": [ "qt_steel", "ceramic" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "afs_shydrogen" ],
     "charges_per_use": 1,
     "use_action": [ { "type": "cast_spell", "spell_id": "exo_plasmacut", "no_fail": true, "level": 20 }, "OXYTORCH" ],
     "qualities": [ [ "WELD", 3 ] ],
@@ -168,7 +167,8 @@
         "encumbrance": 15
       }
     ],
-    "melee_damage": { "bash": 50, "cut": 10 }
+    "melee_damage": { "bash": 50, "cut": 10 },
+    "tool_ammo": [ "afs_shydrogen" ]
   },
   {
     "id": "exosuit_power_cutter",
@@ -182,7 +182,6 @@
     "symbol": "/",
     "looks_like": "circsaw_off",
     "color": "light_red",
-    "ammo": [ "gasoline", "diesel", "jp8", "avgas", "lamp_oil", "motor_oil", "propane", "conc_alcohol", "ammonia_liquid" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -217,7 +216,8 @@
         "encumbrance": 30
       }
     ],
-    "melee_damage": { "bash": 10, "cut": 5 }
+    "melee_damage": { "bash": 10, "cut": 5 },
+    "tool_ammo": [ "gasoline", "diesel", "jp8", "avgas", "lamp_oil", "motor_oil", "propane", "conc_alcohol", "ammonia_liquid" ]
   },
   {
     "id": "exosuit_power_cutter_on",

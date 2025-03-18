@@ -13,7 +13,6 @@
     "material": [ "plastic", "titanium" ],
     "symbol": "[",
     "color": "dark_gray",
-    "ammo": "battery",
     "charges_per_use": 1,
     "use_action": {
       "type": "transform",
@@ -47,7 +46,8 @@
       "NO_UNLOAD",
       "SOFT"
     ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "tool_ammo": "battery"
   },
   {
     "id": "afs_magellan_suit_helmet_on",
@@ -84,7 +84,6 @@
     "symbol": "[",
     "color": "dark_gray",
     "charges_per_use": 1,
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
@@ -110,7 +109,8 @@
     "material_thickness": 2,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUN_GLASSES", "OUTER", "SOFT" ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "tool_ammo": "battery"
   },
   {
     "id": "afs_frontier_cryomask_on",
