@@ -113,6 +113,33 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_ADD_WEAKNESSES",
+    "//": "This EOC checks how many weaknesses the player should gain when reshuffling.  Gaining the traits run the weakness-giving EOC directly.",
+    "//": "Tier 3 grants 1 weakness, Tier 4 grants 1 more, Tier 5 grants two more.",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_ADD_WEAKNESSES_TIER_3",
+            "condition": { "u_has_trait": "VAMPIRE3" },
+            "effect": [ { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] } ]
+          },
+          {
+            "id": "EOC_VAMPIRE_ADD_WEAKNESSES_TIER_4",
+            "condition": { "u_has_trait": "VAMPIRE4" },
+            "effect": [ { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] } ]
+          },
+          {
+            "id": "EOC_VAMPIRE_ADD_WEAKNESSES_TIER_5",
+            "condition": { "u_has_trait": "BLOOD_DRINKER" },
+            "effect": [ { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] }, { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_ADD_ONE_WEAKNESS",
     "//": "This EOC adds a single vampiric weakness when ran.",
     "//2": "This EOC is intended to be ran multiple times, to properly assign the intended amount of weaknesses to the player.",

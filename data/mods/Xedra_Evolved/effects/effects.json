@@ -3161,5 +3161,22 @@
     "name": [ "" ],
     "desc": [ "" ],
     "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_reshuffling_weaknesses",
+    "//": "Hidden effect, used to make sure only active weakness reshuffling does something.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_recently_reshuffled_weaknesses",
+    "name": [ "Reshuffled weaknesses" ],
+    "desc": [
+      "You recently reshuffled your vampiric weaknesses.  Until your blood stabilizes, further attempts will be fruitless."
+    ],
+    "remove_message": "Your blood has stabilized enough to let you try to reshuffle your weaknesses again, should they prove too much to bear.",
+    "rating": "bad"
   }
 ]
