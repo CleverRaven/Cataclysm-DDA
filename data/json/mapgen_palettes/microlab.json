@@ -47,7 +47,7 @@
       "[": "t_door_glass_c",
       "-": "t_wall_metal",
       "y": "t_pavement_y",
-      "|": "t_concrete_wall",
+      "|": "t_strconc_wall",
       "=": "t_wall_glass",
       "(": "t_reinforced_glass",
       "e": "t_elevator",
