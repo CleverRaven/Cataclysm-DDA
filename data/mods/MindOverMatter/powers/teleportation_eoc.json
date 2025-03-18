@@ -40,7 +40,12 @@
           },
           { "u_message": "You vanish and reappear nearby.", "type": "neutral" }
         ],
-        "else": [ { "u_message": "You attempt to teleport to somewhere nearby, but your skin merely tingles and nothing happens.  You're carrying too much..", "type": "bad" } ]
+        "else": [
+          {
+            "u_message": "You attempt to teleport to somewhere nearby, but your skin merely tingles and nothing happens.  You're carrying too much..",
+            "type": "bad"
+          }
+        ]
       }
     ],
     "false_effect": [ { "u_message": "You feel a strange, inward force.", "type": "bad" } ]
@@ -218,7 +223,7 @@
       {
         "if": {
           "math": [
-            "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_farstep') * 7500 ) + 10000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+            "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_farstep') * 5000 ) + 8000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
           ]
         },
         "then": [

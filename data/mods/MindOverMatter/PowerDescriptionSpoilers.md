@@ -1450,7 +1450,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 6500, minus 105 per level to a minimum of 2750<br />
 *Channeling Time*: 75 moves, minus 3 moves per level to a minimum of 30<br />
-*Effects*: Step into the Nether and re-emerge at a location nearby.  Farstep works through walls and across Z levels. The psion may always teleport themselves, and can carry 10L of gear, plus 7.5L per power level.<br />
+*Effects*: Step into the Nether and re-emerge at a location nearby.  Farstep works through walls and across Z levels. The psion may always teleport themselves, and can carry 8L of gear, plus 5L per power level.<br />
 *Prerequisites*: Phase 10, Extended Stride 8 *or* Spacial Vortex 6 <br />
 </details>
 <details>
