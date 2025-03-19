@@ -161,6 +161,11 @@
   },
   {
     "type": "item_group",
+    "id": "boxed_57_lf",
+    "items": [ { "group": "boxed_pistol" } ]
+  },
+  {
+    "type": "item_group",
     "id": "boxed_762x25",
     "items": [ { "group": "boxed_pistol" } ]
   },
@@ -351,6 +356,11 @@
   },
   {
     "type": "item_group",
+    "id": "boxed_57_lf_used",
+    "items": [ { "group": "boxed_pistol_used" } ]
+  },
+  {
+    "type": "item_group",
     "id": "boxed_762x25_used",
     "items": [ { "group": "boxed_pistol_used" } ]
   },
@@ -537,6 +547,11 @@
   {
     "type": "item_group",
     "id": "boxed_57_looted",
+    "items": [ { "group": "boxed_pistol_looted" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_57_lf_looted",
     "items": [ { "group": "boxed_pistol_looted" } ]
   },
   {
