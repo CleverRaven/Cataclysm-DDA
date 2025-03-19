@@ -1,0 +1,193 @@
+[
+  {
+    "id": "exo_arm_steel",
+    "type": "ARMOR",
+    "category": "exosuit",
+    "name": { "str": "steel arm plate (exosuit)", "str_pl": "steel arm plates (exosuit)" },
+    "description": "Designed to attach to an exosuit's arms, these are sturdy plates of steel.",
+    "weight": "6750 g",
+    "volume": "3250 ml",
+    "sided": true,
+    "material": [ "qt_steel" ],
+    "symbol": "[",
+    "looks_like": "armguard_lightplate",
+    "color": "light_gray",
+    "warmth": 20,
+    "flags": [ "CANT_WEAR", "ABLATIVE_LARGE", "EXO_ARM_PLATE" ],
+    "non_functional": "damaged_exo_arm_steel",
+    "armor": [
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
+    "id": "damaged_exo_arm_steel",
+    "type": "ARMOR",
+    "copy-from": "exo_arm_steel",
+    "name": { "str": "damaged steel arm plate (exosuit)", "str_pl": "damaged steel arm plates (exosuit)" },
+    "description": "The remains of a steel arm plate after taking a strong impact.  Can be restored to full effectiveness via reforging.",
+    "looks_like": "exo_arm_steel",
+    "non_functional": "destroyed_exo_arm_steel",
+    "armor": [
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
+    "id": "destroyed_exo_arm_steel",
+    "type": "ARMOR",
+    "copy-from": "exo_arm_steel",
+    "name": { "str": "destroyed steel arm plate (exosuit)", "str_pl": "destroyed steel arm plates (exosuit)" },
+    "description": "The remains of a steel arm plate after taking a strong impact.  Can be recycled at a nanofabricator.",
+    "looks_like": "exo_arm_steel",
+    "extend": { "flags": [ "NO_REPAIR" ] }
+  },
+  {
+    "id": "exo_arm_plastic",
+    "type": "ARMOR",
+    "copy-from": "exo_arm_steel",
+    "name": { "str": "plastic arm plate (exosuit)", "str_pl": "plastic arm plates (exosuit)" },
+    "description": "Designed to attach to an exosuit's arms, these are plates of plastic.",
+    "weight": "1588 g",
+    "material": [ "plastic" ],
+    "non_functional": "damaged_exo_arm_plastic",
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 12 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 12 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
+    "id": "damaged_exo_arm_plastic",
+    "type": "ARMOR",
+    "copy-from": "exo_arm_plastic",
+    "name": { "str": "damaged plastic arm plate (exosuit)", "str_pl": "damaged plastic arm plates (exosuit)" },
+    "description": "The remains of a plastic arm plate after taking a strong impact.  Can be restored to full effectiveness via reforging.",
+    "looks_like": "exo_arm_plastic",
+    "non_functional": "destroyed_exo_arm_plastic",
+    "armor": [
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 6 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 6 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
+    "id": "destroyed_exo_arm_plastic",
+    "type": "ARMOR",
+    "copy-from": "exo_arm_plastic",
+    "name": { "str": "shattered plastic arm plate (exosuit)", "str_pl": "shattered plastic arm plates (exosuit)" },
+    "description": "The remains of a plastic arm plate after taking a strong impact.  No longer provides functional protection, just weight.",
+    "looks_like": "exo_arm_plastic"
+  },
+  {
+    "id": "exo_arm_comp",
+    "type": "ARMOR",
+    "copy-from": "exo_arm_steel",
+    "name": { "str": "composite arm plate (exosuit)", "str_pl": "composite arm plates (exosuit)" },
+    "description": "Designed to attach to an exosuit's arms, these are sturdy plates of layered ceramic and steel.",
+    "weight": "10125 g",
+    "material": [ "qt_steel" ],
+    "non_functional": "damaged_exo_arm_comp",
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "ceramic", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "ceramic", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
+    "id": "damaged_exo_arm_comp",
+    "type": "ARMOR",
+    "copy-from": "exo_arm_comp",
+    "name": { "str": "damaged composite arm plate (exosuit)", "str_pl": "damaged composite arm plates (exosuit)" },
+    "description": "The remains of a composite arm plate after taking a strong impact.",
+    "looks_like": "exo_arm_comp",
+    "non_functional": "destroyed_exo_arm_comp",
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "ceramic", "covered_by_mat": 100, "thickness": 1 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "ceramic", "covered_by_mat": 100, "thickness": 1 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
+    "id": "destroyed_exo_arm_comp",
+    "type": "ARMOR",
+    "copy-from": "exo_arm_comp",
+    "name": { "str": "shattered composite arm plate (exosuit)", "str_pl": "shattered composite arm plates (exosuit)" },
+    "description": "The remains of a vacuum-cast composite arm plate after taking a strong impact.  No longer provides functional protection, just weight.",
+    "looks_like": "exo_arm_comp"
+  }
+]
