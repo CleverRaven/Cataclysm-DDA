@@ -3977,6 +3977,7 @@ void Character::reset()
     mod_int_bonus( int_bonus_hardcoded );
     mod_per_bonus( per_bonus_hardcoded );
     reset_stats();
+    recalc_speed_bonus();
 }
 
 bool Character::has_nv_goggles()
