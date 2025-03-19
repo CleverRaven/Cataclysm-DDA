@@ -719,6 +719,17 @@
           }
         },
         {
+          "chunks": [ "24x24_stop_signs", "null" ],
+          "x": 0,
+          "y": 0,
+          "flags": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
+        {
           "chunks": [ "24x24_marked_crosswalks" ],
           "x": 0,
           "y": 0,
@@ -1043,6 +1054,17 @@
           "x": 0,
           "y": 0,
           "flags_any": {
+            "north_east": [ "SIDEWALK" ],
+            "south_east": [ "SIDEWALK" ],
+            "south_west": [ "SIDEWALK" ],
+            "north_west": [ "SIDEWALK" ]
+          }
+        },
+        {
+          "chunks": [ "24x24_stop_signs", "null" ],
+          "x": 0,
+          "y": 0,
+          "flags": {
             "north_east": [ "SIDEWALK" ],
             "south_east": [ "SIDEWALK" ],
             "south_west": [ "SIDEWALK" ],

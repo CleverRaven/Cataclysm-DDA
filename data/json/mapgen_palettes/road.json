@@ -24,6 +24,7 @@
     "furniture": {
       "Y": "f_street_light",
       "T": "f_traffic_light",
+      "S": "f_sign_stop",
       "f": [ [ "f_region_flower_decorative", 2 ], [ "f_null", 1 ] ],
       "b": "f_bench",
       "x": "f_trashcan",
