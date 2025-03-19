@@ -158,6 +158,26 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_summer_protect_from_hot_weather",
+    "name": [ "Gift of Warm Blood" ],
+    "desc": [ "The essence of summer protects you from excessive heat." ],
+    "apply_message": "",
+    "remove_message": "Your blood loses its glamoured warmth.",
+    "max_duration": "12 hours",
+    "enchantments": [
+      { "condition": { "is_season": "summer" }, "incoming_damage_mod": [ { "type": "heat", "multiply": -0.33 } ] },
+      {
+        "values": [
+          {
+            "value": "CLIMATE_CONTROL_CHILL",
+            "add": { "math": [ "10 + (u_summer_spell_count * 2) + (u_deduction_for_spells * 4)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_fire_melee_damage",
     "name": [ "Burning Solar Grasp" ],
     "desc": [ "Ethereal flames flicker around your hands" ],
