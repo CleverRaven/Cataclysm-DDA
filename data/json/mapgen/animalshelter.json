@@ -63,7 +63,7 @@
       { "prob": 30, "group": "antiparasitic_bottle_plastic_pill_prescription_5" },
       { "prob": 20, "group": "antibiotics_bottle_plastic_pill_prescription_15" },
       { "item": "saline", "prob": 15 },
-      { "item": "medical_tape", "prob": 35 }
+      { "group": "medical_tape_roll_part", "prob": 35 }
     ]
   },
   {

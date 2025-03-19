@@ -45,7 +45,6 @@
     "specific_heat_liquid": 3.7,
     "specific_heat_solid": 2.15,
     "latent_heat": 260,
-    "edible": true,
     "rotting": true,
     "chip_resist": 2,
     "dmg_adj": [ "bruised", "mutilated", "badly mutilated", "thoroughly mutilated" ],

@@ -41,7 +41,7 @@
           { "item": "spacer_cap" },
           { "item": "socks" },
           { "item": "boots" },
-          { "item": "duct_tape" },
+          { "group": "duct_tape_roll_part" },
           { "item": "screwdriver" },
           { "item": "wristwatch" },
           { "item": "hat_hard", "variant": "orange_hat_hard" },

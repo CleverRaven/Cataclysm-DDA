@@ -207,6 +207,7 @@ Ask to wield container if parent container is too small to insert items
 Improve blood placement on Riot Damage
 Minor Riot Damage Tweaks
 Refactor the pulping
+Makes sound effects play in slow motion while the player has slowed down time
 
 
 ## Content:
@@ -446,6 +447,12 @@ Adds large wicker baskets
 Dormant map extra
 Missile silos are decommissioned
 26 and 153 round magazines for the PA md. 68
+Added WASP and SPIDER flags to wasp towers and spider pits.
+Added more flooded basements
+Added a new 2x1 house
+More types of monster spawn in basements
+Most toilets now have toilet supplies
+Add 2 new social practice recipes
 
 
 ## Interface:
@@ -603,6 +610,7 @@ Optionally allows a specific overmap tile to be specified for the debug 'Telepor
 Add options to sort item list by item name
 Dont show liquids from held or worn container
 Don't hardcode help text: Autopickup Manager
+Move camp-specific recipes to their own category
 
 
 ## Mods:
@@ -1045,6 +1053,19 @@ Aftershock:Rebalance Ballistic Weapons
 [XEDRA] Add monochrome boomer
 [Xedra Evolved] Add alchemical hobby basements
 [MoM] Sensory Disintegration absolutely tanks your concentration ability
+[Aftershock] Frontier Outpost Expansions (Part 2)
+Aftershock: Re-balance Plasma and voltaic Weapons
+XE Chronomancy Unique XP style
+[MoM] Add Heightened Senses Clairsentient starter ability, move Night Eyes later in the tree
+[Xedra Evolvd] Yet even more seasonal magic
+Isolation Protocol: Office Levels
+[MoM] Finish Heightened Senses docs
+[MOM] Add some biokinesis utility powers
+[MOM] Add warped strikes teleporter power
+[Magiclysm] Add `Morphogenic Mastery` Biomancer spell
+[MoM] Give feral teleporters Warped Strikes
+[Xedra Evolved] Add Dreamsparks as fuel for seasonal glamours
+[MoM] Project TURQUOISE KEYSTONE
 
 
 ## Balance:
@@ -1184,6 +1205,7 @@ Set disassembly range to crafting range: 6
 Mutating with an installed bionic that conflicts results in damage
 Removed morale penalties and rare drops from dismemberment
 `Uncaring` characters can socialize with NPCs but they don't like it
+Triffid flesh is no longer safe to eat
 
 
 ## Bugfixes:
@@ -1616,6 +1638,22 @@ Removes electric fields from irradiation plant
 Smoking Rack & Kiln: consume time on firing
 Climbing down from a roof does not anger locals
 Item groups don't spawn blacklisted items
+Fixes charcoal kilns producing 0 volume charcoal
+Don't spawn blacklisted items from `container-item` entries in item groups
+improve dialogue condition cache
+[Xedra Evolved] Fix instant chronomancy leveling to max
+Fix missed check < 0 with an unsigned int
+add some missing e-storage fields
+Change large biogas tank crafting recipe to use large propane tank.
+Auto Pickup menu: fix crash on removing last, add hint, remove artefact after switch from False
+Hook Up MUT_ADDITIONAL_OPTIONS to mutate_category()
+islot_gun: remove bad default ranged damage value
+[MoM] Fix LV429 looks_like
+the prototype menu should not be shown when ask hub01 intercom about HWP for the first time
+Fix garter belt description duplication
+Fixes #79841
+Remove riot damage from gunstores
+Audit of Wood panel from Beam and Sheet to replace Byproduct with Result Multi
 
 
 ## Performance:
@@ -1809,6 +1847,13 @@ Upgrade clang-tidy to LLVM 18
 generic factory std::map support + islot_comestible -> generic factory
 Added bank palette
 Removed outdated house_w_foundation_palette & house_nest_palette
+Unified basement palettes
+Improve error reporting
+Add `--limit-debug-level` to test main
+generic factory supports damage_instance and islot_gun
+Reworked the trash itemgroups
+Refactor wield
+EOCs for vehicles
 
 ## Build:
 Support Mac arm64 build

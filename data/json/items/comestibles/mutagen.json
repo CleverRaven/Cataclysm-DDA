@@ -331,7 +331,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str_sp": "slime mutagenic primer" },
-    "description": "A processed mutagenic primer that looks very much like the black ooze in the zombies' eyes.",
+    "description": "A processed mutagenic primer, oily and viscous.",
     "looks_like": "iv_mutagen",
     "color": "dark_gray",
     "use_action": {

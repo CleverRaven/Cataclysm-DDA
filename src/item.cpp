@@ -10701,6 +10701,16 @@ ret_val<void> item::can_contain_partial( const item &it ) const
     return can_contain( i_copy );
 }
 
+ret_val<void> item::can_contain_partial( const item &it, int &copies_remaining,
+        bool nested ) const
+{
+    item i_copy = it;
+    if( i_copy.count_by_charges() ) {
+        i_copy.charges = 1;
+    }
+    return can_contain( i_copy, copies_remaining, nested );
+}
+
 ret_val<void> item::can_contain_partial_directly( const item &it ) const
 {
     item i_copy = it;
@@ -12939,6 +12949,7 @@ int item::fill_with( const item &contained, const int amount,
                      const bool allow_sealed,
                      const bool ignore_settings,
                      const bool into_bottom,
+                     const bool allow_nested,
                      Character *carrier )
 {
     if( amount <= 0 ) {
@@ -12961,7 +12972,7 @@ int item::fill_with( const item &contained, const int amount,
                 contained_item.charges = 1;
             }
             pocket = best_pocket( contained_item, loc, /*avoid=*/nullptr, allow_sealed,
-                                  ignore_settings ).second;
+                                  ignore_settings, false, false, allow_nested ).second;
         }
         if( pocket == nullptr ) {
             break;

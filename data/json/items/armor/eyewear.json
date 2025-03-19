@@ -369,7 +369,7 @@
       },
       {
         "id": "sunglasses_bifocal_aviator",
-        "name": { "str": "pair of bifocal aviator sunglasses", "str_pl": "pairs of bifocal aviator sunglasses" },
+        "name": { "str": "pair of bifocal aviators", "str_pl": "pairs of bifocal aviators" },
         "description": "This pair has aviator-styled lenses.",
         "weight": 5,
         "append": true
@@ -388,7 +388,7 @@
       },
       {
         "id": "transition_bifocal_aviator",
-        "name": { "str": "pair of bifocal aviator sunglasses", "str_pl": "pairs of bifocal aviator transition glasses" },
+        "name": { "str": "pair of bifocal transition aviators", "str_pl": "pairs of bifocal transition aviators" },
         "description": "A pair of transition bifocal glasses for those who are both near-sighted and far-sighted.  Contains photochromic dyes that cause the lenses to darken when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.  This pair has aviator-styled lenses.",
         "weight": 1
       }

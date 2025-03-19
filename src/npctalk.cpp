@@ -5103,6 +5103,41 @@ talk_effect_fun_t::func f_u_buy_monster( const JsonObject &jo, std::string_view 
     };
 }
 
+
+talk_effect_fun_t::func f_level_spell_class( const JsonObject &jo, std::string_view member,
+        const std::string_view, bool is_npc )
+{
+    str_or_var spell_class = get_str_or_var( jo.get_member( member ), member, true );
+    dbl_or_var levels = get_dbl_or_var( jo, "levels", false, 1 );
+    const bool random = jo.get_bool( "random", false );
+    return [spell_class, levels, random, is_npc]( dialogue const & d ) {
+        std::vector<spell_id> known_spells = d.actor( is_npc )->get_character()->magic->spells();
+        std::vector<spell_id> valid_spells ;
+        if( spell_class.evaluate( d ) == "all" ) {
+            valid_spells = known_spells;
+        } else {
+            for( const spell_id &sp : known_spells ) {
+                if( sp->spell_class == trait_id( spell_class.evaluate( d ) ) ) {
+                    valid_spells.push_back( sp );
+                }
+            }
+        }
+        if( !valid_spells.empty() ) {
+            if( random ) {
+                std::shuffle( valid_spells.begin(), valid_spells.end(), rng_get_engine() );
+                const spell_id improve = valid_spells.front();
+                const int current_level = d.actor( is_npc )->get_spell_level( improve );
+                d.actor( is_npc )->set_spell_level( improve, current_level + levels.evaluate( d ) );
+            } else {
+                for( const spell_id &improve : valid_spells ) {
+                    const int current_level = d.actor( is_npc )->get_spell_level( improve );
+                    d.actor( is_npc )->set_spell_level( improve, current_level + levels.evaluate( d ) );
+                }
+            }
+        }
+    };
+}
+
 talk_effect_fun_t::func f_learn_recipe( const JsonObject &jo, std::string_view member,
                                         const std::string_view, bool is_npc )
 {
@@ -5569,6 +5604,36 @@ talk_effect_fun_t::func f_die( bool is_npc )
 {
     return [is_npc]( dialogue const & d ) {
         map &here = get_map();
+        d.actor( is_npc )->die( &here );
+    };
+}
+
+talk_effect_fun_t::func f_die_advanced( const JsonObject &jo, std::string_view member,
+                                        const std::string_view, bool is_npc )
+{
+    JsonObject job = jo.get_object( member );
+    std::optional<bool> remove_corpse = job.get_bool( "remove_corpse" );
+    std::optional<bool> supress_message = job.get_bool( "supress_message" );
+    std::optional<bool> remove_from_creature_tracker = job.get_bool( "remove_from_creature_tracker" );
+
+    return [remove_corpse, supress_message, remove_from_creature_tracker,
+                   is_npc]( dialogue const & d ) {
+        map &here = get_map();
+
+        if( d.actor( is_npc )->get_monster() ) {
+            monster &mon = *d.actor( is_npc )->get_monster();
+            if( remove_from_creature_tracker ) {
+                get_creature_tracker().remove( mon );
+                return;
+            }
+            mon.death_drops = remove_corpse.has_value() ? !remove_corpse.value() : mon.death_drops;
+            mon.quiet_death = supress_message.has_value() ? supress_message.value() : mon.quiet_death;
+        } else if( d.actor( is_npc )->get_npc() ) {
+            npc &guy_npc = *d.actor( is_npc )->get_npc();
+            guy_npc.spawn_corpse = remove_corpse.has_value() ? !remove_corpse.value() : guy_npc.spawn_corpse;
+            guy_npc.quiet_death = supress_message.has_value() ? supress_message.value() : guy_npc.quiet_death;
+        }
+
         d.actor( is_npc )->die( &here );
     };
 }
@@ -7702,6 +7767,7 @@ parsers = {
     { "u_choose_adjacent_highlight", "npc_choose_adjacent_highlight", jarg::member, &talk_effect_fun::f_choose_adjacent_highlight },
     { "u_set_goal", "npc_set_goal", jarg::member, &talk_effect_fun::f_npc_goal },
     { "u_set_guard_pos", "npc_set_guard_pos", jarg::member, &talk_effect_fun::f_guard_pos },
+    { "u_level_spell_class", "npc_level_spell_class", jarg::member, &talk_effect_fun::f_level_spell_class },
     { "u_learn_recipe", "npc_learn_recipe", jarg::member, &talk_effect_fun::f_learn_recipe },
     { "u_forget_recipe", "npc_forget_recipe", jarg::member, &talk_effect_fun::f_forget_recipe },
     { "u_message", "npc_message", jarg::member, &talk_effect_fun::f_message },
@@ -7719,6 +7785,7 @@ parsers = {
     { "u_add_bionic", "npc_add_bionic", jarg::member, &talk_effect_fun::f_add_bionic },
     { "u_lose_bionic", "npc_lose_bionic", jarg::member, &talk_effect_fun::f_lose_bionic },
     { "u_attack", "npc_attack", jarg::member, &talk_effect_fun::f_attack },
+    { "u_die", "npc_die", jarg::object, &talk_effect_fun::f_die_advanced},
     { "u_spawn_monster", "npc_spawn_monster", jarg::member, &talk_effect_fun::f_spawn_monster },
     { "u_spawn_npc", "npc_spawn_npc", jarg::member, &talk_effect_fun::f_spawn_npc },
     { "u_set_field", "npc_set_field", jarg::member, &talk_effect_fun::f_field },

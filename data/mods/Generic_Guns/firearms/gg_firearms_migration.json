@@ -92,7 +92,8 @@
       "colt_python",
       "colt_anaconda_8",
       "colt_anaconda_6",
-      "colt_anaconda_4"
+      "colt_anaconda_4",
+      "460_xvr"
     ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_revolver"

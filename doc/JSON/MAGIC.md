@@ -130,7 +130,7 @@ Identifier      | Description
 `type`          | Indicates the JSON object is a `SPELL`.
 `name`          | Name of the spell that shows in game.
 `description`   | Description of the spell that shows in game.
-`valid_targets` | Targets affected by the spell.  If a valid target is not included, you cannot cast the spell on that target.  Additionally, if the valid target is not specified, the spell aoe will not affect it.  Can be `ally`, `field`, `ground`, `hostile`, `item`, `none` or `self`.
+`valid_targets` | Targets affected by the spell.  If a valid target is not included, you cannot cast the spell on that target.  Additionally, if the valid target is not specified, the spell aoe will not affect it.  Can be `ally`, `field`, `ground`, `hostile`, `item`, `none`, `vehicle` or `self`.
 `effect`        | Hardcoded spell behaviors, roughly speaking spell "type".  See the list below.
 `shape`         | The shape of the spell's area of effect.  See the list below.
 

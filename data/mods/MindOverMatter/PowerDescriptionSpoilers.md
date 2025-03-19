@@ -987,7 +987,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Duration*: Instant<br />
 *Stamina Cost*: 1750, minus 80 per level to a minimum of 750<br />
 *Channeling Time*: 50 moves, minus 4 moves per level to a minimum of 10<br />
-*Effects*: The psion attempts to shove a single target either toward or away from them. The distance is based on the ratio of the target's weight to the psion's power level (modified by Intelligence and Nether Attunement as usual).  By default, the formula is (power level * 25 kg) * Intelligence modifier * Nether Attunement modifier, divided by the target's weight in kg. If this is 1 or higher, the target is hurled back 1 square for every 0.5 above 1 the ratio is. If it is below one, there is still a chance to knock the target over (chance is weight ratio * 100 in percentage; a weight ratio of 0.678 has a 67.8% chance of causing knockdown).<br />
+*Effects*: The psion attempts to shove a single target either to them or in a chosen direction. The distance is based on the ratio of the target's weight to the psion's power level (modified by Intelligence and Nether Attunement as usual).  By default, the formula is (power level * 25 kg) * Intelligence modifier * Nether Attunement modifier, divided by the target's weight in kg. If this is 1 or higher, the target is hurled 1 square for every 0.5 above 1 the ratio is. If it is below one, there is still a chance to knock the target over (chance is weight ratio * 100 in percentage; a weight ratio of 0.678 has a 67.8% chance of causing knockdown).<br />
 *Prerequisites*: Starting power<br />
 </details>
 <details>
@@ -1141,7 +1141,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Duration*: Instant<br />
 *Stamina Cost*: 9500, minus 175 per level to a minimum of 5000<br />
 *Channeling Time*: 80 moves, minus 5 moves per level to a minimum of 25<br />/>
-*Effects*: Like Force Shove, but on a much greater scale, the psion hurls a single target either toward or away from them. The distance is based on the ratio of the target's weight to the psion's power level (modified by Intelligence and Nether Attunement as usual).  By default, the formula is (power level * 150 kg) * Intelligence modifier * Nether Attunement modifier, plus 100 kg, divided by the target's weight in kg. If this is 1 or higher, the target is hurled back 1 square for every 0.5 above 1 the ratio is. If it is below one, there is still a chance to knock the target over (chance is weight ratio * 1000 in percentage; a weight ratio of 0.952 has a 95.2% chance of causing knockdown).<br />
+*Effects*: Like Force Shove, but on a much greater scale, the psion hurls a single target either to them or in a chosen direction. The distance is based on the ratio of the target's weight to the psion's power level (modified by Intelligence and Nether Attunement as usual).  By default, the formula is (power level * 150 kg) * Intelligence modifier * Nether Attunement modifier, plus 100 kg, divided by the target's weight in kg. If this is 1 or higher, the target is hurled 1 square for every 0.5 above 1 the ratio is. If it is below one, there is still a chance to knock the target over (chance is weight ratio * 1000 in percentage; a weight ratio of 0.952 has a 95.2% chance of causing knockdown).<br />
 *Prerequisites*: Force Shove 15 *or* Far Hand 15, Momentum Alteration 10, Lift Vehicle 6<br />
 </details>
 <details>

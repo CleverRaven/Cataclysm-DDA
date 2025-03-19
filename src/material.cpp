@@ -109,7 +109,6 @@ void material_type::load( const JsonObject &jsobj, const std::string_view )
 
     assign( jsobj, "salvaged_into", _salvaged_into );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, itype_id::NULL_ID() );
-    optional( jsobj, was_loaded, "edible", _edible, false );
     optional( jsobj, was_loaded, "rotting", _rotting, false );
     optional( jsobj, was_loaded, "soft", _soft, false );
     optional( jsobj, was_loaded, "uncomfortable", _uncomfortable, false );
@@ -326,11 +325,6 @@ int material_type::breathability() const
 std::optional<int> material_type::wind_resist() const
 {
     return _wind_resist;
-}
-
-bool material_type::edible() const
-{
-    return _edible;
 }
 
 bool material_type::rotting() const

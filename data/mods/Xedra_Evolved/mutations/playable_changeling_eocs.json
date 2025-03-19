@@ -98,6 +98,28 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_UNKNOWING_CHANGELING_UNWEARING_IRON_OR_STEEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_takeoff_item",
+    "condition": {
+      "u_has_any_trait": [
+        "UNKNOWING_CHANGELING_NOBLE",
+        "FAIR_FOLK_COMMONER_SELECTOR",
+        "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+        "UNKNOWING_CHANGELING_COMMONER_POOKA",
+        "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+        "UNKNOWING_CHANGELING_COMMONER_TROW"
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [ "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP" ],
+        "time_in_future": 1
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_UNKNOWING_CHANGELING_WIELDING_IRON_OR_STEEL",
     "eoc_type": "EVENT",
     "required_event": "character_wields_item",
@@ -124,10 +146,7 @@
       "true_eocs": [
         {
           "id": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_RESULT_TRUE",
-          "effect": [
-            { "u_add_effect": "effect_changeling_wearing_iron", "duration": "PERMANENT" },
-            { "run_eocs": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "time_in_future": 60 }
-          ]
+          "effect": [ { "u_add_effect": "effect_changeling_wearing_iron", "duration": "PERMANENT" } ]
         }
       ],
       "false_eocs": [
@@ -166,10 +185,7 @@
       "true_eocs": [
         {
           "id": "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_RESULT_TRUE",
-          "effect": [
-            { "u_add_effect": "effect_changeling_wearing_steel", "duration": "PERMANENT" },
-            { "run_eocs": "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP", "time_in_future": 60 }
-          ],
+          "effect": [ { "u_add_effect": "effect_changeling_wearing_steel", "duration": "PERMANENT" } ],
           "false_effect": [ { "u_lose_effect": "effect_changeling_wearing_steel" } ]
         }
       ],

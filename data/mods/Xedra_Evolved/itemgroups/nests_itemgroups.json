@@ -30,8 +30,8 @@
         "count": [ 20, 80 ]
       },
       { "item": "poppy_bud", "prob": 15, "container-item": "null", "entry-wrapper": "bag_zipper", "count": [ 2, 16 ] },
-      { "item": "lye_powder", "prob": 50, "charges": [ 100, -1 ] },
-      { "item": "oxy_powder", "prob": 50, "charges": [ 100, -1 ] },
+      { "group": "lye_powder_bottle_part", "prob": 50 },
+      { "group": "oxy_powder_bottle_part", "prob": 50, "charges": [ 100, -1 ] },
       { "item": "scrap_copper", "prob": 40, "count": [ 5, 15 ] },
       { "group": "jewelry_safe", "prob": 2 },
       { "group": "alchemy_mutagen_samples", "prob": 5 },

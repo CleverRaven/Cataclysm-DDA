@@ -11,19 +11,13 @@ lightmap
 color
 tests/generic_factory_test.cpp
 # (mildly) scary conditional compilation in these
-src/animation.cpp
-src/bionics_ui.cpp
 src/cata_imgui.cpp
-src/cata_utility.cpp
 src/catacharset.cpp
-src/construction.cpp
 src/debug.cpp
 src/editmap.cpp
 src/filesystem.cpp
 src/font_loader.cpp
 src/game.cpp
-src/handle_action.cpp
-src/init.cpp
 src/input_context.cpp
 src/loading_ui.cpp
 src/localized_comparator.cpp
@@ -33,16 +27,12 @@ src/mutation_ui.cpp
 src/ncurses_def.cpp
 src/options.cpp
 src/output.cpp
-src/overmap_ui.cpp
-src/ranged.cpp
 src/path_info.cpp
 src/savegame.cpp
 src/sounds.cpp
 src/sdltiles.cpp
 src/system_locale.cpp
-src/text_style_check_reader.cpp
 src/uilist.cpp
-src/ui_manager.cpp
 src/veh_appliance.cpp
 # misc files deferred til better days
 src/stats_tracker.cpp
@@ -50,4 +40,3 @@ src/mapsharing
 src/worldfactory.cpp
 src/mmap_file.cpp
 src/mmap_file.cpp
-src/messages.cpp

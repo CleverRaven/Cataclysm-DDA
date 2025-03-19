@@ -562,7 +562,8 @@
       { "item": "diving_watch", "prob": 20 },
       { "item": "game_watch", "prob": 20, "charges": [ 0, 50 ] },
       { "item": "fitness_band", "prob": 10 },
-      { "item": "smart_watch", "prob": 10, "charges": [ 0, 80 ] }
+      { "item": "smart_watch", "prob": 10, "charges": [ 0, 80 ] },
+      { "item": "smart_watch_adv", "prob": 5, "charges": [ 0, 40 ] }
     ]
   },
   {
@@ -1573,7 +1574,7 @@
       [ "bullwhip", 1 ],
       [ "10gal_hat", 3 ],
       [ "glasses_monocle", 2 ],
-      [ "duct_tape", 60 ],
+      { "group": "duct_tape_roll_part", "prob": 60 },
       { "group": "superglue", "prob": 20 },
       [ "firecracker_pack", 5 ],
       [ "firecracker", 5 ],

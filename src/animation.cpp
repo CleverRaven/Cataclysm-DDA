@@ -1,8 +1,21 @@
 #include "animation.h"
 
+
+#include <algorithm>
+#include <chrono>
+#include <cstdint>
+#include <iterator>
+#include <list>
+#include <map>
+#include <memory>
+#include <thread>
+#include <utility>
+#include <vector>
+
 #include "avatar.h"
 #include "cached_options.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
@@ -18,6 +31,7 @@
 #include "output.h"
 #include "point.h"
 #include "popup.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -28,20 +42,8 @@
 #if defined(TILES)
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 #include "sdltiles.h"
+#include "weather_type.h"
 #endif
-
-#include <algorithm>
-#include <chrono>
-#include <functional>
-#include <iosfwd>
-#include <iterator>
-#include <list>
-#include <map>
-#include <memory>
-#include <thread>
-#include <type_traits>
-#include <utility>
-#include <vector>
 
 namespace
 {

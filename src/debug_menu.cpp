@@ -2384,7 +2384,7 @@ static void character_edit_menu()
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_DROP_ITEMS, D_ITEM_WORN, D_RADS,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_NORMALIZE_BODY, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_BIONICS, D_CLASS, D_ATTITUDE, D_OPINION, D_PERSONALITY, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
-        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS, D_FACTION
+        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS, D_FACTION, D_ALPHA_EOC, D_BETA_EOC
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit description - name, age, height or blood type" ) );
@@ -2430,6 +2430,10 @@ static void character_edit_menu()
         nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set opinions" ) );
         nmenu.addentry( D_PERSONALITY, true, 'P', "%s", _( "Set personality" ) );
         nmenu.addentry( D_FACTION, true, 'F', "%s", _( "Set faction" ) );
+        nmenu.addentry( D_ALPHA_EOC, true, 'r', "%s",
+                        _( "Run EOC with character as alpha talker (avatar as beta)" ) );
+        nmenu.addentry( D_BETA_EOC, true, 't', "%s",
+                        _( "Run EOC with character as beta talker (avatar as alpha)" ) );
     }
     nmenu.query();
     switch( nmenu.ret ) {
@@ -2733,6 +2737,13 @@ static void character_edit_menu()
             }
             break;
         }
+        case D_ALPHA_EOC:
+            run_eoc_menu( &you, true );
+            break;
+        case D_BETA_EOC:
+            run_eoc_menu( &you );
+            break;
+
     }
 }
 

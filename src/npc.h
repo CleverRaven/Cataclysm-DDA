@@ -1276,7 +1276,7 @@ class npc : public Character
 
         // The preceding are in npcmove.cpp
 
-        bool query_yn( const std::string &mes ) const override;
+        bool query_yn( const std::string &msg ) const override;
 
         std::vector<std::string> extended_description() const override;
         std::string get_epilogue() const;
@@ -1398,6 +1398,8 @@ class npc : public Character
         bool marked_for_death = false; // If true, we die as soon as we respawn!
         bool hit_by_player = false;
         bool hallucination = false; // If true, NPC is an hallucination
+        bool spawn_corpse = true;
+        bool quiet_death = false; // supress messages about death
         std::vector<npc_need> needs;
         std::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.

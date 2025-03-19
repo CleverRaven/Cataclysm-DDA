@@ -502,7 +502,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_restaurant_fast", "s_restaurant_fast_1" ],
+    "id": [
+      "s_restaurant_fast",
+      "s_restaurant_fast_1",
+      "drive_through_0_0",
+      "drive_through_1_0",
+      "drive_through_2_0",
+      "drive_through_0_1",
+      "drive_through_1_1",
+      "drive_through_2_1"
+    ],
     "copy-from": "generic_city_building",
     "looks_like": "s_restaurant_fast",
     "name": "fast food restaurant",
@@ -511,7 +520,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_restaurant_fast_roof", "s_restaurant_fast_roof_1" ],
+    "id": [
+      "s_restaurant_fast_roof",
+      "s_restaurant_fast_roof_1",
+      "drive_through_roof_0_0",
+      "drive_through_roof_1_0",
+      "drive_through_roof_2_0",
+      "drive_through_roof_0_1",
+      "drive_through_roof_1_1",
+      "drive_through_roof_2_1"
+    ],
     "copy-from": "generic_city_building_roof",
     "looks_like": "s_restaurant_fast_roof",
     "name": "fast food restaurant roof",

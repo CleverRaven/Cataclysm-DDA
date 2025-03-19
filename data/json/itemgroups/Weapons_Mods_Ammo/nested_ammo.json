@@ -118,6 +118,18 @@
     ]
   },
   {
+    "id": "on_hand_460sw",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "boxed_460_used", "prob": 100 },
+      { "item": "460sw", "charges": [ 1, 10 ], "prob": 100 },
+      { "group": "boxed_460", "prob": 50 },
+      { "group": "boxed_460", "prob": 25 }
+    ]
+  },
+  {
     "id": "on_hand_46",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",

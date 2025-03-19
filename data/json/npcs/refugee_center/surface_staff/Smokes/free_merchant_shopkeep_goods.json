@@ -39,7 +39,7 @@
       { "item": "solder_wire", "charges": [ 75, 90 ] },
       { "item": "thread", "charges": [ 100, 240 ] },
       { "item": "nail", "charges": [ 80, 100 ] },
-      { "item": "duct_tape", "charges": [ 35, 50 ] },
+      { "group": "duct_tape_roll_part" },
       { "group": "superglue", "count": [ 0, 1 ] },
       { "item": "glass_shard", "count": [ 150, 200 ] },
       { "item": "clay_lump", "count": [ 2, 3 ] },

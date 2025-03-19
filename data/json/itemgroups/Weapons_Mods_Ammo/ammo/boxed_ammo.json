@@ -766,6 +766,13 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "boxed_460",
+    "container-item": "460_ammo_box_20",
+    "items": [ { "item": "460sw", "charges": 20, "prob": 7 }, { "item": "460sw_jhp", "charges": 20, "prob": 8 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "boxed_545",
     "container-item": { "item": "44_ammo_box_20", "variant": "545_ammo_box_20" },
     "items": [ { "item": "545", "charges": 20, "prob": 38 }, { "item": "545_ap", "charges": 20, "prob": 1 } ]
@@ -1748,6 +1755,17 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "boxed_460_used",
+    "on_overflow": "spill",
+    "container-item": "460_ammo_box_20",
+    "items": [
+      { "item": "460sw", "charges": 1, "count": [ 10, 30 ], "prob": 7 },
+      { "item": "460sw_jhp", "charges": 1, "count": [ 10, 30 ], "prob": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "boxed_545_used",
     "on_overflow": "spill",
     "container-item": { "item": "44_ammo_box_20", "variant": "545_ammo_box_20" },
@@ -2607,6 +2625,13 @@
     "id": "boxed_500_looted",
     "container-item": { "item": "4570_ammo_box_20", "variant": "500_ammo_box_20" },
     "items": [ { "item": "500_Magnum", "charges": [ 0, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_460_looted",
+    "container-item": "460_ammo_box_20",
+    "items": [ { "item": "460sw", "charges": [ 0, 4 ], "prob": 7 }, { "item": "460sw_jhp", "charges": [ 0, 4 ], "prob": 8 } ]
   },
   {
     "type": "item_group",

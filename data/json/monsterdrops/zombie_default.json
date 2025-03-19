@@ -224,7 +224,7 @@
             ],
             "prob": 10
           },
-          { "collection": [ { "item": "advanced_ecig" }, { "item": "nicotine_liquid" } ], "prob": 10 }
+          { "collection": [ { "item": "advanced_ecig" }, { "group": "nicotine_liquid_bottle_part" } ], "prob": 10 }
         ],
         "prob": 15
       },

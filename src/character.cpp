@@ -1334,7 +1334,7 @@ bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points ) con
 
 int Character::overmap_sight_range( float light_level ) const
 {
-    // How many map tiles I can given the light??
+    // How many map tiles I can see given the light??
     int sight = sight_range( light_level );
     // What are these doing???
     if( sight < SEEX ) {
@@ -1380,7 +1380,16 @@ int Character::overmap_modified_sight_range( float light_level ) const
                            ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ||
                            get_map().veh_at( pos_bub() ).avail_part_with_feature( "ENHANCED_VISION" ).has_value();
 
-    if( has_optic ) {
+    const bool has_scoped_gun = cache_has_item_with( "is_gun", &item::is_gun, [&]( const item & gun ) {
+        for( const item *mod : gun.gunmods() ) {
+            if( mod->has_flag( flag_ZOOM ) ) {
+                return true;
+            }
+        }
+        return false;
+    } );
+
+    if( has_optic || has_scoped_gun ) {
         sight *= 2;
     }
 
@@ -1574,6 +1583,16 @@ bool Character::can_stash( const item &it, int &copies_remaining, bool ignore_pk
         }
     }
     return stashed_any;
+}
+
+bool Character::can_stash_partial( const item &it, int &copies_remaining, bool ignore_pkt_settings )
+{
+    item copy = it;
+    if( it.count_by_charges() ) {
+        copy.charges = 1;
+    }
+
+    return can_stash( copy, copies_remaining, ignore_pkt_settings );
 }
 
 bool Character::can_stash_partial( const item &it, bool ignore_pkt_settings )
@@ -10589,6 +10608,15 @@ std::vector<Creature *> Character::get_visible_creatures( const int range ) cons
     } );
 }
 
+std::vector<vehicle *> Character::get_visible_vehicles( const int range ) const
+{
+    const map &here = get_map();
+
+    return g->get_vehicles_if( [this, range, &here]( const vehicle & veh ) -> bool {
+        return rl_dist( pos_abs(), veh.pos_abs() ) <= range && sees( here, veh.pos_bub( here ) );
+    } );
+}
+
 std::vector<Creature *> Character::get_targetable_creatures( const int range, bool melee ) const
 {
     map &here = get_map();
@@ -13102,30 +13130,36 @@ bool Character::wield( item &it, std::optional<int> obtain_cost )
     add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
     mod_moves( -mv );
 
-    bool had_item = has_item( it );
-    if( combine_stacks ) {
-        wielded->combine( it );
+    item to_wield;
+    if( has_item( it ) ) {
+        to_wield = i_rem( &it );
     } else {
-        set_wielded_item( it );
+        // is_null means fists
+        to_wield = it.is_null() ? item() : it;
     }
 
-    if( had_item ) {
-        i_rem( &it );
+    if( combine_stacks ) {
+        wielded->combine( to_wield );
+    } else {
+        set_wielded_item( to_wield );
     }
 
     // set_wielded_item invalidates the weapon item_location, so get it again
     wielded = get_wielded_item();
-    last_item = wielded->typeId();
     recoil = MAX_RECOIL;
 
-    wielded->on_wield( *this );
-
-    cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
-    get_event_bus().send_with_talker( this, &wielded, e );
-
-    inv->update_invlet( *wielded );
-    inv->update_cache_with_item( *wielded );
-
+    // if fists are wielded get_wielded_item returns item_location::nowhere, which is a nullptr
+    if( wielded ) {
+        last_item = wielded->typeId();
+        wielded->on_wield( *this );
+        inv->update_invlet( *wielded );
+        inv->update_cache_with_item( *wielded );
+        cata::event e = cata::event::make<event_type::character_wields_item>( getID(), last_item );
+        get_event_bus().send_with_talker( this, &wielded, e );
+    } else {
+        last_item = to_wield.typeId();
+        get_event_bus().send<event_type::character_wields_item>( getID(), item().typeId() );
+    }
     return true;
 }
 

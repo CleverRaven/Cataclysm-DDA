@@ -187,6 +187,8 @@ class overmapbuffer
         std::optional<mapgen_arguments> *mapgen_args( const tripoint_abs_omt & );
         std::string *join_used_at( const std::pair<tripoint_abs_omt, cube_direction> & );
         std::vector<oter_id> predecessors( const tripoint_abs_omt & );
+        // pick an OMT, scan it from z level 10, and return the first level that is not air
+        int highest_omt_point( tripoint_abs_omt loc );
         /**
          * Uses global overmap terrain coordinates.
          */
