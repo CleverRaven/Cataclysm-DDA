@@ -184,7 +184,7 @@
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [ 
-	[ [ "water", 1 ], [ "water_clean", 1 ] ]
+	[ [ "water", 1 ], [ "water_clean", 1 ] ],
 	[ [ "cocoa_powder", 2, ] ] ]
   },
   {
