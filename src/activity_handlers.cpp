@@ -2916,10 +2916,10 @@ void activity_handlers::travel_do_turn( player_activity *act, Character *you )
         }
         map &here = get_map();
         tripoint_bub_ms centre_sub = here.get_bub( waypoint );
-        if( !here.passable( centre_sub ) ) {
+        if( !here.passable_through( centre_sub ) ) {
             tripoint_range<tripoint_bub_ms> candidates = here.points_in_radius( centre_sub, 2 );
             for( const tripoint_bub_ms &elem : candidates ) {
-                if( here.passable( elem ) ) {
+                if( here.passable_through( elem ) ) {
                     centre_sub = elem;
                     break;
                 }

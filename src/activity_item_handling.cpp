@@ -345,7 +345,7 @@ std::vector<item_location> drop_on_map( Character &you, item_drop_reason reason,
         return {};
     }
     const std::string ter_name = here->name( where );
-    const bool can_move_there = here->passable( where );
+    const bool can_move_there = here->passable_through( where );
 
     if( same_type( items ) ) {
         const item &it = items.front();
@@ -666,7 +666,7 @@ std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoin
     map &here = get_map();
 
     for( const tripoint_bub_ms &tp : here.points_in_radius( dest, 1 ) ) {
-        if( tp != you.pos_bub() && here.passable( tp ) ) {
+        if( tp != you.pos_bub() && here.passable_through( tp ) ) {
             passable_tiles.emplace( tp );
         }
     }
@@ -694,7 +694,7 @@ static std::vector<tripoint_bub_ms> route_best_workbench(
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_bub_ms &tp : here.points_in_radius( dest, 1 ) ) {
-        if( tp == you.pos_bub() || ( here.passable( tp ) && !creatures.creature_at( tp ) ) ) {
+        if( tp == you.pos_bub() || ( here.passable_through( tp ) && !creatures.creature_at( tp ) ) ) {
             passable_tiles.insert( tp );
         }
     }
@@ -2243,7 +2243,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
 
                 // get either direct route or route to nearest adjacent tile if
                 // source tile is impassable
-                if( here.passable( src_loc ) ) {
+                if( here.passable_through( src_loc ) ) {
                     route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
                                         you.get_path_avoid() );
                 } else {
