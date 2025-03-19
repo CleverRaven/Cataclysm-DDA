@@ -155,7 +155,9 @@
       "ruger_charger",
       "hk_mp5_semi_pistol",
       "TDI_10",
-      "draco_9mm"
+      "draco_9mm",
+      "p365",
+      "swbodyguard"
     ],
     "type": "MIGRATION",
     "replace": "pistol_medium"
@@ -181,7 +183,7 @@
     "replace": "pistol_pipe_smg"
   },
   {
-    "id": [ "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1", "taurus_judge" ],
+    "id": [ "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1", "taurus_judge", "sw642" ],
     "type": "MIGRATION",
     "replace": "pistol_revolver"
   },
@@ -229,7 +231,8 @@
       "1911_22",
       "rio_bravo",
       "henry_golden_boy",
-      "sw617"
+      "sw617",
+      "sr22"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"

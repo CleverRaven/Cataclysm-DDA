@@ -7,6 +7,7 @@
     "items": [
       { "group": "nested_glock_17", "prob": 73 },
       { "group": "nested_glock_19", "prob": 100 },
+      { "group": "nested_p365", "prob": 161 },
       { "group": "nested_m9", "prob": 22 },
       { "group": "nested_px4", "prob": 5 },
       { "group": "nested_hi_power_9mm", "prob": 9 },
@@ -30,6 +31,7 @@
     "id": "guns_pistol_common_22",
     "items": [
       { "group": "nested_walther_p22", "prob": 45 },
+      { "group": "nested_sr22", "prob": 405 },
       { "group": "nested_ruger_lcr_22", "prob": 2 },
       { "group": "nested_rough_rider_pistol", "prob": 61 },
       { "group": "nested_rough_rider_pistol_9", "prob": 14 },
@@ -55,7 +57,11 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_380",
-    "items": [ { "group": "nested_rugerlcp", "prob": 231 }, { "group": "nested_hptcf380", "prob": 100 } ]
+    "items": [
+      { "group": "nested_rugerlcp", "prob": 231 },
+      { "group": "nested_hptcf380", "prob": 100 },
+      { "group": "nested_swbodyguard", "prob": 1673 }
+    ]
   },
   {
     "type": "item_group",
@@ -81,7 +87,11 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_38",
-    "items": [ { "group": "nested_ruger_lcr_38", "prob": 66 }, { "group": "nested_model_10_revolver", "prob": 100 } ]
+    "items": [
+      { "group": "nested_ruger_lcr_38", "prob": 66 },
+      { "group": "nested_model_10_revolver", "prob": 100 },
+      { "group": "nested_sw642", "prob": 81 }
+    ]
   },
   {
     "type": "item_group",
@@ -182,6 +192,7 @@
     "items": [
       { "item": "glock_17", "prob": 7, "charges": [ 0, -1 ] },
       { "item": "glock_19", "prob": 100, "charges": [ 0, -1 ] },
+      { "item": "p365", "prob": 161, "charges": [ 0, -1 ] },
       { "item": "m9", "variant": "m9", "prob": 2, "charges": [ 0, -1 ] },
       { "item": "px4", "prob": 5, "charges": [ 0, -1 ] },
       { "item": "hi_power_9mm", "prob": 2, "charges": [ 0, -1 ] },
@@ -203,6 +214,7 @@
     "id": "guns_pistol_common_everyday_carry_22",
     "items": [
       { "item": "sig_mosquito", "prob": 6, "charges": [ 0, -1 ] },
+      { "item": "sr22", "prob": 80, "charges": [ 0, -1 ] },
       { "item": "walther_p22", "prob": 45, "charges": [ 0, -1 ] },
       { "item": "ruger_lcr_22", "prob": 2, "charges": [ 0, -1 ] },
       { "item": "ruger_mk4", "prob": 16, "charges": [ 0, -1 ] },
@@ -225,7 +237,11 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_380",
-    "items": [ { "item": "rugerlcp", "prob": 231, "charges": [ 0, -1 ] }, { "item": "hptcf380", "prob": 15, "charges": [ 0, -1 ] } ]
+    "items": [
+      { "item": "rugerlcp", "prob": 231, "charges": [ 0, -1 ] },
+      { "item": "hptcf380", "prob": 15, "charges": [ 0, -1 ] },
+      { "item": "swbodyguard", "prob": 1673, "charges": [ 0, -1 ] }
+    ]
   },
   {
     "type": "item_group",
@@ -252,6 +268,7 @@
     "id": "guns_pistol_common_everyday_carry_38",
     "items": [
       { "item": "ruger_lcr_38", "prob": 66, "charges": [ 0, -1 ] },
+      { "item": "sw642", "prob": 100, "charges": [ 0, -1 ] },
       { "item": "model_10_revolver", "prob": 10, "charges": [ 0, -1 ] }
     ]
   },
@@ -308,6 +325,7 @@
     "items": [
       { "item": "glock_17", "prob": 73 },
       { "item": "glock_19", "prob": 100 },
+      { "item": "p365", "prob": 161 },
       { "item": "m9", "variant": "m9", "prob": 22 },
       { "item": "px4", "prob": 5 },
       { "item": "hi_power_9mm", "prob": 9 },
@@ -331,6 +349,7 @@
     "id": "guns_pistol_common_display_22",
     "items": [
       { "item": "walther_p22", "prob": 45 },
+      { "item": "sr22", "prob": 405 },
       { "item": "ruger_lcr_22", "prob": 2 },
       { "item": "rough_rider_pistol", "prob": 61 },
       { "item": "rough_rider_pistol_9", "prob": 14 },
@@ -356,7 +375,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_380",
-    "items": [ { "item": "rugerlcp", "prob": 231 }, { "item": "hptcf380", "prob": 100 } ]
+    "items": [ { "item": "rugerlcp", "prob": 231 }, { "item": "hptcf380", "prob": 100 }, { "item": "swbodyguard", "prob": 1673 } ]
   },
   {
     "type": "item_group",
@@ -382,7 +401,11 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_38",
-    "items": [ { "item": "ruger_lcr_38", "prob": 66 }, { "item": "model_10_revolver", "prob": 100 } ]
+    "items": [
+      { "item": "ruger_lcr_38", "prob": 66 },
+      { "item": "model_10_revolver", "prob": 100 },
+      { "item": "sw642", "prob": 81 }
+    ]
   },
   {
     "type": "item_group",

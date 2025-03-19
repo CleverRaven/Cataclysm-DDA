@@ -8,6 +8,7 @@
     "//3": "Collections of magazines for 9mm guns that are sold in gunstores, such as Glocks, M9s.",
     "items": [
       { "group": "magazines_9mm_glock", "prob": 100 },
+      { "item": "p365_mag", "prob": 161 },
       { "group": "magazines_9mm_m9", "prob": 20 },
       { "group": "magazines_9mm_px4", "prob": 20 },
       { "group": "magazines_9mm_usp", "prob": 20 },
@@ -30,6 +31,7 @@
     "id": "common_magazines_restricted_9mm",
     "//": "Collections of magazines for 9mm guns that are sold in gunstores, such as Glocks, M9s, that are limited to 10 rounds or less so that they can be sold in gunstores.  If 10 round or less magazines aren't present, use the lowest current capacity magazine.",
     "items": [
+      { "item": "p365_mag", "prob": 161 },
       { "item": "glock17_10", "prob": 48 },
       { "item": "glockmag_10", "prob": 52 },
       { "item": "m9mag_10rd", "prob": 20 },
@@ -89,6 +91,7 @@
       { "item": "22_speedloader8", "prob": 1 },
       { "item": "mosquitomag", "prob": 20 },
       { "item": "wp22mag", "prob": 23 },
+      { "item": "sr22_mag", "prob": 98 },
       { "item": "ruger_mk4_mag", "prob": 39 },
       { "item": "1911_22_mag", "prob": 26 }
     ]
@@ -105,6 +108,7 @@
       { "item": "22_speedloader8", "prob": 1 },
       { "item": "mosquitomag", "prob": 20 },
       { "item": "wp22mag", "prob": 23 },
+      { "item": "sr22_mag", "prob": 98 },
       { "item": "ruger_mk4_mag", "prob": 39 },
       { "item": "1911_22_mag", "prob": 26 }
     ]
@@ -288,6 +292,7 @@
     "items": [
       { "group": "magazines_hipoint380", "prob": 44 },
       { "item": "rugerlcpmag", "prob": 100 },
+      { "item": "swbodyguard_mag", "prob": 724 },
       { "item": "hpt3895mag_10rd", "prob": 4 }
     ]
   },

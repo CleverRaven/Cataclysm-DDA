@@ -26,6 +26,19 @@
     ]
   },
   {
+    "id": "nested_p365",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "p365", "charges": [ 0, 10 ] },
+      { "item": "p365_mag" },
+      { "item": "p365_mag", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
     "id": "nested_glock_20",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -203,6 +216,14 @@
     "entries": [ { "item": "ruger_lcr_38", "charges": [ 0, 5 ] }, { "group": "on_hand_38" } ]
   },
   {
+    "id": "nested_sw642",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "sw642", "charges": [ 0, 5 ] }, { "group": "on_hand_38" } ]
+  },
+  {
     "id": "nested_sig_mosquito",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -238,6 +259,19 @@
       { "item": "ruger_mk4", "charges": [ 0, 10 ] },
       { "item": "ruger_mk4_mag" },
       { "item": "ruger_mk4_mag", "prob": 50 },
+      { "group": "on_hand_22" }
+    ]
+  },
+  {
+    "id": "nested_sr22",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "sr22", "charges": [ 0, 10 ] },
+      { "item": "sr22_mag" },
+      { "item": "sr22_mag", "prob": 50 },
       { "group": "on_hand_22" }
     ]
   },
@@ -421,6 +455,19 @@
       { "item": "rugerlcp", "charges": [ 0, 6 ] },
       { "item": "rugerlcpmag" },
       { "item": "rugerlcpmag", "prob": 50 },
+      { "group": "on_hand_380" }
+    ]
+  },
+  {
+    "id": "nested_swbodyguard",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "swbodyguard", "charges": [ 0, 6 ] },
+      { "item": "swbodyguard_mag" },
+      { "item": "swbodyguard_mag", "prob": 50 },
       { "group": "on_hand_380" }
     ]
   },

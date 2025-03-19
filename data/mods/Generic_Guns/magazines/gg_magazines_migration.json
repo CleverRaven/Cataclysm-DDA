@@ -89,7 +89,9 @@
       "sp2022mag_10rd_9mm",
       "sp2022mag_12rd_9mm",
       "sp2022mag_15rd_9mm",
-      "hpt3895mag_10rd"
+      "hpt3895mag_10rd",
+      "p365_mag",
+      "swbodyguard_mag"
     ],
     "type": "MIGRATION",
     "replace": "pistol_mag"
@@ -206,7 +208,8 @@
       "cp33_mag",
       "cp33_mag_50",
       "ruger_mk4_mag",
-      "1911_22_mag"
+      "1911_22_mag",
+      "sr22_mag"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_mag"
