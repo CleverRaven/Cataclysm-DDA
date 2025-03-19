@@ -218,7 +218,7 @@
       ],
       "vehicles": {
         "Á": { "vehicle": "suburban_home_compact", "chance": 50, "rotation": 270 },
-        "É": { "vehicle": "industrial_transport_no_truck", "chance": 50, "rotation": 270 },
+        "É": { "vehicle": "industrial_transport_no_truck", "rotation": 270 },
         "À": { "vehicle": "suburban_home_compact", "chance": 50, "rotation": 90 },
         "È": { "vehicle": "industrial_transport_no_truck", "chance": 50, "rotation": 90 }
       }
