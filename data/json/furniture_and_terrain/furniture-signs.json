@@ -81,13 +81,15 @@
     "rotates_to": "PAVEMENT",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "NO_SELF_CONNECT" ],
-    "deconstruct": { "items": [ { "item": "street_sign", "count": 1 } ] },
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 1 }, { "item": "sheet_metal", "count": 1 }, { "item": "nuts_bolts", "count": [ 4, 8 ] } ]
+    },
     "bash": {
       "str_min": 16,
-      "str_max": 42,
+      "str_max": 26,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "street_sign", "count": 1 } ]
+      "items": [ { "item": "scrap", "count": [ 4, 6 ] } ]
     }
   }
 ]
