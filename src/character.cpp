@@ -13088,7 +13088,7 @@ bool Character::wield( item &it, std::optional<int> obtain_cost )
             return false;
         }
 
-        if( wielded->has_item( it ) ) {
+        if( !is_unwielding && wielded->has_item( it ) ) {
             add_msg_if_player( m_info,
                                _( "You need to put the bag away before trying to wield something from it." ) );
             return false;
