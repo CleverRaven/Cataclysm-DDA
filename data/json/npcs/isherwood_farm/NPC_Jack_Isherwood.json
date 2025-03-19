@@ -331,7 +331,11 @@
         "nail",
         "lc_wire",
         "rock",
-        "steel_chunk",
+        "lc_steel_chunk",
+        "mc_steel_chunk",
+        "hc_steel_chunk",
+        "ch_steel_chunk",
+        "qt_steel_chunk",
         "steel_lump"
       ],
       "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }

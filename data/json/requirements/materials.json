@@ -401,7 +401,7 @@
     "//": "Materials for when you just need a heavy chunk of metal, like for the makeshift hammer",
     "components": [
       [
-        [ "steel_chunk", 1 ],
+        [ "budget_steel_chunk", 1 ],
         [ "lc_steel_chunk", 1 ],
         [ "mc_steel_chunk", 1 ],
         [ "hc_steel_chunk", 1 ],
@@ -414,7 +414,7 @@
     "id": "steel_standard",
     "type": "requirement",
     "//": "Materials for use when forging items from steel",
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ] ] ]
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk_any", 4, "LIST" ] ] ]
   },
   {
     "id": "mixed_steel",
@@ -719,22 +719,6 @@
     "type": "requirement",
     "//": "Prevents having to open condoms before crafts",
     "components": [ [ [ "condom", 1 ], [ "condom_sealed", 1 ] ] ]
-  },
-  {
-    "id": "any_steel_chunk",
-    "type": "requirement",
-    "//": "All steel chunks, including budget one",
-    "components": [
-      [
-        [ "steel_chunk", 1 ],
-        [ "budget_steel_chunk", 1 ],
-        [ "lc_steel_chunk", 1 ],
-        [ "mc_steel_chunk", 1 ],
-        [ "hc_steel_chunk", 1 ],
-        [ "ch_steel_chunk", 1 ],
-        [ "qt_steel_chunk", 1 ]
-      ]
-    ]
   },
   {
     "id": "any_wire",

@@ -352,7 +352,7 @@
       { "item": "vibrator", "prob": 5, "charges": [ 0, 100 ] },
       [ "string_36", 40 ],
       [ "chain", 20 ],
-      [ "steel_chunk", 30 ],
+      [ "lc_steel_chunk", 30 ],
       [ "spring", 50 ],
       [ "steel_lump", 30 ],
       [ "manhole_cover", 1 ],
