@@ -279,7 +279,7 @@
       { "item": "g3mag", "prob": 19 },
       { "item": "m14smallmag", "prob": 300 },
       { "item": "papm77mag_10rd", "prob": 39 },
-      { "item": "scarhmag", "prob": 49 },
+      { "item": "scarhmag_10", "prob": 49 },
       { "item": "ar10mag_10rd", "prob": 100 },
       { "item": "steyr_scout_mag", "prob": 16 }
     ]

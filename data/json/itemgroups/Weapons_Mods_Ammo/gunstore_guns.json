@@ -898,7 +898,7 @@
     "type": "item_group",
     "id": "guns_rifle_common_boxed_223",
     "items": [
-      { "group": "boxed_stanag_223", "prob": 423 },
+      { "group": "boxed_stanag_223", "prob": 437 },
       { "group": "boxed_ruger_mini", "prob": 100 },
       { "group": "boxed_sl8", "prob": 3 },
       { "group": "boxed_ak556", "prob": 19 }
@@ -922,6 +922,7 @@
           { "group": "mdrx_223", "prob": 4 },
           { "group": "cz600", "prob": 4 },
           { "item": "sig_assault_rifle", "prob": 1 },
+          { "item": "scar_16s", "prob": 14 },
           { "item": "iwi_tavor_x95_300blk", "prob": 27 }
         ]
       }
@@ -959,6 +960,7 @@
     "id": "guns_rifle_common_boxed_308",
     "items": [
       { "group": "boxed_ar10", "prob": 89 },
+      { "group": "boxed_scar17s", "prob": 20 },
       { "group": "boxed_m1a", "prob": 100 },
       { "group": "boxed_falmag", "prob": 11 },
       { "group": "boxed_hk_g3", "prob": 1 },
@@ -972,6 +974,13 @@
     "id": "boxed_ar10",
     "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
     "items": [ { "item": "ar10" }, { "group": "firearm_box_extras" }, { "item": "ar10mag_10rd", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_scar17s",
+    "container-item": { "item": "box_longarm", "variant": "box_longarm_rifle" },
+    "items": [ { "item": "scar_17s" }, { "group": "firearm_box_extras" }, { "item": "scarhmag_10", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",

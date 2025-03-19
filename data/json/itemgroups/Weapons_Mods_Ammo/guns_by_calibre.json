@@ -542,6 +542,7 @@
       { "group": "nested_cz600", "prob": 13 },
       { "group": "nested_sl8", "prob": 3 },
       { "group": "nested_sig_assault_rifle", "prob": 1 },
+      { "group": "nested_scar_16s", "prob": 14 },
       { "group": "nested_iwi_tavor_x95", "prob": 27 }
     ]
   },
@@ -550,6 +551,7 @@
     "id": "guns_rifle_common_308",
     "items": [
       { "group": "nested_ar10", "prob": 89 },
+      { "group": "nested_scar_17s", "prob": 20 },
       { "group": "nested_m1a", "prob": 100 },
       { "group": "nested_rfb_308", "prob": 6 },
       { "group": "nested_fn_fal", "prob": 5 },
@@ -719,6 +721,7 @@
       { "group": "cz600", "prob": 13 },
       { "item": "sl8", "prob": 3 },
       { "item": "sig_assault_rifle", "prob": 1 },
+      { "item": "scar_16s", "prob": 14 },
       { "item": "iwi_tavor_x95_300blk", "prob": 27 }
     ]
   },
@@ -727,6 +730,7 @@
     "id": "guns_rifle_common_display_308",
     "items": [
       { "item": "ar10", "prob": 89 },
+      { "item": "scar_17s", "prob": 20 },
       { "item": "m1a", "prob": 100 },
       { "item": "rfb_308", "prob": 7 },
       { "item": "fn_fal_semi", "prob": 5 },

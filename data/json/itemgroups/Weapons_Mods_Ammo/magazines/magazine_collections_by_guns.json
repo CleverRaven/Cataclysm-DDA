@@ -421,7 +421,7 @@
     "subtype": "distribution",
     "id": "magazines_scarh",
     "//": "Collections of magazines for the gun. Rough estimates of 1:2 for restricted to regular, 1:10 ratio of extended to regular, and 1:100 ratio of drums/very extended to regular.",
-    "items": [ { "item": "scarhmag", "prob": 500 }, { "item": "scarhbigmag", "prob": 20 } ]
+    "items": [ { "item": "scarhmag_10", "prob": 400 }, { "item": "scarhmag", "prob": 500 }, { "item": "scarhbigmag", "prob": 20 } ]
   },
   {
     "type": "item_group",

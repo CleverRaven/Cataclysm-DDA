@@ -315,6 +315,7 @@
       "browning_blr",
       "remington_700",
       "savage_111f",
+      "scar_17s",
       "steyr_scout",
       "M24",
       "sharps"
@@ -394,7 +395,8 @@
       "ak308",
       "papm77",
       "rfb_308",
-      "rdb_223"
+      "rdb_223",
+      "scar_16s"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"

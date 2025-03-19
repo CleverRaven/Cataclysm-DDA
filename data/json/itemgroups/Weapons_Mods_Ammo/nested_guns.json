@@ -1927,6 +1927,19 @@
     ]
   },
   {
+    "id": "nested_scar_16s",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "scar_16s", "charges": [ 0, 30 ] },
+      { "group": "stanag_30_random" },
+      { "group": "stanag_30_random", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
     "id": "nested_m107a1",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -2057,6 +2070,19 @@
     "ammo": 100,
     "entries": [
       { "item": "scar_h", "charges": [ 0, 20 ] },
+      { "item": "scarhmag" },
+      { "item": "scarhmag", "prob": 50 },
+      { "group": "on_hand_308" }
+    ]
+  },
+  {
+    "id": "nested_scar_17s",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "scar_17s", "charges": [ 0, 20 ] },
       { "item": "scarhmag" },
       { "item": "scarhmag", "prob": 50 },
       { "group": "on_hand_308" }
