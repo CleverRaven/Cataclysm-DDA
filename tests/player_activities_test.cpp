@@ -862,7 +862,6 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
     }
 }
 
-#pragma optimize("", off)
 TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 {
     map &mp = get_map();
@@ -1010,6 +1009,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
             WHEN( "player runs out of charges" ) {
                 REQUIRE( dummy.activity.id() == ACT_NULL );
+                REQUIRE( mp.furn( tripoint_bub_ms::zero ) == furn_test_f_hacksaw3 );
 
                 THEN( "player recharges with fuel" ) {
                     hacksaw_elec->ammo_set( battery.ammo_default() );
