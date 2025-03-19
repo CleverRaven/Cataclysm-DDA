@@ -196,6 +196,24 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_summer_slow_and_sweat_debuff",
+    "name": [ "Sun-struck" ],
+    "desc": [ "You need to sit down in the shade." ],
+    "show_in_info": true,
+    "rating": "bad",
+    "enchantments": [
+      {
+        "condition": { "not": { "is_season": "winter" } },
+        "values": [ { "value": "SPEED", "multiply": -0.15 }, { "value": "SWEAT_MULTIPLIER", "multiply": 0.5 } ]
+      },
+      {
+        "condition": { "and": [ { "is_season": "winter" }, "u_is_outside", "is_day" ] },
+        "values": [ { "value": "SPEED", "multiply": -0.15 }, { "value": "SWEAT_MULTIPLIER", "multiply": 0.5 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_changeling_summer_run_for_long_periods",
     "name": [ "Outracing the Sun" ],
     "desc": [ "You are filled with burning energy." ],
