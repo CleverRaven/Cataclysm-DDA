@@ -1340,7 +1340,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 900, minus 55 per level to a minimum of 350<br />
 *Channeling Time*: 50 moves, minus 3.5 moves per level to a minimum of 5<br />
-*Effects*: The psion vanishes and reappears nearby. They cannot control exactly where they end up. While there is no danger of teleporting into a wall or solid rock, if above ground level it is possible to teleport into open air, after which the psion will fall normally.<br />
+*Effects*: The psion vanishes and reappears nearby. They cannot control exactly where they end up. While there is no danger of teleporting into a wall or solid rock, if above ground level it is possible to teleport into open air, after which the psion will fall normally.  The psion may always teleport themselves, and can carry 5L of gear, plus 3.5L per power level<br />
 *Prerequisites*: Starting power<br />
 </details>
 <details>
@@ -1450,7 +1450,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 6500, minus 105 per level to a minimum of 2750<br />
 *Channeling Time*: 75 moves, minus 3 moves per level to a minimum of 30<br />
-*Effects*: Step into the Nether and re-emerge at a location nearby.  Farstep works through walls and across Z levels.<br />
+*Effects*: Step into the Nether and re-emerge at a location nearby.  Farstep works through walls and across Z levels. The psion may always teleport themselves, and can carry 8L of gear, plus 5L per power level.<br />
 *Prerequisites*: Phase 10, Extended Stride 8 *or* Spacial Vortex 6 <br />
 </details>
 <details>
@@ -1516,7 +1516,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 10000, minus 200 per level to a minimum of 6000<br />
 *Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75. Attunement takes 8 hours, minus 20 minutes per power level of Gateway to a minimum of 30 minutes<br />
-*Effects*: Transport yourself through the Nether to an attuned location. This power works at any distance.  You may have a number of destinations simultaneously equal to 1 + 1 per 3 levels of Gateway (2.5 levels if you have the Good Memory trait, 4 levels if you have the Forgetful trait).  You can always teleport yourself, and can carry 10L of gear, plus 7.5L per power level.<br />
+*Effects*: Transport the psion through the Nether to an attuned location. This power works at any distance.  The psion may have a number of destinations simultaneously equal to 1 + 1 per 3 levels of Gateway (2.5 levels with the Good Memory trait, 4 levels with the Forgetful trait).  The psion may always teleport themselves, and can carry 10L of gear, plus 7.5L per power level.<br />
 *Prerequisites*: Farstep 10, Loci Establishment 6 <br />
 </details>
 <details>
@@ -1527,7 +1527,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 12000, minus 200 per level to a minimum of 8000<br />
 *Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75.<br />
-*Effects*: Transport yourself and every adjacent creature through the Nether to an attuned location. This power works at any distance. This uses locations attuned to via Gateway.<br />
+*Effects*: Transport the psion and every adjacent creature through the Nether to an attuned location. This power works at any distance. This uses locations attuned to via Gateway.<br />
 *Prerequisites*: Gateway 8, Oubliette 2 <br />
 </details>
 <details>
@@ -1538,7 +1538,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 23 seconds to or 1 minute 37 seconds, plus 3.5 to 14 seconds per power level<br />
 *Stamina Cost*: 7500, minus 225 per level to a minimum of 4500<br />
 *Channeling Time*: 75 moves, minus 4 moves per level to a minimum of 25<br />
-*Effects*: Begin constantly warping space and teleporting small distances to increase your combat prowess. This provides the UNCANNY_DODGE flag, adds 1 to hit per 5 power levels, adds 5% melee damage + 3% per power level, adds 1 bonus dodge plus 1 per 4 power levels, adds a flat 15% chance to dodge any attack, adds an additional 10% plus 2.5% per power level chance to dodge ranged attacks, and a -4 penalty to perception.  In addition, there is a 33% chance when attacking or being attacked that the psion will blink to a nearby square.<br />
+*Effects*: Begin constantly warping space and teleporting small distances to increase the psion's combat prowess. This provides the UNCANNY_DODGE flag, adds 1 to hit per 5 power levels, adds 5% melee damage + 3% per power level, adds 1 bonus dodge plus 1 per 4 power levels, adds a flat 15% chance to dodge any attack, adds an additional 10% plus 2.5% per power level chance to dodge ranged attacks, and a -4 penalty to perception.  In addition, there is a 33% chance when attacking or being attacked that the psion will blink to a nearby square.<br />
 *Prerequisites*: Special (must be studied from notes)<br />
 </details>
 <details>
