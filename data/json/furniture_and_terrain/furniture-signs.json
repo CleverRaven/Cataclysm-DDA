@@ -85,8 +85,8 @@
       "items": [ { "item": "pipe", "count": 1 }, { "item": "sheet_metal", "count": 1 }, { "item": "nuts_bolts", "count": [ 4, 8 ] } ]
     },
     "bash": {
-      "str_min": 16,
-      "str_max": 26,
+      "str_min": 10,
+      "str_max": 20,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [ { "item": "scrap", "count": [ 4, 6 ] } ]
