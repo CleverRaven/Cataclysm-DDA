@@ -2449,6 +2449,7 @@ void Character::process_turn()
     } );
 
     suffer();
+    recalc_speed_bonus();
     // NPCs currently don't make any use of their scent, pointless to calculate it
     // TODO: make use of NPC scent.
     if( !is_npc() ) {
