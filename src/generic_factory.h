@@ -449,6 +449,13 @@ class generic_factory
             return list;
         }
         /**
+         * Returns all the loaded objects. It can be used to iterate over them.
+         * Getting modifiable objects should be done sparingly!
+         */
+        std::vector<T> &get_all_mod() {
+            return list;
+        }
+        /**
          * @name `string_id/int_id` interface functions
          *
          * The functions here are supposed to be used by the id classes, they have the
@@ -812,6 +819,19 @@ inline bool handle_proportional( const JsonObject &jo, const std::string_view na
     }
     return false;
 }
+
+//Reads a "proportional" entry
+static float read_proportional_entry( const JsonObject &jo, const std::string_view &key )
+{
+    if( jo.has_float( key ) ) {
+        float scalar = jo.get_float( key );
+        if( scalar == 1 || scalar < 0 ) {
+            jo.throw_error_at( key, "Proportional multiplier must be a positive number other than 1.0" );
+        }
+        return scalar;
+    }
+    return 1.0f;
+};
 
 // Dummy template:
 // Warn when trying to use relative when it's not supported, but otherwise,

@@ -862,6 +862,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
     }
 }
 
+#pragma optimize("", off)
 TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 {
     map &mp = get_map();

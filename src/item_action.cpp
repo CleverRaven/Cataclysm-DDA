@@ -248,7 +248,7 @@ void item_action_generator::check_consistency() const
 {
     for( const auto &elem : item_actions ) {
         const item_action &action = elem.second;
-        if( !item_controller->has_iuse( action.id ) ) {
+        if( !Item_factory::has_iuse( action.id ) ) {
             debugmsg( "Item action \"%s\" isn't known to the game.  Check item action definitions in JSON.",
                       action.id.c_str() );
         }
