@@ -94,7 +94,7 @@
         { "chunks": [ [ "supply_trash", 50 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "chunks": [ [ "supply_generator_active", 30 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] }
       ],
-      "place_monsters": [ { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "density": 0.3 } ]
+      "place_monster": [ { "group": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "repeat": [ 4, 6 ] } ]
     }
   },
   {
