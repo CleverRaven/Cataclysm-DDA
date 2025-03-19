@@ -787,6 +787,13 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "boxed_57_lf",
+    "container-item": "57_ammo_box_50",
+    "items": [ { "item": "57mm_lf", "charges": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "boxed_762x25",
     "container-item": { "item": "357sig_ammo_box_50", "variant": "762x25_ammo_box_50" },
     "items": [ { "item": "762_25", "charges": 50 } ]
@@ -1785,6 +1792,14 @@
   {
     "type": "item_group",
     "subtype": "distribution",
+    "id": "boxed_57_lf_used",
+    "on_overflow": "spill",
+    "container-item": "57_ammo_box_50",
+    "items": [ { "item": "57mm_lf", "charges": 1, "count": [ 25, 75 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
     "id": "boxed_762x25_used",
     "on_overflow": "spill",
     "container-item": { "item": "357sig_ammo_box_50", "variant": "762x25_ammo_box_50" },
@@ -2646,6 +2661,13 @@
     "id": "boxed_57_looted",
     "container-item": "57_ammo_box_50",
     "items": [ { "item": "57mm", "charges": [ 0, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "boxed_57_lf_looted",
+    "container-item": "57_ammo_box_50",
+    "items": [ { "item": "57mm_lf", "charges": [ 0, 10 ] } ]
   },
   {
     "type": "item_group",

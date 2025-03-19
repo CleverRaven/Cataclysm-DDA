@@ -39,6 +39,16 @@
     }
   },
   {
+    "id": "57mm_lf",
+    "copy-from": "57mm",
+    "//": "Civilian ammo. Spawn in gun stores and on civilian carriers.",
+    "type": "AMMO",
+    "name": { "str_sp": "5.7x28mm SS195LF" },
+    "description": "A commercially available cartridge derived from the 5.7x28mm.   It uses a copper-jacketed aluminum core bullet, which significantly hinders its armor piercing capabilities.   It is largely identical to the military version in all other respects.",
+    "material": [ "steel", "brass", "aluminum", "powder" ],
+    "proportional": { "damage": { "damage_type": "bullet", "armor_penetration": 0.4 } }
+  },
+  {
     "id": "bp_57mm",
     "copy-from": "57mm",
     "type": "AMMO",
