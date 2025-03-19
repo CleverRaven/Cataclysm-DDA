@@ -284,6 +284,41 @@ bool itype::is_basic_component() const
     return false;
 }
 
+template<typename T>
+static void apply_optional( T &value, const std::optional<T> &applied )
+{
+    if( applied ) {
+        value = *applied;
+    }
+}
+
+void islot_armor::apply_modifiers()
+{
+    for( armor_portion_data &armor : sub_data ) {
+        apply_optional( armor.avg_thickness, _material_thickness );
+        apply_optional( armor.env_resist, _env_resist );
+        apply_optional( armor.env_resist_w_filter, _env_resist_w_filter );
+        if( all_covers ) {
+            armor.covers = all_covers;
+        }
+
+        // pass down relative and proportional encumbrance
+        if( armor.encumber > 0 ) {
+            armor.encumber += relative_encumbrance;
+            armor.encumber *= proportional_encumbrance;
+
+            armor.encumber = std::max( 0, armor.encumber );
+        }
+
+        if( armor.max_encumber > 0 ) {
+            armor.max_encumber += relative_encumbrance;
+            armor.max_encumber *= proportional_encumbrance;
+
+            armor.max_encumber = std::max( 0, armor.max_encumber );
+        }
+    }
+}
+
 int islot_armor::avg_env_resist() const
 {
     int acc = 0;
@@ -460,4 +495,49 @@ int islot_ammo::dispersion_considering_length( units::length barrel_length ) con
                                   static_cast<float>( b.dispersion_modifier ) );
     }
     return multi_lerp( lerp_points, barrel_length.value() ) + dispersion;
+}
+
+bool item_melee_damage::handle_proportional( const JsonValue &jval )
+{
+    if( jval.test_object() ) {
+        item_melee_damage rhs;
+        rhs.default_value = 1.0f;
+        rhs.deserialize( jval.get_object() );
+        for( const std::pair<const damage_type_id, float> &dt : rhs.damage_map ) {
+            const auto iter = damage_map.find( dt.first );
+            if( iter != rhs.damage_map.end() ) {
+                iter->second *= dt.second;
+                // For maintaining legacy behaviour (when melee damage used ints)
+                iter->second = std::floor( iter->second );
+            }
+        }
+        return true;
+    }
+    jval.throw_error( "invalid damage map for item melee damage" );
+    return false;
+}
+
+item_melee_damage &item_melee_damage::operator+=( const item_melee_damage &rhs )
+{
+    for( const std::pair<const damage_type_id, float> &dt : rhs.damage_map ) {
+        const auto iter = damage_map.find( dt.first );
+        if( iter != rhs.damage_map.end() ) {
+            iter->second += dt.second;
+            // For maintaining legacy behaviour (when melee damage used ints)
+            iter->second = std::floor( iter->second );
+        }
+    }
+    return *this;
+}
+
+void item_melee_damage::finalize()
+{
+    finalize_damage_map( damage_map, false, default_value );
+}
+
+void item_melee_damage::deserialize( const JsonObject &jo )
+{
+    damage_map = load_damage_map( jo );
+    //we can do this because items are always loaded after damage types
+    finalize();
 }

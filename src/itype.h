@@ -147,6 +147,8 @@ struct islot_comestible {
         friend Item_factory;
         friend item;
 
+        bool handle_proportional( const JsonValue &jval );
+        islot_comestible &operator+=( const islot_comestible &rhs );
         bool was_loaded = false;
         void deserialize( const JsonObject &jo );
 
@@ -494,13 +496,20 @@ struct islot_armor {
         // This vector can have duplicates for body parts themselves.
         std::vector<armor_portion_data> sub_data;
 
+        // applies to all armor_portion_data `covers`
+        std::optional<body_part_set> all_covers;
+
         // all of the layers this item is involved in
         std::vector<layer_level> all_layers; // NOLINT(cata-serialize)
 
+        //applies islot_armor global fields to individual armor_portion_data in sub_data
+        void apply_modifiers();
         int avg_env_resist() const;
         int avg_env_resist_w_filter() const;
         float avg_thickness() const;
 
+        bool handle_proportional( const JsonValue &jval );
+        islot_armor &operator+=( const islot_armor &rhs );
         bool was_loaded = false;
         void deserialize( const JsonObject &jo );
 
@@ -509,6 +518,10 @@ struct islot_armor {
         std::optional<float> _material_thickness = 0.0f;
         std::optional<int> _env_resist = 0;
         std::optional<int> _env_resist_w_filter = 0;
+        //encumbrance, for loading relative modifier ONLY
+        float relative_encumbrance = 0.0f;
+        //encumbrance, for relative modifier ONLY
+        float proportional_encumbrance = 1.0f;
 };
 
 struct islot_pet_armor {
@@ -618,6 +631,7 @@ struct islot_book {
 
     bool is_scannable = false;
 
+    islot_book &operator+=( const islot_book &rhs );
     bool was_loaded = false;
     void deserialize( const JsonObject &jo );
 };
@@ -728,6 +742,9 @@ struct itype_variant_data {
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
 struct islot_gun : common_ranged_data {
+
+    bool handle_proportional( const JsonValue &jval );
+    islot_gun &operator+=( const islot_gun &rhs );
     bool was_loaded = false;
     void deserialize( const JsonObject &jo );
     /**
@@ -884,6 +901,9 @@ struct hash<gun_type_type> {
 } // namespace std
 
 struct islot_gunmod : common_ranged_data {
+
+    bool handle_proportional( const JsonValue &jval );
+    islot_gunmod &operator+=( const islot_gunmod &rhs );
     bool was_loaded = false;
     void deserialize( const JsonObject &jo );
 
@@ -1125,6 +1145,9 @@ struct islot_ammo : common_ranged_data {
     bool was_loaded = false;
 
     int dispersion_considering_length( units::length barrel_length ) const;
+
+    bool handle_proportional( const JsonValue &jval );
+    islot_ammo &operator+=( const islot_ammo &rhs );
     void deserialize( const JsonObject &jo );
 };
 
@@ -1224,6 +1247,9 @@ struct conditional_name {
     // Name to apply (i.e. "Luigi lasagne" or "smoked mutant"). Can use %s which will
     // be replaced by the item's normal name and/or preceding conditional names.
     translation name;
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
 };
 
 class islot_milling
@@ -1252,6 +1278,18 @@ struct memory_card_info {
     int recipes_level_max;
     std::set<crafting_category_id> recipes_categories;
     bool secret_recipes;
+
+    bool was_loaded = false;
+    void deserialize( const JsonObject &jo );
+};
+
+struct item_melee_damage {
+    std::unordered_map<damage_type_id, float> damage_map;
+    float default_value = 0.0f;
+    bool handle_proportional( const JsonValue &jval );
+    item_melee_damage &operator+=( const item_melee_damage &rhs );
+    void finalize();
+    void deserialize( const JsonObject &jo );
 };
 
 struct itype {
@@ -1345,7 +1383,6 @@ struct itype {
 
         requirement_id template_requirements;
 
-    protected:
         itype_id id = itype_id::NULL_ID(); /** unique string identifier for this type */
 
     public:
@@ -1523,26 +1560,17 @@ struct itype {
 
     public:
         /** Damage output in melee for zero or more damage types */
-        std::unordered_map<damage_type_id, float> melee;
+        item_melee_damage melee;
 
         bool default_container_sealed = true;
 
         // Should the item explode when lit on fire
         bool explode_in_fire = false;
 
-        // used for generic_factory for copy-from
-        bool was_loaded = false;
-
         // Expand snippets in the description and save the description on the object
         bool expand_snippets = false;
 
     private:
-        // load-only, for applying proportional melee values at load time
-        std::unordered_map<damage_type_id, float> melee_proportional;
-
-        // load-only, for applying relative melee values at load time
-        std::unordered_map<damage_type_id, float> melee_relative;
-
         /** Can item be combined with other identical items? */
         bool stackable_ = false;
 
@@ -1550,8 +1578,12 @@ struct itype {
         static constexpr int damage_scale = 1000; /** Damage scale compared to the old float damage value */
 
         itype() {
-            melee.clear();
         }
+
+        // used for generic_factory for copy-from
+        bool was_loaded = false;
+        void load( const JsonObject &jo, const std::string_view );
+        void load_slots( const JsonObject &jo, bool was_loaded );
 
         int damage_max() const {
             return count_by_charges() ? 0 : damage_max_;
