@@ -2428,11 +2428,11 @@ void Character::process_turn()
     for( const trait_id &mut : get_functioning_mutations() ) {
         mutation_reflex_trigger( mut );
     }
-    //Creature::process_turn() uses speed to perform reset moves, but for Character, speed has not yet been calculated.
+    //Creature::process_turn() uses speed to restore moves, but for Character, speed has not yet been calculated.
     //So Creature::process_turn() cannot be used directly here.
-    //Exposed the content of Creature::process_turn() except reset moves here,
+    //Exposed the content of Creature::process_turn() except restore moves here,
     //and do the reset moves later after recalc_speed_bonus().
-    //The following is the content of Creature::process_turn() except reset moves
+    //The following is the content of Creature::process_turn() except restore moves
     decrement_summon_timer();
     if( is_dead_state() ) {
         return;
