@@ -245,8 +245,6 @@ static const mtype_id mon_drained_captive( "mon_drained_captive" );
 static const mtype_id mon_feral_prisoner( "mon_feral_prisoner" );
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 static const mtype_id mon_human( "mon_human" );
-static const mtype_id mon_mi_go_experiment( "mon_mi_go_experiment" );
-static const mtype_id mon_mi_go_guard_human( "mon_mi_go_guard_human" );
 static const mtype_id mon_pathetic_prisoner( "mon_pathetic_prisoner" );
 static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -329,7 +327,6 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
-static const trait_id trait_MIGO_EXPERIMENT_MINOR( "MIGO_EXPERIMENT_MINOR" );
 static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
@@ -4078,13 +4075,6 @@ void iexamine::migo_cocoon( Character &you, const tripoint_bub_ms &examp )
             prisoner->set_fac( faction_no_faction );
             overmap_buffer.insert_npc( prisoner );
 
-            if( one_in( 3 ) ) {
-                add_msg( m_warning,
-                         _( "The survivor has strange crystalline implants visible under their skin." ) );
-                if( trait_MIGO_EXPERIMENT_MINOR.is_valid() ) {
-                    prisoner->set_mutation( trait_MIGO_EXPERIMENT_MINOR );
-                }
-            }
             add_msg( m_info,
                      _( "They appear to be in shock and covered in some kind of bioluminescent fluid." ) );
             prisoner->add_effect( effect_migo_serum, rng( 10_minutes, 30_minutes ) );
@@ -4094,9 +4084,7 @@ void iexamine::migo_cocoon( Character &you, const tripoint_bub_ms &examp )
 
         std::vector<mtype_id> monster_types = {
             mon_zombie,
-            mon_zombie_brute,
-            mon_mi_go_experiment,
-            mon_mi_go_guard_human
+            mon_zombie_brute
         };
 
         mtype_id mon_type = random_entry( monster_types );
@@ -4106,7 +4094,7 @@ void iexamine::migo_cocoon( Character &you, const tripoint_bub_ms &examp )
     } else if( outcome <= 90 ) { // 15% corpse
         add_msg( m_neutral, _( "You find a partially dissected human corpse inside the cocoon." ) );
 
-        item body = item::make_corpse( mon_human, calendar::turn, "Human Victim" );
+        item body = item::make_corpse( mon_human, calendar::turn, "human victim" );
         here.add_item_or_charges( examp, body );
 
         if( one_in( 3 ) ) {
@@ -4129,6 +4117,7 @@ void iexamine::migo_cocoon( Character &you, const tripoint_bub_ms &examp )
 
     you.mod_moves( -to_moves<int>( 20_seconds ) );
 }
+
 void iexamine::fvat_full( Character &you, const tripoint_bub_ms &examp )
 {
     map &here = get_map();
