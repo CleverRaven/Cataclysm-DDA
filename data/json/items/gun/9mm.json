@@ -1389,5 +1389,39 @@
       }
     ],
     "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "p365",
+    "//": "Based off of https://www.sigsauer.com/p365-xl.html",
+    "copy-from": "pistol_base",
+    "looks_like": "glock_17",
+    "type": "GUN",
+    "name": { "str": "P365 handgun" },
+    "description": "A 9mm conceal carry pistol.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "p365",
+        "name": { "str": "SIG P365" },
+        "description": "The SIG P365 is a modern compact 9mm pistol made by SIG.  Even though SIG promises to offer a lifetime warranty, you suspect that isn't true anymore."
+      }
+    ],
+    "weight": "588 g",
+    "volume": "293 ml",
+    "longest_side": "208 mm",
+    "barrel_length": "94 mm",
+    "price": "679 USD 99 cent",
+    "price_postapoc": "15 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "clumsy" },
+    "material": [ "steel", "plastic" ],
+    "color": "brown",
+    "ammo": [ "9mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
+    "dispersion": 300,
+    "durability": 8,
+    "min_cycle_recoil": 380,
+    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "mechanism", 2 ], [ "sights", 1 ], [ "stock mount", 1 ] ],
+    "pocket_data": [ { "magazine_well": "66 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p365_mag" ] } ],
+    "melee_damage": { "bash": 6 }
   }
 ]

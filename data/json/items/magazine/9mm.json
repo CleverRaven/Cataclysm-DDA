@@ -1529,5 +1529,23 @@
     "mag_jam_mult": 2,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 50 } } ]
+  },
+  {
+    "id": "p365_mag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "P365 10-round magazine" },
+    "description": "A compact, steel magazine for use in the P365.",
+    "weight": "50 g",
+    "volume": "68 ml",
+    "longest_side": "85 mm",
+    "price": "49 USD 99 cent",
+    "price_postapoc": "1 USD",
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "9mm" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ]
   }
 ]

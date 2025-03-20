@@ -20,6 +20,8 @@
         "south": "road_to_road",
         "connections": { "north": { "connection": "local_road" } }
       },
+      "fema_bus_east": { "overmap": "fema_bus_east", "east": "road_to_road" },
+      "fema_bus_west": { "overmap": "fema_bus_west", "west": "road_to_road" },
       "road_straight": {
         "overmap": "fema_road_ns",
         "north": "road_to_road",
@@ -86,6 +88,20 @@
     },
     "root": "fema_entrance",
     "phases": [
+      [
+        {
+          "name": "entrance_shaft_tunnels_start",
+          "chunk": [
+            { "overmap": "road_cross", "pos": [ 0, 1, 0 ] },
+            { "overmap": "road_cross", "pos": [ 0, 2, 0 ] },
+            { "overmap": "fema_bus_east", "pos": [ -1, 1, 0 ] },
+            { "overmap": "fema_bus_west", "pos": [ 1, 1, 0 ] },
+            { "overmap": "fema_bus_east", "pos": [ -1, 2, 0 ] },
+            { "overmap": "fema_bus_west", "pos": [ 1, 2, 0 ] }
+          ],
+          "max": 1
+        }
+      ],
       [ { "overmap": "road_straight", "max": { "poisson": 8 } } ],
       [ { "overmap": "road_cross", "max": 1 } ],
       [ { "overmap": "road_straight", "max": { "poisson": 8 } } ],
