@@ -8712,6 +8712,7 @@ void pulp_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "too_long_to_pulp", too_long_to_pulp );
     jsout.member( "too_long_to_pulp_interrupted", too_long_to_pulp_interrupted );
     jsout.member( "way_too_long_to_pulp", way_too_long_to_pulp );
+    jsout.member( "acid_corpse", acid_corpse );
     jsout.member( "stomps_only", pd.stomps_only );
     jsout.member( "weapon_only", pd.weapon_only );
     jsout.member( "can_cut_precisely", pd.can_cut_precisely );
@@ -8740,6 +8741,7 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
     data.read( "too_long_to_pulp", actor.too_long_to_pulp );
     data.read( "too_long_to_pulp_interrupted", actor.too_long_to_pulp_interrupted );
     data.read( "way_too_long_to_pulp", actor.way_too_long_to_pulp );
+    data.read( "acid_corpse", actor.acid_corpse );
     data.read( "stomps_only", actor.pd.stomps_only );
     data.read( "weapon_only", actor.pd.weapon_only );
     data.read( "can_cut_precisely", actor.pd.can_cut_precisely );
