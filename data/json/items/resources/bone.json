@@ -20,7 +20,7 @@
     "vitamins": [ [ "calcium", "25588 mg" ], [ "meat_allergen", 1 ] ],
     "melee_damage": { "bash": 3 },
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
-    "flags": [ "RAW", "INEDIBLE", "LUPINE" ]
+    "flags": [ "RAW", "INEDIBLE", "LUPINE", "NO_TEMP" ]
   },
   {
     "type": "COMESTIBLE",
@@ -42,7 +42,7 @@
     "melee_damage": { "bash": 15 },
     "calories": 10436,
     "vitamins": [ [ "calcium", "1561750 mg" ], [ "meat_allergen", 1 ] ],
-    "flags": [ "RAW", "INEDIBLE" ]
+    "flags": [ "RAW", "INEDIBLE", "NO_TEMP" ]
   },
   {
     "type": "COMESTIBLE",
@@ -89,7 +89,7 @@
     "vitamins": [ [ "calcium", "5294 mg" ], [ "meat_allergen", 1 ] ],
     "material": [ "powder" ],
     "volume": "125 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "NO_TEMP" ],
     "fun": -10
   },
   {
