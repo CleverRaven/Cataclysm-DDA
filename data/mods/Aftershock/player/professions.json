@@ -139,12 +139,12 @@
       { "level": 4, "name": "survival" }
     ],
     "traits": [ "STR_UP_3", "UPLIFTED", "THRESH_URSINE", "URSINE_FUR", "CANNIBAL", "HUGE_OK" ],
-    "//": "replace esapi armor with an XL environmentally controlled armor once those exist",
     "items": {
       "both": {
         "entries": [
           { "item": "xlboots_combat" },
           { "item": "xlgloves_tactical" },
+          { "item": "afs_combat_cryo_xl" },
           { "item": "wristwatch" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sheath", "contents-item": "kukri" },
@@ -154,7 +154,7 @@
             "charges": 30,
             "contents-item": [ "shoulder_strap", "acog_scope" ]
           },
-          { "item": "xlballistic_vest_esapi" },
+          { "item": "afs_military_vestxl" },
           { "item": "xlpolice_belt" },
           { "item": "legpouch_large", "contents-group": "afs_UICASTA30" }
         ]
@@ -412,8 +412,8 @@
           { "item": "xlswat_armor" },
           { "item": "xlboots_combat" },
           { "item": "xlgloves_tactical" },
-          { "item": "badge_swat" },
           { "item": "wristwatch" },
+          { "item": "afs_ilbe" },
           { "group": "army_mags_usp9" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
