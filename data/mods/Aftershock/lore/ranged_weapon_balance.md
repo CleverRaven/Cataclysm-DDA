@@ -109,7 +109,7 @@ The current ballistic ammo calibres currently exist in the mod:
 | 00 shot    | 12 g buckshot  |            9x15   |             0 | Deals with lightly armored foes at a disadvantage and deals little to no damage to medium armor. Many specialty variants. |
 | 10mm       | 10mm JHP       |              31   |             0 | Deals with lightly armored foes at a disadvantage and deals little to no damage to medium armor.                          |
 | 7.5mm      | 7.5mm caseless |              40   |            15 | Cleanly defeats light armor, deals with medium armor at a disadvantage and deals little to no heavy to medium armor.      |
-| 25mm       | 25mm ball      |              60   |            30 | Cleanly defeats medium armor, deals with heavy armor at a strong disadvantage.                                            |
+| 25mm       | 25mm ball      |              80   |            30 | Cleanly defeats medium armor, deals with heavy armor at a strong disadvantage.                                            |
 | 3x35mm     | GG Stinger     |               8   |            30 | Cleanly defeats medium armor, deals very low damage. Default ammo is considered the AP variant.                           |
 | Rail Rod   | Steel rail     |              90   |            40 | Cleanly defeats heavy armor, deals with vehicle armor at a  disadvantage.                                                 |
 
