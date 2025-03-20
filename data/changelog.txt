@@ -1071,6 +1071,7 @@ Isolation Protocol: Office Levels
 [Xedra Evolved] Add Dreamsparks as fuel for seasonal glamours
 [MoM] Project TURQUOISE KEYSTONE
 [ Aftershock:Exoplanet ] Autotravel works on Salus IV now
+[Isolation Protocol] Add the Last Scion class
 
 
 ## Balance:
@@ -1661,6 +1662,7 @@ Fixes #79841
 Remove riot damage from gunstores
 Audit of Wood panel from Beam and Sheet to replace Byproduct with Result Multi
 Fix 0.5 L I1 Diesel engine not consuming fuel
+'None'-skill crafting counts as max level, not level 0
 
 
 ## Performance:
