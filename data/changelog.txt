@@ -208,7 +208,6 @@ Improve blood placement on Riot Damage
 Minor Riot Damage Tweaks
 Refactor the pulping
 Makes sound effects play in slow motion while the player has slowed down time
-Reduce the dog suit drop rate
 Add ``character_takeoff_item`` event
 
 
@@ -455,16 +454,8 @@ Added a new 2x1 house
 More types of monster spawn in basements
 Most toilets now have toilet supplies
 Add 2 new social practice recipes
-Ammo spawns in boxes
-A new baseball bat modification and reduced the damage of the steel chain
-Glasses and sunglasses have variants
-Add New England flag
 FEMA camps are now mutables
-Cars have a bigger variance of items in them
-Merge 2 new social practice recipes with old ones
-New gun (460XVR) and new ammo (460 S&W Magnum)
 Added a new fast food restaurant with drive-through
-Reloads for .460 S&W
 
 
 ## Interface:
@@ -1079,20 +1070,7 @@ Isolation Protocol: Office Levels
 [MoM] Give feral teleporters Warped Strikes
 [Xedra Evolved] Add Dreamsparks as fuel for seasonal glamours
 [MoM] Project TURQUOISE KEYSTONE
-[MoM] Rework Combat Dance
-Aftershock: Damage Rebalance IV (update monster hp and armor values)
-[Xedra Evolved] Finish Imbuement of the Flames
-[MoM] Displacement (and Reactive Displacement) now has a volume limit
-Adds a few items to Crazy Cata
-[MoM] Gateway now has a volume limit
-Adds firearm related stuff to Crazy Cata
-Aftershock: Rebalance combat androids
-[MoM] Person is immune to psionics
-[MoM] Add extra mutation to Alpha to make awakening new paths easier
-While driving a player could not autotravel/autodrive anywhere in Aftershock: Exoplanet because the travel_cost_type for the ice fields, which replaces the generic outdoor area/fields used by many other map tiles, map tile was not defined.
-[Xedra Evolved] Keep adding more seasonal glamours
-Removal of Most Mod Locations on Smartguns and makes Slings Usable on Smartguns
-[Xedra Evolved] Add Breeze-Cutting Blows trait/spell for Sylphs
+[ Aftershock:Exoplanet ] Autotravel works on Salus IV now
 
 
 ## Balance:
@@ -1682,19 +1660,7 @@ Fix garter belt description duplication
 Fixes #79841
 Remove riot damage from gunstores
 Audit of Wood panel from Beam and Sheet to replace Byproduct with Result Multi
-Add missing ammos to item_demographics
-Fixes crash when exiting out of wield dialogue
 Fix 0.5 L I1 Diesel engine not consuming fuel
-Segfault when adding gunmod
-Fix #79948, NVGs not working in flight_helmet
-[Aftershock] Fix Telepathic Shield Id
-[Xedra Evolved] The Exodii hate people who literally hunted them for parts
-Allow negative float values in external options
-Houses spawn more clothes
-Add non-brand names for exodii mags
-Move sword bayonet from cutting to piercing crafting submenu
-[Magiclysm] Fix Stormglove enchant
-Smart watch having camera, but lacking file storage.
 
 
 ## Performance:
@@ -1737,8 +1703,6 @@ Vehicles are slightly more efficient
 vision_transparency_cache isn't rebuilt if transparency_cache_dirty isn't set
 AIM cache filter function once
 Cache item info, reducing time of crafting filter `d:` to ~32%
-Speed up big zone construction of `Turn forest floor into dirt` by 266% (from 96s to 36s)
-speed up `d:` filter by ~2s or ~10%
 
 
 ## Infrastructure:
