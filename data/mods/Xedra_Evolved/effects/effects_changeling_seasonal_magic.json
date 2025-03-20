@@ -13,7 +13,6 @@
     "desc": [ "A sweet scent fills the air." ],
     "remove_message": "The scent of flowers fades away.",
     "enchantments": [
-      { "mutations": [ "ARVORE_MOSS", "BARK" ] },
       {
         "values": [
           {
@@ -302,7 +301,7 @@
     "name": [ "Witch's Warning" ],
     "desc": [ "You can sense nearby uses of magick." ],
     "apply_message": "",
-    "remove_message": "Your awareness of sorcerers.",
+    "remove_message": "Your awareness of sorcerers fades away.",
     "rating": "good",
     "enchantments": [
       {
@@ -311,7 +310,11 @@
             "condition": {
               "or": [ { "npc_has_flag": "MAGIC_USER" }, { "and": [ "npc_is_character", { "math": [ "n_spell_count() >= 6" ] } ] } ]
             },
-            "distance": { "math": [ "( u_spell_level('animist_detect_wizards') * 2) + 3" ] },
+            "distance": {
+              "math": [
+                "min( ( 3 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_AUTUMN') * 0.2) + (u_skill('deduction') * 0.5)), 25)"
+              ]
+            },
             "descriptions": [ { "id": "fae_sense", "symbol": "?", "color": "cyan", "text": "You sense a sorcerer here." } ]
           }
         ]

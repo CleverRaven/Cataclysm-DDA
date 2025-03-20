@@ -63,10 +63,10 @@
           },
           "then": [
             {
-              "u_spawn_monster": "mon_fetch_daffodil_warrior",
+              "u_spawn_monster": "mon_fetch_daffodil_warrior_player",
               "real_count": {
                 "math": [
-                  "min( ( ( 1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.1) + (u_skill('deduction') * 0.3) ) ), 8)"
+                  "min( ( ( 1 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SPRING') * 0.1) + (u_skill('deduction') * 0.3) ) ), 16)"
                 ]
               },
               "min_radius": 1,
@@ -193,12 +193,13 @@
       {
         "if": { "math": [ "u_weather_change_limit == 3" ] },
         "then": [
-          { "u_message": "You unweave the glamour controlling the weather", "type": "good" },
+          { "u_message": "You unweave the glamour controlling the weather.", "type": "good" },
           { "math": [ "u_weather_change_limit = 0" ] },
           { "u_lose_effect": [ "effect_controlling_weather", "effect_controlling_weather_lightningstorm" ] }
         ],
         "else": [
           { "u_lose_effect": "effect_controlling_weather" },
+          { "u_message": "You spin some glamour into the skies.", "type": "good" },
           { "math": [ "u_weather_change_limit = 3" ] },
           { "math": [ "u_weather_stage_up_lower_bound = 45 / selkie_has_weather_mastery()" ] },
           { "math": [ "u_weather_stage_up_upper_bound = 150 / selkie_has_weather_mastery()" ] },

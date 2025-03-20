@@ -80,7 +80,7 @@
     "type": "SPELL",
     "name": "Witch's Warning",
     "description": "Weaving this glamour will allow you to sense the presence of nearby sorcerers.  The glamour has <color_yellow>reduced duration</color> in spring.",
-    "message": "A pleasant scent fills the air",
+    "message": "You mutter a charm under your breath and open your senses up to nearby enchanters.",
     "flags": [ "VERBAL", "NO_HANDS", "RANDOM_DURATION", "NO_LEGS" ],
     "magic_type": "xe_fey_seasonal_magick_autumn",
     "spell_class": "CHANGELING_SEASONAL_MAGIC_AUTUMN",
