@@ -1701,6 +1701,10 @@
     "type": "json_flag"
   },
   {
+    "id": "NO_TEMP",
+    "type": "json_flag"
+  },
+  {
     "id": "NO_TURRET",
     "type": "json_flag",
     "//": "This flag should only be applied to GUN definitions, it will prevent generation of a turret vehicle part for the gun.  This blocks fake guns, or player unobtainable ones from appearing in turret list."
