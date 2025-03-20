@@ -56,6 +56,17 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "fema_bus",
+    "vision_levels": "large_pavement",
+    "name": "FEMA camp bus stop",
+    "sym": "B",
+    "color": "dark_gray",
+    "see_cost": "medium",
+    "spawns": { "group": "GROUP_VANILLA_DORMANT", "population": [ 6, 16 ], "chance": 100 },
+    "flags": [ "RISK_EXTREME", "PP_GENERATE_RIOT_DAMAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "shelter_abstract",
     "sym": "+",
     "color": "white",

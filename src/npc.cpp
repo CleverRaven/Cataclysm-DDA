@@ -1517,8 +1517,13 @@ void npc::stow_item( item &it )
 
 bool npc::wield( item &it )
 {
+    // dont unwield if you already wield the item
     if( is_wielding( it ) ) {
         return true;
+    }
+    // instead of unwield(), call stow_item, allowing to wear it and check it is not inside wielded itm
+    if( has_wield_conflicts( it ) && !get_wielded_item()->has_item( it ) ) {
+        stow_item( *get_wielded_item() );
     }
     if( !Character::wield( it ) ) {
         return false;

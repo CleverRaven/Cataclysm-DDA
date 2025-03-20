@@ -569,5 +569,17 @@
     "speed": 85,
     "description": "A maddened and crazed police officer infected by the fungus.  Their body armor is overgrown with fungal matter.  Though obviously in pain they don't seem any less keen to batter you to death with their baton.",
     "extend": { "flags": [ "NO_FUNG_DMG" ], "species": [ "FUNGUS" ] }
+  },
+  {
+    "id": "mon_feral_prisoner",
+    "type": "MONSTER",
+    "name": { "str": "feral prisoner" },
+    "description": "This frenzied prisoner has somehow avoided turning into one of the undead thus far, though seeing how zombies seem to ignore this shiv-wielding, blood-stained maniac, they are likely not far off from that fate.",
+    "copy-from": "mon_feral_human_pipe",
+    "melee_skill": 5,
+    "dodge": 3,
+    "death_drops": "feral_prisoner_death_drops",
+    "special_attacks": [ { "id": "feral_weapon_shiv" } ],
+    "zombify_into": "mon_zombie_prisoner"
   }
 ]

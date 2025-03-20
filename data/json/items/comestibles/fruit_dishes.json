@@ -159,7 +159,7 @@
     "material": [ "powder", "fruit" ],
     "primary_material": "powder",
     "volume": "25 ml",
-    "flags": [ "EDIBLE_FROZEN", "SOFT" ],
+    "flags": [ "EDIBLE_FROZEN", "SOFT", "WATER_DISSOLVE" ],
     "vitamins": [ [ "vitC", 7 ], [ "fruit_allergen", 1 ] ],
     "fun": 1
   },

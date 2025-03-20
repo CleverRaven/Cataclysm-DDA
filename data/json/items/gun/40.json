@@ -43,7 +43,13 @@
       "fault_stovepipe",
       "fault_double_feed"
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "glock40mag", "glock40bigmag" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "250 ml",
+        "item_restriction": [ "glock40mag_10", "glock40mag", "glock40bigmag" ]
+      }
+    ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -67,7 +73,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 504,
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "px4_40mag" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "px4_40mag_10", "px4_40mag" ] } ],
     "melee_damage": { "bash": 8 }
   },
   {

@@ -74,7 +74,7 @@
       {
         "magazine_well": "99 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "glock_29mag", "glock_20mag", "tdi_10mm_mag" ]
+        "item_restriction": [ "glock_20mag_10", "glock_29mag", "glock_20mag", "tdi_10mm_mag" ]
       }
     ],
     "melee_damage": { "bash": 6 }
@@ -109,7 +109,13 @@
     "durability": 8,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 570,
-    "pocket_data": [ { "magazine_well": "103 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ] } ],
+    "pocket_data": [
+      {
+        "magazine_well": "103 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "glock_20mag_10", "glock_20mag", "tdi_10mm_mag" ]
+      }
+    ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -321,6 +327,12 @@
     "ammo": [ "10mm" ],
     "min_cycle_recoil": 675,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "103 ml", "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ] } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "103 ml",
+        "item_restriction": [ "glock_20mag_10", "glock_20mag", "tdi_10mm_mag" ]
+      }
+    ]
   }
 ]

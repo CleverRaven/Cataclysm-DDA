@@ -2430,6 +2430,11 @@ bool map::passable( const tripoint_bub_ms &p ) const
     return move_cost( p ) != 0;
 }
 
+bool map::passable_through( const tripoint_bub_ms &p ) const
+{
+    return passable( p ) && has_floor_or_support( p );
+}
+
 bool map::passable_skip_fields( const tripoint_bub_ms &p ) const
 {
     return move_cost( p, static_cast<const vehicle *>( nullptr ), true ) != 0;

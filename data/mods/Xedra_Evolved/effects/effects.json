@@ -2017,6 +2017,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_hedge_magic_luck_spell",
+    "name": [ "Step of Gad" ],
+    "desc": [ "Your foot seems to keep finding just the right place to step." ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 0.5 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_hedge_no_nightmares",
     "//": "Empty to hide effect",
     "name": [ "" ],

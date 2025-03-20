@@ -67,5 +67,29 @@
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 2, 4 ] }, { "item": "splinter", "count": 2 } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sign_stop",
+    "name": "stop sign",
+    "symbol": "P",
+    "description": "An octagonal red sign on a long metal pole, marked with the word STOP.",
+    "color": "dark_gray",
+    "examine_action": "sign",
+    "move_cost_mod": 1,
+    "coverage": 10,
+    "rotates_to": "PAVEMENT",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NO_SELF_CONNECT" ],
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 1 }, { "item": "sheet_metal", "count": 1 }, { "item": "nuts_bolts", "count": [ 4, 8 ] } ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 4, 6 ] } ]
+    }
   }
 ]

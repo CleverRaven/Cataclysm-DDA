@@ -431,7 +431,7 @@ bool npc::sees_dangerous_field( const tripoint_bub_ms &p ) const
 bool npc::could_move_onto( const tripoint_bub_ms &p ) const
 {
     map &here = get_map();
-    if( !here.passable( p ) ) {
+    if( !here.passable_through( p ) ) {
         return false;
     }
 
@@ -2930,8 +2930,8 @@ bool npc::can_move_to( const tripoint_bub_ms &p, bool no_bashing ) const
     // Doors are not passable for hallucinations
     return( rl_dist( pos_bub(), p ) <= 1 && here.has_floor_or_water( p ) &&
             !g->is_dangerous_tile( p ) &&
-            ( here.passable( p ) || ( can_open_door( p, !here.is_outside( pos_bub() ) ) &&
-                                      !is_hallucination() ) ||
+            ( here.passable_through( p ) || ( can_open_door( p, !here.is_outside( pos_bub() ) ) &&
+                    !is_hallucination() ) ||
               ( !no_bashing && here.bash_rating( smash_ability(), p ) > 0 ) )
           );
 }
@@ -3085,7 +3085,7 @@ void npc::move_to( const tripoint_bub_ms &pt, bool no_bashing, std::set<tripoint
                attitude_to( player_character ) == Attitude::HOSTILE ) {
         attack_air( p );
         move_pause();
-    } else if( here.passable( p ) && !here.has_flag( ter_furn_flag::TFLAG_DOOR, p ) ) {
+    } else if( here.passable_through( p ) && !here.has_flag( ter_furn_flag::TFLAG_DOOR, p ) ) {
         bool diag = trigdist && pos.x() != p.x() && pos.y() != p.y();
         if( is_mounted() ) {
             const double base_moves = run_cost( here.combined_movecost( pos, p ),
@@ -3458,7 +3458,7 @@ static std::optional<tripoint_bub_ms> nearest_passable( const tripoint_bub_ms &p
         const tripoint_bub_ms &closest_to )
 {
     map &here = get_map();
-    if( here.passable( p ) ) {
+    if( here.passable_through( p ) ) {
         return p;
     }
 
@@ -3471,7 +3471,7 @@ static std::optional<tripoint_bub_ms> nearest_passable( const tripoint_bub_ms &p
     } );
     auto iter = std::find_if( candidates.begin(), candidates.end(),
     [&here]( const tripoint_bub_ms & pt ) {
-        return here.passable( pt );
+        return here.passable_through( pt );
     } );
     if( iter != candidates.end() ) {
         return *iter;
@@ -5052,10 +5052,10 @@ void npc::go_to_omt_destination()
     }
     tripoint_bub_ms sm_tri = here.get_bub( project_to<coords::ms>( omt_path.back() ) );
     tripoint_bub_ms centre_sub = sm_tri + point( SEEX, SEEY );
-    if( !here.passable( centre_sub ) ) {
+    if( !here.passable_through( centre_sub ) ) {
         auto candidates = here.points_in_radius( centre_sub, 2 );
         for( const tripoint_bub_ms &elem : candidates ) {
-            if( here.passable( elem ) ) {
+            if( here.passable_through( elem ) ) {
                 centre_sub = elem;
                 break;
             }
