@@ -209,7 +209,6 @@ Minor Riot Damage Tweaks
 Refactor the pulping
 Makes sound effects play in slow motion while the player has slowed down time
 Add ``character_takeoff_item`` event
-Updates snow shovel, metal rake deconstruction recipe
 
 
 ## Content:
@@ -457,7 +456,6 @@ Most toilets now have toilet supplies
 Add 2 new social practice recipes
 FEMA camps are now mutables
 Added a new fast food restaurant with drive-through
-Add simple syrup/corn syrup
 
 
 ## Interface:
@@ -1073,11 +1071,7 @@ Isolation Protocol: Office Levels
 [Xedra Evolved] Add Dreamsparks as fuel for seasonal glamours
 [MoM] Project TURQUOISE KEYSTONE
 [ Aftershock:Exoplanet ] Autotravel works on Salus IV now
-[Mods] Adapt for new `character_takeoff_item` event
-Isolation Protocol: XEDRA remediator >> Rework of  officer class
 [Isolation Protocol] Add the Last Scion class
-[MoM] Allow Force Shove to hurl the target in different directions
-[MoM] Further telekinetic throwing elements
 
 
 ## Balance:
@@ -1668,22 +1662,7 @@ Fixes #79841
 Remove riot damage from gunstores
 Audit of Wood panel from Beam and Sheet to replace Byproduct with Result Multi
 Fix 0.5 L I1 Diesel engine not consuming fuel
-Helicopters can fly through open air on z-level 0 and below
 'None'-skill crafting counts as max level, not level 0
-Reduce zombie spawn in prepper house
-Prevent advanced item management move count by charge item  into nested pocket.
-Spreading dogbane is now harvestable
-Add TOUGH_FEET to Rabbit Feet Mutation
-Fix aim query charges not considering pocket limitations
-Materials do not guide comestible being edible. Expect to be able to eat some stuff you should not be able to.
-Fixed a spelling error within design-balance.md
-[MoM] Items with bionic power aren't part of the Electron Overflow count
-[MoM] Fix Electron Overflow description
-fix crash on wielding nullitem
-Fix Motorcycle jacket
-Fix propane lanterns not consuming propane
-Change chance of unlooted back storage
-Spices, sugar, salt, lemonade mixes
 
 
 ## Performance:
@@ -1890,9 +1869,6 @@ Uncanny Dodge Logic Update
 Make AIM actions testable
 generic factory: islot_ammo, islot_bionic, islot_magazine; general islot cleanup
 generic_factory: islot_mod, islot_gunmod, islot_tool
-A new dialogue function to level entire spell classes
-Extend CANNOT_ATTACK and CANNOT_MOVE flags to NPCs
-Allow spells to target vehicles
 
 ## Build:
 Support Mac arm64 build
