@@ -818,7 +818,7 @@
     }
   },
   {
-    "type": "furniture"
+    "type": "furniture",
     "id": "f_migo_cocoon_open",
     "name": "opened mi-go stasis cocoon",
     "description": "A strange organic pod that has been torn open.  Slimy residue covers the edges.  The surface has a slimy, almost translucent quality.",
