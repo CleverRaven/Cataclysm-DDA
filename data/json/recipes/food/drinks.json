@@ -185,7 +185,7 @@
     "flags": [ "BLIND_HARD" ],
     "components": [ 
 	[ [ "water", 1 ], [ "water_clean", 1 ] ],
-	[ [ "cocoa_powder", 2, ] ] ]
+	[ [ "cocoa_powder", 2 ] ] ]
   },
   {
     "type": "recipe",
