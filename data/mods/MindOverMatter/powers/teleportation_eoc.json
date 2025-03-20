@@ -6,7 +6,7 @@
       { "math": [ "u_teleport_total_carried_volume = 0" ] },
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "condition": { "math": [ "n_volume() > 0" ] } } ],
+        "search_data": [ { "condition": { "math": [ "n_volume() > 0" ] }, "excluded_flags": [ "PSEUDO", "INTEGRATED" ] } ],
         "true_eocs": [
           {
             "id": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER_ADD_VOLUME",
