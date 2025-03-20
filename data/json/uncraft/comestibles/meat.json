@@ -4,7 +4,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "27 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "bone", 61 ] ] ]
   }
 ]
