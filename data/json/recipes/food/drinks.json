@@ -200,10 +200,10 @@
     "components": [
 	[ "milk_standard_raw", 1, "LIST" ],
 	[ "lf_milk_standard", 1, "LIST" ],	
-	[ [ "cocoa_powder", 1, ] ]
+	[ [ "cocoa_powder", 1 ] ]
 	[
 	[ [  "water", 1 ], [ "water_clean", 1 ] ]
-	[ [ "cocoa_powder_milk", 2, ] ]
+	[ [ "cocoa_powder_milk", 2 ] ]
   },  
   {
     "type": "recipe",
