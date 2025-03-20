@@ -209,7 +209,7 @@
   {
     "id": "afs_combat_cryo_on_xl",
     "type": "ARMOR",
-    "name": { "str": "combat cryo suit (on)" },
+    "name": { "str": "combat cryo suit (on)", "str_pl": "combat cryo suits (on)" },
     "copy-from": "afs_combat_cryo_on",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
