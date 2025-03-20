@@ -8529,9 +8529,14 @@ bool pulp_activity_actor::punch_corpse_once( item &corpse, Character &you,
         return false;
     }
 
+    if( !g->can_pulp_acid_corpse( you, *corpse_mtype ) ) {
+        acid_corpse = true;
+        return false;
+    }
+
     pd = g->calculate_pulpability( you, *corpse_mtype, pd );
 
-    if( !g->can_pulp_corpse( you, *corpse_mtype, pd ) ) {
+    if( !g->can_pulp_corpse( pd ) ) {
         way_too_long_to_pulp = true;
         return false;
     }
@@ -8607,6 +8612,12 @@ void pulp_activity_actor::finish( player_activity &act, Character &you )
 
 void pulp_activity_actor::send_final_message( Character &you ) const
 {
+
+    if( acid_corpse ) {
+        you.add_msg_if_player( m_bad,
+                               _( "You cannot pulp this corpse since it's filled with acid, and you have no protection against it." ) );
+        return;
+    }
 
     if( way_too_long_to_pulp && num_corpses == 0 ) {
         you.add_msg_player_or_npc( n_gettext(
