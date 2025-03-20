@@ -208,6 +208,7 @@ Improve blood placement on Riot Damage
 Minor Riot Damage Tweaks
 Refactor the pulping
 Makes sound effects play in slow motion while the player has slowed down time
+Add ``character_takeoff_item`` event
 
 
 ## Content:
@@ -453,6 +454,8 @@ Added a new 2x1 house
 More types of monster spawn in basements
 Most toilets now have toilet supplies
 Add 2 new social practice recipes
+FEMA camps are now mutables
+Added a new fast food restaurant with drive-through
 
 
 ## Interface:
@@ -611,6 +614,7 @@ Add options to sort item list by item name
 Dont show liquids from held or worn container
 Don't hardcode help text: Autopickup Manager
 Move camp-specific recipes to their own category
+Debug option to view used palette symbols
 
 
 ## Mods:
@@ -1066,6 +1070,7 @@ Isolation Protocol: Office Levels
 [MoM] Give feral teleporters Warped Strikes
 [Xedra Evolved] Add Dreamsparks as fuel for seasonal glamours
 [MoM] Project TURQUOISE KEYSTONE
+[ Aftershock:Exoplanet ] Autotravel works on Salus IV now
 
 
 ## Balance:
@@ -1206,6 +1211,7 @@ Mutating with an installed bionic that conflicts results in damage
 Removed morale penalties and rare drops from dismemberment
 `Uncaring` characters can socialize with NPCs but they don't like it
 Triffid flesh is no longer safe to eat
+Milspec searchlights don't explode, now drop broken version
 
 
 ## Bugfixes:
@@ -1654,6 +1660,7 @@ Fix garter belt description duplication
 Fixes #79841
 Remove riot damage from gunstores
 Audit of Wood panel from Beam and Sheet to replace Byproduct with Result Multi
+Fix 0.5 L I1 Diesel engine not consuming fuel
 
 
 ## Performance:
@@ -1854,6 +1861,12 @@ generic factory supports damage_instance and islot_gun
 Reworked the trash itemgroups
 Refactor wield
 EOCs for vehicles
+Introduces 'light_multiplier' weather_type.json property
+generic factory bound_reader
+Uncanny Dodge Logic Update
+Make AIM actions testable
+generic factory: islot_ammo, islot_bionic, islot_magazine; general islot cleanup
+generic_factory: islot_mod, islot_gunmod, islot_tool
 
 ## Build:
 Support Mac arm64 build
