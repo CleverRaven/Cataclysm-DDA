@@ -4338,7 +4338,7 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                              max_radius ),
                              0 );
                 if( ( !outdoor_only || here.is_outside( here.get_bub( target_pos ) ) ) &&
-                    ( !passable_only || here.passable( here.get_bub( target_pos ) ) ) &&
+                    ( !passable_only || here.passable_through( here.get_bub( target_pos ) ) ) &&
                     rl_dist( target_pos, talker_pos ) >= min_radius ) {
                     found = true;
                     break;

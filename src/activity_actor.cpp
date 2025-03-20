@@ -7786,7 +7786,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
 
                 // get either direct route or route to nearest adjacent tile if
                 // source tile is impassable
-                if( here.passable( src_loc ) ) {
+                if( here.passable_through( src_loc ) ) {
                     route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
                                         you.get_path_avoid() );
                 } else {

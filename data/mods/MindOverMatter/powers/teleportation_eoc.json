@@ -18,6 +18,40 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_BLINK_INITIATE",
+    "condition": {
+      "and": [
+        { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } },
+        { "not": { "u_has_flag": "DIMENSIONAL_ANCHOR" } },
+        { "not": { "u_has_flag": "TELEPORT_LOCK" } }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
+      {
+        "if": {
+          "math": [
+            "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_blink') * 3500 ) + 5000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+          ]
+        },
+        "then": [
+          {
+            "u_cast_spell": { "id": "teleport_blink_real", "min_level": { "math": [ "u_spell_level('teleport_blink')" ] }, "hit_self": true }
+          },
+          { "u_message": "You vanish and reappear nearby.", "type": "neutral" }
+        ],
+        "else": [
+          {
+            "u_message": "You attempt to teleport to somewhere nearby, but your skin merely tingles and nothing happens.  You're carrying too much..",
+            "type": "bad"
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You feel a strange, inward force.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEPORT_ITEM_APPORT",
     "effect": [
       {
@@ -50,7 +84,7 @@
                     "effect": [
                       {
                         "u_query_tile": "line_of_sight",
-                        "target_var": { "global_val": "teleporter_item_apport_location" },
+                        "target_var": { "context_val": "teleporter_item_apport_location" },
                         "range": {
                           "math": [
                             "min( ( ( (u_spell_level('teleport_item_apport') * 1.25) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
@@ -64,16 +98,16 @@
                         "then": {
                           "if": {
                             "or": [
-                              { "map_terrain_with_flag": "WALL", "loc": { "global_val": "teleporter_item_apport_location" } },
+                              { "map_terrain_with_flag": "WALL", "loc": { "context_val": "teleporter_item_apport_location" } },
                               {
                                 "map_terrain_with_flag": "DOOR",
-                                "loc": { "global_val": "teleporter_item_apport_location" }
+                                "loc": { "context_val": "teleporter_item_apport_location" }
                               }
                             ]
                           },
                           "then": { "u_message": "You cannot apport an item inside a solid object.", "type": "bad" },
                           "else": [
-                            { "npc_teleport": { "global_val": "teleporter_item_apport_location" } },
+                            { "npc_teleport": { "context_val": "teleporter_item_apport_location" } },
                             {
                               "u_message": "The item in your hands grows freezing cold for a moment before vanishing.",
                               "type": "neutral"
@@ -120,7 +154,7 @@
           ]
         },
         "then": [
-          { "u_cast_spell": { "id": "teleport_blink", "min_level": 10, "hit_self": true } },
+          { "u_cast_spell": { "id": "teleport_blink_real", "min_level": 10, "hit_self": true } },
           {
             "if": { "npc_has_effect": "effect_teleport_reactive_displacement" },
             "then": [ { "npc_message": "As <u_name> strikes you, they are suddenly somewhere else", "type": "good" } ],
@@ -173,6 +207,36 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_FARSTEP_INITIATE",
+    "condition": {
+      "and": [
+        { "not": { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" } },
+        { "not": { "u_has_flag": "DIMENSIONAL_ANCHOR" } },
+        { "not": { "u_has_flag": "TELEPORT_LOCK" } }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
+      {
+        "if": {
+          "math": [
+            "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_farstep') * 5000 ) + 8000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+          ]
+        },
+        "then": [
+          { "u_cast_spell": { "id": "teleport_farstep_real", "hit_self": false }, "targeted": true },
+          {
+            "u_message": "There is a moment of darkness and terrible cold, and you are somewhere else.",
+            "type": "neutral"
+          }
+        ],
+        "else": [ { "run_eocs": [ "EOC_TELEPORTER_GATEWAY_MESSAGE_CARRYING_TOO_MUCH" ] } ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You feel a strange, inward force.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
