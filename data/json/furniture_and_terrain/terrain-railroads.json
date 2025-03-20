@@ -115,7 +115,7 @@
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "mc_steel_lump", "count": [ 1, 2 ] },
         { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
@@ -369,7 +369,7 @@
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
-        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "mc_steel_lump", "count": [ 1, 2 ] },
         { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 12 ] },
         { "item": "log", "count": [ 0, 1 ] },
@@ -586,7 +586,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_railroad_rubble",
       "items": [
-        { "item": "steel_lump", "count": [ 0, 1 ] },
+        { "item": "mc_steel_lump", "count": [ 0, 1 ] },
         { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "splinter", "count": [ 6, 12 ] }
@@ -595,7 +595,7 @@
     "deconstruct": {
       "ter_set": "t_railroad_rubble",
       "items": [
-        { "item": "steel_lump", "count": [ 0, 1 ] },
+        { "item": "mc_steel_lump", "count": [ 0, 1 ] },
         { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "splinter", "count": [ 6, 12 ] }
@@ -621,7 +621,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_railroad_rubble",
       "items": [
-        { "item": "steel_lump", "count": [ 0, 1 ] },
+        { "item": "mc_steel_lump", "count": [ 0, 1 ] },
         { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "splinter", "count": [ 6, 12 ] }
@@ -630,7 +630,7 @@
     "deconstruct": {
       "ter_set": "t_railroad_rubble",
       "items": [
-        { "item": "steel_lump", "count": [ 0, 1 ] },
+        { "item": "mc_steel_lump", "count": [ 0, 1 ] },
         { "item": "mc_steel_chunk", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
         { "item": "splinter", "count": [ 6, 12 ] }

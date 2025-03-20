@@ -358,7 +358,7 @@
       { "item": "cable", "charges": [ 0, 4 ] },
       { "item": "scrap", "count": [ 8, 12 ] },
       { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
-      { "item": "steel_lump", "count": [ 1, 2 ] },
+      { "item": "mc_steel_lump", "count": [ 1, 2 ] },
       { "item": "steel_plate", "count": [ 1, 2 ] }
     ],
     "variants": [ { "symbols": "7", "symbols_broken": "#" } ]
@@ -443,7 +443,7 @@
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "ammonia_machine_reactor" } ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 15, 25 ] },
+      { "item": "mc_steel_lump", "count": [ 15, 25 ] },
       { "item": "mc_steel_chunk", "count": [ 15, 25 ] },
       { "item": "scrap", "count": [ 15, 25 ] },
       { "item": "pyrometer", "prob": 25 },
@@ -470,7 +470,7 @@
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "ammonia_machine_pipework" } ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 8 ] },
+      { "item": "mc_steel_lump", "count": [ 4, 8 ] },
       { "item": "mc_steel_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 4, 8 ] },
       { "item": "hd_pipe", "count": [ 6, 10 ] },
@@ -502,7 +502,7 @@
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "nitrogen_generator" } ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 13 ] },
+      { "item": "mc_steel_lump", "count": [ 8, 13 ] },
       { "item": "mc_steel_chunk", "count": [ 8, 13 ] },
       { "item": "scrap", "count": [ 8, 13 ] },
       { "item": "sheet_cotton", "count": [ 5, 10 ] },
@@ -668,7 +668,7 @@
       }
     },
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 32 ] },
+      { "item": "mc_steel_lump", "count": [ 8, 32 ] },
       { "item": "mc_steel_chunk", "count": [ 8, 32 ] },
       { "item": "scrap", "count": [ 8, 32 ] },
       { "item": "solar_cell", "count": [ 4, 16 ] }
@@ -714,7 +714,7 @@
       }
     },
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 16 ] },
+      { "item": "mc_steel_lump", "count": [ 8, 16 ] },
       { "item": "mc_steel_chunk", "count": [ 8, 16 ] },
       { "item": "scrap", "count": [ 8, 16 ] },
       { "item": "solar_cell_v2", "count": [ 4, 24 ] }
@@ -931,7 +931,7 @@
     "flags": [ "CARGO", "OBSTACLE", "RECHARGE", "COVERED", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "breaks_into": [
       { "item": "cable", "charges": [ 1, 3 ] },
-      { "item": "steel_lump", "count": [ 4, 6 ] },
+      { "item": "mc_steel_lump", "count": [ 4, 6 ] },
       { "item": "mc_steel_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 5, 7 ] }
     ],

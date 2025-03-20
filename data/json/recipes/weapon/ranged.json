@@ -22,7 +22,7 @@
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ],
-      [ [ "steel_lump", 1 ], [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ]
+      [ [ "steel_lump_any", 1, "LIST" ], [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ]
     ]
   },
   {

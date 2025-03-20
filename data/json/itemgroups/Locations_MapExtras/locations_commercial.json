@@ -354,7 +354,7 @@
       [ "chain", 20 ],
       [ "lc_steel_chunk", 30 ],
       [ "spring", 50 ],
-      [ "steel_lump", 30 ],
+      [ "lc_steel_lump", 30 ],
       [ "manhole_cover", 1 ],
       [ "rock", 40 ],
       [ "hammer_sledge", 2 ],

@@ -1134,8 +1134,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
-        { "item": "lc_lc_steel_chunk", "count": [ 1, 4 ] },
+        { "item": "lc_steel_lump", "prob": 25 },
+        { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
@@ -1402,7 +1402,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
+        { "item": "lc_steel_lump", "prob": 25 },
         { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 75, 125 ] }
@@ -1444,7 +1444,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
+        { "item": "lc_steel_lump", "prob": 25 },
         { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 75, 125 ] }
@@ -1495,7 +1495,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
+        { "item": "lc_steel_lump", "prob": 25 },
         { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 75, 125 ] }
@@ -1535,7 +1535,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
+        { "item": "lc_steel_lump", "prob": 25 },
         { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] }
       ]
@@ -1576,7 +1576,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
+        { "item": "lc_steel_lump", "prob": 25 },
         { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] }
       ]
@@ -1628,7 +1628,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_window_empty",
       "items": [
-        { "item": "steel_lump", "prob": 25 },
+        { "item": "lc_steel_lump", "prob": 25 },
         { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] }
       ]
@@ -4645,7 +4645,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_metal_floor",
       "items": [
-        { "item": "steel_lump", "prob": 55 },
+        { "item": "lc_steel_lump", "prob": 55 },
         { "item": "lc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 20, 50 ] }

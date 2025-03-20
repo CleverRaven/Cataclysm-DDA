@@ -1341,7 +1341,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "mc_steel_lump", "count": [ 1, 4 ] },
         { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 7 ] }
@@ -1388,7 +1388,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "mc_steel_lump", "count": [ 1, 4 ] },
         { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 7 ] }
@@ -1412,7 +1412,7 @@
         { "item": "frame", "count": [ 2, 3 ] },
         { "item": "sheet_metal", "count": [ 10, 12 ] },
         { "item": "sheet_metal_small", "count": [ 60, 72 ] },
-        { "item": "steel_lump", "count": [ 12, 17 ] },
+        { "item": "lc_steel_lump", "count": [ 12, 17 ] },
         { "item": "lc_steel_chunk", "count": [ 27, 33 ] },
         { "item": "scrap", "count": [ 44, 55 ] }
       ]
@@ -1426,7 +1426,7 @@
         { "item": "frame", "count": [ 0, 2 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "sheet_metal_small", "count": [ 30, 90 ] },
-        { "item": "steel_lump", "count": [ 10, 26 ] },
+        { "item": "lc_steel_lump", "count": [ 10, 26 ] },
         { "item": "lc_steel_chunk", "count": [ 61, 173 ] },
         { "item": "scrap", "count": [ 57, 164 ] }
       ]

@@ -372,7 +372,7 @@
     "looks_like": "f_rack_coat",
     "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
     "deconstruct": {
-      "items": [ { "item": "steel_lump", "count": 1 }, { "item": "wheel_caster", "count": 1 }, { "item": "pipe", "count": 1 } ]
+      "items": [ { "item": "mc_steel_lump", "count": 1 }, { "item": "wheel_caster", "count": 1 }, { "item": "pipe", "count": 1 } ]
     },
     "bash": {
       "str_min": 14,

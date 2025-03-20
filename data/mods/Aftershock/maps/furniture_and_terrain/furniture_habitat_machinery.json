@@ -20,7 +20,7 @@
         { "item": "afs_circuitry_2", "count": 1 },
         { "item": "afs_material_1", "count": [ 2, 5 ] },
         { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "cu_pipe", "count": [ 2, 5 ] },
@@ -36,7 +36,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "afs_material_1", "count": [ 2, 5 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
@@ -147,7 +147,7 @@
       "items": [
         { "item": "scrap", "count": [ 2, 8 ] },
         { "item": "plastic_chunk", "count": [ 20, 40 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "mc_steel_chunk", "count": [ 0, 3 ] },
         { "item": "cable", "charges": [ 70, 140 ] },
         { "item": "RAM", "count": [ 0, 2 ] },
         { "item": "e_scrap", "count": [ 10, 20 ] },

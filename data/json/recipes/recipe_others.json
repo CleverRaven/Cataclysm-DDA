@@ -859,7 +859,7 @@
       { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 20 ] ] ]
+    "components": [ [ [ "steel_lump_any", 1, "LIST" ], [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -890,7 +890,7 @@
       [ [ "water", -120 ], [ "water_clean", -120 ] ]
     ],
     "components": [
-      [ [ "steel_lump", 1 ], [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 20 ] ],
+      [ [ "steel_lump_any", 1, "LIST" ], [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 20 ] ],
       [ [ "coal_lump", 22 ], [ "charcoal", 19 ] ]
     ]
   },
@@ -1201,7 +1201,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
       [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
-      [ [ "steel_lump", 1 ], [ [ "steel_chunk_any", 4, "LIST" ] ], [ "scrap", 12 ] ],
+      [ [ "steel_lump_any", 1, "LIST" ], [ [ "steel_chunk_any", 4, "LIST" ] ], [ "scrap", 12 ] ],
       [ [ "cable", 4 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "fire_brick", 8 ] ]
@@ -1399,7 +1399,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
       [ [ "pilot_light", 1 ] ],
-      [ [ "steel_lump", 3 ], [ [ "steel_chunk_any", 12, "LIST" ] ], [ "scrap", 36 ] ],
+      [ [ "steel_lump_any", 3, "LIST" ], [ [ "steel_chunk_any", 12, "LIST" ] ], [ "scrap", 36 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 3 ] ],
       [ [ "pipe_fittings", 2 ] ]
@@ -2942,7 +2942,7 @@
     "tools": [ [ [ "angle_grinder", 220 ] ], [ [ "drill_press_tool", 20 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "railroad_track_item_half", 1 ] ] ],
-    "byproducts": [ [ "steel_lump", 15 ] ]
+    "byproducts": [ [ "steel_lump_any", 15, "LIST" ] ]
   },
   {
     "result": "anvil_bronze",
