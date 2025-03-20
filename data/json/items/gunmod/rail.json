@@ -25,7 +25,7 @@
     },
     "dispersion_modifier": 60,
     "min_skills": [ [ "weapon", 2 ], [ "rifle", 1 ] ],
-    "flags": [ "NON_FOULING" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "NON_FOULING" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
   },
   {

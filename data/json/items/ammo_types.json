@@ -343,6 +343,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "mortar_60mm",
+    "name": "60 mm mortar cartridge",
+    "default": "60mm_shell_m720a1"
+  },
+  {
+    "type": "ammunition_type",
     "id": "sling-ready_grenade",
     "name": "sling-ready grenades",
     "default": "sling-ready_molotov"

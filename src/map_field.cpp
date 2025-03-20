@@ -777,7 +777,7 @@ static void field_processor_monster_spawn( const tripoint_bub_ms &p, field_entry
                 if( const std::optional<tripoint_bub_ms> spawn_point =
                         random_point( points_in_radius( p, int_level.monster_spawn_radius ),
                 [&pd]( const tripoint_bub_ms & n ) {
-                return pd.here.passable( n );
+                return pd.here.passable_through( n );
                 } ) ) {
                     const tripoint_bub_ms pt = spawn_point.value();
                     pd.here.add_spawn( mgr, pt );
