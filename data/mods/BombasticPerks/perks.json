@@ -912,7 +912,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Before Cataclysm, you always use dice to determine the damage in game.  Now, the power of fate allows you to use dice to deal addition mysterious damage.  Ranged attack using dice deals addition damage, which depends on the number of sides of the dice.",
+    "description": "Before Cataclysm, you always used dice to determine the damage in the game.  Now, the power of fate allows you to use dice to deal additional mysterious damage. Throwing dice using a sling or similar weapon deals additional damage, which depends on the number of sides of the dice.",
     "category": [ "perk" ]
   },
   {
