@@ -3219,7 +3219,7 @@
     "miss_messages": [ [ "You feel rejected by this place.", 2 ] ],
     "rating": "bad",
     "main_parts_only": true,
-    "base_mods": { "pain_min": [ 2 ], "pain_chance": [ 1, 50 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ 1, 60 ] },
+    "base_mods": { "pain_min": [ 2 ], "pain_tick": [ 10 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_tick": [ 10 ] },
     "show_in_info": false
   },
   {
@@ -3230,7 +3230,7 @@
     "miss_messages": [ [ "You are melting from your proximity to water.", 2 ] ],
     "rating": "bad",
     "main_parts_only": true,
-    "base_mods": { "pain_min": [ 2 ], "pain_chance": [ 1, 50 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ 1, 60 ] },
+    "base_mods": { "pain_min": [ 2 ], "pain_tick": [ 10 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_tick": [ 10 ] },
     "show_in_info": false
   },
   {
@@ -3254,7 +3254,8 @@
     "miss_messages": [ [ "Your craving distract you.", 1 ] ],
     "base_mods": {
       "pain_min": [ 2 ],
-      "pain_chance": [ 1, 255 ],
+      "pain_max": [ 100 ],
+      "pain_tick": [ 1000 ],
       "str_mod": [ -3 ],
       "dex_mod": [ -3 ],
       "per_mod": [ -3 ],
