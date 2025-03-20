@@ -3,7 +3,7 @@
     "type": "effect_type",
     "id": "curevamp",
     "removes_effects": [ "vampire_virus" ],
-    "max_duration": "72 h"
+    "max_duration": "72 h"m
   },
   {
     "type": "effect_type",
