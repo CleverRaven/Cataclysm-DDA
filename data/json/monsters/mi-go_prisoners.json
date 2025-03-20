@@ -35,7 +35,7 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_MORALE", "HUMAN", "GUILT_HUMAN", "CONVERSATION" ]
   },
   {
-    "id": "mon_feral_prisoner",
+    "id": "mon_feral_abductee",
     "type": "MONSTER",
     "name": { "str": "confused prisoner" },
     "description": "A human captive who appears dazed and confused.  Something about their posture suggests they might be more dangerous than they appear.",

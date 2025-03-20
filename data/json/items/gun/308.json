@@ -311,7 +311,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "scarhmag", "scarhbigmag", "scarhmag_30rd", "scarh_makeshiftmag" ]
+        "item_restriction": [ "scarhmag_10", "scarhmag", "scarhbigmag", "scarhmag_30rd", "scarh_makeshiftmag" ]
       }
     ]
   },
@@ -322,6 +322,7 @@
     "type": "GUN",
     "name": { "str": "FN SCAR-H sniper rifle" },
     "description": "Sniper Support Rifle, this semi-auto variant of SCAR-H is designed for a long-range precision application, to be used by dedicated marksman.  Includes extended barrel, bipod, and a few additional attachment for greater comfort of a user.",
+    "variant_type": "gun",
     "variants": [
       {
         "id": "scar_h_mk20",
@@ -336,6 +337,26 @@
     "barrel_length": "508 mm",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "default_mods": [ "recoil_stock", "cheek_pad", "bipod", "rifle_scope_high_end_mount", "match_trigger", "muzzle_brake" ]
+  },
+  {
+    "id": "scar_17s",
+    "copy-from": "scar_h",
+    "looks_like": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "civilian FN SCAR-H rifle" },
+    "description": "A highly accurate and modular battle rifle specially designed for the United States Special Operations Command.  This one is a civilian model, limited to semi-auto.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "scar_17s",
+        "name": { "str_sp": "FN SCAR 17S" },
+        "description": "The SCAR 17S is the semi-auto version of the SCAR-H rifle used in the military.  With how powerful .308 is, maybe having it in semi-auto only is a blessing."
+      }
+    ],
+    "ascii_picture": "scar-H",
+    "barrel_length": "413 mm",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "price": "4 kUSD 239 USD"
   },
   {
     "id": "M24",

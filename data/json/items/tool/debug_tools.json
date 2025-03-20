@@ -76,5 +76,36 @@
         }
       ]
     }
+  },
+  {
+    "id": "debug_mortar",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str_sp": "debug explosion generator" },
+    "description": "Causes explosion at overmap you pick.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Cause explosion",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_CAUSE_EXPLOSION",
+          "effect": [
+            { "u_query_omt": { "context_val": "pos" }, "message": "Select point." },
+            {
+              "if": { "math": [ "has_var(_pos)" ] },
+              "then": {
+                "u_explosion": { "power": { "math": [ "num_input('explosion power', 25000)" ] } },
+                "target_var": { "context_val": "pos" }
+              }
+            }
+          ]
+        }
+      ]
+    }
   }
 ]

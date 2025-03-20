@@ -839,5 +839,51 @@
         "description": "The S&W 617 is a fine revolver, chambered in .22 LR.  However, instead of more common 6 rounds revolvers come in, this revolver has a 10 round capacity cylinder.  While still a revolver, and to boot a revolver in .22 LR, 10 is still bigger than 6."
       }
     ]
+  },
+  {
+    "id": "sr22",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "looks_like": "1911",
+    "//": "Based on https://ruger.com/products/sr22Pistol/specSheets/3600.html",
+    "name": { "str": ".22 plinking handgun" },
+    "description": "A small handgun with a short barrel.  Feeds from 10 round magazines.",
+    "ascii_picture": "m1911",
+    "weight": "496 g",
+    "volume": "369 ml",
+    "longest_side": "205 mm",
+    "barrel_length": "89 mm",
+    "price": "559 USD",
+    "price_postapoc": "10 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "22" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 320,
+    "durability": 8,
+    "min_cycle_recoil": 39,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS" ],
+    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "mechanism", 2 ], [ "sights mount", 1 ], [ "stock_mount", 1 ] ],
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ],
+    "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sr22_mag" ] } ],
+    "melee_damage": { "bash": 5 },
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "sr22",
+        "name": { "str": "Ruger SR22" },
+        "description": "A very popular handgun, the SR22 is a more conventional pistol than Ruger's other famous .22 LR handguns, the Ruger Standards.  While .22 LR is still capable of killing, the very short barrel brings that into question."
+      }
+    ]
   }
 ]

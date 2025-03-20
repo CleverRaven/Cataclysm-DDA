@@ -1391,5 +1391,21 @@
     "countdown_action": { "type": "explosion", "explosion": { "power": 69200, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } } },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
     "melee_damage": { "bash": 20 }
+  },
+  {
+    "id": "60mm_propellant",
+    "type": "GENERIC",
+    "name": { "str": "60 mm mortar propellant charge" },
+    "description": "Small explosive in a form of donut without a piece, this thing is designed to be attached on the mortar shell tail, to increase the projectile velocity and, therefore, it's range.  Since the projectile it was connected to was already shot, you can only cut it for it's content.",
+    "weight": "50 g",
+    "//": "8 g of some unknown to me explosive material, let's assume comp b for simplicity",
+    "volume": "70 ml",
+    "longest_side": "45 mm",
+    "price": "14 USD",
+    "price_postapoc": "2 USD",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ { "type": "plastic", "portion": 80 }, { "type": "powder", "portion": 20 } ],
+    "symbol": "=",
+    "color": "dark_gray"
   }
 ]

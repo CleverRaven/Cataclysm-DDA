@@ -2056,7 +2056,7 @@
     "warmth": 30,
     "material_thickness": 1.5,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "STURDY" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "STURDY", "RAINPROOF" ],
     "variant_type": "generic",
     "variants": [
       {
