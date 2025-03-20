@@ -1,12 +1,12 @@
 [
   {
-    "name": "GROUP_COCOON_TINY",
+    "id": "GROUP_COCOON_TINY",
     "type": "monstergroup",
     "//": "All cocoon groups have a token mon_null spawn, increase its weight if they turn out to be too common",
     "monsters": [ { "monster": "mon_null", "weight": 1 }, { "monster": "mon_amalgamation_swarmer", "weight": 1, "starts": "2 days" } ]
   },
   {
-    "name": "GROUP_COCOON_SMALL",
+    "id": "GROUP_COCOON_SMALL",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_null", "weight": 1 },
@@ -16,7 +16,7 @@
     ]
   },
   {
-    "name": "GROUP_COCOON_MED_1",
+    "id": "GROUP_COCOON_MED_1",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_null", "weight": 1 },
@@ -25,7 +25,7 @@
     ]
   },
   {
-    "name": "GROUP_COCOON_MED_2",
+    "id": "GROUP_COCOON_MED_2",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_null", "weight": 1 },
@@ -34,7 +34,7 @@
     ]
   },
   {
-    "name": "GROUP_COCOON_LARGE",
+    "id": "GROUP_COCOON_LARGE",
     "type": "monstergroup",
     "//": "TODO: big amalgamation line for this (and larger) groups",
     "monsters": [
@@ -45,12 +45,12 @@
     ]
   },
   {
-    "name": "GROUP_AMALGAMATION_BREATHER_HUB_SPARSE",
+    "id": "GROUP_AMALGAMATION_BREATHER_HUB_SPARSE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_null", "weight": 9 }, { "monster": "mon_amalgamation_breather_hub" } ]
   },
   {
-    "name": "GROUP_AMALGAMATION_SMALL",
+    "id": "GROUP_AMALGAMATION_SMALL",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_amalgamation_swarmer", "weight": 3, "pack_size": [ 1, 2 ] },
@@ -60,7 +60,7 @@
     ]
   },
   {
-    "name": "GROUP_AMALGAMATION_MED",
+    "id": "GROUP_AMALGAMATION_MED",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_amalgamation_jumper", "pack_size": [ 1, 2 ], "weight": 4 },

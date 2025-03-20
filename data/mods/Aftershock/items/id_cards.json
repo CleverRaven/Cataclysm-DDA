@@ -92,5 +92,21 @@
     "volume": "5 ml",
     "category": "keys",
     "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "mercurial_master_keycard",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "Mercurial master key" },
+    "description": "A master keycard for nearly all Mercurial corporate facilities and infrastructure built before the year 2152.  Invaluable on Salus IV, this card will grant you entry to all but the most secure Mercurial facilities.",
+    "price": "8 kUSD",
+    "flags": [ "OLD_MERCURIAL_CARD" ],
+    "price_postapoc": "8 kUSD",
+    "material": [ "plastic" ],
+    "weight": "6 g",
+    "volume": "5 ml",
+    "category": "keys",
+    "to_hit": -3
   }
 ]

@@ -20,8 +20,8 @@
         "set_string_var": { "context_val": "name" },
         "target_var": { "u_val": "general_artisans_blacksmith_weapon_type" }
       },
-      { "math": [ "u_number_artisans_blacksmith_weapon_cost", "=", "_cost" ] },
-      { "math": [ "u_number_artisans_blacksmith_weapon_wait", "=", "_wait" ] }
+      { "math": [ "u_number_artisans_blacksmith_weapon_cost = _cost" ] },
+      { "math": [ "u_number_artisans_blacksmith_weapon_wait = _wait" ] }
     ]
   },
   {
@@ -175,7 +175,7 @@
           { "u_sell_item": "FMCNote", "count": { "u_val": "number_artisans_blacksmith_weapon_cost" } },
           { "u_add_var": "dialogue_artisans_u_current_project", "value": "weapon" },
           { "u_add_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
-          { "math": [ "u_timer_artisans_u_waiting_on_weapon", "=", "time('now')" ] }
+          { "math": [ "u_timer_artisans_u_waiting_on_weapon = time('now')" ] }
         ],
         "topic": "TALK_DONE"
       },

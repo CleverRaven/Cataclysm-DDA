@@ -1,14 +1,18 @@
 #include "init.h"
 
+#include <algorithm>
 #include <cstddef>
+#include <filesystem>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include "achievement.h"
 #include "activity_type.h"
+#include "addiction.h"
 #include "ammo.h"
 #include "ammo_effect.h"
 #include "anatomy.h"
@@ -31,6 +35,7 @@
 #include "construction_group.h"
 #include "crafting_gui.h"
 #include "creature.h"
+#include "damage.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "disease.h"
@@ -44,9 +49,11 @@
 #include "field_type.h"
 #include "filesystem.h"
 #include "flag.h"
-#include "game.h"
+#include "flexbuffer_json.h"
 #include "gates.h"
+#include "global_vars.h"
 #include "harvest.h"
+#include "help.h"
 #include "input.h"
 #include "item_action.h"
 #include "item_category.h"
@@ -58,13 +65,14 @@
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "magic_ter_furn_transform.h"
+#include "magic_type.h"
 #include "map_extras.h"
 #include "mapdata.h"
 #include "mapgen.h"
 #include "martialarts.h"
 #include "material.h"
-#include "mission.h"
 #include "math_parser_jmath.h"
+#include "mission.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -72,10 +80,12 @@
 #include "mood_face.h"
 #include "morale_types.h"
 #include "move_mode.h"
+#include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
+#include "options.h"
 #include "overlay_ordering.h"
 #include "overmap.h"
 #include "overmap_connection.h"
@@ -91,19 +101,20 @@
 #include "rotatable_symbols.h"
 #include "scenario.h"
 #include "scent_map.h"
-#include "sdltiles.h" // IWYU pragma: keep
+#include "shop_cons_rate.h"
 #include "skill.h"
 #include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
 #include "speed_description.h"
 #include "start_location.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
 #include "test_data.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-#include "ui_manager.h"
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
@@ -111,6 +122,10 @@
 #include "weather_type.h"
 #include "widget.h"
 #include "worldfactory.h"
+
+#if defined(TILES)
+#include "sdltiles.h"
+#endif
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -124,18 +139,6 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
     static DynamicDataLoader theDynamicDataLoader;
     return theDynamicDataLoader;
 }
-
-namespace
-{
-
-void check_sigint()
-{
-    if( g && g->uquit == quit_status::QUIT_EXIT ) {
-        g->query_exit_to_OS();
-    }
-}
-
-} // namespace
 
 void DynamicDataLoader::load_object( const JsonObject &jo, const std::string &src,
                                      const cata_path &base_path,
@@ -186,7 +189,6 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
             }
             ++it;
             inp_mngr.pump_events();
-            check_sigint();
         }
         data.erase( data.begin(), it );
         if( data.size() == n ) {
@@ -274,6 +276,7 @@ void DynamicDataLoader::initialize()
     add( "weather_type", &weather_types::load );
     add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
+    add( "help", &help::load );
     add( "activity_type", &activity_type::load );
     add( "addiction_type", &add_type::load_add_types );
     add( "movement_mode", &move_mode::load_move_mode );
@@ -343,6 +346,7 @@ void DynamicDataLoader::initialize()
         requirement_data::load_requirement( jo, string_id<requirement_data>::NULL_ID(), true );
     } );
     add( "trap", &trap::load_trap );
+    add( "trap_migration", &trap_migrations::load );
 
     add( "AMMO", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_ammo( jo, src );
@@ -495,6 +499,7 @@ void DynamicDataLoader::initialize()
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
     add( "SPELL", &spell_type::load_spell );
+    add( "magic_type", &magic_type::load_magic_type );
     add( "clothing_mod", &clothing_mods::load );
     add( "ter_furn_transform", &ter_furn_transform::load_transform );
     add( "event_transformation", &event_transformation::load_transformation );
@@ -628,7 +633,6 @@ void DynamicDataLoader::load_all_from_json( const JsonValue &jsin, const std::st
         // find type and dispatch each object until array close
         for( JsonObject jo : ja ) {
             load_object( jo, src, base_path, full_path );
-            check_sigint();
         }
     } else {
         // not an object or an array?
@@ -665,6 +669,7 @@ void DynamicDataLoader::unload_data()
     disease_type::reset();
     dreams.clear();
     emit::reset();
+    help::reset();
     enchantment::reset();
     event_statistic::reset();
     effect_on_conditions::reset();
@@ -740,11 +745,13 @@ void DynamicDataLoader::unload_data()
     Skill::reset();
     skill_boost::reset();
     SNIPPET.clear_snippets();
+    magic_type::reset_all();
     spell_type::reset_all();
     start_locations::reset();
     ter_furn_migrations::reset();
     ter_furn_transform::reset();
     trap::reset();
+    trap_migrations::reset();
     unload_talk_topics();
     VehicleGroup::reset();
     VehiclePlacement::reset();
@@ -858,7 +865,6 @@ void DynamicDataLoader::finalize_loaded_data()
     for( const named_entry &e : entries ) {
         loading_ui::show( _( "Finalizing" ), e.first );
         e.second();
-        check_sigint();
     }
 
     if( !get_option<bool>( "SKIP_VERIFICATION" ) ) {
@@ -932,6 +938,7 @@ void DynamicDataLoader::check_consistency()
             { _( "Start locations" ), &start_locations::check_consistency },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
             { _( "Traps" ), &trap::check_consistency },
+            { _( "Trap migrations" ), &trap_migrations::check },
             { _( "Bionics" ), &bionic_data::check_bionic_consistency },
             { _( "Gates" ), &gates::check },
             { _( "NPC classes" ), &npc_class::check_consistency },
@@ -963,6 +970,5 @@ void DynamicDataLoader::check_consistency()
     for( const named_entry &e : entries ) {
         loading_ui::show( _( "Verifying" ), e.first );
         e.second();
-        check_sigint();
     }
 }

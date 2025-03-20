@@ -116,6 +116,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "mirror_artifact", "prob": 50 },
+      { "item": "artifact_amber", "prob": 50 },
       { "item": "artifact_sapient_light", "prob": 50 },
       { "item": "artifact_bubble", "prob": 50 },
       { "item": "artifact_ophanim", "prob": 50 },
@@ -128,6 +129,6 @@
     "type": "item_group",
     "id": "xe_dreamer_spell_tier4",
     "subtype": "distribution",
-    "entries": [ { "item": "artifact_karma_arms", "prob": 50 } ]
+    "entries": [ { "item": "artifact_karma_arms", "prob": 50 }, { "item": "artifact_dreamer_accelerated_time", "prob": 50 } ]
   }
 ]

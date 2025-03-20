@@ -5,10 +5,10 @@
 #include <algorithm>
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
+#include <string_view>
 #include <unordered_set>
 #include <vector>
 
@@ -149,6 +149,11 @@ class recipe_subset
             tool,
             quality,
             quality_result,
+            length,
+            volume,
+            mass,
+            covers,
+            layer,
             description_result,
             proficiency,
             difficulty,

@@ -15,15 +15,23 @@
   },
   {
     "id": "40x53mm_m1001",
-    "copy-from": "40x53mm_grenade",
     "type": "AMMO",
     "name": { "str_sp": "40x53mm M1001 flechette" },
-    "description": "A 40x53mm canister shot load, with 115 17-grain flechettes.",
+    "weight": "340 g",
+    "volume": "137 ml",
+    "longest_side": "112 mm",
+    "count": 10,
+    "ammo_type": "40x53mm",
+    "symbol": "=",
+    "description": "A 40x53mm canister shot load, with 113 17-grain flechettes.",
     "ascii_picture": "40x53mm_m1001",
-    "damage": { "damage_type": "bullet", "amount": 150, "armor_penetration": 12 },
-    "range": 14,
+    "damage": { "damage_type": "bullet", "amount": 65 },
+    "shot_damage": { "damage_type": "bullet", "amount": 5 },
+    "projectile_count": 117,
+    "shot_spread": 400,
     "recoil": 18750,
-    "extend": { "effects": [ "SHOT" ] }
+    "casing": "40x53mm_m169_casing",
+    "effects": [ "SHOT" ]
   },
   {
     "id": "40x53mm_m430a1",

@@ -18,6 +18,22 @@
   },
   {
     "type": "trap",
+    "id": "tr_xedra_dreamsmith_time_trap",
+    "name": "time cage",
+    "color": "light_gray",
+    "symbol": "#",
+    "visibility": 2,
+    "avoidance": 10,
+    "difficulty": 5,
+    "trap_radius": 0,
+    "drops": [ "xedra_dreamsmith_time_trap" ],
+    "flags": [ "UNDODGEABLE" ],
+    "trigger_message_npc": "<npcname> is frozen in time!",
+    "action": "spell",
+    "spell_data": { "id": "xedra_dreamsmith_time_trap_freeze" }
+  },
+  {
+    "type": "trap",
     "id": "tr_species_snare",
     "name": "species snare trap",
     "color": "red",

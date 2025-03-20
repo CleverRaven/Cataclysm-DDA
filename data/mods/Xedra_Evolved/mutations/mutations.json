@@ -151,7 +151,7 @@
     "id": "GENERIC_UNCANNY_DODGE_TRAIT",
     "name": { "str": "The Trait That Gives you Uncanny Dodge", "//~": "NO_I18N" },
     "description": {
-      "str": "The Uncanny Dodge flag only works on traits or bionics, so this is a trait for powers that grant it.",
+      "str": "The uncanny dodge flag now works in effects, but preserve this trait for conditional logic such as with lilin.",
       "//~": "NO_I18N"
     },
     "points": 1,
@@ -227,11 +227,11 @@
     "deactivated_eocs": [ "EOC_VAMPIRIC_RESILIENCE_deactivated" ],
     "enchantments": [
       {
-        "values": [
-          { "value": "ARMOR_BASH", "multiply": -0.05 },
-          { "value": "ARMOR_CUT", "multiply": -0.03 },
-          { "value": "ARMOR_STAB", "multiply": -0.02 },
-          { "value": "ARMOR_BULLET", "multiply": -0.08 }
+        "incoming_damage_mod": [
+          { "type": "bash", "multiply": -0.05 },
+          { "type": "stab", "multiply": -0.02 },
+          { "type": "cut", "multiply": -0.03 },
+          { "type": "bullet", "multiply": -0.08 }
         ]
       }
     ]
@@ -595,6 +595,7 @@
     "name": { "str": "Facultative Breathing" },
     "description": "You do not need to breathe air to live anymore.  It prevents you from being drowned or suffocated and allows you to ignore inhaled gases.",
     "flags": [ "GILLS" ],
+    "cancels": [ "ASTHMA" ],
     "integrated_armor": [ "integrated_nobreathe" ]
   },
   {
@@ -685,7 +686,6 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -700,15 +700,6 @@
         "mutations": [ "FANGS", "MUZZLE", "TAIL_FLUFFY", "PAWS", "LUPINE_FUR", "LUPINE_EARS", "PERSISTENCE_HUNTER2", "PRED3" ]
       },
       {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
-          { "value": "HEARING_MULT", "multiply": 0.75 },
-          { "value": "COMBAT_CATCHUP", "multiply": 2 },
-          { "value": "DODGE_CHANCE", "add": 4 }
-        ]
-      },
-      {
         "condition": { "and": [ { "not": "u_can_drop_weapon" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
@@ -719,9 +710,8 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "MUTE", "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
-    "override_look": { "id": "mon_wolf", "tile_category": "monster" },
-    "integrated_armor": [ "integrated_fangs", "integrated_lupine_fur" ]
+    "flags": [ "MUTE", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "override_look": { "id": "mon_wolf", "tile_category": "monster" }
   },
   {
     "type": "mutation",
@@ -757,9 +747,10 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "can_only_eat": [ "blood", "hblood", "fae_blood", "vampire_blood" ],
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR", "NO_THIRST" ],
     "vitamin_rates": [ [ "vitC", -500 ], [ "iron", -500 ], [ "calcium", -500 ] ],
-    "//": "When weariness can be modified through Json, see if this mutation should make the player immune to it.",
+    "//": "When weariness can be modified through Json, this mutation should make the player immune to it.",
     "enchantments": [
       {
         "values": [
@@ -856,7 +847,7 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Immortal Iron Mind" },
-    "description": "Your vampiric potency has reinforced your mind beyond what a mortal could ever hope.  You are immune to anything that culd negatively impact your mind.",
+    "description": "Your vampiric potency has reinforced your mind beyond anything a mortal could ever hope.  You are immune to anything that could negatively impact your mind.",
     "//": "There is no difference between this and the Ierde version, so I use that one instead of making a new one to avoid duplicates.  The player isn't supposed to see this anyway.",
     "enchantments": [ "ench_ierde_no_mind_problems" ]
   },
@@ -885,6 +876,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "flags": [ "CANNIBAL" ],
     "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -4 } ] } ]
   },
   {
@@ -952,6 +944,34 @@
   },
   {
     "type": "mutation",
+    "id": "FAE_ENMITY",
+    "name": { "str": "Fae Enmity" },
+    "points": -10,
+    "description": "The Fair Folk can sense the stolen power within you and their vengeance will be terrible.",
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [
+      [ "ARVORE", 100 ],
+      [ "CHANGELING", 100 ],
+      [ "HOMULLUS", 100 ],
+      [ "IERDE", 100 ],
+      [ "SALAMANDER", 100 ],
+      [ "SYLPH", 100 ],
+      [ "UNDINE", 100 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "FALSE_ARVORE_HATRED",
+    "name": { "str": "False Arvore" },
+    "points": -4,
+    "description": "The arvore can sense the stolen power within you and they will not react well to it.",
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [ [ "ARVORE", 100 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "FALSE_HOMULLUS_HATRED",
     "name": { "str": "False Homullus" },
     "points": -4,
@@ -959,5 +979,33 @@
     "purifiable": false,
     "valid": false,
     "anger_relations": [ [ "HOMULLUS", 100 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "FALSE_SALAMANDER_HATRED",
+    "name": { "str": "False Salamander" },
+    "points": -4,
+    "description": "The salamanders can sense the stolen power within you and they will not react well to it.",
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [ [ "SALAMANDER", 100 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BOANN_RETALIATION",
+    "name": { "str": "Boann's retaliation", "//~": "NO_I18N" },
+    "points": 0,
+    "description": {
+      "str": "Intended to be hidden.  Makes Boann teleport the player away, spawns some huntsmen and hounds then cure all her ailments and injuries if she survives being hit by the player.",
+      "//~": "NO_I18N"
+    },
+    "starting_trait": false,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [
+      { "hit_me_effect": [ { "id": "boann_retaliation_mark", "hit_self": false } ] },
+      { "hit_me_effect": [ { "id": "boann_retaliation", "hit_self": true } ] }
+    ]
   }
 ]

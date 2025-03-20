@@ -37,12 +37,12 @@
       "terrain": { "G": "t_card_science", "Ø": "t_rock_floor", "¢": "t_rock_floor" },
       "furniture": { "☿": "f_alembic", "β": "f_magic_bench", "Ø": "f_magic_circle" },
       "place_item": [
-        { "item": "spell_scroll_biomancer_remove_instability", "x": 12, "y": 9, "chance": 100 },
         { "item": "candle", "x": 15, "y": 5, "chance": 100 },
         { "item": "candle", "x": 15, "y": 8, "chance": 100 },
         { "item": "candle", "x": 18, "y": 5, "chance": 100 },
         { "item": "candle", "x": 18, "y": 8, "chance": 100 }
       ],
+      "place_loot": [ { "group": "xedra_thaumaturgical_lab_secret_spells", "x": 12, "y": 9, "chance": 100 } ],
       "items": {
         "B": [
           { "item": "magic_shop_books", "chance": 33, "repeat": [ 1, 3 ] },

@@ -1,13 +1,34 @@
 #include "npctrade_utils.h"
 
+#include <algorithm>
+#include <functional>
+#include <iterator>
 #include <list>
 #include <map>
+#include <optional>
+#include <ostream>
+#include <string>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "clzones.h"
+#include "coordinates.h"
+#include "debug.h"
+#include "game_constants.h"
+#include "item.h"
+#include "item_location.h"
+#include "map.h"
+#include "mapdata.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "pocket_type.h"
+#include "point.h"
 #include "rng.h"
+#include "shop_cons_rate.h"
+#include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -55,7 +76,7 @@ dest_t _get_shuffled_point_set( std::unordered_set<tripoint_abs_ms> const &set )
 }
 
 // returns true if item wasn't placed
-bool _to_map( item const &it, map &here, tripoint const &dpoint_here )
+bool _to_map( item const &it, map &here, tripoint_bub_ms const &dpoint_here )
 {
     if( here.can_put_items_ter_furn( dpoint_here ) &&
         here.free_volume( dpoint_here ) >= it.volume() ) {
@@ -67,8 +88,10 @@ bool _to_map( item const &it, map &here, tripoint const &dpoint_here )
 
 bool _to_veh( item const &it, std::optional<vpart_reference> const &vp )
 {
+    map &here = get_map();
+
     if( vp->items().free_volume() >= it.volume() ) {
-        std::optional<vehicle_stack::iterator> const ret = vp->vehicle().add_item( vp->part(), it );
+        std::optional<vehicle_stack::iterator> const ret = vp->vehicle().add_item( here, vp->part(), it );
         return !ret.has_value();
     }
     return true;
@@ -79,7 +102,7 @@ bool _to_veh( item const &it, std::optional<vpart_reference> const &vp )
 void add_fallback_zone( npc &guy )
 {
     zone_manager &zmgr = zone_manager::get_manager();
-    tripoint_abs_ms const loc = guy.get_location();
+    tripoint_abs_ms const loc = guy.pos_abs();
     faction_id const &fac_id = guy.get_fac_id();
     map &here = get_map();
 
@@ -89,7 +112,7 @@ void add_fallback_zone( npc &guy )
 
     std::vector<tripoint_abs_ms> points;
     for( tripoint_abs_ms const &t : closest_points_first( loc, PICKUP_RANGE ) ) {
-        tripoint_bub_ms const t_here = here.bub_from_abs( t );
+        tripoint_bub_ms const t_here = here.get_bub( t );
         const furn_id &f = here.furn( t_here );
         if( f != furn_str_id::NULL_ID() &&
             ( f->max_volume > ter_t_floor->max_volume ||
@@ -104,11 +127,11 @@ void add_fallback_zone( npc &guy )
 
     if( points.empty() ) {
         zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false, true,
-                  loc.raw() + tripoint_north_west, loc.raw() + tripoint_south_east );
+                  loc + tripoint::north_west, loc + tripoint::south_east );
     } else {
         for( tripoint_abs_ms const &t : points ) {
-            zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false, true, t.raw(),
-                      t.raw() );
+            zmgr.add( fallback_name, zone_type_LOOT_UNSORTED, fac_id, false, true, t,
+                      t );
         }
     }
     DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
@@ -119,7 +142,7 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
 {
     zone_manager &zmgr = zone_manager::get_manager();
     map &here = get_map();
-    tripoint_abs_ms const loc_abs = guy.get_location();
+    tripoint_abs_ms const loc_abs = guy.pos_abs();
     faction_id const &fac_id = guy.get_fac_id();
 
     std::list<item> leftovers;
@@ -136,12 +159,12 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
 
         bool leftover = true;
         for( tripoint_abs_ms const &dpoint : dest ) {
-            tripoint_bub_ms const dpoint_here = here.bub_from_abs( dpoint );
+            tripoint_bub_ms const dpoint_here = here.get_bub( dpoint );
             std::optional<vpart_reference> const vp = here.veh_at( dpoint_here ).cargo();
             if( vp && vp->vehicle().get_owner() == fac_id ) {
                 leftover = _to_veh( it, vp );
             } else {
-                leftover = _to_map( it, here, dpoint_here.raw() );
+                leftover = _to_map( it, here, dpoint_here );
             }
             if( !leftover ) {
                 break;
@@ -157,13 +180,13 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
 
 void consume_items_in_zones( npc &guy, time_duration const &elapsed )
 {
-    std::unordered_set<tripoint> const src = zone_manager::get_manager().get_point_set_loot(
-                guy.get_location(), PICKUP_RANGE, guy.get_fac_id() );
+    std::unordered_set<tripoint_bub_ms> const src = zone_manager::get_manager().get_point_set_loot(
+                guy.pos_abs(), PICKUP_RANGE, guy.get_fac_id() );
 
     consume_cache cache;
     map &here = get_map();
 
-    for( tripoint const &pt : src ) {
+    for( tripoint_bub_ms const &pt : src ) {
         consume_queue consumed;
         std::list<item_location> stack =
         here.items_with( pt, [&guy]( item const & it ) {

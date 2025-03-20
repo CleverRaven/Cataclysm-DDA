@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_MI-GO_CAMP_OM",
+    "id": "GROUP_MI-GO_CAMP_OM",
     "//": "Mi-go raiding parties spawning in the vicinity of a mi-go camp.  Puts slavers later on and keeps large groups from spawning until the player can deal with them.",
     "monsters": [
       { "monster": "mon_mi_go", "weight": 530 },
@@ -22,7 +22,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MI-GO_BASE_COMMON",
+    "id": "GROUP_MI-GO_BASE_COMMON",
     "//": "Basic mi-go base defenders.",
     "monsters": [
       { "monster": "mon_mi_go", "weight": 100, "pack_size": [ 2, 4 ] },
@@ -42,7 +42,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MI-GO_BASE_CAPTORS",
+    "id": "GROUP_MI-GO_BASE_CAPTORS",
     "//": "Mi-go base defenders for rooms where captives are being held.",
     "monsters": [
       { "monster": "mon_mi_go_guard", "weight": 700 },
@@ -54,7 +54,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MI-GO_BASE_BOSS",
+    "id": "GROUP_MI-GO_BASE_BOSS",
     "//": "Mi-go base defenders for major boss battles.",
     "monsters": [
       { "monster": "mon_mi_go_guard", "weight": 620 },
@@ -71,7 +71,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MI-GO_SCOUT_TOWER",
+    "id": "GROUP_MI-GO_SCOUT_TOWER",
     "//": "Mi-go scout tower prisoner room.",
     "monsters": [
       { "monster": "mon_mi_go_surgeon", "weight": 100, "cost_multiplier": 3 },

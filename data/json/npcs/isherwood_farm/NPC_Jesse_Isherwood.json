@@ -197,7 +197,7 @@
     "value": 50000,
     "followup": "MISSION_ISHERWOOD_JESSE_2",
     "start": {
-      "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 8 },
+      "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "min_distance": 8 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_wolf", "pack_size": [ 4, 8 ], "x": 3, "y": 9, "target": true } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -223,7 +223,7 @@
     "difficulty": 8,
     "value": 80000,
     "start": {
-      "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 15 },
+      "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "min_distance": 15 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_flying_polyp", "pack_size": [ 3, 6 ], "x": 11, "y": 11, "target": true } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],

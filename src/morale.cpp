@@ -8,6 +8,7 @@
 #include <string>
 #include <utility>
 
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -37,7 +38,6 @@ static const morale_type morale_hot( "morale_hot" );
 static const morale_type morale_perm_badtemper( "morale_perm_badtemper" );
 static const morale_type morale_perm_constrained( "morale_perm_constrained" );
 static const morale_type morale_perm_debug( "morale_perm_debug" );
-static const morale_type morale_perm_fancy( "morale_perm_fancy" );
 static const morale_type morale_perm_filthy( "morale_perm_filthy" );
 static const morale_type morale_perm_masochist( "morale_perm_masochist" );
 static const morale_type morale_perm_numb( "morale_perm_numb" );
@@ -58,7 +58,6 @@ static const trait_id trait_RADIOPHILE( "RADIOPHILE" );
 static const trait_id trait_ROOTS1( "ROOTS1" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
-static const trait_id trait_STYLISH( "STYLISH" );
 static const trait_id trait_VANITY( "VANITY" );
 
 namespace
@@ -70,7 +69,6 @@ bool is_permanent_morale( const morale_type &id )
             morale_perm_optimist,
             morale_perm_badtemper,
             morale_perm_numb,
-            morale_perm_fancy,
             morale_perm_masochist,
             morale_perm_constrained,
             morale_perm_filthy,
@@ -262,7 +260,6 @@ player_morale::player_morale() :
     level_is_valid( false ),
     took_prozac( false ),
     took_prozac_bad( false ),
-    stylish( false ),
     perceived_pain( 0 ),
     radiation( 0 )
 {
@@ -276,9 +273,6 @@ player_morale::player_morale() :
     const auto set_numb = []( player_morale * pm, int bonus ) {
         pm->set_permanent( morale_perm_numb, bonus, nullptr );
     };
-    const auto set_stylish = []( player_morale * pm, bool new_stylish ) {
-        pm->set_stylish( new_stylish );
-    };
     const auto update_constrained = []( player_morale * pm ) {
         pm->update_constrained_penalty();
     };
@@ -291,31 +285,24 @@ player_morale::player_morale() :
 
     mutations[trait_OPTIMISTIC] =
     mutation_data( [set_optimist]( player_morale * pm ) {
-        return set_optimist( pm, 9 );
+        set_optimist( pm, 9 );
     },
     [set_optimist]( player_morale * pm ) {
-        return set_optimist( pm, 0 );
+        set_optimist( pm, 0 );
     } );
     mutations[trait_BADTEMPER] =
     mutation_data( [set_badtemper]( player_morale * pm ) {
-        return set_badtemper( pm, -9 );
+        set_badtemper( pm, -9 );
     },
     [set_badtemper]( player_morale * pm ) {
-        return set_badtemper( pm, 0 );
+        set_badtemper( pm, 0 );
     } );
     mutations[trait_NUMB] =
     mutation_data( [set_numb]( player_morale * pm ) {
-        return set_numb( pm, -1 );
+        set_numb( pm, -1 );
     },
     [set_numb]( player_morale * pm ) {
-        return set_numb( pm, 0 );
-    } );
-    mutations[trait_STYLISH] =
-    mutation_data( [set_stylish]( player_morale * pm ) {
-        return set_stylish( pm, true );
-    },
-    [set_stylish]( player_morale * pm ) {
-        return set_stylish( pm, false );
+        set_numb( pm, 0 );
     } );
     mutations[trait_FLOWERS]       = mutation_data( update_constrained );
     mutations[trait_ROOTS1]        = mutation_data( update_constrained );
@@ -863,9 +850,6 @@ bool player_morale::consistent_with( const player_morale &morale ) const
     } else if( took_prozac_bad != morale.took_prozac_bad ) {
         debugmsg( "player_morale::took_prozac (bad) is inconsistent." );
         return false;
-    } else if( stylish != morale.stylish ) {
-        debugmsg( "player_morale::stylish is inconsistent." );
-        return false;
     } else if( perceived_pain != morale.perceived_pain ) {
         debugmsg( "player_morale::perceived_pain is inconsistent." );
         return false;
@@ -887,8 +871,6 @@ void player_morale::clear()
     }
     took_prozac = false;
     took_prozac_bad = false;
-    stylish = false;
-    super_fancy_items.clear();
 
     invalidate();
 }
@@ -979,30 +961,24 @@ void player_morale::on_worn_item_washed( const item &it )
 void player_morale::on_effect_int_change( const efftype_id &eid, int intensity,
         const bodypart_id &bp )
 {
-    const bodypart_id bp_null( "bp_null" );
-    if( eid == effect_took_prozac && bp == bp_null ) {
+    if( eid == effect_took_prozac && bp == bodypart_str_id::NULL_ID() ) {
         set_prozac( intensity != 0 );
-    } else if( eid == effect_took_prozac_bad && bp == bp_null ) {
+    } else if( eid == effect_took_prozac_bad && bp == bodypart_str_id::NULL_ID() ) {
         set_prozac_bad( intensity != 0 );
-    } else if( eid == effect_cold && bp != bp_null ) {
+    } else if( eid == effect_cold && bp != bodypart_str_id::NULL_ID() ) {
         body_parts[bp].cold = intensity;
-    } else if( eid == effect_hot && bp != bp_null ) {
+    } else if( eid == effect_hot && bp != bodypart_str_id::NULL_ID() ) {
         body_parts[bp].hot = intensity;
     }
 }
 
 void player_morale::set_worn( const item &it, bool worn )
 {
-    const bool fancy = it.has_flag( STATIC( flag_id( "FANCY" ) ) );
-    const bool super_fancy = it.has_flag( STATIC( flag_id( "SUPER_FANCY" ) ) );
     const bool filthy_gear = it.has_flag( STATIC( flag_id( "FILTHY" ) ) );
     const bool integrated = it.has_flag( STATIC( flag_id( "INTEGRATED" ) ) );
     const int sign = worn ? 1 : -1;
 
     const auto update_body_part = [&]( body_part_data & bp_data ) {
-        if( fancy || super_fancy ) {
-            bp_data.fancy += sign;
-        }
         if( filthy_gear ) {
             bp_data.filthy += sign;
         }
@@ -1024,24 +1000,6 @@ void player_morale::set_worn( const item &it, bool worn )
         update_body_part( no_body_part );
     }
 
-    if( super_fancy ) {
-        const itype_id id = it.typeId();
-        const auto iter = super_fancy_items.find( id );
-
-        if( iter != super_fancy_items.end() ) {
-            iter->second += sign;
-            if( iter->second == 0 ) {
-                super_fancy_items.erase( iter );
-            }
-        } else if( worn ) {
-            super_fancy_items[id] = 1;
-        } else {
-            debugmsg( "Tried to take off \"%s\" which isn't worn.", id.c_str() );
-        }
-    }
-    if( fancy || super_fancy ) {
-        update_stylish_bonus();
-    }
     if( filthy_gear ) {
         update_squeamish_penalty();
     }
@@ -1063,31 +1021,6 @@ void player_morale::set_prozac_bad( bool new_took_prozac_bad )
         took_prozac_bad = new_took_prozac_bad;
         invalidate();
     }
-}
-
-void player_morale::set_stylish( bool new_stylish )
-{
-    if( stylish != new_stylish ) {
-        stylish = new_stylish;
-        update_stylish_bonus();
-    }
-}
-
-void player_morale::update_stylish_bonus()
-{
-    int bonus = 0;
-
-    if( stylish ) {
-        float tmp_bonus = 0.0f;
-        for( const std::pair<const bodypart_id, body_part_data> &bpt : body_parts ) {
-            if( bpt.second.fancy > 0 ) {
-                tmp_bonus += bpt.first->stylish_bonus;
-            }
-        }
-        bonus = std::min( static_cast<int>( 2 * super_fancy_items.size() ) +
-                          2 * std::min( static_cast<int>( no_body_part.fancy ), 3 ) + static_cast<int>( tmp_bonus ), 20 );
-    }
-    set_permanent( morale_perm_fancy, bonus );
 }
 
 void player_morale::update_masochist_bonus()

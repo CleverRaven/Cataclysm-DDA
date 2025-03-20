@@ -4,6 +4,7 @@
 #include <climits>
 #include <clocale>
 #include <iterator>
+#include <limits>
 #include <stdexcept>
 
 #include "cached_options.h"
@@ -19,6 +20,7 @@
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "input_context.h"
+#include "input_popup.h"
 #include "json.h"
 #include "lang_stats.h"
 #include "line.h"
@@ -304,15 +306,12 @@ static options_manager::cOpt::COPT_VALUE_TYPE get_value_type( const std::string 
 
 //add hidden external option with value
 void options_manager::add_external( const std::string &sNameIn, const std::string &sPageIn,
-                                    const std::string &sType,
-                                    const translation &sMenuTextIn, const translation &sTooltipIn )
+                                    const std::string &sType )
 {
     cOpt thisOpt;
 
     thisOpt.sName = sNameIn;
     thisOpt.sPage = sPageIn;
-    thisOpt.sMenuText = sMenuTextIn;
-    thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = sType;
     thisOpt.verbose = false;
 
@@ -324,14 +323,14 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
             thisOpt.bDefault = false;
             break;
         case cOpt::CVT_INT:
-            thisOpt.iMin = INT_MIN;
-            thisOpt.iMax = INT_MAX;
+            thisOpt.iMin = std::numeric_limits<int>::lowest();
+            thisOpt.iMax = std::numeric_limits<int>::max();
             thisOpt.iDefault = 0;
             thisOpt.iSet = 0;
             break;
         case cOpt::CVT_FLOAT:
-            thisOpt.fMin = FLT_MIN;
-            thisOpt.fMax = FLT_MAX;
+            thisOpt.fMin = std::numeric_limits<float>::lowest();
+            thisOpt.fMax = std::numeric_limits<float>::max();
             thisOpt.fDefault = 0;
             thisOpt.fSet = 0;
             thisOpt.fStep = 1;
@@ -2393,6 +2392,11 @@ void options_manager::add_options_graphics()
              to_translation( "If true, use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
              true, COPT_CURSES_HIDE
            );
+
+        add( "IMGUI_LOAD_CHINESE", page_id, to_translation( "Chinese glyph ranges in ImGui" ),
+             to_translation( "If true, ImGui will add glyphs of full Chinese, include zh_CN, zh_TW, ja. Use this option when your need all Chinese glyphs.  Requires restart." ),
+             false, COPT_CURSES_HIDE
+           );
     } );
 #endif // TILES
 
@@ -3353,7 +3357,7 @@ static void draw_borders_external(
 static void draw_borders_internal( const catacurses::window &w, std::set<int> &vert_lines )
 {
     wattron( w, BORDER_COLOR );
-    mvwhline( w, point_zero, LINE_OXOX, getmaxx( w ) ); // -
+    mvwhline( w, point::zero, LINE_OXOX, getmaxx( w ) ); // -
     for( const int &x : vert_lines ) {
         mvwaddch( w, point( x, 0 ), LINE_OXXX ); // -.-
     }
@@ -3698,7 +3702,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
 
         const PageItem &curr_item = page_items[iCurrentLine];
         std::string tooltip = curr_item.fmt_tooltip( curr_item.group, cOPTIONS );
-        fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white, tooltip );
+        fold_and_print( w_options_tooltip, point::zero, iMinScreenWidth - 2, c_white, tooltip );
 
         if( ingame && iCurrentPage == iWorldOptPage ) {
             mvwprintz( w_options_tooltip, point( 3, 5 ), c_light_red, "%s", _( "Note: " ) );
@@ -3758,33 +3762,16 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                     current_opt.setNext();
                 } else {
                     const bool is_int = current_opt.getType() == "int";
-                    const bool is_float = current_opt.getType() == "float";
-                    const std::string old_opt_val = current_opt.getValueName();
-                    const std::string opt_val = string_input_popup()
-                                                .title( current_opt.getMenuText() )
-                                                .width( 10 )
-                                                .text( old_opt_val )
-                                                .only_digits( is_int )
-                                                .query_string();
-                    if( !opt_val.empty() && opt_val != old_opt_val ) {
-                        if( is_float ) {
-                            std::istringstream ssTemp( opt_val );
-                            // This uses the current locale, to allow the users
-                            // to use their own decimal format.
-                            float tmpFloat;
-                            ssTemp >> tmpFloat;
-                            if( ssTemp ) {
-                                current_opt.setValue( tmpFloat );
-
-                            } else {
-                                popup( _( "Invalid input: not a number" ) );
-                            }
-                        } else {
-                            // option is of type "int": string_input_popup
-                            // has taken care that the string contains
-                            // only digits, parsing is done in setValue
-                            current_opt.setValue( opt_val );
-                        }
+                    if( is_int ) {
+                        number_input_popup<int> popup( 0, current_opt.value_as<int>() );
+                        popup.set_label( current_opt.getMenuText() );
+                        int num = popup.query();
+                        current_opt.setValue( num );
+                    } else {
+                        number_input_popup<float> popup( 0, current_opt.value_as<float>() );
+                        popup.set_label( current_opt.getMenuText() );
+                        float num = popup.query();
+                        current_opt.setValue( num );
                     }
                 }
             }
@@ -4030,9 +4017,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
 #else
     ( void ) terminal_size_changed;
 #endif
-
-    refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame );
-
+    if( ingame ) {
+        refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame );
+    }
     return "";
 }
 

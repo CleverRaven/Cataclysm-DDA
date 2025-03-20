@@ -239,7 +239,7 @@
     "remove_message": "The sparks in your eyes are finally gone.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "SIGHT_RANGE_ELECTRIC", "add": 100 } ] } ]
+    "enchantments": [ "ELECTRIC_VISION" ]
   },
   {
     "id": "XAEA_incorporeal",
@@ -343,7 +343,7 @@
     "remove_message": "Electric clouds are gone.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "emitter": "emit_shock_cloud_big", "values": [ { "value": "ARMOR_ELEC", "add": -100 } ] } ]
+    "enchantments": [ { "emitter": "emit_shock_cloud_big", "incoming_damage_mod": [ { "type": "electric", "add": -100 } ] } ]
   },
   {
     "id": "XAEA_mod_moves",
@@ -384,6 +384,16 @@
     "remove_message": "The sensation in your spine gone.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "MOTION_VISION_RANGE", "add": 30 } ] } ]
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "special_vision": [
+          {
+            "distance": 30,
+            "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "You sense something moving here." } ]
+          }
+        ]
+      }
+    ]
   }
 ]

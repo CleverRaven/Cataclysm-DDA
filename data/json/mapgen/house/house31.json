@@ -4,7 +4,6 @@
     "om_terrain": "house_31",
     "//": "used by lab basements.",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -33,7 +32,11 @@
         ".....[......[...........",
         "...................%...."
       ],
-      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": [
+        "domestic_general_construction_and_variant_palette",
+        "standard_domestic_landscaping_palette",
+        "standard_domestic_lino_bathroom"
+      ],
       "terrain": {
         "-": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "=": "t_door_metal_locked",

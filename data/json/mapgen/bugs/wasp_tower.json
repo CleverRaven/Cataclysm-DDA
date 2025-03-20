@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "wasp_tower" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -43,7 +42,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "wasp_tower_1" ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

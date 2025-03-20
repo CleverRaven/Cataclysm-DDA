@@ -225,7 +225,7 @@
       "items": {
         "s": { "item": "wetbar_stack", "chance": 30 },
         "S": { "item": "office_paper", "chance": 30 },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 2, 4 ] }
       }
     }
   },

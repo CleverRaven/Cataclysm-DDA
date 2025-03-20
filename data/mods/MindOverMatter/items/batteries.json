@@ -1,0 +1,111 @@
+[
+  {
+    "id": "light_battery_electronoetic",
+    "type": "MAGAZINE",
+    "category": "tool_magazine",
+    "name": { "str": "light electronoetic battery", "str_pl": "light electronoetic batteries" },
+    "description": "A light battery but with the casing devoid of branding or symbols other than a plus and minus on opposite ends.  It's surprisingly heavy.",
+    "ascii_picture": "light_battery_cell",
+    "weight": "20 g",
+    "volume": "8 ml",
+    "longest_side": "50 mm",
+    "price": "31 cent",
+    "price_postapoc": "2 USD",
+    "material": [
+      { "type": "budget_steel", "portion": 90 },
+      { "type": "nether_crystal", "portion": 9 },
+      { "type": "plastic", "portion": 1 }
+    ],
+    "symbol": "=",
+    "color": "cyan",
+    "ammo_type": [ "battery" ],
+    "//": "Capacity 3x normal",
+    "capacity": 48,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_LIGHT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 48 } } ]
+  },
+  {
+    "id": "light_battery_electronoetic_refined",
+    "copy-from": "light_battery_electronoetic",
+    "type": "MAGAZINE",
+    "category": "tool_magazine",
+    "name": { "str": "light refined electronoetic battery", "str_pl": "light refined electronoetic batteries" },
+    "//": "Capacity 8x normal",
+    "capacity": 128,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 128 } } ]
+  },
+  {
+    "id": "medium_battery_electronoetic",
+    "type": "MAGAZINE",
+    "category": "tool_magazine",
+    "name": { "str": "medium electronoetic battery", "str_pl": "medium electronoetic batteries" },
+    "description": "A medium battery but with the casing devoid of branding or symbols other than a plus and minus on opposite ends.  It's surprisingly heavy.",
+    "ascii_picture": "medium_battery_cell",
+    "weight": "100 g",
+    "volume": "17 ml",
+    "longest_side": "65 mm",
+    "price": "101 cent",
+    "price_postapoc": "5 USD",
+    "material": [
+      { "type": "budget_steel", "portion": 90 },
+      { "type": "nether_crystal", "portion": 9 },
+      { "type": "plastic", "portion": 1 }
+    ],
+    "symbol": "=",
+    "color": "cyan",
+    "ammo_type": [ "battery" ],
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_MEDIUM" ],
+    "//": "Capacity 3x normal",
+    "capacity": 168,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 168 } } ]
+  },
+  {
+    "id": "medium_battery_electronoetic_refined",
+    "copy-from": "medium_battery_electronoetic",
+    "type": "MAGAZINE",
+    "category": "tool_magazine",
+    "name": { "str": "medium refined electronoetic battery", "str_pl": "medium refined electronoetic batteries" },
+    "//": "Capacity 8x normal",
+    "capacity": 448,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 448 } } ]
+  },
+  {
+    "id": "heavy_battery_electronoetic",
+    "type": "MAGAZINE",
+    "category": "tool_magazine",
+    "name": { "str": "electronoetic tool battery", "str_pl": "electronoetic tool batteries" },
+    "description": "A battery cell, compatible with all kinds of industrial-grade equipment and portable tools, but with the casing devoid of branding or symbols other than a plus and minus on opposite ends.  It's surprisingly heavy.",
+    "ascii_picture": "heavy_battery_cell",
+    "weight": "400 g",
+    "volume": "382 ml",
+    "longest_side": "113 mm",
+    "//2": "113 * 75 * 62 mm",
+    "price": "22 USD",
+    "price_postapoc": "35 cent",
+    "material": [
+      { "type": "budget_steel", "portion": 90 },
+      { "type": "nether_crystal", "portion": 9 },
+      { "type": "plastic", "portion": 1 }
+    ],
+    "symbol": "=",
+    "color": "cyan",
+    "ammo_type": [ "battery" ],
+    "//": "Capacity 3x normal",
+    "capacity": 777,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_HEAVY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 777 } } ]
+  },
+  {
+    "id": "heavy_battery_electronoetic_refined",
+    "copy-from": "medium_battery_electronoetic",
+    "type": "MAGAZINE",
+    "category": "tool_magazine",
+    "name": { "str": "refined electronoetic tool battery", "str_pl": "refined electronoetic tool batteries" },
+    "//": "Capacity 8x normal",
+    "capacity": 2072,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2072 } } ]
+  }
+]

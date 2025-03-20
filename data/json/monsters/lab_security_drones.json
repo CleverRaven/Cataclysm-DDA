@@ -21,15 +21,12 @@
     "id": "GREEN_MAINTENANCE_ALARM",
     "effect": [
       {
-        "run_eocs": {
-          "id": "bot_green_maintenance_badge_check",
-          "condition": { "not": { "u_has_item": "id_science_maintenance_green" } },
-          "effect": [
-            { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
-            { "mapgen_update": "bots_center_garage", "om_terrain": "lab_CORE_2x1_EC_ground" }
-          ],
-          "false_effect": [ { "u_message": "Hello, valued employee." }, { "u_message": "lab_safety_maintenance_snippets", "snippet": true } ]
-        }
+        "if": { "u_has_item": "id_science_maintenance_green" },
+        "then": [ { "u_message": "Hello, valued employee." }, { "u_message": "lab_safety_maintenance_snippets", "snippet": true } ],
+        "else": [
+          { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
+          { "mapgen_update": "bots_center_garage", "om_terrain": "lab_CORE_2x1_EC_ground" }
+        ]
       }
     ]
   },
@@ -88,16 +85,13 @@
     "id": "YELLOW_MAINTENANCE_ALARM",
     "effect": [
       {
-        "run_eocs": {
-          "id": "bot_yellow_maintenance_badge_check",
-          "condition": { "not": { "u_has_item": "id_science_maintenance_yellow" } },
-          "effect": [
-            { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
-            { "mapgen_update": "concrete_wall_o_lab_res_8_NW", "om_terrain": "lab_res_8_NWD" },
-            { "mapgen_update": "concrete_wall_o_lab_res_8_NE", "om_terrain": "lab_res_8_NED" }
-          ],
-          "false_effect": [ { "u_message": "Hello, valued employee." }, { "u_message": "lab_safety_maintenance_snippets", "snippet": true } ]
-        }
+        "if": { "u_has_item": "id_science_maintenance_yellow" },
+        "then": [ { "u_message": "Hello, valued employee." }, { "u_message": "lab_safety_maintenance_snippets", "snippet": true } ],
+        "else": [
+          { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
+          { "mapgen_update": "concrete_wall_o_lab_res_8_NW", "om_terrain": "lab_res_8_NWD" },
+          { "mapgen_update": "concrete_wall_o_lab_res_8_NE", "om_terrain": "lab_res_8_NED" }
+        ]
       }
     ]
   },
@@ -148,16 +142,13 @@
     "id": "BLUE_MAINTENANCE_ALARM",
     "effect": [
       {
-        "run_eocs": {
-          "id": "bot_blue_maintenance_badge_check",
-          "condition": { "not": { "u_has_item": "id_science_maintenance_blue" } },
-          "effect": [
-            { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
-            { "mapgen_update": "concrete_wall_o_lab_res_8_NW", "om_terrain": "lab_2x2_cargo_NW" },
-            { "mapgen_update": "concrete_wall_o_lab_res_8_NE", "om_terrain": "lab_2x2_cargo_NE" }
-          ],
-          "false_effect": [ { "u_message": "Hello, valued employee." }, { "u_message": "lab_safety_maintenance_snippets", "snippet": true } ]
-        }
+        "if": { "u_has_item": "id_science_maintenance_blue" },
+        "then": [ { "u_message": "Hello, valued employee." }, { "u_message": "lab_safety_maintenance_snippets", "snippet": true } ],
+        "else": [
+          { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
+          { "mapgen_update": "concrete_wall_o_lab_res_8_NW", "om_terrain": "lab_2x2_cargo_NW" },
+          { "mapgen_update": "concrete_wall_o_lab_res_8_NE", "om_terrain": "lab_2x2_cargo_NE" }
+        ]
       }
     ]
   },
@@ -208,16 +199,13 @@
     "id": "BLUE_MAINTENANCE_ALARM2",
     "effect": [
       {
-        "run_eocs": {
-          "id": "bot_blue_maintenance_badge_check2",
-          "condition": { "not": { "u_has_item": "id_science_maintenance_blue" } },
-          "effect": [
-            { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
-            { "mapgen_update": "lab_security_corridor_e", "om_terrain": "underground_lab_central_-6W" },
-            { "mapgen_update": "lab_security_corridor_f", "om_terrain": "underground_lab_central_-6E" }
-          ],
-          "false_effect": [ { "u_message": "Hello, valued employee." }, { "u_message": "lab_safety_maintenance_snippets", "snippet": true } ]
-        }
+        "if": { "u_has_item": "id_science_maintenance_blue" },
+        "then": [ { "u_message": "Hello, valued employee." }, { "u_message": "lab_safety_maintenance_snippets", "snippet": true } ],
+        "else": [
+          { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
+          { "mapgen_update": "lab_security_corridor_e", "om_terrain": "underground_lab_central_-6W" },
+          { "mapgen_update": "lab_security_corridor_f", "om_terrain": "underground_lab_central_-6E" }
+        ]
       }
     ]
   },
@@ -294,17 +282,14 @@
     "id": "GREEN_RESEARCHER_ALARM",
     "effect": [
       {
-        "run_eocs": {
-          "id": "bot_green_researcher_badge_check",
-          "condition": { "not": { "u_has_item": "id_science_mutagen_green" } },
-          "effect": [
-            { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
-            { "mapgen_update": "bot_release_rearcher_green", "om_terrain": "lab_res_8_NW" },
-            { "mapgen_update": "bot_release_rearcher_green_2", "om_terrain": "lab_res_8_NE" },
-            { "mapgen_update": "bot_release_rearcher_green", "om_terrain": "lab_res_8_NWD" }
-          ],
-          "false_effect": [ { "u_message": "Hello, valued employee." } ]
-        }
+        "if": { "u_has_item": "id_science_mutagen_green" },
+        "then": [ { "u_message": "Hello, valued employee." } ],
+        "else": [
+          { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
+          { "mapgen_update": "bot_release_rearcher_green", "om_terrain": "lab_res_8_NW" },
+          { "mapgen_update": "bot_release_rearcher_green_2", "om_terrain": "lab_res_8_NE" },
+          { "mapgen_update": "bot_release_rearcher_green", "om_terrain": "lab_res_8_NWD" }
+        ]
       }
     ]
   },
@@ -369,17 +354,14 @@
     "id": "BLACK_SECURITY_ALARM",
     "effect": [
       {
-        "run_eocs": {
-          "id": "bot_black_security_badge_check",
-          "condition": { "not": { "u_has_item": "id_science_security_black" } },
-          "effect": [
-            { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
-            { "mapgen_update": "toxic_gas_corridor", "om_terrain": "underground_lab_central_-6W" },
-            { "mapgen_update": "lab_security_corridor_c", "om_terrain": "underground_lab_central_-6W" },
-            { "mapgen_update": "lab_security_corridor_d", "om_terrain": "underground_lab_central_-6E" }
-          ],
-          "false_effect": [ { "u_message": "Hello, valued employee." } ]
-        }
+        "if": { "u_has_item": "id_science_security_black" },
+        "then": [ { "u_message": "Hello, valued employee." } ],
+        "else": [
+          { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
+          { "mapgen_update": "toxic_gas_corridor", "om_terrain": "underground_lab_central_-6W" },
+          { "mapgen_update": "lab_security_corridor_c", "om_terrain": "underground_lab_central_-6W" },
+          { "mapgen_update": "lab_security_corridor_d", "om_terrain": "underground_lab_central_-6E" }
+        ]
       }
     ]
   },

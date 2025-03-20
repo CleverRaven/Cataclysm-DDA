@@ -42,7 +42,7 @@
         "                        :!:   iiiiiiiiiiiiiiiiii",
         "                        :!:   iZ,,JJJJ6|t|..117i",
         "iiiiiiiiiiiiiiiiiiii    :!:   iZ,,,,,,,+,|4..2.i",
-        "i......FFUUUgg.....i    :!:   iZ,,,,,,,|S|.4..Ui",
+        "i......ââUUUgg.....i    :!:   iZ,,,,,,,|S|.4..Ui",
         "i.......z..........i:::::!:   iW,,,,,,,|||&&$&&i",
         "i...i..........i...i    :}:   iW,,,,,,,........i",
         "i..iii........iii..i    :!:   iW,,,,,))|.&&&$&&i",
@@ -64,18 +64,18 @@
         "                        :::                     ",
         "                         :                      "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": [ "parametrized_linoleum_palette", "standard_domestic_basement_palette" ],
       "liquids": { ")": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "terrain": {
         "}": "t_ladder_up",
-        ",": "t_linoleum_white",
-        "Z": "t_linoleum_white",
-        "W": "t_linoleum_white",
-        "J": "t_linoleum_white",
-        "S": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "6": "t_linoleum_white",
-        ")": "t_linoleum_white",
+        ",": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Z": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "W": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "J": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "t": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "6": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        ")": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "!": "t_sewage",
         "=": "t_door_metal_pickable",
         ":": "t_dirtfloor",
@@ -100,7 +100,8 @@
         "D": { "item": "allclothes", "chance": 60 },
         "L": { "item": "homeguns", "chance": 80 },
         "W": { "item": "allclothes", "chance": 60 },
-        "X": { "item": "allclothes", "chance": 60 }
+        "X": { "item": "allclothes", "chance": 60 },
+        "T": { "item": "SUS_toilet", "chance": 50 }
       },
       "toilets": { "T": {  } },
       "place_monsters": [
@@ -109,15 +110,13 @@
       ]
     },
     "om_terrain": [ [ "urban_25_1", "urban_25_2" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
     "om_terrain": [ [ "urban_25_3" ] ],
     "//": "diner side",
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -159,7 +158,6 @@
     "om_terrain": [ [ "urban_25_4" ] ],
     "type": "mapgen",
     "//": "apartment side",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "//": "apartment side",
@@ -208,7 +206,7 @@
         "}": "t_ladder_up"
       },
       "furniture": { "!": "f_region_flower", "0": "f_stool", ")": "f_dumpster", "(": "f_recycle_bin" },
-      "place_vehicles": [ { "vehicle": "back_alley", "x": 4, "y": 5, "rotation": 90, "chance": 100 } ],
+      "place_vehicles": [ { "vehicle": "back_alley", "x": 4, "y": 5, "rotation": 90 } ],
       "place_loot": [
         { "item": "television", "x": 7, "y": 3, "chance": 75 },
         { "item": "television", "x": 12, "y": 18, "chance": 75 },
@@ -226,7 +224,6 @@
     "method": "json",
     "om_terrain": [ [ "urban_25_5", "urban_25_6" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -342,14 +339,12 @@
       ]
     },
     "om_terrain": [ [ "urban_25_7", "urban_25_8" ] ],
-    "type": "mapgen",
-    "weight": 250
+    "type": "mapgen"
   },
   {
     "method": "json",
     "om_terrain": [ [ "urban_25_9", "urban_25_10" ] ],
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -390,7 +385,6 @@
     "method": "json",
     "om_terrain": "urban_25_12",
     "type": "mapgen",
-    "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [

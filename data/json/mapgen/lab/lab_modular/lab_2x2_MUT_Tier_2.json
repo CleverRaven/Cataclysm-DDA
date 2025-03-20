@@ -4,7 +4,6 @@
     "om_terrain": [ "lab_2x2_MUT_tier_2_NW_final_flr" ],
     "//": "variant for a 6 floor lab (removed stairs down)",
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -71,7 +70,6 @@
     "method": "json",
     "om_terrain": [ "lab_2x2_MUT_tier_2_NE" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -139,7 +137,6 @@
     "method": "json",
     "om_terrain": [ "lab_2x2_MUT_tier_2_SW" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -231,7 +228,6 @@
     "method": "json",
     "om_terrain": [ "lab_2x2_MUT_tier_2_SE" ],
     "type": "mapgen",
-    "weight": 200,
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [

@@ -6,6 +6,7 @@
     "weakpoints": [
       {
         "name": "the head",
+        "is_head": true,
         "armor_mult": { "physical": 0.75 },
         "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 1, "ranged": 3 },
@@ -38,6 +39,7 @@
       },
       {
         "name": "the eye",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "coverage": 1,
         "crit_mult": { "all": 1.25 },
@@ -70,6 +72,7 @@
     "weakpoints": [
       {
         "name": "the head",
+        "is_head": true,
         "armor_mult": { "physical": 0.75 },
         "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 5, "ranged": 5 },
@@ -104,6 +107,7 @@
       },
       {
         "name": "the eye",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "coverage": 1,
         "crit_mult": { "all": 1.25 },
@@ -137,6 +141,7 @@
     "weakpoints": [
       {
         "name": "the head",
+        "is_head": true,
         "armor_mult": { "physical": 0.75 },
         "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 1, "ranged": 3 },
@@ -169,6 +174,7 @@
       },
       {
         "name": "the eye",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "coverage": 1,
         "crit_mult": { "all": 1.25 },
@@ -201,6 +207,7 @@
     "weakpoints": [
       {
         "name": "the head",
+        "is_head": true,
         "armor_mult": { "physical": 0.75 },
         "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 2, "ranged": 2 },
@@ -234,6 +241,7 @@
       },
       {
         "name": "the eye",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "coverage": 1,
         "crit_mult": { "all": 1.25 },
@@ -266,6 +274,7 @@
     "weakpoints": [
       {
         "name": "the head",
+        "is_head": true,
         "armor_mult": { "physical": 2 },
         "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 2, "ranged": 2 },
@@ -299,6 +308,7 @@
       },
       {
         "name": "the eye",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "coverage": 1,
         "crit_mult": { "all": 1.25 },
@@ -331,6 +341,7 @@
     "weakpoints": [
       {
         "name": "the head",
+        "is_head": true,
         "armor_mult": { "physical": 0.75 },
         "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 2, "ranged": 2 },
@@ -364,6 +375,7 @@
       },
       {
         "name": "the eye",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "coverage": 1,
         "crit_mult": { "all": 1.25 },
@@ -396,6 +408,7 @@
     "weakpoints": [
       {
         "name": "the head",
+        "is_head": true,
         "armor_mult": { "physical": 0.75 },
         "crit_mult": { "all": 1.1 },
         "difficulty": { "melee": 2, "ranged": 2 },
@@ -420,6 +433,7 @@
       },
       {
         "name": "the eye",
+        "is_head": true,
         "armor_mult": { "physical": 0 },
         "coverage": 1,
         "crit_mult": { "all": 1.25 },

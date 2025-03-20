@@ -1,6 +1,27 @@
 [
   {
     "id": "tinyweldtank",
+    "looks_like": "pressurized_canister",
+    "type": "MAGAZINE",
+    "category": "tool_magazine",
+    "name": { "str": "tiny welding tank" },
+    "description": "A tiny acetylene tank.  It can pressurize up to 1 liter of welding gas.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "longest_side": "20 cm",
+    "price": "100 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "brown",
+    "ammo_type": [ "weldgas" ],
+    "capacity": 100,
+    "count": 100,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "weldgas": 100 }, "watertight": true } ]
+  },
+  {
+    "id": "smallweldtank",
     "//": "Hot Max 24012 Acetylene Cylinder",
     "looks_like": "pressurized_tank",
     "type": "MAGAZINE",

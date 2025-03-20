@@ -969,7 +969,7 @@
     "id": "beer",
     "looks_like": "water",
     "name": { "str_sp": "beer" },
-    "weight": "251 g",
+    "weight": "250 g",
     "color": "brown",
     "addiction_type": "alcohol",
     "use_action": [ "ALCOHOL_WEAK" ],

@@ -39,7 +39,13 @@
     "price_postapoc": "22 USD 50 cent",
     "min_cycle_recoil": 450,
     "ammo": [ "357sig" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock40mag", "glock40bigmag" ] } ]
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "glock40mag_10", "glock40mag", "glock40bigmag" ]
+      }
+    ]
   },
   {
     "id": "p320_357sig",

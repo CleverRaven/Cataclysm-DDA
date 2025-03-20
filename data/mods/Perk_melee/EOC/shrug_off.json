@@ -5,7 +5,7 @@
     "condition": { "u_using_martial_art": "style_none" },
     "deactivate_condition": { "not": { "u_has_flag": "MELEE_PERK_SHRUG_OFF" } },
     "recurrence": "15 seconds",
-    "effect": [ { "math": [ "u_shrug_off_ready", "=", "1" ] } ]
+    "effect": [ { "math": [ "u_shrug_off_ready = 1" ] } ]
   },
   {
     "type": "enchantment",
@@ -40,6 +40,6 @@
   {
     "id": "EOC_PERK_SHRUG_OFF_TRIGGER",
     "type": "effect_on_condition",
-    "effect": [ { "math": [ "u_shrug_off_ready", "=", "0" ] } ]
+    "effect": [ { "math": [ "u_shrug_off_ready = 0" ] } ]
   }
 ]

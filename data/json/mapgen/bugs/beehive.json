@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 100,
     "om_terrain": [
       [ "hive_edge_00", "hive_edge_10", "hive_edge_20" ],
       [ "hive_edge_01", "hive", "hive_edge_21" ],

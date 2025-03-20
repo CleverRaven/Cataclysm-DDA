@@ -72,6 +72,7 @@
     "name": { "str": "fiend" },
     "description": "A monstrous burnt vaguely humanoid creature, walking around on its knuckles like a gorilla.  Tattered and blackened strands of muscle fibers dangle all around its body, with patches of fused melded skin and bone visible between.  Its forelimbs end in lengthy skeletal claws.",
     "copy-from": "mon_zombie_base",
+    "species": [ "ZOMBIE" ],
     "volume": "875 L",
     "weight": "200 kg",
     "hp": 275,
@@ -108,6 +109,7 @@
     "type": "MONSTER",
     "description": "An oversized charred human form.  The remains of its burnt and blackened musculature are clearly visible between the cracks of the shell formed from its melted skin.  This one appears to have metal fragments sticking out of its body.",
     "copy-from": "mon_zombie_scorched_brute",
+    "species": [ "ZOMBIE" ],
     "harvest": "zombie_rust",
     "decay": "zombie_decay_bone_human_skull_rust"
   }

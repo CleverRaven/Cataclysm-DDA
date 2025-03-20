@@ -19,6 +19,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "augustmoon_corpo_quarter1", "augustmoon_corpo_quarter2", "augustmoon_corpo_quarter3", "augustmoon_corpo_quarter4" ],
+    "name": "Corporate Spire",
+    "sym": "+",
+    "color": "red",
+    "see_cost": "high",
+    "flags": [ "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "augustmoon_docking_arm",
     "name": "Docking Arm Strbd.  2",
     "sym": "i",

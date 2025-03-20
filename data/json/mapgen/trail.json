@@ -3,6 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "forest_trail_end",
+    "weight": { "global_val": "vanilla_trail_intersection_weight", "default": 1000 },
     "object": {
       "fallback_predecessor_mapgen": "forest_thick",
       "place_nested": [
@@ -619,6 +620,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "forest_trail_tee",
+    "weight": { "global_val": "vanilla_trail_intersection_weight", "default": 1000 },
     "object": {
       "fallback_predecessor_mapgen": "forest_thick",
       "place_nested": [
@@ -708,6 +710,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "forest_trail_four_way",
+    "weight": { "global_val": "vanilla_trail_intersection_weight", "default": 1000 },
     "object": {
       "fallback_predecessor_mapgen": "forest_thick",
       "place_nested": [
@@ -793,6 +796,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "forest_trail_intersection",
+    "weight": { "global_val": "vanilla_trail_intersection_weight", "default": 1000 },
     "//": "For placing the intersection as part of a special",
     "object": {
       "predecessor_mapgen": "forest_thick",

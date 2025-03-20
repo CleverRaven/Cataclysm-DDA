@@ -1,19 +1,16 @@
 #include "mission.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <cstdlib>
 #include <set>
 
 #include "assign.h"
-#include "calendar.h"
 #include "condition.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
 #include "item.h"
-#include "json.h"
-#include "npc.h"
 #include "rng.h"
 
 static const mission_type_id mission_MISSION_EXPLORE_SARCOPHAGUS( "MISSION_EXPLORE_SARCOPHAGUS" );
@@ -288,15 +285,9 @@ void mission_type::load_mission_type( const JsonObject &jo, const std::string &s
     mission_type_factory.load( jo, src );
 }
 
-static DynamicDataLoader::deferred_json deferred;
-
 void mission_type::reset()
 {
     mission_type_factory.reset();
-    for( std::pair<JsonObject, std::string> &deferred_json : deferred ) {
-        deferred_json.first.allow_omitted_members();
-    }
-    deferred.clear();
 }
 
 template <typename Fun>
@@ -313,7 +304,7 @@ void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
     }
 }
 
-void mission_type::load( const JsonObject &jo, const std::string &src )
+bool mission_type::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 
@@ -366,8 +357,6 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
         } else if( jo.has_member( phase ) ) {
             JsonObject j_start = jo.get_object( phase );
             if( !parse_funcs( j_start, src, phase_func ) ) {
-                deferred.emplace_back( jo, src );
-                jo.allow_omitted_members();
                 j_start.allow_omitted_members();
                 return false;
             }
@@ -375,13 +364,13 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
         return true;
     };
     if( !parse_phase( "start", start ) ) {
-        return;
+        return false;
     }
     if( !parse_phase( "end", end ) ) {
-        return;
+        return false;
     }
     if( !parse_phase( "fail", fail ) ) {
-        return;
+        return false;
     }
 
     deadline = get_duration_or_var( jo, "deadline", false );
@@ -408,6 +397,8 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "invisible_on_complete", invisible_on_complete, false );
+
+    return true;
 }
 
 bool mission_type::test_goal_condition( struct dialogue &d ) const
@@ -420,7 +411,6 @@ bool mission_type::test_goal_condition( struct dialogue &d ) const
 
 void mission_type::finalize()
 {
-    DynamicDataLoader::get_instance().load_deferred( deferred );
 }
 
 void mission_type::check_consistency()

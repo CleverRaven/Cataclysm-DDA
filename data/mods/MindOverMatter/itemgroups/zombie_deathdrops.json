@@ -26,13 +26,17 @@
     "type": "item_group",
     "subtype": "collection",
     "copy-from": "mon_zombie_survivor_death_drops",
-    "extend": { "entries": [ { "group": "concentrated_matrix_elixirs", "prob": 2 } ] }
+    "extend": {
+      "entries": [ { "group": "concentrated_matrix_elixirs", "prob": 2 }, { "item": "grenade_inferno_makeshift", "prob": 2 } ]
+    }
   },
   {
     "id": "mon_zombie_survivor_elite_death_drops",
     "type": "item_group",
     "subtype": "collection",
     "copy-from": "mon_zombie_survivor_elite_death_drops",
-    "extend": { "entries": [ { "group": "concentrated_matrix_elixirs", "prob": 3 } ] }
+    "extend": {
+      "entries": [ { "group": "concentrated_matrix_elixirs", "prob": 3 }, { "item": "grenade_inferno_makeshift", "prob": 2 } ]
+    }
   }
 ]

@@ -1,21 +1,23 @@
 #include "mutation.h"
 
 #include <algorithm>
+#include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <functional>
 #include <memory>
+#include <unordered_map>
 #include <unordered_set>
 
-#include "activity_type.h"
 #include "avatar_action.h"
-#include "avatar.h"
 #include "bionics.h"
-#include "character_attire.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "color.h"
-#include "condition.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
@@ -24,13 +26,12 @@
 #include "game.h"
 #include "item.h"
 #include "itype.h"
+#include "magic.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
-#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"
 #include "omdata.h"
@@ -40,14 +41,20 @@
 #include "pathfinding.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "relic.h"
 #include "rng.h"
+#include "subbodypart.h"
+#include "talker.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "uilist.h"
 #include "uistate.h"
-#include "units.h"
+#include "weighted_list.h"
 
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
+
+static const efftype_id effect_mutation_internal_damage( "mutation_internal_damage" );
 
 static const flag_id json_flag_INTEGRATED( "INTEGRATED" );
 
@@ -117,13 +124,22 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 bool Character::has_trait( const trait_id &b ) const
 {
-    return my_mutations.count( b ) || enchantment_cache->get_mutations().count( b );
+    auto mutit = cached_mutations.find( b );
+    if( mutit != cached_mutations.end() ) {
+        return mutit->second.corrupted == 0;
+    }
+    return false;
+}
+
+bool Character::has_permanent_trait( const trait_id &b ) const
+{
+    return my_mutations.count( b );
 }
 
 bool Character::has_trait_variant( const trait_and_var &test ) const
 {
-    auto mutit = my_mutations.find( test.trait );
-    if( mutit != my_mutations.end() ) {
+    auto mutit = cached_mutations.find( test.trait );
+    if( mutit != cached_mutations.end() ) {
         if( mutit->second.variant != nullptr ) {
             return mutit->second.variant->id == test.variant;
         } else {
@@ -141,7 +157,7 @@ bool Character::has_trait_flag( const json_character_flag &b ) const
         return iter->second;
     }
 
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_functioning_mutations() ) {
         const mutation_branch &mut_data = mut.obj();
         if( mut_data.flags.count( b ) > 0 ) {
             trait_flag_cache[b] = true;
@@ -164,7 +180,7 @@ int Character::count_trait_flag( const json_character_flag &b ) const
 {
     int ret = 0;
     // UGLY, SLOW, should be cached as my_mutation_flags or something
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_functioning_mutations() ) {
         const mutation_branch &mut_data = mut.obj();
         if( mut_data.flags.count( b ) > 0 ) {
             ret++;
@@ -191,7 +207,7 @@ int Character::get_instability_per_category( const mutation_category_id &categ )
     int mut_count = 0;
     bool robust = has_flag( json_flag_ROBUST_GENETIC );
     // For each and every trait we have...
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_mutations( true, true ) ) {
         // only count muts that have 0 or more points, aren't a threshold, have a category, and aren't a base trait.
         if( mut.obj().points > -1 && !mut.obj().threshold && !mut.obj().category.empty() &&
             !has_base_trait( mut ) ) {
@@ -233,7 +249,7 @@ int Character::get_total_in_category_char_has( const mutation_category_id &categ
     int mut_count = 0;
     std::vector<trait_id> list = get_in_category( categ, count_type );
     for( const trait_id mut : list ) {
-        if( has_trait( mut ) ) {
+        if( has_permanent_trait( mut ) ) {
             mut_count++;
         }
     }
@@ -305,12 +321,12 @@ void Character::set_mutation_unsafe( const trait_id &trait, const mutation_varia
         variant = trait->pick_variant();
     }
     my_mutations.emplace( trait, trait_data{variant} );
-    cached_mutations.push_back( &trait.obj() );
-    if( !trait.obj().vanity ) {
-        mutation_effect( trait, false );
+    my_mutations_dirty.emplace( trait, trait_data{variant} );
+    if( !trait.obj().enchantments.empty() ) {
+        recalculate_enchantment_cache();
+    } else {
+        update_cached_mutations();
     }
-
-    trait_flag_cache.clear();
 }
 
 void Character::do_mutation_updates()
@@ -329,20 +345,21 @@ void Character::set_mutations( const std::vector<trait_id> &traits )
     for( const trait_id &trait : traits ) {
         set_mutation_unsafe( trait );
     }
-    do_mutation_updates();
 }
 
 void Character::set_mutation( const trait_id &trait, const mutation_variant *variant )
 {
     set_mutation_unsafe( trait, variant );
-    do_mutation_updates();
 }
 
 void Character::set_mut_variant( const trait_id &trait, const mutation_variant *variant )
 {
-    auto mutit = my_mutations.find( trait );
-    if( mutit != my_mutations.end() ) {
+    auto mutit = cached_mutations.find( trait );
+    if( mutit != cached_mutations.end() ) {
         mutit->second.variant = variant;
+        if( my_mutations.count( trait ) ) {
+            my_mutations[trait].variant = variant;
+        }
         trait_flag_cache.clear();
     }
 }
@@ -361,14 +378,16 @@ void Character::unset_mutation( const trait_id &trait_ )
         return;
     }
     const mutation_branch &mut = *trait;
-    cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
-                            cached_mutations.end() );
     my_mutations.erase( iter );
-    if( !mut.vanity ) {
+    auto exists = find( old_mutation_cache->mutations.begin(), old_mutation_cache->mutations.end(),
+                        trait_ );
+    if( exists == old_mutation_cache->mutations.end() ) {
+        cached_mutations.erase( trait_ );
+        if( !mut.enchantments.empty() ) {
+            recalculate_enchantment_cache();
+        }
         mutation_loss_effect( trait );
     }
-    trait_flag_cache.clear();
-    do_mutation_updates();
 }
 
 void Character::switch_mutations( const trait_id &switched, const trait_id &target,
@@ -382,7 +401,7 @@ void Character::switch_mutations( const trait_id &switched, const trait_id &targ
         set_mutation( target );
     }
     if( has_trait( target ) ) {
-        my_mutations[target].powered = start_powered;
+        cached_mutations[target].powered = start_powered;
     }
     trait_flag_cache.clear();
 }
@@ -392,7 +411,7 @@ bool Character::can_power_mutation( const trait_id &mut ) const
     bool hunger = mut->hunger && get_kcal_percent() < 0.5f;
     bool thirst = mut->thirst && get_thirst() >= 260;
     bool sleepiness = mut->sleepiness && get_sleepiness() >= sleepiness_levels::EXHAUSTED;
-    bool mana = mut->mana && magic->available_mana() >= mut->cost;
+    bool mana = mut->mana && magic->available_mana() <= mut->cost;
 
     return !hunger && !sleepiness && !thirst && !mana;
 }
@@ -442,32 +461,6 @@ bool reflex_activation_data::is_trigger_true( Character &guy ) const
 {
     dialogue d( get_talker_for( guy ), nullptr );
     return trigger( d );
-}
-
-int Character::get_mod( const trait_id &mut, const std::string &arg ) const
-{
-    const auto &mod_data = mut->mods;
-    int ret = 0;
-    auto found = mod_data.find( std::make_pair( false, arg ) );
-    if( found != mod_data.end() ) {
-        ret += found->second;
-    }
-    return ret;
-}
-
-void Character::apply_mods( const trait_id &mut, bool add_remove )
-{
-    int sign = add_remove ? 1 : -1;
-    int str_change = get_mod( mut, "STR" );
-    str_max += sign * str_change;
-    per_max += sign * get_mod( mut, "PER" );
-    dex_max += sign * get_mod( mut, "DEX" );
-    int_max += sign * get_mod( mut, "INT" );
-
-    reset_stats();
-    if( str_change != 0 ) {
-        recalc_hp();
-    }
 }
 
 bool mutation_branch::conflicts_with_item( const item &it ) const
@@ -573,12 +566,14 @@ void Character::recalculate_size()
 
 void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_override )
 {
+    if( mut.obj().vanity ) {
+        return;
+    }
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
-    } else {
-        apply_mods( mut, true );
     }
-
+    reset();
+    trait_flag_cache.clear();
     recalculate_size();
 
     const mutation_branch &branch = mut.obj();
@@ -589,6 +584,13 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     }
 
     remove_worn_items_with( [&]( item & armor ) {
+        // Check for exceptions first
+        if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
+            return false;
+        }
+        if( armor.has_flag( STATIC( flag_id( "INTEGRATED" ) ) ) ) {
+            return false;
+        }
         // initial check for rigid items to pull off, doesn't matter what else the item has you can only wear one rigid item
         if( branch.conflicts_with_item_rigid( armor ) ) {
             add_msg_player_or_npc( m_bad,
@@ -597,12 +599,6 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    armor.tname() );
             get_map().add_item_or_charges( pos_bub(), armor );
             return true;
-        }
-        if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
-            return false;
-        }
-        if( armor.has_flag( STATIC( flag_id( "INTEGRATED" ) ) ) ) {
-            return false;
         }
         if( !branch.conflicts_with_item( armor ) ) {
             return false;
@@ -629,7 +625,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    _( "Your %s is destroyed!" ),
                                    _( "<npcname>'s %s is destroyed!" ),
                                    armor.tname() );
-            armor.spill_contents( pos() );
+            armor.spill_contents( pos_bub() );
         } else {
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is pushed off!" ),
@@ -645,20 +641,25 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     }
 
     if( branch.starts_active ) {
-        my_mutations[mut].powered = true;
+        cached_mutations[mut].powered = true;
+        if( my_mutations.count( mut ) ) {
+            my_mutations[mut].powered = true;
+        }
     }
-    trait_flag_cache.clear();
     on_mutation_gain( mut );
 }
 
 void Character::mutation_loss_effect( const trait_id &mut )
 {
-    if( mut == trait_GLASSJAW ) {
-        recalc_hp();
-    } else {
-        apply_mods( mut, false );
+    if( mut.obj().vanity ) {
+        return;
     }
 
+    if( mut == trait_GLASSJAW ) {
+        recalc_hp();
+    }
+    reset();
+    trait_flag_cache.clear();
     recalculate_size();
 
     const mutation_branch &branch = mut.obj();
@@ -670,7 +671,6 @@ void Character::mutation_loss_effect( const trait_id &mut )
     }
 
     if( !branch.enchantments.empty() ) {
-        recalculate_enchantment_cache();
         recalculate_bodyparts();
     }
 
@@ -678,22 +678,21 @@ void Character::mutation_loss_effect( const trait_id &mut )
         remove_moncam( moncam.first );
     }
 
-    trait_flag_cache.clear();
     on_mutation_loss( mut );
 }
 
 bool Character::has_active_mutation( const trait_id &b ) const
 {
-    const auto iter = my_mutations.find( b );
-    return iter != my_mutations.end() && iter->second.powered;
+    const auto iter = cached_mutations.find( b );
+    return iter != cached_mutations.end() && iter->second.powered;
 }
 
 time_duration Character::get_cost_timer( const trait_id &mut ) const
 {
-    const auto iter = my_mutations.find( mut );
-    const std::vector<trait_id> &all_mut = get_mutations();
+    const auto iter = cached_mutations.find( mut );
+    const std::vector<trait_id> &all_mut = get_functioning_mutations();
     const auto all_iter = std::find( all_mut.begin(), all_mut.end(), mut );
-    if( iter != my_mutations.end() ) {
+    if( iter != cached_mutations.end() ) {
         return iter->second.charge;
     } else if( all_iter == all_mut.end() ) {
         // dont have the mutation personally and can't find it in enchantments (this shouldn't happen)
@@ -705,10 +704,10 @@ time_duration Character::get_cost_timer( const trait_id &mut ) const
 
 void Character::set_cost_timer( const trait_id &mut, time_duration set )
 {
-    const auto iter = my_mutations.find( mut );
-    const std::vector<trait_id> &all_mut = get_mutations();
+    const auto iter = cached_mutations.find( mut );
+    const std::vector<trait_id> &all_mut = get_functioning_mutations();
     const auto all_iter = std::find( all_mut.begin(), all_mut.end(), mut );
-    if( iter != my_mutations.end() ) {
+    if( iter != cached_mutations.end() ) {
         iter->second.charge = set;
         trait_flag_cache.clear();
     } else if( all_iter == all_mut.end() ) {
@@ -726,7 +725,7 @@ bool Character::is_category_allowed( const std::vector<mutation_category_id> &ca
 {
     bool allowed = false;
     bool restricted = false;
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_mutations( true, true ) ) {
         if( !mut.obj().allowed_category.empty() ) {
             restricted = true;
         }
@@ -749,7 +748,7 @@ bool Character::is_category_allowed( const mutation_category_id &category ) cons
 {
     bool allowed = false;
     bool restricted = false;
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_mutations( true, true ) ) {
         for( const mutation_category_id &Ch_cat : mut.obj().allowed_category ) {
             restricted = true;
             if( Ch_cat == category ) {
@@ -770,7 +769,7 @@ bool Character::can_use_heal_item( const item &med ) const
     bool can_use = false;
     bool got_restriction = false;
 
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_functioning_mutations() ) {
         if( !mut.obj().can_only_heal_with.empty() ) {
             got_restriction = true;
         }
@@ -784,7 +783,7 @@ bool Character::can_use_heal_item( const item &med ) const
     }
 
     if( !can_use ) {
-        for( const trait_id &mut : get_mutations() ) {
+        for( const trait_id &mut : get_functioning_mutations() ) {
             if( mut.obj().can_heal_with.count( heal_id ) ) {
                 can_use = true;
                 break;
@@ -798,7 +797,7 @@ bool Character::can_use_heal_item( const item &med ) const
 bool Character::can_install_cbm_on_bp( const std::vector<bodypart_id> &bps ) const
 {
     bool can_install = true;
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_functioning_mutations() ) {
         for( const bodypart_id &bp : bps ) {
             if( mut.obj().no_cbm_on_bp.count( bp.id() ) ) {
                 can_install = false;
@@ -811,8 +810,16 @@ bool Character::can_install_cbm_on_bp( const std::vector<bodypart_id> &bps ) con
 
 void Character::activate_mutation( const trait_id &mut )
 {
+    activate_cached_mutation( mut );
+    if( my_mutations.count( mut ) ) {
+        my_mutations[mut] = cached_mutations[mut];
+    }
+}
+
+void Character::activate_cached_mutation( const trait_id &mut )
+{
     const mutation_branch &mdata = mut.obj();
-    trait_data &tdata = my_mutations[mut];
+    trait_data &tdata = cached_mutations[mut];
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Sleepiness can go to Exhausted.
@@ -896,7 +903,7 @@ void Character::activate_mutation( const trait_id &mut )
         invoke_item( &burrowing_item );
         return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
-        monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 );
+        monster *const slime = g->place_critter_around( mon_player_blob, pos_bub(), 1 );
         if( !slime ) {
             // Oops, no room to divide!
             add_msg_if_player( m_bad, _( "You focus, but are too hemmed in to birth a new slime microbian!" ) );
@@ -932,7 +939,7 @@ void Character::activate_mutation( const trait_id &mut )
         deactivate_mutation( mut );
     } else if( mut == trait_TREE_COMMUNION || mut == trait_ARVORE_FOREST_MAPPING ) {
         tdata.powered = false;
-        if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() ) {
+        if( !overmap_buffer.ter( pos_abs_omt() ).obj().is_wooded() ) {
             add_msg_if_player( m_info, _( "You can only do that in a wooded area." ) );
             return;
         }        // Check for adjacent trees.
@@ -994,11 +1001,9 @@ void Character::activate_mutation( const trait_id &mut )
 
 void Character::deactivate_mutation( const trait_id &mut )
 {
-    my_mutations[mut].powered = false;
+    cached_mutations[mut].powered = false;
     trait_flag_cache.clear();
 
-    // Handle stat changes from deactivation
-    apply_mods( mut, false );
     recalc_sight_limits();
     const mutation_branch &mdata = mut.obj();
     if( mdata.transform ) {
@@ -1029,7 +1034,7 @@ void Character::deactivate_mutation( const trait_id &mut )
 
 trait_id Character::trait_by_invlet( const int ch ) const
 {
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
+    for( const std::pair<const trait_id, trait_data> &mut : cached_mutations ) {
         if( mut.second.key == ch ) {
             return mut.first;
         }
@@ -1059,7 +1064,7 @@ bool Character::mutation_ok( const trait_id &mutation, bool allow_good, bool all
     if( mutation_branch::trait_is_blacklisted( mutation ) ) {
         return false;
     }
-    if( has_trait( mutation ) || has_child_flag( mutation ) ) {
+    if( has_permanent_trait( mutation ) || has_child_flag( mutation ) ) {
         // We already have this mutation or something that replaces it.
         add_msg_debug( debugmode::DF_MUTATION, "mutation_ok( %s ): failed, trait or child already present",
                        mutation.c_str() );
@@ -1074,13 +1079,6 @@ bool Character::mutation_ok( const trait_id &mutation, bool allow_good, bool all
                                bid.c_str() );
                 return false;
             }
-        }
-
-        if( bid->mutation_conflicts.count( mutation ) != 0 ) {
-            add_msg_debug( debugmode::DF_MUTATION,
-                           "mutation_ok( %s ): failed, bionic conflict (conflicting mutation on %s)", mutation.c_str(),
-                           bid.c_str() );
-            return false;
         }
     }
 
@@ -1140,7 +1138,8 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
     mutation_category_id cat;
     weighted_int_list<mutation_category_id> cat_list = get_vitamin_weighted_categories();
 
-    bool select_mutation = is_avatar() && get_option<bool>( "SHOW_MUTATION_SELECTOR" );
+    bool select_mutation = is_avatar() && ( get_option<bool>( "SHOW_MUTATION_SELECTOR" ) ||
+                                            calculate_by_enchantment( 0, enchant_vals::mod::MUT_ADDITIONAL_OPTIONS ) >= 1 );
 
     bool allow_good = false;
     bool allow_bad = false;
@@ -1212,7 +1211,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
 
             // ...those we don't have are valid.
             if( base_mdata.valid && is_category_allowed( base_mdata.category ) &&
-                !has_trait( base_mutation ) && !base_mdata.dummy ) {
+                !has_permanent_trait( base_mutation ) && !base_mdata.dummy ) {
                 add_msg_debug( debugmode::DF_MUTATION, "mutate: trait %s added to valid trait list",
                                base_mdata.id.c_str() );
                 valid.push_back( base_mdata.id );
@@ -1226,7 +1225,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             }
 
             // ...for those that we have...
-            if( has_trait( base_mutation ) ) {
+            if( has_permanent_trait( base_mutation ) ) {
                 // ...consider the mutations that replace it.
 
                 for( const trait_id &mutation : base_mdata.replacements ) {
@@ -1334,7 +1333,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         } else {
             if( mut_vit != vitamin_id::NULL_ID() &&
                 vitamin_get( mut_vit ) >= mutation_category_trait::get_category( cat ).threshold_min ) {
-                test_crossing_threshold( cat );
+                try_crossing_threshold( cat );
             }
             if( mutate_towards( valid, cat, 2, use_vitamins ) ) {
                 add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
@@ -1360,7 +1359,8 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
         return;
     }
 
-    bool select_mutation = is_avatar() && get_option<bool>( "SHOW_MUTATION_SELECTOR" );
+    bool select_mutation = is_avatar() && ( get_option<bool>( "SHOW_MUTATION_SELECTOR" ) ||
+                                            calculate_by_enchantment( 0, enchant_vals::mod::MUT_ADDITIONAL_OPTIONS ) >= 1 );
 
     bool allow_good = false;
     bool allow_bad = false;
@@ -1433,7 +1433,7 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
         std::vector<trait_id> prereqs1 = mdata.prereqs;
         bool c_has_prereq1 = prereqs1.empty() ? true : false;
         for( size_t i = 0; !c_has_prereq1 && i < prereqs1.size(); i++ ) {
-            if( has_trait( prereqs1[i] ) ) {
+            if( has_permanent_trait( prereqs1[i] ) ) {
                 c_has_prereq1 = true;
             }
         }
@@ -1445,7 +1445,7 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
         std::vector<trait_id> prereqs2 = mdata.prereqs2;
         bool c_has_prereq2 = prereqs2.empty() ? true : false;
         for( size_t i = 0; !c_has_prereq2 && i < prereqs2.size(); i++ ) {
-            if( has_trait( prereqs2[i] ) ) {
+            if( has_permanent_trait( prereqs2[i] ) ) {
                 c_has_prereq2 = true;
             }
         }
@@ -1457,7 +1457,7 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
         std::vector<trait_id> threshreq = mdata.threshreq;
         bool c_has_threshreq = threshreq.empty() ? true : false;
         for( size_t i = 0; !c_has_threshreq && i < threshreq.size(); i++ ) {
-            if( has_trait( threshreq[i] ) ) {
+            if( has_permanent_trait( threshreq[i] ) ) {
                 c_has_threshreq = true;
             }
         }
@@ -1477,13 +1477,95 @@ bool Character::mutation_selector( const std::vector<trait_id> &prospective_trai
             traits.push_back( trait );
         }
     }
+
+    if( can_cross_threshold( cat ) ) {
+        const mutation_category_trait &m_category = mutation_category_trait::get_category(
+                    cat );
+        const trait_id &mutation_thresh = m_category.threshold_mut;
+        traits.push_back( mutation_thresh );
+
+    }
+
+    // positive traits at start of list, negative traits at end.  Required for additional options if block.
+    std::sort( traits.begin(), traits.end(), []( const trait_id a, const trait_id b ) {
+        return a.obj().points > b.obj().points;
+    } );
+
+    int additional_options = calculate_by_enchantment( 0, enchant_vals::mod::MUT_ADDITIONAL_OPTIONS );
+    int traits_size = traits.size();
+
+    if( !get_option<bool>( "SHOW_MUTATION_SELECTOR" ) && additional_options >= 1 &&
+        additional_options < traits_size ) {
+        size_t primary_index = 0;
+        // Logic REQUIRES that traits are sorted by points
+        size_t end_index = traits.size() - 1;
+        size_t negative_edge = end_index;
+        size_t positive_edge = 0;
+        for( size_t index = end_index + 1; index -- > 0 ; ) {
+            if( traits[index].obj().points >= 0 ) {
+                break;
+            } else {
+                negative_edge = index;
+            }
+        }
+        for( size_t index = 0; index <= end_index; index++ ) {
+            if( traits[index].obj().points <= 0 ) {
+                break;
+            } else {
+                positive_edge = index;
+            }
+        }
+
+        if( roll_bad_mutation( cat ) ) {
+            if( positive_edge == end_index ) {
+                primary_index = end_index;
+            } else {
+                // choose trait that is either neutral or negative
+                primary_index = rng( positive_edge + 1, end_index );
+            }
+        } else {
+            if( negative_edge == 0 ) {
+                primary_index = 0;
+            } else {
+                // choose trait that is either positive or neutral
+                primary_index = rng( 0, negative_edge - 1 );
+            }
+        }
+        size_t below_index = primary_index;
+        size_t above_index = primary_index + 1;
+        int added_traits = 0;
+        std::vector<trait_id> selectable_traits = { traits[primary_index] };
+        while( added_traits < additional_options ) {
+            // Cannot check < 0 since size_t is unsigned.  Resolve by adding 1 to the stored value and making check off of that, and subtracting 1 when using it.
+            if( below_index >= 1 && added_traits < additional_options ) {
+                selectable_traits.insert( selectable_traits.begin(), traits[below_index - 1] );
+                below_index--;
+                added_traits++;
+            }
+            if( above_index <= end_index && added_traits < additional_options ) {
+                selectable_traits.insert( selectable_traits.end(), traits[above_index] );
+                above_index++;
+                added_traits++;
+            }
+            if( below_index < 1 && above_index > end_index ) {
+                break;
+            }
+        }
+        traits = selectable_traits;
+    }
+
+
     make_entries( traits );
 
     // Display menu and handle selection
     mmenu.query();
     if( mmenu.ret >= 0 ) {
-        if( mutate_towards( traits[mmenu.ret], cat, nullptr, use_vitamins ) ) {
-            add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
+        if( traits[mmenu.ret]->threshold ) {
+            cross_threshold( cat );
+        } else {
+            if( mutate_towards( traits[mmenu.ret], cat, nullptr, use_vitamins ) ) {
+                add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
+            }
         }
         return true;
     }
@@ -1567,7 +1649,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     std::vector<trait_id> cancel_recheck = cancel;
 
     for( size_t i = 0; i < cancel.size(); i++ ) {
-        if( !has_trait( cancel[i] ) ) {
+        if( !has_permanent_trait( cancel[i] ) ) {
             cancel.erase( cancel.begin() + i );
             i--;
         } else if( !purifiable( cancel[i] ) ) {
@@ -1610,7 +1692,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
 
     //If we still have anything to cancel, we aren't done pruning, but should stop for now
     for( const trait_id &trait : cancel_recheck ) {
-        if( has_trait( trait ) ) {
+        if( has_permanent_trait( trait ) ) {
             add_msg_debug( debugmode::DF_MUTATION,
                            "mutate_towards: bailed out on cancel_recheck because of trait %s still existing", trait.c_str() );
             return true;
@@ -1627,13 +1709,13 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     }
 
     for( size_t i = 0; ( !c_has_prereq1 ) && i < prereqs1.size(); i++ ) {
-        if( has_trait( prereqs1[i] ) ) {
+        if( has_permanent_trait( prereqs1[i] ) ) {
             c_has_prereq1 = true;
         }
     }
 
     for( size_t i = 0; ( !c_has_prereq2 ) && i < prereqs2.size(); i++ ) {
-        if( has_trait( prereqs2[i] ) ) {
+        if( has_permanent_trait( prereqs2[i] ) ) {
             c_has_prereq2 = true;
         }
     }
@@ -1689,17 +1771,11 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
         return false;
     }
 
-    // Just prevent it when it conflicts with a CBM, for now
-    // TODO: Consequences?
     for( const bionic_id &bid : get_bionics() ) {
         if( bid->mutation_conflicts.count( mut ) != 0 ) {
-            add_msg_debug( debugmode::DF_MUTATION,
-                           "mutate_towards: failed, bionic %s prevents mutation (mutation conflict)", bid.c_str() );
-            add_msg_if_player(
-                _( "Your churning flesh strains painfully against your %1$s for a moment, then the feeling fades." ),
-                bid->name );
-            return false;
+            return handle_bio_mut_conflict( bid, mut );
         }
+        // We shouldn't ever get here, because of mutation_ok
         for( const trait_id &mid : bid->canceled_mutations ) {
             if( mid == mut ) {
                 add_msg_debug( debugmode::DF_MUTATION,
@@ -1713,13 +1789,13 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     }
 
     for( size_t i = 0; !c_has_threshreq && i < threshreq.size(); i++ ) {
-        if( has_trait( threshreq[i] ) ) {
+        if( has_permanent_trait( threshreq[i] ) ) {
             add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: necessary threshold %s found",
                            threshreq[i].c_str() );
             c_has_threshreq = true;
         }
         for( const trait_id &subst : threshreq[i]->threshold_substitutes ) {
-            if( has_trait( subst ) ) {
+            if( has_permanent_trait( subst ) ) {
                 add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: substitute threshold %s found",
                                subst.c_str() );
                 if( mdata.strict_threshreq ) {
@@ -1767,7 +1843,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     trait_id replacing = trait_id::NULL_ID();
     prereqs1 = mdata.prereqs; // Reset it
     for( auto &elem : prereqs1 ) {
-        if( has_trait( elem ) ) {
+        if( has_permanent_trait( elem ) ) {
             const trait_id &pre = elem;
             const mutation_branch &p = pre.obj();
             for( size_t j = 0; !replacing && j < p.replacements.size(); j++ ) {
@@ -1784,7 +1860,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     trait_id replacing2 = trait_id::NULL_ID();
     prereqs1 = mdata.prereqs2; // Reset it
     for( auto &elem : prereqs1 ) {
-        if( has_trait( elem ) ) {
+        if( has_permanent_trait( elem ) ) {
             const trait_id &pre2 = elem;
             const mutation_branch &p = pre2.obj();
             for( size_t j = 0; !replacing2 && j < p.replacements.size(); j++ ) {
@@ -1982,13 +2058,13 @@ std::unordered_set<trait_id> Character::get_lower_traits( const trait_id &flag )
 {
     std::unordered_set<trait_id> traits;
     for( const trait_id &i : flag->prereqs ) {
-        if( has_trait( i ) ) {
+        if( has_permanent_trait( i ) ) {
             traits.insert( i );
         }
         traits = traits << ( get_lower_traits( i ) );
     }
     for( const trait_id &i : flag->prereqs2 ) {
-        if( has_trait( i ) ) {
+        if( has_permanent_trait( i ) ) {
             traits.insert( i );
         }
         traits = traits << ( get_lower_traits( i ) );
@@ -2005,7 +2081,7 @@ std::unordered_set<trait_id> Character::get_replacement_traits( const trait_id &
 {
     std::unordered_set<trait_id> traits;
     for( const trait_id &i : flag->replacements ) {
-        if( has_trait( i ) ) {
+        if( has_permanent_trait( i ) ) {
             traits.insert( i );
         } else {
             traits = traits << ( get_replacement_traits( i ) );
@@ -2023,7 +2099,7 @@ std::unordered_set<trait_id> Character::get_addition_traits( const trait_id &fla
 {
     std::unordered_set<trait_id> traits;
     for( const trait_id &i : flag->additions ) {
-        if( has_trait( i ) ) {
+        if( has_permanent_trait( i ) ) {
             traits.insert( i );
         } else {
             traits = traits << ( get_addition_traits( i ) );
@@ -2041,7 +2117,7 @@ std::unordered_set<trait_id> Character::get_same_type_traits( const trait_id &fl
 {
     std::unordered_set<trait_id> traits;
     for( auto &i : get_mutations_in_types( flag->types ) ) {
-        if( has_trait( i ) && flag != i ) {
+        if( has_permanent_trait( i ) && flag != i ) {
             traits.insert( i );
         }
     }
@@ -2112,7 +2188,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
         //Check each mutation until we reach the end or find a trait to revert to
         for( const mutation_branch &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
-            if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
+            if( has_base_trait( iter.id ) && !has_permanent_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
                 std::vector<trait_id> traitcheck = iter.cancels;
                 for( size_t j = 0; !replacing && j < traitcheck.size(); j++ ) {
@@ -2132,7 +2208,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
         //Check each mutation until we reach the end or find a trait to revert to
         for( const mutation_branch &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
-            if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
+            if( has_base_trait( iter.id ) && !has_permanent_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
                 std::vector<trait_id> traitcheck = iter.cancels;
                 for( size_t j = 0; !replacing2 && j < traitcheck.size(); j++ ) {
@@ -2284,7 +2360,7 @@ bool Character::has_child_flag( const trait_id &flag ) const
 {
     for( const trait_id &elem : flag->replacements ) {
         const trait_id &tmp = elem;
-        if( has_trait( tmp ) || has_child_flag( tmp ) ) {
+        if( has_permanent_trait( tmp ) || has_child_flag( tmp ) ) {
             return true;
         }
     }
@@ -2295,7 +2371,7 @@ void Character::remove_child_flag( const trait_id &flag )
 {
     for( const auto &elem : flag->replacements ) {
         const trait_id &tmp = elem;
-        if( has_trait( tmp ) ) {
+        if( has_permanent_trait( tmp ) ) {
             remove_mutation( tmp );
             return;
         } else if( has_child_flag( tmp ) ) {
@@ -2305,12 +2381,28 @@ void Character::remove_child_flag( const trait_id &flag )
     }
 }
 
-void Character::test_crossing_threshold( const mutation_category_id &mutation_category )
+void Character::try_crossing_threshold( const mutation_category_id &mutation_category )
+{
+    if( can_cross_threshold( mutation_category ) ) {
+        int breach_power = mutation_category_level[mutation_category];
+        if( breach_power >= 100 || x_in_y( breach_power, 100 ) ) {
+            cross_threshold( mutation_category );
+        }
+    }
+}
+
+bool Character::can_cross_threshold( const mutation_category_id &mutation_category )
 {
     // Threshold-check.  You only get to cross once!
     if( crossed_threshold() ) {
-        add_msg_debug( debugmode::DF_MUTATION, "test_crossing_treshold failed: already post-threshold" );
-        return;
+        add_msg_debug( debugmode::DF_MUTATION, "can_cross_threshold failed: already post-threshold" );
+        return false;
+    }
+
+    if( mutation_category == mutation_category_ANY ) {
+        add_msg_debug( debugmode::DF_MUTATION,
+                       "can_cross_threshold failed: cannot cross threshold of the ANY category" );
+        return false;
     }
 
     const mutation_category_trait &m_category = mutation_category_trait::get_category(
@@ -2320,31 +2412,96 @@ void Character::test_crossing_threshold( const mutation_category_id &mutation_ca
     const trait_id &mutation_thresh = m_category.threshold_mut;
     if( mutation_thresh.is_empty() ) {
         add_msg_debug( debugmode::DF_MUTATION,
-                       "test_crossing_treshold failed: category %s has no threshold defined", m_category.id.c_str() );
-        return;
+                       "can_cross_threshold failed: category %s has no threshold defined", m_category.id.c_str() );
+        return false;
     }
 
     // Threshold-breaching
     int breach_power = mutation_category_level[mutation_category];
     add_msg_debug( debugmode::DF_MUTATION, "test_crossing_treshold: breach power %d", breach_power );
     // You're required to have hit third-stage dreams first.
-    if( breach_power >= 30 ) {
-        if( breach_power >= 100 || x_in_y( breach_power, 100 ) ) {
-            const mutation_branch &thrdata = mutation_thresh.obj();
-            if( vitamin_get( m_category.vitamin ) >= thrdata.vitamin_cost ) {
-                vitamin_mod( m_category.vitamin, -thrdata.vitamin_cost );
-                add_msg_if_player( m_good,
-                                   _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
-                // Thresholds can cancel unpurifiable traits
-                for( const trait_id &canceled : thrdata.cancels ) {
-                    get_event_bus().send<event_type::loses_mutation>( getID(), canceled );
-                    unset_mutation( canceled );
-                }
-                set_mutation( mutation_thresh );
-                get_event_bus().send<event_type::crosses_mutation_threshold>( getID(), m_category.id );
-            }
+    if( breach_power >= 30 &&
+        vitamin_get( m_category.vitamin ) >= mutation_thresh.obj().vitamin_cost ) {
+        return true;
+    }
+    return false;
+}
+
+void Character::cross_threshold( const mutation_category_id &mutation_category )
+{
+    if( !can_cross_threshold( mutation_category ) ) {
+        return;
+    }
+    const mutation_category_trait &m_category = mutation_category_trait::get_category(
+                mutation_category );
+    const trait_id &mutation_thresh = m_category.threshold_mut;
+
+    const mutation_branch &thrdata = mutation_thresh.obj();
+    vitamin_mod( m_category.vitamin, -thrdata.vitamin_cost );
+    add_msg_if_player( m_good,
+                       _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
+    // Thresholds can cancel unpurifiable traits
+    for( const trait_id &canceled : thrdata.cancels ) {
+        get_event_bus().send<event_type::loses_mutation>( getID(), canceled );
+        unset_mutation( canceled );
+    }
+    set_mutation( mutation_thresh );
+    get_event_bus().send<event_type::crosses_mutation_threshold>( getID(), m_category.id );
+}
+
+static void fail_mutation_wounds( Character &guy, const bionic_id &bio, bool catastrophic )
+{
+    std::map<bodypart_str_id, int> main_bps;
+    for( const std::pair<const bodypart_str_id, size_t> &bp : bio->occupied_bodyparts ) {
+        main_bps.emplace( bp.first->main_part, 1 ).first->second += 1;
+    }
+    for( const std::pair<const bodypart_str_id, int> bp : main_bps ) {
+        int intensity = catastrophic ? 3 : bp.second > 1 ? 2 : 1;
+        guy.add_effect( effect_mutation_internal_damage, intensity * 7 * 1_hours, bp.first.id(), false,
+                        intensity );
+        if( catastrophic ) {
+            guy.apply_damage( nullptr, bp.first.id(), rng( 12, 36 ) );
         }
     }
+}
+
+bool Character::handle_bio_mut_conflict( const bionic_id &bio, const trait_id &mut )
+{
+    int bio_slots = 0;
+    std::set<bodypart_str_id> bio_parts;
+    for( const std::pair<const bodypart_str_id, size_t> &bp : bio->occupied_bodyparts ) {
+        bio_slots += bp.second;
+        bio_parts.emplace( bp.first->main_part );
+    }
+    // Occupying more body parts decreases chance of destruction (less invasive overall)
+    // Occupying more slots increases chance of desctruction (more invasive)
+    // More mutation points increase chance of destruction (more invasive mutation)
+    // because there must be more slots than parts, decrease slots with sqrt
+    int deviation = bio_parts.size() + std::abs( mut->points ) - std::sqrt( bio_slots );
+    if( deviation < 2 ) {
+        deviation = 2;
+    }
+    add_msg_debug( debugmode::DF_MUTATION,
+                   "Chance of %s to destroy %s: (dev: %d = %d - %g + %d) %.1f%%",
+                   mut->name(), bio->name, deviation, bio_parts.size(), std::sqrt( bio_slots ),
+                   std::abs( mut->points ), normal_roll_chance( 0, deviation, 2 ) * 100.0 );
+    if( normal_roll( 0, deviation ) > 2 ) {
+        std::optional<bionic *> ret = find_bionic_by_type( bio );
+        if( !ret ) {
+            debugmsg( "Mutation conflicts with bionic (%s) that is not installed?", bio.str() );
+            return false;
+        }
+        remove_bionic( *( *ret ) );
+        // massive wounds
+        fail_mutation_wounds( *this, bio, true );
+        add_msg( m_bad, _( "The changes in your body destroy your %s." ), bio->name );
+        return true;
+    }
+    add_msg( m_bad, _( "Your body strains against your %s and it hurts!" ), bio->name );
+    add_msg_debug( debugmode::DF_MUTATION, "Tried to mutate %s but blocked by %s.",
+                   mut->name(), bio->name );
+    fail_mutation_wounds( *this, bio, false );
+    return false;
 }
 
 bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b )
@@ -2409,7 +2566,7 @@ void Character::give_all_mutations( const mutation_category_trait &category,
 
 void Character::unset_all_mutations()
 {
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : get_mutations( true, true ) ) {
         get_event_bus().send<event_type::loses_mutation>( getID(), mut );
         unset_mutation( mut );
     }
@@ -2417,8 +2574,8 @@ void Character::unset_all_mutations()
 
 std::string Character::mutation_name( const trait_id &mut ) const
 {
-    auto it = my_mutations.find( mut );
-    if( it != my_mutations.end() && it->second.variant != nullptr ) {
+    auto it = cached_mutations.find( mut );
+    if( it != cached_mutations.end() && it->second.variant != nullptr ) {
         return mut->name( it->second.variant->id );
     }
 
@@ -2427,8 +2584,8 @@ std::string Character::mutation_name( const trait_id &mut ) const
 
 std::string Character::mutation_desc( const trait_id &mut ) const
 {
-    auto it = my_mutations.find( mut );
-    if( it != my_mutations.end() && it->second.variant != nullptr ) {
+    auto it = cached_mutations.find( mut );
+    if( it != cached_mutations.end() && it->second.variant != nullptr ) {
         return mut->desc( it->second.variant->id );
     }
 
@@ -2497,7 +2654,7 @@ void Character::customize_appearance( customize_appearance_choice choice )
     amenu.query();
     if( amenu.ret >= 0 ) {
         const trait_id &trait_selected = traits[amenu.ret];
-        if( has_trait( current_trait ) ) {
+        if( has_permanent_trait( current_trait ) ) {
             remove_mutation( current_trait );
         }
         if( !trait_selected->variants.empty() ) {
@@ -2514,7 +2671,7 @@ void Character::customize_appearance( customize_appearance_choice choice )
 
 std::string Character::visible_mutations( const int visibility_cap ) const
 {
-    const std::vector<trait_id> &my_muts = get_mutations();
+    const std::vector<trait_id> &my_muts = get_functioning_mutations();
     return enumerate_as_string( my_muts.begin(), my_muts.end(),
     [this, visibility_cap ]( const trait_id & pr ) -> std::string {
         const mutation_branch &mut_branch = pr.obj();

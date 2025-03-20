@@ -383,7 +383,7 @@
     "qualities": [ [ "ROPE", 2 ] ],
     "price_postapoc": "50 cent",
     "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "uneven" },
-    "melee_damage": { "bash": 26 }
+    "melee_damage": { "bash": 12 }
   },
   {
     "type": "GENERIC",
@@ -726,32 +726,6 @@
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 3 }
-  },
-  {
-    "type": "TOOL",
-    "id": "usb_drive",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "USB drive" },
-    "description": "A USB thumb drive.  Useful for holding software.",
-    "price": "12 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "plastic", "aluminum" ],
-    "weight": "4536 mg",
-    "volume": "4 ml",
-    "longest_side": "5 cm",
-    "pocket_data": [
-      { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" },
-      {
-        "pocket_type": "EBOOK",
-        "rigid": true,
-        "max_contains_volume": "1 ml",
-        "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0
-      }
-    ],
-    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "//": "Based on https://www.amazon.com/dp/B015CH1PJU"
   },
   {
     "type": "TOOL",
@@ -2142,16 +2116,17 @@
     "name": { "str": "desk fan" },
     "description": "A small fan, used to propel air around a room.",
     "color": "light_gray",
-    "price": "10 USD",
+    "price": "25 USD",
     "price_postapoc": "10 cent",
     "material": [ "aluminum", "plastic" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "FRAGILE_MELEE" ],
     "ammo": [ "battery" ],
     "charges_per_use": 4,
     "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "35 W" } ],
     "charged_qualities": [ [ "WINNOW", 1 ] ],
-    "weight": "2857 g",
-    "volume": "1 L",
+    "weight": "1588 g",
+    "volume": "19265 ml",
+    "//": "Based on https://www.amazon.com/dp/B000U9WXEC, although the volume calculated from package dimensions has been multiplied by 0.5 because there really is not a reasonable way to calculate fan volume without the numbers going into extremes",
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "melee_damage": { "bash": 4 }
   },
@@ -2227,68 +2202,6 @@
     "material": [ "steel" ],
     "weight": "50 g",
     "volume": "50 ml"
-  },
-  {
-    "type": "GENERIC",
-    "id": "memory_card",
-    "name": { "str": "memory card" },
-    "description": "A memory card, can be used to store data.",
-    "looks_like": "mobile_memory_card",
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": ",",
-    "color": "white",
-    "price": "10 USD",
-    "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
-    "ascii_picture": "memory_card",
-    "flags": [ "MC_MOBILE" ],
-    "pocket_data": [
-      {
-        "pocket_type": "EBOOK",
-        "rigid": true,
-        "max_contains_volume": "1 ml",
-        "max_contains_weight": "1 g",
-        "weight_multiplier": 0.0
-      }
-    ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "memory_card_unread",
-    "copy-from": "memory_card",
-    "name": { "str": "memory card (unread)", "str_pl": "memory cards (unread)" },
-    "description": "A memory card, can be used to store data.  Looks like it has been in use, might be worth taking a look.",
-    "memory_card": {
-      "data_chance": 0.875,
-      "on_read_convert_to": "memory_card",
-      "photos_chance": 0.33,
-      "photos_amount": 30,
-      "songs_chance": 0.33,
-      "songs_amount": 15,
-      "recipes_chance": 0.33,
-      "recipes_amount": 3,
-      "recipes_categories": [ "CC_AMMO", "CC_ARMOR", "CC_CHEM", "CC_ELECTRONIC", "CC_FOOD", "CC_WEAPON" ],
-      "recipes_level_max": 5
-    },
-    "pocket_data": [  ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "memory_card_science",
-    "copy-from": "memory_card",
-    "name": { "str": "memory card (XEDRA)", "str_pl": "memory cards (XEDRA)" },
-    "description": "A memory card, can be used to store data.  This one has a label on which is written 'XEDRA' followed by a long string of numbers.",
-    "memory_card": {
-      "data_chance": 1.0,
-      "on_read_convert_to": "memory_card",
-      "recipes_chance": 1.0,
-      "recipes_amount": 3,
-      "recipes_categories": [ "CC_CHEM" ],
-      "recipes_level_min": 6,
-      "secret_recipes": true
-    },
-    "pocket_data": [  ]
   },
   {
     "type": "GENERIC",
@@ -3668,6 +3581,16 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_turret_searchlight",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken milspec searchlight" },
+    "weight": "117 kg",
+    "volume": "108500 ml",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
     "id": "fire_brick",
     "symbol": ",",
     "color": "brown",
@@ -3773,7 +3696,7 @@
     "name": { "str": "duct tape wallet" },
     "description": "A wallet made entirely out of duct tape.",
     "material": [ "plastic" ],
-    "flags": [ "NO_REPAIR" ]
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "id": "wallet_leather",

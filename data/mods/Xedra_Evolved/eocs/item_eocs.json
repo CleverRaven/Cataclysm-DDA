@@ -21,7 +21,7 @@
         { "roll_contested": { "math": [ "u_skill('deduction')" ] }, "difficulty": 12 }
       ]
     },
-    "effect": [ { "u_message": "local_files_xedra", "snippet": true, "same_snippet": true, "popup": true } ],
+    "effect": [ { "u_message": "local_files_xedra", "snippet": true, "same_snippet": true, "popup": true, "store_in_lore": true } ],
     "false_effect": [ { "u_message": "You found nothing interesting." } ]
   },
   {

@@ -412,9 +412,9 @@
       {
         "text": "All right.  Let's kick some alien butt.",
         "effect": [
-          { "math": [ "isherwood_family_coming", "=", "0" ] },
+          { "math": [ "isherwood_family_coming = 0" ] },
           { "run_eocs": "isherwood_mission_initialization_eoc" },
-          { "math": [ "npc_isherwood_barry_rescue_attempts", "++" ] }
+          { "math": [ "npc_isherwood_barry_rescue_attempts++" ] }
         ],
         "topic": "TALK_DONE"
       },
@@ -448,9 +448,9 @@
       {
         "text": "Well, I guess it's just us.  <lets_go>",
         "effect": [
-          { "math": [ "isherwood_family_coming", "=", "0" ] },
+          { "math": [ "isherwood_family_coming = 0" ] },
           { "run_eocs": "isherwood_mission_initialization_eoc" },
-          { "math": [ "npc_isherwood_barry_rescue_attempts", "++" ] }
+          { "math": [ "npc_isherwood_barry_rescue_attempts++" ] }
         ],
         "topic": "TALK_DONE"
       }
@@ -464,7 +464,7 @@
       "sentinel": "plan_to_take_lisa",
       "effect": [
         { "u_add_var": "lisa_isherwood_coming_too", "value": "yes" },
-        { "math": [ "timer_chris_talked_to_lisa", "=", "time('now')" ] }
+        { "math": [ "timer_chris_talked_to_lisa = time('now')" ] }
       ]
     },
     "responses": [
@@ -476,17 +476,17 @@
       {
         "text": "All right.  Let's kick some alien butt.",
         "effect": [
-          { "math": [ "isherwood_family_coming", "=", "0" ] },
+          { "math": [ "isherwood_family_coming = 0" ] },
           { "run_eocs": "isherwood_mission_lisa_coming", "time_in_future": "1 hour" },
           { "run_eocs": "isherwood_mission_initialization_eoc" },
-          { "math": [ "npc_isherwood_barry_rescue_attempts", "++" ] }
+          { "math": [ "npc_isherwood_barry_rescue_attempts++" ] }
         ],
         "topic": "TALK_DONE"
       },
       {
         "text": "Okay, I'll give you about an hour to talk with her about it.  I'll be back soon.",
         "effect": [
-          { "math": [ "isherwood_family_coming", "=", "0" ] },
+          { "math": [ "isherwood_family_coming = 0" ] },
           { "run_eocs": "isherwood_mission_lisa_coming", "time_in_future": "1 hour" }
         ],
         "topic": "TALK_DONE"
@@ -497,10 +497,7 @@
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS",
     "dynamic_line": "Probably.  They'd want to, for sure.\"  He looks thoughtful.  \"I'm sure we could use more help, but this isn't my strong suit.  Let me think about it.  If you have any ideas, run them by me.\"",
-    "speaker_effect": {
-      "sentinel": "chris_thinking_about_plan",
-      "effect": { "math": [ "npc_timer_thinking_about_plan", "=", "time('now')" ] }
-    },
+    "speaker_effect": { "sentinel": "chris_thinking_about_plan", "effect": { "math": [ "npc_timer_thinking_about_plan = time('now')" ] } },
     "responses": [
       {
         "text": "Is there anyone else around here that could help us?",
@@ -517,12 +514,12 @@
     "responses": [
       {
         "text": "Seems like a good plan to me.",
-        "effect": [ { "math": [ "isherwood_family_coming", "=", "1" ] } ],
+        "effect": [ { "math": [ "isherwood_family_coming = 1" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN2"
       },
       {
         "text": "I think it's better we take my vehicle, and just leave them out of it.",
-        "effect": [ { "math": [ "isherwood_family_coming", "=", "0" ] } ],
+        "effect": [ { "math": [ "isherwood_family_coming = 0" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Cancel"
       },
       {
@@ -575,9 +572,9 @@
       {
         "text": "Let's go get your uncle back.",
         "effect": [
-          { "math": [ "isherwood_family_coming", "=", "1" ] },
+          { "math": [ "isherwood_family_coming = 1" ] },
           { "run_eocs": "isherwood_mission_initialization_eoc" },
-          { "math": [ "npc_isherwood_barry_rescue_attempts", "++" ] }
+          { "math": [ "npc_isherwood_barry_rescue_attempts++" ] }
         ],
         "topic": "TALK_DONE"
       },
@@ -640,25 +637,25 @@
       {
         "text": "[5 Riot Armor] I've got enough riot armor for everyone.",
         "condition": { "and": [ { "u_has_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count < 5" ] } ] },
-        "effect": [ { "u_consume_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count", "++" ] } ],
+        "effect": [ { "u_consume_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
         "text": "[5 Riot Helmet] These crowd control helmets should help a lot.",
         "condition": { "and": [ { "u_has_item": "helmet_riot" }, { "math": [ "isherwood_gear_retrival_helmet_count < 5" ] } ] },
-        "effect": [ { "u_consume_item": "helmet_riot" }, { "math": [ "isherwood_gear_retrival_helmet_count", "++" ] } ],
+        "effect": [ { "u_consume_item": "helmet_riot" }, { "math": [ "isherwood_gear_retrival_helmet_count++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
         "text": "[5 Riot Arm Guard] I hope these armguards won't interfere with people's aim.",
         "condition": { "and": [ { "u_has_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count < 5" ] } ] },
-        "effect": [ { "u_consume_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count", "++" ] } ],
+        "effect": [ { "u_consume_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
         "text": "[5 Riot Leg Guard] I've got these leg guards to keep people from getting hobbled.",
         "condition": { "and": [ { "u_has_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count < 5" ] } ] },
-        "effect": [ { "u_consume_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count", "++" ] } ],
+        "effect": [ { "u_consume_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
@@ -768,7 +765,7 @@
     "responses": [
       {
         "text": "All right.  Let's kick some alien butt.",
-        "effect": [ { "run_eocs": "isherwood_mission_initialization_eoc" }, { "math": [ "npc_isherwood_barry_rescue_attempts", "++" ] } ],
+        "effect": [ { "run_eocs": "isherwood_mission_initialization_eoc" }, { "math": [ "npc_isherwood_barry_rescue_attempts++" ] } ],
         "topic": "TALK_DONE"
       },
       {
@@ -808,7 +805,7 @@
     },
     "end": {
       "opinion": { "trust": 5, "value": 5 },
-      "effect": [ { "math": [ "isherwood_barry_rescued", "=", "1" ] } ],
+      "effect": [ { "math": [ "isherwood_barry_rescued = 1" ] } ],
       "update_mapgen": [ { "om_terrain": "cabin_isherwood", "place_nested": [ { "chunks": [ "cabin_isherwood_update" ], "x": 3, "y": 1 } ] } ]
     }
   },
@@ -825,7 +822,7 @@
         { "om_terrain": "police_2ndfloor_1", "place_nested": [ { "chunks": [ "isherwood_barry_riot_drop" ], "x": 1, "y": 5 } ] }
       ]
     },
-    "end": { "effect": { "math": [ "isherwood_gear_status", "=", "1" ] } },
+    "end": { "effect": { "math": [ "isherwood_gear_status = 1" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "//": "Dialogue for this mission is handled externally.",
@@ -851,7 +848,7 @@
     "end": {
       "effect": [
         { "run_eocs": "isherwood_mission_wall_finished", "time_in_future": "24 hours" },
-        { "math": [ "isherwood_wall_status", "++" ] }
+        { "math": [ "isherwood_wall_status++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

@@ -117,7 +117,7 @@
         "ւГ˽˽˽˽˽˽˽˽˽˽Гւււ#^^#_666B6B6B6B6B6B6B66_#666###################HHHHH##...,,..³³°°³³°.,,..,,..,,..,,...+.,,.+ГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГ˽˽˽˽˽ɔɔ˽˽˽˽ГւɱЯւϻւЯɱւ",
         "ւГ˽˽˽˽˽˽˽˽˽˽Гււɱ#^^#_666B6B6B6B6B6B6B666=666#^Á^^#Á^^^^^^^^Á^^^MMMMM^#...,,..³³°°³³°.,,..,,..,,..,,...+.,,.+ГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГɱɱɱɱɱГГ˽˽˽˽ɔɔ˽˽˽˽ГւɱɱЯЯЯɱɱւ"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "parametrized_linoleum_palette", "mall_palette_2" ],
       "terrain": {
         "S": "t_thconc_floor",
         "I": "t_thconc_floor",
@@ -134,10 +134,10 @@
         "Á": "t_floor",
         "1": "t_door_metal_locked",
         "K": "t_carpet_concrete_yellow",
-        "%": "t_linoleum_gray",
-        "u": "t_linoleum_gray",
-        "*": "t_linoleum_gray",
-        "F": "t_linoleum_gray"
+        "%": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "u": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "*": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
       "furniture": { "%": [ "f_indoor_plant", "f_indoor_plant_y" ], "*": "f_trashcan", "Á": "f_console_broken", "¤": "f_bulletin" },
       "place_vendingmachines": [
@@ -161,7 +161,7 @@
         ],
         "j": { "item": "public_sink", "chance": 100 },
         "K": [ { "item": "consumer_electronics", "chance": 20, "repeat": [ 1, 2 ] }, { "item": "magazines", "chance": 50 } ],
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
         "M": { "item": "glasses", "chance": 20, "repeat": [ 1, 2 ] },
         "J": { "item": "snacks", "chance": 10 },
         "w": { "item": "jewelry_safe", "chance": 80, "repeat": [ 2, 4 ] },
@@ -180,8 +180,8 @@
       },
       "item": { "¤": { "item": "movie_poster", "chance": 100 } },
       "place_items": [
-        { "item": "floor_trash", "x": [ 20, 23 ], "y": [ 8, 19 ], "chance": 10 },
-        { "item": "floor_trash", "x": [ 20, 23 ], "y": [ 21, 23 ], "chance": 10 },
+        { "item": "SUS_trash_floor", "x": [ 20, 23 ], "y": [ 8, 19 ], "chance": 10 },
+        { "item": "SUS_trash_floor", "x": [ 20, 23 ], "y": [ 21, 23 ], "chance": 10 },
         { "item": "cash_register_random", "x": 55, "y": [ 9, 11 ], "chance": 100 },
         { "item": "cash_register_random", "x": [ 48, 50 ], "y": 13, "chance": 100 },
         { "item": "cash_register_random", "x": [ 51, 53 ], "y": 13, "chance": 100 }
@@ -246,7 +246,7 @@
         "ւււււГГ˽˽˽˽˽˽˽˽˽˽˽ГГɱϻЯЯɱoГFKKFГГFKKFГГГГ+.,,,³4334³4334³°°°³4334³4334³,,,,%,,,°°§§§°°,,,%,,,,,,",
         "ււււււГГ˽˽˽˽˽˽˽˽˽˽˽ГГɱЯЯɱoГГFFГГГГFFГГГГГ+.,,,³4334³4334³°°°³4334³4334³,,,,},,°°§§§§§°°,,},,,,,,"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "parametrized_linoleum_palette", "mall_palette_2" ],
       "terrain": {
         "@": "t_carpet_concrete_red",
         "d": "t_carpet_concrete_red",
@@ -261,18 +261,18 @@
         "a": "t_floor",
         "C": "t_floor",
         "K": "t_sidewalk",
-        "1": "t_linoleum_white",
-        "ƃ": "t_linoleum_white",
-        "L": "t_linoleum_white",
-        "A": "t_linoleum_white",
-        "Á": "t_linoleum_white",
+        "1": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "ƃ": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "L": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Á": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "3": "t_linoleum_white_no_roof",
         "4": "t_linoleum_white_no_roof",
-        "Ħ": "t_linoleum_gray",
-        "*": "t_linoleum_gray",
-        "!": "t_linoleum_gray",
-        "%": "t_linoleum_gray",
-        "}": "t_linoleum_gray",
+        "Ħ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "*": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "!": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "%": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "}": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "F": "t_sidewalk"
       },
       "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" } },
@@ -286,7 +286,7 @@
         "}": "f_bench"
       },
       "place_items": [
-        { "item": "floor_trash", "x": [ 20, 23 ], "y": [ 0, 8 ], "chance": 10 },
+        { "item": "SUS_trash_floor", "x": [ 20, 23 ], "y": [ 0, 8 ], "chance": 10 },
         { "item": "cash_register_random", "x": [ 59, 62 ], "y": 12, "chance": 100 },
         { "item": "cash_register_random", "x": [ 45, 47 ], "y": 18, "chance": 100 },
         { "item": "cash_register_random", "x": [ 48, 50 ], "y": 18, "chance": 100 },
@@ -308,7 +308,7 @@
         "M": { "item": "glasses", "chance": 20, "repeat": [ 1, 2 ] },
         "V": { "item": "glasses", "chance": 20, "repeat": [ 1, 2 ] },
         "U": { "item": "cleaning", "chance": 20, "repeat": [ 1, 2 ] },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
         "J": { "item": "snacks", "chance": 10 },
         "i": { "item": "oven", "chance": 80, "repeat": [ 2, 4 ] },
         "B": [ { "item": "bags", "chance": 5 }, { "item": "snacks", "chance": 5 }, { "item": "vending_food_items", "chance": 10 } ],
@@ -318,7 +318,7 @@
         "l": { "item": "fast_fridge", "chance": 30, "repeat": [ 2, 4 ] },
         "m": { "item": "fast_fridge", "chance": 30, "repeat": [ 2, 4 ] }
       },
-      "place_vehicles": [ { "vehicle": "food_cart", "x": 70, "y": 7, "chance": 100, "rotation": 90 } ],
+      "place_vehicles": [ { "vehicle": "food_cart", "x": 70, "y": 7, "rotation": 90 } ],
       "place_monster": [
         { "group": "GROUP_MALL", "x": [ 2, 15 ], "y": [ 5, 11 ], "repeat": [ 2, 4 ] },
         { "group": "GROUP_MALL", "x": [ 25, 40 ], "y": [ 15, 22 ], "repeat": [ 4, 6 ] },
@@ -360,7 +360,7 @@
         ",,,,,,,,,,,,,F1.c.1F,,,...,,,F1.c.1F,,,,,,,,.#################==###################ɱЯЯЯЯЯɱГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ",
         ",,,,,,,,,,,,,F11111F,,,,.,,,,F11111F,,,,,,,,.Hd#]ɄɄȣ^ȣȣ^ȝȝ^::^^^^^$$^C^^^^^R^^V^OT#ɱЯЯϻЯЯɱГГɔɔɔɔɔɔɔ˽˽˽˽˽˽˽˽˽˽˽˽ɔɔɔɔɔɔɔГւ"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "parametrized_linoleum_palette", "mall_palette_2" ],
       "terrain": {
         "K": "t_carpet_green",
         "M": "t_carpet_green",
@@ -386,17 +386,17 @@
         "P": "t_thconc_floor",
         "I": "t_thconc_floor",
         "A": "t_thconc_floor",
-        "?": "t_linoleum_gray",
-        "3": "t_linoleum_gray",
-        "4": "t_linoleum_gray",
-        "*": "t_linoleum_gray",
-        "Á": "t_linoleum_gray",
-        "%": "t_linoleum_gray",
-        "c": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
+        "?": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "3": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "4": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "*": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "Á": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "%": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "c": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "{": "t_linoleum_white_no_roof",
         "}": "t_linoleum_white_no_roof",
-        "1": "t_linoleum_white"
+        "1": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
       "sealed_item": {
         "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" },
@@ -453,7 +453,7 @@
         "j": { "item": "restaur_sink", "chance": 20, "repeat": [ 1, 2 ] },
         "U": { "item": "cleaning", "chance": 20, "repeat": [ 1, 2 ] },
         "J": { "item": "restaur_kitchen", "chance": 20 },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
         "i": { "item": "oven", "chance": 80, "repeat": [ 2, 4 ] },
         "B": [ { "item": "bags", "chance": 1 } ],
         "Q": [
@@ -517,7 +517,7 @@
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГɱЯЯϻɱ#__#[^^^ƃ^666^;H^^^^^^^^^^^^^^^^^^^^^^^^#^^^^^^^((^MH.,,,,³³,",
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГɱЯЯЯɱ#__#[^^^$^666^;H^6666666666666666666^^^^#Ħ^^((^^((^MH.,,,,³³,"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "parametrized_linoleum_palette", "mall_palette_2" ],
       "place_loot": [
         { "group": "cash_register_random", "x": [ 49, 50 ], "y": 11 },
         { "group": "cash_register_random", "x": [ 61, 64 ], "y": 12 },
@@ -543,18 +543,18 @@
         ":": "t_thconc_floor",
         "3": "t_linoleum_white_no_roof",
         "4": "t_linoleum_white_no_roof",
-        "*": "t_linoleum_gray",
-        "%": "t_linoleum_gray",
+        "*": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "%": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "F": "t_sidewalk",
         "K": "t_sidewalk",
-        "J": "t_linoleum_gray",
-        "m": "t_linoleum_gray",
-        "V": "t_linoleum_gray",
-        "}": "t_linoleum_gray",
+        "J": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "m": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "V": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "}": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "{": "t_linoleum_white_no_roof",
-        "1": "t_linoleum_white",
-        "A": "t_linoleum_white",
-        "!": "t_linoleum_white"
+        "1": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "!": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
       "place_vendingmachines": [
         { "item_group": "vending_drink", "x": 74, "y": 17, "lootable": true },
@@ -596,10 +596,7 @@
           { "item": "archery_ammo", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "archery_mods", "chance": 50, "repeat": [ 1, 2 ] }
         ],
-        "`": [
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 0, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 50, "repeat": [ 0, 2 ] }
-        ],
+        "`": [ { "item": "ammo_hunting", "chance": 75, "repeat": [ 0, 5 ] } ],
         "z": [
           { "item": "clothing_hunting", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "tools_hunting", "chance": 20, "repeat": [ 1, 2 ] },
@@ -627,8 +624,8 @@
         "P": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ],
         "(": { "item": "shirts", "chance": 20, "repeat": [ 1, 2 ] },
         "Ħ": { "item": "pants", "chance": 30, "repeat": [ 2, 4 ] },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
-        "*": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
+        "*": { "item": "SUS_trash_floor", "chance": 20, "repeat": [ 1, 2 ] },
         "J": { "item": "snacks", "chance": 5 },
         "i": { "item": "oven", "chance": 80, "repeat": [ 2, 4 ] },
         "4": { "item": "bags", "chance": 1 },
@@ -659,8 +656,8 @@
       "place_vehicles": [
         { "vehicle": "car", "x": 6, "y": 16, "chance": 35, "rotation": 0 },
         { "vehicle": "car", "x": 20, "y": 17, "chance": 35, "rotation": 180 },
-        { "vehicle": "ice_cream_cart", "x": 76, "y": 9, "chance": 100, "rotation": 180 },
-        { "vehicle": "ice_cream_cart", "x": 78, "y": 9, "chance": 100, "rotation": 180 }
+        { "vehicle": "ice_cream_cart", "x": 76, "y": 9, "rotation": 180 },
+        { "vehicle": "ice_cream_cart", "x": 78, "y": 9, "rotation": 180 }
       ]
     }
   },
@@ -696,7 +693,7 @@
         ",,,.#H+H#H+H##HH+HH###=###_±±_±±_±±_±H.,,,,,...HΔ^^^^$^~#II^#I^^#Ʌ___=_t#t_=__#___#ɱЯЯϻЯЯɱГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ",
         ",,,.#_______________________________±H.,,,,,...+^^^^^ƃ^^#^^^#^^^#±___#######__#___#ɱЯЯЯЯЯɱГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "parametrized_linoleum_palette", "mall_palette_2" ],
       "place_loot": [
         { "item": "television", "x": 19, "y": 20, "chance": 100 },
         { "item": "veh_tools_kitchen", "x": 27, "y": 22, "chance": 35 },
@@ -752,23 +749,23 @@
         "P": "t_thconc_floor",
         "±": "t_thconc_floor",
         "Ʌ": "t_thconc_floor",
-        "0": "t_linoleum_gray",
-        "n": "t_linoleum_gray",
-        "l": "t_linoleum_gray",
-        "*": "t_linoleum_gray",
-        "j": "t_linoleum_gray",
-        "%": "t_linoleum_gray",
-        "J": "t_linoleum_gray",
-        "i": "t_linoleum_gray",
-        "{": "t_linoleum_gray",
-        "V": "t_linoleum_gray",
-        "4": "t_linoleum_gray",
-        "K": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
-        "3": "t_linoleum_white",
-        "1": "t_linoleum_white",
-        "A": "t_linoleum_white",
-        "!": "t_linoleum_white"
+        "0": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "n": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "l": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "*": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "j": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "%": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "J": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "i": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "{": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "V": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "4": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "K": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "3": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "1": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "!": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
       "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" } },
       "furniture": {
@@ -819,8 +816,8 @@
         "P": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ],
         "(": { "item": "shirts", "chance": 30, "repeat": [ 1, 2 ] },
         "Ħ": { "item": "pants", "chance": 30, "repeat": [ 2, 4 ] },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
-        "*": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
+        "*": { "item": "SUS_trash_floor", "chance": 20, "repeat": [ 1, 2 ] },
         "4": { "item": "bags", "chance": 1 },
         "0": { "item": "pizza_display", "chance": 40 },
         "i": { "item": "oven", "chance": 80, "repeat": [ 0, 2 ] },
@@ -893,7 +890,7 @@
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГɱЯЯЯɱ#___#T^KK^KK^^^^^^^...,,,,,,.HB,,,,,?,,....BBB%BBB.*###..,.,.",
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГɱЯЯϻɱ#___#T^^^^^^^^M^M^#H#.,,,,,,.HB,,,,,!!!!!,,,,,,,,,,...#.,.,.,"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "parametrized_linoleum_palette", "mall_palette_2" ],
       "place_loot": [
         { "group": "cash_register_random", "x": 43, "y": [ 1, 3 ] },
         { "group": "cash_register_random", "x": 43, "y": [ 5, 7 ] },
@@ -913,16 +910,16 @@
         "]": "t_thconc_floor",
         "P": "t_thconc_floor",
         "0": "t_thconc_floor",
-        "*": "t_linoleum_gray",
-        "%": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
-        "J": "t_linoleum_gray",
-        "m": "t_linoleum_gray",
-        "V": "t_linoleum_gray",
-        "B": "t_linoleum_gray",
+        "*": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "%": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "J": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "m": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "V": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "{": "t_linoleum_white_no_roof",
         "1": "t_linoleum_white_no_roof",
-        "!": "t_linoleum_white"
+        "!": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
       "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" } },
       "furniture": {
@@ -967,10 +964,7 @@
           { "item": "guns_pistol_common", "chance": 70, "repeat": [ 1, 2 ] },
           { "item": "knife_shop", "chance": 30, "repeat": [ 1, 2 ] }
         ],
-        "`": [
-          { "item": "ammo_shotgun_common", "chance": 50, "repeat": [ 0, 2 ] },
-          { "item": "ammo_rifle_common", "chance": 50, "repeat": [ 0, 2 ] }
-        ],
+        "`": [ { "item": "ammo_hunting", "chance": 75, "repeat": [ 0, 5 ] } ],
         "z": [
           { "item": "clothing_hunting", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "tools_hunting", "chance": 20, "repeat": [ 1, 2 ] },
@@ -1000,8 +994,8 @@
         "P": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ],
         "(": { "item": "shirts", "chance": 20, "repeat": [ 1, 2 ] },
         "Ħ": { "item": "pants", "chance": 30, "repeat": [ 2, 4 ] },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
-        "*": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
+        "*": { "item": "SUS_trash_floor", "chance": 20, "repeat": [ 1, 2 ] },
         "J": { "item": "snacks", "chance": 5 },
         "i": { "item": "oven", "chance": 80, "repeat": [ 2, 4 ] },
         "n": { "item": "restaur_sink", "chance": 20, "repeat": [ 1, 2 ] },
@@ -1070,7 +1064,7 @@
         ",.,.,.,.,.,.,.,.,.,.,.,.,.,.,.#HH;;;;*.,.%;;;;HH#.,,,,,,,,.#y^$^^00^00^000^00y0#_P#ɱЯЯЯЯЯɱГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ",
         ".,.,.,.,.,.,.,.,.,.,.,.,.,.,..#...,,,,,,,,,,,...#...,,,,,,.#^^$^^^^^^^^^^^^^^^^=_U#ɱЯЯϻЯЯɱГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "parametrized_linoleum_palette", "mall_palette_2" ],
       "place_loot": [
         { "item": "hd_tow_cable", "x": 6, "y": 9, "chance": 35 },
         { "item": "jumper_cable", "x": 7, "y": 9, "chance": 35 },
@@ -1112,20 +1106,20 @@
         "S": "t_thconc_floor",
         "P": "t_thconc_floor",
         "±": "t_thconc_floor",
-        "Ʌ": "t_linoleum_gray",
-        "&": "t_linoleum_gray",
-        "*": "t_linoleum_gray",
-        "%": "t_linoleum_gray",
-        "J": "t_linoleum_gray",
-        "i": "t_linoleum_gray",
-        ";": "t_linoleum_gray",
-        "{": "t_linoleum_gray",
-        "V": "t_linoleum_gray",
-        "K": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
+        "Ʌ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "&": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "*": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "%": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "J": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "i": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        ";": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "{": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "V": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "K": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "1": "t_linoleum_white_no_roof",
-        "A": "t_linoleum_white",
-        "!": "t_linoleum_white"
+        "A": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "!": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
       "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" } },
       "furniture": {
@@ -1165,8 +1159,8 @@
         "(": { "item": "shirts", "chance": 30, "repeat": [ 1, 2 ] },
         "Ħ": { "item": "pants", "chance": 30, "repeat": [ 2, 4 ] },
         ";": { "item": "vitamin_shop", "chance": 30, "repeat": [ 0, 3 ] },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
-        "*": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
+        "*": { "item": "SUS_trash_floor", "chance": 20, "repeat": [ 1, 2 ] },
         "4": { "item": "bags", "chance": 35, "repeat": [ 1, 2 ] },
         "3": { "item": "cubical_office", "chance": 5 },
         "M": { "item": "jewelry_accessories", "chance": 40, "repeat": [ 1, 2 ] }
@@ -1180,7 +1174,7 @@
         { "group": "GROUP_MALL", "x": [ 96, 119 ], "y": [ 0, 23 ], "repeat": [ 4, 6 ] }
       ],
       "place_vehicles": [
-        { "vehicle": "lux_rv", "x": 15, "y": 15, "chance": 100, "rotation": 0, "status": 0 },
+        { "vehicle": "lux_rv", "x": 15, "y": 15, "rotation": 0, "status": 0 },
         { "vehicle": "canoe", "x": 14, "y": 6, "chance": 50, "rotation": 0, "status": 0 },
         { "vehicle": "kayak", "x": 19, "y": 7, "chance": 50, "rotation": 0, "status": 0 },
         { "vehicle": "kayak_racing", "x": 9, "y": 7, "chance": 50, "rotation": 180, "status": 0 },
@@ -1238,7 +1232,7 @@
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГɱЯɱ###__#;^^^^^^^^^J^^;#MH.,,,,.H±^^JJJƃ#Q^^±±^^±±^^±±^^±±^^^JJJƃ#__A&#6I6H6I6[I66HHHHHHH#",
         "ւГɔɔɔɔɔɔɔ˽˽˽˽˽˽˽˽˽˽˽˽ɔɔɔɔɔɔɔГГɱЯɱɱɱ#__#;^^33^333^ƃ^^;#MH.,,,,.H±^^^^^^#Q^^QQ^^QQ^^QQ^^QQ^^^J^^^=___z#666H6IIII6666666666"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "parametrized_linoleum_palette", "mall_palette_2" ],
       "place_loot": [
         { "group": "cash_register_random", "x": [ 49, 51 ], "y": 21 },
         { "group": "cash_register_random", "x": [ 66, 68 ], "y": 22 }
@@ -1259,18 +1253,18 @@
         "&": "t_thconc_floor",
         "P": "t_thconc_floor",
         "0": "t_thconc_floor",
-        "*": "t_linoleum_gray",
-        "j": "t_linoleum_gray",
-        "%": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
-        "Ŧ": "t_linoleum_gray",
-        "V": "t_linoleum_gray",
-        "B": "t_linoleum_gray",
-        "(": "t_linoleum_gray",
+        "*": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "j": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "%": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "Ŧ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "V": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "B": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "(": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "{": "t_linoleum_white_no_roof",
         "1": "t_linoleum_white_no_roof",
-        "!": "t_linoleum_white",
-        "]": "t_linoleum_white"
+        "!": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "]": { "param": "linoleum_color", "fallback": "t_linoleum_white" }
       },
       "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" } },
       "furniture": {
@@ -1317,8 +1311,8 @@
         "T": { "item": "wedding_suits", "chance": 40, "repeat": [ 1, 2 ] },
         "I": { "item": "cubical_office", "chance": 70, "repeat": [ 2, 4 ] },
         "P": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ],
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
-        "*": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
+        "*": { "item": "SUS_trash_floor", "chance": 20, "repeat": [ 1, 2 ] },
         "J": { "item": "snacks", "chance": 5 },
         "m": [
           { "item": "dessert", "chance": 30, "repeat": [ 2, 4 ] },
@@ -1340,7 +1334,7 @@
         { "vehicle": "car", "x": 4, "y": 3, "chance": 35, "rotation": 0 },
         { "vehicle": "pickup", "x": 5, "y": 19, "chance": 35, "rotation": 0 },
         { "vehicle": "hippie_van", "x": 21, "y": 19, "chance": 35, "rotation": 0 },
-        { "vehicle": "tricycle", "x": 90, "y": 22, "chance": 100, "status": 0 }
+        { "vehicle": "tricycle", "x": 90, "y": 22, "status": 0 }
       ]
     }
   },
@@ -1376,7 +1370,7 @@
         "H+H###3_S#QQQ___#Ʌ777777=7H.,,,,,,.^^^^^^^^9RRRRRRRRRRR9^É#ɱЯЯЯЯЯɱГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ",
         "666=P############ɄɄ777ɄɄ#:H.,,,,,,.^^^^^^^^9999999999999^É#ɱЯЯЯЯЯɱГГɔɔɔɔɔɔɔ˽˽˽˽˽˽˽˽˽˽˽˽ɔɔɔɔɔɔɔГւ"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "parametrized_linoleum_palette", "mall_palette_2" ],
       "terrain": {
         "`": "t_carpet_concrete_red",
         "I": "t_carpet_concrete_red",
@@ -1384,15 +1378,15 @@
         "[": "t_carpet_concrete_red",
         "R": "t_carpet_yellow",
         "9": "t_carpet_yellow",
-        "Ħ": "t_linoleum_gray",
-        "%": "t_linoleum_gray",
-        "0": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
-        "ƃ": "t_linoleum_gray",
-        "*": "t_linoleum_gray",
-        "!": "t_linoleum_white",
-        "1": "t_linoleum_white",
-        "K": "t_linoleum_white",
+        "Ħ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "%": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "0": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "ƃ": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "*": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "!": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "1": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "K": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "P": "t_thconc_floor",
         "B": "t_thconc_floor",
         "$": "t_thconc_floor",
@@ -1455,8 +1449,8 @@
         "&": { "item": "cubical_office", "chance": 40, "repeat": [ 2, 4 ] },
         "P": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ],
         "S": { "item": "office_paper", "chance": 30, "repeat": [ 1, 2 ] },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
-        "*": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
+        "*": { "item": "SUS_trash_floor", "chance": 20, "repeat": [ 1, 2 ] },
         "V": { "item": "drugs_pharmacy", "chance": 60, "repeat": [ 1, 3 ] },
         "Ħ": { "item": "vitamin_shop", "chance": 30, "repeat": [ 0, 3 ] },
         "K": { "item": "vitamin_shop", "chance": 30, "repeat": [ 0, 3 ] },
@@ -1528,7 +1522,7 @@
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГɱЯɱ#b^^KK^^Ħ^^Δ^;^^^^^^^^^^^^^^^7((((7^b#j0j0j0#.,,%#:ÁÁ444ÁÁ4444ÁÁÁb#.....,,,,,,.....#Ħ^^",
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГɱϻɱ#Ħ^^^^^^Ħ^^^^^^^K^K^^^^^^^^^^777777^Ŧ########.,,u#^ÁÁÁÁÁÁÁÁÁÁÁÁÁÁ^ó.,,,,,,,,,,,,,,.####"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "parametrized_linoleum_palette", "mall_palette_2" ],
       "place_loot": [
         { "group": "cash_register_random", "x": [ 43, 45 ], "y": 9 },
         { "group": "cash_register_random", "x": [ 52, 54 ], "y": 9 },
@@ -1546,10 +1540,10 @@
         "j": "t_thconc_floor",
         "z": "t_thconc_floor",
         "t": "t_thconc_floor",
-        "F": "t_linoleum_gray",
-        "*": "t_linoleum_gray",
-        "%": "t_linoleum_gray",
-        "u": "t_linoleum_gray",
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "*": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "%": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "u": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "ó": "t_retractable_gate_l",
         "@": "t_carpet_yellow",
         "ǝ": "t_carpet_yellow",
@@ -1616,8 +1610,8 @@
         ],
         "(": { "item": "dress_shop", "chance": 40, "repeat": [ 1, 2 ] },
         ")": { "item": "jackets", "chance": 40, "repeat": [ 1, 2 ] },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
-        "*": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] }
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
+        "*": { "item": "SUS_trash_floor", "chance": 20, "repeat": [ 1, 2 ] }
       },
       "place_monster": [
         { "group": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 4, 6 ] },
@@ -1676,7 +1670,7 @@
         "yĦĦĦbĦĦĦ^J^^^^~a#bb#b^#&,!,,WW,,&#@666666666666[;[666[±66V#ɱЯЯϻЯЯɱГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ",
         "############θ##########&,!,,WW,,&#±±±±±66666666666666[±66V#ɱЯЯЯЯЯɱГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "parametrized_linoleum_palette", "mall_palette_2" ],
       "terrain": {
         "3": "t_slot_machine",
         "R": "t_carpet_yellow",
@@ -1689,19 +1683,19 @@
         ";": "t_carpet_concrete_red",
         "[": "t_carpet_concrete_red",
         "?": "t_carpet_concrete_red",
-        "%": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
-        "Q": "t_linoleum_gray",
-        "*": "t_linoleum_gray",
-        "&": "t_linoleum_gray",
-        "0": "t_linoleum_gray",
-        "♥": "t_linoleum_gray",
-        "♠": "t_linoleum_gray",
-        "M": "t_linoleum_white",
-        "Ŧ": "t_linoleum_white",
-        "W": "t_linoleum_white",
-        "1": "t_linoleum_white",
-        "!": "t_linoleum_white",
+        "%": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "Q": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "*": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "&": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "0": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "♥": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "♠": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "M": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "Ŧ": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "W": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "1": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
+        "!": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "{": "t_linoleum_white_no_roof",
         "n": "t_thconc_floor",
         "i": "t_thconc_floor",
@@ -1774,8 +1768,8 @@
         "&": { "item": "bags", "chance": 30, "repeat": [ 1, 2 ] },
         "j": { "item": "public_sink", "chance": 100 },
         "M": { "item": "hatstore_accessories", "chance": 60, "repeat": [ 1, 2 ] },
-        "*": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
+        "*": { "item": "SUS_trash_floor", "chance": 20, "repeat": [ 1, 2 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
         "K": { "item": "shirts", "chance": 30, "repeat": [ 0, 3 ] },
         "V": { "item": "alcohol_bottled_canned", "chance": 30, "repeat": [ 0, 3 ] },
         "Ħ": { "item": "pants", "chance": 30, "repeat": [ 0, 3 ] },
@@ -1852,7 +1846,7 @@
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГɱЯЯɱГ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ГɱЯɱГ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ГɱЯɱГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Г",
         "ւГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГɱЯϻɱГ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ГɱϻɱГ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ГɱϻɱГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Г"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "parametrized_linoleum_palette", "mall_palette_2" ],
       "place_loot": [
         { "group": "cash_register_random", "x": [ 86, 90 ], "y": 0 },
         { "group": "cash_register_random", "x": [ 34, 37 ], "y": 9 }
@@ -1873,10 +1867,10 @@
         "t": "t_thconc_floor",
         "(": "t_thconc_floor",
         "N": "t_thconc_floor",
-        "F": "t_linoleum_gray",
-        "*": "t_linoleum_gray",
-        "%": "t_linoleum_gray",
-        "u": "t_linoleum_gray",
+        "F": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "*": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "%": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "u": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "ó": "t_retractable_gate_l",
         "@": "t_carpet_yellow",
         "ǝ": "t_carpet_yellow",
@@ -1936,8 +1930,8 @@
           { "item": "tools_common", "chance": 40, "repeat": [ 1, 3 ] }
         ],
         "u": { "item": "vending_drink", "chance": 40, "repeat": [ 2, 4 ] },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
-        "*": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
+        "*": { "item": "SUS_trash_floor", "chance": 20, "repeat": [ 1, 2 ] },
         "S": { "item": "office_paper", "chance": 30, "repeat": [ 1, 2 ] },
         "ǝ": { "item": "coffee_counter", "chance": 30, "repeat": [ 1, 2 ] },
         "I": { "item": "cubical_office", "chance": 70, "repeat": [ 2, 4 ] }
@@ -2002,7 +1996,7 @@
         "ɱЯɱГ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽ГГɱЯɱГГ˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ГɱЯЯɱГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ",
         "ɱϻɱГ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ГɱϻɱГ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ГɱЯЯɱГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГւ"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "parametrized_linoleum_palette", "mall_palette_2" ],
       "terrain": {
         "@": "t_carpet_concrete_yellow",
         "ǝ": "t_carpet_concrete_yellow",
@@ -2014,8 +2008,8 @@
         ";": "t_carpet_concrete_red",
         "[": "t_carpet_concrete_red",
         "?": "t_carpet_concrete_red",
-        "%": "t_linoleum_gray",
-        "&": "t_linoleum_gray"
+        "%": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "&": { "param": "linoleum_color", "fallback": "t_linoleum_gray" }
       },
       "furniture": {
         "%": [ "f_indoor_plant", "f_indoor_plant_y" ],
@@ -2053,7 +2047,7 @@
           { "item": "prepared_teas", "chance": 20, "repeat": [ 1, 2 ] }
         ],
         "&": { "item": "bags", "chance": 30, "repeat": [ 1, 2 ] },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
+        "Y": { "item": "SUS_trash_trashcan", "chance": 20, "repeat": [ 1, 2 ] },
         "j": { "item": "public_sink", "chance": 100 },
         "V": { "item": "alcohol_bottled_canned", "chance": 30, "repeat": [ 0, 3 ] },
         "U": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },

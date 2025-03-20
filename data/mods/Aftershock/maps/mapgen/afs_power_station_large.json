@@ -55,7 +55,13 @@
         "3  °°° °  3°  °°°     °°°°3°°°   °°°   °°° 3° °3",
         "333333333333333333333333333333333333333333333433"
       ],
-      "palettes": [ "afs_habitat_structure", "afs_habitat_exterior", "afs_habitat_residential_furnishing", "afs_habitat_life_support" ],
+      "palettes": [
+        "afs_habitat_structure",
+        "afs_habitat_exterior",
+        "afs_habitat_residential_furnishing",
+        "afs_habitat_life_support",
+        "afs_light_param_palette"
+      ],
       "terrain": {
         "0": "t_thconc_floor_no_roof",
         "3": "t_chainfence",
@@ -93,8 +99,8 @@
         { "group": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 24, 34 ], "y": [ 41, 44 ], "pack_size": [ 1, 2 ], "chance": 30 }
       ],
       "place_nested": [
-        { "chunks": [ [ "null", 80 ], [ "afs_map_lights_on", 20 ] ], "x": 24, "y": 24 },
-        { "chunks": [ [ "null", 80 ], [ "afs_map_lights_on", 20 ] ], "x": 0, "y": 24 }
+        { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 24, "y": 24 },
+        { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 24 }
       ]
     }
   },

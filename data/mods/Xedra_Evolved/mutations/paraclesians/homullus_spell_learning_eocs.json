@@ -32,6 +32,7 @@
             "condition": {
               "or": [
                 { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
+                { "test_eoc": "EOC_CONDITION_SKY_ISLAND_ON_THE_ISLAND" },
                 { "u_near_om_location": "FACTION_CAMP_ANY", "range": 2 },
                 { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } }
               ]

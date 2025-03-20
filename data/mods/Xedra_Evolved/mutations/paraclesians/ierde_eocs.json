@@ -125,7 +125,7 @@
         { "not": { "u_is_on_terrain": "t_woodchips" } }
       ]
     },
-    "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+    "effect": { "u_spawn_item": "spell_spawned_goblin_fruit_ierde", "use_item_group": true, "suppress_message": true },
     "false_effect": [ { "u_message": "You must be on living earth or stone to call forth a goblin fruit.", "type": "bad" } ]
   },
   {
@@ -300,6 +300,19 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_IERDE_ROOTED_IN_PLACE_activated",
+    "condition": { "test_eoc": "EOC_CONDITION_CHECK_IERDE_ON_NATURAL_EARTH_OR_UNDERGROUND" },
+    "effect": { "u_add_effect": "effect_ierde_rooted_in_place", "duration": "PERMANENT" },
+    "false_effect": { "u_message": "You must be standing on the living earth to root yourself in place.", "type": "bad" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_ROOTED_IN_PLACE_deactivated",
+    "condition": { "u_has_effect": "effect_ierde_rooted_in_place" },
+    "effect": { "u_lose_effect": "effect_ierde_rooted_in_place" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_IERDE_SMASHING_PUNCH_activated",
     "effect": [
       {
@@ -352,14 +365,7 @@
     "id": "EOC_IERDE_NO_SLEEP_MEDITATE_TURN",
     "condition": { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation') >= 0" ] },
     "effect": [ { "run_eocs": [ "EOC_IERDE_SLEEP_SLEEPINESS", "EOC_IERDE_SLEEP_DEPRIVATION" ] } ],
-    "false_effect": [
-      {
-        "u_message": "You are fully refreshed, and can end your vigil now.",
-        "popup": true,
-        "popup_w_interrupt_query": true,
-        "interrupt_type": "eoc"
-      }
-    ]
+    "false_effect": [ { "u_message": "You are fully refreshed and end your vigil." }, "u_cancel_activity" ]
   },
   {
     "type": "effect_on_condition",
@@ -404,7 +410,7 @@
         }
       },
       {
-        "math": [ "u_earthen_shield_protection_level", "=", "(u_spell_level('ierde_earthen_shield_spell') * 1 * rng(0.5,1.5)) + 4" ]
+        "math": [ "u_earthen_shield_protection_level = (u_spell_level('ierde_earthen_shield_spell') * 1 * rng(0.5,1.5)) + 4" ]
       }
     ],
     "false_effect": [ { "u_message": "You must be on living earth or stone to create the earthen shield.", "type": "bad" } ]
@@ -660,10 +666,10 @@
     "required_event": "character_takes_damage",
     "condition": { "u_has_trait": "IERDE_NO_BROKEN_BONES" },
     "effect": [
-      { "if": { "math": [ "u_hp('arm_r')", "==", "0" ] }, "then": { "math": [ "u_hp('arm_r')", "++" ] } },
-      { "if": { "math": [ "u_hp('arm_l')", "==", "0" ] }, "then": { "math": [ "u_hp('arm_l')", "++" ] } },
-      { "if": { "math": [ "u_hp('leg_r')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_r')", "++" ] } },
-      { "if": { "math": [ "u_hp('leg_l')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_l')", "++" ] } }
+      { "if": { "math": [ "u_hp('arm_r')", "==", "0" ] }, "then": { "math": [ "u_hp('arm_r')++" ] } },
+      { "if": { "math": [ "u_hp('arm_l')", "==", "0" ] }, "then": { "math": [ "u_hp('arm_l')++" ] } },
+      { "if": { "math": [ "u_hp('leg_r')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_r')++" ] } },
+      { "if": { "math": [ "u_hp('leg_l')", "==", "0" ] }, "then": { "math": [ "u_hp('leg_l')++" ] } }
     ]
   }
 ]

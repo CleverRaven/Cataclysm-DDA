@@ -85,7 +85,7 @@
     "description": "A medium-size steel rim for a car tire.",
     "weight": "5245 g",
     "volume": "28 L",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "longest_side": "432 mm",
     "price": "50 USD",
     "price_postapoc": "5 USD",
@@ -102,14 +102,14 @@
     "description": "A steel rim for a motorbike tire.",
     "weight": "3000 g",
     "volume": "12 L",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "longest_side": "508 mm",
     "price": "50 USD",
     "price_postapoc": "5 USD",
     "material": [ "steel" ],
     "symbol": "]",
     "color": "dark_gray",
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "wheel_rim_wide",
@@ -119,7 +119,7 @@
     "description": "A wide steel rim for a larger tire.",
     "weight": "7600 g",
     "volume": "70 L",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "longest_side": "610 mm",
     "price": "50 USD",
     "price_postapoc": "5 USD",
@@ -156,12 +156,10 @@
     "longest_side": "432 mm",
     "price": "50 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
-    "color": "dark_gray",
-    "melee_damage": { "bash": 6 }
+    "color": "dark_gray"
   },
   {
     "id": "tire_medium_slick",
@@ -175,12 +173,10 @@
     "longest_side": "407 mm",
     "price": "200 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
-    "color": "dark_gray",
-    "melee_damage": { "bash": 6 }
+    "color": "dark_gray"
   },
   {
     "id": "tire_motorbike",
@@ -194,12 +190,10 @@
     "longest_side": "407 mm",
     "price": "100 USD",
     "price_postapoc": "3 USD",
-    "to_hit": -1,
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
-    "color": "dark_gray",
-    "melee_damage": { "bash": 9 }
+    "color": "dark_gray"
   },
   {
     "id": "tire_motorbike_or",
@@ -221,12 +215,10 @@
     "longest_side": "610 mm",
     "price": "270 USD",
     "price_postapoc": "5 USD 50 cent",
-    "to_hit": -1,
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
-    "color": "dark_gray",
-    "melee_damage": { "bash": 15 }
+    "color": "dark_gray"
   },
   {
     "id": "tire_wide_or",
@@ -247,12 +239,10 @@
     "longest_side": "686 mm",
     "price": "20 USD",
     "price_postapoc": "1 USD 25 cent",
-    "to_hit": -1,
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
-    "color": "dark_gray",
-    "melee_damage": { "bash": 8 }
+    "color": "dark_gray"
   },
   {
     "id": "tire_bicycle_or",
@@ -273,7 +263,7 @@
     "longest_side": "432 mm",
     "price": "100 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
@@ -291,7 +281,7 @@
     "longest_side": "407 mm",
     "price": "240 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
@@ -308,11 +298,11 @@
     "longest_side": "407 mm",
     "price": "140 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "deflated_wheel_motorbike_or",
@@ -333,7 +323,7 @@
     "longest_side": "610 mm",
     "price": "340 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
@@ -357,11 +347,11 @@
     "longest_side": "686 mm",
     "price": "40 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "deflated_wheel_bicycle_or",
@@ -381,7 +371,7 @@
     "longest_side": "432 mm",
     "price": "100 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
@@ -400,7 +390,7 @@
     "longest_side": "407 mm",
     "price": "240 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
@@ -419,7 +409,7 @@
     "longest_side": "813 mm",
     "price": "340 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "qt_steel", "ceramic" ],
     "symbol": "]",
     "color": "green",
@@ -438,13 +428,13 @@
     "longest_side": "204 mm",
     "price": "20 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 8,
     "width": 3,
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "wheel_bicycle",
@@ -457,13 +447,13 @@
     "longest_side": "686 mm",
     "price": "40 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "aluminum", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 27,
     "width": 3,
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "wheel_bicycle_or",
@@ -483,13 +473,13 @@
     "longest_side": "102 mm",
     "price": "24 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 2,
     "width": 1,
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "wheel_caster_large",
@@ -502,7 +492,7 @@
     "longest_side": "190 mm",
     "price": "45 USD",
     "price_postapoc": "2 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
@@ -521,7 +511,7 @@
     "longest_side": "254 mm",
     "price": "140 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "rubber", "steel" ],
     "symbol": "]",
     "color": "dark_gray",
@@ -540,7 +530,7 @@
     "longest_side": "508 mm",
     "price": "12 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "]",
     "color": "light_gray",
@@ -559,7 +549,7 @@
     "longest_side": "508 mm",
     "price": "12 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": "]",
     "color": "light_gray",
@@ -592,13 +582,13 @@
     "longest_side": "407 mm",
     "price": "140 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 16,
     "width": 4,
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "wheel_motorbike_or",
@@ -638,13 +628,13 @@
     "longest_side": "254 mm",
     "price": "140 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 10,
     "width": 3,
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "wheel_skate",
@@ -675,13 +665,11 @@
     "longest_side": "60 mm",
     "price": "80 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 2,
-    "width": 2,
-    "melee_damage": { "bash": 1 }
+    "width": 2
   },
   {
     "id": "wheel_tricycle",
@@ -712,7 +700,7 @@
     "longest_side": "508 mm",
     "price": "80 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
@@ -731,7 +719,7 @@
     "longest_side": "610 mm",
     "price": "340 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
@@ -756,7 +744,7 @@
     "volume": "8750 ml",
     "longest_side": "508 mm",
     "price": "12 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "wood" ],
     "symbol": "]",
     "color": "brown",

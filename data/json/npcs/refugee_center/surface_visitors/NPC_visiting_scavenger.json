@@ -15,7 +15,7 @@
     "id": "TALK_RC_SURVIVOR_1",
     "dynamic_line": "Hey there.  Do you work here, or what?",
     "speaker_effect": {
-      "effect": [ { "npc_first_topic": "TALK_RC_SURVIVOR_2" }, { "math": [ "npc_randomize_dialogue_direction", "=", "rand(3)" ] } ]
+      "effect": [ { "npc_first_topic": "TALK_RC_SURVIVOR_2" }, { "math": [ "npc_randomize_dialogue_direction = rand(3)" ] } ]
     },
     "responses": [
       { "text": "Me?  No, I'm just passing through, how about you?", "topic": "TALK_RC_SURVIVOR_Story" },

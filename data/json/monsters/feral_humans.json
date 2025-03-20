@@ -571,29 +571,15 @@
     "extend": { "flags": [ "NO_FUNG_DMG" ], "species": [ "FUNGUS" ] }
   },
   {
-    "id": "mon_feral_human_archaeologist",
+    "id": "mon_feral_prisoner",
     "type": "MONSTER",
-    "name": "feral archaeologist",
-    "description": "Judging by looks, this poor individual was probably an archaeologist in their former life.  Rabid and bloodshot, they now seem intent to make you a part of their collection as they come at you with a shovel in hand.",
+    "name": { "str": "feral prisoner" },
+    "description": "This frenzied prisoner has somehow avoided turning into one of the undead thus far, though seeing how zombies seem to ignore this shiv-wielding, blood-stained maniac, they are likely not far off from that fate.",
     "copy-from": "mon_feral_human_pipe",
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 5,
-        "move_cost": 150,
-        "gun_type": "feral_human_thrown_rock",
-        "ammo_type": "rock",
-        "no_ammo_sound": "",
-        "fake_skills": [ [ "throw", 3 ] ],
-        "fake_str": 8,
-        "condition": { "not": { "u_has_effect": "maimed_arm" } },
-        "require_targeting_player": false,
-        "ranges": [ [ 2, 5, "DEFAULT" ] ],
-        "description": "The feral human throws a rock!"
-      },
-      { "id": "feral_weapon_shovel" }
-    ],
-    "looks_like": "mon_feral_human_tool",
-    "death_drops": "feral_archaelogist_death_drops"
+    "melee_skill": 5,
+    "dodge": 3,
+    "death_drops": "feral_prisoner_death_drops",
+    "special_attacks": [ { "id": "feral_weapon_shiv" } ],
+    "zombify_into": "mon_zombie_prisoner"
   }
 ]

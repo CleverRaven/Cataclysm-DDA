@@ -31,13 +31,19 @@
         "            /////)))//  ",
         "                        "
       ],
-      "palettes": [ "afs_habitat_structure", "afs_habitat_exterior", "afs_habitat_life_support", "afs_habitat_residential_furnishing" ],
+      "palettes": [
+        "afs_habitat_structure",
+        "afs_habitat_exterior",
+        "afs_habitat_life_support",
+        "afs_habitat_residential_furnishing",
+        "afs_light_param_palette"
+      ],
       "terrain": { "1": "t_afs_security_gate_closed", "3": "t_afs_door_metal_elocked", "4": "t_reinforced_glass_shutter" },
       "furniture": { "2": "f_security_panel", "5": "f_machinery_light", "6": "f_machinery_electronic", "î": "f_rack" },
       "items": { "î": { "item": "magazines", "chance": 80, "repeat": [ 2, 5 ] } },
       "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 20 } ],
       "place_nested": [
-        { "chunks": [ [ "null", 80 ], [ "afs_map_lights_on", 20 ] ], "x": 0, "y": 0 },
+        { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 },
         { "chunks": [ [ "afs_exosuit_garage_unlooted", 60 ], [ "afs_exosuit_garage_looted", 40 ] ], "x": 0, "y": 0 }
       ]
     }
@@ -118,7 +124,7 @@
         "â": "f_rack",
         "ä": "f_rack",
         "é": "f_sealed_intermodal_crate",
-        "ë": "f_safe_l",
+        "ë": "f_e_safe_l",
         "ê": "f_rack",
         "í": "f_locker"
       },
@@ -176,7 +182,7 @@
         "ä": "f_rack",
         "é": "f_intermodal_crate_open",
         "ê": "f_rack",
-        "ë": "f_safe_o",
+        "ë": "f_e_safe_o",
         "í": "f_locker"
       }
     }

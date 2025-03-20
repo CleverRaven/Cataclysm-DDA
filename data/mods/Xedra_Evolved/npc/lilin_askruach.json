@@ -187,7 +187,7 @@
     "effect": [
       { "math": [ "n_vitamin('lilin_ruach_vitamin')", "+=", "rng(200,300)" ] },
       { "npc_message": "You feel a rush of warmth as you absorb the ruach.", "type": "good" },
-      { "math": [ "u_lilin_ruach_drained_recently", "=", "1" ] },
+      { "math": [ "u_lilin_ruach_drained_recently = 1" ] },
       { "run_eocs": "EOC_LILIN_RUACH_DRAIN_SIDE_EFFECTS_DIALOGUE" },
       {
         "if": { "npc_has_trait": "LILIN_REDUCED_NEEDS_WITH_RUACH_AND_KCAL_DRAIN" },

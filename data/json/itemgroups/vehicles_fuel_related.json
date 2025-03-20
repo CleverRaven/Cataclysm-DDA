@@ -84,7 +84,7 @@
         ],
         "prob": 80
       },
-      { "item": "duct_tape", "charges": [ 20, 200 ], "prob": 30 },
+      { "group": "duct_tape_roll_part", "prob": 30 },
       { "group": "superglue", "prob": 20 },
       { "distribution": [ { "item": "pockknife" }, { "item": "boxcutter" } ], "prob": 60 },
       { "item": "glowstick", "count": [ 0, 2 ], "charges": 1400, "prob": 30 },
@@ -157,13 +157,16 @@
         "distribution": [ { "item": "gasdiscount_silver" }, { "item": "gasdiscount_gold" }, { "item": "gasdiscount_platinum" } ],
         "prob": 10
       },
-      { "group": "snacks_fancy", "count": [ 1, 2 ] },
+      { "group": "snacks_fancy", "prob": 20, "count": [ 1, 2 ] },
       { "group": "wallets", "prob": 10 },
-      [ "sunglasses", 20 ],
-      [ "knife_swissarmy", 10 ],
-      [ "eclipse_glasses", 1 ],
-      [ "folding_solar_panel_v2", 2 ],
-      [ "thermos", 20 ]
+      { "item": "sunglasses", "prob": 20 },
+      { "item": "knife_swissarmy", "prob": 10 },
+      { "item": "folding_solar_panel_v2", "prob": 2 },
+      { "item": "thermos", "prob": 20 },
+      { "group": "clothing_outdoor_set", "prob": 10 },
+      { "group": "entertainment_center_loot", "prob": 40 },
+      { "group": "SUS_science_personal_effects", "prob": 10 },
+      { "group": "SUS_pantry", "prob": 20 }
     ]
   },
   {

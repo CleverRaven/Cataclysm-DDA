@@ -404,7 +404,7 @@ void draw_custom_border(
     const catacurses::window &w, catacurses::chtype ls = 1, catacurses::chtype rs = 1,
     catacurses::chtype ts = 1, catacurses::chtype bs = 1, catacurses::chtype tl = 1,
     catacurses::chtype tr = 1, catacurses::chtype bl = 1, catacurses::chtype br = 1,
-    const nc_color &FG = BORDER_COLOR, const point &pos = point_zero, int height = 0, int width = 0 );
+    const nc_color &FG = BORDER_COLOR, const point &pos = point::zero, int height = 0, int width = 0 );
 void draw_border( const catacurses::window &w, nc_color border_color = BORDER_COLOR,
                   const std::string &title = "", nc_color title_color = c_light_red );
 void draw_border_below_tabs( const catacurses::window &w, nc_color border_color = BORDER_COLOR );
@@ -626,7 +626,7 @@ std::string trim( std::string_view s );
 // Removes trailing periods and exclamation marks.
 std::string trim_trailing_punctuations( std::string_view s );
 // Removes all punctuation except underscore.
-std::string remove_punctuations( std::string_view s );
+std::string remove_punctuations( const std::string &s );
 // Converts the string to upper case.
 std::string to_upper_case( const std::string &s );
 
@@ -919,7 +919,7 @@ best_fit find_best_fit_in_size( const std::vector<int> &size_of_items_to_fit, co
 
 // Legacy function, use class scrollbar instead!
 void draw_scrollbar( const catacurses::window &window, int iCurrentLine,
-                     int iContentHeight, int iNumLines, const point &offset = point_zero,
+                     int iContentHeight, int iNumLines, const point &offset = point::zero,
                      nc_color bar_color = c_white, bool bDoNotScrollToEnd = false );
 void calcStartPos( int &iStartPos, int iCurrentLine, int iContentHeight,
                    int iNumEntries );

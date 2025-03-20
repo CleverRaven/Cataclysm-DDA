@@ -20,23 +20,23 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_selector_test_1",
-    "effect": [ { "math": [ "key1", "=", "1" ] } ]
+    "effect": [ { "math": [ "key1 = 1" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_selector_test_2",
-    "effect": [ { "math": [ "key1", "=", "2" ] } ]
+    "effect": [ { "math": [ "key1 = 2" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_selector_test_3",
-    "effect": [ { "math": [ "key1", "=", "_val" ] } ]
+    "effect": [ { "math": [ "key1 = _val" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_selector_test_4",
     "condition": { "math": [ "1 < 0" ] },
-    "effect": [ { "math": [ "key1", "=", "_val" ] } ]
+    "effect": [ { "math": [ "key1 = _val" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -95,10 +95,10 @@
     "id": "EOC_variable_test",
     "effect": [
       { "u_message": "[Skill experience test]" },
-      { "math": [ "u_skill_test", "=", "u_skill_exp('swimming')" ] },
+      { "math": [ "u_skill_test = u_skill_exp('swimming')" ] },
       { "u_message": "Swimming skill experience before: <u_val:skill_test>" },
       { "math": [ "u_skill_exp('swimming')", "+=", "10" ] },
-      { "math": [ "u_skill_test", "=", "u_skill_exp('swimming')" ] },
+      { "math": [ "u_skill_test = u_skill_exp('swimming')" ] },
       { "u_message": "Swimming skill experience after: <u_val:skill_test>" },
       { "u_message": "[Weight and volume test]" },
       { "run_eocs": [ "EOC_variable_weight_volume_test1" ] },
@@ -109,8 +109,8 @@
     "type": "effect_on_condition",
     "id": "EOC_variable_weight_volume_test1",
     "effect": [
-      { "math": [ "u_weight_test", "=", "u_weight()" ] },
-      { "math": [ "u_volume_test", "=", "u_volume()" ] },
+      { "math": [ "u_weight_test = u_weight()" ] },
+      { "math": [ "u_volume_test = u_volume()" ] },
       { "u_message": "<u_name> weight: <u_val:weight_test> volume: <u_val:volume_test>" }
     ]
   },
@@ -118,8 +118,8 @@
     "type": "effect_on_condition",
     "id": "EOC_variable_weight_volume_test2",
     "effect": [
-      { "math": [ "u_weight_test", "=", "n_weight()" ] },
-      { "math": [ "u_volume_test", "=", "n_volume()" ] },
+      { "math": [ "u_weight_test = n_weight()" ] },
+      { "math": [ "u_volume_test = n_volume()" ] },
       { "u_message": "<npc_name> weight: <u_val:weight_test> volume: <u_val:volume_test>" }
     ]
   },
@@ -308,8 +308,8 @@
               {
                 "id": "EOC_armor_info_test_nested",
                 "effect": [
-                  { "math": [ "_coverage", "=", "n_coverage(_id)" ] },
-                  { "math": [ "_encumbrance", "=", "n_encumbrance(_id)" ] },
+                  { "math": [ "_coverage = n_coverage(_id)" ] },
+                  { "math": [ "_encumbrance = n_encumbrance(_id)" ] },
                   {
                     "if": { "math": [ "_coverage > 0" ] },
                     "then": [
@@ -330,9 +330,10 @@
     "type": "effect_on_condition",
     "id": "EOC_query_tile_test_anywhere",
     "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
       {
-        "if": { "u_query_tile": "anywhere", "target_var": { "global_val": "pos" }, "message": "Select point" },
-        "then": { "u_message": "<global_val:pos>" },
+        "if": { "math": [ "has_var(_pos)" ] },
+        "then": { "u_message": "<context_val:pos>" },
         "else": { "u_message": "Canceled" }
       }
     ]
@@ -341,9 +342,10 @@
     "type": "effect_on_condition",
     "id": "EOC_query_tile_test_line_of_sight",
     "effect": [
+      { "u_query_tile": "line_of_sight", "target_var": { "context_val": "pos" }, "message": "Select point", "range": 10 },
       {
-        "if": { "u_query_tile": "line_of_sight", "target_var": { "global_val": "pos" }, "message": "Select point", "range": 10 },
-        "then": { "u_message": "<global_val:pos>" },
+        "if": { "math": [ "has_var(_pos)" ] },
+        "then": { "u_message": "<context_val:pos>" },
         "else": { "u_message": "Canceled" }
       }
     ]
@@ -352,9 +354,10 @@
     "type": "effect_on_condition",
     "id": "EOC_query_tile_test_around",
     "effect": [
+      { "u_choose_adjacent_highlight": { "context_val": "pos" }, "message": "Choose direction" },
       {
-        "if": { "u_query_tile": "around", "target_var": { "global_val": "pos" }, "message": "Choose direction" },
-        "then": { "u_message": "<global_val:pos>" },
+        "if": { "math": [ "has_var(_pos)" ] },
+        "then": { "u_message": "<context_val:pos>" },
         "else": { "u_message": "Canceled" }
       }
     ]
@@ -380,21 +383,22 @@
     "type": "effect_on_condition",
     "id": "EOC_can_see_location_test",
     "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "pos" }, "message": "Select point" },
       {
-        "if": { "u_query_tile": "anywhere", "target_var": { "global_val": "pos" }, "message": "Select point" },
+        "if": { "math": [ "has_var(_pos)" ] },
         "then": [
           {
             "if": { "u_can_see_location": { "global_val": "pos" } },
-            "then": { "u_message": "You can see <global_val:pos>." },
-            "else": { "u_message": "You can't see <global_val:pos>." }
+            "then": { "u_message": "You can see <context_val:pos>." },
+            "else": { "u_message": "You can't see <context_val:pos>." }
           },
           {
             "u_run_npc_eocs": [
               {
                 "id": "EOC_can_see_location_test_nest",
                 "condition": { "u_can_see_location": { "global_val": "pos" } },
-                "effect": { "message": "<u_name> can see <global_val:pos>." },
-                "false_effect": { "message": "<u_name> can't see <global_val:pos>." }
+                "effect": { "message": "<u_name> can see <context_val:pos>." },
+                "false_effect": { "message": "<u_name> can't see <context_val:pos>." }
               }
             ],
             "local": true
@@ -421,9 +425,10 @@
     "type": "effect_on_condition",
     "id": "EOC_teleport_test_setloc",
     "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "teleport_test_pos" }, "message": "Select point" },
       {
-        "if": { "u_query_tile": "anywhere", "target_var": { "global_val": "teleport_test_pos" }, "message": "Select point" },
-        "then": { "u_message": "<global_val:pos>" },
+        "if": { "math": [ "has_var(_teleport_test_pos)" ] },
+        "then": { "u_message": "<context_val:pos>" },
         "else": { "u_message": "Canceled" }
       }
     ]
@@ -437,11 +442,12 @@
     "type": "effect_on_condition",
     "id": "EOC_teleport_test_other",
     "effect": [
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "loc" }, "message": "Select point" },
       {
-        "if": { "u_query_tile": "anywhere", "target_var": { "global_val": "loc" }, "message": "Select point" },
+        "if": { "math": [ "has_var(_loc)" ] },
         "then": {
           "run_eocs": { "id": "EOC_teleport_test_other_do", "effect": { "npc_teleport": { "global_val": "teleport_test_pos" } } },
-          "beta_loc": { "global_val": "loc" },
+          "beta_loc": { "context_val": "loc" },
           "false_eocs": { "id": "EOC_teleport_test_other_do_fail_msg", "effect": { "message": "Please select a creature." } }
         },
         "else": { "u_message": "Canceled" }
@@ -466,14 +472,15 @@
     "id": "EOC_control_npc",
     "effect": [
       { "u_set_talker": { "global_val": "player_id" } },
+      { "u_query_tile": "anywhere", "target_var": { "context_val": "loc" }, "message": "Select point" },
       {
-        "if": { "u_query_tile": "anywhere", "target_var": { "global_val": "loc" }, "message": "Select point" },
+        "if": { "math": [ "has_var(_loc)" ] },
         "then": {
           "run_eocs": {
             "id": "_EOC_control_npc_do",
             "effect": [ { "if": "npc_is_npc", "then": [ "follow", "take_control" ], "else": { "message": "Please select a NPC." } } ]
           },
-          "beta_loc": { "global_val": "loc" },
+          "beta_loc": { "context_val": "loc" },
           "false_eocs": { "id": "_EOC_control_npc_fail_msg", "effect": { "message": "Please select a NPC." } }
         },
         "else": { "u_message": "Canceled" }
@@ -517,9 +524,9 @@
     "id": "EOC_print_item_charge",
     "condition": { "math": [ "n_val('power_max') > 0" ] },
     "effect": [
-      { "math": [ "ITEM_POWER", "=", "n_val('power')" ] },
-      { "math": [ "ITEM_POWER_MAX", "=", "n_val('power_max')" ] },
-      { "math": [ "ITEM_POWER_PERC", "=", "n_val('power_percentage')" ] },
+      { "math": [ "ITEM_POWER = n_val('power')" ] },
+      { "math": [ "ITEM_POWER_MAX = n_val('power_max')" ] },
+      { "math": [ "ITEM_POWER_PERC = n_val('power_percentage')" ] },
       { "u_message": "<global_val:ITEM_POWER> / <global_val:ITEM_POWER_MAX> (<global_val:ITEM_POWER_PERC>%)" }
     ]
   }

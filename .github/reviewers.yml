@@ -32,14 +32,14 @@ files:
     - Light-Wave
   'data/mods/MA/**':
     - ZhilkinSerg
-  'data/mods/No_Hope/**':
-    - Night-Pryanik
   'data/mods/Tamable_Wildlife/**':
     - Termineitor244
   'data/mods/Limb_WIP/**':
     - Venera3
   'tools/json_tools/gun_variant_validator.py':
     - anothersimulacrum
+  'data/changelog.txt':
+    - Procyonae
 
   '**/.clang-tidy':
     - jbytheway

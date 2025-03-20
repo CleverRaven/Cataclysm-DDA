@@ -33,7 +33,6 @@
       { "item": "jade_brooch", "prob": 2 },
       { "item": "diamond", "prob": 1 },
       { "item": "manual_dodge", "prob": 1 },
-      { "item": "fancy_sunglasses", "prob": 2 },
       { "item": "pocketwatch", "prob": 5 },
       { "item": "well_pump", "prob": 1 },
       { "item": "katana_inferior", "prob": 2 },

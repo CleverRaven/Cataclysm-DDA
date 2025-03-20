@@ -84,7 +84,7 @@ catacurses::window catacurses::newwin( int nlines, int ncols, const point &begin
     newwindow->draw = false;
     newwindow->BG = black;
     newwindow->FG = static_cast<base_color>( 8 );
-    newwindow->cursor = point_zero;
+    newwindow->cursor = point::zero;
     newwindow->line.resize( nlines );
 
     for( int j = 0; j < nlines; j++ ) {
@@ -189,7 +189,7 @@ void catacurses::wrefresh( const window &win )
 //Refreshes the main window, causing it to redraw on top.
 void catacurses::refresh()
 {
-    return wrefresh( stdscr );
+    wrefresh( stdscr );
 }
 
 void catacurses::doupdate()
@@ -349,7 +349,7 @@ void catacurses::wprintw( const window &win, const std::string &text )
         return;
     }
 
-    return printstring( win.get<cata_cursesport::WINDOW>(), text );
+    printstring( win.get<cata_cursesport::WINDOW>(), text );
 }
 
 //Prints a formatted string to a window, moves the cursor
@@ -358,7 +358,7 @@ void catacurses::mvwprintw( const window &win, const point &p, const std::string
     if( !wmove_internal( win, p ) ) {
         return;
     }
-    return printstring( win.get<cata_cursesport::WINDOW>(), text );
+    printstring( win.get<cata_cursesport::WINDOW>(), text );
 }
 
 //Resizes the underlying terminal after a Window's console resize(maybe?) Not used in TILES
@@ -381,13 +381,13 @@ void catacurses::werase( const window &win_ )
         win->line[j].touched = true;
     }
     win->draw = true;
-    wmove( win_, point_zero );
+    wmove( win_, point::zero );
 }
 
 //erases the main window of all text and attributes
 void catacurses::erase()
 {
-    return werase( stdscr );
+    werase( stdscr );
 }
 
 //pairs up a foreground and background color and puts it into the array of pairs
@@ -410,7 +410,7 @@ void catacurses::wmove( const window &win_, const point &p )
 //Clears the main window     I'm not sure if its suppose to do this?
 void catacurses::clear()
 {
-    return wclear( stdscr );
+    wclear( stdscr );
 }
 
 //adds a character to the window
@@ -419,7 +419,7 @@ void catacurses::mvwaddch( const window &win, const point &p, const chtype ch )
     if( !wmove_internal( win, p ) ) {
         return;
     }
-    return waddch( win, ch );
+    waddch( win, ch );
 }
 
 //clears a window
@@ -510,7 +510,7 @@ void catacurses::wattroff( const window &win_, nc_color )
 
 void catacurses::waddch( const window &win, const chtype ch )
 {
-    return printstring( win.get<cata_cursesport::WINDOW>(), string_from_int( ch ) );
+    printstring( win.get<cata_cursesport::WINDOW>(), string_from_int( ch ) );
 }
 
 static constexpr int A_BLINK = 0x00000800; /* Added characters are blinking. */

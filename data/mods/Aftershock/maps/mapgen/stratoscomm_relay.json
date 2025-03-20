@@ -12,7 +12,7 @@
         "                   .    ",
         "                    .   ",
         "                   ..   ",
-        "                  |,,|  ",
+        "                  |''|  ",
         "                 1|!!|  ",
         "  p p p   -----111|55|  ",
         "  p p p   -...----|66|  ",
@@ -31,9 +31,10 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "afs_habitat_structure", "afs_habitat_mech_furnishing" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_mech_furnishing", "afs_light_param_palette" ],
       "terrain": { "1": "t_dirtmound", "2": "t_bars", "5": "t_ramp_down_high", "6": "t_ramp_down_low" },
-      "furniture": { "4": "f_mil_comms_sat" }
+      "furniture": { "4": "f_mil_comms_sat" },
+      "place_nested": [ { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -54,21 +55,21 @@
         "##################||||##",
         "##########|||||||||55|##",
         "##########|431=..<|66|##",
-        "##########|2.ö=!!||]]|##",
+        "##########|2'ö=!!||]]|##",
         "##########|2h.!..|l..|##",
-        "##########|4,.=..|l..|##",
+        "##########|4,.=..|l''|##",
         "##########||===..||]||##",
         "#########|||yhv.....A|##",
         "########||*|q.ö.hfh.P|##",
-        "########|~.+....hfh.c|##",
-        "########||&|+|+|...hk|##",
+        "########|~'+..'.hfh.c|##",
+        "########||&|+|+|.'.hk|##",
         "#########|||@|@|FoyyE|##",
         "###########|||||||||||##",
         "########################",
         "########################",
         "########################"
       ],
-      "palettes": [ "afs_habitat_structure", "afs_habitat_mech_furnishing" ],
+      "palettes": [ "afs_habitat_structure", "afs_habitat_mech_furnishing", "afs_light_param_palette" ],
       "terrain": { "5": "t_ramp_up_high", "6": "t_ramp_up_low", "#": "t_rock" },
       "furniture": {
         "@": "f_sleep_pod",
@@ -81,7 +82,8 @@
         "F": "f_fridge"
       },
       "items": { "o": { "item": "afs_kitchenette", "chance": 100 }, "F": { "item": "afs_old_food_storage", "chance": 80 } },
-      "monster": { "ö": { "monster": "mon_skitterbot" } }
+      "monster": { "ö": { "monster": "mon_skitterbot" } },
+      "place_nested": [ { "chunks": [ { "param": "lightstatus", "fallback": "null" } ], "x": 0, "y": 0 } ]
     }
   },
   {

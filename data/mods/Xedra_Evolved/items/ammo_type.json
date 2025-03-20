@@ -37,6 +37,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "xedra_time_charge",
+    "name": "collected time",
+    "default": "xedra_time_charge"
+  },
+  {
+    "type": "ammunition_type",
     "id": "9x21mm",
     "name": "9x21mm",
     "default": "9x21mm"

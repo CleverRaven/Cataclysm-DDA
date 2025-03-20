@@ -4,7 +4,6 @@
     "method": "json",
     "om_terrain": [ "mansion_boarded_e1" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -47,7 +46,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_e1u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -95,7 +93,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_t2d" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -115,8 +112,8 @@
         "#####%[###%[%%###[%#####",
         "   #....#......#...q#   ",
         "   #...............q#   ",
-        "   #]]]....}}.......#   ",
-        "   #..]....}}...=.=.#   ",
+        "   #]]]....}........#   ",
+        "   #..].........=.=.#   ",
         "   #..)]]...........#   ",
         "   #....]........ggg#   ",
         "   ##################   ",
@@ -133,7 +130,17 @@
         "[": "t_chaingate_c",
         "%": "t_chainfence"
       },
-      "furniture": { "&": "f_table", "=": "f_machinery_old", "}": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
+      "furniture": {
+        "&": "f_table",
+        "=": "f_machinery_old",
+        "}": [
+          [ "f_generator_broken", 25 ],
+          [ "f_portable_generator", 20 ],
+          [ "f_diesel_generator", 5 ],
+          [ "f_12000_gasoline_generator", 5 ]
+        ],
+        "!": [ "f_crate_c", "f_cardboard_box" ]
+      },
       "items": {
         ".": { "item": "clutter_basement", "chance": 1 },
         "!": { "item": "crate_stack", "chance": 100 },
@@ -148,7 +155,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_t2d_start" ],
-    "weight": 800,
     "//": "possible starting room, sex lair",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -178,24 +184,24 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "parametrized_concrete_carpets_palette", "standard_domestic_palette" ],
       "terrain": {
         " ": "t_soil",
         ".": "t_thconc_floor",
         "]": "t_sewage_pipe",
         ")": "t_sewage_pump",
-        "N": "t_carpet_concrete_green",
-        "-": "t_carpet_concrete_green",
-        "r": "t_carpet_concrete_green",
-        "I": "t_carpet_concrete_green",
-        "T": "t_carpet_concrete_green",
-        "h": "t_carpet_concrete_green",
-        "&": "t_carpet_concrete_green",
-        "?": "t_carpet_concrete_green",
-        "A": "t_carpet_concrete_green",
-        "@": "t_carpet_concrete_green",
+        "N": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "-": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "r": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "I": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "T": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "h": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "&": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "?": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "A": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
+        "@": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" },
         "/": "t_door_metal_c",
-        "%": "t_carpet_concrete_green"
+        "%": { "param": "concrete_carpet_color_type", "fallback": "t_carpet_concrete_green" }
       },
       "furniture": {
         "%": "f_rack_wood",
@@ -251,7 +257,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_t2" ],
-    "weight": 1100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -312,7 +317,6 @@
     "method": "json",
     "om_terrain": [ "mansion_boarded_t2_start" ],
     "//": "possible starting room, panic room",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -496,7 +500,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_t4" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -553,7 +556,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_t4u" ],
-    "weight": 1100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -603,9 +605,8 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_c1" ],
-    "weight": 700,
     "object": {
-      "fill_ter": "t_linoleum_gray",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
       "rows": [
         "........................",
         "........................",
@@ -632,7 +633,12 @@
         ".......#S,,,+,9|      T|",
         ".......########||++|||||"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "parametrized_linoleum_palette",
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
       "terrain": {
         ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "~": "t_water_pool",
@@ -654,7 +660,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_c1u" ],
-    "weight": 700,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -718,7 +723,6 @@
     "method": "json",
     "om_terrain": [ "mansion_boarded_c2" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -785,7 +789,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_c2u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -846,7 +849,6 @@
     "method": "json",
     "om_terrain": [ "mansion_boarded_c3" ],
     "//": "updated",
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -904,7 +906,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_c3u" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -965,7 +966,6 @@
     "method": "json",
     "om_terrain": [ "mansion_boarded_c4" ],
     "//": "updated",
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1022,7 +1022,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mansion_boarded_c4u" ],
-    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

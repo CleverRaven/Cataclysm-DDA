@@ -171,6 +171,27 @@
     "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
   },
   {
+    "id": "condenser_pristine",
+    "type": "GUNMOD",
+    "name": { "str": "pristine condenser" },
+    "description": "A condenser unit for the Caotel Sr2.2, seemingly in perfect condition.",
+    "weight": "380 g",
+    "volume": "250 ml",
+    "integral_volume": "0 ml",
+    "price": "840 USD",
+    "price_postapoc": "10 USD",
+    "install_time": "20 m",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "condenser",
+    "mod_targets": [ "launcher", "rifle" ],
+    "flags": [ "IRREMOVABLE" ],
+    "heat_per_shot_modifier": -5,
+    "cooling_value_multiplier": 3,
+    "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
+  },
+  {
     "id": "m240semi",
     "type": "GUNMOD",
     "name": { "str": "M240 select fire trigger" },

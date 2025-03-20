@@ -28,20 +28,16 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 1,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTROKIN_SPARK_SIGHT",
-        "condition": { "math": [ "u_spell_level('afs_electrokinetic_see_electric') >= 1" ] },
         "effect": [
-          {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
-          },
-          { "math": [ "u_spell_exp('afs_electrokinetic_see_electric')", "+=", "(contemplation_factor(1))" ] },
-          { "run_eocs": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD" }
+          { "set_string_var": "afs_electrokinetic_see_electric", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 2" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -55,21 +51,17 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
-    "difficulty": 0,
-    "time": "30 m",
+    "difficulty": 1,
+    "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTROKIN_SHOCK_TOUCH",
-        "condition": { "math": [ "u_spell_level('electrokinetic_shock_touch') >= 1" ] },
         "effect": [
-          {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
-          },
-          { "math": [ "u_spell_exp('electrokinetic_shock_touch')", "+=", "(contemplation_factor(1))" ] },
-          { "run_eocs": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD" }
+          { "set_string_var": "afs_electrokinetic_shock_touch", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 2" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -84,20 +76,16 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 2,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTROKIN_ZAP_ENEMIES",
-        "condition": { "math": [ "u_spell_level('afs_electrokinetic_zap_enemies') >= 1" ] },
         "effect": [
-          {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
-          },
-          { "math": [ "u_spell_exp('afs_electrokinetic_zap_enemies')", "+=", "(contemplation_factor(1))" ] },
-          { "run_eocs": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD" }
+          { "set_string_var": "afs_electrokinetic_zap_enemies", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 3" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -112,20 +100,16 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 3,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTRO_HACKING_INTERFACE",
-        "condition": { "math": [ "u_spell_level('afs_electrokinetic_hacking_interface') >= 1" ] },
         "effect": [
-          {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
-          },
-          { "math": [ "u_spell_exp('afs_electrokinetic_hacking_interface')", "+=", "(contemplation_factor(1))" ] },
-          { "run_eocs": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD" }
+          { "set_string_var": "afs_electrokinetic_hacking_interface", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 4" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -140,20 +124,16 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 4,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTRO_PERSONAL_BATTERY",
-        "condition": { "math": [ "u_spell_level('afs_electrokinetic_personal_battery') >= 1" ] },
         "effect": [
-          {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
-          },
-          { "math": [ "u_spell_exp('afs_electrokinetic_personal_battery')", "+=", "(contemplation_factor(1))" ] },
-          { "run_eocs": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD" }
+          { "set_string_var": "afs_electrokinetic_personal_battery", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 5" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]
@@ -168,20 +148,16 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",
     "difficulty": 7,
-    "time": "30 m",
+    "time": "0 s",
     "autolearn": false,
     "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_AFS_ELECTROKIN_RECHARGE_VEHICLE",
-        "condition": { "math": [ "u_spell_level('afs_electrokinetic_recharge_vehicle') >= 1" ] },
         "effect": [
-          {
-            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
-            "type": "good"
-          },
-          { "math": [ "u_spell_exp('afs_electrokinetic_recharge_vehicle')", "+=", "(contemplation_factor(1))" ] },
-          { "run_eocs": "EOC_AFS_PSI_PRACTICE_FOCUS_MOD" }
+          { "set_string_var": "afs_electrokinetic_recharge_vehicle", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "math": [ "u_latest_studied_power_difficulty = 8" ] },
+          { "run_eocs": [ "EOC_AFS_ESPER_STUDYING_POWER_BEGIN", "EOC_AFS_ESPER_STUDYING_POWER_SIDE_EFFECTS" ] }
         ]
       }
     ]

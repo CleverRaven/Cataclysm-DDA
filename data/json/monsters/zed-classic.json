@@ -66,7 +66,7 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "hive", 80 ] ] },
-    "fungalize_into": "mon_beekeeper_fungal",
+    "fungalize_into": "mon_beekeeper_dusted",
     "upgrades": false,
     "armor": { "bash": 6, "cut": 8, "bullet": 6, "electric": 1 },
     "extend": { "weakpoint_sets": [ "wps_natural_armor" ], "families": [ "prof_wp_nat_armored" ] }
@@ -109,9 +109,9 @@
       { "id": "bite_humanoid", "attack_upper": false, "cooldown": 5 },
       { "id": "scratch_humanoid", "attack_upper": false }
     ],
-    "fungalize_into": "mon_zombie_crawler_fungal",
+    "fungalize_into": "mon_zombie_crawler_dusted",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_CRAWLER_UPGRADE" },
-    "extend": { "flags": [ "ATTACK_LOWER" ] },
+    "extend": { "flags": [ "ATTACK_LOWER", "GEN_DORMANT" ] },
     "delete": { "flags": [ "PUSH_MON" ] }
   },
   {
@@ -126,10 +126,10 @@
     "color": "green",
     "melee_skill": 3,
     "melee_dice_sides": 4,
-    "fungalize_into": "mon_zombie_fat_fungus",
+    "fungalize_into": "mon_zombie_fat_dusted",
     "upgrades": { "half_life": 32, "into_group": "GROUP_ZOMBIE_FAT" },
     "armor": { "bash": 5, "cut": 3, "bullet": 2, "electric": 2 },
-    "extend": { "weakpoint_sets": [ "wps_humanoid_head_small" ] }
+    "extend": { "weakpoint_sets": [ "wps_humanoid_head_small" ], "flags": [ "GEN_DORMANT" ] }
   },
   {
     "id": "mon_zombie_fireman",
@@ -186,8 +186,9 @@
     "melee_skill": 1,
     "melee_dice_sides": 2,
     "grab_strength": 15,
-    "fungalize_into": "mon_zombie_rot_fungal",
-    "upgrades": { "half_life": 43, "into": "mon_devourer" }
+    "fungalize_into": "mon_zombie_rot_dusted",
+    "upgrades": { "half_life": 43, "into": "mon_devourer" },
+    "extend": { "flags": [ "GEN_DORMANT" ] }
   },
   {
     "id": "mon_zombie_swat",
@@ -223,7 +224,7 @@
       { "id": "bite_humanoid", "cooldown": 5, "min_mul": 0.7 },
       { "id": "scratch_humanoid" }
     ],
-    "fungalize_into": "mon_zombie_tough_fungal",
+    "fungalize_into": "mon_zombie_tough_dusted",
     "armor": { "bash": 2, "cut": 1, "bullet": 1, "electric": 2 },
     "extend": { "weakpoint_sets": [ "wps_humanoid_head_small" ], "flags": [ "GEN_DORMANT" ] }
   },

@@ -40,6 +40,7 @@
       "forest": {
         "chance": 20,
         "extras": {
+          "mx_nest_nedcolbertia": 30,
           "mx_nest_gallimimus": 30,
           "mx_nest_struthiomimus": 30,
           "mx_nest_ornithomimus": 30,

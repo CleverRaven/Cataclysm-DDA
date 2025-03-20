@@ -12,6 +12,7 @@
     "book_learn": [ [ "schematics_anchoring_crown", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_psionic_minimum_requirements", "required": true },
       { "proficiency": "prof_psionic_basic", "required": true },
       { "proficiency": "prof_psionic_containment", "required": false },
       { "proficiency": "prof_psionic_warping", "required": false }
@@ -41,6 +42,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_psionic_minimum_requirements", "required": true },
       { "proficiency": "prof_psionic_basic", "required": true },
       { "proficiency": "prof_psionic_containment", "required": false },
       { "proficiency": "prof_psionic_warping", "required": false }

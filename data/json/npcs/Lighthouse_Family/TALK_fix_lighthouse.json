@@ -39,12 +39,12 @@
   {
     "type": "talk_topic",
     "id": "TALK_ENG_LIGHTHOUSE_2",
-    "dynamic_line": "Hmm, looks <shitty>.  I'll do my best.",
+    "dynamic_line": "Hmm, looks shitty.  I'll do my best.",
     "responses": [
       {
         "text": "Start working.",
         "topic": "TALK_DONE",
-        "effect": [ { "npc_first_topic": "TALK_ENG_LIGHTHOUSE_WORKING" }, { "math": [ "n_time_lighthouse_wait", "=", "time('now')" ] } ]
+        "effect": [ { "npc_first_topic": "TALK_ENG_LIGHTHOUSE_WORKING" }, { "math": [ "n_time_lighthouse_wait = time('now')" ] } ]
       }
     ]
   },

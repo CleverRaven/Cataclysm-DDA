@@ -209,7 +209,7 @@
       "inquire": "They speak sometimes.  I wonder if they still think.",
       "success": "Go somewhere, far away, and then connect the power system.  Come back and tell me how things went.",
       "success_lie": "Thanks for trying… I guess.",
-      "failure": "I can't be Dr Frankenstein unless you get me these."
+      "failure": "I can't be Dr. Frankenstein unless you get me these."
     },
     "end": { "effect": [ { "u_spawn_item": "inactive_frankenstein", "count": 1 } ] }
   }

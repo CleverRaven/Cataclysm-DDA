@@ -106,6 +106,23 @@
     ]
   },
   {
+    "id": "rifle_cannon_foreign",
+    "copy-from": "ree_33",
+    "type": "GUN",
+    "name": "foreign cannon rifle",
+    "ammo": [ "ammo_rifle_cannon" ],
+    "description": "A powerful Exodii rifle, reserved for the later stage of cataclysm.  It should be considered an anti-tank rifle in modern world, but the round is bigger than any anti-tank round on Earth.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "200 kg",
+        "item_restriction": [ "rifle_mag_cannon", "rifle_mag_cannon_big" ]
+      }
+    ]
+  },
+  {
     "id": "rifle_rail",
     "copy-from": "hk_g80",
     "type": "GUN",

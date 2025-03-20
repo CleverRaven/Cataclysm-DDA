@@ -25,7 +25,7 @@
               "set_string_var": "EOC_HEDGE_RESEARCH_PROGRESS_FARM_COMPLETION",
               "target_var": { "u_val": "latest_completion_eoc" }
             },
-            { "math": [ "u_most_recent_hedge_research_time_upper_limit", "=", "129600" ] },
+            { "math": [ "u_most_recent_hedge_research_time_upper_limit = 129600" ] },
             {
               "u_run_inv_eocs": "random",
               "search_data": [ { "id": "spellbook_hedge_farm" } ],
@@ -33,16 +33,14 @@
                 {
                   "id": "EOC_HEDGE_RESEARCH_FARM_SET_DIFFICULTY",
                   "condition": { "math": [ "n_already_failed_research == 1" ] },
-                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "270" ] } ],
-                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "300" ] } ]
+                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 270" ] } ],
+                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 300" ] } ]
                 },
                 {
                   "id": "EOC_HEDGE_RESEARCH_FARM_READ_VALUES",
                   "effect": [
-                    { "math": [ "u_most_recent_hedge_research_time", "=", "n_most_recent_hedge_research_time" ] },
-                    {
-                      "math": [ "u_most_recent_hedge_research_progress", "=", "n_most_recent_hedge_research_progress" ]
-                    }
+                    { "math": [ "u_most_recent_hedge_research_time = n_most_recent_hedge_research_time" ] },
+                    { "math": [ "u_most_recent_hedge_research_progress = n_most_recent_hedge_research_progress" ] }
                   ]
                 }
               ]
@@ -121,7 +119,7 @@
               "set_string_var": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DEMONS_COMPLETION",
               "target_var": { "u_val": "latest_completion_eoc" }
             },
-            { "math": [ "u_most_recent_hedge_research_time_upper_limit", "=", "252000" ] },
+            { "math": [ "u_most_recent_hedge_research_time_upper_limit = 252000" ] },
             {
               "u_run_inv_eocs": "random",
               "search_data": [ { "id": "spellbook_hedge_ward_demons" } ],
@@ -129,16 +127,14 @@
                 {
                   "id": "EOC_HEDGE_RESEARCH_WARD_DEMONS_SET_DIFFICULTY",
                   "condition": { "math": [ "n_already_failed_research == 1" ] },
-                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "630" ] } ],
-                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "700" ] } ]
+                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 630" ] } ],
+                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 700" ] } ]
                 },
                 {
                   "id": "EOC_HEDGE_RESEARCH_WARD_DEMONS_READ_VALUES",
                   "effect": [
-                    { "math": [ "u_most_recent_hedge_research_time", "=", "n_most_recent_hedge_research_time" ] },
-                    {
-                      "math": [ "u_most_recent_hedge_research_progress", "=", "n_most_recent_hedge_research_progress" ]
-                    }
+                    { "math": [ "u_most_recent_hedge_research_time = n_most_recent_hedge_research_time" ] },
+                    { "math": [ "u_most_recent_hedge_research_progress = n_most_recent_hedge_research_progress" ] }
                   ]
                 }
               ]
@@ -217,7 +213,7 @@
               "set_string_var": "EOC_HEDGE_RESEARCH_PROGRESS_BLOOD_BOOK_COMPLETION",
               "target_var": { "u_val": "latest_completion_eoc" }
             },
-            { "math": [ "u_most_recent_hedge_research_time_upper_limit", "=", "115200" ] },
+            { "math": [ "u_most_recent_hedge_research_time_upper_limit = 115200" ] },
             {
               "u_run_inv_eocs": "random",
               "search_data": [ { "id": "spellbook_hedge_doctor_book" } ],
@@ -225,16 +221,14 @@
                 {
                   "id": "EOC_HEDGE_RESEARCH_DOCTOR_BOOK_SET_DIFFICULTY",
                   "condition": { "math": [ "n_already_failed_research == 1" ] },
-                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "243" ] } ],
-                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "270" ] } ]
+                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 243" ] } ],
+                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 270" ] } ]
                 },
                 {
                   "id": "EOC_HEDGE_RESEARCH_DOCTOR_BOOK_READ_VALUES",
                   "effect": [
-                    { "math": [ "u_most_recent_hedge_research_time", "=", "n_most_recent_hedge_research_time" ] },
-                    {
-                      "math": [ "u_most_recent_hedge_research_progress", "=", "n_most_recent_hedge_research_progress" ]
-                    }
+                    { "math": [ "u_most_recent_hedge_research_time = n_most_recent_hedge_research_time" ] },
+                    { "math": [ "u_most_recent_hedge_research_progress = n_most_recent_hedge_research_progress" ] }
                   ]
                 }
               ]
@@ -316,7 +310,7 @@
               "set_string_var": "EOC_HEDGE_RESEARCH_PROGRESS_BLOOD_BOOK_COMPLETION",
               "target_var": { "u_val": "latest_completion_eoc" }
             },
-            { "math": [ "u_most_recent_hedge_research_time_upper_limit", "=", "162000" ] },
+            { "math": [ "u_most_recent_hedge_research_time_upper_limit = 162000" ] },
             {
               "u_run_inv_eocs": "random",
               "search_data": [ { "id": "spellbook_hedge_blood_book" } ],
@@ -324,16 +318,14 @@
                 {
                   "id": "EOC_HEDGE_RESEARCH_BLOOD_BOOK_SET_DIFFICULTY",
                   "condition": { "math": [ "n_already_failed_research == 1" ] },
-                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "365" ] } ],
-                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "405" ] } ]
+                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 365" ] } ],
+                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 405" ] } ]
                 },
                 {
                   "id": "EOC_HEDGE_RESEARCH_BLOOD_BOOK_READ_VALUES",
                   "effect": [
-                    { "math": [ "u_most_recent_hedge_research_time", "=", "n_most_recent_hedge_research_time" ] },
-                    {
-                      "math": [ "u_most_recent_hedge_research_progress", "=", "n_most_recent_hedge_research_progress" ]
-                    }
+                    { "math": [ "u_most_recent_hedge_research_time = n_most_recent_hedge_research_time" ] },
+                    { "math": [ "u_most_recent_hedge_research_progress = n_most_recent_hedge_research_progress" ] }
                   ]
                 }
               ]
@@ -415,7 +407,7 @@
               "set_string_var": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DREAMS_COMPLETION",
               "target_var": { "u_val": "latest_completion_eoc" }
             },
-            { "math": [ "u_most_recent_hedge_research_time_upper_limit", "=", "36000" ] },
+            { "math": [ "u_most_recent_hedge_research_time_upper_limit = 36000" ] },
             {
               "u_run_inv_eocs": "random",
               "search_data": [ { "id": "spellbook_hedge_ward_dreams" } ],
@@ -423,16 +415,14 @@
                 {
                   "id": "EOC_HEDGE_RESEARCH_WARD_DREAMS_SET_DIFFICULTY",
                   "condition": { "math": [ "n_already_failed_research == 1" ] },
-                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "63" ] } ],
-                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "70" ] } ]
+                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 63" ] } ],
+                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 70" ] } ]
                 },
                 {
                   "id": "EOC_HEDGE_RESEARCH_WARD_DREAMS_READ_VALUES",
                   "effect": [
-                    { "math": [ "u_most_recent_hedge_research_time", "=", "n_most_recent_hedge_research_time" ] },
-                    {
-                      "math": [ "u_most_recent_hedge_research_progress", "=", "n_most_recent_hedge_research_progress" ]
-                    }
+                    { "math": [ "u_most_recent_hedge_research_time = n_most_recent_hedge_research_time" ] },
+                    { "math": [ "u_most_recent_hedge_research_progress = n_most_recent_hedge_research_progress" ] }
                   ]
                 }
               ]
@@ -511,7 +501,7 @@
               "set_string_var": "EOC_HEDGE_RESEARCH_PROGRESS_SNARE_CHANGELINGS_COMPLETION",
               "target_var": { "u_val": "latest_completion_eoc" }
             },
-            { "math": [ "u_most_recent_hedge_research_time_upper_limit", "=", "108000" ] },
+            { "math": [ "u_most_recent_hedge_research_time_upper_limit = 108000" ] },
             {
               "u_run_inv_eocs": "random",
               "search_data": [ { "id": "spellbook_hedge_snare_changelings" } ],
@@ -519,16 +509,14 @@
                 {
                   "id": "EOC_HEDGE_RESEARCH_SNARE_CHANGELINGS_SET_DIFFICULTY",
                   "condition": { "math": [ "n_already_failed_research == 1" ] },
-                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "248" ] } ],
-                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "275" ] } ]
+                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 248" ] } ],
+                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 275" ] } ]
                 },
                 {
                   "id": "EOC_HEDGE_RESEARCH_SNARE_CHANGELINGS_READ_VALUES",
                   "effect": [
-                    { "math": [ "u_most_recent_hedge_research_time", "=", "n_most_recent_hedge_research_time" ] },
-                    {
-                      "math": [ "u_most_recent_hedge_research_progress", "=", "n_most_recent_hedge_research_progress" ]
-                    }
+                    { "math": [ "u_most_recent_hedge_research_time = n_most_recent_hedge_research_time" ] },
+                    { "math": [ "u_most_recent_hedge_research_progress = n_most_recent_hedge_research_progress" ] }
                   ]
                 }
               ]
@@ -626,7 +614,7 @@
               "set_string_var": "EOC_HEDGE_RESEARCH_PROGRESS_BATHHOUSE_AT_MIDNIGHT_COMPLETION",
               "target_var": { "u_val": "latest_completion_eoc" }
             },
-            { "math": [ "u_most_recent_hedge_research_time_upper_limit", "=", "216000" ] },
+            { "math": [ "u_most_recent_hedge_research_time_upper_limit = 216000" ] },
             {
               "u_run_inv_eocs": "random",
               "search_data": [ { "id": "spellbook_hedge_bathhouse_midnight" } ],
@@ -634,16 +622,14 @@
                 {
                   "id": "EOC_HEDGE_RESEARCH_BATHHOUSE_AT_MIDNIGHT_SET_DIFFICULTY",
                   "condition": { "math": [ "n_already_failed_research == 1" ] },
-                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "495" ] } ],
-                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "550" ] } ]
+                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 495" ] } ],
+                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 550" ] } ]
                 },
                 {
                   "id": "EOC_HEDGE_RESEARCH_BATHHOUSE_AT_MIDNIGHT_READ_VALUES",
                   "effect": [
-                    { "math": [ "u_most_recent_hedge_research_time", "=", "n_most_recent_hedge_research_time" ] },
-                    {
-                      "math": [ "u_most_recent_hedge_research_progress", "=", "n_most_recent_hedge_research_progress" ]
-                    }
+                    { "math": [ "u_most_recent_hedge_research_time = n_most_recent_hedge_research_time" ] },
+                    { "math": [ "u_most_recent_hedge_research_progress = n_most_recent_hedge_research_progress" ] }
                   ]
                 }
               ]
@@ -727,7 +713,7 @@
               "set_string_var": "EOC_HEDGE_RESEARCH_PROGRESS_ABRAMELIN_THE_MAGE_COMPLETION",
               "target_var": { "u_val": "latest_completion_eoc" }
             },
-            { "math": [ "u_most_recent_hedge_research_time_upper_limit", "=", "302400" ] },
+            { "math": [ "u_most_recent_hedge_research_time_upper_limit = 302400" ] },
             {
               "u_run_inv_eocs": "random",
               "search_data": [ { "id": "spellbook_hedge_abramelin_the_mage" } ],
@@ -735,16 +721,14 @@
                 {
                   "id": "EOC_HEDGE_RESEARCH_ABRAMELIN_THE_MAGE_SET_DIFFICULTY",
                   "condition": { "math": [ "n_already_failed_research == 1" ] },
-                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "720" ] } ],
-                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty", "=", "800" ] } ]
+                  "effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 720" ] } ],
+                  "false_effect": [ { "math": [ "u_most_recent_hedge_research_difficulty = 800" ] } ]
                 },
                 {
                   "id": "EOC_HEDGE_RESEARCH_ABRAMELIN_THE_MAGE_READ_VALUES",
                   "effect": [
-                    { "math": [ "u_most_recent_hedge_research_time", "=", "n_most_recent_hedge_research_time" ] },
-                    {
-                      "math": [ "u_most_recent_hedge_research_progress", "=", "n_most_recent_hedge_research_progress" ]
-                    }
+                    { "math": [ "u_most_recent_hedge_research_time = n_most_recent_hedge_research_time" ] },
+                    { "math": [ "u_most_recent_hedge_research_progress = n_most_recent_hedge_research_progress" ] }
                   ]
                 }
               ]

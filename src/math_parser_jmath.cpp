@@ -1,13 +1,15 @@
 #include "math_parser_jmath.h"
 
+#include <map>
 #include <string>
 #include <string_view>
 
-#include "condition.h"
 #include "dialogue.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "math_parser.h"
 #include "math_parser_diag.h"
+#include "string_formatter.h"
 
 namespace
 {
@@ -52,7 +54,7 @@ void jmath_func::load( JsonObject const &jo, const std::string_view /*src*/ )
     optional( jo, was_loaded, "num_args", num_params );
     optional( jo, was_loaded, "return", _str );
 
-    for( auto const &iter : get_all_diag_eval_funcs() ) {
+    for( auto const &iter : get_all_diag_funcs() ) {
         if( std::string const idstr = id.str(); iter.first == idstr ) {
             jo.throw_error( string_format(
                                 R"(jmath function "%s" shadows a built-in function with the same name.  You must rename it.)",

@@ -1,16 +1,22 @@
 #include "safemode_ui.h"
 
 #include <algorithm>
+#include <filesystem>
+#include <fstream>
+#include <functional>
 #include <map>
 #include <string>
 #include <utility>
 
+#include "cata_path.h"
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "input_context.h"
 #include "json.h"
 #include "json_loader.h"
@@ -22,7 +28,9 @@
 #include "point.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translation.h"
 #include "translations.h"
+#include "uilist.h"
 #include "ui_manager.h"
 
 safemode &get_safemode()
@@ -202,7 +210,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         wnoutrefresh( w_header );
 
         // Clear the lines
-        mvwrectf( w, point_zero, c_black, ' ', getmaxx( w ) - 1, content_height );
+        mvwrectf( w, point::zero, c_black, ' ', getmaxx( w ) - 1, content_height );
         for( auto &pos : column_pos ) {
             mvwvline( w, point( pos.second, 0 ), c_light_gray, LINE_XOXO, content_height ); // |
         }
@@ -530,7 +538,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         w_test_rule_border = catacurses::newwin( content_height + 2, content_width,
                              offset );
         w_test_rule_content = catacurses::newwin( content_height, content_width - 2,
-                              offset + point_south_east );
+                              offset + point::south_east );
 
         ui.position_from_window( w_test_rule_border );
     };
@@ -557,7 +565,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         wnoutrefresh( w_test_rule_border );
 
         // Clear the lines
-        mvwrectf( w_test_rule_content, point_zero, c_black, ' ', 79, content_height );
+        mvwrectf( w_test_rule_content, point::zero, c_black, ' ', 79, content_height );
 
         calcStartPos( start_pos, line, content_height, creature_list.size() );
 
@@ -779,8 +787,8 @@ bool safemode::save( const bool is_character_in )
     cata_path file = PATH_INFO::safemode();
 
     if( is_character ) {
-        file = PATH_INFO::player_base_save_path_path() + ".sfm.json";
-        if( !file_exist( PATH_INFO::player_base_save_path_path() + ".sav" ) ) {
+        file = PATH_INFO::player_base_save_path() + ".sfm.json";
+        if( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
             return true; //Character not saved yet.
         }
     }
@@ -812,10 +820,10 @@ void safemode::load( const bool is_character_in )
     std::ifstream fin;
     cata_path file = PATH_INFO::safemode();
     if( is_character ) {
-        file = PATH_INFO::player_base_save_path_path() + ".sfm.json";
+        file = PATH_INFO::player_base_save_path() + ".sfm.json";
     }
 
-    fs::path file_path = file.get_unrelative_path();
+    std::filesystem::path file_path = file.get_unrelative_path();
     fin.open( file_path, std::ifstream::in | std::ifstream::binary );
 
     if( fin.good() ) {

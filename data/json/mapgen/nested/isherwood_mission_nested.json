@@ -46,17 +46,7 @@
         { "class": "isherwood_luke_copy", "x": 6, "y": 6 },
         { "class": "isherwood_jesse_copy", "x": 8, "y": 6 }
       ],
-      "place_vehicles": [
-        {
-          "vehicle": "extended_pickup",
-          "chance": 100,
-          "fuel": 99,
-          "rotation": 0,
-          "faction": "isherwood_family",
-          "x": [ 5 ],
-          "y": [ 8 ]
-        }
-      ]
+      "place_vehicles": [ { "vehicle": "extended_pickup", "fuel": 99, "rotation": 0, "faction": "isherwood_family", "x": [ 5 ], "y": [ 8 ] } ]
     }
   },
   {
@@ -84,17 +74,7 @@
         { "class": "isherwood_luke_swat_copy", "x": 6, "y": 6 },
         { "class": "isherwood_jesse_swat_copy", "x": 8, "y": 6 }
       ],
-      "place_vehicles": [
-        {
-          "vehicle": "extended_pickup",
-          "chance": 100,
-          "fuel": 99,
-          "rotation": 0,
-          "faction": "isherwood_family",
-          "x": [ 5 ],
-          "y": [ 8 ]
-        }
-      ]
+      "place_vehicles": [ { "vehicle": "extended_pickup", "fuel": 99, "rotation": 0, "faction": "isherwood_family", "x": [ 5 ], "y": [ 8 ] } ]
     }
   },
   {

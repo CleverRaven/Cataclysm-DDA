@@ -99,5 +99,27 @@
     "flags": [ "BELTED" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "id": "thunder_rush" } ] },
     "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "gown_gossamer_boann_unique",
+    "type": "ARMOR",
+    "name": { "str": "aegis gown" },
+    "copy-from": "gown_gossamer",
+    "looks_like": "gown_gossamer",
+    "extend": { "flags": [ "RELIC_PINK" ] },
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "incoming_damage_mod": [
+            { "type": "bash", "add": -10 },
+            { "type": "cut", "add": -20 },
+            { "type": "stab", "add": -30 },
+            { "type": "bullet", "multiply": -0.75 }
+          ]
+        }
+      ]
+    }
   }
 ]

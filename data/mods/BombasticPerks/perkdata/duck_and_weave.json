@@ -37,7 +37,7 @@
         }
       ]
     },
-    "effect": [ { "math": [ "u_duck_and_weave_counter", "=", "0" ] }, { "u_lose_effect": "effect_perk_duck_and_weave" } ]
+    "effect": [ { "math": [ "u_duck_and_weave_counter = 0" ] }, { "u_lose_effect": "effect_perk_duck_and_weave" } ]
   },
   {
     "type": "effect_type",

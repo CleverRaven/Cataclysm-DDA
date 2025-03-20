@@ -21,7 +21,7 @@
       { "point": [ 0, 1, -1 ], "overmap": "special_earth" },
       { "point": [ 1, 1, -1 ], "overmap": "special_earth" },
       { "point": [ 2, 1, -1 ], "overmap": "special_earth" },
-      { "point": [ 3, 1, -1 ], "overmap": "psi_phavian_lab_basementD1_hidden_lab_stairs_north" },
+      { "point": [ 3, 1, -1 ], "overmap": "psi_phavian_lab_basementD1_hidden_psi_lab_stairs_north" },
       { "point": [ 4, 1, -1 ], "overmap": "psi_phavian_lab_basementE1_north" },
       { "point": [ 0, 2, -1 ], "overmap": "special_earth" },
       { "point": [ 1, 2, -1 ], "overmap": "special_earth" },

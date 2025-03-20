@@ -1,9 +1,9 @@
-#include <new>
 #include <optional>
+#include <string>
 
 #include "cata_catch.h"
 #include "text_snippets.h"
-#include "translations.h"
+#include "translation.h"
 
 TEST_CASE( "random_snippet_with_small_seed", "[text_snippets][rng]" )
 {

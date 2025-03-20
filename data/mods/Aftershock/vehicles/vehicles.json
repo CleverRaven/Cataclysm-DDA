@@ -443,5 +443,54 @@
       { "x": 1, "y": 0, "parts": [ "motorcycle_headlight", "battery_car", "light_blue" ] },
       { "x": -1, "y": 0, "parts": [ "muffler" ] }
     ]
+  },
+  {
+    "id": "uica_lynx_ex",
+    "type": "vehicle",
+    "name": "Lynx Explorer",
+    "blueprint": [
+      [ "o-++-o" ],
+      [ "+=##'|" ],
+      [ "+=##'|" ],
+      [ "o-++-o" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "hdframe#vertical_2", "seat", "seatbelt", "controls", "dashboard", "horn_big", "hdroof" ] },
+      { "x": 0, "y": 1, "parts": [ "hdframe#vertical_2", "seat", "seatbelt", "hdroof" ] },
+      { "x": 0, "y": -1, "parts": [ "hdframe#vertical", "hddoor#left" ] },
+      { "x": 0, "y": 2, "parts": [ "hdframe#vertical", "hddoor#right" ] },
+      { "x": -1, "y": 0, "parts": [ "hdframe#vertical_2", "seat", "seatbelt", "hdroof" ] },
+      { "x": -1, "y": 1, "parts": [ "hdframe#vertical_2", "turret_mount", "hdroof" ] },
+      { "x": -1, "y": 1, "parts": [ "seat", "seatbelt" ] },
+      {
+        "x": -1,
+        "y": 1,
+        "parts": [ { "part": "turret_afs_Accipitermg", "ammo_types": [ "afs_7.50mm_caseless" ], "ammo_qty": [ 50, 100 ] } ]
+      },
+      { "x": -1, "y": -1, "parts": [ "hdframe#vertical", "hddoor#left" ] },
+      { "x": -1, "y": 2, "parts": [ "hdframe#vertical", "hddoor#right" ] },
+      { "x": 1, "y": 0, "parts": [ "hdframe#horizontal", "reinforced_windshield#horizontal_front" ] },
+      { "x": 1, "y": 1, "parts": [ "hdframe#horizontal", "reinforced_windshield#horizontal_front" ] },
+      { "x": 1, "y": -1, "parts": [ "hdframe#horizontal", "reinforced_windshield#nw" ] },
+      { "x": 1, "y": 2, "parts": [ "hdframe#horizontal", "reinforced_windshield#ne" ] },
+      { "x": 2, "y": 0, "parts": [ "hdframe#horizontal", "engine_electric_enhanced", "large_storage_battery" ] },
+      { "x": 2, "y": 0, "parts": [ "hdhalfboard#horizontal_front", "plating_military" ] },
+      { "x": 2, "y": 1, "parts": [ "hdframe#horizontal", "minireactor" ] },
+      { "x": 2, "y": 1, "parts": [ "hdhalfboard#horizontal_front", "plating_military" ] },
+      { "x": 2, "y": -1, "parts": [ "hdframe#nw", "hdhalfboard#nw", "plating_military" ] },
+      { "x": 2, "y": -1, "parts": [ "wheel_mount_heavy_steerable", "wheel_armor", "headlight_reinforced" ] },
+      { "x": 2, "y": 2, "parts": [ "hdframe#ne", "hdhalfboard#ne", "plating_military" ] },
+      { "x": 2, "y": 2, "parts": [ "wheel_mount_heavy_steerable", "wheel_armor", "headlight_reinforced" ] },
+      { "x": -2, "y": 0, "parts": [ "hdframe#vertical", "box", "recharge_station", "hdroof" ] },
+      { "x": -2, "y": 1, "parts": [ "hdframe#vertical", "trunk", "hdroof" ] },
+      { "x": -2, "y": -1, "parts": [ "hdframe#vertical", "hdboard#vertical_left", "plating_military" ] },
+      { "x": -2, "y": 2, "parts": [ "hdframe#vertical", "hdboard#vertical_right", "plating_military" ] },
+      { "x": -3, "y": -1, "parts": [ "hdframe#horizontal", "hdboard#sw" ] },
+      { "x": -3, "y": -1, "parts": [ "wheel_mount_heavy", "wheel_armor", "plating_military" ] },
+      { "x": -3, "y": 0, "parts": [ "hdframe#horizontal", "hddoor_trunk" ] },
+      { "x": -3, "y": 1, "parts": [ "hdframe#horizontal", "hddoor_trunk" ] },
+      { "x": -3, "y": 2, "parts": [ "hdframe#horizontal", "hdboard#se" ] },
+      { "x": -3, "y": 2, "parts": [ "wheel_mount_heavy", "wheel_armor", "plating_military" ] }
+    ]
   }
 ]

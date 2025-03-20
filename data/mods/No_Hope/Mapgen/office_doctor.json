@@ -163,7 +163,7 @@
       },
       "items": {
         "B": { "item": "hospital_bed", "chance": 60 },
-        "R": { "item": "trash", "chance": 50 },
+        "R": { "item": "SUS_trash_trashcan", "chance": 50 },
         "o": { "item": "doctors_books", "chance": 20 },
         "e": { "item": "SUS_fridge_breakroom", "chance": 20 },
         "C": { "item": "dresser", "chance": 20 },

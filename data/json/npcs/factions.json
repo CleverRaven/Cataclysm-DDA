@@ -975,6 +975,7 @@
     "likes_u": 0,
     "respects_u": 0,
     "known_by_u": true,
+    "limited_area_claim": true,
     "size": 100,
     "power": 100,
     "//": "7 days worth of food for 10 people, at 3000kcal/day and *half* RDA of iron/calcium/vitC",

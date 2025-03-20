@@ -42,10 +42,10 @@
       [ [ "meat_red_raw", 1, "LIST" ] ],
       [ [ "salt", 1 ] ],
       [ [ "onion", 1 ] ],
-      [ [ "tomato", 2 ] ],
+      [ [ "any_tomato", 2, "LIST" ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "sugar", 1 ] ],
-      [ [ "bell_pepper", 1 ] ]
+      [ [ "any_bell_pepper", 1, "LIST" ] ]
     ],
     "charges": 6
   },
@@ -67,9 +67,9 @@
       [ [ "meat_red_raw", 1, "LIST" ], [ "poultry_raw_any", 2, "LIST" ] ],
       [ [ "salt", 1 ] ],
       [ [ "onion", 1 ] ],
-      [ [ "tomato", 1 ] ],
+      [ [ "any_tomato", 1, "LIST" ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
-      [ [ "bell_pepper", 1 ] ],
+      [ [ "any_bell_pepper", 1, "LIST" ] ],
       [ [ "garlic_clove", 2 ], [ "rehydrated_garlic", 2 ] ],
       [ [ "seasoning_mild", 2, "LIST" ] ]
     ],
@@ -93,8 +93,8 @@
       [ [ "salt", 1 ] ],
       [ [ "pepper", 1 ] ],
       [ [ "onion", 2 ] ],
-      [ [ "tomato", 4 ] ],
-      [ [ "bell_pepper", 2 ] ],
+      [ [ "any_tomato", 4, "LIST" ] ],
+      [ [ "any_bell_pepper", 2, "LIST" ] ],
       [ [ "garlic_clove", 2 ], [ "rehydrated_garlic", 2 ] ],
       [ [ "seasoning_mild", 2, "LIST" ] ],
       [ [ "yoghurt", 1 ] ]

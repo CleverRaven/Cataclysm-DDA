@@ -834,10 +834,10 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
-    "id": "wolfsuit",
+    "id": "fursuit",
     "type": "ARMOR",
-    "name": { "str": "wolf suit" },
-    "description": "A full-body fursuit in the form of an anthropomorphic wolf.  It is quite encumbering and has little storage but is very warm.",
+    "name": { "str": "fursuit" },
+    "description": "A full-body fursuit in the form of an anthropomorphic animal.  It is quite encumbering and has little storage but is very warm.",
     "weight": "7033 g",
     "volume": "12 L",
     "price": "2 kUSD 500 USD",
@@ -857,7 +857,86 @@
     "warmth": 50,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "OUTER" ]
+    "flags": [ "OUTER" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "wolfsuit",
+        "name": { "str": "wolf fursuit" },
+        "description": "A cartoonish full-body fursuit made to resemble an anthropomorphic wolf.  It is quite encumbering and has little storage but is very warm.",
+        "weight": 35
+      },
+      {
+        "id": "dogsuit",
+        "name": { "str": "dog fursuit" },
+        "description": " A fuzzy full-body fursuit made to resemble an anthropomorphic domestic canine of unknown breed.  It is quite encumbering and has little storage but is very warm.",
+        "color": "brown",
+        "weight": 30
+      },
+      {
+        "id": "tigersuit",
+        "name": { "str": "tiger fursuit" },
+        "description": "An intricately designed full-body fursuit made to resemble an anthropomorphic bengal tiger, you can't imagine how long it took for it's maker to sew all those stripes onto it.  It is quite encumbering and has little storage but is very warm.",
+        "color": "light_red",
+        "weight": 15
+      },
+      {
+        "id": "felinesuit",
+        "name": { "str": "feline fursuit" },
+        "description": "A fluffy full-body fursuit made to resemble an anthropomorphic feline of indistinguishable breed.  It is quite encumbering and has little storage but is very warm.",
+        "color": "light_green",
+        "weight": 30
+      },
+      {
+        "id": "ottersuit",
+        "name": { "str": "otter fursuit" },
+        "description": "A dopey-looking full-body fursuit made to resemble an anthropomorphic otter.  It is quite encumbering and has little storage but is very warm.",
+        "color": "light_red",
+        "weight": 15
+      },
+      {
+        "id": "beaversuit",
+        "name": { "str": "beaver fursuit" },
+        "description": "A full-body fursuit made to resemble a nervous-looking anthropomorphic beaver.  It is quite encumbering and has little storage but is very warm.",
+        "color": "brown",
+        "weight": 10
+      },
+      {
+        "id": "dragonsuit",
+        "name": { "str": "dragon fursuit" },
+        "description": "A detailed full-body fursuit made to resemble a western dragon, complete with a set of small stubby wings on its back.  It is quite encumbering and has little storage but is very warm.",
+        "color": "light_green",
+        "weight": 20
+      },
+      {
+        "id": "lizardsuit",
+        "name": { "str": "lizard fursuit" },
+        "description": "A sleek full-body fursuit made to resemble an anthropomorphic lizard.  It is quite encumbering and has little storage but is very warm.",
+        "color": "light_green",
+        "weight": 20
+      },
+      {
+        "id": "sharksuit",
+        "name": { "str": "shark fursuit" },
+        "description": "A gnarly looking full-body costume in the form of an anthropomorphic bull shark.  It is quite encumbering and has little storage but is very warm.",
+        "color": "light_blue",
+        "weight": 20
+      },
+      {
+        "id": "orcasuit",
+        "name": { "str": "orca fursuit" },
+        "description": "A sleek looking full-body costume in the form of an anthropomorphic orca whale.  It is quite encumbering and has little storage but is very warm.",
+        "color": "dark_gray",
+        "weight": 15
+      },
+      {
+        "id": "dinosuit",
+        "name": { "str": "dinosaur fursuit" },
+        "description": "A full-body costume in the form of an anthropomorphic dinosaur.  It is quite encumbering and has little storage but is very warm.",
+        "color": "light_green",
+        "weight": 10
+      }
+    ]
   },
   {
     "id": "wool_suit",

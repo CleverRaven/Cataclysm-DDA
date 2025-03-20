@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <cstddef>
-#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -8,8 +7,8 @@
 #include <vector>
 
 #include "assertion_helpers.h"
-#include "cata_utility.h"
 #include "cata_catch.h"
+#include "cata_utility.h"
 #include "debug_menu.h"
 #include "units.h"
 #include "units_utility.h"

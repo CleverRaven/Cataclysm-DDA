@@ -10,6 +10,7 @@
 
 #include "enums.h"
 #include "flat_set.h"
+#include "item_location.h"
 #include "json.h"
 #include "omdata.h"
 #include "type_id.h"
@@ -163,10 +164,10 @@ class uistatedata
         bool numpad_navigation = false;
 
         // V Menu Stuff
-        int list_item_sort = 0;
+        list_item_sort_mode list_item_sort = list_item_sort_mode::DISTANCE;
         std::set<itype_id> read_items;
 
-        // These three aren't serialized because deserialize can extraect them
+        // These three aren't serialized because deserialize can extract them
         // from the history
         std::string list_item_filter; // NOLINT(cata-serialize)
         std::string list_item_downvote; // NOLINT(cata-serialize)

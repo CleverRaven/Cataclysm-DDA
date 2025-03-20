@@ -44,10 +44,23 @@
       "parks": { "afs_city_ruinfield": 100, "afs_shuttle_pad": 10, "afs_enclosed_park": 30 },
       "shops": {
         "afs_augmentation_clinic_1": 400,
+        "afs_gene_clinic_1": 400,
         "afs_astrobiology_lab": 400,
         "afs_general_store_1": 400,
+        "afs_grocer": 400,
+        "afs_clothing_store": 400,
+        "afs_sporting_goods_store": 400,
+        "afs_clinic_1": 400,
         "afs_city_urban_farm_small": 300,
+        "afs_small_urban_farm_ground": 300,
+        "afs_small_office": 300,
+        "afs_cafe_1": 300,
+        "afs_saloon_1": 300,
         "afs_enforcer_station_1": 100,
+        "afs_garage_1": 100,
+        "afs_garage_2": 100,
+        "afs_ev_station": 100,
+        "afs_aerodrone_landing_pad": 100,
         "afs_exosuit_garage_1": 100,
         "afs_exosuit_garage_2": 100
       }

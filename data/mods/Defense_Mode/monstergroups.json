@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_TRIFFID_DM",
+    "id": "GROUP_TRIFFID_DM",
     "default": "mon_triffid",
     "monsters": [
       { "monster": "mon_triffid", "weight": 205 },
@@ -12,7 +12,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SPIDER_DM",
+    "id": "GROUP_SPIDER_DM",
     "default": "mon_spider_web_dm",
     "monsters": [
       { "monster": "mon_spider_cellar_giant_dm", "weight": 205 },
@@ -23,7 +23,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ROBOT_DM",
+    "id": "GROUP_ROBOT_DM",
     "monsters": [
       { "monster": "mon_manhack", "weight": 515, "cost_multiplier": 0 },
       { "monster": "mon_skitterbot", "weight": 220, "cost_multiplier": 0 },
@@ -32,7 +32,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NETHER_DM",
+    "id": "GROUP_NETHER_DM",
     "default": "mon_blank",
     "monsters": [
       { "monster": "mon_blank", "weight": 135, "cost_multiplier": 0 },
@@ -44,14 +44,14 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NEMESIS",
+    "id": "GROUP_NEMESIS",
     "default": "mon_zombie_nemesis",
     "//": "nemesis squad, exists here to remove them from Defense Mode",
     "monsters": [ { "monster": "mon_zombie", "weight": 1000, "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_ZOMBIE",
+    "id": "GROUP_ZOMBIE",
     "monsters": [
       { "monster": "mon_zombie", "weight": 10, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
       { "monster": "mon_zombie", "weight": 10, "cost_multiplier": 13, "pack_size": [ 15, 40 ] },

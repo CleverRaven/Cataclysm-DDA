@@ -36,16 +36,25 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "10mm": 15 } } ]
   },
   {
-    "id": "glock_29mag",
+    "id": "glock_20mag_10",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "Glock 10mm 10-round magazine" },
+    "description": "A compact light-weight steel and polymer magazine for use with Glock pistols chambered for 10mm Auto, limited to 10 rounds.",
+    "copy-from": "glock_20mag",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "10mm": 10 } } ]
+  },
+  {
+    "id": "glock_29mag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Glock 10mm 10-round carry magazine" },
     "description": "A stubby steel and polymer magazine for use with the compact Glock pistol.  It is too short to insert into most other 10mm Glock pattern magwells.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "glock_29mag",
-        "name": { "str": "Glock 10mm 10-round magazine" },
+        "name": { "str": "Glock 29 10-round magazine" },
         "description": "A stubby steel and polymer magazine for use with the Glock 29.  It is too short to insert into most other 10mm Glock pattern magwells."
       }
     ],

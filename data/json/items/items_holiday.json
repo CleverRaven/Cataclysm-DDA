@@ -12,7 +12,14 @@
     "symbol": "0",
     "color": "yellow",
     "looks_like": "pumpkin",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 22 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ],
     "charges_per_use": 1,
     "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
@@ -116,7 +123,7 @@
     "material": [ "plastic" ],
     "symbol": "P",
     "color": "light_red",
-    "charges_per_use": 100,
+    "charges_per_use": 14,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {

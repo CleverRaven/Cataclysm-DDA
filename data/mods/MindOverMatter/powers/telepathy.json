@@ -8,6 +8,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPATH",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 1,
@@ -25,7 +26,6 @@
         "( (u_spell_level('telepathic_concentration') * 60500) + 103300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telepathic_learning_bonus') > -1 ? 0 : max((4000 - (u_spell_level('telepathic_concentration') * 175)), 1500)"
@@ -46,6 +46,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPATH",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "effect": "effect_on_condition",
@@ -63,7 +64,6 @@
         "( (u_spell_level('telepathic_shield') * 3600) + 72000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telepathic_psi_armor') > -1 ? 0 : max((2500 - (u_spell_level('telepathic_shield') * 125)), 500)"
@@ -84,6 +84,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPATH",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "effect": "effect_on_condition",
@@ -101,7 +102,6 @@
         "( (u_spell_level('telepathic_mind_sense') * 13100) + 60000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telepath_sense_minds') > -1 ? 0 : max((3500 - (u_spell_level('telepathic_mind_sense') * 115)), 1500)"
@@ -118,6 +118,7 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
     "spell_class": "TELEPATH",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "difficulty": 3,
@@ -136,7 +137,6 @@
         "min( (( (u_spell_level('telepathic_mesmerize') * 0.15) + 0) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 4)"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 3500,
     "final_energy_cost": 750,
     "energy_increment": -75,
@@ -154,6 +154,7 @@
     "teachable": false,
     "valid_targets": [ "self", "ally", "hostile" ],
     "spell_class": "TELEPATH",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 3,
@@ -177,7 +178,6 @@
       ]
     },
     "max_range": 80,
-    "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
         "u_effect_intensity('effect_telepathic_morale') > -1 ? 0 : max((5000 - (u_spell_level('telepathic_morale') * 125)), 2000)"
@@ -210,6 +210,7 @@
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "spell_class": "TELEPATH",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [
       "PSIONIC",
@@ -243,7 +244,6 @@
       ]
     },
     "max_range": 80,
-    "energy_source": "STAMINA",
     "base_energy_cost": 3500,
     "final_energy_cost": 900,
     "energy_increment": -125,
@@ -261,6 +261,7 @@
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "spell_class": "TELEPATH",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "SILENT", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 4,
@@ -294,7 +295,6 @@
       ]
     },
     "max_range": 70,
-    "energy_source": "STAMINA",
     "base_energy_cost": 4500,
     "final_energy_cost": 2000,
     "energy_increment": -155,
@@ -324,6 +324,7 @@
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "spell_class": "TELEPATH",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 5,
@@ -348,7 +349,6 @@
       ]
     },
     "max_range": 80,
-    "energy_source": "STAMINA",
     "base_energy_cost": 3750,
     "final_energy_cost": 1500,
     "energy_increment": -150,
@@ -360,8 +360,11 @@
   {
     "id": "telepathic_confusion_blind",
     "type": "SPELL",
-    "name": "[Ψ]Sensory Deprivation blind Effect",
-    "description": "The is the part of the Sensory Deprivation that blinds the target.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Sensory Deprivation blind Effect", "//~": "NO_I18N" },
+    "description": {
+      "str": "The is the part of the Sensory Deprivation that blinds the target.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "hostile" ],
     "teachable": false,
     "skill": "metaphysics",
@@ -397,6 +400,7 @@
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "spell_class": "TELEPATH",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "NO_PROJECTILE", "IGNORE_WALLS" ],
     "difficulty": 6,
@@ -415,7 +419,6 @@
         "min( (( (u_spell_level('telepathic_fear') * 0.15) + 0) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 4)"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 6000,
     "final_energy_cost": 3500,
     "energy_increment": -100,
@@ -444,6 +447,7 @@
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "spell_class": "TELEPATH",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 6,
@@ -473,7 +477,6 @@
         "min( (( (u_spell_level('telepathic_invisibility') * 0.15) + 0) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 4)"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 4500,
     "final_energy_cost": 2250,
     "energy_increment": -115,
@@ -485,8 +488,11 @@
   {
     "id": "telepathic_invisibility_self",
     "type": "SPELL",
-    "name": "[Ψ]Obscurity Self",
-    "description": "Puts an effect on you so anyone affected by Obscurity knows to ignore you.  It's a bug if you have this directly.",
+    "name": { "str": "[Ψ]Obscurity Self", "//~": "NO_I18N" },
+    "description": {
+      "str": "Puts an effect on you so anyone affected by Obscurity knows to ignore you.  It's a bug if you have this directly.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -514,6 +520,7 @@
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
     "spell_class": "TELEPATH",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [
       "PSIONIC",
@@ -547,7 +554,6 @@
         "min( (( (u_spell_level('telepathic_blast_radius') * 1.1 ) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 7000,
     "final_energy_cost": 3250,
     "energy_increment": -275,
@@ -558,8 +564,11 @@
   {
     "id": "telepathic_blast_radius_guaranteed",
     "type": "SPELL",
-    "name": "[Ψ]Psychic Scream Additional Damage",
-    "description": "This exists to allow Psychic Scream to do minimal damage and kill small animals whose extremely low HP would otherwise be below the percentage threshold, as well as making it more likely to stun or daze.  It's a bug if you have it directly.",
+    "name": { "str": "[Ψ]Psychic Scream Additional Damage", "//~": "NO_I18N" },
+    "description": {
+      "str": "This exists to allow Psychic Scream to do minimal damage and kill small animals whose extremely low HP would otherwise be below the percentage threshold, as well as making it more likely to stun or daze.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
@@ -586,6 +595,7 @@
     "teachable": false,
     "valid_targets": [ "ally" ],
     "spell_class": "TELEPATH",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "RECHARM", "SILENT", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 7,
@@ -619,7 +629,6 @@
       ]
     },
     "max_range": 70,
-    "energy_source": "STAMINA",
     "base_energy_cost": 8000,
     "final_energy_cost": 5500,
     "energy_increment": -185,
@@ -641,8 +650,8 @@
   {
     "id": "telepathic_beast_taming_pet",
     "type": "SPELL",
-    "name": "[Ψ]Beast Tamer Pet Effect",
-    "description": "This applies the pet effect to a tamed animal.  It's a bug if you have it directly.",
+    "name": { "str": "[Ψ]Beast Tamer Pet Effect", "//~": "NO_I18N" },
+    "description": { "str": "This applies the pet effect to a tamed animal.  It's a bug if you have it directly.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally" ],
@@ -690,6 +699,7 @@
     "teachable": false,
     "valid_targets": [ "hostile" ],
     "spell_class": "TELEPATH",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "SILENT", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_HANDS", "NO_LEGS" ],
     "difficulty": 8,
@@ -723,7 +733,6 @@
       ]
     },
     "max_range": 70,
-    "energy_source": "STAMINA",
     "base_energy_cost": 7500,
     "final_energy_cost": 3500,
     "energy_increment": -165,
@@ -752,6 +761,7 @@
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "TELEPATH",
+    "magic_type": "mom_psionics",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 9,
@@ -769,7 +779,6 @@
         "( (u_spell_level('telepathic_network') * 3400) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
     "base_energy_cost": 6500,
     "final_energy_cost": 3750,
     "energy_increment": -135,
@@ -780,12 +789,11 @@
   {
     "id": "telepathic_network_real",
     "type": "SPELL",
-    "name": "[Ψ]Network Effect Real",
-    "description": "The actual power that implements the Network Effect.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Network Effect Real", "//~": "NO_I18N" },
+    "description": { "str": "The actual power that implements the Network Effect.  It's a bug if you have it.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "self", "ally" ],
-    "spell_class": "TELEPATH",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 9,

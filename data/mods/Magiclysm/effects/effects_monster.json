@@ -1,0 +1,29 @@
+[
+  {
+    "id": "effect_demon_spider_speed",
+    "type": "effect_type",
+    "name": [ "Flaming Speed" ],
+    "desc": [ "Your speed is boosted enormously thanks to drinking those flames." ],
+    "rating": "good",
+    "max_duration": "30 seconds",
+    "removes_effects": [ "magic_slowed" ],
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 1 } ] } ]
+  },
+  {
+    "id": "effect_demon_spider_venom",
+    "type": "effect_type",
+    "name": [ "Burning Venom" ],
+    "desc": [ "Your veins are on fire." ],
+    "rating": "bad",
+    "max_duration": "12 hours",
+    "show_in_info": true,
+    "resist_traits": [ "POISRESIST" ],
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "base_mods": { "pain_amount": [ 2 ], "pain_min": [ 1 ], "pain_chance": [ 30 ], "pain_max_val": [ 40 ] },
+    "enchantments": [
+      { "incoming_damage_mod": [ { "type": "heat", "multiply": 0.33 } ] },
+      { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": -40 } ] }
+    ]
+  }
+]

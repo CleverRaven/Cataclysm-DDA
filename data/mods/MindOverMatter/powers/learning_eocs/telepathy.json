@@ -23,7 +23,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_shield') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telepathic_shield" },
       {
         "u_message": "Use of your powers has led to an insight.  You could invert the extreme focus of the concentration trance to make an impenetrable shell around your mind, protecting you from telepathic attack, if you can figure out the proper technique.",
@@ -55,7 +55,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_mesmerize') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telepathic_mesmerize" },
       {
         "u_message": "Use of your powers has led to an insight.  You could nudge someone's mind into a self-focused spiral, keeping them in a daze and unaware of the outside world, if you can figure out the proper technique.",
@@ -92,7 +92,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_morale') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telepathic_morale" },
       {
         "u_message": "Use of your powers has led to an insight.  In the same way you prepare your mind for learning, you could buffer it against the stresses of post-Cataclysmic life, editing out unwarranted negative thoughts, if you can figure out the proper technique.",
@@ -129,7 +129,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_blast') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telepathic_blast" },
       {
         "u_message": "Use of your powers has led to an insight.  Rather than any kind of subtle detection or adjustment, you could lash out with your powers, damaging the minds you contact, if you can figure out the proper technique.",
@@ -163,7 +163,7 @@
       "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_animal_mind_control') >= 1" ] } ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telepathic_beastmaster" },
       {
         "u_message": "Use of your powers has led to an insight.  The minds of animals are less complex than those of humans.  You should be able to overshadow them, to direct their actions and make them friendly toward you, if you can figure out the proper technique.",
@@ -202,7 +202,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_confusion') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telepathic_confusion" },
       {
         "u_message": "Use of your powers has led to an insight.  Rather than a clumsy hammer, you could use a telepathic scalpel to cut off the target's connection between their senses and their brain, leaving them stumbling and blind, if you can figure out the proper technique.",
@@ -236,7 +236,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_fear') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telepathic_fear" },
       {
         "u_message": "Use of your powers has led to an insight.  You could evoke your target's darkest fears, leaving them frozen in panic or trembling in terror, if you can figure out the proper technique.",
@@ -279,7 +279,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_invisibility') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telepathic_invisibility" },
       {
         "u_message": "Use of your powers has led to an insight.  You could erase yourself from a target's perceptions, making them completely unable to even know that you're there, if you can figure out the proper technique.",
@@ -318,7 +318,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_blast_radius') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telepathic_scream" },
       {
         "u_message": "Use of your powers has led to an insight.  You could erase yourself from a target's perceptions, making them completely unable to even know that you're there, if you can figure out the proper technique.",
@@ -350,7 +350,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_beast_taming') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telepathic_beast_taming" },
       {
         "u_message": "Use of your powers has led to an insight.  You can overshadow animal minds for a short time, but it shouldn't be difficult to make further adjustments, to make the animal friendly for weeks or months, if you can figure out the proper technique.",
@@ -398,7 +398,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_mind_control') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telepathic_mind_control" },
       {
         "u_message": "Use of your powers has led to an insight.  Just as you can control the minds of animals, you could control the minds of humans, or maybe even aliens, if you can figure out the proper technique.",
@@ -441,7 +441,7 @@
     },
     "deactivate_condition": { "or": [ { "not": { "u_has_trait": "TELEPATH" } }, { "math": [ "u_spell_level('telepathic_network') >= 1" ] } ] },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter') = 0" ] },
       { "u_learn_recipe": "practice_telepathic_network" },
       {
         "u_message": "Use of your powers has led to an insight.  Thought is far faster than speech, and with your allies nearby you could warn each other of any dangers or enemy weaknesses as fast as thinking, if you can figure out the proper technique.",

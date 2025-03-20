@@ -12,7 +12,7 @@
     "book_learn": [ [ "schematics_matrix_channeling", 3 ] ],
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "FINE_GRIND", "level": 1 }, { "id": "VISE", "level": 1 } ],
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_psionic_basic", "required": false } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_matrix_technology_beginner", "required": false } ],
     "using": [ [ "soldering_standard", 15 ], [ "steel_tiny", 5 ] ],
     "components": [ [ [ "matrix_crystal_drained", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -37,7 +37,7 @@
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_psionic_basic", "required": false },
+      { "proficiency": "prof_matrix_technology_beginner", "required": false },
       { "proficiency": "prof_fine_metalsmithing", "required": false }
     ],
     "using": [ [ "soldering_standard", 15 ], [ "steel_tiny", 5 ] ],
@@ -68,7 +68,9 @@
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_psionic_basic", "required": false },
+      { "proficiency": "prof_psionic_minimum_requirements", "required": true },
+      { "proficiency": "prof_psionic_basic", "required": true },
+      { "proficiency": "prof_psionic_ritual", "required": false },
       { "proficiency": "prof_fine_metalsmithing", "required": false }
     ],
     "using": [ [ "soldering_standard", 15 ], [ "steel_tiny", 15 ] ],
@@ -87,6 +89,7 @@
     "reversible": true,
     "decomp_learn": 0,
     "qualities": [ { "id": "MATRIX_CHANNEL", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_matrix_technology_beginner" } ],
     "book_learn": [ [ "schematics_everglow_lamp", 1 ] ],
     "components": [
       [ [ "amplifier", 1 ] ],
@@ -117,7 +120,7 @@
     "reversible": true,
     "decomp_learn": 1,
     "book_learn": [ [ "schematics_everglow_lamp", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking" }, { "proficiency": "prof_psionic_basic" } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" }, { "proficiency": "prof_matrix_technology_beginner" } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "MATRIX_CHANNEL", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 2 ] ],

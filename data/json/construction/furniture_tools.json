@@ -302,6 +302,17 @@
   },
   {
     "type": "construction",
+    "id": "constr_kiln_portable_empty",
+    "group": "place_char_kiln",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "char_kiln", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_kiln_portable_empty"
+  },
+  {
+    "type": "construction",
     "id": "constr_place_screw_press",
     "group": "place_screw_press",
     "//": "Set up Screw Press",
@@ -489,7 +500,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
     "using": [ [ "welding_standard", 5 ] ],
     "//1": "5cm of weld to join the faucet to the pipe",
-    "components": [ [ [ "metal_tank", 4 ] ], [ [ "water_faucet", 1 ] ] ],
+    "components": [ [ [ "metal_tank", 5 ] ], [ [ "water_faucet", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_standing_tank"
   },

@@ -33,8 +33,10 @@
       { "group": "EXODII_Shop_OldArmour", "rigid": true },
       { "group": "EXODII_Shop_Guns_Tier1", "rigid": true, "trust": 1 },
       { "group": "EXODII_Shop_Guns_Tier2", "rigid": true, "trust": 10 },
-      { "group": "EXODII_Shop_Guns_Tier3", "rigid": true, "trust": 20, "strict": true }
+      { "group": "EXODII_Shop_Guns_Tier3", "rigid": true, "trust": 20, "strict": true },
+      { "group": "EXODII_Shop_Guns_caotel", "rigid": true, "trust": 20, "strict": true }
     ],
+    "shopkeeper_price_rules": [ { "group": "EXODII_Shop_Guns_caotel", "markup": 10 }, { "item": "caotel_cell_spent", "fixed_adj": 80 } ],
     "shopkeeper_consumption_rates": "basic_shop_rates",
     "weapon_override": "brogyeki_weapon_override",
     "worn_override": "EMPTY_GROUP",

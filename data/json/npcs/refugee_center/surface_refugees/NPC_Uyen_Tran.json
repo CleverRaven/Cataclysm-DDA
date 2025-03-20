@@ -293,7 +293,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 8 },
         { "u_add_var": "mission_flag_Uyen_Mission1", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness++" ] }
       ]
     }
   },
@@ -325,7 +325,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 7 },
         { "u_add_var": "mission_flag_Uyen_Mission2", "value": "yes" },
-        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
+        { "math": [ "u_counter_refugee_center_refugee_happiness++" ] }
       ]
     }
   },

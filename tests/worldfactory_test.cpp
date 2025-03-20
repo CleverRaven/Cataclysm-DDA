@@ -1,3 +1,6 @@
+#include <memory>
+#include <string>
+
 #include "cata_catch.h"
 #include "worldfactory.h"
 

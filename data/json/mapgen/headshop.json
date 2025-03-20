@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": "headshop",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -73,6 +72,7 @@
           ]
         }
       },
+      "items": { "L": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "L": {  } },
       "place_nested": [ { "chunks": [ [ "null", 2 ], [ "headshop_graffiti_snippet", 98 ] ], "x": 22, "y": 19 } ],
       "place_item": [
@@ -86,6 +86,8 @@
         { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 4, "y": 10 },
         { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 7, "y": 10 },
         { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 18, "y": 10 },
+        { "item": "pipe_water", "repeat": [ 1, 2 ], "x": 4, "y": 10 },
+        { "item": "pipe_water", "repeat": [ 1, 2 ], "x": 4, "y": 10 },
         { "item": "crackpipe", "repeat": [ 1, 2 ], "x": 21, "y": 10 }
       ],
       "place_items": [
@@ -155,7 +157,7 @@
       "items": {
         "I": { "item": "office", "chance": 30 },
         "f": { "item": "office_paper", "chance": 30 },
-        "y": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
+        "y": { "item": "SUS_trash_floor", "chance": 20, "repeat": [ 2, 4 ] },
         "C": { "item": "stoner", "chance": 20, "repeat": [ 2, 4 ] },
         "r": { "item": "jar_weed", "chance": 20, "repeat": [ 2, 4 ] }
       },

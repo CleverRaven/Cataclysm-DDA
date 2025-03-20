@@ -1,23 +1,53 @@
+#include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <cstddef>
+#include <functional>
+#include <list>
+#include <map>
 #include <memory>
+#include <optional>
+#include <set>
+#include <tuple>
+#include <unordered_set>
+#include <utility>
 
-#include "avatar.h"
+#include "addiction.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "coordinates.h"
+#include "creature.h"
+#include "damage.h"
+#include "debug.h"
 #include "effect.h"
+#include "faction.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "magic.h"
+#include "map.h"
+#include "martialarts.h"
+#include "messages.h"
 #include "npc.h"
 #include "npctalk.h"
+#include "output.h"
 #include "pimpl.h"
 #include "player_activity.h"
-#include "point.h"
+#include "proficiency.h"
+#include "ret_val.h"
 #include "skill.h"
+#include "string_formatter.h"
 #include "talker_character.h"
+#include "translation.h"
+#include "translations.h"
+#include "units.h"
 #include "vehicle.h"
 #include "weather.h"
 
-class time_duration;
+struct bionic;
 
 static const flag_id json_flag_FIT( "FIT" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
@@ -47,14 +77,14 @@ std::vector<std::string> talker_character_const::get_grammatical_genders() const
     return me_chr_const->get_grammatical_genders();
 }
 
-int talker_character_const::posx() const
+int talker_character_const::posx( const map &here ) const
 {
-    return me_chr_const->posx();
+    return me_chr_const->posx( here );
 }
 
-int talker_character_const::posy() const
+int talker_character_const::posy( const map &here ) const
 {
-    return me_chr_const->posy();
+    return me_chr_const->posy( here );
 }
 
 int talker_character_const::posz() const
@@ -62,24 +92,19 @@ int talker_character_const::posz() const
     return me_chr_const->posz();
 }
 
-tripoint talker_character_const::pos() const
+tripoint_bub_ms talker_character_const::pos_bub( const map &here ) const
 {
-    return me_chr_const->pos();
+    return me_chr_const->pos_bub( here );
 }
 
-tripoint_abs_ms talker_character_const::global_pos() const
+tripoint_abs_ms talker_character_const::pos_abs() const
 {
-    return me_chr_const->get_location();
+    return me_chr_const->pos_abs();
 }
 
-tripoint_abs_omt talker_character_const::global_omt_location() const
+tripoint_abs_omt talker_character_const::pos_abs_omt() const
 {
-    return me_chr_const->global_omt_location();
-}
-
-void talker_character::set_pos( tripoint new_pos )
-{
-    me_chr->setpos( new_pos );
+    return me_chr_const->pos_abs_omt();
 }
 
 int talker_character_const::get_cur_hp( const bodypart_id &bp ) const
@@ -124,10 +149,27 @@ int talker_character_const::attack_speed() const
     return me_chr_const->attack_speed( cur_weap );
 }
 
+int talker_character_const::get_speed() const
+{
+    return me_chr_const->get_speed();
+}
+
 dealt_damage_instance talker_character_const::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &dam ) const
 {
     return source->deal_damage( source, bp, dam );
+}
+
+void talker_character::set_pos( tripoint_bub_ms new_pos )
+{
+    map &here = get_map();
+
+    me_chr->setpos( here, new_pos );
+}
+
+void talker_character::set_pos( tripoint_abs_ms new_pos )
+{
+    me_chr->setpos( new_pos );
 }
 
 void talker_character::set_str_max( int value )
@@ -168,6 +210,11 @@ void talker_character::set_int_bonus( int value )
 void talker_character::set_per_bonus( int value )
 {
     me_chr->mod_per_bonus( value );
+}
+
+void talker_character::set_cash( int value )
+{
+    me_chr->cash = value;
 }
 
 int talker_character_const::get_str_max() const
@@ -413,6 +460,14 @@ int talker_character_const::get_spell_exp( const spell_id &spell_name ) const
         return -1;
     }
     return me_chr_const->magic->get_spell( spell_name ).xp();
+}
+
+int talker_character_const::get_spell_difficulty( const spell_id &spell_name ) const
+{
+    if( !me_chr_const->magic->knows_spell( spell_name ) ) {
+        return spell_name->get_difficulty( *me_chr_const );
+    }
+    return me_chr_const->magic->get_spell( spell_name ).get_difficulty( *me_chr_const );
 }
 
 int talker_character_const::get_spell_count( const trait_id &school ) const
@@ -725,7 +780,9 @@ void talker_character::set_thirst( int value )
 
 bool talker_character_const::is_in_control_of( const vehicle &veh ) const
 {
-    return veh.player_in_control( *me_chr_const );
+    map &here = get_map();
+
+    return veh.player_in_control( here, *me_chr_const );
 }
 
 void talker_character::shout( const std::string &speech, bool order )
@@ -862,9 +919,11 @@ bool talker_character_const::can_see() const
                                           me_chr_const->has_flag( json_flag_SEESLEEP ) );
 }
 
-bool talker_character_const::can_see_location( const tripoint &pos ) const
+bool talker_character_const::can_see_location( const tripoint_bub_ms &pos ) const
 {
-    return me_chr_const->sees( pos );
+    const map &here = get_map();
+
+    return me_chr_const->sees( here, pos );
 }
 
 void talker_character::set_sleepiness( int amount )
@@ -875,6 +934,11 @@ void talker_character::set_sleepiness( int amount )
 void talker_character::mod_daily_health( int amount, int cap )
 {
     me_chr->mod_daily_health( amount, cap );
+}
+
+void talker_character::mod_livestyle( int amount )
+{
+    me_chr->mod_livestyle( amount );
 }
 
 int talker_character_const::morale_cur() const
@@ -911,6 +975,11 @@ void talker_character::remove_morale( const morale_type &old_morale )
 int talker_character_const::focus_cur() const
 {
     return me_chr_const->get_focus();
+}
+
+int talker_character_const::focus_effective_cur() const
+{
+    return me_chr_const->get_effective_focus();
 }
 
 void talker_character::mod_focus( int amount )
@@ -1012,6 +1081,11 @@ void talker_character::set_age( int amount )
 int talker_character_const::get_age() const
 {
     return me_chr_const->age();
+}
+
+int talker_character_const::get_ugliness() const
+{
+    return me_chr_const->ugliness();
 }
 
 int talker_character_const::get_bmi_permil() const
@@ -1305,9 +1379,9 @@ bool talker_character_const::is_warm() const
     return me_chr_const->is_warm();
 }
 
-void talker_character::die()
+void talker_character::die( map *here )
 {
-    me_chr->die( nullptr );
+    me_chr->die( here, nullptr );
 }
 
 matec_id talker_character_const::get_random_technique( Creature const &t, bool crit,

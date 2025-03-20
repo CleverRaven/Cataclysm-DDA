@@ -16,7 +16,7 @@
         }
       ]
     },
-    "effect": { "math": [ "u_changeling_advancement_dreams_counter", "++" ] }
+    "effect": { "math": [ "u_changeling_advancement_dreams_counter++" ] }
   },
   {
     "type": "effect_on_condition",
@@ -102,7 +102,7 @@
       { "u_mutate": 0 },
       { "math": [ "u_vitamin('mutagen_fair_folk_noble')", "-=", "2500" ] },
       { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
-      { "math": [ "u_changeling_advancement_dreams_counter", "--" ] }
+      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
     ]
   },
   {
@@ -123,7 +123,7 @@
       { "u_mutate": 0 },
       { "math": [ "u_vitamin('mutagen_fair_folk_commoner_brownie')", "-=", "2500" ] },
       { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
-      { "math": [ "u_changeling_advancement_dreams_counter", "--" ] }
+      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
     ]
   },
   {
@@ -144,7 +144,7 @@
       { "u_mutate": 0 },
       { "math": [ "u_vitamin('mutagen_fair_folk_commoner_pooka')", "-=", "2500" ] },
       { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
-      { "math": [ "u_changeling_advancement_dreams_counter", "--" ] }
+      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
     ]
   },
   {
@@ -165,7 +165,7 @@
       { "u_mutate": 0 },
       { "math": [ "u_vitamin('mutagen_fair_folk_commoner_selkie')", "-=", "2500" ] },
       { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
-      { "math": [ "u_changeling_advancement_dreams_counter", "--" ] }
+      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
     ]
   },
   {
@@ -186,7 +186,7 @@
       { "u_mutate": 0 },
       { "math": [ "u_vitamin('mutagen_fair_folk_commoner_trow')", "-=", "2500" ] },
       { "math": [ "u_vitamin('mutagen')", "-=", "1000" ] },
-      { "math": [ "u_changeling_advancement_dreams_counter", "--" ] }
+      { "math": [ "u_changeling_advancement_dreams_counter--" ] }
     ]
   }
 ]

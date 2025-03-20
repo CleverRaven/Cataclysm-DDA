@@ -3,9 +3,8 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "small_office" ],
-    "weight": 100,
     "object": {
-      "fill_ter": "t_linoleum_white",
+      "fill_ter": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
       "rows": [
         "________________________",
         "________________________",
@@ -32,14 +31,14 @@
         "ggggggggggkee_______gggg",
         "ggggggggggg_________gggg"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         "+": "t_door_c",
         "-": "t_wall_glass",
-        ".": "t_linoleum_white",
+        ".": { "param": "linoleum_color", "fallback": "t_linoleum_white" },
         "D": "t_door_glass_c",
-        "S": "t_linoleum_gray",
-        "T": "t_linoleum_gray",
+        "S": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        "T": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "_": "t_sidewalk",
         "a": "t_floor_red",
         "b": "t_door_o",
@@ -47,9 +46,9 @@
         "f": "t_floor_red",
         "g": "t_grass",
         "h": "t_door_metal_c",
-        "i": "t_linoleum_gray",
+        "i": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "k": "t_grass",
-        "l": "t_linoleum_gray",
+        "l": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "4": "t_gutter_downspout",
         "<": "t_ladder_up"
       },
@@ -73,6 +72,7 @@
         "t": "f_table",
         "{": "f_locker"
       },
+      "items": { "T": { "item": "SUS_toilet", "chance": 50 } },
       "toilets": { "T": {  } },
       "vendingmachines": { "v": { "lootable": true } },
       "place_items": [
@@ -83,8 +83,8 @@
         { "item": "snacks", "x": 3, "y": 6, "chance": 25 },
         { "item": "magazines", "x": 17, "y": 7, "chance": 75 },
         { "item": "magazines", "x": 6, "y": 3, "chance": 75 },
-        { "item": "trash", "x": 14, "y": 20, "chance": 10 },
-        { "item": "trash", "x": 15, "y": 9, "chance": 10 },
+        { "item": "SUS_trash_trashcan", "x": 14, "y": 20, "chance": 10 },
+        { "item": "SUS_trash_trashcan", "x": 15, "y": 9, "chance": 10 },
         { "item": "supplies_electronics", "x": 21, "y": 17, "chance": 10 },
         { "item": "SUS_fridge_breakroom", "x": 1, "y": 9, "chance": 10 },
         { "item": "kitchen", "x": [ 2, 3 ], "y": 9, "chance": 50 }

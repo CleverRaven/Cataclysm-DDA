@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_FISH",
+    "id": "GROUP_FISH",
     "default": "mon_fish_whitefish",
     "is_animal": true,
     "monsters": [
@@ -273,7 +273,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_STOCKED_POND",
+    "id": "GROUP_STOCKED_POND",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_fish_rainbow_trout", "weight": 50, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
@@ -312,7 +312,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_RAZORCLAW",
+    "id": "GROUP_RAZORCLAW",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_razorclaw", "weight": 667, "cost_multiplier": 0 },
@@ -321,7 +321,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_CRAYFISH",
+    "id": "GROUP_CRAYFISH",
     "monsters": [
       { "monster": "mon_crayfish_small", "weight": 5, "ends": "45 days" },
       { "monster": "mon_giant_crayfish", "weight": 5, "starts": "30 days" },

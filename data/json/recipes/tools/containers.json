@@ -1565,7 +1565,7 @@
     "difficulty": 2,
     "time": "1 m",
     "autolearn": true,
-    "components": [ [ [ "large_biogas_tank", 1 ] ] ]
+    "components": [ [ [ "large_propane_tank", 1 ] ] ]
   },
   {
     "result": "xl_biogas_tank",

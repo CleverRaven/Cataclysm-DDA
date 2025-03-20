@@ -11,42 +11,42 @@
     "type": "widget",
     "style": "text",
     "clauses": [
-      { "id": "horrible", "text": " Horrible", "color": "h_red", "condition": { "math": [ "u_val('health') < -100" ] } },
+      { "id": "horrible", "text": " Horrible", "color": "h_red", "condition": { "math": [ "u_health() < -100" ] } },
       {
         "id": "very_bad",
         "text": "Very poor",
         "color": "red",
-        "condition": { "and": [ { "math": [ "u_val('health') >= -100" ] }, { "math": [ "u_val('health') < -50" ] } ] }
+        "condition": { "and": [ { "math": [ "u_health() >= -100" ] }, { "math": [ "u_health() < -50" ] } ] }
       },
       {
         "id": "bad",
         "text": "   Poor",
         "color": "brown",
-        "condition": { "and": [ { "math": [ "u_val('health') >= -50" ] }, { "math": [ "u_val('health') < -10" ] } ] }
+        "condition": { "and": [ { "math": [ "u_health() >= -50" ] }, { "math": [ "u_health() < -10" ] } ] }
       },
       {
         "id": "ok",
         "text": "   Okay",
         "color": "light_gray",
-        "condition": { "and": [ { "math": [ "u_val('health') >= -10" ] }, { "math": [ "u_val('health') < 10" ] } ] }
+        "condition": { "and": [ { "math": [ "u_health() >= -10" ] }, { "math": [ "u_health() < 10" ] } ] }
       },
       {
         "id": "good",
         "text": "   Good",
         "color": "blue",
-        "condition": { "and": [ { "math": [ "u_val('health') >= 10" ] }, { "math": [ "u_val('health') < 50" ] } ] }
+        "condition": { "and": [ { "math": [ "u_health() >= 10" ] }, { "math": [ "u_health() < 50" ] } ] }
       },
       {
         "id": "very_good",
         "text": "Very good",
         "color": "green",
-        "condition": { "and": [ { "math": [ "u_val('health') >= 50" ] }, { "math": [ "u_val('health') < 100" ] } ] }
+        "condition": { "and": [ { "math": [ "u_health() >= 50" ] }, { "math": [ "u_health() < 100" ] } ] }
       },
       {
         "id": "excellent",
         "text": "Excellent",
         "color": "light_green",
-        "condition": { "math": [ "u_val('health') >= 100" ] }
+        "condition": { "math": [ "u_health() >= 100" ] }
       }
     ],
     "flags": [ "W_LABEL_NONE" ]

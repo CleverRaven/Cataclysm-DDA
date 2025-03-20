@@ -4,7 +4,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "5.7mm pistol" },
+    "name": { "str": "FN 5.7mm pistol" },
     "description": "Firing the armor-piercing 5.7x28mm round, this lightweight handgun was developed for NATO use as a sidearm capable of penetrating body armor.  Its proprietary and nonprolific ammunition kept it comparatively rare among both civilian and militant use, but the gun's ability to ignore most forms of conventional ballistic armor can't be argued with.  Given that its tiny bullets have next to no stopping power, its armor-penetrating capability comes at a considerable trade-off.",
     "variant_type": "gun",
     "variants": [

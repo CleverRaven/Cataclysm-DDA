@@ -1364,6 +1364,27 @@
     ]
   },
   {
+    "result": "broken_turret_searchlight",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 50 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "directed_floodlight", 3 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "frame", 5 ] ],
+      [ [ "motor_tiny", 3 ] ],
+      [ [ "long_extension_cable", 1 ] ],
+      [ [ "solar_cell", 1 ] ]
+    ]
+  },
+  {
     "result": "broken_science_bot",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -2079,7 +2100,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "scrap_aluminum", 1 ] ],
-      [ [ "light_battery_cell", 1 ] ],
+      [ [ "medium_battery_cell", 1 ] ],
       [ [ "small_lcd_screen", 1 ] ],
       [ [ "memory_card", 1 ] ],
       [ [ "processor", 1 ] ]
@@ -2427,6 +2448,22 @@
     "components": [ [ [ "thread_canvas", 1 ] ] ]
   },
   {
+    "result": "sheet_denim",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "denim_patch", 8 ] ] ]
+  },
+  {
+    "result": "sheet_denim_patchwork",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "denim_patch", 8 ] ] ]
+  },
+  {
     "result": "felt_patch",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
@@ -2561,33 +2598,9 @@
     "result": "fan",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
-    "time": "2 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 2 ] ] ]
-  },
-  {
-    "result": "fancy_sunglasses",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "glass_tinted", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "fancy_sunglasses_bifocal",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "glass_tinted", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "fancy_sunglasses_reading",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "glass_tinted", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "time": "5 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 10 ] ], [ [ "plastic_chunk", 15 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 30 ] ] ]
   },
   {
     "result": "file",
@@ -3057,15 +3070,6 @@
     "time": "2 m",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "sheet_metal_small", 2 ] ] ]
-  },
-  {
-    "result": "kiln_done",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "3 m",
-    "components": [ [ [ "charcoal", 5000 ] ], [ [ "char_kiln", 1 ] ] ]
   },
   {
     "type": "uncraft",
@@ -4042,6 +4046,14 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
+    "result": "wicker_basket_large",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 m",
+    "components": [ [ [ "withered", 12 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
     "result": "straw_doll",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -4662,6 +4674,23 @@
       [ [ "spike", 1 ] ],
       [ [ "plastic_chunk", 8 ] ],
       [ [ "motor_small", 1 ] ]
+    ]
+  },
+  {
+    "result": "arc_furnace",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "360 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "fire_brick", 40 ] ],
+      [ [ "cu_pipe", 4 ] ],
+      [ [ "cable", 12 ] ],
+      [ [ "pipe", 4 ] ],
+      [ [ "clamp", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "medium_storage_battery", 2 ] ],
+      [ [ "frame", 1 ] ]
     ]
   },
   {
@@ -7721,14 +7750,6 @@
     "time": "15 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "steel_chunk", 4 ] ] ]
-  },
-  {
-    "result": "active_backup_generator",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "45 m",
-    "qualities": [ { "id": "WRENCH", "level": 2 } ],
-    "components": [ [ [ "generator_7500w", 1 ] ], [ [ "engine_1cyl_diesel_large", 1 ] ], [ [ "frame", 1 ] ], [ [ "jerrycan_big", 1 ] ] ]
   },
   {
     "result": "apron_cut_resistant",

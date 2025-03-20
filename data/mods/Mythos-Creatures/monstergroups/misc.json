@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_BLACK_ROAD",
+    "id": "GROUP_BLACK_ROAD",
     "override": true,
     "default": "mon_null",
     "monsters": [
@@ -22,7 +22,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SUBWAY_CITY",
+    "id": "GROUP_SUBWAY_CITY",
     "override": true,
     "//": "Normal subway, extra spawns underneath a city",
     "default": "mon_null",
@@ -37,7 +37,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "DUMP_ANIMALS",
+    "id": "DUMP_ANIMALS",
     "monsters": [
       { "monster": "mon_ghast", "weight": 10, "conditions": [ "NIGHT", "DUSK" ] },
       { "monster": "mon_ghoul", "weight": 15 }
@@ -45,7 +45,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SEWER",
+    "id": "GROUP_SEWER",
     "//": "Add rat things to sewers.",
     "monsters": [ { "monster": "mon_rat_thing", "weight": 50, "cost_multiplier": 0, "pack_size": [ 3, 12 ] } ]
   }

@@ -2,12 +2,21 @@
   {
     "type": "mutation",
     "id": "PrepNet",
-    "name": { "str": "PrepNet Tag" },
+    "name": { "str": "PrepNet Tag", "//~": "NO_I18N" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes monsters see it as a PrepNet.  It is a bug if you have it.",
+    "description": { "str": "NPC trait that makes monsters see it as a PrepNet.  It is a bug if you have it.", "//~": "NO_I18N" },
     "player_display": false,
     "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "BKGR_EARTH",
+    "name": { "str": "Earthling" },
+    "points": 0,
+    "description": "Your mannerisms and accent are a dead giveaway that you were raised on Earth.  Whatever your thoughts about the homeworld might be, the simple fact that you can call it home is likely to affect relationships with people liable to care about such things.",
+    "valid": false,
+    "purifiable": false
   },
   {
     "type": "mutation",

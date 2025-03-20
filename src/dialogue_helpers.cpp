@@ -172,8 +172,7 @@ double dbl_or_var_part::evaluate( const_dialogue const &d ) const
         return 0;
     }
     if( math_val ) {
-        dialogue loosey_goosey( d );
-        return math_val->act( loosey_goosey );
+        return math_val->act( d );
     }
     debugmsg( "No valid value for dbl_or_var_part.  %s", d.get_callstack() );
     return 0;
@@ -209,8 +208,7 @@ time_duration duration_or_var_part::evaluate( const_dialogue const &d ) const
         return 0_seconds;
     }
     if( math_val ) {
-        dialogue loosey_goosey( d );
-        return time_duration::from_turns( math_val->act( loosey_goosey ) );
+        return time_duration::from_turns( math_val->act( d ) );
     }
     debugmsg( "No valid value for duration_or_var_part.  %s", d.get_callstack() );
     return 0_seconds;

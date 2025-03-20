@@ -23,8 +23,8 @@
   {
     "id": "perk_undying_loyalty_spell",
     "type": "SPELL",
-    "name": "Undying Loyalty Spell",
-    "description": "The spell to activate the Undying Loyalty effect.  It's a bug if you have it.",
+    "name": { "str": "Undying Loyalty Spell", "//~": "NO_I18N" },
+    "description": { "str": "The spell to activate the Undying Loyalty effect.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "ally" ],
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "attack",

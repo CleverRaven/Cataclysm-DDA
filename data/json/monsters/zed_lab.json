@@ -63,7 +63,7 @@
     "weakpoints": [
       { "name": "the leg", "armor_mult": { "physical": 0.5 }, "coverage": 10 },
       { "name": "the arm", "armor_mult": { "physical": 0.5 }, "coverage": 5 },
-      { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 2 },
+      { "name": "the face", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 2 },
       { "name": "a gap in the armor", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_demihuman" ],
@@ -114,8 +114,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 10,
     "weakpoints": [
-      { "name": "the face", "armor_mult": { "physical": 0.25 }, "coverage": 4 },
-      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
+      { "name": "the face", "is_head": true, "armor_mult": { "physical": 0.25 }, "coverage": 4 },
+      { "name": "the eye", "is_head": true, "armor_mult": { "physical": 0 }, "coverage": 1 },
       { "name": "a gap in the armor", "armor_mult": { "physical": 0 }, "coverage": 3 }
     ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_demihuman", "prof_wp_skeleton" ],

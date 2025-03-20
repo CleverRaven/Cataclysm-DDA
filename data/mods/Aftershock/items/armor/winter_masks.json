@@ -44,7 +44,8 @@
       "SWIM_GOGGLES",
       "RECHARGE",
       "NO_RELOAD",
-      "NO_UNLOAD"
+      "NO_UNLOAD",
+      "SOFT"
     ],
     "melee_damage": { "bash": 7 }
   },
@@ -101,14 +102,14 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "afs_heavy_suit_battery_cell"
       }
     ],
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUN_GLASSES", "OUTER" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUN_GLASSES", "OUTER", "SOFT" ],
     "melee_damage": { "bash": 7 }
   },
   {

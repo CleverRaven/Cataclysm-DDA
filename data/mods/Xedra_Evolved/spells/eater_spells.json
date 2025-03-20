@@ -122,7 +122,7 @@
     "effect": "attack",
     "shape": "blast",
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "NO_EXPLOSION_SFX", "NO_HANDS" ],
-    "energy_source": "MANA",
+    "magic_type": "xedra_dream_magic",
     "spell_class": "EATER",
     "skill": "deduction",
     "difficulty": 6,
@@ -168,7 +168,7 @@
     "spell_class": "EATER",
     "components": "spell_components_dreamdross2",
     "difficulty": 4,
-    "energy_source": "MANA"
+    "magic_type": "xedra_dream_magic"
   },
   {
     "id": "supercoffee",
@@ -191,7 +191,7 @@
     "spell_class": "EATER",
     "components": "spell_components_dreamdross2",
     "difficulty": 4,
-    "energy_source": "MANA"
+    "magic_type": "xedra_dream_magic"
   },
   {
     "type": "SPELL",
@@ -217,7 +217,7 @@
     "final_energy_cost": 100,
     "energy_increment": -10,
     "max_level": { "math": [ "eater_level(1)" ] },
-    "energy_source": "MANA"
+    "magic_type": "xedra_dream_magic"
   },
   {
     "id": "spell_rage",
@@ -232,7 +232,7 @@
     "flags": [ "NO_LEGS", "NO_HANDS", "SILENT", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
     "spell_class": "EATER",
-    "energy_source": "MANA",
+    "magic_type": "xedra_dream_magic",
     "difficulty": 2,
     "base_casting_time": 300,
     "final_casting_time": 50,
@@ -268,7 +268,7 @@
     "final_energy_cost": 500,
     "energy_increment": -15,
     "max_level": { "math": [ "eater_level(1)" ] },
-    "energy_source": "MANA",
+    "magic_type": "xedra_dream_magic",
     "spell_class": "EATER"
   },
   {
@@ -293,7 +293,7 @@
     "final_energy_cost": 400,
     "energy_increment": -15,
     "max_level": { "math": [ "eater_level(1)" ] },
-    "energy_source": "MANA"
+    "magic_type": "xedra_dream_magic"
   },
   {
     "id": "spell_dodge",
@@ -308,7 +308,7 @@
     "flags": [ "NO_LEGS", "SILENT", "NO_HANDS", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
     "spell_class": "EATER",
-    "energy_source": "MANA",
+    "magic_type": "xedra_dream_magic",
     "difficulty": 4,
     "base_casting_time": 1500,
     "final_casting_time": 500,
@@ -333,7 +333,7 @@
     "shape": "blast",
     "flags": [ "NO_LEGS", "SILENT", "NO_HANDS", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
-    "energy_source": "MANA",
+    "magic_type": "xedra_dream_magic",
     "spell_class": "EATER",
     "difficulty": 5,
     "base_casting_time": 1500,
@@ -369,7 +369,7 @@
     "final_energy_cost": 500,
     "energy_increment": -50,
     "max_level": { "math": [ "eater_level(1)" ] },
-    "energy_source": "MANA"
+    "magic_type": "xedra_dream_magic"
   },
   {
     "id": "spell_clairvoyance",
@@ -380,7 +380,7 @@
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "IGNORE_WALLS", "NO_LEGS", "NO_HANDS", "SILENT", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
-    "energy_source": "MANA",
+    "magic_type": "xedra_dream_magic",
     "spell_class": "EATER",
     "difficulty": 9,
     "max_level": { "math": [ "eater_level(1)" ] },
@@ -412,7 +412,7 @@
     "flags": [ "NO_LEGS", "NO_HANDS", "SILENT", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
     "spell_class": "EATER",
-    "energy_source": "MANA",
+    "magic_type": "xedra_dream_magic",
     "difficulty": 7,
     "base_casting_time": 1500,
     "final_casting_time": 500,
@@ -451,7 +451,7 @@
     "base_energy_cost": 300,
     "final_energy_cost": 90,
     "energy_increment": -7,
-    "energy_source": "MANA",
+    "magic_type": "xedra_dream_magic",
     "spell_class": "EATER",
     "min_aoe": 3,
     "max_aoe": 3
@@ -478,7 +478,7 @@
     "final_energy_cost": 500,
     "energy_increment": -30,
     "max_level": { "math": [ "eater_level(1)" ] },
-    "energy_source": "MANA"
+    "magic_type": "xedra_dream_magic"
   },
   {
     "id": "spell_weak",
@@ -493,7 +493,7 @@
     "flags": [ "NO_LEGS", "NO_HANDS", "SILENT", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
     "spell_class": "EATER",
-    "energy_source": "MANA",
+    "magic_type": "xedra_dream_magic",
     "difficulty": 5,
     "min_aoe": 3,
     "max_aoe": 60,
@@ -522,7 +522,7 @@
     "flags": [ "NO_LEGS", "NO_HANDS", "SILENT", "NO_EXPLOSION_SFX" ],
     "skill": "deduction",
     "spell_class": "EATER",
-    "energy_source": "MANA",
+    "magic_type": "xedra_dream_magic",
     "difficulty": 4,
     "base_casting_time": 300,
     "final_casting_time": 50,
@@ -536,6 +536,75 @@
     "duration_increment": { "math": [ "spell_time(time(' 2 m'))" ] }
   },
   {
+    "id": "xedra_eater_stabilize_reality",
+    "type": "SPELL",
+    "name": "Stabilize in Reality",
+    "description": "Prevent hostile adjustments to your personal reality and timeline.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "effect_xedra_eater_stabilize_reality",
+    "shape": "blast",
+    "flags": [ "NO_LEGS", "NO_HANDS", "SILENT", "NO_EXPLOSION_SFX" ],
+    "skill": "deduction",
+    "spell_class": "EATER",
+    "magic_type": "xedra_dream_magic",
+    "difficulty": 8,
+    "base_casting_time": 300,
+    "final_casting_time": 50,
+    "casting_time_increment": -9,
+    "base_energy_cost": 1000,
+    "final_energy_cost": 500,
+    "energy_increment": -14,
+    "max_level": { "math": [ "eater_level(1)" ] },
+    "min_duration": { "math": [ "spell_time(time(' 10 m'))" ] },
+    "max_duration": { "math": [ "spell_time(time(' 3 h'))" ] },
+    "duration_increment": { "math": [ "spell_time(time(' 6 m'))" ] }
+  },
+  {
+    "id": "xedra_eater_erosion",
+    "type": "SPELL",
+    "name": "Erosion",
+    "description": "Generate an unstable field of time close to your body that erodes creatures you attack in melee over time.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "effect_xedra_eater_erosion",
+    "shape": "blast",
+    "flags": [ "NO_LEGS", "NO_HANDS", "SILENT", "NO_EXPLOSION_SFX" ],
+    "skill": "deduction",
+    "spell_class": "EATER",
+    "magic_type": "xedra_dream_magic",
+    "difficulty": 10,
+    "base_casting_time": 600,
+    "final_casting_time": 100,
+    "casting_time_increment": -20,
+    "base_energy_cost": 1200,
+    "final_energy_cost": 600,
+    "energy_increment": -30,
+    "max_level": { "math": [ "eater_level(1)" ] },
+    "min_duration": { "math": [ "spell_time(time(' 5 m'))" ] },
+    "max_duration": { "math": [ "spell_time(time(' 2 h'))" ] },
+    "duration_increment": { "math": [ "spell_time(time(' 6 m'))" ] }
+  },
+  {
+    "id": "xedra_eater_erosion_attack",
+    "type": "SPELL",
+    "name": "Erosion - Attack",
+    "description": "This causes the dot when attacking targets with the erosion buff.  Having the spell is a bug.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_dot": { "math": [ "1 + u_spell_level('xedra_eater_erosion')/10" ] },
+    "max_dot": { "math": [ "1 + u_spell_level('xedra_eater_erosion')/10" ] },
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": { "math": [ "u_spell_level('xedra_eater_erosion')*100" ] },
+    "max_duration": { "math": [ "u_spell_level('xedra_eater_erosion')*100" ] },
+    "damage_type": "biological"
+  },
+  {
     "id": "point_blank",
     "type": "SPELL",
     "name": "Point Blank",
@@ -545,7 +614,7 @@
     "effect": "attack",
     "shape": "blast",
     "flags": [ "SILENT", "SOMATIC", "NO_EXPLOSION_SFX" ],
-    "energy_source": "MANA",
+    "magic_type": "xedra_dream_magic",
     "spell_class": "EATER",
     "skill": "deduction",
     "difficulty": 4,

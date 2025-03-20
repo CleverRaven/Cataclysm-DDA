@@ -7,7 +7,6 @@
       [ "farm_isherwood_6", "farm_isherwood_5", "farm_isherwood_4" ],
       [ "farm_isherwood_9", "farm_isherwood_8", "farm_isherwood_7" ]
     ],
-    "weight": 250,
     "object": {
       "faction_owner": [
         { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] },
@@ -94,7 +93,7 @@
         "F                                                                     F ",
         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF "
       ],
-      "terrain": { "│": "t_hole", "<": "t_ladder_up", ",": "t_woodchips" },
+      "terrain": { "│": "t_open_air", "<": "t_ladder_up", ",": "t_woodchips" },
       "place_item": [
         { "item": "straw_pile", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 8 ] },
         { "item": "cattlefodder", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 4 ] },
@@ -114,7 +113,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "farm_isherwood_2" ] ],
-    "weight": 250,
     "object": {
       "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -238,7 +236,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "farm_isherwood_3_hayloft", "farm_isherwood_2_roof" ] ],
-    "weight": 250,
     "object": {
       "faction_owner": [
         { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] },

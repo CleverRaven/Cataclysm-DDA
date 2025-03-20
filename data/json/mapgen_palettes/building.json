@@ -39,6 +39,7 @@
       ":": "t_wall_glass",
       "o": "t_window"
     },
+    "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "t": {  } }
   },
   {

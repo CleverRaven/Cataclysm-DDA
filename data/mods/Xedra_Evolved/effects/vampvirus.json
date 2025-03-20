@@ -27,8 +27,8 @@
               { "u_lose_trait": "VAMPIRIC_RESILIENCE" },
               { "u_lose_trait": "VAMPIRE_HEIGHTENED_SENSES" },
               { "u_lose_trait": "VAMPIRE_SILENT_MOVE" },
-              { "math": [ "u_spell_level('vampire_smell_nearby_blood_spell')", "=", "-1" ] },
-              { "math": [ "u_spell_level('vampire_stamina_for_blood_spell')", "=", "-1" ] },
+              { "math": [ "u_spell_level('vampire_smell_nearby_blood_spell') = -1" ] },
+              { "math": [ "u_spell_level('vampire_stamina_for_blood_spell') = -1" ] },
               { "u_message": "The light seems less bright and the air fresher.", "type": "good" }
             ]
           },
@@ -45,8 +45,8 @@
               { "u_lose_trait": "VAMPIRE_WALK_ON_WALLS" },
               { "u_lose_trait": "VAMPIRE_BEAST_CLAWS" },
               { "u_lose_trait": "VAMPIRE_SEE_HEAT" },
-              { "math": [ "u_spell_level('spell_blood_heal')", "=", "-1" ] },
-              { "math": [ "u_spell_level('vampire_fear_gaze_spell')", "=", "-1" ] },
+              { "math": [ "u_spell_level('spell_blood_heal') = -1" ] },
+              { "math": [ "u_spell_level('vampire_fear_gaze_spell') = -1" ] },
               {
                 "u_message": "You seem to be feeling a little better, but the thirst for blood remains.",
                 "type": "good"
@@ -65,9 +65,9 @@
               { "u_lose_trait": "MAGICFORBLOOD" },
               { "u_lose_trait": "VAMPIRE_COMMAND_BEAST" },
               { "u_lose_trait": "VAMPIRE_EARTH_SLUMBER" },
-              { "math": [ "u_spell_level('vampire_magic_for_blood_spell')", "=", "-1" ] },
-              { "math": [ "u_spell_level('spell_hypnotic_gaze')", "=", "-1" ] },
-              { "math": [ "u_spell_level('vampire_command_beast_spell')", "=", "-1" ] },
+              { "math": [ "u_spell_level('vampire_magic_for_blood_spell') = -1" ] },
+              { "math": [ "u_spell_level('spell_hypnotic_gaze') = -1" ] },
+              { "math": [ "u_spell_level('vampire_command_beast_spell') = -1" ] },
               {
                 "u_message": "You no longer instantly turn red in sunlight, but your skin is still concerningly pale.",
                 "type": "good"

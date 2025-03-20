@@ -1,6 +1,6 @@
 [
   {
-    "name": "test_event_mongroup",
+    "id": "test_event_mongroup",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_test_non_shearable", "weight": 50, "event": "christmas" },
@@ -12,7 +12,7 @@
     ]
   },
   {
-    "name": "test_event_only",
+    "id": "test_event_only",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_test_non_shearable", "weight": 50, "event": "christmas" },
@@ -21,7 +21,7 @@
     ]
   },
   {
-    "name": "test_default_monster",
+    "id": "test_default_monster",
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [
@@ -39,7 +39,7 @@
   },
   {
     "//": "Extends the test_default_monster group",
-    "name": "test_default_monster",
+    "id": "test_default_monster",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_test_CBM", "weight": 50 },
@@ -48,7 +48,7 @@
     ]
   },
   {
-    "name": "test_group_default_monster",
+    "id": "test_group_default_monster",
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [
@@ -58,7 +58,7 @@
     ]
   },
   {
-    "name": "test_l2_nested_mongroup",
+    "id": "test_l2_nested_mongroup",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_test_speed_desc_base", "weight": 50 },
@@ -66,7 +66,7 @@
     ]
   },
   {
-    "name": "test_l1_nested_mongroup",
+    "id": "test_l1_nested_mongroup",
     "type": "monstergroup",
     "monsters": [
       { "group": "test_l2_nested_mongroup", "weight": 5 },
@@ -75,7 +75,7 @@
     ]
   },
   {
-    "name": "test_top_level_mongroup",
+    "id": "test_top_level_mongroup",
     "type": "monstergroup",
     "monsters": [
       { "group": "test_l1_nested_mongroup", "weight": 5 },
@@ -84,32 +84,32 @@
     ]
   },
   {
-    "name": "test_nested_packsize",
+    "id": "test_nested_packsize",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_test_CBM", "pack_size": [ 2, 4 ] } ]
   },
   {
-    "name": "test_top_level_packsize",
+    "id": "test_top_level_packsize",
     "type": "monstergroup",
     "monsters": [ { "group": "test_nested_packsize", "pack_size": [ 4, 6 ] } ]
   },
   {
-    "name": "test_top_level_no_packsize",
+    "id": "test_top_level_no_packsize",
     "type": "monstergroup",
     "monsters": [ { "group": "test_nested_packsize" } ]
   },
   {
-    "name": "test_upgrades_multi",
+    "id": "test_upgrades_multi",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_test_shearable", "pack_size": [ 4, 6 ] } ]
   },
   {
-    "name": "test_upgrades_multi_null",
+    "id": "test_upgrades_multi_null",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_null" }, { "monster": "mon_test_zombie_cop", "pack_size": [ 4, 6 ], "starts": "2 days" } ]
   },
   {
-    "name": "test_upgrades_multi_late",
+    "id": "test_upgrades_multi_late",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_test_shearable", "pack_size": [ 4, 6 ], "starts": "7 days" },

@@ -4,7 +4,6 @@
     "method": "json",
     "om_terrain": [ "lmoe" ],
     "//": "Above ground",
-    "weight": 100,
     "object": {
       "rows": [
         "       S     S         S",
@@ -40,7 +39,6 @@
     "method": "json",
     "om_terrain": [ "lmoe_roof" ],
     "//": "Above ground",
-    "weight": 100,
     "object": {
       "fill_ter": "t_region_groundcover_barren",
       "rows": [
@@ -214,7 +212,6 @@
     "om_terrain": [ "lmoe_prepperquest" ],
     "//": "Above ground",
     "//2": "The front door to this LMOE is locked and can be unlocked by doing the prepper_1 quest line.",
-    "weight": 100,
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
@@ -254,7 +251,6 @@
     "om_terrain": [ "lmoe_under_empty_prepperquest" ],
     "//": "This particular 2-bed shelter is a more professionally done, all metal bomb shelter with kitchen, secret safe room / gun locker, and workshop.",
     "//2": "This terrain is the destination for the prepper_1 quest.  The front door is locked and can be unlocked by completing the quest.",
-    "weight": 100,
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
@@ -293,7 +289,6 @@
     "//": "Stocked up LMOE shelter.",
     "//2": "This particular 2-bed shelter is a more professionally done, all metal bomb shelter with kitchen, secret safe room / gun locker, and workshop.",
     "//3": "For now this is just filler terrain, it shouldn't spawn in game.",
-    "weight": 50,
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
@@ -331,7 +326,6 @@
     "om_terrain": [ "lmoe_zombie" ],
     "//": "Above ground",
     "//2": "blob psychosis influences more aggressive deterrents for intruders",
-    "weight": 100,
     "object": {
       "rows": [
         "       S     S         S",

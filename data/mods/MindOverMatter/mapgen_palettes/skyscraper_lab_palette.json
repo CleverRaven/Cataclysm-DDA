@@ -64,7 +64,13 @@
       "t": "f_table",
       "T": "f_toilet",
       "x": "f_console_broken",
-      "X": "f_generator_broken",
+      "X": [
+        [ "f_generator_broken", 25 ],
+        [ "f_portable_generator", 5 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "y": "f_locker",
       "Y": "f_rack_coat"
     },
@@ -75,9 +81,10 @@
       "r": [ { "item": "office_supplies", "chance": 65, "repeat": [ 1, 10 ] } ],
       "y": { "item": "SUS_janitors_closet", "chance": 90 },
       "Y": { "item": "coat_rack", "chance": 90 },
-      "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] },
+      "a": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 2, 5 ] },
       "t": { "item": "dining", "chance": 40, "repeat": [ 1, 2 ] },
       "F": { "item": "SUS_office_filing_cabinet", "chance": 70 },
+      "T": { "item": "SUS_toilet", "chance": 50 },
       ".": { "item": "office_mess", "chance": 1 }
     },
     "vendingmachines": {

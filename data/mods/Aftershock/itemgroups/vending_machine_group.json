@@ -20,8 +20,8 @@
     "subtype": "collection",
     "id": "afs_vending_ballistic_ammo",
     "entries": [
-      { "group": "afs_civilian_ballistic_s_ammo", "count": [ 5, 20 ], "container-item": "ammo_box_2" },
-      { "group": "afs_civilian_ballistic_m_ammo", "count": [ 5, 20 ], "container-item": "ammo_box_4" },
+      { "group": "afs_civilian_ballistic_s_ammo", "count": [ 5, 20 ], "container-item": "box_small_metal" },
+      { "group": "afs_civilian_ballistic_m_ammo", "count": [ 5, 20 ], "container-item": "box_small_metal" },
       {
         "group": "afs_civilian_ballistic_h_ammo",
         "prob": 40,
@@ -57,6 +57,16 @@
       [ "afs_soup_27", 50 ],
       [ "afs_caffex", 50 ],
       [ "afs_loop_fruit", 50 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "plut_cell_vending",
+    "subtype": "collection",
+    "items": [
+      { "item": "plut_cell", "prob": 80 },
+      { "item": "plut_cell", "prob": 20, "count": [ 0, 1 ] },
+      { "item": "plut_cell", "prob": 3, "count": [ 2, 5 ] }
     ]
   }
 ]

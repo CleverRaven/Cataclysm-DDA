@@ -16,7 +16,6 @@
 #include "enum_conversions.h"
 #include "enum_traits.h"
 #include "flag.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "inventory.h"
@@ -113,20 +112,10 @@ template void comp_selection<item_comp>::serialize( JsonOut &jsout ) const;
 template void comp_selection<tool_comp>::deserialize( const JsonObject &data );
 template void comp_selection<item_comp>::deserialize( const JsonObject &data );
 
-void craft_command::execute( const std::optional<tripoint> &new_loc )
-{
-    loc = new_loc;
-
-    execute();
-}
-
 void craft_command::execute( const std::optional<tripoint_bub_ms> &new_loc )
 {
-    std::optional<tripoint> tmp;
-    if( new_loc.has_value() ) {
-        tmp = new_loc.value().raw();
-    }
-    craft_command::execute( tmp );
+    loc = new_loc;
+    execute();
 }
 
 void craft_command::execute( bool only_cache_comps )
@@ -137,7 +126,7 @@ void craft_command::execute( bool only_cache_comps )
 
     bool need_selections = true;
     inventory map_inv;
-    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE, crafter );
+    map_inv.form_from_map( crafter->pos_bub(), PICKUP_RANGE, crafter );
 
     if( has_cached_selections() ) {
         std::vector<comp_selection<item_comp>> missing_items = check_item_components_missing( map_inv );
@@ -299,7 +288,7 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
                 crafter->i_add_or_drop( iit );
             }
             for( auto &vit : veh_items ) {
-                vit.first.vehicle().add_item( vit.first.part(), vit.second );
+                vit.first.vehicle().add_item( m, vit.first.part(), vit.second );
             }
         };
 
@@ -449,7 +438,7 @@ item craft_command::create_in_progress_craft()
     }
 
     inventory map_inv;
-    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE, crafter );
+    map_inv.form_from_map( crafter->pos_bub(), PICKUP_RANGE, crafter );
 
     if( !check_item_components_missing( map_inv ).empty() ) {
         debugmsg( "Aborting crafting: couldn't find cached components" );

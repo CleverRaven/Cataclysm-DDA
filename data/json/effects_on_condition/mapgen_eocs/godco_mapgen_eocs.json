@@ -5,7 +5,7 @@
     "global": false,
     "effect": [
       { "mapgen_update": "darryl_place_coop", "om_terrain": "godco_7", "target_var": { "context_val": "search_locale" } },
-      { "math": [ "darryl_building_coop", "=", "2" ] }
+      { "math": [ "darryl_building_coop = 2" ] }
     ]
   },
   {
@@ -14,7 +14,7 @@
     "global": false,
     "effect": [
       { "mapgen_update": "place_herb_garden", "om_terrain": "godco_1_2", "target_var": { "context_val": "search_locale" } },
-      { "math": [ "kostas_building_garden", "=", "2" ] }
+      { "math": [ "kostas_building_garden = 2" ] }
     ]
   },
   {
@@ -63,7 +63,7 @@
         "om_terrain": "godco_9",
         "target_var": { "context_val": "search_locale" }
       },
-      { "math": [ "wall_in_progress", "=", "2" ] }
+      { "math": [ "wall_in_progress = 2" ] }
     ]
   },
   {
@@ -78,7 +78,7 @@
         "om_terrain": "forest_thick",
         "target_var": { "context_val": "search_locale" }
       },
-      { "math": [ "godco_warehouse_in_progress", "=", "2" ] }
+      { "math": [ "godco_warehouse_in_progress = 2" ] }
     ]
   }
 ]

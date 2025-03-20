@@ -34,7 +34,7 @@
     "id": "stoner",
     "type": "item_group",
     "//": "Processed weed and weed accessories",
-    "items": [ [ "joint", 100 ], [ "joint_roach", 20 ], [ "pipe_glass", 10 ] ]
+    "items": [ [ "joint", 100 ], [ "joint_roach", 20 ], [ "pipe_glass", 10 ], [ "pipe_water", 10 ] ]
   },
   {
     "id": "butane_lighter_and_fuel",
@@ -229,7 +229,7 @@
       { "item": "coin_quarter", "prob": 5 },
       { "item": "RPG_die", "prob": 5 },
       { "item": "metal_RPG_die", "prob": 1 },
-      { "item": "memory_card_unread", "count": [ 1, 5 ], "prob": 30 }
+      { "group": "civilian_memory_cards", "count": [ 1, 2 ], "prob": 30 }
     ]
   },
   {

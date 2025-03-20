@@ -3,7 +3,7 @@
     "id": "EOC_Nunez_Travel_To_Tacoma",
     "type": "effect_on_condition",
     "effect": [
-      { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] },
+      { "math": [ "u_counter_refugee_center_refugee_happiness++" ] },
       {
         "mapgen_update": "tacoma_nunez_trailer_arrive",
         "om_terrain": "ranch_camp_55",

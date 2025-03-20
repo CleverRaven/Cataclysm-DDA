@@ -4,7 +4,7 @@
     "id": "EOC_MOM_GAMESTART_TELEKINESIS_LIFTING_FIELD_UPDATE",
     "eoc_type": "EVENT",
     "required_event": "game_start",
-    "effect": [ { "math": [ "u_telekinesis_lifting_field_updated", "=", "1" ] } ]
+    "effect": [ { "math": [ "u_telekinesis_lifting_field_updated = 1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -22,9 +22,9 @@
         "popup": true
       },
       {
-        "math": [ "u_spell_level('telekinetic_lifting_field')", "=", "(u_spell_level_sum('school': 'TELEKINETIC') / 8) + 1" ]
+        "math": [ "u_spell_level('telekinetic_lifting_field') = (u_spell_level_sum('school': 'TELEKINETIC') / 8) + 1" ]
       },
-      { "math": [ "u_telekinesis_lifting_field_updated", "=", "1" ] }
+      { "math": [ "u_telekinesis_lifting_field_updated = 1" ] }
     ]
   }
 ]

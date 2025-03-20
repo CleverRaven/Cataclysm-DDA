@@ -323,7 +323,7 @@
     "dissect": "dissect_gastropod_sample_large",
     "zombify_into": "mon_meat_cocoon_large",
     "delete": { "flags": [ "HIT_AND_RUN" ], "fear_triggers": [ "FIRE" ] },
-    "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF", "NOHEAD", "STUN_IMMUNE", "FIREPROOF" ] },
+    "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF", "NOHEAD", "STUN_IMMUNE", "FIREPROOF", "PULP_PRYING" ] },
     "armor": { "bash": 22, "cut": 45, "stab": 30, "heat": 50, "bullet": 70, "electric": 6 }
   }
 ]

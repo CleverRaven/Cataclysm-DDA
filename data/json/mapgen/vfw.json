@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_vfw" ],
-    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -32,11 +31,11 @@
         "3           522ZZ      3",
         "333333333333333333333333"
       ],
-      "palettes": [ "parametrized_walls_palette" ],
+      "palettes": [ "parametrized_linoleum_palette", "parametrized_walls_palette" ],
       "terrain": {
         ".": "t_floor",
-        "d": "t_linoleum_gray",
-        ";": "t_linoleum_gray",
+        "d": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
+        ";": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "+": "t_door_c",
         "X": "t_region_groundcover_urban",
         "S": "t_region_groundcover_urban",
@@ -74,7 +73,7 @@
         "O": { "item": "SUS_oven", "chance": 100 },
         "D": { "item": "SUS_kitchen_sink", "chance": 100 },
         "e": { "item": "SUS_fridge_breakroom", "chance": 80 },
-        "Z": { "item": "trash", "chance": 70, "repeat": [ 1, 4 ] },
+        "Z": { "item": "SUS_trash_dumpster", "chance": 70, "repeat": [ 1, 4 ] },
         "U": [
           { "item": "SUS_silverware", "chance": 100 },
           { "item": "SUS_dishes", "chance": 100 },

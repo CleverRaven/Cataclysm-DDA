@@ -212,38 +212,5 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_traps" }, { "proficiency": "prof_trapsetting" } ],
     "components": [ [ [ "grenade", 1 ] ], [ [ "clay_canister", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "landmine",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TRAPS",
-    "skill_used": "traps",
-    "skills_required": [ "mechanics", 3 ],
-    "difficulty": 5,
-    "time": "30 m",
-    "reversible": true,
-    "book_learn": [ [ "manual_traps_mil", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_traps" }, { "proficiency": "prof_trapsetting" } ],
-    "components": [
-      [ [ "super_glue", 150 ], [ "duct_tape", 75 ] ],
-      [ [ "scrap", 3 ], [ "steel_chunk", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
-      [ [ "bb", 200 ], [ "nails", 100, "LIST" ] ],
-      [
-        [ "gunpowder", 720 ],
-        [ "chem_black_powder", 720 ],
-        [ "shot_bird", 24 ],
-        [ "shot_00", 12 ],
-        [ "shot_slug", 12 ],
-        [ "shot_flechette", 12 ],
-        [ "shot_he", 3 ],
-        [ "gasoline", 600 ],
-        [ "diesel", 600 ],
-        [ "biodiesel", 600 ],
-        [ "grenade", 1 ]
-      ]
-    ]
   }
 ]

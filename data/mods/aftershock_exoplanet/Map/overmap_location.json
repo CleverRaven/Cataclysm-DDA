@@ -2,6 +2,6 @@
   {
     "type": "overmap_location",
     "id": "subterranean_empty",
-    "terrains": [ "deep_rock", "solid_glacier", "empty_rock", "rock", "solid_earth" ]
+    "terrains": [ "deep_rock", "solid_glacier", "empty_rock", "solid_earth" ]
   }
 ]

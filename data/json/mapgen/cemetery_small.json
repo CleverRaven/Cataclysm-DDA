@@ -42,8 +42,8 @@
       },
       "furniture": { "&": "f_trashcan", "b": "f_bench", "R": "f_grave_head", "c": "f_statue" },
       "place_items": [
-        { "item": "trash", "x": [ 14, 15 ], "y": 17, "chance": 60 },
-        { "item": "trash", "x": 9, "y": 6, "chance": 60 },
+        { "item": "SUS_trash_trashcan_public", "x": [ 14, 15 ], "y": 17, "chance": 60 },
+        { "item": "SUS_trash_trashcan_public", "x": 9, "y": 6, "chance": 60 },
         { "item": "alcohol", "x": 9, "y": 7, "chance": 15 }
       ],
       "place_monsters": [

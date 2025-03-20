@@ -70,152 +70,152 @@
     "clauses": [
       {
         "id": "full30",
-        "text": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇</color>",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇</color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "96.67" ] }
       },
       {
         "id": "full29",
-        "text": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▅</color>",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▅</color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "93.33" ] }
       },
       {
         "id": "full28",
-        "text": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▂</color>",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▂</color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "90.00" ] }
       },
       {
         "id": "full27",
-        "text": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇  </color>",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇  </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "86.67" ] }
       },
       {
         "id": "full26",
-        "text": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▅  </color>",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▅  </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "83.33" ] }
       },
       {
         "id": "full25",
-        "text": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▂  </color>",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▂  </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "80.00" ] }
       },
       {
         "id": "full24",
-        "text": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇    </color>",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇    </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "76.67" ] }
       },
       {
         "id": "full23",
-        "text": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▅    </color>",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▅    </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "73.33" ] }
       },
       {
         "id": "full22",
-        "text": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▂    </color>",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▂    </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "70.00" ] }
       },
       {
         "id": "full21",
-        "text": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇      </color>",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▇      </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "66.67" ] }
       },
       {
         "id": "full20",
-        "text": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▅      </color>",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▅      </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "63.33" ] }
       },
       {
         "id": "full19",
-        "text": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▂      </color>",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇ ▂      </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "60.00" ] }
       },
       {
         "id": "full18",
-        "text": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇        </color>",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▇        </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "56.67" ] }
       },
       {
         "id": "full17",
-        "text": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▅        </color>",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▅        </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "53.33" ] }
       },
       {
         "id": "full16",
-        "text": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▂        </color>",
+        "text": { "str": "<color_light_cyan>▇ ▇ ▇ ▇ ▇ ▂        </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "50.00" ] }
       },
       {
         "id": "full15",
-        "text": "<color_yellow>▇ ▇ ▇ ▇ ▇          </color>",
+        "text": { "str": "<color_yellow>▇ ▇ ▇ ▇ ▇          </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "46.67" ] }
       },
       {
         "id": "full14",
-        "text": "<color_yellow>▇ ▇ ▇ ▇ ▅          </color>",
+        "text": { "str": "<color_yellow>▇ ▇ ▇ ▇ ▅          </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "43.33" ] }
       },
       {
         "id": "full13",
-        "text": "<color_yellow>▇ ▇ ▇ ▇ ▂          </color>",
+        "text": { "str": "<color_yellow>▇ ▇ ▇ ▇ ▂          </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "40.00" ] }
       },
       {
         "id": "full12",
-        "text": "<color_yellow>▇ ▇ ▇ ▇            </color>",
+        "text": { "str": "<color_yellow>▇ ▇ ▇ ▇            </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "36.67" ] }
       },
       {
         "id": "full11",
-        "text": "<color_yellow>▇ ▇ ▇ ▅            </color>",
+        "text": { "str": "<color_yellow>▇ ▇ ▇ ▅            </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "33.33" ] }
       },
       {
         "id": "full10",
-        "text": "<color_yellow>▇ ▇ ▇ ▂            </color>",
+        "text": { "str": "<color_yellow>▇ ▇ ▇ ▂            </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "30.00" ] }
       },
       {
         "id": "full9",
-        "text": "<color_yellow>▇ ▇ ▇              </color>",
+        "text": { "str": "<color_yellow>▇ ▇ ▇              </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "26.67" ] }
       },
       {
         "id": "full8",
-        "text": "<color_light_red>▇ ▇ ▅              </color>",
+        "text": { "str": "<color_light_red>▇ ▇ ▅              </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "23.33" ] }
       },
       {
         "id": "full7",
-        "text": "<color_light_red>▇ ▇ ▂              </color>",
+        "text": { "str": "<color_light_red>▇ ▇ ▂              </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "20.00" ] }
       },
       {
         "id": "full6",
-        "text": "<color_light_red>▇ ▇                </color>",
+        "text": { "str": "<color_light_red>▇ ▇                </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "16.67" ] }
       },
       {
         "id": "full5",
-        "text": "<color_light_red>▇ ▅                </color>",
+        "text": { "str": "<color_light_red>▇ ▅                </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "13.33" ] }
       },
       {
         "id": "full4",
-        "text": "<color_light_red>▇ ▂                </color>",
+        "text": { "str": "<color_light_red>▇ ▂                </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "10.00" ] }
       },
       {
         "id": "full3",
-        "text": "<color_light_red>▇                  </color>",
+        "text": { "str": "<color_light_red>▇                  </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "6.67" ] }
       },
       {
         "id": "full2",
-        "text": "<color_light_red>▅                  </color>",
+        "text": { "str": "<color_light_red>▅                  </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">=", "3.33" ] }
       },
       {
         "id": "full1",
-        "text": "<color_light_red>▂                  </color>",
+        "text": { "str": "<color_light_red>▂                  </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_ratio", ">", "0.00" ] }
       },
       {
@@ -235,52 +235,52 @@
     "clauses": [
       {
         "id": "full10",
-        "text": "<color_red>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇</color>",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇</color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_power_ratio", ">=", "90" ] }
       },
       {
         "id": "full9",
-        "text": "<color_red>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇  </color>",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇  </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_power_ratio", ">=", "80" ] }
       },
       {
         "id": "full8",
-        "text": "<color_red>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇    </color>",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇ ▇ ▇ ▇    </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_power_ratio", ">=", "70" ] }
       },
       {
         "id": "full7",
-        "text": "<color_red>▇ ▇ ▇ ▇ ▇ ▇ ▇      </color>",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇ ▇ ▇      </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_power_ratio", ">=", "60" ] }
       },
       {
         "id": "full6",
-        "text": "<color_red>▇ ▇ ▇ ▇ ▇ ▇        </color>",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇ ▇        </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_power_ratio", ">=", "50" ] }
       },
       {
         "id": "full5",
-        "text": "<color_red>▇ ▇ ▇ ▇ ▇          </color>",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇ ▇          </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_power_ratio", ">=", "40" ] }
       },
       {
         "id": "full4",
-        "text": "<color_red>▇ ▇ ▇ ▇            </color>",
+        "text": { "str": "<color_red>▇ ▇ ▇ ▇            </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_power_ratio", ">=", "30" ] }
       },
       {
         "id": "full3",
-        "text": "<color_red>▇ ▇ ▇              </color>",
+        "text": { "str": "<color_red>▇ ▇ ▇              </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_power_ratio", ">=", "20" ] }
       },
       {
         "id": "full2",
-        "text": "<color_red>▇ ▇                </color>",
+        "text": { "str": "<color_red>▇ ▇                </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_power_ratio", ">=", "10" ] }
       },
       {
         "id": "full1",
-        "text": "<color_red>▇                  </color>",
+        "text": { "str": "<color_red>▇                  </color>", "//~": "NO_I18N" },
         "condition": { "math": [ "u_shield_power_ratio", ">", "0" ] }
       },
       {

@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "sai" ],
-    "weight": 10,
     "object": {
       "rows": [
         "........................",

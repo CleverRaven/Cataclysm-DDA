@@ -34,5 +34,13 @@
   {
     "id": "EOC_Nunez_Travel",
     "type": "effect_on_condition"
+  },
+  {
+    "id": "EOC_vitrified_farm_entry",
+    "type": "effect_on_condition"
+  },
+  {
+    "id": "scenario_assassin_convict",
+    "type": "effect_on_condition"
   }
 ]

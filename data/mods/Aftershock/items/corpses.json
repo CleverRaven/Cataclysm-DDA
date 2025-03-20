@@ -175,19 +175,11 @@
   },
   {
     "type": "GENERIC",
-    "id": "broken_milbot_556",
+    "id": "broken_imaginifer",
     "copy-from": "broken_milbot_disarmed",
     "color": "light_gray",
     "name": "broken Imaginifer",
     "description": "A broken military humaniform, shattered and inert.  While it looks nowhere near human, you still feel uneasy - as if it is studying you with its eyes.  Could be stripped for parts."
-  },
-  {
-    "type": "GENERIC",
-    "id": "broken_milbot_needle",
-    "copy-from": "broken_milbot_disarmed",
-    "color": "light_gray",
-    "name": "broken Hashashiyyin",
-    "description": "A broken Hashashiyyin, shattered and inert.  While it looks nowhere near human, you still feel uneasy - as if it is studying you with its eyes.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",
@@ -200,18 +192,10 @@
   {
     "type": "GENERIC",
     "id": "broken_eyebot_heater",
-    "copy-from": "afs_broken_eyebot",
+    "copy-from": "broken_afs_eyebot",
     "color": "pink",
     "name": "broken floating heater",
     "description": "A broken floating heater, now cold and motionless.  Could be stripped down or re-crafted."
-  },
-  {
-    "type": "GENERIC",
-    "id": "broken_defbot_shot",
-    "copy-from": "broken_defbot_disarmed",
-    "color": "light_gray",
-    "name": { "str": "broken Aegis", "str_pl": "broken Aegises" },
-    "description": "A broken defense robot.  Could be gutted for parts or crafted into a salvaged robot."
   },
   {
     "type": "GENERIC",
@@ -327,7 +311,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "afs_broken_eyebot",
+    "id": "broken_afs_eyebot",
     "symbol": ",",
     "color": "green",
     "name": { "str": "broken eyebot" },
@@ -344,7 +328,41 @@
   },
   {
     "type": "GENERIC",
-    "id": "afs_broken_copbot",
+    "id": "broken_shock_mine",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "spent shock-mine" },
+    "category": "other",
+    "description": "A spent shock-mine, inert and harmless.  Cannot be recharged, but some of its components could be recycled.",
+    "price": "100 USD",
+    "price_postapoc": "100 USD",
+    "material": [ "qt_steel", "plastic" ],
+    "volume": "1 L",
+    "weight": "1200 g",
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 4, "cut": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_zenit",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken zenit drone" },
+    "category": "other",
+    "description": "A broken zenit security drone.  Could be disassembled for robotic components and heavy armor.",
+    "price": "100 USD",
+    "price_postapoc": "100 USD",
+    "material": [ "qt_steel", "vacuum_carbide" ],
+    "volume": "60 L",
+    "weight": "120 kg",
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 4, "cut": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_afs_copbot",
     "symbol": ",",
     "color": "green",
     "name": { "str": "broken police bot" },
@@ -361,7 +379,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "afs_broken_riotbot",
+    "id": "broken_afs_riotbot",
     "symbol": ",",
     "color": "green",
     "name": { "str": "broken riot control bot" },

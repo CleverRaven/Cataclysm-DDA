@@ -14,13 +14,13 @@
     {
       "text": "Switch to controlling this follower",
       "condition": { "u_has_trait": "AFS_LEADERSHIP" },
-      "effect": [ { "math": [ "afs_leadership_act", "=", "1" ] }, "take_control" ],
+      "effect": [ { "math": [ "afs_leadership_act = 1" ] }, "take_control" ],
       "topic": "TALK_DONE"
     },
     {
       "text": "Switch to controlling your party leader.",
       "condition": { "npc_has_trait": "AFS_LEADERSHIP" },
-      "effect": [ { "math": [ "afs_leadership_act", "=", "0" ] }, "take_control" ],
+      "effect": [ { "math": [ "afs_leadership_act = 0" ] }, "take_control" ],
       "topic": "TALK_DONE"
     }
   ]

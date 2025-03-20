@@ -190,7 +190,13 @@
       "E": "f_exercise",
       "F": "f_fridge",
       "f": "f_sofa",
-      "G": "f_generator_broken",
+      "G": [
+        [ "f_generator_broken", 25 ],
+        [ "f_portable_generator", 5 ],
+        [ "f_diesel_generator", 5 ],
+        [ "f_military_generator", 5 ],
+        [ "f_12000_gasoline_generator", 5 ]
+      ],
       "h": "f_chair",
       "H": "f_water_heater",
       "K": "f_sink",
@@ -215,6 +221,7 @@
       "{": "f_rack",
       "}": "f_bookcase"
     },
+    "items": { "t": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "t": {  } }
   },
   {
@@ -240,7 +247,7 @@
       "w": { "item": "allclothes", "chance": 80, "repeat": [ 2, 4 ] },
       "Y": [ { "item": "jackets", "chance": 15 }, { "item": "hatstore_hats", "chance": 15 }, { "item": "winter", "chance": 10 } ],
       "^": { "item": "shelter", "chance": 30 },
-      "{": [ { "item": "lmoe_guns", "chance": 80 }, { "item": "ammo", "chance": 5, "repeat": [ 3, 7 ] } ],
+      "{": [ { "item": "lmoe_guns", "chance": 80 }, { "item": "ammo_common_boxed", "chance": 5, "repeat": [ 3, 7 ] } ],
       "}": { "item": "novels", "chance": 90, "repeat": [ 3, 8 ] }
     }
   },

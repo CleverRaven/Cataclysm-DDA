@@ -23,6 +23,17 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_giant_heron_ridable",
+    "name": { "str": "aenorhi egg" },
+    "copy-from": "egg_chicken",
+    "description": "A large egg laid by an aenor.  You could feed a lot of people with this.",
+    "quench": 14,
+    "calories": 2100,
+    "volume": "1800 ml",
+    "rot_spawn": { "monster": "mon_giant_heron_ridable_chick", "chance": 75 }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "whiskey",
     "name": { "str_sp": "whiskey" },
     "copy-from": "whiskey",

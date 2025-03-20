@@ -67,6 +67,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "afs_7.50mm_smart",
+    "name": "7.50mm microjet",
+    "default": "afs_7.50mm_smart"
+  },
+  {
+    "type": "ammunition_type",
     "id": "afs_82mm_flashbulb",
     "name": "82x225mm flashbulb",
     "default": "afs_82mm_flashbulb"

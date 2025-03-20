@@ -1,7 +1,7 @@
 [
   {
     "type": "monstergroup",
-    "name": "GROUP_FUNGI_DINO",
+    "id": "GROUP_FUNGI_DINO",
     "monsters": [
       { "monster": "mon_zilophosaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zeratosaurus_fungus", "starts": "3 days" },
@@ -16,6 +16,7 @@
       { "monster": "mon_zanuqsaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zaspletosaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zyrannosaurus_fungus", "starts": "6 days" },
+      { "monster": "mon_zedcolbertia_fungus", "starts": "3 days" },
       { "monster": "mon_zallimimus_fungus", "starts": "3 days" },
       { "monster": "mon_ztruthiomimus_fungus", "starts": "3 days" },
       { "monster": "mon_zornithomimus_fungus", "starts": "3 days" },
@@ -27,6 +28,7 @@
       { "monster": "mon_zarahsaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zanchisaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zissi_fungus", "starts": "3 days" },
+      { "monster": "mon_zoabosaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zaplocanthosaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zamargasaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zapatosaurus_fungus", "starts": "3 days" },
@@ -77,6 +79,7 @@
       { "monster": "mon_zosmoceratops_fungus", "starts": "3 days" },
       { "monster": "mon_zorosaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zriceratops_fungus", "starts": "3 days" },
+      { "monster": "mon_zona_fungus", "starts": "3 days" },
       { "monster": "mon_zescelosaurus_fungus", "starts": "3 days" },
       { "monster": "mon_zteranodon_fungus", "starts": "3 days" },
       { "monster": "mon_zuetzalcoatlus_fungus", "starts": "3 days" }
@@ -84,12 +87,12 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FUNGI_TOWER",
+    "id": "GROUP_FUNGI_TOWER",
     "monsters": [ { "group": "GROUP_FUNGI_DINO", "weight": 200 } ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_FUNGI_FLOWERS",
+    "id": "GROUP_FUNGI_FLOWERS",
     "monsters": [ { "group": "GROUP_FUNGI_DINO", "weight": 200 } ]
   }
 ]

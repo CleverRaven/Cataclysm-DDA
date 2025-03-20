@@ -674,6 +674,18 @@
   },
   {
     "type": "mutation",
+    "id": "DEATH_IS_BUT_A_DOOR",
+    "name": { "str": "Death Is But A Door" },
+    "points": 7,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "One person may die, but their compatriots will carry their torch.  You too will have your legacy maintained if you die, but in a way far less metaphorical.  When you die, you will reincarnate within any nearby human, immediately shifting their form to match your own.  You will not be able to do this more than once per month.",
+    "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "//": "An ability that allows the Homullus to be reborn instantly upon death in a nearby feral monster or npc.  If one is not nearby the power will fail."
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_DOLL_FORM",
     "name": { "str": "Mien of the Mannequin" },
     "points": 8,
