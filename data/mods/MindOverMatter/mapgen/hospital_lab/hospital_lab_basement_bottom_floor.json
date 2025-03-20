@@ -4,16 +4,16 @@
     "method": "json",
     "om_terrain": [
       [
-        "phavian_hospital_main_floor_z3_nw_upper",
-        "phavian_hospital_main_floor_z3_ncw_upper",
-        "phavian_hospital_main_floor_z3_nce_upper",
-        "phavian_hospital_main_floor_z3_ne_upper"
+        "phavian_hospital_main_floor_z4_nw_lower",
+        "phavian_hospital_main_floor_z4_ncw_lower",
+        "phavian_hospital_main_floor_z4_nce_lower",
+        "phavian_hospital_main_floor_z4_ne_lower"
       ],
       [
-        "phavian_hospital_main_floor_z3_sw_upper",
-        "phavian_hospital_main_floor_z3_scw_upper",
-        "phavian_hospital_main_floor_z3_sce_upper",
-        "phavian_hospital_main_floor_z3_se_upper"
+        "phavian_hospital_main_floor_z4_sw_lower",
+        "phavian_hospital_main_floor_z4_scw_lower",
+        "phavian_hospital_main_floor_z4_sce_lower",
+        "phavian_hospital_main_floor_z4_se_lower"
       ]
     ],
     "weight": 250,
@@ -100,7 +100,7 @@
         "N": { "item": "hospital_lab", "chance": 40 },
         "d": { "item": "dissection", "chance": 30 },
         "M": { "item": "oven", "chance": 90, "repeat": [ 1, 2 ] },
-        "z": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
+        "z": { "item": "SUS_trash_trashcan", "chance": 80, "repeat": [ 1, 2 ] },
         "C": { "item": "office_paper", "chance": 60, "repeat": [ 1, 2 ] },
         "V": { "item": "waitingroom", "chance": 40, "repeat": [ 1, 2 ] },
         "v": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
