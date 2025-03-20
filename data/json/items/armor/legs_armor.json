@@ -16,7 +16,7 @@
     "color": "brown",
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "OUTER", "WATER_FRIENDLY" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -240,7 +240,7 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "BLOCK_WHILE_WORN" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -656,7 +656,7 @@
     "color": "brown",
     "warmth": 18,
     "material_thickness": 5,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -785,7 +785,7 @@
     "color": "yellow",
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "OUTER", "STURDY" ],
+    "flags": [ "OUTER", "STURDY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -831,7 +831,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "OUTER", "WATER_FRIENDLY" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -860,7 +860,7 @@
     "color": "light_gray",
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -905,7 +905,7 @@
     "color": "light_gray",
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "OUTER", "WATER_FRIENDLY" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -952,7 +952,7 @@
     "warmth": 10,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "OUTER", "WATER_FRIENDLY" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -992,7 +992,7 @@
     "warmth": 10,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "OUTER", "WATER_FRIENDLY" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -1180,7 +1180,7 @@
     "looks_like": "legguard_metal",
     "color": "light_gray",
     "warmth": 10,
-    "flags": [ "OUTER", "ALLOWS_TAIL" ],
+    "flags": [ "OUTER", "ALLOWS_TAIL", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "material": [
@@ -1226,7 +1226,7 @@
     "color": "light_gray",
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "OUTER", "NONCONDUCTIVE" ],
+    "flags": [ "OUTER", "NONCONDUCTIVE", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -1342,7 +1342,7 @@
     "color": "light_blue",
     "warmth": 20,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS" ],
+    "flags": [ "VARSIZE", "POCKETS", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "encumbrance": [ 12, 16 ],
