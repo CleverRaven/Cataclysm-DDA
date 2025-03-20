@@ -138,7 +138,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_ADD_WEAKNESSES",
     "//": "This EOC checks how many weaknesses the player should gain when reshuffling.  Gaining the traits run the weakness-giving EOC directly.",
-    "//": "Tier 3 grants 1 weakness, Tier 4 grants 1 more, Tier 5 grants two more.",
+    "//2": "Tier 3 grants 1 weakness, Tier 4 grants 1 more, Tier 5 grants two more.",
     "effect": [
       {
         "run_eocs": [
@@ -190,7 +190,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_ADD_ONE_WEAKNESS_FAIL",
-    "effect": [ { "u_message": "The EOC failed to give you a weakness.  Please report this on Github.", "popup": "true" } ]
+    "effect": [ { "u_message": "The EOC failed to give you a weakness.  Please report this on Github.", "popup": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -1766,8 +1766,8 @@
     "type": "effect_on_condition",
     "condition": { "u_has_trait": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD" },
     "deactivate_condition": { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD" } },
-    "recurrence": "5 days",
-    "effect": [ { "u_add_effect": "vampire_need_living_blood" } ],
+    "recurrence": [ "5 days", "5 days" ],
+    "effect": [ { "u_add_effect": "vampire_need_living_blood", "duration": "PERMANENT", "intensity": 1 } ],
     "false_effect": [
       {
         "u_add_effect": "vampire_need_living_blood",
@@ -2013,7 +2013,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BLOOD_CRAVING_START",
-    "recurrence": "10 hours, 16 hours",
+    "recurrence": [ "10 hours", "16 hours" ],
     "condition": {
       "and": [ { "u_has_trait": "VAMPIRE_WEAKNESS_BLOOD_CRAVING" }, { "not": { "u_has_effect": "effect_drank_blood_recently" } } ]
     },

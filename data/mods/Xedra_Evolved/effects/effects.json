@@ -3205,7 +3205,7 @@
   {
     "type": "effect_type",
     "id": "effect_earth_sleeper_penalty",
-    "name": [ "Disrupted Rrest" ],
+    "name": [ "Disrupted Rest" ],
     "desc": [ "You have slept away from the earth, leaving you fatigued and weakened for an entire day." ],
     "//": "No sleepiness incrementation, as the EOC took care of that.",
     "rating": "bad",
@@ -3219,7 +3219,7 @@
     "miss_messages": [ [ "You feel rejected by this place.", 2 ] ],
     "rating": "bad",
     "main_parts_only": true,
-    "base_mods": { "pain_min": [ 2 ], "pain_chance": [ 1, 5 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ 1, 6 ] },
+    "base_mods": { "pain_min": [ 2 ], "pain_chance": [ 1, 50 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ 1, 60 ] },
     "show_in_info": false
   },
   {
@@ -3230,7 +3230,7 @@
     "miss_messages": [ [ "You are melting from your proximity to water.", 2 ] ],
     "rating": "bad",
     "main_parts_only": true,
-    "base_mods": { "pain_min": [ 2 ], "pain_chance": [ 1, 5 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ 1, 6 ] },
+    "base_mods": { "pain_min": [ 2 ], "pain_chance": [ 1, 50 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_chance": [ 1, 60 ] },
     "show_in_info": false
   },
   {
