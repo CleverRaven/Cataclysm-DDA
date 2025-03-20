@@ -8615,7 +8615,7 @@ void pulp_activity_actor::send_final_message( Character &you ) const
 
     if( acid_corpse ) {
         you.add_msg_if_player( m_bad,
-                               _( "You cannot pulp this corpse since it's filled with acid, and you have no protection against it." ) );
+                               _( "You cannot pulp acid-filled corpses without appropriate protection." ) );
         return;
     }
 
