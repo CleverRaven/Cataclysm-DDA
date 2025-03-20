@@ -144,7 +144,7 @@ Techniques are special attacks performed while using a given MA style.  These ar
   "weighting": 2,                        // Affects likelihood this technique will be selected when many are available. Negative weighting means the technique is only included in the list of possible techs once out of every `weighting` times ( 1/3 for a weighting of -3)
   "defensive": true,                     // Game won't try to select this technique when attacking
   "miss_recovery": true,                 // Misses while attacking will use half as many moves
-  "messages": [                          // What is printed when this technique is used by the player and by an npc
+  "messages": [                          // What is printed when this technique is used by the player and by an npc. Should NOT end with punctuation mark, for it is then extended with ` but deal no damage` or ` and deal X damage`
     "You phase-strike %s",
     "<npcname> phase-strikes %s"
   ],

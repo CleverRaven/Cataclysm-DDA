@@ -3,7 +3,7 @@
     "type": "technique",
     "id": "tec_perk_feint",
     "name": "Feint",
-    "messages": [ "You fake a strike at %s!", "<npcname> fakes a strike at %s!" ],
+    "messages": [ "You fake a strike at %s", "<npcname> fakes a strike at %s" ],
     "required_char_flags_all": [ "MELEE_PERK_FEINT" ],
     "melee_allowed": true,
     "defensive": true,
@@ -27,7 +27,7 @@
         { "not": { "npc_has_effect": "stunned" } }
       ]
     },
-    "messages": [ "You deliver a stunning strike to %s", "<npcname> delivers a stunning strike to %s!" ],
+    "messages": [ "You deliver a stunning strike to %s", "<npcname> delivers a stunning strike to %s" ],
     "condition_desc": "* Only works on a <info>non-stunned</info> target of <info>similar or smaller</info> size.",
     "description": "Stun for 1 turn",
     "attack_vectors": [ "vector_null" ],
@@ -189,7 +189,7 @@
     "id": "tec_perk_estocada",
     "name": "Estocada",
     "required_char_flags_all": [ "MELEE_PERK_ESTOCADA" ],
-    "messages": [ "You thrust your weapon into %s", "<npcname> thrusts their weapon into %s!" ],
+    "messages": [ "You thrust your weapon into %s", "<npcname> thrusts their weapon into %s" ],
     "melee_allowed": true,
     "weighting": 10,
     "weapon_categories_allowed": [ "QUARTERSTAVES", "LONG_SWORDS", "MEDIUM-SWORDS", "LONG_THRUSTING_SWORDS", "FENCING_WEAPONRY" ],
@@ -251,7 +251,7 @@
     "condition": { "and": [ { "math": [ "u_effect_intensity('mabuff:buff_perk_tempo') > 2" ] } ] },
     "condition_desc": "* Requires <info>tempo(3)</info> to trigger.",
     "flat_bonuses": [ { "stat": "hit", "scale": 5.0 } ],
-    "messages": [ "You viciously wound %s", "<npcname> viciously wounds %s!" ],
+    "messages": [ "You viciously wound %s", "<npcname> viciously wounds %s" ],
     "attack_vectors": [ "vector_null" ]
   },
   {
