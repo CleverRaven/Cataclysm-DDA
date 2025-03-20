@@ -668,7 +668,7 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
                         }
                         if( const std::optional<tripoint_bub_ms> pt =
                         random_point_on_level( *this, gridz, [this]( const tripoint_bub_ms & n ) {
-                        return passable( n );
+                        return passable_through( n );
                         } ) ) {
                             const tripoint_bub_ms pnt = pt.value();
                             add_spawn( mgr, pnt );

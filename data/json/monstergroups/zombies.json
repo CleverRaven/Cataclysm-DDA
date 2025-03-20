@@ -130,7 +130,18 @@
       { "monster": "mon_zombie_runner", "weight": 200, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
       { "group": "GROUP_FERAL", "weight": 121 },
       { "monster": "mon_feral_soldier", "weight": 10, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_brainless", "weight": 650 }
+      { "monster": "mon_zombie_brainless", "weight": 650 },
+      { "group": "GROUP_COCOON_TINY", "weight": 70, "cost_multiplier": 2, "starts": "2 days" },
+      { "group": "GROUP_COCOON_TINY", "weight": 3, "cost_multiplier": 4, "pack_size": [ 2, 3 ], "starts": "3 days" },
+      { "group": "GROUP_COCOON_TINY", "weight": 3, "cost_multiplier": 16, "pack_size": [ 4, 6 ], "starts": "4 days" },
+      { "group": "GROUP_COCOON_TINY", "weight": 3, "cost_multiplier": 24, "pack_size": [ 7, 9 ], "starts": "5 days" },
+      { "group": "GROUP_COCOON_SMALL", "weight": 40, "cost_multiplier": 2, "starts": "7 days" },
+      { "group": "GROUP_COCOON_SMALL", "weight": 2, "cost_multiplier": 4, "pack_size": [ 2, 3 ], "starts": "10 days" },
+      { "group": "GROUP_COCOON_MED_1", "weight": 30, "cost_multiplier": 2, "starts": "13 days" },
+      { "group": "GROUP_COCOON_MED_1", "weight": 1, "cost_multiplier": 4, "pack_size": [ 2, 3 ], "starts": "16 days" },
+      { "group": "GROUP_COCOON_MED_2", "weight": 30, "cost_multiplier": 2, "starts": "20 days" },
+      { "group": "GROUP_COCOON_MED_2", "weight": 1, "cost_multiplier": 4, "pack_size": [ 2, 3 ], "starts": "22 days" },
+      { "group": "GROUP_COCOON_LARGE", "weight": 2, "cost_multiplier": 2, "starts": "24 days" }
     ]
   },
   {
@@ -323,7 +334,18 @@
       { "monster": "mon_feral_survivalist", "weight": 1, "cost_multiplier": 2, "starts": "29 days" },
       { "monster": "mon_zombie_paramilitary", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25, "starts": "30 days" },
-      { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" }
+      { "monster": "mon_zombie_survivor_elite", "weight": 1, "cost_multiplier": 25, "starts": "60 days" },
+      { "group": "GROUP_COCOON_TINY", "weight": 30, "cost_multiplier": 2, "starts": "2 days" },
+      { "group": "GROUP_COCOON_TINY", "weight": 2, "cost_multiplier": 4, "pack_size": [ 2, 3 ], "starts": "3 days" },
+      { "group": "GROUP_COCOON_TINY", "weight": 2, "cost_multiplier": 16, "pack_size": [ 4, 6 ], "starts": "4 days" },
+      { "group": "GROUP_COCOON_TINY", "weight": 2, "cost_multiplier": 24, "pack_size": [ 7, 9 ], "starts": "5 days" },
+      { "group": "GROUP_COCOON_SMALL", "weight": 20, "cost_multiplier": 2, "starts": "7 days" },
+      { "group": "GROUP_COCOON_SMALL", "weight": 1, "cost_multiplier": 4, "pack_size": [ 2, 3 ], "starts": "10 days" },
+      { "group": "GROUP_COCOON_MED_1", "weight": 10, "cost_multiplier": 2, "starts": "13 days" },
+      { "group": "GROUP_COCOON_MED_1", "weight": 1, "cost_multiplier": 4, "pack_size": [ 2, 3 ], "starts": "16 days" },
+      { "group": "GROUP_COCOON_MED_2", "weight": 5, "cost_multiplier": 2, "starts": "20 days" },
+      { "group": "GROUP_COCOON_MED_2", "weight": 1, "cost_multiplier": 4, "pack_size": [ 2, 3 ], "starts": "22 days" },
+      { "group": "GROUP_COCOON_LARGE", "weight": 1, "cost_multiplier": 2, "starts": "24 days" }
     ]
   },
   {

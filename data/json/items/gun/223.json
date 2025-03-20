@@ -172,6 +172,27 @@
     "melee_damage": { "bash": 12 }
   },
   {
+    "id": "scar_16s",
+    "copy-from": "scar_l",
+    "type": "GUN",
+    "name": { "str": "civilian FN SCAR-L rifle" },
+    "description": "A highly accurate and modular rifle specially designed for the United States Special Operations Command, in semi-auto only to be sold on the civilian market.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "scar_16s",
+        "name": { "str": "FN SCAR 16S" },
+        "description": "The SCAR 16S is the civilian-legal version of the SCAR-L rifle.  It is still very expensive, not like that matters now anymore."
+      }
+    ],
+    "ascii_picture": "scar-L",
+    "weight": "3289 g",
+    "barrel_length": "413 mm",
+    "price": "3 kUSD 839 USD",
+    "price_postapoc": "20 USD",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
+  },
+  {
     "id": "sl8",
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",

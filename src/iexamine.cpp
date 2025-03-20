@@ -1535,7 +1535,7 @@ void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
         if( eit != that_elevator.cend() ) {
             for( const tripoint_bub_ms &candidate : closest_points_first( *eit, 10 ) ) {
                 if( !here.has_flag( ter_furn_flag::TFLAG_ELEVATOR, candidate ) &&
-                    here.passable( candidate ) &&
+                    here.passable_through( candidate ) &&
                     creatures.creature_at( candidate ) == nullptr ) {
                     critter.setpos( here, candidate );
                     break;
