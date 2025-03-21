@@ -177,7 +177,7 @@
       { "group": "4570_loose", "prob": 1 },
       { "item": "500_Magnum", "charges": [ 1, 10 ], "prob": 1 },
       { "item": "545", "charges": [ 1, 10 ], "prob": 1 },
-      { "item": "57mm", "charges": [ 1, 10 ], "prob": 1 },
+      { "item": "57mm_lf", "charges": [ 1, 10 ], "prob": 1 },
       { "item": "762_25", "charges": [ 1, 10 ], "prob": 1 },
       { "item": "300blk", "charges": [ 1, 10 ], "prob": 1 },
       { "item": "9x18mm", "charges": [ 1, 10 ], "prob": 1 },
