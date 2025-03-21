@@ -2128,7 +2128,7 @@
         { "item": "wax", "count": [ 3, 6 ] },
         { "item": "honeycomb", "count": [ 3, 6 ] },
         { "item": "2x4", "count": [ 8, 10 ] },
-        { "item": "nail", "count": [ 12, 20 ] }
+        { "item": "nail", "charges": [ 12, 20 ] }
       ]
     }
   },
@@ -2150,7 +2150,7 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": [ 8, 10 ] }, { "item": "nail", "count": [ 12, 20 ] } ]
+      "items": [ { "item": "2x4", "count": [ 8, 10 ] }, { "item": "nail", "charges": [ 12, 20 ] } ]
     }
   },
   {
