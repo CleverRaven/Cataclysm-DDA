@@ -1196,7 +1196,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "name": { "str_sp": "instant cocoa" },
-	"weight": "30 g",
+    "weight": "30 g",
     "looks_like": "coffee_raw",
     "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
     "volume": "62 ml",
