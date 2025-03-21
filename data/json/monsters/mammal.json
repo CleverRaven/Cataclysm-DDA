@@ -1573,7 +1573,7 @@
     "id": "mon_dog_wad",
     "type": "MONSTER",
     "copy-from": "mon_dog",
-    "name": { "str": "Flat-coated Retreiver", },
+    "name": { "str": "Flat-coated Retreiver" },
     "description": "A large, black retreiver with a luxurious, glossy coat and almond-shaped brown eyes that glitter with intelligence.  The Flat-coated Retreiver has a temperment that can only be described as 'superb', having the energy to accompany humans who love physical activity, and the loyalty to lay around with those that do not.  Flat-coated Retreivers will often do little more than bark at potential threats",
     "color": "black",
     "weight": "28 kg",
