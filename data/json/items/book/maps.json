@@ -67,7 +67,7 @@
         "s_grocery",
         "s_hunting",
         "mil_surplus",
-        "s_gas"
+        "Gas Station"
       ],
       "message": "You add roads and possible supply points to your map."
     }
