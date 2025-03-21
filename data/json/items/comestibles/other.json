@@ -1189,7 +1189,7 @@
     "material": [ "powder" ],
     "price": "30 cent",
     "price_postapoc": "1 USD",
-    "description": "A сocoa powder. No milk or sweetener added. Bitter, used on baking." 
+    "description": "A сocoa powder. No milk or sweetener added. Bitter, used on baking."
   },
   {
     "id": "cocoa_powder_milk",
