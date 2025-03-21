@@ -39,7 +39,7 @@
     "followup": "MISSION_GODCO_COOK_FOOD_3",
     "dialogue": {
       "describe": "I need several glass jars.",
-      "offer": "This task is bit more serious.  I don't have enough jars to preserve perishables for the future, and we can't just store everything in salt.  We could do our own canning if we had some more glass jars. I think 40 jars should be enough."
+      "offer": "This task is bit more serious.  I don't have enough jars to preserve perishables for the future, and we can't just store everything in salt.  We could do our own canning if we had some more glass jars. I think 40 jars should be enough.",
       "accepted": "Thanks for accepting this task.  It'll take a load off my shoulders.  I finally won't have to worry about this problem anymore.",
       "rejected": "Just let me know if you change your mind.",
       "advice": "Glass jars are not that hard to find.  I'd look for them in residential areas.",
