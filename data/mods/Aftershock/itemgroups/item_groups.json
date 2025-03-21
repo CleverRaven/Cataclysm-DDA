@@ -290,8 +290,7 @@
     "extend": {
       "items": [
         { "item": "xlswat_armor", "prob": 12 },
-        { "item": "xlballistic_vest_empty", "prob": 6 },
-        { "item": "xlballistic_vest_esapi", "prob": 3 },
+        { "item": "afs_military_vestxl", "prob": 9 },
         { "item": "xlboots_combat", "prob": 15 },
         { "item": "xlgloves_tactical", "prob": 10 },
         { "item": "tripaw_xlgloves_tactical", "prob": 8 }
@@ -304,8 +303,7 @@
     "copy-from": "mil_armor",
     "extend": {
       "items": [
-        { "item": "xlballistic_vest_empty", "prob": 6 },
-        { "item": "xlballistic_vest_esapi", "prob": 3 },
+        { "item": "afs_military_vestxl", "prob": 9 },
         { "item": "xlboots_combat", "prob": 15 },
         { "item": "xlgloves_tactical", "prob": 10 },
         { "item": "tripaw_xlgloves_tactical", "prob": 8 }
