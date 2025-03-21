@@ -130,7 +130,7 @@ Identifier      | Description
 `type`          | Indicates the JSON object is a `SPELL`.
 `name`          | Name of the spell that shows in game.
 `description`   | Description of the spell that shows in game.
-`valid_targets` | Targets affected by the spell.  If a valid target is not included, you cannot cast the spell on that target.  Additionally, if the valid target is not specified, the spell aoe will not affect it.  Can be `ally`, `field`, `ground`, `hostile`, `item`, `none` or `self`.
+`valid_targets` | Targets affected by the spell.  If a valid target is not included, you cannot cast the spell on that target.  Additionally, if the valid target is not specified, the spell aoe will not affect it.  Can be `ally`, `field`, `ground`, `hostile`, `item`, `none`, `vehicle` or `self`.
 `effect`        | Hardcoded spell behaviors, roughly speaking spell "type".  See the list below.
 `shape`         | The shape of the spell's area of effect.  See the list below.
 
@@ -675,7 +675,8 @@ Magic Type Example:
     "max_book_level": 0, // associated spells can not be leveled by reading books, scrolls, etc above this level.
     "failure_cost_percent": 1, // decimal value that decides how much energy is consumed by spells when they fail to cast.  Defaults to 0.
     "failure_exp_percent": 1, // decimal value that decides how much exp is gained when spells fail to cast compared to normal.  Defaults to 0.2 .
-    "failure_eocs": "EOC_random_mutate" // EOC cast by the player if the spell fails to cast.
+    "failure_eocs": "EOC_random_mutate", // EOC cast by the player if the spell fails to cast.,
+    "failure_chance_formula_id": "test_failure_formula_id" // id of a jmath func that defines the failure chance of these spells.  0 = 0% failure, 1 = 100% failure.  Chance will still be modified by spell specific flags such as SOMANTIC.  This formula may use the context variable "_spell_id" which stores the id of the spell which has the calculated failure chance.
   },
   {
     "id": "test_spell",
@@ -980,6 +981,7 @@ Character status value  | Description
 `MAX_MANA`              | 
 `MAX_STAMINA`           | 
 `MELEE_DAMAGE`          | Adds damage to melee attacks
+`MELEE_RANGE_MODIFIER`  | Modifies the range of melee attacks, with positive values acting similarly to reach attacks.  Will never reduce melee range below 1.
 `MELEE_TO_HIT`          | Modifies melee attacks' `to_hit`. `add` is recommended since `to_hit` can be below 0 and has a small typical range.
 `MELEE_STAMINA_CONSUMPTION` | Changes amount of stamina used when swing in melee; stamina consumption is a negative value, so `"add": 100` decreases amount of stamina consumed, when `"add": -100` increases it; `"multiply": 1` increases, `"multiply": -0.5` decreases it. Can't be bigger than -50.
 `MENDING_MODIFIER`      | Changes the speed of your limb mend. Since it's a percent, using `multiply` is recommended.
@@ -988,6 +990,7 @@ Character status value  | Description
 `MOD_HEALTH_CAP`        | If this is anything other than zero (which it defaults to) you will cap your `MOD_HEALTH` gain/loss at this every half hour.
 `MOVE_COST`             | 
 `MUT_INSTABILITY_MOD`   | Modifies your instability score, which affects the chance to get bad mutation (scales with amount of good mutations you have, capping at 67%, check `Character::roll_bad_mutation` for more information). `add: 1` would be equal to having 1 good mutation more, increasing the chance to get bad mutation, `add: -1` would be like you have one good mutation less, decreasing the chance to get bad mutation.
+`MUT_ADDITIONAL_OPTIONS`| Whenever the character mutates, they may pick from the initially rolled mutation and x additional options given by the mutation value.  These options will be clustered around the initially picked mutation based on their relative point values.  IE, if a character initially rolls a negative mutation, the additional options will likely also be negative mutations.  High enough enchantment values will allow picking from every possible mutation.
 `MOVECOST_FLATGROUND_MOD`| How many moves you spend to move 1 tile on flat ground; shown in UI
 `MOVECOST_OBSTACLE_MOD` | How many moves you spend to move 1 tile, if this tile has a movecost more than 105 moves; not shown in UI
 `MOVECOST_SWIM_MOD`     | How many moves you spend to move 1 tile in water; not shown in UI

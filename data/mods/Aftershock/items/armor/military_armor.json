@@ -1,5 +1,33 @@
 [
   {
+    "id": "iotv_neck_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ballistic collar" },
+    "description": "Front and back nylon collar assemblies with armor inserts for neck protection.  Designed to be attached to heavy military body armor.",
+    "weight": "621 g",
+    "volume": "488 ml",
+    "price": "600 USD",
+    "price_postapoc": "600 USD",
+    "symbol": ",",
+    "material": [ "vacuum_carbide", "nylon" ],
+    "color": "dark_gray",
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "CANT_WEAR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "encumbrance": 0,
+        "coverage": 30,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat", "head_nape" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
     "id": "afs_military_vest",
     "type": "ARMOR",
     "name": { "str": "IPAV armor" },

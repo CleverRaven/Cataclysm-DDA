@@ -1,11 +1,21 @@
-#include "cata_assert.h"
+#include <algorithm>
+#include <cstddef>
+#include <exception>
+#include <functional>
+#include <limits>
+#include <memory>
+#include <ostream>
+#include <tuple>
+#include <utility>
+
 #include "cached_options.h"
+#include "cata_assert.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "line.h"
 #include "map_memory.h"
 #include "path_info.h"
 #include "string_formatter.h"

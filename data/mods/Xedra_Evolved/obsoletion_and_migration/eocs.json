@@ -9,6 +9,40 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_GIVE_CHANGELINGS_THEIR_DREAMSPARKS_OBS",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "CHANGELING_SEASONAL_MAGIC_SPRING",
+            "CHANGELING_SEASONAL_MAGIC_SUMMER",
+            "CHANGELING_SEASONAL_MAGIC_AUTUMN",
+            "CHANGELING_SEASONAL_MAGIC_WINTER"
+          ]
+        },
+        {
+          "not": {
+            "u_has_any_trait": [
+              "CHANGELING_DREAMSPARK_STORAGE_10",
+              "CHANGELING_DREAMSPARK_STORAGE_20",
+              "CHANGELING_DREAMSPARK_STORAGE_30",
+              "CHANGELING_DREAMSPARK_STORAGE_40",
+              "CHANGELING_DREAMSPARK_STORAGE_50"
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_add_trait": "CHANGELING_DREAMSPARK_STORAGE_10" },
+      { "math": [ "u_spell_level('changeling_gain_dreamsparks') = 1" ] },
+      { "math": [ "u_maximum_dreamdross_storage_value = 10" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PARACLESIAN_WIND_BLOWS_MUTATION_DIVIDER",
     "eoc_type": "EVENT",
     "required_event": "game_load",

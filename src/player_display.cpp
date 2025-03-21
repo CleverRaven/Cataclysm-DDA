@@ -3,8 +3,15 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
+#include <functional>
+#include <limits>
+#include <map>
 #include <memory>
+#include <optional>
 #include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
 
 #include "addiction.h"
 #include "avatar.h"
@@ -17,29 +24,37 @@
 #include "character.h"
 #include "character_modifier.h"
 #include "color.h"
+#include "coordinates.h"
+#include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "display.h"
 #include "effect.h"
-#include "flag.h"
 #include "enum_conversions.h"
+#include "flag.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "input_context.h"
+#include "item.h"
+#include "item_location.h"
 #include "itype.h"
+#include "magic_enchantment.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
-#include "profession.h"
+#include "point.h"
 #include "proficiency.h"
 #include "sdltiles.h"
 #include "skill.h"
 #include "skill_ui.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translation.h"
 #include "translations.h"
-#include "ui.h"
+#include "type_id.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
@@ -914,6 +929,9 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
     if( selectedSkill ) {
         const SkillLevel &level = you.get_skill_level_object( selectedSkill->ident() );
         std::string info_text = selectedSkill->description();
+        info_text = string_format( _( "%s\n%s\n%s" ), info_text,
+                                   selectedSkill->get_level_description( level.knowledgeLevel(), false ),
+                                   selectedSkill->get_level_description( level.level(), true ) );
         float level_gap = 100.0f * std::max( level.knowledgeLevel(), 1 ) / std::max( level.level(), 1 );
         if( level.knowledgeLevel() == 1 && level.level() == 0 ) {
             level_gap = 150.0f;

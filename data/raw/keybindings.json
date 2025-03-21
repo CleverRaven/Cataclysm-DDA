@@ -2043,6 +2043,12 @@
   },
   {
     "type": "keybinding",
+    "id": "EDITMAP_TOGGLE_POST_PROCESS_GENERATORS",
+    "name": "Toggle post-process generators",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "EDITMAP_TAB",
     "name": "Switch to move point / confirm",
     "bindings": [ { "input_method": "keyboard_any", "key": "TAB" } ]

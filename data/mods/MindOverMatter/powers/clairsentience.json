@@ -1,9 +1,9 @@
 [
   {
-    "id": "clair_night_vision",
+    "id": "clair_better_senses",
     "type": "SPELL",
-    "name": "[Ψ]Night Eyes (C)",
-    "description": "Your eyes are much more sensitive in low levels of light, and you can even \"see\" in pitch darkness.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "name": "[Ψ]Heightened Senses (C)",
+    "description": "All of your senses are heightened, allowing you to see further and hear better, and at higher levels even see in murky water or use minor vibrations and small sounds to determine moving creatures nearby.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -14,25 +14,27 @@
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
-    "effect_str": "EOC_CLAIR_NIGHT_EYES_INITIATE",
+    "effect_str": "EOC_CLAIR_BETTER_SENSES_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('clair_night_vision') * 15000) + 29000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_better_senses') * 21500) + 59500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('clair_night_vision') * 27000) + 98000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('clair_better_senses') * 48200) + 126400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_clair_night_eyes') > -1 ? 0 : max((1500 - (u_spell_level('clair_night_vision') * 65)), 500)"
+        "u_effect_intensity('effect_clair_better_senses') > -1 ? 0 : max((2000 - (u_spell_level('clair_better_senses') * 85)), 750)"
       ]
     },
     "base_casting_time": {
-      "math": [ "u_effect_intensity('effect_clair_night_eyes') > -1 ? 10 : max((50 -(u_spell_level('clair_night_vision') * 2)), 20)" ]
+      "math": [
+        "u_effect_intensity('effect_clair_better_senses') > -1 ? 10 : max((50 -(u_spell_level('clair_better_senses') * 2)), 20)"
+      ]
     }
   },
   {
@@ -109,6 +111,42 @@
       "math": [
         "u_effect_intensity('effect_clair_premonition') > -1 ? 10 : max((85 -(u_spell_level('clair_danger_sense') * 7)), 25)"
       ]
+    }
+  },
+  {
+    "id": "clair_night_vision",
+    "type": "SPELL",
+    "name": "[Ψ]Night Eyes (C)",
+    "description": "You are able to sense your surroundings in areas of low light, and you can even \"see\" in pitch darkness.  Strictly speaking, this is not vision, and you cannot discern fine details or read.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_NIGHT_EYES_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('clair_night_vision') * 15000) + 29000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('clair_night_vision') * 27000) + 98000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_clair_night_eyes') > -1 ? 0 : max((3500 - (u_spell_level('clair_night_vision') * 75)), 2000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [ "u_effect_intensity('effect_clair_night_eyes') > -1 ? 10 : max((50 -(u_spell_level('clair_night_vision') * 2)), 20)" ]
     }
   },
   {

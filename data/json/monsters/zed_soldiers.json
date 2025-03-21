@@ -345,6 +345,6 @@
     "death_drops": "mon_zombie_armored_death_drops",
     "burn_into": "mon_zombie_scorched",
     "armor": { "bash": 64, "cut": 64, "acid": 20, "heat": 20, "bullet": 51, "electric": 10 },
-    "extend": { "families": [ "prof_wp_syn_armored" ] }
+    "extend": { "families": [ "prof_wp_syn_armored" ], "flags": [ "PULP_PRYING" ] }
   }
 ]

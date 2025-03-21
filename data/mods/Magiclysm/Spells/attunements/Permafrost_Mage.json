@@ -37,16 +37,8 @@
     "symbol": "o",
     "color": "blue",
     "material": [ "magical_material" ],
-    "flags": [
-      "AURA",
-      "ONLY_ONE",
-      "TRADER_AVOID",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "OVERSIZE",
-      "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS"
-    ],
+    "flags": [ "AURA", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "emitter": "emit_cold_energy_strong" } ] }
   },
   {

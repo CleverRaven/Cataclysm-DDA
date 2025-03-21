@@ -1,10 +1,23 @@
+#include <map>
+#include <optional>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
+#include "item.h"
 #include "map.h"
-#include "mapdata.h"
 #include "map_helpers.h"
+#include "mapdata.h"
+#include "npc.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "string_formatter.h"
 #include "test_data.h"
+#include "type_id.h"
 
 static const furn_str_id furn_test_f_bash_persist( "test_f_bash_persist" );
 static const furn_str_id furn_test_f_eoc( "test_f_eoc" );

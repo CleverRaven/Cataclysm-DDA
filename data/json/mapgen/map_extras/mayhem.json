@@ -50,8 +50,8 @@
         "                        "
       ],
       "place_vehicles": [
-        { "vehicle": "car", "x": 18, "y": 9, "chance": 100, "fuel": 0, "status": 1, "rotation": 270 },
-        { "vehicle": "4x4_car", "x": 20, "y": 5, "chance": 100, "fuel": 0, "status": 1, "rotation": 0 }
+        { "vehicle": "car", "x": 18, "y": 9, "fuel": 0, "status": 1, "rotation": 270 },
+        { "vehicle": "4x4_car", "x": 20, "y": 5, "fuel": 0, "status": 1, "rotation": 0 }
       ],
       "item": { "s": { "item": "shot_hull", "chance": 100 } },
       "items": {
@@ -96,7 +96,7 @@
         "                        ",
         "                        "
       ],
-      "place_vehicles": [ { "vehicle": "limousine", "x": 18, "y": 9, "chance": 100, "fuel": 0, "status": 1, "rotation": 270 } ],
+      "place_vehicles": [ { "vehicle": "limousine", "x": 18, "y": 9, "fuel": 0, "status": 1, "rotation": 270 } ],
       "items": { "C": { "item": "corpses", "chance": 100 } },
       "place_item": [ { "item": "223_casing", "x": [ 10, 14 ], "y": [ 9, 13 ], "chance": 33, "repeat": 25 } ],
       "fields": { "C": { "field": "fd_blood" }, "~": { "field": "fd_blood" } },
@@ -135,7 +135,7 @@
         "                        ",
         "                        "
       ],
-      "place_vehicles": [ { "vehicle": "car_mayhem_tire_change", "x": 18, "y": 12, "chance": 100, "fuel": 0, "status": 1, "rotation": 270 } ],
+      "place_vehicles": [ { "vehicle": "car_mayhem_tire_change", "x": 18, "y": 12, "fuel": 0, "status": 1, "rotation": 270 } ],
       "item": { "I": [ { "item": "jack_small", "chance": 100 }, { "item": "lug_wrench", "chance": 100 } ] },
       "items": { "I": [ { "item": "wheel_spare", "chance": 100 }, { "item": "wheel_busted", "chance": 100 } ] },
       "fields": { "~": { "field": "fd_blood", "intensity": [ 1, 3 ] } },

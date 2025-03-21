@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy -allow-stdinc %s cata-use-string_view %t -- -load=%cata_plugin -- -isystem %cata_include
+// RUN: %check_clang_tidy -allow-stdinc %s cata-use-string_view %t -- -load=%cata_plugin -- -isystem %cata_include -fno-delayed-template-parsing
 
 #include <string>
 #include <string_view>

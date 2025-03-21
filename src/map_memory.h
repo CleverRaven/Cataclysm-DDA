@@ -2,15 +2,20 @@
 #ifndef CATA_SRC_MAP_MEMORY_H
 #define CATA_SRC_MAP_MEMORY_H
 
-#include <iosfwd>
+#include <cstdint>
+#include <map>
+#include <string>
+#include <string_view>
+#include <vector>
 
-#include "game_constants.h"
+#include "coordinates.h"
+#include "map_scale_constants.h"
 #include "mdarray.h"
 #include "memory_fast.h"
 #include "point.h" // IWYU pragma: keep
 #include "type_id.h"
 
-class JsonObject;
+class JsonArray;
 class JsonOut;
 class JsonValue;
 

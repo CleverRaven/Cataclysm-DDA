@@ -78,7 +78,6 @@
         { "item": "mil_armor", "x": [ 1, 5 ], "y": [ 10, 12 ], "chance": 5, "repeat": [ 1, 6 ] },
         { "item": "mil_accessories", "x": [ 1, 5 ], "y": [ 10, 12 ], "chance": 5, "repeat": [ 1, 6 ] },
         { "item": "weapons", "x": [ 1, 5 ], "y": [ 10, 12 ], "chance": 35, "repeat": [ 1, 6 ] },
-        { "item": "ammo_pistol_common", "x": [ 1, 5 ], "y": [ 10, 12 ], "chance": 20, "repeat": [ 1, 6 ] },
         { "item": "mags_common", "x": [ 1, 5 ], "y": [ 10, 12 ], "chance": 40, "repeat": [ 1, 6 ] },
         { "item": "homeguns", "x": [ 1, 5 ], "y": [ 10, 12 ], "chance": 20, "repeat": [ 1, 6 ] },
         { "item": "mansion_guns", "x": [ 1, 5 ], "y": [ 10, 12 ], "chance": 5, "repeat": [ 1, 6 ] },

@@ -85,11 +85,5 @@
     "id": "GROUP_SEWAGE_TREATMENT",
     "is_animal": true,
     "monsters": [ { "monster": "mon_gator", "weight": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] } ]
-  },
-  {
-    "type": "monstergroup",
-    "id": "GROUP_NUCLEAR_PLANT_BEASTS",
-    "is_animal": true,
-    "monsters": [ { "monster": "mon_gator", "weight": 25, "cost_multiplier": 2 } ]
   }
 ]

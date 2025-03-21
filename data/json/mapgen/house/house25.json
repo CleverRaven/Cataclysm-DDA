@@ -37,7 +37,7 @@
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 12, "y": 1 } ],
       "furniture": { "%": "f_safe_o" },
       "place_items": [
-        { "chance": 10, "item": "ammo_rifle_common", "x": 9, "y": 17 },
+        { "chance": 10, "item": "ammo_common_boxed", "x": 9, "y": 17 },
         { "chance": 20, "item": "camping", "x": 13, "y": 19 },
         { "chance": 40, "item": "tools_home", "x": 13, "y": 19 },
         { "chance": 25, "item": "book_gunref", "x": 5, "y": 4 },

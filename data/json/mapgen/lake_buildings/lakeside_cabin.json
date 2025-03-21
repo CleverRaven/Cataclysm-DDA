@@ -225,7 +225,7 @@
       "terrain": { "-": "t_railing" },
       "furniture": { "h": "f_shower" },
       "items": {
-        ".": [ { "item": "trash", "chance": 3 }, { "item": "creepy", "chance": 5 } ],
+        ".": [ { "item": "SUS_trash_floor", "chance": 3 }, { "item": "creepy", "chance": 5 } ],
         "t": { "item": "corpses", "chance": 100 }
       },
       "place_fields": [ { "field": "fd_blood", "x": [ 10, 16 ], "y": [ 13, 15 ], "repeat": [ 3, 7 ] } ],

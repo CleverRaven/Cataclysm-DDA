@@ -1,15 +1,19 @@
 #include "sleep.h"
 
-#include <iterator>
+#include <list>
 #include <optional>
 #include <string>
 
 #include "character.h"
+#include "debug.h"
 #include "flag.h"
-#include "game.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "item_stack.h"
 #include "map.h"
+#include "mapdata.h"
+#include "translations.h"
 #include "trap.h"
 #include "type_id.h"
 #include "veh_type.h"

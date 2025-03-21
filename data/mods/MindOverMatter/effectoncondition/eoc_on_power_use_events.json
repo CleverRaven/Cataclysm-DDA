@@ -590,6 +590,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK",
+    "//": "x-in_y event prevents divide-by-0 but makes concentration breaking much more likely the more negative your concentration limit is",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_maintained_powers') >= concentration_calculations()" ] },
@@ -597,7 +598,7 @@
           "x_in_y_chance": {
             "x": {
               "math": [
-                "((u_vitamin('vitamin_maintained_powers') / max(concentration_calculations(),1)) * 5) + (clamp(concentration_calculations(), -10, 0) * -10)"
+                "((u_vitamin('vitamin_maintained_powers') / max(concentration_calculations(),1)) * 5) + (clamp(concentration_calculations(), -20, 0) * -10)"
               ]
             },
             "y": 100

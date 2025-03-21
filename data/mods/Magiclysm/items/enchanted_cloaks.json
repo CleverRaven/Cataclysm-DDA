@@ -4,7 +4,7 @@
     "type": "enchantment",
     "has": "WORN",
     "condition": "ALWAYS",
-    "mutations": [ "WILDSHAPE:FISH", "WAYFARER" ]
+    "mutations": [ "WILDSHAPE:FISH", "WAYFARER", "DRUID_SHIFTER_FISH_FORM_TRAITS", "BESTIAL_MIND" ]
   },
   {
     "id": "wildshape_cloak_fish",
@@ -44,20 +44,16 @@
           { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "6" ] } ] },
           { "case": 5, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "10" ] } ] }
         ]
-      },
-      { "u_add_trait": "DRUID_SHIFTER_FISH_FORM_TRAITS" },
-      { "u_add_trait": "BESTIAL_MIND" },
-      { "run_eocs": "EOC_PUT_ON_WILDSHAPE_CLOAK_FISH_FOLLOWUP", "time_in_future": 1 }
+      }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PUT_ON_WILDSHAPE_CLOAK_FISH_FOLLOWUP",
-    "condition": { "u_has_trait": "WILDSHAPE:FISH" },
-    "effect": [ { "run_eocs": "EOC_PUT_ON_WILDSHAPE_CLOAK_FISH_FOLLOWUP", "time_in_future": 1 } ],
-    "false_effect": [
-      { "u_lose_trait": "DRUID_SHIFTER_FISH_FORM_TRAITS" },
-      { "u_lose_trait": "BESTIAL_MIND" },
+    "id": "EOC_PUT_ON_WILDSHAPE_CLOAK_FISH_REMOVE",
+    "eoc_type": "EVENT",
+    "required_event": "character_takeoff_item",
+    "condition": { "compare_string": [ "wildshape_cloak_fish", { "context_val": "itype" } ] },
+    "effect": [
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
@@ -75,7 +71,7 @@
     "type": "enchantment",
     "has": "WORN",
     "condition": "ALWAYS",
-    "mutations": [ "WILDSHAPE:BEAR" ]
+    "mutations": [ "WILDSHAPE:BEAR", "DRUID_SHIFTER_BEAR_FORM_TRAITS", "BESTIAL_MIND", "BESTIAL_MIND_COMBAT" ]
   },
   {
     "id": "wildshape_cloak_bear",
@@ -115,22 +111,16 @@
           { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] } ] },
           { "case": 5, "effect": [  ] }
         ]
-      },
-      { "u_add_trait": "DRUID_SHIFTER_BEAR_FORM_TRAITS" },
-      { "u_add_trait": "BESTIAL_MIND" },
-      { "u_add_trait": "BESTIAL_MIND_COMBAT" },
-      { "run_eocs": "EOC_PUT_ON_WILDSHAPE_CLOAK_BEAR_FOLLOWUP", "time_in_future": 1 }
+      }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PUT_ON_WILDSHAPE_CLOAK_BEAR_FOLLOWUP",
-    "condition": { "u_has_trait": "WILDSHAPE:BEAR" },
-    "effect": [ { "run_eocs": "EOC_PUT_ON_WILDSHAPE_CLOAK_BEAR_FOLLOWUP", "time_in_future": 1 } ],
-    "false_effect": [
-      { "u_lose_trait": "DRUID_SHIFTER_BEAR_FORM_TRAITS" },
-      { "u_lose_trait": "BESTIAL_MIND" },
-      { "u_lose_trait": "BESTIAL_MIND_COMBAT" },
+    "id": "EOC_PUT_ON_WILDSHAPE_CLOAK_BEAR_REMOVE",
+    "eoc_type": "EVENT",
+    "required_event": "character_takeoff_item",
+    "condition": { "compare_string": [ "wildshape_cloak_bear", { "context_val": "itype" } ] },
+    "effect": [
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [
@@ -148,7 +138,7 @@
     "type": "enchantment",
     "has": "WORN",
     "condition": "ALWAYS",
-    "mutations": [ "WILDSHAPE:DEER" ]
+    "mutations": [ "WILDSHAPE:DEER", "DRUID_SHIFTER_DEER_FORM_TRAITS", "BESTIAL_MIND" ]
   },
   {
     "id": "wildshape_cloak_deer",
@@ -188,20 +178,16 @@
           { "case": 4, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "1.5" ] } ] },
           { "case": 5, "effect": [ { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "3" ] } ] }
         ]
-      },
-      { "u_add_trait": "DRUID_SHIFTER_DEER_FORM_TRAITS" },
-      { "u_add_trait": "BESTIAL_MIND" },
-      { "run_eocs": "EOC_PUT_ON_WILDSHAPE_CLOAK_DEER_FOLLOWUP", "time_in_future": 1 }
+      }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PUT_ON_WILDSHAPE_CLOAK_DEER_FOLLOWUP",
-    "condition": { "u_has_trait": "WILDSHAPE:DEER" },
-    "effect": [ { "run_eocs": "EOC_PUT_ON_WILDSHAPE_CLOAK_DEER_FOLLOWUP", "time_in_future": 1 } ],
-    "false_effect": [
-      { "u_lose_trait": "DRUID_SHIFTER_DEER_FORM_TRAITS" },
-      { "u_lose_trait": "BESTIAL_MIND" },
+    "eoc_type": "EVENT",
+    "required_event": "character_takeoff_item",
+    "condition": { "compare_string": [ "wildshape_cloak_deer", { "context_val": "itype" } ] },
+    "effect": [
       {
         "switch": { "math": [ "u_preshift_size" ] },
         "cases": [

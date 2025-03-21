@@ -534,9 +534,9 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WIELDING_IRON_OR_STEEL",
+    "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_UNWEARING_IRON_OR_STEEL",
     "eoc_type": "EVENT",
-    "required_event": "character_wields_item",
+    "required_event": "character_takeoff_item",
     "condition": { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] },
     "effect": [
       {
@@ -546,10 +546,10 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_IRON_OR_STEEL_RECURRING_CHECK",
+    "id": "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WIELDING_IRON_OR_STEEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_wields_item",
     "condition": { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] },
-    "deactivate_condition": { "not": { "u_has_any_trait": [ "ARVORE", "SYLPH", "UNDINE" ] } },
-    "recurrence": 1,
     "effect": [
       {
         "run_eocs": [ "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_IRON_FOLLOWUP", "EOC_ARVORE_SYLPH_UNDINE_FAE_BAN_WEARING_STEEL_FOLLOWUP" ]
@@ -630,22 +630,23 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WIELDING_IRON_OR_STEEL",
+    "id": "EOC_IERDE_SALAMANDER_FAE_BAN_UNWEARING_IRON_OR_STEEL",
     "eoc_type": "EVENT",
-    "required_event": "character_wields_item",
+    "required_event": "character_takeoff_item",
     "condition": { "u_has_any_trait": [ "IERDE", "SALAMANDER", "IRON_ALLERGY" ] },
     "effect": [
       {
-        "run_eocs": [ "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP", "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_FOLLOWUP" ]
+        "run_eocs": [ "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP", "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_FOLLOWUP" ],
+        "time_in_future": 1
       }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_IERDE_SALAMANDER_FAE_BAN_IRON_OR_STEEL_RECURRING_CHECK",
+    "id": "EOC_IERDE_SALAMANDER_FAE_BAN_WIELDING_IRON_OR_STEEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_wields_item",
     "condition": { "u_has_any_trait": [ "IERDE", "SALAMANDER", "IRON_ALLERGY" ] },
-    "deactivate_condition": { "not": { "u_has_any_trait": [ "IERDE", "SALAMANDER", "IRON_ALLERGY" ] } },
-    "recurrence": 1,
     "effect": [
       {
         "run_eocs": [ "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_IRON_FOLLOWUP", "EOC_IERDE_SALAMANDER_FAE_BAN_WEARING_STEEL_FOLLOWUP" ]

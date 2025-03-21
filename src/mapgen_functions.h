@@ -2,23 +2,22 @@
 #ifndef CATA_SRC_MAPGEN_FUNCTIONS_H
 #define CATA_SRC_MAPGEN_FUNCTIONS_H
 
+#include <array>
 #include <functional>
-#include <iosfwd>
 #include <map>
+#include <string>
 #include <utility>
 
 #include "coords_fwd.h"
-#include "mapdata.h"
+#include "ret_val.h"
 #include "type_id.h"
 
 class map;
 class mapgendata;
 class mission;
+class tinymap;
 struct mapgen_arguments;
 struct mapgen_parameters;
-struct point;
-class tinymap;
-struct tripoint;
 
 using mapgen_update_func = std::function<void( const tripoint_abs_omt &map_pos3, mission *miss )>;
 class JsonObject;

@@ -62,17 +62,29 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_last_amigara_death",
-    "condition": { "math": [ "u_monsters_nearby('mon_amigara_horror') < 1" ] },
+    "condition": { "math": [ "n_monsters_nearby('mon_amigara_horror') < 1" ] },
     "effect": [
-      { "u_location_variable": { "context_val": "my_loc" }, "max_radius": 2, "passable_only": true },
-      { "map_spawn_item": "amigara_drops", "use_item_group": true, "loc": { "context_val": "my_loc" } },
-      { "u_lose_effect": "effect_amigara" },
+      { "npc_location_variable": { "context_val": "loc" }, "max_radius": 2, "passable_only": true },
+      { "map_spawn_item": "amigara_drops", "use_item_group": true, "loc": { "context_val": "loc" } },
+      { "run_eocs": [ "EOC_remove_amigara_effect" ] },
       {
-        "u_message": "As the last of the horrors fell dead, you notice a strange thing popped up from nowhere and dropped on the ground.",
-        "type": "info"
-      },
-      { "u_add_var": "general_talk_clearead_amigara_mine", "value": "yes" }
+        "if": "has_alpha",
+        "then": [
+          { "u_lose_effect": "effect_amigara" },
+          { "u_add_var": "general_talk_clearead_amigara_mine", "value": "yes" },
+          {
+            "u_message": "As the last of the horrors fell dead, you notice a strange thing popped up from nowhere and dropped on the ground.",
+            "type": "info"
+          }
+        ]
+      }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_remove_amigara_effect",
+    "global": true,
+    "effect": [ { "u_lose_effect": "effect_amigara" } ]
   },
   {
     "type": "effect_on_condition",

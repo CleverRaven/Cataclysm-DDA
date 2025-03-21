@@ -23,6 +23,8 @@
       "practice_biokin_reflex_enhance",
       "practice_biokin_sealed_system",
       "practice_biokin_metabolism_enhance",
+      "practice_biokin_vitaminosis",
+      "practice_biokin_guided_evolution",
       "practice_biokin_combat_dance",
       "practice_biokin_perfected_motion",
       "practice_biokin_hurricane_blows"
@@ -1045,6 +1047,186 @@
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
               { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: vitaminosis",
+    "id": "practice_biokin_vitaminosis",
+    "description": "Contemplate your powers and improve your ability to convert calories into vitamins.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 8,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+    ],
+    "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_BIOKIN_VITAMINOSIS",
+        "condition": { "math": [ "u_spell_level('biokin_vitaminosis') >= 1" ] },
+        "effect": [
+          { "set_string_var": "biokin_vitaminosis", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty = u_spell_difficulty('biokin_vitaminosis')" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "biokin_vitaminosis", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "run_eocs": "EOC_PRACTICE_BIOKIN_VITAMINOSIS_LEARNING",
+            "time_in_future": [
+              { "math": [ "learn_new_power_lower_time_bound(u_spell_difficulty('biokin_vitaminosis'))" ] },
+              { "math": [ "learn_new_power_upper_time_bound(u_spell_difficulty('biokin_vitaminosis'))" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_BIOKIN_VITAMINOSIS_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "biokin_vitaminosis", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_BIOKIN_VITAMINOSIS_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
+              "difficulty": 12
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('biokin_vitaminosis') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: guided evolution",
+    "id": "practice_biokin_guided_evolution",
+    "description": "Contemplate your powers and improve your ability to alter how mutations are expressed.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 8,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_biokinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_biokinesis", -1 ] ]
+    ],
+    "components": [ [ [ "matrix_crystal_biokin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_BIOKIN_GUIDED_EVOLUTION",
+        "condition": { "math": [ "u_spell_level('biokin_guided_evolution') >= 1" ] },
+        "effect": [
+          { "set_string_var": "biokin_guided_evolution", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_biokinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty = u_spell_difficulty('biokin_guided_evolution')" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "biokin_guided_evolution", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "run_eocs": "EOC_PRACTICE_BIOKIN_GUIDED_EVOLUTION_LEARNING",
+            "time_in_future": [
+              { "math": [ "learn_new_power_lower_time_bound(u_spell_difficulty('biokin_guided_evolution'))" ] },
+              { "math": [ "learn_new_power_upper_time_bound(u_spell_difficulty('biokin_guided_evolution'))" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_BIOKIN_GUIDED_EVOLUTION_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "biokin_guided_evolution", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_BIOKIN_GUIDED_EVOLUTION_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_biokinesis')" ] },
+              "difficulty": 12
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('biokin_guided_evolution') = 1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 35,70 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" },
+              "u_cancel_activity"
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain') += rng( 35,70 )" ] },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]

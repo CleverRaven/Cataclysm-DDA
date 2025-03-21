@@ -2,13 +2,12 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <map>
 #include <string>
+#include <unordered_map>
 
 #include "cata_assert.h"
 #include "debug.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "overmap_location.h"
 
 namespace

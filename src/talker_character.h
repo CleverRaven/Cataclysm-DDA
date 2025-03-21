@@ -2,32 +2,16 @@
 #ifndef CATA_SRC_TALKER_CHARACTER_H
 #define CATA_SRC_TALKER_CHARACTER_H
 
-#include <functional>
-#include <iosfwd>
-#include <list>
+#include <string>
 #include <vector>
 
+#include "bodypart.h"
 #include "character.h"
 #include "coords_fwd.h"
-#include "npc.h"
+#include "enums.h"
 #include "talker.h"
 #include "type_id.h"
-
-class character_id;
-class faction;
-class item;
-class map;
-
-class time_duration;
-class vehicle;
-struct tripoint;
-
-struct mutation_variant;
-
-namespace npc_factions
-{
-enum class relationship : int;
-} // namespace npc_factions
+#include "units_fwd.h"
 
 /*
  * Talker wrapper class for const Character access.
@@ -56,10 +40,10 @@ class talker_character_const: virtual public const_talker
         character_id getID() const override;
         bool is_male() const override;
         std::vector<std::string> get_grammatical_genders() const override;
-        int posx() const override;
-        int posy() const override;
+        int posx( const map &here ) const override;
+        int posy( const map &here ) const override;
         int posz() const override;
-        tripoint_bub_ms pos_bub() const override;
+        tripoint_bub_ms pos_bub( const map &here ) const override;
         tripoint_abs_ms pos_abs() const override;
         tripoint_abs_omt pos_abs_omt() const override;
         int get_cur_hp( const bodypart_id &bp ) const override;
@@ -112,6 +96,7 @@ class talker_character_const: virtual public const_talker
         int get_spell_level( const trait_id & ) const override;
         int get_spell_level( const spell_id & ) const override;
         int get_spell_exp( const spell_id & ) const override;
+        int get_spell_difficulty( const spell_id & ) const override;
         int get_highest_spell_level() const override;
         int get_spell_count( const trait_id & ) const override;
         int get_spell_sum( const trait_id &school, int min_level ) const override;
@@ -249,6 +234,7 @@ class talker_character: virtual public talker
         }
 
         void set_pos( tripoint_bub_ms new_pos ) override;
+        void set_pos( tripoint_abs_ms new_pos ) override;
 
         // stats, skills, traits, bionics, and magic
         void set_str_max( int value ) override;

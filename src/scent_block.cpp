@@ -1,5 +1,8 @@
+#include <algorithm>
+
 #include "coordinates.h"
 #include "scent_block.h"
+#include "scent_map.h"
 
 scent_block::scent_block( const tripoint_bub_sm &sub, scent_map &scents )
 // NOLINTNEXTLINE(cata-use-named-point-constants)

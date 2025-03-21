@@ -3,11 +3,11 @@
 #include <algorithm>
 #include <array>
 #include <chrono>
-#include <cstddef>
 #include <functional>
 #include <map>
 #include <memory>
 #include <optional>
+#include <ratio>
 #include <set>
 #include <string>
 #include <tuple>
@@ -18,12 +18,22 @@
 
 #include "activity_actor_definitions.h"
 #include "all_enum_values.h"
+#include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
+#include "cata_assert.h"
+#include "cata_variant.h"
+#include "character_id.h"
+#include "debug.h"
 #include "enum_conversions.h"
-#ifdef TILES
-#include "cata_tiles.h"
-#endif // TILES
+#include "input_enums.h"
+#include "mapdata.h"
+#include "mapgen_parameter.h"
+#include "mapgendata.h"
+#include "memory_fast.h"
+#include "monster.h"
+#include "simple_pathfinding.h"
+#include "translation.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -34,8 +44,8 @@
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
-#include "display.h"
 #include "debug_menu.h"
+#include "display.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
@@ -45,6 +55,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
+#include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "npc.h"
@@ -62,8 +73,8 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
-#include "ui.h"
 #include "ui_manager.h"
+#include "uilist.h"
 #include "uistate.h"
 #include "units.h"
 #include "units_utility.h"
@@ -72,7 +83,11 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-class character_id;
+#ifdef TILES
+#include "cached_options.h"
+#endif // TILES
+
+enum class cube_direction : int;
 
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
@@ -1792,16 +1807,16 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         }
         player_veh = &vp->vehicle();
         // for now we can only handle flyers if already in the air
-        const bool can_fly = player_veh->is_rotorcraft() && player_veh->is_flying_in_air();
-        const bool can_float = player_veh->can_float();
-        const bool can_drive = player_veh->valid_wheel_config();
+        const bool can_fly = player_veh->is_rotorcraft( here ) && player_veh->is_flying_in_air();
+        const bool can_float = player_veh->can_float( here );
+        const bool can_drive = player_veh->valid_wheel_config( here );
         // TODO: check engines/fuel
         if( can_fly ) {
             params = overmap_path_params::for_aircraft();
         } else if( can_float && !can_drive ) {
             params = overmap_path_params::for_watercraft();
         } else if( can_drive ) {
-            const float offroad_coeff = player_veh->k_traction( player_veh->wheel_area() *
+            const float offroad_coeff = player_veh->k_traction( here, player_veh->wheel_area() *
                                         player_veh->average_offroad_rating() );
             const bool tiny = player_veh->get_points().size() <= 3;
             params = overmap_path_params::for_land_vehicle( offroad_coeff, tiny, can_float );

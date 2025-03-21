@@ -10,11 +10,11 @@
 #include <limits>
 #include <list>
 #include <map>
-#include <memory>
 #include <optional>
 #include <queue>
 #include <set>
 #include <string>
+#include <tuple>
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
@@ -22,8 +22,6 @@
 #include <vector>
 
 #include "activity_tracker.h"
-#include "activity_type.h"
-#include "addiction.h"
 #include "body_part_set.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -32,7 +30,8 @@
 #include "character_id.h"
 #include "city.h"  // IWYU pragma: keep
 #include "compatibility.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
+#include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
@@ -41,7 +40,8 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "magic_enchantment.h"
+#include "memory_fast.h"
+#include "monster.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pocket_type.h"
@@ -64,20 +64,18 @@ class JsonOut;
 class SkillLevel;
 class SkillLevelMap;
 class activity_actor;
+class addiction;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
-class craft_command;
 class dispersion_sources;
 class effect;
-class effect_source;
+class enchant_cache;
 class faction;
 class item_pocket;
 class known_magic;
 class ma_technique;
 class map;
-class monster;
-class nc_color;
 class player_morale;
 class profession;
 class proficiency_set;
@@ -87,15 +85,20 @@ class spell;
 class ui_adaptor;
 class vehicle;
 class vpart_reference;
+
 namespace catacurses
 {
 class window;
 }  // namespace catacurses
+enum action_id : int;
+enum class proficiency_bonus_type : int;
+enum class recipe_filter_flags : int;
+enum class steed_type : int;
+enum npc_attitude : int;
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
 struct display_proficiency;
-struct field_immunity_data;
 /// @brief Item slot used to apply modifications from food and meds
 struct islot_comestible;
 struct item_comp;
@@ -111,15 +114,6 @@ struct trait_and_var;
 struct trap;
 struct w_point;
 template <typename E> struct enum_traits;
-
-enum npc_attitude : int;
-enum action_id : int;
-enum class recipe_filter_flags : int;
-enum class steed_type : int;
-enum class proficiency_bonus_type : int;
-
-using drop_location = std::pair<item_location, int>;
-using drop_locations = std::list<drop_location>;
 
 using bionic_uid = unsigned int;
 
@@ -1660,7 +1654,11 @@ class Character : public Creature, public visitable
         /** Removes the mutation's child flag from the player's list */
         void remove_child_flag( const trait_id &flag );
         /** Try to cross The Threshold */
-        void test_crossing_threshold( const mutation_category_id &mutation_category );
+        void try_crossing_threshold( const mutation_category_id &mutation_category );
+        /** Crosses the mutation threshold of the given category */
+        void cross_threshold( const mutation_category_id &mutation_category );
+        /*** Returns if the character can cross the given threshold. */
+        bool can_cross_threshold( const mutation_category_id &mutation_category );
         /** Returns how many steps are required to reach a mutation */
         int mutation_height( const trait_id &mut ) const;
         /** Recalculates mutation_category_level[] values for the player */
@@ -1927,7 +1925,7 @@ class Character : public Creature, public visitable
             bool operator()( const item &it ) const {
                 return it.mission_id == mission_id || it.has_any_with( [&]( const item & it ) {
                     return it.mission_id == mission_id;
-                }, pocket_type::SOFTWARE );
+                }, pocket_type::E_FILE_STORAGE );
             }
         };
 
@@ -2372,11 +2370,21 @@ class Character : public Creature, public visitable
         bool has_wield_conflicts( const item &it ) const;
 
         /**
-         * Removes currently wielded item (if any) and replaces it with the target item.
-         * @param target replacement item to wield or null item to remove existing weapon without replacing it
+         * Removes currently wielded item (if any) and replaces it with the item from item_location.
+         * If remove_old is not set to false, also remove item from the old location, invalidating loc.
+         * @param loc replacement item to wield or null item to remove existing weapon without replacing it
+         * @param remove_old optional, if false it does not remove item from the old location.
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
-        virtual bool wield( item &target ) = 0;
+        bool wield( item_location loc, bool remove_old = true );
+
+        /**
+         * Wield an item, unwielding currently wielded item (if any).
+         * If moving from a location, use provide item_location instead of item for more accurate move-cost.
+         * @param it item to be wielded.
+         * @return whether both removal and replacement were successful (they are performed atomically)
+         */
+        bool wield( item &it, std::optional<int> obtain_cost = std::nullopt );
         /**
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded
@@ -2507,6 +2515,7 @@ class Character : public Creature, public visitable
         int get_proficiency_bonus( const std::string &category, proficiency_bonus_type prof_bonus ) const;
         void add_default_background();
         void set_proficiencies_from_hobbies();
+        void set_recipes_from_hobbies();
 
         // tests only!
         void set_proficiency_practice( const proficiency_id &id, const time_duration &amount );
@@ -2726,7 +2735,8 @@ class Character : public Creature, public visitable
         void pause(); // '.' command; pauses & resets recoil
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
-        template <typename T> bool can_lift( const T &obj ) const;
+        bool can_lift( item &obj ) const;
+        bool can_lift( vehicle &veh, map &here ) const;
         // --------------- Values ---------------
         std::string name; // Pre-cataclysm name, invariable
         // In-game name which you give to npcs or whoever asks, variable
@@ -2968,6 +2978,8 @@ class Character : public Creature, public visitable
         // Uses up charges
         bool use_charges_if_avail( const itype_id &it, int quantity );
 
+        std::pair<float, item> get_best_weapon_by_damage_type( damage_type_id dmg_type ) const;
+
         /**
         * Available ups from all sources
         * Sum of mech, bionic UPS and UPS
@@ -3033,6 +3045,7 @@ class Character : public Creature, public visitable
         bool can_stash( const item &it, bool ignore_pkt_settings = false );
         bool can_stash( const item &it, int &copies_remaining, bool ignore_pkt_settings = false );
         bool can_stash_partial( const item &it, bool ignore_pkt_settings = false );
+        bool can_stash_partial( const item &it, int &copies_remaining, bool ignore_pkt_settings = false );
         void initialize_stomach_contents();
 
         /** Stable base metabolic rate due to traits */
@@ -3186,7 +3199,7 @@ class Character : public Creature, public visitable
          *  @param gun item to fire (which does not necessary have to be in the players possession)
          *  @return number of shots actually fired
          */
-        int fire_gun( map *here, const tripoint_bub_ms &target, int shots, item &gun,
+        int fire_gun( map &here, const tripoint_bub_ms &target, int shots, item &gun,
                       item_location ammo = item_location() );
         /** Execute a throw */
         dealt_projectile_attack throw_item( const tripoint_bub_ms &target, const item &to_throw,
@@ -3311,6 +3324,13 @@ class Character : public Creature, public visitable
          * with ranged weapons, e.g. with infrared vision.
          */
         std::vector<Creature *> get_targetable_creatures( int range, bool melee ) const;
+        /**
+         * Returns all vehicles that this player can see and that are in the given
+         * range.
+         * @param range The maximal distance (@ref rl_dist), vehicles at this distance or less
+         * are included.
+         */
+        std::vector<vehicle *> get_visible_vehicles( int range ) const;
         /** Returns the mutation visibility threshold for the observer ( *this ) */
         int get_mutation_visibility_cap( const Character *observed ) const;
         /** Returns an enumeration of visible mutations with colors */
@@ -3784,9 +3804,10 @@ class Character : public Creature, public visitable
         void add_known_trap( const tripoint_bub_ms &pos, const trap &t );
 
         // see Creature::sees
-        bool sees( const tripoint_bub_ms &t, bool is_avatar = false, int range_mod = 0 ) const override;
+        bool sees( const map &here, const tripoint_bub_ms &t, bool is_avatar = false,
+                   int range_mod = 0 ) const override;
         // see Creature::sees
-        bool sees( const Creature &critter ) const override;
+        bool sees( const map &here, const Creature &critter ) const override;
         Attitude attitude_to( const Creature &other ) const override;
         virtual npc_attitude get_attitude() const;
 
@@ -3853,6 +3874,7 @@ class Character : public Creature, public visitable
          * @param qual_id The quality to search
         */
         item &best_item_with_quality( const quality_id &qid );
+        const item &best_item_with_quality( const quality_id &qid ) const;
 
         // inherited from visitable
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
@@ -4205,7 +4227,4 @@ struct enum_traits<character_stat> {
 };
 /// Get translated name of a stat
 std::string get_stat_name( character_stat Stat );
-
-extern template bool Character::can_lift<item>( const item &obj ) const;
-extern template bool Character::can_lift<vehicle>( const vehicle &obj ) const;
 #endif // CATA_SRC_CHARACTER_H

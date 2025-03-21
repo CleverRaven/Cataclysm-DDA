@@ -4,30 +4,31 @@
 
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <optional>
 #include <set>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "coords_fwd.h"
 #include "enums.h"
 #include "item_pocket.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
-#include "units_fwd.h"
+#include "units.h"
 #include "visitable.h"
 
 class Character;
+class JsonObject;
 class JsonOut;
 class item;
 class item_location;
 class iteminfo_query;
 class map;
 struct iteminfo;
-struct tripoint;
 
 /// NEW!ness to player, if they seen such item already
 enum class content_newness {
@@ -45,11 +46,20 @@ class item_contents
 
         /**
          * Return an item_location and a pointer to the best pocket that can contain the item @it.
-         * Check all items contained in every pocket of CONTAINER pocket type.
+         * if param allow_nested=true Check all items contained in every pocket of CONTAINER pocket type,
+         * otherwise, only check this item contents' pockets.
+         * @param it the item that function will find the best pocket that can contain it
+         * @param this_loc location of it
+         * @param avoid item that will be avoided in recursive lookup item pocket
+         * @param allow_sealed allow use sealed pocket
+         * @param ignore_settings ignore pocket setting
+         * @param nested whether the current call is nested (used recursively).
+         * @param ignore_rigidity ignore pocket rigid
+         * @param allow_nested whether nested pockets should be checked
          */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &this_loc,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
-                bool nested = false, bool ignore_rigidity = false );
+                bool nested = false, bool ignore_rigidity = false, bool allow_nested = true );
 
         units::length max_containable_length( bool unrestricted_pockets_only = false ) const;
         units::length min_containable_length() const;
@@ -312,7 +322,7 @@ class item_contents
         bool spill_contents( const tripoint_bub_ms &pos );
         bool spill_contents( map *here, const tripoint_bub_ms &pos );
         /** Spill items that don't fit in the container. */
-        void overflow( const tripoint_bub_ms &pos, const item_location &loc );
+        void overflow( map &here, const tripoint_bub_ms &pos, const item_location &loc );
         void clear_items();
         /** Clear all items from magazine type pockets. */
         void clear_magazines();

@@ -1,18 +1,29 @@
+#include <cstdio>
 #include <filesystem>
+#include <fstream>
+#include <map>
 #include <memory>
+#include <string>
+#include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "avatar.h"
 #include "avatar_action.h"
+#include "calendar.h"
 #include "cata_catch.h"
-#include "creature.h"
+#include "character.h"
+#include "coordinates.h"
 #include "game.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "mutation.h"
+#include "player_helpers.h"
+#include "point.h"
 #include "profession.h"
 #include "skill.h"
-#include "player_helpers.h"
+#include "string_formatter.h"
 #include "type_id.h"
 
 static const efftype_id effect_winded( "winded" );
@@ -55,7 +66,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
 
     GIVEN( "avatar is above water at z0" ) {
         dummy.set_underwater( false );
-        dummy.setpos( test_origin );
+        dummy.setpos( here, test_origin );
         g->vertical_shift( 0 );
 
         WHEN( "avatar dives down" ) {
@@ -81,7 +92,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
 
     GIVEN( "avatar is underwater at z0" ) {
         dummy.set_underwater( true );
-        dummy.setpos( test_origin );
+        dummy.setpos( here, test_origin );
         g->vertical_shift( 0 );
 
         WHEN( "avatar dives down" ) {
@@ -107,7 +118,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
 
     GIVEN( "avatar is underwater at z-1" ) {
         dummy.set_underwater( true );
-        dummy.setpos( test_origin + tripoint::below );
+        dummy.setpos( here, test_origin + tripoint::below );
         g->vertical_shift( -1 );
 
         WHEN( "avatar dives down" ) {
@@ -133,7 +144,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
 
     GIVEN( "avatar is underwater at z-2" ) {
         dummy.set_underwater( true );
-        dummy.setpos( test_origin + tripoint( 0, 0, -2 ) );
+        dummy.setpos( here, test_origin + tripoint( 0, 0, -2 ) );
         g->vertical_shift( -2 );
 
         WHEN( "avatar dives down" ) {
@@ -296,7 +307,7 @@ static int swimming_steps( avatar &swimmer )
         }
         last_moves = swimmer.get_moves();
     }
-    swimmer.setpos( left );
+    swimmer.setpos( here, left );
     return steps;
 }
 

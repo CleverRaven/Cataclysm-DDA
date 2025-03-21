@@ -245,14 +245,7 @@
       "place_vehicles": [
         { "vehicle": "miniature_train_loco_steerable", "x": 4, "y": 1, "chance": 30, "status": 0, "rotation": 270 },
         { "vehicle": "miniature_train_loco_steerable_2", "x": 4, "y": 7, "chance": 30, "status": 0, "rotation": 90 },
-        {
-          "vehicle": "miniature_train_loco_steerable_3",
-          "x": 19,
-          "y": 1,
-          "chance": 100,
-          "status": 0,
-          "rotation": 270
-        },
+        { "vehicle": "miniature_train_loco_steerable_3", "x": 19, "y": 1, "status": 0, "rotation": 270 },
         { "vehicle": "miniature_train_loco_steerable_3", "x": 19, "y": 7, "chance": 30, "status": 0, "rotation": 90 }
       ],
       "terrain": {

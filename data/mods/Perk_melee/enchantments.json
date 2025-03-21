@@ -16,7 +16,7 @@
     "special_vision": [
       {
         "distance": 10,
-        "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "Your sixth sense point you here." } ]
+        "descriptions": [ { "id": "moving_creature", "symbol": "?", "color": "c_white", "text": "Something hides here." } ]
       }
     ]
   },
@@ -25,6 +25,14 @@
     "id": "melee_perk_ench_insight_dodge",
     "condition": { "math": [ "u_effect_intensity('perk_insight')", ">", "9" ] },
     "values": [ { "value": "DODGE_CHANCE", "add": 25 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "melee_perk_ench_perfect_tempo",
+    "name": { "str": "Perfect Tempo" },
+    "description": " +15 quickness as long as you have the maximum number of combat tempo stacks.",
+    "condition": { "math": [ "u_effect_intensity('mabuff:buff_perk_tempo')", ">", "2" ] },
+    "values": [ { "value": "SPEED", "add": 15 } ]
   },
   {
     "type": "enchantment",

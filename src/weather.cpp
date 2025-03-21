@@ -4,18 +4,17 @@
 #include <array>
 #include <cmath>
 #include <functional>
+#include <map>
 #include <memory>
-#include <set>
 #include <string>
 #include <vector>
 
-#include "activity_type.h"
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
 #include "city.h"
-#include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
@@ -24,17 +23,21 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
 #include "line.h"
 #include "map.h"
-#include "map_iterator.h"
+#include "map_scale_constants.h"
+#include "mapdata.h"
 #include "math_defines.h"
 #include "messages.h"
-#include "monster.h"
-#include "mtype.h"
+#include "omdata.h"
 #include "options.h"
 #include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "pocket_type.h"
+#include "point.h"
 #include "regional_settings.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -74,7 +77,9 @@ static const trait_id trait_FEATHERS( "FEATHERS" );
 bool is_creature_outside( const Creature &target )
 {
     map &here = get_map();
-    return here.is_outside( tripoint_bub_ms( target.posx(), target.posy(), here.get_abs_sub().z() ) ) &&
+    const tripoint_bub_ms pos = target.pos_bub( here );
+
+    return here.is_outside( tripoint_bub_ms( pos.xy(), here.get_abs_sub().z() ) ) &&
            here.get_abs_sub().z() >= 0;
 }
 
@@ -137,7 +142,7 @@ void glare( const weather_type_id &w )
 
 float incident_sunlight( const weather_type_id &wtype, const time_point &t )
 {
-    return std::max<float>( 0.0f, sun_light_at( t ) + wtype->light_modifier );
+    return std::max<float>( 0.0f, sun_light_at( t ) * wtype->light_multiplier + wtype->light_modifier );
 }
 
 float incident_sun_irradiance( const weather_type_id &wtype, const time_point &t )

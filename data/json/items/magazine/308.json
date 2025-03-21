@@ -266,6 +266,24 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 20 } } ]
   },
   {
+    "id": "scarhmag_10",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "SCAR-H 10-round magazine" },
+    "description": "A 10-round magazine for the FN SCAR-H or 17S rifle.",
+    "weight": "142 g",
+    "volume": "208 ml",
+    "longest_side": "160 mm",
+    "price": "61 USD 99 cent",
+    "price_postapoc": "6 USD 50 cent",
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "308" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 10 } } ]
+  },
+  {
     "id": "scarh_makeshiftmag",
     "copy-from": "fal_makeshiftmag",
     "type": "MAGAZINE",

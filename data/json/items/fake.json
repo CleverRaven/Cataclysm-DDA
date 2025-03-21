@@ -20,12 +20,6 @@
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] }
   },
   {
-    "id": "fake_arcfurnace",
-    "copy-from": "fake_item",
-    "type": "TOOL",
-    "name": { "str": "arc furnace" }
-  },
-  {
     "id": "spinwheelitem",
     "copy-from": "fake_item",
     "type": "TOOL",
@@ -122,6 +116,7 @@
     "use_action": [ "CAMERA", "PORTABLE_GAME", "EBOOKSAVE", "E_FILE_DEVICE" ],
     "etransfer_rate": "140 MB",
     "e_port": "phone",
+    "variables": { "browsed": "true" },
     "pocket_data": [
       {
         "pocket_type": "E_FILE_STORAGE",
@@ -251,7 +246,7 @@
     "id": "fake_arc_furnace",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
-    "name": { "str": "industrial arc furnace" }
+    "name": { "str": "arc furnace" }
   },
   {
     "id": "fake_beverly_shear",

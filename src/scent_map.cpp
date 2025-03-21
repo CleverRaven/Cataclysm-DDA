@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <new>
 
 #include "assign.h"
 #include "calendar.h"
@@ -12,7 +11,6 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "map.h"
 #include "output.h"
 #include "point.h"

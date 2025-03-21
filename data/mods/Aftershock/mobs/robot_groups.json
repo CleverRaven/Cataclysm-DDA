@@ -29,8 +29,8 @@
     "monsters": [
       { "monster": "mon_utilibot", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_secubot", "weight": 0, "cost_multiplier": 10 },
-      { "monster": "mon_milbot_556", "weight": 1, "cost_multiplier": 10 },
-      { "monster": "mon_milbot_needle", "weight": 1, "cost_multiplier": 10 },
+      { "monster": "mon_wraitheon_imaginifer", "weight": 1, "cost_multiplier": 10 },
+      { "monster": "mon_wraitheon_imaginifer_stealth", "weight": 1, "cost_multiplier": 10 },
       { "monster": "mon_laserturret_xray", "weight": 2, "cost_multiplier": 20 },
       { "monster": "mon_medibot", "weight": 5, "cost_multiplier": 3, "pack_size": [ 1, 2 ] }
     ]
@@ -42,8 +42,8 @@
     "monsters": [
       { "monster": "mon_secubot", "weight": 0, "cost_multiplier": 10 },
       { "monster": "mon_utilibot", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_milbot_556", "weight": 1, "cost_multiplier": 10 },
-      { "monster": "mon_milbot_needle", "weight": 1, "cost_multiplier": 10 },
+      { "monster": "mon_wraitheon_imaginifer", "weight": 1, "cost_multiplier": 10 },
+      { "monster": "mon_wraitheon_imaginifer_stealth", "weight": 1, "cost_multiplier": 10 },
       { "monster": "mon_advbot_laser", "weight": 2, "cost_multiplier": 20 },
       { "monster": "mon_medibot", "weight": 3, "cost_multiplier": 3 }
     ]
@@ -55,9 +55,9 @@
     "monsters": [
       { "monster": "mon_medibot", "weight": 3, "cost_multiplier": 0 },
       { "monster": "mon_skitterbot", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_defbot_shot", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_milbot_556", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_milbot_needle", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_uica_imaginifer_police", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_wraitheon_imaginifer", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_wraitheon_imaginifer_stealth", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_advbot_laser", "weight": 20, "cost_multiplier": 0 },
       { "monster": "mon_wraitheon_irradiant", "weight": 1, "cost_multiplier": 0 },
       { "monster": "mon_molebot", "weight": 0, "cost_multiplier": 0 },

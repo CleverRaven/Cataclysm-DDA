@@ -404,6 +404,12 @@
   },
   {
     "type": "monstergroup",
+    "id": "GROUP_ZOMBIE_BOOMER_UPGRADE",
+    "default": "mon_boomer",
+    "monsters": [ { "monster": "mon_boomer_monochrome", "weight": 50 } ]
+  },
+  {
+    "type": "monstergroup",
     "id": "GROUP_ZOMBIE_MONOCHROME_UPGRADE",
     "default": "mon_zombie_monochrome",
     "monsters": [

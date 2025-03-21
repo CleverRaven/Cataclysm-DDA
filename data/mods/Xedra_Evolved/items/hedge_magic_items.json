@@ -27,7 +27,6 @@
     "flags": [
       "AURA",
       "OVERSIZE",
-      "ONLY_ONE",
       "PADDED",
       "INTEGRATED",
       "ALLOWS_NATURAL_ATTACKS",
@@ -38,6 +37,7 @@
       "NONCONDUCTIVE",
       "RAINPROOF"
     ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "armor": [
       {
@@ -62,7 +62,6 @@
       "SEMITANGIBLE",
       "AURA",
       "OVERSIZE",
-      "ONLY_ONE",
       "PADDED",
       "ALLOWS_NATURAL_ATTACKS",
       "TRADER_AVOID",
@@ -71,6 +70,7 @@
       "ZERO_WEIGHT",
       "NONCONDUCTIVE"
     ],
+    "max_worn": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "use_action": {
       "type": "effect_on_conditions",
@@ -291,12 +291,7 @@
     "name": { "str": "bearskin talisman" },
     "copy-from": "item_hedge_turn_into_bear_off",
     "description": "A heavy fur mantle attached to the skull of a bear.  When you put it on, the charm will take effect and grant you the bear's power.",
-    "extend": { "flags": [ "NO_TAKEOFF", "SKINCHANGED", "HEDGE_ENCHANTED" ] },
-    "use_action": {
-      "type": "effect_on_conditions",
-      "description": "Activate to remove the mantle and end the magic.",
-      "effect_on_conditions": [ "EOC_HEDGE_TURN_INTO_BEAR_REMOVE_ITEM" ]
-    }
+    "extend": { "flags": [ "SKINCHANGED", "HEDGE_ENCHANTED" ] }
   },
   {
     "type": "BOOK",

@@ -1218,7 +1218,7 @@
         "x": { "item": "a_television", "chance": 100 }
       },
       "place_monsters": [ { "monster": "GROUP_VANILLA_ONLY_HUMANS", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ],
-      "place_vehicles": [ { "vehicle": "laundry_cart", "x": [ 14, 15 ], "y": [ 0, 6 ], "chance": 100 } ]
+      "place_vehicles": [ { "vehicle": "laundry_cart", "x": [ 14, 15 ], "y": [ 0, 6 ] } ]
     }
   },
   {

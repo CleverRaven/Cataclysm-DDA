@@ -35,14 +35,15 @@
       "toilets": { ";": {  } },
       "items": {
         "7": { "item": "homebooks", "chance": 75, "repeat": [ 1, 5 ] },
-        "_": { "item": "bar_trash", "chance": 5 },
+        "_": { "item": "SUS_trash_floor", "chance": 5 },
         " ": { "item": "clutter_yard", "chance": 1 },
         "@": { "item": "bed", "chance": 80 },
         ":": [ { "item": "SUS_dresser_mens", "chance": 50 }, { "item": "SUS_dresser_womens", "chance": 50 } ],
         "E": { "item": "cannedfood", "chance": 70, "repeat": [ 1, 3 ] },
         "=": { "item": "stash_wood", "chance": 70, "repeat": [ 1, 4 ] },
         "9": { "item": "home_hw", "chance": 60 },
-        "F": { "item": "SUS_fridge_survivor", "chance": 70 }
+        "F": { "item": "SUS_fridge_survivor", "chance": 70 },
+        ";": { "item": "SUS_toilet", "chance": 50 }
       },
       "place_items": [
         { "item": "camping", "x": [ 13, 14 ], "y": [ 13, 13 ], "chance": 70 },
@@ -131,7 +132,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "items": { ".": { "item": "roof_trash", "chance": 5 } },
+      "items": { ".": { "item": "SUS_trash_roof", "chance": 5 } },
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   }

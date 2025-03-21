@@ -1015,7 +1015,7 @@ Condition | Type | Description
 --- | --- | ---
 `"is_season"` | string or [variable object](#variable-object) | `true` if the current season matches `is_season`, which must be one of "`spring"`, `"summer"`, `"autumn"`, or `"winter"`.
 `"is_day"` | simple string | `true` if it is currently daytime (sun is at or above the [civil dawn](https://en.wikipedia.org/wiki/Dawn#Civil_dawn) point)
-`"u_is_outside"`<br/>`"npc_is_outside"`  | simple string | `true` if you or the NPC is on a tile without a roof.
+`"u_is_outside"`<br/>`"npc_is_outside"`<br/>`"is_outside"`  | simple string or object | `true` if you or the NPC is on a tile without a roof. if `is_outside`, you can pass a variable with coordinates to check if this tile is outside, like `{ "is_outside": { "context_val": "loc" } }`
 `"u_is_underwater"`<br/>`"npc_is_underwater"`  | simple string | `true` if you or the NPC is underwater.
 `"one_in_chance"` | int or [variable object](#variable-object) | `true` if a one in `one_in_chance` random chance occurs.
 `"x_in_y_chance"` | object | `true` if a `x` in `y` random chance occurs. `x` and `y` are either ints  or [variable object](#variable-object).
@@ -1361,6 +1361,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | school_level(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the highest level of spells known of that school.<br/>Argument is school ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_school_level('MAGUS') >= 3"] }`|
 | school_level_adjustment(`s`/`v`)    |   ✅  |  ✅   | u, n  | Return or set temporary caster level adjustment. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to 0 before the event triggers. To avoid overwriting values from other EoCs, it is recommended to adjust the values here with `+=` or `-=` instead of setting it to an absolute value.<br/>Argument is school ID.<br/><br/>Example:<br/>`{ "math": [ "u_school_level_adjustment('MAGUS')++"] }`|
 | skill(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set skill level<br/><br/>Example:<br/>`"condition": { "math": [ "u_skill('driving') >= 5"] }`<br/>`"condition": { "math": [ "u_skill(someskill) >= 5"] }`|
+| spell_difficulty(`s`/`v`)    |  ✅  |   ✅   | u,n | Returns the difficulty of the given spell id, modified by temporary difficulty modifiers if the character knows the spell; otherwise just the base difficulty calculations.  <br/> Example:<br/>`"math": [ "_difficulty = u_spell_difficulty('test_spell_id')"] }`|
 | skill_exp(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set skill experience<br/> Argument is skill ID. <br/><br/> Optional kwargs:<br/>`format`: `s`/`v` - must be `percentage` or `raw`.<br/><br/>Example:<br/>`{ "math": [ "u_skill_exp('driving', 'format': crt_format)--"] }`|
 | spell_exp(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set spell xp<br/> Example:<br/>`"condition": { "math": [ "u_spell_exp('SPELL_ID') >= 5"] }`|
 | spell_exp_for_level(`s`/`v`, `d`/`v`)    |  ✅  |   ❌   | g  | Return the amount of XP necessary for a spell level for the given spell. Arguments are spell id and desired level.  <br/> Example:<br/>`"math": [ "spell_exp_for_level('SPELL_ID', u_spell_level('SPELL_ID') ) * 5"] }`|
@@ -1423,7 +1424,7 @@ These can be read or written to with `val()`.
 | `morale` | ✅* | The current morale. Assigment only works for monsters. |
 | `owed` | ✅ | Amount of money the Character owes the avatar. |
 | `pkill` | ✅ | Current painkiller level. |
-| `pos_x`<br/>`pos_y`<br/>`pos_z` | ✅ | Coordinate in the reality bubble |
+| `pos_x`<br/>`pos_y`<br/>`pos_z` | ✅ | Absolute coordinate of the character |
 | `power` | ✅ | Bionic or item power. Bionic power is returned in millijoules. Item power is returned in battery charges. |
 | `power_percentage` | ✅ | Percentage of max bionic or item power. |
 | `power_max` | ❌ | Max bionic or item power. Bionic power is returned in millijoules. Item power is returned in battery charges. |
@@ -1440,6 +1441,11 @@ These can be read or written to with `val()`.
 | `volume` | ❌ | Current volume in mL. Only works for monsters |
 | `weight` | ❌ | Current weight in mg. |
 | `count`  | ❌ | Count of an item. |
+| `vehicle_facing`  | ❌ | Angle that the vehicle is facing. Only works for vehicles. 0 is North |
+| `current_speed`  | ❌ | Vehicle's current speed. Only works for vehicles. |
+| `unloaded_weight`  | ❌ | How much the vehicle would weigh without passengers or cargo. Only works for vehicles. |
+| `friendly_passenger_count`  | ❌ | How many people plus monsters are onboard that are not hostile. Only works for vehicles. |
+| `hostile_passenger_count`  | ❌ | How many people plus monsters are onboard that are not friendly. Only works for vehicles. |
 
 
 #### Math functions defined in JSON

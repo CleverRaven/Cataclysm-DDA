@@ -2,41 +2,44 @@
 #include "monstergenerator.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <cstdlib>
-#include <limits>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
+#include <unordered_set>
 #include <utility>
 
 #include "assign.h"
-#include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "catacharset.h"
+#include "condition.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
-#include "enum_conversions.h"
+#include "enums.h"
 #include "field_type.h"
+#include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
-#include "json.h"
-#include "make_static.h"
+#include "magic.h"
 #include "mattack_actors.h"
 #include "monattack.h"
-#include "mondeath.h"
 #include "mondefense.h"
 #include "mongroup.h"
+#include "monster.h"
 #include "options.h"
 #include "pathfinding.h"
 #include "rng.h"
-#include "translations.h"
+#include "shearing.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
 #include "weakpoint.h"
+
+struct itype;
 
 static const material_id material_flesh( "flesh" );
 
@@ -805,6 +808,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "melee_skill", melee_skill, strict, 0 );
     assign( jo, "melee_dice", melee_dice, strict, 0 );
     assign( jo, "melee_dice_sides", melee_sides, strict, 0 );
+    optional( jo, was_loaded, "melee_dice_ap", melee_dice_ap, 0 );
 
     assign( jo, "grab_strength", grab_strength, strict, 0 );
 
@@ -983,6 +987,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     assign( jo, "luminance", luminance, true );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, itype_id() );
+    optional( jo, was_loaded, "broken_itype", broken_itype, itype_id() );
     optional( jo, was_loaded, "mech_weapon", mech_weapon, itype_id() );
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
     optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
@@ -1025,51 +1030,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
     }
 
-    // TODO: make this work with `was_loaded`
-    if( jo.has_array( "melee_damage" ) ) {
-        melee_damage = load_damage_instance( jo.get_array( "melee_damage" ) );
-    } else if( jo.has_object( "melee_damage" ) ) {
-        melee_damage = load_damage_instance( jo.get_object( "melee_damage" ) );
-    } else if( jo.has_object( "relative" ) ) {
-        std::optional<damage_instance> tmp_dmg;
-        JsonObject rel = jo.get_object( "relative" );
-        rel.allow_omitted_members();
-        if( rel.has_array( "melee_damage" ) ) {
-            tmp_dmg = load_damage_instance( rel.get_array( "melee_damage" ) );
-        } else if( rel.has_object( "melee_damage" ) ) {
-            tmp_dmg = load_damage_instance( rel.get_object( "melee_damage" ) );
-        } else if( rel.has_int( "melee_damage" ) ) {
-            const int rel_amt = rel.get_int( "melee_damage" );
-            for( damage_unit &du : melee_damage ) {
-                du.amount += rel_amt;
-            }
-        }
-        if( !!tmp_dmg ) {
-            melee_damage.add( tmp_dmg.value() );
-        }
-    } else if( jo.has_object( "proportional" ) ) {
-        std::optional<damage_instance> tmp_dmg;
-        JsonObject prop = jo.get_object( "proportional" );
-        prop.allow_omitted_members();
-        if( prop.has_array( "melee_damage" ) ) {
-            tmp_dmg = load_damage_instance( prop.get_array( "melee_damage" ) );
-        } else if( prop.has_object( "melee_damage" ) ) {
-            tmp_dmg = load_damage_instance( prop.get_object( "melee_damage" ) );
-        } else if( prop.has_float( "melee_damage" ) ) {
-            melee_damage.mult_damage( prop.get_float( "melee_damage" ), true );
-        }
-        if( !!tmp_dmg ) {
-            for( const damage_unit &du : tmp_dmg.value() ) {
-                auto iter = std::find_if( melee_damage.begin(),
-                melee_damage.end(), [&du]( const damage_unit & mdu ) {
-                    return mdu.type == du.type;
-                } );
-                if( iter != melee_damage.end() ) {
-                    iter->amount *= du.amount;
-                }
-            }
-        }
-    }
+    optional( jo, was_loaded, "melee_damage", melee_damage );
 
     if( jo.has_array( "scents_tracked" ) ) {
         for( const std::string line : jo.get_array( "scents_tracked" ) ) {
@@ -1695,6 +1656,10 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.revert_to_itype.is_empty() && !item::type_is_defined( mon.revert_to_itype ) ) {
             debugmsg( "monster %s has unknown revert_to_itype: %s", mon.id.c_str(),
                       mon.revert_to_itype.c_str() );
+        }
+        if( !mon.broken_itype.is_empty() && !item::type_is_defined( mon.broken_itype ) ) {
+            debugmsg( "monster %s has unknown broken_itype: %s", mon.id.c_str(),
+                      mon.broken_itype.c_str() );
         }
         if( !mon.zombify_into.is_empty() && !mon.zombify_into.is_valid() ) {
             debugmsg( "monster %s has unknown zombify_into: %s", mon.id.c_str(),

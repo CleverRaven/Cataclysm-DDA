@@ -2,7 +2,14 @@
 #ifndef CATA_SRC_IMGUI_DEMO_H
 #define CATA_SRC_IMGUI_DEMO_H
 
+#include <memory>
+
 #include "cata_imgui.h"
+
+namespace cataimgui
+{
+struct Paragraph;
+}  // namespace cataimgui
 
 class imgui_demo_ui : public cataimgui::window
 {

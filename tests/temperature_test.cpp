@@ -1,12 +1,15 @@
+#include <string>
+
 #include "calendar.h"
-#include "cata_utility.h"
 #include "cata_catch.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "flag.h"
 #include "game_constants.h"
 #include "item.h"
 #include "map.h"
-#include "point.h"
+#include "type_id.h"
+#include "units.h"
 #include "weather.h"
 
 static const itype_id itype_meat_cooked( "meat_cooked" );

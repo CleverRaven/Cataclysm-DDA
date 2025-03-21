@@ -8,6 +8,7 @@
 
 #include "catacharset.h"
 #include "color.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "input_context.h"
 #include "output.h"
@@ -16,7 +17,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 
 minesweeper_game::minesweeper_game()

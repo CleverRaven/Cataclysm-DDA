@@ -155,11 +155,43 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 <summary><h3>Combat Dance</h3></summary>
 
 *Difficulty*: 8<br />
-*Duration*: 40 seconds to 3 minutes and 20 seconds, plus 5 to 11 seconds per level<br />
+*Duration*: 40 seconds to 3 minutes and 20 seconds, plus 12 seconds to 59 seconds per level<br />
 *Stamina Cost*: 5500, minus 125 per level to a minimum of 2250<br />
 *Channeling Time*: 100 moves, minus 4 moves per level to a minimum of 40<br />
-*Effects*: Provides a myriad of combat bonuses. Move cost is reduced by 10% and recoil reduced by 30.  In addition, pain is reduced by 3% per power level, and melee damage and attack speed are increased by 2% per power level. The psion is immune to the Stunned and Dazed effects.<br />
+*Effects*: Provides a myriad of combat bonuses depending on what other biokinetic powers the psion has active. 
+- With Overcome Pain: Incoming pain is reduced by 15% plus 3% per power level
+- With Physical Enhancement: Melee damage is increased by 15% + 3.5% per power level and the stamina consumption of melee attacks is reduced by 5% plus 1.5% per power level to a maximum of 70% reduction.
+- With Burst of Speed: Move 25% further plus 3% per power level.
+- With Flexibility: Dodge skill is increased by 4, plus 1 per power level.
+- With Adrenaline Trigger: Cardio multiplier increases by 15% + 1.5% per power level.
+- With Hardened Skin: The bonues from hardened skin are increased by 50% plus 4% per power level, to a maximum of double the base bonus. Also, the psion is immune to being dazed or stunned. 
+- With Hammerhand: The psion does 25% additional bash damage with unarmed attacks, plus 3% per power level, as well as an increased chance to directly pulp the corpse of your target.
+- With Enhance Mobility: The psion gains Uncanny Dodge.
+- With Heightened Reflexes: Move cost is reduced by 10% plus 2% per power level, to a maximum of 50%, and recoil reduced by 30. In addition, the psions gains 1 bonus dodge, plus 1 per 8 power levels.
+
+<br />
 *Prerequisites*: Heightened Reflexes 10, Physical Enhancement 10, Adrenaline Trigger 9 *or* Burst of Speed 6<br />
+</details>
+<details>
+<summary><h3>Guided Evolution (C)</h3></summary>
+
+*Difficulty*: 8<br />
+*Duration*: 45 minutes to 112 minutes and 30 seconds, plus 4 minutes 10 seconds to 8 minutes 20 seconds per level<br />
+*Stamina Cost*: 8000, minus 250 per level to a minimum of 4000<br />
+*Channeling Time*: 250 moves, minus 13 moves per level to a minimum of 50<br />
+*Effects*: Whenever the psion mutates, they may choose from 1 + 0.25 extra mutations per level for which trait they want to mutate.  This power does not in of itself mutate the psion, and at high nether attunement may result in extra random mutations.<br />
+*Prerequisites*: Vitaminosis 10, Metabolic Hyperefficiency 10<br />
+</details>
+<details>
+<summary><h3>Vitaminosis</h3></summary>
+
+*Difficulty*: 8<br />
+*Target*: Self<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 8000<br />
+*Channeling Time*: 5 seconds<br />
+*Effects*: Enter a trance where the psion converts calories into either iron, vitamin C, and calcium at a rate of 200 calories per 100 vitamins.  The psion will automatically stop meditating when all three vitamins are full.<br />
+*Prerequisites*: Metabolic Hyperefficiency 8, Adrenaline Trigger 6<br />
 </details>
 <details>
 <summary><h3>Perfected Motion</h3></summary>
@@ -185,16 +217,16 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 <details>
 <summary><h1>Clairsentience</h1></summary>
 
-**Passive Power: Psionic Senses**: Enhances mundane senses, allowing farther overmap sight, enhanced hearing, and the ability to always know the exact time even without a watch.  The psion can also sense Nether creatures within a radius of 2 squares plus 0.075 squares times the sum total of the levels of the psion's clairsentience powers.
+**Passive Power: Psionic Senses**: Protects the psion's senses from minor sensory damage, such as loud noises or the glare of sunlight.  The psion can also sense Nether creatures within a radius of 2 squares plus 0.075 squares times the sum total of the levels of the psion's clairsentience powers.
 <details>
-<summary><h3>Night Eyes (C)</h3></summary>
+<summary><h3>Heightened Senses (C)</h3></summary>
 
 *Difficulty*: 1<br />
 *Target*: Self<br />
-*Duration*: 12 minutes to 23 minutes 20 seconds, plus 6 minutes 12 seconds to 13 minutes 30 seconds minutes per level<br />
-*Stamina Cost*: 1500, minus 65 per level to a minimum of 500<br />
+*Duration*: 9 minutes 55 seconds to 21 minutes 4 seconds, plus 3 minutes 35 seconds to 8 minutes 2 seconds minutes per level<br />
+*Stamina Cost*: 2000, minus 85 per level to a minimum of 750<br />
 *Channeling Time*: 50 moves, minus 2 moves per level to a minimum of 20<br />
-*Effects*: Allows the psion to see in the dark.  This increases the psion's night vision by 2 squares plus 1.5 squares per power level.<br />
+*Effects*: Increases the psion's mundane senses, adding 1 Perception plus 1 per 3 power levels, 1 extra range of overmap sight plus 1 per 5 power levels, and increasing the sensitivity of the psion's hearing by 25% per power level. Extra powers are gained at specific breakpoints: at an effective level of 6, the psion can see underwater; at an effective level of 10, the psion can crack safes without needing a stethoscope, and at an effective level of 15, or at any time in smoke or while blind, the psion is aware of all movement in a small radius around them.<br />
 *Prerequisites*: Starting power<br />
 </details>
 <details>
@@ -217,7 +249,18 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 2250, minus 85 per level to a minimum of 850<br />
 *Channeling Time*: 85 moves, minus 7 moves per level to a minimum of 25<br />
 *Effects*: Reveal the location of all hostile enemies (NPCs who are currently hostile and creatures with aggression 10 or greater) within the power's range. Premonition does not reveal exactly what sort of enemy is out there, only that something is.<br />
-*Prerequisites*: None<br />
+*Prerequisites*: Heightened Senses 6<br />
+</details>
+<details>
+<summary><h3>Night Eyes (C)</h3></summary>
+
+*Difficulty*: 3<br />
+*Target*: Self<br />
+*Duration*: 12 minutes to 23 minutes 20 seconds, plus 6 minutes 12 seconds to 13 minutes 30 seconds minutes per level<br />
+*Stamina Cost*: 3500, minus 75 per level to a minimum of 2000<br />
+*Channeling Time*: 50 moves, minus 2 moves per level to a minimum of 20<br />
+*Effects*: Allows the psion to see in the dark.  This increases the psion's night vision by 2 squares plus 1.5 squares per power level.<br />
+*Prerequisites*: Heightened Senses 8<br />
 </details>
 <details>
 <summary><h3>Discern Weakness</h3></summary>
@@ -239,7 +282,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 4000, minus 115 per level to a minimum of 1750<br />
 *Channeling Time*: 300 moves, minus 8.5 moves per level to a minimum of 100<br />
 *Effects*: Reveal others' emotions, increasing the psion's chance to persuade them or lie to them by 1% per power level, to a maximum of 20%.<br />
-*Prerequisites*: Premonition 5, Discern Weakness 5<br />
+*Prerequisites*: Heightened Senses 5, Discern Weakness 5<br />
 </details>
 <details>
 <summary><h3>Radiation Sense</h3></summary>
@@ -944,7 +987,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Duration*: Instant<br />
 *Stamina Cost*: 1750, minus 80 per level to a minimum of 750<br />
 *Channeling Time*: 50 moves, minus 4 moves per level to a minimum of 10<br />
-*Effects*: The psion attempts to shove a single target either toward or away from them. The distance is based on the ratio of the target's weight to the psion's power level (modified by Intelligence and Nether Attunement as usual).  By default, the formula is (power level * 25 kg) * Intelligence modifier * Nether Attunement modifier, divided by the target's weight in kg. If this is 1 or higher, the target is hurled back 1 square for every 0.5 above 1 the ratio is. If it is below one, there is still a chance to knock the target over (chance is weight ratio * 100 in percentage; a weight ratio of 0.678 has a 67.8% chance of causing knockdown).<br />
+*Effects*: The psion attempts to shove a single target either to them or in a chosen direction. The distance is based on the ratio of the target's weight to the psion's power level (modified by Intelligence and Nether Attunement as usual).  By default, the formula is (power level * 25 kg) * Intelligence modifier * Nether Attunement modifier, divided by the target's weight in kg. If this is 1 or higher, the target is hurled 1 square for every 0.5 above 1 the ratio is. If it is below one, there is still a chance to knock the target over (chance is weight ratio * 100 in percentage; a weight ratio of 0.678 has a 67.8% chance of causing knockdown).<br />
 *Prerequisites*: Starting power<br />
 </details>
 <details>
@@ -1098,7 +1141,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Duration*: Instant<br />
 *Stamina Cost*: 9500, minus 175 per level to a minimum of 5000<br />
 *Channeling Time*: 80 moves, minus 5 moves per level to a minimum of 25<br />/>
-*Effects*: Like Force Shove, but on a much greater scale, the psion hurls a single target either toward or away from them. The distance is based on the ratio of the target's weight to the psion's power level (modified by Intelligence and Nether Attunement as usual).  By default, the formula is (power level * 150 kg) * Intelligence modifier * Nether Attunement modifier, plus 100 kg, divided by the target's weight in kg. If this is 1 or higher, the target is hurled back 1 square for every 0.5 above 1 the ratio is. If it is below one, there is still a chance to knock the target over (chance is weight ratio * 1000 in percentage; a weight ratio of 0.952 has a 95.2% chance of causing knockdown).<br />
+*Effects*: Like Force Shove, but on a much greater scale, the psion hurls a single target either to them or in a chosen direction. The distance is based on the ratio of the target's weight to the psion's power level (modified by Intelligence and Nether Attunement as usual).  By default, the formula is (power level * 150 kg) * Intelligence modifier * Nether Attunement modifier, plus 100 kg, divided by the target's weight in kg. If this is 1 or higher, the target is hurled 1 square for every 0.5 above 1 the ratio is. If it is below one, there is still a chance to knock the target over (chance is weight ratio * 1000 in percentage; a weight ratio of 0.952 has a 95.2% chance of causing knockdown).<br />
 *Prerequisites*: Force Shove 15 *or* Far Hand 15, Momentum Alteration 10, Lift Vehicle 6<br />
 </details>
 <details>
@@ -1297,7 +1340,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 900, minus 55 per level to a minimum of 350<br />
 *Channeling Time*: 50 moves, minus 3.5 moves per level to a minimum of 5<br />
-*Effects*: The psion vanishes and reappears nearby. They cannot control exactly where they end up. While there is no danger of teleporting into a wall or solid rock, if above ground level it is possible to teleport into open air, after which the psion will fall normally.<br />
+*Effects*: The psion vanishes and reappears nearby. They cannot control exactly where they end up. While there is no danger of teleporting into a wall or solid rock, if above ground level it is possible to teleport into open air, after which the psion will fall normally.  The psion may always teleport themselves, and can carry 5L of gear, plus 3.5L per power level<br />
 *Prerequisites*: Starting power<br />
 </details>
 <details>
@@ -1363,7 +1406,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 4000, minus 65 per level to a minimum of 1750<br />
 *Channeling Time*: 95 moves, minus 4 moves per level to a minimum of 25<br />
-*Effects*: Touch a single target and teleport them through the Nether, sending them anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Blink).<br />
+*Effects*: Touch a single target and teleport them through the Nether, sending them anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Blink). The target must be no larger than 25L in volume plus 12.5L per power level.<br />
 *Prerequisites*: Stutterstep 10, Apportation 5 <br />
 </details>
 <details>
@@ -1374,7 +1417,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 20 seconds to 3 minutes and 20 seconds plus 10 to 40 seconds per power level<br />
 *Stamina Cost*: 3500, minus 100 per level to a minimum of 1500<br />
 *Channeling Time*: 100 moves, minus 5 moves per level to a minimum of 25<br />
-*Effects*: The psion maintains a reactive shield, forcefully teleporting any entity that hits them through the nether. This effect does not prevent the damage from getting hit. The entity is sent anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Displacement).<br />
+*Effects*: The psion maintains a reactive shield, forcefully teleporting any entity that hits them through the nether. This effect does not prevent the damage from getting hit. The entity is sent anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Displacement).  The target must be no larger than 25L in volume plus 12.5L per Displacement power level (not Reactive Displacement).<br />
 *Prerequisites*: Displacement 5 <br />
 </details>
 <details>
@@ -1407,8 +1450,19 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 6500, minus 105 per level to a minimum of 2750<br />
 *Channeling Time*: 75 moves, minus 3 moves per level to a minimum of 30<br />
-*Effects*: Step into the Nether and re-emerge at a location nearby.  Farstep works through walls and across Z levels.<br />
+*Effects*: Step into the Nether and re-emerge at a location nearby.  Farstep works through walls and across Z levels. The psion may always teleport themselves, and can carry 8L of gear, plus 5L per power level.<br />
 *Prerequisites*: Phase 10, Extended Stride 8 *or* Spacial Vortex 6 <br />
+</details>
+<details>
+<summary><h3>Warped Strikes (C)</h3></summary>
+
+*Difficulty*: 5<br />
+*Target*: Self<br />
+*Duration*: 30 seconds to 3 minutes, plus 10 to 30 seconds per power level<br />
+*Stamina Cost*: 4000, minus 100 per level to a minimum of 2000<br />
+*Channeling Time*: 80 moves, minus 3 moves per level to a minimum of 20<br />
+*Effects*: Allows psion to melee attack extra distance, at 1 + 0.2 tiles per level.<br />
+*Prerequisites*: Apportation 6, Extended Stride 10<br />
 </details>
 <details>
 <summary><h3>Ephemeral Walk (C)</h3></summary>
@@ -1462,7 +1516,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 10000, minus 200 per level to a minimum of 6000<br />
 *Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75. Attunement takes 8 hours, minus 20 minutes per power level of Gateway to a minimum of 30 minutes<br />
-*Effects*: Transport yourself through the Nether to an attuned location. This power works at any distance.  You may have a number of destinations simultaneously equal to 1 + 1 per 3 levels of Gateway (2.5 levels if you have the Good Memory trait, 4 levels if you have the Forgetful trait).<br />
+*Effects*: Transport the psion through the Nether to an attuned location. This power works at any distance.  The psion may have a number of destinations simultaneously equal to 1 + 1 per 3 levels of Gateway (2.5 levels with the Good Memory trait, 4 levels with the Forgetful trait).  The psion may always teleport themselves, and can carry 10L of gear, plus 7.5L per power level.<br />
 *Prerequisites*: Farstep 10, Loci Establishment 6 <br />
 </details>
 <details>
@@ -1473,8 +1527,19 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 12000, minus 200 per level to a minimum of 8000<br />
 *Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75.<br />
-*Effects*: Transport yourself and every adjacent creature through the Nether to an attuned location. This power works at any distance. This uses locations attuned to via Gateway.<br />
+*Effects*: Transport the psion and every adjacent creature through the Nether to an attuned location. This power works at any distance. This uses locations attuned to via Gateway.<br />
 *Prerequisites*: Gateway 8, Oubliette 2 <br />
+</details>
+<details>
+<summary><h3>Flickerflash Stance</h3></summary>
+
+*Difficulty*: 9<br />
+*Target*: Self<br />
+*Duration*: 23 seconds to or 1 minute 37 seconds, plus 3.5 to 14 seconds per power level<br />
+*Stamina Cost*: 7500, minus 225 per level to a minimum of 4500<br />
+*Channeling Time*: 75 moves, minus 4 moves per level to a minimum of 25<br />
+*Effects*: Begin constantly warping space and teleporting small distances to increase the psion's combat prowess. This provides the UNCANNY_DODGE flag, adds 1 to hit per 5 power levels, adds 5% melee damage + 3% per power level, adds 1 bonus dodge plus 1 per 4 power levels, adds a flat 15% chance to dodge any attack, adds an additional 10% plus 2.5% per power level chance to dodge ranged attacks, and a -4 penalty to perception.  In addition, there is a 33% chance when attacking or being attacked that the psion will blink to a nearby square.<br />
+*Prerequisites*: Special (must be studied from notes)<br />
 </details>
 <details>
 <summary><h3>Breach</h3></summary>

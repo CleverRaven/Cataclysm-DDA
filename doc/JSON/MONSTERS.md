@@ -81,6 +81,7 @@ Property                 | Description
 `placate_triggers`       | (array of strings) Triggers that lower monster aggression (same flags as fear)
 `chat_topics`            | (array of strings) Conversation topics if dialog is opened with the monster
 `revert_to_itype`        | (string) Item monster can be converted to when friendly (ex. to deconstruct turrets)
+`broken_itype`           | (string) Item that will spawn when the monster dies with `corpse_type` set to `BROKEN`. Can be left empty to create a `broken_` item based on the monster's `id`. 
 `mech_weapon`            | (string) If this monster is a rideable mech with built-in weapons, this is the weapons id
 `mech_str_bonus`         | (integer) If this monster is a rideable mech with enhanced strength, this is the strength it gives to the player when ridden
 `mech_battery`           | (string) If this monster is a rideable mech, this is battery's id. Does not support objects or arrays (i.e. ONE battery id only)

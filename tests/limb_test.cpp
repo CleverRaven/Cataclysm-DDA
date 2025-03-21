@@ -1,16 +1,30 @@
+#include <memory>
+#include <string>
+#include <vector>
+
+#include "body_part_set.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
-#include "character_modifier.h"
-#include "damage.h"
+#include "coordinates.h"
 #include "flag.h"
 #include "item.h"
 #include "itype.h"
 #include "magic_enchantment.h"
+#include "map.h"
 #include "map_helpers.h"
-#include "mutation.h"
+#include "npc.h"
+#include "npc_opinion.h"
 #include "options_helpers.h"
+#include "pimpl.h"
 #include "player_helpers.h"
+#include "type_id.h"
+#include "units.h"
+#include "weather.h"
+#include "weather_gen.h"
+#include "weather_type.h"
 
 static const bodypart_str_id body_part_test_arm_l( "test_arm_l" );
 static const bodypart_str_id body_part_test_arm_r( "test_arm_r" );

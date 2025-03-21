@@ -21,17 +21,16 @@
 #include "character.h"
 #include "character_id.h"
 #include "color.h"
-#include "coords_fwd.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
-#include "game_constants.h"
 #include "global_vars.h"
 #include "item_location.h"
+#include "map_scale_constants.h"
 #include "memory_fast.h"
 #include "overmap_ui.h"
 #include "pimpl.h"
-#include "point.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "weather.h"
@@ -65,8 +64,6 @@ enum safe_mode_type {
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
 };
 
-enum action_id : int;
-
 class JsonValue;
 class achievements_tracker;
 class avatar;
@@ -97,7 +94,9 @@ class ui_adaptor;
 class uilist;
 class vehicle;
 class viewer;
+enum action_id : int;
 struct special_game;
+struct mtype;
 struct visibility_variables;
 template <typename Tripoint> class tripoint_range;
 
@@ -129,6 +128,31 @@ struct w_map {
     std::string name;
     bool toggle;
     catacurses::window win;
+};
+
+struct pulp_data {
+    // how far the splatter goes
+    int mess_radius = 1;
+    // how much damage you deal to corpse every second, average of multiple values
+    float pulp_power;
+    // how much stamina is consumed after each punch
+    float pulp_effort;
+    // time to pulp the corpse
+    int time_to_pulp;
+    // potential prof we can learn by pulping
+    std::optional<proficiency_id> unknown_prof;
+    // if monster has PULP_PRYING flag, can you pry armor faster using tool
+    bool can_pry_armor = false;
+    // do we have a good tool to cut specific parts faster
+    bool can_cut_precisely = false;
+    // all used in ending messages
+    bool stomps_only = false;
+    bool weapon_only = false;
+    bool used_pry = false;
+    bool couldnt_use_pry = false;
+    std::string bash_tool;
+    std::string cut_tool;
+    std::string pry_tool;
 };
 
 bool is_valid_in_w_terrain( const point_rel_ms &p );
@@ -492,6 +516,7 @@ class game
         std::vector<Creature *> get_creatures_if( const std::function<bool( const Creature & )> &pred );
         std::vector<Character *> get_characters_if( const std::function<bool( const Character & )> &pred );
         std::vector<npc *> get_npcs_if( const std::function<bool( const npc & )> &pred );
+        std::vector<vehicle *> get_vehicles_if( const std::function<bool( const vehicle & )> &pred );
         /**
          * Returns a creature matching a predicate. Only living (not dead) creatures
          * are checked. Returns `nullptr` if no creature matches the predicate.
@@ -954,8 +979,6 @@ class game
         // Pick up items from the given point
         void pickup( const tripoint_bub_ms &p );
     private:
-        void wield();
-        void wield( item_location loc );
 
         void chat(); // Talk to a nearby NPC  'C'
 
@@ -982,6 +1005,9 @@ class game
                                int last_line );
         void print_graffiti_info( const tripoint_bub_ms &lp, const catacurses::window &w_look, int column,
                                   int &line, int last_line );
+
+        void print_debug_info( const tripoint_bub_ms &lp, const catacurses::window &w_look,
+                               int column, int &line );
 
         input_context get_player_input( std::string &action );
 
@@ -1307,6 +1333,13 @@ class game
             const tripoint_bub_ms &examp,
             climbing_aid_id aid,
             bool deploy_affordance = false );
+
+        pulp_data calculate_character_ability_to_pulp( const Character &you );
+        pulp_data calculate_pulpability( const Character &you, const mtype &corpse_mtype );
+        pulp_data calculate_pulpability( const Character &you, const mtype &corpse_mtype, pulp_data pd );
+        bool can_pulp_corpse( const Character &you, const mtype &corpse_mtype );
+        bool can_pulp_corpse( const pulp_data &pd );
+        bool can_pulp_corpse( Character &you, const mtype &corpse_mtype, const pulp_data &pd );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

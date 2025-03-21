@@ -10,13 +10,13 @@
 
 #include "calendar.h"
 #include "coords_fwd.h"
+#include "dialogue.h"
 #include "dialogue_helpers.h"
-#include "global_vars.h"
+#include "translation.h"
 
 class JsonObject;
 class JsonValue;
-class translation;
-struct dialogue;
+enum class var_type : int;
 template <typename T> struct enum_traits;
 
 namespace dialogue_data

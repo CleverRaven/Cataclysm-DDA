@@ -105,7 +105,8 @@
           { "item": "prepared_teas", "chance": 20 },
           { "item": "coffee_table", "chance": 20 }
         ],
-        "m": { "item": "bar_trash", "chance": 50, "repeat": [ 1, 2 ] },
+        "j": { "item": "SUS_toilet", "chance": 50 },
+        "m": { "item": "SUS_trash_trashcan", "chance": 50, "repeat": [ 1, 2 ] },
         "I": { "item": "office", "chance": 30, "repeat": [ 1, 2 ] }
       },
       "place_loot": [
@@ -164,7 +165,10 @@
         "&": "t_flat_roof"
       },
       "furniture": { "j": "f_trashcan", "h": "f_chair" },
-      "items": { "t": { "item": "coffee_table", "chance": 50 }, "j": { "item": "bar_trash", "chance": 65, "repeat": [ 1, 3 ] } }
+      "items": {
+        "t": { "item": "coffee_table", "chance": 50 },
+        "j": { "item": "SUS_trash_trashcan", "chance": 65, "repeat": [ 1, 3 ] }
+      }
     }
   },
   {

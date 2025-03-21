@@ -76,10 +76,11 @@
       "r": [ { "item": "office_supplies", "chance": 65, "repeat": [ 1, 10 ] } ],
       "y": { "item": "SUS_janitors_closet", "chance": 90 },
       "Y": { "item": "coat_rack", "chance": 66, "repeat": [ 1, 5 ] },
-      "a": { "item": "trash", "chance": 70, "repeat": [ 1, 3 ] },
+      "a": { "item": "SUS_trash_trashcan", "chance": 70, "repeat": [ 1, 3 ] },
       "t": { "item": "dining", "chance": 40, "repeat": [ 1, 2 ] },
       "f": { "item": "SUS_office_filing_cabinet", "chance": 90 },
       "A": { "item": "homebooks", "chance": 40, "repeat": [ 1, 4 ] },
+      "T": { "item": "SUS_toilet", "chance": 50 },
       ".": { "item": "office_mess", "chance": 1 }
     },
     "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },

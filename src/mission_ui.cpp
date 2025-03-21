@@ -7,19 +7,23 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_imgui.h"
 #include "color.h"
-#include "debug.h"
+#include "dialogue.h"
+#include "dialogue_helpers.h"
+#include "game_constants.h"
+#include "imgui/imgui.h"
 #include "input_context.h"
 #include "mission.h"
 #include "npc.h"
 #include "output.h"
 #include "string_formatter.h"
+#include "talker.h"
+#include "translation.h"
 #include "translations.h"
-#include "ui.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "units_utility.h"
-#include "cata_imgui.h"
-#include "imgui/imgui.h"
 
 enum class mission_ui_tab_enum : int {
     ACTIVE = 0,
@@ -45,8 +49,6 @@ static mission_ui_tab_enum &operator--( mission_ui_tab_enum &c )
     c = static_cast<mission_ui_tab_enum>( static_cast<int>( c ) - 1 );
     return c;
 }
-
-class mission_ui;
 
 class mission_ui
 {

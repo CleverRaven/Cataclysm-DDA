@@ -1241,7 +1241,7 @@
     ],
     "weight": "255 g",
     "color": "red",
-    "spoils_in": 64,
+    "spoils_in": "2 days 16 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 5,

@@ -1,0 +1,47 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_PRESSURE_STRIKES_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "monster_takes_damage",
+    "condition": { "and": [ "has_beta", "has_alpha", { "npc_has_flag": "MELEE_PERK_PRESSURE_STRIKES" }, { "not": "npc_has_weapon" } ] },
+    "effect": [
+      { "math": [ "u_pressure_redeal_damage", "+=", "_damage" ] },
+      {
+        "if": { "math": [ "u_pressure_redeal_queued", "!=", "1" ] },
+        "then": [ { "math": [ "u_pressure_redeal_queued = 1" ] }, { "math": [ "u_timer_pressure_redeal = time('now')" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_PRESSURE_STRIKES_SCHEDULE",
+    "//": "Timing can be wonky so we also schedule ahead.",
+    "effect": [
+      { "run_eocs": "EOC_PERK_PRESSURE_STRIKES_DEAL_DAMAGE", "time_in_future": 4 },
+      { "run_eocs": "EOC_PERK_PRESSURE_STRIKES_DEAL_DAMAGE", "time_in_future": 6 }
+    ]
+  },
+  {
+    "id": "EOC_PERK_PRESSURE_STRIKES_DEAL_DAMAGE",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "u_run_monster_eocs": [
+          {
+            "id": "_pressure_point_mon_redeal",
+            "condition": {
+              "and": [ { "math": [ "u_pressure_redeal_queued == 1" ] }, { "math": [ "time_since(u_timer_pressure_redeal) > time(' 3s')" ] } ]
+            },
+            "effect": [
+              { "math": [ "u_pressure_redeal_queued = 0" ] },
+              { "u_deal_damage": "pure", "amount": { "u_val": "pressure_redeal_damage" }, "bodypart": "torso" },
+              { "math": [ "u_timer_pressure_redeal = time('now')+ time('60h')" ] },
+              { "math": [ "u_pressure_redeal_damage = 0" ] }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1889,7 +1889,7 @@ std::string TextJsonIn::line_number( int offset_modifier )
     std::stringstream ret;
     switch( error_log_format ) {
         case error_log_format_t::human_readable:
-            ret << name << ":" << line << ":" << offset;
+            ret << "file " << name << ", at line " << line << ", character " << offset;
             break;
         case error_log_format_t::github_action:
             ret.imbue( std::locale::classic() );
@@ -2012,7 +2012,7 @@ void TextJsonIn::error( int offset, const std::string &message )
     std::ostringstream err_header;
     switch( error_log_format ) {
         case error_log_format_t::human_readable:
-            err_header << "Json error: " << line_number( offset ) << ": ";
+            err_header << "Json error: " << line_number( offset ) << ":\n";
             break;
         case error_log_format_t::github_action:
             err_header << "::error " << line_number( offset ) << "::";

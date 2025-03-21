@@ -43,6 +43,17 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_THAUMIC_ZOMBIES_INCREASE_DIFFICULTY",
+    "eoc_type": "EVENT",
+    "required_event": "opens_spellbook",
+    "condition": { "u_has_effect": "effect_thaumic_zombie_magical_disruption" },
+    "effect": [
+      { "math": [ "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm' ) = 2" ] },
+      { "math": [ "u_spellcasting_adjustment('cost', 'mod': 'magiclysm') = 0.25" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_NO_CASTING_CHANNELING_SPELLS_EFFECTS",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",

@@ -1,16 +1,22 @@
 #include "string_input_popup.h"
 
 #include <cctype>
+#include <climits>
 
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
+#include "condition.h"
+#include "flexbuffer_json.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "output.h"
 #include "point.h"
+#include "ret_val.h"
+#include "translation.h"
 #include "translations.h"
 #include "try_parse_integer.h"
-#include "ui.h"
+#include "uilist.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "wcwidth.h"

@@ -4,6 +4,7 @@
 
 #if defined(BACKTRACE)
 
+#include <cerrno>
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>

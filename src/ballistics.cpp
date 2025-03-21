@@ -2,14 +2,16 @@
 
 #include <algorithm>
 #include <cmath>
+#include <functional>
 #include <memory>
 #include <optional>
 #include <set>
+#include <string>
 #include <utility>
 #include <vector>
 
-#include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
@@ -23,6 +25,7 @@
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
+#include "map_scale_constants.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
@@ -30,6 +33,7 @@
 #include "options.h"
 #include "point.h"
 #include "projectile.h"
+#include "ranged.h"
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
@@ -635,8 +639,8 @@ void projectile_attack( dealt_projectile_attack &attack, const projectile &proj_
                 return false;
             }
             // search for creatures in radius 4 around impact site
-            if( rl_dist( z.pos_bub( here ), tp ) <= 4 &&
-                here->sees( z.pos_bub( here ), tp, -1 ) ) {
+            if( rl_dist( z.pos_bub( *here ), tp ) <= 4 &&
+                here->sees( z.pos_bub( *here ), tp, -1 ) ) {
                 // don't hit targets that have already been hit
                 for( auto it : attack.targets_hit ) {
                     if( &z == it.first ) {

@@ -61,7 +61,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "fear_paralyze" }, "monster_message": "" } ],
-    "death_function": { "effect": { "id": "death_amigara" } },
+    "death_function": { "eoc": "EOC_last_amigara_death" },
     "dissect": "dissect_human_sample_single",
     "flags": [ "SMELLS", "HEARS", "SEES", "STUMBLES", "HARDTOSHOOT" ],
     "armor": { "electric": 1 }

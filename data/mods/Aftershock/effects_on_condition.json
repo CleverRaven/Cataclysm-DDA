@@ -109,5 +109,47 @@
       { "math": [ "u_hp('leg_l')", "-=", "rand(5)" ] },
       { "math": [ "u_hp('leg_r')", "-=", "rand(5)" ] }
     ]
+  },
+  {
+    "id": "EOC_vahagn_check_shootfoes",
+    "type": "effect_on_condition",
+    "condition": { "and": [ { "not": { "u_has_effect": "vahagan_fired_at" } } ] },
+    "effect": [
+      { "u_add_effect": "vahagan_fired_at", "duration": "1 seconds" },
+      { "math": [ "times_firing = 0" ] },
+      { "u_location_variable": { "context_val": "shooter" } },
+      {
+        "u_run_monster_eocs": [
+          {
+            "id": "_vahagn_shootfoes",
+            "condition": {
+              "and": [
+                { "u_has_effect": "smart_targeted" },
+                { "math": [ "u_hp('ALL') > 1" ] },
+                { "math": [ "times_firing < 9" ] },
+                { "not": { "u_has_effect": "vahagan_fired_at" } }
+              ]
+            },
+            "effect": [
+              { "u_add_effect": "vahagan_fired_at", "duration": "1 seconds" },
+              { "math": [ "times_firing++" ] },
+              {
+                "run_eocs": [ "EOC_vahagn_shootfoes" ],
+                "alpha_loc": { "context_val": "shooter" },
+                "beta_talker": "u"
+              }
+            ]
+          }
+        ],
+        "monster_range": 45,
+        "monster_must_see": true
+      },
+      { "math": [ "times_firing = 0" ] }
+    ]
+  },
+  {
+    "id": "EOC_vahagn_shootfoes",
+    "type": "effect_on_condition",
+    "effect": [ "u_ranged_attack" ]
   }
 ]

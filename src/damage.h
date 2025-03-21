@@ -18,7 +18,6 @@
 #include "units.h"
 
 class Creature;
-class JsonArray;
 class JsonObject;
 class JsonOut;
 class JsonValue;
@@ -108,30 +107,45 @@ struct barrel_desc {
 };
 
 struct damage_unit {
-    damage_type_id type;
-    float amount;
-    float res_pen;
-    float res_mult;
-    float damage_multiplier;
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
 
-    float unconditional_res_mult;
-    float unconditional_damage_mult;
+    damage_type_id type;
+    //the amount of damage_type
+    float amount = 0.0f;
+    //armor penetration
+    float res_pen = 0.0f;
+    //armor penetration multiplier
+    float res_mult = 1.0f;
+    float damage_multiplier = 1.0f;
+
+    float unconditional_res_mult = 1.0f;
+    float unconditional_damage_mult = 1.0f;
 
     std::vector<barrel_desc> barrels;
 
+    damage_unit() = default;
     damage_unit( const damage_type_id &dt, float amt, float arpen = 0.0f, float arpen_mult = 1.0f,
                  float dmg_mult = 1.0f, float unc_arpen_mult = 1.0f, float unc_dmg_mult = 1.0f ) :
         type( dt ), amount( amt ), res_pen( arpen ), res_mult( arpen_mult ), damage_multiplier( dmg_mult ),
         unconditional_res_mult( unc_arpen_mult ), unconditional_damage_mult( unc_dmg_mult ) { }
 
     bool operator==( const damage_unit &other ) const;
+    damage_unit &operator*=( double rhs );
+    //handles "relative" field; NOT the same as damage_instance::add(damage_unit)
+    damage_unit &operator+=( const damage_unit &rhs );
 };
 
 // a single atomic unit of damage from an attack. Can include multiple types
 // of damage at different armor mitigation/penetration values
 struct damage_instance {
+    bool was_loaded = false;
+    //called by JsonValue::read(), damage_unit is what is read from JSON
+    void deserialize( const JsonValue &val );
+
     std::vector<damage_unit> damage_units;
-    damage_instance();
+    damage_instance() = default;
     damage_instance( const damage_type_id &dt, float amt, float arpen = 0.0f, float arpen_mult = 1.0f,
                      float dmg_mult = 1.0f, float unc_arpen_mult = 1.0f, float unc_dmg_mult = 1.0f );
     void mult_damage( double multiplier, bool pre_armor = false );
@@ -158,6 +172,10 @@ struct damage_instance {
     std::vector<damage_unit>::const_iterator end() const;
 
     bool operator==( const damage_instance &other ) const;
+    //loads an object mapping damage_instance JSON fields to proportional floats
+    bool handle_proportional( const JsonValue &jval );
+    //handles "relative" field; NOT the same as add(damage_unit)
+    damage_instance &operator+=( const damage_instance &rhs );
 
     /**
      * Adds damage to the instance.
@@ -170,8 +188,6 @@ struct damage_instance {
     void add( const damage_instance &added_di );
     void add( const damage_unit &added_du );
     /*@}*/
-
-    void deserialize( const JsonValue &jsin );
 };
 
 class damage_over_time_data
@@ -227,13 +243,6 @@ struct resistances {
     resistances operator*( float mod ) const;
     resistances operator/( float mod ) const;
 };
-
-damage_instance load_damage_instance( const JsonObject &jo );
-damage_instance load_damage_instance( const JsonArray &jarr );
-
-damage_instance load_damage_instance_inherit( const JsonObject &jo, const damage_instance &parent );
-damage_instance load_damage_instance_inherit( const JsonArray &jarr,
-        const damage_instance &parent );
 
 resistances extend_resistances_instance( resistances ret, const JsonObject &jo );
 resistances load_resistances_instance( const JsonObject &jo,

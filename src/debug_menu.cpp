@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <csignal>
 #include <cstdint>
 #include <exception>
@@ -40,7 +41,6 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "city.h"
-#include "clzones.h"
 #include "color.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
@@ -48,7 +48,6 @@
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "imgui_demo.h"
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "dialogue_helpers.h"
@@ -62,14 +61,14 @@
 #include "faction.h"
 #include "filesystem.h"
 #include "game.h"
-#include "game_constants.h"
 #include "game_inventory.h"
 #include "global_vars.h"
+#include "imgui_demo.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
 #include "json.h"
@@ -78,6 +77,7 @@
 #include "map.h"
 #include "map_extras.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapgen.h"
 #include "mapgendata.h"
 #include "martialarts.h"
@@ -90,6 +90,7 @@
 #include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "npc_opinion.h"
 #include "npctalk.h"
 #include "omdata.h"
 #include "options.h"
@@ -118,9 +119,9 @@
 #include "translations.h"
 #include "try_parse_integer.h"
 #include "type_id.h"
-#include "ui.h"
-#include "uistate.h"
+#include "uilist.h"
 #include "ui_manager.h"
+#include "uistate.h"
 #include "units.h"
 #include "units_utility.h"
 #include "veh_type.h"
@@ -209,6 +210,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::SPAWN_CLAIRVOYANCE: return "SPAWN_CLAIRVOYANCE";
         case debug_menu::debug_menu_index::SPAWN_HORDE: return "SPAWN_HORDE";
         case debug_menu::debug_menu_index::MAP_EDITOR: return "MAP_EDITOR";
+        case debug_menu::debug_menu_index::PALETTE_VIEWER: return "PALETTE_VIEWER";
         case debug_menu::debug_menu_index::CHANGE_WEATHER: return "CHANGE_WEATHER";
         case debug_menu::debug_menu_index::WIND_DIRECTION: return "WIND_DIRECTION";
         case debug_menu::debug_menu_index::WIND_SPEED: return "WIND_SPEED";
@@ -841,7 +843,7 @@ static void monster_edit_menu()
         }
         case D_TELE: {
             if( tripoint_abs_ms newpos = player_picks_tile(); newpos != get_avatar().pos_abs() ) {
-                critter->setpos( get_map().get_bub( newpos ) );
+                critter->setpos( newpos );
             }
             break;
         }
@@ -984,6 +986,7 @@ static int map_uilist()
         { uilist_entry( debug_menu_index::KILL_AREA, true, 'a', _( "Kill in Area" ) ) },
         { uilist_entry( debug_menu_index::KILL_NPCS, true, 'k', _( "Kill NPCs" ) ) },
         { uilist_entry( debug_menu_index::MAP_EDITOR, true, 'M', _( "Map editor" ) ) },
+        { uilist_entry( debug_menu_index::PALETTE_VIEWER, true, 'P', _( "Palette viewer" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_WEATHER, true, 'w', _( "Change weather" ) ) },
         { uilist_entry( debug_menu_index::WIND_DIRECTION, true, 'd', _( "Change wind direction" ) ) },
         { uilist_entry( debug_menu_index::WIND_SPEED, true, 's', _( "Change wind speed" ) ) },
@@ -2311,6 +2314,8 @@ static faction *select_faction()
 
 static void character_edit_menu()
 {
+    map &here = get_map();
+
     std::vector< tripoint_bub_ms > locations;
     uilist charmenu;
     charmenu.title = _( "Edit which character?" );
@@ -2379,7 +2384,7 @@ static void character_edit_menu()
         D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_DROP_ITEMS, D_ITEM_WORN, D_RADS,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_NORMALIZE_BODY, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_BIONICS, D_CLASS, D_ATTITUDE, D_OPINION, D_PERSONALITY, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
-        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS, D_FACTION
+        D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS, D_FACTION, D_ALPHA_EOC, D_BETA_EOC
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit description - name, age, height or blood type" ) );
@@ -2425,6 +2430,10 @@ static void character_edit_menu()
         nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set opinions" ) );
         nmenu.addentry( D_PERSONALITY, true, 'P', "%s", _( "Set personality" ) );
         nmenu.addentry( D_FACTION, true, 'F', "%s", _( "Set faction" ) );
+        nmenu.addentry( D_ALPHA_EOC, true, 'r', "%s",
+                        _( "Run EOC with character as alpha talker (avatar as beta)" ) );
+        nmenu.addentry( D_BETA_EOC, true, 't', "%s",
+                        _( "Run EOC with character as beta talker (avatar as alpha)" ) );
     }
     nmenu.query();
     switch( nmenu.ret ) {
@@ -2632,10 +2641,10 @@ static void character_edit_menu()
             break;
         case D_TELE: {
             if( const std::optional<tripoint_bub_ms> newpos = g->look_around() ) {
-                you.setpos( *newpos );
+                you.setpos( here, *newpos );
                 if( you.is_avatar() ) {
                     if( you.is_mounted() ) {
-                        you.mounted_creature->setpos( *newpos );
+                        you.mounted_creature->setpos( here, *newpos );
                     }
                     g->update_map( player_character );
                 }
@@ -2728,6 +2737,13 @@ static void character_edit_menu()
             }
             break;
         }
+        case D_ALPHA_EOC:
+            run_eoc_menu( &you, true );
+            break;
+        case D_BETA_EOC:
+            run_eoc_menu( &you );
+            break;
+
     }
 }
 
@@ -3082,6 +3098,8 @@ static void debug_menu_game_state()
     avatar &player_character = get_avatar();
     map &here = get_map();
     tripoint_abs_sm abs_sub = here.get_abs_sub();
+    const tripoint_bub_ms pos = player_character.pos_bub( here );
+
     popup( player_character.total_daily_calories_string() );
 
     std::string s = _( "Location %d:%d in %d:%d, %s\n" );
@@ -3113,17 +3131,19 @@ static void debug_menu_game_state()
 
     popup_top(
         s.c_str(),
-        player_character.posx(), player_character.posy(), abs_sub.x(), abs_sub.y(),
+        pos.x(), pos.y(), abs_sub.x(), abs_sub.y(),
         overmap_buffer.ter( player_character.pos_abs_omt() )->get_name( om_vision_level::full ),
         to_turns<int>( calendar::turn - calendar::turn_zero ),
         g->num_creatures() );
     for( const npc &guy : g->all_npcs() ) {
         tripoint_abs_sm t = guy.pos_abs_sm();
+        const tripoint_bub_ms guy_pos = guy.pos_bub( here );
+
         add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.get_name(), t.x(),
-                 t.y(), guy.posx(), guy.posy() );
+                 t.y(), guy_pos.x(), guy_pos.y() );
     }
 
-    add_msg( m_info, _( "(you: %d:%d)" ), player_character.posx(), player_character.posy() );
+    add_msg( m_info, _( "(you: %d:%d)" ), pos.x(), pos.y() );
     std::string stom =
         _( "Stomach Contents: %d mL / %d mL kcal: %d, Water: %d mL" );
     add_msg( m_info, stom.c_str(), units::to_milliliter( player_character.stomach.contains() ),
@@ -3195,12 +3215,14 @@ static void debug_menu_spawn_vehicle()
 
 static void display_talk_topic()
 {
+    const map &here = get_map();
+
     avatar &a = get_avatar();
     int menu_ind = 0;
     uilist npc_menu;
     npc_menu.text = _( "Choose NPC to hold topic:" );
     std::vector<npc *> visible_npcs = g->get_npcs_if( [&]( const npc & n ) {
-        return a.sees( n );
+        return a.sees( here, n );
     } );
     int npc_count = static_cast<int>( visible_npcs.size() );
     if( npc_count > 0 ) {
@@ -3590,12 +3612,15 @@ static void print_npc_magic()
 static void show_sound()
 {
 #if defined(TILES)
+    map &here = get_map();
+
     avatar &player_character = get_avatar();
+    const tripoint_bub_ms pos = player_character.pos_bub( here );
     const auto &sounds_to_draw = sounds::get_monster_sounds();
 
     shared_ptr_fast<game::draw_callback_t> sound_cb = make_shared_fast<game::draw_callback_t>( [&]() {
         const point offset {
-            player_character.view_offset.xy().raw() + point( POSX - player_character.posx(), POSY - player_character.posy() )
+            player_character.view_offset.xy().raw() + point( POSX - pos.x(), POSY - pos.y() )
         };
         wattron( g->w_terrain, c_yellow );
         for( const tripoint_bub_ms &sound : sounds_to_draw.first ) {
@@ -3706,8 +3731,9 @@ static void unlock_all()
 
 static void vehicle_battery_charge()
 {
+    map &here = get_map();
 
-    optional_vpart_position v_part_pos = get_map().veh_at( player_picks_tile() );
+    optional_vpart_position v_part_pos = here.veh_at( player_picks_tile() );
     if( !v_part_pos ) {
         add_msg( m_bad, _( "There's no vehicle there." ) );
         return;
@@ -3722,9 +3748,9 @@ static void vehicle_battery_charge()
     if( !popup.canceled() ) {
         vehicle &veh = v_part_pos->vehicle();
         if( amount >= 0 ) {
-            veh.charge_battery( amount, false );
+            veh.charge_battery( here, amount, false );
         } else {
-            veh.discharge_battery( -amount, false );
+            veh.discharge_battery( here, -amount, false );
         }
     }
 }
@@ -3733,7 +3759,7 @@ static void vehicle_export()
 {
     map &here = get_map();
 
-    if( optional_vpart_position ovp = get_map().veh_at( get_avatar().pos_bub() ) ) {
+    if( optional_vpart_position ovp = here.veh_at( get_avatar().pos_abs() ) ) {
         cata_path export_dir{ cata_path::root_path::user,  "export_dir" };
         assure_dir_exist( export_dir );
         const std::string text = string_input_popup()
@@ -3744,7 +3770,7 @@ static void vehicle_export()
         try {
             write_to_file( veh_path, [&]( std::ostream & fout ) {
                 JsonOut jsout( fout );
-                ovp->vehicle().refresh( &here );
+                ovp->vehicle().refresh( );
                 vehicle_prototype::save_vehicle_as_prototype( ovp->vehicle(), jsout );
             } );
         } catch( const std::exception &err ) {
@@ -4047,6 +4073,10 @@ void debug()
 
         case debug_menu_index::MAP_EDITOR:
             g->look_debug();
+            break;
+
+        case debug_menu_index::PALETTE_VIEWER:
+            debug_palettes::debug_view_all_palettes();
             break;
 
         case debug_menu_index::CHANGE_WEATHER:

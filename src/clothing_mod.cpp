@@ -2,18 +2,14 @@
 
 #include <cmath>
 #include <map>
-#include <set>
 #include <string>
 #include <utility>
 
 #include "debug.h"
 #include "enum_conversions.h"
-#include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "init.h"
 #include "item.h"
-#include "json_error.h"
 
 namespace
 {

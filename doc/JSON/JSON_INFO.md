@@ -1007,7 +1007,6 @@ reference at least one body part or sub body part.
 | `drench_increment`     | (_optional_) Units of "wetness" applied each time the limb gets drenched. Default 2, ignored by diving underwater.
 | `drying_rate`          | (_optional float_) Divisor on the time needed to dry a given amount of wetness from a bodypart, modified by clothing.  Final drying rate depends on breathability, weather, and `drying_capacity` of the bodypart.
 | `wet_morale`           | (_optional_) Mood bonus/malus when the limb gets wet, representing the morale effect at 100% limb saturation. Modified by worn clothing and ambient temperature.
-| `stylish_bonus`        | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
 | `hot_morale_mod`       | (_optional_) Mood effect of being too hot on this part. (default: `0`)
 | `cold_morale_mod`      | (_optional_) Mood effect of being too cold on this part. (default: `0`)
 | `squeamish_penalty`    | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
@@ -2426,6 +2425,20 @@ it is present to help catch errors.
   "display_category": "display_ranged",
   "sort_rank": 11000,
   "teachable": true,
+  "level_descriptions_theory": [
+    { "level": 0, "description": "You know absolutely nothing about computers, even in theory." },
+    { "level": 1, "description": "You know how to open browser and search images." },
+    { "level": 2, "description": "foo" },
+    { "level": 3, "description": "bar" },
+    { "level": 4, "description": "xyz" }
+],
+"level_descriptions_practice": [
+    { "level": 0, "description": "You don't know how to operate the computer whatsoever" },
+    { "level": 1, "description": "You know how to open browser and search images.  Were able to, at least." },
+    { "level": 2, "description": "foo" },
+    { "level": 3, "description": "bar" },
+    { "level": 4, "description": "xyz" }
+],
   "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
 }
 ```
@@ -2440,6 +2453,8 @@ it is present to help catch errors.
 | `sort_rank`                | Order in which the skill is shown. |
 | `teachable`                | Whether it's possible to teach this skill between characters. (Default = true) |
 | `companion_skill_practice` | Determines the priority of this skill within a mision skill category when an NPC gains experience from a companion mission. |
+| `level_descriptions_theory`|  Description of your current theoretical level. The smallest one is picked, if you define only level 0 and 2, skill level 1 would show description for level 0 
+| `level_descriptions_practice`| Same as level_descriptions_theory, but for practical skill level.
 | `companion_combat_rank_factor`   | _(int)_ Affects an NPC's rank when determining the success rate for combat missions. |
 | `companion_survival_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for survival missions. |
 | `companion_industry_rank_factor` | _(int)_ Affects an NPC's rank when determining the success rate for industry missions. |
@@ -3880,7 +3895,7 @@ Flags, that can be used in different entries, can also be made in json, allowing
   "name": "ultra-light battery", // name of a flag, used in pocket restrictions shown as `compatible magazines: form factors` 
   "info": "This will hook to a <info>Hub 01 proprietary</info> skirt connector", // this information would be shown, if possible - like in item description
   "restriction": "Item must be an armored skirt", // for pocket restriction, this information would be shown in `restrictions` field in pocket info
-  "conflicts": "FANCY", // if something with this flag will met something with conflict flag, only one will be applied
+  "conflicts": "STURDY", // if something with this flag will met something with conflict flag, only one will be applied
   "taste_mod": -5, // for consumables, it will add -5 to taste, that can't be removed with cooking
   "inherit": true, // is this flag inherited to another thing if it's attached/equipped, like if you put ESAPI plate into plate carrier, their `CANT_WEAR` flag won't be applied to plate carrier, and you could wear it as usually
   "craft_inherit": true // if true, if you craft something with this flag, this flag would be applied to result also

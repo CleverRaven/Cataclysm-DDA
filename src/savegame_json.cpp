@@ -1076,7 +1076,7 @@ void Character::load( const JsonObject &data )
     calc_encumbrance();
 
     assign( data, "power_level", power_level, false, 0_kJ );
-    assign( data, "max_power_level_modifier", max_power_level_modifier, false, units::energy_min );
+    assign( data, "max_power_level_modifier", max_power_level_modifier, false, units::energy::min() );
 
     // Bionic power should not be negative!
     if( power_level < 0_mJ ) {
@@ -3418,8 +3418,6 @@ void smart_controller_config::serialize( JsonOut &json ) const
 
 void vehicle::deserialize( const JsonObject &data )
 {
-    map &here = get_map();
-
     data.allow_omitted_members();
 
     int fdir = 0;
@@ -3431,6 +3429,8 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "om_id", om_id );
     data.read( "faceDir", fdir );
     data.read( "moveDir", mdir );
+    data.read( "values", values );
+    data.read( "chat_topics", chat_topics );
     int turn_dir_int;
     data.read( "turn_dir", turn_dir_int );
     turn_dir = units::from_degrees( turn_dir_int );
@@ -3498,7 +3498,7 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "fuel_remainder", fuel_remainder );
     data.read( "fuel_used_last_turn", fuel_used_last_turn );
 
-    refresh( &here );
+    refresh( );
 
     point p;
     zone_data zd;
@@ -3548,6 +3548,8 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "posx", pos.x() );
     json.member( "posy", pos.y() );
     json.member( "om_id", om_id );
+    json.member( "values", values );
+    json.member( "chat_topics", chat_topics );
     json.member( "faceDir", std::lround( to_degrees( face.dir() ) ) );
     json.member( "moveDir", std::lround( to_degrees( move.dir() ) ) );
     json.member( "turn_dir", std::lround( to_degrees( turn_dir ) ) );
@@ -3586,7 +3588,7 @@ void vehicle::serialize( JsonOut &json ) const
     if( is_towed() ) {
         vehicle *tower = tow_data.get_towed_by();
         if( tower ) {
-            other_tow_temp_point = tower->bub_part_pos( &here, tower->get_tow_part() );
+            other_tow_temp_point = tower->bub_part_pos( here, tower->get_tow_part() );
         }
     }
     json.member( "other_tow_point", other_tow_temp_point );
@@ -5302,7 +5304,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                 point_sm_ms loc;
                 computers_json.next_value().read( loc );
                 auto new_comp_it = computers.emplace( loc, computer( "BUGGED_COMPUTER", -100,
-                                                      tripoint_bub_ms::zero ) ).first;
+                                                      tripoint_abs_ms::invalid ) ).first;
                 computers_json.next_value().read( new_comp_it->second );
             }
         }

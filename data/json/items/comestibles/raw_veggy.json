@@ -1017,22 +1017,23 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy",
-    "name": { "str_sp": "plant marrow" },
+    "name": { "str_sp": "triffid flesh" },
     "weight": "119 g",
     "color": "green",
     "spoils_in": "3 days 8 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 34,
-    "description": "A nutrient-rich chunk of plant matter, could be eaten raw or cooked.",
+    "description": "An weird looking chunk of plant matter that's a shade of yellow and green, with oddly thick fibers.  It smells like a mix of rotted wood and dirt, and it leaks a clear fluid.",
     "price": "6 USD",
-    "price_postapoc": "50 cent",
+    "price_postapoc": "0 cent",
     "material": [ "veggy" ],
     "flags": [ "TRADER_AVOID", "SMOKABLE", "RAW" ],
+    "fun": -3,
     "smoking_result": "dry_veggy",
     "volume": "250 ml",
     "//": "average of broccoli, cabbage, carrot, cattail_stalk, celery, chili_pepper, cucumber, lettuce, onion, pumpkin, raw_dandelion, rhubarb, sugar_beet, tomato, zucchini",
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ], [ "veggy_allergen", 1 ], [ "triffid_fiber", 2 ] ]
   },
   {
     "type": "COMESTIBLE",

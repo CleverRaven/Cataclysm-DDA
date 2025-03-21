@@ -198,8 +198,8 @@
     "morale": 100,
     "melee_skill": 6,
     "melee_dice": 2,
-    "melee_dice_sides": 4,
-    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
     "dodge": 4,
     "vision_day": 25,
     "regenerates": 10,
@@ -221,8 +221,7 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ],
-    "armor": { "bash": 3, "cut": 5, "bullet": 5 }
+    ]
   },
   {
     "id": "mon_moxie_spartan",
@@ -243,12 +242,13 @@
     "aggression": 100,
     "morale": 100,
     "melee_skill": 6,
-    "melee_dice": 2,
-    "melee_dice_sides": 4,
+    "melee_dice": 4,
+    "melee_dice_sides": 5,
+    "melee_dice_ap": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 4,
     "vision_day": 40,
-    "regenerates": 15,
+    "regenerates": 10,
     "harvest": "frost_human",
     "death_drops": "default_moxie_human_death_drops",
     "grab_strength": 20,
@@ -281,7 +281,7 @@
       "PUSH_VEH",
       "FILTHY"
     ],
-    "armor": { "bash": 15, "cut": 20, "bullet": 30 }
+    "armor": { "bash": 15, "cut": 20, "bullet": 30, "afs_laser": 10 }
   },
   {
     "id": "mon_moxie_regenerator",
@@ -302,8 +302,8 @@
     "aggression": 100,
     "morale": 100,
     "melee_skill": 4,
-    "melee_dice": 2,
-    "melee_dice_sides": 2,
+    "melee_dice": 4,
+    "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
     "vision_day": 40,
@@ -327,7 +327,7 @@
       "PUSH_MON",
       "FILTHY"
     ],
-    "armor": { "bash": 10, "cut": 20, "bullet": 25 }
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   },
   {
     "id": "mon_moxie_grabby",
@@ -348,8 +348,8 @@
     "aggression": 100,
     "morale": 100,
     "melee_skill": 4,
-    "melee_dice": 2,
-    "melee_dice_sides": 4,
+    "melee_dice": 4,
+    "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "grab_strength": 100,
     "dodge": 2,
@@ -371,7 +371,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   },
   {
     "id": "mon_human_biomachine",
@@ -384,7 +385,7 @@
     "diff": 5,
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 110,
+    "hp": 80,
     "speed": 100,
     "material": [ "flesh" ],
     "symbol": "X",
@@ -393,7 +394,7 @@
     "morale": 100,
     "melee_skill": 4,
     "melee_dice": 2,
-    "melee_dice_sides": 2,
+    "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
     "vision_day": 25,
@@ -416,7 +417,8 @@
       "PUSH_MON",
       "FILTHY",
       "GUILT_OTHERS"
-    ]
+    ],
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   },
   {
     "id": "mon_moxie_elder",
@@ -437,8 +439,9 @@
     "aggression": 100,
     "morale": 100,
     "melee_skill": 6,
-    "melee_dice": 2,
-    "melee_dice_sides": 4,
+    "melee_dice": 4,
+    "melee_dice_sides": 5,
+    "melee_dice_ap": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 4,
     "vision_day": 10,
@@ -475,7 +478,7 @@
       "PUSH_VEH",
       "FILTHY"
     ],
-    "armor": { "bash": 15, "cut": 20, "bullet": 30 }
+    "armor": { "bash": 10, "cut": 20, "bullet": 30, "afs_laser": 10 }
   },
   {
     "id": "mon_moxie_bloodhound",
@@ -488,7 +491,7 @@
     "diff": 10,
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 70,
+    "hp": 80,
     "speed": 120,
     "material": [ "flesh" ],
     "symbol": "Q",
@@ -497,7 +500,8 @@
     "morale": 100,
     "melee_skill": 4,
     "melee_dice": 2,
-    "melee_dice_sides": 2,
+    "melee_dice_sides": 3,
+    "melee_dice_ap": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
     "vision_day": 2,
@@ -520,8 +524,7 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ],
-    "armor": { "bash": 10, "cut": 10, "bullet": 20 }
+    ]
   },
   {
     "id": "mon_moxphore_emetic",
@@ -534,7 +537,7 @@
     "diff": 10,
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 110,
+    "hp": 140,
     "speed": 85,
     "material": [ "flesh" ],
     "symbol": "Y",
@@ -542,8 +545,8 @@
     "aggression": 100,
     "morale": 100,
     "melee_skill": 3,
-    "melee_dice": 2,
-    "melee_dice_sides": 6,
+    "melee_dice": 4,
+    "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 1,
     "vision_day": 15,
@@ -567,7 +570,7 @@
       "PUSH_MON",
       "FILTHY"
     ],
-    "armor": { "bash": 3, "cut": 5, "bullet": 18 }
+    "armor": { "bash": 8, "cut": 10, "bullet": 15 }
   },
   {
     "id": "mon_zombie_brute_shocker",

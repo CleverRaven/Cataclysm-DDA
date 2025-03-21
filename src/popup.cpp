@@ -4,16 +4,15 @@
 #include <array>
 #include <memory>
 
-#include "options.h"
 #include "cached_options.h"
+#include "cata_imgui.h"
 #include "catacharset.h"
+#include "color.h"
+#include "imgui/imgui.h"
 #include "input_context.h"
 #include "output.h"
+#include "string_formatter.h"
 #include "ui_manager.h"
-#include "ui.h"
-#include "cata_imgui.h"
-#include "imgui/imgui.h"
-#include "color.h"
 
 class query_popup_impl : public cataimgui::window
 {

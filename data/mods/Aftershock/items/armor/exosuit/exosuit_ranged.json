@@ -11,7 +11,7 @@
     "material": [ "qt_steel", "ceramic" ],
     "symbol": "f",
     "color": "light_gray",
-    "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR", "ONLY_ONE" ],
+    "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR" ],
     "charges_per_use": 30,
     "ammo": "flammable",
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pressurized_tank", "pressurized_tank_modern" ] } ],
@@ -29,7 +29,8 @@
     "material": [ "qt_steel", "ceramic" ],
     "symbol": "f",
     "color": "light_gray",
-    "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR", "ONLY_ONE" ],
+    "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR" ],
+    "max_worn": 1,
     "ammo": "battery",
     "charges_per_use": 80,
     "pocket_data": [
@@ -53,7 +54,8 @@
     "material": [ "qt_steel", "ceramic" ],
     "symbol": "f",
     "color": "light_gray",
-    "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR", "ONLY_ONE" ],
+    "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR" ],
+    "max_worn": 1,
     "ammo": "battery",
     "charges_per_use": 100,
     "pocket_data": [
@@ -77,7 +79,8 @@
     "material": [ "qt_steel", "superalloy", "ceramic" ],
     "symbol": "f",
     "color": "light_gray",
-    "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR", "ONLY_ONE" ],
+    "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR" ],
+    "max_worn": 1,
     "charges_per_use": 1500,
     "ammo": "battery",
     "pocket_data": [

@@ -442,7 +442,7 @@
     "mod_targets": [ "shotgun" ],
     "gun_data": {
       "barrel_length": "775 mm",
-      "ammo": "shot",
+      "ammo": [ "shot" ],
       "skill": "shotgun",
       "ranged_damage": { "damage_type": "bullet", "amount": 5 },
       "dispersion": 425,
@@ -1092,7 +1092,14 @@
     "location": "underbarrel",
     "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "barrel_length": "419 mm", "ammo": "20x66mm", "skill": "shotgun", "dispersion": 320, "durability": 9, "reload": 125 },
+    "gun_data": {
+      "barrel_length": "419 mm",
+      "ammo": [ "20x66mm" ],
+      "skill": "shotgun",
+      "dispersion": 320,
+      "durability": 9,
+      "reload": 125
+    },
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "20x66_10_mag" ] } ]

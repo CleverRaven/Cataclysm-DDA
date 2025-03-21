@@ -16,7 +16,7 @@
     "looks_like": "vitamins",
     "fun": -8,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitC", 24, 48 ], [ "bad_food", 10 ] ]
+    "vitamins": [ [ "calcium", 36 ], [ "iron", 36 ], [ "vitC", 36 ], [ "bad_food", 10 ] ]
   },
   {
     "id": "afs_calorie_water",
@@ -31,7 +31,7 @@
     "price": "100 USD",
     "looks_like": "bleach",
     "fun": -2,
-    "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitC", 24, 48 ], [ "bad_food", 10 ] ]
+    "vitamins": [ [ "calcium", 36 ], [ "iron", 36 ], [ "vitC", 36 ], [ "bad_food", 10 ] ]
   },
   {
     "id": "afs_sundew",

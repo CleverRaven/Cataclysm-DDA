@@ -50,6 +50,7 @@
       "f": "f_filing_cabinet",
       "^": "f_indoor_plant"
     },
+    "items": { "&": { "item": "SUS_toilet", "chance": 50 } },
     "toilets": { "&": {  } }
   }
 ]

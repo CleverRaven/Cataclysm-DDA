@@ -32,315 +32,111 @@
     "variants": [
       {
         "id": "gum_peppermint",
-        "name": { "str_sp": "chewing gum, peppermint flavored" },
+        "name": { "str_sp": "gum, peppermint" },
         "description": "The classic of classics, a flavor that provides a fresh and invigorating sensation in the mouth, as well as freshening breath.",
         "weight": 70
       },
       {
         "id": "gum_spearmint",
-        "name": { "str_sp": "chewing gum, spearmint flavored" },
+        "name": { "str_sp": "gum, spearmint" },
         "description": "Spearmint is a slightly sweeter and milder version of peppermint, providing a fresher taste and is also good for freshening breath.",
         "weight": 60
       },
       {
         "id": "gum_wintergreen",
-        "name": { "str_sp": "chewing gum, wintergreen flavored" },
+        "name": { "str_sp": "gum, wintergreen" },
         "description": "Wintergreen has a cool and refreshing taste, similar to mint, but with a slightly sweeter flavor.",
         "weight": 60
       },
       {
-        "id": "gum_cinnamon",
-        "name": { "str_sp": "chewing gum, cinnamon flavored" },
-        "description": "Cinnamon is a spicy, bold flavor that's great for clearing the sinuses and providing a burst of flavor.",
-        "weight": 50
-      },
-      {
         "id": "gum_bubblegum",
-        "name": { "str_sp": "chewing gum, bubblegum flavored" },
+        "name": { "str_sp": "gum, bubblegum" },
         "description": "Bubblegum is a nostalgic flavor that's reminiscent of the classic pink bubblegum flavor that kids love.  It's basically a combination of various flavors.",
         "weight": 50
       },
       {
-        "id": "gum_mixedberry",
-        "name": { "str_sp": "chewing gum, mixed-berry flavored" },
-        "description": "This flavor is a combination of different berries that provides a fruity, sweet, and tart taste.",
-        "weight": 50
-      },
-      {
         "id": "gum_strawberry",
-        "name": { "str_sp": "chewing gum, strawberry flavored" },
+        "name": { "str_sp": "gum, strawberry" },
         "description": "This strawberry-flavored chewing gum offers a sweet and juicy taste, reminiscent of fresh strawberries.",
         "weight": 50
       },
       {
         "id": "gum_cherry",
-        "name": { "str_sp": "chewing gum, cherry flavored" },
+        "name": { "str_sp": "gum, cherry" },
         "description": "This cherry-flavored chewing gum is both sweet and tart, with a delicious fruity flavor.",
         "weight": 50
       },
       {
-        "id": "gum_grape",
-        "name": { "str_sp": "chewing gum, grape flavored" },
-        "description": "This grape-flavored chewing gum is fruity and sweet, with a juicy grape flavor.",
-        "weight": 50
-      },
-      {
         "id": "gum_orange",
-        "name": { "str_sp": "chewing gum, orange flavored" },
+        "name": { "str_sp": "gum, orange" },
         "description": "This orange-flavored chewing gum provides a fresh and fruity taste, like biting into a juicy orange.",
         "weight": 50
       },
       {
         "id": "gum_watermelon",
-        "name": { "str_sp": "chewing gum, watermelon flavored" },
+        "name": { "str_sp": "gum, watermelon" },
         "description": "This watermelon-flavored chewing gum has a sweet and fruity flavor, perfect for summertime.",
         "weight": 50
       },
       {
         "id": "gum_blueberry",
-        "name": { "str_sp": "chewing gum, blueberry flavored" },
+        "name": { "str_sp": "gum, blueberry" },
         "description": "This blueberry-flavored chewing gum has a fruity, tangy flavor with a slightly sweet taste.",
         "weight": 50
       },
       {
-        "id": "gum_cranberry",
-        "name": { "str_sp": "chewing gum, cranberry flavored" },
-        "description": "This cranberry-flavored chewing gum offers a slight bitterness along with its unique and tangy taste.",
-        "weight": 50
-      },
-      {
         "id": "gum_pineapple",
-        "name": { "str_sp": "chewing gum, pineapple flavored" },
+        "name": { "str_sp": "gum, pineapple" },
         "description": "This pineapple-flavored chewing gum has a sweet and tangy taste, perfect for those looking for a tropical twist.",
         "weight": 30
       },
       {
         "id": "gum_greenapple",
-        "name": { "str_sp": "chewing gum, green apple flavored" },
+        "name": { "str_sp": "gum, green apple" },
         "description": "This green apple-flavored gum is crisp and refreshing, with a slightly sour and sweet taste, more sour and sweet than the regular apple-flavored one.",
         "weight": 30
       },
       {
-        "id": "gum_apple",
-        "name": { "str_sp": "chewing gum, apple flavored" },
-        "description": "This apple-flavored gum is both crisp and refreshing, with a slightly sweet and sour taste.",
-        "weight": 25
-      },
-      {
         "id": "gum_mango",
-        "name": { "str_sp": "chewing gum, mango flavored" },
+        "name": { "str_sp": "gum, mango" },
         "description": "This uncommon mango-flavored chewing gum has a sweet, tropical taste, reminiscent of fresh mangos.",
         "weight": 17
       },
       {
-        "id": "gum_mcc",
-        "name": { "str_sp": "chewing gum, mint chocolate chip flavored" },
-        "description": "Mint chocolate chip is a cross between a mint and chocolate flavor, offering a sweet and slightly creamy taste.",
-        "weight": 40
-      },
-      {
-        "id": "gum_vanilla",
-        "name": { "str_sp": "chewing gum, vanilla flavored" },
-        "description": "Vanilla is a subtle flavor for chewing gum that provides a sweet and comforting taste.",
-        "weight": 40
-      },
-      {
-        "id": "gum_coconut",
-        "name": { "str_sp": "chewing gum, coconut flavored" },
-        "description": "This coconut-flavored chewing gum offers a tropical and slightly sweet flavor that's popular during summertime.",
-        "weight": 40
-      },
-      {
         "id": "gum_lemonade",
-        "name": { "str_sp": "chewing gum, lemonade flavored" },
+        "name": { "str_sp": "gum, lemonade" },
         "description": "This lemonade-flavored chewing gum provides a zesty and citrusy burst of flavor.",
         "weight": 40
       },
       {
-        "id": "gum_honey",
-        "name": { "str_sp": "chewing gum, honey flavored" },
-        "description": "This honey-flavored chewing gum has a unique, sweet and rich flavor, offering a unique flavor that's popular among dessert lovers.",
-        "weight": 30
-      },
-      {
-        "id": "gum_sourapple",
-        "name": { "str_sp": "chewing gum, sour apple flavored" },
-        "description": "This sour apple-flavored chewing gum offers a puckering sensation and tanginess that's popular among candy and snack lovers.",
-        "weight": 30
-      },
-      {
         "id": "gum_pomegranate",
-        "name": { "str_sp": "chewing gum, pomegranate flavored" },
+        "name": { "str_sp": "gum, pomegranate" },
         "description": "This pomegranate-flavored chewing gum has a blend of tart and sweet taste for a unique, fruity flavor.",
         "weight": 30
       },
       {
         "id": "gum_raspberry",
-        "name": { "str_sp": "chewing gum, raspberry flavored" },
+        "name": { "str_sp": "gum, raspberry" },
         "description": "This raspberry-flavored chewing gum has a fruity and tart taste with a slightly sweet finish, offering a tangy and refreshing pop of flavor.",
         "weight": 50
       },
       {
         "id": "gum_kiwi",
-        "name": { "str_sp": "chewing gum, kiwi flavored" },
+        "name": { "str_sp": "gum, kiwi" },
         "description": "This kiwi-flavored chewing gum provides a sweet and tangy taste, reminiscent of fresh kiwis.",
         "weight": 20
       },
       {
         "id": "gum_peach",
-        "name": { "str_sp": "chewing gum, peach flavored" },
+        "name": { "str_sp": "gum, peach" },
         "description": "This peach-flavored chewing gum offers a sweet, slightly tangy, and earthy taste, reminiscent of fresh peaches.",
         "weight": 20
       },
       {
-        "id": "gum_passionf",
-        "name": { "str_sp": "chewing gum, passion fruit flavored" },
-        "description": "This passion fruit-flavored chewing gum has a calming, tart and sweet taste, offering a unique and tropical flavor.",
-        "weight": 20
-      },
-      {
-        "id": "gum_tangerine",
-        "name": { "str_sp": "chewing gum, tangerine flavored" },
-        "description": "This tangerine-flavored chewing gum offers a fresh and zesty taste, with a balance of sweetness and tartness.",
-        "weight": 20
-      },
-      {
-        "id": "gum_grapefruit",
-        "name": { "str_sp": "chewing gum, grapefruit flavored" },
-        "description": "This grapefruit-flavored chewing gum has a tangy and slightly bitter taste, with a twist of sweetness.",
-        "weight": 20
-      },
-      {
         "id": "gum_blackberry",
-        "name": { "str_sp": "chewing gum, blackberry flavored" },
+        "name": { "str_sp": "gum, blackberry" },
         "description": "This blackberry-flavored gum has a sweet taste, combined with a subtle tartness, offering a fruity and refreshing flavor.",
         "weight": 35
-      },
-      {
-        "id": "gum_lime",
-        "name": { "str_sp": "chewing gum, lime flavored" },
-        "description": "This uncommon lime-flavored chewing gum provides a tangy and refreshing taste, not exactly similar to biting into a fresh lime, because they are way too sour.",
-        "weight": 17
-      },
-      {
-        "id": "gum_peachm",
-        "name": { "str_sp": "chewing gum, peach mango flavored" },
-        "description": "This peach mango-flavored chewing gum is, obviously, a blend of two flavors, providing a sweet and tropical taste.",
-        "weight": 20
-      },
-      {
-        "id": "gum_limeade",
-        "name": { "str_sp": "chewing gum, limeade flavored" },
-        "description": "This uncommon limeade-flavored chewing gum offers a sweet yet tangy taste, perfect for those looking for a refreshing burst of flavor.",
-        "weight": 15
-      },
-      {
-        "id": "gum_strawberryl",
-        "name": { "str_sp": "chewing gum, strawberry lemonade flavored" },
-        "description": "This uncommon strawberry lemonade-flavored gum is sweet and tangy, with a cool and refreshing taste.",
-        "weight": 15
-      },
-      {
-        "id": "gum_wasabi",
-        "name": { "str_sp": "chewing gum, wasabi flavored" },
-        "description": "Wasabi is a rare spicy and bold flavor that's not often used in gum, but can offer a unique twist on traditional mint flavors.  It is quite invigorating.",
-        "weight": 1
-      },
-      {
-        "id": "gum_hibiscus",
-        "name": { "str_sp": "chewing gum, hibiscus flavored" },
-        "description": "Hibiscus is a floral and fruity flavor that's commonly used in teas, but apparently can be used in chewing gum as well.  While very rare and uncommon, it is a refreshing and unique taste that's less sweet than traditional fruit flavors.",
-        "weight": 1
-      },
-      {
-        "id": "gum_lavender",
-        "name": { "str_sp": "chewing gum, lavender flavored" },
-        "description": "Lavender is a rare, floral flavor, however, the cool thing of it is the lavender fragrance it leaves on your breath.  It can provide a slight sweetness and soothing, calming effect.",
-        "weight": 1
-      },
-      {
-        "id": "gum_bacon",
-        "name": { "str_sp": "chewing gum, bacon flavored" },
-        "description": "This rare bacon-flavored chewing gum offers a savory taste that was popular among meat lovers before the Cataclysm.  It's often associated with novelty flavors, and it's definitely an acquired taste.",
-        "weight": 1
-      },
-      {
-        "id": "gum_cola",
-        "name": { "str_sp": "chewing gum, cola flavored" },
-        "description": "Cola is a sweet and gentle flavor for those who enjoy a nice glass of cola.",
-        "weight": 5
-      },
-      {
-        "id": "gum_ghost",
-        "name": { "str_sp": "chewing gum, ghost pepper flavored" },
-        "description": "Shaped like small ghost peppers, this is a really spicy, but also sweet flavor, for those brave enough.",
-        "weight": 1
-      },
-      {
-        "id": "gum_whiskey",
-        "name": { "str_sp": "chewing gum, whiskey flavored" },
-        "description": "This rare whiskey-flavored chewing gum offers a unique taste that was once popular among adults.  It can be a great conversation starter, if you had anyone to chat with.",
-        "weight": 1
-      },
-      {
-        "id": "gum_saffron",
-        "name": { "str_sp": "chewing gum, saffron flavored" },
-        "description": "This very rare saffron-flavored chewing gum offers an exotic and unique taste, with floral and earthy undertones.  It was commonly consumed in India and areas of the Persian Gulf, and this one is clearly imported.",
-        "weight": 1
-      },
-      {
-        "id": "gum_gtea",
-        "name": { "str_sp": "chewing gum, green tea flavored" },
-        "description": "This natural matcha green tea-flavored gum provides a distinct tea flavor that's known for its health benefits.  It's a great option for those who enjoy green tea but want a more convenient way to access the benefits.",
-        "weight": 1
-      },
-      {
-        "id": "gum_anise",
-        "name": { "str_sp": "chewing gum, anise flavored" },
-        "description": "This anise-flavored chewing gum is a bit like licorice, with a sweet and slightly spicy taste.  It used to be a popular flavor in Mediterranean and Middle Eastern regions, so obviously, this one is imported.",
-        "weight": 1
-      },
-      {
-        "id": "gum_peppercorn",
-        "name": { "str_sp": "chewing gum, pink peppercorn flavored" },
-        "description": "Pink peppercorn is a very rare chewing gum flavor that provides a slightly spicy and fruity taste, with notes of citrus and berry.  The flavor pairs well with desserts and can offer a unique and unexpected taste.",
-        "weight": 1
-      },
-      {
-        "id": "gum_rose",
-        "name": { "str_sp": "chewing gum, rose menthol flavored" },
-        "description": "A flavor of chewing gum imported from Japan, also called 'man smell gum' or 'Otoko Kaoru'.  It offers a pleasant rose menthol taste.",
-        "weight": 1
-      },
-      {
-        "id": "gum_pop",
-        "name": { "str_sp": "chewing gum, popcorn flavored" },
-        "description": "Popcorn flavored chewing gum for those who once enjoyed the movies, goes well with cola chewing gum, heh.",
-        "weight": 1
-      },
-      {
-        "id": "gum_egg",
-        "name": { "str_sp": "chewing gum, eggnog flavored" },
-        "description": "Eggnog-flavored chewing gum, good all year round!",
-        "weight": 1
-      },
-      {
-        "id": "gum_chardonnay",
-        "name": { "str_sp": "chewing gum, mint chardonnay flavored" },
-        "description": "An exclusive, rare chewing gum flavor with a perfect mix of mint and chardonnay, for those who want to smell drunk, but stay sober.",
-        "weight": 1
-      },
-      {
-        "id": "gum_absinthe",
-        "name": { "str_sp": "chewing gum, absinthe flavored" },
-        "description": "Commune with your muse while chewing this absinthe-flavored gumball.",
-        "weight": 1
-      },
-      {
-        "id": "gum_cardamom",
-        "name": { "str_sp": "chewing gum, cardamom flavored" },
-        "description": "This rare cardamom-flavored chewing gum offers a warm and spicy taste, reminiscent of chai tea.  It was once a popular flavor in India and the Middle East, so this one is obviously imported.",
-        "weight": 1
       }
     ]
   },

@@ -114,10 +114,10 @@
         { "chance": 100, "item": "SUS_silverware", "x": 6, "y": 8 },
         { "chance": 100, "item": "coat_rack", "x": 8, "y": 6, "repeat": [ 1, 3 ] },
         { "chance": 10, "item": "used_1st_aid", "x": 6, "y": 8 },
-        { "chance": 25, "item": "trash", "x": 11, "y": 21 },
-        { "chance": 25, "item": "trash", "x": 2, "y": 19 },
-        { "chance": 25, "item": "trash", "x": 20, "y": 17 },
-        { "chance": 25, "item": "trash", "x": 15, "y": 13 },
+        { "chance": 25, "item": "SUS_trash_trashcan", "x": 11, "y": 21 },
+        { "chance": 25, "item": "SUS_trash_trashcan", "x": 2, "y": 19 },
+        { "chance": 25, "item": "SUS_trash_trashcan", "x": 20, "y": 17 },
+        { "chance": 25, "item": "SUS_trash_trashcan", "x": 15, "y": 13 },
         { "chance": 10, "item": "supplies_spares_vehicle", "x": 8, "y": 19 },
         { "chance": 10, "item": "supplies_spares_vehicle", "x": 9, "y": 17 },
         { "chance": 10, "item": "supplies_spares_vehicle", "x": 16, "y": 15 },
@@ -149,17 +149,7 @@
         { "item": "wrench_large", "x": 6, "y": 8, "chance": 100 }
       ],
       "mapping": { "/": { "traps": [ [ "tr_rollmat", 100 ] ] } },
-      "place_vehicles": [
-        {
-          "vehicle": "underlift_tow_truck_lack_wheels",
-          "x": 15,
-          "y": 9,
-          "chance": 100,
-          "fuel": 70,
-          "status": 0,
-          "rotation": 90
-        }
-      ],
+      "place_vehicles": [ { "vehicle": "underlift_tow_truck_lack_wheels", "x": 15, "y": 9, "fuel": 70, "status": 0, "rotation": 90 } ],
       "place_zones": [
         { "type": "LOOT_ITEM_GROUP", "filter": "SCRAPPER_Shop", "faction": "wasteland_scavengers", "x": 4, "y": 4 },
         {

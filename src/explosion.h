@@ -8,13 +8,13 @@
 #include <vector>
 
 #include "coordinates.h"
-#include "map.h"
+#include "point.h"
 #include "type_id.h"
 
 class Creature;
 class JsonObject;
+class map;
 class nc_color;
-struct tripoint;
 
 struct shrapnel_data {
     int casing_mass = 0;

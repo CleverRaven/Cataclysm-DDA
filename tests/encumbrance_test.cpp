@@ -1,14 +1,15 @@
 #include <functional>
-#include <iosfwd>
-#include <list>
 #include <string>
 #include <vector>
 
 #include "bodypart.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "character_attire.h"
 #include "item.h"
+#include "item_contents.h"
 #include "npc.h"
+#include "pocket_type.h"
 #include "type_id.h"
 
 static const flag_id json_flag_UNDERSIZE( "UNDERSIZE" );

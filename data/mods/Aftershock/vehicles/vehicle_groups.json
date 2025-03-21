@@ -79,5 +79,10 @@
     "type": "vehicle_group",
     "id": "parkinglot",
     "vehicles": [ [ "robotic_taxi", 100 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "atomic_city_cars",
+    "vehicles": [ [ "car_atomic", 1500 ], [ "suv_atomic", 1500 ], [ "compact_atomic", 300 ] ]
   }
 ]

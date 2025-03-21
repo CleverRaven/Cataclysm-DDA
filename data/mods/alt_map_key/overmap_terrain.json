@@ -1616,22 +1616,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "fema_entrance",
-    "copy-from": "fema_entrance",
-    "name": "FEMA camp",
-    "sym": "F",
-    "color": "i_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "fema",
-    "copy-from": "fema",
-    "name": "FEMA camp",
-    "sym": "f",
-    "color": "i_red"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "station_radio",
     "copy-from": "station_radio",
     "name": "radio station",

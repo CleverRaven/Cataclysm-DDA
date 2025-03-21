@@ -87,6 +87,7 @@
       "item": { "I": { "item": "american_flag" } },
       "items": {
         "R": { "item": "mechanics", "chance": 70, "repeat": [ 1, 5 ] },
+        "T": { "item": "SUS_toilet", "chance": 50 },
         "r": { "item": "fireman_cabinet", "chance": 70, "repeat": [ 1, 5 ] }
       },
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": 12, "y": 15, "repeat": [ 1, 4 ], "chance": 10 } ],

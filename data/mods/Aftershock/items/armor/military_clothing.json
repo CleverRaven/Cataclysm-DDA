@@ -81,7 +81,8 @@
       { "pocket_type": "CONTAINER", "ammo_restriction": { "84x246mm": 1, "afs_82mm_flashbulb": 1 } },
       { "pocket_type": "CONTAINER", "ammo_restriction": { "84x246mm": 1, "afs_82mm_flashbulb": 1 } }
     ],
-    "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE" ],
+    "flags": [ "BELTED", "WATERPROOF" ],
+    "max_worn": 1,
     "armor": [
       {
         "encumbrance": [ 3, 12 ],

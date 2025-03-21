@@ -1,14 +1,25 @@
-#include "cata_catch.h"
-
+#include <algorithm>
+#include <clocale>
 #include <cmath>
+#include <functional>
 #include <locale>
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include <string_view>
 
 #include "avatar.h"
+#include "cata_catch.h"
+#include "cata_scope_helpers.h"
+#include "debug.h"
 #include "dialogue.h"
 #include "global_vars.h"
 #include "math_parser.h"
 #include "math_parser_func.h"
+#include "math_parser_type.h"
 #include "npc.h"
+#include "talker.h"
+#include "type_id.h"
 
 static const skill_id skill_survival( "survival" );
 

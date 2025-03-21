@@ -502,15 +502,51 @@
       "NO_UNLOAD",
       "NO_RELOAD",
       "WATER_BREAK",
-      "CALORIES_INTAKE",
+      "CALORIE_BURN",
       "ELECTRONIC"
     ],
     "symbol": "[",
     "ammo": "battery",
     "charges_per_use": 1,
-    "use_action": [ "CAMERA", "MP3", "CALORIES_INTAKE_TRACKER", "FITNESS_CHECK" ],
+    "use_action": [ "MP3", "CALORIES_INTAKE_TRACKER", "FITNESS_CHECK", "PORTABLE_GAME" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 20 } } ],
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "id": "smart_watch_adv",
+    "name": { "str": "advanced smart watch", "str_pl": "advanced smart watches" },
+    "copy-from": "smart_watch",
+    "description": "A touchscreen watch that comes with many uses, such as a calendar, alarm, and even a fitness app, for when you want to check your health on the go!  This is more expensive model, featuring shock-resistant and waterproof case and a bunch of additional sensors.",
+    "price": "700 USD",
+    "price_postapoc": "10 USD",
+    "etransfer_rate": "30 MB",
+    "e_port": "phone",
+    "e_ports_banned": [ "USB-A", "memory card", "camera" ],
+    "extend": { "flags": [ "WATER_FRIENDLY", "THERMOMETER", "HYGROMETER", "BAROMETER" ] },
+    "delete": { "flags": [ "WATER_BREAK", "FRAGILE" ] },
+    "use_action": [
+      "E_FILE_DEVICE",
+      "EBOOKSAVE",
+      "CAMERA",
+      "MP3",
+      "CALORIES_INTAKE_TRACKER",
+      "FITNESS_CHECK",
+      "WEATHER_TOOL",
+      "PORTABLE_GAME",
+      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
+    ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 30 } },
+      {
+        "pocket_type": "E_FILE_STORAGE",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0,
+        "ememory_max": "64 GB"
+      }
+    ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -525,7 +561,7 @@
     "price": "50 USD",
     "price_postapoc": "1 USD",
     "material": [ "plastic" ],
-    "flags": [ "WATCH", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "flags": [ "WATCH", "CALORIE_BURN", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
     "symbol": "[",
     "use_action": [ "FITNESS_CHECK" ],
     "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
@@ -623,7 +659,7 @@
     "volume": "1750 ml",
     "warmth": 7,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES" ],
+    "flags": [ "VARSIZE", "SUN_GLASSES" ],
     "material_thickness": 0.5,
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
   },
@@ -1138,7 +1174,8 @@
         "rigid": true,
         "max_contains_volume": "1 ml",
         "max_contains_weight": "1 g",
-        "weight_multiplier": 0
+        "weight_multiplier": 0,
+        "ememory_max": "1 TB"
       }
     ],
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ] } ],
@@ -1974,68 +2011,18 @@
     "id": "mask_gas_xl",
     "type": "TOOL_ARMOR",
     "name": { "str": "gas mask" },
-    "category": "clothing",
-    "description": "A rather roomy mask with filters attached, designed to accommodate exotic anatomy.  Provides excellent protection from smoke, tear gas, and other contaminants.  It must be prepared before use.",
-    "weight": "1397 g",
-    "volume": "1500 ml",
-    "price": "250 USD",
-    "price_postapoc": "7 USD 50 cent",
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 25 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 35 }
-    ],
-    "warmth": 20,
-    "material_thickness": 2,
-    "environmental_protection": 4,
-    "environmental_protection_with_filter": 16,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
-      }
-    ],
-    "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK_ACTIVATE" ],
-    "tick_action": [ "GASMASK" ],
-    "flags": [ "OVERSIZE", "PREFIX_XL", "SLEEP_IGNORE" ]
+    "copy-from": "mask_gas",
+    "looks_like": "mask_gas",
+    "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
+    "flags": [ "VARSIZE", "OVERSIZE", "PREFIX_XL", "SLEEP_IGNORE" ]
   },
   {
     "id": "mask_gas_xs",
     "type": "TOOL_ARMOR",
     "name": { "str": "gas mask" },
-    "category": "clothing",
-    "description": "A rather small gas mask that covers the face and eyes.  Provides excellent protection from smoke, tear gas, and other contaminants.  It must be prepared before use.",
-    "weight": "470 g",
-    "volume": "500 ml",
-    "price": "250 USD",
-    "price_postapoc": "7 USD 50 cent",
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 25 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 35 }
-    ],
-    "warmth": 20,
-    "material_thickness": 2,
-    "environmental_protection": 4,
-    "environmental_protection_with_filter": 16,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "GASFILTER_MED" ],
-        "default_magazine": "gasfilter_med"
-      }
-    ],
-    "ammo": "gasfilter_m",
-    "use_action": [ "GASMASK_ACTIVATE" ],
-    "tick_action": [ "GASMASK" ],
+    "copy-from": "mask_gas",
+    "looks_like": "mask_gas",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "VARSIZE", "UNDERSIZE", "PREFIX_XS", "SLEEP_IGNORE" ]
   },
   {
@@ -2220,6 +2207,8 @@
           { "type": "lc_steel", "covered_by_mat": 15, "thickness": 1 }
         ],
         "covers": [ "eyes" ],
+        "layers": [ "SKINTIGHT", "NORMAL" ],
+        "rigid_layer_only": true,
         "coverage": 100,
         "encumbrance": 28
       }
@@ -2336,6 +2325,8 @@
       {
         "material": [ { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 5 } ],
         "covers": [ "eyes" ],
+        "layers": [ "SKINTIGHT", "NORMAL" ],
+        "rigid_layer_only": true,
         "coverage": 100,
         "encumbrance": 25
       }
@@ -2712,8 +2703,7 @@
     "price": "10 USD",
     "price_postapoc": "5 cent",
     "material": [ "plastic" ],
-    "weight": "100 mg",
-    "flags": [ "FANCY" ]
+    "weight": "100 mg"
   },
   {
     "id": "towel",
@@ -2852,7 +2842,7 @@
       "msg": "You adjust the neck and collar of the turtleneck.",
       "type": "transform"
     },
-    "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       { "encumbrance": 3, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r", "mouth" ] },
       { "encumbrance": 1, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_throat" ] }
@@ -2881,7 +2871,7 @@
       "msg": "You adjust the neck and collar of the turtleneck.",
       "type": "transform"
     },
-    "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       { "encumbrance": 3, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r" ] },
       { "encumbrance": 1, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_throat" ] }
@@ -2910,7 +2900,7 @@
       "msg": "You adjust the neck and collar of the turtleneck shirt.",
       "type": "transform"
     },
-    "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       { "encumbrance": 2, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r", "mouth" ] },
       { "encumbrance": 0, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_throat" ] }
@@ -2939,7 +2929,7 @@
       "msg": "You adjust the neck and collar of the turtleneck shirt.",
       "type": "transform"
     },
-    "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       { "encumbrance": 2, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r" ] },
       { "encumbrance": 0, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_throat" ] }
@@ -3200,7 +3190,8 @@
     "color": "light_gray",
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
-    "flags": [ "BELTED", "FRAGILE", "ONLY_ONE", "SOLARPACK", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "BELTED", "FRAGILE", "SOLARPACK", "WATER_BREAK", "ELECTRONIC" ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
     "melee_damage": { "bash": 10 }
   },
@@ -3219,7 +3210,8 @@
     "material_thickness": 1,
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.05,
-    "flags": [ "BELTED", "FRAGILE", "ONLY_ONE", "SOLARPACK_ON", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "BELTED", "FRAGILE", "SOLARPACK_ON", "WATER_BREAK", "ELECTRONIC" ],
+    "max_worn": 1,
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
     "melee_damage": { "bash": 4 }
   },
@@ -3434,7 +3426,8 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
     ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "max_worn": 1,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
@@ -3464,7 +3457,8 @@
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "revert_to": "scuba_tank",
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "max_worn": 1,
     "environmental_protection": 3,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
@@ -3494,7 +3488,8 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 20 } }
     ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "max_worn": 1,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
@@ -3524,7 +3519,8 @@
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "revert_to": "small_scuba_tank",
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "NO_UNLOAD", "NO_RELOAD" ],
+    "max_worn": 1,
     "environmental_protection": 3,
     "environmental_protection_with_filter": 16,
     "material_thickness": 4,
@@ -3712,7 +3708,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "military flight helmet" },
-    "description": "A military flight helmet.  Equipped with a visor, microphone, and noise dampening system.  The helmet is also fitted with plastic rails to allow for different load-outs.",
+    "description": "A military flight helmet.  Equipped with a visor, microphone, and noise dampening system.  The helmet is also fitted with plastic rail for a night-vision attachment.",
     "weight": "1324 g",
     "volume": "2 L",
     "price": "500 USD",
@@ -3730,7 +3726,7 @@
     "material_thickness": 5,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY", "DEAF", "SUN_GLASSES", "PADDED" ],
+    "flags": [ "VARSIZE", "STURDY", "DEAF", "SUN_GLASSES", "PADDED", "MODULE_HOLDER" ],
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -3747,35 +3743,30 @@
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "moves": 250,
+        "description": "Pocket for a front night vision attachment.",
+        "flag_restriction": [ "HELMET_FRONT_ATTACHMENT" ],
+        "inherits_flags": false
       }
-    ],
-    "melee_damage": { "bash": 6 }
+    ]
   },
   {
     "id": "flight_helmet_on",
+    "copy-from": "flight_helmet",
     "type": "TOOL_ARMOR",
-    "category": "armor",
     "name": { "str": "military flight helmet (on)", "str_pl": "military flight helmets (on)" },
-    "description": "A military flight helmet with various LED devices blinking periodically.  Equipped with a visor, microphone, and noise dampening system.  The helmet is also fitted with plastic rails to allow for different load-outs.",
-    "weight": "1324 g",
-    "volume": "2 L",
-    "price": "500 USD",
-    "price_postapoc": "10 USD",
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "uneven" },
-    "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "dark_gray",
-    "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5, "layers": [ "OUTER" ] }
-    ],
-    "warmth": 15,
-    "material_thickness": 5,
-    "environmental_protection": 2,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES", "TWO_WAY_RADIO", "PADDED" ],
-    "charges_per_use": 1,
+    "extend": { "flags": [ "PARTIAL_DEAF", "TWO_WAY_RADIO" ] },
+    "delete": { "flags": [ "DEAF" ] },
     "ammo": "battery",
     "power_draw": "60 mW",
     "revert_to": "flight_helmet",
@@ -3785,16 +3776,7 @@
       "menu_text": "Turn off",
       "msg": "The %s flicks off.",
       "target": "flight_helmet"
-    },
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ],
-    "melee_damage": { "bash": 6 }
+    }
   },
   {
     "type": "TOOL_ARMOR",
@@ -3818,7 +3800,7 @@
     "warmth": 7,
     "environmental_protection": 1,
     "armor": [ { "covers": [ "head" ], "coverage": 80, "encumbrance": 10 } ],
-    "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES" ],
+    "flags": [ "VARSIZE", "SUN_GLASSES" ],
     "material_thickness": 0.5
   },
   {
