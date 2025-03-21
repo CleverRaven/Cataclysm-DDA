@@ -2428,8 +2428,24 @@ void Character::process_turn()
     for( const trait_id &mut : get_functioning_mutations() ) {
         mutation_reflex_trigger( mut );
     }
+    //Creature::process_turn() uses speed to restore moves, but for Character, speed has not yet been calculated.
+    //So Creature::process_turn() cannot be used directly here.
+    //Exposed the content of Creature::process_turn() except restore moves here,
+    //and do the reset moves later after recalc_speed_bonus().
+    //The following is the content of Creature::process_turn() except restore moves
+    decrement_summon_timer();
+    if( is_dead_state() ) {
+        return;
+    }
+    reset_bonuses();
 
-    Creature::process_turn();
+    process_effects();
+
+    process_damage_over_time();
+
+    // Call this in case any effects have changed our stats
+    reset_stats();
+    //The above is the content of Creature::process_turn() except reset moves
 
     // If we're actively handling something we can't just drop it on the ground
     // in the middle of handling it
@@ -2449,6 +2465,11 @@ void Character::process_turn()
     } );
 
     suffer();
+    recalc_speed_bonus();
+    //
+    if( !has_effect( effect_ridden ) ) {
+        moves += get_speed();
+    }
     // NPCs currently don't make any use of their scent, pointless to calculate it
     // TODO: make use of NPC scent.
     if( !is_npc() ) {
@@ -3976,6 +3997,7 @@ void Character::reset()
     mod_int_bonus( int_bonus_hardcoded );
     mod_per_bonus( per_bonus_hardcoded );
     reset_stats();
+    recalc_speed_bonus();
 }
 
 bool Character::has_nv_goggles()
