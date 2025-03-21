@@ -963,6 +963,13 @@ class item : public visitable
         units::mass get_total_holster_weight() const;
         units::mass get_used_holster_weight() const;
 
+        /**
+         * Return capacity of the biggest pocket. Ignore blacklist restrictions etc.
+         *
+         * Useful for quick can_contain rejection.
+         */
+        units::volume get_biggest_pocket_capacity() const;
+
         /** Recursive function checking pockets for remaining free space. */
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
