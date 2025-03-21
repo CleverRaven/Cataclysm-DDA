@@ -203,7 +203,7 @@
 	[ "milk_standard_raw", 1, "LIST" ],
 	[ "lf_milk_standard", 1, "LIST" ],
   [    
-	[ [ "cocoa_powder", 1 ] ],
+	[ [ "cocoa_powder", 1 ] ]
   },  
   {
     "type": "recipe",
