@@ -80,6 +80,7 @@
       },
       "gaspumps": { "G": { "fuel": "gasoline" }, "D": { "fuel": "diesel" } },
       "furniture": {
+        "d": "f_dumpster",
         "R": "f_warehouse_shelf",
         "C": "f_counter",
         "r": "f_counter",
@@ -100,6 +101,7 @@
         "Y": "f_diesel_tank"
       },
       "items": {
+        "d": { "item": "SUS_trash_dumpster", "chance": 40 },
         "r": { "item": "cash_register_random", "chance": 100 },
         "e": { "item": "snacks", "chance": 30, "repeat": [ 2, 5 ] },
         "E": { "item": "groce_softdrink", "chance": 30, "repeat": [ 2, 5 ] },
