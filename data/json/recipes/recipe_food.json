@@ -8661,7 +8661,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
-      [ [ "chocolate", 1 ], [ "cocoa_powder", 1 ], 
+      [ [ "chocolate", 1 ], [ "cocoa_powder", 1 ] ],
       [
         [ "milk_standard_raw", 1, "LIST" ],
         [ "lf_milk_standard", 1, "LIST" ],
@@ -8688,7 +8688,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "chocolate", 2 ] ], [ [ "cocoa_powder", 3 ] ]
+      [ [ "chocolate", 2 ], [ "cocoa_powder", 3 ] ],
       [
         [ "milk_standard_raw", 1, "LIST" ],
         [ "lf_milk_standard", 1, "LIST" ],
