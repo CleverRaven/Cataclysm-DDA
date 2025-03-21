@@ -2456,6 +2456,8 @@ class pulp_activity_actor : public activity_actor
         // if corpse cost more than hour to pulp, drop it
         bool way_too_long_to_pulp = false;
 
+        bool acid_corpse = false;
+
         // how many corpses we pulped
         int num_corpses = 0;
 
