@@ -16,7 +16,10 @@
         { "or": [ { "u_has_trait": "VAMPIRE" }, { "u_has_effect": "vampire_virus" } ] }
       ]
     },
-    "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] } ]
+    "effect": [
+      { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
+      { "u_add_effect": "effect_drank_blood_recently", "intensity": 1, "duration": { "math": [ "600 + rand(600)" ] } }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -32,7 +35,8 @@
     },
     "effect": [
       { "math": [ "u_vitamin('human_blood_vitamin')", "+=", "400 + rand(100)" ] },
-      { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] }
+      { "math": [ "u_vitamin('drank_fae_blood')", "+=", "5" ] },
+      { "u_add_effect": "effect_drank_blood_recently", "intensity": 1, "duration": { "math": [ "600 + rand(600)" ] } }
     ]
   },
   {
@@ -84,6 +88,25 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD_HALVING",
+    "eoc_type": "EVENT",
+    "required_event": "character_eats_item",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "fae_blood", { "context_val": "itype" } ] },
+            { "compare_string": [ "demihuman_blood", { "context_val": "itype" } ] },
+            { "compare_string": [ "mutant_human_blood", { "context_val": "itype" } ] }
+          ]
+        },
+        { "u_has_trait": "VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD" }
+      ]
+    },
+    "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "200 + rand(50)" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VAMPIRE_BLOOD_FUN",
     "eoc_type": "EVENT",
     "required_event": "character_eats_item",
@@ -110,6 +133,151 @@
     "condition": { "u_has_effect": "vampire_virus" },
     "deactivate_condition": { "not": { "u_has_effect": "vampire_virus" } },
     "effect": [ { "math": [ "u_blood_amount_for_graph = u_vitamin('human_blood_vitamin')" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_ADD_WEAKNESSES",
+    "//": "This EOC checks how many weaknesses the player should gain when reshuffling.  Gaining the traits run the weakness-giving EOC directly.",
+    "//2": "Tier 3 grants 1 weakness, Tier 4 grants 1 more, Tier 5 grants two more.",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAMPIRE_ADD_WEAKNESSES_TIER_3",
+            "condition": { "u_has_trait": "VAMPIRE3" },
+            "effect": [ { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] } ]
+          },
+          {
+            "id": "EOC_VAMPIRE_ADD_WEAKNESSES_TIER_4",
+            "condition": { "u_has_trait": "VAMPIRE4" },
+            "effect": [ { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] } ]
+          },
+          {
+            "id": "EOC_VAMPIRE_ADD_WEAKNESSES_TIER_5",
+            "condition": { "u_has_trait": "BLOOD_DRINKER" },
+            "effect": [ { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] }, { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_ADD_ONE_WEAKNESS",
+    "//": "This EOC adds a single vampiric weakness when ran.",
+    "//2": "This EOC is intended to be ran multiple times, to properly assign the intended amount of weaknesses to the player.",
+    "//3": "When adding new weaknesses, make sure to also add them to the roll_remainder below so the player can obtain them.",
+    "effect": [
+      {
+        "u_roll_remainder": [
+          "VAMPIRE_WEAKNESS_MORE_BLOOD",
+          "VAMPIRE_WEAKNESS_GROTESQUE",
+          "VAMPIRE_WEAKNESS_EARTH_SLEEP",
+          "VAMPIRE_WEAKNESS_HOLY_BURN",
+          "VAMPIRE_WEAKNESS_VAST_WATER_BURN",
+          "VAMPIRE_WEAKNESS_ANIMAL_HATE",
+          "VAMPIRE_WEAKNESS_FIRE_VULNERABLE",
+          "VAMPIRE_WEAKNESS_COLD_BLOODED",
+          "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD",
+          "VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD",
+          "VAMPIRE_WEAKNESS_BLOOD_CRAVING"
+        ],
+        "type": "mutation",
+        "true_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS_SUCCESS" ],
+        "false_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS_FAIL" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_ADD_ONE_WEAKNESS_SUCCESS",
+    "//": "Workaround to the below not working due to the roll_remainder used.  When this will be fixed, remove this EOC as the others give a message informing the player of the new weakness.",
+    "effect": [ { "u_message": "You gain a new vampiric weakness.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRE_ADD_ONE_WEAKNESS_FAIL",
+    "effect": [ { "u_message": "The EOC failed to give you a weakness.  Please report this on Github.", "popup": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_MORE_BLOOD_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_MORE_BLOOD", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "Your thirst for blood intensifies.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_EARTH_SLEEP_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_EARTH_SLEEP", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "You long for a good day of sleep surrounded by the earth.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_HOLY_BURN_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_HOLY_BURN", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "You feel unholy, as if your presence wouldn't be tolerated by holy ground.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_VAST_WATER_BURN_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_VAST_WATER_BURN", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "You think about crossing a river, but visions of your flesh melting disturb you.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_ANIMAL_HATE_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_ANIMAL_HATE", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "Nearby animals start looking at you with eyes filled with hate.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_FIRE_VULNERABLE_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_FIRE_VULNERABLE", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "Your body feels much more vulnerable to fire.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_COLD_BLOODED_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_COLD_BLOODED", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "Your body grows cold.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_NEED_LIVING_BLOOD_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "You daydream of drinking blood directly from the veins of the living for a moment.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_NEED_HUMAN_BLOOD_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "All bloods, except the blood of regular humans, suddenly feel far less appealing.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VW_BLOOD_CRAVING_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "VAMPIRE_WEAKNESS_BLOOD_CRAVING", { "context_val": "trait" } ] },
+    "effect": [ { "u_message": "You feel a painful craving for blood for a second, then it passes.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1025,7 +1193,8 @@
     "interruptable": false,
     "interruptable_with_kb": false,
     "rooted": true,
-    "do_turn_eoc": "EOC_VAMPIRE_TORPOR_RECOVER"
+    "do_turn_eoc": "EOC_VAMPIRE_TORPOR_RECOVER",
+    "completion_eoc": "EOC_EARTH_SLEEP_CHECK_REAL"
   },
   {
     "type": "effect_on_condition",
@@ -1598,5 +1767,278 @@
       "next_weather",
       { "u_message": "The darkness you summoned fades away, clearing the sky.", "type": "bad" }
     ]
+  },
+  {
+    "id": "EOC_NEED_LIVING_BLOOD_GIVE_EFFECT",
+    "type": "effect_on_condition",
+    "condition": { "u_has_trait": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD" },
+    "deactivate_condition": { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD" } },
+    "recurrence": [ "5 days", "5 days" ],
+    "effect": [ { "u_add_effect": "vampire_need_living_blood", "duration": "PERMANENT", "intensity": 1 } ],
+    "false_effect": [
+      {
+        "u_add_effect": "vampire_need_living_blood",
+        "intensity": { "math": [ "u_effect_intensity('vampire_need_living_blood') + 1" ] },
+        "duration": "PERMANENT"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTH_SLEEP_CHECK",
+    "//": "This allows the torpor EOC to run the check without needing an extra copy of the EOC.",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "effect": [ { "run_eocs": "EOC_EARTH_SLEEP_CHECK_REAL" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTH_SLEEP_CHECK_REAL",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VAMPIRE_WEAKNESS_EARTH_SLEEP" },
+        {
+          "or": [
+            { "math": [ "u_val('pos_z') <= -1" ] },
+            {
+              "and": [
+                {
+                  "or": [
+                    { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                    { "u_is_on_terrain": "t_rock_floor" },
+                    { "u_is_on_terrain": "t_rock_floor_no_roof" }
+                  ]
+                },
+                { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+                { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+                { "not": { "u_is_on_terrain": "t_fungus" } },
+                { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+                { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+                { "not": { "u_is_on_terrain": "t_swater_surf" } },
+                { "not": { "u_is_on_terrain": "t_woodchips" } }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "u_message": "Your sleep has been restful, thanks to the proximity of the earth.", "type": "info" } ],
+    "false_effect": [
+      { "u_add_effect": "effect_earth_sleeper_penalty", "duration": "24 hours", "intensity": 1 },
+      { "math": [ "u_val('sleepiness')", "+=", "550" ] },
+      {
+        "u_message": "You struggle to awaken, feeling tired and weakened.  Having slept away from the earth, your sleep wasn't as restful as it should've been.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOLY_BURN_CHECK",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": { "u_has_trait": "VAMPIRE_WEAKNESS_HOLY_BURN" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HOLY_BURN_CHECK_2",
+            "condition": {
+              "or": [
+                { "u_near_om_location": "church_1", "range": 1 },
+                { "u_near_om_location": "church_2ndfloor_1", "range": 1 },
+                { "u_near_om_location": "church_3rdfloor_1", "range": 1 },
+                { "u_near_om_location": "church_roof_1", "range": 1 },
+                { "u_near_om_location": "rural_church_parking", "range": 1 },
+                { "u_near_om_location": "rural_church", "range": 1 },
+                { "u_near_om_location": "rural_church_basement", "range": 1 },
+                { "u_near_om_location": "rural_church_steeple", "range": 1 },
+                { "u_near_om_location": "rural_church_steeple_roof", "range": 1 },
+                { "u_near_om_location": "cathedral_7_NW", "range": 1 },
+                { "u_near_om_location": "cathedral_7_NE", "range": 1 },
+                { "u_near_om_location": "cathedral_6_NW", "range": 1 },
+                { "u_near_om_location": "cathedral_6_NE", "range": 1 },
+                { "u_near_om_location": "cathedral_5_NW", "range": 1 },
+                { "u_near_om_location": "cathedral_5_NE", "range": 1 },
+                { "u_near_om_location": "cathedral_4_NW", "range": 1 },
+                { "u_near_om_location": "cathedral_4_NE", "range": 1 },
+                { "u_near_om_location": "cathedral_7_NW", "range": 1 },
+                { "u_near_om_location": "cathedral_7_NE", "range": 1 },
+                { "u_near_om_location": "cathedral_6_NW", "range": 1 },
+                { "u_near_om_location": "cathedral_6_NE", "range": 1 },
+                { "u_near_om_location": "cathedral_5_NW", "range": 1 },
+                { "u_near_om_location": "cathedral_5_NE", "range": 1 },
+                { "u_near_om_location": "cathedral_4_NW", "range": 1 },
+                { "u_near_om_location": "cathedral_4_NE", "range": 1 },
+                { "u_near_om_location": "cathedral_3_NW", "range": 1 },
+                { "u_near_om_location": "cathedral_3_NE", "range": 1 },
+                { "u_near_om_location": "cathedral_3_SW", "range": 1 },
+                { "u_near_om_location": "cathedral_3_SE", "range": 1 },
+                { "u_near_om_location": "cathedral_2_NW", "range": 1 },
+                { "u_near_om_location": "cathedral_2_NE", "range": 1 },
+                { "u_near_om_location": "cathedral_2_SW", "range": 1 },
+                { "u_near_om_location": "cathedral_2_SE", "range": 1 },
+                { "u_near_om_location": "cathedral_1_NW", "range": 1 },
+                { "u_near_om_location": "cathedral_1_NE", "range": 1 },
+                { "u_near_om_location": "cathedral_1_SW", "range": 1 },
+                { "u_near_om_location": "cathedral_1_SE", "range": 1 },
+                { "u_near_om_location": "cathedral_b_NW", "range": 1 },
+                { "u_near_om_location": "cathedral_b_NE", "range": 1 },
+                { "u_near_om_location": "cathedral_b_SW", "range": 1 },
+                { "u_near_om_location": "cathedral_b_SE", "range": 1 },
+                { "u_near_om_location": "synagogue", "range": 1 },
+                { "u_near_om_location": "synagogue_roof", "range": 1 },
+                { "u_near_om_location": "synagogue_upper_roof", "range": 1 }
+              ]
+            },
+            "effect": [
+              { "u_add_effect": "effect_holy_place_burn", "duration": 100, "target_part": "arm_l" },
+              { "u_add_effect": "effect_holy_place_burn", "duration": 100, "target_part": "arm_r" },
+              { "u_add_effect": "effect_holy_place_burn", "duration": 100, "target_part": "leg_l" },
+              { "u_add_effect": "effect_holy_place_burn", "duration": 100, "target_part": "leg_r" },
+              { "u_add_effect": "effect_holy_place_burn", "duration": 100, "target_part": "torso" },
+              { "u_add_effect": "effect_holy_place_burn", "duration": 100, "target_part": "head" },
+              {
+                "u_message": "You are too close to a holy place!  You must flee its proximity immediately or you will die!",
+                "type": "bad"
+              }
+            ],
+            "false_effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_HOLY_BURN_CHECK_REMOVE",
+                    "condition": {
+                      "or": [
+                        { "math": [ "u_effect_intensity('effect_holy_place_burn', 'bodypart': 'arm_l') >= 1" ] },
+                        { "math": [ "u_effect_intensity('effect_holy_place_burn', 'bodypart': 'arm_r') >= 1" ] },
+                        { "math": [ "u_effect_intensity('effect_holy_place_burn', 'bodypart': 'leg_l') >= 1" ] },
+                        { "math": [ "u_effect_intensity('effect_holy_place_burn', 'bodypart': 'leg_r') >= 1" ] },
+                        { "math": [ "u_effect_intensity('effect_holy_place_burn', 'bodypart': 'torso') >= 1" ] },
+                        { "math": [ "u_effect_intensity('effect_holy_place_burn', 'bodypart': 'head') >= 1" ] }
+                      ]
+                    },
+                    "effect": [
+                      { "u_lose_effect": "effect_holy_place_burn", "target_part": "arm_l" },
+                      { "u_lose_effect": "effect_holy_place_burn", "target_part": "arm_r" },
+                      { "u_lose_effect": "effect_holy_place_burn", "target_part": "leg_l" },
+                      { "u_lose_effect": "effect_holy_place_burn", "target_part": "leg_r" },
+                      { "u_lose_effect": "effect_holy_place_burn", "target_part": "torso" },
+                      { "u_lose_effect": "effect_holy_place_burn", "target_part": "head" },
+                      {
+                        "u_message": "You are now far enough from the holy place.  You no longer feel like you're burning up.",
+                        "type": "good"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAST_WATER_BURN_CHECK",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": { "u_has_trait": "VAMPIRE_WEAKNESS_VAST_WATER_BURN" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VAST_WATER_BURN_CHECK_2",
+            "condition": {
+              "or": [
+                { "u_near_om_location": "generic_river_bank", "range": 1 },
+                { "u_near_om_location": "generic_river", "range": 1 },
+                { "u_near_om_location": "river_center", "range": 1 },
+                { "u_near_om_location": "river", "range": 1 },
+                { "u_near_om_location": "river_c_not_ne", "range": 1 },
+                { "u_near_om_location": "river_c_not_nw", "range": 1 },
+                { "u_near_om_location": "river_c_not_se", "range": 1 },
+                { "u_near_om_location": "river_c_not_sw", "range": 1 },
+                { "u_near_om_location": "lake_shore", "range": 1 },
+                { "u_near_om_location": "lake_surface", "range": 1 },
+                { "u_near_om_location": "ocean", "range": 1 },
+                { "u_near_om_location": "ocean_shore", "range": 1 },
+                { "u_near_om_location": "ocean_surface", "range": 1 },
+                { "u_near_om_location": "ocean_bed", "range": 1 },
+                { "u_near_om_location": "ocean_water_cube", "range": 1 },
+                { "u_near_om_location": "ocean_surface", "range": 1 }
+              ]
+            },
+            "effect": [
+              { "u_add_effect": "effect_vast_water_burn", "duration": 100, "target_part": "arm_l" },
+              { "u_add_effect": "effect_vast_water_burn", "duration": 100, "target_part": "arm_r" },
+              { "u_add_effect": "effect_vast_water_burn", "duration": 100, "target_part": "leg_l" },
+              { "u_add_effect": "effect_vast_water_burn", "duration": 100, "target_part": "leg_r" },
+              { "u_add_effect": "effect_vast_water_burn", "duration": 100, "target_part": "torso" },
+              { "u_add_effect": "effect_vast_water_burn", "duration": 100, "target_part": "head" },
+              {
+                "u_message": "You are too close to a vast body of water!  You must flee its proximity immediately or you will die!",
+                "type": "bad"
+              }
+            ],
+            "false_effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_VAST_WATER_CHECK_REMOVE",
+                    "condition": {
+                      "or": [
+                        { "math": [ "u_effect_intensity('effect_vast_water_burn', 'bodypart': 'arm_l') >= 1" ] },
+                        { "math": [ "u_effect_intensity('effect_vast_water_burn', 'bodypart': 'arm_r') >= 1" ] },
+                        { "math": [ "u_effect_intensity('effect_vast_water_burn', 'bodypart': 'leg_l') >= 1" ] },
+                        { "math": [ "u_effect_intensity('effect_vast_water_burn', 'bodypart': 'leg_r') >= 1" ] },
+                        { "math": [ "u_effect_intensity('effect_vast_water_burn', 'bodypart': 'torso') >= 1" ] },
+                        { "math": [ "u_effect_intensity('effect_vast_water_burn', 'bodypart': 'head') >= 1" ] }
+                      ]
+                    },
+                    "effect": [
+                      { "u_lose_effect": "effect_vast_water_burn", "target_part": "arm_l" },
+                      { "u_lose_effect": "effect_vast_water_burn", "target_part": "arm_r" },
+                      { "u_lose_effect": "effect_vast_water_burn", "target_part": "leg_l" },
+                      { "u_lose_effect": "effect_vast_water_burn", "target_part": "leg_r" },
+                      { "u_lose_effect": "effect_vast_water_burn", "target_part": "torso" },
+                      { "u_lose_effect": "effect_vast_water_burn", "target_part": "head" },
+                      {
+                        "u_message": "You are now far enough from the vast water.  You no longer feel like you're melting.",
+                        "type": "good"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOOD_CRAVING_START",
+    "recurrence": [ "10 hours", "16 hours" ],
+    "condition": {
+      "and": [ { "u_has_trait": "VAMPIRE_WEAKNESS_BLOOD_CRAVING" }, { "not": { "u_has_effect": "effect_drank_blood_recently" } } ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_BLOOD_CRAVING_CAUSE", "time_in_future": [ "3 minutes", "6 minutes" ] },
+      {
+        "u_message": "You feel a growing craving for blood.  If you do not drink blood soon, the craving will grow unbearable for a short time.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOOD_CRAVING_CAUSE",
+    "condition": {
+      "and": [ { "u_has_trait": "VAMPIRE_WEAKNESS_BLOOD_CRAVING" }, { "not": { "u_has_effect": "effect_drank_blood_recently" } } ]
+    },
+    "effect": [ { "u_add_effect": "blood_craving", "intensity": 1, "duration": { "math": [ "400 + rand(600)" ] } } ]
   }
 ]

@@ -65,6 +65,18 @@
               { "u_lose_trait": "MAGICFORBLOOD" },
               { "u_lose_trait": "VAMPIRE_COMMAND_BEAST" },
               { "u_lose_trait": "VAMPIRE_EARTH_SLUMBER" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_MORE_BLOOD" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_GROTESQUE" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_EARTH_SLEEP" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_HOLY_BURN" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_VAST_WATER_BURN" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_ANIMAL_HATE" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_FIRE_VULNERABLE" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_COLD_BLOODED" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD" },
+              { "u_lose_trait": "VAMPIRE_WEAKNESS_BLOOD_CRAVING" },
+              { "u_lose_effect": "vampire_need_living_blood" },
               { "math": [ "u_spell_level('vampire_magic_for_blood_spell') = -1" ] },
               { "math": [ "u_spell_level('spell_hypnotic_gaze') = -1" ] },
               { "math": [ "u_spell_level('vampire_command_beast_spell') = -1" ] },
@@ -283,6 +295,7 @@
                   ],
                   "false_effect": [
                     { "u_add_trait": "VAMPIRE3" },
+                    { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
                     {
                       "u_message": "You feel the absence of your heart beating for several seconds and then it resumes at this new rhythm."
                     }

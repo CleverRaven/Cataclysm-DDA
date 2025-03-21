@@ -3169,5 +3169,117 @@
     "name": [ "" ],
     "desc": [ "" ],
     "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_reshuffling_weaknesses",
+    "//": "Hidden effect, used to make sure only active weakness reshuffling does something.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vampire_recently_reshuffled_weaknesses",
+    "name": [ "Reshuffled Weaknesses" ],
+    "desc": [
+      "You recently reshuffled your vampiric weaknesses.  Until your blood stabilizes, further attempts will be fruitless."
+    ],
+    "remove_message": "Your blood has stabilized enough to let you try to reshuffle your weaknesses again, should they prove too much to bear.",
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "vampire_need_living_blood",
+    "name": [ "Thirst for Living Blood" ],
+    "desc": [ "Cold blood is not enough.  You need some warm blood straight from the vein, you need it NOW!" ],
+    "max_intensity": 5,
+    "apply_message": "You want to sink your fangs in someone's neck and drink their blood.",
+    "miss_messages": [ [ "Your thirst distract you.", 1 ] ],
+    "base_mods": { "sleep_chance": [ -1003 ], "sleep_min": [ 15000 ], "sleep_max": [ 21000 ] },
+    "scaling_mods": { "per_mod": [ -0.5 ], "dex_mod": [ -0.5 ], "int_mod": [ -0.75 ], "sleep_chance": [ 501 ] },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "block", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "vision", "modifier": 1.0, "scaling": -0.05 },
+      { "limb_score": "reaction", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "move_speed", "modifier": 1.0, "scaling": -0.05 },
+      { "limb_score": "balance", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "footing", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "swim", "modifier": 1.0, "scaling": -0.1 }
+    ],
+    "rating": "bad",
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_earth_sleeper_penalty",
+    "name": [ "Disrupted Rest" ],
+    "desc": [ "You have slept away from the earth, leaving you fatigued and weakened for an entire day." ],
+    "//": "No sleepiness incrementation, as the EOC took care of that.",
+    "rating": "bad",
+    "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -2 ], "int_mod": [ -2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_holy_place_burn",
+    "name": [ "Rebuked by holiness" ],
+    "desc": [ "The sanctity of this place is killing you." ],
+    "miss_messages": [ [ "You feel rejected by this place.", 2 ] ],
+    "rating": "bad",
+    "main_parts_only": true,
+    "base_mods": { "pain_min": [ 2 ], "pain_tick": [ 10 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_tick": [ 10 ] },
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vast_water_burn",
+    "name": [ "Melted by the vast waters" ],
+    "desc": [ "You are dissolving in the vast waters." ],
+    "miss_messages": [ [ "You are melting from your proximity to water.", 2 ] ],
+    "rating": "bad",
+    "main_parts_only": true,
+    "base_mods": { "pain_min": [ 2 ], "pain_tick": [ 10 ], "hurt_min": [ 1 ], "hurt_max": [ 2 ], "hurt_tick": [ 10 ] },
+    "show_in_info": false
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_drank_blood_recently",
+    "//": "Hidden effect, ensuring that blood cravings are canceled by drinking blood.",
+    "removes_effects": [ "blood_craving" ],
+    "blocks_effects": [ "blood_craving" ],
+    "max_duration": "24 hours",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "blood_craving",
+    "name": [ "Blood Craving" ],
+    "//": "The description is intended to illustrate the ongoing craving.",
+    "desc": [ "Need blood must have blood blood right now DRINK BLOOD NOW!" ],
+    "apply_message": "You are wracked with pain as your craving hits you.  You can only think about getting some of that delicious blood you so desesperately need.",
+    "remove_message": "Your craving calms down.",
+    "miss_messages": [ [ "Your craving distract you.", 1 ] ],
+    "base_mods": {
+      "pain_min": [ 2 ],
+      "pain_max": [ 100 ],
+      "pain_tick": [ 1000 ],
+      "str_mod": [ -3 ],
+      "dex_mod": [ -3 ],
+      "per_mod": [ -3 ],
+      "int_mod": [ -6 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.7, "scaling": -0.1 },
+      { "limb_score": "block", "modifier": 0.7, "scaling": -0.1 },
+      { "limb_score": "vision", "modifier": 0.7, "scaling": -0.05 },
+      { "limb_score": "reaction", "modifier": 0.7, "scaling": -0.1 },
+      { "limb_score": "move_speed", "modifier": 0.7, "scaling": -0.05 },
+      { "limb_score": "balance", "modifier": 0.7, "scaling": -0.1 },
+      { "limb_score": "footing", "modifier": 0.7, "scaling": -0.1 },
+      { "limb_score": "swim", "modifier": 0.7, "scaling": -0.1 }
+    ],
+    "rating": "bad",
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   }
 ]
