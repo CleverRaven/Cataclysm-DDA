@@ -200,8 +200,8 @@
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [
-	[ "milk_standard_raw", 1, "LIST" ],
-	[ "lf_milk_standard", 1, "LIST" ],
+	[ [ "milk_standard_raw", 1, "LIST" ],
+	[ "lf_milk_standard", 1, "LIST" ] ],
   [ [ "cocoa_powder", 1 ] ] ]
   },
   {
