@@ -5604,9 +5604,11 @@ bool game::swap_critters( Creature &a, Creature &b )
     }
 
     Character *u_or_npc = dynamic_cast< Character * >( &first );
+    // Issue https://github.com/CleverRaven/Cataclysm-DDA/issues/80245
+    // second can be a monster, in that case other_npc will be NULL
     Character *other_npc = dynamic_cast< Character * >( &second );
     const tripoint_bub_ms u_or_npc_pos = u_or_npc->pos_bub( m );
-    const tripoint_bub_ms other_npc_pos = other_npc->pos_bub( m );
+    const tripoint_bub_ms other_npc_pos = second.pos_bub( m );
 
     if( u_or_npc->in_vehicle ) {
         m.unboard_vehicle( u_or_npc_pos );
