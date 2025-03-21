@@ -174,7 +174,7 @@
     "using": [ [ "forging_standard", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "casting_mold_large", -1 ], [ "casting_mold_long", -1 ] ] ],
-    "components": [ [ [ "steel_chunk", 3 ] ], [ [ "nails", 1, "LIST" ], [ "nuts_bolts", 1 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 3, "LIST" ] ], [ [ "nails", 1, "LIST" ], [ "nuts_bolts", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -544,7 +544,7 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "scrap", 9 ], [ "steel_chunk", 2 ] ] ]
+    "components": [ [ [ "scrap", 9 ], [ "steel_chunk_any", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1621,7 +1621,10 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
+    "components": [
+      [ [ "steel_lump_any", 1, "LIST" ], [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 20 ] ],
+      [ [ "2x4", 1 ], [ "stick", 1 ] ]
+    ]
   },
   {
     "result": "rake_plastic",

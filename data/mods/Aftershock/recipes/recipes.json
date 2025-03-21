@@ -13,7 +13,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "chem_sulphuric_acid", 1 ] ],
-      [ [ "steel_chunk", 1 ], [ "scrap", 1 ] ],
+      [ [ "steel_chunk_any", 1, "LIST" ], [ "scrap", 1 ] ],
       [ [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ]
     ]
   },
@@ -69,7 +69,7 @@
     "book_learn": [ [ "textbook_atomic_lab", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "steel_chunk", 1 ], [ "scrap", 1 ] ],
+      [ [ "steel_chunk_any", 1, "LIST" ], [ "scrap", 1 ] ],
       [ [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ],
       [ [ "plut_cell", 1 ] ]
     ]
@@ -86,7 +86,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "afs_power_cutter", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 6 ] ] ],
+    "components": [ [ [ "afs_power_cutter", 1 ] ], [ [ "steel_chunk_any", 3, "LIST" ], [ "scrap", 6 ] ] ],
     "byproducts": [ [ "plastic_chunk" ], [ "plastic_chunk" ] ]
   },
   {

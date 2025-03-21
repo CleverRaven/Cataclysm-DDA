@@ -663,7 +663,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 4 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 4 ] ], [ [ "steel_chunk_any", 3, "LIST" ], [ "scrap", 9 ] ] ]
   },
   {
     "type": "recipe",

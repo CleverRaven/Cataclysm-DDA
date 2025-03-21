@@ -644,7 +644,7 @@
     "using": [ [ "welding_standard", 15 ], [ "plastic_molding", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "scrap", 3 ], [ "steel_chunk", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "spring", 1 ] ] ]
+    "components": [ [ [ "scrap", 3 ], [ "steel_chunk_any", 1, "LIST" ] ], [ [ "plastic_chunk", 1 ] ], [ [ "spring", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -979,7 +979,7 @@
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
-    "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ] ]
+    "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk_any", 2, "LIST" ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -998,7 +998,7 @@
     ],
     "//": "25cm weld",
     "using": [ [ "welding_standard", 25 ] ],
-    "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "spring", 1 ] ], [ [ "plastic_chunk", 3 ] ] ]
+    "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk_any", 2, "LIST" ] ], [ [ "spring", 1 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -1043,7 +1043,7 @@
     ],
     "//": "20cm weld",
     "using": [ [ "welding_standard", 20 ] ],
-    "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ] ]
+    "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk_any", 2, "LIST" ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -1069,7 +1069,7 @@
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
     "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "small_repairkit", 10 ], [ "large_repairkit", 10 ] ] ],
-    "components": [ [ [ "scrap", 3 ], [ "steel_chunk", 1 ] ], [ [ "plastic_chunk", 2 ] ] ]
+    "components": [ [ [ "scrap", 3 ], [ "steel_chunk_any", 1, "LIST" ] ], [ [ "plastic_chunk", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1174,7 +1174,7 @@
     ],
     "//": "15cm weld",
     "using": [ [ "welding_standard", 15 ] ],
-    "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 3 ] ], [ [ "plastic_chunk", 3 ] ] ]
+    "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk_any", 3, "LIST" ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -1199,7 +1199,7 @@
     ],
     "//": "25cm weld",
     "using": [ [ "welding_standard", 25 ] ],
-    "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "spring", 2 ] ] ]
+    "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk_any", 2, "LIST" ] ], [ [ "plastic_chunk", 3 ] ], [ [ "spring", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1270,7 +1270,11 @@
     ],
     "//1": "30cm weld",
     "using": [ [ "welding_standard", 30 ] ],
-    "components": [ [ [ "steel_plate", 1 ], [ "steel_lump", 2 ] ], [ [ "pipe", 1 ], [ "sheet_metal_small", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [
+      [ [ "steel_plate", 1 ], [ "steel_lump_any", 2, "LIST" ] ],
+      [ [ "pipe", 1 ], [ "sheet_metal_small", 1 ] ],
+      [ [ "scrap", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1314,7 +1318,7 @@
     ],
     "//": "5cm weld",
     "using": [ [ "welding_standard", 5 ] ],
-    "components": [ [ [ "steel_chunk", 1 ] ], [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 1, "LIST" ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -1330,7 +1334,7 @@
     "book_learn": [ [ "manual_smg", 5 ], [ "textbook_anarch", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "tools": [ [ [ "tec9", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
-    "components": [ [ [ "steel_chunk", 1 ] ], [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 1, "LIST" ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "type": "recipe",

@@ -250,7 +250,7 @@
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" }
     ],
-    "components": [ [ [ "steel_chunk", 72 ], [ "scrap", 216 ] ], [ [ "leather_armor_cow", 1 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 72, "LIST" ], [ "scrap", 216 ] ], [ [ "leather_armor_cow", 1 ] ] ]
   },
   {
     "result": "bronze_armor_cow",

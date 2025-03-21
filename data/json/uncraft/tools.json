@@ -37,7 +37,7 @@
     "difficulty": 1,
     "time": "30 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "steel_lump", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "ch_steel_lump", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
   },
   {
     "result": "carver_off",

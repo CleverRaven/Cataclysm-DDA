@@ -22,7 +22,7 @@
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ],
-      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
+      [ [ "steel_lump_any", 1, "LIST" ], [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ]
     ]
   },
   {
@@ -739,7 +739,7 @@
       [ [ "shotgun_s", 1 ], [ "pipe_shotgun", 1 ] ],
       [ [ "pipe", 3 ] ],
       [ [ "spring", 1 ] ],
-      [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ]
+      [ [ "steel_chunk_any", 3, "LIST" ], [ "scrap", 9 ] ]
     ]
   },
   {
@@ -1137,7 +1137,7 @@
       [ [ "rope_superior_short", 2, "LIST" ] ],
       [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
       [ [ "spring", 4 ] ],
-      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
+      [ [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ],
       [ [ "nails", 60, "LIST" ] ]
     ]
   },

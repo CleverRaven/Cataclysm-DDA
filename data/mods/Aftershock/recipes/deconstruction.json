@@ -243,7 +243,7 @@
       [ [ "cable", 20 ] ],
       [ [ "sheet_metal", 1 ] ],
       [ [ "sheet_metal_small", 4 ] ],
-      [ [ "steel_chunk", 4 ] ],
+      [ [ "mc_steel_chunk", 4 ] ],
       [ [ "scrap", 8 ] ],
       [ [ "rope_6", 1 ] ]
     ]
@@ -266,7 +266,7 @@
       [ [ "cable", 20 ] ],
       [ [ "sheet_metal", 1 ] ],
       [ [ "sheet_metal_small", 4 ] ],
-      [ [ "steel_chunk", 4 ] ],
+      [ [ "mc_steel_chunk", 4 ] ],
       [ [ "scrap", 8 ] ],
       [ [ "rope_6", 1 ] ]
     ]

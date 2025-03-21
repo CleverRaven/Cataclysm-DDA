@@ -277,7 +277,7 @@
     "id": "broken_robots",
     "entries": [
       { "item": "scrap", "count": [ 2, 4 ] },
-      { "item": "steel_chunk", "count": [ 0, 2 ] },
+      { "item": "ch_steel_chunk", "count": [ 0, 2 ] },
       { "item": "glass_shard", "count": [ 0, 2 ] },
       { "item": "spring", "prob": 20 },
       { "item": "material_aluminium_ingot", "prob": 20 }

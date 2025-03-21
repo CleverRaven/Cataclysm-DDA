@@ -335,7 +335,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -361,7 +361,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -389,7 +389,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -415,7 +415,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -442,7 +442,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -539,7 +539,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
         { "item": "pipe", "count": 1 },
         { "item": "wheel_caster", "count": [ 0, 1 ] }
@@ -559,11 +559,11 @@
     "hacksaw": {
       "duration": "2 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "steel_chunk", "count": 1 } ]
+      "byproducts": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "lc_steel_chunk", "count": 1 } ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
     "rotates_to": "INDOORFLOOR",
-    "oxytorch": { "duration": "1 seconds", "byproducts": [ { "item": "steel_chunk", "count": [ 2, 6 ] } ] },
+    "oxytorch": { "duration": "1 seconds", "byproducts": [ { "item": "lc_steel_chunk", "count": [ 2, 6 ] } ] },
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": [ 6, 12 ] },
@@ -579,7 +579,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
         { "item": "pipe", "count": 1 }
       ]
@@ -616,7 +616,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 2, 4 ] },
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
         { "item": "pipe", "count": 1 }
       ]
@@ -715,7 +715,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -742,7 +742,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -768,7 +768,7 @@
       "sound": "screeching metal!",
       "sound_fail": "whump!",
       "items": [
-        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 5 ] },
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "rock", "count": [ 1, 2 ] }
       ]
@@ -810,7 +810,7 @@
     "deconstruct": {
       "items": [
         { "item": "sheet_metal_small", "count": [ 10, 14 ] },
-        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 6, 12 ] }
       ]
     },
@@ -821,7 +821,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "sheet_metal_small", "count": [ 3, 6 ] },
-        { "item": "steel_chunk", "count": [ 6, 8 ] },
+        { "item": "ch_steel_chunk", "count": [ 6, 8 ] },
         { "item": "scrap", "count": [ 8, 16 ] }
       ]
     }
@@ -973,7 +973,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 3, 12 ] },
-        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "hc_steel_chunk", "count": [ 3, 6 ] },
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
         { "item": "pipe", "count": 4 }
       ]
@@ -1341,8 +1341,8 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 7 ] }
       ]
@@ -1388,8 +1388,8 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "mc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "mc_steel_chunk", "count": [ 1, 4 ] },
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 7 ] }
       ]
@@ -1412,8 +1412,8 @@
         { "item": "frame", "count": [ 2, 3 ] },
         { "item": "sheet_metal", "count": [ 10, 12 ] },
         { "item": "sheet_metal_small", "count": [ 60, 72 ] },
-        { "item": "steel_lump", "count": [ 12, 17 ] },
-        { "item": "steel_chunk", "count": [ 27, 33 ] },
+        { "item": "lc_steel_lump", "count": [ 12, 17 ] },
+        { "item": "lc_steel_chunk", "count": [ 27, 33 ] },
         { "item": "scrap", "count": [ 44, 55 ] }
       ]
     },
@@ -1426,8 +1426,8 @@
         { "item": "frame", "count": [ 0, 2 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "sheet_metal_small", "count": [ 30, 90 ] },
-        { "item": "steel_lump", "count": [ 10, 26 ] },
-        { "item": "steel_chunk", "count": [ 61, 173 ] },
+        { "item": "lc_steel_lump", "count": [ 10, 26 ] },
+        { "item": "lc_steel_chunk", "count": [ 61, 173 ] },
         { "item": "scrap", "count": [ 57, 164 ] }
       ]
     }

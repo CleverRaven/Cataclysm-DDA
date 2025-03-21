@@ -117,7 +117,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "scrap", "prob": 30 },
-      { "item": "steel_chunk", "prob": 20 },
+      { "item": "ch_steel_chunk", "prob": 20 },
       { "item": "afs_material_1", "prob": 10 },
       { "item": "sheet_metal_small", "prob": 10 },
       { "item": "sheet_metal", "prob": 5 }

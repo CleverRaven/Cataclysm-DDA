@@ -83,7 +83,7 @@
     "autolearn": true,
     "components": [
       [ [ "amplifier", 4 ], [ "makeshift_transformer", 8 ] ],
-      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
+      [ [ "steel_chunk_any", 2, "LIST" ], [ "scrap", 6 ] ],
       [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -103,7 +103,7 @@
     "autolearn": true,
     "components": [
       [ [ "amplifier", 4 ], [ "makeshift_transformer", 8 ] ],
-      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
+      [ [ "steel_chunk_any", 2, "LIST" ], [ "scrap", 6 ] ],
       [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -192,7 +192,7 @@
       [ [ "cable", 2 ] ],
       [ [ "amplifier", 1 ], [ "makeshift_transformer", 2 ] ],
       [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
-      [ [ "steel_lump", 1 ] ],
+      [ [ "steel_lump_any", 1, "LIST" ] ],
       [ [ "pipe_fittings", 1 ] ],
       [ [ "pipe", 2 ] ]
     ]
@@ -215,7 +215,7 @@
       [ [ "cable", 2 ] ],
       [ [ "amplifier", 1 ], [ "makeshift_transformer", 2 ] ],
       [ [ "floodlight", 1 ] ],
-      [ [ "steel_lump", 1 ] ],
+      [ [ "steel_lump_any", 1, "LIST" ] ],
       [ [ "pipe_fittings", 1 ] ],
       [ [ "pipe", 2 ] ]
     ]

@@ -133,7 +133,7 @@
     "id": "lobotomizer",
     "type": "MIGRATION",
     "replace": "box_medium_wood",
-    "contents": [ { "id": "steel_lump", "count": 6 } ]
+    "contents": [ { "id": "lc_steel_lump", "count": 6 } ]
   },
   {
     "id": "tshirt_text",

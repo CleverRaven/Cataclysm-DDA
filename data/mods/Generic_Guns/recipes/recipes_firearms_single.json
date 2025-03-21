@@ -57,7 +57,7 @@
       ]
     ],
     "proficiencies": [ { "proficiency": "prof_gunsmithing_basic" }, { "proficiency": "prof_gunsmithing_improv" } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ], [ [ "steel_chunk", 1 ] ], [ [ "2x4", 1 ] ] ]
+    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ], [ [ "steel_chunk_any", 1, "LIST" ] ], [ [ "2x4", 1 ] ] ]
   },
   {
     "result": "shot_pipe_double",

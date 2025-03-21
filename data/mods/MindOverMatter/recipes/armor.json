@@ -24,7 +24,7 @@
       [ [ "matrix_crystal_telepath_dust_refined", 6 ] ],
       [ [ "matrix_crystal_teleport_dust_refined", 2 ] ],
       [ [ "matrix_crystal_teleportation", 1 ] ],
-      [ [ "steel_chunk", 2 ], [ "steel_lump", 1 ] ]
+      [ [ "steel_chunk_any", 2, "LIST" ], [ "steel_lump_any", 1, "LIST" ] ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -54,7 +54,7 @@
       [ [ "psionic_serum_base", 2 ] ],
       [ [ "matrix_crystal_telepath_dust_refined", 6 ] ],
       [ [ "matrix_crystal_telepathy", 1 ] ],
-      [ [ "steel_chunk", 3 ], [ "steel_lump", 2 ] ]
+      [ [ "steel_chunk_any", 3, "LIST" ], [ "steel_lump_any", 2, "LIST" ] ]
     ],
     "flags": [ "SECRET" ]
   }

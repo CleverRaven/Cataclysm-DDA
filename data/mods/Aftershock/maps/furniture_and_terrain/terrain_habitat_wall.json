@@ -20,8 +20,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_broken_prefab",
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
         { "item": "afs_material_1", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 6, 24 ] }
       ]
@@ -72,8 +72,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_broken_prefab",
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
         { "item": "afs_material_1", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 6, 24 ] }
       ]
@@ -101,8 +101,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_broken_prefab",
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
         { "item": "afs_material_1", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 6, 24 ] }
       ]
@@ -131,8 +131,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_broken_prefab",
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
         { "item": "afs_material_1", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 6, 24 ] }
       ]
@@ -157,8 +157,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_ice",
       "items": [
-        { "item": "steel_lump", "count": [ 2, 2 ] },
-        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "lc_steel_lump", "count": [ 2, 2 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 6 ] },
         { "item": "afs_material_1", "count": [ 0, 1 ] },
         { "item": "scrap", "count": [ 6, 24 ] }
       ]

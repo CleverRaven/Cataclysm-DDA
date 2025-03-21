@@ -42,7 +42,7 @@
           "item": [
             { "item": "bottle_plastic", "amount": [ 1, 2 ] },
             { "item": "can_food", "amount": [ 1, 2 ] },
-            { "item": "steel_chunk", "amount": 1 }
+            { "item": "lc_steel_chunk", "amount": 1 }
           ]
         }
       }

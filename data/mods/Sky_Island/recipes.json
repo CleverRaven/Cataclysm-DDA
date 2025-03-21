@@ -279,7 +279,7 @@
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "components": [
       [ [ "warptoken", 3 ] ],
-      [ [ "scrap", 20 ], [ "steel_chunk", 4 ], [ "steel_lump", 1 ] ],
+      [ [ "scrap", 20 ], [ "steel_chunk_any", 4, "LIST" ], [ "steel_lump_any", 1, "LIST" ] ],
       [ [ "pipe", 2 ], [ "wire", 6 ] ],
       [ [ "nuts_bolts", 4 ], [ "pipe_fittings", 4 ], [ "sheet_metal_small", 10 ] ],
       [ [ "nail", 40 ] ]

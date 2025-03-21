@@ -428,7 +428,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 4, 16 ] },
-        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
         { "item": "lead", "charges": [ 12, 18 ] },
         { "item": "sheet_metal_small", "count": [ 10, 30 ] },
@@ -461,7 +461,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 4, 16 ] },
-        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
         { "item": "steel_armor", "count": [ 2, 4 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
         { "item": "lead", "charges": [ 12, 18 ] },
@@ -495,7 +495,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 4, 16 ] },
-        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
         { "item": "cu_pipe", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 0, 3 ] },
         { "item": "pipe_fittings", "count": [ 0, 3 ] },
@@ -531,7 +531,7 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "scrap", "count": [ 4, 16 ] },
-        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "ch_steel_chunk", "count": [ 1, 6 ] },
         { "item": "sheet_metal", "count": [ 5, 10 ] },
         { "item": "plutonium", "count": [ 0, 3 ] },
         { "item": "lead", "charges": [ 12, 18 ] },

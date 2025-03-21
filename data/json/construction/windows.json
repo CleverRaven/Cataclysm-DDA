@@ -57,7 +57,7 @@
     "required_skills": [ [ "fabrication", 7 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "spike", 8 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ],
+    "components": [ [ [ "spike", 8 ] ], [ [ "steel_chunk_any", 4, "LIST" ], [ "scrap", 12 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_m_frame"
   },

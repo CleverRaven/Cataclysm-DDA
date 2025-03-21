@@ -74,7 +74,7 @@
     "components": [
       [ [ "sheet_metal", 1 ] ],
       [ [ "pipe", 1 ] ],
-      [ [ "steel_lump", 2 ] ],
+      [ [ "steel_lump_any", 2, "LIST" ] ],
       [ [ "scrap", 25 ] ],
       [ [ "thread_kevlar", 25 ] ]
     ],

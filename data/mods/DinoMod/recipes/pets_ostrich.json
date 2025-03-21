@@ -262,7 +262,7 @@
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_articulation" }
     ],
-    "components": [ [ [ "steel_chunk", 60 ], [ "scrap", 180 ] ], [ [ "leather_armor_ostrich", 1 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 60, "LIST" ], [ "scrap", 180 ] ], [ [ "leather_armor_ostrich", 1 ] ] ]
   },
   {
     "result": "bronze_armor_ostrich",

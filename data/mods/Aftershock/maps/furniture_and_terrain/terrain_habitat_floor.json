@@ -46,8 +46,8 @@
       "str_max": 500,
       "str_min_supported": 200,
       "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "lc_steel_lump", "count": [ 1, 4 ] },
+        { "item": "lc_steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ]
     }
@@ -189,7 +189,7 @@
       "sound": "SMASH!",
       "ter_set": "t_scrap_floor",
       "str_min_supported": 100,
-      "items": [ { "item": "steel_chunk", "count": [ 5, 11 ] } ]
+      "items": [ { "item": "lc_steel_chunk", "count": [ 5, 11 ] } ]
     },
     "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
@@ -211,7 +211,7 @@
       "sound": "SMASH!",
       "ter_set": "t_scrap_floor",
       "str_min_supported": 100,
-      "items": [ { "item": "steel_chunk", "count": [ 5, 11 ] } ]
+      "items": [ { "item": "lc_steel_chunk", "count": [ 5, 11 ] } ]
     },
     "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   }

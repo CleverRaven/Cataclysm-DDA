@@ -114,7 +114,7 @@
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 2 ] ],
     "components": [
       [ [ "amplifier", 4 ] ],
-      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
+      [ [ "steel_chunk_any", 2, "LIST" ], [ "scrap", 6 ] ],
       [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -134,7 +134,7 @@
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 2 ] ],
     "components": [
       [ [ "amplifier", 4 ] ],
-      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
+      [ [ "steel_chunk_any", 2, "LIST" ], [ "scrap", 6 ] ],
       [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
       [ [ "cable", 10 ] ]
     ]
