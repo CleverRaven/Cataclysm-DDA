@@ -3239,6 +3239,19 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "result": "milk_choc",
+    "id_suffix": "from_powder",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "2 m",
+    "autolearn": true,
+    "//": "you're just dissolve the milk cocoa powder in the water.",
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "cocoa_powder_milk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "milk_reconstituted",
     "id_suffix": "from_powder",
     "category": "CC_FOOD",
