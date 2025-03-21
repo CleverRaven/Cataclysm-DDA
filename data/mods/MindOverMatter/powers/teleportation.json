@@ -3,7 +3,7 @@
     "id": "teleport_blink",
     "type": "SPELL",
     "name": "[Ψ]Blink",
-    "description": "Step briefly into the void between dimensions and emerge at a random nearby location.",
+    "description": "Step briefly into the void between dimensions and emerge at a random nearby location.\n\nThe power <color_red>will fail</color> if the volume of your carried gear is too great.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
