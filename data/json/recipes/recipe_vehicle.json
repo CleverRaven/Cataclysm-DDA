@@ -288,9 +288,8 @@
     "components": [
       [ [ "yoke_harness", 1 ] ],
       [ [ "frame", 1 ] ],
-      [ [ "scrap", 15 ], [ "steel_chunk_any", 5, "LIST" ], [ "steel_lump_any", 2, "LIST" ] ],
-      [ [ "pipe", 4 ], [ "scrap", 20 ], [ "steel_chunk_any", 6, "LIST" ], [ "steel_lump_any", 3, "LIST" ] ],
-      [ [ "pipe", 2 ] ],
+      [ [ "scrap", 35 ], [ "steel_chunk_any", 11, "LIST" ], [ "steel_lump_any", 5, "LIST" ] ],
+      [ [ "pipe", 6 ] ],
       [ [ "chain", 2 ], [ "hd_tow_cable", 1 ] ],
       [ [ "spring", 2 ], [ "tanned_hide", 2 ] ],
       [ [ "nuts_bolts", 6 ] ],

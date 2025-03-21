@@ -2942,7 +2942,7 @@
     "tools": [ [ [ "angle_grinder", 220 ] ], [ [ "drill_press_tool", 20 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "railroad_track_item_half", 1 ] ] ],
-    "byproducts": [ [ "steel_lump_any", 15, "LIST" ] ]
+    "byproducts": [ [ "mc_steel_lump", 15 ] ]
   },
   {
     "result": "anvil_bronze",
