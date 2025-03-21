@@ -180,8 +180,10 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "time": "1 m 30 s",
+    "time": "2 m",
     "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "flags": [ "BLIND_HARD" ],
     "components": [ 
 	[ [ "water", 1 ], [ "water_clean", 1 ] ],
@@ -194,16 +196,14 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "time": "1 m 30 s",
+    "time": "2 m",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [
 	[ "milk_standard_raw", 1, "LIST" ],
-	[ "lf_milk_standard", 1, "LIST" ],	
-	[ [ "cocoa_powder", 1 ] ]
-	[
-	[ [  "water", 1 ], [ "water_clean", 1 ] ]
-	[ [ "cocoa_powder_milk", 2 ] ]
+	[ "lf_milk_standard", 1, "LIST" ],
+  [    
+	[ [ "cocoa_powder", 1 ] ],
   },  
   {
     "type": "recipe",
