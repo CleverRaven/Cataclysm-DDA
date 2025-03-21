@@ -995,7 +995,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "sheet_metal", 1 ] ] ],
-    "byproducts": [ [ "steel_chunk_any", 6, "LIST" ] ]
+    "byproducts": [ [ "lc_steel_chunk", 6 ] ]
   },
   {
     "type": "recipe",
@@ -1399,7 +1399,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
       [ [ "pilot_light", 1 ] ],
-      [ [ "steel_lump_any", 3, "LIST" ], [ [ "steel_chunk_any", 12, "LIST" ] ], [ "scrap", 36 ] ],
+      [ [ "steel_lump_any", 3, "LIST" ], [ "steel_chunk_any", 12, "LIST" ], [ "scrap", 36 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 3 ] ],
       [ [ "pipe_fittings", 2 ] ]
@@ -1727,7 +1727,7 @@
         [ "integrated_electrokit", 150 ]
       ]
     ],
-    "components": [ [ [ [ "steel_chunk_any", 6, "LIST" ] ], [ "scrap", 18 ] ], [ [ "pipe", 2 ] ] ]
+    "components": [ [ [ "steel_chunk_any", 6, "LIST" ], [ "scrap", 18 ] ], [ [ "pipe", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1997,7 +1997,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "sheet_metal", 1 ] ], [ [ [ "steel_chunk_any", 3, "LIST" ] ], [ "scrap", 9 ] ] ]
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "steel_chunk_any", 3, "LIST" ], [ "scrap", 9 ] ] ]
   },
   {
     "type": "recipe",
