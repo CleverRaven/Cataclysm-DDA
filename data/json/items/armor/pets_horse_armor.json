@@ -1,17 +1,18 @@
 [
   {
     "abstract": "horse_armor",
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "name": { "str": "horse armor", "//~": "NO_I18N" },
     "symbol": "[",
     "min_pet_vol": "380 L",
     "max_pet_vol": "1000 L",
     "pet_bodytype": "horse",
     "longest_side": "60 cm",
-    "flags": [ "IS_PET_ARMOR" ]
+    "flags": [ "IS_PET_ARMOR" ],
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "kevlar_armor_horse",
     "copy-from": "horse_armor",
     "color": "yellow",
@@ -22,10 +23,11 @@
     "material": [ "cotton", "leather", "kevlar_layered" ],
     "weight": "30 kg",
     "volume": "150 L",
-    "material_thickness": 10
+    "material_thickness": 10,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "acidchitin_armor_horse",
     "copy-from": "horse_armor",
     "color": "green",
@@ -37,10 +39,11 @@
     "weight": "35 kg",
     "volume": "150 L",
     "material_thickness": 6,
-    "environmental_protection": 7
+    "environmental_protection": 7,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "chitin_armor_horse",
     "copy-from": "horse_armor",
     "color": "green",
@@ -52,10 +55,11 @@
     "weight": "35 kg",
     "volume": "150 L",
     "material_thickness": 6,
-    "environmental_protection": 4
+    "environmental_protection": 4,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "chainmail_armor_horse",
     "copy-from": "horse_armor",
     "color": "green",
@@ -66,10 +70,11 @@
     "material": [ "steel", "leather" ],
     "weight": "40 kg",
     "volume": "150 L",
-    "material_thickness": 6
+    "material_thickness": 6,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "leather_armor_horse",
     "copy-from": "horse_armor",
     "color": "green",
@@ -114,10 +119,11 @@
         "id": "coregentech",
         "text": "A full barding for horses consisting of boiled leather and cloth undercovering.  This caparison seems to be sponsored by Core Generator Tech, with a tag line of \"Providing power solutions from culinary to graphic design, we have the magic touch for your problems!\".  You could put this on a friendly horse."
       }
-    ]
+    ],
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "leatherbone_armor_horse",
     "copy-from": "horse_armor",
     "color": "green",
@@ -128,10 +134,11 @@
     "material": [ "leather" ],
     "weight": "17 kg",
     "volume": "150 L",
-    "material_thickness": 6
+    "material_thickness": 6,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "rubber_armor_horse",
     "copy-from": "horse_armor",
     "color": "green",
@@ -142,10 +149,11 @@
     "material": [ "neoprene", "plastic" ],
     "weight": "14 kg",
     "volume": "150 L",
-    "material_thickness": 3
+    "material_thickness": 3,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "iron_armor_horse",
     "copy-from": "horse_armor",
     "color": "brown",
@@ -156,10 +164,11 @@
     "material": [ "iron", "leather" ],
     "weight": "30 kg",
     "volume": "150 L",
-    "material_thickness": 4
+    "material_thickness": 4,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "steel_armor_horse",
     "copy-from": "horse_armor",
     "color": "light_gray",
@@ -170,10 +179,11 @@
     "material": [ "steel", "leather" ],
     "weight": "50 kg",
     "volume": "150 L",
-    "material_thickness": 4
+    "material_thickness": 4,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "bronze_armor_horse",
     "copy-from": "horse_armor",
     "color": "yellow",
@@ -184,11 +194,12 @@
     "material": [ "bronze", "leather" ],
     "weight": "30 kg",
     "volume": "150 L",
-    "material_thickness": 4
+    "material_thickness": 4,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
     "id": "saddlebag",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of saddle bags", "str_pl": "pairs of saddle bags" },
     "description": "A pair of covered pouches laid across the back of a horse behind the saddle.",
     "weight": "1 kg",
@@ -219,6 +230,7 @@
         "moves": 200
       }
     ],
-    "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   }
 ]

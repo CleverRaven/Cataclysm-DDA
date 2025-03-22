@@ -1,7 +1,7 @@
 [
   {
     "id": "boarding_axe",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": "boarding axe",
@@ -30,7 +30,7 @@
   },
   {
     "id": "scrap_axe",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": "makeshift boarding axe",
@@ -50,7 +50,7 @@
   },
   {
     "id": "heavy_drill",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "symbol": "=",
     "color": "yellow",
     "name": "heavy mining drill",
@@ -85,11 +85,12 @@
         "encumbrance": 20
       }
     ],
-    "melee_damage": { "bash": 50, "cut": 5 }
+    "melee_damage": { "bash": 50, "cut": 5 },
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "heavy_drill_on",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "copy-from": "heavy_drill",
     "name": { "str": "heavy mining drill (on)", "str_pl": "heavy mining drills (on)" },
     "description": "This is a portable roadheader, designed to chew through the toughest rock.  Currently active, the drill heads are a blur.",
@@ -99,11 +100,12 @@
     "power_draw": "1500 mW",
     "revert_to": "heavy_drill",
     "use_action": { "ammo_scale": 0, "target": "heavy_drill", "msg": "You deactivate the drill.", "type": "transform" },
-    "melee_damage": { "bash": 50, "cut": 25 }
+    "melee_damage": { "bash": 50, "cut": 25 },
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "exosuit_claw",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str_sp": "exosuit claws" },
     "description": "A pair of oversized and articulated hydraulic gauntlets with fingertips ending in cruel talons.",
     "weight": "3 kg",
@@ -128,11 +130,12 @@
         "encumbrance": 5
       }
     ],
-    "melee_damage": { "bash": 50, "cut": 10 }
+    "melee_damage": { "bash": 50, "cut": 10 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "exosuit_plasma_torch",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "name": { "str": "392-UASTA plasma torch", "str_pl": "392-UASTA plasma torches" },
     "description": "One of the many versions of UASTA certified plasma torches, essentially a civilian plasma railgun used to deliver focused waves of plasma for precision welding or metal cutting.  This is a larger, more powerful model meant to be used by an exosuit for heavy engineering tasks.  Heavy cables run from the module to a handheld trigger mechanism.",
     "weight": "8 kg",
@@ -168,11 +171,12 @@
       }
     ],
     "melee_damage": { "bash": 50, "cut": 10 },
-    "tool_ammo": [ "afs_shydrogen" ]
+    "tool_ammo": [ "afs_shydrogen" ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "exosuit_power_cutter",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "name": { "str": "exosuit power cutter (off)", "str_pl": "exosuit power cutters (off)" },
     "description": "A huge, multi-fuel powered saw with a diamond blade, mounted on an exosuit.  If it has fuel, it can be turned on to turn it into a powerful metal cutting tool.  Heavy cables run from the module to a handheld trigger mechanism.",
     "weight": "10 kg",
@@ -217,12 +221,13 @@
       }
     ],
     "melee_damage": { "bash": 10, "cut": 5 },
-    "tool_ammo": [ "gasoline", "diesel", "jp8", "avgas", "lamp_oil", "motor_oil", "propane", "conc_alcohol", "ammonia_liquid" ]
+    "tool_ammo": [ "gasoline", "diesel", "jp8", "avgas", "lamp_oil", "motor_oil", "propane", "conc_alcohol", "ammonia_liquid" ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "exosuit_power_cutter_on",
     "copy-from": "exosuit_power_cutter",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "exosuit power cutter (on)", "str_pl": "exosuit power cutters (on)" },
     "description": "A huge, multi-fuel powered saw with a diamond blade, currently a whirling blur.  It's consuming fuel and can be used as a fantastic tool for cutting metal.  You can also use it as a terrifying weapon, if you're into that sort of thing.",
     "turns_per_charge": 5,
@@ -236,6 +241,7 @@
     },
     "qualities": [ [ "CUT", 3 ], [ "SAW_M", 20 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -80 ] ],
     "extend": { "flags": [ "MESSY" ] },
-    "melee_damage": { "bash": 10, "cut": 100 }
+    "melee_damage": { "bash": 10, "cut": 100 },
+    "subtypes": [ "TOOL" ]
   }
 ]

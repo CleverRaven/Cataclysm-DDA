@@ -1,6 +1,6 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "paintball",
     "price": "10 USD",
     "price_postapoc": "50 cent",
@@ -18,6 +18,7 @@
     "count": 100,
     "stack_size": 100,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES" ]
+    "effects": [ "NOGIB", "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   }
 ]

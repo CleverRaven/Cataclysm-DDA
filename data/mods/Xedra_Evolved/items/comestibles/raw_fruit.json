@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hawthorn_petals",
     "name": { "str_sp": "hawthorn petals" },
     "weight": "90 g",
@@ -17,10 +17,11 @@
     "volume": "170 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hawthorn_berries",
     "name": { "str_sp": "hawthorn berries" },
     "weight": "40 g",
@@ -38,10 +39,11 @@
     "fun": 0,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 16 ], [ "calcium", 1 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "fig",
     "name": { "str": "fig" },
     "weight": "40 g",
@@ -58,10 +60,11 @@
     "fun": 5,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "xe_elder_ginseng",
     "name": { "str": "elder ginseng", "str_pl": "several elder ginseng" },
     "//": "magical poisons, 'death' and 'bio' related",

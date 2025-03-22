@@ -14,7 +14,7 @@
   },
   {
     "id": "integrated_blood_bank",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "internal blood bank" },
     "description": "Internal tank for blood power generator bionic.",

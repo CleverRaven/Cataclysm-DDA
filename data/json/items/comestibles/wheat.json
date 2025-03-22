@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "grain_boiled",
     "looks_like": "buckwheat_cooked",
     "name": { "str_sp": "boiled grain" },
@@ -17,10 +17,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "calcium", 5 ], [ "iron", 34 ], [ "wheat_allergen", 1 ] ],
-    "fun": -1
+    "fun": -1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "spaghetti_raw",
     "name": { "str_sp": "raw spaghetti pasta" },
     "weight": "60 g",
@@ -37,10 +38,11 @@
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ],
-    "fun": -8
+    "fun": -8,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "lasagne_raw",
     "name": { "str_sp": "raw lasagne pasta" },
     "spoils_in": "360 days",
@@ -57,10 +59,11 @@
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ],
-    "fun": -8
+    "fun": -8,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "spaghetti_cooked",
     "name": { "str_sp": "boiled noodles" },
     "weight": "148 g",
@@ -77,10 +80,11 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "TRADER_AVOID" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "macaroni_raw",
     "name": { "str_sp": "raw macaroni" },
     "weight": "60 g",
@@ -97,10 +101,11 @@
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "volume": "62 ml",
     "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ],
-    "fun": -6
+    "fun": -6,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "macaroni_cooked",
     "name": { "str_sp": "mac & cheese" },
     "weight": "209 g",
@@ -118,10 +123,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "TRADER_AVOID", "FREEZERBURN" ],
     "fun": 5,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 11 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 11 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "flour",
     "name": { "str_sp": "flour" },
     "weight": "12500 mg",
@@ -140,10 +146,11 @@
     "//": "240 ml is equivalent to 1 cup of flour.  10 charges is roughly equivalent to a cup of flour for American recipes.",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "vitamins": [ [ "iron", 3 ], [ "wheat_allergen", 1 ] ],
-    "fun": -5
+    "fun": -5,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "bread_flour",
     "name": { "str_sp": "bread flour" },
     "weight": "60 g",
@@ -161,10 +168,11 @@
     "volume": "120 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "vitamins": [ [ "iron", 4 ], [ "wheat_allergen", 1 ] ],
-    "fun": -5
+    "fun": -5,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "oatmeal",
     "name": { "str_sp": "oatmeal" },
     "weight": "35 g",
@@ -183,10 +191,11 @@
     "cooks_like": "oatmeal_cooked",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ],
-    "fun": -8
+    "fun": -8,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "oatmeal_cooked",
     "name": { "str_sp": "cooked oatmeal" },
     "weight": "256 g",
@@ -204,10 +213,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "oatmeal_deluxe",
     "name": { "str_sp": "deluxe cooked oatmeal" },
     "weight": "306 g",
@@ -225,10 +235,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitC", 30 ], [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 30 ], [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "grits",
     "name": { "str_sp": "grits" },
     "weight": "256 g",
@@ -246,10 +257,11 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "iron", 2 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "iron", 2 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "cheese_grits",
     "name": { "str_sp": "cheese grits" },
     "//": "Someone needs to look at the mass and volume compared to the ingredients.",
@@ -267,10 +279,11 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "iron", 7 ], [ "vitC", 7 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "iron", 7 ], [ "vitC", 7 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "pancakes",
     "name": { "str": "pancake" },
     "weight": "70 g",
@@ -288,10 +301,11 @@
     "//": "10 cm diameter, 1 cm thickness, 0.92 density",
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 4 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 4 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "fruit_pancakes",
     "copy-from": "pancakes",
     "name": { "str": "fruit pancake" },
@@ -303,10 +317,11 @@
     "price": "6 USD 50 cent",
     "price_postapoc": "75 cent",
     "fun": 4,
-    "vitamins": [ [ "vitC", 30 ], [ "calcium", 4 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", 30 ], [ "calcium", 4 ], [ "iron", 3 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "blood_pancakes",
     "copy-from": "pancakes",
     "name": { "str": "blodplättar" },
@@ -319,10 +334,11 @@
     "price_postapoc": "50 cent",
     "material": [ "wheat", "blood" ],
     "primary_material": "wheat",
-    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "frenchtoast",
     "name": { "str_sp": "French toast" },
     "weight": "42 g",
@@ -339,10 +355,11 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 8,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ], [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ], [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "waffles",
     "name": { "str": "waffle" },
     "weight": "75 g",
@@ -359,10 +376,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "calcium", 15 ], [ "iron", 9 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 15 ], [ "iron", 9 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "fruit_waffles",
     "name": { "str": "fruit waffle" },
     "weight": "156 g",
@@ -386,10 +404,11 @@
       [ "wheat_allergen", 1 ],
       [ "fruit_allergen", 1 ],
       [ "milk_allergen", 1 ]
-    ]
+    ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "crackers",
     "name": { "str": "cracker" },
     "weight": "56 g",
@@ -407,18 +426,20 @@
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "wheat_allergen", 1 ] ],
-    "fun": 2
+    "fun": 2,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "snack_bread",
     "name": { "str": "wheat snack bread" },
     "copy-from": "crackers",
     "description": "Wheat Snack Bread, a delicious snack made from wheat.",
-    "quench": 0
+    "quench": 0,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "oyster_crackers",
     "name": { "str": "oyster cracker" },
     "copy-from": "crackers",
@@ -429,10 +450,11 @@
     "price": "6 cent",
     "price_postapoc": "37 cent",
     "volume": "31 ml",
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 4 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "pie",
     "name": { "str": "fruit pie" },
     "weight": "125 g",
@@ -451,10 +473,11 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
     "//": "these vitamins are only for pies that may spawn.  generally they will be inherited from the fruit used.",
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 3 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 3 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "pizza_cheese",
     "name": { "str": "cheese pizza" },
     "weight": "170 g",
@@ -472,10 +495,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ], [ "iron", 23 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 25 ], [ "iron", 23 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "granola",
     "name": { "str_sp": "granola" },
     "weight": "32 g",
@@ -494,10 +518,11 @@
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "calcium", 2 ], [ "iron", 7 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ],
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "pie_maple",
     "name": { "str": "maple pie" },
     "weight": "74 g",
@@ -516,10 +541,11 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "noodles_fast",
     "name": { "str_sp": "fast noodles" },
     "weight": "81 g",
@@ -536,10 +562,11 @@
     "material": [ "wheat" ],
     "volume": "500 ml",
     "vitamins": [ [ "calcium", 1 ], [ "iron", 18 ], [ "wheat_allergen", 1 ] ],
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "cloutie_dumpling",
     "name": { "str_sp": "cloutie dumplings" },
     "weight": "91 g",
@@ -556,10 +583,11 @@
     "material": [ "wheat", "fruit" ],
     "volume": "250 ml",
     "fun": 9,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 8 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 8 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "brioche",
     "name": { "str": "brioche" },
     "weight": "77 g",
@@ -577,11 +605,12 @@
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "sponge_cake",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str": "sponge cake" },
     "description": "Plain, fluffy cake for the proletariat.",
@@ -597,37 +626,41 @@
     "fun": 4,
     "spoils_in": "17 days",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 5 ], [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ] ],
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "space_cake",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "space cake" },
     "copy-from": "sponge_cake",
     "price_postapoc": "5 USD",
     "description": "This cake's destiny is to take you on a gnarly trip.",
     "fun": 12,
-    "use_action": [ "WEED_CAKE" ]
+    "use_action": [ "WEED_CAKE" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "brownie",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "brownie" },
     "copy-from": "sponge_cake",
     "description": "A rich chocolate brownie, just like how grandma used to bake them.",
     "price_postapoc": "4 USD",
     "weight": "45 g",
     "calories": 292,
-    "fun": 7
+    "fun": 7,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "brownie_weed",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "'special' brownie" },
     "copy-from": "brownie",
     "description": "This is definitely not how grandma used to bake them.",
     "price_postapoc": "5 USD",
     "fun": 15,
-    "use_action": [ "WEED_CAKE" ]
+    "use_action": [ "WEED_CAKE" ],
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

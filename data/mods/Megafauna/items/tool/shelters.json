@@ -1,7 +1,7 @@
 [
   {
     "id": "mammoth_shelter_kit",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "mammoth shelter kit" },
     "description": "This is a small shelter, made of large bones, mammoth tusks, and skins.  Use it to place.",
     "weight": "1360 g",
@@ -21,11 +21,12 @@
       "door_opened": "f_skin_door_o",
       "door_closed": "f_skin_door"
     },
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "large_mammoth_shelter_kit",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "large mammoth shelter kit" },
     "description": "This is a big shelter, made of large bones, mammoth tusks, and skins.  Use it to place.",
     "weight": "4080 g",
@@ -45,6 +46,7 @@
       "door_opened": "f_skin_door_o",
       "door_closed": "f_skin_door"
     },
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "subtypes": [ "TOOL" ]
   }
 ]

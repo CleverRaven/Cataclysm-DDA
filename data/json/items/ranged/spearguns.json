@@ -1,6 +1,6 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "fishspear",
     "price": "40 USD",
     "price_postapoc": "5 USD",
@@ -20,10 +20,11 @@
     "loudness": 0,
     "count": 4,
     "recovery_chance": 80,
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "c_fishspear",
     "price": "320 USD",
     "price_postapoc": "10 USD",
@@ -43,10 +44,11 @@
     "loudness": 0,
     "count": 4,
     "recovery_chance": 66,
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "m_fishspear",
     "price": "160 USD",
     "price_postapoc": "5 USD",
@@ -66,12 +68,13 @@
     "loudness": 0,
     "count": 4,
     "recovery_chance": 93,
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "airspeargun",
     "looks_like": "ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
@@ -97,12 +100,13 @@
     "loudness": 11,
     "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "rail mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fishspear": 1 } } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "doublespeargun",
     "looks_like": "ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
@@ -126,12 +130,13 @@
     "reload": 800,
     "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "rail mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fishspear": 1 } } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "long_speargun",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "yellow",
@@ -154,12 +159,13 @@
     "reload": 600,
     "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "rail mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fishspear": 1 } } ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "speargun",
     "looks_like": "ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
@@ -183,6 +189,7 @@
     "reload": 500,
     "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "rail mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fishspear": 1 } } ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "subtypes": [ "GUN" ]
   }
 ]

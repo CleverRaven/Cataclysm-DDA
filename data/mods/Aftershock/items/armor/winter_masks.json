@@ -1,7 +1,7 @@
 [
   {
     "id": "afs_magellan_suit_helmet",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "looks_like": "helmet_motor",
     "name": { "str": "Magellan helmet CA.", "str_pl": "Magellan helmets CA." },
@@ -27,7 +27,6 @@
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 }
     ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
     "warmth": 10,
     "material_thickness": 1,
@@ -47,12 +46,14 @@
       "SOFT"
     ],
     "melee_damage": { "bash": 7 },
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ],
+    "subtypes": [ "ARTIFACT", "TOOL", "ARMOR" ]
   },
   {
     "id": "afs_magellan_suit_helmet_on",
     "copy-from": "afs_magellan_suit_helmet",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "name": { "str": "Magellan helmet CA. (on)", "str_pl": "Magellan helmets CA. (on)" },
     "looks_like": "helmet_motor",
     "description": "The temperature control units and augmented reality overlays of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
@@ -67,11 +68,12 @@
       "target": "afs_magellan_suit_helmet"
     },
     "extend": { "flags": [ "GAS_PROOF", "WATCH", "ALARMCLOCK", "THERMOMETER", "HYGROMETER", "PARTIAL_DEAF", "TRADER_AVOID" ] },
-    "environmental_protection": 15
+    "environmental_protection": 15,
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "afs_frontier_cryomask",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "looks_like": "helmet_motor",
     "name": { "str": "frontier cryomask" },
@@ -96,7 +98,6 @@
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
     ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -110,12 +111,14 @@
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUN_GLASSES", "OUTER", "SOFT" ],
     "melee_damage": { "bash": 7 },
-    "tool_ammo": "battery"
+    "tool_ammo": "battery",
+    "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ],
+    "subtypes": [ "ARTIFACT", "TOOL", "ARMOR" ]
   },
   {
     "id": "afs_frontier_cryomask_on",
     "copy-from": "afs_frontier_cryomask",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "name": { "str": "frontier cryomask (on)", "str_pl": "frontier cryomasks (on)" },
     "looks_like": "helmet_motor",
     "description": "The heater of this high-tech garment is currently active, and continuously draining battery power.  Use it to turn the heat off.",
@@ -128,6 +131,7 @@
       "menu_text": "Turn off",
       "msg": "Your %s deactivates.",
       "target": "afs_frontier_cryomask"
-    }
+    },
+    "subtypes": [ "TOOL", "ARMOR" ]
   }
 ]

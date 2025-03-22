@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "platonic_flower",
     "name": { "str": "philosopher's flower" },
     "//2": "there will be some thoughts about how this alchemy stuff works. the relation are pretty stretchy, because I don't want to make bazillion of plants for each purpose, so don't mind if 'light' related plant will occur in 'darkness' flask effect",
@@ -16,10 +16,11 @@
     "volume": "50 ml",
     "weight": "50 g",
     "fun": 2,
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 5 ], [ "calcium", 5 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "iron", 5 ], [ "calcium", 5 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "moonflowers",
     "copy-from": "platonic_flower",
     "name": { "str_sp": "moonflowers" },
@@ -32,10 +33,11 @@
     "description": "A handful of moonflowers glitter like tiny stars and faintly smell of morning dew.  Properly harvested, they will never wilt or wither.",
     "price_postapoc": "20 USD",
     "volume": "250 ml",
-    "vitamins": [ [ "iron", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ]
+    "vitamins": [ [ "iron", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "kampuch",
     "name": { "str": "kampuch", "str_pl": "kampuches" },
     "//": "magical poisons, 'death' and 'bio' related",
@@ -48,7 +50,7 @@
     "material": "veggy"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "olieribos",
     "name": { "str": "olieribos sheaf", "str_pl": "olieribos sheaves" },
     "description": "Dark colored leaves and bitter roots, firmly tied together in a small sheaf.  It's not toxic, but many people have died trying to taste it, due to the airway obstruction.",
@@ -63,7 +65,7 @@
     "looks_like": "wheat"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "glowing_mushroom",
     "name": { "str_sp": "glowing mushroom caps" },
     "//": "'light' related, partially 'speed'",
@@ -77,10 +79,11 @@
     "calories": 86,
     "use_action": { "type": "cast_spell", "spell_id": "glowing_mushroom_spell", "no_fail": true, "level": 0 },
     "looks_like": "mushroom",
-    "vitamins": [ [ "redcells", 25 ], [ "vitC", 6 ] ]
+    "vitamins": [ [ "redcells", 25 ], [ "vitC", 6 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "horn_moss_capsule",
     "name": { "str_sp": "horn moss capsules" },
     "//": "'healing' related",
@@ -94,10 +97,11 @@
     "calories": 65,
     "use_action": { "type": "cast_spell", "spell_id": "flask_regeneration_effect", "no_fail": true, "level": 0 },
     "looks_like": "mushroom",
-    "vitamins": [ [ "iron", 7 ], [ "vitC", 5 ] ]
+    "vitamins": [ [ "iron", 7 ], [ "vitC", 5 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "golden_reed_stalk",
     "copy-from": "platonic_flower",
     "name": { "str_sp": "golden reed stalks" },
@@ -109,10 +113,11 @@
     "looks_like": "wheat",
     "description": "Stalks cut from a golden reed.  They have a strong, spiced aroma.",
     "price_postapoc": "7 USD 80 cent",
-    "vitamins": [ [ "calcium", 12 ], [ "vitC", 3 ], [ "redcells", 2 ] ]
+    "vitamins": [ [ "calcium", 12 ], [ "vitC", 3 ], [ "redcells", 2 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "wood_barnacle",
     "copy-from": "platonic_flower",
     "name": { "str": "wood barnacle" },
@@ -124,10 +129,11 @@
     "looks_like": "egg",
     "description": "Heavy wooden shells surrounding a diminutive white fruit.",
     "price_postapoc": "10 USD",
-    "vitamins": [ [ "calcium", 8 ], [ "vitC", 5 ], [ "redcells", 3 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "vitC", 5 ], [ "redcells", 3 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "dragon_nail",
     "copy-from": "platonic_flower",
     "name": { "str": "dragonail" },
@@ -139,10 +145,11 @@
     "looks_like": "egg",
     "description": "Knife sharp thorns from a dragonail bush.  Eating them raw would be a dangerous challenge.",
     "price_postapoc": "8 USD 90 cent",
-    "vitamins": [ [ "iron", 7 ], [ "vitC", 4 ], [ "calcium", 1 ] ]
+    "vitamins": [ [ "iron", 7 ], [ "vitC", 4 ], [ "calcium", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "moly_tuber",
     "copy-from": "platonic_flower",
     "name": { "str": "moly tuber" },
@@ -153,10 +160,11 @@
     "comestible_type": "FOOD",
     "description": "The black root of a moly plant, extracted from the ground through great effort.  Rumored to grant protection to those who consume it.",
     "price_postapoc": "3 USD",
-    "vitamins": [ [ "calcium", 13 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "calcium", 13 ], [ "iron", 7 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "fern_flower",
     "copy-from": "platonic_flower",
     "name": { "str": "fern flower" },
@@ -168,10 +176,11 @@
     "comestible_type": "FOOD",
     "description": "A small flower cut from a fern, it has a faint honeyed aroma.  Believed to bring good luck to whoever finds it.",
     "price_postapoc": "12 USD",
-    "vitamins": [ [ "calcium", 8 ], [ "vitC", 4 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "vitC", 4 ], [ "iron", 2 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "funnelcap_chunk",
     "copy-from": "platonic_flower",
     "name": { "str": "funnelcap chunk" },
@@ -183,10 +192,11 @@
     "comestible_type": "FOOD",
     "description": "Large chunks of funnelcap meat, still leaking fine amounts of clear sap.",
     "price_postapoc": "60 cent",
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "redcells", 2 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "redcells", 2 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "sojourners_flower",
     "copy-from": "platonic_flower",
     "name": { "str": "sojourner's flower" },
@@ -200,10 +210,11 @@
     "price_postapoc": "14 USD",
     "volume": "10 ml",
     "weight": "10 g",
-    "vitamins": [ [ "iron", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ]
+    "vitamins": [ [ "iron", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "whiskflower",
     "copy-from": "platonic_flower",
     "name": { "str": "whiskflower" },
@@ -217,6 +228,7 @@
     "price_postapoc": "1 USD 10 cent",
     "volume": "10 ml",
     "weight": "10 g",
-    "vitamins": [ [ "iron", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ]
+    "vitamins": [ [ "iron", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

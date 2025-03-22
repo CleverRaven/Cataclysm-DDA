@@ -1,7 +1,7 @@
 [
   {
     "id": "light_minus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "tool_magazine",
     "name": { "str": "ultra-light battery (rechargeable)", "str_pl": "ultra-light batteries (rechargeable)" },
     "description": "A light, coin-like battery cell designed for small size over everything else.  Used for watches, calculators, toys or similar low-power electronics.",
@@ -19,22 +19,24 @@
     "capacity": 2,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_ULTRA_LIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "light_minus_disposable_cell",
     "copy-from": "light_minus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "ultra-light battery", "str_pl": "ultra-light batteries" },
     "description": "A light, coin-like battery cell designed for small size over everything else.  Used for watches, calculators, toys or similar low-power electronics.  This one can't be recharged.",
     "//": "cr2032, Lithium-Manganese, duracell CR2032 but they all pretty equal in their range",
     "ascii_picture": "light_minus_disposable_cell",
     "delete": { "flags": [ "RECHARGE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "light_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "tool_magazine",
     "name": { "str": "light battery", "str_pl": "light batteries" },
     "description": "A light battery cell, popular for any consumer-grade electronic: from remotes to mouses, from clocks to thermometers.  This one can't be recharged.",
@@ -52,12 +54,13 @@
     "capacity": 16,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_LIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 16 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 16 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "light_cell_rechargeable",
     "copy-from": "light_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "light battery (rechargeable)", "str_pl": "light batteries (rechargeable)" },
     "description": "A light battery cell, popular for any consumer-grade electronic: from remotes to mouses, from clocks to thermometers.",
     "//": "AA, Nickel-Metal Hydride, ENERGIZER NH15-2300",
@@ -65,11 +68,12 @@
     "ascii_picture": "light_battery_cell",
     "extend": { "flags": [ "RECHARGE" ] },
     "capacity": 10,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "medium_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "tool_magazine",
     "name": { "str": "medium battery (rechargeable)", "str_pl": "medium batteries (rechargeable)" },
     "description": "A medium battery cell, wildly used in modern tools: heavy flashlights, two-way radios, security cameras, multiple of them make a tool battery, and some older generation of EV use thousands of this as the power storage.",
@@ -87,12 +91,13 @@
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_MEDIUM" ],
     "capacity": 56,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 56 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 56 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "heavy_battery_cell",
     "copy-from": "heavy_plus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "small tool battery", "str_pl": "small tool batteries" },
     "description": "A light battery cell, universally compatible with all kinds of industrial-grade equipment and portable tools - drills, angle grinders, chainsaws.",
     "//": "Li-ion 18V LXT BL1815N",
@@ -103,11 +108,12 @@
     "price": "22 USD",
     "price_postapoc": "35 cent",
     "capacity": 259,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 259 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 259 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "heavy_plus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "tool_magazine",
     "name": { "str": "big tool battery", "str_pl": "big tool batteries" },
     "description": "A heavy battery cell, universally compatible with all kinds of industrial-grade equipment and portable tools - drills, angle grinders, chainsaws.",
@@ -126,11 +132,12 @@
     "capacity": 503,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_HEAVY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 503 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 503 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "heavy_atomic_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "tool_magazine",
     "name": { "str": "heavy plutonium fuel battery", "str_pl": "heavy plutonium fuel batteries" },
     "description": "A battery that uses a thin plutonium-244 rod to stabilize an exotic nanocompound.  It is universally compatible with all kinds of industrial-grade equipment and large tools.  Although it stores a huge amount of power, it cannot be recharged.",
@@ -147,11 +154,12 @@
     "capacity": 4800,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "LEAK_DAM", "RADIOACTIVE", "BATTERY_HEAVY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 4800 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 4800 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "huge_atomic_battery_cell",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "tool_magazine",
     "name": { "str": "military plutonium fuel cell" },
     "description": "A battery that uses a huge plutonium-244 rod to stabilize an exotic nanocompound.  It was used in military mech-suits, was highly experimental, and had no civilian applications.  Although it stores a stupendous amount of power, it cannot be recharged.",
@@ -167,6 +175,7 @@
     "capacity": 100000,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "MECH_BAT", "LEAK_DAM", "RADIOACTIVE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100000 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100000 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

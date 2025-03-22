@@ -1,7 +1,7 @@
 [
   {
     "id": "serum_regen",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "drugs",
     "name": { "str_sp": "48x-\"Locutus\"" },
     "description": "Little, sealed ampule with some white, semi-transparent liquid of unknown origin.  Label on it says \"48x-\"Locutus\"\", whatever that means.",

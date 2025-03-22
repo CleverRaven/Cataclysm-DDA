@@ -1,6 +1,6 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "atgm_heat",
     "price": "700 USD",
     "price_postapoc": "50 USD",
@@ -20,6 +20,7 @@
     "range": 100,
     "recoil": 6000,
     "effects": [ "EXPLOSIVE_ATGMHEAT", "NEVER_MISFIRES" ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "AMMO" ]
   }
 ]

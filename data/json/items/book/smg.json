@@ -1,7 +1,7 @@
 [
   {
     "id": "mag_smg",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Submachine Gun Enthusiast", "str_pl": "issues of Submachine Gun Enthusiast" },
     "description": "An in-depth magazine about submachine guns and shooting.  There is an exhaustive article about close quarter combat techniques in the front.",
@@ -35,11 +35,12 @@
     "intelligence": 5,
     "time": "8 m",
     "read_skill": "smg",
-    "read_fun": 1
+    "read_fun": 1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "manual_smg",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Submachine Gun Handbook", "str_pl": "copies of The Submachine Gun Handbook" },
     "description": "This concise guide details the proper care and operation of most forms of machine pistols and submachine guns currently used by regular armed and reserve forces, as well as several obsolete weapons.",
@@ -112,6 +113,7 @@
     "max_level": 3,
     "intelligence": 3,
     "time": "15 m",
-    "read_skill": "smg"
+    "read_skill": "smg",
+    "subtypes": [ "BOOK" ]
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
     "id": "357sig_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".357 SIG FMJ" },
     "description": "Jacketed .357 SIG ammunition.  Based on a 10mm Auto case necked down to a .355 inch bullet, the .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.",
     "ascii_picture": "357sig_fmj",
@@ -47,38 +47,42 @@
     },
     "dispersion": 30,
     "recoil": 600,
-    "effects": [ "COOKOFF" ]
+    "effects": [ "COOKOFF" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "357sig_jhp",
     "copy-from": "357sig_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".357 SIG JHP" },
     "description": "Jacketed hollow point .357 SIG ammunition.  Based on a 10mm Auto case necked down to a .355 inch bullet, the .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -4 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -4 } },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "reloaded_357sig_fmj",
     "copy-from": "357sig_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".357 SIG FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "reloaded_357sig_jhp",
     "copy-from": "357sig_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".357 SIG JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "bp_357sig_fmj",
     "copy-from": "357sig_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".357 SIG FMJ, black powder" },
     "proportional": {
       "price": 0.3,
@@ -87,12 +91,13 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "bp_357sig_jhp",
     "copy-from": "357sig_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".357 SIG JHP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -101,26 +106,29 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "matchhead_357sig_fmj",
     "copy-from": "bp_357sig_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".357 SIG FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_357sig_fmj",
-    "extend": { "effects": [ "MATCHHEAD" ] }
+    "extend": { "effects": [ "MATCHHEAD" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "matchhead_357sig_jhp",
     "copy-from": "bp_357sig_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".357 SIG JHP, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_357sig_jhp",
-    "extend": { "effects": [ "MATCHHEAD" ] }
+    "extend": { "effects": [ "MATCHHEAD" ] },
+    "subtypes": [ "AMMO" ]
   }
 ]

@@ -2,7 +2,7 @@
   {
     "id": "sling",
     "looks_like": "slingshot",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "brown",
     "name": { "ctxt": "weapon", "str": "sling" },
@@ -23,12 +23,13 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "slingshot",
     "//": "Tileset whitelist for sling & slingshots.",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "brown",
     "name": { "str": "slingshot" },
@@ -49,12 +50,13 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "underbarrel mount", 1 ], [ "stock mount", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "staff_sling",
     "looks_like": "quarterstaff",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "brown",
     "name": { "str": "staff sling" },
@@ -90,12 +92,13 @@
     "valid_mod_locations": [ [ "bore", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rock": 1 }, "open_container": true } ],
-    "melee_damage": { "bash": 14 }
+    "melee_damage": { "bash": 14 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "wristrocket",
     "looks_like": "sling",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "dark_gray",
     "name": { "str": "brace slingshot" },
@@ -116,6 +119,7 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "underbarrel mount", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ],
+    "subtypes": [ "GUN" ]
   }
 ]

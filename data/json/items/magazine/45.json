@@ -3,7 +3,7 @@
     "id": "mac10mag",
     "//": "Audited with ImageJ. Weight from ratio 1.2g/ml.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "MAC-10 30-round magazine" },
     "description": "A cheap 30-round steel box magazine for use with the MAC-10 SMG.",
     "weight": "221 g",
@@ -16,13 +16,14 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 30 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "smg_45_mag",
     "//": "Not a real magazine. Weight from ratio 1.2g/ml.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "MAC-10 20-round makeshift magazine" },
     "description": "An improvised 20-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the MAC-10 SMG.",
     "weight": "269 g",
@@ -35,13 +36,14 @@
     "ammo_type": [ "45" ],
     "reload_time": 160,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 20 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "tdi_mag",
     "//": "Dimensions via ImageJ.  Weight from vendor.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Glock SMG 30-round magazine" },
     "description": "An aftermarket 30-round polymer and steel box magazine designed for use with the Glock pistol.",
     "variant_type": "gun",
@@ -62,13 +64,14 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 30 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "thompson_bigmag",
     "//": "Audited with ImageJ.  Weight from book.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Thompson 30-round magazine" },
     "description": "An extended 30-round magazine for the Thompson submachine gun.",
     "weight": "226 g",
@@ -82,13 +85,14 @@
     "ammo_type": [ "45" ],
     "reload_time": 120,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 30 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "thompson_drum",
     "//": "Audited with ImageJ.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Thompson 50-round drum magazine" },
     "description": "A 50-round drum magazine for the Thompson submachine gun.  Made famous by gangsters, but the military preferred standard 20 and 30-round magazines due to greater reliability.",
     "weight": "1110 g",
@@ -103,13 +107,14 @@
     "reload_time": 150,
     "mag_jam_mult": 2,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 50 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "thompson_mag",
     "//": "Audited with ImageJ. Weight from 1.2g/ml ratio.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Thompson 20-round magazine" },
     "description": "A standard 20-round magazine for the Thompson submachine gun.",
     "weight": "182 g",
@@ -122,13 +127,14 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 20 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "thompson_makeshiftmag",
     "//": "Not a real magazine. Weight from 1.2g/ml ratio.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Thompson 20-round makeshift magazine" },
     "description": "An improvised 20-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the Thompson SMG.",
     "weight": "322 g",
@@ -141,13 +147,14 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 20 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "ump45mag",
     "//": "Audited with ImageJ. Weight estimated.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "UMP-45 25-round magazine" },
     "description": "A straight, double-stack plastic box magazine for the UMP sub-machine gun in .45 ACP.  Holds 25 rounds.",
     "weight": "150 g",
@@ -160,13 +167,14 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 25 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 25 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "ump45_makeshiftmag",
     "//": "Not a real magazine. Weight from 1.2g/ml ratio.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "UMP45 20-round makeshift magazine" },
     "description": "An improvised 20-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the H&K UMP45 SMG.",
     "weight": "302 g",
@@ -179,12 +187,13 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 20 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "usp45mag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "USP .45 pistol 12-round magazine" },
     "description": "A 12-round magazine for use with the USP pistol.",
     "variant_type": "gun",
@@ -206,13 +215,14 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 12 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 12 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "usc10mag",
     "//": "Audited with ImageJ.  Weight from UMP mag ratio.",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "H&K USC 45 Carbine 10-round magazine" },
     "description": "A 10-round magazine for use with the H&K USC 45 Carbine.",
     "weight": "123 g",
@@ -225,12 +235,13 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "usc15mag",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "H&K USC 45 Carbine 15-round magazine" },
     "description": "A 15-round magazine for use with the H&K USC 45 Carbine.",
     "weight": "217 g",
@@ -243,12 +254,13 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 15 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "usc20mag",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "H&K USC 45 Carbine 20-round magazine" },
     "description": "A 20-round magazine for use with the H&K USC 45 Carbine.",
     "weight": "290 g",
@@ -261,13 +273,14 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 20 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "ppq45mag",
     "//": "Audited with ImageJ.  Weight from Vendor.",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "PPQ .45 12-round magazine" },
     "description": "A 12-round steel box magazine for the PPQ pistol.",
     "variant_type": "gun",
@@ -288,13 +301,14 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 12 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 12 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "hptjhpmag",
     "//": "Audited with ImageJ.  Weight estimated.",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Model JHP 9-round magazine" },
     "description": "A 9-round steel box magazine for use with the Hi-Point Model JHP.",
     "weight": "110 g",
@@ -307,13 +321,14 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 9 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 9 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "glock_21mag",
     "//": "Audited with ImageJ.  Weight from Manufacturer.",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Glock .45 13-round magazine" },
     "description": "A 13-round magazine for use with Glock firearms chambered in .45 ACP.",
     "variant_type": "gun",
@@ -334,23 +349,25 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 13 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 13 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "glock_21mag_10",
     "//": "Audited with ImageJ.  Weight from Manufacturer.",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Glock .45 10-round magazine" },
     "description": "A 10-round magazine for use with Glock firearms chambered in .45 ACP.",
     "copy-from": "glock_21mag",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "glock_21mag26",
     "//": "Audited with ImageJ.  Weight from Vendor.",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Glock .45 26-round magazine" },
     "description": "A 26-round magazine for use with Glock firearms chambered in .45 ACP.",
     "variant_type": "gun",
@@ -371,12 +388,13 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 26 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 26 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "greasegun30mag",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": ".45 WWII SMG 30-round magazine" },
     "description": "A standard 30-round magazine for the .45 WWII submachine gun.",
     "variant_type": "gun",
@@ -397,12 +415,13 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 30 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "m1911bigmag",
     "//": "Audited from IRL measurements.",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "M1911 10-round magazine" },
     "description": "An extended 10-round magazine for use with the M1911 handgun.",
     "weight": "79 g",
@@ -415,12 +434,13 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "m1911mag",
     "//": "Previous PR, looks good.",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "M1911 7-round magazine" },
     "description": "A military issue 7-round magazine for use with the M1911 handgun.",
     "weight": "70 g",
@@ -433,6 +453,7 @@
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 7 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 7 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

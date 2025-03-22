@@ -2,7 +2,7 @@
   {
     "id": "obrez",
     "copy-from": "mosin91_30",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str_sp": "the Obrez" },
     "description": "A cut-down, modified Mosin-Nagant.  It has a short barrel and the stock has been cut down and fitted with a mace head, with new low profile front and rear sights added.  The sides of the firearm have been reinforced with metal to withstand a beating.",
     "weight": "3000 g",
@@ -25,23 +25,25 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "extend": { "flags": [ "DURABLE_MELEE" ] },
     "weapon_category": [ "MACES" ],
-    "melee_damage": { "bash": 30 }
+    "melee_damage": { "bash": 30 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "pulverizer",
     "copy-from": "hammer_sledge",
     "name": { "str": "the Disorder" },
-    "type": "TOOL",
+    "type": "ITEM",
     "description": "A large, heavy sledge hammer converted for use as a weapon.  It features a notable safety on the side, and the back of the head has a firing mechanism that can be loaded with rifle blanks.  When the head impacts and the safety is off, the blanks are engaged, sending the moving piston forward and causing massive damage.  Etched into the head are the words 'she's lost control'.",
     "proportional": { "weight": 1.2 },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "powder_blank": 1 } } ],
     "extend": { "flags": [ "RELOAD_EJECT", "DURABLE_MELEE" ] },
-    "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP", "SWEETSPOT" ]
+    "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP", "SWEETSPOT" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "louverture",
     "copy-from": "mace",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str_sp": "the Louverture" },
     "description": "An oddly-vented mace with an internal fuel reservoir built into the pommel.  Can be engaged to ignite large puffs of gasoline and start fires.",
     "proportional": { "weight": 1.2, "volume": 1.1 },
@@ -55,7 +57,8 @@
       "level": 1,
       "need_wielding": true,
       "mundane": true
-    }
+    },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "bring_the_sun",
@@ -86,7 +89,7 @@
   {
     "id": "pressin",
     "copy-from": "kp32",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str_sp": "the Pressin" },
     "description": "A compact short-range pistol without a pistol grip.  When in use, the entire gun body is pointed at targets and squeezed.  The body also conceals a switchblade for close quarters use.",
     "weight": "300 g",
@@ -103,6 +106,7 @@
     "flags": [ "DURABLE_MELEE", "ALLOWS_BODY_BLOCK", "NO_TURRET" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS", "SHIVS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "32": 2 } } ],
-    "melee_damage": { "stab": 16 }
+    "melee_damage": { "stab": 16 },
+    "subtypes": [ "GUN" ]
   }
 ]

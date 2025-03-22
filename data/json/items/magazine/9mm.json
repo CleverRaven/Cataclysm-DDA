@@ -2,7 +2,7 @@
   {
     "id": "calicomag",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Calico 50-round helical magazine" },
     "description": "A surprisingly compact 50-round helical magazine for use with the Calico M960 SMG.",
     "weight": "204 g",
@@ -18,12 +18,13 @@
     "reload_time": 160,
     "mag_jam_mult": 3,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 50 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "calicomag_100rd",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Calico 100-round helical magazine" },
     "description": "A surprisingly compact 100-round helical magazine for use with the Calico M960 SMG.",
     "weight": "431 g",
@@ -38,12 +39,13 @@
     "reload_time": 160,
     "mag_jam_mult": 3,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 100 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "glockbigmag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Glock 9x19mm 33-round magazine" },
     "description": "An extended 33-round polymer magazine for use with Glock compatible firearms.",
     "weight": "124 g",
@@ -57,12 +59,13 @@
     "ammo_type": [ "9mm" ],
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 33 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 33 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "glockmag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Glock 9x19mm 15-round magazine" },
     "description": "A compact, light-weight polymer magazine for use with Glock compatible firearms.",
     "weight": "70 g",
@@ -75,20 +78,22 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "glockmag_10",
     "copy-from": "glockmag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Glock 19 9x19mm 10-round magazine" },
     "description": "A compact, light-weight polymer magazine for use with the Glock 19, which has been limited to 10 rounds to comply with firearm regulations.",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "glock17_17",
     "//": "Tileset whitelist for pistol magazines",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Glock 9x19mm 17-round magazine" },
     "description": "Made for the Glock 17, this magazine holds 17 rounds.",
     "weight": "80 g",
@@ -102,20 +107,22 @@
     "ammo_type": [ "9mm" ],
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 17 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 17 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "glock17_10",
     "copy-from": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Glock 9x19mm 10-round magazine" },
     "description": "Made for the Glock 17, this magazine holds 10 rounds to comply with firearm regulations.",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "glock17_22",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Glock 9x19mm 22-round magazine" },
     "description": "Made for the Glock 17, this cheap-looking aftermarket magazine holds 22 rounds.",
     "weight": "108 g",
@@ -128,12 +135,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 22 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 22 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "glock_drum_50rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Glock 9x19mm 50-round drum magazine" },
     "description": "Made to fit most Glock pistols.  This drum magazine holds 50 rounds.",
     "weight": "491 g",
@@ -147,12 +155,13 @@
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_BULKY" ],
     "mag_jam_mult": 2,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 50 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "glock_drum_100rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Glock 9x19mm 100-round double drum magazine" },
     "description": "Made to fit most Glock pistols.  This double drum magazine holds 100 rounds.",
     "weight": "1000 g",
@@ -166,12 +175,13 @@
     "ammo_type": [ "9mm" ],
     "mag_jam_mult": 2,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 100 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "m9mag_35rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "M9 35-round magazine" },
     "description": "A 35-round extended magazine compatible with both the M9 handgun and some modern carbines.",
     "weight": "167 g",
@@ -185,12 +195,13 @@
     "ammo_type": [ "9mm" ],
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 35 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 35 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "m9mag_32rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "M9 32-round magazine" },
     "description": "A 32-round extended magazine compatible with both the M9 handgun and some modern carbines.",
     "weight": "142 g",
@@ -204,12 +215,13 @@
     "ammo_type": [ "9mm" ],
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 32 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 32 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "m9bigmag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "M9 30-round magazine" },
     "description": "A 30-round extended magazine compatible with both the M9 handgun and some modern carbines.",
     "weight": "136 g",
@@ -223,12 +235,13 @@
     "ammo_type": [ "9mm" ],
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 30 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "m9mag_20rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "M9 20-round magazine" },
     "description": "An extended-capacity 20-round box magazine for use with the Beretta M9 handgun.",
     "weight": "122 g",
@@ -241,12 +254,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "m9mag_18rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "M9 18-round magazine" },
     "description": "An 18-round box magazine for use with the Beretta M9 handgun.",
     "weight": "90 g",
@@ -259,12 +273,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 18 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 18 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "m9mag_17rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "M9 17-round magazine" },
     "description": "A 17-round box magazine for use with the Beretta M9 handgun.",
     "weight": "90 g",
@@ -277,12 +292,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 17 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 17 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "m9mag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "M9 15-round magazine" },
     "description": "A military issue 15-round box magazine originally intended for use with the Beretta M9 handgun.",
     "weight": "90 g",
@@ -296,12 +312,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "m9mag_10rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "M9 10-round magazine" },
     "description": "A 10-round box magazine for use with the Beretta M9 handgun, physically of the same size as a 15-round magazine.  It's made to comply with laws that limit maximum magazine capacity for firearms in some states.",
     "weight": "45 g",
@@ -314,12 +331,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "mp5mag_100rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "MP5 100-round double drum magazine" },
     "description": "A bulky 100-round double drum magazine for use with the H&K MP5 SMG.",
     "weight": "1 kg",
@@ -334,12 +352,13 @@
     "ammo_type": [ "9mm" ],
     "reload_time": 160,
     "mag_jam_mult": 2,
-    "flags": [ "MAG_BULKY" ]
+    "flags": [ "MAG_BULKY" ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "mp5bigmag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "MP5 50-round drum magazine" },
     "description": "A drum magazine for use with the H&K MP5 SMG.  Much greater capacity, but less reliable than the factory specification magazine.",
     "weight": "454 g",
@@ -354,12 +373,13 @@
     "reload_time": 160,
     "mag_jam_mult": 2,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 50 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "mp5mag_40rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "MP5 40-round magazine" },
     "description": "An extended-capacity 40-round magazine for use with the H&K MP5 SMG.",
     "weight": "139 g",
@@ -372,12 +392,13 @@
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 40 } } ],
     "ammo_type": [ "9mm" ],
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "mp5mag_38rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "MP5 38-round magazine" },
     "description": "An extended-capacity 38-round magazine for use with the H&K MP5 SMG.",
     "weight": "195 g",
@@ -390,12 +411,13 @@
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 38 } } ],
     "ammo_type": [ "9mm" ],
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "mp5mag",
     "//": "Tileset whitelist for SMG magazines",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "MP5 30-round magazine" },
     "description": "A standard capacity curved magazine for use with the H&K MP5 SMG.",
     "weight": "160 g",
@@ -408,12 +430,13 @@
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 30 } } ],
     "ammo_type": [ "9mm" ],
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "mp5mag_20rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "MP5 20-round magazine" },
     "description": "A compact 20-round magazine for use with the H&K MP5 SMG.",
     "weight": "136 g",
@@ -426,12 +449,13 @@
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ],
     "ammo_type": [ "9mm" ],
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "mp5mag_15rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "MP5 15-round magazine" },
     "description": "A compact 15-round magazine for use with the H&K MP5 SMG.",
     "weight": "120 g",
@@ -444,12 +468,13 @@
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ],
     "ammo_type": [ "9mm" ],
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "mp5mag_10rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "MP5 10-round magazine" },
     "description": "A compact 10-round magazine for use with the H&K MP5 SMG.",
     "weight": "80 g",
@@ -462,12 +487,13 @@
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ],
     "ammo_type": [ "9mm" ],
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "ump9mag",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "UMP-9 30-round magazine" },
     "description": "A curved, double-stack plastic box magazine for the UMP sub-machine gun in 9x19mm.  Holds 30 rounds.",
     "weight": "181 g",
@@ -480,12 +506,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 30 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "p08mag_8rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Luger 8-round magazine" },
     "description": "A standard-capacity angled-feed 8-round steel box magazine for use with the Luger pistol.",
     "weight": "57 g",
@@ -498,13 +525,14 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 8 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "p08mag_32rd",
     "//": "Extremely rare and expensive, should probably be removed.",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Luger 32-round snail-drum magazine" },
     "description": "An unreliable and bulky 32-round snail-drum magazine, originally designed for use with the Luger pistol.",
     "weight": "643 g",
@@ -518,23 +546,25 @@
     "ammo_type": "9mm",
     "flags": [ "MAG_BULKY" ],
     "mag_jam_mult": 2,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 32 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 32 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "clip9mm_10rd",
     "copy-from": "762x39_clip",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Mauser C96 10-round clip" },
     "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load ten rounds of 9x19mm into a Mauser C96.",
     "ammo_type": [ "9mm" ],
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "mp40mag_32rd",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "MP 40 32-round magazine" },
     "description": "A double-column, single-feed 32-round box magazine used by the MP 40 SMG.",
     "weight": "295 g",
@@ -547,12 +577,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 32 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 32 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "px4mag_10rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Px4 9x19mm 10-round magazine" },
     "description": "A 10-round box magazine for use with the Beretta Px4 9x19mm handgun, physically of the same size as 15-round and 17-round magazines.  It's made to comply with laws that limit maximum magazine capacity for firearms in some states.",
     "weight": "45 g",
@@ -565,12 +596,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "px4mag_15rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Px4 9x19mm 15-round magazine" },
     "description": "A 15-round box magazine for use with the Beretta Px4 9x19mm handgun.",
     "weight": "90 g",
@@ -583,12 +615,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "px4mag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Px4 9x19mm 17-round magazine" },
     "description": "A standard magazine for the Beretta Px4 9x19mm.",
     "weight": "90 g",
@@ -601,12 +634,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 17 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 17 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "px4mag_20rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Px4 9x19mm 20-round magazine" },
     "description": "An extended-capacity 20-round box magazine for use with the Beretta Px4 9x19mm handgun.",
     "weight": "122 g",
@@ -619,12 +653,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "stenmag",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "STEN 32-round magazine" },
     "description": "A double-column, single-feed 9x19mm magazine used by the STEN submachine gun, based off the magazines for the German MP 28 and later MP 40.",
     "weight": "295 g",
@@ -637,12 +672,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 32 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 32 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "survivor9mm_mag",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "STEN 20-round makeshift magazine" },
     "description": "An improvised magazine that is mostly compatible with the STEN submachine gun, with a simplified feed system.",
     "weight": "184 g",
@@ -656,12 +692,13 @@
     "ammo_type": [ "9mm" ],
     "reload_time": 160,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "tec9mag_10rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "TEC-9 10-round magazine" },
     "description": "A compact 10-round magazine for use with the TEC-9 SMG.",
     "weight": "69 g",
@@ -674,12 +711,13 @@
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ],
     "ammo_type": [ "9mm" ],
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "tec9mag_20rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "TEC-9 20-round magazine" },
     "description": "A compact 20-round magazine for use with the TEC-9 SMG.",
     "weight": "106 g",
@@ -692,13 +730,14 @@
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ],
     "ammo_type": [ "9mm" ],
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "tec9mag_30rd",
     "//": "Needs to be removed, there's no reason to have a 32 and then a 30.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "TEC-9 30-round magazine" },
     "description": "A 30-round steel box magazine for use with the TEC-9 SMG, made as a more reliable alternative to 32-round magazines.",
     "weight": "210 g",
@@ -710,12 +749,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 30 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "tec9mag",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "TEC-9 32-round magazine" },
     "description": "A cheap and somewhat unreliable 32-round steel box magazine for use with the TEC-9 SMG.",
     "weight": "191 g",
@@ -728,13 +768,14 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 32 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 32 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "tec9mag_36rd",
     "//": "Needs to be removed.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "TEC-9 36-round magazine" },
     "description": "An extended 36-round steel box magazine for use with the TEC-9 SMG.",
     "weight": "250 g",
@@ -746,13 +787,14 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 36 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 36 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "tec9mag_50rd",
     "//": "Needs to be removed.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "TEC-9 50-round magazine" },
     "description": "An extended 50-round steel box magazine for use with the TEC-9 SMG.",
     "weight": "320 g",
@@ -764,13 +806,14 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 50 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "tec9mag_72rd",
     "//": "Needs to be removed.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "TEC-9 72-round drum magazine" },
     "description": "A bulky 72-round steel drum magazine for use with the TEC-9 SMG.",
     "weight": "450 g",
@@ -784,12 +827,13 @@
     "reload_time": 160,
     "mag_jam_mult": 2,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 72 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 72 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "usp9mag_10rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "USP 9x19mm 10-round magazine" },
     "description": "A 10-round box magazine for use with the H&K USP 9x19mm pistol, physically of the same size as a 15-round magazine.  It's made to comply with laws that limit maximum magazine capacity for firearms in some states.",
     "weight": "99 g",
@@ -802,12 +846,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "usp9mag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "USP 9x19mm 15-round magazine" },
     "description": "A factory specification 15-round box magazine for use with the dependable H&K USP 9x19mm pistol.",
     "weight": "99 g",
@@ -820,12 +865,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "usp9mag_18rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "USP 9x19mm 18-round magazine" },
     "description": "An extended 18-round box magazine for use with the H&K USP 9x19mm pistol.",
     "weight": "113 g",
@@ -838,13 +884,14 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 18 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 18 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "usp9mag_20rd",
     "//": "Needs to be removed, confusion between the USP9 and USP45 created this magazine.",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "USP 9x19mm 20-round magazine" },
     "description": "An extended 20-round box magazine for use with the H&K USP 9x19mm pistol.",
     "weight": "98 g",
@@ -856,12 +903,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "usp9mag_32rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "USP 9x19mm 32-round magazine" },
     "description": "An extended 32-round box magazine for use with the H&K USP 9x19mm pistol.",
     "weight": "145 g",
@@ -874,12 +922,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 32 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 32 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "uzimag_20rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Uzi 20-round magazine" },
     "description": "A compact 20-round box magazine for use with the Uzi SMG.",
     "weight": "110 g",
@@ -892,12 +941,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "uzimag_25rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Uzi 25-round magazine" },
     "description": "A compact 25-round box magazine for use with the Uzi SMG.",
     "weight": "136 g",
@@ -910,12 +960,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 25 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 25 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "uzimag",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Uzi 32-round magazine" },
     "description": "A standard 32-round steel box magazine for use with the Uzi SMG.",
     "weight": "174 g",
@@ -928,12 +979,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 32 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 32 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "uzimag_40rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Uzi 40-round magazine" },
     "description": "An extended-capacity 40-round box magazine for use with the Uzi SMG.",
     "weight": "218 g",
@@ -946,12 +998,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 40 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 40 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "uzimag_50rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Uzi 50-round magazine" },
     "description": "An unwieldy 50-round box magazine seemingly made by welding two of the 25 round magazines together.",
     "weight": "273 g",
@@ -964,12 +1017,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 50 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "uzimag_100rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Uzi 100-round double drum magazine" },
     "description": "A bulky 100-round double drum magazine for use with the Uzi SMG.",
     "weight": "1 kg",
@@ -984,11 +1038,12 @@
     "reload_time": 160,
     "mag_jam_mult": 2,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 100 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "p226mag_10rd_9x19mm",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "P226 9x19mm 10-round magazine" },
     "description": "A 10-round double stack box magazine for the SIG Sauer P226.",
     "weight": "82 g",
@@ -1002,11 +1057,12 @@
     "ammo_type": [ "9mm" ],
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "p226mag_15rd_9x19mm",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "P226 9x19mm 15-round magazine" },
     "description": "A 15-round double stack box magazine for the SIG Sauer P226.",
     "weight": "82 g",
@@ -1020,11 +1076,12 @@
     "ammo_type": [ "9mm" ],
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "p228mag_13rd_9x19mm",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "M11 13-round magazine" },
     "description": "A 13-round double stack box magazine for the SIG Sauer P228 (also known as the M11) or P229.",
     "weight": "91 g",
@@ -1037,12 +1094,13 @@
     "ammo_type": [ "9mm" ],
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 13 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 13 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "p320mag_10rd_9x19mm",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "service handgun 10-round magazine" },
     "description": "A 10-round magazine for use with the United States army's general issue 9x19mm handguns.",
     "variant_type": "gun",
@@ -1067,12 +1125,13 @@
     "ammo_type": [ "9mm" ],
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "p320mag_17rd_9x19mm",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "service handgun 17-round magazine" },
     "description": "A 17-round magazine for use with the United States army's general issue 9x19mm handguns.",
     "variant_type": "gun",
@@ -1095,12 +1154,13 @@
     "ammo_type": [ "9mm" ],
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 17 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 17 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "p320mag_21rd_9x19mm",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "service handgun 21-round magazine" },
     "description": "A 21-round magazine for use with the United States army's general issue 9x19mm handguns.",
     "variant_type": "gun",
@@ -1123,12 +1183,13 @@
     "ammo_type": [ "9mm" ],
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 21 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 21 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "sp2022mag_10rd_9mm",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "SP2022 10-round magazine" },
     "description": "A 10-round box magazine for the SIG Sauer SP2022, 2340, and 2009.",
     "weight": "142 g",
@@ -1142,13 +1203,14 @@
     "ammo_type": [ "9mm" ],
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "sp2022mag_12rd_9mm",
     "//": "Needs to be removed, doesn't exist.",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "SP2022 12-round magazine" },
     "description": "A 12-round box magazine for the SIG Sauer SP2022, 2340, and 2009.",
     "weight": "90 g",
@@ -1161,12 +1223,13 @@
     "ammo_type": [ "9mm" ],
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 12 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 12 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "sp2022mag_15rd_9mm",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "SP2022 15-round magazine" },
     "description": "A 15-round box magazine for the SIG Sauer SP2022, 2340, and 2009.",
     "weight": "142 g",
@@ -1180,12 +1243,13 @@
     "ammo_type": [ "9mm" ],
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "bhp9mag_13rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Hi-Power 9x19mm 13-round magazine" },
     "description": "A 13-round steel box magazine for the Browning Hi-Power 9x19mm.",
     "weight": "136 g",
@@ -1198,12 +1262,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 13 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 13 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "bhp9mag_15rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Hi-Power 9x19mm 15-round magazine" },
     "description": "An aftermarket 15-round steel box magazine for the Browning Hi-Power 9x19mm.",
     "weight": "122 g",
@@ -1216,12 +1281,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "p38mag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "P38 8-round magazine" },
     "description": "An 8-round steel box magazine for the Walther P38.",
     "weight": "66 g",
@@ -1234,12 +1300,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 8 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "ppq9mag_10rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "PPQ 9x19mm 10-round magazine" },
     "description": "A 10-round steel box magazine for the Walther PPQ 9x19mm.",
     "weight": "82 g",
@@ -1252,12 +1319,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "ppq9mag_15rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "PPQ 9x19mm 15-round magazine" },
     "description": "A 15-round steel box magazine for the Walther PPQ 9x19mm.",
     "weight": "82 g",
@@ -1270,12 +1338,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "ppq9mag_17rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "PPQ 9x19mm 17-round magazine" },
     "description": "A 15-round steel box magazine with an aftermarket baseplate adding an extra 2 rounds for the Walther PPQ 9x19mm.",
     "weight": "100 g",
@@ -1288,12 +1357,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 17 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 17 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "hptc9mag_8rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "C-9 8-round magazine" },
     "description": "An 8-round steel box magazine for use with the Hi-Point C-9.",
     "weight": "78 g",
@@ -1306,12 +1376,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 8 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "hptc9mag_10rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "C-9 10-round magazine" },
     "description": "A 10-round steel box magazine for use with the Hi-Point C-9.",
     "weight": "86 g",
@@ -1324,12 +1395,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "hptc9mag_15rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "C-9 15-round magazine" },
     "description": "A 15-round steel box magazine for use with the Hi-Point Carbine, it'll fit the C-9 too in a pinch.",
     "weight": "97 g",
@@ -1342,12 +1414,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "cz75mag_16rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "CZ 75 16-round magazine" },
     "description": "A 16-round steel box magazine for use with the CZ 75.",
     "weight": "93 g",
@@ -1360,21 +1433,23 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 16 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 16 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "cz75mag_10rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "CZ 75 10-round magazine" },
     "description": "A 10-round steel box magazine for use with the CZ 75.",
     "copy-from": "cz75mag_16rd",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "cz75mag_20rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "CZ 75 20-round magazine" },
     "description": "A 20-round steel box magazine for use with the CZ 75.",
     "weight": "120 g",
@@ -1387,12 +1462,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "cz75mag_26rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "CZ 75 26-round magazine" },
     "description": "A 26-round steel box magazine for use with the CZ 75.",
     "weight": "151 g",
@@ -1405,12 +1481,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 26 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 26 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "ccpmag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "CCP 8-round magazine" },
     "description": "An 8-round steel box magazine for use with the Walther CCP.",
     "weight": "78 g",
@@ -1423,12 +1500,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 8 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "ccpmag_9rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "CCP 9-round magazine" },
     "description": "A standard steel box magazine with magazine extension installed, for use with the Walther CCP.  Holds a total of 9 rounds and provides a better grip for the shooter when loaded.",
     "weight": "87 g",
@@ -1441,12 +1519,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 9 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 9 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "btmp9mag_9x19mm_10rd",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "APC9 10-round magazine" },
     "description": "A 10-round translucent polymer magazine for use with the Brügger & Thomet MP9 and compatible guns.",
     "weight": "55 g",
@@ -1459,12 +1538,13 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "btmp9mag_9x19mm_15",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "APC9 15-round magazine" },
     "description": "A 15-round translucent polymer magazine for use with the Brügger & Thomet MP9 and compatible guns.",
     "weight": "55 g",
@@ -1477,20 +1557,22 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "btmp9mag_9x19mm_20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "APC9 20-round magazine" },
     "copy-from": "btmp9mag_9x19mm_15",
     "description": "A 20-round translucent polymer magazine for use with the Brügger & Thomet MP9 and compatible guns.",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 20 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "//": "For some reason, the 15 and 20 round magazines are more expensive (CHF 41.50) than the 25 and 30 round variants (CHF 38). What the U.S. Army pays for them, only they know.",
     "id": "btmp9mag_9x19mm_25",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "APC9 25-round magazine" },
     "copy-from": "btmp9mag_9x19mm_15",
     "description": "A 25-round translucent polymer magazine for use with the Brügger & Thomet MP9 and compatible guns.",
@@ -1498,25 +1580,27 @@
     "volume": "198 ml",
     "longest_side": "178 mm",
     "price": "41 USD 70 cent",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 25 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 25 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "btmp9mag_9x19mm_30",
     "copy-from": "btmp9mag_9x19mm_15",
     "name": { "str": "APC9 30-round magazine" },
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "description": "A 30-round translucent polymer magazine for use with the Brügger & Thomet MP9 and compatible guns.",
     "weight": "82 g",
     "volume": "226 ml",
     "longest_side": "203 mm",
     "price": "41 USD 70 cent",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 30 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "btmp9mag_9x19mm_50rd",
     "looks_like": "glock17_17",
     "copy-from": "glock_drum_50rd",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "APC9 50-round drum magazine" },
     "description": "A bulky 50-round aluminum drum magazine for use with the Brügger & Thomet MP9 and compatible guns.",
     "price": "69 USD 20 cent",
@@ -1528,12 +1612,13 @@
     "reload_time": 160,
     "mag_jam_mult": 2,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 50 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "p365_mag",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "P365 10-round magazine" },
     "description": "A compact, steel magazine for use in the P365.",
     "weight": "50 g",
@@ -1546,6 +1631,7 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

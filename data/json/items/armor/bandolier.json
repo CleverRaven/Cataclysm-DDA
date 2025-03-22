@@ -1,7 +1,7 @@
 [
   {
     "id": "bandolier_pistol",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pistol bandolier" },
     "description": "An embroidered leather bandolier for keeping pistol cartridges close to hand.  If this doesn't make you feel like a cowboy, nothing will.",
     "weight": "140 g",
@@ -40,11 +40,12 @@
       }
     ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_SMALL" ],
-    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "bandolier_rifle",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "rifle bandolier" },
     "description": "A leather bandolier for keeping rifle cartridges close to hand.",
     "weight": "140 g",
@@ -85,11 +86,12 @@
       }
     ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_MEDIUM" ],
-    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "bandolier_shotgun",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "waist shotgun bandolier" },
     "description": "A leather bandolier worn around the waist for keeping shotgun shells close to hand.",
     "weight": "140 g",
@@ -105,22 +107,24 @@
       { "ammo_restriction": { "410shot": 25, "shot": 25, "signal_flare": 25 }, "moves": 25, "volume_encumber_modifier": 0.3 }
     ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "torso_bandolier_grenade",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "bandolier_shotgun",
     "//": "It's very much similar to the torso shotgun bandolier I'm patterning this off of, so I'm keeping the data the same.",
     "name": { "str": "torso grenade bandolier" },
     "description": "A leather bandolier strapped around the torso for keeping 40mm grenades close to hand.  For some reason, wearing this makes you feel Austrian.",
     "pocket_data": [ { "ammo_restriction": { "40x46mm": 6, "40x53mm": 6 }, "moves": 20, "volume_encumber_modifier": 0.3 } ],
     "//2": "The image I found when I went looking showed Arnie carrying six grenades in a bandolier.",
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "torso_bandolier_shotgun",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "torso shotgun bandolier" },
     "description": "A leather bandolier strapped around the torso for keeping shotgun shells close to hand.",
     "weight": "200 g",
@@ -136,11 +140,12 @@
       { "ammo_restriction": { "410shot": 50, "shot": 50, "signal_flare": 50 }, "moves": 35, "volume_encumber_modifier": 0.3 }
     ],
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ],
-    "armor": [ { "encumbrance": 3, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "flintlock_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "paper cartridge pouch", "str_pl": "paper cartridge pouches" },
     "description": "A covered leather pouch, worn at the waist to store and protect prepared blackpowder cartridges.",
     "weight": "160 g",
@@ -160,11 +165,12 @@
       }
     ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_LARGE", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "bandolier_wrist",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "wrist bandolier" },
     "description": "A small fabric bandolier for rifle cartridges, designed to be worn around the wrist.",
     "weight": "30 g",
@@ -205,11 +211,12 @@
       }
     ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_SMALL", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "grenade_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "grenade pouch", "str_pl": "grenade pouches" },
     "description": "A small pouch for storing cartridge grenades, with straps for attaching it to your belt or other webbing.",
     "weight": "90 g",
@@ -231,11 +238,12 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "stone_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "stone pouch", "str_pl": "stone pouches" },
     "description": "A medium-sized pouch for storing rocks, with straps for attaching it to your belt or other webbing.",
     "weight": "180 g",
@@ -257,11 +265,12 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "leather_stone_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "leather stone pouch", "str_pl": "leather stone pouches" },
     "description": "A medium-sized pouch for storing rocks, made of heavy leather, with straps for attaching it to your belt or other webbing.",
     "weight": "380 g",
@@ -283,11 +292,12 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "grenadebandolier",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "large grenade pouch", "str_pl": "large grenade pouches" },
     "description": "A pouch for holding up to four full-sized grenades of various types, with straps for attaching it to your belt or other webbing.",
     "weight": "600 g",
@@ -335,11 +345,12 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash grenades", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_LARGE" ],
-    "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "cheap_ammo_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": "military 5.56 bandolier",
     "description": "A simple bag on a strap, partitioned into pouches for four STANAG 30-round magazines or twelve 10-round 5.56x45mm stripper clips.  When full, this bandolier is more encumbering than proper kit and slower to reload from, but it at least offers a quick and cheap means of resupplying ammunition.",
     "weight": "60 g",
@@ -386,11 +397,12 @@
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "cheap_ammo_pouch_belt223",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "5.56x45 belt pouch", "str_pl": "5.56x45 belt pouches" },
     "description": "A large cotton pouch, designed to store a spare ammo belt for the M249 SAW.",
     "weight": "60 g",
@@ -411,11 +423,12 @@
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "cheap_ammo_pouch_belt308",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "7.62x51 belt pouch", "str_pl": "7.62x51 belt pouches" },
     "description": "A large cotton pouch, designed to store a spare ammo belt for the M240 or M60 machine guns.",
     "weight": "60 g",
@@ -437,6 +450,7 @@
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "subtypes": [ "ARMOR" ]
   }
 ]

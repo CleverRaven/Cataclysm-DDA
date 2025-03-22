@@ -2,7 +2,7 @@
   {
     "id": "m202_flash",
     "looks_like": "m79",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "dark_gray",
     "name": { "str_sp": "M74 rocket launcher" },
@@ -33,6 +33,7 @@
     "valid_mod_locations": [ [ "grip", 1 ], [ "sling", 1 ] ],
     "flags": [ "BACKBLAST", "NEVER_JAMS" ],
     "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m74_clip" ] } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   }
 ]

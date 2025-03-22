@@ -2,43 +2,49 @@
   {
     "id": "scimitar",
     "copy-from": "scimitar",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "shamshir" },
-    "extend": { "weapon_category": [ "EXEMPLAR_WEAPON_DESERT_WIND" ] }
+    "extend": { "weapon_category": [ "EXEMPLAR_WEAPON_DESERT_WIND" ] },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "rapier",
     "copy-from": "rapier",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "rapier" },
-    "extend": { "weapon_category": [ "EXEMPLAR_WEAPON_DIAMOND_MIND" ] }
+    "extend": { "weapon_category": [ "EXEMPLAR_WEAPON_DIAMOND_MIND" ] },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "katana",
     "copy-from": "katana",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str_sp": "katana" },
-    "extend": { "weapon_category": [ "EXEMPLAR_WEAPON_IRON_HEART" ] }
+    "extend": { "weapon_category": [ "EXEMPLAR_WEAPON_IRON_HEART" ] },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "sword_xiphos",
     "copy-from": "sword_xiphos",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "xiphos", "str_pl": "xiphe" },
-    "extend": { "weapon_category": [ "EXEMPLAR_WEAPON_SETTING_SUN" ] }
+    "extend": { "weapon_category": [ "EXEMPLAR_WEAPON_SETTING_SUN" ] },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "zweihander",
     "copy-from": "zweihander",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "zweihänder" },
-    "extend": { "weapon_category": [ "EXEMPLAR_WEAPON_STONE_DRAGON" ] }
+    "extend": { "weapon_category": [ "EXEMPLAR_WEAPON_STONE_DRAGON" ] },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "kukri",
     "copy-from": "kukri",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "kukri" },
-    "extend": { "weapon_category": [ "EXEMPLAR_WEAPON_TIGER_CLAW" ] }
+    "extend": { "weapon_category": [ "EXEMPLAR_WEAPON_TIGER_CLAW" ] },
+    "subtypes": [ "TOOL" ]
   }
 ]

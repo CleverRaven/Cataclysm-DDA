@@ -1,7 +1,7 @@
 [
   {
     "abstract": "grenade_canister",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "weapons",
     "name": { "str": "canister grenade", "//~": "NO_I18N" },
     "weight": "1058 g",
@@ -12,7 +12,7 @@
   },
   {
     "id": "afs_kaburaya_bomb",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "grenade_canister",
     "category": "weapons",
     "looks_like": "c4",
@@ -26,11 +26,12 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "afs_kaburaya_bomb_act",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "grenade_canister",
     "looks_like": "c4",
     "name": "armed Kabura-ya antipersonnel device",
@@ -40,11 +41,12 @@
       "type": "explosion",
       "explosion": { "power": 100, "max_noise": 25, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.125 }, "distance_factor": 0.2 }
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "afs_demo_charge",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "grenade_canister",
     "looks_like": "c4",
     "name": "demolition charge",
@@ -58,22 +60,24 @@
       "menu_text": "Activate charge",
       "type": "transform"
     },
-    "flags": [ "RADIO_ACTIVATION", "RADIO_INVOKE_PROC", "RADIOSIGNAL_1", "BOMB" ]
+    "flags": [ "RADIO_ACTIVATION", "RADIO_INVOKE_PROC", "RADIOSIGNAL_1", "BOMB" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "afs_demo_charge_act",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "afs_demo_charge",
     "name": "active demolition charge",
     "looks_like": "c4armed",
     "description": "A powerful explosive with a highly focused blast radius, often used for mining or demolition work.  It's currently active.",
     "use_action": { "type": "message", "message": "You've already activated the %s, try throwing it instead." },
     "countdown_action": { "type": "explosion", "explosion": { "power": 3000, "max_noise": 250, "distance_factor": 0.3 } },
-    "extend": { "flags": [ "TRADER_AVOID" ] }
+    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "afs_HE_grenade",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "grenade_canister",
     "looks_like": "grenade",
     "name": "HE grenade",
@@ -89,22 +93,24 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "afs_HE_grenade_act",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "afs_HE_grenade",
     "name": "active HE grenade",
     "looks_like": "grenade_act",
     "description": "A high explosive grenade that deals most of its damage through a powerful shockwave.  It's currently active.",
     "use_action": { "type": "message", "message": "You've already activated the %s, try throwing it instead." },
     "countdown_action": { "type": "explosion", "explosion": { "power": 3000, "max_noise": 250, "distance_factor": 0.7 } },
-    "extend": { "flags": [ "TRADER_AVOID" ] }
+    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "afs_electroshock_grenade_1",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "grenade_canister",
     "category": "weapons",
     "looks_like": "grenade_emp",
@@ -118,22 +124,24 @@
       "target": "afs_electroshock_grenade_1_act",
       "target_timer": "20 seconds"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "afs_electroshock_grenade_1_act",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "afs_electroshock_grenade_1",
     "looks_like": "grenade_emp_act",
     "name": "armed electroshock grenade",
     "description": "This electroshock grenade is currently creating a dangerous electric field.",
     "emits": [ "emit_shock_cloud" ],
     "revert_to": "afs_material_1",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "grenade_cryo",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "weapons",
     "name": { "str": "cryo grenade" },
     "description": "This is a military-grade cryo hand grenade.  Once it explodes it spreads exotic highly-radioactive shrapnel.  Use this item to pull the pin and light the fuse.  You will then have five seconds before it explodes; throwing it would be a good idea.",
@@ -153,11 +161,12 @@
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "grenade_cryo_act",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "weapons",
     "name": { "str": "active cryo grenade" },
     "description": "This is an active grenade, and will explode any second now.  Once it explodes it spreads exotic highly-thermodynamic shrapnel.  Better throw it!",
@@ -179,11 +188,12 @@
       "explosion": { "power": 540, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.125 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "afs_toxic_grenade",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "grenade_canister",
     "looks_like": "grenade",
     "name": "neurotoxin grenade",
@@ -199,11 +209,12 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "afs_toxic_grenade_act",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "afs_toxic_grenade",
     "name": "active neurotoxin grenade",
     "looks_like": "grenade_act",
@@ -217,11 +228,12 @@
       "fields_min_intensity": 3,
       "fields_max_intensity": 6
     },
-    "extend": { "flags": [ "TRADER_AVOID" ] }
+    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "afs_oxygen_bomb",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "pipebomb",
     "looks_like": "pipebomb",
     "name": "oxygen bomb",
@@ -235,20 +247,22 @@
       "menu_text": "Pull the pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "afs_oxygen_bomb_act",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "pipebomb_act",
     "looks_like": "pipebomb_act",
     "name": "active oxygen bomb",
     "price": "0 USD",
-    "description": "This bomb's fuse is lit, and it will explode any second now.  Throw it immediately!"
+    "description": "This bomb's fuse is lit, and it will explode any second now.  Throw it immediately!",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "afs_reactor_unstable",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "weapons",
     "name": "unstable fusion reactor",
     "looks_like": "c4armed",
@@ -264,6 +278,7 @@
     "explode_in_fire": true,
     "explosion": { "power": 28000, "max_noise": 150, "distance_factor": 0.15 },
     "countdown_action": { "type": "explosion", "explosion": { "power": 28000, "max_noise": 150, "distance_factor": 0.15 } },
-    "flags": [ "BOMB", "TRADER_AVOID", "SPAWN_ACTIVE" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "SPAWN_ACTIVE" ],
+    "subtypes": [ "TOOL" ]
   }
 ]

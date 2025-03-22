@@ -3,7 +3,7 @@
     "id": "mac_11",
     "copy-from": "mac_10",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "MAC-11 machine pistol" },
     "description": "A lesser known variant of the MAC-10, this machine pistol is chambered in .380 ACP for a smaller overall size while remaining inherently subsonic.  Smaller in almost every dimension, this inexpensive automatic weapon was declared 'fit only for combat in a phone booth' due to its low weight and absurd fire rate ranging from 1200 to 1400 rounds per minute.",
     "weight": "1590 g",
@@ -16,13 +16,14 @@
     "min_cycle_recoil": 270,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mac11mag" ] } ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rugerlcp",
     "copy-from": "pistol_backup",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Ruger LCP pistol" },
     "description": "One of the best-selling modern day 'pocket pistols', the LCP is an affordable, polymer framed pistol chambered in .380 ACP.  Despite the round's relatively low power, the pistol's low weight and short sight radius make for moderately poor handling.",
     "ascii_picture": "ruger_LCP",
@@ -40,13 +41,14 @@
     "durability": 8,
     "min_cycle_recoil": 270,
     "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "rugerlcpmag" ] } ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "hptcf380",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Hi-Point CF-380 pistol" },
     "description": "The Hi-Point CF-380 is a blowback operated semi-automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
     "weight": "820 g",
@@ -68,12 +70,13 @@
         "item_restriction": [ "hptcf380mag_8rd", "hptcf380mag_10rd" ]
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "hpt3895",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": ".380 ACP pistol-caliber carbine" },
     "description": "A pistol-caliber carbine chambered in .380 ACP.  It is more powerful and accurate than an equivalent pistol but the .380 ACP round is nonetheless fairly weak.  Accepts 10-round magazines, which are not shared with any .380 ACP pistol unlike many other similar pistol-caliber carbines.",
     "variant_type": "gun",
@@ -123,13 +126,14 @@
       "fault_double_feed"
     ],
     "pocket_data": [ { "magazine_well": "236 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hpt3895mag_10rd" ] } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "swbodyguard",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": ".380 conceal carry handgun" },
     "description": "A very small and lightweight handgun, firing the .380 ACP cartridge.",
     "variant_type": "gun",
@@ -153,6 +157,7 @@
     "durability": 8,
     "min_cycle_recoil": 270,
     "pocket_data": [ { "magazine_well": "40 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "swbodyguard_mag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   }
 ]

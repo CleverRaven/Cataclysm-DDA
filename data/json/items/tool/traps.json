@@ -1,7 +1,7 @@
 [
   {
     "id": "beartrap",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "bear trap" },
     "category": "traps",
     "description": "A spring-loaded pair of steel jaws connected to a sensitive pressure plate.  Use it to set it on the ground, creating a trap that will ensnare and damage anything that steps on it.  If you are carrying a shovel, you will have the option of burying it.",
@@ -23,11 +23,12 @@
       "done_message": "You set the beartrap."
     },
     "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 9, "cut": 1 }
+    "melee_damage": { "bash": 9, "cut": 1 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "light_snare_kit",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": "light snare kit",
     "category": "traps",
     "description": "A simple loop snare, comprising a carefully wound loop of string, two anchor points, and a tool to hammer them in.  It is suitable for immobilizing only small animals.  It has no means of harming its target, as live meat lasts longer.",
@@ -46,11 +47,12 @@
       "moves": 150,
       "practice": 2,
       "done_message": "You set the snare trap."
-    }
+    },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "blade_trap",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "blade trap" },
     "category": "traps",
     "description": "A machete attached laterally to a motor, with a tripwire controlling its throttle.  When the tripwire is pulled, the blade is swung around with great force.  The trap forms a 3x3 area of effect.",
@@ -71,11 +73,12 @@
       "done_message": "You set the blade trap 2 squares away."
     },
     "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 4, "cut": 14 }
+    "melee_damage": { "bash": 4, "cut": 14 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "board_trap",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "nailboard trap" },
     "category": "traps",
     "description": "Several pieces of wood nailed together, with some nails sticking straight up.  If an unsuspecting victim steps on it, they'll get nails through the foot.",
@@ -97,11 +100,12 @@
       "practice": 2,
       "done_message": "You set the board trap on the %s, nails facing up."
     },
-    "melee_damage": { "bash": 12, "stab": 6 }
+    "melee_damage": { "bash": 12, "stab": 6 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "boobytrap",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "booby trap" },
     "category": "traps",
     "description": "A crude explosive device triggered by a piece of string.  Use it to set it up and wait for some poor bastard to trigger it.",
@@ -120,11 +124,12 @@
       "practice": 4,
       "done_message": "You set the booby trap up and activate the grenade."
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "bubblewrap",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "bubble wrap" },
     "category": "traps",
     "description": "A sheet of plastic covered with air-filled bubbles.  Use it to set it on the ground, creating a trap that will warn you with noise when something steps on it.",
@@ -143,11 +148,12 @@
       "practice": 2,
       "done_message": "You set the bubble wrap on the ground, ready to be popped."
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "caltrops",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str_sp": "loose caltrops" },
     "category": "traps",
     "description": "A handful of small metal objects covered with many sharp points.  If an unsuspecting victim steps on one, they'll get a spine through the foot.",
@@ -167,11 +173,12 @@
       "done_message": "You scatter the caltrops on the %s."
     },
     "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 1, "cut": 8 }
+    "melee_damage": { "bash": 1, "cut": 8 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "caltrops_glass",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str_sp": "loose glass caltrops" },
     "category": "traps",
     "description": "A handful of glass shards glued together to expose all their sharp edges.  If an unsuspecting victim steps on one, they'll get cut.",
@@ -191,11 +198,12 @@
       "done_message": "You scatter the glass caltrops on the %s."
     },
     "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "cut": 6 }
+    "melee_damage": { "cut": 6 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "crossbow_trap",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "crossbow trap" },
     "category": "traps",
     "description": "A simple tripwire attached to the trigger of a loaded crossbow.  When the tripwire is pulled, the crossbow fires.  Only a single bolt can be used, after which the trap is disabled.",
@@ -214,11 +222,12 @@
       "done_message": "You set the crossbow trap."
     },
     "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "landmine",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "land mine" },
     "category": "traps",
     "description": "A military anti-personnel fragmentation mine that is triggered when stepped on.",
@@ -240,11 +249,12 @@
       "done_message": "You set the land mine."
     },
     "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "shotgun_trap",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "shotgun trap" },
     "category": "traps",
     "description": "A simple tripwire attached to the trigger of a loaded double slam-fire shotgun.  When the tripwire is pulled, the shotgun fires.  Two shells are loaded; the first time the trigger is pulled, one or both shells may be discharged.",
@@ -263,11 +273,12 @@
       "done_message": "You set the shotgun trap."
     },
     "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "tripwire",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "tripwire trap" },
     "category": "traps",
     "description": "A length of thin string with some affixing tools on either end.  It must be placed across a doorway or other thin passage to function.  Its purpose is to trip up trespassers, causing them to stumble and possibly hurt themselves slightly.",
@@ -287,11 +298,12 @@
       "practice": 3,
       "done_message": "You string up the tripwire."
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "caltrops_teeth",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str_sp": "loose teeth caltrops" },
     "category": "traps",
     "description": "A handful of small impossibly-sharp teeth glued together.  If an unsuspecting victim steps on one, they'll get a tooth through the foot.",
@@ -311,6 +323,7 @@
       "done_message": "You scatter the teeth caltrops on the %s."
     },
     "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "cut": 12 }
+    "melee_damage": { "cut": 12 },
+    "subtypes": [ "TOOL" ]
   }
 ]

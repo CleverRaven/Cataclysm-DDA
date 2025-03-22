@@ -2,7 +2,7 @@
   {
     "id": "glock_22",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str_sp": "Glock 22" },
     "description": "A .40 S&W variant of the popular Glock 17 pistol.  The standard-issue firearm of the FBI from 1997-2016, and of countless other law enforcement agencies worldwide.",
@@ -50,13 +50,14 @@
         "item_restriction": [ "glock40mag_10", "glock40mag", "glock40bigmag" ]
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "px4_40",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Beretta Px4 Storm .40 S&W" },
     "description": "Lighter than Beretta's iconic 92 series of guns, the Px4 Storm was built by utilizing light-weight polymer construction with steel inserts.  Its shape was also optimized for concealed carry.  This one is chambered in .40 S&W.",
     "weight": "785 g",
@@ -74,12 +75,13 @@
     "durability": 7,
     "min_cycle_recoil": 504,
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "px4_40mag_10", "px4_40mag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "sig_40",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str_sp": "SIG Pro .40" },
     "description": "Originally marketed as a lightweight and compact alternative to older SIG handguns, the Pro .40 is popular among European police forces.",
@@ -120,13 +122,14 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "sig40mag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "smg_40",
     "copy-from": "smg_base",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Luty SMG: .40 S&W", "str_pl": "Luty SMGs: .40 S&W" },
     "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using advanced powered hand tools; likely one of the most complex guns that is feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .40 S&W cartridges and accepts custom-made makeshift magazines.",
     "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game. No factory mags until UMP40, mp5/40, or other straight .40 mags are implemented.",
@@ -160,13 +163,14 @@
       [ "underbarrel", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "smg_40_mag" ] } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "hi_power_40",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Browning Hi-Power .40 S&W" },
     "description": "The Browning Hi-Power is a semi-automatic handgun developed shortly before the Second World War.  Widely issued since then, it remains in use by India, Canada, and Australia.  This is a commercial variant produced by Browning Arms in .40 S&W.",
     "weight": "907 g",
@@ -184,13 +188,14 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "185 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "bhp40mag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "hptjcp",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str_sp": "Hi-Point Model JCP" },
     "description": "The Hi-Point Model JCP is a blowback operated semi-automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable.  Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
     "weight": "990 g",
@@ -208,6 +213,7 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "312 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hptjcpmag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   }
 ]

@@ -2,7 +2,7 @@
   {
     "id": "combination_gun",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "brown",
@@ -39,6 +39,7 @@
       [ "rail mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 1 } } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
     "id": "bbgun",
-    "type": "GUN",
+    "type": "ITEM",
     "looks_like": "ar15",
     "reload_noise_volume": 10,
     "symbol": "(",
@@ -33,11 +33,12 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "BB": 150 } } ],
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 9 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "varmint_airgun",
-    "type": "GUN",
+    "type": "ITEM",
     "looks_like": "ar15",
     "reload_noise_volume": 10,
     "symbol": "(",
@@ -70,6 +71,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "airgun_pellet": 1 } } ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "subtypes": [ "GUN" ]
   }
 ]

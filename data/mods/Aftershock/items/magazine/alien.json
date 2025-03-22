@@ -1,7 +1,7 @@
 [
   {
     "id": "alien_battery",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "alien cell" },
     "description": "A conical device salvaged from an alien artifact.  Grooves etched on its circular face slowly pulse with purple light.",
@@ -15,6 +15,7 @@
     "capacity": 4500,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 4500 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 4500 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

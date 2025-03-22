@@ -1,6 +1,6 @@
 [
   {
-    "type": "GUN",
+    "type": "ITEM",
     "id": "treesung_bow",
     "copy-from": "shortbow",
     "looks_like": "shortbow",
@@ -8,10 +8,11 @@
     "description": "A wooden shortbow with a thin vine for a string, all formed from a single piece of wood, with twists and curves like it grew in place rather than being made.",
     "color": "green",
     "range": 14,
-    "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] }
+    "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] },
+    "subtypes": [ "GUN" ]
   },
   {
-    "type": "GUN",
+    "type": "ITEM",
     "id": "treesung_greatbow",
     "copy-from": "woodgreatbow",
     "looks_like": "woodgreatbow",
@@ -19,16 +20,18 @@
     "description": "A truly enormous wooden bow with a thin vine for a string, all formed from a single piece of wood, with twists and curves like it grew in place rather than being made.",
     "color": "green",
     "range": 26,
-    "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] }
+    "extend": { "flags": [ "WOODEN_WEAPON", "NO_REPAIR" ] },
+    "subtypes": [ "GUN" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "arrow_treesung",
     "copy-from": "arrow_fire_hardened_fletched",
     "name": { "str": "treesung arrow" },
     "description": "An arrow all formed from a single piece of wood, with twists and curves like it grew in place rather than being made.  It even has leaves for fletching.",
     "color": "green",
     "damage": { "damage_type": "stab", "armor_penetration": 4, "constant_damage_multiplier": 1.25 },
-    "recovery_chance": 85
+    "recovery_chance": 85,
+    "subtypes": [ "AMMO" ]
   }
 ]

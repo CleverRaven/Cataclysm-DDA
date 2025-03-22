@@ -1,7 +1,7 @@
 [
   {
     "id": "cold_iron_ingot",
-    "type": "AMMO",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "cold iron ingot" },
     "description": "A five-liter ingot of solid cold iron.",
@@ -12,11 +12,12 @@
     "material": [ "iron" ],
     "symbol": "=",
     "color": "dark_gray",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "cold_iron_arming_sword",
-    "type": "TOOL",
+    "type": "ITEM",
     "looks_like": "arming_sword",
     "category": "weapons",
     "symbol": "/",
@@ -35,10 +36,11 @@
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "good" },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
-    "melee_damage": { "xe_cold_iron_bash_damage": 6, "xe_cold_iron_cut_damage": 26 }
+    "melee_damage": { "xe_cold_iron_bash_damage": 6, "xe_cold_iron_cut_damage": 26 },
+    "subtypes": [ "TOOL" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "cold_iron_warhammer",
     "name": { "str": "war hammer" },
     "description": "A medieval hammer with a spike on one end, made for battle.  Its odd shape and balance make it an excellent weapon, but an ineffective tool.",
@@ -60,7 +62,7 @@
   },
   {
     "id": "cold_iron_battleaxe",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "cold iron battle axe" },
     "description": "A huge cold iron axe designed for early warfare.  Though intended for use as a weapon, it can also be pressed into service as a rather clumsy woodcutting tool.",
     "weight": "2002 g",
@@ -77,11 +79,12 @@
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
     "category": "weapons",
-    "melee_damage": { "xe_cold_iron_bash_damage": 19, "xe_cold_iron_cut_damage": 38 }
+    "melee_damage": { "xe_cold_iron_bash_damage": 19, "xe_cold_iron_cut_damage": 38 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "cold_iron_knife",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "cold iron baselard" },
     "description": "A medieval dagger forged from cold iron.  It is not the sharpest tool in the shed, but it is certainly one of the largest.",
     "weight": "420 g",
@@ -95,6 +98,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 15 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "xe_cold_iron_bash_damage": 5, "xe_cold_iron_stab_damage": 16 }
+    "melee_damage": { "xe_cold_iron_bash_damage": 5, "xe_cold_iron_stab_damage": 16 },
+    "subtypes": [ "TOOL" ]
   }
 ]

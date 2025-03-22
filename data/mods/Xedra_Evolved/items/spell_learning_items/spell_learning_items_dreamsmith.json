@@ -1,7 +1,7 @@
 [
   {
     "id": "brass_cylinders",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "artifacts",
     "looks_like": "gradcylinder",
     "name": { "str": "set of brass cylinders", "str_pl": "sets of brass cylinders" },

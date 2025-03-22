@@ -570,7 +570,7 @@
   },
   {
     "id": "landough_calrisean",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "sourdough_starter_uncovered",
     "looks_like": "jar_glass_sealed",
     "name": { "str_sp": "Dana's family sourdough starter" },
@@ -581,12 +581,13 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "Dana_sourdough_bread",
     "name": { "str_sp": "Dana's sourdough bread" },
     "copy-from": "sourdough_bread",
     "looks_like": "sourdough_bread",
     "description": "This round loaf of bread has a thick, dark crust, and smells very enticing.",
-    "proportional": { "fun": 2, "price": 2 }
+    "proportional": { "fun": 2, "price": 2 },
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

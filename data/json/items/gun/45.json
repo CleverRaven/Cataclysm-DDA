@@ -2,7 +2,7 @@
   {
     "id": "TDI",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "//": [
       "Yes, I know it's not really a glock smg.",
@@ -59,13 +59,14 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock_21mag_10", "tdi_mag", "glock_21mag", "glock_21mag26" ] }
     ],
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 9 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "modular_ump",
     "copy-from": "smg_base",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "UMP submachine gun" },
     "description": "A modern polymer-body sub-machine gun, once quite popular with police departments until recently.  Can be configured in 9x19mm, .40 S&W, or .45 ACP using conversion kits and the appropriate UMP magazine.",
     "variant_type": "gun",
@@ -117,13 +118,14 @@
     ],
     "default_mods": [ "folding_stock" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ump45mag" ] } ],
-    "melee_damage": { "bash": 11 }
+    "melee_damage": { "bash": 11 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "m1911",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "M1911 pistol" },
     "description": "A semi-automatic pistol chambered in .45 ACP and accepting M1911 magazines.",
     "variant_type": "gun",
@@ -158,12 +160,13 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911mag", "m1911bigmag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "mac_10",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "MAC-10 submachine gun" },
     "description": "A submachine gun chambered in .45 ACP and accepting MAC-10 magazines.",
@@ -205,13 +208,14 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_double_feed" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mac10mag", "smg_45_mag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "hk_usc45",
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "H&K USC 45 carbine" },
     "description": "A compact, lightweight carbine chambering the .45 ACP pistol round.  Resembling the popular UMP submachine gun in both its blowback operating system and lightweight polymer frame construction, this civilian variant is distinguished by its skeletonized stock and 16 inch barrel, leaving it unable to accommodate standard UMP parts.",
     "weight": "2781 g",
@@ -241,13 +245,14 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "usc10mag", "usc15mag", "usc20mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "smg_45",
     "copy-from": "smg_base",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "MAC-10 Luty submachine gun" },
     "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using advanced powered hand tools; likely one of the most complex guns that is feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .45 ACP cartridges and accepts MAC-10 compatible magazines.",
     "variant_type": "gun",
@@ -289,12 +294,13 @@
       [ "underbarrel", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "smg_45_mag", "mac10mag" ] } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "tommygun",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "Thompson submachine gun" },
     "description": "A submachine gun chambered in .45 ACP and accepting Thompson magazines.",
@@ -344,12 +350,13 @@
         "item_restriction": [ "thompson_mag", "thompson_bigmag", "thompson_drum", "thompson_makeshiftmag" ]
       }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "usp_45",
     "copy-from": "usp_9mm",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "USP pistol" },
     "description": "A semi-automatic pistol chambered in .45 ACP and accepting USP magazines.",
     "variant_type": "gun",
@@ -374,13 +381,14 @@
     "built_in_mods": [ "match_trigger" ],
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "usp45mag" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "usp45mag" ] } ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "walther_ppq_45",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "PPQ pistol" },
     "description": "A semi-automatic pistol chambered in .45 ACP and accepting PPQ magazines.",
     "variant_type": "gun",
@@ -406,13 +414,14 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "240 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppq45mag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "hptjhp",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Model JHP pistol" },
     "description": "A semi-automatic pistol chambered in .45 ACP and accepting Hi-Point magazines.",
     "variant_type": "gun",
@@ -438,13 +447,14 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "353 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hptjhpmag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "glock_21",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Glock pistol" },
     "description": "A semi-automatic pistol chambered in .45 ACP and accepting Glock magazines.",
     "variant_type": "gun",
@@ -477,12 +487,13 @@
         "item_restriction": [ "glock_21mag_10", "glock_21mag", "glock_21mag26" ]
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "greasegun",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": ".45 WWII submachine gun" },
     "description": "A WWII submachine gun, lacking semi-auto fire selector and chambered in .45 ACP.",
@@ -523,6 +534,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_double_feed" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "greasegun30mag" ] } ],
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 9 },
+    "subtypes": [ "GUN" ]
   }
 ]

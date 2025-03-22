@@ -1,7 +1,7 @@
 [
   {
     "id": "decoy_anarch",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "AAA Guide", "str_pl": "copies of AAA Guide" },
     "description": "A tourist-centric guide to points of interest throughout the country.  Though it focuses on the north-central US, the driving sections contain some practical tips on proper driving techniques.",
@@ -42,11 +42,12 @@
     "intelligence": 6,
     "time": "30 m",
     "read_skill": "driving",
-    "read_fun": 2
+    "read_fun": 2,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "mag_cars",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Top Gear magazine" },
     "description": "Lots of articles about cars and driving techniques.",
@@ -119,11 +120,12 @@
     "intelligence": 2,
     "time": "8 m",
     "read_skill": "driving",
-    "read_fun": 1
+    "read_fun": 1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "manual_driving",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Rules of the Road", "str_pl": "copies of The Rules of the Road" },
     "description": "A thick textbook for beginning drivers.  It contains chapters on laws, safe vehicle operation, and defensive driving concepts.",
@@ -172,11 +174,12 @@
     "max_level": 3,
     "intelligence": 5,
     "time": "16 m",
-    "read_skill": "driving"
+    "read_skill": "driving",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "textbook_anarch",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "AAA Guide", "str_pl": "copies of AAA Guide" },
     "description": "A tourist-centric guide to points of interest throughout the country.  This particular copy is apparently the Anonymous Anarchist's Annual: the cover conceals a wealth of ways to help stick it to The Man, along with plenty of advice for avoiding police.",
@@ -217,6 +220,7 @@
     "intelligence": 9,
     "time": "45 m",
     "read_skill": "driving",
-    "read_fun": 1
+    "read_fun": 1,
+    "subtypes": [ "BOOK" ]
   }
 ]

@@ -2,7 +2,7 @@
   {
     "id": "nailgun",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "nail gun" },
     "description": "A tool used to drive nails into wood or other material.  It could also be used as an ad-hoc weapon.",
@@ -24,13 +24,14 @@
     "valid_mod_locations": [ [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "nail": 20 } } ],
     "melee_damage": { "bash": 6 },
-    "flags": [ "WONT_TRAIN_MARKSMANSHIP" ]
+    "flags": [ "WONT_TRAIN_MARKSMANSHIP" ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "coilgun",
     "copy-from": "gun_base",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "coilgun" },
     "//": "Hard to make, plentiful and cheap ammo, and silent - people will want this thing.",
     "description": "A homemade gun, using electromagnets to accelerate a ferromagnetic projectile to high velocity.  Powered by UPS.",
@@ -51,6 +52,7 @@
     "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "rail mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "nailmag" ] } ],
     "flags": [ "USE_UPS" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "GUN" ]
   }
 ]

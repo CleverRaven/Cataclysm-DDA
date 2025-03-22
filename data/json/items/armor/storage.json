@@ -1,7 +1,7 @@
 [
   {
     "id": "backpack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "backpack" },
     "description": "A small backpack.  Good storage for a little encumbrance.",
     "weight": "633 g",
@@ -65,11 +65,12 @@
     "warmth": 6,
     "material_thickness": 2,
     "flags": [ "BELTED" ],
-    "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 2, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "backpack_hiking",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "hiking backpack" },
     "description": "A large hiking backpack with plenty of storage space.",
     "weight": "2291 g",
@@ -206,11 +207,12 @@
     "max_worn": 1,
     "armor": [
       { "encumbrance": [ 10, 40 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "backpack_hunting",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "hunting backpack" },
     "description": "A large hunting backpack with plenty of storage space and additional external space possible for large camping items or game bags.",
     "weight": "2767 g",
@@ -352,11 +354,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back", "torso_waist" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "backpack_giant",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "giant novelty backpack" },
     "description": "A huge fabric backpack made mostly as a joke before the Cataclysm.  Now, it's still rather silly, but it can store a lot of stuff.",
     "weight": "1200 g",
@@ -394,11 +397,12 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "backpack_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "leather backpack" },
     "description": "A small leather backpack.  Good storage for a little encumbrance.",
     "weight": "818 g",
@@ -443,11 +447,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "backpack_denim",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "denim backpack" },
     "description": "A denim backpack.  Solid storage for few encumbrance.  The texture feels nice.",
     "//": "It's modeled as our normal backpack but made of 16.5 oz denim.",
@@ -497,11 +502,12 @@
     "warmth": 6,
     "material_thickness": 1.1,
     "flags": [ "BELTED" ],
-    "armor": [ { "encumbrance": [ 3, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 3, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "backpack_tactical_large",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "large tactical backpack" },
     "description": "A large tactical multi-compartment backpack that has great lower back support.",
     "weight": "2291 g",
@@ -597,11 +603,12 @@
     "max_worn": 1,
     "armor": [
       { "encumbrance": [ 10, 55 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "bigback",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "high-volume rucksack" },
     "description": "Also known as a \"bigpack\", this rucksack is prized by pack rats but may lead to a bad back.",
     "weight": "3539 g",
@@ -680,11 +687,12 @@
     "max_worn": 1,
     "armor": [
       { "encumbrance": [ 16, 65 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "bindle",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "bindle" },
     "description": "You're ready for a trip down some train tracks.  Also known as a hobo stick.",
     "weight": "980 g",
@@ -704,11 +712,12 @@
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "boxpack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "box backpack" },
     "description": "A makeshift backpack comprised of a wooden box and a pair of ropes.",
     "weight": "8 kg",
@@ -762,11 +771,12 @@
     "price": "35 USD",
     "flags": [ "BELTED", "OVERSIZE", "NO_REPAIR" ],
     "armor": [ { "encumbrance": 20, "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "briefcase",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "briefcase" },
     "description": "Useful for carrying money, documents, or smuggled goods.",
     "weight": "1700 g",
@@ -793,11 +803,12 @@
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "clumsy" },
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "case_violin",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "violin case" },
     "description": "Useful to carry your precious musical instrument around protected from any harm.",
     "weight": "2800 g",
@@ -823,11 +834,12 @@
     "material_thickness": 5,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
     "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "daypack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "daypack" },
     "description": "An ultralight nylon backpack intended for one-day hiking trips.  Waterproof, slim, and spacious.",
     "symbol": "[",
@@ -895,11 +907,12 @@
     "flags": [ "BELTED", "OVERSIZE", "STURDY" ],
     "armor": [
       { "encumbrance": [ 2, 18 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "deployment_bag",
-    "type": "ARMOR",
+    "type": "ITEM",
     "//": "based on the condor deployment bag and it's derivatives, holds 6.4L and has dimensions 6in H x 5.5in D x 12in W, max item lengths determined by approximating a little less based on dimensions",
     "name": { "str": "deployment bag" },
     "description": "A durable nylon bag marketed towards military personnel.  It has clips on the top and back, making it easy to attach a strap and wear it comfortably as a fanny pack.  MOLLE webbing on the back lets you affix it to body armor or a backpack.",
@@ -955,11 +968,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_lower" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "dive_bag",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "dive bag" },
     "description": "A lightweight mesh backpack, commonly worn by swimmers and divers.",
     "weight": "512 g",
@@ -989,12 +1003,13 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "dry_bag",
     "repairs_like": "backpack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "//": "based on KastKing Regular Cyclone Seal Dry Bag",
     "name": { "str": "dry bag" },
     "description": "A lightweight watertight backpack, commonly worn by swimmers and divers.",
@@ -1026,11 +1041,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "duffelbag",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "duffel bag" },
     "description": "A huge duffel bag.  Provides plenty of storage, but is severely encumbering.",
     "weight": "933 g",
@@ -1076,11 +1092,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "dry_duffelbag",
-    "type": "ARMOR",
+    "type": "ITEM",
     "//": "based on Aonyx 60 Waterproof Duffel Bag",
     "name": { "str": "dry duffel bag" },
     "description": "A huge watertight duffel bag.  Capable of floating.  Provides plenty of storage, but is severely encumbering.",
@@ -1128,11 +1145,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "dump_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "tactical dump pouch", "str_pl": "tactical dump pouches" },
     "description": "An expandable pouch secured with straps.  Provides a bit of extra storage with minimal encumbrance.",
     "weight": "288 g",
@@ -1156,11 +1174,12 @@
     ],
     "material_thickness": 0.5,
     "flags": [ "BELTED", "WATER_FRIENDLY", "PALS_MEDIUM" ],
-    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "fanny",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "fanny pack" },
     "description": "A small fabric bag worn on the waist, with the pouch in front for easy access.  Once used as a visual shorthand for unstylish geeks and silly tourists, it was making a decent comeback before the apocalypse.",
     "weight": "272 g",
@@ -1191,11 +1210,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_lower" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "golf_bag",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "golf bag" },
     "description": "A tall canvas and plastic bag with fold-out legs used for golfing.  It even has straps to be worn on the back and a slot for an umbrella.",
     "weight": "1900 g",
@@ -1229,12 +1249,13 @@
     "use_action": { "type": "holster", "holster_prompt": "Sheath golf club", "holster_msg": "You awkwardly sheath your %s" },
     "armor": [
       { "encumbrance": [ 30, 35 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "hide_bag",
     "copy-from": "raw_leather",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "category": "clothing",
     "name": { "str": "hide bag" },
     "description": "The raw skin of an animal, quickly turned into a makeshift bag for storage.  It will still rot, and needs to be cured and tanned.",
@@ -1242,18 +1263,6 @@
     "looks_like": "plastic_shopping_bag",
     "color": "pink",
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
-    "armor_data": {
-      "sided": true,
-      "armor": [
-        {
-          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 } ],
-          "encumbrance": 10,
-          "volume_encumber_modifier": 0.5,
-          "coverage": 5,
-          "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
-        }
-      ]
-    },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1263,12 +1272,23 @@
         "moves": 300
       }
     ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "sided": true,
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 } ],
+        "encumbrance": 10,
+        "volume_encumber_modifier": 0.5,
+        "coverage": 5,
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
+      }
+    ],
+    "subtypes": [ "ARMOR", "COMESTIBLE" ]
   },
   {
     "id": "hide_tainted_bag",
     "copy-from": "raw_tainted_leather",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "category": "clothing",
     "name": { "str": "tainted hide bag" },
     "description": "The raw skin of a monster, quickly turned into a makeshift bag for storage.  It will still rot, and needs to be cured and tanned.",
@@ -1277,18 +1297,6 @@
     "color": "pink",
     "price_postapoc": "10 cent",
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
-    "armor_data": {
-      "sided": true,
-      "armor": [
-        {
-          "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 } ],
-          "encumbrance": 10,
-          "volume_encumber_modifier": 0.5,
-          "coverage": 5,
-          "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
-        }
-      ]
-    },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1298,11 +1306,22 @@
         "moves": 300
       }
     ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "sided": true,
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 } ],
+        "encumbrance": 10,
+        "volume_encumber_modifier": 0.5,
+        "coverage": 5,
+        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
+      }
+    ],
+    "subtypes": [ "ARMOR", "COMESTIBLE" ]
   },
   {
     "id": "hk_briefcase",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "briefcase",
     "looks_like": "briefcase",
     "weight": "1500 g",
@@ -1321,11 +1340,12 @@
       }
     ],
     "price": "20 USD",
-    "price_postapoc": "12 USD 50 cent"
+    "price_postapoc": "12 USD 50 cent",
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "jerrypack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "jerrypack" },
     "description": "A jerrycan modified to be worn in a similar manner to a backpack.",
     "weight": "1763 g",
@@ -1348,11 +1368,12 @@
       }
     ],
     "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 30, "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "leather_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "leather pouch", "str_pl": "leather pouches" },
     "description": "A bag stitched together from leather scraps.  Doesn't hold an awful lot but is easy to wear.",
     "weight": "250 g",
@@ -1382,11 +1403,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_waist" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "legrig",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "drop leg pouch", "str_pl": "drop leg pouches" },
     "description": "A pouch that can be worn on the thighs using buckled straps.  This variety is favored by the military.",
     "weight": "102 g",
@@ -1417,11 +1439,12 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "legrig_wetsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of diving pouches", "str_pl": "pairs of diving pouches" },
     "description": "A set of pouches that can be worn on the thighs using buckled neoprene rig.  This variety is favored by the divers.",
     "//": "Based on skeletonized version of these https://fourthelement.com/product/technical-shorts/ with added lower buckles like here https://www.divegarage.com/neoprene-tech-shorts.html",
@@ -1540,11 +1563,12 @@
         "coverage": 40,
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "leg_bag",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "drop leg bag" },
     "//": "Based around https://www.amazon.com/HCoolfly-Waterproof-Motorcycle-Multi-Function-Fishing/dp/B07TVNBPZK/.",
     "description": "A bag that can be worn on the thighs and hips using adjustable buckled straps.  Provides some extra storage for outdoor activities.",
@@ -1632,11 +1656,12 @@
         "name": { "str": "founders' leg bag" },
         "description": "A garishly colored red, white, and blue bag that can be worn on the thighs and hips using adjustable buckled straps, with the stylized depiction of George Washington's face gazing sternly from the side.  Perfect for carrying the dreams of the founding fathers wherever you go."
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "leg_small_bag",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armrig",
     "name": { "str": "small leg purse" },
     "description": "A small purse that can be worn on the upper leg using buckled straps, easier to use than on the arm.  For those who want to wear a dress without pockets while carrying their phone and money.  Use it to adjust it to fit your arm.",
@@ -1664,11 +1689,12 @@
       "msg": "You adjust your %s to wear it on your arm.",
       "target": "armrig",
       "menu_text": "Adjust on the arm"
-    }
+    },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armrig",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "armband pouch", "str_pl": "armband pouches" },
     "description": "A small pouch that can be worn on the upper arm using buckled straps.  This is a favored item among sports & camping enthusiasts.  Use it to adjust it to fit your leg.",
     "weight": "205 g",
@@ -1705,11 +1731,12 @@
       "msg": "You adjust your %s to wear it on your leg.",
       "target": "leg_small_bag",
       "menu_text": "Adjust on the leg"
-    }
+    },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "ankle_wallet_pouch",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "ankle wallet pouch", "str_pl": "ankle wallet pouches" },
     "description": "A small concealed wallet pouch worn on the ankle.  If you strap it under your clothes, it can help you keep your wallet hidden and safe.",
     "weight": "60 g",
@@ -1739,11 +1766,12 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "makeshift_knapsack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "makeshift knapsack" },
     "description": "A pair of pants with the bottom ends tied with string, and then passed through the belt loops so the knapsack can be carried on the back.",
     "weight": "560 g",
@@ -1780,11 +1808,12 @@
     "warmth": 5,
     "material_thickness": 0.2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 9 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 2, 9 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "makeshift_sling",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "makeshift sling" },
     "description": "A large sheet tied into a crude, over-the-shoulder sling.",
     "weight": "771 g",
@@ -1816,11 +1845,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "mbag",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "messenger bag" },
     "//": "KA101's ran about $90 but is ballistic nylon.  Bit tougher than the DDA model.",
     "description": "Light and easy to wear, but doesn't offer much storage.",
@@ -1859,11 +1889,12 @@
       "menu_text": "Adjust",
       "target": "mbag_sided",
       "moves": 120
-    }
+    },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "mbag_sided",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "messenger bag" },
     "copy-from": "mbag",
     "sided": true,
@@ -1877,11 +1908,12 @@
         "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_hip_r", "leg_upper_r" ]
       }
     ],
-    "use_action": { "type": "transform", "msg": "You move the bag to your back.", "menu_text": "Adjust", "target": "mbag", "moves": 120 }
+    "use_action": { "type": "transform", "msg": "You move the bag to your back.", "menu_text": "Adjust", "target": "mbag", "moves": 120 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "molle_pack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "//": "Based upon own service and Wikipedia: https://en.wikipedia.org/wiki/MOLLE",
     "name": { "str": "MOLLE assault pack" },
     "description": "The Modular Lightweight Load-carrying Equipment is an advanced military backpack.  Covered with pockets and straps, it strikes a fine balance between storage space and encumbrance.  Can attach accessory pockets to the outside rigging.",
@@ -1968,11 +2000,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "molle_medium_rucksack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "//": "Based upon own service and Wikipedia: https://en.wikipedia.org/wiki/MOLLE",
     "name": { "str": "MOLLE medium rucksack" },
     "description": "The Modular Lightweight Load-carrying Equipment is an advanced military medium rucksack.  Covered with straps for modularity, it strikes a fine balance between storage space and encumbrance.  Can attach accessory pockets to the outside rigging.",
@@ -2059,11 +2092,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "molle_large_rucksack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "//": "Based upon own service and Wikipedia: https://en.wikipedia.org/wiki/MOLLE",
     "name": { "str": "MOLLE large rucksack" },
     "description": "The Modular Lightweight Load-carrying Equipment is an advanced military large rucksack.  Covered with straps for modularity, it strikes a fine balance between storage space and encumbrance.  Can attach accessory pockets to the outside rigging.",
@@ -2150,11 +2184,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "net_backpack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "net backpack" },
     "description": "A bag woven together from strings, with straps to wear it on back.  Lighter than a standard backpack, but more awkward to carry when loaded and unable to hold small or heavy items.",
     "weight": "192 g",
@@ -2183,11 +2218,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "petpack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "petpack" },
     "description": "Before the Cataclysm this would allow your four-legged friend to see the world, now it's used to shield them from the world.",
     "weight": "900 g",
@@ -2213,11 +2249,12 @@
     "properties": { "creature_size_capacity": "SMALL" },
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "BELTED", "WATERPROOF" ],
-    "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+    "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "plastic_shopping_bag",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "plastic shopping bag" },
     "description": "A bag used to carry groceries home.",
     "ascii_picture": "bag_plastic",
@@ -2236,11 +2273,12 @@
     ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "3 kg", "moves": 150 } ],
     "material_thickness": 0.01,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "purse",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "purse" },
     "description": "A fancy leather purse from a well-known designer.  A bit cumbersome to wear, but provides some storage.",
     "weight": "297 g",
@@ -2270,11 +2308,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_front" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "ragpouch",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pouch", "str_pl": "pouches" },
     "description": "A makeshift bag, cobbled together from rags.  Really gets in the way, but provides a decent amount of storage.",
     "weight": "35 g",
@@ -2303,11 +2342,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_waist" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "rucksack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "military rucksack" },
     "description": "A huge military rucksack, provides a lot of storage.",
     "weight": "1140 g",
@@ -2425,11 +2465,12 @@
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       { "encumbrance": [ 10, 50 ], "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "runner_bag",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "runner pack" },
     "description": "The obvious choice for outdoor athletes, this ergonomic backpack is light and easy to wear, ensuring comfort when carrying heavy and bulky items.",
     "weight": "360 g",
@@ -2461,11 +2502,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "slingpack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "sling pack" },
     "//": "Depends on if you're getting a cheap school version or something more like a range bag.",
     "description": "A simple single-sling backpack.  Easier to access than a normal backpack, but can't comfortably hold as much.",
@@ -2498,11 +2540,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "straw_basket",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "straw basket" },
     "description": "A handmade straw basket.  Carry it with you for extra storage.",
     "weight": "100 g",
@@ -2526,11 +2569,12 @@
     ],
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 30, "coverage": 4, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 4, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "suitcase_l",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "suitcase" },
     "//": "You drag it along with you, so it taking a hit is Rare.",
     "description": "A huge wheeled suitcase used mainly for transporting clothes and other possessions during trips, provides a decent amount of storage but hauling it around is neither fast nor comfortable.",
@@ -2555,11 +2599,12 @@
     ],
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 70, "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 70, "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "suitcase_m",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "suitcase" },
     "description": "A mid-sized wheeled suitcase used mainly for transporting clothes and other possessions during trips, provides a decent amount of storage but hauling it around is not exactly comfortable.",
     "weight": "3000 g",
@@ -2583,11 +2628,12 @@
     ],
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 50, "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 50, "coverage": 5, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "swag_bag",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "swag bag" },
     "description": "A large canvas sack, re-purposed for makeshift storage.  Goes well with a striped shirt and a domino mask.",
     "weight": "415 g",
@@ -2613,11 +2659,12 @@
       }
     ],
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "travelpack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "travelpack" },
     "description": "A hiking pack used for short trips.",
     "weight": "636 g",
@@ -2705,11 +2752,12 @@
     "warmth": 8,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATERPROOF" ],
-    "armor": [ { "encumbrance": [ 3, 25 ], "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 3, 25 ], "coverage": 80, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "vest",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "utility vest" },
     "description": "A light vest covered in pockets and straps for storage.",
     "weight": "536 g",
@@ -2761,11 +2809,12 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wicker_backpack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "wicker backpack" },
     "description": "A large handmade straw basket with a lid and shoulder straps to wear it like a backpack.  Less comfortable than a proper backpack, but will do the job.",
     "weight": "712 g",
@@ -2787,11 +2836,12 @@
     ],
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 5, 20 ], "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 5, 20 ], "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "debug_backpack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "debug pocket universe" },
     "description": "A pocket universe.  Can store approximately 384 * 10^6 bugs.",
     "weight": "1 g",
@@ -2918,11 +2968,12 @@
     "warmth": 0,
     "material_thickness": 0,
     "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS", "OVERSIZE", "WATCH", "THERMOMETER" ],
-    "armor": [ { "encumbrance": [ 0, 0 ], "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 0, 0 ], "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "long_duffelbag",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "longarm bag" },
     "description": "A long duffel bag.  Provides storage for long arms and rifles.  Quite cumbersome.",
     "weight": "1203 g",
@@ -2948,11 +2999,12 @@
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       { "encumbrance": [ 8, 42 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "rifle_case_soft",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "rifle case" },
     "description": "A long soft rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.",
     "weight": "708 g",
@@ -2983,11 +3035,12 @@
     "warmth": 1,
     "material_thickness": 1,
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "rifle_case_soft_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "leather rifle case" },
     "description": "A long soft leather rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.",
     "weight": "1104 g",
@@ -3018,11 +3071,12 @@
     "warmth": 1,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "rifle_case_soft_2",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "double rifle case" },
     "description": "A long soft rifle case.  Provides storage for 2 long arms and rifles.  Includes 3 accessory pockets and a strap.",
     "weight": "1042 g",
@@ -3069,11 +3123,12 @@
     "warmth": 1,
     "material_thickness": 1,
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "rifle_case_soft_leather_2",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "leather double rifle case" },
     "description": "A long soft leather rifle case.  Provides storage for 2 long arms and rifles.  Includes 3 accessory pockets and a strap.",
     "weight": "1104 g",
@@ -3120,11 +3175,12 @@
     "warmth": 1,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "rifle_case_xl_soft_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "long leather rifle case" },
     "description": "An extra long soft leather rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.",
     "weight": "1104 g",
@@ -3155,11 +3211,12 @@
     "warmth": 1,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "camera_bag",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "camera bag" },
     "description": "A simple bag used to hold a camera, with a small pocket on the side for accessories.  Comes with a carry strap.",
     "weight": "600 g",
@@ -3191,11 +3248,12 @@
     "warmth": 2,
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 3, 5 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+    "armor": [ { "encumbrance": [ 3, 5 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "bookstrap",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "bookstrap" },
     "description": "An old-fashioned book strap carrier.  Guaranteed to make you feel like a proper scholar.",
     "weight": "204 g",
@@ -3227,11 +3285,12 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "rope_loop",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "loop of rope", "str_pl": "loops of rope" },
     "description": "A length of rope tied with a sliding knot into a loop.  You can slip all sorts of large objects in and carry them as a bundle; if you want to tie a single item more securely you'd have to disassemble this loop.  It takes a while to untie it and get things out, and attackers might pull the whole thing undone if you're not careful.",
     "weight": "216 g",
@@ -3258,11 +3317,12 @@
       }
     ],
     "material_thickness": 2,
-    "armor": [ { "encumbrance": [ 3, 80 ], "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 3, 80 ], "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "bigtrapper_pack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "big trapper pack" },
     "description": "A wooden frame with waterproofed cloth stretched around it, and a drawstring at the top to hold things in.  It has straps to wear it on your back.",
     "weight": "10 kg",
@@ -3288,11 +3348,12 @@
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [
       { "encumbrance": [ 30, 35 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "trapper_pack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "trapper pack" },
     "description": "An L-shaped wooden frame with a waterproofed cloth sack attached to it.  There's a drawstring to hold things in and straps to carry it on your back.",
     "weight": "5 kg",
@@ -3317,11 +3378,12 @@
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       { "encumbrance": [ 10, 25 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "frame_pack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pack frame" },
     "description": "An L-shaped wooden frame with straps to secure a large item to it.",
     "weight": "5 kg",
@@ -3347,11 +3409,12 @@
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       { "encumbrance": [ 10, 50 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "bigframe_pack",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "big pack frame" },
     "description": "A sturdy L-shaped wooden frame with leather straps to secure an oversized item to it. It has straps to wear it on your back.",
     "weight": "10 kg",
@@ -3378,6 +3441,7 @@
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [
       { "encumbrance": [ 30, 250 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   }
 ]

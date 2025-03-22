@@ -3,7 +3,7 @@
     "id": "762R_clip",
     "//": "Audited with ImageJ.",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "ammo",
     "name": { "str": "7.62x54mmR 5-round clip" },
     "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load five 7.62x54mmR rounds into a compatible firearm.",
@@ -17,13 +17,14 @@
     "color": "light_gray",
     "ammo_type": [ "762R" ],
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762R": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762R": 5 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "pslmag5",
     "//": "Audited with ImageJ.",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "PSL 5-round magazine" },
     "description": "A compact 5-round magazine for 7.62x54R PSL designated marksman's rifle, made of stamped sheet metal.  Not compatible with a Dragunov despite similar appearances.",
     "weight": "122 g",
@@ -36,13 +37,14 @@
     "color": "light_gray",
     "ammo_type": [ "762R" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 5 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "pslmag10",
     "//": "Audited with ImageJ.",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "PSL 10-round magazine" },
     "description": "A compact 10-round magazine for 7.62x54R PSL designated marksman's rifle, made of stamped sheet metal.  Not compatible with a Dragunov despite similar appearances.",
     "weight": "204 g",
@@ -55,6 +57,7 @@
     "color": "light_gray",
     "ammo_type": [ "762R" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

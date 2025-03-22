@@ -1,7 +1,7 @@
 [
   {
     "id": "signal_flare",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str": "signal flare" },
     "description": "A heavy plastic cartridge made for use in flare guns.  It appears to be a modified 12 gauge shotgun shell.",
     "ascii_picture": "signal_flare",
@@ -21,6 +21,7 @@
     "dispersion": 200,
     "recoil": 100,
     "drop": "sigflare_lit",
-    "effects": [ "NEVER_MISFIRES", "NO_EMBED" ]
+    "effects": [ "NEVER_MISFIRES", "NO_EMBED" ],
+    "subtypes": [ "AMMO" ]
   }
 ]

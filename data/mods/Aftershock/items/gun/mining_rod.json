@@ -1,7 +1,7 @@
 [
   {
     "id": "exo_rod_launcher",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "mining rod launcher" },
     "symbol": "=",
     "color": "yellow",
@@ -22,6 +22,7 @@
     "clip_size": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "metal_rail": 1 } } ],
     "flags": [ "USE_UPS" ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   }
 ]

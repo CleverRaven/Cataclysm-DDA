@@ -1,7 +1,7 @@
 [
   {
     "id": "recipe_survivor_matrix_crystal_ground",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str_sp": "scribbled matrix crystal notes" },
     "description": "A series of notes, musings, and marginalia about grinding up matrix crystals, refining the dust and then…mixing it with water and drinking the results?  Hopefully it won't make you go blind.",
     "copy-from": "file",
@@ -11,6 +11,7 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "blue",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   }
 ]

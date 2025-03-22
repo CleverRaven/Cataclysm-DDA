@@ -1,7 +1,7 @@
 [
   {
     "id": "10mm_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "10mm Auto FMJ" },
     "description": "Jacketed 10mm Auto ammunition with a 180gr bullet.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.",
     "ascii_picture": "10mm_fmj",
@@ -51,33 +51,36 @@
     },
     "dispersion": 50,
     "recoil": 750,
-    "effects": [ "COOKOFF" ]
+    "effects": [ "COOKOFF" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "10mm_jhp",
     "copy-from": "10mm_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "10mm Auto JHP" },
     "description": "Jacketed 10mm Auto ammunition with a 180gr hollow point bullet, intended for use in self-defense, or perhaps hunting.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.",
     "price": "6 USD",
     "price_postapoc": "9 USD",
-    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -4 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -4 } },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "10mmP",
     "copy-from": "10mm_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "10mm Auto +P" },
     "description": "'Full House' 10mm Auto ammunition with a 140gr solid copper penetrator projectile, for hunting or self-defense from dangerous game.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.",
     "price": "8 USD",
     "price_postapoc": "11 USD",
     "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": 2 } },
-    "proportional": { "recoil": 1.1 }
+    "proportional": { "recoil": 1.1 },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "bp_10mm_fmj",
     "copy-from": "10mm_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "10mm Auto FMJ, black powder" },
     "proportional": {
       "price": 0.3,
@@ -86,31 +89,34 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "reloaded_10mm_fmj",
     "copy-from": "10mm_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "10mm Auto FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "matchhead_10mm_fmj",
     "copy-from": "bp_10mm_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": "10mm Auto FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_10mm_fmj",
-    "extend": { "effects": [ "MATCHHEAD" ] }
+    "extend": { "effects": [ "MATCHHEAD" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "bp_10mm_jhp",
     "copy-from": "10mm_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "10mm Auto JHP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -119,33 +125,37 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "reloaded_10mm_jhp",
     "copy-from": "10mm_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "10mm Auto JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "matchhead_10mm_jhp",
     "copy-from": "bp_10mm_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": "10mm Auto JHP, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "MATCHHEAD" ] }
+    "extend": { "effects": [ "MATCHHEAD" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "reloaded_10mmP",
     "copy-from": "10mmP",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "10mm Auto +P, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   }
 ]

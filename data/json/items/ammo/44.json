@@ -1,7 +1,7 @@
 [
   {
     "id": "44fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".44 Magnum FMJ" },
     "description": "Jacketed .44 Magnum ammunition with a 240gr bullet.  The .44 Magnum round is one of the most powerful handgun cartridges available.  It has excellent stopping power but suffers from extremely high recoil for a handgun round.",
     "ascii_picture": "44fmj",
@@ -55,39 +55,43 @@
     },
     "dispersion": 30,
     "recoil": 1570,
-    "effects": [ "COOKOFF" ]
+    "effects": [ "COOKOFF" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "44magnum",
     "copy-from": "44fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".44 Magnum JHP" },
     "description": "Jacketed .44 Magnum ammunition with a 240gr hollowpoint bullet.  The .44 Magnum round is one of the most powerful handgun cartridges available.  It has excellent stopping power but suffers from extremely high recoil for a handgun round.",
     "ascii_picture": "44magnum",
-    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -8 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -8 } },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "reloaded_44fmj",
     "copy-from": "44fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".44 Magnum FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "reloaded_44magnum",
     "copy-from": "44magnum",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".44 Magnum, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "bp_44magnum",
     "copy-from": "44magnum",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".44 Magnum, black powder" },
     "proportional": {
       "price": 0.3,
@@ -96,12 +100,13 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "bp_44fmj",
     "copy-from": "44fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".44 Magnum FMJ, black powder" },
     "proportional": {
       "price": 0.3,
@@ -110,6 +115,7 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   }
 ]

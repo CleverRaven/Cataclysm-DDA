@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "apple",
     "name": { "str": "apple" },
     "weight": "182 g",
@@ -18,10 +18,11 @@
     "fun": 3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "200 μg" ], [ "calcium", "10900 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "200 μg" ], [ "calcium", "10900 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "crabapple",
     "name": { "str": "crabapple" },
     "weight": "50 g",
@@ -39,10 +40,11 @@
     "fun": -1,
     "flags": [ "FREEZERBURN", "SMOKABLE", "CATTLE", "RABBIT" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "4 mg" ], [ "iron", "200 μg" ], [ "calcium", "9 mg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "4 mg" ], [ "iron", "200 μg" ], [ "calcium", "9 mg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "banana",
     "name": { "str": "banana" },
     "weight": "118 g",
@@ -59,10 +61,11 @@
     "fun": 5,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "10300 μg" ], [ "iron", "300 μg" ], [ "calcium", "5900 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "10300 μg" ], [ "iron", "300 μg" ], [ "calcium", "5900 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "orange",
     "name": { "str": "orange" },
     "weight": "131 g",
@@ -80,10 +83,11 @@
     "fun": 3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "69700 μg" ], [ "iron", "100 μg" ], [ "calcium", "52400 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "69700 μg" ], [ "iron", "100 μg" ], [ "calcium", "52400 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "lemon",
     "name": { "str": "lemon" },
     "weight": "108 g",
@@ -101,10 +105,11 @@
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", "83200 μg" ], [ "iron", "800 μg" ], [ "calcium", "65900 μg" ], [ "fruit_allergen", 1 ] ],
-    "fun": -4
+    "fun": -4,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "blueberries",
     "name": { "str": "handful of blueberries", "str_pl": "handfuls of blueberries" },
     "weight": "148 g",
@@ -122,29 +127,32 @@
     "fun": 2,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "14400 μg" ], [ "iron", "400 μg" ], [ "calcium", "8900 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "14400 μg" ], [ "iron", "400 μg" ], [ "calcium", "8900 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hobbleberries",
     "name": { "str": "handful of hobbleberries", "str_pl": "handfuls of hobbleberries" },
     "copy-from": "blueberries",
     "color": "black",
     "description": "Some black hobbleberries.  They are quite sweet.  Before they ripened, they were deceptively red and utterly bitter.",
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "autumn_olive",
     "name": { "str": "handful of autumn olives", "str_pl": "handfuls of autumn olives" },
     "//": "Below is times 1.48 as reference is 100g and blueberries (closest comparable plant) is 148g, so density matches <https://www.researchgate.net/figure/Proximate-composition-and-nutritive-value-of-Elaeagnus-umbellata-fruit_tbl1_284071971>, <https://www.sciencedirect.com/science/article/abs/pii/S1756464615002017>",
     "calories": 134,
     "copy-from": "blueberries",
     "description": "Not tasting anything like olives, this sweet, red and very nutritious fruit can also be used as a tomato-substitute in some cases.",
-    "vitamins": [ [ "vitC", "22200 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "22200 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "strawberries",
     "name": { "str": "handful of strawberries", "str_pl": "handfuls of strawberries" },
     "weight": "144 g",
@@ -162,10 +170,11 @@
     "fun": 5,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "84700 μg" ], [ "iron", "600 μg" ], [ "calcium", "23 mg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "84700 μg" ], [ "iron", "600 μg" ], [ "calcium", "23 mg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "cranberries",
     "name": { "str": "handful of cranberries", "str_pl": "handfuls of cranberries" },
     "weight": "100 g",
@@ -183,10 +192,11 @@
     "fun": -10,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN", "BIRD", "RABBIT", "CATTLE", "RAT", "MOUSE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "13300 μg" ], [ "iron", "300 μg" ], [ "calcium", "8 mg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "13300 μg" ], [ "iron", "300 μg" ], [ "calcium", "8 mg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "raspberries",
     "name": { "str": "handful of raspberries", "str_pl": "handfuls of raspberries" },
     "weight": "123 g",
@@ -204,10 +214,11 @@
     "fun": 4,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "32200 μg" ], [ "iron", "800 μg" ], [ "calcium", "30800 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "32200 μg" ], [ "iron", "800 μg" ], [ "calcium", "30800 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "huckleberries",
     "name": { "str": "handful of huckleberries", "str_pl": "handfuls of huckleberries" },
     "weight": "148 g",
@@ -225,10 +236,11 @@
     "fun": 2,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "4100 μg" ], [ "iron", "400 μg" ], [ "calcium", "8900 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "4100 μg" ], [ "iron", "400 μg" ], [ "calcium", "8900 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "//": "abbreviated Latin name because the id would get too long otherwise",
     "id": "m_stellatum_berries",
     "name": { "str_sp": "starry false Solomon's seal berries" },
@@ -245,10 +257,11 @@
     "volume": "20 ml",
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 8 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 8 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mayapple",
     "name": { "str": "mayapple" },
     "weight": "15 g",
@@ -266,10 +279,11 @@
     "flags": [ "SMOKABLE", "FORAGE_POISON" ],
     "smoking_result": "dry_fruit",
     "//": "entire plant contains poison interacting with the central nervous system, but the fruit is edible in small quantities. the effect of the poison is very similar to our mutant_toxin excess, a dedicated toxin just for this would be a waste of time and resources.",
-    "vitamins": [ [ "vitC", 3 ], [ "mutant_toxin", 15 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "mutant_toxin", 15 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "wintergreen_berry",
     "name": { "str_sp": "wintergreen berries" },
     "weight": "15 g",
@@ -286,10 +300,11 @@
     "fun": 2,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mulberries",
     "name": { "str": "handful of mulberries", "str_pl": "handfuls of mulberries" },
     "weight": "140 g",
@@ -307,10 +322,11 @@
     "fun": 4,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "51 mg" ], [ "iron", "2600 μg" ], [ "calcium", "54600 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "51 mg" ], [ "iron", "2600 μg" ], [ "calcium", "54600 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "elderberries",
     "name": { "str": "handful of elderberries", "str_pl": "handfuls of elderberries" },
     "weight": "145 g",
@@ -329,10 +345,11 @@
     "fun": -2,
     "flags": [ "SMOKABLE", "RAW", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "52200 μg" ], [ "iron", "2300 μg" ], [ "calcium", "55100 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "52200 μg" ], [ "iron", "2300 μg" ], [ "calcium", "55100 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "nannyberries",
     "name": { "str": "handful of nannyberries", "str_pl": "handfuls of nannyberries" },
     "description": "Some dark blue nannyberries, tasting like prunes mixed with banana.",
@@ -341,18 +358,20 @@
     "use_action": [  ],
     "quench": 0,
     "fun": 2,
-    "color": "black"
+    "color": "black",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "tupelo_fruit",
     "name": { "str": "handful of tupelo fruits", "str_pl": "handfuls of tupelo fruits" },
     "description": "Some dark blue tupelo fruits.  They are tart and feature a hard seed but are still enjoyable.",
     "fun": 1,
-    "copy-from": "nannyberries"
+    "copy-from": "nannyberries",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "chokeberries",
     "name": { "str": "handful of chokeberries", "str_pl": "handfuls of chokeberries" },
     "description": "A handful of black chokeberries.  They look similar to blackcurrant.  Big and juicy but actually exceedingly sour.",
@@ -361,10 +380,11 @@
     "color": "black",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "vitamins": [ [ "vitC", "21000 μg" ], [ "iron", "600 μg" ], [ "calcium", "30 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "21000 μg" ], [ "iron", "600 μg" ], [ "calcium", "30 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "rose_hips",
     "name": { "str": "handful of rose hips", "str_pl": "handfuls of rose hips" },
     "weight": "128 g",
@@ -382,10 +402,11 @@
     "volume": "250 ml",
     "fun": -5,
     "flags": [ "RAW", "EDIBLE_FROZEN", "INEDIBLE", "CATTLE", "RABBIT", "BIRD" ],
-    "vitamins": [ [ "vitC", "272640 μg" ], [ "iron", "678 μg" ], [ "calcium", "108160 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "272640 μg" ], [ "iron", "678 μg" ], [ "calcium", "108160 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "rose_hips_cut",
     "name": { "str_sp": "cut rose hips" },
     "weight": "64 g",
@@ -403,10 +424,11 @@
     "fun": 2,
     "flags": [ "SMOKABLE", "RAW", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "272640 μg" ], [ "iron", "678 μg" ], [ "calcium", "108160 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "272640 μg" ], [ "iron", "678 μg" ], [ "calcium", "108160 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "juice_pulp",
     "name": { "str_sp": "juice pulp" },
     "weight": "20 g",
@@ -424,10 +446,11 @@
     "flags": [ "SMOKABLE", "CATTLE", "RABBIT", "RAT", "MOUSE" ],
     "smoking_result": "dry_fruit",
     "//": "juice pulp is an arbitrary item, but needed some baseline nutrients for byproducts",
-    "vitamins": [ [ "vitC", 8 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 8 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "pear",
     "name": { "str": "pear" },
     "weight": "178 g",
@@ -445,10 +468,11 @@
     "fun": 4,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "7700 μg" ], [ "iron", "300 μg" ], [ "calcium", "16 mg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "7700 μg" ], [ "iron", "300 μg" ], [ "calcium", "16 mg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "guayaba",
     "name": { "str": "guava" },
     "weight": "55 g",
@@ -466,10 +490,11 @@
     "fun": 4,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "125600 μg" ], [ "iron", "100 μg" ], [ "calcium", "9900 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "125600 μg" ], [ "iron", "100 μg" ], [ "calcium", "9900 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "maracuya",
     "name": { "str": "handful of passionfruit", "str_pl": "handfuls of passionfruit" },
     "weight": "236 g",
@@ -487,10 +512,11 @@
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", "70800 μg" ], [ "iron", "3800 μg" ], [ "calcium", "28300 μg" ], [ "fruit_allergen", 1 ] ],
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "lulo",
     "name": { "str": "lulo" },
     "weight": "120 g",
@@ -508,10 +534,11 @@
     "fun": 3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "3800 μg" ], [ "iron", "400 μg" ], [ "calcium", "9600 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "3800 μg" ], [ "iron", "400 μg" ], [ "calcium", "9600 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "grapefruit",
     "name": { "str": "grapefruit" },
     "weight": "246 g",
@@ -529,10 +556,11 @@
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", "91 mg" ], [ "iron", "300 μg" ], [ "calcium", "36900 μg" ], [ "fruit_allergen", 1 ] ],
-    "fun": 2
+    "fun": 2,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "cherries",
     "name": { "str": "handful of cherries", "str_pl": "handfuls of cherries" },
     "weight": "138 g",
@@ -550,10 +578,11 @@
     "fun": 3,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "9700 μg" ], [ "iron", "500 μg" ], [ "calcium", "17900 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "9700 μg" ], [ "iron", "500 μg" ], [ "calcium", "17900 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "plums",
     "name": { "str": "plum" },
     "weight": "66 g",
@@ -571,10 +600,11 @@
     "fun": 3,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "6300 μg" ], [ "iron", "100 μg" ], [ "calcium", "4 mg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "6300 μg" ], [ "iron", "100 μg" ], [ "calcium", "4 mg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "grapes",
     "name": { "str": "handful of grapes", "str_pl": "handfuls of grapes" },
     "weight": "151 g",
@@ -592,10 +622,11 @@
     "fun": 4,
     "flags": [ "FREEZERBURN", "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "4800 μg" ], [ "iron", "500 μg" ], [ "calcium", "15100 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "4800 μg" ], [ "iron", "500 μg" ], [ "calcium", "15100 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "pineapple",
     "name": { "str": "pineapple" },
     "weight": "905 g",
@@ -614,10 +645,11 @@
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", "432600 μg" ], [ "iron", "2600 μg" ], [ "calcium", "117700 μg" ], [ "fruit_allergen", 1 ] ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "pineapple_chunks",
     "name": { "str": "handful of pineapple chunks", "str_pl": "handfuls of pineapple chunks" },
     "weight": "165 g",
@@ -635,10 +667,11 @@
     "fun": 4,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "78900 μg" ], [ "iron", "500 μg" ], [ "calcium", "21500 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "78900 μg" ], [ "iron", "500 μg" ], [ "calcium", "21500 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "coconut",
     "name": { "str": "coconut" },
     "weight": "680 g",
@@ -654,10 +687,11 @@
     "material": [ "fruit" ],
     "volume": "1850 ml",
     "vitamins": [ [ "vitC", "16200 μg" ], [ "iron", "8300 μg" ], [ "calcium", "102400 μg" ], [ "fruit_allergen", 1 ] ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "coconut_flesh",
     "name": { "str": "handful of coconut flesh", "str_pl": "handfuls of coconut flesh" },
     "weight": "80 g",
@@ -675,10 +709,11 @@
     "fun": 4,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "2600 μg" ], [ "iron", "1900 μg" ], [ "calcium", "11200 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "2600 μg" ], [ "iron", "1900 μg" ], [ "calcium", "11200 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "peach",
     "name": { "str": "peach", "str_pl": "peaches" },
     "weight": "150 g",
@@ -696,10 +731,11 @@
     "fun": 4,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "9900 μg" ], [ "iron", "400 μg" ], [ "calcium", "9 mg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "9900 μg" ], [ "iron", "400 μg" ], [ "calcium", "9 mg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "watermelon",
     "name": { "str": "watermelon" },
     "weight": "4518 g",
@@ -717,10 +753,11 @@
     "volume": "7150 ml",
     "flags": [ "EATEN_COLD", "FREEZERBURN", "INEDIBLE" ],
     "vitamins": [ [ "vitC", "366 mg" ], [ "iron", "10800 μg" ], [ "calcium", "316300 μg" ], [ "fruit_allergen", 1 ] ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "watermelon_wedge",
     "name": { "str": "watermelon wedge" },
     "weight": "286 g",
@@ -738,10 +775,11 @@
     "flags": [ "EATEN_COLD", "FREEZERBURN", "SMOKABLE" ],
     "fun": 4,
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "23200 μg" ], [ "iron", "700 μg" ], [ "calcium", "20 mg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "23200 μg" ], [ "iron", "700 μg" ], [ "calcium", "20 mg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "melon",
     "name": { "str": "cantaloupe melon" },
     "weight": "552 g",
@@ -759,10 +797,11 @@
     "flags": [ "EATEN_COLD", "INEDIBLE" ],
     "fun": 4,
     "vitamins": [ [ "vitC", "202600 μg" ], [ "iron", "1200 μg" ], [ "calcium", "49700 μg" ], [ "fruit_allergen", 1 ] ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "melon_chunks",
     "name": { "str": "handful of cantaloupe melon chunks", "str_pl": "handfuls of cantaloupe melon chunks" },
     "weight": "138 g",
@@ -780,10 +819,11 @@
     "fun": 4,
     "flags": [ "SMOKABLE", "EATEN_COLD" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "50650 μg" ], [ "iron", "300 μg" ], [ "calcium", "12425 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "50650 μg" ], [ "iron", "300 μg" ], [ "calcium", "12425 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "blackberries",
     "name": { "str": "handful of blackberries", "str_pl": "handfuls of blackberries" },
     "weight": "144 g",
@@ -801,10 +841,11 @@
     "fun": 4,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "30200 μg" ], [ "iron", "900 μg" ], [ "calcium", "41800 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "30200 μg" ], [ "iron", "900 μg" ], [ "calcium", "41800 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mango",
     "name": { "str": "mango" },
     "weight": "207 g",
@@ -822,10 +863,11 @@
     "fun": 5,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "75300 μg" ], [ "iron", "300 μg" ], [ "calcium", "22800 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "75300 μg" ], [ "iron", "300 μg" ], [ "calcium", "22800 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "pomegranate",
     "name": { "str": "pomegranate" },
     "weight": "282 g",
@@ -843,10 +885,11 @@
     "fun": 7,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "28800 μg" ], [ "iron", "800 μg" ], [ "calcium", "28200 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "28800 μg" ], [ "iron", "800 μg" ], [ "calcium", "28200 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "papaya",
     "name": { "str": "papaya" },
     "weight": "304 g",
@@ -864,10 +907,11 @@
     "fun": 5,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "185100 μg" ], [ "iron", "800 μg" ], [ "calcium", "60800 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "185100 μg" ], [ "iron", "800 μg" ], [ "calcium", "60800 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "kiwi",
     "name": { "str": "kiwi" },
     "weight": "69 g",
@@ -885,10 +929,11 @@
     "fun": 3,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "64 mg" ], [ "iron", "200 μg" ], [ "calcium", "23500 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "64 mg" ], [ "iron", "200 μg" ], [ "calcium", "23500 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "apricot",
     "name": { "str": "handful of apricots", "str_pl": "handfuls of apricots" },
     "//": "a handful of apricots is about 4.6 apricots - rounded down to 4 since you're not picking off half an apricot off a tree",
@@ -907,10 +952,11 @@
     "fun": 3,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", "14 mg" ], [ "iron", "500 μg" ], [ "calcium", "18200 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "14 mg" ], [ "iron", "500 μg" ], [ "calcium", "18200 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "cholla_bud",
     "name": { "str": "cholla bud" },
     "weight": "92 g",
@@ -928,10 +974,11 @@
     "fun": 6,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 18 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 18 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "cactus_pad",
     "name": { "str": "handful of nopales", "str_pl": "handfuls of nopales" },
     "weight": "86 g",
@@ -948,6 +995,7 @@
     "volume": "250 ml",
     "fun": -1,
     "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", "8 mg" ], [ "iron", "500 μg" ], [ "calcium", "141 mg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "8 mg" ], [ "iron", "500 μg" ], [ "calcium", "141 mg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

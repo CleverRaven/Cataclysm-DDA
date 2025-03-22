@@ -1,7 +1,7 @@
 [
   {
     "abstract": "mre_entree",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "MRE entree", "//~": "NO_I18N" },
     "weight": "227 g",
     "color": "brown",
@@ -15,10 +15,11 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "RAD_STERILIZED", "DECAY_EXPOSED_ATMOSPHERE" ],
     "looks_like": "mre_beef",
-    "fun": -1
+    "fun": -1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_chilibeans",
     "copy-from": "mre_entree",
     "name": { "str": "chili & beans entree" },
@@ -26,10 +27,11 @@
     "description": "The chili & beans entree from an MRE.",
     "material": [ "veggy", "bean" ],
     "fun": -2,
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_bbqbeef",
     "copy-from": "mre_entree",
     "name": { "str": "BBQ beef entree" },
@@ -37,10 +39,11 @@
     "description": "The BBQ beef entree from an MRE.",
     "material": [ "flesh" ],
     "fun": 2,
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_chickennoodle",
     "copy-from": "mre_entree",
     "name": { "str": "chicken noodle entree" },
@@ -48,10 +51,11 @@
     "description": "The chicken noodle entree from an MRE.",
     "material": [ "flesh", "veggy", "wheat" ],
     "fun": 1,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_spaghetti",
     "copy-from": "mre_entree",
     "name": { "str": "spaghetti entree" },
@@ -59,20 +63,22 @@
     "description": "The spaghetti entree from an MRE.",
     "material": [ "flesh", "wheat" ],
     "fun": 0,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_chicken",
     "copy-from": "mre_entree",
     "name": { "str": "chicken chunks entree" },
     "calories": 238,
     "description": "The chicken chunks entree from an MRE, with an included beef stick.",
     "material": [ "flesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_beeftaco",
     "copy-from": "mre_entree",
     "name": { "str": "beef taco entree" },
@@ -80,10 +86,11 @@
     "description": "The beef taco entree from an MRE.",
     "material": [ "flesh", "veggy" ],
     "fun": 0,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_beef",
     "copy-from": "mre_entree",
     "name": { "str": "beef brisket entree" },
@@ -91,10 +98,11 @@
     "description": "The beef brisket entree from an MRE.",
     "material": [ "flesh" ],
     "fun": 1,
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_meatball",
     "copy-from": "mre_entree",
     "name": { "str": "meatballs & marinara entree" },
@@ -102,10 +110,11 @@
     "description": "The meatballs & marinara entree from an MRE.",
     "material": [ "flesh", "tomato" ],
     "fun": 0,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_beefstew",
     "copy-from": "mre_entree",
     "name": { "str": "beef stew entree" },
@@ -113,10 +122,11 @@
     "description": "The beef stew entree from an MRE.",
     "material": [ "flesh", "veggy" ],
     "fun": 0,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_chilimac",
     "copy-from": "mre_entree",
     "name": { "str": "chili & macaroni entree" },
@@ -124,10 +134,11 @@
     "description": "The chili & macaroni entree from an MRE.",
     "material": [ "wheat", "veggy" ],
     "fun": 1,
-    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_veggy",
     "copy-from": "mre_entree",
     "name": { "str": "vegetarian taco entree" },
@@ -135,10 +146,11 @@
     "description": "The vegetarian taco entree from an MRE.",
     "material": [ "veggy", "tomato" ],
     "fun": -2,
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_macaronimarinara",
     "copy-from": "mre_entree",
     "name": { "str": "macaroni & marinara entree" },
@@ -146,10 +158,11 @@
     "description": "The macaroni & marinara entree from an MRE.",
     "material": [ "tomato", "veggy" ],
     "fun": 0,
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_sfettuccine",
     "copy-from": "mre_entree",
     "name": { "str": "spinach fettuccine entree" },
@@ -157,10 +170,11 @@
     "description": "The creamy spinach fettuccine entree from an MRE.",
     "material": [ "veggy", "milk" ],
     "fun": -2,
-    "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_ratatouille",
     "copy-from": "mre_entree",
     "name": { "str": "ratatouille entree" },
@@ -168,30 +182,33 @@
     "description": "The ratatouille entree from an MRE.",
     "material": [ "veggy", "tomato", "wheat" ],
     "fun": 0,
-    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_cheesetort",
     "copy-from": "mre_entree",
     "name": { "str": "cheese tortellini entree" },
     "calories": 251,
     "description": "The cheese tortellini entree from an MRE.",
     "material": [ "tomato", "veggy", "milk" ],
-    "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_mushroomfettuccine",
     "copy-from": "mre_entree",
     "name": { "str": "mushroom fettuccine entree" },
     "calories": 239,
     "description": "The mushroom fettuccine entree from an MRE.",
     "material": [ "mushroom", "veggy", "wheat" ],
-    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_mexicanchickenstew",
     "copy-from": "mre_entree",
     "name": { "str": "Mexican chicken stew entree" },
@@ -199,10 +216,11 @@
     "description": "The Mexican chicken stew entree from an MRE.",
     "material": [ "tomato", "veggy", "flesh", "bean" ],
     "fun": 1,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_chickenburritobowl",
     "copy-from": "mre_entree",
     "name": { "str": "chicken burrito bowl entree" },
@@ -210,10 +228,11 @@
     "description": "The chicken burrito bowl entree from an MRE.",
     "material": [ "flesh", "veggy", "bean" ],
     "fun": 0,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_maplesausage",
     "copy-from": "mre_entree",
     "name": { "str": "maple sausage entree" },
@@ -221,10 +240,11 @@
     "description": "The maple sausage entree from an MRE.",
     "material": [ "flesh", "junk" ],
     "fun": 1,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_ravioli",
     "copy-from": "mre_entree",
     "name": { "str": "ravioli entree" },
@@ -232,20 +252,22 @@
     "description": "The ravioli entree from an MRE.",
     "material": [ "flesh", "wheat" ],
     "fun": 0,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_pepperjackbeef",
     "copy-from": "mre_entree",
     "name": { "str": "pepper jack beef entree" },
     "calories": 148,
     "description": "The pepper jack beef entree from an MRE.",
     "material": [ "flesh", "milk" ],
-    "vitamins": [ [ "meat_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_hashbrownbacon",
     "copy-from": "mre_entree",
     "name": { "str": "hash browns & bacon entree" },
@@ -253,10 +275,11 @@
     "description": "The hash browns & bacon entree from an MRE.",
     "material": [ "flesh", "veggy" ],
     "fun": 2,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_lemontuna",
     "copy-from": "mre_entree",
     "name": { "str": "lemon pepper tuna entree" },
@@ -264,10 +287,11 @@
     "description": "The lemon pepper tuna entree from an MRE.",
     "material": [ "flesh" ],
     "fun": 2,
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_lobstermedley",
     "copy-from": "mre_entree",
     "name": { "str": "lobster seafood medley entree" },
@@ -275,10 +299,11 @@
     "description": "The lobster seafood medley entree from an MRE.",
     "material": [ "flesh" ],
     "fun": 3,
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_asianbeef",
     "copy-from": "mre_entree",
     "name": { "str": "Asian beef & vegetables entree" },
@@ -286,10 +311,11 @@
     "description": "The Asian beef & vegetables entree from an MRE.",
     "material": [ "flesh", "veggy" ],
     "fun": 1,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_chickenpesto",
     "copy-from": "mre_entree",
     "name": { "str": "chicken pesto & pasta entree" },
@@ -297,10 +323,11 @@
     "description": "The chicken pesto & pasta entree from an MRE.",
     "material": [ "flesh", "wheat", "veggy" ],
     "fun": 0,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_southwestbeef",
     "copy-from": "mre_entree",
     "name": { "str": "southwest beef & beans entree" },
@@ -308,10 +335,11 @@
     "description": "The southwest beef & beans entree from an MRE.",
     "material": [ "flesh", "bean" ],
     "fun": 2,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_hotdog",
     "copy-from": "mre_entree",
     "name": { "str": "frankfurters & beans entree" },
@@ -320,10 +348,11 @@
     "price": "8 USD 50 cent",
     "material": [ "flesh", "junk", "bean" ],
     "fun": -6,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_cheesepizza",
     "copy-from": "mre_entree",
     "name": { "str": "cheese pizza entree" },
@@ -332,10 +361,11 @@
     "price": "8 USD 50 cent",
     "material": [ "wheat", "milk" ],
     "fun": 1,
-    "vitamins": [ [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_pizza",
     "copy-from": "mre_entree",
     "name": { "str": "pepperoni pizza entree" },
@@ -343,11 +373,12 @@
     "description": "The pizza entree from an MRE, featuring pepperoni slices and cheese.",
     "material": [ "flesh", "wheat", "milk" ],
     "fun": 3,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "abstract": "mre_side",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "MRE side", "//~": "NO_I18N" },
     "weight": "142 g",
     "color": "brown",
@@ -361,49 +392,54 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "RAD_STERILIZED", "DECAY_EXPOSED_ATMOSPHERE" ],
     "looks_like": "mre_beef",
-    "fun": 2
+    "fun": 2,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_potato",
     "copy-from": "mre_side",
     "name": { "str_sp": "potatoes, Au Gratin" },
     "description": "Golden-fried potatoes.",
     "material": [ "veggy" ],
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_fried_rice",
     "copy-from": "mre_side",
     "name": { "str": "fried rice (small portion)", "str_pl": "fried rice (small portions)" },
     "description": "Fried rice, a simple dish made by stir-frying rice with other ingredients.",
     "material": [ "veggy" ],
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_zapplesauce",
     "copy-from": "mre_side",
     "name": { "str_sp": "zapplesauce" },
     "description": "Golden, jelly-like food with the flavor of apples.",
     "material": [ "fruit" ],
     "fun": 5,
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_blackbeans",
     "copy-from": "mre_side",
     "name": { "str_sp": "black beans in sauce" },
     "description": "A savory and flavorful combination of black beans and sauce.",
     "material": [ "bean" ],
     "calories": 130,
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "abstract": "mre_dessert",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "MRE dessert", "//~": "NO_I18N" },
     "weight": "52 g",
     "color": "brown",
@@ -417,46 +453,52 @@
     "volume": "125 ml",
     "flags": [ "RAD_STERILIZED", "DECAY_EXPOSED_ATMOSPHERE" ],
     "looks_like": "cookies",
-    "fun": 4
+    "fun": 4,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_carrot_cake",
     "name": { "str": "carrot pound cake" },
     "copy-from": "mre_dessert",
-    "description": "Delicious cake with carrots blended seamlessly."
+    "description": "Delicious cake with carrots blended seamlessly.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_poppyseed_cake",
     "copy-from": "mre_carrot_cake",
     "name": { "str": "lemon poppy seed pound cake" },
     "calories": 290,
-    "description": "Cake filled with the goodness of lemon and poppy seeds."
+    "description": "Cake filled with the goodness of lemon and poppy seeds.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_chocolate_pudding",
     "copy-from": "mre_dessert",
     "name": { "str_sp": "chocolate pudding" },
     "calories": 300,
     "weight": "75 g",
-    "description": "Pudding made with chocolate.  Yummy!"
+    "description": "Pudding made with chocolate.  Yummy!",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_chocolate_cake",
     "copy-from": "mre_dessert",
     "name": { "str": "chocolate chip toaster pastry", "str_pl": "chocolate chip toaster pastries" },
     "calories": 210,
-    "description": "Pastry with chocolate chips."
+    "description": "Pastry with chocolate chips.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mre_strawberry_cake",
     "copy-from": "mre_dessert",
     "name": { "str": "strawberry toaster pastry", "str_pl": "strawberry toaster pastries" },
     "calories": 210,
-    "description": "Strawberry-flavor pastry."
+    "description": "Strawberry-flavor pastry.",
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

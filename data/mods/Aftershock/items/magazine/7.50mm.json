@@ -2,7 +2,7 @@
   {
     "id": "afs_UICASTA30",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "UICASTA 30-round magazine" },
     "description": "A standardized 30-round magazine compatible with most UICA issue rifles.",
     "weight": "265 g",
@@ -14,12 +14,13 @@
     "color": "light_gray",
     "ammo_type": [ "afs_7.50mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm": 30 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "afs_UICASTA100drum",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "UICASTA 100-round double drum magazine" },
     "description": "A standardized 100-round double drum magazine compatible with most UICA issue rifles.",
     "weight": "1700 g",
@@ -33,12 +34,13 @@
     "reload_time": 200,
     "mag_jam_mult": 2,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm": 100 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "afs_marsect72_speedloader9",
     "looks_like": "38_speedloader",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "MarSec. T72 7.50mm speedloader" },
     "description": "A speedloader for the MarSec T72 revolver, holds 9 rounds of 7.50mm ammunition.",
     "weight": "92 g",
@@ -51,12 +53,13 @@
     "ammo_type": [ "afs_7.50mm" ],
     "capacity": 9,
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm": 9 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm": 9 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "afs_sr77_45mag",
     "looks_like": "fnp90mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "SR-77 45-round magazine" },
     "description": "A translucent 45-round box magazine, for use with the SR-77.",
     "weight": "300 g",
@@ -68,12 +71,13 @@
     "color": "light_gray",
     "ammo_type": [ "afs_7.50mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm": 45 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm": 45 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "afs_vahagn_smartgun_mag",
     "looks_like": "fnp90mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Vahagn 10XR 80-round magazine" },
     "description": "A large box magazine and accompanying feed chute for the Vahagn 10XR.  Holds 80 rounds of 7.50mm SDART ammunition.",
     "weight": "300 g",
@@ -85,6 +89,7 @@
     "color": "light_gray",
     "ammo_type": [ "afs_7.50mm" ],
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm_smart": 80 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm_smart": 80 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

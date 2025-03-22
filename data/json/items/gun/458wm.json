@@ -3,7 +3,7 @@
     "id": "win70_458",
     "copy-from": "win70",
     "looks_like": "win70",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Safari rifle" },
     "description": "A bolt-action sporting rifle for hunting dangerous game, chambered in the powerful .458 Winchester Magnum cartridge.",
     "variant_type": "gun",
@@ -20,6 +20,7 @@
     "price_postapoc": "50 USD",
     "ammo": [ "458wm" ],
     "flags": [ "NO_TURRET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "458wm": 3 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "458wm": 3 } } ],
+    "subtypes": [ "GUN" ]
   }
 ]

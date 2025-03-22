@@ -1,7 +1,7 @@
 [
   {
     "id": "schematics_matrix_channeling",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str_sp": "matrix channeling array schematics" },
     "description": "This is a series of technical design documents for a \"matrix channeling array\" designed to \"allow an attuned mathematician to direct a stronger level of Netherum energy\".  It sounds like nonsense, but the document does have the XEDRA seal stamped on it.",
     "copy-from": "schematics_generic",
@@ -11,11 +11,12 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "blue",
-    "read_skill": "fabrication"
+    "read_skill": "fabrication",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "schematics_matrix_aligning",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str_sp": "crystalline focusing assembly schematics" },
     "description": "This is a series of technical design documents for a focusing assembly designed to \"enhance the precision of Netherum mathematics\".",
     "copy-from": "schematics_generic",
@@ -25,11 +26,12 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "white",
-    "read_skill": "fabrication"
+    "read_skill": "fabrication",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "schematics_telepathic_focusing_tool",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str_sp": "telepathic focusing tool schematics" },
     "description": "This is a series of technical design documents for a focusing assembly designed to \"enhance the precision of Netherum mathematics\".",
     "copy-from": "schematics_generic",
@@ -39,11 +41,12 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "white",
-    "read_skill": "fabrication"
+    "read_skill": "fabrication",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "schematics_matrix_crystal_ground",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str_sp": "refined matrix crystal schematics" },
     "description": "A series of technical documents for further refining ground matrix crystal, separating out the inert parts from the \"Netherically active\" parts.",
     "copy-from": "schematics_generic",
@@ -53,11 +56,12 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "blue",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "schematics_anchoring_crown",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str_sp": "anchoring crown schematics" },
     "description": "This is a series of technical design documents for using matrix crystals to shield the wearer from excess Netherum energies with the drawback of also shutting down any psionic ability they have while worn.",
     "copy-from": "schematics_generic",
@@ -67,11 +71,12 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "blue",
-    "read_skill": "fabrication"
+    "read_skill": "fabrication",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "schematics_telepathic_dampener",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str_sp": "telepathic dampener schematics" },
     "description": "This is a series of technical design documents for using matrix crystals to shield the wearer's mind from telepathic assault and from unfriendly attention from Netherum entities.  The design also mentions that it reduces the wearer's own psionic power, however.",
     "copy-from": "schematics_generic",
@@ -81,11 +86,12 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "blue",
-    "read_skill": "fabrication"
+    "read_skill": "fabrication",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "schematics_grenade_inferno",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str_sp": "inferno grenade schematics" },
     "description": "This is a design document to create a grenade using matrix crystal dust that explodes in a sea of pure flame.  In pen below is the note \"EXTREMELY DANGEROUS\".  You're not sure you could replicate the exact process with the tools available to you, but you could definitely come up with your own version.",
     "copy-from": "schematics_generic",
@@ -95,11 +101,12 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "red",
-    "read_skill": "fabrication"
+    "read_skill": "fabrication",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "schematics_transporters",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str_sp": "Netherum transporter schematics" },
     "description": "This is a series of design documents for building a transporter beacon and connected transporter remote, which you can use to teleport yourself through the Nether to the beacon.  It's labeled \"for immersion use only\", but that part has a line through it and \"IT WORKS!\" written next to it in pen.  There's another note in red that states that on very rare occasions, \"entities\" can also use the beacon to exit the Nether, and also that as of two weeks before the Cataclysm, the designers have not solved the energy surge problems that make each remote burn out after use.",
     "copy-from": "schematics_generic",
@@ -109,11 +116,12 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "magenta",
-    "read_skill": "fabrication"
+    "read_skill": "fabrication",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "schematics_everglow_lamp",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str_sp": "everglow matrix lamp schematics" },
     "description": "This is a series of design documents to use ground matrix crystals to greatly enhance the power efficiency of a lamp.",
     "copy-from": "schematics_generic",
@@ -123,11 +131,12 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "blue",
-    "read_skill": "electronics"
+    "read_skill": "electronics",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "schematics_reactant_liquid_base",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str_sp": "psychoreactive catalyst specifications" },
     "description": "A chemical formula for mixing ground matrix crystals with other metals and dissolving them in liquid.  There's a long list of possible applications for the resulting compound, almost all of which would have seemed like pure fantasy if you hadn't lived through the end of the world.",
     "copy-from": "schematics_generic",
@@ -137,11 +146,12 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "green",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "schematics_instability_remover",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str_sp": "morphic reinforcement serum schematics" },
     "description": "This document details a series of steps for making an injectable serum which will \"enhance the subject's resilience against detrimental mutagenic alterations caused by XE037 overexposure, reducing negative outcomes during testing\".  It's stamped with a XEDRA symbol in the corner with \"Project PHAVIAN\" written at the top.",
     "copy-from": "schematics_generic",
@@ -151,11 +161,12 @@
     "time": "60 m",
     "symbol": "ç",
     "color": "green",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "schematics_psionic_purifier",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str_sp": "morphic reversion serum schematics" },
     "description": "A series of steps to create a serum that will \"Eliminate the undesirable effects of XE037 overexposure\".  It is designed to be injected in the recipient.",
     "copy-from": "schematics_generic",
@@ -165,11 +176,12 @@
     "time": "60 m",
     "symbol": "ç",
     "color": "green",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "schematics_noetic_resilience",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str_sp": "noetic resilience treatment schematics" },
     "description": "A technical document outlining a treatment for \"noetic overuse\".  After the outline of the treatment is a note, dated two weeks before the end of the world, that while it showed great promise in initial trials the side effects require further study before it can be recommended for widespread usage.",
     "copy-from": "schematics_generic",
@@ -179,10 +191,11 @@
     "time": "60 m",
     "symbol": "ç",
     "color": "white",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
     "id": "psi_usb_rad_recipes",
     "symbol": ",",
     "color": "white",
@@ -199,6 +212,7 @@
       "type": "effect_on_conditions",
       "description": "Use a laptop to access the data.",
       "effect_on_conditions": [ "EOC_PSI_USB_RAD_RECIPE" ]
-    }
+    },
+    "subtypes": [ "TOOL" ]
   }
 ]

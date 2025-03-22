@@ -1,7 +1,7 @@
 [
   {
     "id": "marshmallow_flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "chunk of marshmallow flesh", "str_pl": "chunks of marshmallow flesh" },
     "description": "A big chunk of squishy, fluffy, puffy, delicious marshmallow flesh.",
     "weight": "53 g",
@@ -16,10 +16,11 @@
     "material": [ "junk" ],
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 10,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "smores_flesh",
     "name": { "str": "piece of s'mores' flesh", "str_pl": "pieces of s'mores' flesh" },
     "looks_like": "smores",
@@ -35,10 +36,11 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
-    "fun": 20
+    "fun": 20,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "candy3_flesh",
     "name": { "str": "chunk of chewy candy flesh", "str_pl": "chunks of chewy candy flesh" },
     "weight": "127 g",
@@ -54,19 +56,21 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 3,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "candy3gator_flesh",
     "name": { "str": "chunk of reptilian candy flesh", "str_pl": "chunks of reptilian candy flesh" },
     "copy-from": "candy3_flesh",
     "looks_like": "candy3gator",
     "color": "green",
-    "description": "A chunk of colorful fruit-flavored candy meat, this one is extra chewy."
+    "description": "A chunk of colorful fruit-flavored candy meat, this one is extra chewy.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "grahmcrackers_shell",
     "name": { "str": "graham cracker shell" },
     "looks_like": "grahmcrackers",
@@ -83,10 +87,11 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
-    "fun": 2
+    "fun": 2,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "cookie_flesh",
     "name": { "str": "chunk of cookie flesh", "str_pl": "chunks of cookie flesh" },
     "looks_like": "cookies",
@@ -103,11 +108,12 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
-    "fun": 7
+    "fun": 7,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "gum_flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "looks_like": "gum",
     "name": { "str": "chunk of gum flesh", "str_pl": "chunks of gum flesh" },
@@ -123,11 +129,12 @@
     "material": [ "junk" ],
     "flags": [ "NO_INGEST" ],
     "use_action": [ "CHEW" ],
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "caff_gum_flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "looks_like": "caff_gum",
     "name": { "str": "chunk of caffeinated gum flesh", "str_pl": "chunks of caffeinated gum flesh" },
@@ -144,10 +151,11 @@
     "material": [ "junk" ],
     "flags": [ "NO_INGEST" ],
     "use_action": [ "CHEW" ],
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "cow_candy_flesh",
     "name": { "str": "chunk of chocolate meat", "str_pl": "chunks of chocolate meat" },
     "weight": "158 g",
@@ -163,10 +171,11 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "iron", 9 ], [ "junk_allergen", 1 ] ],
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "licorice_flesh",
     "name": { "str": "fillet of licorice snake", "str_pl": "fillets of licorice snake" },
     "symbol": "%",
@@ -184,6 +193,7 @@
     "stim": 1,
     "fun": 7,
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

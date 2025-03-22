@@ -1,7 +1,7 @@
 [
   {
     "id": "mag_launcher",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "High Explosives Quarterly", "str_pl": "issues of High Explosives Quarterly" },
     "description": "An interesting quarterly report about rocket launchers and recoilless rifles.  There are lots of large, exciting photos of explosions and weaponry.",
@@ -47,11 +47,12 @@
     "intelligence": 5,
     "time": "8 m",
     "read_skill": "launcher",
-    "read_fun": 1
+    "read_fun": 1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "manual_launcher",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Jane's Mortars and Rocket Launchers", "str_pl": "copies of Jane's Mortars and Rocket Launchers" },
     "description": "An incredibly detailed guide to modern rockets, mortars, grenade launchers, and recoilless weaponry.  Lavishly illustrated with color photographs, it contains a wealth of information.",
@@ -113,6 +114,7 @@
     "max_level": 3,
     "intelligence": 4,
     "time": "18 m",
-    "read_skill": "launcher"
+    "read_skill": "launcher",
+    "subtypes": [ "BOOK" ]
   }
 ]

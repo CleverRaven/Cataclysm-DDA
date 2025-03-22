@@ -1,7 +1,7 @@
 [
   {
     "id": "atlatl",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "atlatl" },
     "description": "Although spear throwing contraptions were used throughout the entire world, this design in particular hails from Mesoamericas.  It was especially popular among Peruvian natives, despite the Nahuatl origin of the name.  It is essentially a carved piece of wooden shaft with a hollowed space to place the projectile of the same name.  It'll also do well as a melee weapon in a pinch.",
     "weight": "1200 g",
@@ -35,11 +35,12 @@
     "clip_size": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "atlatl": 1 }, "open_container": true } ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "steel_atlatl_spear",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str": "steel tipped atlatl spear" },
     "description": "A steal tipped and fletched atlatl spear, ready to throw with an atlatl.  Not suitable for close combat.",
     "weight": "280 g",
@@ -56,11 +57,12 @@
     "loudness": 0,
     "critical_multiplier": 10,
     "recovery_chance": 97,
-    "melee_damage": { "stab": 10 }
+    "melee_damage": { "stab": 10 },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "bronze_atlatl_spear",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str": "bronze tipped atlatl spear" },
     "description": "A bronze tipped and fletched atlatl spear, ready to throw with an atlatl.  Not suitable for close combat.",
     "weight": "280 g",
@@ -77,11 +79,12 @@
     "loudness": 0,
     "critical_multiplier": 10,
     "recovery_chance": 96,
-    "melee_damage": { "stab": 8 }
+    "melee_damage": { "stab": 8 },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "wood_atlatl_spear",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str": "wooden atlatl spear" },
     "description": "A fletched atlatl spear with a sharpened wooden tip.  Not suitable for close combat.",
     "weight": "230 g",
@@ -98,6 +101,7 @@
     "loudness": 0,
     "critical_multiplier": 8,
     "recovery_chance": 83,
-    "melee_damage": { "stab": 5 }
+    "melee_damage": { "stab": 5 },
+    "subtypes": [ "AMMO" ]
   }
 ]

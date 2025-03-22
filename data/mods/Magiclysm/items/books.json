@@ -1,7 +1,7 @@
 [
   {
     "id": "spellcraft_theory",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Spellcraft Theory", "str_pl": "copies of Spellcraft Theory" },
     "description": "A intermediate textbook on magical theories.",
@@ -19,11 +19,12 @@
     "time": "60 m",
     "melee_damage": { "bash": 5 },
     "read_skill": "spellcraft",
-    "read_fun": -1
+    "read_fun": -1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "spellcraft_theory_basic",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "copy-from": "spellcraft_theory",
     "name": { "str": "Basic Spellcraft Theory", "str_pl": "copies of Basic Spellcraft Theory" },
@@ -36,11 +37,12 @@
     "max_level": 2,
     "intelligence": 9,
     "time": "45 m",
-    "read_fun": 0
+    "read_fun": 0,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "caster_boosts_info",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "copy-from": "spellcraft_theory",
     "name": { "str": "The Basics of Caster Levels", "str_pl": "copies of The Basics of Caster Levels" },
@@ -53,11 +55,12 @@
     "max_level": 2,
     "intelligence": 9,
     "time": "45 m",
-    "read_fun": 0
+    "read_fun": 0,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "textbook_mithril",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str_sp": "ᚲᚨᚲ:ᚲᛟᚹᚨᛏ:ᛗᛁᚠᚱᛁᛚ" },
     "description": "This book is written in a runic language unfamiliar to you.  Fortunately, there are several very detailed pictures that demonstrate the process of forging a sword from an ingot of silvery metal.  You get the impression that this is some sort of textbook for blacksmiths.",
@@ -74,6 +77,7 @@
     "intelligence": 9,
     "time": "60 m",
     "read_skill": "fabrication",
-    "read_fun": -1
+    "read_fun": -1,
+    "subtypes": [ "BOOK" ]
   }
 ]

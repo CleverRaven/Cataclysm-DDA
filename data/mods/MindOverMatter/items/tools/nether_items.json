@@ -1,6 +1,6 @@
 [
   {
-    "type": "TOOL",
+    "type": "ITEM",
     "id": "chaos_stone",
     "name": { "str_sp": "compressed chaos" },
     "color": "magenta",
@@ -13,6 +13,7 @@
     "weight": "10 g",
     "symbol": "@",
     "description": "This defies easy description, it feels solid but the surface is yielding.  Looking at it you are reminded of the electric tingle in the air before a portal storm.",
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "subtypes": [ "TOOL" ]
   }
 ]

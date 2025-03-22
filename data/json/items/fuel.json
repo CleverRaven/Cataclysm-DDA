@@ -1,7 +1,7 @@
 [
   {
     "id": "chem_ethanol",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "ethanol" },
     "description": "Extremely pure alcohol suitable for use as a component in chemical reactions.  You could also water it down and drink it, or use it as fuel in an alcohol-burning stove.",
     "weight": "1 g",
@@ -16,49 +16,54 @@
     "material": [ "alcohol" ],
     "symbol": "~",
     "color": "white",
-    "ammo_type": "conc_alcohol"
+    "ammo_type": "conc_alcohol",
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "methed_alcohol",
     "name": { "str_sp": "methylated spirits" },
     "copy-from": "chem_ethanol",
-    "type": "AMMO",
+    "type": "ITEM",
     "description": "A high-strength ethanol solution mixed with methanol to make it toxic to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
     "price": "10 cent",
-    "price_postapoc": "3 USD"
+    "price_postapoc": "3 USD",
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "denat_alcohol",
     "name": { "str_sp": "denatured alcohol" },
     "copy-from": "chem_ethanol",
-    "type": "AMMO",
+    "type": "ITEM",
     "description": "A high-strength ethanol solution mixed with denatonium benzoate to make it impossibly bitter to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
     "price": "10 cent",
-    "price_postapoc": "3 USD"
+    "price_postapoc": "3 USD",
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "chem_methanol",
     "name": { "str_sp": "methanol" },
     "copy-from": "chem_ethanol",
-    "type": "AMMO",
+    "type": "ITEM",
     "description": "High-purity methanol suitable for use in chemical reactions.  Could also be used as fuel in an alcohol-burning stove.  Very toxic.",
     "price": "5 cent",
-    "price_postapoc": "1 USD"
+    "price_postapoc": "1 USD",
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "chem_methanol_fuelcell",
     "copy-from": "chem_methanol",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "methanol" },
     "//": "This variant of methanol should only exist in methanol fuel cells.  NO_DROP flag added as a solution to refilled fuel cells being heavier than ones that spawn full.",
     "weight": "198 mg",
     "volume": "50ml",
     "ammo_type": "methanol_fuelcell",
-    "flags": [ "TRADER_AVOID", "NO_DROP" ]
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "diesel",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "diesel" },
     "description": "A petroleum-based fuel made from a byproduct of the gasoline making process.",
     "category": "fuel",
@@ -76,11 +81,12 @@
     "ammo_type": "diesel",
     "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 4 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "IGNITE", "NEVER_MISFIRES" ]
+    "effects": [ "FLAME", "STREAM", "IGNITE", "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "jp8",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "JP8 fuel" },
     "description": "A kerosene-based fuel used mainly by US military vehicles as a replacement for diesel and jet fuel, to simplify logistics.",
     "category": "fuel",
@@ -99,11 +105,12 @@
     "ammo_type": "jp8",
     "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "IGNITE", "NEVER_MISFIRES" ]
+    "effects": [ "FLAME", "STREAM", "IGNITE", "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "avgas",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "avgas fuel" },
     "description": "A specialized type of petroleum-based fuel used to power aircraft.",
     "category": "fuel",
@@ -122,7 +129,8 @@
     "ammo_type": "avgas",
     "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "IGNITE", "NEVER_MISFIRES" ]
+    "effects": [ "FLAME", "STREAM", "IGNITE", "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "biodiesel",
@@ -130,14 +138,15 @@
     "copy-from": "diesel",
     "weight": "875 mg",
     "material": [ "biodiesel" ],
-    "type": "AMMO",
+    "type": "ITEM",
     "description": "Vegetable oil- or animal fat-based diesel fuel consisting of long-chain alkyl (methyl, ethyl, or propyl) esters.",
     "price": "30 cent",
-    "price_postapoc": "60 cent"
+    "price_postapoc": "60 cent",
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "gasoline",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "gasoline" },
     "description": "A highly flammable liquid fuel.  When under pressure, it has the potential for violent explosion.",
     "category": "fuel",
@@ -155,11 +164,12 @@
     "ammo_type": "gasoline",
     "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "IGNITE", "NEVER_MISFIRES" ]
+    "effects": [ "FLAME", "STREAM", "IGNITE", "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "lamp_oil",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "kerosene" },
     "description": "A thin and clean-burning oil made for use in oil lamps.",
     "category": "fuel",
@@ -178,11 +188,12 @@
     "ammo_type": "lamp_oil",
     "range": 6,
     "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
-    "effects": [ "FLAME", "STREAM" ]
+    "effects": [ "FLAME", "STREAM" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "motor_oil",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "motor oil" },
     "description": "An oil made for use in car engines.",
     "category": "fuel",
@@ -201,11 +212,12 @@
     "ammo_type": "motor_oil",
     "range": 6,
     "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
-    "effects": [ "FLAME", "STREAM" ]
+    "effects": [ "FLAME", "STREAM" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "crude_oil",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "crude oil" },
     "description": "A thick black slurry that can be refined to produce usable products including gasoline or diesel",
     "category": "fuel",
@@ -225,11 +237,12 @@
     "ammo_type": "crude_oil",
     "range": 3,
     "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 5 },
-    "effects": [ "FLAME", "STREAM", "INCENDIARY" ]
+    "effects": [ "FLAME", "STREAM", "INCENDIARY" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "napalm",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "napalm" },
     "description": "Gasoline mixed with some other components to make it stick to surfaces and increase burning temperature, meant to be used as flamethrower fuel.",
     "category": "fuel",
@@ -247,11 +260,12 @@
     "ammo_type": "flammable",
     "damage": { "damage_type": "heat", "amount": 15, "armor_penetration": 30 },
     "range": 6,
-    "effects": [ "FLAME", "STREAM_BIG", "IGNITE", "NEVER_MISFIRES" ]
+    "effects": [ "FLAME", "STREAM_BIG", "IGNITE", "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "gelled_gasoline",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "gelled gasoline" },
     "copy-from": "gasoline",
     "description": "A flammable gel composed of gasoline and dissolved shavings of polystyrene, roughly similar in properties to napalm B.  It's meant to be used as flamethrower fuel.",
@@ -259,22 +273,24 @@
     "price_postapoc": "5 USD",
     "ammo_type": "flammable",
     "damage": { "damage_type": "heat", "amount": 10, "armor_penetration": 10 },
-    "range": 3
+    "range": 3,
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "flamethrower_fuel",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "flamethrower fuel" },
     "copy-from": "gasoline",
     "description": "A mixture of gasoline and diesel oil in equal parts.  Its combustion properties make it unfit for applications where you would use any of them separately, but it can be used to feed a flamethrower.",
     "price": "4 USD",
     "price_postapoc": "5 USD",
     "ammo_type": "flammable",
-    "range": 0
+    "range": 0,
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "propane",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "propane" },
     "description": "Propane gas, useful for everything from torches to barbeque grills to metalworking.",
     "weight": "493 mg",
@@ -291,11 +307,12 @@
     "material": [ "propane" ],
     "symbol": "~",
     "color": "white",
-    "ammo_type": "propane"
+    "ammo_type": "propane",
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "biogas",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "biogas" },
     "copy-from": "propane",
     "description": "Biogas gathered from anaerobic digester system, can be used in biogas cooker.",
@@ -303,11 +320,12 @@
     "price_postapoc": "0 cent",
     "container": "small_biogas_tank",
     "material": [ "hydrocarbons" ],
-    "ammo_type": "biogas"
+    "ammo_type": "biogas",
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "chem_turpentine",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "turpentine" },
     "description": "Oil of turpentine, distilled from pine resin or crude oil.",
     "weight": "1 g",
@@ -325,11 +343,12 @@
     "ammo_type": "turpentine",
     "range": 6,
     "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
-    "effects": [ "FLAME", "STREAM" ]
+    "effects": [ "FLAME", "STREAM" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "camphine",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "camphine" },
     "description": "A blend of turpentine and ethanol, historically used as the successor to whale oil for lamps before kerosene.",
     "weight": "1 g",
@@ -347,11 +366,12 @@
     "ammo_type": "lamp_oil",
     "range": 6,
     "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
-    "effects": [ "FLAME", "STREAM" ]
+    "effects": [ "FLAME", "STREAM" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "crude_lamp_oil",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "crude lamp oil" },
     "description": "A crude, natural oil made for use in pre-modern oil lamps.",
     "category": "fuel",
@@ -370,6 +390,7 @@
     "ammo_type": "crude_lamp_oil",
     "range": 6,
     "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
-    "effects": [ "FLAME", "STREAM" ]
+    "effects": [ "FLAME", "STREAM" ],
+    "subtypes": [ "AMMO" ]
   }
 ]

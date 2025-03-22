@@ -1,7 +1,7 @@
 [
   {
     "id": "LAW",
-    "type": "GUN",
+    "type": "ITEM",
     "looks_like": "m79",
     "symbol": "(",
     "color": "green",
@@ -32,12 +32,13 @@
     "reload": 150,
     "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "66mm": 1 } } ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "surv_rocket_launcher",
     "looks_like": "m79",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "symbol": "/",
     "color": "light_gray",
@@ -60,12 +61,13 @@
     "loudness": 200,
     "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "homebrew_rocket": 1 } } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "watercannon",
     "looks_like": "m79",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "&",
     "color": "dark_gray",
     "name": { "str": "water cannon" },
@@ -88,6 +90,7 @@
     "reload": 0,
     "valid_mod_locations": [ [ "sling", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "water": 100 }, "watertight": true } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "GUN" ]
   }
 ]

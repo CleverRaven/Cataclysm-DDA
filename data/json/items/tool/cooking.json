@@ -1,7 +1,7 @@
 [
   {
     "id": "atomic_coffeepot",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "atomic coffeemaker" },
     "looks_like": "coffeemaker",
@@ -19,12 +19,13 @@
     "//": "This now uses energy to heat food, the RTG is just a minor cost-saving element.  However in a pinch you could use just the RTG to unfreeze water",
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 5 },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "butchering_kit",
     "name": { "str": "butchering kit" },
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "tools",
     "description": "A kit containing all the specialized knives you need to debone, skin, and prepare cuts of meat from an animal.",
     "copy-from": "base_kitchen_knife",
@@ -35,11 +36,12 @@
     "//": "butcher knives and carving knives are between 30-40cm.",
     "price": "80 USD",
     "price_postapoc": "1 USD 50 cent",
-    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 37 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 37 ] ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "screw_press",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "screw press", "str_pl": "screw presses" },
     "description": { "str": "This is a crafting_pseudo_item if you have it something is wrong.", "//~": "NO_I18N" },
     "weight": "70000 g",
@@ -49,11 +51,12 @@
     "material": [ "wood" ],
     "symbol": "T",
     "color": "red",
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 9 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "can_sealer",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "can sealer" },
     "description": "A hand-crank-powered cast steel machine designed to automatically seal tin cans.",
@@ -68,7 +71,7 @@
   },
   {
     "id": "carver_off",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "electric carver (off)", "str_pl": "electric carvers (off)" },
     "description": "An electric meat carver powered by cord.  It has two serrated blades that vibrate together to slice just about anything from turkey to ham… even zombies!",
     "//": "Based on https://www.amazon.com/dp/B07CDR4KFM",
@@ -106,12 +109,13 @@
     ],
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE" ],
     "melee_damage": { "bash": 2, "cut": 8 },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "carver_on",
     "copy-from": "carver_off",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "electric carver (on)", "str_pl": "electric carvers (on)" },
     "description": "This carver is on and the blades are buzzing.  Use it to turn it off.",
     "power_draw": "120 W",
@@ -150,11 +154,12 @@
       ]
     },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "WATER_BREAK" ],
-    "melee_damage": { "bash": 2, "cut": 8 }
+    "melee_damage": { "bash": 2, "cut": 8 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "char_purifier",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "charcoal water purifier" },
     "description": "Using this item on a container full of water will purify the water using layered charcoal.  Once the charcoal has purified enough water, it will become unusable and can be disassembled and recycled.  Water taken from uncertain sources like a river may be dirty.",
     "weight": "1820 g",
@@ -173,11 +178,12 @@
     "charges_per_use": 12,
     "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD", "NO_RELOAD" ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "char_purifier_clay",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "large charcoal water purifier" },
     "looks_like": "clay_hydria",
     "description": "Using this item on a container full of water will purify the water using layered charcoal.  Once the charcoal has purified enough water, it will become unusable and can be disassembled and recycled.  Water taken from uncertain sources like a river may be dirty.",
@@ -197,11 +203,12 @@
     "charges_per_use": 12,
     "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD", "NO_RELOAD" ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "char_smoker",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "charcoal smoker" },
     "description": "A portable charcoal smoker.  Good for weekend barbecuing and preserving meat with smoke.  Cannot be used with coal; the toxic fumes would ruin the meat.",
     "weight": "4000 g",
@@ -219,11 +226,12 @@
     "qualities": [ [ "HOTPLATE", 2 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 9 },
-    "tool_ammo": [ "charcoal" ]
+    "tool_ammo": [ "charcoal" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "charcoal_cooker",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "coal/charcoal cooker" },
     "description": "A little metal tank for holding coal or charcoal, with a pilot light attached and a pipe to vent toxic coal fumes.  You could use it for cooking food.",
     "weight": "450 g",
@@ -242,11 +250,12 @@
     "qualities": [ [ "HOTPLATE", 2 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 3 },
-    "tool_ammo": [ "charcoal", "coal" ]
+    "tool_ammo": [ "charcoal", "coal" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "clay_pot",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "clay pot" },
     "description": "A crude clay pot used for cooking.",
@@ -273,7 +282,7 @@
   },
   {
     "id": "clay_quern",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "clay quern" },
     "description": "A simple hand-powered clay quern for grinding grain.",
@@ -287,7 +296,7 @@
   },
   {
     "id": "clay_teapot",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "clay teapot" },
     "description": "A clay teapot.  Now all you need is tea and water.",
@@ -306,7 +315,7 @@
   },
   {
     "id": "coffeemaker",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "coffeemaker" },
     "description": "A heating element with a pot and a frame for holding coffee or other powders.  You can use it to make coffee, or other drinks if you so choose.",
     "weight": "1 kg",
@@ -324,11 +333,12 @@
     "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2400 g", "watertight": true, "rigid": true } ],
     "use_action": [ "HEAT_LIQUID_ITEMS", { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" } ],
     "melee_damage": { "bash": 2 },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "dehydrator",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "food dehydrator" },
     "description": "An electric food dehydrator, invaluable in preserving food.  Can be connected to the electric grid using cord.",
     "weight": "2500 g",
@@ -341,11 +351,12 @@
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "600 W" },
     "melee_damage": { "bash": 8 },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "eggs_ferment",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "food",
     "name": { "str": "fermenting eggs jar" },
     "description": "This jar contains a batch of eggs in a pickling solution.  You can seal up the jar once the process is completed.",
@@ -371,7 +382,7 @@
   },
   {
     "id": "esbit_stove",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "hexamine stove" },
     "description": "A lightweight, folding stove designed to use small hexamine tablets for cooking.  Also known as an Esbit stove.",
     "weight": "92 g",
@@ -386,11 +397,12 @@
     "charges_per_use": 2,
     "qualities": [ [ "HOTPLATE", 2 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
-    "tool_ammo": [ "esbit" ]
+    "tool_ammo": [ "esbit" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "flask_yeast",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "food",
     "name": { "str_sp": "sealed yeast culture" },
     "description": "A sealed jar holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
@@ -418,7 +430,7 @@
   },
   {
     "id": "food_processor",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "food processor" },
     "description": "A kitchen appliance capable of slicing, chopping, shredding, grinding, pureeing, and mixing.",
@@ -434,11 +446,12 @@
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "450 W" },
     "melee_damage": { "bash": 10 },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "gasoline_cooker",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "gasoline cooker" },
     "description": "A simple heater powered by gasoline.  It is designed for cooking food.",
     "weight": "800 g",
@@ -455,11 +468,12 @@
     "qualities": [ [ "HOTPLATE", 2 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 4 },
-    "tool_ammo": [ "gasoline" ]
+    "tool_ammo": [ "gasoline" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "heatpack",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "heat pack" },
     "description": "A chemical heat pack, used to treat sports injuries and heat food.  It is usable only once.",
     "weight": "36 g",
@@ -469,11 +483,12 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": [ "HEATPACK" ]
+    "use_action": [ "HEATPACK" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "heatpack_used",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "used heat pack" },
     "description": "A chemical heat pack, used to treat sports injuries and heat food.  This one has been used up and is chemically inert, rendering it useless.",
@@ -483,11 +498,12 @@
     "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "hotplate",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "hotplate" },
     "description": "A small heating element on a stand, powered by your electric grid.  It is indispensable for cooking and chemistry.  Try not to burn yourself.",
     "weight": "795 g",
@@ -504,11 +520,12 @@
     "qualities": [ [ "HOTPLATE", 2 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS", { "type": "link_up", "cable_length": 3, "charge_rate": "1 kW" } ],
     "melee_damage": { "bash": 4 },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "hotplate_induction",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "induction hotplate" },
     "description": "A high end hotplate that utilizes magnetic induction coils to heat ferrous cookware directly.  It is far more efficient than a standard hotplate.",
     "//": "technically this should only work with iron/steel ferromagnetic cookware, as most copper/aluminum and ceramic stuff wouldn't work.  No way to do that easily though.",
@@ -526,11 +543,12 @@
     "qualities": [ [ "HOTPLATE", 2 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS", { "type": "link_up", "cable_length": 3, "charge_rate": "1500 W" } ],
     "melee_damage": { "bash": 4 },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "makeshift_sealer",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "makeshift vacuum sealer" },
     "description": "A homemade heat sealer unit with an air pump.  It's used for vacuum packing food to preserve it.",
     "weight": "2000 g",
@@ -545,11 +563,12 @@
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": { "type": "link_up", "cable_length": 4, "charge_rate": "55 W" },
     "melee_damage": { "bash": 8 },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "mess_kit",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "mess kit" },
     "description": "A self-contained camping mess kit, containing everything you might need for wilderness cooking.",
     "weight": "520 g",
@@ -565,11 +584,12 @@
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": [ "HEAT_ALL_ITEMS" ],
     "pocket_data": [ { "max_contains_volume": "1000 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "milk_cream_jar",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "food",
     "name": { "str": "milk cream jar" },
     "looks_like": "jar_glass_sealed",
@@ -586,7 +606,7 @@
   },
   {
     "id": "milk_cream_rising",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "food",
     "name": { "str": "rising cream jar" },
     "description": "This jar contains raw milk separating into cream.  You can seal up the jar once the process is completed.",
@@ -611,7 +631,7 @@
   },
   {
     "id": "mortar_pestle",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "mortar and pestle", "str_pl": "mortars and pestles" },
     "description": "A simple combination of a small grindstone and a bowl-shaped stone.  Used for grinding grain, but time-consuming compared to more complex methods.",
     "weight": "1632 g",
@@ -625,11 +645,12 @@
     "color": "light_gray",
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "FINE_GRIND", 1 ], [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "multi_cooker",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "multi-cooker" },
     "description": "A professional-grade multi-cooker, with a short electric cord.  Its multitude of settings and features promise to handle any sort of cooking, from parboiling potatoes to cooking curry to popping popcorn.  There's no manual, but you're sure you can work it out.",
     "weight": "11339 g",
@@ -656,19 +677,21 @@
         "moves": 50
       }
     ],
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "multi_cooker_filled",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "multi_cooker",
     "name": { "str": "multi-cooker - cooking", "str_pl": "multi-cookers - cooking" },
     "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  There is a dish cooking inside it.",
-    "delete": { "qualities": [ "CONTAIN" ] }
+    "delete": { "qualities": [ "CONTAIN" ] },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "oil_cooker",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "kerosene cooker" },
     "description": "A simple heater powered by kerosene.  It is designed for cooking food.",
     "weight": "2264 g",
@@ -684,11 +707,12 @@
     "charges_per_use": 2,
     "use_action": [ "HOTPLATE" ],
     "melee_damage": { "bash": 4 },
-    "tool_ammo": [ "lamp_oil" ]
+    "tool_ammo": [ "lamp_oil" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "oil_press_manual",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "manual oil press", "str_pl": "manual oil presses" },
     "description": "A hand-cranked press for creating vegetable oil.  A hotplate heats the raw material to increase extraction efficiency.",
     "weight": "2300 g",
@@ -701,11 +725,12 @@
     "color": "green",
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" },
     "melee_damage": { "bash": 7 },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "oil_press_primitive",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "oil-powered manual oil press", "str_pl": "oil-powered manual oil presses" },
     "description": "A barrel with a large screw press for creating vegetable oil.  A kerosene cooker heats the raw material to increase extraction efficiency.",
     "weight": "12000 g",
@@ -718,11 +743,12 @@
     "color": "green",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
     "melee_damage": { "bash": 7 },
-    "tool_ammo": [ "lamp_oil" ]
+    "tool_ammo": [ "lamp_oil" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "pastaextruder",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "pasta extruder" },
     "description": "A pasta extruder powered by a hand crank.  Useful in making pasta.  It comes with various heads to make various kinds of pasta.",
@@ -737,7 +763,7 @@
   },
   {
     "id": "pickles_ferment",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "food",
     "name": { "str": "fermenting pickle jar" },
     "description": "This jar contains a batch of pickles set to ferment.  You can seal up the jar once the process is completed.",
@@ -764,7 +790,7 @@
   },
   {
     "id": "popcan_stove",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "soda can stove kit" },
     "//": "Should be 20 but currently recipes do not utilize this value",
     "description": "An ultra-light alcohol-burning stove with a simmer ring, crafted by hand from a couple of aluminum soda cans.  It comes with a 500 mL plastic bottle to hold concentrated alcohol fuel.",
@@ -780,11 +806,12 @@
     "charges_per_use": 3,
     "use_action": [ "HOTPLATE" ],
     "melee_damage": { "bash": 1 },
-    "tool_ammo": [ "conc_alcohol" ]
+    "tool_ammo": [ "conc_alcohol" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "pressure_cooker",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "pressure cooker" },
     "//": "roughy a 6-quart pot, these usually hold about 15-16 psi safely",
@@ -806,7 +833,7 @@
   },
   {
     "id": "rock_quern",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "stone quern" },
     "description": "A simple hand-powered stone quern with a wooden handle, for grinding grain.",
     "weight": "31536 g",
@@ -817,11 +844,12 @@
     "material": [ "stone" ],
     "symbol": ":",
     "color": "light_gray",
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "sauerkraut_ferment",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "food",
     "name": { "str": "fermenting sauerkraut jar" },
     "description": "This jar contains a batch of sauerkraut set to ferment.  You can seal up the jar once the process is completed.",
@@ -848,7 +876,7 @@
   },
   {
     "id": "snow_machine_home",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "home snow machine" },
     "description": "A snow machine, which freezes water and shreds it into \"snow\", designed to be used from the comfort of your own home!  Useful for making snow cones.",
     "weight": "1360 g",
@@ -866,11 +894,12 @@
     "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "55 W" } ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
     "melee_damage": { "bash": 2 },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "sieve_primitive",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "wicker sieve" },
     "description": "A primitive sieve constructed from woven strips of plant material.  Early sieves like this were used to sift grain, though the openings on this one are too small for that.",
@@ -886,7 +915,7 @@
   },
   {
     "id": "sieve_steel",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "sieve" },
     "description": "This is no mere strainer for noodles; it's a laboratory-grade sieve used to separate particles of certain sizes.  You could use this to do a really good job sifting flour, remove dust and soil from grain, or perhaps conduct gradation tests for any civil engineers you might know.  This one has been constructed from steel mesh.",
@@ -902,7 +931,7 @@
   },
   {
     "id": "sieve_steel_makeshift",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "makeshift sieve" },
     "description": "Some fine steel mesh attached to a length of thicker steel wire, forming a rigid frame.  Useful for sieving.",
@@ -917,7 +946,7 @@
   },
   {
     "id": "still",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "still" },
     "description": "A large still, useful for creating distillations of alcohol and other, more curious substances.  Features a slot for a thermometer.",
     "weight": "10 kg",
@@ -930,11 +959,12 @@
     "color": "white",
     "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "DISTILL", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "survivor_mess_kit",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "survivor mess kit" },
     "description": "A homemade mess kit containing everything you might need for creating post-apocalyptic cuisine.  Powered by a kerosene burner, it is composed of simple yet durable tools and materials.",
     "weight": "2160 g",
@@ -956,11 +986,12 @@
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ], [ "HOTPLATE", 1 ] ],
     "use_action": [ "HEAT_ALL_ITEMS" ],
     "melee_damage": { "bash": 6 },
-    "tool_ammo": [ "lamp_oil" ]
+    "tool_ammo": [ "lamp_oil" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "teapot",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "teapot" },
     "description": "A small metal teapot.  Teatime wouldn't be complete without one.",
@@ -979,7 +1010,7 @@
   },
   {
     "id": "vac_sealer",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "vacuum sealer" },
     "description": "A portable heat sealer unit with an air pump.  It's used for vacuum packing food to preserve it.",
     "weight": "1770 g",
@@ -994,11 +1025,12 @@
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": { "type": "link_up", "cable_length": 2, "charge_rate": "110 W" },
     "melee_damage": { "bash": 8 },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "waffleiron",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "waffle iron" },
     "description": "A waffle iron, generally used for making waffles.",
@@ -1018,7 +1050,7 @@
   },
   {
     "id": "water_purifier",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "water purifier" },
     "//": "based off RO filter. https://www.netsolwater.com/how-much-energy-does-an-ro-system-use.php claims RO uses 0.03KWH for 2 liters of water/day giving ~14kJ per 0.25L unit of water",
     "description": "A battery-powered device designed to purify drinking water.  Using this item on a container full of water will purify the contents.  It could be useful for water taken from uncertain sources like a river, as it may be non-potable.",
@@ -1034,11 +1066,12 @@
     "use_action": [ "WATER_PURIFIER", { "type": "link_up", "cable_length": 2, "charge_rate": "30 W" } ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 2 },
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "water_filter_sand",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "slow-sand water filter" },
     "//": "Slow sand biofilter: https://wwwnc.cdc.gov/travel/yellowbook/2024/preparing/water-disinfection#:~:text=Figure%202%2D02.%20Emergency%20gravel%20and%20sand%20filter",
     "description": "An improvised water filter made from a plastic bucket filled with a layer of sand and a layer of gravel.  It can be used to remove particulates and some pathogens from water, but it is not 100% effective.",
@@ -1049,11 +1082,12 @@
     "price_postapoc": "1 USD 50 cent",
     "material": [ { "type": "sand", "portion": 29 }, { "type": "plastic", "portion": 1 } ],
     "symbol": ";",
-    "color": "light_blue"
+    "color": "light_blue",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "propane_cooker",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "propane cooker" },
     "description": "A simple heater powered by propane.  It is designed for cooking food.",
     "weight": "800 g",
@@ -1070,11 +1104,12 @@
     "use_action": [ "HEAT_SOLID_ITEMS", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ],
     "flags": [ "FIRESTARTER" ],
     "melee_damage": { "bash": 4 },
-    "tool_ammo": [ "propane" ]
+    "tool_ammo": [ "propane" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "biogas_cooker",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "biogas cooker" },
     "description": "A simple heater powered by biogas.  It is designed for cooking food.",
     "copy-from": "propane_cooker",
@@ -1089,11 +1124,12 @@
     ],
     "charges_per_use": 8,
     "use_action": [ "HOTPLATE", "HEAT_FOOD", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ],
-    "tool_ammo": [ "biogas" ]
+    "tool_ammo": [ "biogas" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "acetylene_cooker",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "acetylene cooker" },
     "description": "A simple heater powered by acetylene welding gas.  It is designed for cooking food.",
     "weight": "850 g",
@@ -1116,10 +1152,11 @@
     "use_action": [ "HEAT_SOLID_ITEMS", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ],
     "flags": [ "FIRESTARTER" ],
     "melee_damage": { "bash": 4 },
-    "tool_ammo": [ "weldgas" ]
+    "tool_ammo": [ "weldgas" ],
+    "subtypes": [ "TOOL" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
     "id": "microwave",
     "symbol": ",",
     "color": "light_gray",
@@ -1134,11 +1171,12 @@
     "qualities": [ [ "COOK", 1 ], [ "OVEN", 1 ], [ "HOTPLATE", 1 ] ],
     "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 25,
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "makeshift_pressure_cooker",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "makeshift pressure cooker" },
     "description": "A large pot with 20 gauge walls and a thick aluminum bottom, modified to serve as a bulky but passable pressure cooker.",
     "copy-from": "stock_pot",
@@ -1155,10 +1193,11 @@
         "open_container": true,
         "rigid": true
       }
-    ]
+    ],
+    "subtypes": [ "TOOL" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
     "id": "toaster",
     "symbol": ",",
     "color": "light_gray",
@@ -1171,11 +1210,12 @@
     "volume": "750 ml",
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1400 W" } ],
     "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
-    "tool_ammo": [ "battery" ]
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "crystallizing_sugar",
-    "type": "TOOL",
+    "type": "ITEM",
     "symbol": "*",
     "color": "white",
     "name": { "str": "crystallizing sugar" },
@@ -1194,6 +1234,7 @@
       "transform_age": 1209600,
       "//": "2 weeks for cristallizing sugar, based on the real-life example"
     },
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ],
+    "subtypes": [ "TOOL" ]
   }
 ]

@@ -8,7 +8,7 @@
   {
     "id": "mining_rod",
     "copy-from": "rebar_rail",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str": "mining rod" },
     "description": "A surprisingly heavy rod with a tungsten core, this looks like it could pierce a tank.  When fired from a mining rod launcher, it will briefly map out the area surrounding the impact.",
     "material": [ "carbide", "superalloy" ],
@@ -16,6 +16,7 @@
     "color": "light_gray",
     "dispersion": 0,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "SEISMIC_MAPPING" ],
-    "damage": { "damage_type": "bullet", "amount": 80, "armor_penetration": 40 }
+    "damage": { "damage_type": "bullet", "amount": 80, "armor_penetration": 40 },
+    "subtypes": [ "AMMO" ]
   }
 ]

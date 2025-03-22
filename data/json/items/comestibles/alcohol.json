@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "wine_mycus",
     "looks_like": "wine_cabernet",
     "name": { "str_sp": "Mycus wine" },
@@ -26,10 +26,11 @@
     "flags": [ "EATEN_COLD", "MYCUS_OK", "NO_AUTO_CONSUME" ],
     "fun": 25,
     "freezing_point": -8,
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "wine_marloss",
     "looks_like": "wine_mycus",
     "name": { "str_sp": "Marloss wine" },
@@ -55,10 +56,11 @@
     "flags": [ "EATEN_COLD", "MYCUS_OK", "NO_AUTO_CONSUME" ],
     "fun": 25,
     "freezing_point": -8,
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "wine_riesling",
     "looks_like": "wine_chardonnay",
     "name": { "str_sp": "Riesling" },
@@ -84,10 +86,11 @@
     "charges": 5,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 15,
-    "freezing_point": -8
+    "freezing_point": -8,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "wine_chardonnay",
     "looks_like": "water",
     "name": { "str_sp": "Chardonnay" },
@@ -113,10 +116,11 @@
     "charges": 5,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 15,
-    "freezing_point": -8
+    "freezing_point": -8,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "wine_cabernet",
     "name": { "str_sp": "Cabernet Sauvignon" },
     "weight": "50 g",
@@ -139,10 +143,11 @@
     "phase": "liquid",
     "charges": 5,
     "fun": 15,
-    "freezing_point": -8
+    "freezing_point": -8,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "wine_noir",
     "looks_like": "wine_cabernet",
     "name": { "str_sp": "Pinot noir" },
@@ -167,10 +172,11 @@
     "charges": 5,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 16,
-    "freezing_point": -9
+    "freezing_point": -9,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "wine_marsala",
     "looks_like": "wine_cabernet ",
     "name": { "str_sp": "marsala" },
@@ -195,10 +201,11 @@
     "charges": 5,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 15,
-    "freezing_point": -8
+    "freezing_point": -8,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "wine_vermouth",
     "looks_like": "wine_chardonnay",
     "name": { "str_sp": "vermouth" },
@@ -223,10 +230,11 @@
     "charges": 5,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 15,
-    "freezing_point": -8
+    "freezing_point": -8,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "wine_barley",
     "looks_like": "beer",
     "name": { "str_sp": "barley wine" },
@@ -253,10 +261,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 14,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "whiskey",
     "name": { "str_sp": "whiskey" },
     "weight": "36 g",
@@ -281,10 +290,11 @@
     "freezing_point": -30,
     "phase": "liquid",
     "charges": 7,
-    "fun": 15
+    "fun": 15,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "vodka",
     "looks_like": "water",
     "name": { "str_sp": "vodka" },
@@ -309,10 +319,11 @@
     "charges": 7,
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "freezing_point": -30,
-    "fun": 15
+    "fun": 15,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "gin",
     "looks_like": "vodka",
     "name": { "str_sp": "gin" },
@@ -337,10 +348,11 @@
     "charges": 7,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -30,
-    "fun": 15
+    "fun": 15,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "rum",
     "looks_like": "whiskey",
     "name": { "str_sp": "rum" },
@@ -365,10 +377,11 @@
     "charges": 7,
     "fun": 15,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "freezing_point": -30
+    "freezing_point": -30,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "tequila",
     "looks_like": "vodka",
     "name": { "str_sp": "tequila" },
@@ -393,10 +406,11 @@
     "charges": 7,
     "fun": 18,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "freezing_point": -30
+    "freezing_point": -30,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "triple_sec",
     "looks_like": "whiskey",
     "name": { "str_sp": "triple sec" },
@@ -421,10 +435,11 @@
     "freezing_point": -17,
     "phase": "liquid",
     "charges": 7,
-    "fun": 10
+    "fun": 10,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "sake_filtered",
     "looks_like": "vodka",
     "name": { "str_sp": "sake" },
@@ -449,10 +464,11 @@
     "charges": 7,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 15,
-    "freezing_point": -8
+    "freezing_point": -8,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "sake_unfiltered",
     "looks_like": "vodka",
     "name": { "str_sp": "nigori sake" },
@@ -478,10 +494,11 @@
     "charges": 7,
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "fun": 13,
-    "freezing_point": -8
+    "freezing_point": -8,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "bum_wine",
     "looks_like": "wine_cabernet",
     "name": { "str_sp": "cheap wine" },
@@ -508,10 +525,11 @@
     "charges": 7,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 10,
-    "freezing_point": -6
+    "freezing_point": -6,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mixed_alcohol_strong",
     "looks_like": "bum_wine",
     "name": { "str_sp": "strong mixed alcohol" },
@@ -536,10 +554,11 @@
     "charges": 7,
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "freezing_point": -30,
-    "fun": 5
+    "fun": 5,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mixed_alcohol_weak",
     "looks_like": "mixed_alcohol_strong",
     "name": { "str_sp": "weak mixed alcohol" },
@@ -566,10 +585,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "freezing_point": -30,
-    "fun": 4
+    "fun": 4,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "fruit_wine",
     "looks_like": "wine_cabernet",
     "name": { "str_sp": "fruit wine" },
@@ -596,10 +616,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 2,
     "freezing_point": -7,
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "brandy",
     "looks_like": "whiskey",
     "name": { "str_sp": "brandy" },
@@ -624,10 +645,11 @@
     "freezing_point": -30,
     "phase": "liquid",
     "charges": 7,
-    "fun": 12
+    "fun": 12,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_queenmary",
     "looks_like": "beer",
     "name": { "str_sp": "Queen Mary cocktail" },
@@ -653,10 +675,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 18,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "irish_coffee",
     "looks_like": "coffee",
     "name": { "str_sp": "Irish coffee" },
@@ -682,10 +705,11 @@
     "phase": "liquid",
     "fun": 20,
     "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_karsk",
     "looks_like": "coffee",
     "name": { "str_sp": "karsk" },
@@ -710,10 +734,11 @@
     "charges": 1,
     "phase": "liquid",
     "fun": 20,
-    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ]
+    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_gunfire",
     "looks_like": "tea",
     "name": { "str_sp": "gunfire cocktail" },
@@ -738,10 +763,11 @@
     "charges": 1,
     "phase": "liquid",
     "fun": 20,
-    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ]
+    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "long_island",
     "looks_like": "cola",
     "name": { "str_sp": "Long Island iced tea" },
@@ -768,10 +794,11 @@
     "//": "Includes cola, so presumed to be a 250mL cocktail like the others.",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 20,
-    "vitamins": [ [ "vitC", 1 ] ]
+    "vitamins": [ [ "vitC", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_screwdriver",
     "looks_like": "juice",
     "name": { "str_sp": "screwdriver cocktail" },
@@ -798,10 +825,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -34,
     "fun": 20,
-    "vitamins": [ [ "vitC", 118 ], [ "calcium", 2 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 118 ], [ "calcium", 2 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_wild_apple",
     "looks_like": "vodka",
     "name": { "str_sp": "wild apple" },
@@ -827,10 +855,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -34,
     "fun": 20,
-    "vitamins": [ [ "vitC", 135 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 135 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_rumcola",
     "looks_like": "cola",
     "name": { "str_sp": "rum & cola" },
@@ -861,10 +890,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -30,
     "fun": 20,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_gintonic",
     "looks_like": "gin",
     "name": { "str_sp": "gin and tonic" },
@@ -892,10 +922,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -6,
     "fun": 20,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_pinacolada",
     "looks_like": "rum",
     "name": { "str_sp": "pina colada" },
@@ -927,10 +958,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -6,
     "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 3 ], [ "fruit_allergen", 1 ] ],
-    "fun": 20
+    "fun": 20,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_tequilasunrise",
     "looks_like": "tequila",
     "name": { "str_sp": "tequila sunrise" },
@@ -962,10 +994,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -6,
     "vitamins": [ [ "vitC", 105 ], [ "calcium", 2 ], [ "iron", 2 ], [ "fruit_allergen", 1 ] ],
-    "fun": 20
+    "fun": 20,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "beer",
     "looks_like": "water",
     "name": { "str_sp": "beer" },
@@ -991,10 +1024,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 10,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mead",
     "looks_like": "beer",
     "name": { "str_sp": "hops spiced mead" },
@@ -1019,35 +1053,39 @@
     "charges": 7,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
-    "fun": 14
+    "fun": 14,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hopped_mead",
     "name": { "str_sp": "hopped mead" },
     "copy-from": "mead",
     "description": "Homebrewed honey wine, spiced with a bit of hops.  Goes down bittersweet.",
-    "fun": 12
+    "fun": 12,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "plain_mead",
     "name": { "str_sp": "plain mead" },
     "copy-from": "mead",
     "description": "Homebrewed honey wine, a smooth and silky golden beverage.",
-    "fun": 10
+    "fun": 10,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "spiced_mead",
     "name": { "str_sp": "spiced mead" },
     "copy-from": "mead",
     "description": "Homebrewed spiced honey wine, a tasty beverage that can be served hot or cold.",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "fun": 13
+    "fun": 13,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "dandelion_wine",
     "looks_like": "wine_cabernet",
     "name": { "str_sp": "dandelion wine" },
@@ -1073,10 +1111,11 @@
     "charges": 7,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 16,
-    "freezing_point": -4
+    "freezing_point": -4,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "burdock_wine",
     "looks_like": "wine_chardonnay",
     "name": { "str_sp": "burdock wine" },
@@ -1101,10 +1140,11 @@
     "charges": 7,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 16,
-    "freezing_point": -4
+    "freezing_point": -4,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "pine_wine",
     "looks_like": "wine_chardonnay",
     "name": { "str_sp": "pine wine" },
@@ -1129,10 +1169,11 @@
     "charges": 7,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
-    "fun": 12
+    "fun": 12,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hb_beer",
     "looks_like": "beer",
     "name": { "str_sp": "homebrew beer" },
@@ -1159,10 +1200,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 8,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "moonshine",
     "looks_like": "vodka",
     "name": { "str_sp": "moonshine" },
@@ -1188,10 +1230,11 @@
     "charges": 7,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -45,
-    "fun": 12
+    "fun": 12,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "european_pilsner",
     "looks_like": "beer",
     "name": { "str_sp": "European pilsner" },
@@ -1218,10 +1261,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 10,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "pale_ale",
     "looks_like": "beer",
     "name": { "str_sp": "American pale ale" },
@@ -1248,10 +1292,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 14,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "india_pale_ale",
     "looks_like": "beer",
     "name": { "str_sp": "India pale ale" },
@@ -1278,10 +1323,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 14,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "stout",
     "looks_like": "coffee",
     "name": { "str_sp": "stout" },
@@ -1308,10 +1354,11 @@
     "freezing_point": -5,
     "fun": 14,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ],
-    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ]
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "belgian_ale",
     "looks_like": "beer",
     "name": { "str_sp": "Belgian ale" },
@@ -1338,10 +1385,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 14,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "imperial_stout",
     "looks_like": "stout",
     "name": { "str_sp": "imperial stout" },
@@ -1368,10 +1416,11 @@
     "fun": 18,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ],
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "freezing_point": -5
+    "freezing_point": -5,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_strawberry_surprise",
     "looks_like": "vodka",
     "name": { "str_sp": "strawberry surprise" },
@@ -1397,10 +1446,11 @@
     "flags": [ "EATEN_COLD", "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
     "fun": 8,
     "vitamins": [ [ "vitC", 20 ], [ "fruit_allergen", 1 ] ],
-    "freezing_point": -30
+    "freezing_point": -30,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_boozeberry",
     "looks_like": "cranberry_juice",
     "name": { "str_sp": "boozeberry" },
@@ -1426,10 +1476,11 @@
     "flags": [ "EATEN_COLD", "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
     "fun": 2,
     "vitamins": [ [ "vitC", 20 ], [ "fruit_allergen", 1 ] ],
-    "freezing_point": -30
+    "freezing_point": -30,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "single_malt_whiskey",
     "looks_like": "whiskey",
     "name": { "str_sp": "single malt whiskey" },
@@ -1455,40 +1506,44 @@
     "freezing_point": -30,
     "phase": "liquid",
     "charges": 7,
-    "fun": 17
+    "fun": 17,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "single_pot_whiskey",
     "copy-from": "whiskey",
     "name": { "str_sp": "single pot still Irish whiskey" },
     "description": "A whiskey made from a mixed mash of malted and unmalted barley.",
     "price": "26 USD",
     "price_postapoc": "2 USD 50 cent",
-    "fun": 20
+    "fun": 20,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "cheap_whiskey",
     "copy-from": "whiskey",
     "name": { "str_sp": "cheap whiskey" },
     "description": "Really cheap blended whiskey.",
     "price": "18 USD",
     "price_postapoc": "2 USD",
-    "fun": 12
+    "fun": 12,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "canadian_whiskey",
     "copy-from": "whiskey",
     "name": { "str_sp": "Canadian whiskey" },
     "description": "A multi-grain liquor made from a mash of corn and rye.",
     "price": "24 USD",
     "price_postapoc": "2 USD 50 cent",
-    "fun": 17
+    "fun": 17,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "sherry",
     "looks_like": "brandy",
     "name": { "str_sp": "sherry" },
@@ -1513,30 +1568,33 @@
     "freezing_point": -30,
     "phase": "liquid",
     "charges": 7,
-    "fun": 17
+    "fun": 17,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "bristol_sherry",
     "copy-from": "sherry",
     "name": { "str_sp": "Bristol Cream" },
     "description": "A fine sherry that has been aged in American oak casks and bottled in Bristol, England.",
     "price": "28 USD",
     "price_postapoc": "1 USD 50 cent",
-    "fun": 18
+    "fun": 18,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "madeira",
     "copy-from": "sherry",
     "name": { "str_sp": "Madeira wine" },
     "description": "Fortified wine from Madeira.  A true Royal Navy drink.",
     "price": "24 USD",
     "price_postapoc": "1 USD 50 cent",
-    "fun": 15
+    "fun": 15,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_hobo",
     "looks_like": "wine_chardonnay",
     "name": { "str_sp": "fancy hobo" },
@@ -1563,10 +1621,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -33,
     "fun": 20,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_kalimotxo",
     "looks_like": "cola",
     "name": { "str_sp": "kalimotxo" },
@@ -1593,10 +1652,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -30,
     "fun": 20,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_beeknees",
     "looks_like": "gin",
     "name": { "str_sp": "bee's knees" },
@@ -1621,10 +1681,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -30,
-    "fun": 20
+    "fun": 20,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_wsour",
     "looks_like": "whiskey",
     "name": { "str_sp": "whiskey sour" },
@@ -1650,10 +1711,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -30,
-    "fun": 20
+    "fun": 20,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "honey_gold",
     "looks_like": "beer",
     "name": { "str_sp": "honeygold brew" },
@@ -1676,10 +1738,11 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "fun": 10
+    "fun": 10,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "honey_ant",
     "looks_like": "honey_gold",
     "name": { "str": "honey ball" },
@@ -1700,10 +1763,11 @@
     "primary_material": "alcohol",
     "volume": "12 ml",
     "fun": -1,
-    "vitamins": [ [ "vitC", 2 ], [ "iron", 4 ], [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "iron", 4 ], [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "eggnog_spiked",
     "looks_like": "eggnog",
     "name": { "str_sp": "spiked eggnog" },
@@ -1731,10 +1795,11 @@
     "flags": [ "EATEN_COLD", "EATEN_HOT", "FREEZERBURN", "NO_AUTO_CONSUME" ],
     "fun": 20,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 12 ], [ "iron", 2 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "freezing_point": -11
+    "freezing_point": -11,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_martini",
     "looks_like": "gin",
     "name": { "str_sp": "martini" },
@@ -1763,10 +1828,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -30,
-    "fun": 20
+    "fun": 20,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_bloody_mary",
     "looks_like": "tomato_juice",
     "name": { "str_sp": "Bloody Mary cocktail" },
@@ -1792,10 +1858,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -34,
     "fun": 25,
-    "vitamins": [ [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_bloody_mary_blood",
     "looks_like": "drink_bloody_mary",
     "name": { "str_sp": "'very' Bloody Mary cocktail" },
@@ -1822,10 +1889,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -34,
     "fun": -1,
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_hard_seltzer",
     "looks_like": "water",
     "name": { "str_sp": "hard seltzer" },
@@ -1852,10 +1920,11 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 10,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hb_seltzer",
     "looks_like": "drink_hard_seltzer",
     "name": { "str_sp": "homebrew hard seltzer" },
@@ -1882,6 +1951,7 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -5,
     "fun": 10,
-    "vitamins": [ [ "calcium", 1 ] ]
+    "vitamins": [ [ "calcium", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
     "id": "50beowulf_xtp",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".50 Beowulf XTP" },
     "description": ".50-caliber Beowulf ammunition, loaded with a copper-jacketed 350-grain eXtreme Terminal Performance bullet.  Developed in 2001 as a powerful short- to medium-range chambering for AR-15 style rifles, this stout cartridge had gained some popularity as a hunting round before the Cataclysm.  This particular version of the cartridge is coated in a layer of polymer, encouraging commendable terminal ballistics, penetrative capabilities, and overall expansion from its 12.7x42mm projectile.",
     "weight": "36 g",
@@ -80,24 +80,26 @@
     },
     "dispersion": 25,
     "recoil": 2500,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "50beowulf_penetrator",
     "copy-from": "50beowulf_xtp",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str": ".50 Beowulf Xtreme Penetrator" },
     "description": ".50-caliber Beowulf ammunition, loaded with a solid-copper 420-grain Xtreme Penetrator bullet.  Developed in 2001 as a powerful short- to medium-range chambering for AR-15 style rifles, this stout cartridge had gained some popularity as a hunting round before the Cataclysm.  With a blunt nose construction for better initial energy transfer, this 12.7mm-wide bullet's solid copper design allows it to punch through entry barriers while resulting in a larger wound column.",
     "weight": "40 g",
     "price": "4 USD 39 cent",
     "price_postapoc": "6 USD 50 cent",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "relative": { "range": 2, "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 7 }, "recoil": 300 }
+    "relative": { "range": 2, "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 7 }, "recoil": 300 },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "bp_50beowulf_xtp",
     "copy-from": "50beowulf_xtp",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".50 Beowulf XTP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -106,12 +108,13 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "bp_50beowulf_penetrator",
     "copy-from": "50beowulf_penetrator",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str": ".50 Beowulf Xtreme Penetrator, black powder", "str_pl": ".50 Beowulf Xtreme Penetrators, black powder" },
     "proportional": {
       "price": 0.3,
@@ -120,24 +123,27 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "reloaded_50beowulf_xtp",
     "copy-from": "50beowulf_xtp",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".50 Beowulf XTP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "reloaded_50beowulf_penetrator",
     "copy-from": "50beowulf_penetrator",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str": ".50 Beowulf Xtreme Penetrator, reloaded", "str_pl": ".50 Beowulf Xtreme Penetrators, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
     "id": "fae_organs",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "offal",
     "name": { "str_sp": "nether organs" },
     "snippet_category": "fae_organs_desc",
@@ -9,10 +9,11 @@
     "looks_like": "offal",
     "parasites": 0,
     "proportional": { "price": 0.1, "calories": 0.65 },
-    "vitamins": [ [ "underhill_essence", 25 ] ]
+    "vitamins": [ [ "underhill_essence", 25 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "fae_fur",
     "category": "spare_parts",
     "copy-from": "raw_fur",
@@ -32,11 +33,12 @@
     "price_postapoc": "1 USD",
     "vitamins": [ [ "underhill_essence", 15 ] ],
     "material": [ "fae_fur", "fae_flesh" ],
-    "fun": -24
+    "fun": -24,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "fae_meat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str": "chunk of fae meat", "str_pl": "chunks of fae meat" },
     "description": "Freshly butchered meat from a fae beast.  You could eat it raw, but cooking it is better.",
@@ -52,21 +54,23 @@
     "fun": -10,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "underhill_essence", 15 ] ],
     "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
-    "smoking_result": "meat_smoked"
+    "smoking_result": "meat_smoked",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "fae_meat_scrap",
     "copy-from": "fae_meat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "symbol": "o",
     "name": { "str": "scrap of fae meat", "str_pl": "scraps of fae meat" },
     "description": "This is a tiny scrap of edible meat from a fae beast.  It's not much, but it'll do in a pinch.",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
-    "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "underhill_essence", 2 ] ]
+    "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "underhill_essence", 2 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "id": "fae_blood",
     "name": { "str_sp": "fae blood" },
@@ -79,7 +83,8 @@
     "material": [ "fae_blood" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "copy-from": "animal_blood"
+    "copy-from": "animal_blood",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "fae_meat_cooked",
@@ -87,30 +92,32 @@
     "weight": "296 g",
     "volume": "250 ml",
     "spoils_in": "1 day",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "cooked meat" },
     "description": "This is a chunk of freshly cooked fae meat.  It's filling and nutritious, but unseasoned and a bit bland.",
     "price": "7 USD 50 cent",
     "price_postapoc": "1 USD",
     "parasites": 0,
     "calories": 402,
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "fae_meat_scrap_cooked",
     "copy-from": "fae_meat_scrap",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "cooked scrap of fae meat", "str_pl": "cooked scraps of fae meat" },
     "parasites": 0,
     "fun": 0,
     "healthy": 0,
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "calories": 51
+    "calories": 51,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "meat_smoked",
     "copy-from": "meat_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "smoked meat" },
     "conditional_names": [
       { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "smoked sucker" } },
@@ -125,75 +132,85 @@
     "quench": -1,
     "fun": 5,
     "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
-    "smoking_result": "dry_meat"
+    "smoking_result": "dry_meat",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "omnivore_stomach",
     "copy-from": "stomach",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "omnivore stomach" },
-    "description": "The stomach of an omnivorous creature.  It is surprisingly durable."
+    "description": "The stomach of an omnivorous creature.  It is surprisingly durable.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "ruminant_stomach",
     "copy-from": "stomach",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "ruminant stomach" },
     "description": "The four stomachs of a grazing creature.  It is surprisingly durable.",
-    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
+    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "herbivore_stomach",
     "copy-from": "stomach",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "herbivore stomach" },
-    "description": "The stomach of a herbivore.  It is surprisingly durable."
+    "description": "The stomach of a herbivore.  It is surprisingly durable.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "carnivore_stomach",
     "copy-from": "stomach",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "carnivore stomach" },
-    "description": "The stomach of an carnivorous creature.  It is surprisingly durable."
+    "description": "The stomach of an carnivorous creature.  It is surprisingly durable.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "small_carnivore_stomach",
     "copy-from": "stomach",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "small carnivore stomach" },
     "description": "The stomach of a small carnivorous creature.  It is surprisingly durable.",
-    "proportional": { "weight": 0.5, "volume": 0.5, "price": 0.5, "calories": 0.5 }
+    "proportional": { "weight": 0.5, "volume": 0.5, "price": 0.5, "calories": 0.5 },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "small_omnivore_stomach",
     "copy-from": "stomach",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "small omnivore stomach" },
     "description": "The stomach of a small omnivorous creature.  It is surprisingly durable.",
-    "proportional": { "weight": 0.5, "volume": 0.5, "price": 0.5, "calories": 0.5 }
+    "proportional": { "weight": 0.5, "volume": 0.5, "price": 0.5, "calories": 0.5 },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "small_herbivore_stomach",
     "copy-from": "stomach",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "small herbivore stomach" },
     "description": "The stomach of a small herbivore.  It is surprisingly durable.",
-    "proportional": { "weight": 0.5, "volume": 0.5, "price": 0.5, "calories": 0.5 }
+    "proportional": { "weight": 0.5, "volume": 0.5, "price": 0.5, "calories": 0.5 },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "ant_stomach",
     "copy-from": "stomach",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "ant stomach" },
     "description": "The two stomachs of a giant ant.  One stomach is for digestion and one stomach is for storing food for the colony.",
-    "proportional": { "weight": 1.5, "volume": 1.5, "calories": 1.25 }
+    "proportional": { "weight": 1.5, "volume": 1.5, "calories": 1.25 },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "vampire_blood",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "demihuman_blood",
     "name": { "str_sp": "vampire blood" },
     "description": "Blood extracted from a vampire.  Drinking it feels like a bad idea but there might be other ways to use it.",
-    "material": "vampire_blood"
+    "material": "vampire_blood",
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

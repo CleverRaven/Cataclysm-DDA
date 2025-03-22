@@ -1,7 +1,7 @@
 [
   {
     "id": "cowl_wool",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "knit cowl" },
     "description": "A snuggly woolen cowl.  It's one of those stylish and bulky cowls you see in fashion magazines.",
     "weight": "272 g",
@@ -16,11 +16,12 @@
     "material_thickness": 1,
     "environmental_protection": 2,
     "flags": [ "OVERSIZE", "HOOD", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 20, "coverage": 70, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 70, "covers": [ "mouth" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "headscarf",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "headscarf" },
     "description": "A loose cloth worn over the head and around the neck.",
     "weight": "70 g",
@@ -35,11 +36,12 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 4, "coverage": 70, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 70, "covers": [ "head" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "keffiyeh",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "keffiyeh" },
     "description": "A type of headdress traditionally used in the Middle East.  It can be used in different ways to protect the head and mouth from the elements.",
     "weight": "425 g",
@@ -54,11 +56,12 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "COLLAR", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "head" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "patchwork_scarf",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -74,11 +77,12 @@
     "warmth": 20,
     "environmental_protection": 1,
     "material_thickness": 0.3,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "patchwork_scarf_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -100,11 +104,12 @@
     "warmth": 10,
     "environmental_protection": 1,
     "material_thickness": 0.3,
-    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "patchwork_scarf_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -120,11 +125,12 @@
     "warmth": 20,
     "environmental_protection": 1,
     "material_thickness": 0.3,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "long_patchwork_scarf",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -140,11 +146,12 @@
     "warmth": 20,
     "environmental_protection": 1,
     "material_thickness": 0.3,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "long_patchwork_scarf_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -166,11 +173,12 @@
     "warmth": 10,
     "environmental_protection": 1,
     "material_thickness": 0.3,
-    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "long_patchwork_scarf_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "light_gray",
@@ -186,11 +194,12 @@
     "warmth": 20,
     "environmental_protection": 1,
     "material_thickness": 0.3,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "knit_scarf",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -206,11 +215,12 @@
     "warmth": 20,
     "environmental_protection": 2,
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "knit_scarf_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -232,11 +242,12 @@
     "warmth": 10,
     "environmental_protection": 1,
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "knit_scarf_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -252,11 +263,12 @@
     "warmth": 20,
     "environmental_protection": 2,
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "long_knit_scarf",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -272,11 +284,12 @@
     "warmth": 20,
     "environmental_protection": 2,
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "long_knit_scarf_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -298,11 +311,12 @@
     "warmth": 10,
     "environmental_protection": 1,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "long_knit_scarf_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "dark_gray",
@@ -318,11 +332,12 @@
     "warmth": 20,
     "environmental_protection": 1,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -338,11 +353,12 @@
     "warmth": 45,
     "environmental_protection": 2,
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -364,11 +380,12 @@
     "warmth": 20,
     "environmental_protection": 1,
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -384,11 +401,12 @@
     "warmth": 45,
     "environmental_protection": 1,
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf_long",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -404,11 +422,12 @@
     "warmth": 45,
     "environmental_protection": 2,
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf_long_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -430,11 +449,12 @@
     "warmth": 20,
     "environmental_protection": 1,
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf_long_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -450,11 +470,12 @@
     "warmth": 45,
     "environmental_protection": 2,
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf_fur",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -470,11 +491,12 @@
     "warmth": 65,
     "environmental_protection": 2,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf_fur_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -496,11 +518,12 @@
     "warmth": 30,
     "environmental_protection": 1,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf_fur_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -516,11 +539,12 @@
     "warmth": 65,
     "environmental_protection": 2,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf_fur_long",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -536,11 +560,12 @@
     "warmth": 65,
     "environmental_protection": 2,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf_fur_long_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -562,11 +587,12 @@
     "warmth": 30,
     "environmental_protection": 1,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf_fur_long_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -582,11 +608,12 @@
     "warmth": 65,
     "environmental_protection": 2,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf_faux_fur",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -602,11 +629,12 @@
     "warmth": 50,
     "environmental_protection": 2,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf_faux_fur_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "repairs_like": "scarf_faux_fur",
     "category": "clothing",
     "symbol": "[",
@@ -629,11 +657,12 @@
     "warmth": 25,
     "environmental_protection": 1,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf_faux_fur_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -649,11 +678,12 @@
     "warmth": 50,
     "environmental_protection": 2,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf_faux_fur_long",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -669,11 +699,12 @@
     "warmth": 50,
     "environmental_protection": 2,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf_faux_fur_long_loose",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "repairs_like": "scarf_faux_fur_long",
     "category": "clothing",
     "symbol": "[",
@@ -696,11 +727,12 @@
     "warmth": 25,
     "environmental_protection": 1,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "scarf_faux_fur_long_headwrap",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "brown",
@@ -716,20 +748,22 @@
     "warmth": 50,
     "environmental_protection": 2,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 85, "covers": [ "mouth", "head" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "marloss_scarf",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "keffiyeh",
     "looks_like": "scarf",
     "name": { "str": "cyan scarf" },
     "description": "A simple cloth scarf worn by Marloss Voices.  Wherever the Voices go, long-sought peace soon follows, for better or for worse.",
-    "color": "cyan"
+    "color": "cyan",
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "grass_keffiyeh",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "grass keffiyeh" },
     "description": "A grass sheet with cords to wear it like a Middle Eastern headdress.  It's a bit itchy, but can keep your head and mouth a bit warmer if there's nothing in the way.",
     "weight": "152 g",
@@ -744,11 +778,12 @@
     "material_thickness": 1,
     "environmental_protection": 0,
     "flags": [ "OVERSIZE", "COLLAR", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "head" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "nun_wimple",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "wimple" },
     "description": "A loose cloth headwrap and veil.  Typically worn by Christian nuns.",
     "weight": "70 g",
@@ -762,11 +797,12 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE" ],
-    "armor": [ { "encumbrance": 4, "coverage": 80, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 80, "covers": [ "head" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "tallit_gadol",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "blue",
@@ -789,6 +825,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
       }
-    ]
+    ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   }
 ]

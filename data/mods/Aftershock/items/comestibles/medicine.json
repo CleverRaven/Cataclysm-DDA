@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "afs_synth_blood",
     "name": { "str_sp": "synthetic blood" },
     "weight": "262 g",
@@ -27,11 +27,12 @@
       "effects": [ { "id": "synth_blood_perf", "duration": 28800 } ],
       "vitamins": [ [ "blood", 2500 ], [ "redcells", 2500 ] ]
     },
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "afs_painkiller",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "MED",
     "name": { "str": "serendipnol" },
     "description": "A very strong, synthetic narcotic built from alien biochemistry and used to treat intense pain while in the field.  You'll need to inject it, and it's very addictive, so be careful.",
@@ -51,11 +52,12 @@
       "activation_message": "You shoot up.",
       "tools_needed": { "syringe": -1 },
       "effects": [ { "id": "pkill3", "duration": "40 minutes" }, { "id": "pkill2", "duration": "2 hours" } ]
-    }
+    },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "afs_medigel",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "MED",
     "copy-from": "disinfectant",
     "name": { "str": "MediGel" },
@@ -73,11 +75,12 @@
       "move_cost": 3000,
       "infect": 0.1,
       "effects": [ { "id": "afs_medigel_eff_trigger", "duration": "2 seconds" } ]
-    }
+    },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "afs_stimpack",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "MED",
     "name": { "str": "combat stim" },
     "description": "A small, disposable injector filled with a cocktail of stimulants and painkillers.  Will kick you from death's door into awareness, but it's not a long-term solution.",
@@ -97,6 +100,7 @@
       "activation_message": "You shove the stimpack against your chest.",
       "moves": 15,
       "effects": [ { "id": "pkill3", "duration": "40 minutes" }, { "id": "afs_combat_stims", "duration": "40 minutes" } ]
-    }
+    },
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

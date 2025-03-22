@@ -3,7 +3,7 @@
     "id": "m320",
     "copy-from": "launcher_base",
     "looks_like": "m79",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "M320 standalone launcher" },
     "description": "Heckler & Koch's M320 grenade launcher offers the functionality of larger launchers in a very small package at the cost of decreased accuracy.  This one is combined with a buttstock for standalone operation.",
     "weight": "2200 g",
@@ -23,13 +23,14 @@
     "reload": 150,
     "flags": [ "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "m79",
     "copy-from": "launcher_base",
     "//": "Tileset whitelist for launchers.",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "M79 launcher" },
     "description": "A widely-used grenade launcher that first saw use by American forces in the Vietnam War.  Though mostly replaced by more modern launchers, the M79 still sees use with many units worldwide.",
     "weight": "2700 g",
@@ -58,13 +59,14 @@
     ],
     "flags": [ "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "mgl",
     "copy-from": "launcher_base",
     "looks_like": "m79",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str_sp": "Milkor MGL" },
     "description": "The Milkor Multi-Grenade Launcher is designed to compensate for the drawback of single-shot grenade launchers by allowing sustained heavy firepower.  However, it is still slow to reload and must be used with careful planning.",
     "weight": "5300 g",
@@ -92,13 +94,14 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 6 } } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "pseudo_m203",
     "copy-from": "launcher_base",
     "looks_like": "m203",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "M203 array" },
     "description": "An array of six M203 grenade launchers for use on the TALON UGV platform.",
     "weight": "8200 g",
@@ -119,6 +122,7 @@
     "clip_size": 6,
     "flags": [ "MOUNTED_GUN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 6 } } ],
-    "melee_damage": { "bash": 14 }
+    "melee_damage": { "bash": 14 },
+    "subtypes": [ "GUN" ]
   }
 ]

@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "apple_cider",
     "name": { "str_sp": "apple cider" },
     "weight": "263 g",
@@ -21,10 +21,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitC", 167 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ],
-    "fun": 2
+    "fun": 2,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "almond_milk",
     "looks_like": "milk",
     "name": { "str_sp": "almond milk" },
@@ -45,10 +46,11 @@
     "phase": "liquid",
     "vitamins": [ [ "calcium", 11 ], [ "nut_allergen", 1 ] ],
     "flags": [ "EATEN_COLD" ],
-    "fun": 1
+    "fun": 1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hazelnut_milk",
     "looks_like": "milk",
     "name": { "str_sp": "hazelnut milk" },
@@ -69,10 +71,11 @@
     "phase": "liquid",
     "vitamins": [ [ "iron", 10 ], [ "calcium", 23 ], [ "nut_allergen", 1 ] ],
     "flags": [ "EATEN_COLD" ],
-    "fun": 1
+    "fun": 1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "walnut_milk",
     "looks_like": "milk",
     "name": { "str_sp": "walnut milk" },
@@ -93,10 +96,11 @@
     "phase": "liquid",
     "vitamins": [ [ "calcium", 23 ], [ "nut_allergen", 1 ] ],
     "flags": [ "EATEN_COLD" ],
-    "fun": 1
+    "fun": 1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soy_milk",
     "looks_like": "milk",
     "name": { "str_sp": "soy milk" },
@@ -117,10 +121,11 @@
     "phase": "liquid",
     "vitamins": [ [ "iron", 1 ], [ "calcium", 7 ], [ "veggy_allergen", 1 ] ],
     "flags": [ "EATEN_COLD" ],
-    "fun": 1
+    "fun": 1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "atomic_coffee",
     "name": { "str_sp": "atomic coffee" },
     "copy-from": "coffee",
@@ -134,10 +139,11 @@
     "price": "3 USD",
     "price_postapoc": "1 USD",
     "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ],
-    "fun": 10
+    "fun": 10,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "tea_wild_sarsaparilla",
     "name": { "str_sp": "wild sarsaparilla tea" },
     "copy-from": "tea",
@@ -149,10 +155,11 @@
     "price": "1 USD",
     "price_postapoc": "25 cent",
     "fun": 1,
-    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ]
+    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "bee_balm_tea",
     "name": { "str_sp": "bee balm tea" },
     "copy-from": "tea",
@@ -166,10 +173,11 @@
     "price": "1 USD",
     "price_postapoc": "25 cent",
     "fun": 1,
-    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ]
+    "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "can_coconut",
     "looks_like": "milk",
     "name": { "str_sp": "coconut milk" },
@@ -189,10 +197,11 @@
     "phase": "liquid",
     "charges": 2,
     "vitamins": [ [ "vitC", "2300 μg" ], [ "iron", "7500 μg" ], [ "calcium", "40700 μg" ], [ "fruit_allergen", 1 ] ],
-    "fun": 1
+    "fun": 1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "chai_tea",
     "looks_like": "tea",
     "name": { "str_sp": "chai tea" },
@@ -216,10 +225,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
     "fun": 14,
-    "vitamins": [ [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "chamomile_tea",
     "name": { "str_sp": "chamomile tea" },
     "copy-from": "tea",
@@ -233,10 +243,11 @@
     "price": "1 USD",
     "price_postapoc": "25 cent",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "fun": 1
+    "fun": 1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "choc_drink",
     "looks_like": "milk",
     "name": { "str_sp": "chocolate drink" },
@@ -256,10 +267,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitC", 8 ], [ "calcium", 18 ], [ "iron", 4 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "fun": 7
+    "fun": 7,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "coffee",
     "name": { "str_sp": "black coffee" },
     "weight": "250 g",
@@ -281,10 +293,11 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ],
-    "fun": 6
+    "fun": 6,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "coffee_substitute",
     "looks_like": "coffee",
     "name": { "str_sp": "coffee substitute" },
@@ -303,10 +316,11 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "fun": -5
+    "fun": -5,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "milk_coffee_substitute",
     "copy-from": "coffee_substitute",
     "name": { "str_sp": "coffee substitute with milk" },
@@ -316,10 +330,11 @@
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "description": "Imitation coffee brewed from Kentucky coffeetree, this drink has no caffeine, no sweetener, and is still unpleasantly bitter even with the added milk.",
     "fun": 1,
-    "vitamins": [ [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "milk_coffee_substitute_sweetened",
     "copy-from": "milk_coffee_substitute",
     "name": { "str_sp": "sweetened coffee substitute with milk" },
@@ -328,28 +343,31 @@
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "extend": { "flags": [ "EATEN_COLD" ] },
     "description": "The morning ritual of the post-apocalyptic world.  Brewed from the Kentucky coffeetree, this drink has no actual caffeine, but serves as a replacement for those who dearly miss the aroma of real coffee.  Can also be served cold as iced coffee.",
-    "fun": 4
+    "fun": 4,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "sweet_milk",
     "copy-from": "milk",
     "name": { "str_sp": "sweetened milk" },
     "calories": 186,
     "description": "Some milk with sugar added.  Tastes slightly better.",
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "sweet_milk_fortified",
     "copy-from": "milk_fortified",
     "name": { "str_sp": "sweetened fortified milk" },
     "calories": 282,
     "description": "Milk enriched with protein powder, it's extra healthy and doesn't taste too bad.  It has sugar added, for those who like it sweeter.",
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "chicory_coffee",
     "looks_like": "coffee",
     "name": { "str_sp": "chicory brew" },
@@ -367,10 +385,11 @@
     "material": [ "water" ],
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "fun": 2
+    "fun": 2,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "cola",
     "looks_like": "coffee",
     "name": { "str_sp": "dark cola" },
@@ -396,10 +415,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 5,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "colamdew",
     "looks_like": "cola",
     "name": { "str_sp": "energy cola" },
@@ -425,10 +445,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 5,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "creamsoda",
     "looks_like": "cola",
     "name": { "str_sp": "cream soda" },
@@ -454,10 +475,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 5,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "cranberry_juice",
     "name": { "str_sp": "cranberry juice" },
     "weight": "250 g",
@@ -478,10 +500,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitC", 131 ], [ "calcium", 3 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ],
-    "fun": -1
+    "fun": -1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "crispycran",
     "looks_like": "cranberry_juice",
     "name": { "str_sp": "crispy cranberry" },
@@ -502,10 +525,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitC", 60 ], [ "fruit_allergen", 1 ], [ "junk_allergen", 1 ] ],
-    "fun": 6
+    "fun": 6,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "dandelion_tea",
     "looks_like": "tea",
     "name": { "str_sp": "dandelion tea" },
@@ -523,10 +547,11 @@
     "material": [ "veggy", "water" ],
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "fun": 2
+    "fun": 2,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "dandelionburdock_tea",
     "looks_like": "tea",
     "name": { "str_sp": "dandelion and burdock tea" },
@@ -544,10 +569,11 @@
     "material": [ "veggy", "water" ],
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "eggnog",
     "looks_like": "milk",
     "name": { "str_sp": "eggnog" },
@@ -568,10 +594,11 @@
     "charges": 2,
     "flags": [ "EATEN_COLD", "EATEN_HOT", "FREEZERBURN" ],
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "fun": 15
+    "fun": 15,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "energy_drink",
     "looks_like": "cola",
     "name": { "str_sp": "energy drink" },
@@ -597,10 +624,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "vitamins": [ [ "vitC", 105 ], [ "junk_allergen", 1 ] ],
-    "fun": 5
+    "fun": 5,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "energy_drink_atomic",
     "looks_like": "cola",
     "name": { "str_sp": "atomic energy drink" },
@@ -613,10 +641,11 @@
     "price": "15 USD",
     "price_postapoc": "1 USD 50 cent",
     "//": "Check whether Rivtech-Expensive applies to their energy drinks",
-    "fun": -1
+    "fun": -1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "herbal_tea",
     "looks_like": "tea",
     "name": { "str_sp": "herbal tea" },
@@ -635,11 +664,12 @@
     "material": [ "water" ],
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "fun": 4
+    "fun": 4,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "hot_chocolate",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "looks_like": "choc_drink",
     "category": "food",
     "name": { "str_sp": "hot chocolate" },
@@ -661,10 +691,11 @@
     "fun": 8,
     "spoils_in": "1 day",
     "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "horchata",
     "looks_like": "milk",
     "category": "food",
@@ -688,10 +719,11 @@
     "fun": 8,
     "spoils_in": "1 day",
     "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "flags": [ "EATEN_COLD" ]
+    "flags": [ "EATEN_COLD" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "juice_pasteurized",
     "looks_like": "juice",
     "name": { "str": "pasteurized fruit juice" },
@@ -701,10 +733,11 @@
     "price": "90 cent",
     "price_postapoc": "1 USD 50 cent",
     "flags": [ "EATEN_COLD", "IRREPLACEABLE_CONSUMABLE" ],
-    "fun": 1
+    "fun": 1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "juice",
     "name": { "str_sp": "fruit juice" },
     "conditional_names": [
@@ -760,10 +793,11 @@
     "charges": 2,
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitC", 53 ], [ "iron", 2 ], [ "fruit_allergen", 1 ] ],
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "pineapple_juice",
     "copy-from": "juice",
     "looks_like": "juice",
@@ -771,10 +805,11 @@
     "conditional_names": [  ],
     "calories": 66,
     "description": "Freshly-squeezed from real pineapples!  Tasty and nutritious.",
-    "vitamins": [ [ "vitC", 14 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 14 ], [ "calcium", 1 ], [ "iron", 2 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_pinitacolada",
     "looks_like": "drink_pinacolada",
     "name": { "str_sp": "pinita colada" },
@@ -796,10 +831,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 3 ], [ "fruit_allergen", 1 ] ],
-    "fun": 12
+    "fun": 12,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_virgin_mary",
     "looks_like": "drink_bloody_mary",
     "name": { "str_sp": "Virgin Mary cocktail" },
@@ -821,10 +857,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 12,
-    "vitamins": [ [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_shirleytemple",
     "looks_like": "lemonade",
     "name": { "str_sp": "Shirley Temple drink" },
@@ -846,10 +883,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 12,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "drink_royrogers",
     "looks_like": "lemonade",
     "name": { "str_sp": "Roy Rogers drink" },
@@ -875,10 +913,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 12,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "kompot",
     "looks_like": "juice",
     "name": { "str_sp": "kompot" },
@@ -942,10 +981,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitC", 25 ], [ "fruit_allergen", 1 ] ],
-    "fun": 8
+    "fun": 8,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "lemonade",
     "looks_like": "juice",
     "name": { "str_sp": "lemonade" },
@@ -966,24 +1006,27 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitC", 16 ], [ "iron", 2 ], [ "fruit_allergen", 1 ] ],
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "orangeade",
     "copy-from": "lemonade",
     "name": { "str_sp": "orangeade" },
-    "description": "Cheap orange flavored beverage with limited vitamins."
+    "description": "Cheap orange flavored beverage with limited vitamins.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "grapeade",
     "copy-from": "lemonade",
     "name": { "str_sp": "grapeade" },
-    "description": "Cheap grape flavored beverage with limited vitamins."
+    "description": "Cheap grape flavored beverage with limited vitamins.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "lemonlime",
     "looks_like": "lemonade",
     "name": { "str_sp": "lemon-lime soda" },
@@ -1005,10 +1048,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 5,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "lotus_tea",
     "name": { "str_sp": "lotus tea" },
     "copy-from": "tea",
@@ -1018,11 +1062,12 @@
     "price": "1 USD",
     "price_postapoc": "25 cent",
     "fun": 1,
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "mex_chocolate",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "looks_like": "choc_drink",
     "category": "food",
     "name": { "str_sp": "Mexican hot chocolate" },
@@ -1045,10 +1090,11 @@
     "fun": 10,
     "spoils_in": "1 day",
     "vitamins": [ [ "calcium", 7 ], [ "iron", 3 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "milk_coffee",
     "looks_like": "coffee",
     "name": { "str_sp": "coffee milk" },
@@ -1075,10 +1121,11 @@
     "charges": 2,
     "flags": [ "NO_AUTO_CONSUME" ],
     "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ], [ "milk_allergen", 1 ] ],
-    "fun": 10
+    "fun": 10,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "milk_tea",
     "looks_like": "tea",
     "name": { "str_sp": "milk tea" },
@@ -1102,10 +1149,11 @@
     "charges": 2,
     "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ], [ "milk_allergen", 1 ] ],
     "fun": 10,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "oj",
     "looks_like": "juice",
     "name": { "str_sp": "orange juice" },
@@ -1128,10 +1176,11 @@
     "flags": [ "EATEN_COLD" ],
     "//": "most store-bought oj is fortified with calcium.",
     "vitamins": [ [ "vitC", "83700 μg" ], [ "iron", "320 μg" ], [ "calcium", "348600 μg" ], [ "fruit_allergen", 1 ] ],
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "oj_fresh",
     "looks_like": "oj",
     "name": { "str_sp": "fresh orange juice" },
@@ -1153,10 +1202,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitC", "124 mg" ], [ "iron", "500 μg" ], [ "calcium", "27300 μg" ], [ "fruit_allergen", 1 ] ],
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "orangesoda",
     "looks_like": "juice",
     "name": { "str_sp": "orange soda" },
@@ -1178,10 +1228,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 5,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "pine_tea",
     "looks_like": "tea",
     "name": { "str_sp": "pine needle tea" },
@@ -1200,10 +1251,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 10 ] ]
+    "vitamins": [ [ "vitC", 10 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "purple_drink",
     "looks_like": "cranberry_juice",
     "name": { "str_sp": "grape drink" },
@@ -1226,10 +1278,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitC", 50 ], [ "calcium", 3 ], [ "junk_allergen", 1 ] ],
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mycus_juice",
     "looks_like": "water",
     "name": { "str_sp": "Mycus juice" },
@@ -1252,10 +1305,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "MYCUS_OK", "NUTRIENT_OVERRIDE" ],
     "vitamins": [ [ "vitC", 20 ], [ "calcium", 20 ], [ "iron", 16 ], [ "veggy_allergen", 1 ] ],
-    "fun": 30
+    "fun": 30,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "rootbeer",
     "looks_like": "cola",
     "name": { "str_sp": "root beer" },
@@ -1277,10 +1331,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 3,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "rootbeer_brewed",
     "looks_like": "cola",
     "name": { "str_sp": "root beer" },
@@ -1302,10 +1357,11 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "tonic_water",
     "looks_like": "water_clean",
     "name": { "str_sp": "tonic water" },
@@ -1326,10 +1382,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 2,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "spezi",
     "looks_like": "cola",
     "name": { "str_sp": "spezi" },
@@ -1354,10 +1411,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 6,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "sports_drink",
     "looks_like": "cola",
     "name": { "str_sp": "sports drink" },
@@ -1377,10 +1435,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 1 ], [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "spurge_tea",
     "name": { "str_sp": "spurge tea" },
     "copy-from": "tea",
@@ -1397,10 +1456,11 @@
       "type": "consume_drug",
       "activation_message": "You no longer need to worry about asthma attacks, at least for a while.",
       "effects": [ { "id": "took_antiasthmatic", "duration": 86400 } ]
-    }
+    },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "rehydration_drink",
     "name": { "str_sp": "rehydration drink" },
     "weight": "257 g",
@@ -1419,10 +1479,11 @@
     "charges": 1,
     "looks_like": "sports_drink",
     "phase": "liquid",
-    "fun": -1
+    "fun": -1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "sweet_water",
     "looks_like": "water",
     "name": { "str_sp": "sweet water" },
@@ -1442,10 +1503,11 @@
     "phase": "liquid",
     "fun": 2,
     "freezing_point": -5,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "tea",
     "looks_like": "water",
     "name": { "str_sp": "black tea" },
@@ -1467,10 +1529,11 @@
     "material": [ "water" ],
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
-    "fun": 6
+    "fun": 6,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "tea_willowbark",
     "copy-from": "tea",
     "name": { "str_sp": "willowbark tea" },
@@ -1485,10 +1548,11 @@
     "use_action": {
       "type": "consume_drug",
       "effects": [ { "id": "pkill1_nsaid", "duration": 90 }, { "id": "nausea", "duration": "5 m" } ]
-    }
+    },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "tea_bark",
     "looks_like": "tea",
     "name": { "str_sp": "bark tea" },
@@ -1507,10 +1571,11 @@
     "material": [ "water" ],
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME" ],
-    "fun": -5
+    "fun": -5,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "V8",
     "looks_like": "juice",
     "name": { "str_sp": "V8" },
@@ -1532,11 +1597,12 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", "71 mg" ], [ "iron", "700 μg" ], [ "calcium", "19200 μg" ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "71 mg" ], [ "iron", "700 μg" ], [ "calcium", "19200 μg" ], [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "water",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "water_clean",
     "name": { "str_sp": "water" },
     "description": "Water, the stuff of life, necessary for all kinds of crafting, cleaning, and avoiding an agonizing death by dehydration.  You should boil or purify it before using it as drinking water.",
@@ -1544,21 +1610,23 @@
     "container": "bottle_plastic",
     "sealed": false,
     "delete": { "flags": [ "DECAYS_IN_AIR" ] },
-    "contamination": [ { "disease": "highly_contaminated_food", "probability": 0.1 }, { "disease": "bad_food", "probability": 1 } ]
+    "contamination": [ { "disease": "highly_contaminated_food", "probability": 0.1 }, { "disease": "bad_food", "probability": 1 } ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "water_murky",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "water",
     "name": { "str_sp": "murky water" },
     "description": "Water, the stuff of life.  This water looks like it has quite a bit of life in it in fact, and not the good kind.  You should filter and sterilize it if you want to drink it.",
     "quench": 30,
     "parasites": 5,
-    "contamination": [ { "disease": "highly_contaminated_food", "probability": 100 } ]
+    "contamination": [ { "disease": "highly_contaminated_food", "probability": 100 } ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "water_clean",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "category": "food",
     "material": [ "water" ],
@@ -1570,7 +1638,6 @@
     "symbol": "~",
     "phase": "liquid",
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "DECAYS_IN_AIR" ],
     "name": { "str_sp": "clean water" },
     "description": "Fresh, clean water.  Truly the best thing to quench your thirst.",
@@ -1579,37 +1646,42 @@
     "color": "light_cyan",
     "//": "Clean water becomes regular water in about 4 weeks if exposed to air (1 week if outdoors).",
     "properties": { "max_air_exposure_hours": "720" },
-    "revert_to": "water"
+    "revert_to": "water",
+    "ammo_type": "water",
+    "subtypes": [ "AMMO", "COMESTIBLE" ]
   },
   {
     "id": "water_spring",
     "copy-from": "water_clean",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "spring water" },
     "description": "Natural alpine spring water, bottled at the source.",
-    "relative": { "fun": 1 }
+    "relative": { "fun": 1 },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "water_mineral",
     "copy-from": "water_clean",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "mineral water" },
     "description": "Fancy mineral water, so fancy it makes you feel fancy just holding it.",
     "proportional": { "quench": 1.2 },
-    "relative": { "fun": 1 }
+    "relative": { "fun": 1 },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "tea_green",
     "name": { "str_sp": "green tea" },
     "copy-from": "tea",
     "color": "green",
     "sleepiness_mod": 7,
     "stim": 2,
-    "description": "Made from applying hot water to leaves of the tea plant \"Camellia sinensis\".  Green tea has a lighter, fresher taste than black and is traditionally preferred in Asian cultures."
+    "description": "Made from applying hot water to leaves of the tea plant \"Camellia sinensis\".  Green tea has a lighter, fresher taste than black and is traditionally preferred in Asian cultures.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "tea_fruit",
     "name": { "str_sp": "fruit tea" },
     "copy-from": "tea",
@@ -1617,10 +1689,11 @@
     "sleepiness_mod": 0,
     "stim": 0,
     "description": "A tasty beverage made with herbs and dried fruit from plants other than the tea plant.  While colloquially called 'tea', technically it's an infusion.",
-    "fun": 8
+    "fun": 8,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "coffee_sweetened",
     "copy-from": "coffee",
     "name": { "str_sp": "sweetened coffee" },
@@ -1629,10 +1702,11 @@
     "price": "1 USD 10 cent",
     "price_postapoc": "60 cent",
     "material": [ "water" ],
-    "fun": 10
+    "fun": 10,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "tea_sweetened",
     "copy-from": "tea",
     "name": { "str_sp": "sweetened tea" },
@@ -1642,10 +1716,11 @@
     "description": "The beverage of gentlemen everywhere, made from applying hot water to leaves of the tea plant \"Camellia sinensis\".  With added sweetener for a better taste.  Can also be served cold as iced tea.",
     "price": "1 USD",
     "price_postapoc": "35 cent",
-    "fun": 10
+    "fun": 10,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "milk_tea_sweetened",
     "copy-from": "milk_tea",
     "name": { "str_sp": "sweetened milk tea" },
@@ -1654,10 +1729,11 @@
     "price": "4 USD 60 cent",
     "price_postapoc": "60 cent",
     "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ] ],
-    "fun": 14
+    "fun": 14,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "coffee_substitute_sweetened",
     "copy-from": "coffee_substitute",
     "name": { "str_sp": "sweetened coffee substitute" },
@@ -1666,10 +1742,11 @@
     "price": "1 USD 10 cent",
     "price_postapoc": "35 cent",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "fun": 1
+    "fun": 1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "milk_coffee_sweetened",
     "copy-from": "milk_coffee",
     "name": { "str_sp": "sweetened coffee milk" },
@@ -1679,10 +1756,11 @@
     "description": "Coffee syrup mixed into milk.  It's been the state drink of Rhode Island since 1993.  With added sweetener for those who like it even sweeter.  Can also be served cold as iced coffee.",
     "price": "4 USD 90 cent",
     "price_postapoc": "60 cent",
-    "fun": 14
+    "fun": 14,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "tomato_juice",
     "name": { "str_sp": "tomato juice" },
     "weight": "243 g",
@@ -1703,10 +1781,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "vitamins": [ [ "vitC", "170300 μg" ], [ "iron", "900 μg" ], [ "calcium", "24300 μg" ], [ "veggy_allergen", 1 ] ],
-    "fun": 2
+    "fun": 2,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "ayran",
     "name": { "str_sp": "ayran" },
     "weight": "240 g",
@@ -1724,10 +1803,11 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 6
+    "fun": 6,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "zerocola",
     "looks_like": "cola",
     "name": { "str_sp": "diet cola" },
@@ -1748,10 +1828,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 4,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "zeroorange",
     "looks_like": "orangesoda",
     "name": { "str_sp": "diet orange soda" },
@@ -1772,10 +1853,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 4,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "zerotropical",
     "looks_like": "lemonlime",
     "name": { "str_sp": "diet tropical soda" },
@@ -1796,10 +1878,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 4,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "zeromdew",
     "looks_like": "colamdew",
     "name": { "str_sp": "diet energy cola" },
@@ -1825,10 +1908,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 4,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "foodplace_zero_drink",
     "looks_like": "lemonlime",
     "name": { "str_sp": "Foodplace's refreshing drink™" },
@@ -1849,10 +1933,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 2,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "sparkling",
     "looks_like": "water_mineral",
     "name": { "str_sp": "sparkling water" },
@@ -1871,10 +1956,11 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 2
+    "fun": 2,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "sparkling_peach",
     "looks_like": "sparkling",
     "name": { "str_sp": "peach sparkling water" },
@@ -1893,10 +1979,11 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "sparkling_pomegranate",
     "looks_like": "sparkling",
     "name": { "str_sp": "pomegranate sparkling water" },
@@ -1915,11 +2002,12 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "water_purifying",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "category": "food",
     "name": { "str_sp": "water (purifying)" },
@@ -1936,7 +2024,6 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD" ],
     "use_action": {
       "target": "water_clean",
@@ -1945,6 +2032,8 @@
       "type": "delayed_transform",
       "transform_age": 2400,
       "not_ready_msg": "The chlorine released by the tablets is still working.  You still need to wait a bit before you can drink it."
-    }
+    },
+    "ammo_type": "water",
+    "subtypes": [ "AMMO", "COMESTIBLE" ]
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
     "id": "test_duststorm",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "test dust storm causer" },
     "description": "Causes dust storms.",
     "weight": "1 g",
@@ -12,7 +12,8 @@
       "type": "effect_on_conditions",
       "description": "Touch the opening.",
       "effect_on_conditions": [ "EOC_CAUSE_EARLY_DUST_STORM" ]
-    }
+    },
+    "subtypes": [ "TOOL" ]
   },
   {
     "type": "effect_on_condition",

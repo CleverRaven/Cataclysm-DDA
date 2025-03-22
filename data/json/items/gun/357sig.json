@@ -3,7 +3,7 @@
     "id": "p226_357sig",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "SIG P226" },
     "description": "A SIG Sauer P226 chambered for .357 SIG.  The P226 is a DA/SA, short-recoil operated semi-automatic pistol.",
     "weight": "964 g",
@@ -23,12 +23,13 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p226mag_12rd_357sig" ] } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "glock_31",
     "copy-from": "glock_22",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Glock 31" },
     "description": "A full size .357 SIG Glock pistol.  It is extremely similar to the Glock 22, and could be converted to fire .40 S&W by switching the barrel.",
     "ascii_picture": "glock_20",
@@ -45,13 +46,14 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "glock40mag_10", "glock40mag", "glock40bigmag" ]
       }
-    ]
+    ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "p320_357sig",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "SIG P320 Compact" },
     "description": "The P320 Compact is a semi-automatic, short recoil operated pistol.  This one is chambered for .357 SIG.",
     "ascii_picture": "sig_p320",
@@ -70,6 +72,7 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p320mag_13rd_357sig" ] } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   }
 ]

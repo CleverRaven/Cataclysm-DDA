@@ -1,7 +1,7 @@
 [
   {
     "id": "foie_gras",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str_sp": "faux gras" },
     "symbol": "%",
@@ -17,11 +17,12 @@
     "fun": 15,
     "quench": 3,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 0 ], [ "iron", 2 ], [ "meat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 0 ], [ "iron", 2 ], [ "meat_allergen", 1 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "liver_onion",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str_sp": "liver & onions" },
     "symbol": "%",
@@ -36,11 +37,12 @@
     "calories": 398,
     "quench": -3,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 0 ], [ "iron", 8 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 0 ], [ "iron", 8 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "fried_livers",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str_sp": "fried liver" },
     "symbol": "%",
@@ -64,11 +66,12 @@
       [ "meat_allergen", 1 ],
       [ "wheat_allergen", 1 ],
       [ "milk_allergen", 1 ]
-    ]
+    ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "fried_heart",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str_sp": "fried heart" },
     "symbol": "%",
@@ -92,11 +95,12 @@
       [ "meat_allergen", 1 ],
       [ "wheat_allergen", 1 ],
       [ "milk_allergen", 1 ]
-    ]
+    ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "stuffed_heart",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str_sp": "stuffed heart" },
     "symbol": "%",
@@ -112,11 +116,12 @@
     "weight": "89 g",
     "calories": 400,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "humble_pie",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str": "humble pie" },
     "symbol": "%",
@@ -132,11 +137,12 @@
     "volume": "250 ml",
     "weight": "249 g",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitC", 15 ], [ "calcium", 1 ], [ "iron", 40 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 15 ], [ "calcium", 1 ], [ "iron", 40 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "stewed_tripe",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str_sp": "stewed tripe" },
     "symbol": "%",
@@ -153,11 +159,12 @@
     "weight": "70 g",
     "flags": [ "EATEN_HOT" ],
     "calories": 130,
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "fried_tripe",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str_sp": "deep-fried tripe" },
     "symbol": "%",
@@ -174,11 +181,12 @@
     "weight": "70 g",
     "flags": [ "EATEN_HOT" ],
     "calories": 310,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "leverpostej",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str_sp": "leverpostej" },
     "symbol": "%",
@@ -201,11 +209,12 @@
       [ "veggy_allergen", 1 ],
       [ "wheat_allergen", 1 ],
       [ "milk_allergen", 1 ]
-    ]
+    ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "fried_brain",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str_sp": "fried brain" },
     "symbol": "%",
@@ -222,11 +231,12 @@
     "weight": "250 g",
     "flags": [ "EATEN_HOT" ],
     "calories": 285,
-    "vitamins": [ [ "vitC", 6 ], [ "iron", 13 ], [ "calcium", 1 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "iron", 13 ], [ "calcium", 1 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "deviled_kidney",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str_sp": "deviled kidney" },
     "symbol": "%",
@@ -250,37 +260,41 @@
       [ "meat_allergen", 1 ],
       [ "veggy_allergen", 1 ],
       [ "wheat_allergen", 1 ]
-    ]
+    ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "grilled_sweetbread",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "sweetbread_cooked",
     "name": { "str_sp": "grilled sweetbread" },
     "fun": 6,
-    "description": "Not sweet like the name would suggest, but delicious all the same!"
+    "description": "Not sweet like the name would suggest, but delicious all the same!",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "canned_liver",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "liver_cooked",
     "name": { "str_sp": "canned liver" },
     "description": "Livers preserved in a can.  Chock-full of B vitamins!",
     "sealed": true,
-    "container": "can_food"
+    "container": "can_food",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "canned_heart",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "heart_cooked",
     "name": { "str_sp": "canned heart" },
     "description": "Chunks of heart preserved in a can.",
     "sealed": true,
-    "container": "can_food"
+    "container": "can_food",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "lung_provence",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str_sp": "lung provence" },
     "symbol": "%",
@@ -297,11 +311,12 @@
     "weight": "180 g",
     "calories": 100,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "tÖttchen",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str_sp": "töttchen" },
     "symbol": "%",
@@ -318,11 +333,12 @@
     "weight": "180 g",
     "calories": 400,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "scrambledeggsandbrain",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str_sp": "scrambled eggs and brain" },
     "symbol": "%",
@@ -339,33 +355,37 @@
     "weight": "180 g",
     "calories": 400,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "sausage_casings",
     "copy-from": "spice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "sausage casing" },
     "description": "Sausage casings made from animal intestines.  Ready to be used for forming meat products.",
     "color": "red",
     "material": [ "flesh" ],
     "volume": "8 ml",
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "sausage_casings_artificial",
     "copy-from": "spice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "artificial sausage casing" },
     "description": "Sausage casings made from plastic bags.  Ready to be used for forming meat products.",
     "color": "red",
     "material": [ "plastic" ],
-    "volume": "8 ml"
+    "volume": "8 ml",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "homemade_hotdogs",
     "name": { "str": "homemade hot dog" },
-    "copy-from": "hotdogs_frozen"
+    "copy-from": "hotdogs_frozen",
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

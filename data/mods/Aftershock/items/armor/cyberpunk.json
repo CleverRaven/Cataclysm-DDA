@@ -2,30 +2,32 @@
   {
     "id": "afs_transparent_coat",
     "repairs_like": "coat_rain",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "coat_rain",
     "looks_like": "coat_rain",
     "name": { "str": "transparent rain coat" },
     "description": "A mostly transparent raincoat with no pockets.  Essential urban wear.",
     "color": "white",
     "material_thickness": 0.3,
-    "pocket_data": [  ]
+    "pocket_data": [  ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "afs_academy_cloak",
     "repairs_like": "cloak",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "cloak",
     "looks_like": "cloak",
     "name": { "str": "academy cloak" },
     "description": "A short ochre cloak given to traveling faculty, still tailored in styles that echo down from previous millennia.",
     "color": "red",
     "material_thickness": 0.3,
-    "pocket_data": [  ]
+    "pocket_data": [  ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "afs_lx_shirt",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "nanoweave formal shirt" },
     "description": "A luxurious Lausanne dress shirt.  Steel grey fading into golden thread, it has a mandarin collar and a neo-deco look that was the rage back on Earth when you last left.",
     "weight": "250 g",
@@ -38,11 +40,12 @@
     "warmth": 10,
     "material_thickness": 1,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 3, "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "afs_lx_dress",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "nanoweave dress", "str_pl": "nanoweave dresses" },
     "description": "A luxurious Lausanne cocktail dress.  White with gold thread accents, it has a neo-deco look that was the rage back on Earth when you last left.",
     "weight": "800 g",
@@ -56,12 +59,13 @@
     "warmth": 10,
     "material_thickness": 1,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 3, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 3, "coverage": 75, "covers": [ "torso", "leg_l", "leg_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "afs_leather_jacket",
     "repairs_like": "coat_rain",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "jacket_leather",
     "looks_like": "jacket_leather",
     "name": { "str": "synleather jacket" },
@@ -109,12 +113,13 @@
         "moves": 350,
         "description": "rear channel pocket."
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "afs_cyberpunk_bomber",
     "repairs_like": "coat_rain",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "jacket_leather",
     "looks_like": "jacket_leather",
     "name": { "str": "diode bomber" },
@@ -170,12 +175,13 @@
         "moves": 350,
         "description": "rear channel pocket."
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "afs_bolero",
     "repairs_like": "coat_rain",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "jacket_leather",
     "looks_like": "jacket_leather",
     "name": { "str": "mercenary bolero" },
@@ -269,6 +275,7 @@
         "weight": 0,
         "append": true
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   }
 ]

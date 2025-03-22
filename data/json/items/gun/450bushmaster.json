@@ -3,7 +3,7 @@
     "id": "ruger_arr",
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Ruger American Ranch Rifle" },
     "description": "A compact, magazine-fed, bolt-action hunting rifle designed and manufactured with cost-effectiveness at the peak of concerns, the Ruger American Ranch Rifle series caters to shooters on a budget.  Factory chambered for the powerful, though short-range, .450 Bushmaster cartridge, the weapon was able to stand toe-to-toe with all native North American game despite its minimalist design.",
     "weight": "2495 g",
@@ -32,6 +32,7 @@
       [ "stock", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger_arr_mag" ] } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "GUN" ]
   }
 ]

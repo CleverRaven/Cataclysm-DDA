@@ -1,6 +1,6 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "m235tpa",
     "price": "2 kUSD",
     "//": "$500 per.  Cheap!",
@@ -21,10 +21,11 @@
     "dispersion": 150,
     "recoil": 150,
     "count": 4,
-    "effects": [ "COOKOFF", "PYROPHORIC", "TRAIL", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "PYROPHORIC", "TRAIL", "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "66mm_HEAT",
     "price": "2 kUSD",
     "name": { "str_sp": "66mm HEAT" },
@@ -43,6 +44,7 @@
     "range": 80,
     "dispersion": 30,
     "recoil": 225,
-    "effects": [ "COOKOFF", "EXPLOSIVE_66mmHEAT", "TRAIL" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_66mmHEAT", "TRAIL" ],
+    "subtypes": [ "AMMO" ]
   }
 ]

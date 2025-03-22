@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "broth",
     "looks_like": "water",
     "name": { "str_sp": "vegetable broth" },
@@ -21,10 +21,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "broth_meat",
     "looks_like": "water",
     "name": { "str_sp": "meat broth" },
@@ -49,10 +50,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", "1 mg" ], [ "iron", "1 mg" ], [ "calcium", "19 mg" ], [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "1 mg" ], [ "iron", "1 mg" ], [ "calcium", "19 mg" ], [ "meat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "broth_bone",
     "looks_like": "broth",
     "name": { "str_sp": "bone broth" },
@@ -78,10 +80,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 7 ], [ "iron", "200 μg" ], [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 7 ], [ "iron", "200 μg" ], [ "meat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soup_veggy",
     "looks_like": "water",
     "name": { "str_sp": "vegetable soup" },
@@ -102,10 +105,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ],
-    "fun": 1
+    "fun": 1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soup_three_sisters",
     "looks_like": "water",
     "name": { "str_sp": "three sisters stew" },
@@ -126,10 +130,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ],
-    "fun": 2
+    "fun": 2,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soup_meat",
     "looks_like": "water",
     "name": { "str_sp": "meat soup" },
@@ -155,10 +160,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitC", 36 ], [ "calcium", 3 ], [ "iron", 13 ], [ "meat_allergen", 1 ] ],
-    "fun": 1
+    "fun": 1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soup_fish",
     "looks_like": "soup_meat",
     "name": { "str_sp": "fish soup" },
@@ -179,10 +185,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitC", 28 ], [ "calcium", 4 ], [ "iron", 5 ], [ "meat_allergen", 1 ] ],
-    "fun": 1
+    "fun": 1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "curry_veggy",
     "looks_like": "soup_veggy",
     "name": { "str_sp": "curry" },
@@ -203,10 +210,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitC", 35 ], [ "calcium", 4 ], [ "iron", 12 ], [ "veggy_allergen", 1 ] ],
-    "fun": 5
+    "fun": 5,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "curry_meat",
     "looks_like": "soup_meat",
     "name": { "str_sp": "curry with meat" },
@@ -228,10 +236,11 @@
     "charges": 1,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitC", 30 ], [ "calcium", 5 ], [ "iron", 28 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
-    "fun": 8
+    "fun": 8,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soup_woods",
     "looks_like": "soup_veggy",
     "name": { "str_sp": "woods meat soup" },
@@ -253,10 +262,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitC", 9 ], [ "iron", 3 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
-    "fun": 1
+    "fun": 1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soup_woods_egg",
     "looks_like": "soup_woods",
     "name": { "str_sp": "woods egg soup" },
@@ -278,10 +288,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitC", 9 ], [ "iron", 3 ], [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ] ],
-    "fun": 1
+    "fun": 1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hellfire_stew",
     "looks_like": "soup_woods",
     "name": { "str_sp": "hellfire stew" },
@@ -301,10 +312,11 @@
     "charges": 4,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soup_chicken",
     "looks_like": "soup_meat",
     "name": { "str_sp": "chicken noodle soup" },
@@ -326,10 +338,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 9 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
-    "fun": 2
+    "fun": 2,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soup_mushroom",
     "looks_like": "soup_veggy",
     "name": { "str_sp": "mushroom soup" },
@@ -350,10 +363,11 @@
     "charges": 2,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soup_blood",
     "looks_like": "tomato_juice",
     "name": { "str_sp": "blood soup" },
@@ -375,10 +389,11 @@
     "charges": 2,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "fun": 1,
-    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soup_tomato",
     "looks_like": "tomato_juice",
     "name": { "str_sp": "tomato soup" },
@@ -400,10 +415,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitC", "31200 μg" ], [ "iron", "1400 μg" ], [ "calcium", "31500 μg" ], [ "veggy_allergen", 1 ] ],
-    "fun": 2
+    "fun": 2,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soup_dumplings",
     "looks_like": "soup_meat",
     "name": { "str_sp": "chicken and dumplings" },
@@ -425,10 +441,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitC", 7 ], [ "calcium", 9 ], [ "iron", 13 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soup_cullenskink",
     "looks_like": "soup_fish",
     "name": { "str_sp": "Cullen skink" },
@@ -449,10 +466,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitC", 8 ], [ "calcium", 7 ], [ "iron", 7 ], [ "meat_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soup_lobsterstew",
     "looks_like": "soup_fish",
     "name": { "str_sp": "lobster stew" },
@@ -473,10 +491,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitC", 8 ], [ "calcium", 7 ], [ "iron", 7 ], [ "meat_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "fun": 10
+    "fun": 10,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soup_instant_chicken_noodle_prepared",
     "looks_like": "soup_chicken",
     "name": { "str_sp": "instant chicken noodle soup" },
@@ -497,10 +516,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "iron", 2 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
-    "fun": 1
+    "fun": 1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soup_instant_chicken_noodle_powder",
     "name": { "str_sp": "instant chicken noodle soup powder" },
     "looks_like": "meal_bone",
@@ -519,10 +539,11 @@
     "volume": "13 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "iron", 2 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
-    "fun": -10
+    "fun": -10,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soup_instant_vegetable_prepared",
     "looks_like": "soup_veggy",
     "name": { "str_sp": "instant spring vegetable soup" },
@@ -543,10 +564,11 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "iron", 2 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ],
-    "fun": 1
+    "fun": 1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "soup_instant_vegetable_powder",
     "name": { "str_sp": "instant spring vegetable soup powder" },
     "looks_like": "meal_bone",
@@ -565,10 +587,11 @@
     "volume": "13 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "iron", 2 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ],
-    "fun": -10
+    "fun": -10,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "coqauvin",
     "looks_like": "soup_dumplings",
     "name": { "str_sp": "coq au vin" },
@@ -589,6 +612,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitC", "7 mg" ], [ "iron", "23 mg" ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
-    "fun": 16
+    "fun": 16,
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
     "id": "mag_guns",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Guns n Ammo", "str_pl": "issues of Guns n Ammo" },
     "description": "Reviews of firearms, and various useful tips about their use.",
@@ -48,11 +48,12 @@
     "intelligence": 2,
     "time": "7 m",
     "read_skill": "gun",
-    "read_fun": 1
+    "read_fun": 1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "manual_gun",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Gun Owner's Handbook", "str_pl": "copies of The Gun Owner's Handbook" },
     "description": "A thick soft-cover book that claims to be a complete guide to safely operating, maintaining, and repairing firearms.",
@@ -114,11 +115,12 @@
     "max_level": 3,
     "intelligence": 3,
     "time": "15 m",
-    "read_skill": "gun"
+    "read_skill": "gun",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "pocket_firearms",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Pocket Guide to Firearm Safety", "str_pl": "copies of Pocket Guide to Firearm Safety" },
     "description": "This pocket-sized leather-bound guide to firearm safety combines a wealth of concise information with simple to follow instructions and easy to read illustrations.",
@@ -132,11 +134,12 @@
     "max_level": 2,
     "intelligence": 6,
     "time": "20 m",
-    "read_skill": "gun"
+    "read_skill": "gun",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "text_gunsmith",
-    "type": "BOOK",
+    "type": "ITEM",
     "copy-from": "manual_gun",
     "name": {
       "str": "Ballistics: Theory, Design, and Application",
@@ -206,6 +209,7 @@
     "max_level": 2,
     "intelligence": 10,
     "time": "35 m",
-    "read_skill": "gun"
+    "read_skill": "gun",
+    "subtypes": [ "BOOK" ]
   }
 ]

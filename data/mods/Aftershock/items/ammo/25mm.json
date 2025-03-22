@@ -1,7 +1,7 @@
 [
   {
     "id": "afs_25mm_shot",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "25mm canister shot" },
     "description": "A 25mm round with a canister shot load, deals devastating damage against lightly armored foes within mid to close range.  Relatively low tech and affordable when compared to other 25mm grenades, these are often fielded by frontier outfits due to their adequate performance in anti-drone and close quarters combat.",
     "weight": "130 g",
@@ -21,11 +21,12 @@
     "shot_damage": { "damage_type": "bullet", "amount": 16, "armor_penetration": 15 },
     "dispersion": 75,
     "recoil": 2200,
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": [ "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "afs_25mm_ball",
-    "type": "AMMO",
+    "type": "ITEM",
     "copy-from": "afs_25mm_shot",
     "name": { "str_sp": "25mm Ball" },
     "description": "Standard issue UICA 25mm rounds, loading a single lead-core steel-jacketed projectile.  Suitable for general purpose and anti-personnel use, these are the most common 25mm rounds in circulation.",
@@ -38,11 +39,12 @@
     "ammo_type": "afs_25mm",
     "range": 110,
     "damage": { "damage_type": "bullet", "amount": 80, "armor_penetration": 30 },
-    "dispersion": 15
+    "dispersion": 15,
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "afs_25mm_frag",
-    "type": "AMMO",
+    "type": "ITEM",
     "copy-from": "afs_25mm_shot",
     "name": { "str_sp": "25mm FRAG" },
     "description": "Standard issue UICA 25mm rounds, each loading a plastic explosive charge within a frangible ceramic projectile.",
@@ -56,11 +58,12 @@
     "range": 110,
     "effects": [ "FRAG_25mm", "NEVER_MISFIRES" ],
     "damage": { "damage_type": "bullet", "amount": 70, "armor_penetration": 15 },
-    "dispersion": 15
+    "dispersion": 15,
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "afs_25mm_apfsds",
-    "type": "AMMO",
+    "type": "ITEM",
     "copy-from": "afs_25mm_shot",
     "name": { "str_sp": "25mm APFSDS" },
     "description": "Standard issue UICA 25mm rounds, each concealing a finned tungsten-alloy kinetic penetrator within a biodegradable plastic sabot.  Designed to defeat modern personal and light-vehicle armor, these are illegal to own, and thus are seldomly seen outside of military armories.",
@@ -73,11 +76,12 @@
     "ammo_type": "afs_25mm",
     "range": 110,
     "damage": { "damage_type": "bullet", "amount": 70, "armor_penetration": 45 },
-    "dispersion": 15
+    "dispersion": 15,
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "afs_25mm_smart",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "25mm SDART" },
     "description": "High precision 25mm microjet darts.  These low velocity rounds can adjust mid-flight to exploit weaknesses in the target's defenses.",
     "//": "tiny guided rockets.",
@@ -95,6 +99,7 @@
     "effects": [ "NEVER_MISFIRES", "CASELESS_ROUNDS" ],
     "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 30 },
     "critical_multiplier": 10,
-    "dispersion": 0
+    "dispersion": 0,
+    "subtypes": [ "AMMO" ]
   }
 ]

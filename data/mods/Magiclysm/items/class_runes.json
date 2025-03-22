@@ -1,7 +1,7 @@
 [
   {
     "id": "rune_biomancer",
-    "type": "TOOL",
+    "type": "ITEM",
     "symbol": "=",
     "color": "pink",
     "name": { "str": "Biomancer rune" },
@@ -9,11 +9,12 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": [ "stone" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "rune_technomancer",
-    "type": "TOOL",
+    "type": "ITEM",
     "symbol": "=",
     "color": "blue",
     "name": { "str": "Technomancer rune" },
@@ -21,11 +22,12 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": [ "stone" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "rune_magus",
-    "type": "TOOL",
+    "type": "ITEM",
     "symbol": "=",
     "color": "magenta",
     "name": { "str": "Magus rune", "str_pl": "Magi runes" },
@@ -33,11 +35,12 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": [ "stone" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "rune_earthshaper",
-    "type": "TOOL",
+    "type": "ITEM",
     "symbol": "=",
     "color": "green",
     "name": { "str": "Earthshaper rune" },
@@ -45,11 +48,12 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": [ "stone" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "rune_kelvinist",
-    "type": "TOOL",
+    "type": "ITEM",
     "symbol": "=",
     "color": "red",
     "name": { "str": "Kelvinist rune" },
@@ -57,11 +61,12 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": [ "stone" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "rune_stormshaper",
-    "type": "TOOL",
+    "type": "ITEM",
     "symbol": "=",
     "color": "yellow",
     "name": { "str": "Stormshaper rune" },
@@ -69,11 +74,12 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": [ "stone" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "rune_druid",
-    "type": "TOOL",
+    "type": "ITEM",
     "symbol": "=",
     "color": "brown",
     "name": { "str": "Druid rune" },
@@ -81,11 +87,12 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": [ "stone" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "rune_animist",
-    "type": "TOOL",
+    "type": "ITEM",
     "symbol": "=",
     "color": "light_red",
     "name": { "str": "Animist rune" },
@@ -93,11 +100,12 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": [ "stone" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "rune_alchemist",
-    "type": "TOOL",
+    "type": "ITEM",
     "symbol": "=",
     "color": "black",
     "name": { "str": "alchemist rune" },
@@ -105,6 +113,7 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": [ "stone" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "subtypes": [ "TOOL" ]
   }
 ]

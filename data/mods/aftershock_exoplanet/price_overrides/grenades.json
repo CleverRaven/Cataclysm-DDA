@@ -1,7 +1,7 @@
 [
   {
     "id": "smokebomb",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "smoke bomb" },
     "copy-from": "smokebomb",
     "price": "150 USD",
@@ -9,34 +9,38 @@
   },
   {
     "id": "grenade_emp",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "EMP grenade" },
     "copy-from": "grenade_emp",
     "price": "500 USD",
-    "price_postapoc": "500 USD"
+    "price_postapoc": "500 USD",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "grenade",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "grenade" },
     "copy-from": "grenade",
     "price": "350 USD",
-    "price_postapoc": "350 USD"
+    "price_postapoc": "350 USD",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "grenade_inc",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "incendiary grenade" },
     "copy-from": "grenade_inc",
     "price": "450 USD",
-    "price_postapoc": "450 USD"
+    "price_postapoc": "450 USD",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "scrambler",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "scrambler grenade" },
     "copy-from": "scrambler",
     "price": "800 USD",
-    "price_postapoc": "800 USD"
+    "price_postapoc": "800 USD",
+    "subtypes": [ "TOOL" ]
   }
 ]

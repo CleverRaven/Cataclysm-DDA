@@ -1,7 +1,7 @@
 [
   {
     "id": "50ae_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".50 AE FMJ" },
     "description": ".50 Action Express ammunition loaded with a 325-grain jacketed flat-nose bullet, primarily for use in the Desert Eagle pistol.",
     "weight": "35 g",
@@ -68,38 +68,42 @@
     },
     "dispersion": 30,
     "recoil": 1915,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "50ae_jhp",
     "copy-from": "50ae_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".50 AE JHP" },
     "description": ".50 Action Express ammunition loaded with a 300-grain jacketed hollowpoint bullet, primarily for use in the Desert Eagle pistol.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -8 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -8 } },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "reloaded_50ae_jhp",
     "copy-from": "50ae_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".50 AE JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "reloaded_50ae_fmj",
     "copy-from": "50ae_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".50 AE FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "bp_50ae_jhp",
     "copy-from": "50ae_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".50 AE JHP, black powder" },
     "proportional": {
       "price": 0.3,
@@ -108,12 +112,13 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "bp_50ae_fmj",
     "copy-from": "50ae_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".50 AE FMJ, black powder" },
     "proportional": {
       "price": 0.3,
@@ -122,24 +127,27 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "matchhead_50ae_jhp",
     "copy-from": "bp_50ae_jhp",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".50 AE JHP, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_50ae_jhp",
-    "extend": { "effects": [ "MATCHHEAD" ] }
+    "extend": { "effects": [ "MATCHHEAD" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "matchhead_50ae_fmj",
     "copy-from": "bp_50ae_fmj",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": ".50 AE FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_50ae_fmj",
-    "extend": { "effects": [ "MATCHHEAD" ] }
+    "extend": { "effects": [ "MATCHHEAD" ] },
+    "subtypes": [ "AMMO" ]
   }
 ]

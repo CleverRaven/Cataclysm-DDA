@@ -1,6 +1,6 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "battery",
     "category": "spare_parts",
     "price": "120 USD",
@@ -16,10 +16,11 @@
     "//": "Setting battery volume to 0 causes weirdness in vehicle tests.  Please don't do that.",
     "ammo_type": "battery",
     "count": 100,
-    "//2": "1 battery is 1 kJ of energy. 40 batteries is an alkaline C-cell."
+    "//2": "1 battery is 1 kJ of energy. 40 batteries is an alkaline C-cell.",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "butane",
     "name": { "str_sp": "butane" },
     "symbol": "~",
@@ -30,10 +31,11 @@
     "color": "white",
     "flags": [ "TRADER_AVOID" ],
     "phase": "liquid",
-    "ammo_type": "butane"
+    "ammo_type": "butane",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "notch",
     "name": { "str": "notch", "str_pl": "notches" },
     "symbol": "v",
@@ -43,10 +45,11 @@
     "color": "brown",
     "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "solid",
-    "ammo_type": "notch"
+    "ammo_type": "notch",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "aerosol_paint",
     "name": { "str_sp": "aerosol paint" },
     "symbol": "~",
@@ -56,10 +59,11 @@
     "color": "white",
     "flags": [ "TRADER_AVOID" ],
     "phase": "liquid",
-    "ammo_type": "aerosol_paint"
+    "ammo_type": "aerosol_paint",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "permanent_ink",
     "name": { "str_sp": "permanent ink" },
     "symbol": "~",
@@ -69,10 +73,11 @@
     "color": "white",
     "flags": [ "TRADER_AVOID" ],
     "phase": "liquid",
-    "ammo_type": "permanent_ink"
+    "ammo_type": "permanent_ink",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "candle_wax",
     "name": { "str_sp": "candle wax" },
     "symbol": "~",
@@ -81,10 +86,11 @@
     "weight": "1 mg",
     "color": "white",
     "flags": [ "TRADER_AVOID" ],
-    "ammo_type": "candle_wax"
+    "ammo_type": "candle_wax",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "flare_nitrate",
     "name": { "str_sp": "flare pyrotechnic" },
     "symbol": "~",
@@ -93,10 +99,11 @@
     "weight": "1 mg",
     "color": "white",
     "flags": [ "TRADER_AVOID" ],
-    "ammo_type": "flare_nitrate"
+    "ammo_type": "flare_nitrate",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "match",
     "name": { "str": "match", "str_pl": "matches" },
     "symbol": "|",
@@ -107,10 +114,11 @@
     "color": "red",
     "flags": [ "TRADER_AVOID" ],
     "material": [ "wood" ],
-    "ammo_type": "match"
+    "ammo_type": "match",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "oxygen",
     "name": { "str_sp": "oxygen" },
     "material": [ "oxygen" ],
@@ -121,10 +129,11 @@
     "volume": "1 ml",
     "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "gas",
-    "ammo_type": "oxygen"
+    "ammo_type": "oxygen",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "hydrogen",
     "name": { "str_sp": "hydrogen" },
     "material": [ "hydrogen" ],
@@ -135,10 +144,11 @@
     "volume": "1 ml",
     "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "gas",
-    "ammo_type": "hydrogen"
+    "ammo_type": "hydrogen",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "nitrogen",
     "name": { "str_sp": "nitrogen" },
     "material": [ "nitrogen" ],
@@ -149,10 +159,11 @@
     "volume": "1 ml",
     "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "gas",
-    "ammo_type": "nitrogen"
+    "ammo_type": "nitrogen",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
     "id": "betavoltaic",
     "category": "spare_parts",
     "price": "100 USD",
@@ -163,10 +174,11 @@
     "material": [ "steel", "plastic", "lead" ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
     "volume": "250 ml",
-    "weight": "160 g"
+    "weight": "160 g",
+    "subtypes": [ "TOOL" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
     "id": "RTG_coffee",
     "category": "spare_parts",
     "price": "200 USD",
@@ -178,10 +190,11 @@
     "material": [ "steel", "lead" ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
     "volume": "500 ml",
-    "weight": "4000 g"
+    "weight": "4000 g",
+    "subtypes": [ "TOOL" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "aluminum_foil",
     "category": "spare_parts",
     "price": "6 USD 48 cent",
@@ -195,10 +208,11 @@
     "weight": "135 mg",
     "//": "Density of 2.7 g/cm3",
     "ammo_type": "components",
-    "count": 200
+    "count": 200,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "money",
     "price": "1 cent",
     "price_postapoc": "0 cent",
@@ -209,10 +223,11 @@
     "description": "A unit of currency equivalent to 0.01 US dollars.",
     "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
     "volume": "0 ml",
-    "ammo_type": "money"
+    "ammo_type": "money",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "thread",
     "category": "spare_parts",
     "price": "50 USD",
@@ -228,10 +243,11 @@
     "//": "50 weight thread - 50m per gram. Each unit is .25m or roughly 10 inches.",
     "ammo_type": "thread",
     "count": 50,
-    "stack_size": 200
+    "stack_size": 200,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "sinew",
     "category": "spare_parts",
     "price": "0 cent",
@@ -246,10 +262,11 @@
     "weight": "1 g",
     "ammo_type": "thread",
     "count": 10,
-    "stack_size": 200
+    "stack_size": 200,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "plant_fibre",
     "category": "spare_parts",
     "price": "0 cent",
@@ -264,10 +281,11 @@
     "weight": "1 g",
     "ammo_type": "thread",
     "count": 10,
-    "stack_size": 200
+    "stack_size": 200,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "yarn",
     "category": "spare_parts",
     "price": "0 cent",
@@ -282,10 +300,11 @@
     "weight": "1 g",
     "ammo_type": "thread",
     "count": 10,
-    "stack_size": 200
+    "stack_size": 200,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "soap",
     "category": "chems",
     "price": "3 USD",
@@ -298,10 +317,11 @@
     "weight": "10 g",
     "ammo_type": "soap",
     "count": 10,
-    "stack_size": 10
+    "stack_size": 10,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "moisturizer",
     "category": "chems",
     "price": "3 USD",
@@ -378,10 +398,11 @@
         "description": "A moisturizer that works all day and night.  A perfect fit for those that decide their own sleep schedule.",
         "weight": 5
       }
-    ]
+    ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "duct_tape",
     "category": "spare_parts",
     "price": "3 cent",
@@ -396,10 +417,11 @@
     "ammo_type": "tape",
     "count": 1,
     "//1": "50 x 125 x 0.3 mm per unit, rounded up. 200 units = 25 m",
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": [ "UNRECOVERABLE" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "category": "other",
     "id": "rolling_paper",
     "symbol": ",",
@@ -414,10 +436,11 @@
     "ammo_type": "components",
     "stack_size": 200,
     "count": 30,
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": [ "UNRECOVERABLE" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "cable",
     "category": "spare_parts",
     "price": "20 USD",
@@ -431,10 +454,11 @@
     "volume": "155 ml",
     "weight": "5413 mg",
     "ammo_type": "components",
-    "count": 200
+    "count": 200,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "copper_wire",
     "category": "spare_parts",
     "price": "20 USD",
@@ -448,10 +472,11 @@
     "volume": "110 ml",
     "weight": "4747 mg",
     "ammo_type": "components",
-    "count": 200
+    "count": 200,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "plut_cell",
     "category": "spare_parts",
     "price": "1 kUSD 500 USD",
@@ -466,10 +491,11 @@
     "weight": "20 g",
     "ammo_type": "plutonium",
     "count": 5,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "uran_cell",
     "category": "spare_parts",
     "price": "50 USD",
@@ -485,10 +511,11 @@
     "weight": "38 g",
     "ammo_type": "uranium",
     "count": 1,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "plut_slurry_dense",
     "category": "spare_parts",
     "material": [ "plutonium" ],
@@ -503,10 +530,11 @@
     "weight": "495 g",
     "ammo_type": "reactor_slurry",
     "phase": "liquid",
-    "count": 1
+    "count": 1,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "plut_slurry",
     "category": "spare_parts",
     "material": [ "plutonium" ],
@@ -521,10 +549,11 @@
     "weight": "255 g",
     "ammo_type": "reactor_slurry",
     "phase": "liquid",
-    "count": 1
+    "count": 1,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "rock",
     "symbol": "*",
     "color": "light_gray",
@@ -544,10 +573,11 @@
     "recovery_chance": 99,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "ALLOWS_BODY_BLOCK" ],
     "qualities": [ [ "HAMMER", 1 ] ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "pebble",
     "name": { "str": "pebble" },
     "symbol": "=",
@@ -563,10 +593,11 @@
     "dispersion": 14,
     "loudness": 0,
     "recovery_chance": 90,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "pebble_clay",
     "price": "1 USD 50 cent",
     "price_postapoc": "10 cent",
@@ -585,10 +616,11 @@
     "loudness": 0,
     "count": 40,
     "recovery_chance": 50,
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": [ "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "marble",
     "price": "2 USD",
     "price_postapoc": "10 cent",
@@ -607,10 +639,11 @@
     "loudness": 0,
     "count": 20,
     "recovery_chance": 10,
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": [ "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "bearing",
     "price": "1 USD",
     "price_postapoc": "2 USD 50 cent",
@@ -630,10 +663,11 @@
     "loudness": 0,
     "count": 50,
     "recovery_chance": 95,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "bb",
     "price": "5 USD",
     "price_postapoc": "50 cent",
@@ -651,10 +685,11 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "feather",
     "category": "spare_parts",
     "price": "30 USD",
@@ -669,10 +704,11 @@
     "weight": "1 g",
     "ammo_type": "components",
     "stack_size": 100,
-    "count": 20
+    "count": 20,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "down_feather",
     "category": "spare_parts",
     "price": "30 USD",
@@ -687,10 +723,11 @@
     "weight": "1 g",
     "ammo_type": "components",
     "stack_size": 100,
-    "count": 20
+    "count": 20,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "120mm_HEAT",
     "price": "9 kUSD 999 USD 99 cent",
     "price_postapoc": "10 USD",
@@ -706,10 +743,11 @@
     "range": 80,
     "dispersion": 5,
     "recoil": 30,
-    "effects": [ "EXPLOSIVE_120mmHEAT", "TRAIL" ]
+    "effects": [ "EXPLOSIVE_120mmHEAT", "TRAIL" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "plasma",
     "price": "800 USD",
     "price_postapoc": "10 USD",
@@ -725,10 +763,11 @@
     "range": 12,
     "count": 25,
     "effects": [ "INCENDIARY" ],
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": [ "UNRECOVERABLE" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "gunpowder",
     "category": "chems",
     "price": "5 USD",
@@ -744,64 +783,71 @@
     "weight": "100 mg",
     "ammo_type": "components",
     "count": 4540,
-    "effects": [ "COOKOFF" ]
+    "effects": [ "COOKOFF" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "gunpowder_shotgun",
     "copy-from": "gunpowder",
     "price": "30 USD",
     "price_postapoc": "25 USD",
     "name": { "str_sp": "smokeless shotgun powder" },
-    "description": "Firearm-quality gunpowder intended for use in shotgun shells."
+    "description": "Firearm-quality gunpowder intended for use in shotgun shells.",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "gunpowder_pistol",
     "copy-from": "gunpowder",
     "price": "30 USD",
     "price_postapoc": "25 USD",
     "name": { "str_sp": "smokeless pistol powder" },
-    "description": "Firearm-quality gunpowder intended for use in pistol ammunition."
+    "description": "Firearm-quality gunpowder intended for use in pistol ammunition.",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "gunpowder_magnum_pistol",
     "copy-from": "gunpowder",
     "price": "30 USD",
     "price_postapoc": "25 USD",
     "name": { "str_sp": "smokeless magnum powder" },
-    "description": "Firearm-quality gunpowder intended for use in magnum pistol ammunition."
+    "description": "Firearm-quality gunpowder intended for use in magnum pistol ammunition.",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "gunpowder_rifle",
     "copy-from": "gunpowder",
     "price": "30 USD",
     "price_postapoc": "25 USD",
     "name": { "str_sp": "smokeless rifle powder" },
-    "description": "Firearm-quality gunpowder intended for use in rifle ammunition."
+    "description": "Firearm-quality gunpowder intended for use in rifle ammunition.",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "gunpowder_large_rifle",
     "copy-from": "gunpowder",
     "price": "30 USD",
     "price_postapoc": "25 USD",
     "name": { "str_sp": "smokeless overbore rifle powder" },
-    "description": "Firearm-quality gunpowder intended for use in large rifle ammunition."
+    "description": "Firearm-quality gunpowder intended for use in large rifle ammunition.",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "gunpowder_artillery",
     "copy-from": "gunpowder",
     "price": "30 USD",
     "price_postapoc": "25 USD",
     "name": { "str_sp": "artillery propellant" },
-    "description": "Single base smokeless gunpowder intended for use in artillery propelling charges."
+    "description": "Single base smokeless gunpowder intended for use in artillery propelling charges.",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "oxy_powder",
     "category": "chems",
     "price": "30 USD",
@@ -815,10 +861,11 @@
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": [ "COOKOFF" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "lye_powder",
     "category": "chems",
     "price": "30 USD",
@@ -831,10 +878,11 @@
     "volume": "250 ml",
     "weight": "2662 mg",
     "ammo_type": "components",
-    "count": 200
+    "count": 200,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "shotgun_primer",
     "category": "spare_parts",
     "price": "30 USD",
@@ -848,10 +896,11 @@
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": [ "COOKOFF" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "smpistol_primer",
     "category": "spare_parts",
     "price": "40 USD",
@@ -865,10 +914,11 @@
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": [ "COOKOFF" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "lgpistol_primer",
     "category": "spare_parts",
     "price": "60 USD",
@@ -882,10 +932,11 @@
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": [ "COOKOFF" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "smrifle_primer",
     "category": "spare_parts",
     "price": "60 USD",
@@ -899,10 +950,11 @@
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": [ "COOKOFF" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "lgrifle_primer",
     "category": "spare_parts",
     "price": "80 USD",
@@ -916,10 +968,11 @@
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": [ "COOKOFF" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "rubber_slug",
     "category": "spare_parts",
     "price": "10 USD",
@@ -932,10 +985,11 @@
     "volume": "250 ml",
     "weight": "2 g",
     "ammo_type": "components",
-    "count": 25
+    "count": 25,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "chunk_rubber",
     "category": "spare_parts",
     "price": "75 cent",
@@ -948,10 +1002,11 @@
     "volume": "250 ml",
     "weight": "38 g",
     "ammo_type": "components",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "copper",
     "category": "spare_parts",
     "price": "10 USD",
@@ -965,10 +1020,11 @@
     "weight": "5 g",
     "//": "200*5g / 8.63g/ml = ~115.87ml. Add 10% to take an uneven chunk into account = 127.46ml rounded upwards to 128ml.",
     "ammo_type": "components",
-    "count": 200
+    "count": 200,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "medical_tape",
     "category": "spare_parts",
     "price": "20 USD",
@@ -982,10 +1038,11 @@
     "volume": "1 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "count": 1
+    "count": 1,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "charcoal",
     "category": "spare_parts",
     "//0": [
@@ -1005,10 +1062,11 @@
     "weight": "1040 mg",
     "ammo_type": "charcoal",
     "count": 1,
-    "stack_size": 1
+    "stack_size": 1,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "carbon_electrode",
     "category": "spare_parts",
     "name": { "str": "carbon electrode rod" },
@@ -1020,10 +1078,11 @@
     "color": "dark_gray",
     "phase": "solid",
     "volume": "50 ml",
-    "weight": "10 g"
+    "weight": "10 g",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "coal_lump",
     "category": "spare_parts",
     "//0": "about a $0.15 per kg of coal commercially. fetches $0.001 per chunk to survivors",
@@ -1040,10 +1099,11 @@
     "//": "Density somewhere around 0.931 g/cm3 (bulk density of anthracite), roughly 31kJ per unit of coal",
     "ammo_type": "coal",
     "count": 1000,
-    "stack_size": 200
+    "stack_size": 200,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "albuterol",
     "category": "drugs",
     "name": { "str_sp": "albuterol" },
@@ -1055,10 +1115,11 @@
     "weight": "1 mg",
     "flags": [ "TRADER_AVOID" ],
     "phase": "gas",
-    "ammo_type": "albuterol"
+    "ammo_type": "albuterol",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "ampoule",
     "category": "drugs",
     "price": "500 USD",
@@ -1072,10 +1133,11 @@
     "weight": "1 g",
     "ammo_type": "ampoule",
     "count": 2,
-    "stack_size": 20
+    "stack_size": 20,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "stimpack_ammo",
     "category": "drugs",
     "price": "300 USD",
@@ -1089,10 +1151,11 @@
     "weight": "1 g",
     "ammo_type": "stimpack_ammo",
     "count": 5,
-    "stack_size": 10
+    "stack_size": 10,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "liq_bandage",
     "category": "drugs",
     "price": "2 USD",
@@ -1106,10 +1169,11 @@
     "weight": "33 mg",
     "count": 30,
     "phase": "liquid",
-    "ammo_type": "liq_bandage"
+    "ammo_type": "liq_bandage",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "rebreather_filler_soda_lime",
     "category": "spare_parts",
     "price": "13 cent",
@@ -1123,10 +1187,11 @@
     "volume": "33 ml",
     "weight": "13 g",
     "ammo_type": "rebreather_filter",
-    "count": 1
+    "count": 1,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "rebreather_filler_ko2",
     "category": "spare_parts",
     "price": "24 cent",
@@ -1141,10 +1206,11 @@
     "weight": "6 g",
     "//": "Density is 2.14 g/cm3, rounded down to account for it being powder, weight is given per 1 minute of scrubbing",
     "ammo_type": "rebreather_o2_regenerator",
-    "count": 1
+    "count": 1,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "gasfilter_s",
     "category": "tool_magazine",
     "material": [ "charcoal" ],
@@ -1157,10 +1223,11 @@
     "volume": "1 ml",
     "weight": "200 mg",
     "ammo_type": "gasfilter_s",
-    "count": 1
+    "count": 1,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "gasfilter_m",
     "category": "tool_magazine",
     "name": { "str_sp": "activated carbon" },
@@ -1174,10 +1241,11 @@
     "ammo_type": "gasfilter_m",
     "count": 1,
     "//": "Obviously, activated carbon isn't magically weightless, but it's used as ammunition within gas mask filters, and the filters shouldn't equally magically grow lighter as the coal binds with chemicals. Considering that this is never found beyond gas mask canisters, having zero weight should make no difference to the player.",
-    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "nicotine_liquid",
     "category": "drugs",
     "price": "10 USD",
@@ -1190,11 +1258,12 @@
     "volume": "30 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "count": 30
+    "count": 30,
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "fish_bait",
-    "type": "AMMO",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "fish bait" },
     "description": "A handful of bait, used in traps to lure fish.",
@@ -1204,10 +1273,11 @@
     "color": "light_red",
     "count": 20,
     "stack_size": 50,
-    "ammo_type": "fish_bait"
+    "ammo_type": "fish_bait",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "spiked_rocket",
     "price": "10 USD",
     "price_postapoc": "1 USD",
@@ -1223,10 +1293,11 @@
     "range": 18,
     "dispersion": 180,
     "recoil": 130,
-    "effects": [ "COOKOFF", "TRAIL" ]
+    "effects": [ "COOKOFF", "TRAIL" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "explosive_hm_rocket",
     "price": "20 USD",
     "price_postapoc": "1 USD",
@@ -1242,10 +1313,11 @@
     "range": 23,
     "dispersion": 170,
     "recoil": 130,
-    "effects": [ "SPECIAL_COOKOFF", "TRAIL", "EXPLOSIVE" ]
+    "effects": [ "SPECIAL_COOKOFF", "TRAIL", "EXPLOSIVE" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "incendiary_hm_rocket",
     "price": "13 USD",
     "price_postapoc": "1 USD",
@@ -1261,10 +1333,11 @@
     "range": 13,
     "dispersion": 200,
     "recoil": 130,
-    "effects": [ "SPECIAL_COOKOFF", "TRAIL", "NAPALM" ]
+    "effects": [ "SPECIAL_COOKOFF", "TRAIL", "NAPALM" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "unfinished_charcoal",
     "category": "spare_parts",
     "price": "0 cent",
@@ -1276,10 +1349,11 @@
     "material": [ "wood" ],
     "volume": "300 ml",
     "weight": "250 g",
-    "ammo_type": "unfinished_char"
+    "ammo_type": "unfinished_char",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "lamellae_lc",
     "category": "spare_parts",
     "name": { "str": "mild steel lamella", "str_pl": "mild steel lamellae" },
@@ -1294,10 +1368,11 @@
     "color": "light_gray",
     "ammo_type": "components",
     "count": 18,
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "lamellae_ch",
     "category": "spare_parts",
     "name": { "str": "hardened steel lamella", "str_pl": "hardened steel lamellae" },
@@ -1312,10 +1387,11 @@
     "color": "light_gray",
     "ammo_type": "components",
     "count": 18,
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "chain_link",
     "category": "spare_parts",
     "price": "1 USD 50 cent",
@@ -1328,10 +1404,11 @@
     "volume": "250 ml",
     "weight": "320 mg",
     "ammo_type": "components",
-    "count": 425
+    "count": 425,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "lc_chain_link",
     "category": "spare_parts",
     "//": "link weighs 1/3 gram or so, make 425 per 150 gram wire to account for loss",
@@ -1345,38 +1422,43 @@
     "volume": "250 ml",
     "weight": "320 mg",
     "ammo_type": "components",
-    "count": 425
+    "count": 425,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "mc_chain_link",
     "copy-from": "lc_chain_link",
     "name": { "str": "medium steel chain link" },
-    "material": [ "mc_steel" ]
+    "material": [ "mc_steel" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "hc_chain_link",
     "copy-from": "lc_chain_link",
     "name": { "str": "high steel chain link" },
-    "material": [ "hc_steel" ]
+    "material": [ "hc_steel" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "ch_chain_link",
     "copy-from": "lc_chain_link",
     "name": { "str": "hardened steel chain link" },
-    "material": [ "ch_steel" ]
+    "material": [ "ch_steel" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "qt_chain_link",
     "copy-from": "lc_chain_link",
     "name": { "str": "tempered steel chain link" },
-    "material": [ "qt_steel" ]
+    "material": [ "qt_steel" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "nitrox",
     "category": "chems",
     "price": "5 USD",
@@ -1390,10 +1472,11 @@
     "volume": "250 ml",
     "weight": "1 g",
     "phase": "gas",
-    "ammo_type": "nitrox"
+    "ammo_type": "nitrox",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "extinguishing_agent",
     "category": "chems",
     "price": "5 USD",
@@ -1407,10 +1490,11 @@
     "weight": "1 g",
     "phase": "gas",
     "ammo_type": "extinguishing_agent",
-    "count": 10
+    "count": 10,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "teargas_spray",
     "category": "chems",
     "price": "5 USD",
@@ -1424,11 +1508,12 @@
     "weight": "1 g",
     "phase": "gas",
     "ammo_type": "teargas_spray",
-    "count": 10
+    "count": 10,
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "tinder",
-    "type": "AMMO",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str_sp": "tinder" },
     "description": "Flammable material, finely divided for easy combustion.",
@@ -1443,10 +1528,11 @@
     "count": 50,
     "ammo_type": "tinder",
     "effects": [ "NEVER_MISFIRES" ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "RPG_die",
     "price": "10 cent",
     "price_postapoc": "10 cent",
@@ -1466,10 +1552,11 @@
     "count": 7,
     "recovery_chance": 80,
     "effects": [ "NEVER_MISFIRES" ],
-    "use_action": [ "RPGDIE" ]
+    "use_action": [ "RPGDIE" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "metal_RPG_die",
     "price": "50 cent",
     "price_postapoc": "10 cent",
@@ -1489,11 +1576,12 @@
     "count": 7,
     "recovery_chance": 90,
     "effects": [ "NEVER_MISFIRES" ],
-    "use_action": [ "RPGDIE" ]
+    "use_action": [ "RPGDIE" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "scrap_bronze",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "chunk of bronze", "str_pl": "chunks of bronze" },
     "description": "Some decent-sized chunks of scrap bronze, for fashioning some old-school items.",
@@ -1508,7 +1596,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "glowstick_juice",
     "name": { "str_sp": "glowstick juice" },
     "symbol": "~",
@@ -1517,10 +1605,11 @@
     "weight": "1 mg",
     "color": "white",
     "flags": [ "TRADER_AVOID" ],
-    "ammo_type": "glowstick_juice"
+    "ammo_type": "glowstick_juice",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "graphite",
     "name": { "str_sp": "graphite" },
     "symbol": "!",
@@ -1530,10 +1619,11 @@
     "color": "dark_gray",
     "looks_like": "charcoal",
     "flags": [ "TRADER_AVOID" ],
-    "ammo_type": "graphite"
+    "ammo_type": "graphite",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "black_pen_ink",
     "name": { "str_sp": "black pen ink" },
     "symbol": "~",
@@ -1544,10 +1634,11 @@
     "looks_like": "permanent_ink",
     "flags": [ "TRADER_AVOID" ],
     "phase": "liquid",
-    "ammo_type": "black_pen_ink"
+    "ammo_type": "black_pen_ink",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "blue_pen_ink",
     "name": { "str_sp": "blue pen ink" },
     "symbol": "~",
@@ -1558,10 +1649,11 @@
     "looks_like": "permanent_ink",
     "flags": [ "TRADER_AVOID" ],
     "phase": "liquid",
-    "ammo_type": "blue_pen_ink"
+    "ammo_type": "blue_pen_ink",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "green_pen_ink",
     "name": { "str_sp": "green pen ink" },
     "symbol": "~",
@@ -1572,10 +1664,11 @@
     "looks_like": "permanent_ink",
     "flags": [ "TRADER_AVOID" ],
     "phase": "liquid",
-    "ammo_type": "green_pen_ink"
+    "ammo_type": "green_pen_ink",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "red_pen_ink",
     "name": { "str_sp": "red pen ink" },
     "symbol": "~",
@@ -1586,10 +1679,11 @@
     "looks_like": "permanent_ink",
     "flags": [ "TRADER_AVOID" ],
     "phase": "liquid",
-    "ammo_type": "red_pen_ink"
+    "ammo_type": "red_pen_ink",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "airgun_pellet_target",
     "price": "5 USD",
     "price_postapoc": "50 cent",
@@ -1607,10 +1701,11 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "airgun_pellet_hunting",
     "price": "5 USD",
     "price_postapoc": "50 cent",
@@ -1628,6 +1723,7 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ],
+    "subtypes": [ "AMMO" ]
   }
 ]

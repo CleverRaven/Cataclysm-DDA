@@ -2,22 +2,25 @@
   {
     "id": "shoulder_strap_simple",
     "copy-from": "shoulder_strap_simple",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "two point sling" },
-    "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher", "smartgun" ]
+    "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher", "smartgun" ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "shoulder_strap",
     "copy-from": "shoulder_strap",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "adjustable sling ", "str_pl": "adjustable slings " },
-    "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher", "smartgun" ]
+    "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher", "smartgun" ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "shoulder_strap_front",
     "copy-from": "shoulder_strap_front",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "adjustable sling (front)", "str_pl": "adjustable slings (front)" },
-    "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher", "smartgun" ]
+    "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher", "smartgun" ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   }
 ]

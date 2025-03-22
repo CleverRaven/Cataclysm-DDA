@@ -1,6 +1,6 @@
 [
   {
-    "type": "TOOL",
+    "type": "ITEM",
     "id": "escape_stone",
     "name": { "str_sp": "portable portal" },
     "color": "magenta",
@@ -13,10 +13,11 @@
     "weight": "10 g",
     "symbol": "@",
     "description": "This defies easy description, it feels solid but the surface is yielding.  Looking at it you have a strange desire to call it a shelter.",
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "subtypes": [ "TOOL" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
     "id": "unstable_rift",
     "name": { "str_sp": "unstable rift" },
     "color": "red",
@@ -26,10 +27,11 @@
       "description": "Seems like a random spatial distortion.",
       "effect_on_conditions": [ "EOC_PORTAL_TELEPORT_UNSTABLE_RIFT" ]
     },
-    "description": "This defies easy description, it feels solid but the surface is yielding.  Looking at it you have a strange desire to call it a door."
+    "description": "This defies easy description, it feels solid but the surface is yielding.  Looking at it you have a strange desire to call it a door.",
+    "subtypes": [ "TOOL" ]
   },
   {
-    "type": "TOOL",
+    "type": "ITEM",
     "id": "calming_stone",
     "name": { "str_sp": "calming anomaly" },
     "color": "red",
@@ -39,6 +41,7 @@
       "description": "Seems like it could calm local conditions.",
       "effect_on_conditions": [ "EOC_CANCEL_PORTAL_STORM" ]
     },
-    "description": "This defies easy description, it feels solid but the surface is yielding.  Looking at it you are reminded of the calm at the end of a portal storm."
+    "description": "This defies easy description, it feels solid but the surface is yielding.  Looking at it you are reminded of the calm at the end of a portal storm.",
+    "subtypes": [ "TOOL" ]
   }
 ]

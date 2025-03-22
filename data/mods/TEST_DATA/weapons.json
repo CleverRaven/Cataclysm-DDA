@@ -5,7 +5,7 @@
     "name": "Test Category"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_weapon1",
     "name": { "str": "test melee weapon 1" },
     "description": "Test melee weapon 1.",
@@ -17,7 +17,7 @@
     "symbol": ";"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "test_weapon2",
     "name": { "str": "test melee weapon 2" },
     "description": "Test melee weapon 2.",
@@ -31,7 +31,7 @@
   },
   {
     "id": "reach_bow",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "reach bow" },
@@ -52,6 +52,7 @@
     "reload": 60,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "subtypes": [ "GUN" ]
   }
 ]

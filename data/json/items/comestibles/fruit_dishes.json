@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "strawberries_cooked",
     "name": { "str_sp": "cooked strawberry" },
     "copy-from": "strawberries",
@@ -18,10 +18,11 @@
     "phase": "liquid",
     "fun": 2,
     "flags": [ "USE_EAT_VERB", "EATEN_COLD" ],
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "fruit_leather",
     "name": { "str_sp": "fruit leather" },
     "conditional_names": [
@@ -79,10 +80,11 @@
     "volume": "50 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "vitC", 21 ], [ "calcium", 2 ], [ "iron", 4 ], [ "fruit_allergen", 1 ] ],
-    "fun": 3
+    "fun": 3,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "blueberries_cooked",
     "name": { "str_sp": "cooked blueberry" },
     "copy-from": "blueberries",
@@ -99,10 +101,11 @@
     "phase": "liquid",
     "fun": 3,
     "flags": [ "USE_EAT_VERB", "EATEN_COLD" ],
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "can_peach",
     "name": { "str_sp": "peaches in syrup" },
     "weight": "251 g",
@@ -120,10 +123,11 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 5,
-    "vitamins": [ [ "vitC", "6 mg" ], [ "iron", "900 μg" ], [ "calcium", "7500 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "6 mg" ], [ "iron", "900 μg" ], [ "calcium", "7500 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "can_pineapple",
     "name": { "str_sp": "canned pineapple" },
     "weight": "246 g",
@@ -140,10 +144,11 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 7,
-    "vitamins": [ [ "vitC", "18900 μg" ], [ "iron", "1 mg" ], [ "calcium", "36900 μg" ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "18900 μg" ], [ "iron", "1 mg" ], [ "calcium", "36900 μg" ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "lemonade_powder",
     "name": { "str_sp": "lemonade drink mix" },
     "weight": "19 g",
@@ -161,24 +166,27 @@
     "volume": "25 ml",
     "flags": [ "EDIBLE_FROZEN", "SOFT", "WATER_DISSOLVE" ],
     "vitamins": [ [ "vitC", 7 ], [ "fruit_allergen", 1 ] ],
-    "fun": 1
+    "fun": 1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "orangeade_powder",
     "name": { "str_sp": "orangeade drink mix" },
     "copy-from": "lemonade_powder",
-    "description": " Can be mixed with water to make orange juice."
+    "description": " Can be mixed with water to make orange juice.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "grapeade_powder",
     "name": { "str_sp": "grapeade drink mix" },
     "copy-from": "lemonade_powder",
-    "description": " Can be mixed with water to make grape juice."
+    "description": " Can be mixed with water to make grape juice.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "fruit_cooked",
     "name": { "str_sp": "cooked fruit" },
     "conditional_names": [
@@ -239,10 +247,11 @@
     "fun": 2,
     "//": "this item is intended to generally be inherited from the fruit that was cooked.",
     "vitamins": [ [ "vitC", 20 ], [ "fruit_allergen", 1 ] ],
-    "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
+    "flags": [ "USE_EAT_VERB", "EATEN_COLD" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "jam_fruit",
     "name": { "str_sp": "fruit jam" },
     "conditional_names": [
@@ -302,10 +311,11 @@
     "charges": 8,
     "fun": 10,
     "flags": [ "USE_EAT_VERB" ],
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "dry_fruit",
     "name": { "str_sp": "dehydrated fruit" },
     "conditional_names": [
@@ -370,10 +380,11 @@
     "volume": "100 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 2,
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "rehydrated_fruit",
     "name": { "str_sp": "rehydrated fruit" },
     "conditional_names": [
@@ -435,10 +446,11 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 4,
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "apple_sugar",
     "name": { "str_sp": "fruit slice" },
     "conditional_names": [
@@ -494,10 +506,11 @@
     "material": [ "fruit" ],
     "volume": "62 ml",
     "fun": 3,
-    "vitamins": [ [ "iron", 2 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "iron", 2 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "apple_canned",
     "name": { "str_sp": "canned fruit" },
     "conditional_names": [
@@ -555,10 +568,11 @@
     "material": [ "fruit" ],
     "volume": "125 ml",
     "fun": 1,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 10 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 10 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "pumpkin_yeast_bread",
     "name": { "str_sp": "pumpkin yeast bread" },
     "weight": "15 g",
@@ -574,10 +588,11 @@
     "material": [ "fruit" ],
     "volume": "60 ml",
     "fun": 3,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hardtack_pudding",
     "looks_like": "biscuit",
     "name": { "str": "hardtack pudding" },
@@ -597,10 +612,11 @@
     "charges": 4,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "jerusalem_artichoke_fruitmash",
     "looks_like": "veggy_salad",
     "name": { "str_sp": "Jerusalem artichoke fruit dessert" },
@@ -618,10 +634,11 @@
     "volume": "80 ml",
     "flags": [ "USE_EAT_VERB", "NUTRIENT_OVERRIDE" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ], [ "veggy_allergen", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ], [ "veggy_allergen", 1 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "brandied_fruit",
     "name": { "str_sp": "brandied fruit" },
     "conditional_names": [
@@ -687,6 +704,7 @@
     "fun": 9,
     "//": "this item is intended to generally be inherited from the fruit and alcohol used.",
     "vitamins": [ [ "vitC", 20 ], [ "fruit_allergen", 1 ] ],
-    "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
+    "flags": [ "USE_EAT_VERB", "EATEN_COLD" ],
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

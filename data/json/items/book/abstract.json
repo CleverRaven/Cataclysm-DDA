@@ -1,18 +1,19 @@
 [
   {
     "abstract": "book_nonf_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Generic Nonfiction Book" },
     "description": "template for a manuscript purporting to be factual",
     "intelligence": 5,
     "symbol": "?",
     "looks_like": "story_book",
     "color": "light_blue",
-    "time": "20 m"
+    "time": "20 m",
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_fict_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Generic Fiction Book" },
     "description": "template for a work of fiction",
     "intelligence": 5,
@@ -21,11 +22,12 @@
     "color": "light_cyan",
     "time": "15 m",
     "chapters": 16,
-    "read_fun": 2
+    "read_fun": 2,
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_fict_hard_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Generic Hard Bound Fiction Book" },
     "description": "Template for hard bound book of fiction",
     "weight": "1000 g",
@@ -35,11 +37,12 @@
     "price_postapoc": "15 USD",
     "material": [ "paper", "cardboard" ],
     "copy-from": "book_fict_tpl",
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_fict_soft_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "paperback novel", "str_pl": "paperbacks" },
     "description": "An ordinary paperback book.  Or is it?  It is.",
     "weight": "425 g",
@@ -50,19 +53,21 @@
     "material": [ "paper" ],
     "flags": [  ],
     "copy-from": "book_fict_tpl",
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_fict_soft_collection_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "copy-from": "book_fict_soft_tpl",
     "name": { "str": "paperback novel", "str_pl": "paperbacks" },
     "description": "Paperback fiction novel generic collection",
-    "generic": true
+    "generic": true,
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_nonf_hard_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Nonfiction Book" },
     "description": "template for hard bound nonfiction book",
     "weight": "1 kg",
@@ -72,11 +77,12 @@
     "material": [ "paper", "cardboard" ],
     "chapters": 18,
     "copy-from": "book_nonf_tpl",
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_nonf_soft_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Nonfiction Paperback" },
     "description": "template for a paperback nonfiction book",
     "weight": "460 g",
@@ -86,63 +92,70 @@
     "material": [ "paper" ],
     "chapters": 18,
     "copy-from": "book_nonf_tpl",
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_fict_soft_pulp_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Generic Pulp Book" },
     "description": "This is a template for pulp books.  Which really all ought to be paperbacks, right?",
     "looks_like": "novel_pulp",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "intelligence": -1, "chapters": -2, "fun": 1, "price": "-200 cent", "price_postapoc": "-10 USD" }
+    "relative": { "intelligence": -1, "chapters": -2, "fun": 1, "price": "-200 cent", "price_postapoc": "-10 USD" },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_fict_soft_scifi_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Generic SciFi Book" },
     "description": "This is a template for paperback scifi books.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "intelligence": 1, "chapters": 8, "fun": 1 }
+    "relative": { "intelligence": 1, "chapters": 8, "fun": 1 },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_fict_hard_scifi_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Generic SciFi Book" },
     "description": "This is a template for a hard cover scifi book.",
     "copy-from": "book_fict_hard_tpl",
-    "relative": { "intelligence": 1, "chapters": 8, "fun": 1 }
+    "relative": { "intelligence": 1, "chapters": 8, "fun": 1 },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_nonf_hard_homemk_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Homemaking Book" },
     "description": "This is a template for books about homemaking, style, home decor, and home economics.",
     "weight": "1100 g",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "intelligence": -1, "price_postapoc": "-16 USD", "chapters": 2 }
+    "relative": { "intelligence": -1, "price_postapoc": "-16 USD", "chapters": 2 },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_nonf_hard_cook_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Hardcover Cookbook" },
     "description": "This is a template for books about cooking.",
     "copy-from": "book_nonf_hard_tpl",
     "relative": { "intelligence": -1 },
-    "read_skill": "cooking"
+    "read_skill": "cooking",
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_nonf_soft_cook_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Softcover Cookbook" },
     "description": "This is a template for books about cooking.",
     "copy-from": "book_nonf_soft_tpl",
     "relative": { "intelligence": -1 },
-    "read_skill": "cooking"
+    "read_skill": "cooking",
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_nonf_hard_dodge_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "dodge skillbook abstract" },
     "description": "An ordinary book.  Or is it?  It is.",
     "weight": "600 g",
@@ -152,72 +165,80 @@
     "time": "10 m",
     "copy-from": "book_nonf_hard_tpl",
     "read_skill": "dodge",
-    "read_fun": -1
+    "read_fun": -1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_nonf_hard_phil_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Hardcover Philosophy" },
     "description": "This is a template for books about philosophy.",
     "time": "36 m",
     "copy-from": "book_nonf_hard_tpl",
     "relative": { "price": "5 USD", "price_postapoc": "-25 USD", "intelligence": 3 },
-    "read_fun": 1
+    "read_fun": 1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_nonf_soft_phil_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Softcover Philosophy." },
     "description": "This is a template for paperbacks about philosophy.",
     "time": "36 m",
     "copy-from": "book_nonf_soft_tpl",
     "relative": { "price": "4 USD", "price_postapoc": "-26 USD", "intelligence": 3 },
-    "read_fun": 1
+    "read_fun": 1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_pulp_newage_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Generic New-Age Book" },
     "description": "This is a template for pulp new-age books.  They're theoretically nonfiction.",
     "copy-from": "book_fict_soft_pulp_tpl",
     "weight": "250 g",
-    "relative": { "chapters": -6, "price": "25 USD", "price_postapoc": "-1 USD" }
+    "relative": { "chapters": -6, "price": "25 USD", "price_postapoc": "-1 USD" },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_nonf_hard_sports_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Hardcover Nonfiction Sports Book" },
     "description": "This is a template.",
     "copy-from": "book_nonf_hard_tpl",
-    "read_fun": 1
+    "read_fun": 1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_nonf_soft_sports_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Softcover Nonfiction Sports Book." },
     "description": "This is a template.",
     "copy-from": "book_nonf_soft_tpl",
-    "read_fun": 1
+    "read_fun": 1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_fict_hard_sports_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Hardcover Fictional Sports Book" },
     "description": "This is a template.",
     "copy-from": "book_fict_hard_tpl",
-    "read_fun": 2
+    "read_fun": 2,
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_fict_soft_sports_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Softcover Fictional Sports Book." },
     "description": "This is a template.",
     "copy-from": "book_fict_soft_tpl",
-    "read_fun": 2
+    "read_fun": 2,
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "paperback_occult",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "template for mass produced books on esoteric subjects" },
     "description": "An ordinary paperback book.  Or is it?  Is that a glimmer of higher truth?",
     "weight": "371 g",
@@ -232,11 +253,12 @@
     "time": "35 m",
     "chapters": 30,
     "//": "TODO fun should be conditional for this item",
-    "read_fun": 1
+    "read_fun": 1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "paperback_romance_spb",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Sweet Providence Romance Novel" },
     "description": "Sweet Providence Books is a publisher of discount romance paperbacks easily recognized by their blue and yellow cover illustrations.  Despite the adult nature of their subject matter, the books tend to be under 250 pages of large print written in a vocabulary consistent with a 4th grade reading level.",
     "//": "these are books are tiny",
@@ -244,71 +266,79 @@
     "volume": "400 ml",
     "copy-from": "book_fict_soft_tpl",
     "time": "11 m",
-    "relative": { "price": "-351 cent", "price_postapoc": "-800 cents", "chapters": -8, "intelligence": -1 }
+    "relative": { "price": "-351 cent", "price_postapoc": "-800 cents", "chapters": -8, "intelligence": -1 },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "paperback_romance_lnl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Lorn and Loan Romance Novel" },
     "description": "Lorn and Loan Press marketed romance paperbacks to a variety of alt demographics, especially those with a penchant for eyeliner.  The books are billed as \"provocative,\" but words like \"malingering\" and \"turgid\" also come to mind.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_postapoc": "-400 cents", "intelligence": 1, "fun": -1 }
+    "relative": { "price_postapoc": "-400 cents", "intelligence": 1, "fun": -1 },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "paperback_romance_vanilla",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Vanilla Romance Novel" },
     "description": "Vanilla Media is a mainstream publisher providing romantic literature to everyday readers of taste.  These stories contain explicit details only in the odd chapters, and invariably end with a conventionally uplifting moral.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_postapoc": "-1 USD", "intelligence": -1 }
+    "relative": { "price_postapoc": "-1 USD", "intelligence": -1 },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "paperback_western_em",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "The Everyman Library" },
     "description": "The Everyman Library is an imprint of Vanilla Media that publishes stories about private eyes, cowboys, quarterbacks, and mobsters.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_postapoc": "-1 USD", "intelligence": -1 }
+    "relative": { "price_postapoc": "-1 USD", "intelligence": -1 },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_fict_soft_ya_vanilla",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Tween Topics" },
     "description": "Tween Topics is an imprint of Vanilla Media that publishes stories that appeal to the youth of today.  Or, failing that, the parents of said youth.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_postapoc": "-4 USD", "intelligence": -1, "fun": -1 }
+    "relative": { "price_postapoc": "-4 USD", "intelligence": -1, "fun": -1 },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_fict_soft_ya_quiddity",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Quiddity Books" },
     "description": "Quiddity publishes books for young adults.  They offer stories about self-discovery, personal identity, and contemporary trends.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_postapoc": "-4 USD", "chapters": 7 }
+    "relative": { "price_postapoc": "-4 USD", "chapters": 7 },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_fict_hard_ya_quiddity",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Quiddity Books" },
     "description": "Quiddity publishes books for young adults.  They offer stories about self-discovery, personal identity, and contemporary trends.",
     "weight": "500 g",
     "volume": "1014 ml",
     "longest_side": "22 cm",
     "copy-from": "book_fict_hard_tpl",
-    "relative": { "price_postapoc": "-4 USD", "chapters": 10 }
+    "relative": { "price_postapoc": "-4 USD", "chapters": 10 },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_fict_soft_satire_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Satire Template" },
     "description": "template for mass produced satirical fiction",
     "copy-from": "book_fict_soft_tpl",
     "time": "20 m",
-    "relative": { "intelligence": 3, "price": "2 USD 49 cent" }
+    "relative": { "intelligence": 3, "price": "2 USD 49 cent" },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_nonf_zine",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Magazine Template" },
     "description": "template for magazine",
     "intelligence": 4,
@@ -320,22 +350,24 @@
     "symbol": "?",
     "color": "pink",
     "time": "8 m",
-    "read_fun": 1
+    "read_fun": 1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_nonf_zine_news_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "News Magazine Template" },
     "description": "template for news magazine",
     "looks_like": "flyer",
     "copy-from": "book_nonf_zine",
     "time": "11 m",
-    "relative": { "intelligence": 1 }
+    "relative": { "intelligence": 1 },
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_magazine",
     "//": "this is the original version of book_nonf_zine",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "readable magazine" },
     "weight": "70 g",
     "volume": "250 ml",
@@ -345,11 +377,12 @@
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "read_fun": 1
+    "read_fun": 1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_antho_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Generic Anthology Book" },
     "description": "template for a collection of stories",
     "intelligence": 5,
@@ -358,11 +391,12 @@
     "color": "yellow",
     "time": "15 m",
     "chapters": 16,
-    "read_fun": 2
+    "read_fun": 2,
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_martial",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "ma_manuals",
     "name": { "str": "martial art manual" },
     "weight": "150 g",
@@ -374,11 +408,12 @@
     "looks_like": "manual_gun",
     "use_action": [ "MA_MANUAL" ],
     "intelligence": 9,
-    "time": "10 m"
+    "time": "10 m",
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "book_nonf_hard_arch_tpl",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "archery skill training abstract" },
     "description": "template for heavy books that confer archery skill training",
@@ -392,11 +427,12 @@
     "color": "green",
     "intelligence": 7,
     "time": "20 m",
-    "read_skill": "archery"
+    "read_skill": "archery",
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "holybook_abstract",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "holybook abstract" },
     "description": "theoretically this isn't a book at all",
     "price": "5 USD 50 cent",
@@ -408,12 +444,13 @@
     "flags": [ "INSPIRATIONAL" ],
     "intelligence": 8,
     "time": "10 m",
-    "read_fun": 1
+    "read_fun": 1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "exodii_blueprint",
     "name": "Exodii blueprint abstract",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "weight": "100 g",
     "volume": "200 ml",
@@ -424,11 +461,12 @@
     "looks_like": "paper",
     "required_level": 4,
     "intelligence": 8,
-    "time": "30 m"
+    "time": "30 m",
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "schematics_generic",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str_sp": "schematics" },
     "description": "seeing this is a bug",
@@ -443,13 +481,14 @@
     "time": "55 m",
     "symbol": "ç",
     "color": "blue",
-    "read_skill": "electronics"
+    "read_skill": "electronics",
+    "subtypes": [ "BOOK" ]
   },
   {
     "abstract": "abstractmap",
     "//": "Match type options in iuse_actor.cpp",
     "//1": "Add maps/brochures/pamphlets as appropriate to itemgroups/books.json 's groups",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "maps",
     "name": { "str": "abstract map" },
     "description": "seeing this is a bug",

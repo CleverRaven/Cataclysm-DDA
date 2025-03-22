@@ -1,7 +1,7 @@
 [
   {
     "abstract": "gracken_improvement_general",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "INVALID",
     "category": "MED",
     "name": { "str": "abstract gracken improvement", "//~": "NO_I18N" },
@@ -11,16 +11,18 @@
     "symbol": "!",
     "color": "light_gray",
     "price_postapoc": "10 USD",
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ]
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "gracken_shade_arms",
     "copy-from": "gracken_improvement_general",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "Gracken Shade Arms" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their arms back to a base state.",
-    "consumption_effect_on_conditions": [ "shade_arms" ]
+    "consumption_effect_on_conditions": [ "shade_arms" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -32,11 +34,12 @@
   {
     "id": "gracken_strong_arms",
     "copy-from": "gracken_improvement_general",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "Gracken Strong Arms" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their arms to a stronger form.",
-    "consumption_effect_on_conditions": [ "strong_arms" ]
+    "consumption_effect_on_conditions": [ "strong_arms" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -48,11 +51,12 @@
   {
     "id": "gracken_long_arms",
     "copy-from": "gracken_improvement_general",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "Gracken Long Arms" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their arms to a longer form.",
-    "consumption_effect_on_conditions": [ "long_arms" ]
+    "consumption_effect_on_conditions": [ "long_arms" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -64,11 +68,12 @@
   {
     "id": "gracken_shade_hands",
     "copy-from": "gracken_improvement_general",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "Gracken Shade Hands" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their hands back to a base state.",
-    "consumption_effect_on_conditions": [ "shade_hands" ]
+    "consumption_effect_on_conditions": [ "shade_hands" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -80,11 +85,12 @@
   {
     "id": "gracken_sharp_nails",
     "copy-from": "gracken_improvement_general",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "Gracken Sharp Nails" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their hands to a sharper form.",
-    "consumption_effect_on_conditions": [ "sharp_nails" ]
+    "consumption_effect_on_conditions": [ "sharp_nails" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -96,11 +102,12 @@
   {
     "id": "gracken_dextrous_hands",
     "copy-from": "gracken_improvement_general",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "Gracken Dextrous Hands" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their hands to a more agile form.",
-    "consumption_effect_on_conditions": [ "dextrous_hands" ]
+    "consumption_effect_on_conditions": [ "dextrous_hands" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -112,11 +119,12 @@
   {
     "id": "gracken_herbivorous_stomach",
     "copy-from": "gracken_improvement_general",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "Gracken Herbivorous Stomach" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their diet to an herbivorous one.",
-    "consumption_effect_on_conditions": [ "herbivorous_stomach" ]
+    "consumption_effect_on_conditions": [ "herbivorous_stomach" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -128,11 +136,12 @@
   {
     "id": "gracken_omnivorous_stomach",
     "copy-from": "gracken_improvement_general",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "Gracken Dextrous Hands" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their diet to an omnivorous one.",
-    "consumption_effect_on_conditions": [ "omnivorous_stomach" ]
+    "consumption_effect_on_conditions": [ "omnivorous_stomach" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -144,11 +153,12 @@
   {
     "id": "gracken_carnivorous_stomach",
     "copy-from": "gracken_improvement_general",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "Gracken Dextrous Hands" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their diet to an carnivorous one.",
-    "consumption_effect_on_conditions": [ "carnivorous_stomach" ]
+    "consumption_effect_on_conditions": [ "carnivorous_stomach" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -160,11 +170,12 @@
   {
     "id": "gracken_shade_legs",
     "copy-from": "gracken_improvement_general",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "Gracken Shade Legs" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their legs back to a base state.",
-    "consumption_effect_on_conditions": [ "shade_legs" ]
+    "consumption_effect_on_conditions": [ "shade_legs" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -176,11 +187,12 @@
   {
     "id": "gracken_short_legs",
     "copy-from": "gracken_improvement_general",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "Gracken Short Legs" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their legs to a shorter form.",
-    "consumption_effect_on_conditions": [ "short_legs" ]
+    "consumption_effect_on_conditions": [ "short_legs" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -192,11 +204,12 @@
   {
     "id": "gracken_long_legs",
     "copy-from": "gracken_improvement_general",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "Gracken Long Legs" },
     "looks_like": "offal",
     "description": "An organ that allows a mature Gracken to convert their legs to a longer form.",
-    "consumption_effect_on_conditions": [ "long_legs" ]
+    "consumption_effect_on_conditions": [ "long_legs" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",

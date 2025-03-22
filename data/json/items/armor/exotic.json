@@ -2,17 +2,18 @@
   {
     "abstract": "migo_plate_base",
     "name": "generic migo plate",
-    "type": "ARMOR",
+    "type": "ITEM",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "alien_carapace", "flesh" ],
     "symbol": ",",
     "color": "dark_gray",
-    "damage_verb": "crumbles as blood oozes from its insides"
+    "damage_verb": "crumbles as blood oozes from its insides",
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "migo_plate_overgrown",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "copy-from": "migo_plate_base",
     "name": { "str": "overgrown iridescent carapace plate" },
@@ -33,11 +34,12 @@
           { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "migo_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "copy-from": "migo_plate_base",
     "name": { "str": "iridescent carapace plate" },
@@ -62,11 +64,12 @@
           { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "migo_plate_undergrown",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "copy-from": "migo_plate_base",
     "name": { "str": "undergrown iridescent carapace plate" },
@@ -91,11 +94,12 @@
           { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "migo_plate_naked",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "copy-from": "migo_plate_base",
     "name": { "str": "plate of scarred flesh", "str_pl": "plates of scarred flesh" },
@@ -122,11 +126,12 @@
         "material": [ { "type": "flesh", "covered_by_mat": 100, "thickness": 4.0 } ]
       }
     ],
-    "delete": { "material": [ "alien_carapace" ] }
+    "delete": { "material": [ "alien_carapace" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "migo_sideplate_overgrown",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "migo_plate_overgrown",
     "name": { "str": "overgrown iridescent carapace side plate" },
     "non_functional": "migo_sideplate",
@@ -144,11 +149,12 @@
     ],
     "extend": { "flags": [ "ABLATIVE_MEDIUM" ] },
     "delete": { "flags": [ "ABLATIVE_LARGE" ] },
-    "proportional": { "volume": 0.5, "weight": 0.5 }
+    "proportional": { "volume": 0.5, "weight": 0.5 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "migo_sideplate",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "migo_plate",
     "name": { "str": "iridescent carapace side plate" },
     "non_functional": "migo_sideplate_undergrown",
@@ -167,11 +173,12 @@
     ],
     "extend": { "flags": [ "ABLATIVE_MEDIUM" ] },
     "delete": { "flags": [ "ABLATIVE_LARGE" ] },
-    "proportional": { "volume": 0.5, "weight": 0.5 }
+    "proportional": { "volume": 0.5, "weight": 0.5 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "migo_sideplate_undergrown",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "migo_plate_undergrown",
     "name": { "str": "undergrown iridescent carapace side plate" },
     "non_functional": "migo_sideplate_naked",
@@ -190,11 +197,12 @@
     ],
     "extend": { "flags": [ "ABLATIVE_MEDIUM" ] },
     "delete": { "flags": [ "ABLATIVE_LARGE" ] },
-    "proportional": { "volume": 0.5, "weight": 0.5 }
+    "proportional": { "volume": 0.5, "weight": 0.5 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "migo_sideplate_naked",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "migo_plate_naked",
     "name": { "str": "small plate of scarred flesh", "str_pl": "small plates of scarred flesh" },
     "revert_to": "migo_sideplate_undergrown",
@@ -209,11 +217,12 @@
     ],
     "extend": { "flags": [ "ABLATIVE_MEDIUM" ] },
     "delete": { "flags": [ "ABLATIVE_LARGE" ] },
-    "proportional": { "volume": 0.5, "weight": 0.5 }
+    "proportional": { "volume": 0.5, "weight": 0.5 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "migo_skin",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "second skin" },
     "description": "A slimy layer of liquid has completely engulfed your body from the neck down and seems to move with you - the sensation is uncomfortable.  The liquid appears bound to the resonating collar at your neck; the inside of the collar reads \"CAREFUL CHOKING HAZARD!  THIS WAY DOWN\".  The ooze flows freely, covering your entire body but never crossing the gorget to get to your head.",
     "weight": "1500 g",
@@ -270,11 +279,12 @@
     "warmth": 1,
     "material_thickness": 1,
     "environmental_protection": 5,
-    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "FILTHY", "NO_CLEAN", "SOFT", "OVERSIZE" ]
+    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "FILTHY", "NO_CLEAN", "SOFT", "OVERSIZE" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "migo_skin_off",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "resonating gorget" },
     "description": "A heavy-duty gorget or collar made from odd materials that hums slightly.  It feels damp to the touch and there is a mechanical button of some kind on the front.  The inside reads \"CAREFUL CHOKING HAZARD!  THIS WAY DOWN\".",
     "weight": "1500 g",
@@ -311,11 +321,12 @@
     "warmth": 1,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "SOFT" ]
+    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "SOFT" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "feeding_kit",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "feeding kit" },
     "description": "This is a collection of syringes with nozzles, an aerosol sprayer, and a few other attachments.  It seems designed for looking after some kind of creature that wants to stay wet.",
     "weight": "85 g",
@@ -338,11 +349,12 @@
         "move_cost": 100
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "armor_star_samurai",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "ryūsei battle kit" },
     "description": "A strange belt wrapped with circuitry and hundreds of banded metal discs.  When you touch it, it seems to vibrate slightly.",
@@ -436,11 +448,12 @@
       }
     ],
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
-    "relic_data": { "passive_effects": [ { "id": "ench_meteor_armor" } ] }
+    "passive_effects": [ { "id": "ench_meteor_armor" } ],
+    "subtypes": [ "ARTIFACT", "ARMOR" ]
   },
   {
     "id": "armor_star_samurai_mask",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "name": { "str_sp": "filtering menpo" },
     "category": "armor",
     "description": "A sealed mask with strange filtering components on the front turned up in the shape of horns.  Inscriptions mark the glass of the lenses creating spiral patterns that blur the vision.",
@@ -459,11 +472,12 @@
     "warmth": 20,
     "material_thickness": 2,
     "environmental_protection": 16,
-    "relic_data": { "passive_effects": [ { "id": "ench_meteor_mask" } ] }
+    "passive_effects": [ { "id": "ench_meteor_mask" } ],
+    "subtypes": [ "ARTIFACT", "TOOL", "ARMOR" ]
   },
   {
     "id": "armor_star_samurai_torso",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "ryūsei dō" },
     "//": "torso armor for the space samurai",
@@ -488,11 +502,12 @@
         "covers": [ "head" ],
         "specifically_covers": [ "head_nape", "head_throat" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_star_samurai_shoulder",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "ryūsei kote" },
     "//": "shoulder armor for the space samurai",
@@ -516,11 +531,12 @@
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_upper_l", "arm_shoulder_r", "arm_upper_r" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_star_samurai_legs",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "ryūsei hai-date" },
     "//": "leg armor for the space samurai",
@@ -544,6 +560,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_hip_r", "leg_upper_r" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   }
 ]

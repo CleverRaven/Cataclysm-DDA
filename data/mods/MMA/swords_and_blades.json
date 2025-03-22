@@ -2,15 +2,17 @@
   {
     "id": "longsword",
     "copy-from": "longsword",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "longsword" },
-    "extend": { "weapon_category": [ "HYLIAN_MASTER_SWORD" ] }
+    "extend": { "weapon_category": [ "HYLIAN_MASTER_SWORD" ] },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "sickle",
     "copy-from": "sickle",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "sickle" },
-    "extend": { "weapon_category": [ "HYLIAN_IMPROV_WEAPONS" ] }
+    "extend": { "weapon_category": [ "HYLIAN_IMPROV_WEAPONS" ] },
+    "subtypes": [ "TOOL" ]
   }
 ]

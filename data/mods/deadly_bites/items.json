@@ -1,7 +1,7 @@
 [
   {
     "id": "antivirals",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "MED",
     "name": { "str_sp": "antivirals" },
     "description": "An anti-viral medication that inhibits the development of certain viruses.  One dose lasts 16 hours.  Could this, by some miracle, work against whatever the zombies are carrying?",
@@ -17,6 +17,7 @@
       "description": "Reduces the effect of certain viral infections.",
       "effect_on_conditions": [ "EOC_CONSUMED_ANTIVIRAL" ]
     },
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ]
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

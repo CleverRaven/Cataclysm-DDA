@@ -1,7 +1,7 @@
 [
   {
     "id": "chem_potassium_alum",
-    "type": "AMMO",
+    "type": "ITEM",
     "category": "chems",
     "name": { "str_sp": "potassium alum" },
     "description": "A handful of small, water-soluble white crystals with a watery metallic odor, historically used for many different purposes.  Also known as potash alum and potassium aluminum sulfate; often called simply alum, as it's the most important member of the generic class of compounds called alums.",
@@ -14,11 +14,12 @@
     "symbol": "=",
     "color": "dark_gray",
     "count": 250,
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "dye_powder",
-    "type": "AMMO",
+    "type": "ITEM",
     "category": "chems",
     "name": { "str_sp": "cloth dye powder" },
     "description": "A handful of powdered colorful cloth dye, which can be used to dye many fabrics if combined with water and some mordant.",
@@ -31,10 +32,11 @@
     "symbol": "=",
     "color": "dark_gray",
     "count": 250,
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "chem_calcium_chloride",
     "category": "chems",
     "price": "30 USD",
@@ -48,10 +50,11 @@
     "volume": "250 ml",
     "weight": "2150 mg",
     "ammo_type": "components",
-    "count": 250
+    "count": 250,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "chem_washing_soda",
     "category": "chems",
     "price": "30 USD",
@@ -65,10 +68,11 @@
     "volume": "250 ml",
     "weight": "2540 mg",
     "ammo_type": "components",
-    "count": 250
+    "count": 250,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "chem_baking_soda",
     "category": "chems",
     "price": "30 USD",
@@ -82,10 +86,11 @@
     "volume": "250 ml",
     "weight": "2200 mg",
     "ammo_type": "components",
-    "count": 250
+    "count": 250,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mercury",
     "category": "chems",
     "price": "30 cent",
@@ -101,10 +106,11 @@
     "phase": "liquid",
     "container": "flask_glass",
     "freezing_point": -39,
-    "charges": 250
+    "charges": 250,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "chem_mercury_fulminate",
     "category": "chems",
     "price": "9 USD",
@@ -119,10 +125,11 @@
     "//": "density: 4.42 g/cm3",
     "ammo_type": "components",
     "container": "bottle_plastic_small",
-    "count": 2500
+    "count": 2500,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "chem_sodium",
     "category": "chems",
     "price": "30 cent",
@@ -138,10 +145,11 @@
     "phase": "liquid",
     "container": "flask_glass",
     "freezing_point": -50,
-    "charges": 250
+    "charges": 250,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "chem_potassium",
     "category": "chems",
     "price": "30 cent",
@@ -157,10 +165,11 @@
     "phase": "liquid",
     "container": "flask_glass",
     "freezing_point": -50,
-    "charges": 250
+    "charges": 250,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "chem_lead_azide",
     "category": "chems",
     "price": "9 USD",
@@ -175,10 +184,11 @@
     "//": "density: 4.71 g/cm3",
     "ammo_type": "components",
     "container": "bottle_plastic_small",
-    "count": 2500
+    "count": 2500,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "abstract_hair_dye",
     "category": "other",
     "price": "20 USD",
@@ -194,77 +204,87 @@
     "comestible_type": "INVALID",
     "container": "bottle_plastic",
     "freezing_point": -4,
-    "charges": 1
+    "charges": 1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hair_dye_black",
     "name": { "str_sp": "black hair dye" },
     "description": "Some black hair dye.",
     "copy-from": "abstract_hair_dye",
-    "color": "black"
+    "color": "black",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hair_dye_blond",
     "name": { "str_sp": "blond hair dye" },
     "description": "Some blond hair dye.",
     "copy-from": "abstract_hair_dye",
-    "color": "yellow"
+    "color": "yellow",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hair_dye_blue",
     "name": { "str_sp": "blue hair dye" },
     "description": "Some blue hair dye.",
     "copy-from": "abstract_hair_dye",
-    "color": "blue"
+    "color": "blue",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hair_dye_brown",
     "name": { "str_sp": "brown hair dye" },
     "description": "Some brown hair dye.",
     "copy-from": "abstract_hair_dye",
-    "color": "brown"
+    "color": "brown",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hair_dye_gray",
     "name": { "str_sp": "gray hair dye" },
     "description": "Some gray hair dye.",
     "copy-from": "abstract_hair_dye",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hair_dye_green",
     "name": { "str_sp": "green hair dye" },
     "description": "Some green hair dye.",
     "copy-from": "abstract_hair_dye",
-    "color": "green"
+    "color": "green",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hair_dye_red",
     "name": { "str_sp": "red hair dye" },
     "description": "Some red hair dye.",
-    "copy-from": "abstract_hair_dye"
+    "copy-from": "abstract_hair_dye",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hair_dye_pink",
     "name": { "str_sp": "pink hair dye" },
     "description": "Some pink hair dye.",
     "copy-from": "abstract_hair_dye",
-    "color": "pink"
+    "color": "pink",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hair_dye_white",
     "name": { "str_sp": "white hair dye" },
     "description": "Some white hair dye.",
     "copy-from": "abstract_hair_dye",
-    "color": "white"
+    "color": "white",
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

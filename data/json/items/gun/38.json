@@ -2,7 +2,7 @@
   {
     "id": "2_shot_special",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "double barrel .38 pistol" },
     "//": "Volume+barrel length based off a Bond Arms derringer. with extra length in the barrel.",
@@ -30,13 +30,14 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38": 2 } } ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "model_10_revolver",
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "six-shooter" },
     "description": "A six-shot revolver, produced since 1899 and known as the most popular handgun of the 20th century.  It has a swing-out cylinder for ease of reloading.",
     "variant_type": "gun",
@@ -69,13 +70,14 @@
         "allowed_speedloaders": [ "38_speedloader6" ]
       }
     ],
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 9 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rifle_38",
     "copy-from": "gun_base",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "pipe rifle: .38 Special", "str_pl": "pipe rifles: .38 Special" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "ascii_picture": "ps_pipe_gun",
@@ -101,13 +103,14 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38": 1 } } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "ruger_lcr_38",
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "conceal-carry six-shooter" },
     "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame.",
     "variant_type": "gun",
@@ -150,13 +153,14 @@
         "allowed_speedloaders": [ "38_speedloader5" ]
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "colt_python",
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str_sp": "classic .357 revolver", "//": "This looks like a classic revolver, from a western" },
     "//": "This is the Colt Python 2020 6-inch version.",
     "description": "A six inch revolver chambered in .357 Magnum/.38 Special.  Favorite of sheriffs and post-Cataclysm survivor group leaders.",
@@ -202,12 +206,13 @@
         "description": "Made by Colt, this six inch six-shooter is one of the most lauded revolvers ever produced.  Can fire .38 Special and .357 Magnum."
       }
     ],
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 9 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "sw_619",
     "copy-from": "pistol_revolver",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str_sp": "7-shots .357 revolver" },
     "description": "A revolver chambered in .357, with a 6 inch barrel and 7 shots.",
     "ascii_picture": "sw_610",
@@ -251,12 +256,13 @@
         "name": { "str_sp": "S&W 686 Plus" },
         "description": "Introduced in the 90's, Smith & Wesson's model 686 'Plus' features a robust stainless steel frame, an adjustable front sight and a seventh shot that's sure to save your life."
       }
-    ]
+    ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "chiappa_rhino",
     "copy-from": "pistol_revolver",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str_sp": ".357 revolver" },
     "description": "A revolver chambered in .357, with a 6 inch barrel and 6 shots.",
     "symbol": "(",
@@ -298,13 +304,14 @@
         "name": { "str": "Chiappa Rhino" },
         "description": "An innovative, futuristic looking revolver designed by Emilio Ghisoni after developing the Mateba, its most distinctive feature is its barrel, aligned with the bottom chamber of its hexagonal cylinder to alleviate muzzle flip."
       }
-    ]
+    ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rp63",
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str_sp": ".357-caliber snub-nosed revolver" },
     "description": "Short, stout, and compact, this stainless steel revolver is a handy dispenser of .357-magnum, or lower-power .38-caliber, cartridges.  Six rounds fit within the weapon, though its small stature and short barrel ensure that each pull of the trigger is all but a pyrotechnic spectacle: flashy, loud, and jumpy.",
     "variant_type": "gun",
@@ -350,13 +357,14 @@
         "allowed_speedloaders": [ "38_speedloader6" ]
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "uberti_1873",
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "reproduction .357 lever-action rifle" },
     "description": "This fine lever-action rifle is chambered in the powerful .357 Magnum cartridge, with an 20\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
@@ -394,13 +402,14 @@
     ],
     "flags": [ "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 10, "38": 10 } } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rossi_r92_357_20",
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "long-barreled .357 lever-action rifle" },
     "description": "This lever-action rifle is chambered in the powerful .357 Magnum cartridge, with an 20\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
@@ -438,13 +447,14 @@
     ],
     "flags": [ "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 10, "38": 10 } } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rossi_r92_357_16",
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": ".357 lever-action rifle" },
     "description": "This fine lever-action rifle is chambered in the powerful .357 Magnum cartridge, with an 16\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
@@ -482,13 +492,14 @@
     ],
     "flags": [ "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 8, "38": 8 } } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "sw642",
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str_sp": ".38 conceal carry revolver" },
     "description": "This .38 revolver is quite small and lightweight, due to its short barrel and aluminum material.",
     "variant_type": "gun",
@@ -523,6 +534,7 @@
         "allowed_speedloaders": [ "38_speedloader5" ]
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "GUN" ]
   }
 ]

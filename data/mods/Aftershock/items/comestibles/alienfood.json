@@ -1,7 +1,7 @@
 [
   {
     "id": "yum_lichen",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "clump of lichen", "str_pl": "clumps of lichen" },
     "weight": "120 g",
     "color": "red",
@@ -17,11 +17,12 @@
     "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "vitC", 56 ], [ "mutant_toxin", 25 ] ],
     "flags": [ "RAW" ],
     "use_action": [ "BLECH", "PETFOOD" ],
-    "petfood": [ "ALIEN_LICHEN" ]
+    "petfood": [ "ALIEN_LICHEN" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "yum_lichen_extra",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "clump of processed lichen", "str_pl": "clumps of processed lichen" },
     "weight": "115 g",
     "color": "red",
@@ -35,12 +36,13 @@
     "volume": "25 ml",
     "fun": -3,
     "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "vitC", 56 ] ],
-    "flags": [ "NUTRIENT_OVERRIDE" ]
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "frost_human_flesh",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "chunk of frostbitten human meat", "str_pl": "chunks of frostbitten human meat" },
     "description": "Freshly butchered meat from a frozen human carcass, not the most appetizing.",
     "weight": "296 g",
@@ -54,24 +56,26 @@
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "mutant_toxin", 25 ] ],
     "flags": [ "SMOKABLE", "RAW" ],
-    "smoking_result": "meat_smoked"
+    "smoking_result": "meat_smoked",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "frost_human_cooked",
     "copy-from": "frost_human_flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "cooked freezerburned human meat" },
     "description": "A freshly cooked slice of human meat, it has severe frostburn.",
     "proportional": { "price": 1.5 },
     "parasites": 0,
     "healthy": 0,
     "fun": 0,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "frost_hstomach",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": "frostbitten human stomach",
     "description": "A shriveled gray stomach, it hasn't seen use in a very long time.",
     "weight": "72 g",
@@ -83,10 +87,11 @@
     "calories": 60,
     "quench": 1,
     "healthy": -1,
-    "fun": -15
+    "fun": -15,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "frost_bone_human",
     "category": "spare_parts",
     "name": { "str": "frostbitten human bone" },
@@ -98,12 +103,14 @@
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": [ "bone" ],
-    "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_1_4" },
     "volume": "250 ml",
-    "vitamins": [ [ "calcium", 96 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 96 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
+    "into": "meal_bone",
+    "recipe": "meal_bone_mill_1_4",
+    "subtypes": [ "MILLING", "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "frost_human_fat",
     "name": { "str": "chunk of frostbitten human fat", "str_pl": "chunks of frostbitten human fat" },
     "weight": "220 g",
@@ -121,10 +128,11 @@
     "volume": "250 ml",
     "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "parasites": 32,
-    "fun": -20
+    "fun": -20,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "frost_human_tallow",
     "name": { "str_sp": "freezerburned human tallow" },
     "weight": "220 g",
@@ -142,17 +150,19 @@
     "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "parasites": 32,
     "fun": -20,
-    "material": [ "hflesh" ]
+    "material": [ "hflesh" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "frost_human_lard",
     "name": { "str_sp": "freezerburned human lard" },
     "copy-from": "frost_human_tallow",
-    "description": "A smooth light green block of dry-rendered human fat.  It's very frostburnt, and while it will remain edible for a very long time, it's not the most appetizing."
+    "description": "A smooth light green block of dry-rendered human fat.  It's very frostburnt, and while it will remain edible for a very long time, it's not the most appetizing.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "frost_raw_hleather",
     "category": "spare_parts",
     "name": { "str_sp": "raw frostbitten human skin" },
@@ -171,12 +181,13 @@
     "material": [ "flesh" ],
     "flags": [ "TRADER_AVOID" ],
     "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
-    "fun": -12
+    "fun": -12,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "alien_flesh",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "chunk of alien flesh", "str_pl": "chunks of alien flesh" },
     "description": "Freshly butchered meat from an alien corpse.  You could eat it raw or cooked, but this is a completely alien biosphere.",
     "weight": "296 g",
@@ -190,7 +201,8 @@
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "mutant_toxin", 25 ] ],
     "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
-    "smoking_result": "meat_smoked"
+    "smoking_result": "meat_smoked",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "alien_flesh_cooked",
@@ -198,7 +210,7 @@
     "weight": "296 g",
     "volume": "250 ml",
     "spoils_in": "1 day",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "cooked alien flesh" },
     "description": "This is a chunk of freshly cooked alien meat.  It could be either filling and nutritious, or poisonous and lethal.",
     "price": "7 USD 50 cent",
@@ -206,34 +218,37 @@
     "parasites": 0,
     "calories": 402,
     "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 69 ], [ "mutant_toxin", 25 ] ],
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "alien_meat_scrap",
     "copy-from": "meat",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "scrap of alien flesh", "str_pl": "scraps of alien flesh" },
     "description": "This is a tiny scrap of dubiously edible alien meat.  It's not much, but it might be better than starving.",
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "mutant_toxin", 5 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "mutant_toxin", 5 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "alien_meat_scrap_cooked",
     "copy-from": "alien_meat_scrap",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "cooked scrap of alien flesh", "str_pl": "cooked scraps of alien flesh" },
     "parasites": 0,
     "fun": 0,
     "healthy": 0,
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "calories": 51
+    "calories": 51,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "alien_stomach",
     "copy-from": "flesh",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": "alien stomach",
     "description": "A balloon-like organ you can only guess is a stomach.  It is surprisingly durable.",
     "weight": "72 g",
@@ -246,19 +261,21 @@
     "healthy": -1,
     "fun": -15,
     "vitamins": [ [ "mutant_toxin", 25 ] ],
-    "extend": { "flags": [ "PREDATOR_FUN" ] }
+    "extend": { "flags": [ "PREDATOR_FUN" ] },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "alien_stomach_large",
     "copy-from": "alien_stomach",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": "large alien stomach",
     "description": "A balloon-like organ of a large alien you can only guess is a stomach.  It is surprisingly durable.",
-    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
+    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "alien_lung",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "flesh",
     "looks_like": "offal",
     "name": { "str": "piece of raw alien lung", "str_pl": "pieces of raw alien lung" },
@@ -273,21 +290,23 @@
     "fun": -10,
     "calories": 50,
     "vitamins": [ [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "mutant_toxin", 25 ] ],
-    "extend": { "flags": [ "PREDATOR_FUN" ] }
+    "extend": { "flags": [ "PREDATOR_FUN" ] },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "alien_lung_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "alien_lung",
     "looks_like": "offal_cooked",
     "name": { "str": "cooked piece of alien lung", "str_pl": "cooked pieces of alien lung" },
     "description": "The organ no longer leaks out a strange liquid, and has faded to a light blue color.  It looks chewy, and has an unpleasant smell.",
     "parasites": 0,
-    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "alien_liver",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "alien_lung",
     "looks_like": "offal",
     "name": { "str_sp": "raw alien liver" },
@@ -295,11 +314,12 @@
     "price_postapoc": "25 cent",
     "quench": -4,
     "calories": 92,
-    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 8 ], [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 8 ], [ "mutant_toxin", 25 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "alien_liver_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "alien_liver",
     "looks_like": "meat_cooked",
     "name": { "str_sp": "cooked alien liver" },
@@ -308,11 +328,12 @@
     "price_postapoc": "50 cent",
     "fun": -2,
     "healthy": 0,
-    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "alien_brain",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "alien_lung",
     "looks_like": "offal",
     "name": { "str_sp": "raw alien brains" },
@@ -324,11 +345,12 @@
     "fun": -20,
     "parasites": 15,
     "calories": 78,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ], [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ], [ "mutant_toxin", 25 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "alien_brain_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "alien_brain",
     "looks_like": "offal_cooked",
     "name": { "str_sp": "cooked alien brains" },
@@ -337,11 +359,12 @@
     "parasites": 0,
     "healthy": -2,
     "fun": -8,
-    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "alien_kidney",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "alien_lung",
     "looks_like": "offal",
     "name": { "str_sp": "raw alien kidney" },
@@ -351,11 +374,12 @@
     "price_postapoc": "25 cent",
     "quench": -5,
     "calories": 54,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 0 ], [ "iron", 8 ], [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 0 ], [ "iron", 8 ], [ "mutant_toxin", 25 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "alien_kidney_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "alien_kidney",
     "looks_like": "offal_cooked",
     "name": { "str_sp": "cooked alien kidney" },
@@ -365,11 +389,12 @@
     "quench": -2,
     "fun": -3,
     "parasites": 0,
-    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "alien_sweetbread",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "alien_lung",
     "looks_like": "offal",
     "name": { "str_sp": "raw alien sweetbread" },
@@ -379,11 +404,12 @@
     "price_postapoc": "25 cent",
     "quench": 0,
     "calories": 133,
-    "vitamins": [ [ "vitC", 32 ], [ "calcium", 0 ], [ "iron", 6 ], [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "vitC", 32 ], [ "calcium", 0 ], [ "iron", 6 ], [ "mutant_toxin", 25 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "alien_sweetbread_cooked",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "alien_sweetbread",
     "looks_like": "meat_cooked",
     "name": { "str_sp": "cooked alien sweetbread" },
@@ -391,10 +417,11 @@
     "fun": -1,
     "description": "Well, it's definitely not muscle, you can tell now.  It oozes a purple liquid out onto your hand as you hold it.",
     "parasites": 0,
-    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "alien_bone",
     "category": "spare_parts",
     "name": { "str": "alien bone" },
@@ -406,12 +433,14 @@
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": [ "bone" ],
-    "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_1_4" },
     "volume": "250 ml",
-    "vitamins": [ [ "calcium", 96 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 96 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
+    "into": "meal_bone",
+    "recipe": "meal_bone_mill_1_4",
+    "subtypes": [ "MILLING", "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "alien_fat",
     "name": { "str": "chunk of alien fat", "str_pl": "chunks of alien fat" },
     "weight": "220 g",
@@ -429,10 +458,11 @@
     "volume": "250 ml",
     "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "parasites": 32,
-    "fun": -20
+    "fun": -20,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "alien_tallow",
     "name": { "str_sp": "alien tallow" },
     "weight": "55 g",
@@ -450,17 +480,19 @@
     "material": [ "flesh" ],
     "volume": "62 ml",
     "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
-    "fun": -18
+    "fun": -18,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "alien_lard",
     "name": { "str_sp": "alien lard" },
     "copy-from": "alien_tallow",
-    "description": "A smooth white block of dry-rendered animal fat.  It'll last for a very long time, but you are unsure of its edibility.  Can be used as an ingredient in many foods and projects."
+    "description": "A smooth white block of dry-rendered animal fat.  It'll last for a very long time, but you are unsure of its edibility.  Can be used as an ingredient in many foods and projects.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "id": "alien_organs",
     "symbol": "¨",
@@ -476,10 +508,11 @@
     "healthy": -25,
     "fun": -25,
     "use_action": [ "POISON" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "alien_cracklins",
     "name": { "str_sp": "alien cracklins" },
     "weight": "42 g",
@@ -498,10 +531,11 @@
     "price_postapoc": "125 cent",
     "material": [ "flesh" ],
     "flags": [ "EATEN_HOT" ],
-    "fun": 4
+    "fun": 4,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "frost_human_cracklins",
     "name": { "str_sp": "freezerburned human cracklins" },
     "weight": "42 g",
@@ -520,10 +554,11 @@
     "price_postapoc": "125 cent",
     "material": [ "hflesh" ],
     "flags": [ "EATEN_HOT" ],
-    "fun": -4
+    "fun": -4,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "raw_alien_leather",
     "category": "spare_parts",
     "name": { "str_sp": "raw alien hide" },
@@ -542,10 +577,11 @@
     "price_postapoc": "20 cent",
     "material": [ "flesh" ],
     "flags": [ "TRADER_AVOID" ],
-    "fun": -12
+    "fun": -12,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "raw_alien_fur",
     "category": "spare_parts",
     "name": { "str_sp": "raw alien pelt" },
@@ -564,6 +600,7 @@
     "price_postapoc": "1 USD",
     "material": [ "fur", "flesh" ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
-    "fun": -24
+    "fun": -24,
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

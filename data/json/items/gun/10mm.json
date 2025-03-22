@@ -3,7 +3,7 @@
     "id": "sw_610",
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "10mm/.40 revolver" },
     "description": "A classic six-shooter revolver chambered for 10mm and .40 rounds.",
     "variant_type": "gun",
@@ -38,13 +38,14 @@
         "allowed_speedloaders": [ "40_speedloader6" ]
       }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "glock_29",
     "copy-from": "pistol_base",
     "looks_like": "glock_19",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "compact Glock pistol" },
     "description": "A small pistol accepting Glock magazines and chambered in 10mm.  Because of its size, it is easy to carry, but it has rather fierce recoil.",
     "variant_type": "gun",
@@ -77,13 +78,14 @@
         "item_restriction": [ "glock_20mag_10", "glock_29mag", "glock_20mag", "tdi_10mm_mag" ]
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "glock_20",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Glock pistol" },
     "description": "A semi-automatic pistol chambered in 10mm and accepting Glock magazines.",
     "variant_type": "gun",
@@ -116,13 +118,14 @@
         "item_restriction": [ "glock_20mag_10", "glock_20mag", "tdi_10mm_mag" ]
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "glock_40",
     "copy-from": "glock_20",
     "looks_like": "glock_20",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "hunter Glock pistol" },
     "description": "A full-sized, long-slide version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The extra barrel length makes for slightly more accurate and powerful shots, and the extra slide length means the sights are a little easier to use.  It also features Glock's Modular Optic System, making aftermarket optics much easier to mount.",
     "variant_type": "gun",
@@ -140,13 +143,14 @@
     "barrel_length": "153 mm",
     "price": "655 USD",
     "price_postapoc": "27 USD",
-    "dispersion": 500
+    "dispersion": 500,
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "hk_mp5_10_semi",
     "copy-from": "hk_mp5_semi_pistol",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "BA10 rifle" },
     "description": "A semi-automatic rifle chambered in 10mm and accepting BA10 magazines.",
     "variant_type": "gun",
@@ -169,13 +173,14 @@
     "skill": "rifle",
     "built_in_mods": [ "folding_stock" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "62 ml", "item_restriction": [ "mp5_10_mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "62 ml", "item_restriction": [ "mp5_10_mag" ] } ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "m1911_10",
     "copy-from": "pistol_classic",
     "looks_like": "m1911",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Colt Delta Elite pistol" },
     "description": "A semi-automatic pistol chambered in 10mm.  It accepts Colt Delta Elite magazines.",
     "variant_type": "gun",
@@ -202,13 +207,14 @@
     "min_cycle_recoil": 570,
     "blackpowder_tolerance": 48,
     "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911_10mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "witness_10",
     "copy-from": "pistol_classic",
     "looks_like": "cz75",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "EAA Witness pistol" },
     "description": "A semi-automatic pistol chambered in 10mm and accepting EAA Witness magazines.",
     "variant_type": "gun",
@@ -232,13 +238,14 @@
     "durability": 7,
     "min_cycle_recoil": 675,
     "pocket_data": [ { "magazine_well": "84 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "witness_mag_10" ] } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "p220_10",
     "copy-from": "pistol_base",
     "looks_like": "p226_357sig",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "SIG pistol" },
     "description": "A semi-automatic pistol chambered in 10mm and accepting SIG magazines.",
     "variant_type": "gun",
@@ -264,13 +271,14 @@
     "durability": 7,
     "min_cycle_recoil": 675,
     "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p220_10_mag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "xd_10",
     "copy-from": "pistol_base",
     "looks_like": "glock_19",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "XD-M pistol" },
     "description": "A semi-automatic pistol chambered in 10mm and accepting XD-M magazines",
     "variant_type": "gun",
@@ -296,13 +304,14 @@
     "durability": 8,
     "min_cycle_recoil": 675,
     "pocket_data": [ { "magazine_well": "81 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xd_10_mag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "TDI_10",
     "copy-from": "TDI",
     "looks_like": "TDI",
-    "type": "GUN",
+    "type": "ITEM",
     "//": [
       "Yes, I know it's not really a glock smg.",
       "It takes glock magazines, and it's own special one that I am also renaming to a glock magazine",
@@ -333,6 +342,7 @@
         "magazine_well": "103 ml",
         "item_restriction": [ "glock_20mag_10", "glock_20mag", "tdi_10mm_mag" ]
       }
-    ]
+    ],
+    "subtypes": [ "GUN" ]
   }
 ]

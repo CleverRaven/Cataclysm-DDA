@@ -1,17 +1,18 @@
 [
   {
     "abstract": "bear_armor",
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "name": { "str": "bear armor" },
     "symbol": "[",
     "min_pet_vol": "50 L",
     "max_pet_vol": "1000 L",
     "pet_bodytype": "bear",
     "longest_side": "60 cm",
-    "flags": [ "IS_PET_ARMOR" ]
+    "flags": [ "IS_PET_ARMOR" ],
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "kevlar_armor_bear",
     "copy-from": "bear_armor",
     "color": "yellow",
@@ -22,10 +23,11 @@
     "material": [ "cotton", "leather", "kevlar" ],
     "weight": "30 kg",
     "volume": "150 L",
-    "material_thickness": 10
+    "material_thickness": 10,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "acidchitin_armor_bear",
     "copy-from": "bear_armor",
     "color": "green",
@@ -37,10 +39,11 @@
     "weight": "35 kg",
     "volume": "150 L",
     "material_thickness": 6,
-    "environmental_protection": 7
+    "environmental_protection": 7,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "chitin_armor_bear",
     "copy-from": "bear_armor",
     "color": "green",
@@ -52,10 +55,11 @@
     "weight": "35 kg",
     "volume": "150 L",
     "material_thickness": 6,
-    "environmental_protection": 4
+    "environmental_protection": 4,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "chainmail_armor_bear",
     "copy-from": "bear_armor",
     "color": "green",
@@ -66,10 +70,11 @@
     "material": [ "steel", "leather" ],
     "weight": "40 kg",
     "volume": "150 L",
-    "material_thickness": 6
+    "material_thickness": 6,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "leather_armor_bear",
     "copy-from": "bear_armor",
     "color": "green",
@@ -106,10 +111,11 @@
         "id": "stegosaurus",
         "text": "A full barding for bears, consisting of boiled leather with cloth underneath.  This caparison depicts a fierce stegosaurus bursting out the side of a 1970s-era van.  You could put this on a friendly bear."
       }
-    ]
+    ],
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "leatherbone_armor_bear",
     "copy-from": "bear_armor",
     "color": "green",
@@ -120,10 +126,11 @@
     "material": [ "bone", "leather" ],
     "weight": "17 kg",
     "volume": "150 L",
-    "material_thickness": 6
+    "material_thickness": 6,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "rubber_armor_bear",
     "copy-from": "bear_armor",
     "color": "green",
@@ -134,10 +141,11 @@
     "material": [ "neoprene", "plastic" ],
     "weight": "14 kg",
     "volume": "150 L",
-    "material_thickness": 3
+    "material_thickness": 3,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "sweater_armor_bear",
     "copy-from": "bear_armor",
     "color": "red",
@@ -149,10 +157,11 @@
     "weight": "3 kg",
     "volume": "20 L",
     "looks_like": "longshirt",
-    "material_thickness": 1
+    "material_thickness": 1,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "iron_armor_bear",
     "copy-from": "bear_armor",
     "color": "brown",
@@ -163,10 +172,11 @@
     "material": [ "iron", "leather" ],
     "weight": "30 kg",
     "volume": "150 L",
-    "material_thickness": 4
+    "material_thickness": 4,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "steel_armor_bear",
     "copy-from": "bear_armor",
     "color": "light_gray",
@@ -177,10 +187,11 @@
     "material": [ "steel", "leather" ],
     "weight": "50 kg",
     "volume": "150 L",
-    "material_thickness": 4
+    "material_thickness": 4,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "bronze_armor_bear",
     "copy-from": "bear_armor",
     "color": "yellow",
@@ -191,6 +202,7 @@
     "material": [ "bronze", "leather" ],
     "weight": "30 kg",
     "volume": "150 L",
-    "material_thickness": 4
+    "material_thickness": 4,
+    "subtypes": [ "PET_ARMOR" ]
   }
 ]

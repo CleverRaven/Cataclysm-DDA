@@ -1,7 +1,7 @@
 [
   {
     "id": "book_icef",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Internal Combustion Fundamentals", "str_pl": "copies of Internal Combustion Fundamentals" },
     "description": "A college-level textbook that details the operation, maintenance, and repair of internal combustion engines.",
@@ -19,31 +19,34 @@
     "time": "30 m",
     "melee_damage": { "bash": 4 },
     "read_skill": "mechanics",
-    "read_fun": -1
+    "read_fun": -1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "book_pneumatics",
-    "type": "BOOK",
+    "type": "ITEM",
     "copy-from": "book_icef",
     "name": { "str": "Pneumatic Pnowledge", "str_pl": "copies of Pneumatic Pnowledge" },
     "description": "A whimsical guide to the world of building and designing compressed air and pneumatic devices, loaded with puns and dry technical diagrams.  It is unclear who the audience for a book like this would be.",
     "proficiencies": [ { "proficiency": "prof_pneumatics", "time_factor": 0.7, "fail_factor": 0.5 } ],
     "time": "40 m",
-    "read_fun": 1
+    "read_fun": 1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "mag_fieldrepair",
     "copy-from": "book_magazine",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "army improvised field repairs manual" },
     "price_postapoc": "5 USD",
     "description": "A compact manual with faded print detailing a number of improvised field repairs that can be made to vehicles.",
-    "read_skill": "mechanics"
+    "read_skill": "mechanics",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "mag_mechanics",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Popular Mechanics", "str_pl": "issues of Popular Mechanics" },
     "description": "A magazine about mechanical innovations.  Full of entertaining articles and advertisements for esoteric gadgets.",
@@ -59,11 +62,12 @@
     "intelligence": 5,
     "time": "8 m",
     "read_skill": "mechanics",
-    "read_fun": 2
+    "read_fun": 2,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "manual_makerspace",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "makerspace kit instructions", "str_pl": "copies of makerspace kit instructions" },
     "description": "Instructions and blueprints for dozens of projects of increasing complexity for anyone new to the maker community.",
@@ -79,11 +83,12 @@
     "intelligence": 5,
     "time": "8 m",
     "read_skill": "mechanics",
-    "read_fun": 2
+    "read_fun": 2,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "manual_robotics_kit",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "robotics kit instructions", "str_pl": "copies of robotics kit instructions" },
     "description": "Instructions and blueprints for dozens of projects of increasing complexity.  An introduction to toy robots.",
@@ -99,11 +104,12 @@
     "intelligence": 5,
     "time": "8 m",
     "read_skill": "mechanics",
-    "read_fun": 2
+    "read_fun": 2,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "manual_engine_kit",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Stirling engine kit instructions", "str_pl": "copies of Stirling engine instructions" },
     "description": "Instructions and blueprints for building toy Stirling engines.  An introduction to engine principles.",
@@ -119,11 +125,12 @@
     "intelligence": 5,
     "time": "8 m",
     "read_skill": "mechanics",
-    "read_fun": 2
+    "read_fun": 2,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "manual_mechanics",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Under the Hood", "str_pl": "copies of Under the Hood" },
     "description": "An advanced mechanics manual, covering all sorts of topics.",
@@ -138,21 +145,23 @@
     "max_level": 3,
     "intelligence": 8,
     "time": "18 m",
-    "read_skill": "mechanics"
+    "read_skill": "mechanics",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "textbook_atomic_lab",
-    "type": "BOOK",
+    "type": "ITEM",
     "copy-from": "recipe_lab_cvd",
     "name": { "str": "lab journal-Curie", "str_pl": "lab journals-Curie" },
     "price_postapoc": "20 USD",
     "description": "This lab notebook is filled with the collective discoveries and refinements of a research team dedicated to nuclear energy.  You don't think you're ready to start a second Cataclysm, but the general information provided might be useful…",
     "required_level": 6,
-    "read_skill": "mechanics"
+    "read_skill": "mechanics",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "book_nonf_soft_mechnic_hotrod",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Hot Rod Chassis & Suspension Handbook", "str_pl": "copies of Hot Rod Handbook" },
     "description": "By learning the fundamentals of chassis building and suspension design you will gain the critical knowledge needed to hot rod properly.",
@@ -170,11 +179,12 @@
     "time": "30 m",
     "melee_damage": { "bash": 1 },
     "read_skill": "mechanics",
-    "read_fun": -1
+    "read_fun": -1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "textbook_mechanics",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Mechanical Mastery", "str_pl": "copies of Mechanical Mastery" },
     "description": "An advanced guide on mechanics and welding, covering topics like \"Grinding off rust\" and \"Making cursive E's\".",
@@ -192,6 +202,7 @@
     "time": "30 m",
     "melee_damage": { "bash": 4 },
     "read_skill": "mechanics",
-    "read_fun": -1
+    "read_fun": -1,
+    "subtypes": [ "BOOK" ]
   }
 ]

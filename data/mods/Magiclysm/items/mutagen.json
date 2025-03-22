@@ -2,7 +2,7 @@
   {
     "id": "manatouched_serum",
     "copy-from": "iv_mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "concentrated mana mutagenic primer" },
     "color": "light_blue",
     "description": "A very concentrated form of mana potion.",
@@ -11,12 +11,13 @@
       "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_manatouched", 500 ] ]
-    }
+    },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "manatouched_mutagen",
     "copy-from": "mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "color": "light_blue",
     "description": "A mana potion mixed with mutagen.  It might help you connect with magic.",
     "name": { "str_sp": "mana mutagen" },
@@ -24,12 +25,13 @@
       "type": "consume_drug",
       "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_manatouched", 175 ], [ "mutagen", 125 ] ]
-    }
+    },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "mutagen_black_dragon",
     "copy-from": "mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "color": "black",
     "description": "An alchemic concoction made from the remains of a slain black dragon and a bit of potion base.  Ancient and Academic texts talk of profound changes from consuming this.",
     "name": { "str_sp": "black dragon mutagen" },
@@ -37,12 +39,13 @@
       "type": "consume_drug",
       "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_black_dragon", 175 ], [ "mutagen", 125 ] ]
-    }
+    },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "iv_black_dragon",
     "copy-from": "iv_mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "black dragon mutagenic primer" },
     "description": "A super-concentrated mutagen that seems to swirl with the anger of a black dragon.  Do you dare leave your humanity behind and inject it?",
     "color": "black",
@@ -51,6 +54,7 @@
       "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_black_dragon", 500 ] ]
-    }
+    },
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

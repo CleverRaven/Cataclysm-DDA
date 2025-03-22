@@ -2,24 +2,26 @@
   {
     "id": "chilly-p",
     "copy-from": "spice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "chili powder" },
     "description": "Chili P, yo!  Not edible on its own, but it could be used to make seasoning.",
-    "color": "red"
+    "color": "red",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "garlic_powder",
     "copy-from": "spice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "garlic powder" },
     "description": "Garlic that has been dehydrated and ground into a powder.  A must-have seasoning in any pantry.",
     "weight": "1 g",
-    "color": "white"
+    "color": "white",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "hot_sauce",
     "container": "bottle_plastic_small",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "name": { "str_sp": "hot sauce" },
     "description": "Flamin' hot sauce.  It'd be a bad idea to drink it on its own.  You should probably wash your hands after handling it, too.",
@@ -34,80 +36,89 @@
     "color": "red",
     "primary_material": "water",
     "freezing_point": -30,
-    "phase": "liquid"
+    "phase": "liquid",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "cinnamon",
     "copy-from": "spice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "cinnamon" },
     "description": "Ground cinnamon bark with a sweet but slightly spicy aroma.",
-    "color": "brown"
+    "color": "brown",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "curry_powder",
     "copy-from": "spice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "curry powder" },
     "description": "A blend of spices meant to be used in some South Asian dishes.  Can't be eaten raw, why would you even try that?",
-    "color": "red"
+    "color": "red",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "pepper",
     "copy-from": "spice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "black pepper" },
     "description": "Ground black spice berries with a pungent aroma.",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "spicebush_berries",
     "copy-from": "spice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "spicebush berries" },
     "description": "Small, red berries with a pungent aroma.  It is said they are comparable to allspice, but also boasting their own flavor profile.",
     "smoking_result": "spicebush_berries_smoked",
     "spoils_in": "4 days",
     "extend": { "flags": [ "SMOKABLE" ] },
-    "color": "red"
+    "color": "red",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "spicebush_berries_smoked",
     "copy-from": "spice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "dry spicebush berries" },
     "description": "These formerly red berries now have a stronger aroma after being dehydrated.",
-    "color": "brown"
+    "color": "brown",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "salt",
     "copy-from": "spice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "salt" },
     "description": "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat and cooking, though.",
     "material": [ "salt" ],
-    "color": "white"
+    "color": "white",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "seasoning_italian",
     "copy-from": "spice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "Italian seasoning" },
     "description": "A fragrant mix of dried oregano, basil, thyme and other spices.",
-    "color": "green"
+    "color": "green",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "seasoning_salt",
     "copy-from": "salt",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "seasoned salt" },
     "description": "Salt mixed with a fragrant blend of secret herbs and spices.",
     "material": [ "salt" ],
-    "color": "brown"
+    "color": "brown",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "//": "Our recipes have traditionally been standardized against sugar units of 5 mg. Refer also to the sugar_standard item group for more sugar-related items and their ratios to one another. Density is now accurate.",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "sugar",
     "name": { "str_sp": "sugar" },
     "weight": "5 g",
@@ -120,10 +131,11 @@
     "material": [ "sugar" ],
     "volume": "6 ml",
     "calories": 19,
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "WATER_DISSOLVE" ]
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "WATER_DISSOLVE" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "sprinkles",
     "name": { "str_sp": "sprinkles" },
     "weight": "4 g",
@@ -133,10 +145,11 @@
     "price": "6 cent",
     "price_postapoc": "3 cent",
     "calories": 20,
-    "volume": "4 ml"
+    "volume": "4 ml",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "wild_herbs",
     "name": { "str_sp": "wild herbs" },
     "weight": "7 g",
@@ -152,11 +165,12 @@
     "volume": "2 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "fun": -1,
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "soysauce",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "symbol": "~",
     "color": "brown",
     "name": { "str_sp": "soy sauce" },
@@ -174,10 +188,11 @@
     "charges": 10,
     "fun": -15,
     "freezing_point": -30,
-    "phase": "liquid"
+    "phase": "liquid",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "thyme",
     "name": { "str_sp": "thyme" },
     "description": "A stalk of thyme.  Smells delicious.",
@@ -191,23 +206,26 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "mustard_powder",
     "copy-from": "spice",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "mustard powder" },
     "description": "A fragrant yellow powder.  Not edible in this form.",
-    "color": "yellow"
+    "color": "yellow",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "artificial_sweetener",
     "copy-from": "sugar",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "artificial sweetener" },
     "description": "Sweet, sweet sugar?  No, it is bitter-sweet artificial sweetener.  No calories, no worries.",
     "material": [ "powder" ],
-    "calories": 0
+    "calories": 0,
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

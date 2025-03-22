@@ -1,7 +1,7 @@
 [
   {
     "id": "adjustable_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "adjustable stock" },
     "description": "An adjustable replacement stock improving both recoil and accuracy.",
     "weight": "350 g",
@@ -19,11 +19,12 @@
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "launcher" ],
     "dispersion_modifier": -1,
     "handling_modifier": 1,
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "folding_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "folding stock" },
     "description": "A folding stock which reduces length when folded.  Currently unfolded and ready to shoot.",
     "weight": "200 g",
@@ -45,11 +46,12 @@
       "target": "folding_stock_folded",
       "moves": 120
     },
-    "min_skills": [ [ "weapon", 3 ] ]
+    "min_skills": [ [ "weapon", 3 ] ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "folding_stock_folded",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "folding stock (folded)", "str_pl": "folding stocks (folded)" },
     "description": "A folding stock which reduces length.  Currently folded, making shooting this gun difficult.",
     "copy-from": "folding_stock",
@@ -62,11 +64,12 @@
     },
     "//": "10 is the modifier that stocked weapons normally get",
     "handling_modifier": -10,
-    "flags": [ "FOLDED_STOCK" ]
+    "flags": [ "FOLDED_STOCK" ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "high_end_folding_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "modular folding stock" },
     "description": "A multi position, high-end folding stock which reduces length when folded.  Currently unfolded and ready to shoot.",
     "weight": "200 g",
@@ -91,11 +94,12 @@
     "//": "benefits of a recoil stock and adjustable stock",
     "dispersion_modifier": -1,
     "handling_modifier": 5,
-    "min_skills": [ [ "weapon", 3 ] ]
+    "min_skills": [ [ "weapon", 3 ] ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "high_end_folding_stock_folded",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "modular folding stock (folded)", "str_pl": "modular folding stocks (folded)" },
     "description": "A multi position, high-end folding stock which reduces length when folded.  Currently folded, making shooting this gun hard.",
     "copy-from": "high_end_folding_stock",
@@ -109,11 +113,12 @@
     "//": "10 is the modifier that stocked weapons normally get",
     "dispersion_modifier": 0,
     "handling_modifier": -10,
-    "flags": [ "FOLDED_STOCK" ]
+    "flags": [ "FOLDED_STOCK" ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "wire_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "collapsing wire stock" },
     "description": "A collapsing wire stock which folds closely against the body of the weapon, reducing length and volume.",
     "weight": "170 g",
@@ -137,11 +142,12 @@
       "moves": 120
     },
     "min_skills": [ [ "weapon", 3 ] ],
-    "flags": [ "IRREMOVABLE" ]
+    "flags": [ "IRREMOVABLE" ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "wire_stock_folded",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "collapsing wire stock (collapsed)", "str_pl": "collapsing wire stocks (collapsed)" },
     "description": "A collapsing wire stock which folds closely against the body of the weapon, reducing length and volume.  Currently collapsed, making shooting difficult",
     "copy-from": "wire_stock",
@@ -154,11 +160,12 @@
     },
     "//": "10 is the modifier that stocked weapons normally get",
     "handling_modifier": -10,
-    "flags": [ "COLLAPSED_STOCK", "IRREMOVABLE" ]
+    "flags": [ "COLLAPSED_STOCK", "IRREMOVABLE" ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "stock_mauser",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "Mauser C96 stock" },
     "description": "The hollow removable wooden pistol stock of the C96 Mauser pistol, which doubles as a holster.  It fits both the original clip-loaded C96 and later magazine-fed reproductions, but a gun with an extended magazine won't fit without modification.",
     "copy-from": "pistol_stock",
@@ -186,20 +193,19 @@
     ],
     "use_action": { "type": "holster" },
     "flags": [ "BELTED", "BELT_CLIP", "OVERSIZE" ],
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "wood", "thickness": 5 } ],
-          "encumbrance": [ 3, 4 ],
-          "covers": [ "leg_l", "leg_r" ],
-          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
-        }
-      ]
-    }
+    "armor": [
+      {
+        "material": [ { "type": "wood", "thickness": 5 } ],
+        "encumbrance": [ 3, 4 ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ],
+    "subtypes": [ "ARMOR", "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "stock_none",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "sawn-off stock" },
     "description": "A quick saw cut removed the original stock from this weapon.  It is now much harder to handle, but much smaller.",
     "install_time": "5 m",
@@ -210,11 +216,12 @@
     "handling_modifier": -10,
     "mod_targets": [ "smg", "rifle", "shotgun" ],
     "//": "though the stock isn't COLLAPSED it is functionally the same",
-    "flags": [ "REMOVED_STOCK", "IRREMOVABLE" ]
+    "flags": [ "REMOVED_STOCK", "IRREMOVABLE" ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "pistol_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "pistol stock" },
     "description": "An add-on stock for handguns, this considerably improves control of recoil.",
     "weight": "350 g",
@@ -231,11 +238,12 @@
     "location": "stock",
     "mod_targets": [ "pistol", "crossbow" ],
     "handling_modifier": 6,
-    "min_skills": [ [ "weapon", 2 ] ]
+    "min_skills": [ [ "weapon", 2 ] ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "recoil_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "recoil stock" },
     "description": "A replacement stock designed to absorb perceived recoil.",
     "weight": "960 g",
@@ -253,11 +261,12 @@
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
     "handling_modifier": 4,
     "min_skills": [ [ "weapon", 2 ] ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "cheek_pad",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "cheek pad" },
     "description": "A stock accessory for sniper rifles and DMRs, this considerably improves eye relief efficiency, prevents slipping, and reduces recoil to the neck and cheek.",
     "weight": "300 g",
@@ -276,11 +285,12 @@
     "dispersion_modifier": -1,
     "handling_modifier": 2,
     "min_skills": [ [ "weapon", 2 ] ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "butt_hook",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "butt hook" },
     "description": "An attachment to the butt of the gun that is held under the armpit, improving stability.",
     "weight": "100 g",
@@ -297,11 +307,12 @@
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
     "install_time": "10 m",
     "dispersion_modifier": -15,
-    "min_skills": [ [ "weapon", 1 ] ]
+    "min_skills": [ [ "weapon", 1 ] ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "tail_hook_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "tail hook stock" },
     "//": "When we get 'rate of angular change' a version for rifles and crossbow can be added.  Currently it would be too strong",
     "description": "A foldable add-on stock for handguns and submachine guns with a pivoting hook that latches onto the forearm, allowing for greater stability.",
@@ -320,11 +331,12 @@
     "handling_modifier": 4,
     "min_skills": [ [ "weapon", 3 ] ],
     "//2": "this seems to be for hooking the gun on your arm not actually folding it up for storage",
-    "flags": [ "NEEDS_UNFOLD" ]
+    "flags": [ "NEEDS_UNFOLD" ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "under_folding_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "under folding stock" },
     "description": "A light wire-framed stock with a push button release catch on the side  which allows it to fold and be stored away under the weapon's receiver.  The wire construction means that it's less comfortable to shoulder than a regular fixed attachment.  The stock is currently locked in the open position.",
     "weight": "100 g",
@@ -347,11 +359,12 @@
       "moves": 120
     },
     "handling_modifier": 8,
-    "min_skills": [ [ "weapon", 3 ] ]
+    "min_skills": [ [ "weapon", 3 ] ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "under_folding_stock_folded",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "under-folding stock (folded)", "str_pl": "under-folding stocks (folded)" },
     "description": "A light wire-framed stock with a push button release catch on the side  which allows it to fold and be stored away under the weapon's receiver.  It is currently folded underneath the weapon's chassis, making it more difficult to control.",
     "copy-from": "under_folding_stock",
@@ -363,11 +376,12 @@
       "moves": 120
     },
     "handling_modifier": -10,
-    "flags": [ "FOLDED_STOCK" ]
+    "flags": [ "FOLDED_STOCK" ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "sub2000_folding_mechanism",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "integral folding mechanism" },
     "description": "The integral series of hinges and pivots which allow the SUB-2000 to fold in half and be stored for transport.  The firearm is currently locked in the unfolded position and is ready for use.",
     "weight": "10 g",
@@ -392,11 +406,12 @@
       "moves": 300
     },
     "handling_modifier": 10,
-    "min_skills": [ [ "weapon", 3 ] ]
+    "min_skills": [ [ "weapon", 3 ] ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "sub2000_folding_mechanism_folded",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "integral folding mechanism (folded))", "str_pl": "integral folding mechanisms (folded)" },
     "description": "The integral series of hinges and pivots which allow the SUB-2000 to fold in half and be stored for transport.  Shooting this firearm would be particularly tricky given that the barrel assembly is folded and locked backwards for storage, rendering the weapon inoperable.",
     "weight": "10 g",
@@ -420,11 +435,12 @@
       "moves": 300
     },
     "handling_modifier": -10,
-    "//": "This mod shouldn't get a folding stock flag. The deployed version of this mod adds extra length to the base gun item, which this folded version removes to simulate the greatly shorter length of the sub2000 when collapsed. Adding a folding stock flag will remove another 20 cm from the base gun, making it only 19 cm long."
+    "//": "This mod shouldn't get a folding stock flag. The deployed version of this mod adds extra length to the base gun item, which this folded version removes to simulate the greatly shorter length of the sub2000 when collapsed. Adding a folding stock flag will remove another 20 cm from the base gun, making it only 19 cm long.",
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "m26_mass_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "MASS compatible stock" },
     "description": "A specially designed adjustable stock with an integrated grip to convert the M26-MASS to a standalone configuration.",
     "weight": "960 g",
@@ -442,11 +458,12 @@
     "mod_targets": [ "m26_mass_standalone" ],
     "handling_modifier": 4,
     "min_skills": [ [ "shotgun", 2 ] ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "scout_stock",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "hollow polymer stock" },
     "description": "An extremely lightweight stock.  There's a hollow cavity at the bottom where a spare magazine can be stored.",
     "weight": "260 g",
@@ -471,6 +488,7 @@
         "max_contains_volume": "200 ml",
         "max_contains_weight": "200 g"
       }
-    ]
+    ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   }
 ]

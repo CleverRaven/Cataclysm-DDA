@@ -1,21 +1,23 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "afs_synthetic_meat",
     "copy-from": "meat",
     "name": { "str_sp": "synthetic meat" },
     "description": "A cut of vat grown lean meat, genetically similar to beef.  Conspicuously uniform in both looks and texture.",
-    "parasites": 0
+    "parasites": 0,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "afs_jerky",
     "copy-from": "jerky",
     "name": { "str_sp": "meat flakes" },
-    "description": "Transparent thin hexagonal cuts of dried meat.  Conspicuously uniform in both looks and texture."
+    "description": "Transparent thin hexagonal cuts of dried meat.  Conspicuously uniform in both looks and texture.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "curry_meat",
     "looks_like": "soup_meat",
     "name": { "str_sp": "ramen" },
@@ -37,10 +39,11 @@
     "charges": 1,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "vitamins": [ [ "vitC", 30 ], [ "calcium", 5 ], [ "iron", 28 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
-    "fun": 8
+    "fun": 8,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "id": "flesh_golem_heart",
     "name": { "str": "seeping heart" },
@@ -57,6 +60,7 @@
     "volume": "500 ml",
     "fun": -25,
     "vitamins": [ [ "mutagen_beast", 250 ], [ "meat_allergen", 1 ] ],
-    "flags": [ "PREDATOR_FUN", "MISSION_ITEM" ]
+    "flags": [ "PREDATOR_FUN", "MISSION_ITEM" ],
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

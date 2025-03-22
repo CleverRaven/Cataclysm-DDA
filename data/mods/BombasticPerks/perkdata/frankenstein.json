@@ -25,7 +25,7 @@
   },
   {
     "id": "meat_hunk",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "homunculus", "str_pl": "homunculi" },
     "description": "A stitched together monstrosity of meat and bone, with limbs as wide as trash cans.  This one is still sleeping.  It would require a master's touch to bring it to life.",
     "volume": "875000 ml",
@@ -46,7 +46,8 @@
       "skills": [ "electronics", "firstaid" ]
     },
     "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "mon_meat_hunk",

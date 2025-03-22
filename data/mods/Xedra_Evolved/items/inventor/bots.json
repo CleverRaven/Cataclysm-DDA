@@ -1,7 +1,7 @@
 [
   {
     "id": "bot_sniperbot",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "inactive sniper bot" },
     "description": "A compressed sniper sentry.  Ludicrous, physical law violating compression allows you to fit them into a small metal cylinder, but the weight compression is not as effective.",
     "weight": "5 kg",
@@ -15,11 +15,12 @@
       "moves": 100,
       "skills": [ "deduction", "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE", "INVENTOR_CRAFTED" ]
+    "flags": [ "SINGLE_USE", "INVENTOR_CRAFTED" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "bot_shotgunbot",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "inactive shotgun bot" },
     "description": "A compressed shotgun sentry.  Ludicrous, physical law violating compression allows you to fit them into a small metal cylinder, but the weight compression is not as effective.",
     "weight": "5 kg",
@@ -33,11 +34,12 @@
       "moves": 100,
       "skills": [ "deduction", "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE", "INVENTOR_CRAFTED" ]
+    "flags": [ "SINGLE_USE", "INVENTOR_CRAFTED" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "bot_meleebot",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "inactive melee bot" },
     "description": "A compressed melee sentry.  Ludicrous, physical law violating compression allows you to fit them into a small metal cylinder, but the weight compression is not as effective.",
     "weight": "5 kg",
@@ -51,6 +53,7 @@
       "moves": 100,
       "skills": [ "deduction", "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE", "INVENTOR_CRAFTED" ]
+    "flags": [ "SINGLE_USE", "INVENTOR_CRAFTED" ],
+    "subtypes": [ "TOOL" ]
   }
 ]

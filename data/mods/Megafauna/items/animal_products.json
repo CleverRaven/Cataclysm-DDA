@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "mammoth_tusk",
     "category": "spare_parts",
     "name": { "str": "mammoth tusk" },
@@ -16,10 +16,11 @@
     "longest_side": "250 cm",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "vitamins": [ [ "calcium", 96 ], [ "meat_allergen", 1 ] ],
-    "melee_damage": { "bash": 45 }
+    "melee_damage": { "bash": 45 },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "egg_auk",
     "name": { "str": "great auk egg" },
     "copy-from": "egg_chicken",
@@ -27,10 +28,11 @@
     "quench": 9,
     "calories": 140,
     "volume": "90 ml",
-    "rot_spawn": { "group": "GROUP_EGG_AUK" }
+    "rot_spawn": { "group": "GROUP_EGG_AUK" },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "egg_titanis_walleri",
     "name": { "str": "titanis walleri egg" },
     "copy-from": "egg_chicken",
@@ -38,10 +40,11 @@
     "quench": 14,
     "calories": 2100,
     "volume": "1800 ml",
-    "rot_spawn": { "group": "GROUP_EGG_TITANIS_WALLERI" }
+    "rot_spawn": { "group": "GROUP_EGG_TITANIS_WALLERI" },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "id": "glypto_shell",
     "category": "spare_parts",
@@ -55,10 +58,11 @@
     "material": [ "bone" ],
     "volume": "180 L",
     "longest_side": "200 cm",
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "large_bone",
     "category": "spare_parts",
     "name": { "str": "large bone" },
@@ -74,6 +78,7 @@
     "longest_side": "200 cm",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "vitamins": [ [ "calcium", 96 ], [ "meat_allergen", 1 ] ],
-    "melee_damage": { "bash": 35 }
+    "melee_damage": { "bash": 35 },
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

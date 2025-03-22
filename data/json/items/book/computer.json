@@ -1,7 +1,7 @@
 [
   {
     "id": "SICP",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "SICP", "str_pl": "copies of SICP" },
     "description": "A classic text, \"The Structure and Interpretation of Computer Programs.\" Written with examples in LISP, but applicable to any language.",
@@ -44,11 +44,12 @@
     "time": "50 m",
     "melee_damage": { "bash": 6 },
     "read_skill": "computer",
-    "read_fun": -1
+    "read_fun": -1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "computer_science",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Computer Science 301", "str_pl": "copies of Computer Science 301" },
     "description": "A college textbook on computer science.",
@@ -94,11 +95,12 @@
     "time": "35 m",
     "melee_damage": { "bash": 5 },
     "read_skill": "computer",
-    "read_fun": -2
+    "read_fun": -2,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "howto_computer",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "How to Browse the Web", "str_pl": "copies of How to Browse the Web" },
     "description": "Very beginner-level information about computers.",
@@ -147,11 +149,12 @@
     "max_level": 2,
     "intelligence": 5,
     "time": "15 m",
-    "read_skill": "computer"
+    "read_skill": "computer",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "mag_computer",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Computer World", "str_pl": "issues of Computer World" },
     "description": "An informative magazine all about computers, both hardware and software.",
@@ -193,11 +196,12 @@
     "max_level": 1,
     "intelligence": 5,
     "time": "8 m",
-    "read_skill": "computer"
+    "read_skill": "computer",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "manual_computer",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Computer Science 101", "str_pl": "copies of Computer Science 101" },
     "//": "College-level textbooks are Cheap at $60.",
@@ -243,11 +247,12 @@
     "max_level": 3,
     "intelligence": 5,
     "time": "15 m",
-    "read_skill": "computer"
+    "read_skill": "computer",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "textbook_computer",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Principles of Advanced Programming", "str_pl": "copies of Principles of Advanced Programming" },
     "description": "A heavy textbook dedicated to advanced-level software design, written for several different programming languages.",
@@ -308,11 +313,12 @@
     "time": "35 m",
     "melee_damage": { "bash": 5 },
     "read_skill": "computer",
-    "read_fun": -2
+    "read_fun": -2,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "webbasics_computer",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Web Design Basics", "str_pl": "copies of Web Design Basics" },
     "//": "An entry-level book for younger coders that includes real coding practice.",
@@ -373,11 +379,12 @@
     "intelligence": 7,
     "time": "20 m",
     "read_skill": "computer",
-    "read_fun": -1
+    "read_fun": -1,
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "hackerman_computer",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Pro Hacker Secrets", "str_pl": "copies of Pro Hacker Secrets" },
     "//": "A pristine, almost untouched book about coding targeted at teenagers.",
@@ -429,6 +436,7 @@
     "intelligence": 8,
     "time": "30 m",
     "read_skill": "computer",
-    "read_fun": -2
+    "read_fun": -2,
+    "subtypes": [ "BOOK" ]
   }
 ]

@@ -2,7 +2,7 @@
   {
     "id": "bond_410",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "double-barrel derringer" },
     "description": "The Bond Arms Derringer is a series of multi-barrel compact pistols.  Most commonly chambered for .45 Colt, with chambers long enough to accept .410 shotgun shells.",
@@ -41,13 +41,14 @@
     ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 2, "410shot": 2 } } ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "colt_saa",
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "cowboy six-shooter" },
     "description": "A reproduction of an antique firearm, chambered in .45 Colt.  Due to the lack of a swing-out cylinder, each cartridge must be reloaded and ejected manually.",
     "variant_type": "gun",
@@ -82,13 +83,14 @@
     "//proportional": { "reload": 1.5 },
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 6 } } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "taurus_judge",
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": ".45/.410 shotshell revolver" },
     "description": "A stainless steel 5 shot revolver, capable of firing .410 shells or 45 Colt cartridges.",
     "variant_type": "gun",
@@ -118,6 +120,7 @@
         "allowed_speedloaders": [ "454_speedloader5" ]
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "GUN" ]
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
     "id": "changeling_thrown_knife",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "%",
     "color": "red",
     "name": { "str": "thrown knife" },
@@ -40,7 +40,8 @@
         "ammo_restriction": { "throwing_knives": 3 }
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "GUN" ]
   },
   {
     "type": "monster_attack",
@@ -64,7 +65,7 @@
     "id": "renfield_glock",
     "copy-from": "pistol_base",
     "looks_like": "glock_19",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str_sp": "Glock 19", "//~": "NO_I18N" },
     "description": { "str": "A poorly maintained and inaccurate version of the Glock 19 for renfields.", "//~": "NO_I18N" },
     "ascii_picture": "glock_19",
@@ -90,11 +91,12 @@
         "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "renfield_remington",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "R",
     "color": "dark_gray",
     "name": { "str_sp": "renfield Remington", "//~": "NO_I18N" },
@@ -111,13 +113,14 @@
     "range": 65,
     "durability": 9,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "feral_57",
     "copy-from": "pistol_base",
     "looks_like": "fn57",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str_sp": "FN Five-seveN", "//~": "NO_I18N" },
     "description": { "str": "A poorly maintained and inaccurate version of the Five-seveN for feral agents.", "//~": "NO_I18N" },
     "ascii_picture": "FN_five_seven",
@@ -137,12 +140,13 @@
     "min_cycle_recoil": 120,
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fn57mag" ] } ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "feral_p90",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "P90 automatic PDW", "//~": "NO_I18N" },
     "description": {
@@ -185,7 +189,8 @@
       "fault_double_feed"
     ],
     "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fnp90mag" ] } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "shifting",

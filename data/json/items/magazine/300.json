@@ -3,7 +3,7 @@
     "id": "m2010mag",
     "//": "Dimensions and weight from manufacturer of a .300WM Long Action Magazine.",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "M2010 5-round magazine" },
     "description": "A 5-round box magazine used with the M2010 ESR sniper rifle.",
     "weight": "207 g",
@@ -16,13 +16,14 @@
     "color": "light_gray",
     "ammo_type": [ "300" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 5 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "ruger_pr_mag",
     "//": "Dimension from ImageJ, weight is ratio of M2010 magazine: 1.11 g/ml.",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Ruger Precision Rifle 5-round magazine" },
     "description": "A single-stack, 5-round, detachable magazine compatible with the Ruger Precision Rifle.  Holding five rounds of.300 Winchester Magnum, the magazine is styled along the lines of Accuracy International's magnum magazines, the latter of which has become the gold standard for precision weapon magazines.",
     "weight": "188 g",
@@ -35,6 +36,7 @@
     "color": "light_gray",
     "ammo_type": [ "300" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 5 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

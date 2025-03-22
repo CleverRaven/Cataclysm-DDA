@@ -1,7 +1,7 @@
 [
   {
     "//": "Tier 1 begins here",
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_extra_str_aspirin",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -13,10 +13,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_small_blessing_brigit",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -28,10 +29,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_blackout_rage_drink",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -43,10 +45,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "deduction"
+    "read_skill": "deduction",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_sixdust",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -58,11 +61,12 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "deduction"
+    "read_skill": "deduction",
+    "subtypes": [ "BOOK" ]
   },
   {
     "//": "Tier 2 begins here",
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_prophets_lsd",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -74,10 +78,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "deduction"
+    "read_skill": "deduction",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_truckers_stamina_pills",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -89,10 +94,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_charm_of_marzanna",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -104,10 +110,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_spiritshow_dust",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -119,10 +126,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_väinämöinens_kantele_imitation",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -134,11 +142,12 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "fabrication"
+    "read_skill": "fabrication",
+    "subtypes": [ "BOOK" ]
   },
   {
     "//": "Tier 3 begins here",
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_feline_periapta",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -150,10 +159,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "fabrication"
+    "read_skill": "fabrication",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_lupine_periapta",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -165,10 +175,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "fabrication"
+    "read_skill": "fabrication",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_cephalopod_periapta",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -180,10 +191,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "fabrication"
+    "read_skill": "fabrication",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_plant_periapta",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -195,10 +207,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "fabrication"
+    "read_skill": "fabrication",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_scorpion_periapta",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -210,10 +223,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "fabrication"
+    "read_skill": "fabrication",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_butterfly_periapta",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -225,10 +239,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "fabrication"
+    "read_skill": "fabrication",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_spider_periapta",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -240,10 +255,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "fabrication"
+    "read_skill": "fabrication",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_cold_iron_ingot",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -255,10 +271,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "fabrication"
+    "read_skill": "fabrication",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_life_extension_potion",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -270,10 +287,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_potion_strength",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -285,10 +303,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_potion_dex",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -300,10 +319,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_hares_leap_potion",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -315,10 +335,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_nether_snare",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -330,10 +351,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "fabrication"
+    "read_skill": "fabrication",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_plant_imbuement",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -345,10 +367,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_doll_imbuement",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -360,10 +383,11 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "alchemy_recipe_fire_imbuement",
     "copy-from": "schematics_generic",
     "looks_like": "spell_scroll",
@@ -375,6 +399,7 @@
     "time": "45 m",
     "symbol": "ç",
     "color": "light_green",
-    "read_skill": "chemistry"
+    "read_skill": "chemistry",
+    "subtypes": [ "BOOK" ]
   }
 ]

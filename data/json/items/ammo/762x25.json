@@ -1,7 +1,7 @@
 [
   {
     "id": "762_25",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "7.62x25mm JHP" },
     "description": "A commercial version of the 7.62x25mm cartridge created for the armed forces of Soviet Russia.  It was derived from the 7.63x25mm cartridge used by the C96 pistol.",
     "ascii_picture": "762_25",
@@ -22,21 +22,23 @@
     "damage": { "damage_type": "bullet", "amount": 24, "armor_penetration": 2 },
     "dispersion": 120,
     "recoil": 540,
-    "effects": [ "COOKOFF" ]
+    "effects": [ "COOKOFF" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "762_25hot",
     "copy-from": "762_25",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "7.62x25mm FMJ hot load" },
     "description": "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with an 85 gr. FMJ bullet.  It is more powerful than the original.",
     "relative": { "price": "5 USD", "range": 2, "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 3 } },
-    "proportional": { "recoil": 1.4 }
+    "proportional": { "recoil": 1.4 },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "762_25typeP",
     "copy-from": "762_25",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "7.62x25mm Type P" },
     "//": "Stopgap price of $1 per.  Anti-China prejudice in the pre-Cataclysm US may have made this ammo tougher to come by.",
     "description": "A subsonic cartridge derived from the 7.62x25mm, designed for silenced firearms.  It offers good armor penetration at the cost of slightly less damage.",
@@ -47,13 +49,14 @@
       "range": -1,
       "damage": { "damage_type": "bullet", "amount": -9, "armor_penetration": 2 },
       "recoil": -270
-    }
+    },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "bp_762_25",
     "//": "Should this be copied from 762_25hot, or 762_25?",
     "copy-from": "762_25hot",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "7.62x25mm FMJ, black powder" },
     "proportional": {
       "price": 0.3,
@@ -62,23 +65,26 @@
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "reloaded_762_25",
     "copy-from": "762_25hot",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "7.62x25mm FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9, "armor_penetration": 0.9 }, "dispersion": 1.1 }
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9, "armor_penetration": 0.9 }, "dispersion": 1.1 },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "matchhead_762_25",
     "copy-from": "bp_762_25",
-    "type": "AMMO",
+    "type": "ITEM",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": "7.62x25mm FMJ, matchhead powder" },
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_762_25",
-    "extend": { "effects": [ "MATCHHEAD" ] }
+    "extend": { "effects": [ "MATCHHEAD" ] },
+    "subtypes": [ "AMMO" ]
   }
 ]

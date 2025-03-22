@@ -1,7 +1,7 @@
 [
   {
     "id": "debug_lux_meter",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "debug lux meter" },
     "description": "This debug tool will tell you about light",
@@ -10,11 +10,12 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": [ "DBG_LUX_METER" ]
+    "use_action": [ "DBG_LUX_METER" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "debug_item_damager",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str_sp": "debug item damager (simple)" },
     "description": "Deals 1 full bar of damage to an item you wield.",
@@ -44,11 +45,12 @@
           }
         }
       ]
-    }
+    },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "debug_item_damager_adv",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str_sp": "debug item damager (advanced)" },
     "description": "Deals damage to items you pick.",
@@ -75,11 +77,12 @@
           }
         }
       ]
-    }
+    },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "debug_mortar",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str_sp": "debug explosion generator" },
     "description": "Causes explosion at overmap you pick.",
@@ -106,6 +109,7 @@
           ]
         }
       ]
-    }
+    },
+    "subtypes": [ "TOOL" ]
   }
 ]

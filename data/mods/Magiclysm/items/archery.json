@@ -1,7 +1,7 @@
 [
   {
     "id": "ichaival",
-    "type": "GUN",
+    "type": "ITEM",
     "looks_like": "reflexrecurvebow",
     "symbol": "(",
     "color": "white",
@@ -27,21 +27,6 @@
     "weight": "740 g",
     "volume": "2 L",
     "longest_side": "150 cm",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "orichalcum_metal", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "gold", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "encumbrance": 14,
-          "coverage": 5,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "reload_noise_volume": 2,
     "loudness": 5,
     "ranged_damage": { "damage_type": "stab", "amount": 15 },
@@ -52,10 +37,24 @@
     "reload": 40,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow_orichalcum": 1, "arrow": 1 }, "open_container": true } ],
-    "melee_damage": { "bash": 14 }
+    "melee_damage": { "bash": 14 },
+    "armor": [
+      {
+        "material": [
+          { "type": "orichalcum_metal", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "gold", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 14,
+        "coverage": 5,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ],
+    "subtypes": [ "ARMOR", "GUN" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "arrow_odin",
     "price": "35 USD",
     "name": "orichalcum arrow",
@@ -75,11 +74,12 @@
     "stack_size": 15,
     "critical_multiplier": 10,
     "recovery_chance": 98,
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "arrow_druid_crafted",
-    "type": "AMMO",
+    "type": "ITEM",
     "price": "250 USD",
     "name": { "str": "tangler arrow" },
     "symbol": "=",
@@ -99,83 +99,91 @@
     "show_stats": true,
     "critical_multiplier": 10,
     "recovery_chance": 86,
-    "effects": [ "TANGLE" ]
+    "effects": [ "TANGLE" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "arrow_stormshaper_crafted",
-    "type": "AMMO",
+    "type": "ITEM",
     "copy-from": "arrow_druid_crafted",
     "name": { "str": "thunderclap arrow" },
     "color": "magenta",
     "recovery_chance": 86,
     "description": "An arrow with a fragment of a stormshaper rune in the arrowhead.  It trails lightning and explodes with a crash of thunder.",
-    "effects": [ "LIGHTNING", "FLASHBANG" ]
+    "effects": [ "LIGHTNING", "FLASHBANG" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "arrow_earthshaper_crafted",
-    "type": "AMMO",
+    "type": "ITEM",
     "copy-from": "arrow_druid_crafted",
     "name": { "str": "avalanche arrow" },
     "color": "light_gray",
     "description": "An arrow with a fragment of a earthshaper rune in the arrowhead.  It hits the target with the force of an avalanche.",
-    "effects": [ "LARGE_BEANBAG", "RECOVER_7" ]
+    "effects": [ "LARGE_BEANBAG", "RECOVER_7" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "arrow_kelvinist_crafted",
-    "type": "AMMO",
+    "type": "ITEM",
     "copy-from": "arrow_druid_crafted",
     "name": { "str": "fireball arrow" },
     "color": "red",
     "recovery_chance": 86,
     "description": "An arrow with a fragment of a kelvinist rune in the arrowhead.  It explodes into a firestorm.",
-    "effects": [ "NAPALM" ]
+    "effects": [ "NAPALM" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "arrow_biomancer_crafted",
-    "type": "AMMO",
+    "type": "ITEM",
     "copy-from": "arrow_druid_crafted",
     "name": { "str": "visceral arrow" },
     "color": "green",
     "material": [ "bone" ],
     "recovery_chance": 86,
     "description": "A disturbing bone arrow with a fragment of a biomancer rune in the arrowhead.  It showers its target in acid.",
-    "effects": [ "ACIDBOMB" ]
+    "effects": [ "ACIDBOMB" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "arrow_technomancer_crafted",
-    "type": "AMMO",
+    "type": "ITEM",
     "copy-from": "arrow_druid_crafted",
     "name": { "str": "sparking arrow" },
     "color": "white",
     "recovery_chance": 86,
     "description": "A metallic arrow with a fragment of a technomancer rune in the arrowhead.  It destroys electronic targets.",
-    "effects": [ "EMP", "DRAW_LASER_BEAM" ]
+    "effects": [ "EMP", "DRAW_LASER_BEAM" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "arrow_magus_crafted",
-    "type": "AMMO",
+    "type": "ITEM",
     "copy-from": "arrow_druid_crafted",
     "//": "I'd like this to cause massive knockback but I'm limited by the available ammo flags.",
     "name": { "str": "gravity arrow" },
     "color": "black",
     "recovery_chance": 86,
     "description": "An arrow with a fragment of a magus rune in the arrowhead.  It reverses flight briefly after striking its target and then hits another one.",
-    "effects": [ "BOUNCE" ]
+    "effects": [ "BOUNCE" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "arrow_animist_crafted",
-    "type": "AMMO",
+    "type": "ITEM",
     "copy-from": "arrow_druid_crafted",
     "//": "I'd like this to drain life but see above.",
     "name": { "str": "enervating arrow" },
     "color": "cyan",
     "recovery_chance": 86,
     "description": "An arrow with a fragment of an animist rune in the arrowhead.  It unleashes a cloud of enervating gas.",
-    "effects": [ "PARALYZEPOISON", "TOXICGAS" ]
+    "effects": [ "PARALYZEPOISON", "TOXICGAS" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "quiver_of_holding_plus_one",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "quiver of holding +1", "str_pl": "quivers of holding +1" },
     "description": "A quiver enchanted to hold 40 arrows or bolts while not taking up any more space than a normal quiver.  Rarely made after the invention of firearms.",
     "copy-from": "quiver",
@@ -190,11 +198,12 @@
         "moves": 20
       }
     ],
-    "extend": { "flags": [ "TARDIS" ] }
+    "extend": { "flags": [ "TARDIS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "quiver_of_holding_plus_two",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "quiver of holding +2", "str_pl": "quivers of holding +2" },
     "description": "A quiver enchanted to hold 80 arrows or bolts while not taking up any more space than a normal quiver.  Rarely made after the invention of firearms.",
     "copy-from": "quiver_of_holding_plus_one",
@@ -205,6 +214,7 @@
         "volume_multiplier": 0.25,
         "moves": 20
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   }
 ]

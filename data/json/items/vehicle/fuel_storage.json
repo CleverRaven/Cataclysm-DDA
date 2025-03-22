@@ -1,7 +1,7 @@
 [
   {
     "id": "fuel_bunker",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "fuel bunker" },
     "description": "A bin for holding solid fuel.  Contains up to 50 liters of coal or charcoal.",
     "symbol": "]",
@@ -16,6 +16,7 @@
     "ammo_type": [ "charcoal", "coal" ],
     "price": "30 USD",
     "price_postapoc": "1 USD",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 10000, "coal": 50000 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 10000, "coal": 50000 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
     "id": "combat_exoskeleton_armor_head_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "heavy combat exoskeleton head armor" },
     "description": "Put the tank in tank suit with this 6mm thick exoskeleton armor, it even feels like wearing a real tank, you should stay wary of anti-material rounds though.",
@@ -66,11 +66,12 @@
         "flag_restriction": [ "HELMET_FRONT_ATTACHMENT" ],
         "inherits_flags": false
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_torso_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "heavy combat exoskeleton torso armor" },
     "description": "Put the tank in tank suit with this 6mm thick exoskeleton armor, it even feels like wearing a real tank, you should stay wary of anti-material rounds though.",
@@ -94,11 +95,12 @@
         ]
       }
     ],
-    "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ]
+    "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_arm_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "heavy combat exoskeleton arm armor" },
     "description": "Put the tank in tank suit with this 6mm thick exoskeleton armor, it even feels like wearing a real tank, you should stay wary of anti-material rounds though.",
@@ -146,11 +148,12 @@
           { "type": "kevlar_layered", "thickness": 1.1, "ignore_sheet_thickness": true }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_leg_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "heavy combat exoskeleton leg armor" },
     "description": "Put the tank in tank suit with this 6mm thick exoskeleton armor, it even feels like wearing a real tank, you should stay wary of anti-material rounds though.",
@@ -195,12 +198,13 @@
           { "type": "qt_steel", "thickness": 6, "covered_by_mat": 95 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_head_medium",
     "copy-from": "combat_exoskeleton_armor_head_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "medium combat exoskeleton head armor" },
     "description": "This 4mm thick exoskeleton armor will allow you to withstand a lead storm while also giving you the mobility to escape it, if the hail ends up being made of heavier calibers than standard rifle rounds.",
     "volume": "2700 ml",
@@ -236,12 +240,13 @@
         "coverage": 100,
         "material": [ { "type": "lvl4ballisticglass", "thickness": 2 } ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_torso_medium",
     "copy-from": "combat_exoskeleton_armor_torso_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "medium combat exoskeleton torso armor" },
     "description": "This 4mm thick exoskeleton armor will allow you to withstand a lead storm while also giving you the mobility to escape it, if the hail ends up being made of heavier calibers than standard rifle rounds.",
     "volume": "9600 ml",
@@ -259,12 +264,13 @@
           { "type": "qt_steel", "thickness": 4, "covered_by_mat": 95 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_arm_medium",
     "copy-from": "combat_exoskeleton_armor_arm_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "medium combat exoskeleton arm armor" },
     "description": "This 4mm thick exoskeleton armor will allow you to withstand a lead storm while also giving you the mobility to escape it, if the hail ends up being made of heavier calibers than standard rifle rounds.",
     "volume": "7700 ml",
@@ -307,12 +313,13 @@
           { "type": "kevlar_layered", "thickness": 1.1, "ignore_sheet_thickness": true }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_leg_medium",
     "copy-from": "combat_exoskeleton_armor_leg_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "medium combat exoskeleton leg armor" },
     "description": "This 4mm thick exoskeleton armor will allow you to withstand a lead storm while also giving you the mobility to escape it, if the hail ends up being made of heavier calibers than standard rifle rounds.",
     "volume": "8000 ml",
@@ -352,12 +359,13 @@
           { "type": "qt_steel", "thickness": 4, "covered_by_mat": 95 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_head_light",
     "copy-from": "combat_exoskeleton_armor_head_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "light combat exoskeleton head armor" },
     "description": "This 2mm thick exoskeleton armor was designed when the testing of heavier versions concluded that mobility is actually the most important attribute on the battlefield, especially when you can still brush off small caliber rounds.",
     "volume": "2000 ml",
@@ -393,12 +401,13 @@
         "coverage": 100,
         "material": [ { "type": "lvl4ballisticglass", "thickness": 2 } ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_torso_light",
     "copy-from": "combat_exoskeleton_armor_torso_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "light combat exoskeleton torso armor" },
     "description": "This 2mm thick exoskeleton armor was designed when the testing of heavier versions concluded that mobility is actually the most important attribute on the battlefield, especially when you can still brush off small caliber rounds.",
     "volume": "7200 ml",
@@ -416,12 +425,13 @@
           { "type": "qt_steel", "thickness": 2, "covered_by_mat": 95 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_arm_light",
     "copy-from": "combat_exoskeleton_armor_arm_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "light combat exoskeleton arm armor" },
     "description": "This 2mm thick exoskeleton armor was designed when the testing of heavier versions concluded that mobility is actually the most important attribute on the battlefield, especially when you can still brush off small caliber rounds.",
     "volume": "5800 ml",
@@ -464,12 +474,13 @@
           { "type": "kevlar_layered", "thickness": 1.1, "ignore_sheet_thickness": true }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_leg_light",
     "copy-from": "combat_exoskeleton_armor_leg_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "light combat exoskeleton leg armor" },
     "description": "This 2mm thick exoskeleton armor was designed when the testing of heavier versions concluded that mobility is actually the most important attribute on the battlefield, especially when you can still brush off small caliber rounds.",
     "volume": "6000 ml",
@@ -509,12 +520,13 @@
           { "type": "qt_steel", "thickness": 2, "covered_by_mat": 95 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_head_heavy_reinforced",
     "copy-from": "combat_exoskeleton_armor_head_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "reinforced heavy combat exoskeleton head armor" },
     "description": "Put the tank in tank suit with this 6mm thick exoskeleton armor, it even feels like wearing a real tank, you should stay wary of anti-material rounds though.  This armor has been reinforced with chainmail to fill its gaps.",
     "proportional": { "price": 1.1, "price_postapoc": 1.1 },
@@ -552,12 +564,13 @@
         "coverage": 100,
         "material": [ { "type": "lvl4ballisticglass", "thickness": 2 } ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_torso_heavy_reinforced",
     "copy-from": "combat_exoskeleton_armor_torso_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "reinforced heavy combat exoskeleton torso armor" },
     "description": "Put the tank in tank suit with this 6mm thick exoskeleton armor, it even feels like wearing a real tank, you should stay wary of anti-material rounds though.  This armor has been reinforced with chainmail to fill its gaps.",
     "proportional": { "price": 1.1, "price_postapoc": 1.1 },
@@ -577,12 +590,13 @@
           { "type": "qt_steel", "thickness": 4.8, "covered_by_mat": 95 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_arm_heavy_reinforced",
     "copy-from": "combat_exoskeleton_armor_arm_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "reinforced heavy combat exoskeleton arm armor" },
     "description": "Put the tank in tank suit with this 6mm thick exoskeleton armor, it even feels like wearing a real tank, you should stay wary of anti-material rounds though.  This armor has been reinforced with chainmail to fill its gaps.",
     "proportional": { "price": 1.1, "price_postapoc": 1.1 },
@@ -629,12 +643,13 @@
           { "type": "qt_steel_chain", "thickness": 1.2 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_leg_heavy_reinforced",
     "copy-from": "combat_exoskeleton_armor_leg_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "reinforced heavy combat exoskeleton leg armor" },
     "description": "Put the tank in tank suit with this 6mm thick exoskeleton armor, it even feels like wearing a real tank, you should stay wary of anti-material rounds though.  This armor has been reinforced with chainmail to fill its gaps.",
     "proportional": { "price": 1.1, "price_postapoc": 1.1 },
@@ -677,12 +692,13 @@
           { "type": "qt_steel", "thickness": 4.8, "covered_by_mat": 95 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_head_medium_reinforced",
     "copy-from": "combat_exoskeleton_armor_head_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "reinforced medium combat exoskeleton head armor" },
     "description": "This 4mm thick exoskeleton armor will allow you to withstand a lead storm while also giving you the mobility to escape it, if the hail ends up being made of heavier calibers than standard rifle rounds.  This armor has been reinforced with chainmail to fill its gaps.",
     "proportional": { "price": 1.1, "price_postapoc": 1.1 },
@@ -720,12 +736,13 @@
         "coverage": 100,
         "material": [ { "type": "lvl4ballisticglass", "thickness": 2 } ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_torso_medium_reinforced",
     "copy-from": "combat_exoskeleton_armor_torso_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "reinforced medium combat exoskeleton torso armor" },
     "description": "This 4mm thick exoskeleton armor will allow you to withstand a lead storm while also giving you the mobility to escape it, if the hail ends up being made of heavier calibers than standard rifle rounds.  This armor has been reinforced with chainmail to fill its gaps.",
     "proportional": { "price": 1.1, "price_postapoc": 1.1 },
@@ -745,12 +762,13 @@
           { "type": "qt_steel", "thickness": 2.8, "covered_by_mat": 95 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_arm_medium_reinforced",
     "copy-from": "combat_exoskeleton_armor_arm_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "reinforced medium combat exoskeleton arm armor" },
     "description": "This 4mm thick exoskeleton armor will allow you to withstand a lead storm while also giving you the mobility to escape it, if the hail ends up being made of heavier calibers than standard rifle rounds.  This armor has been reinforced with chainmail to fill its gaps.",
     "proportional": { "price": 1.1, "price_postapoc": 1.1 },
@@ -797,12 +815,13 @@
           { "type": "qt_steel_chain", "thickness": 1.2 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_leg_medium_reinforced",
     "copy-from": "combat_exoskeleton_armor_leg_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "reinforced medium combat exoskeleton leg armor" },
     "description": "This 4mm thick exoskeleton armor will allow you to withstand a lead storm while also giving you the mobility to escape it, if the hail ends up being made of heavier calibers than standard rifle rounds.  This armor has been reinforced with chainmail to fill its gaps.",
     "proportional": { "price": 1.1, "price_postapoc": 1.1 },
@@ -845,12 +864,13 @@
           { "type": "qt_steel", "thickness": 2.8, "covered_by_mat": 95 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_head_light_reinforced",
     "copy-from": "combat_exoskeleton_armor_head_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "reinforced light combat exoskeleton head armor" },
     "description": "This 2mm thick exoskeleton armor was designed when the testing of heavier versions concluded that mobility is actually the most important attribute on the battlefield, especially when you can still brush off small caliber rounds.  This armor has been reinforced with chainmail to fill its gaps.",
     "proportional": { "price": 1.1, "price_postapoc": 1.1 },
@@ -888,12 +908,13 @@
         "coverage": 100,
         "material": [ { "type": "lvl4ballisticglass", "thickness": 2 } ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_torso_light_reinforced",
     "copy-from": "combat_exoskeleton_armor_torso_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "reinforced light combat exoskeleton torso armor" },
     "description": "This 2mm thick exoskeleton armor was designed when the testing of heavier versions concluded that mobility is actually the most important attribute on the battlefield, especially when you can still brush off small caliber rounds.  This armor has been reinforced with chainmail to fill its gaps.",
     "proportional": { "price": 1.1, "price_postapoc": 1.1 },
@@ -913,12 +934,13 @@
           { "type": "qt_steel", "thickness": 0.8, "covered_by_mat": 95 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_arm_light_reinforced",
     "copy-from": "combat_exoskeleton_armor_arm_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "reinforced light combat exoskeleton arm armor" },
     "description": "This 2mm thick exoskeleton armor was designed when the testing of heavier versions concluded that mobility is actually the most important attribute on the battlefield, especially when you can still brush off small caliber rounds.  This armor has been reinforced with chainmail to fill its gaps.",
     "proportional": { "price": 1.1, "price_postapoc": 1.1 },
@@ -965,12 +987,13 @@
           { "type": "qt_steel_chain", "thickness": 1.2 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "combat_exoskeleton_armor_leg_light_reinforced",
     "copy-from": "combat_exoskeleton_armor_leg_heavy",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "reinforced light combat exoskeleton leg armor" },
     "description": "This 2mm thick exoskeleton armor was designed when the testing of heavier versions concluded that mobility is actually the most important attribute on the battlefield, especially when you can still brush off small caliber rounds.  This armor has been reinforced with chainmail to fill its gaps.",
     "proportional": { "price": 1.1, "price_postapoc": 1.1 },
@@ -1013,6 +1036,7 @@
           { "type": "qt_steel", "thickness": 0.8, "covered_by_mat": 95 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   }
 ]
