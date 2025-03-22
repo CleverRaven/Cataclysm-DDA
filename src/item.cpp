@@ -10014,7 +10014,7 @@ bool item::is_food_container() const
 
 bool item::has_temperature() const
 {
-    return is_comestible() || is_corpse();
+    return ( is_comestible() && !has_flag( flag_NO_TEMP ) )  || is_corpse();
 }
 
 bool item::is_corpse() const
