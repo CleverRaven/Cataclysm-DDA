@@ -29,17 +29,17 @@
     "id": "MISSION_GODCO_COOK_FOOD_2",
     "type": "mission_definition",
     "name": { "str": "Pickled Meals" },
-    "description": "Find 5 glass jars.",
+    "description": "Find 40 glass jars (3 L).",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,
-    "item": "jar_glass_sealed",
-    "count": 5,
+    "item": "jar_3l_glass_sealed",
+    "count": 40,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GODCO_COOK_FOOD_3",
     "dialogue": {
       "describe": "I need several glass jars.",
-      "offer": "This task is bit more serious.  I don't have enough jars to preserve perishables for the future, and we can't just store everything in salt.  We could do our own canning if we had some more glass jars.  I could get by with 5 for now.",
+      "offer": "This task is bit more serious.  I don't have enough jars to preserve perishables for the future, and we can't just store everything in salt.  We could do our own canning if we had some more glass jars.  I think 40 jars should be enough.",
       "accepted": "Thanks for accepting this task.  It'll take a load off my shoulders.  I finally won't have to worry about this problem anymore.",
       "rejected": "Just let me know if you change your mind.",
       "advice": "Glass jars are not that hard to find.  I'd look for them in residential areas.",
@@ -48,7 +48,7 @@
       "success_lie": "Thanks for trying… I guess.",
       "failure": "It's not a big deal, it isn't that urgent."
     },
-    "end": { "effect": [ { "u_spawn_item": "icon", "count": 5 } ], "opinion": { "trust": 1, "value": 1 } },
+    "end": { "effect": [ { "u_spawn_item": "icon", "count": 10 } ], "opinion": { "trust": 1, "value": 1 } },
     "fail": { "opinion": { "anger": 1 } }
   },
   {
