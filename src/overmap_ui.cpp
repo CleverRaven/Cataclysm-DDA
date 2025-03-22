@@ -25,6 +25,7 @@
 #include "cata_variant.h"
 #include "character_id.h"
 #include "debug.h"
+#include "enums.h"
 #include "enum_conversions.h"
 #include "input_enums.h"
 #include "mapdata.h"
