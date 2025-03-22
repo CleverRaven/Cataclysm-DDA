@@ -250,8 +250,8 @@ class Item_factory
                                                std::string &type );
 
         //iuse stuff
-        static void add_iuse( const std::string &type, const use_function_pointer f );
-        static void add_iuse( const std::string &type, const use_function_pointer f,
+        static void add_iuse( const std::string &type, use_function_pointer f );
+        static void add_iuse( const std::string &type, use_function_pointer f,
                               const translation &info );
         static void add_actor( std::unique_ptr<iuse_actor> ptr );
 
@@ -370,10 +370,6 @@ class Item_factory
         std::set<itype_id> gun_tools;
 };
 
-static std::vector<itype>::iterator find_template_list( const itype_id &it_id );
-static std::size_t count_template_list( const itype_id &it_id );
-static void migrate_mag_from_pockets( itype &def );
-
 namespace items
 {
 /** Load all items */
@@ -384,5 +380,5 @@ void finalize_all();
 void reset();
 /** Checks all loaded items are valid */
 void check_consistency();
-}
+}  // namespace items
 #endif // CATA_SRC_ITEM_FACTORY_H

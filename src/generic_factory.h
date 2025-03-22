@@ -820,19 +820,6 @@ inline bool handle_proportional( const JsonObject &jo, const std::string_view na
     return false;
 }
 
-//Reads a "proportional" entry
-static float read_proportional_entry( const JsonObject &jo, const std::string_view &key )
-{
-    if( jo.has_float( key ) ) {
-        float scalar = jo.get_float( key );
-        if( scalar == 1 || scalar < 0 ) {
-            jo.throw_error_at( key, "Proportional multiplier must be a positive number other than 1.0" );
-        }
-        return scalar;
-    }
-    return 1.0f;
-};
-
 // Dummy template:
 // Warn when trying to use relative when it's not supported, but otherwise,
 // return
@@ -949,6 +936,9 @@ bool one_char_symbol_reader( const JsonObject &jo, std::string_view member_name,
  */
 bool unicode_codepoint_from_symbol_reader(
     const JsonObject &jo, std::string_view member_name, uint32_t &member, bool );
+
+//Reads a standard single-float "proportional" entry
+float read_proportional_entry( const JsonObject &jo, const std::string_view &key );
 
 namespace reader_detail
 {

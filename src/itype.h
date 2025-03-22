@@ -497,7 +497,7 @@ struct islot_armor {
         std::vector<armor_portion_data> sub_data;
 
         // applies to all armor_portion_data `covers`
-        std::optional<body_part_set> all_covers;
+        std::optional<body_part_set> all_covers;  // NOLINT(cata-serialize)
 
         // all of the layers this item is involved in
         std::vector<layer_level> all_layers; // NOLINT(cata-serialize)
@@ -519,9 +519,9 @@ struct islot_armor {
         std::optional<int> _env_resist = 0;
         std::optional<int> _env_resist_w_filter = 0;
         //encumbrance, for loading relative modifier ONLY
-        float relative_encumbrance = 0.0f;
+        float relative_encumbrance = 0.0f;  // NOLINT(cata-serialize)
         //encumbrance, for relative modifier ONLY
-        float proportional_encumbrance = 1.0f;
+        float proportional_encumbrance = 1.0f;  // NOLINT(cata-serialize)
 };
 
 struct islot_pet_armor {
@@ -1264,15 +1264,15 @@ class islot_milling
 
 struct memory_card_info {
     float data_chance;
-    itype_id on_read_convert_to;
+    itype_id on_read_convert_to;  // NOLINT(cata-serialize)
 
-    float photos_chance;
-    int photos_amount;
+    float photos_chance;  // NOLINT(cata-serialize)
+    int photos_amount;  // NOLINT(cata-serialize)
 
-    float songs_chance;
-    int songs_amount;
+    float songs_chance;  // NOLINT(cata-serialize)
+    int songs_amount; // NOLINT(cata-serialize)
 
-    float recipes_chance;
+    float recipes_chance; // NOLINT(cata-serialize)
     int recipes_amount;
     int recipes_level_min;
     int recipes_level_max;
@@ -1285,7 +1285,7 @@ struct memory_card_info {
 
 struct item_melee_damage {
     std::unordered_map<damage_type_id, float> damage_map;
-    float default_value = 0.0f;
+    float default_value = 0.0f;  // NOLINT(cata-serialize)
     bool handle_proportional( const JsonValue &jval );
     item_melee_damage &operator+=( const item_melee_damage &rhs );
     void finalize();
@@ -1577,12 +1577,11 @@ struct itype {
     public:
         static constexpr int damage_scale = 1000; /** Damage scale compared to the old float damage value */
 
-        itype() {
-        }
+        itype() = default;
 
         // used for generic_factory for copy-from
         bool was_loaded = false;
-        void load( const JsonObject &jo, const std::string_view );
+        void load( const JsonObject &jo, std::string_view );
         void load_slots( const JsonObject &jo, bool was_loaded );
 
         int damage_max() const {

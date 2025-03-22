@@ -142,6 +142,42 @@ static item_blacklist_t item_blacklist;
 std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
 std::set<std::string> Item_factory::repair_actions = {};
 
+static void migrate_mag_from_pockets( itype &def )
+{
+    for( const pocket_data &pocket : def.pockets ) {
+        if( pocket.type == pocket_type::MAGAZINE_WELL ) {
+            if( def.gun ) {
+                for( const ammotype &atype : def.gun->ammo ) {
+                    def.magazine_default.emplace( atype, pocket.default_magazine );
+                }
+            }
+            if( def.magazine ) {
+                for( const ammotype &atype : def.magazine->type ) {
+                    def.magazine_default.emplace( atype, pocket.default_magazine );
+                }
+            }
+            if( def.tool ) {
+                for( const ammotype &atype : def.tool->ammo_id ) {
+                    def.magazine_default.emplace( atype, pocket.default_magazine );
+                }
+            }
+        }
+    }
+}
+
+static std::vector<itype>::iterator find_template_list( const itype_id &it_id )
+{
+    std::vector<itype> &itypes = item_controller->get_generic_factory().get_all_mod();
+    return std::find_if( itypes.begin(), itypes.end(), [&it_id]( const itype & def ) {
+        return def.get_id() == it_id;
+    } );
+}
+
+static std::size_t count_template_list( const itype_id &it_id )
+{
+    return find_template_list( it_id ) != item_controller->get_generic_factory().get_all().end();
+}
+
 template<>
 const itype &itype_id::obj() const
 {
@@ -1459,12 +1495,12 @@ void Item_factory::finalize()
     // we can no longer add or adjust static item templates
     frozen = true;
 
-    for( auto &e : item_factory.get_all() ) {
+    for( const itype &e : item_factory.get_all() ) {
         finalize_pre( const_cast<itype &>( e ) );
         register_cached_uses( e );
     }
 
-    for( auto &e : item_factory.get_all() ) {
+    for( const itype &e : item_factory.get_all() ) {
         finalize_post( const_cast<itype &>( e ) );
     }
 
@@ -1818,7 +1854,7 @@ use_function Item_factory::read_use_function( const JsonObject &jo,
 //reads a single use_function from the provided JsonValue
 static std::pair<std::string, use_function> use_function_reader_helper(
     std::map<std::string, int> &ammo_scale,
-    std::string src, const JsonValue &val )
+    const std::string &src, const JsonValue &val )
 {
     if( val.test_object() ) {
         JsonObject use_obj = val.get_object();
@@ -1850,8 +1886,8 @@ class use_function_reader_map : public generic_typed_reader<use_function_reader_
 {
     public:
         std::map<std::string, int> &ammo_scale;
-        std::string src;
-        use_function_reader_map( std::map<std::string, int> &ammo_scale, std::string src ) :
+        const std::string &src;
+        use_function_reader_map( std::map<std::string, int> &ammo_scale, const std::string &src ) :
             ammo_scale( ammo_scale ), src( src ) {};
         std::pair<std::string, use_function> get_next( const JsonValue &val ) const {
             return use_function_reader_helper( ammo_scale, src, val );
@@ -1863,8 +1899,8 @@ class use_function_reader_single : public generic_typed_reader<use_function_read
 {
     public:
         std::map<std::string, int> &ammo_scale;
-        std::string src;
-        use_function_reader_single( std::map<std::string, int> &ammo_scale, std::string src ) :
+        const std::string &src;
+        use_function_reader_single( std::map<std::string, int> &ammo_scale, const std::string &src ) :
             ammo_scale( ammo_scale ), src( src ) {
         };
         use_function get_next( const JsonValue &val ) const {
@@ -2122,8 +2158,8 @@ class snippet_reader : public generic_typed_reader<snippet_reader>
 {
     public:
         const itype &def;
-        std::string src;
-        explicit snippet_reader( const itype &def, std::string src ) : def( def ), src( src ) {};
+        const std::string &src;
+        explicit snippet_reader( const itype &def, const std::string &src ) : def( def ), src( src ) {};
         std::string get_next( const JsonValue &val ) const {
             if( val.test_array() ) {
                 // auto-create a category that is unlikely to already be used and put the
@@ -2185,7 +2221,7 @@ void Item_factory::check_definitions() const
         return am_container;
     };
 
-    for( const auto &elem : item_factory.get_all() ) {
+    for( const itype &elem : item_factory.get_all() ) {
         std::string msg;
         const itype *type = &elem;
 
@@ -3920,30 +3956,21 @@ class melee_accuracy_reader : public generic_typed_reader<melee_accuracy_reader>
             val.throw_error( "melee_accuracy_reader element must be object or int" );
             return 0;
         }
-};
-
-static void migrate_mag_from_pockets( itype &def )
-{
-    for( const pocket_data &pocket : def.pockets ) {
-        if( pocket.type == pocket_type::MAGAZINE_WELL ) {
-            if( def.gun ) {
-                for( const ammotype &atype : def.gun->ammo ) {
-                    def.magazine_default.emplace( atype, pocket.default_magazine );
+        bool do_relative( const JsonObject &jo, const std::string_view name, int &member ) const {
+            if( jo.has_object( "relative" ) ) {
+                JsonObject relative = jo.get_object( "relative" );
+                relative.allow_omitted_members();
+                // This needs to happen here, otherwise we get unvisited members
+                if( !relative.has_member( name ) ) {
+                    return false;
                 }
+                used_itype.using_legacy_to_hit = false; //inherited to-hit is false
+                member += relative.get_int( name );
+                return true;
             }
-            if( def.magazine ) {
-                for( const ammotype &atype : def.magazine->type ) {
-                    def.magazine_default.emplace( atype, pocket.default_magazine );
-                }
-            }
-            if( def.tool ) {
-                for( const ammotype &atype : def.tool->ammo_id ) {
-                    def.magazine_default.emplace( atype, pocket.default_magazine );
-                }
-            }
+            return false;
         }
-    }
-}
+};
 
 static void replace_materials( const JsonObject &jo, itype &def )
 {
@@ -4783,7 +4810,7 @@ const std::vector<const itype *> &Item_factory::all() const
         templates_all_cache.clear();
         templates_all_cache.reserve( item_factory.get_all().size() + m_runtimes.size() );
 
-        for( const auto &e : item_factory.get_all() ) {
+        for( const itype &e : item_factory.get_all() ) {
             templates_all_cache.push_back( &e );
         }
         for( const auto &e : m_runtimes ) {
@@ -4868,19 +4895,6 @@ std::list<itype_id> Item_factory::subtype_replacement( const itype_id &base ) co
     }
 
     return ret;
-}
-
-static std::vector<itype>::iterator find_template_list( const itype_id &it_id )
-{
-    std::vector<itype> &itypes = item_controller->get_generic_factory().get_all_mod();
-    return std::find_if( itypes.begin(), itypes.end(), [&it_id]( const itype & def ) {
-        return def.get_id() == it_id;
-    } );
-}
-
-static std::size_t count_template_list( const itype_id &it_id )
-{
-    return find_template_list( it_id ) != item_controller->get_generic_factory().get_all().end();
 }
 
 void items::load( const JsonObject &jo, const std::string &src )
