@@ -1,6 +1,6 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "acidic_bore",
     "price": "100 USD",
     "price_postapoc": "5 USD",
@@ -17,10 +17,11 @@
     "count": 80,
     "stack_size": 80,
     "loudness": 9,
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": [ "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "//": "High quality energy extracted by our advanced forbearers. Gives lasers extra damage and range. Don't think too much about how it works.",
     "id": "afs_shuttle_beacon",
     "copy-from": "battery",
@@ -30,10 +31,11 @@
     "color": "blue",
     "description": "Single use software package that can be used to send encrypted communications.",
     "ammo_type": "afs_shuttle_beacon",
-    "range_multiplier": 1.5
+    "range_multiplier": 1.5,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "xray_laser_barrel",
     "price": "100 USD",
     "price_postapoc": "5 USD",
@@ -50,10 +52,11 @@
     "count": 1,
     "stack_size": 3,
     "loudness": 9,
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": [ "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "arrow_nano",
     "price": "20 USD",
     "name": { "str": "nano printed combat arrow" },
@@ -74,6 +77,7 @@
     "count": 10,
     "stack_size": 10,
     "critical_multiplier": 13,
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "AMMO" ]
   }
 ]

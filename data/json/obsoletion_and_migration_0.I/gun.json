@@ -2,7 +2,7 @@
   {
     "id": "ppsh",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "PPSh-41 submachine gun" },
     "description": "The Soviet-made PPSh-41 is a mass-produced selective-fire submachine gun.  It has a relatively high rate of fire.",
@@ -47,12 +47,13 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppshmag", "ppshdrum" ] } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "plasma_gun",
     "looks_like": "ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "light_gray",
@@ -84,12 +85,13 @@
       [ "underbarrel", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plasma": 25 } } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "plasma_rifle",
     "looks_like": "ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "light_blue",
@@ -122,13 +124,14 @@
       [ "underbarrel", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plasma": 25 } } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "ppshdrum",
     "//": "Provisional. Audited by previous PR, longest_side with ImageJ.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "PPSh 71-round drum magazine" },
     "description": "A high-capacity drum magazine for the PPSh-41.",
     "weight": "1760 g",
@@ -142,13 +145,14 @@
     "ammo_type": [ "762x25" ],
     "reload_time": 190,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762x25": 71 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762x25": 71 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "ppshmag",
     "//": "Audited with ImageJ.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "PPSh 35-round magazine" },
     "description": "A 35-round box magazine for the PPSh-41.",
     "weight": "312 g",
@@ -161,12 +165,13 @@
     "color": "light_gray",
     "ammo_type": [ "762x25" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762x25": 35 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762x25": 35 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "a180mag",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": ".22 165-round magazine" },
     "description": "An unusually-shaped pan magazine for use with .22 caliber submachine guns.",
     "variant_type": "gun",
@@ -188,12 +193,13 @@
     "ammo_type": [ "22" ],
     "reload_time": 150,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 165 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 165 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "a180mag1",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": ".22 165-round polymer magazine" },
     "description": "An unusually-shaped polymer constructed pan magazine for use with .22 caliber submachine guns.",
     "variant_type": "gun",
@@ -215,12 +221,13 @@
     "ammo_type": [ "22" ],
     "reload_time": 150,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 165 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 165 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "a180mag2",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": ".22 177-round magazine" },
     "description": "An unusually-shaped pan magazine for use with .22 caliber submachine guns.",
     "variant_type": "gun",
@@ -242,12 +249,13 @@
     "ammo_type": [ "22" ],
     "reload_time": 150,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 177 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 177 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "a180mag3",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": ".22 220-round polymer magazine" },
     "description": "An unusually-shaped polymer pan magazine for use with .22 caliber submachine guns.",
     "variant_type": "gun",
@@ -269,12 +277,13 @@
     "ammo_type": [ "22" ],
     "reload_time": 150,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 220 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 220 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "a180mag4",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": ".22 275-round polymer magazine" },
     "description": "An unusually-shaped polymer pan magazine for use with .22 caliber submachine guns.",
     "variant_type": "gun",
@@ -296,12 +305,13 @@
     "ammo_type": [ "22" ],
     "reload_time": 150,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 275 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 275 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "american_180",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": ".22 caliber submachine gun" },
     "description": "A dramatically uncommon automatic weapon, making use of high-capacity pan magazines and firing the low power .22 caliber cartridge: an unusual ammunition choice for a submachine gun.  With negligible recoil on account of its modest cartridge and a suppressively high rate of fire, a burst of .22 LR rounds from this little machine gun can be best likened with a swarm of hornets… an incredibly angry swarm of hornets.",
@@ -348,13 +358,14 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "a180mag", "a180mag1", "a180mag2", "a180mag3", "a180mag4" ] }
     ],
-    "melee_damage": { "bash": 11 }
+    "melee_damage": { "bash": 11 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "raging_judge",
     "copy-from": "raging_bull",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str_sp": "Taurus Raging Judge Magnum" },
     "description": "The Taurus Raging Judge Magnum is a 6-shot revolver chambered in .454 Casull.  It can fire .410 shotshells and .45 Colt cartridges as well.",
     "weight": "2070 g",
@@ -370,21 +381,23 @@
         "ammo_restriction": { "454": 6, "410shot": 6, "45colt": 6 },
         "allowed_speedloaders": [ "454_speedloader6" ]
       }
-    ]
+    ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "454_speedloader6",
     "copy-from": "454_speedloader5",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": ".454 6-round speedloader" },
     "description": "This speedloader can hold 5 rounds of .454, .45 Colt or .410 bore and quickly reload a compatible revolver.",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "454": 6, "45colt": 6, "410shot": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "454": 6, "45colt": 6, "410shot": 6 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "ksg-25",
     "copy-from": "shotgun_pump",
     "looks_like": "remington_870",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "extended bullpup shotgun" },
     "description": "This pump-action shotgun uses a system of twin magazines to carry 24 total rounds of 12-gauge shotgun shells.  Each tube must be loaded separately, but this offers the option of loading different ammunition for different situations.  As the weapon's trigger is situated forwards of the chamber in what is termed as a 'bullpup' design, the firearm's still only as long as conventional shotguns despite having a comparatively far higher capacity.",
     "variant_type": "gun",
@@ -422,12 +435,13 @@
       [ "underbarrel", 2 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 12 } } ],
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 9 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "ksg25_aux_shotgun",
     "copy-from": "underbarrel_base",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "KSG-25 second magazine" },
     "description": "The integrated second tube magazine of the Kel-Tec KSG-25, which holds 12 shots.  It's irremovable.",
     "weight": "1550 g",
@@ -440,24 +454,23 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "shotgun" ],
-    "gun_data": {
-      "barrel_length": "775 mm",
-      "ammo": [ "shot" ],
-      "skill": "shotgun",
-      "ranged_damage": { "damage_type": "bullet", "amount": 5 },
-      "dispersion": 425,
-      "durability": 7,
-      "clip_size": 12,
-      "reload": 120
-    },
     "flags": [ "RELOAD_ONE", "IRREMOVABLE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 12 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 12 } } ],
+    "barrel_length": "775 mm",
+    "ammo": [ "shot" ],
+    "skill": "shotgun",
+    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
+    "dispersion": 425,
+    "durability": 7,
+    "clip_size": 12,
+    "reload": 120,
+    "subtypes": [ "GUN", "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "colt_lightning",
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Colt Lightning .45 Carbine" },
     "description": "A modern reproduction of a Colt pump-action rifle.  Originally chambered in .44-40, modern versions most commonly use .45 Colt, complementing the Single Action Army as a Cowboy Action Shooting firearm.",
     "weight": "2722 g",
@@ -490,13 +503,14 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 14 } } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "af2011a1mag",
     "//": "Volume and weight through comparison.",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "AF2011A1 16-round double magazine" },
     "description": "Two .38 Super 8-round box magazines attached to a single base plate, holding up to 16 rounds in total, used by the AF2011A1 double-barrel pistol.",
     "weight": "113 g",
@@ -509,13 +523,14 @@
     "color": "light_gray",
     "ammo_type": [ "38super" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38super": 16 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38super": 16 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "af2011a1_38super",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str_sp": "AF2011A1 .38 Super" },
     "description": "A double-barrel semi-automatic pistol of Italian origin, firing two bullets per shot, a derivative of the M1911 pistol.",
     "weight": "2041 g",
@@ -553,11 +568,12 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "af2011a1mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rm614_lmg",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "caseless LMG" },
     "description": "Utilizing a powerful and unusual caliber, the Rivtech RM614 light machine gun was designed for durability and extreme volume of sustained fire under the worst possible circumstances.  Accepts RMXB500 box and RMGD250 drum magazines.",
@@ -598,12 +614,13 @@
       [ "underbarrel", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_250_mag", "8x40_500_mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "8x40_250_mag",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "caseless 250-round drum magazine" },
     "description": "A 250-round drum magazine for use with Rivtech 8x40mm caseless firearms.  Designated as RMGD250.",
     "variant_type": "gun",
@@ -624,12 +641,13 @@
     "ammo_type": [ "8x40mm" ],
     "reload_time": 60,
     "mag_jam_mult": 2,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "8x40mm": 250 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "8x40mm": 250 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "8x40_500_mag",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "caseless 500-round drum magazine" },
     "description": "A 500-round drum magazine for use with Rivtech 8x40mm caseless firearms.  Designated as RMGD500.",
     "variant_type": "gun",
@@ -649,11 +667,12 @@
     "color": "dark_gray",
     "ammo_type": [ "8x40mm" ],
     "mag_jam_mult": 2,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "8x40mm": 500 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "8x40mm": 500 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "rm88_battle_rifle",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "caseless battle rifle" },
     "description": "Originally produced for military use, the Rivtech RM88 battle rifle was designed for durability and extreme firepower under less than ideal circumstances, with a heavy ported barrel for maximum controllability.  Accepts box and RMGD250 drum magazines.",
@@ -691,15 +710,15 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "8x40mm", [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ] ] ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rm120c",
     "looks_like": "remington_870",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "reload_noise": "chuk chuk.",
     "name": { "str": "caseless hunting shotgun" },
@@ -742,12 +761,13 @@
     ],
     "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "PUMP_ACTION" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "20x66mm": 5 } } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rm20",
     "looks_like": "remington_870",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "RM20 caseless autoshotgun" },
     "description": "Designed by Rivtech and utilizing a powerful and unusual caliber, this caseless automatic combat shotgun was designed with durability and overwhelming power in mind.",
@@ -789,12 +809,13 @@
     "pocket_data": [
       { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "20x66_20_mag", "20x66_40_mag" ] }
     ],
-    "melee_damage": { "bash": 11 }
+    "melee_damage": { "bash": 11 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rm228",
     "looks_like": "remington_870",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "compact caseless shotgun" },
     "description": "Designed by Rivtech and designated the RM228 PDW, chambering the powerful 20x66mm caseless shotgun cartridge, this gun was designed for the civilian personal defense market with durability and ease of use as priorities.  While lauded for its small size and light weight, its hefty price tag kept it out of the reach of casual collectors.",
@@ -830,12 +851,13 @@
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "20x66_10_mag" ] } ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "20x66_10_mag",
     "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "compact caseless 10-round magazine" },
     "description": "A 10-round box magazine for use with the RM228 PDW and RM121 auxiliary shotgun.  Designated as RMSA10.",
     "weight": "210 g",
@@ -848,12 +870,13 @@
     "ammo_type": [ "20x66mm" ],
     "reload_time": 60,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "20x66mm": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "20x66mm": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "20x66_20_mag",
     "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "RM20 20-round magazine" },
     "description": "A 20-round box magazine for use with the RM20 caseless shotgun.  Designated as RMSB20.",
     "weight": "280 g",
@@ -866,12 +889,13 @@
     "ammo_type": [ "20x66mm" ],
     "reload_time": 60,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "20x66mm": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "20x66mm": 20 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "20x66_40_mag",
     "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "RM20 40-round magazine" },
     "description": "A 40-round box magazine for use with the RM20 caseless shotgun.  Designated as RMSB40.",
     "weight": "280 g",
@@ -884,11 +908,12 @@
     "ammo_type": [ "20x66mm" ],
     "reload_time": 70,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "20x66mm": 40 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "20x66mm": 40 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "abstract": "20x66_abstract",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "20x66 abstract" },
     "ascii_picture": "20x66_abstract",
     "weight": "66 g",
@@ -970,12 +995,13 @@
     "count": 20,
     "stack_size": 20,
     "ammo_type": "20x66mm",
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "20x66_beanbag",
     "copy-from": "20x66_abstract",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str": "20x66mm beanbag" },
     "description": "A 20x66mm caseless shotgun round, sublethal beanbag type.  Proprietary ammunition for Rivtech shotguns.",
     "ascii_picture": "20x66_beanbag",
@@ -987,12 +1013,13 @@
     "extend": { "effects": [ "LARGE_BEANBAG", "NOGIB", "CASELESS_ROUNDS" ] },
     "range": 12,
     "relative": { "damage": { "damage_type": "bullet", "amount": -33, "armor_penetration": -8 } },
-    "recoil": 1500
+    "recoil": 1500,
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "20x66_exp",
     "copy-from": "20x66_abstract",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "20x66mm explosive" },
     "description": "A 20x66mm caseless shotgun round, explosive projectile type.  Proprietary ammunition for Rivtech shotguns.",
     "price": "100 USD",
@@ -1000,12 +1027,13 @@
     "range": 20,
     "relative": { "damage": { "damage_type": "bullet", "amount": -23, "armor_penetration": -4 } },
     "dispersion": 120,
-    "extend": { "effects": [ "EXPLOSIVE_20x66" ], "flags": [ "CASELESS_ROUNDS" ] }
+    "extend": { "effects": [ "EXPLOSIVE_20x66" ], "flags": [ "CASELESS_ROUNDS" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "20x66_flare",
     "copy-from": "20x66_abstract",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str": "20x66mm flare" },
     "description": "A 20x66mm caseless shotgun round, signal flare type.  Proprietary ammunition for Rivtech shotguns.",
     "ascii_picture": "20x66_flare",
@@ -1020,24 +1048,26 @@
     "recoil": 100,
     "drop": "sigflare_lit",
     "effects": [ "NO_EMBED" ],
-    "extend": { "flags": [ "CASELESS_ROUNDS" ] }
+    "extend": { "flags": [ "CASELESS_ROUNDS" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "20x66_frag",
     "copy-from": "20x66_slug",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "20x66mm frag" },
     "description": "A 20x66mm caseless shotgun round, explosive fragmentation type.  Proprietary ammunition for Rivtech shotguns.",
     "price": "78 USD",
     "price_postapoc": "50 USD",
     "count": 5,
     "extend": { "effects": [ "FRAG_20x66" ], "flags": [ "CASELESS_ROUNDS" ] },
-    "proportional": { "damage": { "damage_type": "bullet", "amount": 0.25, "armor_penetration": 0.25 } }
+    "proportional": { "damage": { "damage_type": "bullet", "amount": 0.25, "armor_penetration": 0.25 } },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "20x66_shot",
     "copy-from": "20x66_abstract",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "20x66mm buckshot" },
     "//": "2.5x the Generic Rate of $1/shot",
     "description": "A 20x66mm caseless shotgun round, loaded with 18 buffered pellets of premium plated 00 buck.  Proprietary ammunition for Rivtech shotguns.",
@@ -1050,12 +1080,13 @@
     "shot_damage": { "damage_type": "bullet", "amount": 16 },
     "relative": { "damage": { "damage_type": "bullet", "amount": 11, "armor_penetration": -8 } },
     "recoil": 3000,
-    "extend": { "effects": [ "SHOT" ], "flags": [ "CASELESS_ROUNDS" ] }
+    "extend": { "effects": [ "SHOT" ], "flags": [ "CASELESS_ROUNDS" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "20x66_slug",
     "copy-from": "20x66_abstract",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str": "20x66mm slug" },
     "description": "A 20x66mm caseless shotgun round, solid projectile type.  Proprietary ammunition for Rivtech shotguns.",
     "price": "15 USD",
@@ -1064,12 +1095,13 @@
     "range": 24,
     "dispersion": 100,
     "recoil": 3000,
-    "extend": { "flags": [ "CASELESS_ROUNDS" ] }
+    "extend": { "flags": [ "CASELESS_ROUNDS" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "rm121aux",
     "copy-from": "underbarrel_base",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "caseless aux shotgun" },
     "description": "Designated the Rivtech RM121 auxiliary weapon system, this is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines.",
     "variant_type": "gun",
@@ -1092,31 +1124,31 @@
     "location": "underbarrel",
     "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
     "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": {
-      "barrel_length": "419 mm",
-      "ammo": [ "20x66mm" ],
-      "skill": "shotgun",
-      "dispersion": 320,
-      "durability": 9,
-      "reload": 125
-    },
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "20x66_10_mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "20x66_10_mag" ] } ],
+    "barrel_length": "419 mm",
+    "ammo": [ "20x66mm" ],
+    "skill": "shotgun",
+    "dispersion": 320,
+    "durability": 9,
+    "reload": 125,
+    "subtypes": [ "GUN", "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "rm121aux_mod",
     "copy-from": "rm121aux",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "modified RM121 aux shotgun" },
     "description": "The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
-    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "saiga_410",
     "copy-from": "shotgun_base",
     "looks_like": "remington_870",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Saiga-410" },
     "description": "The Saiga-410 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK-47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.",
     "weight": "3400 g",
@@ -1133,13 +1165,14 @@
     "ammo": [ "410shot" ],
     "flags": [ "NEVER_JAMS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "saiga410mag_10rd", "saiga410mag_30rd" ] } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "saiga410mag_10rd",
     "//": "Audited with ImageJ.  Weight from comparison.",
     "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Saiga-410 10-round magazine" },
     "description": "A removable plastic box magazine for the Saiga-410 shotgun.  Holds 10 shells.",
     "weight": "178 g",
@@ -1151,13 +1184,14 @@
     "color": "dark_gray",
     "ammo_type": [ "410shot" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "410shot": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "410shot": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "saiga410mag_30rd",
     "//": "Audited with ImageJ.  Weight from comparison.",
     "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Saiga-410 30-round drum magazine" },
     "description": "A removable plastic drum magazine for the Saiga-410 shotgun.  Holds 30 shells.",
     "weight": "340 g",
@@ -1171,6 +1205,7 @@
     "reload_time": 130,
     "mag_jam_mult": 2,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "410shot": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "410shot": 30 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

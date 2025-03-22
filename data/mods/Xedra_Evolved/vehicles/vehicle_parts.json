@@ -32,7 +32,7 @@
   },
   {
     "id": "mana",
-    "type": "AMMO",
+    "type": "ITEM",
     "category": "chems",
     "name": { "str_sp": "mana core power" },
     "description": { "str": "Seeing this is a bug.", "//~": "NO_I18N" },
@@ -45,7 +45,8 @@
     "color": "magenta",
     "count": 1,
     "ammo_type": "mana",
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "floralframe",
@@ -145,7 +146,7 @@
   {
     "id": "floral_battery",
     "copy-from": "battery_car",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str_sp": "solar power" },
     "description": "Magical solar power, to power a floral vessel.",
     "weight": "1500 g",
@@ -153,6 +154,7 @@
     "price": "200 USD",
     "price_postapoc": "1 USD",
     "capacity": 225,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 225 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 225 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

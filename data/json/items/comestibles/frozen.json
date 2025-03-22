@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "milkshake",
     "name": { "str_sp": "milkshake" },
     "//": "they bring the boys to the yard",
@@ -21,10 +21,11 @@
     "phase": "liquid",
     "charges": 1,
     "vitamins": [ [ "calcium", 12 ], [ "milk_allergen", 1 ] ],
-    "flags": [ "MELTS" ]
+    "flags": [ "MELTS" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "milkshake",
     "id": "milkshake_fastfood",
     "name": { "str_sp": "fast food milkshake" },
@@ -36,19 +37,21 @@
     "price_postapoc": "1 USD",
     "material": [ "milk", "junk" ],
     "primary_material": "milk",
-    "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "milkshake_choc",
     "name": { "str_sp": "chocolate milkshake" },
     "copy-from": "milkshake",
     "description": "An all-natural cold beverage made with chocolate milk and sweeteners.  Tastes great when frozen.",
     "color": "brown",
-    "calories": 170
+    "calories": 170,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "milkshake",
     "id": "milkshake_deluxe",
     "name": { "str_sp": "deluxe milkshake" },
@@ -61,18 +64,20 @@
     "price_postapoc": "1 USD 50 cent",
     "material": [ "milk", "junk" ],
     "primary_material": "milk",
-    "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "milkshake_deluxe_choc",
     "name": { "str_sp": "deluxe chocolate milkshake" },
     "copy-from": "milkshake_deluxe",
     "description": "This chocolate milkshake has been enhanced with the addition of candy or fruit.",
-    "calories": 285
+    "calories": 285,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "frozen_lemonade",
     "name": { "str_sp": "frozen lemonade" },
     "copy-from": "milkshake",
@@ -81,10 +86,11 @@
     "calories": 220,
     "material": [ "water", "fruit" ],
     "primary_material": "water",
-    "vitamins": [ [ "vitC", 6 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "snowcone",
     "name": { "str": "snow cone" },
     "conditional_names": [
@@ -164,10 +170,11 @@
     "//": "had to make it a liquid, its not perfect but the alternative is barehanding loose ice soaked in liquid with no containers",
     "phase": "liquid",
     "flags": [ "MELTS" ],
-    "vitamins": [  ]
+    "vitamins": [  ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "snowcone_alcoholic",
     "name": { "str": "snow cone" },
     "conditional_names": [
@@ -260,10 +267,11 @@
     "material": [ "water", "alcohol" ],
     "phase": "liquid",
     "flags": [ "MELTS", "NO_AUTO_CONSUME" ],
-    "vitamins": [  ]
+    "vitamins": [  ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "icecream",
     "name": { "str": "serving of ice cream", "str_pl": "servings of ice cream" },
     "description": "A sweet, frozen food made with milk and liberal amounts of sugar.",
@@ -285,10 +293,11 @@
     "//": "not technically a drink, but is quasi-liquid enough that it'd get all over everything if you carried it",
     "charges": 2,
     "vitamins": [ [ "calcium", 9 ], [ "milk_allergen", 1 ] ],
-    "flags": [ "MELTS" ]
+    "flags": [ "MELTS" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "icecream",
     "id": "icecream_artificial",
     "name": { "str": "serving of dairy dessert", "str_pl": "servings of dairy dessert" },
@@ -297,19 +306,21 @@
     "price_postapoc": "1 USD",
     "primary_material": "ice_cream",
     "material": [ "milk", "junk" ],
-    "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "icecream_choc",
     "name": { "str": "serving of chocolate ice cream", "str_pl": "servings of chocolate ice cream" },
     "copy-from": "icecream",
     "description": "A sweet, frozen food made with chocolate milk and liberal amounts of sugar.",
     "color": "brown",
-    "calories": 345
+    "calories": 345,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "sundae_cup",
     "//": "based on Hoodsie cups, a popular brand in New England",
     "name": { "str": "sundae cup" },
@@ -319,10 +330,11 @@
     "weight": "25 g",
     "volume": "88 ml",
     "color": "brown",
-    "calories": 121
+    "calories": 121,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "icecream",
     "id": "icecream_candy",
     "name": { "str": "serving of candy ice cream", "str_pl": "servings of candy ice cream" },
@@ -333,10 +345,11 @@
     "calories": 330,
     "primary_material": "ice_cream",
     "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "material": [ "milk", "junk" ]
+    "material": [ "milk", "junk" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "icecream",
     "id": "icecream_fruit",
     "name": { "str": "serving of fruity ice cream", "str_pl": "servings of fruity ice cream" },
@@ -347,10 +360,11 @@
     "price_postapoc": "3 USD",
     "primary_material": "ice_cream",
     "vitamins": [ [ "vitC", 6 ], [ "calcium", 8 ], [ "iron", 1 ], [ "fruit_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "material": [ "milk", "fruit" ]
+    "material": [ "milk", "fruit" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "icecream",
     "id": "icecream_custard",
     "name": { "str": "serving of frozen custard", "str_pl": "servings of frozen custard" },
@@ -361,10 +375,11 @@
     "price_postapoc": "3 USD",
     "primary_material": "ice_cream",
     "vitamins": [ [ "calcium", 8 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "material": [ "milk", "egg" ]
+    "material": [ "milk", "egg" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "icecream",
     "id": "icecream_yogurt",
     "name": { "str": "serving of frozen yogurt", "str_pl": "servings of frozen yogurt" },
@@ -375,10 +390,11 @@
     "weight": "80 g",
     "primary_material": "ice_cream",
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 10 ], [ "milk_allergen", 1 ] ],
-    "material": [ "milk" ]
+    "material": [ "milk" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "icecream",
     "id": "icecream_sorbet",
     "name": { "str": "serving of sorbet", "str_pl": "servings of sorbet" },
@@ -391,10 +407,11 @@
     "price_postapoc": "1 USD",
     "weight": "106 g",
     "vitamins": [ [ "fruit_allergen", 1 ] ],
-    "material": [ "water", "fruit" ]
+    "material": [ "water", "fruit" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "icecream",
     "id": "icecream_gelato",
     "name": { "str": "serving of gelato", "str_pl": "servings of gelato" },
@@ -406,6 +423,7 @@
     "weight": "90 g",
     "primary_material": "ice_cream",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ], [ "milk_allergen", 1 ] ],
-    "material": [ "milk" ]
+    "material": [ "milk" ],
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

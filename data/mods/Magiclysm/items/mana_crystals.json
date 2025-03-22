@@ -6,7 +6,7 @@
     "default": "crystallized_mana"
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "crystallized_mana",
     "category": "spare_parts",
     "price": "10 USD",
@@ -20,11 +20,12 @@
     "ammo_type": "crystallized_mana",
     "material": [ "crystallized_mana" ],
     "count": 10,
-    "looks_like": "battery"
+    "looks_like": "battery",
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "small_mana_crystal",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "small mana crystal" },
     "description": "This is a small mana crystal specifically designed to be attached to wand tips.",
@@ -37,6 +38,7 @@
     "capacity": 50,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "crystallized_mana": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "crystallized_mana": 50 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
     "id": "press",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "hand press", "str_pl": "hand presses" },
     "description": "A small hand press for hand loading firearm ammunition.  It comes with everything you need to start hand loading your own munitions.",
     "weight": "6350 g",
@@ -12,11 +12,12 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "press_dowel",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "makeshift shotshell 'press'", "str_pl": "makeshift shotshell 'presses'" },
     "description": "A collection of items improvised for field reloading of shotshells.  A plank with a hole cut in the center, a medium-sized nail, and a whittled dowel are used to seat wads, decap primers, and (carefully!) reprime hulls.  Powder and shot are measured with a cut-down shotshell hull.  The opposite side of the plank has been shaped to allow for roll-crimping of the plastic hulls.  There's no provision for resizing, so reloaded hulls will fire best in the firearm they were fired from.",
     "weight": "348 g",
@@ -28,11 +29,12 @@
     "symbol": ";",
     "color": "dark_gray",
     "flags": [ "TRADER_AVOID" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "puller",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "kinetic bullet puller" },
     "description": "A tool used for properly disassembling firearm ammunition.",
     "weight": "489 g",
@@ -44,6 +46,7 @@
     "symbol": ";",
     "color": "green",
     "qualities": [ [ "PULL", 2 ] ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "subtypes": [ "TOOL" ]
   }
 ]

@@ -610,9 +610,10 @@
   {
     "id": "laptop_boris",
     "copy-from": "laptop",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "Ash's laptop computer" },
-    "description": "A small, somewhat worn-out laptop computer.  The flip-top is decorated with various stickers."
+    "description": "A small, somewhat worn-out laptop computer.  The flip-top is decorated with various stickers.",
+    "subtypes": [ "TOOL" ]
   },
   {
     "type": "mapgen",

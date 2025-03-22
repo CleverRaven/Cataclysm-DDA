@@ -1,7 +1,7 @@
 [
   {
     "id": "bathroom_scale",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "bathroom scale" },
     "symbol": "_",
     "color": "light_gray",
@@ -14,11 +14,12 @@
     "material": [ "steel" ],
     "use_action": { "type": "weigh_self", "max_weight": "150 kg" },
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "brush",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "scrub brush", "str_pl": "scrub brushes" },
     "description": "A simple scrub brush for cleaning hard objects.",
     "weight": "70 g",
@@ -32,11 +33,12 @@
     "color": "light_gray",
     "flags": [ "BELT_CLIP" ],
     "use_action": [ "WASH_HARD_ITEMS" ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "dish_towel",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "other",
     "name": { "str": "dish towel" },
     "description": "A dish towel, useful for cleaning hard surfaces.",
@@ -59,11 +61,12 @@
       { "id": "dtowel7", "text": "A dish towel with a gingham pattern." },
       { "id": "dtowel8", "text": "A dish towel with a cat pattern." }
     ],
-    "//2": "Based on https://www.amazon.com/dp/B01IG8X9E6"
+    "//2": "Based on https://www.amazon.com/dp/B01IG8X9E6",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "elec_hairtrimmer",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "electric hair trimmer" },
     "description": "A pocket-sized electric trimmer made for cutting hair.  You can use it to cut your hair if it's supplied with batteries.  It requires 1 unit of charge per use.",
     "weight": "138 g",
@@ -75,17 +78,18 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": { "type": "effect_on_conditions", "description": "Trim your hair", "effect_on_conditions": [ "barber_hair" ] },
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_MEDIUM" ], "default_magazine": "medium_battery_cell" }
     ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "mop",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "mop" },
     "description": "An unwieldy mop.  Good for cleaning up spills.  Use to mop up any 'mess' you may have made.",
     "weight": "780 g",
@@ -102,11 +106,12 @@
     "use_action": [ "MOP" ],
     "qualities": [ [ "MOP", 1 ] ],
     "flags": [ "MOP" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "mop_folded",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "collapsible mop" },
     "description": "A long, unwieldy mop with a collapsible handle for convenient transportation.  You may use it to clean up any 'mess' you have made.",
     "weight": "730 g",
@@ -122,11 +127,12 @@
     "flags": [ "FRAGILE_MELEE", "MOP" ],
     "qualities": [ [ "MOP", 1 ] ],
     "use_action": [ "MOP" ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "cotton_patchwork",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "cotton patch", "str_pl": "cotton patches" },
     "description": "A 6-inch square cotton patch, suitable for repairing and tailoring clothing.",
@@ -148,10 +154,11 @@
       },
       "WASH_HARD_ITEMS"
     ],
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ],
+    "subtypes": [ "TOOL" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "razor_blade",
     "symbol": ",",
     "color": "light_cyan",
@@ -167,7 +174,7 @@
   },
   {
     "id": "shavingkit",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "shaving kit" },
     "description": "A compact, lightweight shaving kit made for travelers.  You can use it to shave if it's supplied with soap.  It requires 1 unit of soap per use.",
     "weight": "99 g",
@@ -179,14 +186,15 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "white",
-    "ammo": [ "soap" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
     "charges_per_use": 1,
-    "use_action": { "type": "effect_on_conditions", "description": "Trim your beard", "effect_on_conditions": [ "barber_beard" ] }
+    "use_action": { "type": "effect_on_conditions", "description": "Trim your beard", "effect_on_conditions": [ "barber_beard" ] },
+    "tool_ammo": [ "soap" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "sponge",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "sponge" },
     "description": "A cleaning aid made of soft, porous material.  Typically used for cleaning hard objects.",
     "weight": "17 g",
@@ -207,11 +215,12 @@
       { "id": "spng7", "text": "A sponge in the shape of a beloved character from a children's cartoon." },
       { "id": "spng8", "text": "A cat-shaped sponge." }
     ],
-    "//": "Based on https://www.amazon.com/dp/B08RFC3VH7"
+    "//": "Based on https://www.amazon.com/dp/B08RFC3VH7",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "survivor_hairtrimmer",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "makeshift haircut kit" },
     "description": "A kit containing various improvised tools for cutting hair.",
     "weight": "642 g",
@@ -224,11 +233,12 @@
     "symbol": ";",
     "color": "brown",
     "use_action": { "type": "effect_on_conditions", "description": "Trim your hair", "effect_on_conditions": [ "barber_hair" ] },
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "survivor_shavingkit",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "makeshift shaving kit" },
     "description": "A makeshift shaving kit.  You can use it to shave if it's supplied with soap.  It requires 1 unit of soap per use.",
     "weight": "540 g",
@@ -240,15 +250,16 @@
     "material": [ "leather", "glass" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": [ "soap" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
     "charges_per_use": 1,
     "use_action": { "type": "effect_on_conditions", "description": "Trim your beard", "effect_on_conditions": [ "barber_beard" ] },
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "tool_ammo": [ "soap" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "washboard",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "washboard" },
     "description": "A wooden washboard.  You can use it to wash filthy clothing if it's supplied with cleansing agent.",
     "weight": "1160 g",
@@ -261,11 +272,12 @@
     "symbol": ";",
     "color": "white",
     "use_action": [ "WASH_SOFT_ITEMS" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "wash_kit",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "washing kit" },
     "description": "A combination of a washboard and a scrubbing tool.  Everything you need to clean items after the apocalypse.",
     "weight": "866 g",
@@ -277,11 +289,12 @@
     "symbol": "%",
     "color": "yellow",
     "use_action": [ "WASH_ALL_ITEMS" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "NO_SALVAGE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "NO_SALVAGE" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "hair_dye_kit",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "hair dye kit" },
     "description": "A kit featuring all the tools needed to dye hair, including an applicator brush, combs, and plastic gloves.",
     "ascii_picture": "box_small",
@@ -293,6 +306,7 @@
     "material": [ "cardboard", "plastic" ],
     "symbol": ")",
     "color": "brown",
-    "use_action": { "type": "effect_on_conditions", "description": "Dye your hair", "effect_on_conditions": [ "use_hair_dye_kit" ] }
+    "use_action": { "type": "effect_on_conditions", "description": "Dye your hair", "effect_on_conditions": [ "use_hair_dye_kit" ] },
+    "subtypes": [ "TOOL" ]
   }
 ]

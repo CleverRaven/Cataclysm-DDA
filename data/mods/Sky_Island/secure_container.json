@@ -1,7 +1,7 @@
 [
   {
     "id": "secure_container_1",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "Alpha Secure Container" },
     "description": "The most secure storage possible, even if it is tiny.  This metaphysical container is unique in that it is the only storage that will keep its contents on death.  Everything else will still be lost.",
     "weight": "0 g",
@@ -21,7 +21,8 @@
         "moves": 10,
         "volume_encumber_modifier": 0
       }
-    ]
+    ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "type": "mutation",
@@ -36,7 +37,7 @@
   },
   {
     "id": "secure_container_2",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "Beta Secure Container" },
     "description": "A small secure storage.  This metaphysical container is unique in that it is the only storage that will keep its contents on death.  Everything else will still be lost.",
     "weight": "0 g",
@@ -56,7 +57,8 @@
         "moves": 10,
         "volume_encumber_modifier": 0
       }
-    ]
+    ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "type": "mutation",
@@ -71,7 +73,7 @@
   },
   {
     "id": "secure_container_3",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "Gamma Secure Container" },
     "description": "A medium-sized secure storage.  This metaphysical container is unique in that it is the only storage that will keep its contents on death.  Everything else will still be lost.",
     "weight": "0 g",
@@ -91,7 +93,8 @@
         "moves": 10,
         "volume_encumber_modifier": 0
       }
-    ]
+    ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "type": "mutation",
@@ -106,7 +109,7 @@
   },
   {
     "id": "secure_container_4",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "Epsilon Secure Container" },
     "description": "A large secure storage.  This metaphysical container is unique in that it is the only storage that will keep its contents on death.  Everything else will still be lost.",
     "weight": "0 g",
@@ -126,7 +129,8 @@
         "moves": 10,
         "volume_encumber_modifier": 0
       }
-    ]
+    ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "type": "mutation",
@@ -141,7 +145,7 @@
   },
   {
     "id": "secure_container_5",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "Kappa Secure Container" },
     "description": "The perfect secure storage.  This metaphysical container is unique in that it is the only storage that will keep its contents on death.  Everything else will still be lost.",
     "weight": "0 g",
@@ -161,7 +165,8 @@
         "moves": 10,
         "volume_encumber_modifier": 0
       }
-    ]
+    ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "type": "mutation",

@@ -1,7 +1,7 @@
 [
   {
     "id": "2byarm_guard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of 2-by-arm guards", "str_pl": "pairs of 2-by-arm guards" },
     "description": "A pair of improvised arm guards made from broken pieces of a plank that are tied to your arms with rags and string.  They offer good protection, but are really uncomfortable to wear.",
@@ -29,11 +29,12 @@
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "carpet_armguards",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of carpet arm guards", "str_pl": "pairs of carpet arm guards" },
     "description": "Small squares of carpet rolled around your upper and lower arms.  Armor of the truly desperate or crafty.",
@@ -63,11 +64,12 @@
         "cover_vitals": 70,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "carpet_bracers",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of carpet bracers", "str_pl": "pairs of carpet bracers" },
     "description": "Small squares of carpet rolled around your lower arms.  The bare minimum to hopefully stop a bite or two.",
@@ -97,11 +99,12 @@
         "cover_vitals": 70,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armguard_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of chitin arm guards", "str_pl": "pairs of chitin arm guards" },
     "description": "A pair of arm guards made from the exoskeletons of insects.  Light and durable.",
@@ -127,52 +130,58 @@
         "cover_vitals": 50,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armguard_chitin",
     "copy-from": "armguard_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of chitin arm guards", "str_pl": "pairs of chitin arm guards" },
     "proportional": { "weight": 1.25, "volume": 1.23 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_armguard_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armguard_chitin",
     "name": { "str": "pair of chitin arm guards", "str_pl": "pairs of chitin arm guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armguard_acidchitin",
     "copy-from": "armguard_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
     "price_postapoc": "12 USD 50 cent",
     "name": { "str": "pair of biosilicified chitin arm guards", "str_pl": "pairs of biosilicified chitin arm guards" },
     "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
-    "material": [ "acidchitin" ]
+    "material": [ "acidchitin" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armguard_acidchitin",
     "copy-from": "armguard_acidchitin",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of biosilicified chitin arm guards", "str_pl": "pairs of biosilicified chitin arm guards" },
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_armguard_acidchitin",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armguard_acidchitin",
     "name": { "str": "pair of biosilicified chitin arm guards", "str_pl": "pairs of biosilicified chitin arm guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "cloth_arms_padded",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of cloth-padded sleeves", "str_pl": "pairs of cloth-padded sleeves" },
     "description": "The sleeves of a thick cotton shirt, with a bunch of cloth sewn in to act as extra padding.  They're quite lonely, no longer being attached to each other by the rest of the shirt.",
@@ -198,11 +207,12 @@
     "warmth": 35,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armguard_hard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of hard arm guards", "str_pl": "pairs of hard arm guards" },
     "description": "A pair of neoprene arm sleeves covered with molded plastic sheaths.",
@@ -250,28 +260,31 @@
         "coverage": 80,
         "cover_vitals": 90
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armguard_hard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of hard arm guards", "str_pl": "pairs of hard arm guards" },
     "weight": "550 g",
     "volume": "4 L",
     "copy-from": "armguard_hard",
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_armguard_hard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armguard_hard",
     "name": { "str": "pair of hard arm guards", "str_pl": "pairs of hard arm guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armguard_larmor",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of leather arm guards", "str_pl": "pairs of leather arm guards" },
     "description": "A pair of tough leather arm guards.  Light and comfortable.",
@@ -297,27 +310,30 @@
         "cover_vitals": 90,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_l", "arm_upper_r" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armguard_larmor",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of leather arm guards", "str_pl": "pairs of leather arm guards" },
     "copy-from": "armguard_larmor",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_armguard_larmor",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armguard_larmor",
     "name": { "str": "pair of leather arm guards", "str_pl": "pairs of leather arm guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armguard_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of steel arm guards", "str_pl": "pairs of steel arm guards" },
     "description": "A full assembly of medieval arm protection.  Rerebraces, couters, and vambraces, with leather straps to secure each piece and connect it as part of a set.",
@@ -342,28 +358,31 @@
         "cover_vitals": 90,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_elbow_r", "arm_elbow_l", "arm_upper_r", "arm_upper_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armguard_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of steel arm guards", "str_pl": "pairs of steel arm guards" },
     "weight": "3243 g",
     "volume": "7 L",
     "copy-from": "armguard_lightplate",
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_armguard_lightplate",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armguard_lightplate",
     "name": { "str": "pair of steel arm guards", "str_pl": "pairs of steel arm guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armguard_metal",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of sheet metal arm guards", "str_pl": "pairs of sheet metal arm guards" },
     "description": "A pair of arm guards hammered out from metal, avoiding joints.  Perfect for the Post-Apocalyptic Warrior look.",
@@ -391,20 +410,22 @@
         "cover_vitals": 70,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "ch_armguard_metal",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armguard_metal",
     "name": { "str": "pair of hardened steel sheet metal arm guards", "str_pl": "pairs of hardened steel sheet metal arm guards" },
     "description": "A pair of arm guards hammered out from sheet metal, hardened for extra protection.  Still manages that Post-Apocalyptic Warrior look.",
     "material": [ "ch_steel" ],
-    "extend": { "flags": [ "STURDY" ] }
+    "extend": { "flags": [ "STURDY" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armguard_metal_sheets_bracer",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of mild steel sheet metal bracers", "str_pl": "pairs of mild steel sheet metal bracers" },
     "description": "A pair of arm guards hammered out from metal, only covering your forearms.",
@@ -432,20 +453,22 @@
         "cover_vitals": 70,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "ch_armguard_metal_sheets_bracer",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armguard_metal_sheets_bracer",
     "name": { "str": "pair of hardened steel sheet metal bracers", "str_pl": "pairs of hardened steel sheet metal bracers" },
     "description": "A pair of forearm guards hammered out from sheet metal, hardened for extra protection.",
     "material": [ "ch_steel" ],
-    "extend": { "flags": [ "STURDY" ] }
+    "extend": { "flags": [ "STURDY" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armguard_metal_sheets_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of mild steel sheet metal pauldrons", "str_pl": "pairs of mild steel sheet metal pauldrons" },
     "description": "Two half-cylinders of sheet metal jutting out over your shoulders and two more underneath.  They make it impossible to raise your arms fully, but they'll keep your arms attached to you.",
@@ -470,20 +493,22 @@
         "coverage": 95,
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "ch_armguard_metal_sheets_shoulders",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armguard_metal_sheets_shoulders",
     "name": { "str": "pair of hardened sheet metal pauldrons", "str_pl": "pairs of hardened sheet metal pauldrons" },
     "description": "A pair of crude pauldrons made out of sheet metal and hardened for reinforcement.",
     "material": [ "ch_steel" ],
-    "extend": { "flags": [ "STURDY" ] }
+    "extend": { "flags": [ "STURDY" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armguard_metal_sheets_elbows",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of mild steel sheet metal elbow guards", "str_pl": "pairs of mild steel sheet metal elbow guards" },
     "description": "Two small half-cylinders of sheet metal cut down and hammered to fit over your elbows.  Very brutal, just needs spikes.",
@@ -509,36 +534,40 @@
         "coverage": 95,
         "specifically_covers": [ "arm_elbow_l", "arm_elbow_r" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "ch_armguard_metal_sheets_elbows",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armguard_metal_sheets_elbows",
     "name": { "str": "pair of hardened sheet metal elbow guards", "str_pl": "pairs of hardened sheet metal elbow guards" },
     "description": "Elbow guards of sheet metal, hardened to make sure you never bang your funny bone on the table again.",
     "material": [ "ch_steel" ],
-    "extend": { "flags": [ "STURDY" ] }
+    "extend": { "flags": [ "STURDY" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armguard_metal",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of sheet metal arm guards", "str_pl": "pairs of sheet metal arm guards" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "copy-from": "armguard_metal",
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_armguard_metal",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armguard_metal",
     "name": { "str": "pair of sheet metal arm guards", "str_pl": "pairs of sheet metal arm guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armguard_paper",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of paper arm guards", "str_pl": "pairs of paper arm guards" },
     "description": "Arm guards made of stacked paper sheets held together with duct tape.",
@@ -563,11 +592,12 @@
         "cover_vitals": 0,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "improvised_armguard_tire",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of improvised tire arm guards", "str_pl": "pairs of improvised tire arm guards" },
     "description": "Arm guards made of thick chunks of tire held together with duct tape.",
@@ -592,11 +622,12 @@
         "cover_vitals": 0,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armguard_scrap",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of scrap arm guards", "str_pl": "pairs of scrap arm guards" },
     "description": "A pair of arm guards made from scraps of metal secured by simple strings.",
@@ -623,28 +654,31 @@
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
       }
     ],
-    "melee_damage": { "bash": 1, "cut": 1 }
+    "melee_damage": { "bash": 1, "cut": 1 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armguard_scrap",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of scrap arm guards", "str_pl": "pairs of scrap arm guards" },
     "weight": "3412 g",
     "volume": "6 L",
     "copy-from": "armguard_scrap",
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_armguard_scrap",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armguard_scrap",
     "name": { "str": "pair of scrap arm guards", "str_pl": "pairs of scrap arm guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armguard_tire",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of tire arm guards", "str_pl": "pairs of tire arm guards" },
     "description": "A pair of arm guards made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
@@ -669,27 +703,30 @@
         "cover_vitals": 0,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armguard_tire",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of tire arm guards", "str_pl": "pairs of tire arm guards" },
     "copy-from": "armguard_tire",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_armguard_tire",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armguard_tire",
     "name": { "str": "pair of tire arm guards", "str_pl": "pairs of tire arm guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armguard_soft",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of neoprene arm sleeves", "str_pl": "pairs of neoprene arm sleeves" },
     "description": "A pair of soft neoprene arm sleeves.  Often used in contact sports.",
@@ -713,28 +750,31 @@
         "coverage": 100
       },
       { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ], "coverage": 80 }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armguard_soft",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of neoprene arm sleeves", "str_pl": "pairs of neoprene arm sleeves" },
     "weight": "330 g",
     "volume": "1750 ml",
     "copy-from": "armguard_soft",
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_armguard_soft",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armguard_soft",
     "name": { "str": "pair of neoprene arm sleeves", "str_pl": "pairs of neoprene arm sleeves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "gambeson_sleeve",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of gambeson sleeves", "str_pl": "pairs of gambeson sleeves" },
     "description": "A pair of arm sleeves made from heavy quilted fabric.",
@@ -750,27 +790,30 @@
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "arm_l", "arm_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_gambeson_sleeve",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of gambeson sleeves", "str_pl": "pairs of gambeson sleeves" },
     "copy-from": "gambeson_sleeve",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_gambeson_sleeve",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of gambeson sleeves", "str_pl": "pairs of gambeson sleeves" },
     "copy-from": "gambeson_sleeve",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "k_gambeson_sleeve",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of Kevlar gambeson sleeves", "str_pl": "pairs of Kevlar gambeson sleeves" },
     "description": "A pair arm sleeves made from aramid, with strips of soft body armor sewn on top to simulate quilting.",
@@ -808,27 +851,30 @@
         "encumbrance": 0,
         "//": "skip second entry for arm encumbrance"
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_k_gambeson_sleeve",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of Kevlar gambeson sleeves", "str_pl": "pairs of Kevlar gambeson sleeves" },
     "copy-from": "k_gambeson_sleeve",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_k_gambeson_sleeve",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of Kevlar gambeson sleeves", "str_pl": "pairs of Kevlar gambeson sleeves" },
     "copy-from": "k_gambeson_sleeve",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "abstract": "base_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "base chainmail sleeves", "//~": "NO_I18N" },
     "description": "Customized chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
@@ -873,11 +919,12 @@
         "coverage": 100,
         "encumbrance": 14
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "abstract": "xl_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "base_chainmail_arms",
     "name": { "str": "pair of chainmail sleeves", "str_pl": "pairs of chainmail sleeves", "//~": "NO_I18N" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
@@ -905,11 +952,12 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
       }
     ],
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "abstract": "xs_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "base_chainmail_arms",
     "name": { "str": "pair of chainmail sleeves", "str_pl": "pairs of chainmail sleeves", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -937,13 +985,14 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
       }
     ],
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "chainmail_junk_arms",
     "copy-from": "base_chainmail_arms",
     "replace_materials": { "steel": "budget_steel_chain" },
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of chainmail sleeves", "str_pl": "pairs of chainmail sleeves" },
     "description": "Customized chainmail arm protection.  The metal shows signs of rust and corrosion.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "armor": [
@@ -960,32 +1009,36 @@
         "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
         "coverage": 100
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "lc_chainmail_arms",
     "copy-from": "base_chainmail_arms",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "type": "ARMOR",
-    "name": { "str": "pair of mild steel chainmail sleeves", "str_pl": "pairs of mild steel chainmail sleeves" }
+    "type": "ITEM",
+    "name": { "str": "pair of mild steel chainmail sleeves", "str_pl": "pairs of mild steel chainmail sleeves" },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_lc_chainmail_arms",
     "copy-from": "xl_chainmail_arms",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "type": "ARMOR",
-    "name": { "str": "pair of mild steel chainmail sleeves", "str_pl": "pairs of mild steel chainmail sleeves" }
+    "type": "ITEM",
+    "name": { "str": "pair of mild steel chainmail sleeves", "str_pl": "pairs of mild steel chainmail sleeves" },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_lc_chainmail_arms",
     "copy-from": "xs_chainmail_arms",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "type": "ARMOR",
-    "name": { "str": "pair of mild steel chainmail sleeves", "str_pl": "pairs of mild steel chainmail sleeves" }
+    "type": "ITEM",
+    "name": { "str": "pair of mild steel chainmail sleeves", "str_pl": "pairs of mild steel chainmail sleeves" },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "mc_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "base_chainmail_arms",
     "replace_materials": { "steel": "mc_steel_chain" },
     "name": { "str": "pair of medium steel chainmail sleeves", "str_pl": "pairs of medium steel chainmail sleeves" },
@@ -996,88 +1049,100 @@
         "coverage": 100,
         "encumbrance": 14
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_mc_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "xl_chainmail_arms",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "pair of medium steel chainmail sleeves", "str_pl": "pairs of medium steel chainmail sleeves" }
+    "name": { "str": "pair of medium steel chainmail sleeves", "str_pl": "pairs of medium steel chainmail sleeves" },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_mc_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "xs_chainmail_arms",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "pair of medium steel chainmail sleeves", "str_pl": "pairs of medium steel chainmail sleeves" }
+    "name": { "str": "pair of medium steel chainmail sleeves", "str_pl": "pairs of medium steel chainmail sleeves" },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "hc_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "base_chainmail_arms",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "pair of high steel chainmail sleeves", "str_pl": "pairs of high steel chainmail sleeves" }
+    "name": { "str": "pair of high steel chainmail sleeves", "str_pl": "pairs of high steel chainmail sleeves" },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_hc_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "xl_chainmail_arms",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "pair of high steel chainmail sleeves", "str_pl": "pairs of high steel chainmail sleeves" }
+    "name": { "str": "pair of high steel chainmail sleeves", "str_pl": "pairs of high steel chainmail sleeves" },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_hc_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "xs_chainmail_arms",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "pair of high steel chainmail sleeves", "str_pl": "pairs of high steel chainmail sleeves" }
+    "name": { "str": "pair of high steel chainmail sleeves", "str_pl": "pairs of high steel chainmail sleeves" },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "ch_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "base_chainmail_arms",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "pair of hardened steel chainmail sleeves", "str_pl": "pairs of hardened steel chainmail sleeves" }
+    "name": { "str": "pair of hardened steel chainmail sleeves", "str_pl": "pairs of hardened steel chainmail sleeves" },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_ch_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "xl_chainmail_arms",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "pair of hardened steel chainmail sleeves", "str_pl": "pairs of hardened steel chainmail sleeves" }
+    "name": { "str": "pair of hardened steel chainmail sleeves", "str_pl": "pairs of hardened steel chainmail sleeves" },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_ch_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "xs_chainmail_arms",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "pair of hardened steel chainmail sleeves", "str_pl": "pairs of hardened steel chainmail sleeves" }
+    "name": { "str": "pair of hardened steel chainmail sleeves", "str_pl": "pairs of hardened steel chainmail sleeves" },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "qt_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "base_chainmail_arms",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "pair of tempered steel chainmail sleeves", "str_pl": "pairs of tempered steel chainmail sleeves" }
+    "name": { "str": "pair of tempered steel chainmail sleeves", "str_pl": "pairs of tempered steel chainmail sleeves" },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_qt_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "xl_chainmail_arms",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "pair of tempered steel chainmail sleeves", "str_pl": "pairs of tempered steel chainmail sleeves" }
+    "name": { "str": "pair of tempered steel chainmail sleeves", "str_pl": "pairs of tempered steel chainmail sleeves" },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_qt_chainmail_arms",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "xs_chainmail_arms",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "pair of tempered steel chainmail sleeves", "str_pl": "pairs of tempered steel chainmail sleeves" }
+    "name": { "str": "pair of tempered steel chainmail sleeves", "str_pl": "pairs of tempered steel chainmail sleeves" },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "elbow_pads",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of elbow pads", "str_pl": "pairs of elbow pads" },
     "description": "A pair of elbow pads made of stout plastic and cloth.",
@@ -1101,11 +1166,12 @@
         "cover_vitals": 90,
         "specifically_covers": [ "arm_elbow_r", "arm_elbow_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armguard_bronze",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of bronze vambraces", "str_pl": "pairs of bronze vambraces" },
     "description": "A pair of bronze arm guards with a simple leather lining.",
@@ -1132,27 +1198,30 @@
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
       }
     ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armguard_bronze",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armguard_bronze",
     "name": { "str": "pair of bronze vambraces", "str_pl": "pairs of bronze vambraces" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_armguard_bronze",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armguard_bronze",
     "name": { "str": "pair of bronze vambraces", "str_pl": "pairs of bronze vambraces" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "vambrace_larmor",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of leather vambraces", "str_pl": "pairs of leather vambraces" },
     "description": "A pair of light leather arm guards, made for archery.",
@@ -1178,39 +1247,43 @@
         "cover_vitals": 70,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_vambrace_larmor",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of leather vambraces", "str_pl": "pairs of leather vambraces" },
     "weight": "531 g",
     "volume": "1250 ml",
     "copy-from": "vambrace_larmor",
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_vambrace_larmor",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "vambrace_larmor",
     "looks_like": "vambrace_larmor",
     "name": { "str": "pair of leather vambraces", "str_pl": "pairs of leather vambraces" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armguard_cut_resistant",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of cut-resistant arm sleeves", "str_pl": "pairs of cut-resistant arm sleeves" },
     "description": "A long pair of cut-resistant Kevlar sleeves with thumbholes.  Useful for chainsaw protection.",
     "weight": "450 g",
     "copy-from": "armguard_soft",
     "price": "12 USD",
-    "material": [ "kevlar" ]
+    "material": [ "kevlar" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_lc_lightarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "mild steel light arm guard" },
     "description": "A light armguard, 1.25 mm at the thickest.  This one has been made with mild steel.",
@@ -1241,19 +1314,21 @@
         "encumbrance": 10
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armor_lc_lightarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "mild steel light arm guard" },
     "copy-from": "armor_lc_lightarmguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_mc_lightarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armor_lc_lightarmguard",
     "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel light arm guard" },
@@ -1270,19 +1345,21 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armor_mc_lightarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "medium steel light arm guard" },
     "copy-from": "armor_mc_lightarmguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_hc_lightarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armor_lc_lightarmguard",
     "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel light arm guard" },
@@ -1299,19 +1376,21 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armor_hc_lightarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "high steel light arm guard" },
     "copy-from": "armor_hc_lightarmguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_ch_lightarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armor_lc_lightarmguard",
     "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "hardened steel light arm guard" },
@@ -1328,19 +1407,21 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armor_ch_lightarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "hardened steel light arm guard" },
     "copy-from": "armor_ch_lightarmguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_qt_lightarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armor_lc_lightarmguard",
     "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered steel light arm guard" },
@@ -1357,19 +1438,21 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armor_qt_lightarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "tempered steel light arm guard" },
     "copy-from": "armor_qt_lightarmguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_lc_armguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "mild steel arm guard" },
     "description": "An armguard, 1.75 mm at the thickest.  This one has been made with mild steel.",
@@ -1400,19 +1483,21 @@
         "encumbrance": 15
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armor_lc_armguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "mild steel arm guard" },
     "copy-from": "armor_lc_armguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_mc_armguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armor_lc_armguard",
     "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel arm guard" },
@@ -1429,19 +1514,21 @@
         "coverage": 100,
         "encumbrance": 15
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armor_mc_armguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "medium steel arm guard" },
     "copy-from": "armor_mc_armguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_hc_armguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armor_lc_armguard",
     "name": { "str": "high steel arm guard" },
     "material": [ "hc_steel", "hc_steel_chain" ],
@@ -1458,19 +1545,21 @@
         "coverage": 100,
         "encumbrance": 15
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armor_hc_armguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "high steel arm guard" },
     "copy-from": "armor_hc_armguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_ch_armguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armor_lc_armguard",
     "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "hardened steel arm guard" },
@@ -1487,19 +1576,21 @@
         "coverage": 100,
         "encumbrance": 15
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armor_ch_armguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "hardened steel arm guard" },
     "copy-from": "armor_ch_armguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_qt_armguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armor_lc_armguard",
     "name": { "str": "tempered steel arm guard" },
     "material": [ "qt_steel", "qt_steel_chain" ],
@@ -1516,19 +1607,21 @@
         "coverage": 100,
         "encumbrance": 15
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armor_qt_armguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "tempered steel arm guard" },
     "copy-from": "armor_qt_armguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_lc_heavyarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "mild steel heavy arm guard" },
     "description": "A heavy armguard, 2.25 mm at the thickest.  This one has been made with mild steel.",
@@ -1558,19 +1651,21 @@
         "encumbrance": 20
       }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armor_lc_heavyarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "mild steel heavy arm guard" },
     "copy-from": "armor_lc_heavyarmguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_mc_heavyarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "medium steel heavy arm guard" },
     "description": "A heavy armguard, 2.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
@@ -1586,19 +1681,21 @@
         "coverage": 100,
         "encumbrance": 20
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armor_mc_heavyarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "medium steel heavy arm guard" },
     "copy-from": "armor_mc_heavyarmguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_hc_heavyarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "high steel heavy arm guard" },
     "description": "A heavy armguard, 2.25 mm at the thickest.  Made with high steel offering excellent protection.",
@@ -1614,19 +1711,21 @@
         "coverage": 100,
         "encumbrance": 20
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armor_hc_heavyarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "high steel heavy arm guard" },
     "copy-from": "armor_hc_heavyarmguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_ch_heavyarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "hardened steel heavy arm guard" },
     "description": "A heavy armguard, 2.25 mm at the thickest.  The mild steel has been hardened, offering superior protection.",
@@ -1642,19 +1741,21 @@
         "coverage": 100,
         "encumbrance": 20
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armor_ch_heavyarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "hardened steel heavy arm guard" },
     "copy-from": "armor_ch_heavyarmguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_qt_heavyarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "armor_lc_heavyarmguard",
     "name": { "str": "tempered steel heavy arm guard" },
     "description": "A heavy armguard, 2.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
@@ -1670,19 +1771,21 @@
         "coverage": 100,
         "encumbrance": 20
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_armor_qt_heavyarmguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "tempered steel heavy arm guard" },
     "copy-from": "armor_qt_heavyarmguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "survivor_adhoc_leather_sleeves",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "leather-padded sleeves" },
     "description": "Armor made of combined pre-Cataclysm clothing.  Sections from leather clothing are tightened and affixed to the sleeves of a thick cotton shirt, excluding the joints.",
@@ -1722,11 +1825,12 @@
     "warmth": 35,
     "material_thickness": 2.5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_riot_arm",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of riot arm guards", "str_pl": "pairs of riot arm guards" },
     "description": "Hard arm guards used by riot police.",
@@ -1752,6 +1856,7 @@
         ],
         "specifically_covers": [ "arm_lower_l", "arm_lower_r", "arm_elbow_l", "arm_elbow_r" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   }
 ]

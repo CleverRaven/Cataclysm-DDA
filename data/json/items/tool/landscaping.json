@@ -1,7 +1,7 @@
 [
   {
     "id": "digging_stick",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "digging stick" },
     "category": "tools",
     "description": "A large stick with the end carved into a broad blade for digging.  It could be used to dig shallow pits, but not deep ones.",
@@ -20,7 +20,7 @@
   },
   {
     "id": "g_shovel",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "trowel" },
     "description": "A small, sharp gardening shovel, perfect for digging up grubs and worms.",
     "weight": "280 g",
@@ -35,11 +35,12 @@
     "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ], [ "CUT", 2 ] ],
     "flags": [ "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK", "SHEATH_KNIFE" ],
     "melee_damage": { "bash": 3, "cut": 5 },
-    "weapon_category": [ "SHIVS" ]
+    "weapon_category": [ "SHIVS" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "hoe",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "hoe" },
     "description": "A farming implement.  You can use it to turn tillable land into a slow-to-cross pile of dirt, or dig a shallow pit.",
     "weight": "1088 g",
@@ -56,11 +57,12 @@
     "flags": [ "NONCONDUCTIVE", "NO_SALVAGE" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ],
     "use_action": [ "MAKEMOUND" ],
-    "melee_damage": { "bash": 10, "cut": 6 }
+    "melee_damage": { "bash": 10, "cut": 6 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "bronze_hoe",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "bronze hoe" },
     "description": "A farming implement made from bronze.  The added heft and durability should let you till soil for farming more easily as well.",
     "weight": "3100 g",
@@ -78,11 +80,12 @@
     "flags": [ "NONCONDUCTIVE" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ],
     "use_action": [ "MAKEMOUND" ],
-    "melee_damage": { "bash": 10, "cut": 5 }
+    "melee_damage": { "bash": 10, "cut": 5 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "primitive_shovel",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "wooden shovel" },
     "description": "A crude shovel with a shovelhead made from wood, historically used as an alternative to metal shovels when metal was too expensive.  It works passably well, but really can't compare to a metal shovel.",
     "weight": "1581 g",
@@ -93,11 +96,12 @@
     "symbol": "/",
     "color": "brown",
     "qualities": [ [ "DIG", 2 ] ],
-    "melee_damage": { "bash": 15, "cut": 1 }
+    "melee_damage": { "bash": 15, "cut": 1 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "rake",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "metal rake" },
     "description": "A sturdy metal rake, a must-have during autumn.",
     "weight": "1500 g",
@@ -109,11 +113,12 @@
     "symbol": "/",
     "color": "brown",
     "flags": [ "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 12, "cut": 3 }
+    "melee_damage": { "bash": 12, "cut": 3 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "rake_plastic",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "plastic rake" },
     "description": "A cheap plastic rake.  Will break quite quickly if used for anything other than raking leaves.",
     "weight": "1000 g",
@@ -125,11 +130,12 @@
     "symbol": "/",
     "color": "brown",
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 10, "cut": 1 }
+    "melee_damage": { "bash": 10, "cut": 1 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "scythe",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "scythe" },
     "description": "An old-fashioned farming tool used to cut tall grass.  Despite being a giant blade on the end of a stick, it is incredibly awkward to use for anything but its intended purpose.",
     "weight": "2140 g",
@@ -145,12 +151,13 @@
     "qualities": [ [ "CUT", 1 ], [ "GRASS_CUT", 2 ], [ "BUTCHER", -22 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
-    "melee_damage": { "bash": 6, "cut": 14 }
+    "melee_damage": { "bash": 6, "cut": 14 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "scythe_fake",
     "copy-from": "scythe",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "scythe" },
@@ -165,7 +172,7 @@
   },
   {
     "id": "scythe_toy",
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "grim reaper's scythe" },
@@ -179,7 +186,7 @@
   },
   {
     "id": "shovel",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "shovel" },
     "description": "A digging tool.  Use it to dig pits adjacent to your location.",
     "weight": "2032 g",
@@ -194,12 +201,13 @@
     "qualities": [ [ "DIG", 3 ], [ "COOK", 1 ], [ "BUTCHER", -70 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE", "NO_SALVAGE" ],
-    "melee_damage": { "bash": 14, "cut": 3 }
+    "melee_damage": { "bash": 14, "cut": 3 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "shovel_snow",
     "looks_like": "shovel",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "snow shovel" },
     "description": "A sturdy metal shovel used for picking up snow and moving it somewhere else.  It was useful before the Cataclysm, but now it's useless.",
     "weight": "2000 g",
@@ -213,12 +221,13 @@
     "qualities": [ [ "COOK", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 16, "cut": 1 }
+    "melee_damage": { "bash": 16, "cut": 1 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "shovel_snow_plastic",
     "looks_like": "shovel",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "plastic snow shovel" },
     "description": "A cheap plastic shovel used for picking up snow and moving it somewhere else.  It was useful before the Cataclysm, but now it's useless.",
     "weight": "1500 g",
@@ -231,11 +240,12 @@
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "sickle_stone",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "stone sickle" },
     "description": "A primitive tool for cutting grass.  The sharp, crescent-shaped stone at the end of the handle is barely good enough for the job.",
     "weight": "470 g",
@@ -251,11 +261,12 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
     "weapon_category": [ "SHORT_SWORDS" ],
-    "melee_damage": { "bash": 3, "cut": 10 }
+    "melee_damage": { "bash": 3, "cut": 10 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "sickle",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "sickle" },
     "description": "An old-fashioned farming tool for cutting tall grass.  Despite being a massive curved blade on a handle, it is incredibly awkward to use for anything but its intended purpose.",
     "weight": "907 g",
@@ -271,11 +282,12 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "DURABLE_MELEE" ],
     "weapon_category": [ "SHORT_SWORDS" ],
-    "melee_damage": { "bash": 3, "cut": 20 }
+    "melee_damage": { "bash": 3, "cut": 20 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "bronze_sickle",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "bronze sickle" },
     "description": "A handheld grass-cutting tool with a cast bronze blade, fastened to a wood handle wrapped with leather.",
     "weight": "1 kg",
@@ -291,11 +303,12 @@
     "qualities": [ [ "CUT", 1 ], [ "GRASS_CUT", 2 ], [ "BUTCHER", 7 ] ],
     "techniques": [ "WBLOCK_1" ],
     "weapon_category": [ "SHORT_SWORDS" ],
-    "melee_damage": { "bash": 3, "cut": 12 }
+    "melee_damage": { "bash": 3, "cut": 12 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "brush_axe",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "bill" },
     "description": "A long, slightly curved and hooked steel blade on the end of a sturdy shaft.  Could be used to thoroughly ruin something's day, or cut branches and small trees.",
     "weight": "2400 g",
@@ -316,7 +329,7 @@
   },
   {
     "id": "bronze_brush_axe",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "bronze bill" },
     "description": "A long, slightly curved and hooked bronze blade on the end of a sturdy shaft.  Could be used to thoroughly ruin something's day, or cut branches and small trees.",
     "weight": "3000 g",
@@ -337,7 +350,7 @@
   },
   {
     "id": "trimmer_off",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "hedge trimmer (off)", "str_pl": "hedge trimmers (off)" },
     "description": "A cordless, double-sided, gasoline-powered hedge trimmer.  A long line of sharp-edged teeth extends from the engine; turning the trimmer on will make them rapidly vibrate.  The poor man's chainsaw as far as the zombies are concerned.",
     "weight": "4500 g",
@@ -349,7 +362,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "green",
-    "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 600 } } ],
     "charges_per_use": 5,
     "use_action": {
@@ -374,12 +386,14 @@
       ]
     },
     "flags": [ "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 4, "cut": 8 }
+    "melee_damage": { "bash": 4, "cut": 8 },
+    "tool_ammo": [ "gasoline" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "trimmer_on",
     "copy-from": "trimmer_off",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "hedge trimmer (on)", "str_pl": "hedge trimmers (on)" },
     "description": "A cordless, double-sided, gasoline-powered hedge trimmer.  It is currently on, ready to do some zombie topiary; use this item to turn it off.",
     "power_draw": "500 W",
@@ -415,6 +429,7 @@
     },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 4, "cut": 40 }
+    "melee_damage": { "bash": 4, "cut": 40 },
+    "subtypes": [ "TOOL" ]
   }
 ]

@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "iso_science_security_black",
     "symbol": ",",
     "copy-from": "id_science",
@@ -10,7 +10,7 @@
   },
   {
     "id": "iso_armor_anchor",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "copy-from": "robofac_armor_rig",
     "name": { "str": "remediator defense anchor" },
     "description": "A combined harness and armor system designed to protect the wearer from the effects of normality decay.  It mounts a 5-point anchor, attachment points for a kinetic mantle and several pockets and straps for the rest of your gear.",
@@ -110,21 +110,23 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_r", "leg_upper_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "//": "Tier 2 mantle",
     "id": "xedra_rubber_mantle",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "robofac_mantle",
     "name": "remediator kinetic mantle",
     "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  This model incorporates a rubber coating that diffuses impacts and provides excellent protection from blunt trauma, even if it does feel a bit like a rain coat.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
     "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "rubber", "portion": 4 } ],
-    "proportional": { "weight": 1.576 }
+    "proportional": { "weight": 1.576 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "iso_lewis_gun",
-    "type": "GUN",
+    "type": "ITEM",
     "looks_like": "m60",
     "symbol": "(",
     "color": "light_gray",
@@ -132,14 +134,6 @@
     "description": "A British light machine gun from the first world war, slightly modernized and modified for hip and shoulder firing while standing.  Its design is somehow stable even under extreme normality distortion and thus its found a new life with lab remediation teams.\n\nYour training allows you to effectively wield this weapon in close quarters, and you perform melee attacks with it at 33% of its base attack speed.",
     "flags": [ "UNBREAKABLE_MELEE", "NO_TURRET", "NON_FOULING", "MUNDANE" ],
     "melee_damage": { "bash": 30 },
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WIELD",
-          "values": [ { "value": "ATTACK_SPEED", "multiply": -0.67 }, { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": -0.8 } ]
-        }
-      ]
-    },
     "price": "1200 USD",
     "price_postapoc": "100 USD",
     "material": [ "steel" ],
@@ -171,12 +165,19 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_stovepipe", "fault_double_feed" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "iso_lewis_mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "iso_lewis_mag" ] } ],
+    "passive_effects": [
+      {
+        "has": "WIELD",
+        "values": [ { "value": "ATTACK_SPEED", "multiply": -0.67 }, { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": -0.8 } ]
+      }
+    ],
+    "subtypes": [ "ARTIFACT", "GUN" ]
   },
   {
     "id": "iso_lewis_mag",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Lewis gun 47-round magazine" },
     "description": "The top mounted pan magazine of a Lewis machine gun.  It's a bit of a hassle to reload, but it's a lot of firepower in a relatively portable package.",
     "weight": "600 g",
@@ -191,12 +192,13 @@
     "reload_time": 180,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 47 } } ],
-    "variant_type": "gun"
+    "variant_type": "gun",
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "iso_repeating_crossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "light_gray",
     "name": { "str": "repeating crossbow" },
@@ -224,11 +226,12 @@
     "reload": 1500,
     "valid_mod_locations": [ [ "sling", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 4 } } ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "iso_crossbow_sling",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "crossbow sling" },
     "description": "A complex sling designed to carry a repeating crossbow while keeping it ready for use.  The sling is designed to be worn across the torso and can be quickly adjusted to bring the crossbow to bear.",
     "weight": "320 g",
@@ -254,10 +257,11 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "armor": [ { "encumbrance": [ 3, 7 ], "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 3, 7 ], "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "iso_bolt_blackwood_bodkin",
     "name": { "str": "blackwood bolt" },
     "symbol": "=",
@@ -267,27 +271,30 @@
     "relative": { "dispersion": -40 },
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.75 },
     "range": 4,
-    "recovery_chance": 100
+    "recovery_chance": 100,
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "iso_old_cloak",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "cape_sci_fi",
     "name": { "str": "tattered cloak" },
     "description": "The cloak of an imperial envoy, depicting a star chart in gold thread.  It's terribly worn and frayed.",
-    "material": [ "wool" ]
+    "material": [ "wool" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "iso_old_sword",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "mc_longsword",
     "name": { "str": "ancient sword" },
     "description": "A longsword worn down by countless battles.  It was once finely engraved.",
-    "flags": [ "UNBREAKABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ]
+    "flags": [ "UNBREAKABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "iso_old_armor",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "copy-from": "armor_lc_plate",
     "name": { "str": "envoy's armor" },
     "description": "A suit of armor worn down by an endless journey.  Only its sturdiest parts remain now.",
@@ -316,11 +323,12 @@
         "layers": [ "NORMAL", "OUTER" ],
         "encumbrance": 10
       }
-    ]
+    ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "iso_sorcerers_staff",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "q_staff",
     "looks_like": "q_staff",
     "name": { "str_sp": "Blackstaff" },
@@ -338,10 +346,11 @@
   },
   {
     "id": "iso_sorcerers_robe",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "robe of the gloaming tower" },
     "copy-from": "robe_wizard",
     "looks_like": "robe_wizard",
-    "description": "A black robe fading into dark blue at the hem, indicating your status as one of the Arch-wizards of the Dreaming City."
+    "description": "A black robe fading into dark blue at the hem, indicating your status as one of the Arch-wizards of the Dreaming City.",
+    "subtypes": [ "ARMOR" ]
   }
 ]

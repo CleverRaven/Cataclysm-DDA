@@ -1,7 +1,7 @@
 [
   {
     "id": "dreamforged_nail",
-    "type": "AMMO",
+    "type": "ITEM",
     "copy-from": "nail",
     "name": { "str": "dreamforged nail" },
     "description": "A pin-shaped piece of steel.  It can be used to construct various things with a hammer.  Forged from dreamdross, which makes it much lighter.",
@@ -10,6 +10,7 @@
     "price_postapoc": "0 cent",
     "material": [ "forged_dreamstuff" ],
     "symbol": "=",
-    "color": "light_gray"
+    "color": "light_gray",
+    "subtypes": [ "AMMO" ]
   }
 ]

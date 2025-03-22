@@ -1,7 +1,7 @@
 [
   {
     "id": "matrix_crystal_biokin_dust_potion",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "name": { "str_sp": "pink crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint pink glow.",
@@ -17,13 +17,14 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_BIOKIN_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_BIOKIN_POTION" ],
+    "ammo_type": "water",
+    "subtypes": [ "AMMO", "COMESTIBLE" ]
   },
   {
     "id": "matrix_crystal_clair_dust_potion",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "name": { "str_sp": "gray crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint grayish glow.",
@@ -39,13 +40,14 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_CLAIR_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_CLAIR_POTION" ],
+    "ammo_type": "water",
+    "subtypes": [ "AMMO", "COMESTIBLE" ]
   },
   {
     "id": "matrix_crystal_electrokin_dust_potion",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "name": { "str_sp": "cyan crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint sky-blue glow.",
@@ -61,13 +63,14 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_ELECTROKIN_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_ELECTROKIN_POTION" ],
+    "ammo_type": "water",
+    "subtypes": [ "AMMO", "COMESTIBLE" ]
   },
   {
     "id": "matrix_crystal_photokin_dust_potion",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "name": { "str_sp": "golden crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint golden glow.",
@@ -83,13 +86,14 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_PHOTOKIN_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_PHOTOKIN_POTION" ],
+    "ammo_type": "water",
+    "subtypes": [ "AMMO", "COMESTIBLE" ]
   },
   {
     "id": "matrix_crystal_pyrokin_dust_potion",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "name": { "str_sp": "red crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint red glow.",
@@ -105,13 +109,14 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_PYROKIN_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_PYROKIN_POTION" ],
+    "ammo_type": "water",
+    "subtypes": [ "AMMO", "COMESTIBLE" ]
   },
   {
     "id": "matrix_crystal_telekin_dust_potion",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "name": { "str_sp": "yellow crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint yellow glow.",
@@ -127,13 +132,14 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_TELEKIN_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_TELEKIN_POTION" ],
+    "ammo_type": "water",
+    "subtypes": [ "AMMO", "COMESTIBLE" ]
   },
   {
     "id": "matrix_crystal_telepath_dust_potion",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "name": { "str_sp": "white crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint white glow.",
@@ -149,13 +155,14 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_TELEPATH_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_TELEPATH_POTION" ],
+    "ammo_type": "water",
+    "subtypes": [ "AMMO", "COMESTIBLE" ]
   },
   {
     "id": "matrix_crystal_teleport_dust_potion",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "name": { "str_sp": "blue crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint blue glow.",
@@ -171,13 +178,14 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_TELEPORT_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_TELEPORT_POTION" ],
+    "ammo_type": "water",
+    "subtypes": [ "AMMO", "COMESTIBLE" ]
   },
   {
     "id": "matrix_crystal_vitakin_dust_potion",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "name": { "str_sp": "green crystalline elixir" },
     "description": "Refined matrix crystal mixed directly into water.  The liquid has a faint green glow.",
@@ -193,12 +201,13 @@
     "container": "bottle_plastic",
     "sealed": false,
     "quench": 50,
-    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
-    "consumption_effect_on_conditions": [ "EOC_VITAKIN_POTION" ]
+    "consumption_effect_on_conditions": [ "EOC_VITAKIN_POTION" ],
+    "ammo_type": "water",
+    "subtypes": [ "AMMO", "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "alien_tree_1_fruit",
     "name": { "str": "alien fruit" },
     "description": "A bluish-green ovoid globule, firm to the touch but looking more like gelatin than something you plucked from a tree.  It has a strong acrid odor.",
@@ -211,18 +220,20 @@
     "quench": 5,
     "calories": 20,
     "fun": -6,
-    "vitamins": [ [ "mutant_toxin", 800 ] ]
+    "vitamins": [ [ "mutant_toxin", 800 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "egg_cockatrice",
     "name": { "str": "cockatrice egg" },
     "copy-from": "egg_chicken",
-    "rot_spawn": { "group": "GROUP_EGG_COCKATRICE" }
+    "rot_spawn": { "group": "GROUP_EGG_COCKATRICE" },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "black_nether_water",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "name": { "str_sp": "black liquid" },
     "description": "You don't know what this is but now that you've gotten a closer look it's definitely not water.  It's completely opaque and freezing cold to the touch, but when you pull your fingertip out of it, your skin is dry as a bone.",
@@ -238,10 +249,11 @@
     "phase": "liquid",
     "flags": [ "NUTRIENT_OVERRIDE", "TRADER_AVOID" ],
     "contamination": [ { "disease": "black_nether_water_disease", "probability": 100 } ],
-    "fun": -5
+    "fun": -5,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "alien_meadow_bush_2_fruit",
     "name": { "str": "handful of alien berries", "str_pl": "handfuls of alien berries" },
     "description": "A handful of white berries plucked from an otherworldly bush.  You're not sure if eating them is a good idea, but they sure look tasty.",
@@ -258,10 +270,11 @@
     "volume": "250 ml",
     "fun": 1,
     "flags": [ "EDIBLE_FROZEN" ],
-    "consumption_effect_on_conditions": [ "EOC_ALIEN_MEADOW_BUSH_2_BERRIES" ]
+    "consumption_effect_on_conditions": [ "EOC_ALIEN_MEADOW_BUSH_2_BERRIES" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "alien_meadow_tree_3_fruit",
     "name": { "str": "alien fruit" },
     "description": "A large fruit pulled from an alien tree.  The rind is extremely hard and you'll need to cut into it to eat it.",
@@ -278,13 +291,15 @@
     "volume": "7150 ml",
     "flags": [ "FREEZERBURN", "INEDIBLE" ],
     "vitamins": [ [ "vitC", "366 mg" ], [ "iron", "35800 μg" ], [ "calcium", "32300 μg" ] ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "egg_pigeon_passenger",
     "name": { "str": "feral pigeon egg" },
     "copy-from": "egg_pigeon",
-    "rot_spawn": { "monster": "mon_pigeon_passenger", "chance": 70 }
+    "rot_spawn": { "monster": "mon_pigeon_passenger", "chance": 70 },
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

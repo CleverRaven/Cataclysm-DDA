@@ -1,7 +1,7 @@
 [
   {
     "id": "spellbook_hedge_farm",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "Goody Osborne's Booke of Remedies", "str_pl": "copies of Goody Osborne's Booke of Remedies" },
     "description": "This purports to be the 'Reale and True Acounting of the Works and Devices of Sarah Osbourne, a Most Puissant Wiche', but you're pretty sure it's all a front and it was actually written within the last couple decades.  There are some pretty detailed descriptions of rituals in here, mixed among diary entries and accounts of fanciful meetings in the woods.",
     "weight": "1200 g",
@@ -86,16 +86,17 @@
   },
   {
     "id": "spellbook_hedge_farm_stub",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Goody Osborne's Booke of Remedies", "//~": "NO_I18N" },
     "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
-    "use_action": { "type": "learn_spell", "spells": [ "hedge_make_plants_grow", "hedge_ward_off_rain", "hedge_cure_cold_or_flu" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_make_plants_grow", "hedge_ward_off_rain", "hedge_cure_cold_or_flu" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "spellbook_hedge_ward_demons",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "Malleus Maleficarum", "str_pl": "copies of Malleus Maleficarum" },
     "description": "A hardcover translation of the infamous 15th century book used as a reference work for witchcraft trials for centuries.  This translation seems to have some handwritten notes in some of the margins.",
     "weight": "721 g",
@@ -180,16 +181,17 @@
   },
   {
     "id": "spellbook_hedge_ward_demons_stub",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Malleus Maleficarum", "//~": "NO_I18N" },
     "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
-    "use_action": { "type": "learn_spell", "spells": [ "hedge_evil_eye_ward", "hedge_see_nether_eye_paste", "hedge_bless_steel_weapon" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_evil_eye_ward", "hedge_see_nether_eye_paste", "hedge_bless_steel_weapon" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "spellbook_hedge_doctor_book",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "The Cunning Book of Home and Hearth", "str_pl": "copies of The Cunning Book of Home and Hearth" },
     "description": "This mass-market paperback purports to pass down the ancient traditional secrets of English cunning folk, though if that were true, they probably could have gotten more than $12.95 for it.  There are a lot of descriptions of rituals and procedures in here, though--maybe some of them deserve further investigation.",
     "weight": "537 g",
@@ -274,16 +276,17 @@
   },
   {
     "id": "spellbook_hedge_doctor_book_stub",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell The Cunning Book of Home and Hearth", "//~": "NO_I18N" },
     "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
-    "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_healing_rate", "hedge_cure_cold_or_flu", "hedge_light_fire" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_healing_rate", "hedge_cure_cold_or_flu", "hedge_light_fire" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "spellbook_hedge_blood_book",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": {
       "str": "Bloodstoppers and Bearwalkers: Folk Traditions of Michigan's Upper Peninsula",
       "str_pl": "copies of Bloodstoppers and Bearwalkers: Folk Traditions of Michigan's Upper Peninsula"
@@ -371,16 +374,17 @@
   },
   {
     "id": "spellbook_hedge_blood_book_stub",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Book of Bloodstoppers and Bearwalkers", "//~": "NO_I18N" },
     "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
-    "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_bandaging_rate", "hedge_turn_into_bear" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_bandaging_rate", "hedge_turn_into_bear" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "spellbook_hedge_ward_dreams",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": {
       "str": "Ward your Dreams for a Good Night's Sleep!",
       "str_pl": "copies of Ward your Dreams for a Good Night's Sleep!"
@@ -468,16 +472,17 @@
   },
   {
     "id": "spellbook_hedge_ward_dreams_stub",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Book of Ward your Dreams for a Good Night's Sleep", "//~": "NO_I18N" },
     "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
-    "use_action": { "type": "learn_spell", "spells": [ "hedge_no_nightmares" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_no_nightmares" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "spellbook_hedge_snare_changelings",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "Monas Hieroglyphica", "str_pl": "copies of Monas Hieroglyphica" },
     "description": "This is a thin reproduction of John Dee's Monas Hieroglyphica.  A complicated work whose meaning has long been lost without access to the occult oral tradition of it's time.  It's possible that some remnants of that oral tradition still exist today, but it is unknown if they would be able to fully interpret this spellbook.",
     "weight": "83 g",
@@ -562,16 +567,17 @@
   },
   {
     "id": "spellbook_hedge_snare_changelings_stub",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Book of Hedge Snare Changelings", "//~": "NO_I18N" },
     "description": { "str": "The temporary item that teaches you spells.", "//~": "NO_I18N" },
-    "use_action": { "type": "learn_spell", "spells": [ "hedge_changeling_snare" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_changeling_snare" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "spellbook_hedge_clairvoyance_cone",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Parchment of sight beyond sight", "str_pl": "Parchments of sight beyond sight" },
     "description": "A short parchment that will supposedly teach you how to see through walls.",
@@ -583,12 +589,13 @@
     "symbol": "?",
     "color": "white",
     "use_action": { "type": "learn_spell", "spells": [ "hedge_clairvoyance_cone" ] },
-    "//": "This is a quest reward specifically written to be easy to understand, and so does not require research."
+    "//": "This is a quest reward specifically written to be easy to understand, and so does not require research.",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "spellbook_hedge_bathhouse_midnight",
     "//": "divination spells are appropriate here too",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": {
       "str": "The Bathhouse at Midnight: An Historical Survey of Magic and Divination in Russia",
       "str_pl": "copies of The Bathhouse at Midnight: An Historical Survey of Magic and Divination in Russia"
@@ -675,7 +682,7 @@
   },
   {
     "id": "spellbook_hedge_bathhouse_midnight_stub",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Book of The Bathhouse at Midnight", "//~": "NO_I18N" },
@@ -683,11 +690,12 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "hedge_clairvoyance_cone", "hedge_walk_on_water", "hedge_evil_eye_ward", "hedge_cure_cold_or_flu" ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "spellbook_hedge_abramelin_the_mage",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": {
       "str": "The Book of the Sacred Magic of Abramelin the Mage",
       "str_pl": "copies of The Book of the Sacred Magic of Abramelin the Mage"
@@ -774,7 +782,7 @@
   },
   {
     "id": "spellbook_hedge_abramelin_the_mage_spell_stub",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "copy-from": "magic_square_base",
     "name": { "str_sp": "The Real Actual Spell Book of the Sacred Magic of Abramelin the Mage", "//~": "NO_I18N" },
@@ -789,6 +797,7 @@
         "hedge_armed_men_magic_square",
         "hedge_invisibility_magic_square"
       ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   }
 ]

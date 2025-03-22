@@ -1,7 +1,7 @@
 [
   {
     "id": "arrowrest",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "arrow rest" },
     "description": "A small extension above the grip which an arrow rests upon while being aimed.  Improves accuracy with no drawbacks.",
     "weight": "16 g",
@@ -16,11 +16,12 @@
     "location": "arrow rest",
     "mod_targets": [ "bow" ],
     "dispersion_modifier": -20,
-    "min_skills": [ [ "gun", 1 ] ]
+    "min_skills": [ [ "gun", 1 ] ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "arrowrest_wood",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "wooden arrow rest" },
     "description": "A small extension above the grip which an arrow rests upon while being aimed.  Improves accuracy with no drawbacks.",
     "weight": "100 g",
@@ -35,11 +36,12 @@
     "location": "arrow rest",
     "mod_targets": [ "bow" ],
     "dispersion_modifier": -20,
-    "min_skills": [ [ "gun", 1 ] ]
+    "min_skills": [ [ "gun", 1 ] ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "bow_stabilizer",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "bow stabilizer" },
     "description": "A counterweight placed forward of the bow's grip allows for greater accuracy.  Aside from increased weight and size, there are no drawbacks.",
     "weight": "88 g",
@@ -54,11 +56,12 @@
     "mod_targets": [ "bow" ],
     "dispersion_modifier": -100,
     "handling_modifier": 3,
-    "min_skills": [ [ "archery", 1 ] ]
+    "min_skills": [ [ "archery", 1 ] ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "bow_stabilizer_set",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "bow stabilizer system" },
     "description": "A set of stabilizing rods with dampeners and an adjustable mount.  This system will significantly reduce shaking at full draw.",
     "weight": "300 g",
@@ -73,11 +76,12 @@
     "mod_targets": [ "bow" ],
     "dispersion_modifier": -200,
     "handling_modifier": 6,
-    "min_skills": [ [ "archery", 2 ] ]
+    "min_skills": [ [ "archery", 2 ] ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "bow_silencer",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "bow dampening kit" },
     "description": "A set of simple pads and rubber with adhesive backing, designed to stick on the limbs and string of a bow to absorb vibrations.  This substantially reduces noise during firing and can help with accuracy.",
     "weight": "50 g",
@@ -93,11 +97,12 @@
     "dispersion_modifier": -2,
     "loudness_modifier": -8,
     "handling_modifier": 1,
-    "min_skills": [ [ "weapon", 2 ] ]
+    "min_skills": [ [ "weapon", 2 ] ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "primitive_bow_silencer",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "primitive bow dampening kit" },
     "description": "A set of simple pads and strips of fur with adhesive backing, designed to stick on the limbs and string of a bow to absorb vibrations.  This substantially reduces noise during firing and can help with accuracy.",
     "weight": "50 g",
@@ -113,11 +118,12 @@
     "dispersion_modifier": -2,
     "loudness_modifier": -8,
     "handling_modifier": 1,
-    "min_skills": [ [ "weapon", 2 ] ]
+    "min_skills": [ [ "weapon", 2 ] ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "belt_clip",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "belt clip" },
     "description": "A belt clip that attaches to the grip or slide of a pistol to facilitate 'Mexican carry', the practice of carrying without a holster.  It does not offer any protection for the trigger, so users are strongly advised to carry with the chamber empty or select a firearm with a very heavy trigger pull.",
     "weight": "40 g",
@@ -131,6 +137,7 @@
     "color": "light_gray",
     "location": "belt clip",
     "mod_targets": [ "rugerlcp", "kp32" ],
-    "flags": [ "IS_ARMOR", "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": [ "IS_ARMOR", "SKINTIGHT", "WATER_FRIENDLY" ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   }
 ]

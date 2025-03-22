@@ -3,7 +3,7 @@
     "id": "44_speedloader6",
     "//": "Audited with a 4.39cm diameter cylinder and 1.37cm long loader.",
     "looks_like": "38_speedloader",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": ".44 6-round speedloader" },
     "description": "This speedloader can hold 6 rounds of .44 and quickly reload a compatible revolver.",
     "weight": "28 g",
@@ -15,13 +15,14 @@
     "color": "light_gray",
     "ammo_type": [ "44" ],
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 6 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "deaglemag",
     "//": "Copied from .50AE magazine, I believe difference in magazines is very slight.",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "Desert Eagle .44 8-round magazine" },
     "description": "A standard 8-round steel box magazine for use with a Desert Eagle configured for .44 Magnum.",
     "weight": "45 g",
@@ -34,6 +35,7 @@
     "color": "light_gray",
     "ammo_type": [ "44" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 8 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

@@ -1,6 +1,6 @@
 [
   {
-    "type": "GUN",
+    "type": "ITEM",
     "id": "ballista",
     "name": { "str": "carroballista", "str_pl": "carroballistae" },
     "description": "A smaller, mounted version of the Greco-Roman ballista, for those situations where the crossbow just isn't enough.  Unlike crossbows, it is powered by a torsion spring that is wound by a hand crank and uses two prods instead of one bow.  Its size and design make it unfeasible to be used by hand, requiring it to be set down or mounted to a vehicle.",
@@ -32,11 +32,12 @@
     "clip_size": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt_ballista": 1 } } ],
     "to_hit": -3,
-    "melee_damage": { "bash": 25 }
+    "melee_damage": { "bash": 25 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "bolt_ballista_steel",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str": "ballista bolt" },
     "description": "A big, steel tipped projectile, twice the size of a normal bolt and much heavier than one.  It gets thicker towards the base, and is fletched there with the protrusions of the shaft itself.",
     "weight": "200 g",
@@ -56,6 +57,7 @@
     "critical_multiplier": 2,
     "//2": "With the amount of kinetic energy these things have, reusing them is quite unlikely.",
     "recovery_chance": 50,
-    "melee_damage": { "stab": 12 }
+    "melee_damage": { "stab": 12 },
+    "subtypes": [ "AMMO" ]
   }
 ]

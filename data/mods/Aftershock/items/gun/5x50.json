@@ -1,7 +1,7 @@
 [
   {
     "id": "afs_eidolon_derringer",
-    "type": "GUN",
+    "type": "ITEM",
     "copy-from": "afs_needlepistol",
     "name": { "str": "eidolon derringer" },
     "volume": "500 ml",
@@ -12,12 +12,13 @@
     "modes": [ [ "DEFAULT", "single", 1 ], [ "MULTI", "4 rd.", 4 ] ],
     "clip_size": 4,
     "flags": [ "NEVER_JAMS", "RELOAD_ONE", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "afs_5x50": 4 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "afs_5x50": 4 } } ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "afs_needlegun",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "RM216 SPIW" },
     "description": "This light carbine fires 5x50mm armor-piercing flechette cartridges.  Classified as a special purpose individual weapon, this advanced firearm was developed by Rivtech for the US military shortly before the end of the world.  Designed to be fired in bursts, it excels in close combat.",
@@ -53,12 +54,13 @@
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_5x50_100_mag", "afs_5x50_50_mag" ] } ],
     "melee_damage": { "bash": 12 },
-    "weapon_category": [ "AUTOMATIC_RIFLES" ]
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "afs_needlepistol",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "RM232 IDW" },
     "description": "This lightweight machine pistol fires 5x50mm armor-piercing flechette cartridges.  Classified as an individual defense weapon, this advanced firearm was developed by Rivtech for the US military shortly before the end of the world.  Designed to be fired in bursts, it excels in close combat.",
@@ -88,6 +90,7 @@
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_5x50_50_mag", "afs_5x50_100_mag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   }
 ]

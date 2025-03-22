@@ -1,17 +1,18 @@
 [
   {
     "abstract": "cow_armor",
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "name": { "str": "cow armor", "//~": "NO_I18N" },
     "symbol": "[",
     "min_pet_vol": "250 L",
     "max_pet_vol": "1000 L",
     "pet_bodytype": "dog",
     "longest_side": "60 cm",
-    "flags": [ "IS_PET_ARMOR" ]
+    "flags": [ "IS_PET_ARMOR" ],
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "kevlar_armor_cow",
     "copy-from": "cow_armor",
     "color": "yellow",
@@ -22,10 +23,11 @@
     "material": [ "cotton", "leather", "kevlar_layered" ],
     "weight": "35 kg",
     "volume": "180 L",
-    "material_thickness": 12
+    "material_thickness": 12,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "acidchitin_armor_cow",
     "copy-from": "cow_armor",
     "color": "green",
@@ -37,10 +39,11 @@
     "weight": "40 kg",
     "volume": "180 L",
     "material_thickness": 7,
-    "environmental_protection": 7
+    "environmental_protection": 7,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "chitin_armor_cow",
     "copy-from": "cow_armor",
     "color": "green",
@@ -52,10 +55,11 @@
     "weight": "40 kg",
     "volume": "180 L",
     "material_thickness": 7,
-    "environmental_protection": 4
+    "environmental_protection": 4,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "chainmail_armor_cow",
     "copy-from": "cow_armor",
     "color": "green",
@@ -66,10 +70,11 @@
     "material": [ "steel", "leather" ],
     "weight": "50 kg",
     "volume": "180 L",
-    "material_thickness": 7
+    "material_thickness": 7,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "leather_armor_cow",
     "copy-from": "cow_armor",
     "color": "green",
@@ -80,10 +85,11 @@
     "material": [ "cotton", "leather" ],
     "weight": "18 kg",
     "volume": "180 L",
-    "material_thickness": 7
+    "material_thickness": 7,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "leatherbone_armor_cow",
     "copy-from": "cow_armor",
     "color": "green",
@@ -94,10 +100,11 @@
     "material": [ "leather" ],
     "weight": "20 kg",
     "volume": "180 L",
-    "material_thickness": 7
+    "material_thickness": 7,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "rubber_armor_cow",
     "copy-from": "cow_armor",
     "color": "green",
@@ -108,10 +115,11 @@
     "material": [ "neoprene", "plastic" ],
     "weight": "17 kg",
     "volume": "180 L",
-    "material_thickness": 4
+    "material_thickness": 4,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "iron_armor_cow",
     "copy-from": "cow_armor",
     "color": "brown",
@@ -122,10 +130,11 @@
     "material": [ "iron", "leather" ],
     "weight": "35 kg",
     "volume": "180 L",
-    "material_thickness": 5
+    "material_thickness": 5,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "steel_armor_cow",
     "copy-from": "cow_armor",
     "color": "light_gray",
@@ -136,10 +145,11 @@
     "material": [ "steel", "leather" ],
     "weight": "60 kg",
     "volume": "180 L",
-    "material_thickness": 5
+    "material_thickness": 5,
+    "subtypes": [ "PET_ARMOR" ]
   },
   {
-    "type": "PET_ARMOR",
+    "type": "ITEM",
     "id": "bronze_armor_cow",
     "copy-from": "cow_armor",
     "color": "yellow",
@@ -150,6 +160,7 @@
     "material": [ "bronze", "leather" ],
     "weight": "35 kg",
     "volume": "180 L",
-    "material_thickness": 5
+    "material_thickness": 5,
+    "subtypes": [ "PET_ARMOR" ]
   }
 ]

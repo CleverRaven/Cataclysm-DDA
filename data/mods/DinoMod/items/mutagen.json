@@ -2,7 +2,7 @@
   {
     "id": "iv_mutagen_tyrant",
     "copy-from": "iv_mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "tyrant mutagenic primer" },
     "description": "A super-concentrated mutagenic primer strongly resembling children's toy slime.",
     "price": "10 kUSD",
@@ -13,12 +13,13 @@
       "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_tyrant", 500 ] ]
-    }
+    },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "mutagen_tyrant",
     "copy-from": "mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "tyrant mutagen" },
     "description": "An extremely rare mutagen cocktail, it smells like blood and is a green goop with blood-red streaks.",
     "color": "light_green",
@@ -27,12 +28,13 @@
       "type": "consume_drug",
       "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_tyrant", 175 ], [ "mutagen", 125 ] ]
-    }
+    },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "iv_mutagen_stego",
     "copy-from": "iv_mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "stego mutagenic primer" },
     "description": "A super-concentrated mutagenic primer not for those frightened of this thing they have become.",
     "price": "10 kUSD",
@@ -43,12 +45,13 @@
       "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_stego", 500 ] ]
-    }
+    },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "mutagen_stego",
     "copy-from": "mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "stego mutagen" },
     "description": "An extremely rare mutagen cocktail, it seeks to cure what's deep inside.",
     "color": "light_green",
@@ -57,12 +60,13 @@
       "type": "consume_drug",
       "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_stego", 175 ], [ "mutagen", 125 ] ]
-    }
+    },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "iv_mutagen_horns",
     "copy-from": "iv_mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "horns mutagenic primer" },
     "description": "A super-concentrated mutagenic primer containing refined and purified biological samples, spiked with rum.",
     "price": "10 kUSD",
@@ -73,12 +77,13 @@
       "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_horns", 500 ] ]
-    }
+    },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "mutagen_horns",
     "copy-from": "mutagen_flavor",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "horns mutagen" },
     "description": "An extremely rare mutagen cocktail containing a mix of biological samples, spiked with rum.",
     "color": "light_green",
@@ -87,6 +92,7 @@
       "type": "consume_drug",
       "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_horns", 175 ], [ "mutagen", 125 ] ]
-    }
+    },
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

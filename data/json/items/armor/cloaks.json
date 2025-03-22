@@ -1,7 +1,7 @@
 [
   {
     "id": "american_flag",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "American flag" },
     "description": "A large American flag, made to fly in even the worst conditions.",
     "weight": "3200 g",
@@ -23,11 +23,12 @@
         "coverage": 60,
         "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "debug_energy_shield",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "weak energy shield" },
     "description": "A weak energy shield that protects against ballistic damage.",
     "weight": "1 g",
@@ -45,11 +46,12 @@
         "coverage": 100,
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "pride_flag",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pride flag" },
     "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.",
     "copy-from": "american_flag",
@@ -164,12 +166,13 @@
         "name": { "str": "bear flag" },
         "description": "A large black and orange international bear brotherhood flag.  The flag displays seven horizontal stripes of colors ranging from black to brown representing the colors of different bear species, you can see a black bear paw in the upper right corner."
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "national_flag",
     "name": { "str": "national flag" },
-    "type": "ARMOR",
+    "type": "ITEM",
     "description": "A large flag, made to fly in even the worst conditions.",
     "copy-from": "american_flag",
     "symbol": "[",
@@ -1527,11 +1530,12 @@
         "weight": 10,
         "append": true
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "state_flag",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "state flag" },
     "description": "A large white flag with a shield featuring an American Native and a star which represents the state of Massachusetts.",
     "copy-from": "american_flag",
@@ -1582,11 +1586,12 @@
         "description": "A large red flag, in the canton is a green pine tree on a white field.",
         "weight": 5
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "cape_fp",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "Foodperson's cape" },
     "description": "A brightly-colored cape emblazoned with the \"Fp\" symbol.",
     "weight": "900 g",
@@ -1600,11 +1605,12 @@
     "warmth": 10,
     "material_thickness": 0.3,
     "flags": [ "OVERSIZE", "BELTED", "POWERARMOR_COMPATIBLE" ],
-    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "cape_sci_fi",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "cape_fp",
     "name": { "str": "heraldic cape" },
     "looks_like": "holo_cloak",
@@ -1630,11 +1636,12 @@
     "flags": [ "OVERSIZE", "BELTED", "POWERARMOR_COMPATIBLE", "UNBREAKABLE" ],
     "material": [ "nanotubes" ],
     "material_thickness": 2.5,
-    "color": "blue"
+    "color": "blue",
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "cape_catholic",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "ferraiolo" },
     "description": "A long, crimson cape that reaches the ankles.  Worn by Catholic priests for ceremonious occasions.",
     "weight": "1500 g",
@@ -1657,11 +1664,12 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "grass_cloak",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "grass cloak" },
     "description": "A primitive cloak.  Ötzi wore one, too.",
     "weight": "710 g",
@@ -1684,11 +1692,12 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "cloak",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "cloak" },
     "description": "A heavy cloak meant to be thrown over your body.",
     "weight": "1175 g",
@@ -1712,11 +1721,12 @@
     "warmth": 30,
     "material_thickness": 0.4,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "BELTED" ]
+    "flags": [ "OVERSIZE", "HOOD", "BELTED" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "cloak_denim",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "denim cloak" },
     "description": "A heavy denim cloak worn over your body.  Warmer, sturdier and heavier than a cotton cloak.",
     "//": "16.5 oz.",
@@ -1740,11 +1750,12 @@
       }
     ],
     "warmth": 50,
-    "material_thickness": 1.1
+    "material_thickness": 1.1,
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "cloak_vampire",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "sinister cloak (black)", "str_pl": "sinister cloaks (black)" },
     "description": "A sinister-looking hooded cloak meant to be thrown over your body.  The black side is currently facing outwards.  Use it to reverse it and show the red side.",
     "weight": "150 g",
@@ -1774,12 +1785,13 @@
       "msg": "Your cloak is now bathed in blood.",
       "target": "cloak_vampire_red",
       "menu_text": "Reverse the colors"
-    }
+    },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "cloak_vampire_red",
     "copy-from": "cloak_vampire",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "sinister cloak (red)", "str_pl": "sinister cloaks (red)" },
     "description": "A sinister-looking hooded cloak meant to be thrown over your body.  The red side is currently facing outwards.  Use it to reverse it and show the black side.",
     "color": "red",
@@ -1788,11 +1800,12 @@
       "msg": "Your cloak is now one with the night.",
       "target": "cloak_vampire",
       "menu_text": "Reverse the colors"
-    }
+    },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "cloak_black",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "dark cloak" },
     "description": "A black cloak meant to be thrown over your body.  Commonly used by witches and other creatures of the night.",
     "weight": "100 g",
@@ -1815,11 +1828,12 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "cloak_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "fur cloak" },
     "description": "A heavy fur cloak meant to be thrown over your body.",
     "weight": "1735 g",
@@ -1843,11 +1857,12 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "cloak_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "leather cloak" },
     "description": "A heavy leather cloak meant to be thrown over your body.",
     "weight": "2060 g",
@@ -1871,11 +1886,12 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "cloak_wool",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "wool cloak" },
     "description": "A heavy woolen cloak meant to be thrown over your body.",
     "weight": "900 g",
@@ -1899,11 +1915,12 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "jedi_cloak",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "Jedi cloak" },
     "description": "A long, flowing robe.  Be sure to tear it off dramatically before fighting any foes!",
     "weight": "1587 g",
@@ -1927,11 +1944,12 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "optical_cloak",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "name": { "str": "FB51 optical cloak" },
     "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  You must be carrying a unified power supply, or UPS, to use it.  Activate to toggle visibility.",
     "weight": "1552 g",
@@ -1945,7 +1963,6 @@
     "warmth": 10,
     "material_thickness": 0.5,
     "environmental_protection": 4,
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "Your optical cloak flickers as it becomes transparent.",
@@ -1964,13 +1981,15 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
-    ]
+    ],
+    "tool_ammo": "battery",
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "optical_cloak_on",
     "copy-from": "optical_cloak",
     "looks_like": "optical_cloak",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "name": { "str": "FB51 optical cloak (on)", "str_pl": "FB51 optical cloaks (on)" },
     "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  It is turned on, and continually draining power from a UPS.  Use it to turn it off.",
     "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "BELTED", "ACTIVE_CLOAKING", "TRADER_AVOID", "SOFT", "NO_REPAIR", "RAINPROOF" ],
@@ -1982,11 +2001,12 @@
       "menu_text": "Turn off",
       "msg": "The %s flickers for a moment as it becomes opaque.",
       "target": "optical_cloak"
-    }
+    },
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "poncho",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "wool poncho" },
     "description": "A simple wool garment worn over the torso and upper arms.",
     "weight": "907 g",
@@ -2017,11 +2037,12 @@
         "specifically_covers": [ "arm_upper_r", "arm_upper_l" ],
         "layers": [ "BELTED" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "poncho_makeshift",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "black",
@@ -2035,11 +2056,12 @@
     "flags": [ "RAINPROOF", "OVERSIZE", "HOOD", "BELTED" ],
     "environmental_protection": 1,
     "material_thickness": 0.1,
-    "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
+    "armor": [ { "coverage": 90, "covers": [ "torso" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "folding_poncho",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "symbol": "[",
     "color": "yellow",
@@ -2061,11 +2083,12 @@
         "coverage": 100
       },
       { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90 }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "coat_straw",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "straw cape" },
     "description": "A bulky traditional Japanese raincoat made from straw, which covers the entire body.  Also known as mino.",
     "weight": "907 g",
@@ -2089,11 +2112,12 @@
     ],
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "RAINPROOF", "BELTED" ]
+    "flags": [ "OVERSIZE", "RAINPROOF", "BELTED" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "snuggie",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "snuggie" },
     "description": "Perfect for reading all those books you scavenged.",
     "weight": "625 g",
@@ -2108,6 +2132,7 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "UNRESTRICTED", "OUTER" ],
-    "armor": [ { "encumbrance": 20, "coverage": 85, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 85, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   }
 ]

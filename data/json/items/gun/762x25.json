@@ -3,7 +3,7 @@
     "id": "tokarev",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Tokarev handgun" },
     "description": "A symbol of Soviet pride and favored sidearm of Red Army officers, this is a compact pistol firing the punchy 7.62x25mm cartridge.  featuring an uncomfortable grip angle reminiscent of brandishing an unusually irate capital L at one's opponents, it is nevertheless a commendably accurate and durable handgun.",
     "variant_type": "gun",
@@ -29,6 +29,7 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tokarevmag" ] } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "GUN" ]
   }
 ]

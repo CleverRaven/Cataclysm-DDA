@@ -1,18 +1,19 @@
 [
   {
     "id": "afs_jumpsuit_military",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "jumpsuit",
     "looks_like": "jumpsuit",
     "name": { "str_sp": "military overalls" },
     "description": "A sturdy Nomex jumpsuit, normally worn by armed forces during transit or beneath combat armor while in the field.",
     "material": [ { "type": "nylon", "portion": 7 }, { "type": "nomex", "portion": 3 } ],
     "material_thickness": 0.4,
-    "color": "light_gray"
+    "color": "light_gray",
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "afs_ilbe",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "load_bearing_vest",
     "name": { "str_sp": "U3s ILBE" },
     "description": "Load bearing equipment that can be configured to attach PALS compatible pouches, meant to be worn in conjunction with armor.  It has two magnetic attachment points for a rifle and a sidearm.  Standard issue in UICA forces.",
@@ -52,11 +53,12 @@
         "volume_encumber_modifier": 1.2,
         "moves": 30
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "afs_backpack_rockets",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "U38m munitions carrier" },
     "description": "A large carrying frame designed to hold up to 10 rockets or similarly shaped munitions on your back.  Most often used in conjunction with a lifting frame to manage the weight.",
     "weight": "4 kg",
@@ -91,6 +93,7 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_hanging_back", "torso_waist" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   }
 ]

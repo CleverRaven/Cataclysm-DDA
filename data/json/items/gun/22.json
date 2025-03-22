@@ -2,7 +2,7 @@
   {
     "id": "marlin_9a",
     "looks_like": "ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "small game rifle" },
     "description": "A venerable .22 caliber lever-action rifle, with a 19-round tube magazine and a classic design that dates back over a century.  Generally used for the hunting of small game like rabbits, the strict taxonomic classification of zombies as 'small game' is debatable, but this decades-old weapon can still be counted upon to help manage the undead population.",
@@ -56,12 +56,13 @@
         "allowed_speedloaders": [ "marlin_tubeloader" ]
       }
     ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rifle_22",
     "looks_like": "ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": ".22 pipe rifle" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
@@ -90,12 +91,13 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 1 } } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "ruger_1022",
     "looks_like": "ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "varmint rifle" },
     "description": "A lightweight and modular pistol caliber hunting carbine, firing the low power .22 LR cartridge.  Before the Cataclysm, a mix of high customizability, cheap ammunition, and low recoil made this a very popular varmint rifle among civilian shooters.",
@@ -164,12 +166,13 @@
         ]
       }
     ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "ruger_1022_auto",
     "copy-from": "ruger_1022",
-    "type": "GUN",
+    "type": "ITEM",
     "name": "full-auto varmint rifle",
     "description": "A handy and lightweight rifle, modified to fire semi and full auto.",
     "variant_type": "gun",
@@ -181,13 +184,14 @@
       }
     ],
     "price_postapoc": "10 USD",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "ruger_lcr_22",
     "looks_like": "sw_619",
     "copy-from": "ruger_lcr_38",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": ".22 caliber revolver" },
     "description": "A comparatively dainty revolver, chambered for 8 tiny rounds of .22 LR.",
     "variant_type": "gun",
@@ -211,12 +215,13 @@
         "ammo_restriction": { "22": 8 },
         "allowed_speedloaders": [ "22_speedloader8" ]
       }
-    ]
+    ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "sig_mosquito",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "firefly training pistol" },
     "//": "Was the sig mosquito, has been renamed to the more common GSG firefly",
@@ -267,13 +272,14 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mosquitomag" ] } ],
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 9 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "walther_p22",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Walther training pistol" },
     "description": "A dainty training pistol offered by the Walther Arms company, making use of the .22 LR cartridge, for training on a pistol very similar to more powerful pistols.",
     "variant_type": "gun",
@@ -299,13 +305,14 @@
     "min_cycle_recoil": 39,
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "126 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "wp22mag" ] } ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "cp33",
     "copy-from": "pistol_base",
     "looks_like": "modular_ar_pistol",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "high capacity handgun" },
     "description": "A large capacity handgun, chambered in .22 and feeding from quad stack magazines.  Used both recreationally and in competition.",
     "variant_type": "gun",
@@ -339,14 +346,15 @@
         "item_restriction": [ "cp33_mag", "cp33_mag_50" ]
       }
     ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "ruger_mk4",
     "//": "Stats are from the 5.5 inch target version https://ruger.com/products/markIVTarget/specSheets/40101.html",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Ruger target pistol" },
     "description": "A light and handy .22 LR handgun from Ruger, this handgun is one of the most popular .22 handguns ever created.",
     "variant_type": "gun",
@@ -389,12 +397,13 @@
     "pocket_data": [
       { "rigid": false, "magazine_well": "96 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger_mk4_mag" ] }
     ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "ruger_charger",
     "looks_like": "modular_ar_pistol",
-    "type": "GUN",
+    "type": "ITEM",
     "//": "Stats are from https://ruger.com/products/22Charger/specSheets/4923.html",
     "reload_noise_volume": 10,
     "name": { "str": "varmint pistol" },
@@ -463,12 +472,13 @@
         ]
       }
     ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "ruger_charger_auto",
     "copy-from": "ruger_charger",
-    "type": "GUN",
+    "type": "ITEM",
     "name": "full-auto varmint pistol",
     "description": "A lightweight varmint pistol, modified to fire both semi, and full auto.",
     "variant_type": "gun",
@@ -480,12 +490,13 @@
       }
     ],
     "price_postapoc": "10 USD",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rossi_gallery",
     "looks_like": "ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "pump action varmint rifle" },
     "description": "A lightweight, wood framed pump action rifle, holding 15 rounds of .22 with an 18 inch barrel.  While pump actions tend to be largely shotguns, they can be made in calibers such as .22 LR.",
@@ -529,12 +540,13 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 15 } } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rough_rider_pistol",
     "copy-from": "pistol_revolver",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": ".22 six-shooter" },
     "description": "A revolver chambered in .22 LR, with 6 shots and a 6.5 inch barrel.",
     "ascii_picture": "redhawk",
@@ -565,12 +577,13 @@
         "name": { "str": "Heritage Rough Rider 6.5\"", "str_pl": "Heritage Rough Riders 6.5\"" },
         "description": "A cheap, single action revolver chambered in .22 LR.  While it makes for a handy plinking gun, the single action mechanism, size of the firearm, combined with the lack of a swing out cylinder makes for a less than ideal zombie fighting handgun."
       }
-    ]
+    ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rough_rider_pistol_9",
     "copy-from": "pistol_revolver",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "large .22 six-shooter" },
     "description": "A revolver chambered in .22 LR, with 6 shots and a 9 inch barrel.",
     "ascii_picture": "redhawk",
@@ -603,12 +616,13 @@
         "name": { "str": "Heritage Rough Rider 9\"", "str_pl": "Heritage Rough Riders 9\"" },
         "description": "A cheap, single action revolver chambered in .22 LR.  While it makes for a handy plinking gun, the single action mechanism, size of the firearm, combined with the lack of a swing out cylinder makes for a less than ideal zombie fighting handgun, even with the slightly increased performance from the longer barrel."
       }
-    ]
+    ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "1911_22",
     "copy-from": "pistol_base",
-    "type": "GUN",
+    "type": "ITEM",
     "looks_like": "1911",
     "//": "Based on https://www.browning.com/products/firearms/pistols/1911-22/1911-22-a1.html",
     "name": { "str": ".22 1911 pistol" },
@@ -649,12 +663,13 @@
         "name": { "str": "1911-22" },
         "description": "A 1911 handgun with \"1911-22\" stamped on the slide.  While .22 LR 1911s were first devised as a training aid for US soldiers, it found large civilian use from concealed carry to plinking thanks to the readily available ammunition and familiar platform."
       }
-    ]
+    ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rio_bravo",
     "looks_like": "marlin_9a",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "small game lever-action rifle" },
     "description": "A .22 Long Rifle lever-action rifle, which holds 15 rounds of ammo.  While quite useful against small game, its effectiveness isn't as great against the undead.",
@@ -700,12 +715,13 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 15 } } ],
-    "melee_damage": { "bash": 9 }
+    "melee_damage": { "bash": 9 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "henry_golden_boy",
     "looks_like": "marlin_9a",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "small game lever-action rifle" },
     "description": "A .22 Long Rifle lever-action rifle, which holds 16 rounds of ammo.  While quite useful against small game, its effectiveness isn't as great against the undead.",
@@ -751,12 +767,13 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 16 } } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "marlin60",
     "looks_like": "ruger1022",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "tube fed varmint rifle" },
     "description": "A lightweight and modular pistol caliber hunting carbine, firing the low power .22 LR cartridge.  Before the Cataclysm, a mix of high customizability, cheap ammunition, and low recoil made this a very popular varmint rifle among civilian shooters.",
@@ -802,12 +819,13 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent", "fault_stovepipe", "fault_double_feed" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 14 } } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "sw617",
     "copy-from": "pistol_revolver",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "high capacity revolver" },
     "description": "A revolver chambered in .22 LR, with 10 shots and a 6 inch barrel.",
     "ascii_picture": "redhawk",
@@ -838,12 +856,13 @@
         "name": { "str": "S&W 617" },
         "description": "The S&W 617 is a fine revolver, chambered in .22 LR.  However, instead of more common 6 rounds revolvers come in, this revolver has a 10 round capacity cylinder.  While still a revolver, and to boot a revolver in .22 LR, 10 is still bigger than 6."
       }
-    ]
+    ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "sr22",
     "copy-from": "pistol_base",
-    "type": "GUN",
+    "type": "ITEM",
     "looks_like": "1911",
     "//": "Based on https://ruger.com/products/sr22Pistol/specSheets/3600.html",
     "name": { "str": ".22 plinking handgun" },
@@ -884,6 +903,7 @@
         "name": { "str": "Ruger SR22" },
         "description": "A very popular handgun, the SR22 is a more conventional pistol than Ruger's other famous .22 LR handguns, the Ruger Standards.  While .22 LR is still capable of killing, the very short barrel brings that into question."
       }
-    ]
+    ],
+    "subtypes": [ "GUN" ]
   }
 ]

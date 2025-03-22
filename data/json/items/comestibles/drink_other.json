@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "sauce_red",
     "looks_like": "tomato_juice",
     "name": { "str_sp": "tomato sauce" },
@@ -22,11 +22,12 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", "4300 μg" ], [ "iron", "600 μg" ], [ "calcium", "8600 μg" ], [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", "4300 μg" ], [ "iron", "600 μg" ], [ "calcium", "8600 μg" ], [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "maple_sap",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "symbol": "~",
     "color": "light_cyan",
     "name": { "str_sp": "maple sap" },
@@ -47,12 +48,13 @@
     "flags": [ "EATEN_COLD", "RAW" ],
     "phase": "liquid",
     "vitamins": [  ],
-    "freezing_point": -1
+    "freezing_point": -1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "mayonnaise",
     "looks_like": "milk",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "symbol": "~",
     "color": "white",
     "name": { "str_sp": "mayonnaise" },
@@ -72,11 +74,12 @@
     "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME" ],
     "phase": "liquid",
     "freezing_point": -4,
-    "vitamins": [ [ "egg_allergen", 1 ], [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "egg_allergen", 1 ], [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "ketchup",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "looks_like": "tomato_juice",
     "symbol": "~",
     "color": "red",
@@ -102,11 +105,12 @@
       [ "calcium", "2700 μg" ],
       [ "veggy_allergen", 1 ],
       [ "junk_allergen", 1 ]
-    ]
+    ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "barbecue_sauce",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "looks_like": "molasses",
     "symbol": "~",
     "color": "brown",
@@ -126,11 +130,12 @@
     "fun": -1,
     "flags": [ "NO_AUTO_CONSUME" ],
     "phase": "liquid",
-    "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "honey_mustard",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "looks_like": "mustard",
     "symbol": "~",
     "color": "yellow",
@@ -150,11 +155,12 @@
     "fun": -1,
     "flags": [ "NO_AUTO_CONSUME" ],
     "phase": "liquid",
-    "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "mustard",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "looks_like": "mayonnaise",
     "symbol": "~",
     "color": "yellow",
@@ -174,11 +180,12 @@
     "charges": 48,
     "phase": "liquid",
     "flags": [ "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "iron", 2 ], [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "iron", 2 ], [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "honey_bottled",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "symbol": "~",
     "color": "yellow",
     "name": { "str_sp": "forest honey" },
@@ -196,10 +203,11 @@
     "charges": 16,
     "fun": 3,
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "phase": "liquid"
+    "phase": "liquid",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "vinegar",
     "looks_like": "water",
     "name": { "str_sp": "vinegar" },
@@ -218,10 +226,11 @@
     "charges": 16,
     "fun": -4,
     "flags": [ "NO_AUTO_CONSUME" ],
-    "freezing_point": -2
+    "freezing_point": -2,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "cooking_oil",
     "name": { "str_sp": "vegetable cooking oil" },
     "weight": "15 g",
@@ -243,20 +252,22 @@
     "use_action": [ "BLECH" ],
     "flags": [ "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "vitamins": [ [ "veggy_allergen", 1 ] ],
-    "freezing_point": -26
+    "freezing_point": -26,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "cooking_oil2",
     "name": { "str_sp": "animal cooking oil" },
     "copy-from": "cooking_oil",
     "description": "Thin yellow animal oil used for cooking.",
     "material": [ "flesh", "oil" ],
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "molasses",
     "name": { "str_sp": "molasses" },
     "weight": "89 g",
@@ -277,10 +288,11 @@
     "fun": 2,
     "flags": [ "USE_EAT_VERB" ],
     "vitamins": [ [ "calcium", 18 ], [ "iron", 23 ], [ "junk_allergen", 1 ] ],
-    "freezing_point": -29
+    "freezing_point": -29,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "grenadine_syrup",
     "looks_like": "juice",
     "name": { "str_sp": "grenadine syrup" },
@@ -303,11 +315,12 @@
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -16,
     "fun": 1,
-    "vitamins": [ [ "fruit_allergen", 1 ], [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ], [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "horseradish",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "symbol": "~",
     "color": "white",
     "name": { "str_sp": "horseradish" },
@@ -326,10 +339,11 @@
     "fun": -20,
     "flags": [ "NO_AUTO_CONSUME" ],
     "phase": "liquid",
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "coffee_syrup",
     "looks_like": "coffee",
     "name": { "str_sp": "coffee syrup" },
@@ -355,11 +369,12 @@
     "charges": 3,
     "flags": [ "NO_AUTO_CONSUME" ],
     "fun": 6,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "coconut_water",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "symbol": "~",
     "color": "light_cyan",
     "spoils_in": "3 days",
@@ -377,10 +392,11 @@
     "calories": 45,
     "fun": 3,
     "phase": "liquid",
-    "vitamins": [ [ "vitC", "5800 μg" ], [ "iron", "700 μg" ], [ "calcium", "57600 μg" ] ]
+    "vitamins": [ [ "vitC", "5800 μg" ], [ "iron", "700 μg" ], [ "calcium", "57600 μg" ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "salca",
     "name": { "str_sp": "salca" },
     "weight": "275 g",
@@ -400,10 +416,11 @@
     "volume": "250 ml",
     "flags": [ "FREEZERBURN" ],
     "fun": 2,
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "pekmez",
     "name": { "str_sp": "pekmez" },
     "weight": "87 g",
@@ -423,6 +440,7 @@
     "phase": "liquid",
     "charges": 7,
     "fun": 2,
-    "vitamins": [ [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

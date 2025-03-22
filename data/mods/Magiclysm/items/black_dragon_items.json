@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "dragon_black_scale",
     "category": "spare_parts",
     "symbol": "o",
@@ -16,7 +16,7 @@
   },
   {
     "id": "bundle_black_scale",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "dragon_black_scale",
     "symbol": "=",
     "name": { "str": "bundle of black dragon scales", "str_pl": "bundles of black dragon scales" },
@@ -25,7 +25,7 @@
     "description": "Scales from a black dragon, bundled tightly together for storage.  Disassemble to unpack."
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "black_dragon_hide_raw",
     "category": "spare_parts",
     "name": { "str_sp": "raw black dragon hide" },
@@ -44,11 +44,12 @@
     ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "vitamins": [ [ "meat_allergen", 1 ] ],
-    "volume": "4 L"
+    "volume": "4 L",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "black_dragon_tanning_hide",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": "tanning black dragon hide",
     "description": "A treated black dragon hide which is undergoing the chemical processes required to become workable.  You will be able to activate it to unroll and make use of it when it is done.",
@@ -67,10 +68,11 @@
       "not_ready_msg": "The black dragon hide isn't done yet.",
       "//": "2 days"
     },
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE" ],
+    "subtypes": [ "TOOL" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "black_dragon_tanned_hide",
     "symbol": ",",
     "color": "black_white",
@@ -85,7 +87,7 @@
   },
   {
     "id": "bundle_black_hide",
-    "type": "GENERIC",
+    "type": "ITEM",
     "copy-from": "black_dragon_tanned_hide",
     "symbol": ",",
     "name": { "str": "bundle of black dragon hides", "str_pl": "bundles of black dragon hides" },
@@ -95,7 +97,7 @@
   },
   {
     "id": "boots_black_dragon_scale",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of black dragonscale boots", "str_pl": "pairs of black dragonscale boots" },
     "description": "Boots made of black incredibly durable dragonscale.  Very protective, and surprisingly light.",
@@ -110,11 +112,12 @@
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
     "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "boots_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of black dragonhide boots", "str_pl": "pairs of black dragonhide boots" },
     "description": "Boots made of very durable black dragonhide.  Very protective, and surprisingly light.",
@@ -129,11 +132,12 @@
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "helmet_black_dragon_scale",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": "black dragonscale helmet",
     "description": "A helmet made from black incredibly durable dragonscale, held together with black dragonhide.  It comes equipped with a full face visor with only a thin slit to see out of.  Activate to raise the visor.",
@@ -154,11 +158,12 @@
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES" ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "helmet_black_dragon_scale_raised",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "copy-from": "helmet_black_dragon_scale",
     "name": { "str": "black dragonscale helmet (raised visor)", "str_pl": "black dragonscale helmets (raised visor)" },
@@ -168,11 +173,12 @@
     "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 32 } ],
     "material_thickness": 5,
     "environmental_protection": 3,
-    "delete": { "qualities": [ "GLARE" ], "flags": [ "SUN_GLASSES" ] }
+    "delete": { "qualities": [ "GLARE" ], "flags": [ "SUN_GLASSES" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "helmet_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": "black dragonhide helmet",
     "description": "A helmet made from very durable black dragonhide.  It protects your head well, but doesn't cover your face.",
@@ -189,11 +195,12 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "head" ] } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "suit_black_dragon_scale",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": "black dragonscale armor",
     "description": "A full suit of incredibly durable black dragon scale mail.  It comes with all the accoutrements that cover your torso, legs, and arms, with the benefit of being very light and flexible.",
@@ -209,11 +216,12 @@
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "suit_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": "black dragonhide armor",
     "description": "A full suit of very durable black dragonhide armor.  It comes with all the accoutrements that cover your torso, legs, and arms, with the benefit of being very light and flexible.",
@@ -229,11 +237,12 @@
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 18, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "gauntlets_black_dragon_scale",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of black dragonscale gauntlets", "str_pl": "pairs of black dragonscale gauntlets" },
     "description": "A pair of heavy-duty gauntlets made of incredibly durable black dragonscale that covers your hands.",
@@ -247,11 +256,12 @@
     "material_thickness": 4,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "gloves_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "pair of black dragonhide gloves", "str_pl": "pairs of black dragonhide gloves" },
     "description": "A pair of gloves made of very durable black dragonhide, modified to be easy to wear while providing maximum protection under extreme conditions.",
@@ -265,12 +275,13 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 8, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 8, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "boots_xlblack_dragon_scale",
     "copy-from": "boots_black_dragon_scale",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of black dragonscale boots", "str_pl": "pairs of black dragonscale boots" },
     "description": "Massive boots made of incredibly durable black dragonscale, modified to fit even the strangest of bodies.  Very protective, and surprisingly light.",
     "weight": "1545 g",
@@ -278,12 +289,13 @@
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
     "material_thickness": 5,
     "environmental_protection": 3,
-    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "boots_xlblack_dragon_hide",
     "copy-from": "boots_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of black dragonhide boots", "str_pl": "pairs of black dragonhide boots" },
     "description": "Massive boots made of very durable black dragonhide, modified to fit even the strangest of bodies.  Very protective, and surprisingly light.",
     "weight": "955 g",
@@ -291,12 +303,13 @@
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
     "material_thickness": 3,
     "environmental_protection": 3,
-    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "gauntlets_xlblack_dragon_scale",
     "copy-from": "gauntlets_black_dragon_scale",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of black dragonscale gauntlets", "str_pl": "pairs of black dragonscale gauntlets" },
     "description": "A pair of heavy-duty gauntlets made of incredibly durable black dragonscale that covers your hands, or whatever you use as hands.",
     "weight": "680 g",
@@ -304,12 +317,13 @@
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
     "material_thickness": 4,
     "environmental_protection": 3,
-    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "gloves_xlblack_dragon_hide",
     "copy-from": "gloves_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of black dragonhide gloves", "str_pl": "pairs of black dragonhide gloves" },
     "description": "A pair of gloves made of very durable black dragonhide, modified to be easy to wear while providing maximum protection under extreme conditions.  Sized to fit even the strangest of anatomy.",
     "weight": "430 g",
@@ -317,12 +331,13 @@
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
     "material_thickness": 2,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance": 18, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 18, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "helmet_xlblack_dragon_scale",
     "copy-from": "helmet_black_dragon_scale",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": "black dragonscale helmet",
     "description": "A massive helmet made from incredibly durable black dragonscale, held together with black dragonhide.  It comes equipped with a full face visor you can raise and is large enough to fit even the strangest of heads.",
     "use_action": { "type": "transform", "target": "helmet_xlblack_dragon_scale_raised", "msg": "You raise your visor." },
@@ -334,12 +349,13 @@
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 42 },
       { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 20 }
     ],
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "helmet_xlblack_dragon_scale_raised",
     "copy-from": "helmet_black_dragon_scale_raised",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "black dragonscale helmet (raised visor)", "str_pl": "black dragonscale helmets (raised visor)" },
     "description": "A massive helmet made from incredibly durable black dragonscale, held together with black dragonhide.  It is large enough to fit even the strangest of heads.  The visor is raised",
     "use_action": { "type": "transform", "target": "helmet_xlblack_dragon_scale", "msg": "You put down your visor." },
@@ -348,12 +364,13 @@
     "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 42 } ],
     "weight": "1256 g",
     "volume": "4500 ml",
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "helmet_xlblack_dragon_hide",
     "copy-from": "helmet_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": "black dragonhide helmet",
     "description": "A massive helmet made from very durable black dragonhide.  It protects your head well, and doesn't cover your face, but is large enough to fit even the strangest of heads.",
     "weight": "815 g",
@@ -361,12 +378,13 @@
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
     "material_thickness": 3,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance": 26, "coverage": 100, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 26, "coverage": 100, "covers": [ "head" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "suit_xlblack_dragon_scale",
     "copy-from": "suit_black_dragon_scale",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": "black dragonscale armor",
     "description": "A massive full suit of incredibly durable black dragon scale mail.  It comes with all the accoutrements that cover your torso, legs, and arms; sized to fit even the strangest of bodies.",
     "weight": "6250 g",
@@ -374,12 +392,13 @@
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
     "material_thickness": 5,
     "environmental_protection": 3,
-    "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "suit_xlblack_dragon_hide",
     "copy-from": "suit_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": "black dragonhide armor",
     "description": "A massive full suit of very durable black dragonhide armor.  It comes with all the accoutrements that cover your torso, legs, and arms; sized to fit even the strangest of bodies.",
     "weight": "5500 g",
@@ -387,12 +406,13 @@
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
     "material_thickness": 3,
     "environmental_protection": 2,
-    "armor": [ { "encumbrance": 26, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 26, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "backpack_black_dragon_hide",
     "//": "After adding more dragons, maybe make it more generic",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": "dragonhide backpack",
     "description": "A custom-built backpack.  Made of very durable dragon leather and carefully crafted to hold as much stuff as possible.",
     "weight": "900 g",
@@ -417,12 +437,13 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "WATERPROOF" ],
-    "armor": [ { "encumbrance": [ 5, 30 ], "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 5, 30 ], "coverage": 40, "covers": [ "torso" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "backpack_xl_black_dragon_hide",
     "copy-from": "backpack_black_dragon_hide",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": "dragonhide backpack",
     "weight": "1200 g",
     "volume": "6250 ml",
@@ -443,6 +464,7 @@
     "material_thickness": 4,
     "environmental_protection": 3,
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
-    "armor": [ { "encumbrance": [ 8, 40 ], "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": [ 8, 40 ], "coverage": 40, "covers": [ "torso" ] } ],
+    "subtypes": [ "ARMOR" ]
   }
 ]

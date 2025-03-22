@@ -1,6 +1,6 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "throwing_knives",
     "symbol": ";",
     "color": "light_gray",
@@ -20,11 +20,12 @@
     "recovery_chance": 99,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
     "qualities": [ [ "CUT", 1 ] ],
-    "melee_damage": { "bash": 1, "cut": 10 }
+    "melee_damage": { "bash": 1, "cut": 10 },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "moon_tears_fasteners",
-    "type": "AMMO",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "moon tears fastener" },
     "description": "A pin-shaped piece of moon tears and dreamdross.  It can be used to repair items made of moon tears.",
@@ -42,10 +43,11 @@
     "range": 3,
     "damage": { "damage_type": "bullet", "amount": 1, "armor_penetration": 1 },
     "dispersion": 180,
-    "effects": [ "NON_FOULING", "HURT_WHEN_WIELDED" ]
+    "effects": [ "NON_FOULING", "HURT_WHEN_WIELDED" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "moon_tear_chain_link",
     "category": "spare_parts",
     "price": "1 USD 50 cent",
@@ -58,11 +60,12 @@
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "count": 150
+    "count": 150,
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "9x21mm",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "9x21mm Gyurza SP-10 (7N29)" },
     "description": "The 9×21mm Gyurza (Гюрза, Russian for 'blunt-nosed viper') round is a Russian handgun round designed to defeat body armor that was developed by TsNIITochMash for its SR-1 Vektor semi-automatic pistol and SR-2 Veresk submachine gun.  The 7N29 AP loading fires a 6.7 g (103 gr) bullet at 410 m/s (1,300 ft/s) with 560 J (410 ft⋅lb) of muzzle energy, and will reportedly penetrate two 1.2 mm titanium plates, plus 30 layers of Kevlar, at 50 m (160 ft).  The disadvantage of the rounds is that high impact velocities are needed for them to work effectively, so the bullets are relatively light to maximize their muzzle velocity.  This means they will lose velocity relatively quickly, limiting their effective range.",
     "weight": "6700 mg",
@@ -81,11 +84,12 @@
     "damage": { "damage_type": "bullet", "amount": 24, "armor_penetration": 16 },
     "dispersion": 80,
     "recoil": 500,
-    "effects": [ "COOKOFF" ]
+    "effects": [ "COOKOFF" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "aetheric_charge",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "aetheric charge" },
     "description": "Charged ether pulled out of the void between all things.",
     "price": "10 USD",
@@ -99,10 +103,11 @@
     "count": 1,
     "recoil": 900,
     "effects": [ "IGNITE" ],
-    "flags": [ "ZERO_WEIGHT" ]
+    "flags": [ "ZERO_WEIGHT" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "grappler_sinew",
     "category": "spare_parts",
     "price": "0 cent",
@@ -117,10 +122,11 @@
     "weight": "1 g",
     "ammo_type": "thread",
     "count": 10,
-    "stack_size": 200
+    "stack_size": 200,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "runner_sinew",
     "category": "spare_parts",
     "price": "0 cent",
@@ -135,10 +141,11 @@
     "weight": "1 g",
     "ammo_type": "thread",
     "count": 10,
-    "stack_size": 200
+    "stack_size": 200,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "underdeveloped_sinew",
     "category": "spare_parts",
     "price": "0 cent",
@@ -153,11 +160,12 @@
     "weight": "1 g",
     "ammo_type": "thread",
     "count": 10,
-    "stack_size": 200
+    "stack_size": 200,
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "glamour_charge",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "glamour charge" },
     "description": "Power used to fuel hedge magic.",
     "price": "10 USD",
@@ -165,11 +173,12 @@
     "symbol": "=",
     "ammo_type": "glamour_charge",
     "color": "magenta",
-    "flags": [ "ZERO_WEIGHT" ]
+    "flags": [ "ZERO_WEIGHT" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "xedra_time_charge",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "collected time" },
     "description": "Stored time.",
     "price": "10 USD",
@@ -177,6 +186,7 @@
     "symbol": "=",
     "ammo_type": "xedra_time_charge",
     "color": "light_gray",
-    "flags": [ "ZERO_WEIGHT" ]
+    "flags": [ "ZERO_WEIGHT" ],
+    "subtypes": [ "AMMO" ]
   }
 ]

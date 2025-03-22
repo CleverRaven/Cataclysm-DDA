@@ -9,7 +9,7 @@
   {
     "id": "mana_wheel",
     "category": "veh_parts",
-    "type": "WHEEL",
+    "type": "ITEM",
     "name": "mana wheel",
     "description": "A column of mana energy that enables a floating disk to move.",
     "weight": "500 g",
@@ -21,7 +21,8 @@
     "color": "light_gray",
     "diameter": 20,
     "width": 10,
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "WHEEL" ]
   },
   {
     "id": "magic_motorcycle",
@@ -98,7 +99,7 @@
   },
   {
     "id": "mana",
-    "type": "AMMO",
+    "type": "ITEM",
     "category": "chems",
     "name": { "str_sp": "mana core power" },
     "description": { "str": "Seeing this is a bug.", "//~": "NO_I18N" },
@@ -111,6 +112,7 @@
     "color": "magenta",
     "count": 1,
     "ammo_type": "mana",
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "AMMO" ]
   }
 ]

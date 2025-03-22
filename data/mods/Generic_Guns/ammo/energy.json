@@ -1,9 +1,10 @@
 [
   {
     "id": "gg_plasma_cell",
-    "type": "AMMO",
+    "type": "ITEM",
     "copy-from": "caotel_cell",
     "name": { "str": "plasma cell" },
-    "description": "A small energy cell used to power plasma weapons."
+    "description": "A small energy cell used to power plasma weapons.",
+    "subtypes": [ "AMMO" ]
   }
 ]

@@ -2,7 +2,7 @@
   {
     "id": "pressurized_tank_chem",
     "looks_like": "pressurized_tank",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "2 L pressurized chemical tank" },
     "description": "A makeshift pressurized 2 L canister designed to feed a makeshift chemical thrower.",
     "weight": "800 g",
@@ -14,6 +14,7 @@
     "color": "light_gray",
     "ammo_type": [ "chemical_spray" ],
     "reload_time": 3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "chemical_spray": 800 }, "watertight": true } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "chemical_spray": 800 }, "watertight": true } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

@@ -6,17 +6,19 @@
   },
   {
     "id": "holy_symbol",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "holy_symbol",
     "name": { "str": "holy symbol" },
-    "extend": { "flags": [ "ANTI_EVIL_EYE_GEAR" ] }
+    "extend": { "flags": [ "ANTI_EVIL_EYE_GEAR" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "holy_symbol_wood",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "holy_symbol_wood",
     "name": { "str": "handmade holy symbol" },
-    "extend": { "flags": [ "ANTI_EVIL_EYE_GEAR" ] }
+    "extend": { "flags": [ "ANTI_EVIL_EYE_GEAR" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "type": "effect_on_condition",
@@ -34,14 +36,15 @@
   },
   {
     "id": "salt",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "copy-from": "salt",
     "name": { "str_sp": "salt" },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Throw some salt over your shoulder.",
       "effect_on_conditions": [ "EOC_PERK_ABSIT_INVIDIA_SALT" ]
-    }
+    },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",

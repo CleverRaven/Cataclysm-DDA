@@ -1,7 +1,7 @@
 [
   {
     "id": "brazier",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "brazier" },
     "description": "A large metal stand used to contain a fire.  Fires set in a brazier will not spread to surrounding flammable objects.",
     "weight": "4459 g",
@@ -17,11 +17,12 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_brazier" },
     "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "melee_damage": { "bash": 7 },
-    "//2": "Based on https://www.amazon.com/dp/B0BQ6JNS2H"
+    "//2": "Based on https://www.amazon.com/dp/B0BQ6JNS2H",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "makeshift_brazier",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "makeshift brazier" },
     "description": "A portable brazier fashioned from a steel bucket by punching small holes on the sides to improve the air supply.  It is too small to fit any fuel item larger than some splintered wood.  Fires set in this bucket will not spread to surrounding flammable objects.",
     "copy-from": "bucket",
@@ -36,11 +37,12 @@
       }
     ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_makeshift_brazier" },
-    "qualities": [ [ "COOK", 1 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "hobo_stove",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "hobo stove" },
     "description": "A small, improvised wood stove, made from a metal can or similar container of the right size.  It's too small to fit anything much larger than splintered wood.  Activate it to deploy.",
     "copy-from": "can_medium",
@@ -57,11 +59,12 @@
         "max_contains_weight": "1 kg"
       }
     ],
-    "use_action": { "type": "deploy_furn", "furn_type": "f_hobo_stove" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_hobo_stove" },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "portable_stove",
-    "type": "TOOL",
+    "type": "ITEM",
     "symbol": "_",
     "color": "light_gray",
     "container": "nylon_bag",
@@ -69,11 +72,12 @@
     "description": "A foldable wood stove to safely lit fires while camping in the wilderness.  Activate it to deploy.",
     "weight": "2670 g",
     "volume": "3 L",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_portable_stove" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_portable_stove" },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "55gal_firebarrel",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "fire barrel (200 L)", "str_pl": "fire barrels (200 L)" },
     "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
     "weight": "20 kg",
@@ -88,11 +92,12 @@
     "symbol": "0",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_55gal_firebarrel" },
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "30gal_firebarrel",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "fire barrel (100 L)", "str_pl": "fire barrels (100 L)" },
     "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
     "weight": "15 kg",
@@ -107,11 +112,12 @@
     "symbol": "0",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_30gal_firebarrel" },
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "camp_chair",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "camp chair" },
     "description": "A folded chair for camping.  Activate it to set it down for a place to sit.",
     "weight": "2200 g",
@@ -127,11 +133,12 @@
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_camp_chair" },
     "flags": [ "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "deck_chair",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "deck chair" },
     "description": "Folded deck chair, deploy to sit down.",
     "weight": "6 kg",
@@ -145,11 +152,12 @@
     "color": "brown",
     "use_action": { "type": "deploy_furn", "furn_type": "f_deckchair" },
     "flags": [ "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "chair_folding",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "folding chair" },
     "description": "Folded plastic chair on a metal frame, deploy to sit down.",
     "weight": "2900 g",
@@ -163,11 +171,12 @@
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_chair_folding" },
     "flags": [ "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "xedra_antenna",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "deployable antenna" },
     "description": "A directional antenna and accompanying tripod, folded into a shape vaguely resembling an umbrella.",
     "weight": "3200 g",
@@ -181,11 +190,12 @@
     "symbol": "i",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_xedra_antenna" },
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "cot",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "cot" },
     "description": "A military-style folding cot.  While it may not be quite as comfortable as a bed, it's better than slumming it on the ground.",
     "weight": "7500 g",
@@ -206,11 +216,12 @@
       "done_message": "You unfold the cot and place it on the ground."
     },
     "flags": [ "SINGLE_USE" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "metal_butcher_rack",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "metal butchering rack" },
     "description": "A metal butchering rack designed to hang a carcass in the air.  It is folded for easy transportation.",
     "weight": "5 kg",
@@ -223,11 +234,12 @@
     "symbol": "=",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_metal_butcher_rack" },
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "metal_smoking_rack",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "metal smoking rack" },
     "description": "A metal rack designed to smoke food for better preservation and taste.  It is folded for easy transportation.",
     "weight": "5 kg",
@@ -240,11 +252,12 @@
     "symbol": "=",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_metal_smoking_rack" },
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "tourist_table",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "folding table" },
     "description": "A metal folding table for off-road trips.  It is currently folded for easy transportation.",
     "weight": "4500 g",
@@ -258,11 +271,12 @@
     "symbol": "=",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_tourist_table" },
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "leather_tarp",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "leather tarp" },
     "description": "A large sheet of leather.  You could use it as a picnic blanket, but it's more valuable as a surface for butchering as it does not soak up blood.  It's rolled and ready for carrying.",
     "weight": "2 kg",
@@ -273,11 +287,12 @@
     "qualities": [ [ "SURFACE", 3 ] ],
     "symbol": "*",
     "color": "brown",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_leather_tarp" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_leather_tarp" },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "fiber_mat",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "fiber mat" },
     "description": "A large mat woven from fibrous material.  You could use it as a picnic blanket, but it's more valuable as a surface for butchering.  Too thin to be used as a comfortable sleeping mat.  It's rolled and ready for carrying.",
     "weight": "1 kg",
@@ -288,11 +303,12 @@
     "qualities": [ [ "SURFACE", 3 ] ],
     "symbol": "*",
     "color": "yellow",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_fiber_mat" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_fiber_mat" },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "churn",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "folded butter churn" },
     "description": "A large wooden container used to turn raw milk into butter and buttermilk.  This model uses a foot crank and holds three gallons of raw milk.",
     "weight": "6464 g",
@@ -305,11 +321,12 @@
     "symbol": "u",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_butter_churn" },
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "water_mill",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "water mill" },
     "description": "A small water-powered mill that can convert starchy products into flour.  Needs to be placed via the construction menu.",
     "weight": "120 kg",
@@ -319,11 +336,12 @@
     "price_postapoc": "15 USD",
     "material": [ "wood" ],
     "symbol": "*",
-    "color": "red"
+    "color": "red",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "wind_mill",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "wind mill" },
     "description": "A small wind-powered mill that can convert starchy products into flour.  Needs to be placed via the construction menu.",
     "weight": "120 kg",
@@ -333,11 +351,12 @@
     "price_postapoc": "15 USD",
     "material": [ "steel" ],
     "symbol": "T",
-    "color": "red"
+    "color": "red",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "screw_press_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "screw press", "str_pl": "screw presses" },
     "description": "A large screw press for manually pressing oil out of fruit or seed paste.  Needs to be placed via the construction menu.",
     "weight": "70 kg",
@@ -347,11 +366,12 @@
     "price_postapoc": "15 USD",
     "material": [ "wood" ],
     "symbol": "T",
-    "color": "red"
+    "color": "red",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "beverly_shear",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "Beverly shear" },
     "description": "A massive bench-mounted device with a short guillotine blade mounted to a long lever.  Designed for making straight or curved cuts through sheet metal up to 3 millimeters thick.",
     "//": "Based on the Beverly B-2 Throatless Shear, 10 gauge capacity - as was furniture - values based on real world Beverly B-2 Throatless Shear",
@@ -365,11 +385,12 @@
     "symbol": "7",
     "color": "yellow_red",
     "use_action": { "type": "deploy_furn", "furn_type": "f_beverly_shear" },
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "manual_tire_changer",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "manual tire changer" },
     "description": "A floor-mounted machine containing all the levers, clamps, and mounts required to remove or fit a tire, plus an integrated foot pump to inflate it.",
     "//": "Based on the Redline TC500M Manual Tire Changer",
@@ -381,6 +402,7 @@
     "material": [ "steel" ],
     "symbol": "7",
     "color": "yellow_red",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_manual_tire_changer" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_manual_tire_changer" },
+    "subtypes": [ "TOOL" ]
   }
 ]

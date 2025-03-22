@@ -3,18 +3,19 @@
     "id": "belt50",
     "looks_like": "stanag30",
     "copy-from": "magazine_belt",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": ".50 BMG ammo belt" },
     "ammo_type": [ "50" ],
     "capacity": 100,
     "linkage": "ammolink50",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "50": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "50": 100 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "m107a1mag",
     "//": "Audited with ImageJ.  Weight from previous PR.",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": ".50 semi-automatic rifle 10-round magazine" },
     "description": "A stout, 10-round box magazine for semi-automatic anti-materiel rifles.",
     "variant_type": "gun",
@@ -37,13 +38,14 @@
     "ammo_type": [ "50" ],
     "reload_time": 130,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50": 10 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "as50mag",
     "//": "Audited with ImageJ.  Weight compared with M107A1.",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": ".50 precision rifle 5-round magazine" },
     "description": "A 5-round box magazine for .50-caliber precision rifles.",
     "variant_type": "gun",
@@ -65,13 +67,14 @@
     "ammo_type": [ "50" ],
     "reload_time": 110,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50": 5 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "tac50mag",
     "//": "No audit, just copied AS-50 magazine.",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": ".50 bolt-action rifle 5-round magazine" },
     "description": "A 5-round box magazine for .50-caliber bolt-action anti-materiel rifles.",
     "variant_type": "gun",
@@ -93,6 +96,7 @@
     "ammo_type": [ "50" ],
     "reload_time": 200,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50": 5 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

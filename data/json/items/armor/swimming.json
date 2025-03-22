@@ -1,7 +1,7 @@
 [
   {
     "id": "bikini_bottom",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "bikini bottoms", "str_pl": "pairs of bikini bottoms" },
     "description": "Simple bikini bottoms.",
     "variant_type": "generic",
@@ -110,11 +110,12 @@
     "color": "light_red",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "bikini_bottom_short",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "short bikini bottoms", "str_pl": "pairs of short bikini bottoms" },
     "description": "A very short pair of bikini bottoms, commonly called a thong.",
     "weight": "15 g",
@@ -127,11 +128,12 @@
     "color": "red",
     "material_thickness": 0.01,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "armor": [ { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "bikini_top",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "bikini top" },
     "description": "A simple bikini top.",
     "variant_type": "generic",
@@ -235,11 +237,12 @@
     "color": "light_red",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "bikini_top_short",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "short bikini top" },
     "description": "A very short bikini top.  It doesn't cover much, but was in fashion before the world ended.",
     "weight": "15 g",
@@ -252,12 +255,13 @@
     "color": "red",
     "material_thickness": 0.01,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "flag_swimsuit",
     "//": "the flag_swimsuit was first, so that's why this ID is used for all swimsuits",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "swimsuit" },
     "description": "A simple swimsuit.",
     "weight": "136 g",
@@ -365,11 +369,12 @@
         "weight": 4,
         "append": true
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "rashguard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "rashguard shirt" },
     "description": "A long-sleeved rashguard shirt.  Commonly used to protect against rashes from abrasion or sun exposure.",
     "weight": "250 g",
@@ -493,11 +498,12 @@
         "description": "It has a jet-black color with dark red decorations.  Looks creepy.",
         "append": true
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "speedo",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "speedo" },
     "description": "A pair of very short black swim briefs.  Commonly used by male competitive swimmers and bodybuilders.",
     "weight": "45 g",
@@ -510,11 +516,12 @@
     "looks_like": "briefs",
     "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 50, "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ],
     "material_thickness": 0.1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "swim_briefs",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "swim briefs", "str_pl": "pairs of swim briefs" },
     "description": "A pair of blue swim briefs.  Commonly used by male competitive swimmers.",
     "weight": "75 g",
@@ -528,11 +535,12 @@
     "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ],
     "warmth": 5,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "swim_cap",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "swim cap" },
     "description": "A tightly fitted, skin-tight head garment made of Lycra.  Commonly used by recreational and competitive swimmers.",
     "weight": "50 g",
@@ -554,11 +562,12 @@
         "covers": [ "head" ],
         "specifically_covers": [ "head_forehead", "head_crown", "head_ear_r", "head_ear_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "trunks",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of swimming trunks", "str_pl": "pairs of swimming trunks" },
     "description": "A pair of swimming trunks, with netting.",
     "weight": "210 g",
@@ -574,11 +583,12 @@
     "armor": [
       { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
       { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_booties",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of diving socks", "str_pl": "pairs of diving socks" },
     "description": "A pair of 3 mm split-toe neoprene diving socks with thin rubber soles.",
     "weight": "130 g",
@@ -622,27 +632,30 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_booties",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_booties",
     "name": { "str": "pair of diving socks", "str_pl": "pairs of diving socks" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_booties",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_booties",
     "name": { "str": "pair of diving socks", "str_pl": "pairs of diving socks" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_booties_thick",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_booties",
     "name": { "str": "pair of thick diving boots", "str_pl": "pairs of thick diving boots" },
     "description": "A pair of 5 mm thick neoprene diving boots with thick soles.",
@@ -694,27 +707,30 @@
         "description": "mounting for a pair of fins.",
         "flag_restriction": [ "BOOT_FINS" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_booties_thick",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_booties_thick",
     "name": { "str": "pair of thick diving boots", "str_pl": "pairs of thick diving boots" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_booties_thick",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_booties_thick",
     "name": { "str": "pair of thick diving boots", "str_pl": "pairs of thick diving boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "swim_fins",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of swim fins", "str_pl": "pairs of swim fins" },
     "description": "A pair of rubber flippers worn on the feet, which improve swimming speed while greatly impeding the wearer's ability to walk.",
     "weight": "680 g",
@@ -755,11 +771,12 @@
         "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
         "coverage": 100
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "wetsuit" },
     "description": "A full-body 3 mm thick neoprene wetsuit with nylon lining.",
     "weight": "825 g",
@@ -803,27 +820,30 @@
     ],
     "warmth": 30,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit",
     "name": { "str": "wetsuit" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit",
     "name": { "str": "wetsuit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_thick",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "thick wetsuit" },
     "description": "A full-body 5 mm thick neoprene wetsuit with nylon lining.",
     "weight": "2200 g",
@@ -868,27 +888,30 @@
     ],
     "warmth": 50,
     "environmental_protection": 12,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT", "NORMAL" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT", "NORMAL" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_thick",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_thick",
     "name": { "str": "thick wetsuit" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_thick",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_thick",
     "name": { "str": "thick wetsuit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "wetsuit hood" },
     "description": "A 3 mm neoprene hood, commonly worn by divers.",
     "weight": "160 g",
@@ -912,27 +935,30 @@
         "coverage": 100,
         "covers": [ "head" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_hood",
     "name": { "str": "wetsuit hood" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_hood",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_hood",
     "name": { "str": "wetsuit hood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_hood_thick",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_hood",
     "name": { "str": "thick wetsuit hood" },
     "description": "A 5 mm thick neoprene hood, commonly worn by divers in cold weather.",
@@ -950,27 +976,30 @@
         "coverage": 100,
         "covers": [ "head" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_hood_thick",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_hood_thick",
     "name": { "str": "thick wetsuit hood" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_hood_thick",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_hood_thick",
     "name": { "str": "thick wetsuit hood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_jacket",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "wetsuit jacket" },
     "description": "A long-sleeved neoprene jacket.  Keeps you warm and protected from the elements.",
     "weight": "520 g",
@@ -1003,27 +1032,30 @@
     ],
     "warmth": 20,
     "environmental_protection": 8,
-    "flags": [ "VARSIZE", "WATERPROOF", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "WATER_FRIENDLY" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_jacket",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_jacket",
     "name": { "str": "wetsuit jacket" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_jacket",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_jacket",
     "name": { "str": "wetsuit jacket" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_top",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "wetsuit shirt" },
     "description": "A short-sleeved neoprene shirt.  Good for use on the beach.",
     "weight": "272 g",
@@ -1066,27 +1098,30 @@
     ],
     "warmth": 15,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_top",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_top",
     "name": { "str": "wetsuit shirt" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_top",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_top",
     "name": { "str": "wetsuit shirt" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_top_sleeved_thin",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "thin wetsuit long-sleeved shirt" },
     "copy-from": "wetsuit_top_sleeved",
     "description": "A thin long-sleeved neoprene shirt.  Good for surfing and other water sports.",
@@ -1114,27 +1149,30 @@
     ],
     "warmth": 15,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_top_sleeved_thin",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_top_sleeved_thin",
     "name": { "str": "thin wetsuit long-sleeved shirt" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_top_sleeved_thin",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_top_sleeved_thin",
     "name": { "str": "thin wetsuit long-sleeved shirt" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_top_sleeved",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "wetsuit long-sleeved shirt" },
     "description": "A long-sleeved neoprene shirt.  Good for surfing and other water sports.",
     "weight": "500 g",
@@ -1167,27 +1205,30 @@
     ],
     "warmth": 20,
     "environmental_protection": 8,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_top_sleeved",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_top_sleeved",
     "name": { "str": "wetsuit long-sleeved shirt" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_top_sleeved",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_top_sleeved",
     "name": { "str": "wetsuit long-sleeved shirt" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_pants_thin",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str_sp": "thin wetsuit pants" },
     "copy-from": "wetsuit_pants",
     "description": "A pair of light and stretchy thin neoprene pants.  Good for surfing and other water sports.",
@@ -1206,27 +1247,30 @@
     ],
     "warmth": 15,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_pants_thin",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_pants_thin",
     "name": { "str_sp": "thin wetsuit pants" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_pants_thin",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_pants_thin",
     "name": { "str_sp": "thin wetsuit pants" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_pants",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str_sp": "wetsuit pants" },
     "description": "A pair of light and stretchy neoprene pants.  Good for surfing and other water sports.",
     "weight": "450 g",
@@ -1250,27 +1294,30 @@
     ],
     "warmth": 20,
     "environmental_protection": 8,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_pants",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_pants",
     "name": { "str_sp": "wetsuit pants" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_pants",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_pants",
     "name": { "str_sp": "wetsuit pants" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_shorts",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str_sp": "wetsuit shorts" },
     "description": "A pair of light and stretchy neoprene shorts.  Good for use on the beach.",
     "weight": "220 g",
@@ -1304,27 +1351,30 @@
     ],
     "warmth": 8,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_shorts",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_shorts",
     "name": { "str_sp": "wetsuit shorts" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_shorts",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_shorts",
     "name": { "str_sp": "wetsuit shorts" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_shorts_technical",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str_sp": "wetsuit technical shorts" },
     "description": "A pair of stretchy neoprene shorts with large pockets.  Can be worn alone or adjusted to be worn over a wetsuit.",
     "//": "Based on these: https://fourthelement.com/product/technical-shorts/",
@@ -1448,11 +1498,12 @@
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "wetsuit_shorts_technical_loose", "menu_text": "Loosen" },
     "warmth": 11,
     "environmental_protection": 8,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_shorts_technical",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_shorts_technical",
     "name": { "str_sp": "wetsuit technical shorts" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
@@ -1462,11 +1513,12 @@
       "target": "xl_wetsuit_shorts_technical_loose",
       "menu_text": "Loosen"
     },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_shorts_technical",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_shorts_technical",
     "name": { "str_sp": "wetsuit technical shorts" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
@@ -1476,36 +1528,40 @@
       "target": "xs_wetsuit_shorts_technical_loose",
       "menu_text": "Loosen"
     },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_shorts_technical_loose",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str_sp": "wetsuit technical shorts (loose)" },
     "description": "A pair of stretchy neoprene shorts with large pockets.  Can be worn over a wetsuit or adjusted to be worn alone.",
     "copy-from": "wetsuit_shorts_technical",
     "use_action": { "type": "transform", "msg": "You tighten your %s.", "target": "wetsuit_shorts_technical", "menu_text": "Tighten" },
-    "delete": { "flags": [ "SKINTIGHT" ] }
+    "delete": { "flags": [ "SKINTIGHT" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_shorts_technical_loose",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "xl_wetsuit_shorts_technical",
     "name": { "str_sp": "wetsuit technical shorts (loose)" },
     "use_action": { "type": "transform", "msg": "You tighten your %s.", "target": "xl_wetsuit_shorts_technical", "menu_text": "Tighten" },
-    "delete": { "flags": [ "SKINTIGHT" ] }
+    "delete": { "flags": [ "SKINTIGHT" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_shorts_technical_loose",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "xs_wetsuit_shorts_technical",
     "name": { "str_sp": "wetsuit technical shorts (loose)" },
     "use_action": { "type": "transform", "msg": "You tighten your %s.", "target": "xs_wetsuit_shorts_technical", "menu_text": "Tighten" },
-    "delete": { "flags": [ "SKINTIGHT" ] }
+    "delete": { "flags": [ "SKINTIGHT" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_spring",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "spring suit" },
     "description": "A long-sleeved spring wetsuit with pink color details and cleavage-enhancing, hip-accentuating construction.  Not as protective as a full-body suit, but also less restrictive.",
     "weight": "550 g",
@@ -1569,27 +1625,30 @@
     ],
     "warmth": 10,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT", "POCKETS" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT", "POCKETS" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_spring",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_spring",
     "name": { "str": "spring suit" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_spring",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_spring",
     "name": { "str": "spring suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_spring_sleeveless",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "sleeveless spring suit" },
     "description": "A sleeveless spring wetsuit with an ocean blue color and cleavage-enhancing, hip-accentuating construction.  Not as protective as a full-body suit, but also less restrictive.",
     "weight": "300 g",
@@ -1623,27 +1682,30 @@
     ],
     "warmth": 8,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_spring_sleeveless",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_spring_sleeveless",
     "name": { "str": "sleeveless spring suit" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_spring_sleeveless",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_spring_sleeveless",
     "name": { "str": "sleeveless spring suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "shark_suit_faraday",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "faraday sharksuit" },
     "description": "A one-piece chainmail suit used by SCUBA divers for protection against shark bites.  It has been conductively interconnected, protecting against electricity.",
     "//": "Will be based on this: https://www.hammacher.com/product/chainmail-sharkproof-suit",
@@ -1671,27 +1733,30 @@
         "encumbrance": 25,
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_shark_suit_faraday",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "shark_suit_faraday",
     "name": { "str": "faraday sharksuit" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_shark_suit_faraday",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "shark_suit_faraday",
     "name": { "str": "faraday sharksuit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "shark_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "sharksuit" },
     "description": "A-one piece chainmail suit used by SCUBA divers for protection against shark bites.",
     "//": "Will be based on this: https://www.hammacher.com/product/chainmail-sharkproof-suit, helmet will be a separate piece",
@@ -1719,27 +1784,30 @@
         "encumbrance": 25,
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_shark_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "shark_suit_faraday",
     "name": { "str": "sharksuit" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_shark_suit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "shark_suit",
     "name": { "str": "sharksuit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "goggles_swim",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of swim goggles", "str_pl": "pairs of swim goggles" },
     "description": "A small pair of goggles made for swimming.",
     "weight": "81 g",
@@ -1764,11 +1832,12 @@
         "encumbrance": 10,
         "rigid_layer_only": true
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_gloves",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pair of diving gloves", "str_pl": "pairs of diving gloves" },
     "description": "A pair of flexible neoprene-silicone rubber gloves, suitable for underwater use.",
     "weight": "80 g",
@@ -1792,27 +1861,30 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_gloves",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_gloves",
     "name": { "str": "pair of diving gloves", "str_pl": "pairs of diving gloves" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_gloves",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_gloves",
     "name": { "str": "pair of diving gloves", "str_pl": "pairs of diving gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wetsuit_gloves_thick",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_gloves",
     "name": { "str": "pair of thick diving gloves", "str_pl": "pairs of thick diving gloves" },
     "description": "A pair of thick neoprene-silicone rubber gloves, suitable for underwater use.",
@@ -1830,27 +1902,30 @@
         "coverage": 100,
         "encumbrance": 16
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wetsuit_gloves_thick",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_gloves_thick",
     "name": { "str": "pair of thick diving gloves", "str_pl": "pairs of thick diving gloves" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wetsuit_gloves_thick",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "wetsuit_gloves_thick",
     "name": { "str": "pair of thick diving gloves", "str_pl": "pairs of thick diving gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "divemask_full_scuba_notready",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "full-face diving mask" },
     "description": "A full-face diving mask that covers the face and eyes.  Can be equipped with any common scuba regulator to protect from drowning and other dangers, though the process needs some time and knowledge.",
     "//": "Based on OTS Spectrum mask",
@@ -1888,11 +1963,12 @@
         "specifically_covers": [ "mouth_cheeks", "mouth_chin", "mouth_nose" ],
         "rigid_layer_only": true
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "divemask_full_modular",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "modular full-face diving mask" },
     "description": "A high-end modular full-face diving mask that covers the face and eyes.  Can be equipped with proprietary adapters for scuba tanks or rebreather cartridges to protect from drowning and other dangers.",
     "//": "Based on Kirby Morgan M-48 MOD-1 mask",
@@ -1938,6 +2014,7 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   }
 ]

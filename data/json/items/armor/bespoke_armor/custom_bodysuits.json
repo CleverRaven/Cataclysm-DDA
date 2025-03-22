@@ -1,7 +1,7 @@
 [
   {
     "id": "armor_nomad",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "nomad jumpsuit" },
     "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Rather than advanced polymer fabrics which may not be available in many worlds, it is made of breathable twill fabric with leather reinforcements ensuring it can be produced easily regardless of technology level.  Its clever construction adds additional core support, helping you to carry more equipment.",
     "weight": "3600 g",
@@ -27,12 +27,13 @@
     "environmental_protection": 2,
     "warmth": 10,
     "material_thickness": 2,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "MUNDANE" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "MUNDANE" ],
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ],
+    "subtypes": [ "ARTIFACT", "ARMOR" ]
   },
   {
     "id": "armor_nomad_advanced",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "name": { "str": "advanced nomad jumpsuit" },
     "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Rather than advanced polymer fabrics which may not be available in many worlds, it is made of breathable twill fabric with leather reinforcements ensuring it can be produced easily regardless of technology level.  Its clever construction adds additional core support, helping you to carry more equipment.  A set of cooling tubes run throughout the clothing as well.",
     "weight": "4000 g",
@@ -43,7 +44,6 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "light_red",
-    "ammo": "battery",
     "armor": [
       {
         "material": [
@@ -86,15 +86,15 @@
     },
     "warmth": 10,
     "material_thickness": 4,
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
-    },
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "MUNDANE" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "MUNDANE" ],
+    "tool_ammo": "battery",
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ],
+    "subtypes": [ "ARTIFACT", "TOOL", "ARMOR" ]
   },
   {
     "id": "armor_nomad_advanced_on",
     "copy-from": "armor_nomad_advanced",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "name": { "str": "advanced nomad jumpsuit (on)", "str_pl": "advanced nomad jumpsuits (on)" },
     "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Rather than advanced polymer fabrics which may not be available in many worlds, it is made of breathable twill fabric with leather reinforcements ensuring it can be produced easily regardless of technology level.  Its clever construction adds additional core support, helping you to carry more equipment.  The internal cooling tubes are active and humming.",
     "revert_to": "armor_nomad_advanced",
@@ -106,11 +106,12 @@
       "menu_text": "Turn off",
       "msg": "The %s pipes stop humming.",
       "target": "armor_nomad_advanced"
-    }
+    },
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "armor_nomad_light",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "light nomad jumpsuit" },
     "description": "A light, airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Rather than advanced polymer fabrics which may not be available in many worlds, it is made of breathable twill fabric with leather reinforcements ensuring it can be produced easily regardless of technology level.  Its clever construction adds additional core support, helping you to carry more equipment.",
     "copy-from": "armor_nomad",
@@ -133,11 +134,12 @@
     "environmental_protection": 1,
     "proportional": { "weight": 0.6, "volume": 0.75, "warmth": 0.75 },
     "use_action": [  ],
-    "material_thickness": 0.5
+    "material_thickness": 0.5,
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "lsurvivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "light Kevlar jumpsuit" },
     "description": "A lightweight, hand-built combination armor made of Kevlar with a moisture-wicking core and additional padding in many places.  Protects from the elements as well as from harm.",
@@ -184,27 +186,30 @@
     "warmth": 15,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_lsurvivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "light Kevlar jumpsuit" },
     "copy-from": "lsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_lsurvivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "light Kevlar jumpsuit" },
     "copy-from": "lsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "survivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "Kevlar jumpsuit" },
     "description": "A hand-built combination armor made of thick Kevlar with a moisture-wicking core and substantial padding in many places.  Protects from the elements as well as from harm.",
@@ -253,27 +258,30 @@
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xlsurvivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "Kevlar jumpsuit" },
     "copy-from": "survivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xssurvivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "Kevlar jumpsuit" },
     "copy-from": "survivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "hsurvivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "steel-plated Kevlar jumpsuit" },
     "description": "A hand-built combination armor made of thick Kevlar with a moisture-wicking core and thin steel plating in many places.  Protects from the elements as well as from harm.",
@@ -307,27 +315,30 @@
     "warmth": 25,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "NORMAL", "BLOCK_WHILE_WORN" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_hsurvivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "steel-plated Kevlar jumpsuit" },
     "copy-from": "hsurvivor_jumpsuit",
     "proportional": { "weight": 1.13, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_hsurvivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "steel-plated Kevlar jumpsuit" },
     "copy-from": "hsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wsurvivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "fur Kevlar jumpsuit" },
     "description": "A warm and heavy hand-built combination armor made from a moisture-wicking core padded with layers of Kevlar and fur.  Protects from the elements as well as from harm.",
@@ -360,27 +371,30 @@
     "warmth": 75,
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wsurvivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "fur Kevlar jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wsurvivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "fur Kevlar jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "wsurvivor_jumpsuit_nofur",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "faux fur Kevlar jumpsuit" },
     "description": "A warm and heavy hand-built combination armor made from a moisture-wicking core padded with layers of Kevlar and faux fur.  Protects from the elements as well as from harm.",
     "copy-from": "wsurvivor_jumpsuit",
@@ -398,27 +412,30 @@
         "encumbrance": [ 19, 19 ]
       }
     ],
-    "warmth": 65
+    "warmth": 65,
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_wsurvivor_jumpsuit_nofur",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "faux fur Kevlar jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit_nofur",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_wsurvivor_jumpsuit_nofur",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "faux fur Kevlar jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit_nofur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "h20survivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "Kevlar wetsuit" },
     "description": "A hand-built combination armor made from a wetsuit padded with layers of Kevlar.  Protects from the elements as well as from harm.",
@@ -484,27 +501,30 @@
     "warmth": 41,
     "environmental_protection": 12,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "STURDY", "SKINTIGHT", "NORMAL" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_h20survivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "Kevlar wetsuit" },
     "copy-from": "h20survivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_h20survivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "Kevlar wetsuit" },
     "copy-from": "h20survivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "h20survivor_jumpsuit_light",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "light Kevlar wetsuit oversuit" },
     "description": "A hand-built light combination armor made from an expanded and lightened wetsuit padded with layers of Kevlar.  Protects from the elements as well as from harm.",
@@ -570,27 +590,30 @@
     "warmth": 30,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "STURDY" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_h20survivor_jumpsuit_light",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "light Kevlar wetsuit oversuit" },
     "copy-from": "h20survivor_jumpsuit_light",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_h20survivor_jumpsuit_light",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "light Kevlar wetsuit oversuit" },
     "copy-from": "h20survivor_jumpsuit_light",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "thick_h20survivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "thick Kevlar wetsuit" },
     "description": "A hand-built combination armor made from a thick wetsuit padded with layers of Kevlar.  While uncomfortably warm and hard to move in it provides substantial protection from harm and from the elements.",
@@ -656,27 +679,30 @@
     "warmth": 70,
     "environmental_protection": 14,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "STURDY", "SKINTIGHT", "NORMAL" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_thick_h20survivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "thick Kevlar wetsuit" },
     "copy-from": "thick_h20survivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_thick_h20survivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "thick Kevlar wetsuit" },
     "copy-from": "thick_h20survivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "fsurvivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "Kevlar firesuit" },
     "description": "A heavy, hand-built combination armor made from flame-resistant Nomex padded with layers of Kevlar.  Protects from fire as well as from harm.",
@@ -708,22 +734,25 @@
     "warmth": 15,
     "environmental_protection": 4,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_fsurvivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "Kevlar firesuit" },
     "copy-from": "fsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_fsurvivor_jumpsuit",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "Kevlar firesuit" },
     "copy-from": "fsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   }
 ]

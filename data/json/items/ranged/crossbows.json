@@ -1,6 +1,6 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "bolt_crude",
     "name": { "str": "crude wooden bolt" },
     "symbol": "=",
@@ -11,10 +11,11 @@
     "price": "0 cent",
     "price_postapoc": "20 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.75 },
-    "recovery_chance": 50
+    "recovery_chance": 50,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "bolt_simple_wood",
     "name": { "str": "simple wooden bolt" },
     "symbol": "=",
@@ -26,10 +27,11 @@
     "price": "5 USD",
     "price_postapoc": "25 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.75 },
-    "recovery_chance": 83
+    "recovery_chance": 83,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "bolt_simple_small_game",
     "name": { "str": "simple wooden small game bolt" },
     "symbol": "=",
@@ -42,10 +44,11 @@
     "price_postapoc": "25 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
     "recovery_chance": 90,
-    "effects": [ "NOGIB" ]
+    "effects": [ "NOGIB" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "bolt_makeshift",
     "name": { "str": "makeshift wooden bolt" },
     "symbol": "=",
@@ -58,10 +61,11 @@
     "price_postapoc": "30 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.25 },
     "show_stats": true,
-    "recovery_chance": 87
+    "recovery_chance": 87,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "bolt_wood",
     "name": { "str": "wooden broadhead bolt" },
     "symbol": "=",
@@ -70,10 +74,11 @@
     "copy-from": "bolt_wood_bodkin",
     "relative": { "dispersion": 10 },
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.5, "armor_penetration": 1 },
-    "recovery_chance": 96
+    "recovery_chance": 96,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "bolt_wood_bodkin",
     "name": { "str": "wooden bodkin bolt" },
     "symbol": "=",
@@ -92,10 +97,11 @@
     "loudness": 0,
     "critical_multiplier": 10,
     "recovery_chance": 97,
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "bolt_wood_small_game",
     "name": { "str": "wooden small game bolt" },
     "symbol": "=",
@@ -105,10 +111,11 @@
     "relative": { "dispersion": 30 },
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
     "recovery_chance": 97,
-    "effects": [ "NOGIB" ]
+    "effects": [ "NOGIB" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "bolt_metal",
     "name": { "str": "simple metal bolt" },
     "symbol": "=",
@@ -118,10 +125,11 @@
     "relative": { "dispersion": 80 },
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.25, "armor_penetration": 1 },
     "show_stats": true,
-    "recovery_chance": 95
+    "recovery_chance": 95,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "bolt_steel",
     "name": { "str": "aluminum broadhead bolt" },
     "symbol": "=",
@@ -135,10 +143,11 @@
     "price_postapoc": "50 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.5, "armor_penetration": 2 },
     "range": 2,
-    "recovery_chance": 97
+    "recovery_chance": 97,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "bolt_steel_bodkin",
     "name": { "str": "aluminum field point bolt" },
     "symbol": "=",
@@ -152,10 +161,11 @@
     "price_postapoc": "50 cent",
     "damage": { "damage_type": "stab", "armor_penetration": 4 },
     "range": 2,
-    "recovery_chance": 97
+    "recovery_chance": 97,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "bolt_steel_target",
     "name": { "str": "aluminum small game bolt" },
     "symbol": "=",
@@ -168,10 +178,11 @@
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
     "range": 2,
     "recovery_chance": 98,
-    "effects": [ "NOGIB" ]
+    "effects": [ "NOGIB" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "bolt_cf",
     "name": { "str": "carbon fiber hunting bolt" },
     "symbol": "=",
@@ -185,11 +196,12 @@
     "price_postapoc": "60 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.75 },
     "range": 4,
-    "recovery_chance": 97
+    "recovery_chance": 97,
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "bullet_crossbow",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",
@@ -222,12 +234,13 @@
       [ "underbarrel", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "hand_crossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",
@@ -260,12 +273,13 @@
       [ "dampening", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "crossbow",
     "//": "Tileset whitelist for crossbows",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 5,
     "symbol": "(",
     "color": "green",
@@ -294,12 +308,13 @@
     "reload": 1200,
     "valid_mod_locations": [ [ "dampening", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ], [ "sling", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "compositecrossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "green",
     "name": { "str": "composite crossbow" },
@@ -336,12 +351,13 @@
       [ "dampening", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "compcrossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "green",
     "name": { "str": "compound crossbow" },
@@ -377,12 +393,13 @@
       [ "dampening", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "huge_crossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",
@@ -409,12 +426,13 @@
     "reload": 6000,
     "valid_mod_locations": [ [ "dampening", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rep_crossbow",
     "looks_like": "crossbow",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "symbol": "(",
     "color": "green",
@@ -441,6 +459,7 @@
     "reload": 900,
     "valid_mod_locations": [ [ "dampening", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 10 } } ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "GUN" ]
   }
 ]

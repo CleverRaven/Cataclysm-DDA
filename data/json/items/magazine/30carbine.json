@@ -3,7 +3,7 @@
     "id": "m1carbinebigmag",
     "//": "Audited with ImageJ.",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "M1 carbine 30-round magazine" },
     "description": "A 30-round curved box magazine for the M1 and M2 carbine.",
     "weight": "127 g",
@@ -16,13 +16,14 @@
     "color": "light_gray",
     "ammo_type": [ "30carbine" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "30carbine": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "30carbine": 30 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "m1carbinemag",
     "//": "Audited with ImageJ.",
     "looks_like": "stanag30",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "M1 carbine 15-round magazine" },
     "description": "A 15-round box magazine for the M1 and M2 carbine.",
     "weight": "78 g",
@@ -35,6 +36,7 @@
     "color": "light_gray",
     "ammo_type": [ "30carbine" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "30carbine": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "30carbine": 15 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

@@ -2,50 +2,57 @@
   {
     "id": "cattlefodder",
     "copy-from": "cattlefodder",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "cattle fodder" },
-    "extend": { "petfood": [ "DINOFOOD_C" ] }
+    "extend": { "petfood": [ "DINOFOOD_C" ] },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "dogfood",
     "copy-from": "dogfood",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "wet dog food" },
-    "extend": { "petfood": [ "DINOFOOD_A" ] }
+    "extend": { "petfood": [ "DINOFOOD_A" ] },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "dogfood_dry",
     "copy-from": "dogfood_dry",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "dry dog food" },
-    "extend": { "petfood": [ "DINOFOOD_A" ] }
+    "extend": { "petfood": [ "DINOFOOD_A" ] },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "dogfood_raw",
     "copy-from": "dogfood_raw",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "raw dog food" },
-    "extend": { "petfood": [ "DINOFOOD_A" ] }
+    "extend": { "petfood": [ "DINOFOOD_A" ] },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "catfood",
     "copy-from": "catfood",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "wet cat food" },
-    "extend": { "petfood": [ "DINOFOOD_B" ] }
+    "extend": { "petfood": [ "DINOFOOD_B" ] },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "catfood_dry",
     "copy-from": "catfood_dry",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "dry cat food" },
-    "extend": { "petfood": [ "DINOFOOD_B" ] }
+    "extend": { "petfood": [ "DINOFOOD_B" ] },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "catfood_raw",
     "copy-from": "catfood_raw",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str_sp": "raw cat food" },
-    "extend": { "petfood": [ "DINOFOOD_B" ] }
+    "extend": { "petfood": [ "DINOFOOD_B" ] },
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

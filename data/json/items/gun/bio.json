@@ -2,7 +2,7 @@
   {
     "id": "bio_shotgun_gun",
     "looks_like": "remington_870",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "bionic shotgun" },
     "description": "Bionic one-shot retracting shotgun integrated with your arm.",
     "volume": "103 ml",
@@ -20,11 +20,12 @@
     "reload": 200,
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "BIONIC_WEAPON", "TRADER_AVOID", "ZERO_WEIGHT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "bio_emp_gun",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "EMP Projector" },
     "description": { "str": "this a pseudo item", "//~": "NO_I18N" },
     "weight": "2950 g",
@@ -44,11 +45,12 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "ammo_effects": [ "DRAW_AS_LINE", "WIDE", "EMP" ],
     "flags": [ "NEVER_JAMS", "BIONIC_WEAPON", "NO_UNLOAD", "TRADER_AVOID", "USES_BIONIC_POWER" ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "bio_laser_gun",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "laser finger" },
     "description": { "str": "this a pseudo item", "//~": "NO_I18N" },
     "volume": "3 L",
@@ -65,11 +67,12 @@
     "durability": 10,
     "loudness": 7,
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "BIONIC_WEAPON", "FIRESTARTER", "ZERO_WEIGHT", "USES_BIONIC_POWER" ]
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "BIONIC_WEAPON", "FIRESTARTER", "ZERO_WEIGHT", "USES_BIONIC_POWER" ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "bio_lightning",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Chain Lightning" },
     "description": { "str": "this a pseudo item", "//~": "NO_I18N" },
     "volume": "3 L",
@@ -86,11 +89,12 @@
     "durability": 10,
     "loudness": 10,
     "ammo_effects": [ "LIGHTNING", "BOUNCE" ],
-    "flags": [ "NEVER_JAMS", "BIONIC_WEAPON", "TRADER_AVOID", "ZERO_WEIGHT", "USES_BIONIC_POWER" ]
+    "flags": [ "NEVER_JAMS", "BIONIC_WEAPON", "TRADER_AVOID", "ZERO_WEIGHT", "USES_BIONIC_POWER" ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "mut_quills",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str_sp": "Assault barbs" },
     "description": { "str": "this a pseudo item", "//~": "NO_I18N" },
     "volume": "3 L",
@@ -105,11 +109,12 @@
     "durability": 10,
     "loudness": 5,
     "ammo_effects": [ "SHOT" ],
-    "flags": [ "PSEUDO", "NEVER_JAMS", "TRADER_AVOID" ]
+    "flags": [ "PSEUDO", "NEVER_JAMS", "TRADER_AVOID" ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "mut_longpull",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Ranged pulling implement" },
     "description": { "str": "this a pseudo item", "//~": "NO_I18N" },
     "volume": "100 ml",
@@ -120,6 +125,7 @@
     "skill": "rifle",
     "range": 6,
     "loudness": 5,
-    "flags": [ "PSEUDO", "NEVER_JAMS", "TRADER_AVOID" ]
+    "flags": [ "PSEUDO", "NEVER_JAMS", "TRADER_AVOID" ],
+    "subtypes": [ "GUN" ]
   }
 ]

@@ -3,20 +3,21 @@
     "id": "rip_ticket",
     "name": { "str": "vancian bill" },
     "description": "A small bill covered in odd symbols.  Tearing it will in turn cause a small dimensional tear located within a nearby entity.  Despite only lasting a few milliseconds, an internal tear in reality should be enough to kill anything.  Hopefully.",
-    "type": "TOOL",
+    "type": "ITEM",
     "weight": "1 g",
     "volume": "1 ml",
     "material": [ "paper" ],
     "symbol": "|",
     "color": "brown",
     "flags": [ "NONCONDUCTIVE", "TRADER_AVOID", "INVENTOR_CRAFTED" ],
-    "use_action": { "type": "cast_spell", "spell_id": "rip_ticket", "no_fail": true, "level": 0, "need_wielding": true }
+    "use_action": { "type": "cast_spell", "spell_id": "rip_ticket", "no_fail": true, "level": 0, "need_wielding": true },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "cosmic_dagwood",
     "name": { "str": "cosmic dagwood" },
     "description": "The greatest sandwich that will ever be made, in this universe and the next.  A quadruple stacker with beer-batter fried poultry, caramel chocolate chili, and topped with a specially made sauce of egg, blue cheese, honey mustard, BBQ and extremely concentrated vinegar that oozes down the other layers, before the entire thing is pressed and grilled in a waffle iron and finished with a garnish of gold and silver flakes and a fresh fruit skewered on top.  All the gourmet chefs in existence could not even conceive such a combination which, by all means, should not taste this good - But you did it.  And you don't plan on sharing.",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "spoils_in": "24 hours",
     "symbol": "%",
@@ -41,11 +42,12 @@
       [ "fruit_allergen", 1 ],
       [ "junk_allergen", 1 ]
     ],
-    "consumption_effect_on_conditions": [ "EOC_DAGWOOD" ]
+    "consumption_effect_on_conditions": [ "EOC_DAGWOOD" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "inventor_warp_grenade",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "weapons",
     "looks_like": "grenade",
     "name": { "str": "netherium warp grenade" },
@@ -67,11 +69,12 @@
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "INVENTOR_CRAFTED" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "inventor_warp_grenade_act",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "weapons",
     "name": { "str": "active netherium warp grenade" },
     "description": "This netherium warp grenade is active, and will explode any second now.  Continue holding it to die in the messiest and most violent of ways imaginable",
@@ -87,6 +90,7 @@
     "countdown_action": { "type": "cast_spell", "spell_id": "netherium_warp_grenade_detonation", "no_fail": true, "level": 0 },
     "countdown_interval": "5 seconds",
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "TOOL" ]
   }
 ]

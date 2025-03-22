@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "paint_red",
     "category": "other",
     "price": "1 USD 20 cent",
@@ -16,98 +16,110 @@
     "comestible_type": "INVALID",
     "freezing_point": -4,
     "charges": 15,
-    "conditional_names": [ { "type": "FLAG", "condition": "DIRTY", "name": "paint spill" } ]
+    "conditional_names": [ { "type": "FLAG", "condition": "DIRTY", "name": "paint spill" } ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "paint_blue",
     "name": { "str_sp": "blue paint" },
     "description": "Some blue paint.",
     "copy-from": "paint_red",
-    "color": "blue"
+    "color": "blue",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "paint_white",
     "name": { "str_sp": "white paint" },
     "description": "Some white paint.",
     "copy-from": "paint_red",
-    "color": "white"
+    "color": "white",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "paint_green",
     "name": { "str_sp": "green paint" },
     "description": "Some green paint.",
     "copy-from": "paint_red",
-    "color": "green"
+    "color": "green",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "paint_purple",
     "name": { "str_sp": "purple paint" },
     "description": "Some purple paint.",
     "copy-from": "paint_red",
-    "color": "magenta"
+    "color": "magenta",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "paint_yellow",
     "name": { "str_sp": "yellow paint" },
     "description": "Some yellow paint.",
     "copy-from": "paint_red",
-    "color": "yellow"
+    "color": "yellow",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "paint_black",
     "name": { "str_sp": "black paint" },
     "description": "Some black paint.",
     "copy-from": "paint_red",
-    "color": "black"
+    "color": "black",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "paint_orange",
     "name": { "str_sp": "orange paint" },
     "description": "Some orange paint.",
     "copy-from": "paint_red",
-    "color": "light_red"
+    "color": "light_red",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "paint_pink",
     "name": { "str_sp": "pink paint" },
     "description": "Some pink paint.",
     "copy-from": "paint_red",
-    "color": "pink"
+    "color": "pink",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "paint_gray",
     "name": { "str_sp": "gray paint" },
     "description": "Some gray paint.",
     "copy-from": "paint_red",
-    "color": "light_gray"
+    "color": "light_gray",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "paint_brown",
     "name": { "str_sp": "brown paint" },
     "description": "Some brown paint.",
     "copy-from": "paint_red",
-    "color": "brown"
+    "color": "brown",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "paint_cyan",
     "name": { "str_sp": "cyan paint" },
     "description": "Some cyan paint.",
     "copy-from": "paint_red",
-    "color": "cyan"
+    "color": "cyan",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "r_carpet",
     "category": "other",
     "price": "1 USD 20 cent",
@@ -120,10 +132,11 @@
     "volume": "7500 ml",
     "weight": "6800 g",
     "//": "Assuming roughly 1m^2 at a density of 1.4 lbs/ft^2",
-    "ammo_type": "NULL"
+    "ammo_type": "NULL",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "g_carpet",
     "category": "other",
     "price": "1 USD 20 cent",
@@ -136,10 +149,11 @@
     "volume": "7500 ml",
     "weight": "6800 g",
     "//": "Assuming roughly 1m^2 at a density of 1.4 lbs/ft^2",
-    "ammo_type": "NULL"
+    "ammo_type": "NULL",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "y_carpet",
     "category": "other",
     "price": "1 USD 20 cent",
@@ -152,10 +166,11 @@
     "volume": "7500 ml",
     "weight": "6800 g",
     "//": "Assuming roughly 1m^2 at a density of 1.4 lbs/ft^2",
-    "ammo_type": "NULL"
+    "ammo_type": "NULL",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "p_carpet",
     "category": "other",
     "price": "1 USD 20 cent",
@@ -168,10 +183,11 @@
     "volume": "7500 ml",
     "weight": "6800 g",
     "//": "Assuming roughly 1m^2 at a density of 1.4 lbs/ft^2",
-    "ammo_type": "NULL"
+    "ammo_type": "NULL",
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "peephole",
     "symbol": ".",
     "color": "yellow",
@@ -185,7 +201,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "screen_mesh",
     "symbol": "#",
     "color": "brown",

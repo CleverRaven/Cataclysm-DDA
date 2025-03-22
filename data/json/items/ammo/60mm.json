@@ -1,7 +1,7 @@
 [
   {
     "id": "60mm_shell_m720a1",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str": "high-explosive mortar shell" },
     "description": "High-explosive mortar cartridge, designed to be used against troops, light vehicles, light bunkers or similar targets.",
     "variant_type": "gun",
@@ -25,12 +25,13 @@
     "count": 1,
     "stack_size": 1,
     "ammo_type": "mortar_60mm",
-    "effects": [ "SPECIAL_COOKOFF", "NEVER_MISFIRES", "EXPLOSIVE_60mmHE" ]
+    "effects": [ "SPECIAL_COOKOFF", "NEVER_MISFIRES", "EXPLOSIVE_60mmHE" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "60mm_shell_m768",
     "copy-from": "60mm_shell_m720a1",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str": "high-explosive mortar shell" },
     "description": "High-explosive mortar cartridge, designed to be used against troops, light vehicles, light bunkers or similar targets.  This one is more modern version, both more safe and more powerful.",
     "variant_type": "gun",
@@ -45,6 +46,7 @@
     "//": "358 g of pax-21, which is replacement for comp b - weaker (~1.0 tnt equivalent), but safer, so explosion power should be 358; let's pretend case mass is third of the rest of the weight, so 430 g",
     "price": "600 USD",
     "extend": { "effects": [ "EXPLOSIVE_60mmHE2" ] },
-    "delete": { "effects": [ "EXPLOSIVE_60mmHE" ] }
+    "delete": { "effects": [ "EXPLOSIVE_60mmHE" ] },
+    "subtypes": [ "AMMO" ]
   }
 ]

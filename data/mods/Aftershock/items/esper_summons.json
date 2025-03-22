@@ -1,7 +1,7 @@
 [
   {
     "id": "electrokinetic_electrohack_1",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "name": { "str": "[Ψ]hacking interface" },
     "description": "You can hack nearby devices.",
     "weight": "0 g",
@@ -25,38 +25,43 @@
       "MAGICAL"
     ],
     "max_worn": 1,
-    "qualities": [ [ "HACK", 1 ] ]
+    "qualities": [ [ "HACK", 1 ] ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "electrokinetic_electrohack_2",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "name": { "str": "[Ψ]hacking interface" },
     "description": "You can hack nearby devices.",
     "copy-from": "electrokinetic_electrohack_1",
-    "qualities": [ [ "HACK", 2 ] ]
+    "qualities": [ [ "HACK", 2 ] ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "electrokinetic_electrohack_3",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "name": { "str": "[Ψ]hacking interface" },
     "description": "You can hack nearby devices.",
     "copy-from": "electrokinetic_electrohack_1",
-    "qualities": [ [ "HACK", 3 ] ]
+    "qualities": [ [ "HACK", 3 ] ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "electrokinetic_electrohack_4",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "name": { "str": "[Ψ]hacking interface" },
     "description": "You can hack nearby devices.",
     "copy-from": "electrokinetic_electrohack_1",
-    "qualities": [ [ "HACK", 4 ] ]
+    "qualities": [ [ "HACK", 4 ] ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "electrokinetic_electrohack_5",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "name": { "str": "[Ψ]hacking interface" },
     "description": "You can hack nearby devices.",
     "copy-from": "electrokinetic_electrohack_1",
-    "qualities": [ [ "HACK", 5 ] ]
+    "qualities": [ [ "HACK", 5 ] ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   }
 ]

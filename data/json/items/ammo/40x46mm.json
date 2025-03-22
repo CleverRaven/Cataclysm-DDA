@@ -1,7 +1,7 @@
 [
   {
     "abstract": "40x46mm_grenade",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str": "40x46mm grenade", "//~": "NO_I18N" },
     "volume": "129 ml",
     "weight": "230 g",
@@ -18,12 +18,13 @@
     "range": 60,
     "dispersion": 30,
     "recoil": 1400,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "40x46mm_m1006",
     "copy-from": "40x46mm_grenade",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "40x46mm M1006 sponge" },
     "description": "A low velocity less-lethal 40x46mm round with a foam and plastic projectile intended to cause pain and disorientation to the target.  May still injure or kill.",
     "ascii_picture": "40x46mm_m1006",
@@ -32,23 +33,25 @@
     "weight": "68 g",
     "damage": { "damage_type": "bullet", "amount": 10 },
     "casing": "40x46mm_m212_casing",
-    "extend": { "effects": [ "LARGE_BEANBAG", "NO_PENETRATE_OBSTACLES" ] }
+    "extend": { "effects": [ "LARGE_BEANBAG", "NO_PENETRATE_OBSTACLES" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "40x46mm_m433",
     "copy-from": "40x46mm_grenade",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "40x46mm M433 HEDP" },
     "description": "A low velocity 40x46mm high explosive dual-purpose grenade.  It can penetrate 2 inches of steel armor, and the fragmentation of the projectile body also makes it suitable for use against infantry.",
     "ascii_picture": "40x46mm_m433",
     "damage": { "damage_type": "bullet", "amount": 200, "armor_penetration": 30 },
     "casing": "40x46mm_m118_casing",
-    "extend": { "effects": [ "EXPLOSIVE_m433" ] }
+    "extend": { "effects": [ "EXPLOSIVE_m433" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "40x46mm_m576",
     "copy-from": "40x46mm_grenade",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "40x46mm M576 buckshot" },
     "description": "A 40x46mm buckshot load, designed for use in thick vegetation or room clearing.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.",
     "ascii_picture": "40x46mm_m576",
@@ -60,12 +63,13 @@
     "shot_spread": 500,
     "recoil": 900,
     "casing": "40x46mm_m199_casing",
-    "extend": { "effects": [ "SHOT", "NOGIB" ] }
+    "extend": { "effects": [ "SHOT", "NOGIB" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "40x46mm_m651",
     "copy-from": "40x46mm_grenade",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "40x46mm M651 tear gas" },
     "description": "A low velocity 40x46mm tear gas canister.  It is effective for riot control and driving infantry from entrenched positions, and is able to penetrate thin wood.",
     "ascii_picture": "40x46mm_m651",
@@ -73,12 +77,13 @@
     "damage": { "damage_type": "bullet", "amount": 24 },
     "drop": "gasbomb_act",
     "casing": "40x46mm_m195_casing",
-    "extend": { "effects": [ "NO_EMBED" ] }
+    "extend": { "effects": [ "NO_EMBED" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "40x46mm_hornets_nest_22lr",
     "copy-from": "40x46mm_grenade",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "40x46mm .22 LR beehive" },
     "proportional": { "dispersion": 1.8 },
     "description": "A set of ten .22 LR bullets compressed into a 40mm adapter.  Fires all ten rounds simultaneously.",
@@ -90,12 +95,13 @@
     "shot_damage": { "damage_type": "bullet", "amount": 10 },
     "projectile_count": 10,
     "shot_spread": 1,
-    "casing": "40x46mm_hornets_nest_22lr_casing"
+    "casing": "40x46mm_hornets_nest_22lr_casing",
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "40x46mm_hornets_nest_410",
     "copy-from": "40x46mm_grenade",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "40x46mm .410 hornet's nest" },
     "proportional": { "dispersion": 1.4 },
     "description": "A set of four .410 000 shotshells and a large pistol primer loaded into a 40mm adapter.  Fires all four rounds at once with an internal firing assembly, which is set off by the primer.",
@@ -108,12 +114,13 @@
     "shot_damage": { "damage_type": "bullet", "amount": 10 },
     "projectile_count": 20,
     "shot_spread": 300,
-    "casing": "40x46mm_hornets_nest_410_casing"
+    "casing": "40x46mm_hornets_nest_410_casing",
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "40x46mm_hornets_nest_410_slug",
     "copy-from": "40x46mm_grenade",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "40x46mm .410 slug's nest" },
     "proportional": { "dispersion": 1.4 },
     "description": "A set of four .410 slug shells and a large pistol primer loaded into a 40mm adapter.  Fires all four rounds at once with an internal firing assembly, which is set off by the primer.",
@@ -126,12 +133,13 @@
     "shot_damage": { "damage_type": "bullet", "amount": 22 },
     "projectile_count": 4,
     "shot_spread": 1,
-    "casing": "40x46mm_hornets_nest_410_casing"
+    "casing": "40x46mm_hornets_nest_410_casing",
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "40x46mm_hornets_nest_410_bird",
     "copy-from": "40x46mm_grenade",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "40x46mm .410 bird's nest" },
     "proportional": { "dispersion": 1.4 },
     "description": "A set of four .410 birdshot shells and a large pistol primer loaded into a 40mm adapter.  Fires all four rounds at once with an internal firing assembly, which is set off by the primer.",
@@ -144,16 +152,18 @@
     "shot_damage": { "damage_type": "bullet", "amount": 0.2 },
     "projectile_count": 528,
     "shot_spread": 300,
-    "casing": "40x46mm_hornets_nest_410_casing"
+    "casing": "40x46mm_hornets_nest_410_casing",
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "40x46mm_hornets_nest_410_scrap",
     "copy-from": "40x46mm_hornets_nest_410",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "40x46mm .410 scrap nest" },
     "description": "A set of four .410 'scrap-shot' shells and a large pistol primer loaded into a 40mm adapter.  Fires all four rounds at once with an internal firing assembly, which is set off by the primer.",
     "proportional": { "price": 0.4, "price_postapoc": 0.4, "damage": { "damage_type": "bullet", "amount": 0.6 }, "shot_spread": 1.2 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ] },
+    "subtypes": [ "AMMO" ]
   }
 ]

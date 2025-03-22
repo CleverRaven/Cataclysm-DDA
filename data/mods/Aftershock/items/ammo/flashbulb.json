@@ -1,6 +1,6 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "afs_82mm_flashbulb",
     "price": "700 USD",
     "price_postapoc": "120 USD",
@@ -19,6 +19,7 @@
     "recoil": 45,
     "count": 4,
     "stack_size": 1,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES", "LASER", "IGNITE", "DAZZLE_BEAM", "PUMP_LASER", "PLASMA_BUBBLE" ]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES", "LASER", "IGNITE", "DAZZLE_BEAM", "PUMP_LASER", "PLASMA_BUBBLE" ],
+    "subtypes": [ "AMMO" ]
   }
 ]

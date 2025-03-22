@@ -1,7 +1,7 @@
 [
   {
     "id": "stapler",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "stapler" },
     "description": "A desk tool for fastening sheets of paper together.",
@@ -17,7 +17,7 @@
   },
   {
     "id": "office_holepunch",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "hole puncher" },
     "description": "A metal tool that can punch a single hole in a piece of paper.  I mean, you could do more if you wanted, but you'd have to do them one at a time.  Or, if you really wanted more holes with one punch, I suppose you could fold the paper….  This is a one-cylinder hole puncher.",
@@ -31,7 +31,7 @@
   },
   {
     "id": "office_letter_opener",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "weapons",
     "name": { "str": "letter opener" },
     "description": "A sterling silver letter opener resembling a small dagger, with a sharp point and no cutting edge.  It's used to open mail envelopes neatly and quickly.",
@@ -51,7 +51,7 @@
   },
   {
     "id": "scissors",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "pair of office scissors", "str_pl": "pairs of office scissors" },
     "description": "A long pair of heavy-duty scissors.  You can use them to cut things such as fabric or plastic apart.",
     "ascii_picture": "scissors",
@@ -68,11 +68,12 @@
     "flags": [ "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
     "weapon_category": [ "SHIVS" ],
     "melee_damage": { "stab": 6 },
-    "//": "Based on https://www.amazon.com/dp/B001M0GB6Y"
+    "//": "Based on https://www.amazon.com/dp/B001M0GB6Y",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "scissors_child",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "pair of kiddie scissors", "str_pl": "pairs of kiddie scissors" },
     "description": "A pair of short scissors designed with kids in mind.  You can use them to cut things such as fabric or plastic apart, although they are probably subpar compared to other alternatives.",
     "ascii_picture": "scissors",
@@ -88,11 +89,12 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 1 ] ],
     "flags": [ "BELT_CLIP", "SHEATH_KNIFE" ],
     "weapon_category": [ "SHIVS" ],
-    "melee_damage": { "stab": 2 }
+    "melee_damage": { "stab": 2 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "scissors_wavy",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "pair of wavy scissors", "str_pl": "pairs of wavy scissors" },
     "description": "A pair of wavy artistic scissors.  You can theoretically use them to cut things but you should probably not get your hopes too high.",
     "ascii_picture": "scissors",
@@ -105,11 +107,12 @@
     "symbol": ",",
     "color": "light_red",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -3 ] ],
-    "flags": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+    "flags": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "pen",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "pen" },
     "description": "A fine metal pen, of much better quality than a disposable model.",
@@ -131,11 +134,12 @@
       }
     ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "ALLOWS_BODY_BLOCK" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "pencil",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "pencil" },
     "description": "A sharpened HB Number 2 graphite pencil, equipped with an eraser.",
     "weight": "9 g",
@@ -150,11 +154,12 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "graphite": 100 }, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "NO_UNLOAD", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "NO_UNLOAD", "ALLOWS_BODY_BLOCK" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "black_pen",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "black pen" },
     "description": "A disposable ballpoint pen, offers a smooth writing experience on paper.  Has the same logo as those disposable lighters.  This one is black.",
     "weight": "9 g",
@@ -169,11 +174,12 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "black_pen_ink": 100 }, "watertight": true, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "ALLOWS_BODY_BLOCK" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "blue_pen",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "blue pen" },
     "description": "A disposable ballpoint pen, offers a smooth writing experience on paper.  Has the same logo as those disposable lighters.  This one is blue.",
     "weight": "9 g",
@@ -188,11 +194,12 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "blue_pen_ink": 100 }, "watertight": true, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "ALLOWS_BODY_BLOCK" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "red_pen",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "red pen" },
     "description": "A disposable ballpoint pen, offers a smooth writing experience on paper.  Has the same logo as those disposable lighters.  This one is red.",
     "weight": "9 g",
@@ -207,11 +214,12 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "red_pen_ink": 100 }, "watertight": true, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "ALLOWS_BODY_BLOCK" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "green_pen",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "green pen" },
     "description": "A disposable ballpoint pen, offers a smooth writing experience on paper.  Has the same logo as those disposable lighters.  This one is green.",
     "weight": "9 g",
@@ -226,11 +234,12 @@
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "green_pen_ink": 100 }, "watertight": true, "rigid": true } ],
     "use_action": [ { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": false, "material_restricted": false } ],
-    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "ALLOWS_BODY_BLOCK" ]
+    "flags": [ "FRAGILE_MELEE", "WRITE_MESSAGE", "NO_RELOAD", "ALLOWS_BODY_BLOCK" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "leather_journal",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "leather journal" },
     "looks_like": "book_nonf_soft_psych_cggamers",
@@ -252,6 +261,7 @@
         "moves": 150,
         "flag_restriction": [ "PAPER_SHAPED" ]
       }
-    ]
+    ],
+    "subtypes": [ "TOOL" ]
   }
 ]

@@ -3,7 +3,7 @@
     "id": "colt_navy",
     "copy-from": "pistol_revolver_cap_ball",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "civil war six-shooter" },
     "description": "The Colt Model 1861 Navy cap & ball .36-caliber revolver was a six-shot, single-action percussion weapon produced by Colt's Manufacturing Company from 1861 until 1873.",
     "variant_type": "gun",
@@ -29,6 +29,7 @@
     "proportional": { "reload": 2.0 },
     "flags": [ "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "36paper": 6 } } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   }
 ]

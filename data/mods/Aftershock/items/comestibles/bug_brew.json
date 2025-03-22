@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "afs_mealgrub_medium",
     "name": { "str_sp": "mealgrub growth medium" },
     "description": "All sorts of organic substances rendered into a nutritious goop that can be used as a growth medium in grub aquaculture.  Urban myth claims that its original formula was just bottled industrial runoff.  Whatever the case, mealgrubs thrive within it.",
@@ -20,10 +20,11 @@
     "charges": 5,
     "category": "chems",
     "fun": -30,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "bad_food", 1 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "bad_food", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "afs_mealgrub_spores",
     "name": { "str_sp": "mealgrub spores" },
     "description": "Mealgrubs are a staple aquacultural product, treasured for their ability to process nearly any organic substance into safe for consumption animal protein.  As the result of very heavy-handed gene-modding these are proprietary organisms, and strictly speaking, it's illegal to grow them without a license.",
@@ -41,10 +42,11 @@
     "phase": "liquid",
     "charges": 100,
     "category": "chems",
-    "fun": -10
+    "fun": -10,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "brew_afs_mealgrub_broth",
     "name": { "str_sp": "mealgrub broth" },
     "description": "Growth medium seeded with mealgrub eggs.  Once placed in a growing vat, they should be ready for harvesting in around 76 hours.  The immature grub's metabolism can produce toxic by-products so caution is advisable.",
@@ -62,10 +64,12 @@
     "charges": 5,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "76 hours", "results": [ "afs_mealgrub_jelly", "afs_mealgrub_spores" ] }
+    "brew_time": "76 hours",
+    "brew_results": [ "afs_mealgrub_jelly", "afs_mealgrub_spores" ],
+    "subtypes": [ "BREWABLE", "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "afs_mealgrub_jelly",
     "name": { "str_sp": "live mealgrubs" },
     "description": "Thousands of mature mealworms, squirming in the viscous remains of their growth medium.  They are ready for harvest, and in fact require speedy cleaning and processing, as the harvest can quickly rot in this stage.",
@@ -85,11 +89,12 @@
     "phase": "liquid",
     "charges": 5,
     "category": "chems",
-    "fun": -10
+    "fun": -10,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "afs_mealgrubs",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str_sp": "mealgrubs" },
     "symbol": "s",
@@ -107,7 +112,8 @@
     "description": "A handful of edible and heavily genemoded grubs, each only slightly thinner than your thumb.  Engineered in the wake of the XXII century to feed an overpopulated Earth and its fledgling colonies these are a sturdy, easily grown and scalable crop.\n\nRemoved from their growth solution they'll quickly die and desiccate, as these already have.  They could be safely eaten with no further processing, for a nutritious if somewhat striking meal.",
     "fun": 0,
     "freezing_point": -9999,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "bad_food", 1 ], [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "bad_food", 1 ], [ "meat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "recipe",

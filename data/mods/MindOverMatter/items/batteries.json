@@ -1,7 +1,7 @@
 [
   {
     "id": "light_battery_electronoetic",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "tool_magazine",
     "name": { "str": "light electronoetic battery", "str_pl": "light electronoetic batteries" },
     "description": "A light battery but with the casing devoid of branding or symbols other than a plus and minus on opposite ends.  It's surprisingly heavy.",
@@ -23,21 +23,23 @@
     "capacity": 48,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_LIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 48 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 48 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "light_battery_electronoetic_refined",
     "copy-from": "light_battery_electronoetic",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "tool_magazine",
     "name": { "str": "light refined electronoetic battery", "str_pl": "light refined electronoetic batteries" },
     "//": "Capacity 8x normal",
     "capacity": 128,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 128 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 128 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "medium_battery_electronoetic",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "tool_magazine",
     "name": { "str": "medium electronoetic battery", "str_pl": "medium electronoetic batteries" },
     "description": "A medium battery but with the casing devoid of branding or symbols other than a plus and minus on opposite ends.  It's surprisingly heavy.",
@@ -59,21 +61,23 @@
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_MEDIUM" ],
     "//": "Capacity 3x normal",
     "capacity": 168,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 168 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 168 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "medium_battery_electronoetic_refined",
     "copy-from": "medium_battery_electronoetic",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "tool_magazine",
     "name": { "str": "medium refined electronoetic battery", "str_pl": "medium refined electronoetic batteries" },
     "//": "Capacity 8x normal",
     "capacity": 448,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 448 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 448 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "heavy_battery_electronoetic",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "tool_magazine",
     "name": { "str": "electronoetic tool battery", "str_pl": "electronoetic tool batteries" },
     "description": "A battery cell, compatible with all kinds of industrial-grade equipment and portable tools, but with the casing devoid of branding or symbols other than a plus and minus on opposite ends.  It's surprisingly heavy.",
@@ -96,16 +100,18 @@
     "capacity": 777,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_HEAVY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 777 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 777 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "heavy_battery_electronoetic_refined",
     "copy-from": "medium_battery_electronoetic",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "tool_magazine",
     "name": { "str": "refined electronoetic tool battery", "str_pl": "refined electronoetic tool batteries" },
     "//": "Capacity 8x normal",
     "capacity": 2072,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2072 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2072 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

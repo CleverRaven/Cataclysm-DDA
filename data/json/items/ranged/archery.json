@@ -1,6 +1,6 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "arrow_fire_hardened_fletched",
     "copy-from": "arrow_field_point_fletched",
     "relative": { "dispersion": 100 },
@@ -12,10 +12,11 @@
     "description": "A crude pointed wooden shaft with a notch at the back.",
     "material": [ "wood" ],
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.75 },
-    "recovery_chance": 50
+    "recovery_chance": 50,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "arrow_field_point_fletched",
     "name": { "str": "wooden bodkin arrow" },
     "symbol": "=",
@@ -35,11 +36,12 @@
     "loudness": 0,
     "critical_multiplier": 10,
     "recovery_chance": 97,
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "arrow_plastic",
-    "type": "AMMO",
+    "type": "ITEM",
     "symbol": "=",
     "color": "green",
     "name": { "str": "wooden rubber blunt arrow" },
@@ -52,10 +54,11 @@
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.2 },
     "critical_multiplier": 1,
     "recovery_chance": 97,
-    "effects": [ "BEANBAG" ]
+    "effects": [ "BEANBAG" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "arrow_small_game_fletched",
     "name": { "str": "simple wooden small game arrow" },
     "symbol": "=",
@@ -66,10 +69,11 @@
     "price_postapoc": "15 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
     "recovery_chance": 90,
-    "effects": [ "NOGIB" ]
+    "effects": [ "NOGIB" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "arrow_wood",
     "name": { "str": "wooden broadhead arrow" },
     "symbol": "=",
@@ -80,10 +84,11 @@
     "price": "20 USD",
     "damage": { "damage_type": "stab", "armor_penetration": 1, "constant_damage_multiplier": 1.5 },
     "recovery_chance": 96,
-    "melee_damage": { "bash": 2, "cut": 1 }
+    "melee_damage": { "bash": 2, "cut": 1 },
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "arrow_heavy_fire_hardened_fletched",
     "price": "3 USD",
     "name": { "str": "simple wooden arrow" },
@@ -93,10 +98,11 @@
     "material": [ "wood" ],
     "copy-from": "arrow_field_point_fletched",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.75 },
-    "recovery_chance": 83
+    "recovery_chance": 83,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "arrow_heavy_field_point_fletched",
     "price": "10 USD",
     "name": { "str": "wooden small game arrow" },
@@ -107,10 +113,11 @@
     "price_postapoc": "25 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
     "recovery_chance": 97,
-    "effects": [ "NOGIB" ]
+    "effects": [ "NOGIB" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "arrow_wood_heavy",
     "name": { "str": "makeshift wooden arrow" },
     "symbol": "=",
@@ -122,10 +129,11 @@
     "price_postapoc": "15 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.25 },
     "show_stats": true,
-    "recovery_chance": 87
+    "recovery_chance": 87,
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "arrow_metal_sharpened_fletched",
     "name": { "str": "makeshift metal arrow" },
     "symbol": "=",
@@ -137,10 +145,11 @@
     "damage": { "damage_type": "stab", "armor_penetration": 1 },
     "show_stats": true,
     "recovery_chance": 95,
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "arrow_metal",
     "name": { "str": "aluminum broadhead arrow" },
     "symbol": "=",
@@ -154,10 +163,11 @@
     "damage": { "damage_type": "stab", "armor_penetration": 1, "constant_damage_multiplier": 1.5 },
     "range": 2,
     "recovery_chance": 97,
-    "melee_damage": { "bash": 3, "cut": 2 }
+    "melee_damage": { "bash": 3, "cut": 2 },
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "arrow_metal_bodkin",
     "name": { "str": "aluminum field point arrow" },
     "symbol": "=",
@@ -171,10 +181,11 @@
     "damage": { "damage_type": "stab", "armor_penetration": 3 },
     "range": 2,
     "recovery_chance": 97,
-    "melee_damage": { "bash": 3, "cut": 2 }
+    "melee_damage": { "bash": 3, "cut": 2 },
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "arrow_metal_target",
     "price": "12 USD",
     "name": { "str": "aluminum small game arrow" },
@@ -189,10 +200,11 @@
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
     "range": 2,
     "recovery_chance": 98,
-    "effects": [ "NOGIB" ]
+    "effects": [ "NOGIB" ],
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "arrow_cf",
     "name": { "str": "carbon fiber hunting arrow" },
     "symbol": "=",
@@ -207,10 +219,11 @@
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.75 },
     "range": 4,
     "recovery_chance": 97,
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "arrow_meteor",
     "price": "20 USD",
     "name": { "str": "emerald arrow" },
@@ -232,10 +245,11 @@
     "recovery_chance": 100,
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "good" },
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE" ],
-    "melee_damage": { "bash": 10, "stab": 26 }
+    "melee_damage": { "bash": 10, "stab": 26 },
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "flamable_arrow",
     "name": { "str": "flammable arrow" },
     "description": "This arrow has a rag soaked in a flammable liquid wrapped around the shaft near the head.  You need to light it before shooting.",
@@ -265,10 +279,11 @@
       "menu_text": "Light arrow",
       "type": "transform"
     },
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "arrow_flamming",
     "copy-from": "flamable_arrow",
     "name": { "str": "flaming arrow" },
@@ -278,12 +293,13 @@
     "revert_to": "arrow_field_point_fletched",
     "recovery_chance": 97,
     "effects": [ "IGNITE" ],
-    "extend": { "flags": [ "TRADER_AVOID" ] }
+    "extend": { "flags": [ "TRADER_AVOID" ] },
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "selfbow",
     "looks_like": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "survival bow" },
@@ -311,17 +327,6 @@
     "volume": "2500 ml",
     "longest_side": "140 cm",
     "price_postapoc": "50 cent",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "encumbrance": 20,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "ranged_damage": { "damage_type": "stab", "amount": 1 },
     "range": 8,
     "dispersion": 1250,
@@ -331,12 +336,22 @@
     "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "armor": [
+      {
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 20,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ],
+    "subtypes": [ "ARMOR", "GUN" ]
   },
   {
     "id": "shortbow",
     "looks_like": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "short bow" },
@@ -363,17 +378,6 @@
     "volume": "1500 ml",
     "longest_side": "132 cm",
     "price_postapoc": "5 USD",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "encumbrance": 14,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "reload_noise_volume": 3,
     "loudness": 6,
     "ranged_damage": { "damage_type": "stab", "amount": 4 },
@@ -385,12 +389,22 @@
     "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 3 },
+    "armor": [
+      {
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 14,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ],
+    "subtypes": [ "ARMOR", "GUN" ]
   },
   {
     "id": "compbow",
     "looks_like": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "compound hunting bow" },
@@ -435,12 +449,13 @@
     },
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "compbow_high",
     "copy-from": "compbow",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "compound hunting bow (high)", "str_pl": "compound hunting bows (high)" },
     "description": "A high-powered bow with shaped cams and extra cables for high-velocity shots that can be used effectively by very strong archers.  Currently set to a high weight, and ready to cause some real damage - if you can draw it.",
     "//": "80 lb draw weight, efficient, 0.62 slugs of momentum with a 30g arrow.",
@@ -453,12 +468,13 @@
       "target": "compbow_low",
       "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You loosen the limbs, decreasing the strength of the bow."
-    }
+    },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "compbow_low",
     "copy-from": "compbow",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "compound hunting bow (low)", "str_pl": "compound hunting bows (low)" },
     "description": "A high-powered bow with shaped cams and extra cables for high-velocity shots that can be used effectively by average archers.  Currently set to a low weight, making it much easier to draw.",
     "//": "40 lb draw weight, efficient, 0.45 slugs of momentum with a 30g arrow.",
@@ -471,12 +487,13 @@
       "target": "compbow",
       "qualities_needed": { "SCREW_FINE": 1 },
       "msg": "You tighten the limbs, increasing the strength of the bow."
-    }
+    },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "compositebow",
     "looks_like": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "composite bow (heavy)", "str_pl": "composite bows (heavy)" },
@@ -503,20 +520,6 @@
     "volume": "1750 ml",
     "longest_side": "152 cm",
     "price_postapoc": "30 USD",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "bone", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "encumbrance": 14,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "reload_noise_volume": 3,
     "loudness": 6,
     "ranged_damage": { "damage_type": "stab", "amount": 8 },
@@ -528,12 +531,25 @@
     "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "armor": [
+      {
+        "material": [
+          { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "bone", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 14,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ],
+    "subtypes": [ "ARMOR", "GUN" ]
   },
   {
     "id": "reflexbow",
     "looks_like": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "composite bow (light)", "str_pl": "composite bows (light)" },
@@ -560,17 +576,6 @@
     "volume": "1500 ml",
     "longest_side": "183 cm",
     "price_postapoc": "20 USD",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "encumbrance": 14,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "reload_noise_volume": 3,
     "loudness": 6,
     "ranged_damage": { "damage_type": "stab", "amount": 6 },
@@ -582,12 +587,22 @@
     "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "armor": [
+      {
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 14,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ],
+    "subtypes": [ "ARMOR", "GUN" ]
   },
   {
     "id": "recurbow",
     "looks_like": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "modern recurve bow" },
@@ -614,20 +629,6 @@
     "volume": "2500 ml",
     "longest_side": "152 cm",
     "price_postapoc": "20 USD",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "encumbrance": 20,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 6 },
@@ -639,12 +640,25 @@
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "armor": [
+      {
+        "material": [
+          { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 20,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ],
+    "subtypes": [ "ARMOR", "GUN" ]
   },
   {
     "id": "takedown_recurbow",
     "looks_like": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "light_gray",
     "name": { "str": "takedown recurve bow" },
@@ -672,20 +686,6 @@
     "longest_side": "152 cm",
     "//2": "When mounted.",
     "price_postapoc": "22 USD",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
-            { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
-          ],
-          "encumbrance": 20,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 6 },
@@ -706,12 +706,25 @@
       "ammo_scale": 0,
       "moves": 1500
     },
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "armor": [
+      {
+        "material": [
+          { "type": "steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 20,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ],
+    "subtypes": [ "ARMOR", "GUN" ]
   },
   {
     "id": "takedown_recurbow_folded",
     "looks_like": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
     "skill": "archery",
     "symbol": "(",
     "color": "light_gray",
@@ -737,11 +750,12 @@
       "msg": "You assemble your bow.",
       "moves": 1500
     },
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "longbow" },
@@ -768,17 +782,6 @@
     "volume": "3500 ml",
     "longest_side": "183 cm",
     "price_postapoc": "30 USD",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "encumbrance": 20,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 6 },
@@ -790,12 +793,22 @@
     "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "armor": [
+      {
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 20,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ],
+    "subtypes": [ "ARMOR", "GUN" ]
   },
   {
     "id": "woodgreatbow",
     "copy-from": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "wooden greatbow" },
     "description": "An extremely large, stiff longbow, made with enormous limbs and a thick string to take an immense amount of energy.  Takes incredible strength to draw.",
     "price": "1 kUSD 500 USD",
@@ -805,26 +818,25 @@
     "volume": "6250 ml",
     "longest_side": "198 cm",
     "price_postapoc": "20 USD",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
-          "encumbrance": 25,
-          "coverage": 14,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "durability": 8,
     "loudness": 16,
     "ranged_damage": { "damage_type": "stab", "amount": 11 },
-    "range": 20
+    "range": 20,
+    "armor": [
+      {
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "encumbrance": 25,
+        "coverage": 14,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ],
+    "subtypes": [ "ARMOR", "GUN" ]
   },
   {
     "id": "greatbow_meteor",
     "copy-from": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "blackwood greatbow" },
     "description": "A tall bow made from very finely grained black wood.  Its large asymmetrical limbs are improperly shaped to fire arrows of regular length, and they require incredible strength to pull back.",
     "price": "10 USD",
@@ -835,30 +847,29 @@
     "volume": "6250 ml",
     "longest_side": "218 cm",
     "price_postapoc": "20 USD",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [
-            { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 },
-            { "type": "monolith_heavy", "covered_by_mat": 10, "thickness": 2.0 }
-          ],
-          "encumbrance": 25,
-          "coverage": 14,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "strange_arrow": 1 }, "open_container": true } ],
     "durability": 8,
     "loudness": 16,
     "ranged_damage": { "damage_type": "stab", "amount": 11 },
-    "range": 20
+    "range": 20,
+    "armor": [
+      {
+        "material": [
+          { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "monolith_heavy", "covered_by_mat": 10, "thickness": 2.0 }
+        ],
+        "encumbrance": 25,
+        "coverage": 14,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ],
+    "subtypes": [ "ARMOR", "GUN" ]
   },
   {
     "id": "compgreatbow",
     "looks_like": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "compound greatbow" },
@@ -894,12 +905,13 @@
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "reflexrecurvebow",
     "looks_like": "longbow",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "Olympic style target bow" },
@@ -926,17 +938,6 @@
     "volume": "2 L",
     "longest_side": "150 cm",
     "price_postapoc": "60 USD",
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "encumbrance": 14,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 5 },
@@ -948,6 +949,16 @@
     "valid_mod_locations": [ [ "sights", 1 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "armor": [
+      {
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 14,
+        "coverage": 10,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_hanging_back" ]
+      }
+    ],
+    "subtypes": [ "ARMOR", "GUN" ]
   }
 ]

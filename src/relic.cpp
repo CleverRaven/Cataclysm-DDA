@@ -366,7 +366,7 @@ void relic::load( const JsonObject &jo )
     if( jo.has_member( "charges_per_activation" ) ) {
         charge.charges_per_use = jo.get_int( "charges_per_activation", 1 );
     }
-    jo.read( "name", item_name_override );
+    jo.read( "artifact_name", item_name_override );
     moves = jo.get_int( "moves", 100 );
 }
 

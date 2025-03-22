@@ -2,7 +2,7 @@
   {
     "id": "modular_deagle",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str_sp": "Desert Eagle pistol" },
     "description": "An icon of popular culture more than a practical weapon, this massive pistol can shoot a variety of magnum handgun rounds depending on the conversion kit and magazine used.",
@@ -46,13 +46,14 @@
       "fault_stovepipe",
       "fault_double_feed"
     ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "henry_big_boy",
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Henry Big Boy .44 rifle" },
     "description": "This fine lever-action rifle is chambered in the powerful .44 Magnum cartridge and features a sleek octagonal barrel with a tube fed magazine.  Go get 'em cowboy!",
     "weight": "3937 g",
@@ -84,13 +85,14 @@
     ],
     "flags": [ "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 10 } } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rifle_44",
     "copy-from": "gun_base",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": ".44 Magnum pipe rifle" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "ascii_picture": "lg_pipe_gun",
@@ -117,13 +119,14 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 1 } } ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "sw629",
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": ".44 revolver" },
     "description": "A stainless steel, six-shot, double-action revolver with a matte black plastic handle manufactured by Smith & Wesson.  Though hardly the most powerful handgun in the world any more, it could still blow a zombie's head clean off.",
     "//1": "If someone makes a sw269 ascii picture, make this only the ruger's art",
@@ -173,13 +176,14 @@
         "allowed_speedloaders": [ "44_speedloader6" ]
       }
     ],
-    "melee_damage": { "bash": 10 }
+    "melee_damage": { "bash": 10 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "colt_anaconda_8",
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": ".44 long barrel hunting revolver" },
     "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-caliber revolver in their line.  This one has an extended 8-inch barrel.",
     "variant_type": "gun",
@@ -222,12 +226,13 @@
         "allowed_speedloaders": [ "44_speedloader6" ]
       }
     ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 7 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "colt_anaconda_6",
     "copy-from": "colt_anaconda_8",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": ".44 hunting revolver" },
     "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-caliber revolver in their line.  This one has a 6-inch barrel.",
     "variant_type": "gun",
@@ -245,12 +250,13 @@
     "barrel_length": "153 mm",
     "price": "1499 USD",
     "symbol": "(",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "colt_anaconda_4",
     "copy-from": "colt_anaconda_8",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": ".44 short barrel hunting revolver" },
     "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-caliber revolver in their line.  This one has a shortened 4-inch barrel.",
     "variant_type": "gun",
@@ -268,13 +274,14 @@
     "barrel_length": "102 mm",
     "price": "1499 USD",
     "symbol": "(",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rossi_r92_44_16",
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": ".44 lever-action rifle" },
     "description": "This lever-action rifle is chambered in the powerful .44 Magnum cartridge, with an 16\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
@@ -312,13 +319,14 @@
     ],
     "flags": [ "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 8 } } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rossi_r92_44_20",
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "long-barreled .44 lever-action rifle" },
     "description": "This lever-action rifle is chambered in the powerful .44 Magnum cartridge, with an 20\" barrel with a tube-fed magazine.  Go get 'em cowboy!",
     "variant_type": "gun",
@@ -356,6 +364,7 @@
     ],
     "flags": [ "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 10 } } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   }
 ]

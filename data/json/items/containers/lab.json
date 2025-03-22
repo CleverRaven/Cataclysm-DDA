@@ -1,7 +1,7 @@
 [
   {
     "id": "box_small_plastic",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "container",
     "name": { "str": "secured plastic box", "str_pl": "secured plastic boxes" },
     "description": "A small plastic box with a rugged exterior, the cover securely held by several small latches.",
@@ -28,7 +28,7 @@
   {
     "id": "30gal_barrel_mutagen",
     "copy-from": "30gal_barrel",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "30 gallon barrel" },
     "looks_like": "55gal_drum",
     "description": "A huge plastic barrel with a watertight lid.  It's surface is completely covered with hazard warning labels and, most importantly, a giant red tape, that reads \"IMPURE CATALYST, DO NOT USE, FAILED SAMPLE, DO NOT USE, IMPURE CATALYST…\"",

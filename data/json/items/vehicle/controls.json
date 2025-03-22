@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "camera_control",
     "name": { "str": "camera display" },
     "description": "A set of small monitors.  Required to view cameras' output.",
@@ -16,7 +16,7 @@
     "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "omnicamera",
     "name": { "str": "security camera" },
     "description": "A security camera you could connect to a display.  Image quality is quite low, but the field of vision is great.",
@@ -32,7 +32,7 @@
     "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "omnicamera_reinforced",
     "copy-from": "omnicamera",
     "looks_like": "omnicamera",
@@ -45,7 +45,7 @@
     "price_postapoc": "15 USD"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "vehicle_controls",
     "name": { "str": "vehicle controls", "str_pl": "sets of vehicle controls" },
     "description": "A set of various vehicle controls.  Useful for crafting.",
@@ -63,7 +63,7 @@
   },
   {
     "id": "reins_tackle",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "rein and tackle", "str_pl": "reins and tackles" },
     "category": "veh_parts",
     "description": "A set of leather bindings to control a mountable creature.",
@@ -78,7 +78,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "vehicle_dashboard",
     "name": { "str": "dashboard" },
     "description": "A vehicle instrument panel with various gauges and switches.  Useful for crafting.",
@@ -94,7 +94,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "electronics_controls",
     "copy-from": "vehicle_dashboard",
     "name": { "str": "electronics control unit" },
@@ -108,7 +108,7 @@
     "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "drive_by_wire_controls",
     "name": { "str": "drive by wire controls", "str_pl": "sets of drive by wire controls" },
     "description": "A fully electronic vehicle control system.  You could control it remotely if you had the proper tools.",
@@ -121,7 +121,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "robot_controls",
     "name": { "str": "robot driving unit" },
     "description": "A set of servos, microcontrollers, and other devices, together capable of driving an unmanned vehicle.  Its AI is not functional, but it should still have some sort of maintenance mode.",
@@ -135,7 +135,7 @@
     "melee_damage": { "bash": 1 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "turret_controls",
     "name": { "str": "turret control unit" },
     "description": "A set of motors, cameras, and various electronic modules banded together to allow for tracking targets, friend-or-foe identification, and firing the connected turret in full automatic mode.",
@@ -148,7 +148,7 @@
     "copy-from": "vehicle_controls"
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "hand_controls",
     "name": { "str_sp": "hand controls" },
     "description": "An accessibility tool for the paraplegic or very short, this is a simple pair of metal tubes that clamp to a vehicle's gas and brake pedals, allowing them to be operated by hand with the help of a trigger.",
@@ -164,7 +164,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pedal_extenders",
     "name": { "str_sp": "pedal extenders" },
     "description": "These thick rubber pads can clamp securely onto a vehicle's gas and brake pedals, allowing even very short people to drive a car.",
@@ -180,7 +180,7 @@
     "melee_damage": { "bash": 3 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "pedal_extenders_makeshift",
     "name": { "str_sp": "makeshift pedal extenders" },
     "description": "It is probably not a great idea, but if you wanted to, you could tape these blocks to a vehicle's gas and brake pedals so that a kid or very short adult could drive.",

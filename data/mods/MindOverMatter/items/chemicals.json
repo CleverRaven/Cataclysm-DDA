@@ -1,7 +1,7 @@
 [
   {
     "id": "psionic_serum_base",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "name": { "str_sp": "psychoreactive catalyst" },
     "description": "A thick liquid, mixed with ground matrix crystal and ready to be catalyzed.  In total darkness, it glows very faintly.",
@@ -17,6 +17,7 @@
     "symbol": "~",
     "color": "black",
     "freezing_point": -8,
-    "use_action": [ "POISON" ]
+    "use_action": [ "POISON" ],
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

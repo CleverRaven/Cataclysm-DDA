@@ -1,7 +1,7 @@
 [
   {
     "id": "light_grip",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "lightweight replacement furniture" },
     "description": "A set of lightweight composite grips and furniture that reduces a firearm's weight, and as a consequence, its handling and melee damage.",
     "weight": "140 g",
@@ -18,11 +18,12 @@
     "handling_modifier": -2,
     "min_skills": [ [ "weapon", 3 ] ],
     "weight_multiplier": 0.75,
-    "flags": [ "REDUCED_BASHING" ]
+    "flags": [ "REDUCED_BASHING" ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "pistol_grip",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "ergonomic grip" },
     "description": "A set of ergonomic replacement furniture for a firearm improving handling.",
     "weight": "125 g",
@@ -38,11 +39,12 @@
     "location": "grip",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "handling_modifier": 2,
-    "min_skills": [ [ "weapon", 2 ] ]
+    "min_skills": [ [ "weapon", 2 ] ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   },
   {
     "id": "breacher_grip",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "breacher grip" },
     "description": "A very uncomfortable straight grip.  Clearly not intended for regular use.",
     "weight": "125 g",
@@ -57,6 +59,7 @@
     "color": "dark_gray",
     "location": "grip",
     "mod_targets": [ "pistol" ],
-    "handling_modifier": -6
+    "handling_modifier": -6,
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   }
 ]

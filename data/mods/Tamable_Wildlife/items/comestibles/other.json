@@ -1,7 +1,7 @@
 [
   {
     "id": "sweet_goop",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "FOOD",
     "name": { "str_sp": "sweet goop" },
     "looks_like": "birdfood",
@@ -19,6 +19,7 @@
     "color": "brown",
     "flags": [ "INEDIBLE", "NUTRIENT_OVERRIDE" ],
     "use_action": [ "PETFOOD" ],
-    "petfood": [ "BUGFOOD" ]
+    "petfood": [ "BUGFOOD" ],
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

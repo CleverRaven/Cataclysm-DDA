@@ -1,7 +1,7 @@
 [
   {
     "id": "iotv_neck_plate",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "ballistic collar" },
     "description": "Front and back nylon collar assemblies with armor inserts for neck protection.  Designed to be attached to heavy military body armor.",
@@ -25,11 +25,12 @@
         "specifically_covers": [ "head_throat", "head_nape" ],
         "volume_encumber_modifier": 0
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "afs_military_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "IPAV armor" },
     "description": "Multipurpose military armor for the torso and upper arms, intended to protect against a wide variety of ballistic or direct energy attacks.  Made from a single piece of ablative carbide that keeps it relatively lightweight and completely disposable.",
     "category": "armor",
@@ -79,31 +80,34 @@
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
         "volume_encumber_modifier": 0
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "afs_military_vestxl",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "IPAV armor" },
     "copy-from": "afs_military_vest",
     "description": "Multipurpose military armor for the torso and upper arms, intended to protect against a wide variety of ballistic or direct energy attacks.  Made from a single piece of ablative carbide that keeps it relatively lightweight and completely disposable.  Made to fit the uplifted, the heavily augmented, or similarly sized individuals.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xlswat_armor",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "Uplifted Enforcer armor" },
     "copy-from": "afs_military_vestxl",
     "description": "An extra large suit of black bulletproof armor.  Specifically designed for Uplifted officers such as Mastodons.",
     "replace_materials": { "vacuum_carbide_hard": "vacuum_carbide" },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
-    "delete": { "flags": [ "FRAGILE" ] }
+    "delete": { "flags": [ "FRAGILE" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "afs_military_cloak",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "ARMOR",
     "looks_like": "poncho",
     "name": { "str": "ablative combat cloak" },
@@ -134,6 +138,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_r", "leg_upper_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   }
 ]

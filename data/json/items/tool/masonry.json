@@ -1,7 +1,7 @@
 [
   {
     "id": "masonrysaw_off",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "masonry saw (off)", "str_pl": "masonry saws (off)" },
     "description": "A construction tool for cutting through concrete or other surfaces.  It runs on gasoline.  Using this item will cause it to turn on, turning it into a very powerful but unwieldy melee weapon or a terrible chainsaw.",
     "weight": "4500 g",
@@ -13,7 +13,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "blue",
-    "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 450 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
@@ -39,12 +38,14 @@
       ]
     },
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "gasoline" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "masonrysaw_on",
     "copy-from": "masonrysaw_off",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "masonry saw (on)", "str_pl": "masonry saws (on)" },
     "description": "This masonry saw is on and making a lot of noise.  Use it to turn it off.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
@@ -82,11 +83,12 @@
       ]
     },
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ],
-    "melee_damage": { "bash": 4, "cut": 70 }
+    "melee_damage": { "bash": 4, "cut": 70 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "electric_masonrysaw_off",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "electric masonry saw (off)", "str_pl": "electric masonry saws (off)" },
     "description": "A construction tool for cutting through concrete or other surfaces.  It uses electric motor with integrated battery and is compatible with a UPS.  Using this item will cause it to turn on, turning it into a very powerful but unwieldy melee weapon or a terrible chainsaw.",
     "weight": "4500 g",
@@ -98,7 +100,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "blue",
-    "ammo": [ "battery" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 2970 }, "rigid": true } ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
@@ -113,12 +114,14 @@
       }
     ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "electric_masonrysaw_on",
     "copy-from": "electric_masonrysaw_off",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "electric masonry saw (on)", "str_pl": "electric masonry saws (on)" },
     "description": "This electric masonry saw is on and making a lot of noise.  Use it to turn it off.",
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "clumsy" },
@@ -178,10 +181,11 @@
       "WATER_BREAK",
       "ELECTRONIC"
     ],
-    "melee_damage": { "bash": 4, "cut": 70 }
+    "melee_damage": { "bash": 4, "cut": 70 },
+    "subtypes": [ "TOOL" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "grinder_blade",
     "symbol": "/",
     "color": "dark_gray",

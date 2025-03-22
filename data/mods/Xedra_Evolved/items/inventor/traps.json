@@ -1,7 +1,7 @@
 [
   {
     "id": "stunning_qr_trap",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": "stunning QR trap",
     "category": "traps",
     "properties": { "capture_species": "ROBOT" },
@@ -15,11 +15,12 @@
     "symbol": "*",
     "color": "light_gray",
     "flags": [ "SINGLE_USE" ],
-    "use_action": { "type": "place_trap", "trap": "tr_robot_snare", "moves": 150, "practice": 2, "done_message": "You set the QR code." }
+    "use_action": { "type": "place_trap", "trap": "tr_robot_snare", "moves": 150, "practice": 2, "done_message": "You set the QR code." },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "stunning_arg_trap",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": "stunning arg trap",
     "category": "traps",
     "properties": { "capture_species": "CYBORG" },
@@ -33,6 +34,7 @@
     "symbol": "*",
     "color": "light_gray",
     "flags": [ "SINGLE_USE" ],
-    "use_action": { "type": "place_trap", "trap": "tr_cyborg_snare", "moves": 150, "practice": 2, "done_message": "You set the QR code." }
+    "use_action": { "type": "place_trap", "trap": "tr_cyborg_snare", "moves": 150, "practice": 2, "done_message": "You set the QR code." },
+    "subtypes": [ "TOOL" ]
   }
 ]

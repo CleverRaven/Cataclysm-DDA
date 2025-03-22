@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "hot_corn_casserole",
     "name": { "str_sp": "hot corn casserole" },
     "comestible_type": "FOOD",
@@ -17,10 +17,11 @@
     "price_postapoc": "1 USD",
     "material": [ "veggy", "milk" ],
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "cheesy_spinach_casserole",
     "name": { "str_sp": "cheesy baked spinach casserole" },
     "comestible_type": "FOOD",
@@ -37,10 +38,11 @@
     "price_postapoc": "1 USD",
     "material": [ "veggy", "milk", "egg" ],
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "tuna_noodle_casserole",
     "name": { "str_sp": "fish noodle casserole" },
     "comestible_type": "FOOD",
@@ -57,10 +59,11 @@
     "price_postapoc": "1 USD",
     "material": [ "flesh", "wheat", "veggy" ],
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "lazy_lobster_casserole",
     "name": { "str_sp": "lazy lobster casserole" },
     "comestible_type": "FOOD",
@@ -77,10 +80,11 @@
     "price_postapoc": "1 USD 50 cent",
     "material": [ "flesh", "wheat", "milk" ],
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "eggplant_parmigiana",
     "name": { "str_sp": "eggplant parmigiana" },
     "weight": "178 g",
@@ -100,6 +104,7 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "calcium", 15 ], [ "iron", 2 ], [ "vitC", 7 ], [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ],
-    "fun": 8
+    "fun": 8,
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

@@ -27,7 +27,7 @@
   },
   {
     "id": "debug_gun_no_mag_well",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "debug gun without mag well" },
     "copy-from": "rifle_auto",
     "description": "Just a debug gun.",
@@ -46,44 +46,49 @@
     "min_cycle_recoil": 1350,
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "melee_damage": { "bash": 12 },
-    "flags": [ "NO_TURRET" ]
+    "flags": [ "NO_TURRET" ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "debug_gun_with_mag_well",
-    "type": "GUN",
+    "type": "ITEM",
     "name": "debug gun with mag well",
     "copy-from": "debug_gun_no_mag_well",
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "ammo_restriction": { "223": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "ammo_restriction": { "223": 20 } } ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "debug_tool_no_pockets",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": "debug tool with no pockets",
     "description": "debug",
     "symbol": "(",
     "volume": "1L",
-    "weight": "1kg"
+    "weight": "1kg",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "debug_tool_one_pocket",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": "debug tool with one pocket",
     "copy-from": "debug_tool_no_pockets",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2L" } ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2L" } ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "debug_retool_container_no_mag_well",
-    "type": "TOOLMOD",
+    "type": "ITEM",
     "name": "debug toolmod to add container",
     "description": "debug",
     "symbol": "(",
     "volume": "1L",
     "weight": "1kg",
-    "pocket_mods": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1L" } ]
+    "pocket_mods": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1L" } ],
+    "subtypes": [ "TOOLMOD" ]
   },
   {
     "id": "debug_retool_mag_well",
-    "type": "GUNMOD",
+    "type": "ITEM",
     "name": { "str": "debug gunmod to add/alter magazine well" },
     "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers allow compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a standard 16-inch barrel chambered for .223 Remington ammunition.",
     "weight": "2268 g",
@@ -160,6 +165,7 @@
         ]
       }
     ],
-    "add_mod": [ [ "brass catcher", 1 ], [ "bayonet lug", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
+    "add_mod": [ [ "brass catcher", 1 ], [ "bayonet lug", 1 ], [ "rail", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ],
+    "subtypes": [ "GUNMOD", "TOOLMOD" ]
   }
 ]

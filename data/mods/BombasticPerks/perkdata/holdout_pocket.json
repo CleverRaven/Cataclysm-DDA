@@ -1,7 +1,7 @@
 [
   {
     "id": "integrated_holdout_pocket",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "holdout pocket" },
     "description": "A secret pocket no one knows about that can easily store a weapon.",
@@ -24,6 +24,7 @@
         "volume_encumber_modifier": 0.3
       }
     ],
-    "armor": [ { "covers": [ "torso" ], "coverage": 0, "encumbrance": 0 } ]
+    "armor": [ { "covers": [ "torso" ], "coverage": 0, "encumbrance": 0 } ],
+    "subtypes": [ "ARMOR" ]
   }
 ]

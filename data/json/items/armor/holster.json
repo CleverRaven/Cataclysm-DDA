@@ -1,7 +1,7 @@
 [
   {
     "id": "back_holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "back holster" },
     "description": "A leather holster, big enough for a rifle or other large gun.  Designed to be strapped to the back.  Activate to holster/draw a gun.",
     "weight": "240 g",
@@ -27,11 +27,12 @@
     ],
     "use_action": { "type": "holster" },
     "flags": [ "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "baldric_holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "baldric holster" },
     "description": "A leather harness which can hold up to six pistol-sized guns in total, available for quick drawing.  Historically, similar harnesses were used by pirates to carry multiple loaded flintlock pistols at once, as reloading them is a lengthy process.  Activate to holster/draw a gun.",
     "weight": "1320 g",
@@ -107,11 +108,12 @@
     ],
     "use_action": { "type": "holster" },
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 2, "coverage": 40, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 40, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "bootstrap",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "ankle holster" },
     "description": "A small concealed holster worn on the ankle.  It is awkward to use without practice.  Activate to holster/draw a small pistol.",
     "weight": "200 g",
@@ -146,11 +148,12 @@
         "encumbrance": [ 3, 4 ],
         "layers": [ "BELTED" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "bow_sling",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "bow sling" },
     "description": "A somewhat complicated set of straps and fabric to keep your bow close to hand and (mostly) out of harm's way.  Activate to holster/draw your bow.",
     "weight": "320 g",
@@ -176,11 +179,12 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "armor": [ { "encumbrance": [ 3, 7 ], "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ]
+    "armor": [ { "encumbrance": [ 3, 7 ], "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "single_sling",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "single point sling" },
     "description": "A harness going over your shoulder and across your chest.  Designed to connect to a rifle at a single point with the rifle hanging off your front.  Great for fighting, not great for travel.  Activate to holster/draw your weapon.",
     "weight": "320 g",
@@ -207,11 +211,12 @@
     "use_action": { "type": "holster" },
     "armor": [
       { "encumbrance": [ 0, 16 ], "coverage": 13, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "holster" },
     "description": "A leather strap worn on the hip for holding pistol-sized guns.  Activate to holster/draw a gun.",
     "weight": "220 g",
@@ -245,11 +250,12 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "nylon_holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "nylon holster" },
     "description": "Holster made from nylon, rather than leather.  A bit stronger and lighter, but not as fashionable.  Activate to draw/holster a gun.",
     "weight": "200 g",
@@ -283,11 +289,12 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "western_holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "western gun belt" },
     "description": "A Western-style gun belt as worn by cowboys and gunfighters in the movies and on TV. Has loops across the back to hold spare ammo.  Activate to holster/draw a gun.",
     "weight": "260 g",
@@ -355,12 +362,13 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "BELTED", "OVERSIZE" ]
+    "flags": [ "BELTED", "OVERSIZE" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "sholster",
     "copy-from": "holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "fast draw holster" },
     "description": "A comfortable quick-draw holster for small guns.  Activate to holster/draw a gun.",
     "price_postapoc": "5 USD",
@@ -385,12 +393,13 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "shoulder_holster",
     "copy-from": "holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "shoulder holster" },
     "description": "A comfortable quick-draw holster for larger pistols.  One side holsters a gun, and the other side holds two magazines.  Activate to holster/draw a gun.",
     "price_postapoc": "5 USD",
@@ -419,12 +428,13 @@
     ],
     "use_action": { "type": "holster" },
     "flags": [ "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "bholster",
     "copy-from": "holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "deep concealment holster" },
     "description": "An elastic band with numerous provisions for concealing a very small pistol close to the body.  It is awkward to use without practice.  Activate to holster/draw a gun.",
     "weight": "120 g",
@@ -453,12 +463,13 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "bbholster",
     "copy-from": "holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "belly band holster" },
     "description": "A wide elastic belly belt with a built-in holster for a pistol and a spare magazine.  It is very awkward to use without practice.  Activate to holster/draw a gun.",
     "weight": "240 g",
@@ -491,11 +502,12 @@
     ],
     "use_action": { "type": "holster" },
     "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 0, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "side_double_holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "side-by-side double holster" },
     "description": "Two holsters attached together by a strap, right next to each other.  The placement means that drawing guns out of either one is slower than a regular holster.  Activate to holster/draw a gun.",
     "weight": "500 g",
@@ -539,11 +551,12 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "FB_double_holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "front-to-back double holster" },
     "description": "Two holsters attached together by a strap, one in front of the other.  The placement means that drawing a gun out of the front holster is slower than the other holster.  Activate to holster/draw a gun.",
     "weight": "500 g",
@@ -587,11 +600,12 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "side_nylon_double_holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "nylon side-by-side double holster" },
     "description": "Two nylon holsters attached together by a strap, right next to each other.  The placement means that drawing guns out of either one is slower than a regular holster.  Activate to holster/draw a gun.",
     "weight": "500 g",
@@ -635,11 +649,12 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "FB_nylon_double_holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "nylon front-to-back double holster" },
     "description": "Two nylon holsters attached together by a strap, one in front of the other.  The placement means that drawing a gun out of the front holster is slower than the other holster.  Activate to holster/draw a gun.",
     "weight": "480 g",
@@ -683,11 +698,12 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "XL_holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "large holster" },
     "description": "A belt holster consisting of a loop and strap intended for use with larger firearms.  Slightly more cumbersome than a standard holster due to the straps that hold it flat against your leg.  Activate to holster/draw a gun.",
     "weight": "320 g",
@@ -720,11 +736,12 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l", "leg_upper_r", "leg_upper_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "XL_nylon_holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "large nylon holster" },
     "description": "A belt holster consisting of a loop and strap intended for use with larger firearms, but made with nylon instead of leather.  Activate to holster/draw a gun",
     "weight": "287 g",
@@ -757,22 +774,25 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l", "leg_upper_r", "leg_upper_l" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "XS_holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "holster",
     "name": { "str": "holster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "BELTED", "BELT_CLIP", "UNDERSIZE", "PREFIX_XS", "PALS_MEDIUM" ]
+    "flags": [ "BELTED", "BELT_CLIP", "UNDERSIZE", "PREFIX_XS", "PALS_MEDIUM" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "XS_nylon_holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "nylon_holster",
     "name": { "str": "nylon holster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "BELTED", "BELT_CLIP", "UNDERSIZE", "PREFIX_XS", "PALS_MEDIUM" ]
+    "flags": [ "BELTED", "BELT_CLIP", "UNDERSIZE", "PREFIX_XS", "PALS_MEDIUM" ],
+    "subtypes": [ "ARMOR" ]
   }
 ]

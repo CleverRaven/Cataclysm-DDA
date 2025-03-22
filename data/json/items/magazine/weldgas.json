@@ -2,7 +2,7 @@
   {
     "id": "tinyweldtank",
     "looks_like": "pressurized_canister",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "tool_magazine",
     "name": { "str": "tiny welding tank" },
     "description": "A tiny acetylene tank.  It can pressurize up to 1 liter of welding gas.",
@@ -18,13 +18,14 @@
     "capacity": 100,
     "count": 100,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "weldgas": 100 }, "watertight": true } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "weldgas": 100 }, "watertight": true } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "smallweldtank",
     "//": "Hot Max 24012 Acetylene Cylinder",
     "looks_like": "pressurized_tank",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "tool_magazine",
     "name": { "str": "small welding tank" },
     "description": "A compact MC size acetylene tank.  It can pressurize up to 10 cubic feet of welding gas.",
@@ -40,13 +41,14 @@
     "capacity": 350,
     "count": 350,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "weldgas": 350 }, "watertight": true } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "weldgas": 350 }, "watertight": true } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "weldtank",
     "//": "Lemorele B Steel Acetylene Cylinder",
     "looks_like": "pressurized_tank",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "tool_magazine",
     "name": { "str": "welding tank" },
     "description": "A bulky B size acetylene tank.  It can pressurize up to 40 cubic feet of welding gas.",
@@ -62,6 +64,7 @@
     "capacity": 1400,
     "count": 1400,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "weldgas": 1400 }, "watertight": true } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "weldgas": 1400 }, "watertight": true } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

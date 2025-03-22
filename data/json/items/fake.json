@@ -1,7 +1,7 @@
 [
   {
     "abstract": "fake_item",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str": "fake item", "//~": "NO_I18N" },
     "description": { "str": "Dummy item.  If you see this description, it is a bug.", "//~": "NO_I18N" },
     "//": "Include ZERO_WEIGHT flag to avoid errors when instantiating pseudo items.",
@@ -14,35 +14,39 @@
   {
     "id": "fake_crafting_tool",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "fake crafting tool", "//~": "NO_I18N" },
     "description": { "str": "Used for practice recipes and the like.  If you see this description, it is a bug.", "//~": "NO_I18N" },
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] }
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "spinwheelitem",
     "copy-from": "fake_item",
-    "type": "TOOL",
-    "name": { "str": "spinning wheel" }
+    "type": "ITEM",
+    "name": { "str": "spinning wheel" },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "scutcheritem",
     "copy-from": "fake_item",
-    "type": "TOOL",
-    "name": { "str": "stationary scutcher" }
+    "type": "ITEM",
+    "name": { "str": "stationary scutcher" },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "fake_burrowing",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str_sp": "teeth and claws" },
     "extend": { "flags": [ "TRADER_AVOID" ] },
     "use_action": [ "DIG" ],
-    "qualities": [ [ "DIG", 2 ] ]
+    "qualities": [ [ "DIG", 2 ] ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "internal_mp3",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "copy-from": "fake_item",
     "name": { "str": "WearMan" },
     "description": "A set of speakers implanted into your skull, that can receive local radiowaves and play downloaded music at a concert hall quality.  It comes with \"Rubik's Mickse\" preloaded.  Activate it to start playing some tunes.",
@@ -58,11 +62,12 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "USES_BIONIC_POWER" ]
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "USES_BIONIC_POWER" ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "internal_mp3_music",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "copy-from": "fake_item",
     "name": { "str": "WearMan" },
     "description": "A set of speakers implanted into your skull, that can receive local radiowaves and play downloaded music at a concert hall quality.  It is currently playing \"Rubik's Mickse\".  Activate it to find the Spirit of the Radio.",
@@ -81,11 +86,12 @@
     "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "USES_BIONIC_POWER" ],
     "power_draw": "1 W",
     "revert_to": "internal_mp3",
-    "tick_action": [ "MP3_ON" ]
+    "tick_action": [ "MP3_ON" ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "internal_mp3_radio",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "copy-from": "fake_item",
     "name": { "str": "WearMan" },
     "description": "A set of speakers implanted into your skull, that can receive local radiowaves and play downloaded music at a concert hall quality.  It is currently playing \"Rubik's Mickse\".  Activate it to turn it off.",
@@ -104,11 +110,12 @@
     "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "USES_BIONIC_POWER" ],
     "power_draw": "1 W",
     "revert_to": "internal_mp3",
-    "tick_action": [ "RADIO_TICK" ]
+    "tick_action": [ "RADIO_TICK" ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "integrated_ar",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "copy-from": "fake_item",
     "name": { "str": "Integrated AR System" },
     "description": "Extremely thin lenses provides user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
@@ -139,66 +146,74 @@
       "NO_REPAIR",
       "ALLOWS_NATURAL_ATTACKS",
       "USES_BIONIC_POWER"
-    ]
+    ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "fake_goggles",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str_sp": "bionic goggles" },
-    "qualities": [ [ "GLARE", 1 ] ]
+    "qualities": [ [ "GLARE", 1 ] ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "bio_scalpel",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str_sp": "autonomous surgical scalpels" },
     "description": "A system of surgical-grade scalpels.  They allow you to make precise cuts on corpses.",
     "techniques": [ "PRECISE" ],
     "extend": { "flags": [ "TRADER_AVOID", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "SPEAR" ] },
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ],
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
-    "melee_damage": { "stab": 8 }
+    "melee_damage": { "stab": 8 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "fake_razor",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "bionic razor" },
-    "qualities": [ [ "BUTCHER", 8 ], [ "CUT", 1 ] ]
+    "qualities": [ [ "BUTCHER", 8 ], [ "CUT", 1 ] ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "fake_sharp_metal_wreckage",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "sharp piece of wreckage" },
-    "qualities": [ [ "CUT", 1 ] ]
+    "qualities": [ [ "CUT", 1 ] ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "boulder_anvil",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "fake_item",
     "name": { "str": "boulder anvil" },
-    "qualities": [ [ "ANVIL", 1 ] ]
+    "qualities": [ [ "ANVIL", 1 ] ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "fake_anvil",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "fake_item",
     "name": { "str": "anvil" },
-    "qualities": [ [ "ANVIL", 3 ] ]
+    "qualities": [ [ "ANVIL", 3 ] ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "fake_anvil_heavy",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "fake_item",
     "name": { "str": "heavy anvil" },
-    "qualities": [ [ "ANVIL", 4 ] ]
+    "qualities": [ [ "ANVIL", 4 ] ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "fake_milling_item",
     "copy-from": "fake_item",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "semi ground grains" },
     "description": "A paste of half-finished milled grains, not yet flour.",
     "extend": { "flags": [ "TRADER_AVOID", "FAKE_MILL" ] }
@@ -206,7 +221,7 @@
   {
     "id": "fake_smoke_plume",
     "copy-from": "fake_item",
-    "type": "GENERIC",
+    "type": "ITEM",
     "name": { "str_sp": "smoldering embers" },
     "description": "A handful of smoldering embers emitting smoke.  They are fading away before your eyes.",
     "emits": [ "emit_small_smoke_plume" ],
@@ -215,206 +230,233 @@
   {
     "id": "fake_firestarter",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "bionic firestarter" },
-    "extend": { "flags": [ "FIRESTARTER", "USES_BIONIC_POWER" ] }
+    "extend": { "flags": [ "FIRESTARTER", "USES_BIONIC_POWER" ] },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "fake_radio",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "bionic radio" },
-    "extend": { "flags": [ "TWO_WAY_RADIO", "USES_BIONIC_POWER" ] }
+    "extend": { "flags": [ "TWO_WAY_RADIO", "USES_BIONIC_POWER" ] },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "fake_tire_changer",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "tire changer" },
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] },
-    "qualities": [ [ "PRY", 1 ], [ "PRESSURIZATION", 1 ] ]
+    "qualities": [ [ "PRY", 1 ], [ "PRESSURIZATION", 1 ] ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "fake_power_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "fake_item",
     "name": { "str": "fake power tool", "//~": "NO_I18N" },
-    "ammo": [ "battery" ],
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ] }
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ] },
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "fake_arc_furnace",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "fake_power_tool",
-    "name": { "str": "arc furnace" }
+    "name": { "str": "arc furnace" },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "fake_beverly_shear",
     "copy-from": "fake_item",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "Beverly shear" },
     "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
-    "qualities": [ [ "SAW_M", 2 ] ]
+    "qualities": [ [ "SAW_M", 2 ] ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "abstract": "fake_appliance_tool",
     "name": { "str": "fake appliance tool", "//~": "NO_I18N" },
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "fake_item",
-    "ammo": [ "battery" ],
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "drill_press_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "drill press", "str_pl": "drill presses" },
     "copy-from": "fake_appliance_tool",
     "charges_per_use": 25,
-    "charged_qualities": [ [ "DRILL", 3 ] ]
+    "charged_qualities": [ [ "DRILL", 3 ] ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "glassblowers_crucible_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "glassblower's crucible" },
     "copy-from": "fake_appliance_tool",
     "symbol": "o",
     "color": "brown",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] }
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "tablesaw_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "table saw" },
-    "copy-from": "fake_appliance_tool"
+    "copy-from": "fake_appliance_tool",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "mitresaw_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "mitre saw" },
-    "copy-from": "fake_appliance_tool"
+    "copy-from": "fake_appliance_tool",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "bandsaw_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "band saw" },
-    "copy-from": "fake_appliance_tool"
+    "copy-from": "fake_appliance_tool",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "router_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "router" },
-    "copy-from": "fake_appliance_tool"
+    "copy-from": "fake_appliance_tool",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "planer_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "planer" },
-    "copy-from": "fake_appliance_tool"
+    "copy-from": "fake_appliance_tool",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "jointer_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "jointer" },
-    "copy-from": "fake_appliance_tool"
+    "copy-from": "fake_appliance_tool",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "catalytic_cracking_reactor_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "fake_appliance_tool",
     "name": { "str": "catalytic cracking reactor" },
     "//": "there's a laptop in the disassembly, I assume it requires power.",
     "charges_per_use": 1,
-    "charged_qualities": [ [ "EXTRACT", 3 ] ]
+    "charged_qualities": [ [ "EXTRACT", 3 ] ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "hydraulic_press_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "fake_appliance_tool",
-    "name": { "str": "hydraulic press", "str_pl": "hydraulic presses" }
+    "name": { "str": "hydraulic press", "str_pl": "hydraulic presses" },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "heavy_lathe_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "fake_appliance_tool",
-    "name": { "str": "power lathe" }
+    "name": { "str": "power lathe" },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "air_compressor_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "copy-from": "fake_appliance_tool",
     "name": { "str": "air compressor" },
     "charges_per_use": 50,
-    "charged_qualities": [ [ "PRESSURIZATION", 2 ] ]
+    "charged_qualities": [ [ "PRESSURIZATION", 2 ] ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "pseudo_exercise_machine",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "exercise machine" },
     "copy-from": "fake_crafting_tool",
     "material": [ "steel" ],
     "symbol": "T",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "pseudo_punching_bag",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "heavy punching bag" },
     "copy-from": "fake_crafting_tool",
     "symbol": "0",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "pseudo_ergometer_mechanical",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "mechanical ergometer" },
     "copy-from": "fake_crafting_tool",
     "symbol": "5",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "pseudo_treadmill_mechanical",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "gravity treadmill" },
     "copy-from": "fake_crafting_tool",
     "symbol": "L",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "pseudo_training_dummy_light",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "training dummy", "str_pl": "training dummies" },
     "copy-from": "fake_crafting_tool",
     "symbol": "@",
-    "color": "brown"
+    "color": "brown",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "pseudo_training_dummy_heavy",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "armored training dummy", "str_pl": "armored training dummies" },
     "copy-from": "fake_crafting_tool",
     "symbol": "@",
-    "color": "brown"
+    "color": "brown",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "pseudo_archery_target_box",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "box archery target" },
     "copy-from": "fake_crafting_tool",
     "symbol": "@",
-    "color": "brown"
+    "color": "brown",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "pseudo_archery_target_bale",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "bale archery target" },
     "copy-from": "fake_crafting_tool",
     "symbol": "@",
-    "color": "yellow"
+    "color": "yellow",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "pseudo_magazine",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "category": "spare_parts",
     "name": { "str": "pseudo magazine", "//~": "NO_I18N" },
     "description": { "str": "Pseudo magazine for use in dirty vehicle hacks.", "//~": "NO_I18N" },
@@ -431,58 +473,65 @@
       }
     ],
     "symbol": "@",
-    "color": "red"
+    "color": "red",
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "fake_lift_light",
     "copy-from": "fake_crafting_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "light hoist" },
-    "qualities": [ [ "LIFT", 2 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
+    "qualities": [ [ "LIFT", 2 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "fake_lift_medium",
     "copy-from": "fake_crafting_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "sturdy hoist" },
-    "qualities": [ [ "LIFT", 8 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
+    "qualities": [ [ "LIFT", 8 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "fake_lift_heavy",
     "copy-from": "fake_crafting_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "heavy-duty hoist" },
-    "qualities": [ [ "LIFT", 40 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
+    "qualities": [ [ "LIFT", 40 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "pseudo_app_oxygen_concentrator",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "oxygen concentrator" },
     "copy-from": "fake_crafting_tool",
-    "ammo": [ "battery" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "pseudo_app_hd_compressor_unit",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "high pressure compressor unit" },
     "copy-from": "fake_crafting_tool",
-    "ammo": [ "battery" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
     "charges_per_use": 100,
-    "charged_qualities": [ [ "PRESSURIZATION", 10 ] ]
+    "charged_qualities": [ [ "PRESSURIZATION", 10 ] ],
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "concrete_mix_tool",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "concrete mixer" },
     "copy-from": "fake_appliance_tool",
-    "charges_per_use": 20
+    "charges_per_use": 20,
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "debug_item_search",
     "name": { "str": "debug item search", "//~": "NO_I18N" },
-    "type": "GENERIC",
+    "type": "ITEM",
     "symbol": "?",
     "description": { "str": "This is a dummy item used by item search.  You should never see it outside of debug.", "//~": "NO_I18N" },
     "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
@@ -490,7 +539,7 @@
   {
     "id": "fake_dynamite_50lbs",
     "//": "This is used exclusively in the rescue mission for Barry to blow a hole in the scout tower.",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "weapons",
     "name": { "str": "fake 50lbs dynamite car bomb", "//~": "NO_I18N" },
     "description": {
@@ -510,6 +559,7 @@
     "countdown_action": { "type": "explosion", "explosion": { "power": 18779, "max_noise": 0 } },
     "countdown_interval": "1 seconds",
     "flags": [ "BOMB" ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "subtypes": [ "TOOL" ]
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
     "id": "balclava",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "balaclava" },
     "description": "A warm covering that protects the head and face from the cold.",
     "weight": "70 g",
@@ -16,30 +16,33 @@
     "material_thickness": 0.5,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "head", "mouth" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "head", "mouth" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "balaclava_skull",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "balclava",
     "name": { "str": "skull balaclava" },
     "description": "A skull-print balaclava covering the head and face, commonly used by motorcycle riders and as part of a costume.",
     "warmth": 10,
-    "material_thickness": 0.2
+    "material_thickness": 0.2,
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "balaclava_cut_resistant",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "cut-resistant balaclava" },
     "description": "A face covering that helps protect from slashes and cuts, in addition to the cold.",
     "copy-from": "balclava",
     "price": "76 USD",
-    "material": [ "kevlar" ]
+    "material": [ "kevlar" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "bandana",
-    "type": "TOOL_ARMOR",
+    "type": "ITEM",
     "category": "clothing",
     "name": { "str": "bandana" },
     "description": "A cotton bandana, worn over the mouth for warmth and minor protection from dust and other contaminants.",
@@ -60,11 +63,12 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "environmental_protection": 2,
-    "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "mouth" ] } ],
+    "subtypes": [ "TOOL", "ARMOR" ]
   },
   {
     "id": "bondage_mask",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "bondage mask" },
     "description": "A tight mask made of black leather.  The eyes and mouth can be closed using zippers.",
     "weight": "210 g",
@@ -85,12 +89,13 @@
       "target": "bondage_mask_zipped",
       "msg": "You zip the eyes and mouth of the bondage mask closed."
     },
-    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "bondage_mask_zipped",
     "copy-from": "bondage_mask",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "bondage mask (zipped)", "str_pl": "bondage masks (zipped)" },
     "description": "A tight mask made of black leather.  The eyes and mouth have been zipped closed.",
     "looks_like": "bondage_mask",
@@ -100,11 +105,12 @@
       "type": "transform",
       "target": "bondage_mask",
       "msg": "You unzip the eyes and mouth of the bondage mask."
-    }
+    },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "fencing_mask",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "fencing mask" },
     "description": "A tough hood made of steel mesh used by fencers.",
     "weight": "520 g",
@@ -141,11 +147,12 @@
       }
     ],
     "flags": [ "STURDY", "PADDED" ],
-    "warmth": 15
+    "warmth": 15,
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "mask_bal",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "ballistic mask" },
     "description": "A protective reinforced Kevlar mask that covers the face.  Provides excellent protection from ballistic threats.",
@@ -161,11 +168,12 @@
     "material_thickness": 4,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY", "STURDY", "PADDED" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes", "mouth" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "mask_dust",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "dust mask" },
     "description": "A simple piece of cotton that straps over the mouth.  Provides a small amount of protection from airborne illness and dust.",
     "weight": "168 g",
@@ -264,11 +272,12 @@
         "weight": 2,
         "append": true
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "mask_guy_fawkes",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "Guy Fawkes mask" },
     "description": "Remember, remember, the fifth of November.",
@@ -284,11 +293,12 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes", "mouth" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "mask_hockey",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "hockey mask" },
     "//": "Jason-type costume masks are much cheaper and less protective.",
@@ -305,11 +315,12 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY", "STURDY" ],
-    "armor": [ { "encumbrance": 12, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
+    "armor": [ { "encumbrance": 12, "coverage": 95, "covers": [ "eyes", "mouth" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "mask_rioter",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "rioter mask" },
     "description": "A t-shirt with the sleeves tied behind the back of one's head.  These are usually worn by rioters to hide their identity.",
     "weight": "123 g",
@@ -323,12 +334,13 @@
     "warmth": 8,
     "material_thickness": 0.5,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance": 8, "coverage": 90, "covers": [ "head", "mouth" ] } ]
+    "armor": [ { "encumbrance": 8, "coverage": 90, "covers": [ "head", "mouth" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "mask_skull",
     "//": "the mask_skull was here first so i'm just expanding it with mask variants.",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "skull mask" },
     "description": "A plastic mask that covers the face.",
@@ -396,11 +408,12 @@
         "weight": 15,
         "append": true
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "santa_beard",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "white beard" },
     "description": "A fake white beard that straps over the mouth.  Perfect for your Santa costume!",
     "weight": "200 g",
@@ -415,11 +428,12 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "OUTER" ],
-    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "mouth" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "face_veil",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "face veil" },
     "description": "A simple piece of cotton that covers your face.",
     "weight": "160 g",
@@ -485,11 +499,12 @@
         "weight": 5,
         "append": true
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "pumpkin_mask",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "pumpkin mask" },
     "description": "A flimsy plastic pumpkin mask to wear over your head.",
     "weight": "120 g",
@@ -503,11 +518,12 @@
     "material_thickness": 0.5,
     "environmental_protection": 1,
     "flags": [ "FRAGILE" ],
-    "armor": [ { "encumbrance": 14, "coverage": 95, "covers": [ "head", "mouth" ] } ]
+    "armor": [ { "encumbrance": 14, "coverage": 95, "covers": [ "head", "mouth" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "zombie_mask",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "zombie mask" },
     "description": "A flimsy leather zombie mask.  When zombies were still works of fiction.",
     "weight": "100 g",
@@ -563,11 +579,12 @@
         "description": "A full-head mask that looks like the head of Frankenstein's monster.",
         "weight": 20
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "mask_plague",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "plague mask" },
     "description": "A beaked leather mask used by plague doctors.",
@@ -607,6 +624,7 @@
         "weight": 25,
         "append": true
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   }
 ]

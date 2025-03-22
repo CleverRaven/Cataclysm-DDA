@@ -9,7 +9,7 @@
   },
   {
     "id": "enchanted_pirate_blouse",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str_sp": "enchanted parabolan wool blouse" },
     "description": "A loose silvery iridescent blouse in a style most often associated with pirates and renfaires.  It shimmers as you look at it.  Made of parabolan wool, it sometimes dimly shows reflections of things here and not.  This particular one has piratical flairs and glitters with enchantment.",
     "looks_like": "dress_shirt",
@@ -25,11 +25,12 @@
     "material": [ "parabolan_wool" ],
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "RAINPROOF", "STURDY", "TRADER_KEEP_EQUIPPED" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_parabolan_blouse" } ] }
+    "passive_effects": [ { "id": "ench_parabolan_blouse" } ],
+    "subtypes": [ "ARTIFACT", "ARMOR" ]
   },
   {
     "id": "parabolan_enchanted_breeches",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str_sp": "enchanted parabolan wool breeches" },
     "description": "A well-made pair of old-fashioned pants, made of silvery iridescent material.  Comfortable, but lacks pockets.  It shimmers as you look at it.  Made of parabolan wool, it sometimes dimly shows reflections of things here and not.  This particular one has piratical flairs and glitters with enchantment.",
     "weight": "312 g",
@@ -43,19 +44,18 @@
     "armor": [ { "encumbrance": 2, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ],
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "RAINPROOF", "STURDY", "TRADER_KEEP_EQUIPPED" ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "incoming_damage_mod": [ { "type": "stab", "add": -3 }, { "type": "cut", "add": -3 }, { "type": "bullet", "add": -8 } ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "incoming_damage_mod": [ { "type": "stab", "add": -3 }, { "type": "cut", "add": -3 }, { "type": "bullet", "add": -8 } ]
+      }
+    ],
+    "subtypes": [ "ARTIFACT", "ARMOR" ]
   },
   {
     "id": "parabolan_blouse",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": "parabolan wool blouse",
     "description": "A loose silvery iridescent blouse in a style most often associated with pirates and renfaires.  It shimmers as you look at it.  Made of parabolan wool, it sometimes dimly shows reflections of things here and not.",
     "looks_like": "dress_shirt",
@@ -71,11 +71,12 @@
     ],
     "material": [ "parabolan_wool" ],
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "parabolan_breeches",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str_sp": "parabolan wool breeches" },
     "description": "A well-made pair of old-fashioned pants, made of silvery iridescent material.  Comfortable, but lacks pockets.  It shimmers as you look at it.  Made of parabolan wool, it sometimes dimly shows reflections of things here and not.",
     "weight": "312 g",
@@ -88,11 +89,12 @@
     "color": "brown",
     "armor": [ { "encumbrance": 2, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ],
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "gambeson_parabolan",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "parabolan wool gambeson" },
     "description": "A padded greatcoat assembled by quilting rarely available iridescent wool that was intended as standalone armor, this is half the thickness of a historical gambeson due to the quality of its material.  Famed for its resistance to arrows in olden times, one might wonder how effective it might be against modern projectiles.",
     "weight": "1664 g",
@@ -134,29 +136,32 @@
         "layers": [ "BELTED" ],
         "//warmth": 2
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_gambeson_parabolan",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_gambeson_parabolan",
     "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "gambeson_parabolan_thinsleeved",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "thin-sleeved parabolan wool gambeson" },
     "description": "A thick iridescent wool greatcoat famed for its resistance to arrows in olden times.  Compared to conventional wool, this is much lighter and less warm.  The sleeves are a lot thinner for flexibility and it drapes below your legs, providing additional protection there.",
     "weight": "3147 g",
@@ -201,29 +206,32 @@
         "layers": [ "BELTED" ],
         "//warmth": 2
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_gambeson_parabolan_thinsleeved",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "thin-sleeved parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan_thinsleeved",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_gambeson_parabolan_thinsleeved",
     "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "thin-sleeved parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan_thinsleeved",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "gambeson_parabolan_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "sleeveless parabolan wool gambeson" },
     "description": "A thick iridescent wool surcoat famed for its resistance to arrows in the olden times.  Compared to conventional wool, this is much lighter and less warm.  It drapes below your legs, providing additional protection there, and it lacks sleeves entirely.",
     "weight": "2340 g",
@@ -257,29 +265,32 @@
         "layers": [ "BELTED" ],
         "//warmth": 2
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_gambeson_parabolan_vest",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "sleeveless parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan_vest",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_gambeson_parabolan_vest",
     "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "sleeveless parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan_vest",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "gambeson_pants_parabolan",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "parabolan wool heavy arming pants", "str_pl": "pairs of parabolan wool heavy arming pants" },
     "description": "Tough, fairly thick iridescent wool pants worn on their own alongside a gambeson.  These are made of layered wool quilting offering very solid protection, specifically for the purposes of stopping arrows.",
     "weight": "1404 g",
@@ -304,29 +315,32 @@
         "coverage": 100,
         "encumbrance": 13
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_gambeson_pants_parabolan",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "parabolan wool heavy arming pants", "str_pl": "pairs of parabolan wool heavy arming pants" },
     "copy-from": "gambeson_pants_parabolan",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_gambeson_pants_parabolan",
     "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "parabolan wool heavy arming pants", "str_pl": "pairs of parabolan wool heavy arming pants" },
     "copy-from": "gambeson_pants_parabolan",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "gambeson_gloves_parabolan",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "parabolan wool arming mittens", "str_pl": "pairs of parabolan wool arming mittens" },
     "description": "Thick iridescent wool gauntlets worn in lieu of metal or leather armor.  These are much less encumbering and warm than conventional wool, but they offer excellent protection against arrows.",
     "weight": "174 g",
@@ -368,52 +382,53 @@
         "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
         "coverage": 100
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_gambeson_gloves_parabolan",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "parabolan wool arming mittens", "str_pl": "pairs of parabolan wool arming mittens" },
     "copy-from": "gambeson_gloves_parabolan",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_gambeson_gloves_parabolan",
     "//": "surface area of XS body assumed to be 75% size and materials used are also 75% as much.",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "parabolan wool arming mittens", "str_pl": "pairs of parabolan wool arming mittens" },
     "copy-from": "gambeson_gloves_parabolan",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "coat_lab_plus_one",
     "copy-from": "coat_lab",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str_sp": "enchanted lab coat" },
     "looks_like": "coat_lab",
     "description": "A long white coat with several large pockets, with a pentagram on the lapel and a few orichalcum threads sewn into the seams.  Perfect for the stylish-but-effective academic mage.",
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 0.4 } ] } ]
-    }
+    "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 0.4 } ] } ],
+    "subtypes": [ "ARTIFACT", "ARMOR" ]
   },
   {
     "id": "coat_lab_plus_two",
     "copy-from": "coat_lab",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str_sp": "enspelled lab coat" },
     "looks_like": "coat_lab",
     "description": "A long white coat with several large pockets, with a pentagram on the lapel and orichalcum and mithril threads sewn into the seams.  A director of thaumaturgical research would have worn this or something like this before the Cataclysm.",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [ { "value": "REGEN_MANA", "multiply": 0.5 }, { "value": "MAX_MANA", "add": 500 } ]
-        }
-      ]
-    }
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [ { "value": "REGEN_MANA", "multiply": 0.5 }, { "value": "MAX_MANA", "add": 500 } ]
+      }
+    ],
+    "subtypes": [ "ARTIFACT", "ARMOR" ]
   }
 ]

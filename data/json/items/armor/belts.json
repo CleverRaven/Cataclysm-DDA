@@ -1,7 +1,7 @@
 [
   {
     "id": "fireman_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "firefighter belt" },
     "description": "A stout firefighter's belt.  Useful for keeping your bunker gear up, it also doubles as an equipment belt with a reinforced loop for holding a large tool.",
     "weight": "210 g",
@@ -61,12 +61,13 @@
           { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "abstract": "judo_belt_abstract",
     "repairs_like": "scarf",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "judo belt template", "//~": "NO_I18N" },
     "description": { "str": "This is a template for judo belts.  If found in a game, it is a bug.", "//~": "NO_I18N" },
     "weight": "200 g",
@@ -77,67 +78,75 @@
     "symbol": "[",
     "material_thickness": 2,
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "judo_belt_black",
     "copy-from": "judo_belt_abstract",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "black belt" },
     "description": "A belt worn by martial arts practitioners, advertising a master.",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "judo_belt_blue",
     "copy-from": "judo_belt_abstract",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "blue belt" },
     "description": "A belt worn by martial arts practitioners, advertising a strong intermediate.",
-    "color": "blue"
+    "color": "blue",
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "judo_belt_brown",
     "copy-from": "judo_belt_abstract",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "brown belt" },
     "description": "A belt worn by martial arts practitioners, advertising a near-master.",
-    "color": "brown"
+    "color": "brown",
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "judo_belt_green",
     "copy-from": "judo_belt_abstract",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "green belt" },
     "description": "A belt worn by martial arts practitioners, advertising an intermediate.",
-    "color": "green"
+    "color": "green",
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "judo_belt_orange",
     "copy-from": "judo_belt_abstract",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "orange belt" },
     "description": "A belt worn by martial arts practitioners, advertising a fresh intermediate.",
-    "color": "light_red"
+    "color": "light_red",
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "judo_belt_white",
     "copy-from": "judo_belt_abstract",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "white belt" },
     "description": "A belt worn by martial arts practitioners, advertising a novice.",
-    "color": "white"
+    "color": "white",
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "judo_belt_yellow",
     "copy-from": "judo_belt_abstract",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "yellow belt" },
     "description": "A belt worn by martial arts practitioners, advertising a moderate novice.",
-    "color": "yellow"
+    "color": "yellow",
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "leather_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "leather belt" },
     "description": "A leather belt.  Designed to look good and hold up a pair of pants, but you should be able to attach a small tool or weapon to one of the belt loops.",
     "weight": "150 g",
@@ -224,11 +233,12 @@
           { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "obi_gi",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "obi" },
     "description": "A broad, black obi gi.",
     "weight": "200 g",
@@ -237,11 +247,12 @@
     "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "police_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "police duty belt" },
     "description": "A black leather belt used by police officers.  It has several pouches and a holder for a baton.",
     "weight": "250 g",
@@ -312,11 +323,12 @@
           { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
         ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "santa_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "broad belt" },
     "description": "A broad, buckled leather belt, commonly used by bearded men on Christmas.  Usually worn over a red jacket.",
     "weight": "150 g",
@@ -342,11 +354,12 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "tool_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "tool belt" },
     "description": "A common belt with pockets, loops and sheaths to store up to seven tools or blades.  Widely used by handymen and electricians.",
     "weight": "1000 g",
@@ -436,11 +449,12 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": [ 2, 12 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "webbing_belt",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "MOLLE webbing belt" },
     "description": "A 2-inch nylon webbing belt commonly used by military forces.  MOLLE-compatible pouches can be attached to the webbing for extra storage.",
     "weight": "210 g",
@@ -517,11 +531,12 @@
         "specifically_covers": [ "torso_waist" ],
         "volume_encumber_modifier": 0.35
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "suspenders_cloth",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "suspenders", "str_pl": "pairs of suspenders" },
     "description": "A pair of black suspenders, which reach over the wearer's shoulders and hook to their waist.  Gives a wonderful western feel!",
     "weight": "250 g",
@@ -535,20 +550,22 @@
     "color": "black",
     "material_thickness": 1.5,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "suspenders_leather",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "leather suspenders", "str_pl": "pairs of leather suspenders" },
     "description": "A pair of leather suspenders, which reach over the wearer's shoulders and hook to their waist.  Gives a wonderful western feel!",
     "material": [ "leather", "steel" ],
     "color": "brown",
-    "copy-from": "suspenders_cloth"
+    "copy-from": "suspenders_cloth",
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "suspenders_holster",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "holster suspenders", "str_pl": "pairs of holster suspenders" },
     "description": "A pair of leather suspenders with a holster placed near the stomach.",
     "copy-from": "suspenders_leather",
@@ -566,6 +583,7 @@
         "moves": 50
       }
     ],
-    "armor": [ { "encumbrance": [ 3, 4 ], "coverage": 75, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": [ 3, 4 ], "coverage": 75, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "subtypes": [ "ARMOR" ]
   }
 ]

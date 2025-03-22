@@ -1,6 +1,6 @@
 [
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "blun_slug",
     "price": "45 USD",
     "price_postapoc": "50 cent",
@@ -17,10 +17,11 @@
     "dispersion": 60,
     "recoil": 840,
     "effects": [ "COOKOFF", "RECYCLED" ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "blun_shot",
     "price": "45 USD",
     "price_postapoc": "50 cent",
@@ -39,10 +40,11 @@
     "range": 6,
     "recoil": 780,
     "effects": [ "COOKOFF", "SHOT", "RECYCLED" ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "blun_lead_shot",
     "price": "45 USD",
     "price_postapoc": "50 cent",
@@ -61,10 +63,11 @@
     "range": 6,
     "recoil": 780,
     "effects": [ "COOKOFF", "SHOT", "RECYCLED" ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "AMMO" ]
   },
   {
-    "type": "AMMO",
+    "type": "ITEM",
     "id": "blun_flechette",
     "price": "45 USD",
     "price_postapoc": "50 cent",
@@ -83,6 +86,7 @@
     "range": 10,
     "recoil": 840,
     "effects": [ "COOKOFF", "SHOT", "RECYCLED" ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "AMMO" ]
   }
 ]

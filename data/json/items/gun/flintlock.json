@@ -3,7 +3,7 @@
     "id": "carbine_flintlock",
     "copy-from": "rifle_flintlock",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "price": "400 USD",
     "price_postapoc": "22 USD 50 cent",
     "name": { "str": "flintlock carbine" },
@@ -22,12 +22,13 @@
     "longest_side": "1202 mm",
     "relative": { "range": -2, "ranged_damage": { "damage_type": "bullet", "amount": -4 } },
     "proportional": { "dispersion": 1.35, "reload": 0.9, "melee_damage": { "bash": 0.6 } },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "carbine_flintlock_double",
     "copy-from": "carbine_flintlock",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "handmade double-barrel flintlock" },
     "description": "A compact muzzle-loading rifle combining a pair of rudimentary flintlock actions and two barrels.  Whereas an antique multiple-barrel flintlock is an intricate work of gunsmithing, this weapon is simpler yet still serviceable.",
     "clip_size": 2,
@@ -36,12 +37,13 @@
     "proportional": { "dispersion": 1.3, "weight": 1.25, "volume": 1.25 },
     "relative": { "weight": "400 g", "range": -1, "ranged_damage": { "damage_type": "bullet", "amount": -2 } },
     "extend": { "flags": [ "RELOAD_ONE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 2 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 2 } } ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "pistol_flintlock",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "flintlock pistol" },
     "description": "A beautifully decorated flintlock pistol.  If using this doesn't make you feel a pirate, nothing will.",
@@ -66,12 +68,13 @@
     "valid_mod_locations": [ [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
     "flags": [ "NEVER_JAMS", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "rifle_flintlock",
     "looks_like": "modular_ar15",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "flintlock musket" },
     "description": "For once, something *good* came back from the dead.  This ancient design lacks the fire-rate of modern weapons, but packs as much punch as the best of 'em and rewards the skilled shooter with easily-crafted ammunition.",
@@ -105,12 +108,13 @@
     ],
     "flags": [ "NEVER_JAMS", "DURABLE_MELEE", "EASY_CLEAN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ],
-    "melee_damage": { "bash": 15 }
+    "melee_damage": { "bash": 15 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "longrifle_flintlock",
     "copy-from": "rifle_flintlock",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "flintlock rifle" },
     "description": "Also called a Pennsylvania rifle, this long-barreled rifled flintlock gun has significantly increased accuracy at the cost of taking even longer to reload.",
     "variants": [
@@ -129,6 +133,7 @@
     "price": "420 USD",
     "price_postapoc": "25 USD",
     "range": 12,
-    "proportional": { "dispersion": 0.5, "reload": 1.1 }
+    "proportional": { "dispersion": 0.5, "reload": 1.1 },
+    "subtypes": [ "GUN" ]
   }
 ]

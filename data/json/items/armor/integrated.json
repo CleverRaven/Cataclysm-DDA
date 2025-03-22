@@ -1,7 +1,7 @@
 [
   {
     "id": "integrated_plantskin",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "phelloderm" },
     "description": "A pliable but hefty layer of living plant matter.",
@@ -26,11 +26,12 @@
         "encumbrance": 1,
         "breathability": "GOOD"
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_bark",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "protective bark" },
     "description": "A powerful layer of bark, thicker in parts.",
@@ -60,11 +61,12 @@
         "coverage": 100,
         "encumbrance": 9
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_bark2_a",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "distributed bark" },
     "description": "Your bark is spread evenly across your body.",
@@ -94,11 +96,12 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_bark2_b",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "consolidated bark" },
     "description": "Your bark is pulled together to protect your torso.",
@@ -150,11 +153,12 @@
         "coverage": 100,
         "encumbrance": 6
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_bark2_c",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "latticed bark" },
     "description": "Your bark is latticed into a larger frame.",
@@ -187,11 +191,12 @@
         "coverage": 90,
         "encumbrance": 8
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_feathers",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "feathers" },
     "description": "Iridescent feathers covering your entire body.  Provides some warmth and protection from the elements, but could be thicker.",
@@ -212,11 +217,12 @@
         "coverage": 100,
         "encumbrance": 0
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_lightfur",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "light fur" },
     "description": "Thin, patchy fur that clearly needs to grow more.",
@@ -243,11 +249,12 @@
         "coverage": 85,
         "encumbrance": 0
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "fur" },
     "description": "Though it's quite warm, your fur is also quite protective.",
@@ -280,11 +287,12 @@
         "coverage": 85,
         "encumbrance": 0
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_ursine_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "shaggy fur" },
     "description": "A heavy shag carpet of fur, somewhere between a ballistic vest and attic insulation.",
@@ -317,11 +325,12 @@
         "coverage": 85,
         "encumbrance": 0
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_ursine_fur_summer",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "scruffy fur" },
     "description": "While still formidable, this furry hide has lost a lot of its bulk to better endure the summer months.",
@@ -354,11 +363,12 @@
         "coverage": 85,
         "encumbrance": 0
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_lupine_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "gray fur" },
     "description": "The fur of a strong, wild creature.",
@@ -391,11 +401,12 @@
         "coverage": 85,
         "encumbrance": 0
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_lupine_fur_summer",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "summer coat" },
     "description": "A covering of fur that has thinned out for the summer.",
@@ -428,11 +439,12 @@
         "coverage": 85,
         "encumbrance": 0
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_feline_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "sleek fur" },
     "description": "The fur of a proud, wise creature.",
@@ -459,11 +471,12 @@
         "coverage": 85,
         "encumbrance": 0
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_lynx_fur",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "lynx fur" },
     "description": "A pile of fur around the neck, protecting from foes that go for the throat.",
@@ -486,11 +499,12 @@
         "encumbrance": 1,
         "specifically_covers": [ "head_throat" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_patchskin1",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "jumbled skin" },
     "description": "Skin like a spilled tub of paints, splattered in abstract shapes of chitin, fur, and hide.",
@@ -517,11 +531,12 @@
         "coverage": 100,
         "encumbrance": 3
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_patchskin2",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "patchwork skin" },
     "description": "Beauty is only skin deep, but with this skin, a knife might find itself broken in the beauty layer.",
@@ -560,11 +575,12 @@
         "coverage": 100,
         "encumbrance": 5
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_patchskin3",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "patchwork armor" },
     "description": "Folks that can't catch bullets with their skin insist that it's what's on the inside that counts.  Those folks don't know anything.",
@@ -604,11 +620,12 @@
         "coverage": 100,
         "encumbrance": 9
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_mandibles",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "mandibles" },
     "description": "These are much better than puny human mouthparts.",
@@ -628,11 +645,12 @@
         "coverage": 40,
         "encumbrance": 3
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_fangs_spider",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "folding fangs" },
     "description": "Your fangs have properly developed, and are prepared for the kill.",
@@ -652,11 +670,12 @@
         "coverage": 40,
         "encumbrance": 5
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_chitin",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "epicuticle" },
     "description": "Your chitinous skin doesn't sweat so well and it's a bit stiffer than before, but it's far more durable than your old human skin.",
@@ -683,11 +702,12 @@
         "coverage": 85,
         "encumbrance": 1
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_chitin2",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "chitin carapace" },
     "description": "The skin hardens, develops.  Good, it will be needed.",
@@ -765,11 +785,12 @@
         "coverage": 90,
         "encumbrance": 3
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_chitin2_molted",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str": "fresh chitin carapace" },
     "description": "The exoskeleton is soft and vulnerable.  It would be best to hide until it hardens.",
@@ -845,11 +866,12 @@
         "coverage": 90,
         "encumbrance": 2
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_chitin3",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "sclerotin plate" },
     "description": "When the time comes to prey, this platemail will be ready for any resistance.",
@@ -919,11 +941,12 @@
         "coverage": 90,
         "encumbrance": 8
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_chitin3_molted",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "fresh sclerotin plate" },
     "description": "The exoskeleton is weak, it will require more time to harden.",
@@ -984,11 +1007,12 @@
         "coverage": 90,
         "encumbrance": 6
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_chitin3_claws",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "sclerotin claws" },
     "description": "Useful for the hunt, suitable for maximum efficiency.",
@@ -1013,11 +1037,12 @@
         "encumbrance": 7
       }
     ],
-    "melee_damage": { "bash": 4, "cut": 8 }
+    "melee_damage": { "bash": 4, "cut": 8 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_carapace",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "sclerotin carapace" },
     "description": "When the time comes to prey, this unwavering carapace will keep you safe from everything that could harm you.",
@@ -1087,11 +1112,12 @@
         "coverage": 90,
         "encumbrance": 9
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_carapace_molted",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "fresh sclerotin carapace" },
     "description": "This recently-molted carapace is still soft, and will need time to harden before it provides proper protection.",
@@ -1152,11 +1178,12 @@
         "coverage": 90,
         "encumbrance": 6
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_giant_pincer",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "sclerotin right pincer" },
     "description": "A powerful tool for snatching fish or breaking open shells.",
@@ -1183,11 +1210,12 @@
       }
     ],
     "melee_damage": { "bash": 12, "cut": 3 },
-    "weapon_category": [ "SHIVS" ]
+    "weapon_category": [ "SHIVS" ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_shell",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "shell" },
     "description": "You have a large, protective shell on your back, but unfortunately, it doesn't have enough space to fit inside or store anything, makes wearing anything on your torso impossible, and makes backpacks encumbering.",
@@ -1209,11 +1237,12 @@
         "coverage": 100,
         "encumbrance": 5
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_shell2",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "roomy shell" },
     "description": "Your shell has grown larger and thicker.  You can hide yourself in it, as well as use it as a backpack, but torso armor is still off limits.",
@@ -1244,11 +1273,12 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_shell3",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "nacreous shell" },
     "description": "Your shell has grown larger and even thicker, and has a pearly sheen to it.  You can hide yourself in it, as well as use it as a backpack, but torso armor is still off limits.",
@@ -1279,11 +1309,12 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_sparse_scales",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "sparse scales" },
     "description": "Your dermis has toughened and started to grow scales in places.",
@@ -1328,11 +1359,12 @@
         "encumbrance": 0,
         "breathability": "GOOD"
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_scales",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "scales" },
     "description": "Your scales have grown thicker and cover most of your body, providing solid armor.",
@@ -1388,11 +1420,12 @@
         "breathability": "POOR",
         "layers": [ "PERSONAL" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_fishscales",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "sleek scales" },
     "description": "Your skin has become a smooth and elegant mesh of interlocking scales.",
@@ -1452,11 +1485,12 @@
         "coverage": 100,
         "encumbrance": 2
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_reptilescales",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "thick scales" },
     "description": "Leathery and heavily armored, your lamellar skin has toughened for the fiercest battles ahead.",
@@ -1529,12 +1563,13 @@
         "coverage": 100,
         "encumbrance": 2
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "armor_bio_eyes",
     "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "protective lenses" },
     "description": "Highly protective lenses which seal off your eyes from danger, routing your tear ducts to your mouth.",
@@ -1571,11 +1606,12 @@
         "rigid_layer_only": true,
         "cover_vitals": 90
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_claws",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "claws" },
     "description": "You have long, sharp claws at the tips of your fingers.",
@@ -1597,11 +1633,12 @@
         "encumbrance": 1
       }
     ],
-    "melee_damage": { "cut": 9 }
+    "melee_damage": { "cut": 9 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_claws_rat",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "gnarled claws" },
     "description": "Your fingernails have become gnarled, twisted claws.",
@@ -1623,11 +1660,12 @@
         "encumbrance": 3
       }
     ],
-    "melee_damage": { "cut": 10 }
+    "melee_damage": { "cut": 10 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_claws_st",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "stainless claws" },
     "description": "Your claws have toughened to become something akin to miniature butcher knives.",
@@ -1649,11 +1687,12 @@
         "encumbrance": 5
       }
     ],
-    "melee_damage": { "cut": 11 }
+    "melee_damage": { "cut": 11 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_talons",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "talons" },
     "description": "Your index fingers have become talons.  They make for wicked natural daggers.  Unfortunately, they get in the way of everything including gloves.",
@@ -1675,11 +1714,12 @@
         "encumbrance": 7
       }
     ],
-    "melee_damage": { "cut": 16 }
+    "melee_damage": { "cut": 16 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_fangs",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "fangs" },
     "description": "A pair of fangs sharp and sturdy enough to use in combat.",
@@ -1703,11 +1743,12 @@
         "encumbrance": 0
       }
     ],
-    "melee_damage": { "stab": 9 }
+    "melee_damage": { "stab": 9 },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "integrated_vampire_fangs",
-    "type": "ARMOR",
+    "type": "ITEM",
     "category": "armor",
     "name": { "str_sp": "vampire fangs" },
     "description": "A wicked pair of fangs, pointed and surgically sharp.",
@@ -1731,6 +1772,7 @@
         "encumbrance": 0
       }
     ],
-    "melee_damage": { "stab": 15 }
+    "melee_damage": { "stab": 15 },
+    "subtypes": [ "ARMOR" ]
   }
 ]

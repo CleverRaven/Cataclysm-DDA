@@ -2,7 +2,7 @@
   {
     "id": "38_speedloader",
     "//": "Tileset whitelist for speedloaders. Size scaled 20% from 38_speedloader5.",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": ".38/.357 7-round speedloader" },
     "description": "This speedloader can hold 7 rounds of .357 Magnum or .38 Special and quickly reload a compatible revolver.",
     "weight": "27 g",
@@ -14,13 +14,14 @@
     "color": "light_gray",
     "ammo_type": [ "357mag", "38" ],
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 7, "38": 7 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 7, "38": 7 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "38_speedloader5",
     "//": "Audited with ImageJ.",
     "looks_like": "38_speedloader",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": ".38/.357 5-round speedloader" },
     "description": "This speedloader can hold 5 rounds of .357 Magnum or .38 Special and quickly reload a compatible revolver.",
     "weight": "23 g",
@@ -32,13 +33,14 @@
     "color": "light_gray",
     "ammo_type": [ "357mag", "38" ],
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 5, "38": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 5, "38": 5 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "38_speedloader6",
     "//": "Size and weight scaled 10% up from 38_speedloader5.",
     "looks_like": "38_speedloader",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": ".38/.357 6-round speedloader" },
     "description": "This speedloader can hold 6 rounds of .357 Magnum or .38 Special and quickly reload a compatible revolver.",
     "weight": "25 g",
@@ -50,6 +52,7 @@
     "color": "light_gray",
     "ammo_type": [ "357mag", "38" ],
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 6, "38": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 6, "38": 6 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

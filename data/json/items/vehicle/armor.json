@@ -1,7 +1,7 @@
 [
   {
     "id": "rebar_plate",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "rebar grate" },
     "description": "Several interlocked rods of rebar serving as makeshift armor, allowing for light and effective reinforcement of vehicle sections.",
@@ -17,7 +17,7 @@
   },
   {
     "id": "spring_plate",
-    "type": "GENERIC",
+    "type": "ITEM",
     "category": "veh_parts",
     "name": { "str": "shock absorber" },
     "description": "A makeshift combination of springs and scrap that protects a particular section of a vehicle from the shock of impacts.  The springs can absorb a surprising amount of damage.",

@@ -1,7 +1,7 @@
 [
   {
     "id": "survivor_belt_notools",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "survivor belt" },
     "description": "A custom-built leather belt covered with pouches, with a sheath to carry a smaller blade, a holster to carry a pistol and a loop for holding larger tools.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
     "weight": "1549 g",
@@ -85,11 +85,12 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store item", "holster_msg": "You put your %1$s in your %2$s" },
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
-    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "survivor_goggles",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "survivor goggles", "str_pl": "pairs of survivor goggles" },
     "description": "A custom-built pair of armored goggles with tinted lenses.  Comfortable and built to last, they provide excellent protection from environmental dangers.",
     "weight": "212 g",
@@ -114,11 +115,12 @@
         "coverage": 100,
         "encumbrance": 25
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "survivor_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "survivor harness", "str_pl": "survivor harnesses" },
     "description": "A custom-built light harness covered with pouches and including an integral tactical sling for a small rifle or other such weapon.  Durable and carefully crafted to be comfortable to wear.  Activate to holster/draw your weapon.",
     "weight": "320 g",
@@ -176,22 +178,25 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper", "torso_hanging_front" ]
       }
-    ]
+    ],
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xl_survivor_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "survivor_vest",
     "name": { "str": "survivor harness", "str_pl": "survivor harnesses" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "subtypes": [ "ARMOR" ]
   },
   {
     "id": "xs_survivor_vest",
-    "type": "ARMOR",
+    "type": "ITEM",
     "copy-from": "survivor_vest",
     "name": { "str": "survivor harness", "str_pl": "survivor harnesses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "subtypes": [ "ARMOR" ]
   }
 ]

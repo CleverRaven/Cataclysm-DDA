@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "ap_exo_gantry",
     "looks_like": "welding_rig",
     "symbol": "T",

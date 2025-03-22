@@ -1,7 +1,7 @@
 [
   {
     "id": "flintlock_ammo",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str": "paper cartridge" },
     "description": "A paper cartridge containing black powder and a metallic projectile.  Historically used to reload muzzleloaders in a more reasonable time.",
     "ascii_picture": "flintlock_ammo",
@@ -20,11 +20,12 @@
     "dispersion": 90,
     "recoil": 1500,
     "loudness": 70,
-    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER", "RECYCLED" ]
+    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER", "RECYCLED" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "flintlock_shot",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str": "paper shot cartridge" },
     "description": "A paper cartridge containing black powder and metallic shot.  Historically used to reload muzzleloaders in a more reasonable time.",
     "ascii_picture": "flintlock_ammo",
@@ -46,6 +47,7 @@
     "dispersion": 20,
     "recoil": 1500,
     "loudness": 90,
-    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "SHOT", "BLACKPOWDER", "RECYCLED" ]
+    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "SHOT", "BLACKPOWDER", "RECYCLED" ],
+    "subtypes": [ "AMMO" ]
   }
 ]

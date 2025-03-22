@@ -1,6 +1,6 @@
 [
   {
-    "type": "TOOL",
+    "type": "ITEM",
     "id": "glass_shard",
     "symbol": ",",
     "color": "light_cyan",
@@ -20,10 +20,11 @@
     "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID", "SINGLE_USE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "to_hit": { "grip": "bad", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "cut": 6 },
-    "weapon_category": [ "SHIVS" ]
+    "weapon_category": [ "SHIVS" ],
+    "subtypes": [ "TOOL" ]
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "glass_sheet",
     "symbol": "]",
     "color": "light_cyan",
@@ -48,7 +49,7 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "reinforced_glass_sheet",
     "symbol": "]",
     "color": "light_blue",
@@ -65,7 +66,7 @@
     "melee_damage": { "bash": 6 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "reinforced_glass_pane",
     "symbol": "]",
     "color": "light_blue",
@@ -81,7 +82,7 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "type": "GENERIC",
+    "type": "ITEM",
     "id": "tempered_glass_sheet",
     "symbol": "]",
     "color": "light_cyan",

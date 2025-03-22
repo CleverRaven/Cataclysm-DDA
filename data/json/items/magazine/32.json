@@ -3,7 +3,7 @@
     "id": "ppkmag",
     "//": "Audited with ImageJ.  Used the weight of a .32 Beretta M1935 magazine.",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "PPK 8-round magazine" },
     "description": "A standard 8-round steel box magazine for the Walther PPK.",
     "weight": "43 g",
@@ -16,13 +16,14 @@
     "color": "light_gray",
     "ammo_type": [ "32" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "32": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "32": 8 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "kp32mag",
     "//": "Audited with ImageJ.  Weight using ratio method.",
     "looks_like": "glock17_17",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "P-32 7-round magazine" },
     "description": "A standard 7-round steel box magazine for the Kel-Tec P-32.",
     "weight": "35 g",
@@ -35,6 +36,7 @@
     "color": "light_gray",
     "ammo_type": [ "32" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "32": 7 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "32": 7 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

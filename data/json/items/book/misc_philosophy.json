@@ -1,7 +1,7 @@
 [
   {
     "id": "philosophy_book",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "book of philosophy", "str_pl": "books of philosophy" },
     "description": "A deep discussion of morality with an emphasis on epistemology and logic.",
     "snippet_category": [
@@ -150,11 +150,12 @@
       { "id": "philosophy45", "text": "This is a copy of \"Anti-Capitalist Mentality\" by Ludwig von Mises." }
     ],
     "chapters": 44,
-    "copy-from": "book_nonf_soft_phil_tpl"
+    "copy-from": "book_nonf_soft_phil_tpl",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "book_nonf_hard_phil_mdlogic",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Modal Logic as Metaphysics", "str_pl": "copies of Modal Logic" },
     "description": "A treatise on applying logical tools to questions about that nature of reality, this book contains detailed discussion of metaphysical issues.",
     "//isbn13": 9780199552078,
@@ -162,11 +163,12 @@
     "volume": "1249 ml",
     "longest_side": "24 cm",
     "price": "48 USD 95 cent",
-    "copy-from": "book_nonf_hard_phil_tpl"
+    "copy-from": "book_nonf_hard_phil_tpl",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "book_nonf_hard_phil_aesth",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Aesthetics: A Critical Anthology", "str_pl": "copies of Aesthetics" },
     "description": "This hardbound anthology presents a collection of readings, scholarly works, and critical analyses on the subject of beauty.",
     "//isbn13": 9780312003098,
@@ -175,11 +177,12 @@
     "longest_side": "24 cm",
     "price": "64 USD 99 cent",
     "chapters": 48,
-    "copy-from": "book_nonf_hard_phil_tpl"
+    "copy-from": "book_nonf_hard_phil_tpl",
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "book_nonf_hard_phil_phinfo",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "The Philosophy of Information", "str_pl": "copies of The Philosophy of Information" },
     "description": "This university text details a critical investigation of the conceptual nature and basic principles of information.  The student will gain a thorough appreciation of the conceptual frameworks commonly used to describe and advance semantic investigations.",
     "//isbn13": 9780199232383,
@@ -188,11 +191,12 @@
     "longest_side": "24 cm",
     "price": "83 USD 91 cent",
     "copy-from": "book_nonf_hard_phil_tpl",
-    "relative": { "intelligence": 1, "fun": -2 }
+    "relative": { "intelligence": 1, "fun": -2 },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "book_nonf_soft_phil_benoth",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Being and Nothingness", "str_pl": "copies of Being and Nothingness" },
     "description": "This paperback is a copy of Jean-Paul Sartre's \"Being and Nothingness\".  A key work in the existentialist tradition.",
     "//isbn13": 9780415278485,
@@ -201,6 +205,7 @@
     "longest_side": "21 cm",
     "price": "34 USD",
     "price_postapoc": "50 cent",
-    "copy-from": "book_nonf_soft_phil_tpl"
+    "copy-from": "book_nonf_soft_phil_tpl",
+    "subtypes": [ "BOOK" ]
   }
 ]

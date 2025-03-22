@@ -1,7 +1,7 @@
 [
   {
     "copy-from": "cookies",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "sporeos",
     "name": { "str_sp": "SpOreos" },
     "color": "dark_gray",
@@ -14,7 +14,8 @@
     "fun": 10,
     "flags": [ "MYCUS_OK", "FUNGAL_VECTOR" ],
     "volume": "12 ml",
-    "vitamins": [ [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "recipe",
@@ -33,7 +34,7 @@
   {
     "id": "powerthirst1",
     "copy-from": "energy_drink",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "addiction_potential": 50,
     "addiction_type": "amphetamine",
@@ -41,12 +42,13 @@
     "stim": 40,
     "name": { "str_sp": "Powerthirst - Manana Flavor" },
     "description": "POWERTHIRST in new Manana flavor.  Contains preposterous amounts of testosterone.  PREPOSTERONE.  It's like crystal meth in a can.  It's crystal meth in a can.  Powerthirst is crystal meth.",
-    "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_chimera", 800 ], [ "mutagen_raptor", 800 ] ]
+    "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_chimera", 800 ], [ "mutagen_raptor", 800 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "powerthirst2",
     "copy-from": "powerthirst1",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "addiction_potential": 55,
     "addiction_type": "amphetamine",
@@ -54,18 +56,20 @@
     "stim": 30,
     "name": { "str_sp": "Powerthirst - Fizzbitch Flavor" },
     "description": "POWERTHIRST in new Fizzbitch flavor.  Contains preposterous amounts of testosterone.  PREPOSTERONE.  It's like crystal meth in a can.  It's crystal meth in a can.  Powerthirst is crystal meth.",
-    "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_chimera", 1000 ], [ "mutagen_raptor", 1000 ] ]
+    "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_chimera", 1000 ], [ "mutagen_raptor", 1000 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "powerthirst3",
     "copy-from": "powerthirst1",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "DRINK",
     "addiction_potential": 60,
     "addiction_type": "amphetamine",
     "stim": 20,
     "name": { "str_sp": "Powerthirst - Gun Flavor" },
     "description": "POWERTHIRST in new Gun flavor.  Contains preposterous amounts of testosterone.  PREPOSTERONE.  It's like crystal meth in a can.  It's crystal meth in a can.  Powerthirst is crystal meth.",
-    "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_chimera", 1200 ], [ "mutagen_raptor", 1200 ] ]
+    "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_chimera", 1200 ], [ "mutagen_raptor", 1200 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

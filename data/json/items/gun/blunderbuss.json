@@ -2,7 +2,7 @@
   {
     "id": "blunderbuss",
     "looks_like": "remington_870",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str": "blunderbuss", "str_pl": "blunderbusses" },
     "description": "A homemade version of a crude precursor to the shotgun.",
@@ -35,6 +35,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "blunderbuss": 1 } } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "subtypes": [ "GUN" ]
   }
 ]

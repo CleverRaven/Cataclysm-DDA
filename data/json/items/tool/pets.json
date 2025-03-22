@@ -1,7 +1,7 @@
 [
   {
     "id": "chicken_cage",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "chicken cage" },
     "description": "A wire container made for transporting chickens, but you can use it to hold any tiny animal.  Use it on a suitable animal to capture, use it on an empty tile to release.",
     "weight": "250 g",
@@ -14,11 +14,12 @@
     "properties": { "creature_size_capacity": "TINY" },
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "TRADER_AVOID" ],
-    "melee_damage": { "bash": 1, "cut": 1 }
+    "melee_damage": { "bash": 1, "cut": 1 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "dog_whistle",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "dog whistle" },
     "description": "A small whistle.  When blown into, it produces a high tone that causes nearby friendly dogs to either follow you closely and stop attacking, or start attacking enemies if they are currently docile.",
     "weight": "22 g",
@@ -28,11 +29,12 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "yellow",
-    "use_action": [ "DOG_WHISTLE" ]
+    "use_action": [ "DOG_WHISTLE" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "shears",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str_sp": "shears" },
     "description": "A set of shears designed to obtain wool from sheep.",
     "weight": "820 g",
@@ -46,11 +48,12 @@
     "qualities": [ [ "CUT", 1 ], [ "FABRIC_CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "stab": 3 },
-    "weapon_category": [ "SHIVS" ]
+    "weapon_category": [ "SHIVS" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "forged_shears",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str_sp": "forged shears" },
     "description": "A set of heavy-duty shears designed to obtain wool from sheep.  Made of two steel blades connected by spring leaf.",
     "weight": "820 g",
@@ -64,11 +67,12 @@
     "qualities": [ [ "CUT", 1 ], [ "FABRIC_CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "stab": 3 },
-    "weapon_category": [ "SHIVS" ]
+    "weapon_category": [ "SHIVS" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "bronze_shears",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str_sp": "bronze shears" },
     "description": "A set of forged single-piece bronze shears for cutting fabrics.  Made of two painstakingly sharpened blades connected by a carefully tempered twisted bridge.",
     "weight": "900 g",
@@ -83,11 +87,12 @@
     "qualities": [ [ "CUT", 1 ], [ "FABRIC_CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
     "flags": [ "FRAGILE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "melee_damage": { "stab": 3 },
-    "weapon_category": [ "SHIVS" ]
+    "weapon_category": [ "SHIVS" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "elec_shears",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str_sp": "electric shears" },
     "description": "Electric shears, used to quickly shear animals.",
     "weight": "1200 g",
@@ -99,7 +104,6 @@
     "symbol": ";",
     "color": "dark_gray",
     "charged_qualities": [ [ "SHEAR", 3 ] ],
-    "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "charges_per_use": 25,
     "pocket_data": [
@@ -110,11 +114,13 @@
         "default_magazine": "light_minus_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "horse_tack",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "horse tack" },
     "description": "A saddle, bridle, and associated tack that can be placed on a tamed animal that is capable of being ridden.",
     "weight": "2 kg",
@@ -124,12 +130,13 @@
     "material": [ "leather", "steel" ],
     "symbol": "M",
     "color": "yellow",
-    "flags": [ "TACK" ]
+    "flags": [ "TACK" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "//": "https://primeusascales.com/product/sls-single-animal-livestock-scales/",
     "id": "livestock_scale",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "livestock scale" },
     "symbol": "_",
     "looks_like": "tr_rollmat",
@@ -142,7 +149,6 @@
     "price_postapoc": "50 cent",
     "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "rubber" ],
-    "ammo": [ "battery" ],
     "use_action": { "type": "weigh_self", "max_weight": "2300 kg" },
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 1,
@@ -154,11 +160,13 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 16 }
+    "melee_damage": { "bash": 16 },
+    "tool_ammo": [ "battery" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "pet_carrier",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "pet carrier" },
     "description": "A plastic container meant to hold pets for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
     "weight": "1000 g",
@@ -171,12 +179,13 @@
     "properties": { "creature_size_capacity": "SMALL" },
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "TRADER_AVOID" ],
-    "melee_damage": { "bash": 1, "cut": 1 }
+    "melee_damage": { "bash": 1, "cut": 1 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "pet_carrier_wooden",
     "copy-from": "pet_carrier",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "wooden pet carrier" },
     "description": "A wooden container meant to hold pets for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
     "weight": "1500 g",
@@ -186,11 +195,12 @@
     "material": [ "wood" ],
     "symbol": "#",
     "color": "brown",
-    "looks_like": "pet_carrier"
+    "looks_like": "pet_carrier",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "terrarium",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "glass terrarium" },
     "description": "A glass container meant to hold plants and/or insects.  They come in a variety of sizes.",
     "weight": "5 kg",
@@ -203,11 +213,12 @@
     "properties": { "creature_size_capacity": "TINY" },
     "looks_like": "pet_carrier",
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "firefly_terrarium",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "survivor giant firefly lamp" },
     "description": "Some enterprising survivor has decided to turn this terrarium into a light source, using what appear to be a giant firefly and triffid vegetation.",
     "weight": "30 kg",
@@ -218,11 +229,12 @@
     "symbol": "#",
     "color": "white_yellow",
     "use_action": { "type": "deploy_furn", "furn_type": "f_firefly_terrarium" },
-    "looks_like": "pet_carrier"
+    "looks_like": "pet_carrier",
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "dog_whistle_wood",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "wooden dog whistle" },
     "description": "A whistle carved out of hardwood.  When blown into, it produces a high tone that causes nearby friendly dogs to either follow you closely and stop attacking, or start attacking enemies if they are currently docile.",
     "weight": "50 g",
@@ -233,6 +245,7 @@
     "symbol": ";",
     "color": "yellow",
     "looks_like": "dog_whistle",
-    "use_action": [ "DOG_WHISTLE" ]
+    "use_action": [ "DOG_WHISTLE" ],
+    "subtypes": [ "TOOL" ]
   }
 ]

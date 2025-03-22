@@ -1,7 +1,7 @@
 [
   {
     "id": "barb_launcher",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "%",
     "color": "red",
     "name": { "str": "barb launching organ", "//~": "NO_I18N" },
@@ -31,11 +31,12 @@
     "dispersion": 100,
     "durability": 8,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "barb": 1 } } ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "emp_frond",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "%",
     "color": "red",
     "name": { "str": "electric alien frond", "//~": "NO_I18N" },
@@ -64,11 +65,12 @@
     "range": 12,
     "dispersion": 150,
     "durability": 8,
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "firework_cannon",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "%",
     "color": "red",
     "name": { "str": "fireworks cannon", "//~": "NO_I18N" },
@@ -97,11 +99,12 @@
     "range": 12,
     "dispersion": 400,
     "durability": 8,
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "gene_sting_gun",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "%",
     "color": "red",
     "name": { "str": "viscous barb launcher", "//~": "NO_I18N" },
@@ -130,11 +133,12 @@
     "dispersion": 100,
     "durability": 8,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gene_sting": 100 } } ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "feral_human_thrown_rock",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "%",
     "color": "red",
     "name": { "str": "hurled rubble", "//~": "NO_I18N" },
@@ -174,67 +178,73 @@
         "ammo_restriction": { "rock": 5 }
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "v29_turret",
     "copy-from": "v29",
-    "type": "GUN",
+    "type": "ITEM",
     "energy_drain": "0 kJ",
     "name": { "str": "mounted laser", "//~": "NO_I18N" },
-    "flags": [ "PSEUDO", "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
+    "flags": [ "PSEUDO", "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "yrax_deterrent_laser",
     "copy-from": "v29",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "deterrent laser weapon", "//~": "NO_I18N" },
     "energy_drain": "0 kJ",
     "ammo_effects": [ "LASER" ],
     "ranged_damage": { "damage_type": "electric", "amount": 10, "armor_penetration": 4 },
-    "flags": [ "PSEUDO", "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
+    "flags": [ "PSEUDO", "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "civilian_cop_glock22",
     "copy-from": "glock_22",
     "looks_like": "glock_22",
     "flags": [ "PSEUDO" ],
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Cops' Glock 22", "//~": "NO_I18N" },
     "description": { "str": "A gun carried by overconfident officer monsters, more inaccurate for balancing reasons.", "//~": "NO_I18N" },
     "dispersion": 960,
-    "durability": 5
+    "durability": 5,
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "civilian_glock19",
     "copy-from": "glock_19",
     "looks_like": "glock_19",
     "flags": [ "PSEUDO" ],
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Fighters' Glock 19", "//~": "NO_I18N" },
     "description": {
       "str": "A gun carried by civilian monsters, more inaccurate for balancing reasons.  If you see this, it's a bug.",
       "//~": "NO_I18N"
     },
     "dispersion": 960,
-    "durability": 5
+    "durability": 5,
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "civilian_AR-15",
     "copy-from": "modular_ar15",
     "looks_like": "modular_ar15",
     "flags": [ "PSEUDO" ],
-    "type": "GUN",
+    "type": "ITEM",
     "ammo": [ "223" ],
     "name": { "str": "Cops' AR15", "//~": "NO_I18N" },
     "//": "A rifle carried by cop monsters, more inaccurate for balancing reasons.",
     "dispersion": 960,
     "durability": 5,
-    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stanag30" ] } ]
+    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stanag30" ] } ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "acid_spit",
-    "type": "GUN",
+    "type": "ITEM",
     "copy-from": "fake_item",
     "name": { "str": "acid spit gun", "//~": "NO_I18N" },
     "description": { "str": "Fake gun that fires acid globs.", "//~": "NO_I18N" },
@@ -245,11 +255,12 @@
     "durability": 10,
     "range": 100,
     "dispersion": 1000,
-    "ranged_damage": { "damage_type": "acid", "amount": 4 }
+    "ranged_damage": { "damage_type": "acid", "amount": 4 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "acid_spray",
-    "type": "GUN",
+    "type": "ITEM",
     "copy-from": "fake_item",
     "name": { "str": "acid dart volley", "//~": "NO_I18N" },
     "description": { "str": "Fake gun that fires acid globs.", "//~": "NO_I18N" },
@@ -261,11 +272,12 @@
     "durability": 10,
     "range": 100,
     "dispersion": 5000,
-    "ranged_damage": [ { "damage_type": "acid", "amount": 3 }, { "damage_type": "stab", "amount": 8, "armor_multiplier": 0.8 } ]
+    "ranged_damage": [ { "damage_type": "acid", "amount": 3 }, { "damage_type": "stab", "amount": 8, "armor_multiplier": 0.8 } ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "acid_sniper",
-    "type": "GUN",
+    "type": "ITEM",
     "copy-from": "fake_item",
     "name": { "str": "acid dart gun", "//~": "NO_I18N" },
     "description": { "str": "Fake gun that fires acid globs.", "//~": "NO_I18N" },
@@ -276,11 +288,12 @@
     "durability": 10,
     "range": 100,
     "dispersion": 500,
-    "ranged_damage": [ { "damage_type": "acid", "amount": 3 }, { "damage_type": "stab", "amount": 6 } ]
+    "ranged_damage": [ { "damage_type": "acid", "amount": 3 }, { "damage_type": "stab", "amount": 6 } ],
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "migo_bio_gun",
-    "type": "GUN",
+    "type": "ITEM",
     "copy-from": "fake_item",
     "name": { "str": "mi-go bio-gun", "//~": "NO_I18N" },
     "description": {
@@ -294,6 +307,7 @@
     "durability": 10,
     "range": 100,
     "dispersion": 1000,
-    "ranged_damage": { "damage_type": "stab", "amount": 30 }
+    "ranged_damage": { "damage_type": "stab", "amount": 30 },
+    "subtypes": [ "GUN" ]
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
     "id": "gas_chloramine",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "sprayable toxic gas" },
     "description": "A hazardous mixture made from household cleaning chemicals, improvised for use in a chemical thrower.  Best used with some kind of mask or mouth protection.",
     "weight": "3 g",
@@ -17,11 +17,12 @@
     "ammo_type": "chemical_spray",
     "range": 4,
     "count": 100,
-    "effects": [ "TOXICGAS", "NEVER_MISFIRES", "JET", "SPECIAL_COOKOFF" ]
+    "effects": [ "TOXICGAS", "NEVER_MISFIRES", "JET", "SPECIAL_COOKOFF" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "gas_fungicidal",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "sprayable fungicide" },
     "description": "Fungicide enhanced with sulfur to create sprayable anti-fungal ammo for the chemical thrower.  Best used with some kind of mask or mouth protection.",
     "weight": "3 g",
@@ -37,11 +38,12 @@
     "ammo_type": "chemical_spray",
     "range": 4,
     "count": 100,
-    "effects": [ "GAS_FUNGICIDAL", "STREAM_GAS_FUNGICIDAL", "NEVER_MISFIRES", "JET" ]
+    "effects": [ "GAS_FUNGICIDAL", "STREAM_GAS_FUNGICIDAL", "NEVER_MISFIRES", "JET" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "gas_insecticidal",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "sprayable insecticide" },
     "description": "Strong sprayable insecticide ammo for the chemical thrower.  Best used with some kind of mask or mouth protection.",
     "weight": "3 g",
@@ -57,6 +59,7 @@
     "ammo_type": "chemical_spray",
     "range": 4,
     "count": 100,
-    "effects": [ "GAS_INSECTICIDAL", "STREAM_GAS_INSECTICIDAL", "NEVER_MISFIRES", "JET" ]
+    "effects": [ "GAS_INSECTICIDAL", "STREAM_GAS_INSECTICIDAL", "NEVER_MISFIRES", "JET" ],
+    "subtypes": [ "AMMO" ]
   }
 ]

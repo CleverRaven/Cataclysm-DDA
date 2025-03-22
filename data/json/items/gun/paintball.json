@@ -2,7 +2,7 @@
   {
     "id": "paintballgun",
     "looks_like": "hk_mp5",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 6,
     "symbol": "(",
     "color": "light_gray",
@@ -32,6 +32,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "paintball": 50 } } ],
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "subtypes": [ "GUN" ]
   }
 ]

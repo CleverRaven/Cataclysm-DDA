@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "blackout_rage_drink",
     "looks_like": "cola",
     "name": { "str_sp": "Bored, the blackout rage drink" },
@@ -26,11 +26,12 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "use_action": { "type": "cast_spell", "spell_id": "blackout_rage_drink", "no_fail": true, "level": 0 },
-    "fun": 5
+    "fun": 5,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "sixdust",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "sixdust" },
     "description": "Sixdust, for when you must scorch the earth.  A sprayable anti-fungal/anti-insecticidal ammo for the chemical thrower.  Best used with some kind of mask or mouth protection.",
     "weight": "3 g",
@@ -46,11 +47,12 @@
     "ammo_type": "chemical_spray",
     "range": 4,
     "count": 100,
-    "effects": [ "GAS_FUNGICIDAL", "STREAM_GAS_FUNGICIDAL", "GAS_INSECTICIDAL", "STREAM_GAS_INSECTICIDAL", "NEVER_MISFIRES", "JET" ]
+    "effects": [ "GAS_FUNGICIDAL", "STREAM_GAS_FUNGICIDAL", "GAS_INSECTICIDAL", "STREAM_GAS_INSECTICIDAL", "NEVER_MISFIRES", "JET" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "small_blessing_brigit",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "MED",
     "name": { "str_sp": "small blessing of Brigit" },
     "description": "A small pill made from royal jelly, ash, and poppies.  Blessed with prayers to Brigit over several hours.  Will end any cold or flu instantaneously.",
@@ -68,11 +70,12 @@
       "effects": [ { "id": "curesome" } ]
     },
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "prophets_lsd",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "MED",
     "name": { "str_sp": "prophet's LSD" },
     "description": "A windowpane worth of Rainbow Skull LSD tabs.  These tabs are said to grant the consumer the ability to see several seconds into the future.",
@@ -85,11 +88,12 @@
     "stim": 20,
     "fun": 25,
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "cast_spell", "spell_id": "future_sight", "no_fail": true, "level": 25 }
+    "use_action": { "type": "cast_spell", "spell_id": "future_sight", "no_fail": true, "level": 25 },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "truckers_stamina_pills",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "MED",
     "name": { "str": "alchemically altered trucker pill" },
     "description": "When you began the sinister path into occultism, you never imagined you'd be alchemically altering truckstop viagra into combat drugs.  But here you are, no sleep til Boston.",
@@ -112,11 +116,12 @@
       "type": "consume_drug",
       "activation_message": "You swallow a couple of the large green pills.",
       "vitamins": [ [ "cheval", 1000 ] ]
-    }
+    },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "nether_snare",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": "snaring pentagram trap",
     "category": "traps",
     "properties": { "capture_species": "NETHER" },
@@ -136,14 +141,15 @@
       "moves": 150,
       "practice": 2,
       "done_message": "You set the pentagram snare."
-    }
+    },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "spiritshow_dust",
     "name": { "str_sp": "spirit show dust" },
     "description": "A key ingredient for Victorian seances led by actual occultists.  This dust summons spirits from beyond to walk the earth again for a short time.  The spirits it summons are mindless and disappear upon being touched.",
     "use_action": { "type": "cast_spell", "spell_id": "ghost_inflatable", "no_fail": true, "level": 0 },
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "weight": "265 g",
     "quench": -1,
     "calories": 0,
@@ -155,98 +161,107 @@
     "comestible_type": "MED",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ],
     "material": [ "powder" ],
-    "price": "25 USD"
+    "price": "25 USD",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "charm_of_marzanna",
     "copy-from": "garnet_silver_pendant_necklace",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "charm of Marzanna", "str_pl": "charms of Marzanna" },
     "description": "A tiny effigy of a woman with singed extremities and a waterlogged face.",
     "color": "light_blue",
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_marzanna" } ] }
+    "passive_effects": [ { "id": "ench_climate_control_marzanna" } ],
+    "subtypes": [ "ARTIFACT", "ARMOR" ]
   },
   {
     "id": "feline_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "feline periapta" },
     "description": "A shiny, gold necklace adorned with an image of a cat with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "color": "white",
     "delete": { "flags": [ "NO_WEAR_EFFECT" ] },
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_periapta_feline" } ] }
+    "passive_effects": [ { "id": "ench_climate_periapta_feline" } ],
+    "subtypes": [ "ARTIFACT", "ARMOR" ]
   },
   {
     "id": "lupine_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "lupine periapta" },
     "description": "A shiny, gold necklace adorned with an image of a wolf with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "color": "white",
     "delete": { "flags": [ "NO_WEAR_EFFECT" ] },
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_periapta_lupine" } ] }
+    "passive_effects": [ { "id": "ench_climate_periapta_lupine" } ],
+    "subtypes": [ "ARTIFACT", "ARMOR" ]
   },
   {
     "id": "cephalopod_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "cephalopod periapta" },
     "description": "A shiny, gold necklace adorned with an image of an octopus with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "color": "white",
     "delete": { "flags": [ "NO_WEAR_EFFECT" ] },
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_periapta_cephalopod" } ] }
+    "passive_effects": [ { "id": "ench_climate_periapta_cephalopod" } ],
+    "subtypes": [ "ARTIFACT", "ARMOR" ]
   },
   {
     "id": "plant_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "tree periapta" },
     "description": "A shiny, gold necklace adorned with an image of a tree with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "color": "white",
     "delete": { "flags": [ "NO_WEAR_EFFECT" ] },
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_periapta_plant" } ] }
+    "passive_effects": [ { "id": "ench_climate_periapta_plant" } ],
+    "subtypes": [ "ARTIFACT", "ARMOR" ]
   },
   {
     "id": "scorpion_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "scorpion periapta" },
     "description": "A shiny, gold necklace adorned with an image of a scorpion with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "color": "white",
     "delete": { "flags": [ "NO_WEAR_EFFECT" ] },
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_periapta_scorpion" } ] }
+    "passive_effects": [ { "id": "ench_climate_periapta_scorpion" } ],
+    "subtypes": [ "ARTIFACT", "ARMOR" ]
   },
   {
     "id": "butterfly_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "butterfly periapta" },
     "description": "A shiny, gold necklace adorned with an image of a butterfly with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "color": "white",
     "delete": { "flags": [ "NO_WEAR_EFFECT" ] },
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_periapta_butterfly" } ] }
+    "passive_effects": [ { "id": "ench_climate_periapta_butterfly" } ],
+    "subtypes": [ "ARTIFACT", "ARMOR" ]
   },
   {
     "id": "spider_periapta",
     "copy-from": "diamond_gold_pendant_necklace",
-    "type": "ARMOR",
+    "type": "ITEM",
     "name": { "str": "spider periapta" },
     "description": "A shiny, gold necklace adorned with an image of a spider with strange runes on it and diamond eyes.",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "color": "white",
     "delete": { "flags": [ "NO_WEAR_EFFECT" ] },
-    "relic_data": { "passive_effects": [ { "id": "ench_climate_periapta_spider" } ] }
+    "passive_effects": [ { "id": "ench_climate_periapta_spider" } ],
+    "subtypes": [ "ARTIFACT", "ARMOR" ]
   },
   {
     "id": "väinämöinens_kantele_imitation",
     "looks_like": "kantele",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "Väinämöinen's Kantele, imitation", "str_pl": "Väinämöinen's Kanteles, imitation" },
     "description": "A traditional Finnish string instrument.  According to myth the first one was fashioned from a great pike's jawbone.  Does it glimmer in the light?  Do its notes echo and linger more than normal?",
@@ -273,11 +288,12 @@
         "You play a somber piece on your kantele, you sing of a land you can never return to, the past."
       ]
     },
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 4 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "life_extension_potion",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "MED",
     "name": { "str": "life extension potion" },
     "description": "A source of considerable wealth for the few alchemists talented enough to distill them, these potions are capable of adding decades to the lifespan of those who can afford the price of the rare and expensive ingredients they require.  They are however not able to prolong a life indefinitely beyond its natural years, and you will need to find other means to achieve immortality, if that is your goal.",
@@ -293,7 +309,8 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "consumption_effect_on_conditions": [ "extend_life" ]
+    "consumption_effect_on_conditions": [ "extend_life" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -312,44 +329,48 @@
   },
   {
     "id": "potion_dex",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "name": { "str": "potion of wicked quick hands", "str_pl": "potions of wicked quick hands" },
     "description": "This is a potion of wicked quick hands.  It will increase your dexterity for 50 minutes.",
     "copy-from": "life_extension_potion",
     "calories": 25,
     "use_action": { "type": "cast_spell", "spell_id": "wicked_quick_hands", "no_fail": true, "level": 0 },
     "color": "green",
-    "price": "30 USD"
+    "price": "30 USD",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "potion_strength",
     "name": { "str": "potion of terrible strength", "str_pl": "potions of terrible strength" },
     "description": "This is a potion of terrible strength.  It will increase your strength for 50 minutes.",
     "use_action": { "type": "cast_spell", "spell_id": "terrible_strength", "no_fail": true, "level": 0 },
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "color": "red",
     "calories": 50,
-    "copy-from": "life_extension_potion"
+    "copy-from": "life_extension_potion",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "hares_leap_potion",
     "name": { "str": "potion of hare's leap", "str_pl": "potions of hare's leap" },
     "description": "This is a potion of hare's leap.  It allows you to jump afar from danger.",
     "use_action": { "type": "cast_spell", "spell_id": "spell_hare_leap", "no_fail": true, "level": 0 },
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "color": "green_yellow",
     "calories": 50,
-    "copy-from": "life_extension_potion"
+    "copy-from": "life_extension_potion",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "hyde_formula",
     "name": { "str_sp": "Hyde Formula" },
     "description": "This is a transmutation potion that will bring your best attributes to the forefront.",
     "consumption_effect_on_conditions": [ "hyde_formula" ],
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "color": "green_yellow",
     "calories": 50,
-    "copy-from": "life_extension_potion"
+    "copy-from": "life_extension_potion",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -365,7 +386,7 @@
   },
   {
     "id": "plant_imbuement",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of the Trees" },
     "description": "In a wooden bowl, Faewild and Dreamdross are mixed together along with ground-up leaves.  The mixture has fae and human blood added to it and parts from the plant fae and then all mixed again until it's a uniform blend.  The resulting mixture will eventually dissolve into a deep green liquid.",
@@ -381,11 +402,12 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "consumption_effect_on_conditions": [ "become_plant_fae" ]
+    "consumption_effect_on_conditions": [ "become_plant_fae" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "earth_imbuement",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of the Earth" },
     "description": ".",
@@ -401,11 +423,12 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "consumption_effect_on_conditions": [ "become_earth_fae" ]
+    "consumption_effect_on_conditions": [ "become_earth_fae" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "water_imbuement",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of the Waters" },
     "description": ".",
@@ -421,11 +444,12 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "consumption_effect_on_conditions": [ "become_water_fae" ]
+    "consumption_effect_on_conditions": [ "become_water_fae" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "air_imbuement",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of the Winds" },
     "description": ".",
@@ -441,11 +465,12 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "consumption_effect_on_conditions": [ "become_air_fae" ]
+    "consumption_effect_on_conditions": [ "become_air_fae" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "fire_imbuement",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of the Flames" },
     "description": "Heat Faewild and Dreamdross over a roaring fire and the mix in the ashes until you have a thick paste.  That paste is mixed with parts taken from the Fair Folk and united with a dollop of fae, and human blood.  The resulting mixture will eventually dissolve into a scarlet liquid that shines with its own light.",
@@ -461,11 +486,12 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "LIGHT_5", "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "consumption_effect_on_conditions": [ "become_fire_fae" ]
+    "consumption_effect_on_conditions": [ "become_fire_fae" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "id": "doll_imbuement",
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "comestible_type": "MED",
     "name": { "str_sp": "Imbuement of Parchment" },
     "description": "While looking in a mirror, Faewild and Dreamdross are ground to dust.  That dust is mixed with parts taken from the Fair Folk and united with a dollop of fae, and human blood.  The resulting mixture will eventually dissolve into what almost looks like liquid porcelain.",
@@ -481,6 +507,7 @@
     "healthy": 7,
     "fun": -30,
     "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
-    "consumption_effect_on_conditions": [ "become_doll_fae" ]
+    "consumption_effect_on_conditions": [ "become_doll_fae" ],
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

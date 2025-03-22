@@ -1,7 +1,7 @@
 [
   {
     "id": "afs_shydrogen",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "solid hydrogen" },
     "description": "Pressurized and cryo-cooled rods of solidified hydrogen, used within plasma weapons or portable powerplants.",
     "weight": "1 g",
@@ -15,6 +15,7 @@
     "ammo_type": "afs_shydrogen",
     "range": 0,
     "count": 1,
-    "effects": [ "IGNITE" ]
+    "effects": [ "IGNITE" ],
+    "subtypes": [ "AMMO" ]
   }
 ]

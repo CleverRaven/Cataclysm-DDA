@@ -1,7 +1,7 @@
 [
   {
     "id": "DEBUG_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "A Technomancer's Guide to Debugging C:DDA", "str_pl": "copies of A Technomancer's Guide to Debugging C:DDA" },
     "description": "static std::string description( spell sp ) const;",
     "weight": "1 g",
@@ -27,11 +27,12 @@
         "test_area_pull_field",
         "test_area_pull_all"
       ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "wizard_beginner",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "A Beginner's Guide to Magic", "str_pl": "copies of A Beginner's Guide to Magic" },
     "//": "2 Magus, 3 classless spell",
@@ -46,11 +47,12 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "magic_missile", "phase_door", "create_atomic_light", "sound_bomb", "classless_watch_spell" ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "novice_stormshaper_book",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "An Introduction to Applied Meteorology", "str_pl": "copies of An Introduction to Applied Meteorology" },
     "//": "2 stormshaper",
@@ -62,11 +64,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "shocking_lash", "windrun" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "shocking_lash", "windrun" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "wizard_utility",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Wizarding Guide to Backpacking", "str_pl": "copies of Wizarding Guide to Backpacking" },
     "//": "2 Magus, 1 Biomancer, 1 Kelvinist, 1 Druid, 1 classless spell",
@@ -90,11 +93,12 @@
         "druid_healing_herb",
         "air_bubble"
       ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "pyro",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Pyromancy for Heretics", "str_pl": "copies of Pyromancy for Heretics" },
     "//": "4 Kelvinist spells",
@@ -109,11 +113,12 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "point_flare", "fireball", "burning_hands", "create_lighter", "kelvinist_summon_flamesword" ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "wizard_advanced",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "//": "1 Magus, 1 biomancer, 2 kelvinist, 1 classless spells",
     "name": { "str": "A Treatise on Magical Elements", "str_pl": "copies of A Treatise on Magical Elements" },
@@ -128,12 +133,13 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "point_flare", "ice_spike", "gravity_well", "pain_split", "classless_dispel_magic" ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "priest_beginner",
     "//2": "id for legacy reasons",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Limits of Magical Recovery", "str_pl": "copies of The Limits of Magical Recovery" },
     "//": "1 technomancer, 2 biomancer, 1 druid spells",
@@ -145,11 +151,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_green",
-    "use_action": { "type": "learn_spell", "spells": [ "light_healing", "biomancer_cure_disease_minor", "bless", "druid_healing_herb" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "light_healing", "biomancer_cure_disease_minor", "bless", "druid_healing_herb" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "priest_advanced",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": {
       "str": "The Paladin's Guide to Modern Spellcasting",
@@ -164,11 +171,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade", "spirit_armor" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade", "spirit_armor" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "winter_grasp",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Winter's Eternal Grasp", "str_pl": "copies of Winter's Eternal Grasp" },
     "//": "5 Kelvinist spells",
@@ -180,11 +188,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_blue",
-    "use_action": { "type": "learn_spell", "spells": [ "cone_cold", "ice_spike", "hoary_blast", "chilling_touch", "frost_spray" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "cone_cold", "ice_spike", "hoary_blast", "chilling_touch", "frost_spray" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "tome_of_storms",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "//": "7 Stormshaper spells",
     "name": { "str": "The Tome of The Oncoming Storm", "str_pl": "copies of The Tome of The Oncoming Storm" },
@@ -210,11 +219,12 @@
         "shocking_dash",
         "toxtricity"
       ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "bioelectricity",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "//": "6 Stormshaper spells",
     "name": { "str": "Bioelectricity, An Arcane Approach", "str_pl": "copies of Bioelectricity, An Arcane Approach" },
@@ -229,11 +239,12 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "electric_arts", "storm_superconductor", "shocking_dash", "toxtricity", "electric_eye", "electric_waves" ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "tome_of_wind",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "//": "5 Stormshaper wind spells",
     "name": { "str": "Blow You Away", "str_pl": "copies of Blow You Away" },
@@ -255,11 +266,12 @@
         "air_bubble",
         "stormshaper_heart_of_hurricane"
       ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "tome_electric",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "//": "5 Stormshaper electric spells",
     "name": { "str": "How Electromancy Changed the Vietnam War", "str_pl": "copies of How Electromancy Changed the Vietnam War" },
@@ -283,11 +295,12 @@
         "toxtricity",
         "shocking_dash"
       ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "generic_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Nondescript Spellbook", "str_pl": "copies of Nondescript Spellbook" },
     "//": "1 technomancer, 1 earthshaper, 1 classless spell",
@@ -298,11 +311,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "magenta",
-    "use_action": { "type": "learn_spell", "spells": [ "seismic_stomp", "create_atomic_lamp", "ethereal_grasp" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "seismic_stomp", "create_atomic_lamp", "ethereal_grasp" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "light_manipulation_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Of Light and Falsehoods", "str_pl": "copies of Of Light and Falsehoods" },
     "//": "3 technomancer, 4 classless spell",
@@ -326,11 +340,12 @@
         "holographic_transposition",
         "shadow_field"
       ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "biomancer_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Tome of Flesh", "str_pl": "copies of The Tome of Flesh" },
     "//": "5 Biomancer spells",
@@ -345,11 +360,12 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "vicious_tentacle", "bio_grotesque", "bio_acidicspray", "bio_fleshpouch", "bio_bonespear" ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "druid_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Book of Trees", "str_pl": "copies of The Book of Trees" },
     "//": "5 Druid spells",
@@ -372,11 +388,12 @@
         "druid_healing_herb",
         "druid_healing"
       ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "recovery_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Utility of Mana as an Energy Source", "str_pl": "copies of The Utility of Mana as an Energy Source" },
     "description": "This book details spells that use your mana to recover various physiological effects.",
@@ -400,11 +417,12 @@
         "druid_healing",
         "convert"
       ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "farmer_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Farm-Wizard's Almanac", "str_pl": "copies of The Farm-Wizard's Almanac" },
     "//": "2 earthshaper spells, 4 druid spells, 1 stormshaper spell",
@@ -427,11 +445,12 @@
         "purify_seed",
         "electric_eye"
       ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "magus_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Tome of The Battle Mage", "str_pl": "copies of The Tome of The Battle Mage" },
     "//": "4 Magus spells",
@@ -446,11 +465,12 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast", "magus_summon_impact_sling" ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "eshaper_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Tome of the Hollow Earth", "str_pl": "copies of The Tome of the Hollow Earth" },
     "//": "5 earthshaper spells",
@@ -465,11 +485,12 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "eshaper_rockbolt", "eshaper_shardspray", "eshaper_piercing_bolt", "eshaper_shardstorm", "eshaper_impalement" ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "eshaper_spellbook_melee",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Memoirs of the Champion of Earth", "str_pl": "copies of Memoirs of the Champion of Earth" },
     "//": "6 earthshaper spells",
@@ -491,11 +512,12 @@
         "eshaper_crystal_wrap",
         "earthshaper_sleep_in_earth"
       ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "eshaper_spellbook_tool",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "One Spell is All You Need!", "str_pl": "copies of One Spell is All You Need!" },
     "//": "1 earthshaper spell. yes, the whole book is only for one, that's the idea",
@@ -507,11 +529,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "brown",
-    "use_action": { "type": "learn_spell", "spells": [ "eshaper_spawn_tools" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "eshaper_spawn_tools" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "magus_spellbook_move",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Tome of Magical Movement", "str_pl": "copies of The Tome of Magical Movement" },
     "//": "6 Magus spells",
@@ -534,11 +557,12 @@
         "magus_spiderclimb",
         "magus_ranged_increase"
       ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "summon_scroll_smudged",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Smudged Scroll" },
     "//": "Druid spell",
@@ -550,11 +574,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "summon_bear" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "summon_bear" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "summon_undead_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Necromantic Minions for Dummies", "str_pl": "copies of Necromantic Minions for Dummies" },
     "//": "3 Animist spells",
@@ -569,11 +594,12 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "summon_undead", "summon_undead_swarm", "convert", "dominate", "life_detonation" ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "techno_fundamentals",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Fundamentals of Technomancy", "str_pl": "copies of Fundamentals of Technomancy" },
     "//": "4 Technomancer spells",
@@ -588,11 +614,12 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "synaptic_stimulation", "animated_blade", "mirror_image", "technomancer_knifeshot" ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "techno_idiots",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Complete Idiot's Guide to Technomancy", "str_pl": "copies of Complete Idiot's Guide to Technomancy" },
     "description": "This colorful guide, full of diagrams and cartoons, teaches a couple of very basic Technomancy spells for the not-so-bright pupils.",
@@ -604,11 +631,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "taze", "quantum_tunnel_lesser" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "taze", "quantum_tunnel_lesser" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "techno_em",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": {
       "str": "Technomancy and the Electromagnetic Spectrum",
@@ -626,11 +654,12 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "taze", "laze", "technomancer_knifeshot", "technomancer_conjure_ups", "technomancer_recharge_vehicle" ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "techno_electrical_work",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Mage-Engineer's Practical Guide", "str_pl": "copies of The Mage-Engineer's Practical Guide" },
     "//": "4 Technomancer spells, 2 Stormshaper spells",
@@ -652,11 +681,12 @@
         "technomancer_conjure_ups",
         "technomancer_recharge_vehicle"
       ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "animist_spirits",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "//": "2 animist and 1 classless spells",
     "name": { "str": "Liminal Pathways", "str_pl": "copies of Liminal Pathways" },
@@ -668,11 +698,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "wrathful_spirits", "spirit_walk", "ethereal_grasp" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "wrathful_spirits", "spirit_walk", "ethereal_grasp" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "animist_shadows",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Runic Tablet shard" },
     "//": "2 animist spells",
@@ -684,11 +715,12 @@
     "looks_like": "material_shrd_limestone",
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "soulrend", "wrathful_spirits" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "soulrend", "wrathful_spirits" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "translocate_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Geospatial Systems: The Lie Of Linearity", "str_pl": "copies of Geospatial Systems: The Lie Of Linearity" },
     "//": "1 classless spell",
@@ -700,11 +732,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_blue",
-    "use_action": { "type": "learn_spell", "spells": [ "translocate_self" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "translocate_self" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "forbidden_tome",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Forbidden Tome" },
     "//": "1 Magus spell, 1 Druid spell, 2 Animist spells",
     "description": "A very, very old and heavy tome of various spells lost to the ages, either for good reason, or simply through the passage of time.  There are very few copies in existence, usually owned by those of great power, and yet all of them seem to have the last dozen pages or so torn out, in haste.",
@@ -715,11 +748,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "brown",
-    "use_action": { "type": "learn_spell", "spells": [ "focused_bolt", "rupture", "disruption_bolt", "cause_rot", "devour" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "focused_bolt", "rupture", "disruption_bolt", "cause_rot", "devour" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "stat_up_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Transcendence of the Human Condition", "str_pl": "copies of Transcendence of the Human Condition" },
     "//": "4 Magus spells",
@@ -731,11 +765,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "yellow",
-    "use_action": { "type": "learn_spell", "spells": [ "cats_grace", "ogres_strength", "foxs_cunning", "eagles_sight" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "cats_grace", "ogres_strength", "foxs_cunning", "eagles_sight" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "magic_movement_book",
-    "type": "BOOK",
+    "type": "ITEM",
     "name": { "str": "Wherever You've Gone, There You Can Be", "str_pl": "copies of Wherever You've Gone, There You Can Be" },
     "//": "3 Magus spells, 1 Technomancer spell",
     "description": "A very sarcastically-written guide to using magic to get into and out of places you absolutely are not supposed to be.",
@@ -749,11 +784,12 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "magus_teleport_mark", "magus_word_of_recall", "magus_spiderclimb", "quantum_tunnel_lesser" ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "prepper_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": {
       "str": "It's the End of the World, But You'll Feel Fine",
@@ -779,10 +815,11 @@
         "create_lighter",
         "kelvinist_anti_cold"
       ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
-    "type": "BOOK",
+    "type": "ITEM",
     "id": "plant_spellbook",
     "name": { "ctxt": "spellbook", "str": "The Elven Path", "str_pl": "copies of The Elven Path" },
     "//": "7 Druid spells",
@@ -805,11 +842,12 @@
         "druid_rootstrike",
         "druidic_regrowth"
       ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "book_lazy_magic",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Lazy Mage's How-to Guide", "str_pl": "copies of The Lazy Mage's How-to Guide" },
     "//": "1 Magus spell, 1 Earthshaper spell, 1 Stormshaper spell, 1 Technomancer spell, 1 Classless spell",
@@ -830,11 +868,12 @@
         "earthshaper_turning_of_earth",
         "summon_floating_disk"
       ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "camping_time_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Arcano-hiking for Fun", "str_pl": "copies of Arcano-hiking for Fun" },
     "//": "1 classless, 1 druid spell",
@@ -846,11 +885,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "classless_clean_clothing_and_self", "druid_traverse_the_wilds" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "classless_clean_clothing_and_self", "druid_traverse_the_wilds" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "magic_history_tech_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": {
       "str": "The Effects of Technological Progress on Magic",
@@ -865,11 +905,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_blue",
-    "use_action": { "type": "learn_spell", "spells": [ "classless_watch_spell", "create_atomic_light", "technomancer_conjure_radio" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "classless_watch_spell", "create_atomic_light", "technomancer_conjure_radio" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "magic_healing_home_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Home Mage's Healthcare Manual", "str_pl": "copies of The Home Mage's Healthcare Manual" },
     "//": "2 Biomancer, 2 Druid spell",
@@ -884,11 +925,12 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "light_healing", "biomancer_cure_disease_minor", "druid_disinfectant", "druid_bandage_heal" ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "animist_summon_wisps_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": {
       "str": "Travels Among the Ljósálfar: Their Customs, Food, Lifestyle, Celebrations, and Ceremonies",
@@ -903,11 +945,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "brown",
-    "use_action": { "type": "learn_spell", "spells": [ "summon_wisps" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "summon_wisps" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "stormshaper_electric_immune_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Storm Chasing In Complete Safety", "str_pl": "copies of Storm Chasing In Complete Safety" },
     "//": "1 stormshaper spell",
@@ -919,11 +962,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_green",
-    "use_action": { "type": "learn_spell", "spells": [ "electric_arts" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "electric_arts" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "avoid_all_temperatures_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": {
       "str": "Fashion Over Function: A Thaumaturgical Guide to Wearing Whatever, Whenever",
@@ -938,11 +982,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "red",
-    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_anti_cold", "kelvinist_anti_heat" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_anti_cold", "kelvinist_anti_heat" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "summon_cats_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "A Cat Cafe at Home!", "str_pl": "copies of A Cat Cafe at Home!" },
     "//": "1 Druid spell",
@@ -954,11 +999,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "white",
-    "use_action": { "type": "learn_spell", "spells": [ "summon_cats" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "summon_cats" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "freshen_up_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Save Water and Time, with Magic!", "str_pl": "copies of Save Water and Time, with Magic!" },
     "//": "1 classless spell",
@@ -970,11 +1016,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_blue",
-    "use_action": { "type": "learn_spell", "spells": [ "classless_clean_clothing_and_self" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "classless_clean_clothing_and_self" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "post_apocalypse_guide_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Mystic Survival in the End Times", "str_pl": "copies of Mystic Survival in the End Times" },
     "//": "1 Biomancer, 1 Druid, 1 Kelvinist, and 1 classless spell.",
@@ -989,11 +1036,12 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "classless_clean_clothing_and_self", "biomancer_carrion_feast", "purify_seed", "create_lighter" ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "earthshaper_landscaping_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Landscaping with Earthshaping", "str_pl": "copies of Landscaping with Earthshaping" },
     "description": "A guide to using earthshaping magic to shortcut the backbreaking work of digging and hauling needed to redo one's yard.",
@@ -1005,11 +1053,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "brown",
-    "use_action": { "type": "learn_spell", "spells": [ "move_earth", "earthshaper_turning_of_earth" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "move_earth", "earthshaper_turning_of_earth" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "crystallize_mana_economy_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Limitations of the Mana Economy", "str_pl": "copies of The Limitations of the Mana Economy" },
     "//": "2 Classless spells",
@@ -1021,11 +1070,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "white",
-    "use_action": { "type": "learn_spell", "spells": [ "classless_restore_crystal_mana", "crystallize_mana" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "classless_restore_crystal_mana", "crystallize_mana" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "special_effects_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Make Your Own Special Effects", "str_pl": "copies of Make Your Own Special Effects" },
     "//": "1 Animist spell, 1 Magus spell, 1 Stormshaper spell, 1 Classless spell",
@@ -1037,11 +1087,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "yellow",
-    "use_action": { "type": "learn_spell", "spells": [ "shadow_field", "summon_wisps", "sound_bomb", "stormshaper_cloak_of_fog" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "shadow_field", "summon_wisps", "sound_bomb", "stormshaper_cloak_of_fog" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "magical_gardening_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Gardening the Druidic Way", "str_pl": "copies of Gardening the Druidic Way" },
     "//": "1 Druid, 1 Earthshaper spell",
@@ -1053,11 +1104,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "druid_growth", "earthshaper_turning_of_earth" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "druid_growth", "earthshaper_turning_of_earth" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "bypass_portals_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Let No Wall Stand in Your Way!", "str_pl": "copies of Let No Wall Stand in Your Way!" },
     "//": "2 technomancer spells",
@@ -1069,11 +1121,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "knock", "quantum_tunnel_lesser" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "knock", "quantum_tunnel_lesser" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "sense_outsiders_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "A Study of Nethereum Incursions", "str_pl": "copies of A Study of Nethereum Incursions" },
     "//": "1 Animist spell",
@@ -1085,11 +1138,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "black",
-    "use_action": { "type": "learn_spell", "spells": [ "animist_sense_outsiders" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "animist_sense_outsiders" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "windrunning_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": {
       "str": "Born of a Gale: A Taxonomy of Air and Weather Spirits",
@@ -1104,11 +1158,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_blue",
-    "use_action": { "type": "learn_spell", "spells": [ "windrun" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "windrun" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "stone_powers_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "//": "2 Earthshaper spells",
     "name": {
@@ -1124,11 +1179,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_boulder", "earthshaper_harden_earth" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_boulder", "earthshaper_harden_earth" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "staying_clean_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Magical Method of Tidying Up", "str_pl": "copies of The Magical Method of Tidying Up" },
     "//": "2 classless, 1 magus spell",
@@ -1140,11 +1196,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_green",
-    "use_action": { "type": "learn_spell", "spells": [ "protection_aura", "classless_clean_clothing_and_self", "magus_far_hand_pull" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "protection_aura", "classless_clean_clothing_and_self", "magus_far_hand_pull" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "druid_healing_power_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "//": "1 Druid spell + potion fruit recipes",
     "name": { "str": "The Healing Power of Nature", "str_pl": "copies of The Healing Power of Nature" },
@@ -1156,11 +1213,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "druid_healing_herb" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "druid_healing_herb" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "hologram_and_teleport_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": {
       "str": "Now You See We: Technomantic Transit In Action",
@@ -1175,11 +1233,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "yellow",
-    "use_action": { "type": "learn_spell", "spells": [ "mirror_image", "holographic_transposition" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "mirror_image", "holographic_transposition" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "messed_up_spells_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Magical Mishaps: When Spells Go Wrong", "str_pl": "copies of Magical Mishaps: When Spells Go Wrong" },
     "//": "2 druid spells, 1 stormshaper spell, 1 animist spell, all spells the pun ones",
@@ -1194,11 +1253,12 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "summon_bear", "druid_tornskin", "stormshaper_cloak_of_frog", "animist_magic_fissile" ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "biomancy_fasting_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Intermittent Fasting Using Biomancy", "str_pl": "copies of Intermittent Fasting Using Biomancy" },
     "//": "1 Biomancy spell",
@@ -1210,11 +1270,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "pink",
-    "use_action": { "type": "learn_spell", "spells": [ "biomancer_eat_tons_of_food" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_eat_tons_of_food" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "anti_magic_dispel_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "A Year of Living Without Magic", "str_pl": "copies of A Year of Living Without Magic" },
     "//": "1 Classless spell",
@@ -1226,11 +1287,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "black",
-    "use_action": { "type": "learn_spell", "spells": [ "classless_dispel_magic" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "classless_dispel_magic" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "easy_sleeping_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "Beyond Sleeping Easy with Sorcery", "str_pl": "copies of Beyond Sleeping Easy with Sorcery" },
     "//": "1 Classless spell",
@@ -1242,11 +1304,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "white",
-    "use_action": { "type": "learn_spell", "spells": [ "classless_easy_sleep_spell" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "classless_easy_sleep_spell" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "basic_pyromancy",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "//": "6 Kelvinist spells",
     "name": { "str": "Practical Pyromancy, Seventh Edition", "str_pl": "copies of Practical Pyromancy, Seventh Edition" },
@@ -1268,11 +1331,12 @@
         "kelvinist_anti_cold",
         "burning_hands"
       ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "all_first_circle_upgrades_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Rites of the First Circle", "str_pl": "copies of The Rites of the First Circle" },
     "//": "All 3 first circle mana trait upgrade spells",
@@ -1287,11 +1351,12 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "mana_upgrade_efficiency_01", "mana_upgrade_regeneration_01", "mana_upgrade_sensitivity_01" ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "first_circle_mana_amount_upgrade_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Rite of the First Circle: Mana Pool", "str_pl": "copies of The Rite of the First Circle: Mana Pool" },
     "description": "A lengthy list of the rituals and components necessary to slightly increase the efficiency by which the mage's body processes mana.",
@@ -1302,11 +1367,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "white",
-    "use_action": { "type": "learn_spell", "spells": [ "mana_upgrade_efficiency_01" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "mana_upgrade_efficiency_01" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "second_circle_mana_amount_upgrade_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Rite of the Second Circle: Mana Pool", "str_pl": "copies of The Rite of the Second Circle: Mana Pool" },
     "description": "A lengthy list of the rituals and components necessary to increase the efficiency by which the mage's body processes mana.",
@@ -1317,11 +1383,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "white",
-    "use_action": { "type": "learn_spell", "spells": [ "mana_upgrade_efficiency_02" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "mana_upgrade_efficiency_02" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "first_circle_mana_regen_upgrade_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Rite of the First Circle: Mana Flow", "str_pl": "copies of The Rite of the First Circle: Mana Flow" },
     "description": "A lengthy list of the rituals and components necessary to slightly increase the rate by which the mage's body regains mana.",
@@ -1332,11 +1399,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "red",
-    "use_action": { "type": "learn_spell", "spells": [ "mana_upgrade_regeneration_01" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "mana_upgrade_regeneration_01" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "second_circle_mana_regen_upgrade_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Rite of the Second Circle: Mana Flow", "str_pl": "copies of The Rite of the Second Circle: Mana Flow" },
     "description": "A lengthy list of the rituals and components necessary to increase the rate by which the mage's body regains mana.",
@@ -1347,11 +1415,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "red",
-    "use_action": { "type": "learn_spell", "spells": [ "mana_upgrade_regeneration_02" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "mana_upgrade_regeneration_02" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "first_circle_mana_mult_upgrade_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Rite of the First Circle: Mana Sense", "str_pl": "copies of The Rite of the First Circle: Mana Sense" },
     "description": "A lengthy list of the rituals and components necessary to slightly increase the sensitivity that the mage's body has to  mana.",
@@ -1362,11 +1431,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "red",
-    "use_action": { "type": "learn_spell", "spells": [ "mana_upgrade_sensitivity_01" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "mana_upgrade_sensitivity_01" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "second_circle_mana_mult_upgrade_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": { "str": "The Rite of the Second Circle: Mana Sense", "str_pl": "copies of The Rite of the Second Circle: Mana Sense" },
     "description": "A lengthy list of the rituals and components necessary to increase the sensitivity that the mage's body has to mana.",
@@ -1377,11 +1447,12 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "red",
-    "use_action": { "type": "learn_spell", "spells": [ "mana_upgrade_sensitivity_02" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "mana_upgrade_sensitivity_02" ] },
+    "subtypes": [ "BOOK" ]
   },
   {
     "id": "pirate_spellbook",
-    "type": "BOOK",
+    "type": "ITEM",
     "category": "manuals",
     "name": {
       "str": "Sail the High Seas with Sorcery on Your Side",
@@ -1399,6 +1470,7 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [ "stormshaper_cloak_of_fog", "storm_shipwrecker", "air_bubble", "technomancer_far_sight" ]
-    }
+    },
+    "subtypes": [ "BOOK" ]
   }
 ]

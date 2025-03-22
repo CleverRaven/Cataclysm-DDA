@@ -2,7 +2,7 @@
   {
     "id": "laptop_xedra",
     "copy-from": "laptop",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "tools",
     "name": { "str": "XEDRA laptop" },
     "description": "A heavy, dark laptop with a swappable battery slot.  The back panel is labeled \"PROPERTY OF XEDRA\".  It uses a non-standard OS, so there's not much you can use it for without reinstalling it.",
@@ -50,12 +50,13 @@
         "default_magazine": "medium_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 6 },
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "laptop_xedra_lit",
     "copy-from": "laptop_xedra",
-    "type": "TOOL",
+    "type": "ITEM",
     "name": { "str": "XEDRA laptop - lit screen", "str_pl": "XEDRA laptops - lit screen" },
     "power_draw": "1 W",
     "revert_to": "laptop_xedra",
@@ -81,6 +82,7 @@
         "charge_rate": "140 W"
       }
     ],
-    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ],
+    "subtypes": [ "TOOL" ]
   }
 ]

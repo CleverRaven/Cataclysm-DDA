@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "potion_fruit_apple",
     "name": { "str": "potion fruit (apple)", "str_pl": "potion fruits (apple)" },
     "description": "An apple infused with mana.  It will heal you if you eat it.",
@@ -9,7 +9,8 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "66 days 16 hours",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_APPLE" ]
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_APPLE" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -17,7 +18,7 @@
     "effect": [ { "u_add_effect": "effect_pfruit_heal", "duration": { "math": [ "150 + rand(350)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "potion_fruit_peach",
     "name": { "str": "potion fruit (peach)", "str_pl": "potion fruits (peach)" },
     "description": "A peach infused with mana.  It will cure illness if you eat it.",
@@ -26,7 +27,8 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "30 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_PEACH" ]
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_PEACH" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -34,7 +36,7 @@
     "effect": [ { "u_add_effect": "effect_pfruit_cure", "duration": "1 seconds" } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "potion_fruit_pear",
     "name": { "str": "potion fruit (pear)", "str_pl": "potion fruits (pear)" },
     "description": "A pear infused with mana.  It will allow your blows to strike quicker if you eat it.",
@@ -43,7 +45,8 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "40 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_PEAR" ]
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_PEAR" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -51,7 +54,7 @@
     "effect": [ { "u_add_effect": "effect_pfruit_attack_speed", "duration": { "math": [ "250 + rand(1500)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "potion_fruit_blackberries",
     "name": { "str": "handful of potion fruits (blackberries)", "str_pl": "handfuls of potion fruits (blackberries)" },
     "description": "A handful of blackberries infused with mana.  It will harm those who attack you if you eat it.",
@@ -60,7 +63,8 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_BLACKBERRY" ]
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_BLACKBERRY" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -68,7 +72,7 @@
     "effect": [ { "u_add_effect": "effect_pfruit_thorns", "duration": { "math": [ "500 + rand(1500)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "potion_fruit_raspberries",
     "name": { "str": "handful of potion fruits (raspberries)", "str_pl": "handfuls of potion fruits (raspberries)" },
     "description": "A handful of raspberries infused with mana.  It will lessen your pain if you eat it.",
@@ -77,7 +81,8 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_RASPBERRY" ]
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_RASPBERRY" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -85,7 +90,7 @@
     "effect": [ { "math": [ "u_pain()", "-=", "3" ] } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "potion_fruit_strawberries",
     "name": { "str": "handful of potion fruits (strawberries)", "str_pl": "handfuls of potion fruits (strawberries)" },
     "description": "A handful of strawberries infused with mana.  It will keep you warm even on an icy-cold day.",
@@ -94,7 +99,8 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_STRAWBERRY" ]
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_STRAWBERRY" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -102,7 +108,7 @@
     "effect": [ { "u_add_effect": "effect_pfruit_keep_warm", "duration": { "math": [ "500 + rand(5000)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "potion_fruit_elderberries",
     "name": { "str": "handful of potion fruits (elderberries)", "str_pl": "handfuls of potion fruits (elderberries)" },
     "description": "A handful of elderberries infused with mana.  It will keep you alert and awake.",
@@ -111,7 +117,8 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_ELDERBERRY" ]
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_ELDERBERRY" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -119,7 +126,7 @@
     "effect": [ { "math": [ "u_val('sleepiness')", "-=", "25" ] } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "potion_fruit_blueberries",
     "name": { "str": "handful of potion fruits (blueberries)", "str_pl": "handfuls of potion fruits (blueberries)" },
     "description": "A handful of blueberries infused with mana.  One handful is more satisfying than a whole bottle of water.",
@@ -128,10 +135,11 @@
     "proportional": { "calories": 0.5 },
     "quench": 100,
     "spoils_in": "25 days",
-    "extend": { "flags": [ "NO_AUTO_CONSUME" ] }
+    "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "potion_fruit_cranberries",
     "name": { "str": "handful of potion fruits (cranberries)", "str_pl": "handfuls of potion fruits (cranberries)" },
     "description": "A handful of cranberries infused with mana.  It will remove impurities in your blood.",
@@ -140,7 +148,8 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_CRANBERRY" ]
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_CRANBERRY" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -148,7 +157,7 @@
     "effect": [ { "u_add_effect": "effect_pfruit_purge", "duration": "1 seconds" } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "potion_fruit_huckleberries",
     "name": { "str": "handful of potion fruits (huckleberries)", "str_pl": "handfuls of potion fruits (huckleberries)" },
     "description": "A handful of huckleberries infused with mana.  It will make you much more flexible.",
@@ -157,7 +166,8 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_HUCKLEBERRY" ]
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_HUCKLEBERRY" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -165,7 +175,7 @@
     "effect": [ { "u_add_effect": "effect_pfruit_dodge", "duration": { "math": [ "250 + rand(1500)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "potion_fruit_wintergreen",
     "name": { "str": "handful of potion fruits (wintergreen berries)", "str_pl": "handfuls of potion fruits (wintergreen berries)" },
     "description": "A handful of wintergreen berries infused with mana.  It will allow you to see in the dark.",
@@ -174,7 +184,8 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_WINTERGREEN" ]
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_WINTERGREEN" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -182,7 +193,7 @@
     "effect": [ { "u_add_effect": "effect_pfruit_nightvision", "duration": { "math": [ "500 + rand(5000)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "potion_fruit_cherry",
     "name": { "str": "handful of potion fruits (cherries)", "str_pl": "handfuls of potion fruits (cherries)" },
     "description": "A handful of cherries infused with mana.  It will prevent you from bleeding.",
@@ -191,7 +202,8 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "25 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_CHERRY" ]
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_CHERRY" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -199,7 +211,7 @@
     "effect": [ { "u_add_effect": "effect_pfruit_nobleed", "duration": { "math": [ "250 + rand(1500)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "potion_fruit_apricot",
     "name": { "str": "handful of potion fruits (apricots)", "str_pl": "handfuls of potion fruits (apricots)" },
     "description": "A handful of apricots infused with mana.  It will enhance your visual acuity.",
@@ -208,7 +220,8 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "20 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_APRICOT" ]
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_APRICOT" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -216,7 +229,7 @@
     "effect": [ { "u_add_effect": "effect_pfruit_vision", "duration": { "math": [ "250 + rand(1500)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "potion_fruit_grapes",
     "name": { "str": "handful of potion fruits (grapes)", "str_pl": "handfuls of potion fruits (grapes)" },
     "description": "A handful of grapes infused with mana.  It will cure intoxication.",
@@ -225,7 +238,8 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "20 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_GRAPE" ]
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_GRAPE" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -236,7 +250,7 @@
     ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "potion_fruit_mayapple",
     "name": { "str": "potion fruit (mayapple)", "str_pl": "potion fruits (mayapple)" },
     "description": "A mayapple infused with mana.  It will allow you to eat questionable food without harm.",
@@ -245,7 +259,8 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "20 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_MAYAPPLE" ]
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_MAYAPPLE" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",
@@ -253,7 +268,7 @@
     "effect": [ { "u_add_effect": "effect_pfruit_eat_poison", "duration": { "math": [ "250 + rand(1500)" ] } } ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "potion_fruit_m_stellatum_berries",
     "name": {
       "str": "potion fruit (starry false Solomon's seal berries)",
@@ -265,7 +280,8 @@
     "proportional": { "quench": 0.5, "calories": 0.5 },
     "spoils_in": "30 days",
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
-    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_SOLOMON_SEAL" ]
+    "consumption_effect_on_conditions": [ "EOC_POTION_FRUIT_SOLOMON_SEAL" ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
     "type": "effect_on_condition",

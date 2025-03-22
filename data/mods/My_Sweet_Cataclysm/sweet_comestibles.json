@@ -1,6 +1,6 @@
 [
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "broken_necco",
     "name": "necco corpse",
     "symbol": "%",
@@ -18,10 +18,11 @@
     "stim": 1,
     "fun": 4,
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "marshmallow",
     "name": { "str_sp": "marshmallows" },
     "symbol": "%",
@@ -29,10 +30,11 @@
     "description": "A handful of squishy, fluffy, puffy, delicious marshmallows.  They feel oddly warm…",
     "copy-from": "marshmallow",
     "rot_spawn": { "group": "GROUP_EGG_MARSHMALLOW", "chance": 100 },
-    "spoils_in": "15 days"
+    "spoils_in": "15 days",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "smores",
     "name": { "str_sp": "s'mores" },
     "symbol": "%",
@@ -40,10 +42,11 @@
     "copy-from": "smores",
     "description": "A pair of graham crackers with some chocolate and a marshmallow between them.  Warmth radiates from it as if it is… alive?",
     "rot_spawn": { "group": "GROUP_EGG_SMORES", "chance": 100 },
-    "spoils_in": "15 days"
+    "spoils_in": "15 days",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "candy3",
     "name": { "str_sp": "chewy candy" },
     "description": "A handful of colorful fruit-flavored chewy candy.  They feel warm to the touch and you can almost feel a slow beat coming from them.  How odd…",
@@ -51,10 +54,11 @@
     "container": "null",
     "copy-from": "candy3",
     "rot_spawn": { "group": "GROUP_EGG_GUMMY", "chance": 100 },
-    "spoils_in": "15 days"
+    "spoils_in": "15 days",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "candy3gator",
     "name": { "str_sp": "chewy reptilian candy" },
     "description": "A handful of colorful fruit-flavored chewy candy shaped in a reptilian fashion.  They're warm to the touch and you can feel a slow beat coming from them.  How odd…",
@@ -62,10 +66,11 @@
     "container": "null",
     "copy-from": "candy3",
     "rot_spawn": { "group": "GROUP_EGG_GUMMY_GATOR", "chance": 100 },
-    "spoils_in": "15 days"
+    "spoils_in": "15 days",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "grahmcrackers",
     "name": "graham cracker",
     "symbol": "%",
@@ -73,10 +78,11 @@
     "description": "Dry and sugary, these crackers will leave you thirsty, but go good with some chocolate and marshmallows.  They shiver under your touch.  Weird!",
     "copy-from": "grahmcrackers",
     "rot_spawn": { "group": "GROUP_EGG_CRACKER", "chance": 100 },
-    "spoils_in": "20 days"
+    "spoils_in": "20 days",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "grahmcrackers_roe",
     "name": { "str_sp": "graham cracker roe" },
     "symbol": "%",
@@ -84,10 +90,11 @@
     "description": "Dry and sugary, these cracker pellets will leave you thirsty, but go good with some chocolate and marshmallows.  They shiver under your touch.  Weird!",
     "copy-from": "grahmcrackers",
     "rot_spawn": { "group": "GROUP_EGG_CRACKER_ROE", "chance": 100 },
-    "spoils_in": "20 days"
+    "spoils_in": "20 days",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "cookies",
     "name": "cookie",
     "symbol": "%",
@@ -95,10 +102,11 @@
     "description": "Sweet and delicious cookies, just like grandma used to bake.  They shiver under your touch.  Weird!",
     "copy-from": "cookies",
     "rot_spawn": { "group": "GROUP_EGG_COOKIE", "chance": 100 },
-    "spoils_in": "10 days"
+    "spoils_in": "10 days",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "cookies_egg",
     "name": "cookie egg",
     "symbol": "%",
@@ -106,10 +114,11 @@
     "description": "Sweet and delicious cookies, shaped like eggs.  They shiver under your touch as if something is inside.  Weird!",
     "copy-from": "cookies",
     "rot_spawn": { "group": "GROUP_EGG_COOKIE_EGG", "chance": 100 },
-    "spoils_in": "10 days"
+    "spoils_in": "10 days",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "gum",
     "name": "chewing gum",
     "comestible_type": "FOOD",
@@ -117,10 +126,11 @@
     "symbol": "*",
     "copy-from": "gum",
     "rot_spawn": { "group": "GROUP_EGG_GUM", "chance": 100 },
-    "spoils_in": "5 days"
+    "spoils_in": "5 days",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "caff_gum",
     "name": "caffeinated chewing gum",
     "comestible_type": "FOOD",
@@ -128,10 +138,11 @@
     "symbol": "*",
     "copy-from": "caff_gum",
     "rot_spawn": { "group": "GROUP_EGG_CAFFGUM", "chance": 100 },
-    "spoils_in": "7 days"
+    "spoils_in": "7 days",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "cow_candy",
     "name": { "str_sp": "candy cattle" },
     "description": "A handful of chocolate candies shaped like cows.  They're really warm, enough to make you wonder how they haven't melted.",
@@ -139,25 +150,28 @@
     "copy-from": "cow_candy",
     "color": "brown",
     "rot_spawn": { "group": "GROUP_EGG_CHOC_COW", "chance": 100 },
-    "spoils_in": "10 days"
+    "spoils_in": "10 days",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "milk_raw_choc",
     "name": { "str_sp": "raw chocolate milk" },
     "copy-from": "milk_raw",
     "color": "brown",
-    "description": "This is raw, unhomogenized and unpasteurized chocolate milk from a chocolate cow.  It couldn't be any fresher unless you drank it straight from the cow, which might upset it.  Depending on your dietary sensibilities, you might want to pasteurize or even boil this before drinking."
+    "description": "This is raw, unhomogenized and unpasteurized chocolate milk from a chocolate cow.  It couldn't be any fresher unless you drank it straight from the cow, which might upset it.  Depending on your dietary sensibilities, you might want to pasteurize or even boil this before drinking.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "milk_choc",
     "name": { "str_sp": "chocolate milk" },
     "copy-from": "milk_choc",
-    "description": "Baby chocolate cow food, appropriated for adult humans.  Spoils rapidly."
+    "description": "Baby chocolate cow food, appropriated for adult humans.  Spoils rapidly.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "liquid_cacao",
     "name": { "str_sp": "liquid cacao" },
     "weight": "258 g",
@@ -177,19 +191,21 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": -4,
-    "vitamins": [ [ "junk_allergen", 1 ] ]
+    "vitamins": [ [ "junk_allergen", 1 ] ],
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "milk_reconstituted_choc",
     "name": { "str_sp": "reconstituted chocolate milk" },
     "//": "Not in base game because people don't seem to do this IRL, with chocolate cows they might.",
     "copy-from": "milk_reconstituted",
     "color": "brown",
-    "description": "Baby chocolate cow food, appropriated for adult humans.  This milk has been reconstituted from a processed milk.  Spoils rapidly."
+    "description": "Baby chocolate cow food, appropriated for adult humans.  This milk has been reconstituted from a processed milk.  Spoils rapidly.",
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "milk_powder_choc",
     "name": { "str_sp": "powdered chocolate milk" },
     "//": "Not in base game because people don't seem to do this IRL, with chocolate cows they might.",
@@ -197,10 +213,11 @@
     "color": "brown",
     "calories": 152,
     "description": "Dehydrated chocolate milk powder.  Mix with water to make drinkable milk.",
-    "fun": -1
+    "fun": -1,
+    "subtypes": [ "COMESTIBLE" ]
   },
   {
-    "type": "COMESTIBLE",
+    "type": "ITEM",
     "id": "licorice",
     "name": { "str_sp": "licorice" },
     "symbol": "%",
@@ -208,6 +225,7 @@
     "rot_spawn": { "group": "GROUP_EGG_LICORICE", "chance": 100 },
     "container": "null",
     "color": "red",
-    "description": "A swirly confectionary treat in strings of sweet tasting candy.  You think you've seen them wriggle a bit.  How strange…"
+    "description": "A swirly confectionary treat in strings of sweet tasting candy.  You think you've seen them wriggle a bit.  How strange…",
+    "subtypes": [ "COMESTIBLE" ]
   }
 ]

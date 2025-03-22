@@ -2,7 +2,7 @@
   {
     "id": "walther_ppk",
     "looks_like": "glock_17",
-    "type": "GUN",
+    "type": "ITEM",
     "reload_noise_volume": 10,
     "name": { "str_sp": "Walther PPK pistol" },
     "description": "One of the most famous handguns of the 20th century.  Your name is not Bond, but you might find this little gun still useful.",
@@ -44,13 +44,14 @@
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppkmag" ] } ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "kp32",
     "looks_like": "glock_17",
     "copy-from": "pistol_backup",
-    "type": "GUN",
+    "type": "ITEM",
     "name": { "str": "Kel-Tec P-32 pistol" },
     "description": "One of Kel-Tec's oldest designs, the P-32 is a popular option for deep concealment and backup usage.  Despite its extreme light weight and small size, its .32 ACP chambering makes for good handling and recoil control.",
     "ascii_picture": "P3AT",
@@ -68,6 +69,7 @@
     "durability": 8,
     "min_cycle_recoil": 135,
     "pocket_data": [ { "magazine_well": "41 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "kp32mag" ] } ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "subtypes": [ "GUN" ]
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
     "id": "8mm_caseless",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "8x40mm FMJ" },
     "ascii_picture": "8mm_caseless",
     "description": "An 8x40mm caseless cartridge with a rectangular shape, consisting of a jacketed 127gr bullet housed inside of an advanced propellant body.  Upon firing, the body will be consumed, leaving nothing behind in the chamber.  Proprietary ammunition for Rivtech 8x40 caseless guns.",
@@ -76,15 +76,17 @@
     },
     "dispersion": 75,
     "recoil": 2200,
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": [ "NEVER_MISFIRES" ],
+    "subtypes": [ "AMMO" ]
   },
   {
     "id": "8mm_jhp",
     "copy-from": "8mm_caseless",
-    "type": "AMMO",
+    "type": "ITEM",
     "name": { "str_sp": "8x40mm SCX" },
     "description": "An 8x40mm caseless cartridge with a rectangular shape, consisting of a licensed 127gr solid copper expanding bullet housed inside of an advanced propellant body.  Upon firing, the body will be consumed, leaving nothing behind in the chamber.  The monometal construction of the bullet lends itself to greater manufacturing precision, while also offering excellent expansion and penetration.  Proprietary ammunition for Rivtech 8x40 caseless guns.",
     "proportional": { "price": 1.3, "price_postapoc": 1.3, "dispersion": 0.95 },
-    "relative": { "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": -4 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": -4 } },
+    "subtypes": [ "AMMO" ]
   }
 ]

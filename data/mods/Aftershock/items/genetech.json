@@ -1,7 +1,7 @@
 [
   {
     "id": "afs_gene_disp",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "chems",
     "name": "Mercurial Genetech",
     "looks_like": "c4armed",
@@ -14,11 +14,12 @@
     "symbol": "(",
     "color": "light_red",
     "trait_group": "GENETECH_TRAITS",
-    "flags": [ "GENE_TECH", "NANOFAB_TEMPLATE_SINGLE_USE" ]
+    "flags": [ "GENE_TECH", "NANOFAB_TEMPLATE_SINGLE_USE" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "afs_gene_template",
-    "type": "TOOL",
+    "type": "ITEM",
     "category": "chems",
     "name": "Mercurial Genetech",
     "looks_like": "c4armed",
@@ -31,14 +32,16 @@
     "symbol": "(",
     "color": "light_red",
     "trait_group": "GENETECH_TRAITS",
-    "flags": [ "GENE_TECH" ]
+    "flags": [ "GENE_TECH" ],
+    "subtypes": [ "TOOL" ]
   },
   {
     "id": "afs_gene_disp_low_tier",
     "name": "Mercurial Genetech",
     "copy-from": "afs_gene_disp",
-    "type": "TOOL",
-    "trait_group": "GENETECH_TRAITS_LOW_TIER"
+    "type": "ITEM",
+    "trait_group": "GENETECH_TRAITS_LOW_TIER",
+    "subtypes": [ "TOOL" ]
   },
   {
     "type": "trait_group",

@@ -3,7 +3,7 @@
     "id": "hk46bigmag",
     "//": "Audited with ImageJ.  Weight from Manufacturer.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "MP7 40-round magazine" },
     "description": "An extended 40-round magazine for use with H&K's proprietary 4.6x30mm round.",
     "weight": "200 g",
@@ -16,13 +16,14 @@
     "color": "light_gray",
     "ammo_type": [ "46" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "46": 40 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "46": 40 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "hk46mag",
     "//": "Audited with ImageJ.  Weight from Manufacturer.",
     "looks_like": "mp5mag",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "MP7 20-round magazine" },
     "description": "A standard capacity 20-round magazine for use with H&K's proprietary 4.6x30mm round.",
     "weight": "100 g",
@@ -35,6 +36,7 @@
     "color": "light_gray",
     "ammo_type": [ "46" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "46": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "46": 20 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]

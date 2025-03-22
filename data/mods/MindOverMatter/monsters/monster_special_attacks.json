@@ -45,7 +45,7 @@
   },
   {
     "id": "feral_clair_thrown_rock",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "%",
     "color": "red",
     "name": { "str": "hurled rubble" },
@@ -84,11 +84,12 @@
         "ammo_restriction": { "rock": 5 }
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "GUN" ]
   },
   {
     "id": "pattern_screamer_thrown_rock",
-    "type": "GUN",
+    "type": "ITEM",
     "symbol": "%",
     "color": "red",
     "name": { "str": "hurled rubble" },
@@ -128,6 +129,7 @@
         "ammo_restriction": { "rock": 5 }
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "subtypes": [ "GUN" ]
   }
 ]

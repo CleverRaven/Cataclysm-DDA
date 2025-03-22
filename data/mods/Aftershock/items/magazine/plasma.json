@@ -2,7 +2,7 @@
   {
     "id": "afs_4g_plasma",
     "looks_like": "plasma",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "4g plasma cell" },
     "description": "A tiny canister that can safely store up to 4 grams of solid hydrogen in a cryo-pressurized state.",
     "weight": "25 g",
@@ -16,12 +16,13 @@
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "MAG_COMPACT" ],
     "capacity": 4,
     "reload_time": 10,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "afs_shydrogen": 4 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "afs_shydrogen": 4 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "afs_20g_plasma",
     "looks_like": "plasma",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "20g plasma cell" },
     "description": "A reinforced canister that can safely store up to 20 grams of solid hydrogen in a cryo-pressurized state.",
     "weight": "30 g",
@@ -35,12 +36,13 @@
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "MAG_COMPACT" ],
     "capacity": 4,
     "reload_time": 10,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "afs_shydrogen": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "afs_shydrogen": 20 } } ],
+    "subtypes": [ "MAGAZINE" ]
   },
   {
     "id": "afs_40g_plasma_civ",
     "looks_like": "plasma",
-    "type": "MAGAZINE",
+    "type": "ITEM",
     "name": { "str": "40g plasma cell (civilian)", "str_pl": "40g plasma cells (civilian)" },
     "description": "A yellow and red canister that can safely store up to 40 grams of solid hydrogen in a cryo-pressurized state.  A complex nozzle with integrated digital failsafes make it incompatible with military railguns.",
     "weight": "45 g",
@@ -54,6 +56,7 @@
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "MAG_COMPACT" ],
     "capacity": 40,
     "reload_time": 40,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "afs_shydrogen": 40 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "afs_shydrogen": 40 } } ],
+    "subtypes": [ "MAGAZINE" ]
   }
 ]
