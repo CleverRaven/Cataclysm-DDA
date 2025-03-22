@@ -261,7 +261,9 @@
       { "monster": "mon_dog_auscattle", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_dog_auscattle_pup", "weight": 5, "cost_multiplier": 0 },
       { "monster": "mon_dog_samoyed", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_dog_samoyed_pup", "weight": 5, "cost_multiplier": 0 }
+      { "monster": "mon_dog_samoyed_pup", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_dog_wad", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_dog_wad_pup", "weight": 5, "cost_multiplier": 0 }
     ]
   },
   {
