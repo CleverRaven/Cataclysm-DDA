@@ -1774,8 +1774,7 @@
     "condition": { "u_has_trait": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD" },
     "deactivate_condition": { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD" } },
     "recurrence": [ "5 days", "5 days" ],
-    "effect": [ { "u_add_effect": "vampire_need_living_blood", "duration": "PERMANENT", "intensity": 1 } ],
-    "false_effect": [
+    "effect": [
       {
         "u_add_effect": "vampire_need_living_blood",
         "intensity": { "math": [ "u_effect_intensity('vampire_need_living_blood') + 1" ] },
