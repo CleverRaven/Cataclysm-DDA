@@ -1434,7 +1434,7 @@ void vehicle::use_washing_machine( map &here, int p )
     vehicle_part &vp = parts[p];
     avatar &player_character = get_avatar();
     // Get all the items that can be used as detergent
-    const inventory &inv = player_character.crafting_inventory();
+    const inventory &inv = player_character.crafting_inventory( here );
     std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
         return it.has_flag( STATIC( flag_id( "DETERGENT" ) ) ) && inv.has_charges( it.typeId(), 5 );
     } );
@@ -1518,7 +1518,8 @@ void vehicle::use_dishwasher( map &here, int p )
 {
     vehicle_part &vp = parts[p];
     avatar &player_character = get_avatar();
-    bool detergent_is_enough = player_character.crafting_inventory().has_charges( itype_detergent, 5 );
+    bool detergent_is_enough = player_character.crafting_inventory( here ).has_charges( itype_detergent,
+                               5 );
     vehicle_stack items = get_items( vp );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
         return i.has_flag( json_flag_FILTHY );
@@ -1819,8 +1820,7 @@ bool vehicle::use_vehicle_tool( vehicle &veh, map *here, const tripoint_bub_ms &
         return false;
     }
     if( !no_invoke ) {
-        // TODO: pass map or go abs
-        get_player_character().invoke_item( &tool, vp_pos );
+        get_player_character().invoke_item( &tool, *here, vp_pos );
     }
 
     // HACK: Evil hack incoming
@@ -1915,7 +1915,7 @@ void vehicle::build_interact_menu( veh_menu &menu, map *here, const tripoint_bub
     if( is_locked && controls_here ) {
         if( player_inside ) {
             menu.add( _( "Hotwire" ) )
-            .enable( get_player_character().crafting_inventory().has_quality( qual_SCREW ) )
+            .enable( get_player_character().crafting_inventory( *here ).has_quality( qual_SCREW ) )
             .desc( _( "Attempt to hotwire the car using a screwdriver." ) )
             .skip_locked_check()
             .hotkey( "HOTWIRE" )

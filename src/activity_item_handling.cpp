@@ -672,12 +672,12 @@ std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoin
     }
 
     const std::vector<tripoint_bub_ms> &sorted =
-        get_sorted_tiles_by_distance( you.pos_bub(), passable_tiles );
+        get_sorted_tiles_by_distance( you.pos_bub( here ), passable_tiles );
 
     const auto &avoid = you.get_path_avoid();
     for( const tripoint_bub_ms &tp : sorted ) {
         std::vector<tripoint_bub_ms> route =
-            here.route( you.pos_bub(), tp, you.get_pathfinding_settings(), avoid );
+            here.route( you.pos_bub( here ), tp, you.get_pathfinding_settings(), avoid );
 
         if( !route.empty() ) {
             return route;
@@ -853,6 +853,8 @@ static activity_reason_info find_base_construction(
     const std::optional<construction_id> &part_con_idx,
     const construction_id &idx )
 {
+    map &here = get_map();
+
     if( already_done( idx.obj(), loc ) ) {
         return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, idx->id );
     }
@@ -895,7 +897,7 @@ static activity_reason_info find_base_construction(
     if( !cc ) {
         return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
     }
-    const inventory &inv = you.crafting_inventory( inv_from_loc, PICKUP_RANGE );
+    const inventory &inv = you.crafting_inventory( here, inv_from_loc, PICKUP_RANGE );
     if( !player_can_build( you, inv, build, true ) ) {
         //can't build with current inventory, do not look for pre-req
         return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, build.id );
@@ -1073,14 +1075,14 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                     continue;
                 }
                 item base( vpinfo.base_item );
-                const units::mass max_lift = you.best_nearby_lifting_assist( src_loc );
+                const units::mass max_lift = you.best_nearby_lifting_assist( here, src_loc );
                 const bool use_aid = max_lift >= base.weight();
                 const bool use_str = you.can_lift( base );
                 if( !( use_aid || use_str ) ) {
                     continue;
                 }
                 const requirement_data &reqs = vpinfo.removal_requirements();
-                const inventory &inv = you.crafting_inventory( false );
+                const inventory &inv = you.crafting_inventory( here, false );
 
                 const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
                 you.set_value( "veh_index_type", vpinfo.name() );
@@ -1117,7 +1119,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 }
                 const requirement_data &reqs = vpinfo.repair_requirements();
                 const inventory &inv =
-                    you.crafting_inventory( src_loc, PICKUP_RANGE - 1, false );
+                    you.crafting_inventory( here, src_loc, PICKUP_RANGE - 1, false );
                 const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
                 you.set_value( "veh_index_type", vpinfo.name() );
                 // temporarily store the intended index, we do this so two NPCs don't try and work on the same part at same time.
@@ -1373,7 +1375,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         if( p ) {
             item_location to_craft = p->get_item_to_craft();
             if( to_craft && to_craft->is_craft() ) {
-                const inventory &inv = you.crafting_inventory( src_loc, PICKUP_RANGE, false );
+                const inventory &inv = you.crafting_inventory( here, src_loc, PICKUP_RANGE, false );
                 const recipe &r = to_craft->get_making();
                 std::vector<std::vector<item_comp>> item_comp_vector =
                                                      to_craft->get_continue_reqs().get_components();
@@ -1391,7 +1393,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
     } else if( act == ACT_MULTIPLE_DIS ) {
         // Is there anything to be disassembled?
-        const inventory &inv = you.crafting_inventory( src_loc, PICKUP_RANGE, false );
+        const inventory &inv = you.crafting_inventory( here, src_loc, PICKUP_RANGE, false );
         requirement_data req;
         for( item &i : here.i_at( src_loc ) ) {
             // Skip items marked by other ppl.
