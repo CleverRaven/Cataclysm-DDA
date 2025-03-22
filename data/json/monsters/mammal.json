@@ -1580,7 +1580,7 @@
     "aggression": -20,
     "stomach_size": 650,
     "reproduction": { "baby_type": { "baby_monster": "mon_dog_wad_pup" }, "baby_count": 6, "baby_timer": 270 },
-    "//": "RIP Elwood Rufus Fluffy P. 9/25/15-3/21/25. Taken from us too soon"
+    "//": "RIP Elwood Rufus Fluffy P. 9/21/15-3/21/25. Taken from us too soon"
   },
   {
     "id": "mon_dog_wad_pup",
