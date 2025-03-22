@@ -145,6 +145,7 @@ enum class mod : int {
     STAMINA_REGEN_MOD,
     MOVEMENT_EXERTION_MODIFIER,
     WEAKPOINT_ACCURACY,
+    MOTION_ALARM,
     NUM_MOD
 };
 } // namespace enchant_vals
