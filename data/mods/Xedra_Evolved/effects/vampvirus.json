@@ -11,7 +11,12 @@
         "run_eocs": [
           {
             "id": "EOC_REDUCE_VAMPVIRUS",
-            "condition": { "and": [ { "math": [ "u_effect_intensity('vampire_virus') >= 1" ] }, { "not": { "math": [ "u_effect_intensity('vampire_virus_ascendant') == 1" ] } } ] },
+            "condition": {
+              "and": [
+                { "math": [ "u_effect_intensity('vampire_virus') >= 1" ] },
+                { "not": { "math": [ "u_effect_intensity('vampire_virus_ascendant') == 1" ] } }
+              ]
+            },
             "effect": [
               { "u_lose_effect": "vampire_virus" },
               { "u_lose_trait": "VAMPIRE" },
