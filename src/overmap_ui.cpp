@@ -1854,7 +1854,7 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
             add_msg( m_warning, _( "Unable to find a path from the current location." ) );
         } else {
             add_msg( m_warning,
-                     _( "Auto travel only can only be used with the source and destination on the same Z level." ) );
+                     _( "Auto travel can only be used with the source and destination on the same Z level." ) );
         }
         return false;
     }
