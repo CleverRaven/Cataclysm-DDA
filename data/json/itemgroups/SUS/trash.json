@@ -33,6 +33,9 @@
       { "group": "pillbox_any_empty", "prob": 1, "count": [ 1, 2 ] },
       { "item": "bag_canvas_small", "prob": 2 },
       { "item": "box_cigarette", "prob": 10 },
+      { "item": "ifak_pouch", "prob": 5 },
+      { "item": "bag_paper_powder", "prob": 5 },
+      { "item": "bottle_glass_seasoning", "prob": 1 },
       { "//": "Loose items" },
       { "item": "bubblewrap", "prob": 5 },
       { "item": "lc_wire", "prob": 1 },
@@ -49,6 +52,8 @@
       { "item": "ceramic_mug", "prob": 1 },
       { "item": "coin_nickel", "prob": 1 },
       { "item": "coin_quarter", "prob": 1 },
+      { "item": "glowstick", "prob": 1, "charges": 0 },
+      { "item": "duct_tape", "prob": 1, "charges": 0 },
       { "//": "Small trash" },
       { "item": "splinter", "prob": 5, "count": [ 3, 6 ] },
       { "item": "scrap", "prob": 5 },
@@ -86,6 +91,10 @@
       { "item": "box_small", "prob": 30 },
       { "group": "pillbox_any_empty", "prob": 10, "count": [ 1, 3 ] },
       { "item": "bag_canvas_small", "prob": 10 },
+      { "item": "box_cigarette", "prob": 10 },
+      { "item": "ifak_pouch", "prob": 15 },
+      { "item": "bag_paper_powder", "prob": 15 },
+      { "item": "bottle_glass_seasoning", "prob": 5 },
       { "//": "Loose items" },
       { "item": "bubblewrap", "prob": 15 },
       { "item": "lc_wire", "prob": 10, "count": [ 1, 4 ] },
@@ -104,6 +113,8 @@
       { "item": "mask_dust", "prob": 2 },
       { "item": "coin_nickel", "prob": 1 },
       { "item": "coin_quarter", "prob": 1 },
+      { "item": "glowstick", "prob": 5, "charges": 0 },
+      { "item": "duct_tape", "prob": 5, "charges": 0 },
       { "//": "Small trash" },
       { "item": "splinter", "prob": 20, "count": [ 5, 20 ] },
       { "item": "scrap", "prob": 20, "count": [ 1, 2 ] },
@@ -187,7 +198,8 @@
       { "item": "family_photo", "prob": 2 },
       { "item": "eraser", "prob": 5 },
       { "item": "cotton_ball", "prob": 10, "count": [ 3, 7 ], "custom-flags": [ "FILTHY" ] },
-      { "group": "used_toy_box", "prob": 8 }
+      { "group": "used_toy_box", "prob": 8 },
+      { "group": "superglue_bottles", "prob": 8, "count": [ 1, 3 ] }
     ]
   },
   {
@@ -235,7 +247,8 @@
       { "item": "book_ruined", "prob": 5 },
       { "item": "candle", "prob": 10, "count": [ 1, 2 ], "charges": [ 0, 8 ] },
       { "item": "cotton_ball", "prob": 5, "count": [ 3, 7 ], "custom-flags": [ "FILTHY" ] },
-      { "group": "used_toy_box", "prob": 8 }
+      { "group": "used_toy_box", "prob": 8 },
+      { "group": "superglue_bottles", "prob": 8 }
     ]
   },
   {
@@ -410,7 +423,13 @@
     "subtype": "collection",
     "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
     "//2": "This group is for curbside trashcans, contained within multiple garbage bags",
-    "items": [ { "group": "SUS_trash_trashcan_full", "count": [ 0, 4 ] } ]
+    "items": [
+      { "group": "SUS_trash_trashcan_full", "count": [ 0, 4 ] },
+      { "item": "box_small_folded", "prob": 20, "count": [ 0, 2 ] },
+      { "item": "box_medium_folded", "prob": 10, "count": [ 0, 1 ] },
+      { "item": "box_large_folded", "prob": 15, "count": [ 0, 1 ] },
+      { "item": "box_oversize_folded", "prob": 5, "count": [ 0, 1 ] }
+    ]
   },
   {
     "id": "SUS_trash_dumpster",
@@ -418,7 +437,17 @@
     "subtype": "collection",
     "//1": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given spot.",
     "//2": "This group is for dumpsters, contained within multiple garbage bags",
-    "items": [ { "group": "SUS_trash_trashcan_full", "count": [ 0, 12 ] } ]
+    "items": [
+      { "group": "SUS_trash_trashcan_full", "count": [ 0, 12 ] },
+      { "item": "box_small", "prob": 20, "count": [ 0, 5 ] },
+      { "item": "box_medium", "prob": 10, "count": [ 0, 4 ] },
+      { "item": "box_large", "prob": 15, "count": [ 0, 4 ] },
+      { "item": "box_oversize", "prob": 5, "count": [ 0, 2 ] },
+      { "item": "box_small_folded", "prob": 20, "count": [ 0, 5 ] },
+      { "item": "box_medium_folded", "prob": 10, "count": [ 0, 4 ] },
+      { "item": "box_large_folded", "prob": 15, "count": [ 0, 4 ] },
+      { "item": "box_oversize_folded", "prob": 5, "count": [ 0, 2 ] }
+    ]
   },
   {
     "id": "SUS_trash_trashcan_public",
