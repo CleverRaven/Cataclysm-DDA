@@ -20,6 +20,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "weather.h"
+#include "wound.h"
 
 class JsonObject;
 class JsonOut;
@@ -449,6 +450,8 @@ class bodypart
         int damage_bandaged = 0;
         int damage_disinfected = 0;
 
+        limb_wounds wounds;
+
         encumbrance_data encumb_data; // NOLINT(cata-serialize)
 
         std::array<int, NUM_WATER_TOLERANCE> mut_drench; // NOLINT(cata-serialize)
@@ -507,6 +510,8 @@ class bodypart
         int get_bmi_encumbrance_threshold() const;
         float get_bmi_encumbrance_scalar() const;
         int get_power_efficiency() const;
+        void apply_wound( const damage_instance &dam );
+        const std::vector<wound> &get_all_wounds() const;
 
         std::array<int, NUM_WATER_TOLERANCE> get_mut_drench() const;
 
