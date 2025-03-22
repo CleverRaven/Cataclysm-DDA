@@ -1849,6 +1849,12 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
     std::vector<tripoint_abs_omt> path = get_overmap_path_to( dest, driving );
 
     if( path.empty() ) {
+        if( dest.z() == player_character.posz() ) {
+            add_msg( m_warning, _( "Unable to find a path from the current location." ) );
+        } else {
+            add_msg( m_warning,
+                     _( "Auto travel only can only be used with the source and destination on the same Z level." ) );
+        }
         return false;
     }
 
