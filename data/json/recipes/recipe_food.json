@@ -3239,6 +3239,19 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "result": "milk_choc",
+    "id_suffix": "from_powder",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "2 m",
+    "autolearn": true,
+    "//": "you're just dissolve the milk cocoa powder in the water. That take some time because cocoa powder have some fat. Therefore, you need to mix well",
+    "components": [ [ [ "cocoa_powder_milk", 1 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "milk_reconstituted",
     "id_suffix": "from_powder",
     "category": "CC_FOOD",
@@ -8661,7 +8674,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
-      [ [ "chocolate", 1 ] ],
+      [ [ "chocolate", 1 ], [ "cocoa_powder", 1 ] ],
       [
         [ "milk_standard_raw", 1, "LIST" ],
         [ "lf_milk_standard", 1, "LIST" ],
@@ -8688,7 +8701,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "chocolate", 2 ] ],
+      [ [ "chocolate", 2 ], [ "cocoa_powder", 3 ] ],
       [
         [ "milk_standard_raw", 1, "LIST" ],
         [ "lf_milk_standard", 1, "LIST" ],
