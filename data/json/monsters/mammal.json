@@ -1586,7 +1586,7 @@
     "id": "mon_dog_wad_pup",
     "type": "MONSTER",
     "copy-from": "mon_dog_pup",
-    "name": { "str": "Flat-coated Retreiver puppy", "str_pl": "Flat-coated Retriever puppies" },
+    "name": { "str": "Flat-coated Retriever puppy", "str_pl": "Flat-coated Retriever puppies" },
     "description": "An adorable, defenseless Flat-coated Retriever puppy.  Much safer to tame than an adult dog.",
     "aggression": -30,
     "stomach_size": 200,
