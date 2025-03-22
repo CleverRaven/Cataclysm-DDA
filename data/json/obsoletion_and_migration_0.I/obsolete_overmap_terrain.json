@@ -536,5 +536,15 @@
       "FEMA_entrance_east": "field",
       "FEMA_entrance_west": "field"
     }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.I",
+    "oter_ids": {
+      "s_gas_north": "s_gas_1_north",
+      "s_gas_south": "s_gas_1_south",
+      "s_gas_east": "s_gas_1_east",
+      "s_gas_west": "s_gas_1_west"
+    }
   }
 ]
