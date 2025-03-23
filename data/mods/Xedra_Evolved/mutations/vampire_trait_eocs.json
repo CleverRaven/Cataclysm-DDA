@@ -1774,8 +1774,7 @@
     "condition": { "u_has_trait": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD" },
     "deactivate_condition": { "not": { "u_has_trait": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD" } },
     "recurrence": [ "5 days", "5 days" ],
-    "effect": [ { "u_add_effect": "vampire_need_living_blood", "duration": "PERMANENT", "intensity": 1 } ],
-    "false_effect": [
+    "effect": [
       {
         "u_add_effect": "vampire_need_living_blood",
         "intensity": { "math": [ "u_effect_intensity('vampire_need_living_blood') + 1" ] },
@@ -1795,40 +1794,55 @@
     "type": "effect_on_condition",
     "id": "EOC_EARTH_SLEEP_CHECK_REAL",
     "condition": {
-      "and": [
-        { "u_has_trait": "VAMPIRE_WEAKNESS_EARTH_SLEEP" },
+      "or": [
+        { "math": [ "u_val('pos_z') <= -1" ] },
         {
-          "or": [
-            { "math": [ "u_val('pos_z') <= -1" ] },
+          "and": [
             {
-              "and": [
-                {
-                  "or": [
-                    { "u_is_on_terrain_with_flag": "DIGGABLE" },
-                    { "u_is_on_terrain": "t_rock_floor" },
-                    { "u_is_on_terrain": "t_rock_floor_no_roof" }
-                  ]
-                },
-                { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
-                { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
-                { "not": { "u_is_on_terrain": "t_fungus" } },
-                { "not": { "u_is_on_terrain": "t_glassed_sand" } },
-                { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
-                { "not": { "u_is_on_terrain": "t_swater_surf" } },
-                { "not": { "u_is_on_terrain": "t_woodchips" } }
+              "or": [
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "u_is_on_terrain": "t_rock_floor" },
+                { "u_is_on_terrain": "t_rock_floor_no_roof" }
               ]
-            }
+            },
+            { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+            { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+            { "not": { "u_is_on_terrain": "t_fungus" } },
+            { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+            { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+            { "not": { "u_is_on_terrain": "t_swater_surf" } },
+            { "not": { "u_is_on_terrain": "t_woodchips" } }
           ]
         }
       ]
     },
-    "effect": [ { "u_message": "Your sleep has been restful, thanks to the proximity of the earth.", "type": "info" } ],
-    "false_effect": [
-      { "u_add_effect": "effect_earth_sleeper_penalty", "duration": "24 hours", "intensity": 1 },
-      { "math": [ "u_val('sleepiness')", "+=", "550" ] },
+    "effect": [
       {
-        "u_message": "You struggle to awaken, feeling tired and weakened.  Having slept away from the earth, your sleep wasn't as restful as it should've been.",
-        "type": "bad"
+        "run_eocs": [
+          {
+            "id": "EOC_EARTH_SLEEP_CHECK_SATISFIED",
+            "condition": { "u_has_trait": "VAMPIRE_WEAKNESS_EARTH_SLEEP" },
+            "effect": [ { "u_message": "Your sleep has been restful, thanks to the proximity of the earth.", "type": "info" } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_EARTH_SLEEP_CHECK_PENALTY",
+            "condition": { "u_has_trait": "VAMPIRE_WEAKNESS_EARTH_SLEEP" },
+            "effect": [
+              { "u_add_effect": "effect_earth_sleeper_penalty", "duration": "24 hours", "intensity": 1 },
+              { "math": [ "u_val('sleepiness')", "+=", "550" ] },
+              {
+                "u_message": "You struggle to awaken, feeling tired and weakened.  Having slept away from the earth, your sleep wasn't as restful as it should've been.",
+                "type": "bad"
+              }
+            ]
+          }
+        ]
       }
     ]
   },
