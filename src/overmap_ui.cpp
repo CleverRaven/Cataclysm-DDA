@@ -25,7 +25,6 @@
 #include "cata_variant.h"
 #include "character_id.h"
 #include "debug.h"
-#include "enums.h"
 #include "enum_conversions.h"
 #include "input_enums.h"
 #include "mapdata.h"
@@ -1850,12 +1849,20 @@ static bool try_travel_to_destination( avatar &player_character, const tripoint_
     std::vector<tripoint_abs_omt> path = get_overmap_path_to( dest, driving );
 
     if( path.empty() ) {
+        std::string popupmsg;
         if( dest.z() == player_character.posz() ) {
-            add_msg( m_warning, _( "Unable to find a path from the current location." ) );
+            popupmsg = _( "Unable to find a path from the current location:" );
         } else {
-            add_msg( m_warning,
-                     _( "Auto travel can only be used with the source and destination on the same Z level." ) );
+            popupmsg = _( "Auto travel requires source and destination on same Z level:" );
         }
+        string_input_popup pop;
+        const std::string ok = _( "OK" );
+        pop
+        .title( popupmsg )
+        .width( ok.length() )
+        .text( ok )
+        .only_digits( false )
+        .query();
         return false;
     }
 
