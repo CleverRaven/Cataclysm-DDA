@@ -19,11 +19,11 @@
     "items": [
       {
         "distribution": [
-          { "item": "cig", "prob": 50 },
-          { "item": "cig_light", "prob": 20 },
-          { "item": "cig_menthol", "prob": 20 },
-          { "item": "cig_gold", "prob": 7 },
-          { "item": "cigar_small", "prob": 3 }
+          { "item": "cig", "prob": 50, "container-item": "null" },
+          { "item": "cig_light", "prob": 20, "container-item": "null" },
+          { "item": "cig_menthol", "prob": 20, "container-item": "null" },
+          { "item": "cig_gold", "prob": 7, "container-item": "null" },
+          { "item": "cigar_small", "prob": 3, "container-item": "null" }
         ]
       }
     ]
