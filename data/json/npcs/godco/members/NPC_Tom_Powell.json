@@ -174,7 +174,10 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Tom_2",
     "dynamic_line": "I'm currently in the middle of solving a pointless mystery for my own entertainment.  Of course I have time!",
-    "responses": [ { "text": "Sorry Tom.  <end_talking_leave>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "Maybe I could help you with that mystery?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Sorry Tom.  <end_talking_leave>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
