@@ -3246,7 +3246,7 @@
     "skill_used": "cooking",
     "time": "2 m",
     "autolearn": true,
-    "//": "you're just dissolve the milk cocoa powder in the water. That take some time because cocoa powder have some fat. Therefore, you need to mix well",
+    "//": "You're just dissolving the milk cocoa powder into the water. That takes some time because cocoa powder has some fat. Therefore, you need to mix well",
     "components": [ [ [ "cocoa_powder_milk", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
