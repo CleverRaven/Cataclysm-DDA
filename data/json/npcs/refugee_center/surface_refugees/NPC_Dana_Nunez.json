@@ -454,7 +454,7 @@
       {
         "text": "Why not?  I'll see what I can do.",
         "effect": [
-          { "assign_mission": "MISSION_REFUGEE_Dana_Sourdough" },
+          { "add_mission": "MISSION_REFUGEE_Dana_Sourdough" },
           { "u_add_var": "mission_flag_Dana_Sourdough", "value": "yes" }
         ],
         "topic": "TALK_DANA_Sourdough2"
