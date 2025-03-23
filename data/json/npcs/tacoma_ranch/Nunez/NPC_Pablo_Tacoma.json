@@ -176,7 +176,7 @@
     "dynamic_line": { "gendered_line": "Seriously?  You've already done so much.  I won't say no, though.", "relevant_genders": [ "u" ] },
     "speaker_effect": {
       "effect": [
-        { "assign_mission": "MISSION_TACOMA_Pablo_Firebricks" },
+        { "add_mission": "MISSION_TACOMA_Pablo_Firebricks" },
         { "u_add_var": "firebricks_tacoma_bakery", "value": "helped" }
       ]
     },
