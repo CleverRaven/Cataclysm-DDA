@@ -90,5 +90,31 @@
       [ [ "cinnamon", 1 ] ],
       [ [ "water", 2 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "religieuse_au_chocolat",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "difficulty": 7,
+    "time": "2 hours",
+    "batch_time_factors": [ 40, 1 ],
+    "charges": 10,
+    "book_learn": [ [ "baking_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "OVEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 40, "LIST" ] ] ],
+    "components": [
+      [ [ "eggs_any_shape", 5, "LIST" ] ],
+      [ [ "any_butter", 14, "LIST" ] ],
+      [ [ "salt", 1 ] ],
+      [ [ "chocolate", 1 ] ],
+      [ [ "buttercream", 6 ] ],
+      [ [ "flour_any", 16, "LIST" ] ],
+      [ [ "sugar", 20 ] ],
+      [ [ "water", 1 ] ]
+    ]
   }
 ]
