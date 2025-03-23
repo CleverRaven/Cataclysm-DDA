@@ -8676,7 +8676,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
-      [ [ "chocolate", 1 ], [ "cocoa_powder", 1 ] ],
+      [ [ "chocolate", 1 ], [ "cocoa_powder", 2 ] ],
       [
         [ "milk_standard_raw", 1, "LIST" ],
         [ "lf_milk_standard", 1, "LIST" ],
