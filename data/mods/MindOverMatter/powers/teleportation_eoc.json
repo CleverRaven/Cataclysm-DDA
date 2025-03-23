@@ -6,10 +6,22 @@
       { "math": [ "u_teleport_total_carried_volume = 0" ] },
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "condition": { "math": [ "n_volume() > 0" ] }, "excluded_flags": [ "PSEUDO", "INTEGRATED" ] } ],
+        "search_data": [ { "condition": { "math": [ "n_volume() > 0" ] }, "excluded_flags": [ "PSEUDO", "INTEGRATED" ], "worn_only": true } ],
         "true_eocs": [
           {
-            "id": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER_ADD_VOLUME",
+            "id": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER_ADD_VOLUME_WORN",
+            "effect": [ { "math": [ "u_teleport_total_carried_volume", "+=", "n_volume()" ] } ]
+          }
+        ]
+      },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          { "condition": { "math": [ "n_volume() > 0" ] }, "excluded_flags": [ "PSEUDO", "INTEGRATED" ], "wielded_only": true }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER_ADD_VOLUME_WIELDED",
             "effect": [ { "math": [ "u_teleport_total_carried_volume", "+=", "n_volume()" ] } ]
           }
         ]
@@ -31,14 +43,14 @@
       { "run_eocs": "EOC_TELEPORT_SELF_CARRIED_VOLUME_CHECKER" },
       {
         "math": [
-          "_teleport_blink_limit = ( ( ( u_spell_level('teleport_blink') * 5000 ) + 8000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+          "_teleport_blink_limit = ( ( ( u_spell_level('teleport_blink') * 3500 ) + 5000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
         ]
       },
       { "u_message": "Your Blink volume limit is <context_val:teleport_blink_limit>.", "type": "debug" },
       {
         "if": {
           "math": [
-            "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_blink') * 5000 ) + 8000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
+            "u_teleport_total_carried_volume <= ( ( ( u_spell_level('teleport_blink') * 3500 ) + 5000 ) * scaling_factor( u_val('intelligence') ) * u_nether_attunement_power_scaling )"
           ]
         },
         "then": [
