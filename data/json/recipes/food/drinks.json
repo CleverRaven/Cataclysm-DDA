@@ -186,8 +186,8 @@
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
     "flags": [ "BLIND_HARD" ],
     "components": [ 
-	[ [ "water", 1 ], [ "water_clean", 1 ] ],
-	[ [ "cocoa_powder", 2 ] ] ]
+	  [ [ "water", 1 ], [ "water_clean", 1 ] ],
+	  [ [ "cocoa_powder", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -200,9 +200,9 @@
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [
-	[ [ "milk_standard_raw", 1, "LIST" ],
-	[ "lf_milk_standard", 1, "LIST" ] ],
-  [ [ "cocoa_powder", 1 ] ] ]
+	  [ [ "milk_standard_raw", 1, "LIST" ],
+	  [ "lf_milk_standard", 1, "LIST" ] ],
+    [ [ "cocoa_powder", 1 ] ] ]
   },
   {
     "type": "recipe",
