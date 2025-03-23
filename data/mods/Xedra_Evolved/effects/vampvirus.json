@@ -3,19 +3,20 @@
     "type": "effect_on_condition",
     "id": "EOC_CONSUMED_BLOOD_TREATMENT",
     "//": "Should resist and reverse some of the early stages of the vampire virus.",
-    "condition": { "u_has_effect": "blood_treatment" },
+    "condition": { "not": { "u_has_effect": "blood_treatment" } },
     "effect": [
-      { "u_add_effect": "blood_treatment", "duration": "16 hours" },
-      { "u_message": "You take a blood treatment.", "type": "info" }
-    ],
-    "false_effect": [
-      { "u_add_effect": "blood_treatment", "duration": "16 hours" },
+      { "u_add_effect": "blood_treatment", "duration": "1 hours" },
       { "u_message": "You take a blood treatment.", "type": "info" },
       {
         "run_eocs": [
           {
             "id": "EOC_REDUCE_VAMPVIRUS",
-            "condition": { "math": [ "u_effect_intensity('vampire_virus') == 1" ] },
+            "condition": {
+              "and": [
+                { "math": [ "u_effect_intensity('vampire_virus') >= 1" ] },
+                { "not": { "math": [ "u_effect_intensity('vampire_virus_ascendant') == 1" ] } }
+              ]
+            },
             "effect": [
               { "u_lose_effect": "vampire_virus" },
               { "u_lose_trait": "VAMPIRE" },
@@ -29,14 +30,6 @@
               { "u_lose_trait": "VAMPIRE_SILENT_MOVE" },
               { "math": [ "u_spell_level('vampire_smell_nearby_blood_spell') = -1" ] },
               { "math": [ "u_spell_level('vampire_stamina_for_blood_spell') = -1" ] },
-              { "u_message": "The light seems less bright and the air fresher.", "type": "good" }
-            ]
-          },
-          {
-            "id": "EOC_REDUCE_VAMPVIRUS1",
-            "condition": { "math": [ "u_effect_intensity('vampire_virus') == 2" ] },
-            "effect": [
-              { "u_add_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" },
               { "u_lose_trait": "VAMPIRE2" },
               { "u_lose_trait": "COAGULANTWEAVE" },
               { "u_lose_trait": "BLOODHEAL" },
@@ -47,17 +40,6 @@
               { "u_lose_trait": "VAMPIRE_SEE_HEAT" },
               { "math": [ "u_spell_level('spell_blood_heal') = -1" ] },
               { "math": [ "u_spell_level('vampire_fear_gaze_spell') = -1" ] },
-              {
-                "u_message": "You seem to be feeling a little better, but the thirst for blood remains.",
-                "type": "good"
-              }
-            ]
-          },
-          {
-            "id": "EOC_REDUCE_VAMPVIRUS2",
-            "condition": { "math": [ "u_effect_intensity('vampire_virus') == 3" ] },
-            "effect": [
-              { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" },
               { "u_lose_trait": "VAMPIRE3" },
               { "u_lose_trait": "BLOODBANK" },
               { "u_lose_trait": "HYPNOTIC_GAZE" },
@@ -80,10 +62,9 @@
               { "math": [ "u_spell_level('vampire_magic_for_blood_spell') = -1" ] },
               { "math": [ "u_spell_level('spell_hypnotic_gaze') = -1" ] },
               { "math": [ "u_spell_level('vampire_command_beast_spell') = -1" ] },
-              {
-                "u_message": "You no longer instantly turn red in sunlight, but your skin is still concerningly pale.",
-                "type": "good"
-              }
+              { "u_message": "The light seems less bright and the air fresher.", "type": "good" },
+              { "u_add_effect": "curevamp", "duration": "72 days" },
+              { "math": [ "u_vitamin('human_blood_vitamin') = 0" ] }
             ]
           },
           {
