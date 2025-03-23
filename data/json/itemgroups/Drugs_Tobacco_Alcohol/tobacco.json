@@ -14,6 +14,21 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "cigarettes",
+    "items": [
+      {
+        "distribution": [
+          { "item": "cig", "probability": 50 },
+          { "item": "cig_light", "probability": 20 },
+          { "item": "cig_menthol", "probability": 20 },
+          { "item": "cig_gold", "probability": 7 },
+          { "item": "cigar_small", "probability": 3 }
+        ]
+      }
+    ]
+  },
+  {
     "id": "pocket_cigar",
     "type": "item_group",
     "subtype": "collection",
@@ -55,7 +70,7 @@
     "entries": [
       {
         "distribution": [
-          { "item": "cig", "prob": 75, "count": [ 1, 10 ], "container-item": "null", "entry-wrapper": "box_cigarette" },
+          { "group": "cigarettes", "prob": 75, "count": [ 1, 10 ], "container-item": "null", "entry-wrapper": "box_cigarette" },
           {
             "collection": [
               { "item": "tobacco", "count": [ 1, 20 ], "container-item": "null", "entry-wrapper": "bag_plastic" },
@@ -91,6 +106,6 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "box_cigarette",
-    "entries": [ { "item": "cig", "container-item": "null", "count": 20 } ]
+    "entries": [ { "group": "cigarettes", "container-item": "null", "count": 20 } ]
   }
 ]
