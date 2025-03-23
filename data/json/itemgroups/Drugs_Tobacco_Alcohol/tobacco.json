@@ -19,11 +19,11 @@
     "items": [
       {
         "distribution": [
-          { "item": "cig", "probability": 50 },
-          { "item": "cig_light", "probability": 20 },
-          { "item": "cig_menthol", "probability": 20 },
-          { "item": "cig_gold", "probability": 7 },
-          { "item": "cigar_small", "probability": 3 }
+          { "item": "cig", "prob": 50 },
+          { "item": "cig_light", "prob": 20 },
+          { "item": "cig_menthol", "prob": 20 },
+          { "item": "cig_gold", "prob": 7 },
+          { "item": "cigar_small", "prob": 3 }
         ]
       }
     ]

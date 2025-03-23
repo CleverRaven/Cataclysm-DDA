@@ -414,7 +414,7 @@
     "comestible_type": "MED",
     "copy-from": "cig",
     "name": { "str": "little cigar" },
-    "descirption": "A compact, slim cigar in the shape of a cigarette. It’s a popular choice for those who want a taste of luxury without the time commitment of a full-sized cigar. Addictive and hazardous to health.",
+    "description": "A compact, slim cigar in the shape of a cigarette. It’s a popular choice for those who want a taste of luxury without the time commitment of a full-sized cigar. Addictive and hazardous to health.",
     "price": "1 USD",
     "price_postapoc": "2 USD 50 cent",
     "color": "brown",
