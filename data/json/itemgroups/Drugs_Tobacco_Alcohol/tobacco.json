@@ -17,15 +17,11 @@
     "type": "item_group",
     "id": "cigarettes",
     "items": [
-      {
-        "distribution": [
-          { "item": "cig", "prob": 50, "container-item": "null" },
-          { "item": "cig_light", "prob": 20, "container-item": "null" },
-          { "item": "cig_menthol", "prob": 20, "container-item": "null" },
-          { "item": "cig_gold", "prob": 7, "container-item": "null" },
-          { "item": "cigar_small", "prob": 3, "container-item": "null" }
-        ]
-      }
+      { "item": "cig", "prob": 50, "container-item": "null" },
+      { "item": "cig_light", "prob": 20, "container-item": "null" },
+      { "item": "cig_menthol", "prob": 20, "container-item": "null" },
+      { "item": "cig_gold", "prob": 7, "container-item": "null" },
+      { "item": "cigar_small", "prob": 3, "container-item": "null" }
     ]
   },
   {
