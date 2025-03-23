@@ -3254,19 +3254,6 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "milk_choc",
-    "id_suffix": "from_milk_cococa_powder",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_DRINKS",
-    "skill_used": "cooking",
-    "time": "2 m",
-    "autolearn": true,
-    "//": "You're just dissolving the milk cocoa powder into the water. That takes some time because cocoa powder has some fat. Therefore, you need to mix well",
-    "components": [ [ [ "cocoa_powder_milk", 1 ] ], [ [ "water_clean", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
     "result": "milk_reconstituted",
     "id_suffix": "from_powder",
     "category": "CC_FOOD",
