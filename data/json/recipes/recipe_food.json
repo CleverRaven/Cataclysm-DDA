@@ -3239,7 +3239,23 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "result": "hot_chocolate",
+    "id_suffix": "hot_choc_cocoa"
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
+    "flags": [ "BLIND_HARD" ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "cocoa_powder", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "milk_choc",
+    "id_suffix": "milk_choc_cocoa"
     "id_suffix": "from_powder",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
