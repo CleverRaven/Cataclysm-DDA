@@ -405,7 +405,7 @@
   },
   {
     "type": "effect_type",
-    "id": "maimed_shambler_arm",
+    "id": "maimed_huntsman_arm",
     "name": [ "Broken Appendage" ],
     "//": "Disables javelin throwing.",
     "desc": [ { "str": "Your long grotesque throwing appendage has been compromised.", "//~": "NO_I18N" } ],
