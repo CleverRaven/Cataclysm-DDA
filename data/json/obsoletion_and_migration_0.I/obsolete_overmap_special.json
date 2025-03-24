@@ -40,5 +40,10 @@
     "type": "overmap_special_migration",
     "id": "FEMA_Camp2",
     "//": "Migrated in 0.I"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "FakeSpecial_s_gas",
+    "//": "Migrated in 0.I"
   }
 ]

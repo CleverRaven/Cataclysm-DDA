@@ -893,6 +893,147 @@
   },
   {
     "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_MORE_BLOOD",
+    "name": { "str": "Vampiric weakness: blood drain" },
+    "points": -1,
+    "description": "You thirst for blood is more intense than usual.  You now need twice as much blood to prevent blood starvation.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "vitamin_rates": [ [ "human_blood_vitamin", 60 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_GROTESQUE",
+    "name": { "str": "Vampiric weakness: revolting appearance" },
+    "points": -1,
+    "description": "Your body brings to mind a rotting corpse.  Social interactions will be much harder for you.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "visibility": 30,
+    "ugliness": 30,
+    "social_modifiers": { "lie": -30, "persuade": -30, "intimidate": -30 },
+    "//": "You have to convince those you talk to that you're not just a smarter zombie, hence the intimidate malus."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_EARTH_SLEEP",
+    "name": { "str": "Vampiric weakness: earth-sleeper" },
+    "points": -1,
+    "description": "You now depend on the proximity to the earth to sleep well.  Should you sleep or torpor aboveground or not surrounded by earth, you will suffer penalties for the next day.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_HOLY_BURN",
+    "name": { "str": "Vampiric weakness: rebuked by holy ground" },
+    "points": -1,
+    "description": "Your flesh will burn should you ever enter a sanctified area.  Only places that are holy will burn you, so holy places filled with vampires or unholy humans are safe for you to enter.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "//": "Unsafe: churches, cathedrals, synagogues, rural churches, eventual other holy places.",
+    "//2": "Safe: Vampire-filled holy places, the New England Community Church, anywhere not unsafe."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_VAST_WATER_BURN",
+    "name": { "str": "Vampiric weakness: melted by vast water" },
+    "points": -1,
+    "description": "Your flesh will melt should you ever try to cross a large body of water or get too close to them.  Only rivers, lakes and oceans have enough water to trigger this weakness, but it will take effect even if floating or water-walking.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "//": "Unsafe: rivers, lakes, oceans.",
+    "//2": "Safe: anywhere else."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_ANIMAL_HATE",
+    "name": { "str": "Vampiric weakness: hated by animals" },
+    "points": -1,
+    "description": "Animals cannot tolerate your wicked presence.  Expect any animal you encounter to either flee or attack you on sight.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "anger_relations": [
+      [ "MAMMAL", 50 ],
+      [ "AMPHIBIAN", 50 ],
+      [ "BIRD", 50 ],
+      [ "REPTILE", 50 ],
+      [ "FISH", 50 ],
+      [ "KRAKEN", 50 ],
+      [ "INSECT", 50 ],
+      [ "CENTIPEDE", 50 ],
+      [ "INSECT_FLYING", 50 ],
+      [ "SPIDER", 50 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_FIRE_VULNERABLE",
+    "name": { "str": "Vampiric weakness: vulnerable to fire" },
+    "points": -1,
+    "description": "Fire damages you far more than it should.  You take massive damage from fire and flames, mundane and magical.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [ { "incoming_damage_mod": [ { "type": "heat", "multiply": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_COLD_BLOODED",
+    "name": { "str": "Vampiric weakness: cold as a corpse" },
+    "points": -1,
+    "description": "You now lack amy body heat.  You feel colder at all times, and being cold will slow you down.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "CLIMATE_CONTROL_HEAT", "add": -20 },
+          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_NEED_LIVING_BLOOD",
+    "name": { "str": "Vampiric weakness: living-drinker" },
+    "points": -1,
+    "description": "You now need to drink some fresh, warm blood from a living being once in a while or suffer growing penalties.  You better find someone willing to share their blood, as blood from fresh corpses won't satisfy this need.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false,
+    "//": "When the player will be able to drink from living unwilling, this trait should bring its penalties at least twice as quickly."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_NEED_HUMAN_BLOOD",
+    "name": { "str": "Vampiric weakness: picky feeding" },
+    "points": -1,
+    "description": "Your ability to process varied types of blood is now hampered.  Blood that isn't regular human blood will only sate your thirst half as much.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_WEAKNESS_BLOOD_CRAVING",
+    "name": { "str": "Vampiric weakness: blood cravings" },
+    "points": -1,
+    "description": "Your thirst for blood will occasionally magnify, causing painful cravings.  You can calm these cravings as or before they happen by consuming blood.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
     "id": "BLOOD_OF_SAINTS",
     "name": { "str": "Saint's blood" },
     "points": 0,

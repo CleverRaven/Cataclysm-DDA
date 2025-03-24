@@ -283,7 +283,7 @@
     "warmth": 25,
     "longest_side": "60 cm",
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN" ],
     "armor": [ { "encumbrance": 35, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
     "melee_damage": { "bash": 8 }
   },
@@ -1010,7 +1010,7 @@
     ],
     "warmth": 25,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "BLOCK_WHILE_WORN" ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -1048,7 +1048,7 @@
     "warmth": 25,
     "longest_side": "60 cm",
     "material_thickness": 5,
-    "flags": [ "VARSIZE", "OUTER" ],
+    "flags": [ "VARSIZE", "OUTER", "BLOCK_WHILE_WORN" ],
     "armor": [ { "encumbrance": 50, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
     "melee_damage": { "bash": 8 }
   },
@@ -1136,7 +1136,7 @@
     "warmth": 25,
     "longest_side": "60 cm",
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "BLOCK_WHILE_WORN" ],
     "armor": [ { "encumbrance": 15, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
     "melee_damage": { "bash": 8 }
   },
@@ -1157,7 +1157,7 @@
     "color": "light_gray",
     "longest_side": "40 cm",
     "warmth": 10,
-    "flags": [ "OUTER" ],
+    "flags": [ "OUTER", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "material": [
@@ -1222,7 +1222,7 @@
     "warmth": 10,
     "longest_side": "40 cm",
     "material_thickness": 4,
-    "flags": [ "OUTER", "NONCONDUCTIVE" ],
+    "flags": [ "OUTER", "NONCONDUCTIVE", "BLOCK_WHILE_WORN" ],
     "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {

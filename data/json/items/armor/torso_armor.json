@@ -1041,7 +1041,7 @@
     ],
     "warmth": 35,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "STURDY", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "jacket_jean_mod",
@@ -1094,7 +1094,7 @@
     ],
     "warmth": 25,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "vest_jean_mod",
@@ -1138,7 +1138,7 @@
     ],
     "warmth": 20,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "jacket_leather_mod_ch",

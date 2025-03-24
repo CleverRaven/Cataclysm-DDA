@@ -9,6 +9,7 @@
 #include <memory>
 #include <optional>
 #include <stdexcept>
+#include <tuple>
 #include <unordered_set>
 #include <variant>
 
@@ -42,6 +43,7 @@
 #include "item_group.h"
 #include "item_pocket.h"
 #include "iuse_actor.h"
+#include "make_static.h"
 #include "mapdata.h"
 #include "material.h"
 #include "mod_tracker.h"
@@ -2570,6 +2572,9 @@ const itype *Item_factory::add_runtime( const itype_id &id, translation name,
     def->description = std::move( description );
     m_runtimes[ id ].reset( def );
     m_runtimes_dirty = true;
+    // Clear armor_containers cache. It is probably not needed (added runtime will not be a container),
+    // but as this almost never hapens and the cost is next to none, we can afford to be correct.
+    armor_containers.clear();
     return def;
 }
 
@@ -4728,6 +4733,7 @@ void Item_factory::reset()
 void Item_factory::clear()
 {
     m_template_groups.clear();
+    armor_containers.clear();
 
     iuse_function_list.clear();
 
@@ -5320,6 +5326,54 @@ std::vector<const itype *> Item_factory::find( const std::function<bool( const i
     } );
 
     return res;
+}
+
+std::pair<std::vector<item>::const_iterator, std::vector<item>::const_iterator>
+Item_factory::get_armor_containers( units::volume min_volume ) const
+{
+    if( armor_containers.empty() ) {
+        // Prepare armor_containers for contained_in cache.
+        using item_volumes = std::tuple<item, units::volume>;
+        std::vector<item_volumes> vols;
+        for( const itype *ity : all() ) {
+            if( item_is_blacklisted( ity->get_id() )
+                || ity->get_id() == STATIC( itype_id( "debug_backpack" ) )
+              ) {
+                continue;
+            }
+            item itm = item( ity );
+            if( !itm.is_armor() ) {
+                continue;
+            }
+            const units::volume vol = itm.get_biggest_pocket_capacity();
+            if( vol == 0_ml ) {
+                continue;
+            }
+            vols.emplace_back( std::move( itm ), vol );
+        }
+
+        // Sort armor_containers based on the biggest pocket volume.
+        std::sort( vols.begin(), vols.end(), []( const item_volumes & a, const item_volumes & b ) {
+            return std::get<1>( a ) < std::get<1>( b );
+        } );
+
+        // Add them in ascending order.
+        armor_containers.clear();
+        volumes.clear();
+        armor_containers.reserve( vols.size() );
+        volumes.reserve( vols.size() );
+        // TODO move the elements instead
+        for( const item_volumes &iv : vols ) {
+            armor_containers.emplace_back( std::get<0>( iv ) );
+            volumes.emplace_back( std::get<1>( iv ) );
+        }
+    }
+
+    // Iterator in volumes coresponds to iterator in armor_containers.
+    // Binary find the first holster that has enough volume.
+    return { armor_containers.begin() + static_cast<size_t>( lower_bound(
+                 volumes.begin(), volumes.end(), min_volume ) - volumes.begin() ),
+             armor_containers.end()};
 }
 
 std::list<itype_id> Item_factory::subtype_replacement( const itype_id &base ) const
