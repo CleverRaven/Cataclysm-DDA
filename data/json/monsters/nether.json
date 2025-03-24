@@ -2247,9 +2247,9 @@
       "BASHES",
       "PATH_AVOID_DANGER",
       "EATS",
-	    "DROPS_AMMO",
-	    "CORNERED_FIGHTER",
-	    "RANGED_ATTACKER",
+      "DROPS_AMMO",
+      "CORNERED_FIGHTER",
+      "RANGED_ATTACKER",
       "PRIORITIZE_TARGETS"
     ],
     "armor": { "bash": 10, "cut": 15, "bullet": 5, "heat": 3 }
