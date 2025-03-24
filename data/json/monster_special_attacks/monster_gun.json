@@ -177,12 +177,12 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "id": "nether_shambler_arm",
+    "id": "nether_huntsman_arm",
     "type": "GUN",
     "symbol": "%",
     "color": "red",
-    "name": { "str": "Shambler javelins", "//~": "NO_I18N" },
-    "description": { "str": "Shambler alien javelins as a pseudo item.", "//~": "NO_I18N" },
+    "name": { "str": "huntsman javelins", "//~": "NO_I18N" },
+    "description": { "str": "huntsman alien javelins as a pseudo item.", "//~": "NO_I18N" },
     "material": [ "bone" ],
     "flags": [
       "PRIMITIVE_RANGED_WEAPON",
@@ -196,7 +196,7 @@
       "RELOAD_AND_SHOOT"
     ],
     "skill": "throw",
-    "ammo": [ "nether_shambler_javelin_ammo" ],
+    "ammo": [ "nether_huntsman_javelin_ammo" ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "clip_size": 1,
     "weight": "12 kg",
@@ -214,7 +214,7 @@
         "max_contains_volume": "1400 ml",
         "max_contains_weight": "1200 g",
         "max_item_length": "76 cm",
-        "ammo_restriction": { "nether_shambler_javelin_ammo": 1 }
+        "ammo_restriction": { "nether_huntsman_javelin_ammo": 1 }
       }
     ],
     "melee_damage": { "cut": 2 }
