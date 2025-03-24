@@ -4,6 +4,7 @@
 #include <set>
 #include <string>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "condition.h"

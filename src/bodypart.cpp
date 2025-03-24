@@ -1,6 +1,7 @@
 #include "bodypart.h"
 
 #include <algorithm>
+#include <memory>
 #include <set>
 #include <unordered_map>
 #include <unordered_set>
@@ -9,7 +10,7 @@
 
 #include "assign.h"
 #include "body_part_set.h"
-#include "character.h"
+#include "creature.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "flexbuffer_json.h"
@@ -17,6 +18,7 @@
 #include "json.h"
 #include "localized_comparator.h"
 #include "magic_enchantment.h"
+#include "pimpl.h"
 #include "rng.h"
 #include "subbodypart.h"
 

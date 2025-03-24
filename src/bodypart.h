@@ -21,6 +21,7 @@
 #include "units.h"
 #include "weather.h"
 
+class Creature;
 class JsonObject;
 class JsonOut;
 struct body_part_type;
