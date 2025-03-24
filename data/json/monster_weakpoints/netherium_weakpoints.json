@@ -70,7 +70,7 @@
         "id": "eye",
         "name": "the photoreceptors",
         "is_head": true,
-		    "coverage": 2,
+        "coverage": 2,
         "armor_mult": { "physical": 0 },
         "crit_mult": { "all": 1.25 },
         "difficulty": { "ranged": 7, "melee": 5 },
