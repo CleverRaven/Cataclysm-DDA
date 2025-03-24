@@ -2238,8 +2238,8 @@
         "condition": { "not": { "u_has_effect": "maimed_huntsman_arm" } },
         "ranges": [ [ 2, 14, "DEFAULT" ] ]
       }
-	],	
-      "flags": [
+    ],
+    "flags": [
       "SEES",
       "HEARS",
 	    "STUN_IMMUNE",
