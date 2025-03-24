@@ -254,7 +254,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Tom_Olwen_Love1",
-    "dynamic_line": "I saw her big smile when receiving her ring from Julian, somedays the smiles of my family are what keeps me going after everything that happened…",
+    "dynamic_line": "I saw her big smile when receiving her ring from Julian, some days the smiles of my family are what keeps me going after everything that happened…",
     "responses": [
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
