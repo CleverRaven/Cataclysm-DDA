@@ -1815,13 +1815,25 @@
                 "popup": true
               },
               { "math": [ "u_spell_level('photokinetic_light_army') = 1" ] },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90)" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ],
             "false_effect": [
               { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
-              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
+              {
+                "math": [
+                  "u_vitamin('vitamin_psionic_drain')",
+                  "+=",
+                  "rng( learn_new_power_lower_nether_attunement_level(),learn_new_power_upper_nether_attunement_level() )"
+                ]
+              },
               { "u_lose_effect": "effect_psi_learning_new_power" },
               "u_cancel_activity"
             ]

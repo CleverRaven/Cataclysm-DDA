@@ -95,13 +95,13 @@
     "type": "jmath_function",
     "id": "learn_new_power_lower_nether_attunement_level",
     "num_args": 0,
-    "return": "u_latest_studied_power_difficulty * 5"
+    "return": "u_latest_studied_power_difficulty * 10"
   },
   {
     "type": "jmath_function",
     "id": "learn_new_power_upper_nether_attunement_level",
     "num_args": 0,
-    "return": "u_latest_studied_power_difficulty * 10"
+    "return": "u_latest_studied_power_difficulty * 20"
   },
   {
     "type": "jmath_function",
