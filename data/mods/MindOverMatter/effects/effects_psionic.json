@@ -2004,6 +2004,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_photokin_light_army",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pyrokinetic_flash",
     "name": [ "Blind" ],
     "desc": [ "Range of Sight: 0.  You cannot see anything." ],
