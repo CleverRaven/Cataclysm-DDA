@@ -935,18 +935,6 @@
   },
   {
     "type": "mutation",
-    "id": "DEATH_IS_BUT_A_DOOR",
-    "name": { "str": "Death Is But A Door" },
-    "points": 7,
-    "visibility": 0,
-    "ugliness": 0,
-    "description": "Upon gaining this ability the Dollkin's eyes begin reflecting their mood with colors of the deep waters, pitch black when angry or sad and green-blue when pleased.  Glare no longer impacts them.",
-    "category": [ "HOMULLUS" ],
-    "threshreq": [ "THRESH_HOMULLUS" ],
-    "//": "A once a month ability that allows the Homullus to be reborn instantly upon death in a nearby HUMAN monster.  If one is not nearby the power will fail."
-  },
-  {
-    "type": "mutation",
     "id": "ACCOUNTING_ERROR",
     "name": { "str": "Accounting Error" },
     "points": 1,
