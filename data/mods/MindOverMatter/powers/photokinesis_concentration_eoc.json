@@ -501,7 +501,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PHOTOKINETIC_LIGHT_ARMY_INITIATE",
+    "id": "EOC_PHOTOKIN_LIGHT_ARMY_INITIATE",
     "condition": { "not": { "u_has_effect": "effect_photokin_light_army" } },
     "effect": [
       { "u_message": "A myriad of duplicates of yourself appear nearby!", "type": "good" },
@@ -538,7 +538,7 @@
         "min_radius": 25,
         "max_radius": 40
       },
-      { "run_eocs": "EOC_PHOTOKINETIC_LIGHT_ARMY_CONTINUING_CHECK", "time_in_future": 1 },
+      { "run_eocs": "EOC_PHOTOKIN_LIGHT_ARMY_CONTINUING_CHECK", "time_in_future": 1 },
       {
         "run_eocs": "EOC_PHOTOKIN_LIGHT_ARMY_DRAIN",
         "time_in_future": [
@@ -555,11 +555,11 @@
         ]
       }
     ],
-    "false_effect": [ { "run_eocs": "EOC_PHOTOKINETIC_REMOVE_LIGHT_ARMY" } ]
+    "false_effect": [ { "run_eocs": "EOC_PHOTOKIN_REMOVE_LIGHT_ARMY" } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PHOTOKINETIC_REMOVE_LIGHT_ARMY",
+    "id": "EOC_PHOTOKIN_REMOVE_LIGHT_ARMY",
     "condition": { "u_has_effect": "effect_photokin_light_army" },
     "effect": [
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_MINUS_ONE", "EOC_POWER_MAINTENANCE_MINUS_ONE" ] },
@@ -571,9 +571,9 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PHOTOKINETIC_LIGHT_ARMY_CONTINUING_CHECK",
+    "id": "EOC_PHOTOKIN_LIGHT_ARMY_CONTINUING_CHECK",
     "condition": { "math": [ "u_monsters_nearby('mon_photokin_army_image') >= 1" ] },
-    "effect": [ { "run_eocs": "EOC_PHOTOKINETIC_LIGHT_ARMY_CONTINUING_CHECK", "time_in_future": 1 } ],
+    "effect": [ { "run_eocs": "EOC_PHOTOKIN_LIGHT_ARMY_CONTINUING_CHECK", "time_in_future": 1 } ],
     "false_effect": [
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_MINUS_ONE", "EOC_POWER_MAINTENANCE_MINUS_ONE" ] },
       { "u_lose_effect": "effect_photokin_light_army" }
