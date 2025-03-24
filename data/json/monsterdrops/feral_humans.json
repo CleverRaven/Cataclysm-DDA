@@ -860,5 +860,14 @@
         "prob": 10
       }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_prisoner_death_drops",
+    "entries": [
+      { "item": "glass_shiv", "prob": 100, "damage": [ 0, 4 ] },
+      { "group": "mon_zombie_prisoner_death_drops", "prob": 100 }
+    ]
   }
 ]

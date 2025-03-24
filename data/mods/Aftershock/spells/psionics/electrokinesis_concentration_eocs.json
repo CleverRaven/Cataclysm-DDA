@@ -250,7 +250,7 @@
     "effect": [
       {
         "u_run_inv_eocs": "all",
-        "search_data": [ { "uses_energy": true } ],
+        "search_data": [ { "uses_energy": true, "excluded_flags": [ "USES_BIONIC_POWER" ] } ],
         "true_eocs": [
           {
             "id": "EOC_AFS_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_VALUE_ADDED",

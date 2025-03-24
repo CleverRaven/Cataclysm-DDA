@@ -1517,11 +1517,22 @@ void npc::stow_item( item &it )
 
 bool npc::wield( item &it )
 {
+    // dont unwield if you already wield the item
+    if( is_wielding( it ) ) {
+        return true;
+    }
+    // instead of unwield(), call stow_item, allowing to wear it and check it is not inside wielded itm
+    if( has_wield_conflicts( it ) && !get_wielded_item()->has_item( it ) ) {
+        stow_item( *get_wielded_item() );
+    }
     if( !Character::wield( it ) ) {
         return false;
     }
-    add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),
-                            get_wielded_item()->tname() );
+    if( get_wielded_item() ) {
+        add_msg_if_player_sees( *this, m_info, _( "<npcname> wields a %s." ),
+                                get_wielded_item()->tname() );
+    }
+
 
     invalidate_range_cache();
     return true;

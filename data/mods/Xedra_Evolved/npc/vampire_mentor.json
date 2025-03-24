@@ -16,6 +16,7 @@
     "name": "Vampire Mentor",
     "job_description": "An ancient vampire, willing to assist those who want to further their curse",
     "common": false,
+    "sells_belongings": false,
     "skills": [
       { "skill": "speech", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "chemistry", "bonus": { "rng": [ 2, 3 ] } },
@@ -34,12 +35,8 @@
       { "group": "Appearance_demographics" },
       { "group": "BG_survival_story_UNIVERSAL" },
       { "group": "NPC_starting_traits" },
-      { "trait": "VAMPIRE", "prob": 100 },
-      { "trait": "VAMPIRE2", "prob": 100 },
-      { "trait": "VAMPIRE3", "prob": 100 },
-      { "trait": "VAMPIRE4", "prob": 100 },
-      { "trait": "MENTOR_PEACE", "prob": 100 },
-      { "trait": "BLOOD_DRINKER", "prob": 100 }
+      { "group": "trait_group_complete_vampire" },
+      { "trait": "MENTOR_PEACE", "prob": 100 }
     ]
   },
   {
@@ -235,12 +232,15 @@
     "id": [ "TALK_VAMPIRE_MENTOR_BLOOD_GIFT_RESEARCH" ],
     "type": "talk_topic",
     "dynamic_line": {
-      "str": "Yes.  The gifts of the blood are somewhat random, as are its curses.  But now that you have come into your true power, there are ways to expand your talents.  It will require a great deal of blood and time, but I can show you the way."
+      "str": "Yes.  The gifts of the blood are somewhat random, as are its curses.  But now that you have come into your true power, there are ways to expand your talents and to modify your weaknesses.  It will require a great deal of blood and time, but I can show you the way."
     },
     "responses": [
       {
         "text": "Yes.  I want more power.",
-        "effect": [ { "u_learn_recipe": "xe_vampire_blood_gift_research" } ],
+        "effect": [
+          { "u_learn_recipe": "xe_vampire_blood_gift_research" },
+          { "u_learn_recipe": "xe_vampire_blood_weaknesses_reshuffle" }
+        ],
         "topic": "TALK_VAMPIRE_MENTOR_BLOOD_GIFT_RESEARCH_LEARNED"
       },
       { "text": "Maybe later, but not now.", "topic": "TALK_VAMPIRE_MENTOR_TALK" }
@@ -253,7 +253,9 @@
     "responses": [
       {
         "text": "…",
-        "effect": [ { "u_message": "You learn how to expand your blood gifts.", "type": "good" } ],
+        "effect": [
+          { "u_message": "You learn how to expand your blood gifts and how to change your vampiric weaknesses.", "type": "good" }
+        ],
         "topic": "TALK_DONE"
       }
     ]
@@ -473,6 +475,8 @@
     "effect": [
       { "finish_mission": "GET_COMPONENTS_FOR_TIER_5", "success": true },
       { "u_add_trait": "BLOOD_DRINKER" },
+      { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
+      { "run_eocs": [ "EOC_VAMPIRE_ADD_ONE_WEAKNESS" ] },
       { "u_add_effect": "vampire_virus_post_mortal", "intensity": 1, "duration": "PERMANENT" },
       {
         "u_message": "Your thirst for blood grows, and so does your power, as you reach the final state of vampirism.",

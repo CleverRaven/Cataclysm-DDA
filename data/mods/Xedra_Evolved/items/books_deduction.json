@@ -20,6 +20,20 @@
     "fun": 1
   },
   {
+    "id": "mag_deduction_tabloid",
+    "type": "BOOK",
+    "category": "manuals",
+    "copy-from": "mag_deduction",
+    "name": { "str": "The Noon", "str_pl": "issues of The Noon" },
+    "description": "A tabloid paper with a rather unusually out-of-this-world articles even for tabloids' standard, ranging from something like an article about morticians selling the deceased's 'dreams' to the government to a sensational headline about a half-bat half-human boy causing 40-car pileup in the highway while driving away from police pursuit.  While most thought of The Noon as an amusing but otherwise mostly fake news paper in the past, the Cataclysm might bring the articles' presumably fake facts to light.",
+    "color": "red",
+    "skill": "deduction",
+    "max_level": 1,
+    "intelligence": 5,
+    "time": "15 m",
+    "fun": 2
+  },
+  {
     "id": "manual_deduction",
     "type": "BOOK",
     "category": "manuals",

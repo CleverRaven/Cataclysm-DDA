@@ -4994,7 +4994,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     // Display e-ink tablet ebook recipes
-    if( is_estorage() && !is_broken_on_active() ) {
+    if( is_estorage() && !is_broken_on_active() && is_browsed() ) {
         std::vector<std::string> known_recipe_list;
         std::vector<std::string> learnable_recipe_list;
         std::vector<std::string> unlearnable_recipe_list;
@@ -6044,28 +6044,41 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    // does the item fit in any holsters?
-    std::vector<const itype *> holsters = Item_factory::find( [this]( const itype & e ) {
-        if( !e.can_use( "holster" ) ) {
-            return false;
+    // Does the item fit into any armor?
+    std::vector<std::reference_wrapper<const item>> armor_containers;
+    auto /*std::vector<item>::const_iterator*/ [begin, end] =
+        item_controller->get_armor_containers( volume() );
+    for( std::vector<item>::const_iterator iter = begin; iter != end; ++iter ) {
+        if( iter->can_contain_directly( *this ).success() ) {
+            armor_containers.emplace_back( *iter );
         }
-        const holster_actor *ptr = dynamic_cast<const holster_actor *>
-                                   ( e.get_use( "holster" )->get_actor_ptr() );
-        const item holster_item( &e );
-        return ptr->can_holster( holster_item, *this ) && !item_is_blacklisted( holster_item.typeId() );
-    } );
+    }
 
-    if( !holsters.empty() && parts->test( iteminfo_parts::DESCRIPTION_HOLSTERS ) ) {
+    if( !armor_containers.empty() && parts->test( iteminfo_parts::DESCRIPTION_ARMOR_CONTAINERS ) ) {
         insert_separation_line( info );
-        std::vector<std::string> holsters_str;
-        holsters_str.reserve( holsters.size() );
-        for( const itype *e : holsters ) {
-            holsters_str.emplace_back( player_character.is_wearing( e->get_id() )
-                                       ? string_format( "<good>%s</good>", e->nname( 1 ) )
-                                       : e->nname( 1 ) );
+        const bool too_many_items = armor_containers.size() > 100;
+        std::vector<std::string> armor_containers_str;
+        for( const item &it : armor_containers ) {
+            // This sorts the green worn items in front of others, as '<' sorts before 'a', 'B' etc.
+            if( player_character.is_wearing( it.type->get_id() ) ) {
+                armor_containers_str.emplace_back( string_format( "<good>%s</good>", it.type->nname( 1 ) ) );
+            } else if( !too_many_items ) {
+                armor_containers_str.emplace_back( it.type->nname( 1 ) );
+            }
         }
-        info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Can be stored in</bold>: %s." ),
-                           enumerate_lcsorted_with_limit( holsters_str, 30 ) ) );
+        const int unworn_items = armor_containers.size() - armor_containers_str.size();
+        if( too_many_items && armor_containers_str.empty() ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "<bold>Can be stored in %d unworn wearables.</bold>" ), unworn_items ) );
+        } else if( too_many_items && unworn_items > 0 ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "<bold>Can be stored in (worn)</bold>: %s.  And %d unworn wearables." ),
+                                              enumerate_lcsorted_with_limit( armor_containers_str, 30 ), unworn_items ) );
+        } else {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "<bold>Can be stored in (wearables)</bold>: %s." ),
+                                              enumerate_lcsorted_with_limit( armor_containers_str, 30 ) ) );
+        }
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION ) ) {
@@ -9413,51 +9426,38 @@ item::armor_status item::damage_armor_durability( damage_unit &du, damage_unit &
     }
 
     // We want armor's own resistance to this type, not the resistance it grants
-    const float armors_own_resist = resist( du.type, true, bp );
-    if( armors_own_resist > 1000.0f ) {
+    double armors_own_resist = resist( du.type, true, bp );
+    if( armors_own_resist > 1000.0 ) {
         // This is some weird type that doesn't damage armors
         return armor_status::UNDAMAGED;
     }
-    // Fragile items take damage if they block more than 15% of their armor value, this uses the pre-mitigated damage.
-    if( has_flag( flag_FRAGILE ) &&
-        premitigated.amount / armors_own_resist > ( 0.15f / enchant_multiplier ) ) {
-        return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
-               armor_status::DAMAGED;
-    }
+    /*
+    * Armor damage chance is calculated using the logistics function.
+    *  No matter the damage dealt, an armor piece has at at most 80% chance of being damaged.
+    *  Chance of damage is 40% when the premitigation damage is equal to armor*1.333
+    *  Sturdy items will not take damage if premitigation damage isn't higher than armor*1.333.
+    *
+    *  Non fragile items are considered to always have at least 10 points of armor, this is to prevent
+    *  regular clothes from exploding into ribbons whenever you get punched.
+    */
+    armors_own_resist = has_flag( flag_FRAGILE ) ? armors_own_resist * 0.6666 : std::max( 10.0,
+                        armors_own_resist * 1.3333 );
+    double damage_chance = 0.8 / ( 1.0 + std::exp( -( premitigated.amount - armors_own_resist ) ) ) *
+                           enchant_multiplier;
 
     // Scale chance of article taking damage based on the number of parts it covers.
     // This represents large articles being able to take more punishment
-    // before becoming ineffective or being destroyed.
-    const int num_parts_covered = get_covered_body_parts().count();
-    if( !one_in( num_parts_covered ) ) {
+    // before becoming ineffective or being destroyed
+    damage_chance = damage_chance / get_covered_body_parts().count();
+    if( has_flag( flag_STURDY ) && premitigated.amount < armors_own_resist ) {
         return armor_status::UNDAMAGED;
+    } else if( x_in_y( damage_chance, 1.0 ) ) {
+        return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
+               armor_status::DAMAGED;
     }
-
-    // Don't damage armor as much when bypassed by armor piercing
-    // Most armor piercing damage comes from bypassing armor, not forcing through
-    const float post_mitigated_dmg = du.amount;
-    // more gradual damage chance calc
-    const float damaged_chance = ( 0.11 * ( post_mitigated_dmg / ( armors_own_resist + 2 ) ) + 0.1 ) *
-                                 enchant_multiplier;
-    if( post_mitigated_dmg > armors_own_resist ) {
-        // handle overflow, if you take a lot of damage your armor should be damaged
-        if( damaged_chance >= 1 ) {
-            return armor_status::DAMAGED;
-        }
-        if( one_in( 1 / ( 1 - damaged_chance ) ) ) {
-            return armor_status::UNDAMAGED;
-        }
-    } else {
-        // Sturdy items and power armors never take chip damage.
-        // Other armors have 0.5% of getting damaged from hits below their armor value.
-        if( has_flag( flag_STURDY ) || is_power_armor() || !one_in( 200 ) ) {
-            return armor_status::UNDAMAGED;
-        }
-    }
-
-    return mod_damage( itype::damage_scale * enchant_multiplier ) ? armor_status::DESTROYED :
-           armor_status::DAMAGED;
+    return armor_status::UNDAMAGED;
 }
+
 
 item::armor_status item::damage_armor_transforms( damage_unit &du, double enchant_multiplier ) const
 {
@@ -12721,6 +12721,11 @@ units::mass item::get_total_holster_weight() const
 units::mass item::get_used_holster_weight() const
 {
     return contents.get_used_holster_weight();
+}
+
+units::volume item::get_biggest_pocket_capacity() const
+{
+    return contents.biggest_pocket_capacity();
 }
 
 int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,

@@ -101,8 +101,8 @@
     "melee_allowed": true,
     "crit_tec": true,
     "messages": [
-      "Your sword bursts with radiant light, hitting everyone nearby.",
-      "<npcname>'s sword bursts with radiant light, hitting everyone nearby."
+      "Your sword bursts with radiant light, hitting everyone nearby",
+      "<npcname>'s sword bursts with radiant light, hitting everyone nearby"
     ],
     "aoe": "spin",
     "description": "Attack adjacent enemies, crit only"

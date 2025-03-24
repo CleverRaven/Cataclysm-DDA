@@ -8,7 +8,7 @@
     "volume": "15 L",
     "price": "50 kUSD",
     "price_postapoc": "50 kUSD",
-    "material": [ "steel", "superalloy" ],
+    "material": [ "vacuum_carbide_hard" ],
     "symbol": "[",
     "looks_like": "rpg",
     "ammo": [ "ammonia_liquid" ],

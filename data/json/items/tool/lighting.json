@@ -1072,7 +1072,7 @@
     "type": "TOOL",
     "name": { "str": "propane lantern (on)", "str_pl": "propane lanterns (on)" },
     "description": "A small propane-powered lantern.  It does not provide much light, but it lasts a long time.  It is turned on.  Use it to turn it off.",
-    "power_draw": "60 mW",
+    "turns_per_charge": 60,
     "revert_to": "propane_lantern",
     "use_action": [
       {

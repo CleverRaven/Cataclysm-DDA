@@ -8,7 +8,7 @@
     "weight": "7800 g",
     "volume": "14 L",
     "price": "4 kUSD",
-    "material": [ "nomex", "steel" ],
+    "material": [ "nomex", "titanium" ],
     "symbol": "[",
     "looks_like": "robofac_enviro_suit",
     "color": "light_gray",
@@ -32,7 +32,7 @@
     "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
     "warmth": 20,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 15,
     "flags": [
@@ -196,6 +196,23 @@
       "msg": "Your %s deactivates.",
       "target": "afs_combat_cryo"
     }
+  },
+  {
+    "id": "afs_combat_cryo_xl",
+    "type": "ARMOR",
+    "name": { "str": "combat cryo suit" },
+    "copy-from": "afs_combat_cryo",
+    "description": "A sleek black undersuit criss-crossed with the tubing of a heat regulation unit.  Insulation is kept at a minimum to allow for combat mobility, and the suit is quite power hungry as a result.  Despite the name, it's minimally protective and designed to be worn under a set of armor.  Made to fit the uplifted, the heavily augmented, or similarly sized individuals.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "afs_combat_cryo_on_xl",
+    "type": "ARMOR",
+    "name": { "str": "combat cryo suit (on)", "str_pl": "combat cryo suits (on)" },
+    "copy-from": "afs_combat_cryo_on",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "afs_cryopod_bodyglove",

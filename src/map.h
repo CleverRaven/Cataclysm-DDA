@@ -587,6 +587,12 @@ class map
         bool passable( const point_bub_ms &p ) const {
             return passable( tripoint_bub_ms( p, abs_sub.z() ) );
         }
+        // Doesn't only check if it's possible to move to the tile as "passable" does, but also
+        // that it has a floor or other support, so it's possible to remain there without extra effort,
+        // and thus is a reasonable target for normal movement. Note that effortless levitation,
+        // swimming, etc. by a particular creature is not checked for.
+        bool passable_through( const tripoint_bub_ms &p ) const;
+
         bool passable_skip_fields( const tripoint_bub_ms &p ) const;
         bool is_wall_adjacent( const tripoint_bub_ms &center ) const;
 

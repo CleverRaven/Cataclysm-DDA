@@ -201,7 +201,7 @@
     "id": "electrokinetic_personal_battery",
     "type": "SPELL",
     "name": "[Ψ]Electron Overflow (C)",
-    "description": "Generate power for UPS compatible devices on your person.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "description": "Generate power for battery-powered devices on your person.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
