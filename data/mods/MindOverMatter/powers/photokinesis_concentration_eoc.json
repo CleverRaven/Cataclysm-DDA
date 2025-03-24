@@ -509,12 +509,12 @@
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
       {
         "math": [
-          "_real_count_low = ( ( ( u_spell_level('photokinetic_light_image') * 0.5) + 1) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling)"
+          "_real_count_low = ( ( ( u_spell_level('photokinetic_light_army') * 0.75) + 2) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling)"
         ]
       },
       {
         "math": [
-          "_real_count_high = ( ( ( u_spell_level('photokinetic_light_image') * 1.25) + 3) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling)"
+          "_real_count_high = ( ( ( u_spell_level('photokinetic_light_army') * 1.5) + 5) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling)"
         ]
       },
       {
@@ -541,18 +541,18 @@
         "time_in_future": [
           {
             "math": [
-              "( ( u_spell_level('photokinetic_light_image') * 4.50) + 37.40) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              "( ( u_spell_level('photokinetic_light_army') * 4.50) + 37.40) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( ( u_spell_level('photokinetic_light_image') * 11.00) + 96.50) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              "( ( u_spell_level('photokinetic_light_army') * 11.00) + 96.50) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
             ]
           }
         ]
       }
     ],
-    "false_effect": [ { "run_eocs": "EOC_PHOTOKIN_REMOVE_BLINDING_GLARE" } ]
+    "false_effect": [ { "run_eocs": "EOC_PHOTOKINETIC_REMOVE_LIGHT_ARMY" } ]
   },
   {
     "type": "effect_on_condition",
@@ -590,12 +590,12 @@
         "time_in_future": [
           {
             "math": [
-              "( ( u_spell_level('photokinetic_light_image') * 4.50) + 37.40) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              "( ( u_spell_level('photokinetic_light_army') * 4.50) + 37.40) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
             ]
           },
           {
             "math": [
-              "( ( u_spell_level('photokinetic_light_image') * 11.00) + 96.50) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              "( ( u_spell_level('photokinetic_light_army') * 11.00) + 96.50) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

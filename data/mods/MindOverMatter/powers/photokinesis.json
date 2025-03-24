@@ -807,12 +807,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( ( u_spell_level('photokinetic_light_image') * 450) + 3740) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+        "( ( u_spell_level('photokinetic_light_army') * 450) + 3740) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( ( u_spell_level('photokinetic_light_image') * 1100) + 9650) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+        "( ( u_spell_level('photokinetic_light_army') * 1100) + 9650) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
       ]
     },
     "base_energy_cost": 10000,
@@ -821,5 +821,26 @@
     "base_casting_time": 150,
     "final_casting_time": 90,
     "casting_time_increment": -4
+  },
+  {
+    "id": "photokinetic_light_army_remove",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Phantom Legion Destruction", "//~": "NO_I18N" },
+    "description": { "str": "Removes all remaining illusions when the power ends.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile", "ally" ],
+    "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "pure",
+    "min_damage": 2,
+    "max_damage": 2,
+    "min_aoe": 65,
+    "max_aoe": 65,
+    "targeted_monster_ids": [ "mon_photokin_army_image" ]
   }
 ]
