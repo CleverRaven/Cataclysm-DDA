@@ -180,14 +180,14 @@ void Character::print_encumbrance( ui_adaptor &ui, const catacurses::window &win
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
         int column = std::max( 10, ( width / 2 ) - 3 ); //Ideally the encumbrance data is centred
         mvwprintz( win, point( column, y_pos ), display::encumb_color( encumbrance ), "%3d",
-        encumbrance - layer_penalty );
+                   encumbrance - layer_penalty );
         // separator in low toned color
         column += 3; //Prepared for 3-digit encumbrance
         mvwprintz( win, point( column, y_pos ), c_light_gray, "+" );
         column += 1; // "+"
         // take into account the new encumbrance system for layers
         mvwprintz( win, point( column, y_pos ), display::encumb_color( encumbrance ), "%-3d",
-            layer_penalty );
+                   layer_penalty );
         // print warmth, tethered to right hand side of the window
         mvwprintz( win, point( width - 6, y_pos ), display::bodytemp_color( *this, bp ), "(% 3d)",
                    temperature_print_rescaling( get_part_temp_conv( bp ) ) );

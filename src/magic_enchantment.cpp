@@ -468,7 +468,7 @@ void enchantment::load( const JsonObject &jo, const std::string_view,
                                      skill_values_add, skill_values_multiply );
 
     load_add_and_multiply<bodypart_str_id>( jo, is_child, "encumbrance_modifier", "part",
-                                           encumbrance_values_add, encumbrance_values_multiply );
+                                            encumbrance_values_add, encumbrance_values_multiply );
 
     load_add_and_multiply<damage_type_id>( jo, is_child, "melee_damage_bonus", "type",
                                            damage_values_add, damage_values_multiply );
@@ -584,7 +584,7 @@ void enchant_cache::load( const JsonObject &jo, const std::string_view,
                                      skill_values_add, skill_values_multiply );
 
     load_add_and_multiply<bodypart_str_id>( jo, "encumbrance_modifier", "part",
-                                           encumbrance_values_add, encumbrance_values_multiply );
+                                            encumbrance_values_add, encumbrance_values_multiply );
 
     load_add_and_multiply<damage_type_id>( jo, "melee_damage_bonus", "type",
                                            damage_values_add, damage_values_multiply );

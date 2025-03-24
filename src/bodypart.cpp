@@ -993,7 +993,8 @@ float bodypart::skill_adjusted_limb_value( float val, int skill ) const
     return std::min( val, mitigated_score );
 }
 
-float bodypart::get_limb_score( const Creature &mon, const limb_score_id &score, int skill, int override_encumb,
+float bodypart::get_limb_score( const Creature &mon, const limb_score_id &score, int skill,
+                                int override_encumb,
                                 int override_wounds ) const
 {
     bool process_wounds = override_wounds == 1 || ( override_wounds == -1 &&

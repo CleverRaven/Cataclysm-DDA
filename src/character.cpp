@@ -2188,7 +2188,8 @@ int Character::get_working_arm_count() const
     body_part_type::type arm_type = body_part_type::type::arm;
     for( const bodypart_id &part : get_all_body_parts_of_type( arm_type ) ) {
         // Almost broken or overencumbered arms don't count
-        if( get_part( part )->get_limb_score( *this, limb_score_lift ) * part->limbtypes.at( arm_type ) >= 0.1 &&
+        if( get_part( part )->get_limb_score( *this,
+                                              limb_score_lift ) * part->limbtypes.at( arm_type ) >= 0.1 &&
             !get_part( part )->is_limb_overencumbered( *this ) ) {
             limb_count++;
         }

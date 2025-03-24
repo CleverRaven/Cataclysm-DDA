@@ -2519,7 +2519,7 @@ bool Creature::compare_encumbrance_data( const bodypart_id &id_a, const bodypart
     const bodypart *part_b = get_part( id_b );
     if( part_a && part_b ) {
         return part_a->compare_encumbrance_data( *part_b );
-    } else if ( !part_a && !part_b ) {
+    } else if( !part_a && !part_b ) {
         return true;
     } else {
         return false;
