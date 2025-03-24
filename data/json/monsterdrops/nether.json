@@ -18,7 +18,7 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "nether_shambler_drops",
-    "entries": [ { "item": "nether_shambler_javelin", "count": [ 3, 7 ] } ]
+    "id": "nether_huntsman_drops",
+    "entries": [ { "item": "nether_huntsman_javelin", "count": [ 3, 7 ] } ]
   }
 ]
