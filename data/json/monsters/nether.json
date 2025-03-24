@@ -2242,7 +2242,7 @@
     "flags": [
       "SEES",
       "HEARS",
-	    "STUN_IMMUNE",
+      "STUN_IMMUNE",
       "HAS_MIND",
       "BASHES",
       "PATH_AVOID_DANGER",
