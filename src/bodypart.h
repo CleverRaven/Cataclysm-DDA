@@ -405,6 +405,7 @@ struct layer_details {
 };
 
 struct encumbrance_data {
+    // value modified in get_final_encumbrance() for final result
     int encumbrance = 0;
     int armor_encumbrance = 0;
     int layer_penalty = 0;
@@ -471,7 +472,9 @@ class bodypart
 
         float get_wetness_percentage() const;
 
+        bool compare_encumbrance_data( const bodypart &bp ) const;
         int get_final_encumbrance( const Creature &mon ) const;
+        int get_layer_penalty() const;
         int get_encumbrance_threshold() const;
         // Check if we're above our encumbrance limit
         bool is_limb_overencumbered( const Creature &mon ) const;
@@ -510,8 +513,6 @@ class bodypart
         int get_power_efficiency() const;
 
         std::array<int, NUM_WATER_TOLERANCE> get_mut_drench() const;
-
-        const encumbrance_data &get_encumbrance_data() const;
 
         void set_hp_cur( int set );
         void set_hp_max( int set );

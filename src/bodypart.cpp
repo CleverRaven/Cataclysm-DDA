@@ -910,9 +910,19 @@ efftype_id bodypart::get_windage_effect() const
     return id->windage_effect;
 }
 
+bool bodypart::compare_encumbrance_data( const bodypart &bp ) const
+{
+    return encumb_data == bp.encumb_data;
+}
+
+int bodypart::get_layer_penalty() const
+{
+    return encumb_data.layer_penalty;
+}
+
 int bodypart::get_final_encumbrance( const Creature &mon ) const
 {
-    return std::max( 0.0, mon.enchantment_cache->modify_encumbrance( id, get_encumbrance_data().encumbrance ) );
+    return std::max( 0.0, mon.enchantment_cache->modify_encumbrance( id, encumb_data.encumbrance ) );
 }
 
 int bodypart::get_encumbrance_threshold() const
@@ -1032,11 +1042,6 @@ int bodypart::get_damage_bandaged() const
 int bodypart::get_damage_disinfected() const
 {
     return damage_disinfected;
-}
-
-const encumbrance_data &bodypart::get_encumbrance_data() const
-{
-    return encumb_data;
 }
 
 int bodypart::get_drench_capacity() const
