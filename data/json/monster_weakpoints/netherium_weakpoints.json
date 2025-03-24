@@ -48,7 +48,7 @@
         "armor_mult": { "bullet": 2, "cut": 1.5, "stab": 1.5, "bash": 2 },
         "coverage_mult": { "ranged": 1, "melee": 0.4 },
         "coverage": 20
-	  },
+      },
       {
         "id": "shambler_armor_alt",
         "name": "its armored limb",
