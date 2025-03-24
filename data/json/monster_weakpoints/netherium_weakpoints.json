@@ -26,7 +26,12 @@
         "difficulty": { "ranged": 5, "melee": 2 },
         "coverage_mult": { "point": 0.75 },
         "effects": [
-          { "effect": "maimed_shambler_arm", "chance": 15, "message": "The %s makes a pained screech as the appendage goes limp!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "maimed_shambler_arm",
+            "chance": 15,
+            "message": "The %s makes a pained screech as the appendage goes limp!",
+            "damage_required": [ 10, 30 ]
+          },
           {
             "effect": "maimed_shambler_arm",
             "chance": 50,
