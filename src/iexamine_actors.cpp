@@ -4,33 +4,51 @@
 #include <cstddef>
 #include <memory>
 #include <utility>
+#include <cmath>
+#include <set>
 
+#include "ammo_effect.h"
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
+#include "condition.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "effect_on_condition.h"
+#include "explosion.h"
 #include "flexbuffer_json.h"
 #include "game.h"
+#include "game_constants.h"
+#include "game_inventory.h"
 #include "generic_factory.h"
+#include "inventory_ui.h"
 #include "item.h"
 #include "item_location.h"
+#include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_scale_constants.h"
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
 #include "output.h"
+#include "overmap_ui.h"
+#include "overmapbuffer.h"
 #include "point.h"
 #include "ret_val.h"
+#include "rng.h"
 #include "talker.h"
+#include "timed_event.h"
 #include "translations.h"
 #include "uilist.h"
+#include "value_ptr.h"
 #include "veh_appliance.h"
+
+static const activity_id ACT_MORTAR_AIMING( "ACT_MORTAR_AIMING" );
 
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
@@ -303,4 +321,128 @@ void eoc_examine_actor::finalize() const
 std::unique_ptr<iexamine_actor> eoc_examine_actor::clone() const
 {
     return std::make_unique<eoc_examine_actor>( *this );
+}
+
+void mortar_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) const
+{
+    dialogue d( get_talker_for( you ), nullptr );
+
+    if( has_condition && !condition( d ) ) {
+        add_msg( condition_fail_msg.translated() );
+        return;
+    }
+
+    std::vector<ammotype> expected_ammo_types = ammo_type;
+    inventory_filter_preset preset( [expected_ammo_types]( const item_location & loc ) {
+        for( ammotype desired_ammo : expected_ammo_types ) {
+            if( desired_ammo == loc->ammo_type() ) {
+                return true;
+            };
+        }
+        return false;
+    } );
+    inventory_pick_selector inv_s( you, preset );
+    inv_s.add_nearby_items( PICKUP_RANGE );
+    inv_s.add_character_items( you );
+    inv_s.set_title( _( "Pick a projectile to be used." ) );
+
+    if( inv_s.empty() ) {
+        add_msg( _( "You have no rounds to use the mortar." ) );
+        return;
+    }
+
+    item_location loc;
+    if( inv_s.item_entry_count() == 0 ) {
+        add_msg( _( "You have no rounds to use the mortar." ) );
+        return;
+    } else if( inv_s.item_entry_count() == 1 ) {
+        loc = inv_s.get_only_choice().first;
+    } else {
+        loc = inv_s.execute();
+    }
+
+    if( loc == item_location::nowhere ) {
+        return;
+    }
+
+    const int aim_range = range / 24;
+    const tripoint_abs_omt pos_omt = project_to<coords::omt>( get_map().get_abs( examp ) );
+    tripoint_abs_omt target = ui::omap::choose_point( "Pick a target.", pos_omt, false, aim_range );
+
+    if( target == tripoint_abs_omt::invalid ) {
+        return;
+    }
+
+    if( rl_dist( you.pos_abs_omt(), target ) <=
+        std::ceil( static_cast<float>( MAX_VIEW_DISTANCE ) / ( 2 * SEEX ) ) ) {
+        add_msg( _( "Target is too close." ) );
+        return;
+    }
+    time_duration aim_dur = aim_duration.evaluate( d );
+    you.assign_activity( ACT_MORTAR_AIMING, to_moves<int>( aim_dur ) );
+
+    tripoint_abs_ms target_abs_ms = project_to<coords::ms>( target );
+
+    const int deviation = ( aim_deviation.evaluate( d ) * rl_dist( you.pos_abs(), target_abs_ms ) / 2 );
+    // aim at the center of OMT, but with some deviation
+    // we just assume mortar projectiles fall at 90 degrees, duh
+    target_abs_ms.x() += rng_float( 12 + deviation, 12 - deviation );
+    target_abs_ms.y() += rng_float( 12 + deviation, 12 - deviation );
+    // we can have edge cases with it if, for example, we target radio tower (high building, but with small profile)
+    target_abs_ms.z() = overmap_buffer.highest_omt_point( project_to<coords::omt>( target_abs_ms ) );
+
+    for( ammo_effect_str_id ammo_eff : loc.get_item()->ammo_data()->ammo->ammo_effects ) {
+        if( ammo_eff.obj().aoe_explosion_data.power > 0 ) {
+            get_timed_events().add( timed_event_type::EXPLOSION,
+                                    calendar::turn + flight_time.evaluate( d ) + aim_dur,
+                                    target_abs_ms, ammo_eff.obj().aoe_explosion_data );
+        }
+
+    }
+
+    loc->charges--;
+    if( loc->charges <= 0 ) {
+        loc.remove_item();
+    }
+
+    d.set_value( "this", get_map().furn( examp ).id().str() );
+    d.set_value( "pos", get_map().get_abs( examp ).to_string() );
+    d.set_value( "target", target_abs_ms.to_string() );
+    for( const effect_on_condition_id &eoc : eocs ) {
+        eoc->activate( d );
+    }
+}
+
+void mortar_examine_actor::load( const JsonObject &jo, const std::string &src )
+{
+    mandatory( jo, false, "ammo", ammo_type );
+    mandatory( jo, false, "range", range );
+    if( jo.has_member( "condition" ) ) {
+        read_condition( jo, "condition", condition, false );
+        has_condition = true;
+    }
+    optional( jo, false, "condition_fail_msg", condition_fail_msg,
+              to_translation( "You can't use this mortar." ) );
+
+    aim_deviation = get_dbl_or_var( jo, "aim_deviation", false, 0.0f );
+    aim_duration = get_duration_or_var( jo, "aim_duration", false, 0_seconds );
+    flight_time = get_duration_or_var( jo, "flight_time", false, 0_seconds );
+
+    for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
+        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+    }
+}
+
+void mortar_examine_actor::finalize() const
+{
+    for( ammotype ammo : ammo_type ) {
+        if( !ammo.is_valid() ) {
+            debugmsg( "Invalid ammo type: %s", ammo.str() );
+        }
+    }
+}
+
+std::unique_ptr<iexamine_actor> mortar_examine_actor::clone() const
+{
+    return std::make_unique<mortar_examine_actor>( *this );
 }

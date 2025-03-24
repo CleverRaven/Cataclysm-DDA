@@ -7,9 +7,9 @@
       "fill_ter": "t_floor",
       "rows": [
         "...%..p``%%%%%%%%`````..",
-        ".%.....``%......%`````u.",
-        ".......``%.....##xxxxx##",
-        ".#%%%##:¶#:#:#:#~~~~~~u#",
+        ".%.....``%......%`````§.",
+        ".......``%.....##°°°°°##",
+        ".#%%%##:¶#:#:#:#~~~~~~§#",
         ".#:::#L  |ù    #~~~~~~~#",
         "^#yTy#|:¶|     #~~~~~~##",
         "##é            #~~~~~~N#",
@@ -34,7 +34,8 @@
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette" ],
       "terrain": {
         "µ": "t_region_groundcover_urban",
-        "u": "t_gates_mech_control",
+        "§": "t_gates_mech_control",
+        "°": "t_door_metal_locked",
         "~": "t_thconc_floor",
         "j": "t_concrete",
         "U": "t_thconc_floor",

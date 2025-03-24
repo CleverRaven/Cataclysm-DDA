@@ -2,7 +2,7 @@
 
 **Summary**
 
-The driving goal of balance in DDA is to support **versimilitude in the scenario**.  In other words we want the right *things* to be present to match reality, but also when those things are used to accomplish goals, they should be appoximately as effective at doing so as their real-world counterparts.  Of note, this is not the same as pursuing all aspects of realism.  New features added should have the goal of improving verissimilitude rather than complexity for complexity's sake.
+The driving goal of balance in DDA is to support **verisimilitude in the scenario**.  In other words we want the right *things* to be present to match reality, but also when those things are used to accomplish goals, they should be appoximately as effective at doing so as their real-world counterparts.  Of note, this is not the same as pursuing all aspects of realism.  New features added should have the goal of improving verissimilitude rather than complexity for complexity's sake.
 
 This means that *solutions to problems* should come from the same angle.  If something is not working as it should, the answer is to assess how it should work in reality, and figure out a way to better simulate that.  We find that reality tends to be quite balanced, and having things work as one would expect makes for a fun game.  
 

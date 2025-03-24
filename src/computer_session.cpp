@@ -128,7 +128,7 @@ static const ter_str_id ter_t_missile( "t_missile" );
 static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_rad_platform( "t_rad_platform" );
 static const ter_str_id ter_t_radio_tower( "t_radio_tower" );
-static const ter_str_id ter_t_reinforced_glass( "t_reinforced_glass" );
+static const ter_str_id ter_t_reinforced_glass_lab( "t_reinforced_glass_lab" );
 static const ter_str_id ter_t_reinforced_glass_shutter( "t_reinforced_glass_shutter" );
 static const ter_str_id ter_t_reinforced_glass_shutter_open( "t_reinforced_glass_shutter_open" );
 static const ter_str_id ter_t_sewage( "t_sewage" );
@@ -391,10 +391,11 @@ bool computer_session::can_activate( computer_action action )
 
         case COMPACT_RELEASE:
         case COMPACT_RELEASE_DISARM:
-            return get_map().has_nearby_ter( get_player_character().pos_bub(), ter_t_reinforced_glass, 25 );
+            return get_map().has_nearby_ter( get_player_character().pos_bub(), ter_t_reinforced_glass_lab,
+                                             25 );
 
         case COMPACT_RELEASE_BIONICS:
-            return get_map().has_nearby_ter( get_player_character().pos_bub(), ter_t_reinforced_glass, 3 );
+            return get_map().has_nearby_ter( get_player_character().pos_bub(), ter_t_reinforced_glass_lab, 3 );
 
         case COMPACT_TERMINATE: {
             map &here = get_map();
@@ -406,9 +407,9 @@ bool computer_session::can_activate( computer_action action )
                 }
                 const ter_id &t_north = here.ter( p + tripoint::north );
                 const ter_id &t_south = here.ter( p + tripoint::south );
-                if( ( t_north == ter_t_reinforced_glass &&
+                if( ( t_north == ter_t_reinforced_glass_lab &&
                       t_south == ter_t_concrete_wall ) ||
-                    ( t_south == ter_t_reinforced_glass &&
+                    ( t_south == ter_t_reinforced_glass_lab &&
                       t_north == ter_t_concrete_wall ) ) {
                     return true;
                 }
@@ -550,7 +551,7 @@ void computer_session::action_release()
                    false,
                    "environment",
                    "alarm" );
-    get_map().translate_radius( ter_t_reinforced_glass, ter_t_thconc_floor, 25.0,
+    get_map().translate_radius( ter_t_reinforced_glass_lab, ter_t_thconc_floor, 25.0,
                                 player_character.pos_bub(),
                                 true );
     query_any( _( "Containment shields opened.  Press any key…" ) );
@@ -569,7 +570,7 @@ void computer_session::action_release_bionics()
                    false,
                    "environment",
                    "alarm" );
-    get_map().translate_radius( ter_t_reinforced_glass, ter_t_thconc_floor, 3.0,
+    get_map().translate_radius( ter_t_reinforced_glass_lab, ter_t_thconc_floor, 3.0,
                                 player_character.pos_bub(),
                                 true );
     query_any( _( "Containment shields opened.  Press any key…" ) );
@@ -588,9 +589,9 @@ void computer_session::action_terminate()
         }
         const ter_id &t_north = here.ter( p + tripoint::north );
         const ter_id &t_south = here.ter( p + tripoint::south );
-        if( ( t_north == ter_t_reinforced_glass &&
+        if( ( t_north == ter_t_reinforced_glass_lab &&
               t_south == ter_t_concrete_wall ) ||
-            ( t_south == ter_t_reinforced_glass &&
+            ( t_south == ter_t_reinforced_glass_lab &&
               t_north == ter_t_concrete_wall ) ) {
             mon->die( &here, &player_character );
         }

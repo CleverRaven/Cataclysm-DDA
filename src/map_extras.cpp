@@ -1805,7 +1805,7 @@ static bool mx_looters( map &m, const tripoint_abs_sm &abs_sub )
 {
     const tripoint_bub_ms center( rng( 5, SEEX * 2 - 5 ), rng( 5, SEEY * 2 - 5 ), abs_sub.z() );
     //25% chance to spawn a corpse with some blood around it
-    if( one_in( 4 ) && m.passable( center ) ) {
+    if( one_in( 4 ) && m.passable_through( center ) ) {
         m.add_corpse( center );
         for( int i = 0; i < rng( 1, 3 ); i++ ) {
             m.add_field( random_entry( m.points_in_radius( center, 1 ) ), fd_blood, rng( 1, 3 ) );
@@ -1817,7 +1817,7 @@ static bool mx_looters( map &m, const tripoint_abs_sm &abs_sub )
     for( int i = 0; i < num_looters; i++ ) {
         if( const std::optional<tripoint_bub_ms> pos_ = random_point( m.points_in_radius( center, rng( 1,
         4 ) ), [&]( const tripoint_bub_ms & p ) {
-        return m.passable( p );
+        return m.passable_through( p );
         } ) ) {
             m.place_npc( pos_->xy(), string_id<npc_template>( one_in( 2 ) ? "thug" : "bandit" ) );
             m.place_npc( pos_->xy(), string_id<npc_template>( one_in( 2 ) ? "thug" : "bandit" ) );
@@ -1833,7 +1833,7 @@ static bool mx_corpses( map &m, const tripoint_abs_sm &abs_sub )
     //Spawn up to 5 human corpses in random places
     for( int i = 0; i < num_corpses; i++ ) {
         const tripoint_bub_ms corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z()};
-        if( m.passable( corpse_location ) ) {
+        if( m.passable_through( corpse_location ) ) {
             m.add_field( corpse_location, fd_blood, rng( 1, 3 ) );
             m.put_items_from_loc( Item_spawn_data_everyday_corpse, corpse_location );
             //50% chance to spawn blood in every tile around every corpse in 1-tile radius

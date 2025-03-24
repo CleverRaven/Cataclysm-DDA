@@ -5604,9 +5604,11 @@ bool game::swap_critters( Creature &a, Creature &b )
     }
 
     Character *u_or_npc = dynamic_cast< Character * >( &first );
+    // Issue https://github.com/CleverRaven/Cataclysm-DDA/issues/80245
+    // second can be a monster, in that case other_npc will be NULL
     Character *other_npc = dynamic_cast< Character * >( &second );
     const tripoint_bub_ms u_or_npc_pos = u_or_npc->pos_bub( m );
-    const tripoint_bub_ms other_npc_pos = other_npc->pos_bub( m );
+    const tripoint_bub_ms other_npc_pos = second.pos_bub( m );
 
     if( u_or_npc->in_vehicle ) {
         m.unboard_vehicle( u_or_npc_pos );
@@ -12439,8 +12441,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             pts.push_back( stairs );
         } else {
             for( const tripoint_bub_ms &pt : here.points_in_radius( stairs, 1 ) ) {
-                if( here.passable( pt ) &&
-                    here.has_floor_or_support( pt ) ) {
+                if( here.passable_through( pt ) ) {
                     pts.push_back( pt );
                 }
             }
@@ -12934,8 +12935,7 @@ std::optional<tripoint_bub_ms> game::find_or_make_stairs( map &mp, const int z_a
                 std::vector<tripoint_bub_ms> pts;
 
                 for( const tripoint_bub_ms &pt : mp.points_in_radius( *stairs, 1 ) ) {
-                    if( mp.passable( pt ) &&
-                        mp.has_floor_or_support( pt ) ) {
+                    if( mp.passable_through( pt ) ) {
                         pts.push_back( pt );
                     }
                 }
@@ -14418,16 +14418,6 @@ pulp_data game::calculate_pulpability( const Character &you, const mtype &corpse
 
 bool game::can_pulp_corpse( const Character &you, const mtype &corpse_mtype )
 {
-
-    const bool acid_immune = you.is_immune_damage( damage_acid ) ||
-                             you.is_immune_field( fd_acid );
-    // this corpse is acid, and you are not immune to it
-    const bool acid_corpse = corpse_mtype.bloodType().obj().has_acid && !acid_immune;
-
-    if( acid_corpse ) {
-        return false;
-    }
-
     pulp_data pd = calculate_pulpability( you, corpse_mtype );
 
     return can_pulp_corpse( pd );
@@ -14439,7 +14429,7 @@ bool game::can_pulp_corpse( const pulp_data &pd )
     return pd.time_to_pulp < 3600;
 }
 
-bool game::can_pulp_corpse( Character &you, const mtype &corpse_mtype, const pulp_data &pd )
+bool game::can_pulp_acid_corpse( const Character &you, const mtype &corpse_mtype )
 {
     const bool acid_immune = you.is_immune_damage( damage_acid ) ||
                              you.is_immune_field( fd_acid );
@@ -14450,8 +14440,7 @@ bool game::can_pulp_corpse( Character &you, const mtype &corpse_mtype, const pul
         return false;
     }
 
-    // if pulping is longer than an hour, this is a hard no
-    return pd.time_to_pulp < 3600;
+    return true;
 }
 
 namespace cata_event_dispatch

@@ -67,6 +67,26 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_SUMMER_PROTECT_FROM_HOT_WEATHER",
+    "effect": [
+      {
+        "math": [
+          "u_spell_low_duration = (766.28 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 144.96) + (u_skill('deduction') * 295.21) )"
+        ]
+      },
+      {
+        "math": [
+          "u_spell_high_duration = ( 1694.85 + (u_spell_count('school': 'CHANGELING_SEASONAL_MAGIC_SUMMER') * 455.08) + (u_skill('deduction') * 1168.05) )"
+        ]
+      },
+      {
+        "u_add_effect": "effect_changeling_summer_protect_from_hot_weather",
+        "duration": { "math": [ "rng(u_spell_low_duration, u_spell_high_duration)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_SUMMER_SUN_GLASSES_REMOVER",
     "eoc_type": "EVENT",
     "required_event": "character_loses_effect",

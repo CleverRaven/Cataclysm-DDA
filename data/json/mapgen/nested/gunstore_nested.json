@@ -96,7 +96,7 @@
       "palettes": [ "gunstore_palette_looted" ],
       "nested": {
         "0": { "chunks": [ [ "gunstore_looted_safes_a", 50 ], [ "gunstore_looted_handloading_a", 50 ] ] },
-        "1": { "chunks": [ [ "gunstore_looted_storage_a", 1 ], [ "gunstore_unlooted_storage_a", 1 ] ] },
+        "1": { "chunks": [ [ "gunstore_looted_storage_a", 9 ], [ "gunstore_unlooted_storage_a", 1 ] ] },
         ".": { "chunks": [ [ "gunstore_looted_floor", 4 ], [ "null", 20 ] ] }
       },
       "place_loot": [ { "group": "SUS_gunstore_optics_display", "x": 10, "y": 8, "repeat": [ 0, 2 ] } ]
