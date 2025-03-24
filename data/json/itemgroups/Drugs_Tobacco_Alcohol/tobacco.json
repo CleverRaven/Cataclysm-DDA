@@ -17,22 +17,22 @@
     "type": "item_group",
     "id": "cigarettes_opened",
     "items": [
-      { "item": "cig", "prob": 50, "count": [ 1, 20 ], "container-item": "null" },
-      { "item": "cig_light", "prob": 20, "count": [ 1, 20 ], "container-item": "null" },
-      { "item": "cig_menthol", "prob": 20, "count": [ 1, 20 ], "container-item": "null" },
-      { "item": "cig_gold", "prob": 7, "count": [ 1, 20 ], "container-item": "null" },
-      { "item": "cigar_small", "prob": 3, "count": [ 1, 20 ], "container-item": "null" }
+      { "item": "cig", "variant": "cig_basic", "prob": 40, "count": [ 1, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_light", "prob": 25, "count": [ 1, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_menthol", "prob": 25, "count": [ 1, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_gold", "prob": 7, "count": [ 1, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_little_cigar", "prob": 3, "count": [ 1, 20 ], "container-item": "null" }
     ]
   },
   {
     "type": "item_group",
     "id": "cigarettes_new",
     "items": [
-      { "item": "cig", "prob": 50, "count": [ 20, 20 ], "container-item": "null" },
-      { "item": "cig_light", "prob": 20, "count": [ 20, 20 ], "container-item": "null" },
-      { "item": "cig_menthol", "prob": 20, "count": [ 20, 20 ], "container-item": "null" },
-      { "item": "cig_gold", "prob": 7, "count": [ 20, 20 ], "container-item": "null" },
-      { "item": "cigar_small", "prob": 3, "count": [ 20, 20 ], "container-item": "null" }
+      { "item": "cig", "variant": "cig_basic", "prob": 40, "count": [ 20, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_light", "prob": 25, "count": [ 20, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_menthol", "prob": 25, "count": [ 20, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_gold", "prob": 7, "count": [ 20, 20 ], "container-item": "null" },
+      { "item": "cig", "variant": "cig_little_cigar", "prob": 3, "count": [ 20, 20 ], "container-item": "null" }
     ]
   },
   {
