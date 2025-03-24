@@ -65,7 +65,7 @@
         "armor_mult": { "all": 0.5 },
         "difficulty": { "melee": 3, "ranged": 4 },
         "coverage": 7
-	  },
+      },
       {
         "id": "eye",
         "name": "the photoreceptors",
