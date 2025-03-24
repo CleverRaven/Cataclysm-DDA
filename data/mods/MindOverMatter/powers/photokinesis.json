@@ -486,8 +486,16 @@
         " (u_spell_level('photokinetic_light_beam') / 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "min_duration": { "math": [ "((u_spell_level('photokinetic_light_image') * 550) + 4840) * u_nether_attunement_power_scaling" ] },
-    "max_duration": { "math": [ "((u_spell_level('photokinetic_light_image') * 1350) + 13650) * u_nether_attunement_power_scaling" ] },
+    "min_duration": {
+      "math": [
+        "((u_spell_level('photokinetic_light_image') * 550) + 4840) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "((u_spell_level('photokinetic_light_image') * 1350) + 13650) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
     "min_range": {
       "math": [
         "min( (( (u_spell_level('photokinetic_light_image') * 0.8) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
@@ -779,5 +787,62 @@
     "base_casting_time": 200,
     "final_casting_time": 50,
     "casting_time_increment": -10
+  },
+  {
+    "id": "photokinetic_light_army",
+    "type": "SPELL",
+    "name": "[Ψ]Phantom Legion (C)",
+    "description": "Create a myriad of illusions around yourself to mislead and confuse your enemies.  The illusions will explode into blinding flashes if damaged.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.  Concentration will <color_green>automatically end</color> if all illusions are destroyed.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PHOTOKIN_LIGHT_ARMY_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( ( u_spell_level('photokinetic_light_army') * 450) + 3740) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( ( u_spell_level('photokinetic_light_army') * 1100) + 9650) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_photokin_light_army') > -1 ? 0 : max((10000 - (u_spell_level('photokinetic_light_army') * 255)), 5500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_photokin_light_army') > -1 ? 10 : max((150 -(u_spell_level('photokinetic_light_army') * 4)), 90)"
+      ]
+    }
+  },
+  {
+    "id": "photokinetic_light_army_remove",
+    "type": "SPELL",
+    "name": { "str": "[Ψ]Phantom Legion Destruction", "//~": "NO_I18N" },
+    "description": { "str": "Removes all remaining illusions when the power ends.", "//~": "NO_I18N" },
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile", "ally" ],
+    "spell_class": "PHOTOKINETIC",
+    "magic_type": "mom_psionics",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PHOTOKIN_LIGHT_ARMY_DISAPPEAR_MONSTERS",
+    "shape": "blast",
+    "min_aoe": 70,
+    "max_aoe": 70,
+    "targeted_monster_ids": [ "mon_photokin_army_image" ]
   }
 ]

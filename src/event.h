@@ -428,9 +428,10 @@ struct event_spec<event_type::character_radioactively_mutates> : event_spec_char
 
 template<>
 struct event_spec<event_type::character_ranged_attacks_character> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 4> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 5> fields = {{
             { "attacker", cata_variant_type::character_id },
             { "weapon", cata_variant_type::itype_id },
+            { "ammo", cata_variant_type::itype_id },
             { "victim", cata_variant_type::character_id },
             { "victim_name", cata_variant_type::string },
         }
@@ -439,9 +440,10 @@ struct event_spec<event_type::character_ranged_attacks_character> {
 
 template<>
 struct event_spec<event_type::character_ranged_attacks_monster> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 4> fields = {{
             { "attacker", cata_variant_type::character_id },
             { "weapon", cata_variant_type::itype_id },
+            { "ammo", cata_variant_type::itype_id },
             { "victim_type", cata_variant_type::mtype_id },
         }
     };
