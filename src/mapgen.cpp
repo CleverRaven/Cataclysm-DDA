@@ -447,12 +447,20 @@ static void GENERATOR_riot_damage( map &md, const tripoint_abs_omt &p )
             continue;
         }
         // Bash stuff at random!
+        bash_params rnd_bash_result;
         if( x_in_y( 20, 100 ) ) {
-            md.bash( current_tile, rng( 6, 60 ) );
+            rnd_bash_result = md.bash( current_tile, rng( 6, 60 ) );
         }
         // Move stuff at random!
         auto item_iterator = md.i_at( current_tile.xy() ).begin();
         while( item_iterator != md.i_at( current_tile.xy() ).end() ) {
+            // do not move seed out of the not destroyed planter
+            if( item_iterator->is_seed() &&
+                md.has_flag_ter_or_furn( ter_furn_flag::TFLAG_PLANT, current_tile ) &&
+                !rnd_bash_result.success ) {
+                item_iterator++;
+                continue;
+            }
             if( x_in_y( 10, 100 ) ) {
                 // pick a new spot...
                 tripoint_bub_ms destination_tile( current_tile.x() + rng( -3, 3 ),
