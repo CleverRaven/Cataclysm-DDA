@@ -193,7 +193,7 @@
       "WATERPROOF_GUN",
       "NO_SALVAGE",
       "NO_TURRET",
-	    "RELOAD_AND_SHOOT"
+      "RELOAD_AND_SHOOT"
     ],
     "skill": "throw",
     "ammo": [ "nether_shambler_javelin_ammo" ],
